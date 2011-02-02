@@ -34,7 +34,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
     public function testDummy()
     {
-        $this->assertEquals(2,2);
+        $this->assertEquals(1,1);
     }
 
     /**
