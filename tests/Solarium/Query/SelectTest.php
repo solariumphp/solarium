@@ -42,13 +42,13 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
     public function testSetAndGetStart()
     {
         $this->_query->setStart(234);
-        $this->assertEquals(234, $this->_query->getQuery());
+        $this->assertEquals(234, $this->_query->getStart());
     }
 
     public function testSetAndGetQueryWithTrim()
     {
         $this->_query->setQuery(' *:* ');
-        $this->assertEquals('*:*', $this->_query->getStart());
+        $this->assertEquals('*:*', $this->_query->getQuery());
     }
 
     public function testSetAndGetResultClass()
@@ -73,7 +73,8 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
     {
         $expectedFields = $this->_query->getFields();
         $expectedFields[] = 'newfield';
-        $this->assertEquals($expectedFields, $this->_query->addField('newfield'));
+        $this->_query->addField('newfield');
+        $this->assertEquals($expectedFields, $this->_query->getFields());
     }
 
     public function testClearFields()
