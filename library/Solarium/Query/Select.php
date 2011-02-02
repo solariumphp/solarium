@@ -417,7 +417,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getFilterQuery($tag)
     {
-        if (!isset($this->_filterQueries[$tag])) {
+        if (isset($this->_filterQueries[$tag])) {
             return $this->_filterQueries[$tag];
         } else {
             return null;
