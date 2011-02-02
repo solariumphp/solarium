@@ -1,0 +1,8 @@
+Solarium is a PHP Solr client that not only facilitates Solr communication but
+also tries to accurately model Solr concepts.
+
+For Docs, License, Issues, and pre-packed downloads, see:
+http://github.com/basdenooijer/solarium
+
+Contributors:
+http://github.com/basdenooijer/solarium/contributors
