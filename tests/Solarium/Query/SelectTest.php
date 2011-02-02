@@ -199,12 +199,12 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
     
-    public function testAddFilterQuery()
+    public function testAddAndGetFilterQuery()
     {
         $this->_query->addFilterQuery('fq1', 'category:1');
         $this->assertEquals(
-            array('fq1' => 'category:1'),
-            $this->_query->getFilterQueries()
+            'category:1',
+            $this->_query->getFilterQuery('fq1')
         );
     }
 
