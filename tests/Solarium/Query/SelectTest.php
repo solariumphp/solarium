@@ -32,59 +32,173 @@
 class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testDummy()
+    protected $_query;
+
+    public function setUp()
     {
-        $this->assertEquals(1,1);
+        $this->_query = new Solarium_Query_Select;
+    }
+
+    public function testSetAndGetStart()
+    {
+        $this->_query->setStart(234);
+        $this->assertEquals(234, $this->_query->getQuery());
+    }
+
+    public function testSetAndGetQueryWithTrim()
+    {
+        $this->_query->setQuery(' *:* ');
+        $this->assertEquals('*:*', $this->_query->getStart());
+    }
+
+    public function testSetAndGetResultClass()
+    {
+        $this->_query->setResultClass('MyResult');
+        $this->assertEquals('MyResult', $this->_query->getResultClass());
+    }
+
+    public function testSetAndGetDocumentClass()
+    {
+        $this->_query->setDocumentClass('MyDocument');
+        $this->assertEquals('MyDocument', $this->_query->getDocumentClass());
+    }
+
+    public function testSetAndGetRows()
+    {
+        $this->_query->setRows(100);
+        $this->assertEquals(100, $this->_query->getRows());
+    }
+
+    public function testAddField()
+    {
+        $expectedFields = $this->_query->getFields();
+        $expectedFields[] = 'newfield';
+        $this->assertEquals($expectedFields, $this->_query->addField('newfield'));
+    }
+
+    public function testClearFields()
+    {
+        $this->_query->addField('newfield');
+        $this->_query->clearFields();
+        $this->assertEquals(array(), $this->_query->getFields());
+    }
+
+    public function testAddFields()
+    {
+        $fields = array('field1','field2');
+
+        $this->_query->clearFields();
+        $this->_query->addFields($fields);
+        $this->assertEquals($fields, $this->_query->getFields());
+    }
+
+    public function testAddFieldsAsStringWithTrim()
+    {
+        $this->_query->clearFields();
+        $this->_query->addFields('field1, field2');
+        $this->assertEquals(array('field1','field2'), $this->_query->getFields());
+    }
+
+    public function testRemoveField()
+    {
+        $this->_query->clearFields();
+        $this->_query->addFields(array('field1','field2'));
+        $this->_query->removeField('field1');
+        $this->assertEquals(array('field2'), $this->_query->getFields());
+    }
+
+    public function testSetFields()
+    {
+        $this->_query->clearFields();
+        $this->_query->addFields(array('field1','field2'));
+        $this->_query->setFields(array('field3','field4'));
+        $this->assertEquals(array('field3','field4'), $this->_query->getFields());
+    }
+
+    public function testAddSortField()
+    {
+        $this->_query->addSortField('field1', Solarium_Query_Select::SORT_DESC);
+        $this->assertEquals(
+            array('field1' => Solarium_Query_Select::SORT_DESC),
+            $this->_query->getSortFields()
+        );
+    }
+
+    public function testAddSortFields()
+    {
+        $sortFields = array(
+            'field1' => Solarium_Query_Select::SORT_DESC,
+            'field2' => Solarium_Query_Select::SORT_ASC
+        );
+
+        $this->_query->addSortFields($sortFields);
+        $this->assertEquals(
+            $sortFields,
+            $this->_query->getSortFields()
+        );
+    }
+
+    public function testRemoveSortField()
+    {
+        $sortFields = array(
+            'field1' => Solarium_Query_Select::SORT_DESC,
+            'field2' => Solarium_Query_Select::SORT_ASC
+        );
+
+        $this->_query->addSortFields($sortFields);
+        $this->_query->removeSortField('field1');
+        $this->assertEquals(
+            array('field2' => Solarium_Query_Select::SORT_ASC),
+            $this->_query->getSortFields()
+        );
+    }
+
+    public function testRemoveInvalidSortField()
+    {
+        $sortFields = array(
+            'field1' => Solarium_Query_Select::SORT_DESC,
+            'field2' => Solarium_Query_Select::SORT_ASC
+        );
+
+        $this->_query->addSortFields($sortFields);
+        $this->_query->removeSortField('invalidfield'); //continue silently
+        $this->assertEquals(
+            $sortFields,
+            $this->_query->getSortFields()
+        );
+    }
+
+    public function testClearSortFields()
+    {
+        $sortFields = array(
+            'field1' => Solarium_Query_Select::SORT_DESC,
+            'field2' => Solarium_Query_Select::SORT_ASC
+        );
+
+        $this->_query->addSortFields($sortFields);
+        $this->_query->clearSortFields();
+        $this->assertEquals(
+            array(),
+            $this->_query->getSortFields()
+        );
+    }
+
+    public function testSetSortFields()
+    {
+        $sortFields = array(
+            'field1' => Solarium_Query_Select::SORT_DESC,
+            'field2' => Solarium_Query_Select::SORT_ASC
+        );
+
+        $this->_query->addSortFields($sortFields);
+        $this->_query->setSortFields(array('field3' => Solarium_Query_Select::SORT_ASC));
+        $this->assertEquals(
+            array('field3' => Solarium_Query_Select::SORT_ASC),
+            $this->_query->getSortFields()
+        );
     }
 
     /**
-    TODO testDefaultOptions
-
-    TODO testInitOptions
-
-    TODO testSetQueryWithEmptyQuery
-
-    TODO testSetQueryTrim
-
-    TODO testSetStartWithInvalidValues
-
-    TODO testSetAndGetStart
-
-    TODO testSetRowsWithInvalidValues
-
-    TODO testSetAndGetRows
-
-    TODO testAddFieldWithInvalidValues
-
-    TODO testAddField
-
-    TODO testAddFieldsCommaSeparated
-
-    TODO testAddFieldsArray
-
-    TODO testRemoveField
-
-    TODO testClearFields
-
-    TODO testSetFields
-
-    TODO testAddSortFieldEmptyValue
-
-    TODO testAddSortFieldInvalidOrder
-
-    TODO testAddSortField
-
-    TODO testAddSortFields
-
-    TODO testRemoveSortField
-
-    TODO testRemoveInvalidSortField
-
-    TODO testClearSortFields
-
-    TODO testSetSortFields
-
-    TODO testAddFilterQueryEmptyInput
 
     TODO testAddFilterQuery
 
@@ -102,12 +216,5 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
     TODO testSetFilterQueries
 
-    TODO testSetAndGetResultClass
-
-    TODO testSetAndGetDocumentClass
-
-    TODO testCustomResultClass
-
-    TODO testCustomDocumentClass
     */
 }
