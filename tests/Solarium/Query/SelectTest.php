@@ -198,24 +198,92 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             $this->_query->getSortFields()
         );
     }
+    
+    public function testAddFilterQuery()
+    {
+        $this->_query->addFilterQuery('fq1', 'category:1');
+        $this->assertEquals(
+            array('fq1' => 'category:1'),
+            $this->_query->getFilterQueries()
+        );
+    }
 
-    /**
+    public function testAddFilterQueries()
+    {
+        $filterQueries = array(
+            array('fq1' => 'category:1'),
+            array('fq2' => 'group:2')
+        );
 
-    TODO testAddFilterQuery
+        $this->_query->addFilterQueries($filterQueries);
+        $this->assertEquals(
+            $filterQueries,
+            $this->_query->getFilterQueries()
+        );
+    }
 
-    TODO testAddFilterQueries
+    public function testRemoveFilterQuery()
+    {
+        $filterQueries = array(
+            array('fq1' => 'category:1'),
+            array('fq2' => 'group:2')
+        );
 
-    TODO testGetFilterQueryInvalidTag
+        $this->_query->addFilterQueries($filterQueries);
+        $this->_query->removeFilterQuery('fq1');
+        $this->assertEquals(
+            array('fq2' => 'group:2'),
+            $this->_query->getFilterQueries()
+        );
+    }
 
-    TODO testGetFilterQuery
+    public function testRemoveInvalidFilterQuery()
+    {
+        $filterQueries = array(
+            array('fq1' => 'category:1'),
+            array('fq2' => 'group:2')
+        );
 
-    TODO testRemoveFilterQueryInvalidTag
+        $this->_query->addFilterQueries($filterQueries);
+        $this->_query->removeFilterQuery('fq3'); //continue silently
+        $this->assertEquals(
+            $filterQueries,
+            $this->_query->getFilterQueries()
+        );
+    }
 
-    TODO testRemoveFilterQuery
+    public function testClearFilterQueries()
+    {
+        $filterQueries = array(
+            array('fq1' => 'category:1'),
+            array('fq2' => 'group:2')
+        );
 
-    TODO testClearFilterQueries
+        $this->_query->addFilterQueries($filterQueries);
+        $this->_query->clearFilterQueries();
+        $this->assertEquals(
+            array(),
+            $this->_query->getFilterQueries()
+        );
+    }
 
-    TODO testSetFilterQueries
+    public function testSetFilterQueries()
+    {
+        $filterQueries = array(
+            array('fq1' => 'category:1'),
+            array('fq2' => 'group:2')
+        );
+        $this->_query->addFilterQueries($filterQueries);
 
-    */
+        $newFilterQueries = array(
+            array('fq3' => 'category:2'),
+            array('fq4' => 'group:3')
+        );
+        $this->_query->setFilterQueries($newFilterQueries);
+
+        $this->assertEquals(
+            $newFilterQueries,
+            $this->_query->getFilterQueries()
+        );
+    }
 }
