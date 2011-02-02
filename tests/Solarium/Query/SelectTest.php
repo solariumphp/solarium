@@ -208,6 +208,14 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetInvalidFilterQuery()
+    {
+        $this->assertEquals(
+            null,
+            $this->_query->getFilterQuery('invalidtag')
+        );
+    }
+
     public function testAddFilterQueries()
     {
         $filterQueries = array(
