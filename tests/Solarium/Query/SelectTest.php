@@ -211,8 +211,8 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
     public function testAddFilterQueries()
     {
         $filterQueries = array(
-            array('fq1' => 'category:1'),
-            array('fq2' => 'group:2')
+            'fq1' => 'category:1',
+            'fq2' => 'group:2'
         );
 
         $this->_query->addFilterQueries($filterQueries);
@@ -225,8 +225,8 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
     public function testRemoveFilterQuery()
     {
         $filterQueries = array(
-            array('fq1' => 'category:1'),
-            array('fq2' => 'group:2')
+            'fq1' => 'category:1',
+            'fq2' => 'group:2'
         );
 
         $this->_query->addFilterQueries($filterQueries);
@@ -240,8 +240,8 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
     public function testRemoveInvalidFilterQuery()
     {
         $filterQueries = array(
-            array('fq1' => 'category:1'),
-            array('fq2' => 'group:2')
+            'fq1' => 'category:1',
+            'fq2' => 'group:2'
         );
 
         $this->_query->addFilterQueries($filterQueries);
@@ -255,8 +255,8 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
     public function testClearFilterQueries()
     {
         $filterQueries = array(
-            array('fq1' => 'category:1'),
-            array('fq2' => 'group:2')
+            'fq1' => 'category:1',
+            'fq2' => 'group:2'
         );
 
         $this->_query->addFilterQueries($filterQueries);
@@ -270,14 +270,14 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
     public function testSetFilterQueries()
     {
         $filterQueries = array(
-            array('fq1' => 'category:1'),
-            array('fq2' => 'group:2')
+            'fq1' => 'category:1',
+            'fq2' => 'group:2'
         );
         $this->_query->addFilterQueries($filterQueries);
 
         $newFilterQueries = array(
-            array('fq3' => 'category:2'),
-            array('fq4' => 'group:3')
+            'fq3' => 'category:2',
+            'fq4' => 'group:3'
         );
         $this->_query->setFilterQueries($newFilterQueries);
 
