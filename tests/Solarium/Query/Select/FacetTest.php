@@ -32,33 +32,57 @@
 class Solarium_Query_Select_FacetTest extends PHPUnit_Framework_TestCase
 {
 
+    protected $_facet;
+
+    public function setUp()
+    {
+        $this->_facet = new TestFacet;
+    }
+
     public function testSetAndGetKey()
     {
-        //TODO
+        $this->_facet->setKey('testkey');
+        $this->assertEquals('testkey', $this->_facet->getKey());
     }
 
     public function testAddExclude()
     {
-        //TODO
+        $this->_facet->addExclude('e1');
+        $this->assertEquals(array('e1'), $this->_facet->getExcludes());
     }
 
     public function testAddExcludes()
     {
-        //TODO
+        $this->_facet->addExcludes(array('e1','e2'));
+        $this->assertEquals(array('e1','e2'), $this->_facet->getExcludes());
     }
 
     public function testRemoveExclude()
     {
-        //TODO
+        $this->_facet->addExcludes(array('e1','e2'));
+        $this->_facet->removeExclude('e1');
+        $this->assertEquals(array('e2'), $this->_facet->getExcludes());
     }
 
     public function testClearExcludes()
     {
-        //TODO
+        $this->_facet->addExcludes(array('e1','e2'));
+        $this->_facet->clearExcludes();
+        $this->assertEquals(array(), $this->_facet->getExcludes());
     }
 
     public function testSetExcludes()
     {
-        //TODO
+        $this->_facet->addExcludes(array('e1','e2'));
+        $this->_facet->addExcludes(array('e3','e4'));
+        $this->assertEquals(array('e3','e4'), $this->_facet->getExcludes());
+    }
+}
+
+class TestFacet extends Solarium_Query_Select_Facet{
+
+    public function getType()
+    {
+        return 'test';
     }
 }

@@ -47,8 +47,7 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
             }
         }
 
-        foreach ($this->_query->getFacets() AS $facet)
-        {
+        foreach ($this->_query->getFacets() AS $facet) {
             switch ($facet->getType()) {
                 case Solarium_Query_Select_Facet::FIELD:
                     $this->_addFacetField($facet);

@@ -32,48 +32,66 @@
 class Solarium_Query_Select_Facet_FieldTest extends PHPUnit_Framework_TestCase
 {
 
+    protected $_facet;
+
+    public function setUp()
+    {
+        $this->_facet = new Solarium_Query_Select_Facet_Field;
+    }
+
     public function testGetType()
     {
-        //TODO
+        $this->assertEquals(
+            Solarium_Query_Select_Facet::FIELD,
+            $this->_facet->getType()
+        );
     }
 
     public function testSetAndGetField()
     {
-        //TODO
+        $this->_facet->setField('category');
+        $this->assertEquals('category', $this->_facet->getField());
     }
 
     public function testSetAndGetSort()
     {
-        //TODO
+        $this->_facet->setSort('index');
+        $this->assertEquals('index', $this->_facet->getSort());
     }
 
     public function testSetAndGetPrefix()
     {
-        //TODO
+        $this->_facet->setPrefix('xyz');
+        $this->assertEquals('xyz', $this->_facet->getPrefix());
     }
 
     public function testSetAndGetLimit()
     {
-        //TODO
+        $this->_facet->setLimit(12);
+        $this->assertEquals(12, $this->_facet->getLimit());
     }
 
     public function testSetAndGetOffset()
     {
-        //TODO
+        $this->_facet->setOffset(40);
+        $this->assertEquals(40, $this->_facet->getOffset());
     }
 
     public function testSetAndGetMinCount()
     {
-        //TODO
+        $this->_facet->setMincount(100);
+        $this->assertEquals(100, $this->_facet->getMincount());
     }
 
     public function testSetAndGetMissing()
     {
-        //TODO
+        $this->_facet->setMissing(true);
+        $this->assertEquals(true, $this->_facet->getMissing());
     }
 
     public function testSetAndGetMethod()
     {
-        //TODO
+        $this->_facet->setMethod('enum');
+        $this->assertEquals('enum', $this->_facet->getMethod());
     }
 }

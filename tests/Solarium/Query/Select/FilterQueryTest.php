@@ -32,38 +32,55 @@
 class Solarium_Query_Select_FilterQueryTest extends PHPUnit_Framework_TestCase
 {
 
+    protected $_filterQuery;
+
+    public function setUp()
+    {
+        $this->_filterQuery = new Solarium_Query_Select_FilterQuery;
+    }
+
     public function testSetAndGetKey()
     {
-        //TODO
+        $this->_filterQuery->setKey('testkey');
+        $this->assertEquals('testkey', $this->_filterQuery->getKey());
     }
 
     public function testSetAndGetQuery()
     {
-        //TODO
+        $this->_filterQuery->setQuery('category:1');
+        $this->assertEquals('category:1', $this->_filterQuery->getQuery());
     }
 
     public function testAddTag()
     {
-        //TODO
+        $this->_filterQuery->addTag('testtag');
+        $this->assertEquals(array('testtag'), $this->_filterQuery->getTags());
     }
 
     public function testAddTags()
     {
-        //TODO
+        $this->_filterQuery->addTags(array('t1','t2'));
+        $this->assertEquals(array('t1','t2'), $this->_filterQuery->getTags());
     }
 
-    public function testRemoveTags()
+    public function testRemoveTag()
     {
-        //TODO
+        $this->_filterQuery->addTags(array('t1','t2'));
+        $this->_filterQuery->removeTag('t1');
+        $this->assertEquals(array('t2'), $this->_filterQuery->getTags());
     }
 
     public function testClearTags()
     {
-        //TODO
+        $this->_filterQuery->addTags(array('t1','t2'));
+        $this->_filterQuery->clearTags();
+        $this->assertEquals(array(), $this->_filterQuery->getTags());
     }
 
     public function testSetTags()
     {
-        //TODO
+        $this->_filterQuery->addTags(array('t1','t2'));
+        $this->_filterQuery->setTags(array('t3','t4'));
+        $this->assertEquals(array('t3','t4'), $this->_filterQuery->getTags());
     }
 }

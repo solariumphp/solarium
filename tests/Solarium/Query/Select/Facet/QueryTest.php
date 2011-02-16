@@ -32,14 +32,26 @@
 class Solarium_Query_Select_Facet_QueryTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testSetAndGetQuery()
+    protected $_facet;
+
+    public function setUp()
     {
-        //TODO
+        $this->_facet = new Solarium_Query_Select_Facet_Query;
     }
 
     public function testGetType()
     {
-        //TODO
+        $this->assertEquals(
+            Solarium_Query_Select_Facet::QUERY,
+            $this->_facet->getType()
+        );
     }
+
+    public function testSetAndGetQuery()
+    {
+        $this->_facet->setQuery('category:1');
+        $this->assertEquals('category:1', $this->_facet->getQuery());
+    }
+
 
 }

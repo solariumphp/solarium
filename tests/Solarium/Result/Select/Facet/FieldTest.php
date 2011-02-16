@@ -57,7 +57,7 @@ class Solarium_Result_Select_Facet_FieldTest extends PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $values = array();
-        foreach($this->_facet->getValues() AS $key => $value)
+        foreach($this->_facet AS $key => $value)
         {
             $values[$key] = $value;
         }
