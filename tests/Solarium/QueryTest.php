@@ -54,14 +54,5 @@ class Solarium_QueryTest extends PHPUnit_Framework_TestCase
             $query->escapeValue('a+b')
         );
     }
-
-    public function testRenderLocalParamsWithoutParams()
-    {
-        $query = new Solarium_Query();
-        $this->assertEquals(
-            'myValue',
-            $query->renderLocalParams('myValue')
-        );
-    }
     
 }

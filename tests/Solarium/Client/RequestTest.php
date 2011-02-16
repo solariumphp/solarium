@@ -126,6 +126,14 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRenderLocalParamsWithoutParams()
+    {
+        $this->assertEquals(
+            'myValue',
+            $this->_getRequest($this->_options)->renderLocalParams('myValue')
+        );
+    }
+
     public function testAddParamWithNewParam()
     {
         $request = $this->_getRequest($this->_options);
