@@ -70,6 +70,11 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_facets['f2'], $this->_result->getFacet('f2'));
     }
 
+    public function testGetFacetByInvalidKey()
+    {
+        $this->assertEquals(null, $this->_result->getFacet('f2123123'));
+    }
+
     public function testCount()
     {
         $this->assertEquals(3, $this->_result->count());

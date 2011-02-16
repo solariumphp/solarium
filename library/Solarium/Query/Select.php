@@ -390,11 +390,15 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Add a filter query
      *
-     * @param Solarium_Query_Select_FilterQuery $filterQuery
+     * @param Solarium_Query_Select_FilterQuery|array $filterQuery
      * @return Solarium_Query Provides fluent interface
      */
     public function addFilterQuery($filterQuery)
     {
+        if (is_array($filterQuery)) {
+            $filterQuery = new Solarium_Query_Select_FilterQuery($filterQuery);
+        }
+        
         $key = $filterQuery->getKey();
 
         if (0 === strlen($key)) {
@@ -490,11 +494,16 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Add a facet
      *
-     * @param Solarium_Query_Select_Facet $facet
+     * @param Solarium_Query_Select_Facet|array $facet
      * @return Solarium_Query Provides fluent interface
      */
     public function addFacet($facet)
     {
+        if (is_array($facet)) {
+            $className = 'Solarium_Query_Select_Facet_'.ucfirst($facet['type']);
+            $facet = new $className($facet);
+        }
+
         $key = $facet->getKey();
 
         if (0 === strlen($key)) {
