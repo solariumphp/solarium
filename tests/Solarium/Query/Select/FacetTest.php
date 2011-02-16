@@ -80,7 +80,7 @@ class Solarium_Query_Select_FacetTest extends PHPUnit_Framework_TestCase
 
     public function testConstructorWithConfig()
     {
-        $this->_facet = new TestFacet(array('excludes' => array('e1','e2')));
+        $this->_facet = new TestFacet(array('exclude' => array('e1','e2')));
         $this->assertEquals(array('e1','e2'), $this->_facet->getExcludes());
     }
 }

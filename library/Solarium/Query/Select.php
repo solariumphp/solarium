@@ -542,8 +542,8 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getFacet($key)
     {
-        if (isset($this->_facet[$key])) {
-            return $this->_facet[$key];
+        if (isset($this->_facets[$key])) {
+            return $this->_facets[$key];
         } else {
             return null;
         }
@@ -567,8 +567,8 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function removeFacet($key)
     {
-        if (isset($this->_facet[$key])) {
-            unset($this->_facet[$key]);
+        if (isset($this->_facets[$key])) {
+            unset($this->_facets[$key]);
         }
 
         return $this;
