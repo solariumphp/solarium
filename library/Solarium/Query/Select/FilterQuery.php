@@ -32,7 +32,7 @@
 /**
  * Filterquery
  */
-abstract class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
+class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
 {
 
     /**
