@@ -119,11 +119,10 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
     public function testRenderLocalParams()
     {
         $myParams = array('tag' => 'mytag', 'ex' => array('exclude1','exclude2'));
-
-        $query = new Solarium_Query();
+        
         $this->assertEquals(
             '{!tag=mytag ex=myexclude1,exclude2}myValue',
-            $query->renderLocalParams('myValue', $myParams)
+            $this->_getRequest($this->_options)->renderLocalParams('myValue', $myParams)
         );
     }
 
