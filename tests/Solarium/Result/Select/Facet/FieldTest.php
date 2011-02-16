@@ -41,7 +41,7 @@ class Solarium_Result_Select_Facet_FieldTest extends PHPUnit_Framework_TestCase
             'b' => 5,
             'c' => 3,
         );
-        $this->_facet = new Solarium_Result_Select_Facet_Query($this->_values);
+        $this->_facet = new Solarium_Result_Select_Facet_Field($this->_values);
     }
 
     public function testGetValues()
