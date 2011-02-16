@@ -130,25 +130,22 @@ class Solarium_Client_Request
      */
     public function renderLocalParams($value, $localParams = array())
     {
-        $prefix = '';
+        $params = '';
+        foreach ($localParams AS $paramName => $paramValue) {
+            if (empty($paramValue)) continue;
 
-        if (count($localParams) > 0) {
-            $prefix .= '{!';
-
-            foreach ($localParams AS $paramName => $paramValue) {
-                if (empty($paramValue)) continue;
-
-                if (is_array($paramValue)) {
-                    $paramValue = implode($paramValue,',');   
-                }
-                
-                $prefix .= $paramName . '=' . $paramValue . ' ';
+            if (is_array($paramValue)) {
+                $paramValue = implode($paramValue,',');
             }
 
-            $prefix = rtrim($prefix) . '}';
+            $params .= $paramName . '=' . $paramValue . ' ';
         }
 
-        return $prefix . $value;
+        if ($params !== '') {
+            $value = '{!' . trim($params) . '}' . $value;
+        }
+
+        return $value;
     }
 
     public function getParams()

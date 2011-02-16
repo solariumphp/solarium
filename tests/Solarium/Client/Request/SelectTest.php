@@ -56,8 +56,8 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=%2A%3A%2A&start=0&rows=10&fl=%2A%2Cscore&sort=&wt=json',
-            $request->getUrl()
+            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json',
+            urldecode($request->getUrl())
         );
     }
 
@@ -73,7 +73,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc&wt=json',
+            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc',
             urldecode($request->getUrl())
         );
     }
@@ -83,7 +83,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         $this->_query->addSortField('id', Solarium_Query_Select::SORT_ASC);
         $this->_query->addSortField('name', Solarium_Query_Select::SORT_DESC);
         $this->_query->addFilterQuery(new Solarium_Query_Select_FilterQuery(array('key' => 'f1', 'query' => 'published:true')));
-        $this->_query->addFilterQuery(new Solarium_Query_Select_FilterQuery(array('key' => 'f2', 'query' => 'category:23')));
+        $this->_query->addFilterQuery(new Solarium_Query_Select_FilterQuery(array('key' => 'f2', 'tag' => array('t1','t2'), 'query' => 'category:23')));
         $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
 
         $this->assertEquals(
@@ -92,7 +92,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc&wt=json&fq={!tag=f1}published:true&fq={!tag=f2}category:23',
+            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc&fq=published:true&fq={!tag=t1,t2}category:23',
             urldecode($request->getUrl())
         );
     }
