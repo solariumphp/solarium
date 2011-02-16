@@ -120,7 +120,7 @@ class Solarium_Result_Select_Facet_Field implements Iterator, Countable
      */
     public function valid()
     {
-        return true;
+        return (current($this->_values) !== false);
     }
     
 }
