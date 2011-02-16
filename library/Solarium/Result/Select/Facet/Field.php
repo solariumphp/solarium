@@ -36,13 +36,6 @@ class Solarium_Result_Select_Facet_Field implements Iterator, Countable
 {
 
     /**
-     * Pointer to document array position for iterator implementation
-     *
-     * @var int
-     */
-    protected $_position;
-
-    /**
      * Value array
      *
      * @var array
@@ -87,7 +80,7 @@ class Solarium_Result_Select_Facet_Field implements Iterator, Countable
      */
     public function rewind()
     {
-        $this->_position = 0;
+        reset($this->_values);
     }
 
     /**
@@ -97,7 +90,7 @@ class Solarium_Result_Select_Facet_Field implements Iterator, Countable
      */
     function current()
     {
-        return $this->_values[$this->_position];
+        return current($this->_values);
     }
 
     /**
@@ -107,7 +100,7 @@ class Solarium_Result_Select_Facet_Field implements Iterator, Countable
      */
     public function key()
     {
-        return $this->_position;
+        return key($this->_values);
     }
 
     /**
@@ -117,7 +110,7 @@ class Solarium_Result_Select_Facet_Field implements Iterator, Countable
      */
     public function next()
     {
-        ++$this->_position;
+        next($this->_values);
     }
 
     /**
@@ -127,7 +120,7 @@ class Solarium_Result_Select_Facet_Field implements Iterator, Countable
      */
     public function valid()
     {
-        return isset($this->_values[$this->_position]);
+        return true;
     }
     
 }
