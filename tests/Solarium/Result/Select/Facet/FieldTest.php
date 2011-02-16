@@ -29,69 +29,40 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-/**
- * Base class for all queries
- */
-class Solarium_Query extends Solarium_Configurable
+class Solarium_Result_Select_Facet_FieldTest extends PHPUnit_Framework_TestCase
 {
-    
-    /**
-     * Set path option
-     *
-     * @param string $path
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setPath($path)
+
+    protected $_values, $_facet;
+
+    public function setUp()
     {
-        return $this->_setOption('path', $path);
+        $this->_values = array(
+            'a' => 12,
+            'b' => 5,
+            'c' => 3,
+        );
+        $this->_facet = new Solarium_Result_Select_Facet_Query($this->_values);
     }
 
-    /**
-     * Get path option
-     *
-     * @return string
-     */
-    public function getPath()
+    public function testGetValues()
     {
-        return $this->getOption('path');
+        $this->assertEquals($this->_values, $this->_facet->getValues());
     }
 
-    /**
-     * Set resultclass option
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
+    public function testCount()
     {
-        return $this->_setOption('resultclass', $classname);
+        $this->assertEquals(count($this->_values), $this->_facet->count());
     }
 
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
+    public function testIterator()
     {
-        return $this->getOption('resultclass');
+        $values = array();
+        foreach($this->_facet->getValues() AS $key => $value)
+        {
+            $values[$key] = $value;
+        }
+
+        $this->assertEquals($this->_values, $values);
     }
     
-    /**
-     * Escape special Solr characters in a value
-     * @param string $string
-     * @return string
-     */
-    public function escapeValue($string)
-    {
-        $match = array('\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[',
-                        ']', '^', '~', '*', '?', ':', '"', ';', ' ');
-        $replace = array('\\\\', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(',
-                        '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*',
-                        '\\?', '\\:', '\\"', '\\;', '\\ ');
-        $string = str_replace($match, $replace, $string);
-
-        return $string;
-    }
-
 }

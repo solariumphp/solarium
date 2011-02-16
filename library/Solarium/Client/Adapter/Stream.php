@@ -47,19 +47,8 @@ class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
             new Solarium_Client_Request_Select($this->_options, $query)
         );
 
-        $documentClass = $query->getOption('documentclass');
-        $documents = array();
-        if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
-                $documents[] = new $documentClass($fields);
-            }
-        }
-
-        $numFound = $data['response']['numFound'];
-        
-        $resultClass = $query->getOption('resultclass');
-        return new $resultClass($numFound, $documents);
+        $response = new Solarium_Client_Response_Select($query, $data);
+        return $response->getResult();
 
     }
 
@@ -75,9 +64,8 @@ class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
             new Solarium_Client_Request($this->_options, $query)
         );
 
-        $resultClass = $query->getOption('resultclass');
-
-        return new $resultClass;
+        $response = new Solarium_Client_Response_Ping($query);
+        return $response->getResult();
     }
 
     /**
@@ -91,13 +79,9 @@ class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
         $data = $this->_getSolrData(
             new Solarium_Client_Request_Update($this->_options, $query)
         );
-        
-        $resultClass = $query->getOption('resultclass');
 
-        return new $resultClass(
-            $data['responseHeader']['status'],
-            $data['responseHeader']['QTime']
-        );
+        $response = new Solarium_Client_Response_Update($query, $data);
+        return $response->getResult();
     }
 
     /**

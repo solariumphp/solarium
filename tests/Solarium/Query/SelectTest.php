@@ -201,11 +201,36 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
     
     public function testAddAndGetFilterQuery()
     {
-        $this->_query->addFilterQuery('fq1', 'category:1');
+        $fq = new Solarium_Query_Select_FilterQuery;
+        $fq->setKey('fq1')->setQuery('category:1');
+        $this->_query->addFilterQuery($fq);
+
         $this->assertEquals(
-            'category:1',
+            $fq,
             $this->_query->getFilterQuery('fq1')
         );
+    }
+
+    public function testAddFilterQueryWithoutKey()
+    {
+        $fq = new Solarium_Query_Select_FilterQuery;
+        $fq->setQuery('category:1');
+
+        $this->setExpectedException('Solarium_Exception');
+        $this->_query->addFilterQuery($fq);
+    }
+
+    public function testAddFilterQueryWithUsedKey()
+    {
+        $fq1 = new Solarium_Query_Select_FilterQuery;
+        $fq1->setKey('fq1')->setQuery('category:1');
+
+        $fq2 = new Solarium_Query_Select_FilterQuery;
+        $fq2->setKey('fq1')->setQuery('category:2');
+
+        $this->_query->addFilterQuery($fq1);
+        $this->setExpectedException('Solarium_Exception');
+        $this->_query->addFilterQuery($fq2);
     }
 
     public function testGetInvalidFilterQuery()
@@ -218,10 +243,13 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
     public function testAddFilterQueries()
     {
-        $filterQueries = array(
-            'fq1' => 'category:1',
-            'fq2' => 'group:2'
-        );
+        $fq1 = new Solarium_Query_Select_FilterQuery;
+        $fq1->setKey('fq1')->setQuery('category:1');
+
+        $fq2 = new Solarium_Query_Select_FilterQuery;
+        $fq2->setKey('fq2')->setQuery('category:2');
+
+        $filterQueries = array($fq1, $fq2);
 
         $this->_query->addFilterQueries($filterQueries);
         $this->assertEquals(
@@ -232,25 +260,31 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
     public function testRemoveFilterQuery()
     {
-        $filterQueries = array(
-            'fq1' => 'category:1',
-            'fq2' => 'group:2'
-        );
+        $fq1 = new Solarium_Query_Select_FilterQuery;
+        $fq1->setKey('fq1')->setQuery('category:1');
+
+        $fq2 = new Solarium_Query_Select_FilterQuery;
+        $fq2->setKey('fq2')->setQuery('category:2');
+
+        $filterQueries = array($fq1, $fq2);
 
         $this->_query->addFilterQueries($filterQueries);
         $this->_query->removeFilterQuery('fq1');
         $this->assertEquals(
-            array('fq2' => 'group:2'),
+            array($fq1),
             $this->_query->getFilterQueries()
         );
     }
 
     public function testRemoveInvalidFilterQuery()
     {
-        $filterQueries = array(
-            'fq1' => 'category:1',
-            'fq2' => 'group:2'
-        );
+        $fq1 = new Solarium_Query_Select_FilterQuery;
+        $fq1->setKey('fq1')->setQuery('category:1');
+
+        $fq2 = new Solarium_Query_Select_FilterQuery;
+        $fq2->setKey('fq2')->setQuery('category:2');
+
+        $filterQueries = array($fq1, $fq2);
 
         $this->_query->addFilterQueries($filterQueries);
         $this->_query->removeFilterQuery('fq3'); //continue silently
@@ -262,10 +296,13 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
     public function testClearFilterQueries()
     {
-        $filterQueries = array(
-            'fq1' => 'category:1',
-            'fq2' => 'group:2'
-        );
+        $fq1 = new Solarium_Query_Select_FilterQuery;
+        $fq1->setKey('fq1')->setQuery('category:1');
+
+        $fq2 = new Solarium_Query_Select_FilterQuery;
+        $fq2->setKey('fq2')->setQuery('category:2');
+
+        $filterQueries = array($fq1, $fq2);
 
         $this->_query->addFilterQueries($filterQueries);
         $this->_query->clearFilterQueries();
@@ -277,21 +314,31 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
     public function testSetFilterQueries()
     {
-        $filterQueries = array(
-            'fq1' => 'category:1',
-            'fq2' => 'group:2'
-        );
-        $this->_query->addFilterQueries($filterQueries);
+        $fq1 = new Solarium_Query_Select_FilterQuery;
+        $fq1->setKey('fq1')->setQuery('category:1');
 
-        $newFilterQueries = array(
-            'fq3' => 'category:2',
-            'fq4' => 'group:3'
-        );
-        $this->_query->setFilterQueries($newFilterQueries);
+        $fq2 = new Solarium_Query_Select_FilterQuery;
+        $fq2->setKey('fq2')->setQuery('category:2');
+
+        $filterQueries1 = array($fq1, $fq2);
+
+        $this->_query->addFilterQueries($filterQueries1);
+
+        $fq3 = new Solarium_Query_Select_FilterQuery;
+        $fq3->setKey('fq3')->setQuery('category:3');
+
+        $fq4 = new Solarium_Query_Select_FilterQuery;
+        $fq4->setKey('fq4')->setQuery('category:4');
+
+        $filterQueries2 = array($fq3, $fq4);
+
+        $this->_query->setFilterQueries($filterQueries2);
 
         $this->assertEquals(
-            $newFilterQueries,
+            $filterQueries2,
             $this->_query->getFilterQueries()
         );
     }
+
+    //TODO test facet methods
 }

@@ -51,15 +51,69 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
             'wt'    => 'json',
         );
 
-        if (count($this->_query->getFilterQueries()) !== 0) {
-            $fq = array();
-            foreach ($this->_query->getFilterQueries()
-                     AS $tag => $filterQuery) {
-                $fq[] = '{!tag='. $tag . '}' . $filterQuery;
+        $filterQueries = $this->_query->getFilterQueries();
+        if (count($filterQueries) !== 0) {
+            foreach ($filterQueries AS $filterQuery) {
+                $fq = $this->renderLocalParams(
+                    $filterQuery->getQuery(),
+                    array('tag' => $filterQuery->getTags())
+                );
+                $this->addParam('fq', $fq);
             }
-
-            $this->_params['fq'] = $fq;
         }
+
+        $facets = $this->_query->getFacets();
+        if (count($facets) !== 0) {
+
+            // enable faceting
+            $this->_params['facet'] = 'true';
+
+            foreach ($facets AS $facet) {
+                switch ($facet->getType())
+                {
+                    case Solarium_Query_Select_Facet::FIELD:
+                        $this->addFacetField($facet);
+                        break;
+                    case Solarium_Query_Select_Facet::QUERY:
+                        $this->addFacetQuery($facet);
+                        break;
+                    default:
+                        throw new Solarium_Exception('Unknown facet type');
+                }
+            }
+        }
+    }
+
+    public function addFacetField($facet)
+    {
+        $field = $facet->getField();
+
+        $this->addParam(
+            'facet.field',
+            $this->renderLocalParams(
+                $field,
+                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+            )
+        );
+
+        $this->addParam("f.$field.facet.limit", $facet->getLimit());
+        $this->addParam("f.$field.facet.sort", $facet->getSort());
+        $this->addParam("f.$field.facet.prefix", $facet->getPrefix());
+        $this->addParam("f.$field.facet.offset", $facet->getOffset());
+        $this->addParam("f.$field.facet.mincount", $facet->getMinCount());
+        $this->addParam("f.$field.facet.missing", $facet->getMissing());
+        $this->addParam("f.$field.facet.method", $facet->getMethod());
+    }
+
+    public function addFacetQuery($facet)
+    {
+        $this->addParam(
+            'facet.query',
+            $this->renderLocalParams(
+                $facet->getQuery(),
+                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+            )
+        );
     }
 
 }

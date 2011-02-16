@@ -43,7 +43,20 @@ class Solarium_ConfigurableTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($configTest->getOptions(), $defaultOptions);
     }
 
-    //TODO testConstructorWithZendConfig
+    public function testConstructorWithObject()
+    {
+        $configTest = new ConfigTest(new myConfigObject);
+
+        // the default options should be merged with the constructor values,
+        // overwriting any default values.
+        $expectedOptions = array(
+            'option1' => 1,
+            'option2' => 'newvalue2',
+            'option3' => 3,
+        );
+
+        $this->assertEquals($expectedOptions, $configTest->getOptions());
+    }
 
     public function testConstructorWithArrayConfig()
     {
@@ -88,7 +101,8 @@ class Solarium_ConfigurableTest extends PHPUnit_Framework_TestCase
     
 }
 
-class ConfigTest extends Solarium_Configurable{
+class ConfigTest extends Solarium_Configurable
+{
 
     protected $_options = array(
         'option1' => 1,
@@ -97,11 +111,20 @@ class ConfigTest extends Solarium_Configurable{
 
 }
 
-class ConfigTestInit extends ConfigTest{
+class ConfigTestInit extends ConfigTest
+{
 
     protected function _init()
     {
         throw new Solarium_Exception('test init');
     }
 
+}
+
+class myConfigObject
+{
+    public function toArray()
+    {
+        return array('option2' => 'newvalue2', 'option3' => 3);
+    }
 }

@@ -56,7 +56,7 @@ class Solarium_Configurable
         if (null !== $options) {
             // first convert to array if needed
             if (!is_array($options)) {
-                if ($options instanceof Zend_Config) {
+                if (is_object($options)) {
                     $options = $options->toArray();
                 } else {
                     throw new Solarium_Exception('Options must be an '

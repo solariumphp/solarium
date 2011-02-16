@@ -29,69 +29,27 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-/**
- * Base class for all queries
- */
-class Solarium_Query extends Solarium_Configurable
+class Solarium_Client_Response_PingTest extends PHPUnit_Framework_TestCase
 {
+
+    public function testGetResult()
+    {
+        $query = new Solarium_Query_Ping;
+        $response = new Solarium_Client_Response_Ping($query);
+
+        $this->assertThat($response->getResult(), $this->isInstanceOf($query->getResultClass()));
+    }
+
+    public function testGetResultWithCustomClass()
+    {
+        $query = new Solarium_Query_Ping;
+        $query->setResultClass('MyPingResult');
+        $response = new Solarium_Client_Response_Ping($query);
+
+        $this->assertThat($response->getResult(), $this->isInstanceOf($query->getResultClass()));
+    }
+}
+
+class MyPingResult extends Solarium_Result_Ping{
     
-    /**
-     * Set path option
-     *
-     * @param string $path
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setPath($path)
-    {
-        return $this->_setOption('path', $path);
-    }
-
-    /**
-     * Get path option
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->getOption('path');
-    }
-
-    /**
-     * Set resultclass option
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
-    
-    /**
-     * Escape special Solr characters in a value
-     * @param string $string
-     * @return string
-     */
-    public function escapeValue($string)
-    {
-        $match = array('\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[',
-                        ']', '^', '~', '*', '?', ':', '"', ';', ' ');
-        $replace = array('\\\\', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(',
-                        '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*',
-                        '\\?', '\\:', '\\"', '\\;', '\\ ');
-        $string = str_replace($match, $replace, $string);
-
-        return $string;
-    }
-
 }

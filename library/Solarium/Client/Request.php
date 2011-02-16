@@ -120,5 +120,54 @@ class Solarium_Client_Request
             return '';
         }
     }
+    
+    /**
+     * Render a param with localParams
+     *
+     * @param string $value
+     * @param array $localParams in key => value format
+     * @return string with Solr localparams syntax
+     */
+    public function renderLocalParams($value, $localParams = array())
+    {
+        $prefix = '';
+
+        if (count($localParams) > 0) {
+            $prefix .= '{!';
+
+            foreach ($localParams AS $paramName => $paramValue) {
+                if (empty($paramValue)) continue;
+
+                if (is_array($paramValue)) {
+                    $paramValue = implode($paramValue,',');   
+                }
+                
+                $prefix .= $paramName . '=' . $paramValue . ' ';
+            }
+
+            $prefix = rtrim($prefix) . '}';
+        }
+
+        return $prefix . $value;
+    }
+
+    public function getParams()
+    {
+        return $this->_params;
+    }
+
+    public function addParam($name, $value)
+    {
+        if (0 === strlen($value)) return;
+
+        if (!isset($this->_params[$name])) {
+            $this->_params[$name] = $value;
+        } else {
+            if (!is_array($this->_params[$name])) {
+                $this->_params[$name] = array($this->_params[$name]);
+            }
+            $this->_params[$name][] = $value;
+        }
+    }
 
 }

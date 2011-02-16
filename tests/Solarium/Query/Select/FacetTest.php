@@ -29,69 +29,36 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-/**
- * Base class for all queries
- */
-class Solarium_Query extends Solarium_Configurable
+class Solarium_Query_Select_FacetTest extends PHPUnit_Framework_TestCase
 {
-    
-    /**
-     * Set path option
-     *
-     * @param string $path
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setPath($path)
+
+    public function testSetAndGetKey()
     {
-        return $this->_setOption('path', $path);
+        //TODO
     }
 
-    /**
-     * Get path option
-     *
-     * @return string
-     */
-    public function getPath()
+    public function testAddExclude()
     {
-        return $this->getOption('path');
+        //TODO
     }
 
-    /**
-     * Set resultclass option
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
+    public function testAddExcludes()
     {
-        return $this->_setOption('resultclass', $classname);
+        //TODO
     }
 
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
+    public function testRemoveExclude()
     {
-        return $this->getOption('resultclass');
-    }
-    
-    /**
-     * Escape special Solr characters in a value
-     * @param string $string
-     * @return string
-     */
-    public function escapeValue($string)
-    {
-        $match = array('\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[',
-                        ']', '^', '~', '*', '?', ':', '"', ';', ' ');
-        $replace = array('\\\\', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(',
-                        '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*',
-                        '\\?', '\\:', '\\"', '\\;', '\\ ');
-        $string = str_replace($match, $replace, $string);
-
-        return $string;
+        //TODO
     }
 
+    public function testClearExcludes()
+    {
+        //TODO
+    }
+
+    public function testSetExcludes()
+    {
+        //TODO
+    }
 }

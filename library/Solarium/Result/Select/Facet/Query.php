@@ -30,68 +30,36 @@
  */
 
 /**
- * Base class for all queries
+ * Select query facet result
  */
-class Solarium_Query extends Solarium_Configurable
+class Solarium_Result_Select_Facet_Query
 {
+
+    /**
+     * Value
+     *
+     * @var mixed
+     */
+    protected $_value;
     
     /**
-     * Set path option
+     * Constructor
      *
-     * @param string $path
-     * @return Solarium_Query Provides fluent interface
+     * @param array $values
+     * @return void
      */
-    public function setPath($path)
+    public function __construct($value)
     {
-        return $this->_setOption('path', $path);
+        $this->_value = $value;
     }
 
     /**
-     * Get path option
+     * Get the value
      *
-     * @return string
+     * @return mixed
      */
-    public function getPath()
+    public function getValue()
     {
-        return $this->getOption('path');
+        return $this->_value;
     }
-
-    /**
-     * Set resultclass option
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
-    
-    /**
-     * Escape special Solr characters in a value
-     * @param string $string
-     * @return string
-     */
-    public function escapeValue($string)
-    {
-        $match = array('\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[',
-                        ']', '^', '~', '*', '?', ':', '"', ';', ' ');
-        $replace = array('\\\\', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(',
-                        '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*',
-                        '\\?', '\\:', '\\"', '\\;', '\\ ');
-        $string = str_replace($match, $replace, $string);
-
-        return $string;
-    }
-
 }

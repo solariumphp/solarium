@@ -78,6 +78,13 @@ class Solarium_Query_Select extends Solarium_Query
     protected $_filterQueries = array();
 
     /**
+     * Facets
+     *
+     * @var array
+     */
+    protected $_facets = array();
+
+    /**
      * Initialize options
      * 
      * @return void
@@ -93,6 +100,9 @@ class Solarium_Query_Select extends Solarium_Query
                     break;
                 case 'filterquery':
                     $this->addFilterQueries($value);
+                    break;
+                case 'facet':
+                    $this->addFacets($value);
                     break;
                 case 'sort':
                     $this->addSortFields($value);
@@ -380,30 +390,36 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Add a filter query
      *
-     * @param string $tag used as reference to the filterquery and possible for
-     * excluding in facets
-     *
-     * @param string $filterQuery
+     * @param Solarium_Query_Select_FilterQuery $filterQuery
      * @return Solarium_Query Provides fluent interface
      */
-    public function addFilterQuery($tag, $filterQuery)
+    public function addFilterQuery($filterQuery)
     {
-        $this->_filterQueries[$tag] = $filterQuery;
+        $key = $filterQuery->getKey();
+
+        if (0 === strlen($key)) {
+            throw new Solarium_Exception('A filterquery must have a key value');
+        }
+
+        if (array_key_exists($key, $this->_facets)) {
+            throw new Solarium_Exception('A filterquery must have a unique key'
+                . ' value within a query');
+        }
+
+        $this->_filterQueries[$key] = $filterQuery;
         return $this;
     }
 
     /**
      * Add multiple filterqueries
-     * The input array must contain tags as keys and the filterqueries as
-     * values.
      *
      * @param array $filterQueries
      * @return Solarium_Query Provides fluent interface
      */
     public function addFilterQueries(array $filterQueries)
     {
-        foreach ($filterQueries AS $tag => $filterQuery) {
-            $this->addFilterQuery($tag, $filterQuery);
+        foreach ($filterQueries AS $filterQuery) {
+            $this->addFilterQuery($filterQuery);
         }
 
         return $this;
@@ -412,13 +428,13 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Get a filterquery
      *
-     * @param string $tag
+     * @param string $key
      * @return string
      */
-    public function getFilterQuery($tag)
+    public function getFilterQuery($key)
     {
-        if (isset($this->_filterQueries[$tag])) {
-            return $this->_filterQueries[$tag];
+        if (isset($this->_filterQueries[$key])) {
+            return $this->_filterQueries[$key];
         } else {
             return null;
         }
@@ -435,15 +451,15 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Remove a single filterquery by tag
+     * Remove a single filterquery by key
      *
-     * @param string $tag
+     * @param string $key
      * @return Solarium_Query Provides fluent interface
      */
-    public function removeFilterQuery($tag)
+    public function removeFilterQuery($key)
     {
-        if (isset($this->_filterQueries[$tag])) {
-            unset($this->_filterQueries[$tag]);
+        if (isset($this->_filterQueries[$key])) {
+            unset($this->_filterQueries[$key]);
         }
 
         return $this;
@@ -469,6 +485,106 @@ class Solarium_Query_Select extends Solarium_Query
     {
         $this->clearFilterQueries();
         $this->addFilterQueries($filterQueries);
+    }
+
+    /**
+     * Add a facet
+     *
+     * @param Solarium_Query_Select_Facet $facet
+     * @return Solarium_Query Provides fluent interface
+     */
+    public function addFacet($facet)
+    {
+        $key = $facet->getKey();
+
+        if (0 === strlen($key)) {
+            throw new Solarium_Exception('A facet must have a key value');
+        }
+
+        if (array_key_exists($key, $this->_facets)) {
+            throw new Solarium_Exception('A facet must have a unique key value'
+                . ' within a query');
+        }
+
+        $this->_facets[$key] = $facet;
+        return $this;
+    }
+
+    /**
+     * Add multiple facets
+     *
+     * @param array $facets
+     * @return Solarium_Query Provides fluent interface
+     */
+    public function addFacets(array $facets)
+    {
+        foreach ($facets AS $facet) {
+            $this->addFacet($facet);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get a facet
+     *
+     * @param string $key
+     * @return string
+     */
+    public function getFacet($key)
+    {
+        if (isset($this->_facet[$key])) {
+            return $this->_facet[$key];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get all facets
+     *
+     * @return array
+     */
+    public function getFacets()
+    {
+        return $this->_facets;
+    }
+
+    /**
+     * Remove a single facet by key
+     *
+     * @param string $key
+     * @return Solarium_Query Provides fluent interface
+     */
+    public function removeFacet($key)
+    {
+        if (isset($this->_facet[$key])) {
+            unset($this->_facet[$key]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all facets
+     *
+     * @return Solarium_Query Provides fluent interface
+     */
+    public function clearFacets()
+    {
+        $this->_facets = array();
+        return $this;
+    }
+
+    /**
+     * Set multiple facets at once, overwriting any existing facets
+     *
+     * @param array $facets
+     */
+    public function setFacets($facets)
+    {
+        $this->clearFacets();
+        $this->addFacets($facets);
     }
 
 }

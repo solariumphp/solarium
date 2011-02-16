@@ -29,69 +29,25 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-/**
- * Base class for all queries
- */
-class Solarium_Query extends Solarium_Configurable
+class Solarium_Client_Response_UpdateTest extends PHPUnit_Framework_TestCase
 {
-    
-    /**
-     * Set path option
-     *
-     * @param string $path
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setPath($path)
-    {
-        return $this->_setOption('path', $path);
-    }
 
-    /**
-     * Get path option
-     *
-     * @return string
-     */
-    public function getPath()
+    public function testGetResult()
     {
-        return $this->getOption('path');
-    }
+        $query = new Solarium_Query_Ping;
+        $data = array('responseheader' => array('status' => 0, 'QTime' => 145));
+        $response = new Solarium_Client_Response_Ping($query, $data);
+        $result = $response->getResult();
 
-    /**
-     * Set resultclass option
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
+        $this->assertEquals(
+            0,
+            $result->getStatus()
+        );
 
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
-    
-    /**
-     * Escape special Solr characters in a value
-     * @param string $string
-     * @return string
-     */
-    public function escapeValue($string)
-    {
-        $match = array('\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[',
-                        ']', '^', '~', '*', '?', ':', '"', ';', ' ');
-        $replace = array('\\\\', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(',
-                        '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*',
-                        '\\?', '\\:', '\\"', '\\;', '\\ ');
-        $string = str_replace($match, $replace, $string);
-
-        return $string;
+        $this->assertEquals(
+            145,
+            $result->getQueryTime()
+        );
     }
 
 }

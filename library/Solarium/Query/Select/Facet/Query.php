@@ -30,68 +30,47 @@
  */
 
 /**
- * Base class for all queries
+ * Facet query
  */
-class Solarium_Query extends Solarium_Configurable
+class Solarium_Query_Select_Facet_Query extends Solarium_Query_Select_Facet
 {
-    
+
     /**
-     * Set path option
+     * Default options
      *
-     * @param string $path
-     * @return Solarium_Query Provides fluent interface
+     * @var array
      */
-    public function setPath($path)
+    protected $_options = array(
+        'query' => '*:*'
+    );
+
+    /**
+     * @return string
+     */
+    public function getType()
     {
-        return $this->_setOption('path', $path);
+        return self::QUERY;
     }
 
     /**
-     * Get path option
+     * Set the query string (overwrites the current value)
+     *
+     * @param string $query
+     * @return Solarium_Query_Select_Facet_Query Provides fluent interface
+     */
+    public function setQuery($query)
+    {
+        return $this->_setOption('query', $query);
+    }
+
+    /**
+     * Get the query string
      *
      * @return string
      */
-    public function getPath()
+    public function getQuery()
     {
-        return $this->getOption('path');
-    }
-
-    /**
-     * Set resultclass option
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
-    
-    /**
-     * Escape special Solr characters in a value
-     * @param string $string
-     * @return string
-     */
-    public function escapeValue($string)
-    {
-        $match = array('\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[',
-                        ']', '^', '~', '*', '?', ':', '"', ';', ' ');
-        $replace = array('\\\\', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(',
-                        '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*',
-                        '\\?', '\\:', '\\"', '\\;', '\\ ');
-        $string = str_replace($match, $replace, $string);
-
-        return $string;
+        return $this->getOption('query');
     }
 
 }

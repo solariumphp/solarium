@@ -63,17 +63,5 @@ class Solarium_QueryTest extends PHPUnit_Framework_TestCase
             $query->renderLocalParams('myValue')
         );
     }
-
-    public function testRenderLocalParams()
-    {
-        $myParams = array('tag' => 'mytag', 'ex' => 'myexclude');
-
-        $query = new Solarium_Query();
-        $this->assertEquals(
-            '{!tag=mytag ex=myexclude}myValue',
-            $query->renderLocalParams('myValue', $myParams)
-        );
-    }
-
     
 }

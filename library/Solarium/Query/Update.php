@@ -74,7 +74,7 @@ class Solarium_Query_Update extends Solarium_Query
      */
     public function add($key, $command)
     {
-        if (!empty($key)) {
+        if (0 !== strlen($key)) {
             $this->_commands[$key] = $command;
         } else {
             $this->_commands[] = $command;

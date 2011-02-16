@@ -32,7 +32,7 @@
 class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_result;
+    protected $_result, $_docs, $_facets;
 
     public function setUp()
     {
@@ -41,7 +41,13 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
             new Solarium_Document_ReadOnly(array('id'=>2,'name'=>'test2')),
             new Solarium_Document_ReadOnly(array('id'=>3,'name'=>'test3')),
         );
-        $this->_result = new Solarium_Result_Select(100, $this->_docs);
+
+        $this->_facets = array(
+            'f1' => new Solarium_Result_Select_Facet_Field(array('a' => 14)),
+            'f2' => new Solarium_Result_Select_Facet_Field(array('b' => 5)),
+        );
+
+        $this->_result = new Solarium_Result_Select(100, $this->_docs, $this->_facets);
     }
 
     public function testGetNumFound()
@@ -52,6 +58,16 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
     public function testGetDocuments()
     {
         $this->assertEquals($this->_docs, $this->_result->getDocuments());
+    }
+
+    public function testGetFacets()
+    {
+        $this->assertEquals($this->_facets, $this->_result->getFacets());
+    }
+
+    public function testGetFacetByKey()
+    {
+        $this->assertEquals($this->_docs['f2'], $this->_result->getFacet('f2'));
     }
 
     public function testCount()

@@ -29,69 +29,14 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-/**
- * Base class for all queries
- */
-class Solarium_Query extends Solarium_Configurable
+class Solarium_Result_Select_Facet_QueryTest extends PHPUnit_Framework_TestCase
 {
     
-    /**
-     * Set path option
-     *
-     * @param string $path
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setPath($path)
+    public function testGetValue()
     {
-        return $this->_setOption('path', $path);
-    }
+        $facet = new Solarium_Result_Select_Facet_Query(124);
 
-    /**
-     * Get path option
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->getOption('path');
-    }
-
-    /**
-     * Set resultclass option
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
+        $this->assertEquals(124, $facet->getValue());
     }
     
-    /**
-     * Escape special Solr characters in a value
-     * @param string $string
-     * @return string
-     */
-    public function escapeValue($string)
-    {
-        $match = array('\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[',
-                        ']', '^', '~', '*', '?', ':', '"', ';', ' ');
-        $replace = array('\\\\', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(',
-                        '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*',
-                        '\\?', '\\:', '\\"', '\\;', '\\ ');
-        $string = str_replace($match, $replace, $string);
-
-        return $string;
-    }
-
 }

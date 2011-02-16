@@ -115,7 +115,53 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
             $this->_getRequest($this->_options, 'TestRequest')->getPostdata()
         );
     }
-    
+
+    public function testRenderLocalParams()
+    {
+        $myParams = array('tag' => 'mytag', 'ex' => array('exclude1','exclude2'));
+
+        $query = new Solarium_Query();
+        $this->assertEquals(
+            '{!tag=mytag ex=myexclude1,exclude2}myValue',
+            $query->renderLocalParams('myValue', $myParams)
+        );
+    }
+
+    public function testAddParamWithNewParam()
+    {
+        $request = $this->_getRequest($this->_options);
+        $request->addParam('myparam',1);
+
+        $this->assertEquals(
+            $request->getParams(),
+            array('myparam' => 1)
+        );
+    }
+
+    public function testAddParamNoValue()
+    {
+        $request = $this->_getRequest($this->_options);
+        $request->addParam('myparam',1);
+        $request->addParam('mysecondparam',"");
+
+        $this->assertEquals(
+            $request->getParams(),
+            array('myparam' => 1)
+        );
+    }
+
+    public function testAddParamWithExistingParam()
+    {
+        $request = $this->_getRequest($this->_options);
+        $request->addParam('myparam',1);
+        $request->addParam('myparam',2);
+
+        $this->assertEquals(
+            $request->getParams(),
+            array('myparam' => array(1,2))
+        );
+    }
+
 }
 
 class TestRequest extends Solarium_Client_Request

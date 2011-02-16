@@ -82,8 +82,8 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
     {
         $this->_query->addSortField('id', Solarium_Query_Select::SORT_ASC);
         $this->_query->addSortField('name', Solarium_Query_Select::SORT_DESC);
-        $this->_query->addFilterQuery('f1', 'published:true');
-        $this->_query->addFilterQuery('f2', 'category:23');
+        $this->_query->addFilterQuery(new Solarium_Query_Select_FilterQuery(array('key' => 'f1', 'query' => 'published:true')));
+        $this->_query->addFilterQuery(new Solarium_Query_Select_FilterQuery(array('key' => 'f2', 'query' => 'category:23')));
         $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
 
         $this->assertEquals(
@@ -93,6 +93,23 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'http://127.0.0.1:80/solr/select?q=%2A%3A%2A&start=0&rows=10&fl=%2A%2Cscore&sort=id+asc%2Cname+desc&wt=json&fq=%7B%21tag%3Df1%7Dpublished%3Atrue&fq=%7B%21tag%3Df2%7Dcategory%3A23',
+            $request->getUrl()
+        );
+    }
+
+    public function testSelectUrlWithFacets()
+    {
+        $this->_query->addFacet(new Solarium_Query_Select_Facet_Field(array('key' => 'f1', 'field' => 'owner')));
+        $this->_query->addFacet(new Solarium_Query_Select_Facet_Query(array('key' => 'f2', 'query' => 'category:23')));
+        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+
+        $this->assertEquals(
+            null,
+            $request->getPostData()
+        );
+
+        $this->assertEquals(
+            'http://127.0.0.1:80/solr/select?q=%2A%3A%2A&start=0&rows=10&fl=%2A%2Cscore&wt=json&facet=true',
             $request->getUrl()
         );
     }

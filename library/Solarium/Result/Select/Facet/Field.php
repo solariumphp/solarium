@@ -30,32 +30,10 @@
  */
 
 /**
- * Select query result
+ * Select query facet result
  */
-class Solarium_Result_Select implements Iterator, Countable
+class Solarium_Result_Select_Facet_Field implements Iterator, Countable
 {
-
-    /**
-     * Number of documents found by Solr (this is NOT the number of document
-     * fetched from Solr!)
-     *
-     * @var int
-     */
-    protected $_numFound;
-
-    /**
-     * Document instances array
-     *
-     * @var array
-     */
-    protected $_documents;
-
-    /**
-     * Facet result instances
-     *
-     * @var array
-     */
-    protected $_facets;
 
     /**
      * Pointer to document array position for iterator implementation
@@ -65,67 +43,33 @@ class Solarium_Result_Select implements Iterator, Countable
     protected $_position;
 
     /**
-     * Constructor. This is the only point where data can be set in this
-     * immutable value object.
+     * Value array
      *
-     * @param int $numFound
-     * @param array $documents
-     * @param array $facets
+     * @var array
+     */
+    protected $_values;
+    
+    /**
+     * Constructor
+     *
+     * @param array $values
      * @return void
      */
-    public function __construct($numFound, $documents, $facets)
+    public function __construct($values)
     {
-        $this->_numFound = $numFound;
-        $this->_documents = $documents;
-        $this->_facets = $facets;
+        $this->_values = $values;
     }
 
     /**
-     * Returns the total number of documents found by Solr (this is NOT the
-     * number of document fetched from Solr!)
-     *
-     * @return int
-     */
-    public function getNumFound()
-    {
-        return $this->_numFound;
-    }
-
-    /**
-     * Return all fetched documents in an array
+     * Get all values
      *
      * @return array
      */
-    public function getDocuments()
+    public function getValues()
     {
-        return $this->_documents;
+        return $this->_values;
     }
-
-    /**
-     * Return all facet results in an array
-     *
-     * @return array
-     */
-    public function getFacets()
-    {
-        return $this->_facets;
-    }
-
-    /**
-     * Return a facet result
-     *
-     * @param string $key
-     * @return Solarium_Result_Select_Facet
-     */
-    public function getFacet($key)
-    {
-        if (isset($this->_facets[$key])) {
-            return $this->_facets[$key];
-        } else {
-            return null;   
-        }
-    }
-
+    
     /**
      * Count method for Countable interface
      *
@@ -133,7 +77,7 @@ class Solarium_Result_Select implements Iterator, Countable
      */
     public function count()
     {
-        return count($this->_documents);
+        return count($this->_values);
     }
 
     /**
@@ -153,7 +97,7 @@ class Solarium_Result_Select implements Iterator, Countable
      */
     function current()
     {
-        return $this->_documents[$this->_position];
+        return $this->_values[$this->_position];
     }
 
     /**
@@ -183,6 +127,7 @@ class Solarium_Result_Select implements Iterator, Countable
      */
     public function valid()
     {
-        return isset($this->_documents[$this->_position]);
+        return isset($this->_values[$this->_position]);
     }
+    
 }

@@ -30,68 +30,20 @@
  */
 
 /**
- * Base class for all queries
+ * Handles Solr response, for use in adapters.
  */
-class Solarium_Query extends Solarium_Configurable
+abstract class Solarium_Client_Response
 {
-    
-    /**
-     * Set path option
-     *
-     * @param string $path
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setPath($path)
+    protected $_query;
+
+    protected $_data;
+
+    public function __construct($query, $data = null)
     {
-        return $this->_setOption('path', $path);
+        $this->_query = $query;
+        $this->_data = $data;
     }
 
-    /**
-     * Get path option
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->getOption('path');
-    }
-
-    /**
-     * Set resultclass option
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
-    
-    /**
-     * Escape special Solr characters in a value
-     * @param string $string
-     * @return string
-     */
-    public function escapeValue($string)
-    {
-        $match = array('\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[',
-                        ']', '^', '~', '*', '?', ':', '"', ';', ' ');
-        $replace = array('\\\\', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(',
-                        '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*',
-                        '\\?', '\\:', '\\"', '\\;', '\\ ');
-        $string = str_replace($match, $replace, $string);
-
-        return $string;
-    }
+    abstract function getResult();
 
 }
