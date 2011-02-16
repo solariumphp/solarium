@@ -50,7 +50,7 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
             $sort[] = $field . ' ' . $order;
         }
         if (count($sort) !== 0) {
-            $this->addParam('sort',implode(',', $sort));
+            $this->addParam('sort', implode(',', $sort));
         }
 
         $filterQueries = $this->_query->getFilterQueries();

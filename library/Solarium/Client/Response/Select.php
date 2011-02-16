@@ -47,7 +47,7 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
             }
         }
 
-        foreach($this->_query->getFacets() AS $facet)
+        foreach ($this->_query->getFacets() AS $facet)
         {
             switch ($facet->getType()) {
                 case Solarium_Query_Select_Facet::FIELD:
@@ -69,24 +69,32 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
 
     protected function _addFacetField($facet)
     {
-        if (isset($this->_data['facet_counts']['facet_fields'][$facet->getKey()])) {
-            $values = array_chunk($this->_data['facet_counts']['facet_fields'][$facet->getKey()],2);
+        $key = $facet->getKey();
+        if (isset($this->_data['facet_counts']['facet_fields'][$key])) {
+
+            $values = array_chunk(
+                $this->_data['facet_counts']['facet_fields'][$key],
+                2
+            );
 
             $facetValues = array();
             foreach ($values AS $value) {
                 $facetValues[$value[0]] = $value[1];
             }
 
-            $this->_facets[$facet->getKey()] = new Solarium_Result_Select_Facet_Field($facetValues);
+            $this->_facets[$key] =
+                new Solarium_Result_Select_Facet_Field($facetValues);
         }
     }
 
     protected function _addFacetQuery($facet)
     {
-        if (isset($this->_data['facet_counts']['facet_queries'][$facet->getKey()])) {
+        $key = $facet->getKey();
+        if (isset($this->_data['facet_counts']['facet_queries'][$key])) {
 
-            $value = $this->_data['facet_counts']['facet_queries'][$facet->getKey()];
-            $this->_facets[$facet->getKey()] = new Solarium_Result_Select_Facet_Query($value);
+            $value = $this->_data['facet_counts']['facet_queries'][$key];
+            $this->_facets[$key] =
+                new Solarium_Result_Select_Facet_Query($value);
         }
     }
 }
