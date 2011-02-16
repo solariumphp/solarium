@@ -92,7 +92,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&sort=id asc, name desc&wt=json&fq={!tag=f1}published:true&fq={!tag=f2}category:23',
+            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc&wt=json&fq={!tag=f1}published:true&fq={!tag=f2}category:23',
             urldecode($request->getUrl())
         );
     }

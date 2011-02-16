@@ -37,19 +37,21 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
 
     public function _init()
     {
-        $sort = array();
-        foreach ($this->_query->getSortFields() AS $field => $order) {
-            $sort[] = $field . ' ' . $order;
-        }
-
         $this->_params = array(
             'q'     => $this->_query->getQuery(),
             'start' => $this->_query->getStart(),
             'rows'  => $this->_query->getRows(),
             'fl'    => implode(',', $this->_query->getFields()),
-            'sort'  => implode(',', $sort),
             'wt'    => 'json',
         );
+
+        $sort = array();
+        foreach ($this->_query->getSortFields() AS $field => $order) {
+            $sort[] = $field . ' ' . $order;
+        }
+        if (count($sort) !== 0) {
+            $this->addParam('sort',implode(',', $sort));
+        }
 
         $filterQueries = $this->_query->getFilterQueries();
         if (count($filterQueries) !== 0) {

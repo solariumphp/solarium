@@ -401,7 +401,7 @@ class Solarium_Query_Select extends Solarium_Query
             throw new Solarium_Exception('A filterquery must have a key value');
         }
 
-        if (array_key_exists($key, $this->_facets)) {
+        if (array_key_exists($key, $this->_filterQueries)) {
             throw new Solarium_Exception('A filterquery must have a unique key'
                 . ' value within a query');
         }

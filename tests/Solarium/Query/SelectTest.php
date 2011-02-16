@@ -271,7 +271,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->_query->addFilterQueries($filterQueries);
         $this->_query->removeFilterQuery('fq1');
         $this->assertEquals(
-            array('f2' => $fq2),
+            array('fq2' => $fq2),
             $this->_query->getFilterQueries()
         );
     }
