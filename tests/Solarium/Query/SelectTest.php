@@ -249,7 +249,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $fq2 = new Solarium_Query_Select_FilterQuery;
         $fq2->setKey('fq2')->setQuery('category:2');
 
-        $filterQueries = array($fq1, $fq2);
+        $filterQueries = array('fq1' => $fq1, 'fq2' => $fq2);
 
         $this->_query->addFilterQueries($filterQueries);
         $this->assertEquals(
@@ -271,7 +271,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->_query->addFilterQueries($filterQueries);
         $this->_query->removeFilterQuery('fq1');
         $this->assertEquals(
-            array($fq1),
+            array('f2' => $fq2),
             $this->_query->getFilterQueries()
         );
     }
@@ -284,7 +284,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $fq2 = new Solarium_Query_Select_FilterQuery;
         $fq2->setKey('fq2')->setQuery('category:2');
 
-        $filterQueries = array($fq1, $fq2);
+        $filterQueries = array('fq1' => $fq1, 'fq2' => $fq2);
 
         $this->_query->addFilterQueries($filterQueries);
         $this->_query->removeFilterQuery('fq3'); //continue silently
@@ -320,7 +320,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $fq2 = new Solarium_Query_Select_FilterQuery;
         $fq2->setKey('fq2')->setQuery('category:2');
 
-        $filterQueries1 = array($fq1, $fq2);
+        $filterQueries1 = array('fq1' => $fq1, 'fq2' => $fq2);
 
         $this->_query->addFilterQueries($filterQueries1);
 
@@ -330,7 +330,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $fq4 = new Solarium_Query_Select_FilterQuery;
         $fq4->setKey('fq4')->setQuery('category:4');
 
-        $filterQueries2 = array($fq3, $fq4);
+        $filterQueries2 = array('fq3' => $fq3, 'fq4' => $fq4);
 
         $this->_query->setFilterQueries($filterQueries2);
 

@@ -35,7 +35,7 @@ class Solarium_Client_Response_SelectTest extends PHPUnit_Framework_TestCase
    public function testGetResult()
     {
         $query = new Solarium_Query_Select;
-        $response = new Solarium_Client_Response_Ping($query);
+        $response = new Solarium_Client_Response_Select($query);
 
         $this->assertThat($response->getResult(), $this->isInstanceOf($query->getResultClass()));
     }

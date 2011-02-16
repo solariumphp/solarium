@@ -121,7 +121,7 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         $myParams = array('tag' => 'mytag', 'ex' => array('exclude1','exclude2'));
         
         $this->assertEquals(
-            '{!tag=mytag ex=myexclude1,exclude2}myValue',
+            '{!tag=mytag ex=exclude1,exclude2}myValue',
             $this->_getRequest($this->_options)->renderLocalParams('myValue', $myParams)
         );
     }

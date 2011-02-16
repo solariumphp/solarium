@@ -35,7 +35,7 @@ class Solarium_Client_Response_UpdateTest extends PHPUnit_Framework_TestCase
     public function testGetResult()
     {
         $query = new Solarium_Query_Update;
-        $data = array('responseheader' => array('status' => 0, 'QTime' => 145));
+        $data = array('responseHeader' => array('status' => 0, 'QTime' => 145));
         $response = new Solarium_Client_Response_Update($query, $data);
         $result = $response->getResult();
 
