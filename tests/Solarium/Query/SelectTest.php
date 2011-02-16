@@ -369,9 +369,9 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $fq2 = new Solarium_Query_Select_Facet_Query;
         $fq2->setKey('f1')->setQuery('category:2');
 
-        $this->_query->addFacetQuery($fq1);
+        $this->_query->addFacet($fq1);
         $this->setExpectedException('Solarium_Exception');
-        $this->_query->addFacetQuery($fq2);
+        $this->_query->addFacet($fq2);
     }
 
     public function testGetInvalidFacet()
