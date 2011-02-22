@@ -32,7 +32,8 @@
 /**
  * Select query result
  */
-class Solarium_Result_Select extends Solarium_Result_Query implements Iterator, Countable
+class Solarium_Result_Select extends Solarium_Result_Query
+    implements Iterator, Countable
 {
 
     /**
@@ -75,7 +76,8 @@ class Solarium_Result_Select extends Solarium_Result_Query implements Iterator, 
      * @param array $facets
      * @return void
      */
-    public function __construct($status, $queryTime, $numFound, $documents, $facets)
+    public function __construct($status, $queryTime, $numFound, $documents,
+                                $facets)
     {
         $this->_status = $status;
         $this->_queryTime = $queryTime;
