@@ -29,11 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-/**
- * Ping result, holds no data as a ping request only tests the Solr
- * communication
- */
-class Solarium_Result_Ping
+class Solarium_Result_Ping extends Solarium_Result_Query
 {
 
 }

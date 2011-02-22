@@ -32,7 +32,7 @@
 /**
  * Select query result
  */
-class Solarium_Result_Select implements Iterator, Countable
+class Solarium_Result_Select extends Solarium_Result_Query implements Iterator, Countable
 {
 
     /**
@@ -68,13 +68,17 @@ class Solarium_Result_Select implements Iterator, Countable
      * Constructor. This is the only point where data can be set in this
      * immutable value object.
      *
+     * @param int $status
+     * @param int $queryTime
      * @param int $numFound
      * @param array $documents
      * @param array $facets
      * @return void
      */
-    public function __construct($numFound, $documents, $facets)
+    public function __construct($status, $queryTime, $numFound, $documents, $facets)
     {
+        $this->_status = $status;
+        $this->_queryTime = $queryTime;
         $this->_numFound = $numFound;
         $this->_documents = $documents;
         $this->_facets = $facets;

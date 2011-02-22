@@ -30,9 +30,45 @@
  */
 
 /**
- * Update result
+ * Query result
  */
-class Solarium_Result_Update extends Solarium_Result_Query
+class Solarium_Result_Query
 {
 
+    /**
+     * @var int
+     */
+    protected $_status;
+    
+    /**
+     * @var int
+     */
+    protected $_queryTime;
+
+    /**
+     * @param int $status
+     * @param int $queryTime
+     * @return void
+     */
+    public function __construct($status, $queryTime)
+    {
+        $this->_status = $status;
+        $this->_queryTime = $queryTime;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->_status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQueryTime()
+    {
+        return $this->_queryTime;
+    }
 }

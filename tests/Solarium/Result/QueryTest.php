@@ -29,10 +29,24 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-/**
- * Update result
- */
-class Solarium_Result_Update extends Solarium_Result_Query
+class Solarium_Result_QueryTest extends PHPUnit_Framework_TestCase
 {
 
+    protected $_result;
+
+    public function setUp()
+    {
+        $this->_result = new Solarium_Result_Query(0,45);
+    }
+
+    public function testGetStatus()
+    {
+        $this->assertEquals(0, $this->_result->getStatus());
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertEquals(45, $this->_result->getQueryTime());
+    }
+    
 }

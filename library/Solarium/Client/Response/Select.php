@@ -60,10 +60,12 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
             }
         }
 
+        $status = $this->_data['responseHeader']['status'];
+        $queryTime = $this->_data['responseHeader']['QTime'];
         $numFound = $this->_data['response']['numFound'];
 
         $resultClass = $this->_query->getOption('resultclass');
-        return new $resultClass($numFound, $documents, $this->_facets);
+        return new $resultClass($status, $queryTime, $numFound, $documents, $this->_facets);
     }
 
     protected function _addFacetField($facet)

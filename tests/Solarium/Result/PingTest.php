@@ -29,10 +29,12 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-/**
- * Update result
- */
-class Solarium_Result_Update extends Solarium_Result_Query
+class Solarium_Result_PingTest extends Solarium_Result_QueryTest
 {
 
+    public function setUp()
+    {
+        $this->_result = new Solarium_Result_Ping(0,45);
+    }
+    
 }

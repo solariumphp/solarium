@@ -29,24 +29,12 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Result_UpdateTest extends PHPUnit_Framework_TestCase
+class Solarium_Result_UpdateTest extends Solarium_Result_QueryTest
 {
-
-    protected $_result;
 
     public function setUp()
     {
         $this->_result = new Solarium_Result_Update(0,45);
-    }
-
-    public function testGetStatus()
-    {
-        $this->assertEquals(0, $this->_result->getStatus());
-    }
-
-    public function testGetQueryTime()
-    {
-        $this->assertEquals(45, $this->_result->getQueryTime());
     }
     
 }

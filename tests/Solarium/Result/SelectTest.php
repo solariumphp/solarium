@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
+class Solarium_Result_SelectTest extends Solarium_Result_Query
 {
 
     protected $_result, $_docs, $_facets;
@@ -47,7 +47,7 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
             'f2' => new Solarium_Result_Select_Facet_Field(array('b' => 5)),
         );
 
-        $this->_result = new Solarium_Result_Select(100, $this->_docs, $this->_facets);
+        $this->_result = new Solarium_Result_Select(0,45,100, $this->_docs, $this->_facets);
     }
 
     public function testGetNumFound()
