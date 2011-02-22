@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Result_SelectTest extends Solarium_Result_Query
+class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
 {
 
     protected $_result, $_docs, $_facets;
