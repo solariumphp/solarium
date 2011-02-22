@@ -240,7 +240,7 @@ class Solarium_Query_Update extends Solarium_Query
      *
      * @param boolean $waitFlush
      * @param boolean $waitSearcher
-     * @param boolean $maxSegments
+     * @param int $maxSegments
      * @return Solarium_Query_Update Provides fluent interface
      */
    public function addOptimize($waitFlush = null, $waitSearcher = null,

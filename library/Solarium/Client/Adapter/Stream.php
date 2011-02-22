@@ -60,11 +60,12 @@ class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
      */
     public function ping($query)
     {
-        $this->_getSolrData(
-            new Solarium_Client_Request($this->_options, $query)
+        $data = $this->_getSolrData(
+            new Solarium_Client_Request($this->_options, $query),
+            'xml'
         );
 
-        $response = new Solarium_Client_Response_Ping($query);
+        $response = new Solarium_Client_Response_Ping($query, $data);
         return $response->getResult();
     }
 
@@ -91,7 +92,7 @@ class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
      * @param Solarium_Client_Request
      * @return array
      */
-    protected function _getSolrData($request)
+    protected function _getSolrData($request, $mode = 'json')
     {
         if (null !== $request && null !== $request->getPostData()) {
             $context = stream_context_create(
@@ -113,13 +114,39 @@ class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
             throw new Solarium_Exception($error['message']);
         }
 
-        $data = json_decode($data, true);
-        if (null === $data) {
-            throw new Solarium_Exception(
-                'Solr JSON response could not be decoded');
+        if ($mode == 'json') {
+            $data = json_decode($data, true);
+            if (null === $data) {
+                throw new Solarium_Exception(
+                    'Solr JSON response could not be decoded');
+            }
+        } else if ($mode == 'xml') {
+            $data = $this->simplexmlToArray(simplexml_load_string($data));
+        } else {
+            throw new Solarium_Exception('Unknown Solr client data mode');
         }
 
         return $data;
+    }
+
+    function simplexmlToArray($xml) {
+        if (get_class($xml) == 'SimpleXMLElement') {
+            $attributes = $xml->attributes();
+            foreach($attributes as $k=>$v) {
+                if ($v) $a[$k] = (string) $v;
+            }
+            $x = $xml;
+            $xml = get_object_vars($xml);
+        }
+        if (is_array($xml)) {
+            if (count($xml) == 0) return (string) $x; // for CDATA
+            foreach($xml as $key=>$value) {
+                $r[$key] = $this->simplexmlToArray($value);
+            }
+            if (isset($a)) $r['@attributes'] = $a;    // Attributes
+            return $r;
+        }
+        return (string) $xml;
     }
 
 }

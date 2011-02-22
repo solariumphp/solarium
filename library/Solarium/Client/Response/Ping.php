@@ -40,8 +40,8 @@ class Solarium_Client_Response_Ping extends Solarium_Client_Response
         $resultClass = $this->_query->getOption('resultclass');
 
         return new $resultClass(
-            $this->_data['responseHeader']['status'],
-            $this->_data['responseHeader']['QTime']
+            $this->_data['ping']['status'],
+            0
         );
     }
 
