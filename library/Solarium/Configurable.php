@@ -27,6 +27,11 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
+ *
+ * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @licence http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
+ * @package Solarium
  */
 
 /**
