@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @licence http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
  * @subpackage Client

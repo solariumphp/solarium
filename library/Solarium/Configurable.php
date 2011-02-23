@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @licence http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
  */
@@ -78,8 +78,14 @@ class Solarium_Configurable
     }
 
     /**
-     * Init method for extra checks or setup work. Can be implemented in
-     * extending classes.
+     * Initialization hook
+     *
+     * Can be used by classes for special behaviour. For instance some options
+     * have extra setup work in their 'set' method that also need to be called
+     * when the option is passed as a constructor argument.
+     *
+     * This hook is called by the constructor after saving the constructor
+     * arguments in {@link $_options}
      *
      * @return void
      */

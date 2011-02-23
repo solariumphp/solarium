@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @licence http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
  * @subpackage Client
@@ -49,6 +49,8 @@
  * $result = $client->select($query);
  * </code>
  *
+ * @package Solarium
+ * @subpackage Client
  */
 class Solarium_Client extends Solarium_Configurable
 {
@@ -81,10 +83,10 @@ class Solarium_Client extends Solarium_Configurable
     protected $_adapter;
 
     /**
-     * Init options array. Some options might need some extra checks or setup
-     * work.
+     * {@inheritdoc}
      *
-     * @return void
+     * In this case the path needs to be cleaned of trailing slashes.
+     * @see setPath()
      */
     protected function _init()
     {
@@ -98,11 +100,11 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
-     * Set an option
+     * {@inheritdoc}
      *
-     * @param string $name
-     * @param mixed $value
-     * @return void
+     * If any option of this client is changed after the adapter has been
+     * instantiated the change is propagated to the adapter. This allows for
+     * switching the client to another core for a second query, for instance.
      */
     protected function _setOption($name, $value)
     {
@@ -118,7 +120,7 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Set host option
      *
-     * @param string $host
+     * @param string $host This can be a hostname or an IP address
      * @return Solarium_Client Provides fluent interface
      */
     public function setHost($host)
@@ -139,7 +141,7 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Set port option
      *
-     * @param int $port
+     * @param int $port Common values are 80, 8080 and 8983
      * @return Solarium_Client Provides fluent interface
      */
     public function setPort($port)
@@ -149,6 +151,7 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Get port option
+     *
      * @return int
      */
     public function getPort()
@@ -159,12 +162,13 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Set path option
      *
+     * If the path has a trailing slash it will be removed.
+     *
      * @param string $path
      * @return Solarium_Client Provides fluent interface
      */
     public function setPath($path)
     {
-        // remove trailing slashes
         if (substr($path, -1) == '/') $path = substr($path, 0, -1);
 
         return $this->_setOption('path', $path);
@@ -204,29 +208,57 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Set the adapter
      *
+     * The adapter has to be a class that extends Solarium_Client_Adapter.
+     * If a string is passed it is assumed to be the classname and it will be
+     * instantiated on first use. This requires the availability of the class
+     * through autoloading or a manual require before calling this method.
+     *
+     * Any existing adapter instance will be removed by this method, this way an
+     * instance of the new adapter type will be created upon the next usage of
+     * the adapter (lazy-loading)
+     *
      * @param string|Solarium_Client_Adapter $adapter
      * @return Solarium_Client Provides fluent interface
      */
     public function setAdapter($adapter)
     {
-        if (is_string($adapter)) {
-            $adapter = new $adapter;
-        }
-        
-        $adapter->setOptions($this->_options);
-        $this->_adapter = $adapter;
-        return $this;
+        $this->_adapter = null;
+
+        return $this->_setOption('adapter', $adapter);
+    }
+
+    /**
+     * Create an adapter instance
+     *
+     * The 'adapter' entry in {@link $_options} will be used to create an
+     * adapter instance. This entry can be the default value of
+     * {@link $_options}, a value passed to the constructor or a value set by
+     * using {@link setAdapter()}
+     *
+     * This method is used for lazy-loading the adapter upon first use in
+     * {@link getAdapter()}
+     *
+     * @return void
+     */
+    protected function _createAdapter()
+    {
+        $adapterClass = $this->getOption('adapter');
+        $this->_adapter = new $adapterClass;
+        $this->_adapter->setOptions($this->_options);
     }
 
     /**
      * Get the adapter instance
+     *
+     * If {@see $_adapter} doesn't hold an instance a new one will be created by
+     * calling {@see _createAdapter()}
      *
      * @return Solarium_Client_Adapter
      */
     public function getAdapter()
     {
         if (null === $this->_adapter) {
-            $this->setAdapter($this->_options['adapter']);
+            $this->_createAdapter();
         }
 
         return $this->_adapter;
@@ -234,6 +266,10 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Execute a ping query
+     *
+     * This is a convenience method that forwards the query to the adapter and
+     * returns the adapter result, thus allowing for an easy to use and clean
+     * API.
      *
      * @param Solarium_Query_Ping $query
      * @return Solarium_Result_Ping
@@ -246,6 +282,10 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Execute an update query
      *
+     * This is a convenience method that forwards the query to the adapter and
+     * returns the adapter result, thus allowing for an easy to use and clean
+     * API.
+     *
      * @param Solarium_Query_Update $query
      * @return Solarium_Result_Select
      */
@@ -256,6 +296,10 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Execute a select query
+     *
+     * This is a convenience method that forwards the query to the adapter and
+     * returns the adapter result, thus allowing for an easy to use and clean
+     * API.
      *
      * @param Solarium_Query_Select $query
      * @return Solarium_Result_Select
