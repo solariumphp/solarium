@@ -209,22 +209,29 @@ class Solarium_Client extends Solarium_Configurable
      * Set the adapter
      *
      * The adapter has to be a class that extends Solarium_Client_Adapter.
+     *
      * If a string is passed it is assumed to be the classname and it will be
      * instantiated on first use. This requires the availability of the class
      * through autoloading or a manual require before calling this method.
-     *
      * Any existing adapter instance will be removed by this method, this way an
      * instance of the new adapter type will be created upon the next usage of
      * the adapter (lazy-loading)
+     *
+     * If an adapter instance is passed it will replace the current adapter
+     * immediately, bypassing the lazy loading. 
      *
      * @param string|Solarium_Client_Adapter $adapter
      * @return Solarium_Client Provides fluent interface
      */
     public function setAdapter($adapter)
     {
-        $this->_adapter = null;
-
-        return $this->_setOption('adapter', $adapter);
+        if (is_string($adapter)) {
+            $this->_adapter = null;
+            return $this->_setOption('adapter', $adapter);
+        } else {
+            $this->_adapter = $adapter;
+            return $this;
+        }
     }
 
     /**

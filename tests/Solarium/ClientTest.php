@@ -101,7 +101,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $observer->expects($this->once())
                  ->method('setOptions')
                  ->with($this->equalTo($options));
-        $client->setAdapter($observer);
+        $client->setAdapter($observer)->getAdapter();
     }
 
     public function testOptionForwardingToAdapterAfterChange()
