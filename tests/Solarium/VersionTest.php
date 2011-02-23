@@ -38,4 +38,62 @@ class Solarium_VersionTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($version);
     }
 
+    public function testCheckExact()
+    {
+        $this->assertTrue(
+            Solarium_Version::checkExact(Solarium_Version::VERSION)
+        );
+    }
+
+    public function testCheckExactPartial()
+    {
+        $this->assertTrue(
+            Solarium_Version::checkExact(substr(Solarium_Version::VERSION,0,1))
+        );
+    }
+
+    public function testCheckExactLower()
+    {
+        $this->assertFalse(
+            Solarium_Version::checkExact('0.1')
+        );
+    }
+
+    public function testCheckExactHigher()
+    {
+        $this->assertFalse(
+            Solarium_Version::checkExact('99.0')
+        );
+    }
+
+    public function testCheckMinimal()
+    {
+        $this->assertTrue(
+            Solarium_Version::checkMinimal(Solarium_Version::VERSION)
+        );
+    }
+
+    public function testCheckMinimalPartial()
+    {
+        $version = substr(Solarium_Version::VERSION,0,1);
+        
+        $this->assertTrue(
+            Solarium_Version::checkMinimal($version)
+        );
+    }
+
+    public function testCheckMinimalLower()
+    {
+        $this->assertTrue(
+            Solarium_Version::checkMinimal('0.1.0')
+        );
+    }
+
+    public function testCheckMinimalHigher()
+    {
+        $this->assertFalse(
+            Solarium_Version::checkMinimal('99.0')
+        );
+    }
+
 }

@@ -126,9 +126,9 @@ class Solarium_Configurable
     }
 
     /**
-     * Get an option value
+     * Get an option value by name
      *
-     * If the options is empty or not set a NULL value will be returned.
+     * If the option is empty or not set a NULL value will be returned.
      *
      * @param string $name
      * @return mixed
