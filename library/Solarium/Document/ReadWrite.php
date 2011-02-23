@@ -172,7 +172,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
-     * Magic access method for accessing fields as properties of this document
+     * Magic method for setting fields as properties of this document
      * object, by field name.
      *
      * @param string $name

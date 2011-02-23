@@ -64,6 +64,7 @@ class Solarium_Document_ReadOnly
         return $this->_fields;
     }
 
+
     /**
      * Magic access method for accessing fields as properties of this document
      * object, by field name.
@@ -78,6 +79,20 @@ class Solarium_Document_ReadOnly
         }
 
         return $this->_fields[$name];
+    }
+
+    
+    /**
+     * Magic method for setting a field as property of this object. Since this
+     * is a readonly document an exception will be thrown to prevent this.
+     *
+     * @param string $name
+     * @param string $value
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        throw new Solarium_Exception('A readonly document cannot be altered');
     }
 
 }

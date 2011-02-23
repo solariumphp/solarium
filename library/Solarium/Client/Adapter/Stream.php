@@ -129,10 +129,12 @@ class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
         return $data;
     }
 
-    function simplexmlToArray($xml) {
+    
+    function simplexmlToArray($xml)
+    {
         if (get_class($xml) == 'SimpleXMLElement') {
             $attributes = $xml->attributes();
-            foreach($attributes as $k=>$v) {
+            foreach ($attributes as $k=>$v) {
                 if ($v) $a[$k] = (string) $v;
             }
             $x = $xml;
@@ -140,7 +142,7 @@ class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
         }
         if (is_array($xml)) {
             if (count($xml) == 0) return (string) $x; // for CDATA
-            foreach($xml as $key=>$value) {
+            foreach ($xml as $key=>$value) {
                 $r[$key] = $this->simplexmlToArray($value);
             }
             if (isset($a)) $r['@attributes'] = $a;    // Attributes

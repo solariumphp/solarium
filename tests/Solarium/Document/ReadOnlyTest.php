@@ -65,5 +65,11 @@ class Solarium_Document_ReadOnlyTest extends PHPUnit_Framework_TestCase
             $this->_doc->invalidfieldname
         );
     }
+
+    public function testSetField()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_doc->newField = 'new value';
+    }
     
 }
