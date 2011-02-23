@@ -27,10 +27,28 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
+ *
+ * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @licence http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 
 /**
- * The Solarium Client is the main accesspoint for interaction with Solr
+ * Main interface for interaction with Solr
+ *
+ * The client holds the Solr connection settings and uses an adapter instance to
+ * execute queries and return the results. This is the main interface for any
+ * user of the Solarium library.
+ *
+ * Example usage with default settings:
+ * <code>
+ * $client = new Solarium_Client;
+ * $query = new Solarium_Query_Select;
+ * $result = $client->select($query);
+ * </code>
+ *
  */
 class Solarium_Client extends Solarium_Configurable
 {
@@ -38,11 +56,14 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Default options
      *
+     * The defaults match a standard Solr example instance as distributed by
+     * the Apache Lucene Solr project.
+     *
      * @var array
      */
     protected $_options = array(
         'host'    => '127.0.0.1',
-        'port'    => 80,
+        'port'    => 8983,
         'path'    => '/solr',
         'core'    => null,
         'adapter' => 'Solarium_Client_Adapter_Stream',
@@ -50,6 +71,9 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Adapter instance
+     *
+     * The adapter is lazy-loading, it will be instantiated on first use by
+     * {@see getAdapter} based on the 'adapter' entry in {@see $_options}
      *
      * @var Solarium_Client_Adapter
      */
