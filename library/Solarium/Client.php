@@ -229,6 +229,9 @@ class Solarium_Client extends Solarium_Configurable
             $this->_adapter = null;
             return $this->_setOption('adapter', $adapter);
         } else {
+            // forward options
+            $adapter->setOptions($this->_options);
+            // overwrite existing adapter
             $this->_adapter = $adapter;
             return $this;
         }
