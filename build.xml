@@ -61,7 +61,7 @@ you could also write the switches here)
 <!-- Generate API documentation -->
 <target name="phpdoc">
 <exec executable="phpdoc">
-<arg line="-d library -t build/api" />
+<arg line="-d library -t build/api -s -t 'Solarium documentation' -ue on"/>
 </exec>
 </target>
 
