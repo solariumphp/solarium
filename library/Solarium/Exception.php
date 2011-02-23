@@ -35,7 +35,12 @@
  */
 
 /**
- * Custom exception case to allow for catching specific exceptions
+ * Solarium specific exception
+ *
+ * All exceptions thrown by Solarium are of this type. This way you can easily
+ * catch Solarium exception and keep them separate from you own exceptions.
+ *
+ * @package Solarium
  */
 class Solarium_Exception extends Exception
 {

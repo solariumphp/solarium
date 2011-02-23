@@ -35,8 +35,13 @@
  */
 
 /**
- * Base class for creating a class that is configurable using the constructor or
- * setOption calls. Used by many solarium classes.
+ * Base class for configurable classes
+ *
+ * All classes extending this class are  configurable using the constructor or
+ * setOption calls. This is the base for many Solarium classes, providing a
+ * uniform interface for various models.
+ *
+ * @package Solarium
  */
 class Solarium_Configurable
 {
@@ -51,6 +56,15 @@ class Solarium_Configurable
 
     /**
      * Constructor
+     *
+     * If options are passed they will be merged with {@link $_options}, with
+     * new values overwriting any existing (default) values.
+     *
+     * If $options is an object it will be converted into an array by called
+     * it's toArray method. This is compatible with the Zend_Config classes in
+     * Zend Framework, but can also easily be implemented in any other object.
+     *
+     * After handling the options the {@link _init()} method is called.
      *
      * @throws Solarium_Exception
      * @param array|Zend_Config $options
@@ -69,11 +83,10 @@ class Solarium_Configurable
                 }
             }
 
-            // merge with default values, new values overwrite defaults
             $this->_options = array_merge($this->_options, $options);
         }
 
-        // Hook for extending classes (for end user classes)
+
         $this->_init();
     }
 
@@ -86,6 +99,10 @@ class Solarium_Configurable
      *
      * This hook is called by the constructor after saving the constructor
      * arguments in {@link $_options}
+     *
+     * @internal This empty implementation can optionally be implemented in
+     *  descending classes. It's not an abstract method on purpose, there are
+     *  many cases where no initialization is needed.
      *
      * @return void
      */
@@ -110,6 +127,8 @@ class Solarium_Configurable
 
     /**
      * Get an option value
+     *
+     * If the options is empty or not set a NULL value will be returned.
      *
      * @param string $name
      * @return mixed

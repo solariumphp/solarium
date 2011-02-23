@@ -35,14 +35,20 @@
  */
 
 /**
- * This class can be used to check the library version within your code.
- * For example to check for a required version.
+ * Version indicator
+ *
+ * This class can be used to check the library version within your code. This
+ * can be important if you rely on a minimal version for the features you use.
+ *
+ * @package Solarium
  */
 class Solarium_Version
 {
 
     /**
-     * Version number
+     * Version number of the Solarium library
+     * 
+     * @var string
      */
     const VERSION = '0.1-dev';
 

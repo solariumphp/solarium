@@ -74,9 +74,12 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Adapter instance
      *
-     * The adapter is lazy-loading, it will be instantiated on first use by
-     * {@link getAdapter()} based on the 'adapter' entry in {@link $_options}.
-     * This option can be set using {@link setAdapter()}
+     * If an adapter instance is set using {@link setAdapter()} this var will
+     * contain a reference to that instance.
+     *
+     * In all other cases the adapter is lazy-loading, it will be instantiated
+     * on first use by {@link getAdapter()} based on the 'adapter' entry in
+     * {@link $_options}. This option can be set using {@link setAdapter()}
      *
      * @var Solarium_Client_Adapter
      */
