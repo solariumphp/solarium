@@ -76,7 +76,7 @@ class Solarium_Client extends Solarium_Configurable
      *
      * The adapter is lazy-loading, it will be instantiated on first use by
      * {@link getAdapter()} based on the 'adapter' entry in {@link $_options}.
-     * This options can be set using {@link setAdapter()}
+     * This option can be set using {@link setAdapter()}
      *
      * @var Solarium_Client_Adapter
      */
@@ -208,7 +208,8 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Set the adapter
      *
-     * The adapter has to be a class that extends Solarium_Client_Adapter.
+     * The adapter has to be a class that extends
+     * {@link Solarium_Client_Adapter}.
      *
      * If a string is passed it is assumed to be the classname and it will be
      * instantiated on first use. This requires the availability of the class
@@ -277,9 +278,19 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Execute a ping query
      *
-     * This is a convenience method that forwards the query to the adapter and
-     * returns the adapter result, thus allowing for an easy to use and clean
-     * API.
+     * Example usage:
+     * <code>
+     * $client = new Solarium_Client;
+     * $query = new Solarium_Query_Ping;
+     * $result = $client->ping($query);
+     * </code>
+     *
+     * @see Solarium_Query_Ping
+     * @see Solarium_Result_Ping
+     *
+     * @internal This is a convenience method that forwards the query to the adapter and
+     *  returns the adapter result, thus allowing for an easy to use and clean
+     *  API.
      *
      * @param Solarium_Query_Ping $query
      * @return Solarium_Result_Ping
@@ -292,12 +303,23 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Execute an update query
      *
-     * This is a convenience method that forwards the query to the adapter and
-     * returns the adapter result, thus allowing for an easy to use and clean
-     * API.
+     * Example usage:
+     * <code>
+     * $client = new Solarium_Client;
+     * $update = new Solarium_Query_Update;
+     * $update->addOptimize();
+     * $result = $client->ping($update);
+     * </code>
+     *
+     * @see Solarium_Query_Update
+     * @see Solarium_Result_Update
+     *
+     * @internal This is a convenience method that forwards the query to the adapter and
+     *  returns the adapter result, thus allowing for an easy to use and clean
+     *  API.
      *
      * @param Solarium_Query_Update $query
-     * @return Solarium_Result_Select
+     * @return Solarium_Result_Update
      */
     public function update($query)
     {
@@ -307,9 +329,19 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Execute a select query
      *
-     * This is a convenience method that forwards the query to the adapter and
-     * returns the adapter result, thus allowing for an easy to use and clean
-     * API.
+     * Example usage:
+     * <code>
+     * $client = new Solarium_Client;
+     * $query = new Solarium_Query_Select;
+     * $result = $client->ping($query);
+     * </code>
+     *
+     * @see Solarium_Query_Select
+     * @see Solarium_Result_Select
+     *
+     * @internal This is a convenience method that forwards the query to the adapter and
+     *  returns the adapter result, thus allowing for an easy to use and clean
+     *  API.
      *
      * @param Solarium_Query_Select $query
      * @return Solarium_Result_Select
