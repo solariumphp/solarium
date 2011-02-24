@@ -173,17 +173,20 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
 
 class TestRequest extends Solarium_Client_Request
 {
+    
+    protected $_params = array(
+        'wt' => 'json',
+        'fq' => array('category:1','published:true')
+    );
+
     public function getUri()
     {
         return $this->buildUri();
     }
 
-    protected function _init()
+    public function getRawData()
     {
-        $this->_postData = '<data>xyz</data>';
-        $this->_params = array(
-            'wt' => 'json',
-            'fq' => array('category:1','published:true')
-        );
+        return '<data>xyz</data>';
     }
+
 }

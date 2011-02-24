@@ -52,7 +52,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             null,
-            $request->getPostData()
+            $request->getRawData()
         );
 
         $this->assertEquals(
@@ -69,7 +69,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             null,
-            $request->getPostData()
+            $request->getRawData()
         );
 
         $this->assertEquals(
@@ -88,7 +88,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             null,
-            $request->getPostData()
+            $request->getRawData()
         );
 
         $this->assertEquals(
@@ -105,7 +105,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             null,
-            $request->getPostData()
+            $request->getRawData()
         );
 
         $this->assertEquals(

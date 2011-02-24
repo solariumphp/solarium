@@ -292,7 +292,7 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
             . '<commit/>'
             . '<optimize/>'
             . '</update>',
-            $request->getPostData()
+            $request->getRawData()
         );
     }
 
