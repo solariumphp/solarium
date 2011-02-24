@@ -37,7 +37,7 @@ class Solarium_Client_Request_PingTest extends PHPUnit_Framework_TestCase
     protected $_options = array(
         'host' => '127.0.0.1',
         'port' => 80,
-        'path' => '/admin/ping',
+        'path' => '/solr',
         'core' => null,
     );
 
