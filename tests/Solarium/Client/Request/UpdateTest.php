@@ -46,6 +46,22 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $this->_query = new Solarium_Query_Update;
     }
 
+    public function testGetMethod()
+    {
+        $this->assertEquals(
+            Solarium_Client_Request::POST,
+            $this->_getRequest($this->_options)->getMethod()
+        );
+    }
+
+    public function testGetUri()
+    {
+        $this->assertEquals(
+            'http://127.0.0.1:80/solr/update?wt=json',
+            $this->_getRequest($this->_options)->getUri()
+        );
+    }
+
     public function testBuildAddXmlNoParamsSingleDocument()
     {
         $command = new Solarium_Query_Update_Command_Add;

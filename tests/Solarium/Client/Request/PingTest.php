@@ -29,63 +29,37 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Document_ReadOnlyTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_Request_PingTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_doc;
+    protected $_query;
 
-    protected $_fields = array(
-        'id' => 123,
-        'name' => 'Test document',
-        'categories' => array(1,2,3)
+    protected $_options = array(
+        'host' => '127.0.0.1',
+        'port' => 80,
+        'path' => '/solr',
+        'core' => null,
     );
 
-    protected function setUp()
+    public function setUp()
     {
-        $this->_doc = new Solarium_Document_ReadOnly($this->_fields);
+        $this->_query = new Solarium_Query_Ping($this->_options);
     }
 
-    public function testGetFields()
-    {
-        $this->assertEquals($this->_fields,$this->_doc->getFields());
-    }
-
-    public function testGetFieldAsProperty()
+    public function testGetMethod()
     {
         $this->assertEquals(
-            $this->_fields['categories'],
-            $this->_doc->categories
+            Solarium_Client_Request::HEAD,
+            $this->_getRequest($this->_options)->getMethod()
         );
     }
 
-    public function testGetInvalidFieldAsProperty()
+    public function testGetUri()
     {
         $this->assertEquals(
-            null,
-            $this->_doc->invalidfieldname
+            'http://127.0.0.1:80/solr/admin/ping?',
+            $this->_getRequest($this->_options)->getUri()
         );
     }
 
-    public function testSetField()
-    {
-        $this->setExpectedException('Solarium_Exception');
-        $this->_doc->newField = 'new value';
-    }
-
-    public function testIterator()
-    {
-        $fields = array();
-        foreach($this->_doc AS $key => $field)
-        {
-            $fields[$key] = $field;
-        }
-
-        $this->assertEquals($this->_fields, $fields);
-    }
-
-    public function testCount()
-    {
-        $this->assertEquals(count($this->_fields), count($this->_doc));
-    }
-    
 }

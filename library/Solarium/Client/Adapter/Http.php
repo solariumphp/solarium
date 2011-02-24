@@ -116,9 +116,18 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
         if ($method == Solarium_Client_Request::POST) {
             $data = $request->getRawData();
             if (null !== $data) {
-                stream_context_set_option($context, 'http', 'content', $data);
-                stream_context_set_option($context, 'http', 'header',
-                    'Content-Type: text/xml; charset=UTF-8');
+                stream_context_set_option(
+                    $context,
+                    'http',
+                    'content',
+                    $data
+                );
+                stream_context_set_option(
+                    $context,
+                    'http',
+                    'header',
+                    'Content-Type: text/xml; charset=UTF-8'
+                );
             }
         }
 

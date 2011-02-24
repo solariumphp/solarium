@@ -49,6 +49,14 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         return new $class($options, $query);
     }
 
+    public function testGetMethod()
+    {
+        $this->assertEquals(
+            Solarium_Client_Request::HEAD,
+            $this->_getRequest($this->_options)->getMethod()
+        );
+    }
+
     public function testGetUri()
     {
         $this->assertEquals(
