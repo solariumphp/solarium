@@ -109,6 +109,16 @@ abstract class Solarium_Client_Request
     }
 
     /**
+     * TODO
+     *
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->_params;
+    }
+
+    /**
      * Build a URL for this request
      *
      * @return string
