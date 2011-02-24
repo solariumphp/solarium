@@ -36,7 +36,7 @@
  */
 
 /**
- * An adapter that uses a Zend_Http_Client for Solr request
+ * Adapter that uses a Zend_Http_Client
  *
  * The Zend Framework HTTP client has many great features and has lots of
  * configuration options. For more info see the manual at
@@ -56,8 +56,10 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
     protected $_zendHttp;
 
     /**
-     * Set options (overrides any existing values)
+     * Set options
      *
+     * Overrides any existing values.
+     * 
      * If the options array has an 'adapteroptions' entry it is forwarded to the
      * Zend_Http_Client. See the Zend_Http_Clientdocs for the many config
      * options available.

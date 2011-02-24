@@ -36,7 +36,16 @@
  */
 
 /**
+ * Base class for building Solr HTTP requests
  *
+ * Most {@link Solarium_Client_Adapter} implementations will use HTTP for
+ * communicating with Solr. While the HTTP part is adapter-specific, generating
+ * the HTTP request setting (url, postdata, etc.) is not.
+ * This abstract class is the base for several requestbuilders that generate the
+ * settings for the various querytypes.
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 abstract class Solarium_Client_Request
 {
@@ -48,30 +57,37 @@ abstract class Solarium_Client_Request
     const HEAD    = 'HEAD';
 
     /**
-     * TODO
+     * Query instance
+     *
+     * The query that has to be used for building the request.
      *
      * @var Solarium_Query
      */
     protected $_query;
 
     /**
-     * TODO
+     * Adapter options
+     *
+     * When the adapter class the {@link __construct()} method it forwards it's
+     * options. These options are needed for building the right uri.
      *
      * @var array
      */
     protected $_options;
 
     /**
-     * TODO
+     * HTTP GET params
+     *
+     * Used for building the uri in {@link buildUri()}
      * 
      * @var array
      */
     protected $_params;
 
     /**
-     * TODO
+     * Constructor
      *
-     * @param array|object $options
+     * @param array|object $options Passed on by the adapter
      * @param Solarium_Query $query
      */
     public function __construct($options, $query)
@@ -81,7 +97,7 @@ abstract class Solarium_Client_Request
     }
 
     /**
-     * TODO
+     * Get HTTP request method
      *
      * @return string
      */
@@ -91,16 +107,22 @@ abstract class Solarium_Client_Request
     }
 
     /**
-     * TODO
+     * Get request uri
+     *
+     * To be implemented by query specific request builders.
      *
      * @abstract
-     * @return void
+     * @return string
      */
     abstract public function getUri();
 
     /**
-     * TODO
-     * 
+     * Get raw POST data
+     *
+     * Returns null by default, disabling raw POST.
+     * If raw POST data is needed for a request the builder must override this
+     * method and return a data string. This string must be safely encoded.
+     *
      * @return null
      */
     public function getRawData()
@@ -109,7 +131,7 @@ abstract class Solarium_Client_Request
     }
 
     /**
-     * TODO
+     * Get request GET params
      *
      * @return array
      */
@@ -120,6 +142,12 @@ abstract class Solarium_Client_Request
 
     /**
      * Build a URL for this request
+     *
+     * Based on {@link $_options} and {@link $_params} as input.
+     *
+     * {@internal} Solr expects multiple GET params of the same name instead of
+     * the PHP array type notation. Therefore the result of http_build_query
+     * has to be altered.
      *
      * @return string
      */
@@ -150,6 +178,8 @@ abstract class Solarium_Client_Request
     /**
      * Render a boolean attribute
      *
+     * For use in building XML messages
+     *
      * @param string $name
      * @param boolean $value
      * @return string
@@ -167,6 +197,8 @@ abstract class Solarium_Client_Request
     /**
      * Render an attribute
      *
+     * For use in building XML messages
+     *
      * @param string $name
      * @param striung $value
      * @return string
@@ -182,6 +214,9 @@ abstract class Solarium_Client_Request
     
     /**
      * Render a param with localParams
+     *
+     * LocalParams can be use in various Solr GET params.
+     * {@link http://wiki.apache.org/solr/LocalParams}
      *
      * @param string $value
      * @param array $localParams in key => value format
@@ -207,7 +242,20 @@ abstract class Solarium_Client_Request
         return $value;
     }
 
-
+    /**
+     * Add a param to the request
+     *
+     * This method makes adding params easy in two ways:
+     * - empty params are filtered out, so you don't to manually check each
+     * param
+     * - if you add the same param twice it will be converted into a multivalue
+     * param automatically. This way you don't need to check for single or
+     * multiple values beforehand.
+     *
+     * @param string $name
+     * @param string $value
+     * @return void
+     */
     public function addParam($name, $value)
     {
         if (0 === strlen($value)) return;

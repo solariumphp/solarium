@@ -37,6 +37,22 @@
 
 /**
  * Base class for all adapters
+ *
+ * The goal of an adapter is to accept a query, execute it and return the right
+ * result object. This is actually quite a complex task as it involves the
+ * handling of all Solr communication.
+ *
+ * The adapter structure allows for varying implementations of this task.
+ *
+ * Most adapters will use some sort of HTTP client. In that case the
+ * Solarium_Client_Request request builders and Solarium_Client_Response
+ * response parsers can be used to simplify HTTP communication.
+ * See {@link Solarium_Client_Adapter_Http} as an example.
+ *
+ * However an adapter may also implement all logic by itself if needed.
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 abstract class Solarium_Client_Adapter extends Solarium_Configurable
 {
@@ -53,7 +69,9 @@ abstract class Solarium_Client_Adapter extends Solarium_Configurable
     );
 
     /**
-     * Set options (overrides any existing values)
+     * Set options
+     *
+     * Overrides any existing values
      *
      * @param array $options
      * @return void
@@ -64,6 +82,8 @@ abstract class Solarium_Client_Adapter extends Solarium_Configurable
     }
 
     /**
+     * Execute a select query
+     *
      * Abstract method to require an implementation inside all adapters.
      * If the adapter cannot support this method it should implement a method
      * that throws an exception.
@@ -75,6 +95,8 @@ abstract class Solarium_Client_Adapter extends Solarium_Configurable
     abstract public function select($query);
 
     /**
+     * Execute a ping query
+     *
      * Abstract method to require an implementation inside all adapters.
      * If the adapter cannot support this method it should implement a method
      * that throws an exception.
@@ -86,6 +108,8 @@ abstract class Solarium_Client_Adapter extends Solarium_Configurable
     abstract public function ping($query);
 
     /**
+     * Execute an update query
+     *
      * Abstract method to require an implementation inside all adapters.
      * If the adapter cannot support this method it should implement a method
      * that throws an exception.

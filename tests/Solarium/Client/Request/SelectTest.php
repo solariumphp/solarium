@@ -46,6 +46,15 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         $this->_query = new Solarium_Query_Select;
     }
 
+    public function testGetMethod()
+    {
+        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $this->assertEquals(
+            Solarium_Client_Request::GET,
+            $request->getMethod()
+        );
+    }
+
     public function testSelectUrlWithDefaultValues()
     {
         $request = new Solarium_Client_Request_Select($this->_options, $this->_query);

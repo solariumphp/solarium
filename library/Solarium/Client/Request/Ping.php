@@ -36,16 +36,34 @@
  */
 
 /**
- * Builds ping request, for use in adapters.
+ * Build a ping request
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 class Solarium_Client_Request_Ping extends Solarium_Client_Request
 {
 
+    /**
+     * Get uri
+     *
+     * Uses the default {@link buildUri()} method, no special uri needed in this
+     * case.
+     *
+     * @return string
+     */
     public function getUri()
     {
         return $this->buildUri();
     }
 
+    /**
+     * Get HTTP request method
+     *
+     * Ping has no useful result data, so a more optimal HEAD request is used.
+     *
+     * @return string
+     */
     public function getMethod()
     {
         return self::HEAD;

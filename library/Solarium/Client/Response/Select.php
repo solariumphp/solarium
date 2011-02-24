@@ -36,14 +36,36 @@
  */
 
 /**
- * Handles Solr select response, for use in adapters.
+ * Parse select response data
+ *
+ * Will create a result object based on response data of the type
+ * {@Solarium_Result_Select} (or your own resultclass setting)
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 class Solarium_Client_Response_Select extends Solarium_Client_Response
 {
+
+    /**
+     * Facet results
+     *
+     * Filled by the _addFacet* methods (for instance {@_addFacetField()})
+     *
+     * @var array
+     */
     protected $_facets = array();
 
+    /**
+     * Get a result instance for the response
+     *
+     * When this method is called the actual response parsing is done.
+     *
+     * @return mixed
+     */
     public function getResult()
     {
+        // create document instances
         $documentClass = $this->_query->getOption('documentclass');
         $documents = array();
         if (isset($this->_data['response']['docs'])) {
@@ -53,6 +75,7 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
             }
         }
 
+        // create facet results
         foreach ($this->_query->getFacets() AS $facet) {
             switch ($facet->getType()) {
                 case Solarium_Query_Select_Facet::FIELD:
@@ -66,16 +89,24 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
             }
         }
 
+        // add general data
         $status = $this->_data['responseHeader']['status'];
         $queryTime = $this->_data['responseHeader']['QTime'];
         $numFound = $this->_data['response']['numFound'];
 
+        // create the result instance that combines all data
         $resultClass = $this->_query->getOption('resultclass');
         return new $resultClass(
             $status, $queryTime, $numFound, $documents, $this->_facets
         );
     }
 
+    /**
+     * Add a facet result for a field facet
+     *
+     * @param mixed $facet
+     * @return void
+     */
     protected function _addFacetField($facet)
     {
         $key = $facet->getKey();
@@ -96,6 +127,12 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
         }
     }
 
+    /**
+     * Add a facet result for a field query
+     *
+     * @param mixed $facet
+     * @return void
+     */
     protected function _addFacetQuery($facet)
     {
         $key = $facet->getKey();

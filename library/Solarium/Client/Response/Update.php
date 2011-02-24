@@ -36,11 +36,24 @@
  */
 
 /**
- * Handles Solr select response, for use in adapters.
+ * Parse update response data
+ *
+ * Will create a result object based on response data of the type
+ * {@Solarium_Result_Update} (or your own resultclass setting)
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 class Solarium_Client_Response_Update extends Solarium_Client_Response
 {
 
+    /**
+     * Get a result instance for the response
+     *
+     * When this method is called the actual response parsing is done.
+     *
+     * @return mixed
+     */
     public function getResult()
     {
         $resultClass = $this->_query->getOption('resultclass');

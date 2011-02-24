@@ -36,21 +36,63 @@
  */
 
 /**
- * Handles Solr response, for use in adapters.
+ * Base class for handling Solr HTTP responses
+ *
+ * Most {@link Solarium_Client_Adapter} implementations will use HTTP for
+ * communicating with Solr. While the HTTP part is adapter-specific, the parsing
+ * of the response into Solarium_Result classes is not. This abstract class is
+ * the base for several response handlers that do just that for the various
+ * querytypes.
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 abstract class Solarium_Client_Response
 {
-    
+
+    /**
+     * Query instance
+     *
+     * The query that was used for executing a request that led to this
+     * response. The query holds important settings for generating the right
+     * result, like the resultclass and documentclass settings.
+     *
+     * @var Solarium_Query
+     */
     protected $_query;
 
+    /**
+     * Response data
+     *
+     * A (json)decoded HTTP response body data array.
+     *
+     * @var array
+     */
     protected $_data;
 
+    /**
+     * Constructor
+     *
+     * @param Solarium_Query $query Query instance that was used for the request
+     * @param array $data Decoded data array of the HTTP response
+     */
     public function __construct($query, $data = null)
     {
         $this->_query = $query;
         $this->_data = $data;
     }
 
+    /**
+     * Get a Solarium_Result instance for the response
+     *
+     * When this method is called the actual response parsing is started.
+     *
+     * @internal Must be implemented in descendents because this parsing is
+     *  query specific.
+     *
+     * @abstract
+     * @return mixed
+     */
     abstract function getResult();
 
 }

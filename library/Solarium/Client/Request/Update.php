@@ -36,14 +36,19 @@
  */
 
 /**
- * Builds XML messages from update queries, for use in adapters.
+ * Build an update request
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 class Solarium_Client_Request_Update extends Solarium_Client_Request
 {
 
     /**
-     * TODO
-     * 
+     * Get HTTP request method
+     *
+     * Update uses raw POST data so a POST method has to be used.
+     *
      * @return string
      */
     public function getMethod()
@@ -52,7 +57,11 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
     }
 
     /**
-     * TODO
+     * Get uri
+     *
+     * Return the default url with the addition of the wt param.
+     * This enables a JSON response, that is the easiest and most efficient
+     * format to decode in the response handler.
      *
      * @return string
      */
@@ -63,7 +72,9 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
     }
 
     /**
-     * TODO
+     * Generates raw POST data
+     *
+     * Each commandtype is delegated to a separate builder method.
      *
      * @throws Solarium_Exception
      * @return string
@@ -99,6 +110,8 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
     }
 
     /**
+     * Build XML for an add command
+     *
      * @param Solarium_Query_Update_Command_Add $command
      * @return string
      */
@@ -130,6 +143,8 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
     }
 
     /**
+     * Build XML for a delete command
+     *
      * @param Solarium_Query_Update_Command_Delete $command
      * @return string
      */
@@ -150,6 +165,8 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
     }
 
     /**
+     * Build XML for an update command
+     *
      * @param Solarium_Query_Update_Command_Optimize $command
      * @return string
      */
@@ -165,6 +182,8 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
     }
 
     /**
+     * Build XML for a commit command
+     *
      * @param Solarium_Query_Update_Command_Commit $command
      * @return string
      */
@@ -183,6 +202,8 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
     }
 
     /**
+     * Build XMl for a rollback command
+     * 
      * @return string
      */
     public function buildRollbackXml()

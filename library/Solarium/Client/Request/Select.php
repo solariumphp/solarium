@@ -36,11 +36,22 @@
  */
 
 /**
- * Builds select request, for use in adapters.
+ * Build a select request
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 class Solarium_Client_Request_Select extends Solarium_Client_Request
 {
 
+    /**
+     * Get uri
+     *
+     * Builds a complex uri based on the query settings
+     *
+     * @throws Solarium_Exception
+     * @return string
+     */
     public function getUri()
     {
         $this->_params = array(
@@ -94,6 +105,12 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
         return $this->buildUri();
     }
 
+    /**
+     * Add params for a field facet to request
+     *
+     * @param mixed $facet
+     * @return void
+     */
     public function addFacetField($facet)
     {
         $field = $facet->getField();
@@ -115,6 +132,12 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
         $this->addParam("f.$field.facet.method", $facet->getMethod());
     }
 
+    /**
+     * Add params for a field query to request
+     *
+     * @param mixed $facet
+     * @return void
+     */
     public function addFacetQuery($facet)
     {
         $this->addParam(

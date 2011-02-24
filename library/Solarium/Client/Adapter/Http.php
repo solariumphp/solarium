@@ -36,7 +36,10 @@
  */
 
 /**
- * A very basic adapter using file_get_contents for retrieving data from Solr
+ * Basic HTTP adapter using a stream
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
 {
@@ -96,7 +99,6 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
     /**
      * Handle Solr communication
      *
-     * @todo implement timeout
      * @todo check http response code
      *
      * @throws Solarium_Exception
@@ -146,13 +148,12 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
         }
     }
 
-
     /**
-     * TODO
+     * Decode json response data
      * 
      * @throws Solarium_Exception
-     * @param  $data
-     * @return mixed
+     * @param string $data
+     * @return string
      */
     protected function _jsonDecode($data)
     {
