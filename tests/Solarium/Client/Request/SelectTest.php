@@ -57,7 +57,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json',
-            urldecode($request->getUrl())
+            urldecode($request->getUri())
         );
     }
 
@@ -74,7 +74,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc',
-            urldecode($request->getUrl())
+            urldecode($request->getUri())
         );
     }
 
@@ -93,7 +93,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc&fq=published:true&fq={!tag=t1,t2}category:23',
-            urldecode($request->getUrl())
+            urldecode($request->getUri())
         );
     }
 
@@ -110,7 +110,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.field={!key=f1}owner&facet.query={!key=f2}category:23',
-            urldecode($request->getUrl())
+            urldecode($request->getUri())
         );
     }
 
