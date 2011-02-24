@@ -39,7 +39,7 @@
  * Select query result
  */
 class Solarium_Result_Select extends Solarium_Result_Query
-    implements Iterator, Countable
+    implements IteratorAggregate
 {
 
     /**
@@ -139,62 +139,13 @@ class Solarium_Result_Select extends Solarium_Result_Query
     }
 
     /**
-     * Count method for Countable interface
+     * IteratorAggregate implementation
      *
-     * @return int
+     * @return ArrayIterator
      */
-    public function count()
+    public function getIterator()
     {
-        return count($this->_documents);
+        return new ArrayIterator($this->_documents);
     }
 
-    /**
-     * Iterator implementation
-     *
-     * @return void
-     */
-    public function rewind()
-    {
-        $this->_position = 0;
-    }
-
-    /**
-     * Iterator implementation
-     *
-     * @return Solarium_Result_Select_Document
-     */
-    function current()
-    {
-        return $this->_documents[$this->_position];
-    }
-
-    /**
-     * Iterator implementation
-     *
-     * @return integer
-     */
-    public function key()
-    {
-        return $this->_position;
-    }
-
-    /**
-     * Iterator implementation
-     *
-     * @return void
-     */
-    public function next()
-    {
-        ++$this->_position;
-    }
-
-    /**
-     * Iterator implementation
-     *
-     * @return boolean
-     */
-    public function valid()
-    {
-        return isset($this->_documents[$this->_position]);
-    }
 }

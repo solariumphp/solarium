@@ -38,7 +38,7 @@
 /**
  * Select query facet result
  */
-class Solarium_Result_Select_Facet_Field implements Iterator, Countable
+class Solarium_Result_Select_Facet_Field implements IteratorAggregate
 {
 
     /**
@@ -70,63 +70,12 @@ class Solarium_Result_Select_Facet_Field implements Iterator, Countable
     }
     
     /**
-     * Count method for Countable interface
+     * IteratorAggregate implementation
      *
-     * @return int
+     * @return ArrayIterator
      */
-    public function count()
+    public function getIterator()
     {
-        return count($this->_values);
+        return new ArrayIterator($this->_documents);
     }
-
-    /**
-     * Iterator implementation
-     *
-     * @return void
-     */
-    public function rewind()
-    {
-        reset($this->_values);
-    }
-
-    /**
-     * Iterator implementation
-     *
-     * @return Solarium_Result_Select_Document
-     */
-    function current()
-    {
-        return current($this->_values);
-    }
-
-    /**
-     * Iterator implementation
-     *
-     * @return integer
-     */
-    public function key()
-    {
-        return key($this->_values);
-    }
-
-    /**
-     * Iterator implementation
-     *
-     * @return void
-     */
-    public function next()
-    {
-        next($this->_values);
-    }
-
-    /**
-     * Iterator implementation
-     *
-     * @return boolean
-     */
-    public function valid()
-    {
-        return (current($this->_values) !== false);
-    }
-    
 }

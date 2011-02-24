@@ -38,26 +38,74 @@
 /**
  *
  */
-class Solarium_Client_Request
+abstract class Solarium_Client_Request
 {
+    /**
+     * Http request methods
+     */
+    const GET     = 'GET';
+    const POST    = 'POST';
+    const HEAD    = 'HEAD';
 
-    protected $_postData = null;
+    /**
+     * TODO
+     *
+     * @var Solarium_Query
+     */
+    protected $_query;
 
-    protected $_params = array();
-
+    /**
+     * TODO
+     *
+     * @var array
+     */
     protected $_options;
 
+    /**
+     * TODO
+     * 
+     * @var array
+     */
+    protected $_params;
+
+    /**
+     * TODO
+     *
+     * @param array|object $options
+     * @param Solarium_Query $query
+     */
     public function __construct($options, $query)
     {
         $this->_options = $options;
         $this->_query = $query;
-
-        $this->_init();
     }
 
-    protected function _init()
+    /**
+     * TODO
+     *
+     * @return string
+     */
+    public function getMethod()
     {
-        
+        return self::GET;
+    }
+
+    /**
+     * TODO
+     *
+     * @abstract
+     * @return void
+     */
+    abstract public function getUri();
+
+    /**
+     * TODO
+     * 
+     * @return null
+     */
+    public function getRawData()
+    {
+        return null;
     }
 
     /**
@@ -65,7 +113,7 @@ class Solarium_Client_Request
      *
      * @return string
      */
-    public function getUrl()
+    public function buildUri()
     {
         $queryString = '';
         if (count($this->_params) > 0) {
@@ -87,11 +135,6 @@ class Solarium_Client_Request
                . $this->_options['port'] . $this->_options['path']
                . $core . $this->_query->getOption('path') . '?'
                . $queryString;
-    }
-
-    public function getPostData()
-    {
-        return $this->_postData;
     }
 
     /**
@@ -154,10 +197,6 @@ class Solarium_Client_Request
         return $value;
     }
 
-    public function getParams()
-    {
-        return $this->_params;
-    }
 
     public function addParam($name, $value)
     {

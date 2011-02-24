@@ -36,7 +36,10 @@
  */
 
 /**
- * Base class for all queries
+ * Base class for all query types, not intended for direct usage
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query extends Solarium_Configurable
 {
@@ -65,6 +68,13 @@ class Solarium_Query extends Solarium_Configurable
     /**
      * Set resultclass option
      *
+     * If you set a custom result class it must be available through autoloading
+     * or a manual require before calling this method. This is your
+     * responsibility.
+     *
+     * Also you need to make sure it extends the orginal result class of the
+     * query or has an identical API.
+     *
      * @param string $classname
      * @return Solarium_Query Provides fluent interface
      */
@@ -85,6 +95,15 @@ class Solarium_Query extends Solarium_Configurable
     
     /**
      * Escape special Solr characters in a value
+     *
+     * This can be used for building Solr query strings. Any (user) input for
+     * the query can be passed to this function to prevent any issues with
+     * special characters.
+     *
+     * Do mind that you cannot build a complete query first and then pass it to
+     * this method, the whole query will be escaped. You need to escape only the
+     * 'content' of your query.
+     *
      * @param string $string
      * @return string
      */

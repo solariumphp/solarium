@@ -38,7 +38,7 @@
  * Solarium specific exception
  *
  * All exceptions thrown by Solarium are of this type. This way you can easily
- * catch Solarium exception and keep them separate from your own exceptions.
+ * catch Solarium exceptions and keep them separate from your own exceptions.
  *
  * @package Solarium
  */

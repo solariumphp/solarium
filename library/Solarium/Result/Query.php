@@ -37,6 +37,9 @@
 
 /**
  * Query result
+ *
+ * @package Solarium
+ * @subpackage Result
  */
 class Solarium_Result_Query
 {

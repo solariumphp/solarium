@@ -34,7 +34,7 @@ class Solarium_Client_ResponseTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $query = new Solarium_Query_Ping;
+        $query = new Solarium_Query_Update;
         $data = array('response' => null);
         $response = new MyTestResponse($query, $data);
 

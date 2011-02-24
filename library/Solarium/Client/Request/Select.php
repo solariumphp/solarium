@@ -41,7 +41,7 @@
 class Solarium_Client_Request_Select extends Solarium_Client_Request
 {
 
-    public function _init()
+    public function getUri()
     {
         $this->_params = array(
             'q'     => $this->_query->getQuery(),
@@ -90,6 +90,8 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                 }
             }
         }
+
+        return $this->buildUri();
     }
 
     public function addFacetField($facet)

@@ -38,7 +38,7 @@
 /**
  * Solr query result read-only document
  */
-class Solarium_Document_ReadOnly
+class Solarium_Document_ReadOnly implements IteratorAggregate
 {
 
     /**
@@ -99,6 +99,16 @@ class Solarium_Document_ReadOnly
     public function __set($name, $value)
     {
         throw new Solarium_Exception('A readonly document cannot be altered');
+    }
+
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_fields);
     }
 
 }

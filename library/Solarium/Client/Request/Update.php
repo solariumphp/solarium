@@ -42,13 +42,34 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
 {
 
     /**
-     * @throws Solarium_Exception
-     * @return void
+     * TODO
+     * 
+     * @return string
      */
-    public function _init()
+    public function getMethod()
+    {
+        return self::POST;
+    }
+
+    /**
+     * TODO
+     *
+     * @return string
+     */
+    public function getUri()
     {
         $this->_params = array('wt' => 'json');
+        return $this->buildUri();
+    }
 
+    /**
+     * TODO
+     *
+     * @throws Solarium_Exception
+     * @return string
+     */
+    public function getRawData()
+    {
         $xml = '<update>';
         foreach ($this->_query->getCommands() AS $command) {
             switch ($command->getType()) {
@@ -73,8 +94,8 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
             }
         }
         $xml .= '</update>';
-        
-        $this->_postData = $xml;
+
+        return $xml;
     }
 
     /**

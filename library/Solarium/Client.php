@@ -68,7 +68,7 @@ class Solarium_Client extends Solarium_Configurable
         'port'    => 8983,
         'path'    => '/solr',
         'core'    => null,
-        'adapter' => 'Solarium_Client_Adapter_Stream',
+        'adapter' => 'Solarium_Client_Adapter_Http',
     );
 
     /**
@@ -289,14 +289,13 @@ class Solarium_Client extends Solarium_Configurable
      * </code>
      *
      * @see Solarium_Query_Ping
-     * @see Solarium_Result_Ping
      *
-     * @internal This is a convenience method that forwards the query to the adapter and
-     *  returns the adapter result, thus allowing for an easy to use and clean
-     *  API.
+     * @internal This is a convenience method that forwards the query to the
+     *  adapter and returns the adapter result, thus allowing for an easy to use
+     *  and clean API.
      *
      * @param Solarium_Query_Ping $query
-     * @return Solarium_Result_Ping
+     * @return boolean
      */
     public function ping($query)
     {
@@ -317,9 +316,9 @@ class Solarium_Client extends Solarium_Configurable
      * @see Solarium_Query_Update
      * @see Solarium_Result_Update
      *
-     * @internal This is a convenience method that forwards the query to the adapter and
-     *  returns the adapter result, thus allowing for an easy to use and clean
-     *  API.
+     * @internal This is a convenience method that forwards the query to the
+     *  adapter and returns the adapter result, thus allowing for an easy to use
+     *  and clean API.
      *
      * @param Solarium_Query_Update $query
      * @return Solarium_Result_Update
@@ -342,9 +341,9 @@ class Solarium_Client extends Solarium_Configurable
      * @see Solarium_Query_Select
      * @see Solarium_Result_Select
      *
-     * @internal This is a convenience method that forwards the query to the adapter and
-     *  returns the adapter result, thus allowing for an easy to use and clean
-     *  API.
+     * @internal This is a convenience method that forwards the query to the
+     *  adapter and returns the adapter result, thus allowing for an easy to use
+     *  and clean API.
      *
      * @param Solarium_Query_Select $query
      * @return Solarium_Result_Select

@@ -101,7 +101,7 @@ class Solarium_Version
      */
     static public function checkExact($version)
     {
-        return (substr(self::VERSION,0,strlen($version)) == $version);
+        return (substr(self::VERSION, 0, strlen($version)) == $version);
     }
 
 

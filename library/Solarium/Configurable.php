@@ -57,12 +57,8 @@ class Solarium_Configurable
     /**
      * Constructor
      *
-     * If options are passed they will be merged with {@link $_options}, with
-     * new values overwriting any existing (default) values.
-     *
-     * If $options is an object it will be converted into an array by called
-     * it's toArray method. This is compatible with the Zend_Config classes in
-     * Zend Framework, but can also easily be implemented in any other object.
+     * If options are passed they will be merged with {@link $_options} using
+     * the {@link _setOptions()} method.
      *
      * After handling the options the {@link _init()} method is called.
      *
@@ -71,6 +67,27 @@ class Solarium_Configurable
      * @return void
      */
     public function __construct($options = null)
+    {
+        $this->_setOptions($options);
+
+        $this->_init();
+    }
+
+    /**
+     * Set options
+     *
+     * If $options is an object it will be converted into an array by called
+     * it's toArray method. This is compatible with the Zend_Config classes in
+     * Zend Framework, but can also easily be implemented in any other object.
+     *
+     * @throws Solarium_Exception
+     * @param array|Zend_Config $options
+     * @param boolean $overwrite True for overwriting existing options, false
+     *  for merging (new values overwrite old ones if needed)
+     * 
+     * @return void
+     */
+    protected function _setOptions($options, $overwrite = false)
     {
         if (null !== $options) {
             // first convert to array if needed
@@ -83,11 +100,12 @@ class Solarium_Configurable
                 }
             }
 
-            $this->_options = array_merge($this->_options, $options);
+            if (true == $overwrite) {
+                $this->_options = $options;
+            } else {
+                $this->_options = array_merge($this->_options, $options);
+            }
         }
-
-
-        $this->_init();
     }
 
     /**

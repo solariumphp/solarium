@@ -38,20 +38,28 @@
 /**
  * A very basic adapter using file_get_contents for retrieving data from Solr
  */
-class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
+class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
 {
 
     /**
-     * Execute a select query and return a result object
+     * Default options
+     *
+     * @var array
+     */
+    protected $_options = array(
+        'timeout' => 5,
+    );
+
+    /**
+     * Executes a select query
      *
      * @param Solarium_Query_Select $query
      * @return Solarium_Result_Select
      */
     public function select($query)
     {
-        $data = $this->_getSolrData(
-            new Solarium_Client_Request_Select($this->_options, $query)
-        );
+        $request = new Solarium_Client_Request_Select($this->_options, $query);
+        $data = $this->_handleRequest($request);
 
         $response = new Solarium_Client_Response_Select($query, $data);
         return $response->getResult();
@@ -59,102 +67,93 @@ class Solarium_Client_Adapter_Stream extends Solarium_Client_Adapter
     }
 
     /**
-     * Execute a ping query and return a result object
+     * Executes a ping query
      *
      * @param Solarium_Query_Ping $query
-     * @return Solarium_Result_Ping
+     * @return boolean
      */
     public function ping($query)
     {
-        $data = $this->_getSolrData(
-            new Solarium_Client_Request($this->_options, $query),
-            'xml'
-        );
-
-        $response = new Solarium_Client_Response_Ping($query, $data);
-        return $response->getResult();
+        $request = new Solarium_Client_Request_Ping($this->_options, $query);
+        return (boolean)$this->_handleRequest($request);
     }
 
     /**
-     * Execute an update query and return a result object
+     * Executes an update query
      *
      * @param Solarium_Query_Update $query
      * @return Solarium_Result_Update
      */
     public function update($query)
     {
-        $data = $this->_getSolrData(
-            new Solarium_Client_Request_Update($this->_options, $query)
-        );
+        $request = new Solarium_Client_Request_Update($this->_options, $query);
+        $data = $this->_handleRequest($request);
 
         $response = new Solarium_Client_Response_Update($query, $data);
         return $response->getResult();
     }
 
     /**
-     * Handle Solr communication and JSON decode
+     * Handle Solr communication
+     *
+     * @todo implement timeout
+     * @todo check http response code
      *
      * @throws Solarium_Exception
      * @param Solarium_Client_Request
      * @return array
      */
-    protected function _getSolrData($request, $mode = 'json')
+    protected function _handleRequest($request)
     {
-        if (null !== $request && null !== $request->getPostData()) {
-            $context = stream_context_create(
-                array(
-                    'http' => array(
-                        'method' => 'POST',
-                        'content' => $request->getPostData(),
-                        'header' => 'Content-Type: text/xml; charset=UTF-8',
-                    ),
-                )
-            );
-        } else {
-            $context = null;
-        }
-        
-        $data = @file_get_contents($request->getUrl(), false, $context);
-        if (false === $data) {
-            $error = error_get_last();
-            throw new Solarium_Exception($error['message']);
+        $method = $request->getMethod();
+        $context = stream_context_create(
+            array('http' => array(
+                'method' => $method,
+                'timeout' => $this->getOption('timeout')
+            ))
+        );
+
+        if ($method == Solarium_Client_Request::POST) {
+            $data = $request->getRawData();
+            if (null !== $data) {
+                stream_context_set_option($context, 'http', 'content', $data);
+                stream_context_set_option($context, 'http', 'header',
+                    'Content-Type: text/xml; charset=UTF-8');
+            }
         }
 
-        if ($mode == 'json') {
-            $data = json_decode($data, true);
-            if (null === $data) {
-                throw new Solarium_Exception(
-                    'Solr JSON response could not be decoded');
-            }
-        } else if ($mode == 'xml') {
-            $data = $this->simplexmlToArray(simplexml_load_string($data));
+        $data = @file_get_contents($request->getUri(), false, $context);
+
+        if ($method == Solarium_Client_Request::HEAD) {
+            // HEAD request has no result data
+            return true;
         } else {
-            throw new Solarium_Exception('Unknown Solr client data mode');
+            if (false === $data) {
+                $error = error_get_last();
+                throw new Solarium_Exception($error['message']);
+            }
+
+            return $this->_jsonDecode($data);
+        }
+    }
+
+
+    /**
+     * TODO
+     * 
+     * @throws Solarium_Exception
+     * @param  $data
+     * @return mixed
+     */
+    protected function _jsonDecode($data)
+    {
+        $data = json_decode($data, true);
+        if (null === $data) {
+            throw new Solarium_Exception(
+                'Solr JSON response could not be decoded'
+            );
         }
 
         return $data;
     }
-
-    
-    function simplexmlToArray($xml)
-    {
-        if (get_class($xml) == 'SimpleXMLElement') {
-            $attributes = $xml->attributes();
-            foreach ($attributes as $k=>$v) {
-                if ($v) $a[$k] = (string) $v;
-            }
-            $x = $xml;
-            $xml = get_object_vars($xml);
-        }
-        if (is_array($xml)) {
-            if (count($xml) == 0) return (string) $x; // for CDATA
-            foreach ($xml as $key=>$value) {
-                $r[$key] = $this->simplexmlToArray($value);
-            }
-            if (isset($a)) $r['@attributes'] = $a;    // Attributes
-            return $r;
-        }
-        return (string) $xml;
-    }
-
 }

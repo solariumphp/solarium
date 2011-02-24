@@ -56,7 +56,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     protected $_fieldBoosts;
 
     /**
-     * Constructor.
+     * Constructor
      *
      * @param array $fields
      */

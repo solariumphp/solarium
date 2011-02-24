@@ -41,6 +41,17 @@
 abstract class Solarium_Client_Adapter extends Solarium_Configurable
 {
 
+     /**
+     * Default options
+     *
+     * @var array
+     */
+    protected $_options = array(
+        'adapteroptions' => array(
+            'timeout' => 5
+        ),
+    );
+
     /**
      * Set options (overrides any existing values)
      *
@@ -49,7 +60,7 @@ abstract class Solarium_Client_Adapter extends Solarium_Configurable
      */
     public function setOptions($options)
     {
-        $this->_options = $options;
+        $this->_setOptions($options, true);
     }
 
     /**
@@ -70,7 +81,7 @@ abstract class Solarium_Client_Adapter extends Solarium_Configurable
      *
      * @abstract
      * @param Solarium_Query_Ping $query
-     * @return Solarium_Result_Ping
+     * @return boolean
      */
     abstract public function ping($query);
 

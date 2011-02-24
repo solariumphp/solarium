@@ -49,22 +49,22 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         return new $class($options, $query);
     }
 
-    public function testGetUrl()
+    public function testGetUri()
     {
         $this->assertEquals(
             'http://127.0.0.1:80/solr/mypath?',
-            $this->_getRequest($this->_options)->getUrl()
+            $this->_getRequest($this->_options)->getUri()
         );
     }
 
-    public function testGetUrlWithCore()
+    public function testGetUriWithCore()
     {
         $options = $this->_options;
         $options['core'] = 'core0';
 
         $this->assertEquals(
             'http://127.0.0.1:80/solr/core0/mypath?',
-            $this->_getRequest($options)->getUrl()
+            $this->_getRequest($options)->getUri()
         );
     }
 
@@ -100,19 +100,19 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetUrlWithParams()
+    public function testGetUriWithParams()
     {
         $this->assertEquals(
             'http://127.0.0.1:80/solr/mypath?wt=json&fq=category%3A1&fq=published%3Atrue',
-            $this->_getRequest($this->_options, 'TestRequest')->getUrl()
+            $this->_getRequest($this->_options, 'TestRequest')->getUri()
         );
     }
 
-    public function testGetPostData()
+    public function testGetRawData()
     {
         $this->assertEquals(
             '<data>xyz</data>',
-            $this->_getRequest($this->_options, 'TestRequest')->getPostdata()
+            $this->_getRequest($this->_options, 'TestRequest')->getRawData()
         );
     }
 
@@ -173,6 +173,11 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
 
 class TestRequest extends Solarium_Client_Request
 {
+    public function getUri()
+    {
+        return $this->buildUri();
+    }
+
     protected function _init()
     {
         $this->_postData = '<data>xyz</data>';

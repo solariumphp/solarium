@@ -97,11 +97,11 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $options = $client->getOptions();
 
         // initialising at adapter creation
-        $observer = $this->getMock('Solarium_Client_Adapter_Stream', array('setOptions'));
+        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('setOptions'));
         $observer->expects($this->once())
                  ->method('setOptions')
                  ->with($this->equalTo($options));
-        $client->setAdapter($observer)->getAdapter();
+        $client->setAdapter($observer);
     }
 
     public function testOptionForwardingToAdapterAfterChange()
@@ -112,7 +112,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $options = $client->getOptions();
         $options['host'] = $newHostValue;
 
-        $observer = $this->getMock('Solarium_Client_Adapter_Stream', array('setOptions'));
+        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('setOptions'));
         $observer->expects($this->at(1))
                  ->method('setOptions')
                  ->with($this->equalTo($options));
@@ -127,7 +127,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $query = new Solarium_Query_Select;
 
         // initialising at adapter creation
-        $observer = $this->getMock('Solarium_Client_Adapter_Stream', array('select'));
+        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('select'));
         $observer->expects($this->once())
                  ->method('select')
                  ->with($this->equalTo($query));
@@ -142,7 +142,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $query = new Solarium_Query_Ping;
 
         // initialising at adapter creation
-        $observer = $this->getMock('Solarium_Client_Adapter_Stream', array('ping'));
+        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('ping'));
         $observer->expects($this->once())
                  ->method('ping')
                  ->with($this->equalTo($query));
@@ -157,7 +157,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $query = new Solarium_Query_Update;
 
         // initialising at adapter creation
-        $observer = $this->getMock('Solarium_Client_Adapter_Stream', array('update'));
+        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('update'));
         $observer->expects($this->once())
                  ->method('update')
                  ->with($this->equalTo($query));
@@ -168,7 +168,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
     
 }
 
-class MyAdapter extends Solarium_Client_Adapter_Stream{
+class MyAdapter extends Solarium_Client_Adapter_Http{
 
     public function select($query)
     {

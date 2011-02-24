@@ -40,6 +40,7 @@
  */
 abstract class Solarium_Client_Response
 {
+    
     protected $_query;
 
     protected $_data;

@@ -36,19 +36,18 @@
  */
 
 /**
- * Handles Solr ping response, for use in adapters.
+ * Builds ping request, for use in adapters.
  */
-class Solarium_Client_Response_Ping extends Solarium_Client_Response
+class Solarium_Client_Request_Ping extends Solarium_Client_Request
 {
 
-    public function getResult()
+    public function getUri()
     {
-        $resultClass = $this->_query->getOption('resultclass');
-
-        return new $resultClass(
-            $this->_data['ping']['status'],
-            0
-        );
+        return $this->buildUri();
     }
 
+    public function getMethod()
+    {
+        return self::HEAD;
+    }
 }
