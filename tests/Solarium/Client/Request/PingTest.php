@@ -48,17 +48,19 @@ class Solarium_Client_Request_PingTest extends PHPUnit_Framework_TestCase
 
     public function testGetMethod()
     {
+        $request = new Solarium_Client_Request_Ping($this->_options, $this->_query);
         $this->assertEquals(
             Solarium_Client_Request::HEAD,
-            $this->_getRequest($this->_options)->getMethod()
+            $request->getMethod()
         );
     }
 
     public function testGetUri()
     {
+        $request = new Solarium_Client_Request_Ping($this->_options, $this->_query);
         $this->assertEquals(
             'http://127.0.0.1:80/solr/admin/ping?',
-            $this->_getRequest($this->_options)->getUri()
+            $request->getUri()
         );
     }
 
