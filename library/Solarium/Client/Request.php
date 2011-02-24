@@ -145,9 +145,9 @@ abstract class Solarium_Client_Request
      *
      * Based on {@link $_options} and {@link $_params} as input.
      *
-     * {@internal} Solr expects multiple GET params of the same name instead of
-     * the PHP array type notation. Therefore the result of http_build_query
-     * has to be altered.
+     * @internal Solr expects multiple GET params of the same name instead of
+     *  the PHP array type notation. Therefore the result of http_build_query
+     *  has to be altered.
      *
      * @return string
      */
@@ -216,7 +216,7 @@ abstract class Solarium_Client_Request
      * Render a param with localParams
      *
      * LocalParams can be use in various Solr GET params.
-     * {@link http://wiki.apache.org/solr/LocalParams}
+     * @link http://wiki.apache.org/solr/LocalParams
      *
      * @param string $value
      * @param array $localParams in key => value format
