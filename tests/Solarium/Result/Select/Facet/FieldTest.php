@@ -51,7 +51,7 @@ class Solarium_Result_Select_Facet_FieldTest extends PHPUnit_Framework_TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->_values), $this->_facet->count());
+        $this->assertEquals(count($this->_values), count($this->_facet));
     }
 
     public function testIterator()

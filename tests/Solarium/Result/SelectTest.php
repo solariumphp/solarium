@@ -77,7 +77,7 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
 
     public function testCount()
     {
-        $this->assertEquals(3, $this->_result->count());
+        $this->assertEquals(3, count($this->_result));
     }
 
     public function testIterator()
