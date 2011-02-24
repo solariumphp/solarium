@@ -39,7 +39,7 @@
  * Select query result
  */
 class Solarium_Result_Select extends Solarium_Result_Query
-    implements IteratorAggregate
+    implements IteratorAggregate, Countable
 {
 
     /**
@@ -148,4 +148,13 @@ class Solarium_Result_Select extends Solarium_Result_Query
         return new ArrayIterator($this->_documents);
     }
 
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_documents);
+    }
 }

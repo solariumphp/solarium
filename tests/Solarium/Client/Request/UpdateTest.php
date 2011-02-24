@@ -302,7 +302,8 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $query->add('invalidcommand',new InvalidCommand);
 
         $this->setExpectedException('Solarium_Exception');
-        new Solarium_Client_Request_Update($this->_options, $query);
+        $request = new Solarium_Client_Request_Update($this->_options, $query);
+        $request->getRawData();
     }
 }
 

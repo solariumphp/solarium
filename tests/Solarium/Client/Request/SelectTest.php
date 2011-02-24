@@ -118,7 +118,8 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
     {
         $this->_query->addFacet(new UnknownFacet(array('key' => 'f1', 'field' => 'owner')));
         $this->setExpectedException('Solarium_Exception');
-        new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $request->getUri();
     }
 }
 

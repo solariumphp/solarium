@@ -38,7 +38,7 @@
 /**
  * Solr query result read-only document
  */
-class Solarium_Document_ReadOnly implements IteratorAggregate
+class Solarium_Document_ReadOnly implements IteratorAggregate, Countable
 {
 
     /**
@@ -109,6 +109,16 @@ class Solarium_Document_ReadOnly implements IteratorAggregate
     public function getIterator()
     {
         return new ArrayIterator($this->_fields);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_fields);
     }
 
 }
