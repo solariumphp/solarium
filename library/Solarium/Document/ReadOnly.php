@@ -36,7 +36,13 @@
  */
 
 /**
- * Solr query result read-only document
+ * Read-only Solr document
+ *
+ * This is the default Solr document type returned by a select query. You can
+ * access the fields as object properties or iterate over all fields.
+ *
+ * @package Solarium
+ * @subpackage Document
  */
 class Solarium_Document_ReadOnly implements IteratorAggregate, Countable
 {
@@ -50,7 +56,7 @@ class Solarium_Document_ReadOnly implements IteratorAggregate, Countable
 
 
     /**
-     * Constructor.
+     * Constructor
      *
      * @param array $fields
      */
@@ -61,7 +67,7 @@ class Solarium_Document_ReadOnly implements IteratorAggregate, Countable
 
 
     /**
-     * Return the complete array of fields
+     * Get all fields
      *
      * @return array
      */
@@ -70,8 +76,9 @@ class Solarium_Document_ReadOnly implements IteratorAggregate, Countable
         return $this->_fields;
     }
 
-
     /**
+     * Get field value by name
+     *
      * Magic access method for accessing fields as properties of this document
      * object, by field name.
      *
@@ -86,9 +93,10 @@ class Solarium_Document_ReadOnly implements IteratorAggregate, Countable
 
         return $this->_fields[$name];
     }
-
     
     /**
+     * Set field value
+     *
      * Magic method for setting a field as property of this object. Since this
      * is a readonly document an exception will be thrown to prevent this.
      *

@@ -38,6 +38,9 @@
 /**
  * Query result
  *
+ * This base class provides methods for two common result values: status and
+ * querytime.
+ *
  * @package Solarium
  * @subpackage Result
  */
@@ -45,16 +48,25 @@ class Solarium_Result_Query
 {
 
     /**
+     * Status code returned by Solr
+     *
      * @var int
      */
     protected $_status;
     
     /**
+     * Solr index queryTime
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
      * @var int
      */
     protected $_queryTime;
 
     /**
+     * Constructor
+     *
      * @param int $status
      * @param int $queryTime
      * @return void
@@ -66,6 +78,8 @@ class Solarium_Result_Query
     }
 
     /**
+     * Get Solr status code
+     *
      * @return int
      */
     public function getStatus()
@@ -74,6 +88,11 @@ class Solarium_Result_Query
     }
 
     /**
+     * Get Solr query time
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     * 
      * @return int
      */
     public function getQueryTime()

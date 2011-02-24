@@ -37,12 +37,18 @@
 
 /**
  * Select query facet result
+ *
+ * Since a query facet has only a single result, the count for the query, this
+ * is a very simple object.
+ *
+ * @package Solarium
+ * @subpackage Result
  */
 class Solarium_Result_Select_Facet_Query
 {
 
     /**
-     * Value
+     * Value (count)
      *
      * @var mixed
      */

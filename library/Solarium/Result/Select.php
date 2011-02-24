@@ -37,14 +37,35 @@
 
 /**
  * Select query result
+ *
+ * This is the standard resulttype for a select query. Example usage:
+ * <code>
+ * // total solr results
+ * $result->getNumFound();
+ *
+ * // results fetched
+ * count($result);
+ *
+ * // get a single facet by key
+ * $result->getFacet('category');
+ *
+ * // iterate over fetched docs
+ * foreach ($result AS $doc) {
+ *    ....
+ * }
+ * </code>
+ *
+ * @package Solarium
+ * @subpackage Result
  */
 class Solarium_Result_Select extends Solarium_Result_Query
     implements IteratorAggregate, Countable
 {
 
     /**
-     * Number of documents found by Solr (this is NOT the number of document
-     * fetched from Solr!)
+     * Solr numFound
+     *
+     * This is NOT the number of document fetched from Solr!
      *
      * @var int
      */
@@ -65,15 +86,10 @@ class Solarium_Result_Select extends Solarium_Result_Query
     protected $_facets;
 
     /**
-     * Pointer to document array position for iterator implementation
+     * Constructor
      *
-     * @var int
-     */
-    protected $_position;
-
-    /**
-     * Constructor. This is the only point where data can be set in this
-     * immutable value object.
+     * This is the only point where data can be set in this immutable value
+     * object.
      *
      * @param int $status
      * @param int $queryTime
@@ -93,6 +109,8 @@ class Solarium_Result_Select extends Solarium_Result_Query
     }
 
     /**
+     * get Solr numFound
+     *
      * Returns the total number of documents found by Solr (this is NOT the
      * number of document fetched from Solr!)
      *
@@ -104,7 +122,7 @@ class Solarium_Result_Select extends Solarium_Result_Query
     }
 
     /**
-     * Return all fetched documents in an array
+     * Get all documents
      *
      * @return array
      */
@@ -114,7 +132,7 @@ class Solarium_Result_Select extends Solarium_Result_Query
     }
 
     /**
-     * Return all facet results in an array
+     * Get all facet results
      *
      * @return array
      */
@@ -124,7 +142,7 @@ class Solarium_Result_Select extends Solarium_Result_Query
     }
 
     /**
-     * Return a facet result
+     * Get a facet result by key
      *
      * @param string $key
      * @return Solarium_Result_Select_Facet

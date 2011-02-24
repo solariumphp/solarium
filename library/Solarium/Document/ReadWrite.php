@@ -36,7 +36,20 @@
  */
 
 /**
- * Updateable Solr document
+ * Read/Write Solr document
+ *
+ * This document type is used for update queries. It has all of the features of
+ * the readonly document and it also allows for updating or adding fields and
+ * boosts.
+ *
+ * While it is possible to use this document type for a select, alter it and use
+ * it in an update query (effectively the 'edit' that Solr doesn't have) this
+ * is not recommended. Most Solr indexes have fields that are indexed and not
+ * stored. You will loose that data because it is impossible to retrieve it from
+ * Solr. Always update from the original data source.
+ *
+ * @package Solarium
+ * @subpackage Document
  */
 class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
 {
@@ -50,6 +63,8 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
 
     /**
      * Field boosts
+     *
+     * Using fieldname as the key and the boost as the value
      * 
      * @var array
      */
@@ -67,7 +82,9 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
-     * Add a field value. If a field already has a value it will be converted
+     * Add a field value
+     *
+     * If a field already has a value it will be converted
      * to a multivalue field.
      *
      * @param string $key
@@ -93,7 +110,9 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
-     * Set a field value. If a field already has a value it will be overwritten.
+     * Set a field value
+     *
+     * If a field already has a value it will be overwritten.
      *
      * @param string $key
      * @param mixed $value
@@ -109,7 +128,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
-     * Remove a field from this document
+     * Remove a field
      *
      * @param string $key
      * @return Solarium_Document_ReadWrite Provides fluent interface
@@ -128,7 +147,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
-     * Get the boost value for a single document field
+     * Get the boost value for a field
      *
      * @param string $key
      * @return float
@@ -143,7 +162,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
-     * Set the boost value for a single field
+     * Set the boost value for a field
      *
      * @param string $key
      * @param float $boost
@@ -156,7 +175,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
-     * Set the boost value for this document
+     * Set the document boost value
      *
      * @param float $boost
      * @return Solarium_Document_ReadWrite Provides fluent interface
@@ -168,7 +187,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
-     * Get the boost value for this document
+     * Get the document boost value
      *
      * @return float
      */
@@ -178,6 +197,8 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
+     * Set field value
+     *
      * Magic method for setting fields as properties of this document
      * object, by field name.
      *

@@ -36,7 +36,14 @@
  */
 
 /**
- * Select query facet result
+ * Select field facet result
+ *
+ * A field facet will usually return a dataset of multiple rows, in each row a
+ * value and it's count. You can access the values as an array using
+ * {@link getValues()} or iterate this object.
+ *
+ * @package Solarium
+ * @subpackage Result
  */
 class Solarium_Result_Select_Facet_Field implements IteratorAggregate, Countable
 {

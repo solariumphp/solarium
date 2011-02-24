@@ -38,6 +38,12 @@
 /**
  * Update result
  *
+ * An update query only returns a query time and status. Both are accessible
+ * using the methods provided by {@link Solarium_Result_Query}.
+ *
+ * @internal For now this class only exists to distinguish the different result
+ *  types. It might get some extra behaviour in the future.
+ *
  * @package Solarium
  * @subpackage Result
  */
