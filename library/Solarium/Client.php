@@ -86,7 +86,7 @@ class Solarium_Client extends Solarium_Configurable
     protected $_adapter;
 
     /**
-     * {@inheritdoc}
+     * Initialization hook
      *
      * In this case the path needs to be cleaned of trailing slashes.
      * @see setPath()
@@ -103,11 +103,15 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
-     * {@inheritdoc}
+     * Set an option
      *
      * If any option of this client is changed after the adapter has been
      * instantiated the change is propagated to the adapter. This allows for
      * switching the client to another core for a second query, for instance.
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return Solarium_Configurable
      */
     protected function _setOption($name, $value)
     {

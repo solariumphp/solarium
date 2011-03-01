@@ -37,6 +37,9 @@
 
 /**
  * Select Query
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Select extends Solarium_Query
 {
@@ -92,13 +95,14 @@ class Solarium_Query_Select extends Solarium_Query
 
     /**
      * Initialize options
+     *
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
      * 
      * @return void
      */
     protected function _init()
     {
-        // several options need some extra checks or setup work, call the
-        // setters for these
         foreach ($this->_options AS $name => $value) {
             switch ($name) {
                 case 'query':
@@ -127,7 +131,10 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Set the query string (overwrites the current value)
+     * Set the query string
+     *
+     * Overwrites the current value. You are responsible for the correct
+     * escaping of user input.
      *
      * @param string $query
      * @return Solarium_Query Provides fluent interface
@@ -180,7 +187,9 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Get the current resultclass option (classname)
+     * Get the current resultclass option
+     *
+     * The value is a classname, not an instance
      *
      * @return string
      */
@@ -201,7 +210,9 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Get the current documentclass option (classname)
+     * Get the current documentclass option
+     *
+     * The value is a classname, not an instance
      * 
      * @return string
      */
@@ -302,7 +313,9 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Set multiple fields at once, overwriting any existing fields.
+     * Set multiple fields
+     *
+     * This overwrites any existing fields
      *
      * @param array $fields
      * @return Solarium_Query Provides fluent interface
@@ -330,7 +343,8 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Add multiple sort fields.
+     * Add multiple sort fields
+     *
      * The input array must contain fieldnames as keys and the order as values.
      *
      * @param array $sortFields
@@ -373,6 +387,8 @@ class Solarium_Query_Select extends Solarium_Query
 
     /**
      * Get a list of the sortfields
+     *
+     * @return array
      */
     public function getSortFields()
     {
@@ -380,7 +396,9 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Set multiple sortfields at once, overwriting any existing sortfields.
+     * Set multiple sortfields
+     *
+     * This overwrites any existing sortfields
      *
      * @param array $fields
      * @return Solarium_Query Provides fluent interface
@@ -395,6 +413,9 @@ class Solarium_Query_Select extends Solarium_Query
 
     /**
      * Add a filter query
+     *
+     * Supports a filterquery instance or a config array, in that case a new
+     * filterquery instance wil be created based on the options.
      *
      * @param Solarium_Query_Select_FilterQuery|array $filterQuery
      * @return Solarium_Query Provides fluent interface
@@ -487,7 +508,9 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Set multiple filterqueries at once, overwriting any existing queries
+     * Set multiple filterqueries
+     *
+     * This overwrites any existing filterqueries
      *
      * @param array $filterQueries
      */
@@ -592,7 +615,9 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Set multiple facets at once, overwriting any existing facets
+     * Set multiple facets
+     *
+     * This overwrites any existing facets
      *
      * @param array $facets
      */

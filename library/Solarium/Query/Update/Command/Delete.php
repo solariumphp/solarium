@@ -37,6 +37,12 @@
 
 /**
  * Update query delete command
+ *
+ * For details about the Solr options see:
+ * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22delete.22_by_ID_and_by_Query
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
 {
@@ -54,7 +60,12 @@ class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
      * @var array
      */
     protected $_queries = array();
-    
+
+    /**
+     * Get command type
+     * 
+     * @return string
+     */
     public function getType()
     {
         return Solarium_Query_Update_Command::DELETE;
@@ -62,6 +73,7 @@ class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
 
     /**
      * Build ids/queries based on options
+     * 
      * @return void
      */
     protected function _init()

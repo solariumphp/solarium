@@ -36,7 +36,14 @@
  */
 
 /**
- * Update Query
+ * Update query
+ *
+ * Can be used to send multiple update commands to solr, e.g. add, delete,
+ * rollback, commit, optimize.
+ * Multiple commands of any type can be combined into a single update query.
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Update extends Solarium_Query
 {
@@ -54,7 +61,10 @@ class Solarium_Query_Update extends Solarium_Query
     );
 
     /**
-     * Array of commands that define this update query
+     * Array of commands
+     *
+     * The commands will be executed in the order of this array, this can be
+     * important in some cases. For instance a rollback.
      *
      * @var array
      */
@@ -71,8 +81,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Add a command to this update query. This must be an instance of one of
-     * the Solarium_Query_Update_* classes.
+     * Add a command to this update query
+     *
+     * The command must be an instance of one of the Solarium_Query_Update_*
+     * classes.
      *
      * @param string $key
      * @param object $command
@@ -90,7 +102,7 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Remove a command, by key
+     * Remove a command by key
      *
      * @param string $key
      * @return Solarium_Query_Update Provides fluent interface
@@ -104,9 +116,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Convenience method for adding a rollback.
+     * Convenience method for adding a rollback command
+     *
      * If you need more control, like choosing a key for the command you need to
-     * create you own command instances and you the add method.
+     * create you own command instance and use the add method.
      *
      * @return Solarium_Query_Update Provides fluent interface
      */
@@ -116,9 +129,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Convenience method for adding a delete query.
+     * Convenience method for adding a delete query command
+     *
      * If you need more control, like choosing a key for the command you need to
-     * create you own command instances and you the add method.
+     * create you own command instance and use the add method.
      *
      * @param string $query
      * @return Solarium_Query_Update Provides fluent interface
@@ -132,9 +146,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Convenience method to add multiple delete queries to the update
+     * Convenience method to add a multi delete query command
+     *
      * If you need more control, like choosing a key for the command you need to
-     * create you own command instances and you the add method.
+     * create you own command instance and use the add method.
      *
      * @param string $key
      * @param array $queries
@@ -149,9 +164,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Convenience method to add a delete by ID to the update
+     * Convenience method to add a delete by ID command
+     *
      * If you need more control, like choosing a key for the command you need to
-     * create you own command instances and you the add method.
+     * create you own command instance and use the add method.
      *
      * @param int|string $id
      * @return Solarium_Query_Update Provides fluent interface
@@ -165,9 +181,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Convenience method to add delete by multiple IDs to the update
+     * Convenience method to add a delete by IDs command
+     *
      * If you need more control, like choosing a key for the command you need to
-     * create you own command instances and you the add method.
+     * create you own command instance and use the add method.
      *
      * @param array $id
      * @return Solarium_Query_Update Provides fluent interface
@@ -181,9 +198,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Convenience method to add a document to the update.
+     * Convenience method to add a 'add document' command
+     *
      * If you need more control, like choosing a key for the command you need to
-     * create you own command instances and you the add method.
+     * create you own command instance and use the add method.
      *
      * @param Solarium_Document_ReadWrite $document
      * @param boolean $overwrite
@@ -197,9 +215,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Convenience method to add multiple documents to the update.
+     * Convenience method to add a 'add documents' command
+     *
      * If you need more control, like choosing a key for the command you need to
-     * create you own command instances and you the add method.
+     * create you own command instance and use the add method.
      *
      * @param array $documents
      * @param boolean $overwrite
@@ -218,9 +237,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Convenience method to add a commit command to the update
+     * Convenience method to add a commit command
+     *
      * If you need more control, like choosing a key for the command you need to
-     * create you own command instances and you the add method.
+     * create you own command instance and use the add method.
      *
      * @param boolean $waitFlush
      * @param boolean $waitSearcher
@@ -240,9 +260,10 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Convenience method to add an optimize command to the update
+     * Convenience method to add an optimize command
+     *
      * If you need more control, like choosing a key for the command you need to
-     * create you own command instances and you the add method.
+     * create you own command instance and use the add method.
      *
      * @param boolean $waitFlush
      * @param boolean $waitSearcher

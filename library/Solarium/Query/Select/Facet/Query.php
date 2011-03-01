@@ -37,6 +37,11 @@
 
 /**
  * Facet query
+ *
+ * @link http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Select_Facet_Query extends Solarium_Query_Select_Facet
 {
@@ -51,6 +56,8 @@ class Solarium_Query_Select_Facet_Query extends Solarium_Query_Select_Facet
     );
 
     /**
+     * Get the facet type
+     * 
      * @return string
      */
     public function getType()
@@ -59,7 +66,9 @@ class Solarium_Query_Select_Facet_Query extends Solarium_Query_Select_Facet
     }
 
     /**
-     * Set the query string (overwrites the current value)
+     * Set the query string
+     *
+     * This overwrites the current value
      *
      * @param string $query
      * @return Solarium_Query_Select_Facet_Query Provides fluent interface

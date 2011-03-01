@@ -37,6 +37,11 @@
 
 /**
  * Facet query
+ *
+ * @link http://wiki.apache.org/solr/SimpleFacetParameters#Field_Value_Faceting_Parameters
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
 {
@@ -63,6 +68,8 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
     );
 
     /**
+     * Get the facet type
+     * 
      * @return string
      */
     public function getType()
@@ -92,7 +99,9 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
     }
 
     /**
-     * Set the facet sort order (use one of the constants)
+     * Set the facet sort order
+     *
+     * Use one of the SORT_* constants as the value
      *
      * @param string $sort
      * @return Solarium_Query_Select_Facet_Field Provides fluent interface
@@ -218,7 +227,9 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
     }
 
     /**
-     * Set the facet method (use one of the constants as value)
+     * Set the facet method
+     *
+     * Use one of the METHOD_* constants as value
      *
      * @param string $method
      * @return Solarium_Query_Select_Facet_Field Provides fluent interface

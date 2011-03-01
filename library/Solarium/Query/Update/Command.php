@@ -36,7 +36,10 @@
  */
 
 /**
- * Update query add (documents) command
+ * Update query command base class
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 abstract class Solarium_Query_Update_Command extends Solarium_Configurable
 {

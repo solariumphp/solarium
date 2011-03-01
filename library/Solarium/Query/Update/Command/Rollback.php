@@ -36,11 +36,22 @@
  */
 
 /**
- * Update query rollback command 
+ * Update query rollback command
+ *
+ * For details see:
+ * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22rollback.22
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Update_Command_Rollback
     extends Solarium_Query_Update_Command
 {
+    /**
+     * Get command type
+     *
+     * @return string
+     */
     public function getType()
     {
         return Solarium_Query_Update_Command::ROLLBACK;

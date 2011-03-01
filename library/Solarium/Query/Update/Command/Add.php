@@ -36,7 +36,13 @@
  */
 
 /**
- * Update query add (documents) command
+ * Update query add command
+ *
+ * For details about the Solr options see:
+ * @link http://wiki.apache.org/solr/UpdateXmlMessages#add.2BAC8-update
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
 {
@@ -48,6 +54,11 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
      */
     protected $_documents = array();
 
+    /**
+     * Get command type
+     * 
+     * @return string
+     */
     public function getType()
     {
         return Solarium_Query_Update_Command::ADD;
@@ -79,12 +90,19 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
         return $this;
     }
 
+    /**
+     * Get all documents
+     * 
+     * @return array
+     */
     public function getDocuments()
     {
         return $this->_documents;
     }
 
     /**
+     * Set overwrite option
+     *
      * @param boolean $overwrite
      * @return Solarium_Query_Update_Add Provides fluent interface
      */
@@ -94,6 +112,8 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
     }
 
     /**
+     * Get overwrite option
+     *
      * @return boolean
      */
     public function getOverwrite()
@@ -102,6 +122,8 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
     }
 
     /**
+     * Get commitWithin option
+     *
      * @param boolean $commitWithin
      * @return Solarium_Query_Update_Add Provides fluent interface
      */
@@ -111,6 +133,8 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
     }
 
     /**
+     * Set commitWithin option
+     * 
      * @return boolean
      */
     public function getCommitWithin()

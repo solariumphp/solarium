@@ -44,6 +44,9 @@
  *
  * To use this adapter you need to have the Zend Framework in your include path,
  * autoloader or manually included.
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
 {

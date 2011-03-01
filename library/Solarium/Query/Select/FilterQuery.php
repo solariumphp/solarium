@@ -37,6 +37,11 @@
 
 /**
  * Filterquery
+ *
+ * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
 {
@@ -96,7 +101,9 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
     }
 
     /**
-     * Set the query string (overwrites the current value)
+     * Set the query string
+     *
+     * This overwrites the current value
      *
      * @param string $query
      * @return Solarium_Query Provides fluent interface
@@ -180,7 +187,9 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
     }
 
     /**
-     * Set multiple tags at once, overwriting any existing tags
+     * Set multiple tags
+     *
+     * This overwrites any existing tags
      *
      * @param array $filterQueries
      * @return Solarium_Query_Select_FilterQuery Provides fluent interface
@@ -190,7 +199,5 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
         $this->clearTags();
         return $this->addTags($filterQueries);
     }
-    
-
 
 }

@@ -36,7 +36,12 @@
  */
 
 /**
- * Facet query
+ * Facet base class
+ *
+ * @link http://wiki.apache.org/solr/SimpleFacetParameters
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 abstract class Solarium_Query_Select_Facet extends Solarium_Configurable
 {
@@ -163,7 +168,9 @@ abstract class Solarium_Query_Select_Facet extends Solarium_Configurable
     }
 
     /**
-     * Set multiple excludes at once, overwriting any existing excludes
+     * Set multiple excludes
+     *
+     * This overwrites any existing excludes
      *
      * @param array $excludes
      */

@@ -36,18 +36,30 @@
  */
 
 /**
- * Update query optimize command 
+ * Update query optimize command
+ *
+ * For details about the Solr options see:
+ * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Update_Command_Optimize
     extends Solarium_Query_Update_Command
 {
-
+    /**
+     * Get command type
+     * 
+     * @return string
+     */
     public function getType()
     {
         return Solarium_Query_Update_Command::OPTIMIZE;
     }
 
     /**
+     * Get waitFlush option
+     *
      * @return boolean
      */
     public function getWaitFlush()
@@ -56,6 +68,8 @@ class Solarium_Query_Update_Command_Optimize
     }
 
     /**
+     * Set waitFlush option
+     *
      * @param boolean $waitFlush
      * @return Solarium_Query_Update_Optimize Provides fluent interface
      */
@@ -65,6 +79,8 @@ class Solarium_Query_Update_Command_Optimize
     }
 
     /**
+     * Get waitSearcher option
+     *
      * @return boolean
      */
     public function getWaitSearcher()
@@ -73,6 +89,8 @@ class Solarium_Query_Update_Command_Optimize
     }
 
     /**
+     * Set waitSearcher option
+     *
      * @param boolean $waitSearcher
      * @return Solarium_Query_Update_Optimize Provides fluent interface
      */
@@ -82,6 +100,8 @@ class Solarium_Query_Update_Command_Optimize
     }
 
     /**
+     * Get maxSegments option
+     *
      * @return boolean
      */
     public function getMaxSegments()
@@ -90,6 +110,8 @@ class Solarium_Query_Update_Command_Optimize
     }
 
     /**
+     * Set maxSegments option
+     * 
      * @param boolean $maxSegments
      * @return Solarium_Query_Update_Optimize Provides fluent interface
      */

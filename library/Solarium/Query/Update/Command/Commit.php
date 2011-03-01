@@ -37,16 +37,29 @@
 
 /**
  * Update query commit command
+ *
+ * For details about the Solr options see:
+ * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
 {
 
+    /**
+     * Get command type
+     * 
+     * @return string
+     */
     public function getType()
     {
         return Solarium_Query_Update_Command::COMMIT;
     }
 
     /**
+     * Get waitFlush option
+     * 
      * @return boolean
      */
     public function getWaitFlush()
@@ -55,6 +68,8 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
     }
 
     /**
+     * Set waitFlush option
+     * 
      * @param boolean $waitFlush
      * @return Solarium_Query_Update_Commit Provides fluent interface
      */
@@ -64,6 +79,8 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
     }
 
     /**
+     * Get waitSearcher option
+     *
      * @return boolean
      */
     public function getWaitSearcher()
@@ -72,6 +89,8 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
     }
 
     /**
+     * Set waitSearcher option
+     * 
      * @param boolean $waitSearcher
      * @return Solarium_Query_Update_Commit Provides fluent interface
      */
@@ -81,6 +100,8 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
     }
 
     /**
+     * Get expungeDeletes option
+     *
      * @return boolean
      */
     public function getExpungeDeletes()
@@ -89,6 +110,8 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
     }
 
     /**
+     * Set expungeDeletes option
+     * 
      * @param boolean $expungeDeletes
      * @return Solarium_Query_Update_Commit Provides fluent interface
      */
