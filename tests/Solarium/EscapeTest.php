@@ -29,21 +29,39 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_QueryTest extends PHPUnit_Framework_TestCase
+class Solarium_EscapeTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testSetAndGetPath()
+    public function testTerm()
     {
-        $query = new Solarium_Query;
-        $query->setPath('mypath');
-        $this->assertEquals('mypath', $query->getPath());
+        $this->assertEquals(
+            'a\\+b',
+            Solarium_Escape::term('a+b')
+        );
     }
-    
-    public function testSetAndGetResultClass()
+
+    public function testTermNoEscape()
     {
-        $query = new Solarium_Query;
-        $query->setResultClass('myResultClass');
-        $this->assertEquals('myResultClass', $query->getResultClass());
+        $this->assertEquals(
+            'abc',
+            Solarium_Escape::term('abc')
+        );
+    }
+
+    public function testPhrase()
+    {
+        $this->assertEquals(
+            '"a+\\"b"',
+            Solarium_Escape::phrase('a+"b')
+        );
+    }
+
+    public function testPhraseNoEscape()
+    {
+        $this->assertEquals(
+            '"a+b"',
+            Solarium_Escape::phrase('a+b')
+        );
     }
     
 }

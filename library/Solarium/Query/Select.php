@@ -38,6 +38,10 @@
 /**
  * Select Query
  *
+ * Can be used to select documents and/or facets from Solr. This querytype has
+ * lots of options and there are many Solarium subclasses for it.
+ * See the Solr documentation and the relevant Solarium classes for more info.
+ *
  * @package Solarium
  * @subpackage Query
  */

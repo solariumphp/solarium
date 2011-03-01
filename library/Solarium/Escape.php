@@ -32,65 +32,60 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
  */
 
 /**
- * Base class for all query types, not intended for direct usage
+ * Escape data for usage in a Solr query
+ *
+ * Any (user) input for a query can be passed to one of the escape methods to
+ * prevent any issues with special characters.
+ *
+ * Do mind that you cannot build a complete query first and then pass it to
+ * this method, the whole query will be escaped. You need to escape only the
+ * 'content' of your query.
  *
  * @package Solarium
- * @subpackage Query
  */
-class Solarium_Query extends Solarium_Configurable
+class Solarium_Escape
 {
+
+    /**
+     * Escape a term
+     *
+     * A term is a single word.
+     * All characters that have a special meaning in a Solr query are escaped.
+     *
+     * @link http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
+     *
+     * If you want to use the input as a phrase please use the {@link phrase()}
+     * method, because a phrase requires much less escaping.
+     *
+     * @param string $input
+     * @return string
+     */
+    static public function term($input)
+    {
+		$pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\\\)/';
+
+		return preg_replace($pattern, '\\\$1', $input);
+    }
+
+    /**
+     * Escape a phrase
+     *
+     * A phrase is a group of words.
+     * Special characters will be escaped and the phrase will be surrounded by
+     * double quotes to group the input into a single phrase. So don't put
+     * quotes around the input.
+     *
+     * @param string $input
+     * @return string
+     */
+    static public function phrase($input)
+    {
+		return '"' . preg_replace('/("|\\\)/', '\\\$1', $input) . '"';
+    }
+
     
-    /**
-     * Set path option
-     *
-     * @param string $path
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setPath($path)
-    {
-        return $this->_setOption('path', $path);
-    }
-
-    /**
-     * Get path option
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->getOption('path');
-    }
-
-    /**
-     * Set resultclass option
-     *
-     * If you set a custom result class it must be available through autoloading
-     * or a manual require before calling this method. This is your
-     * responsibility.
-     *
-     * Also you need to make sure it extends the orginal result class of the
-     * query or has an identical API.
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
 
 }
