@@ -45,15 +45,6 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
 {
 
     /**
-     * Default options
-     *
-     * @var array
-     */
-    protected $_options = array(
-        'timeout' => 5,
-    );
-
-    /**
      * Executes a select query
      *
      * @param Solarium_Query_Select $query
@@ -99,8 +90,6 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
     /**
      * Handle Solr communication
      *
-     * @todo check http response code
-     *
      * @throws Solarium_Exception
      * @param Solarium_Client_Request
      * @return array
@@ -135,6 +124,14 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
 
         $data = @file_get_contents($request->getUri(), false, $context);
 
+        // if there is no data and there are no headers it's a total failure,
+        // a connection to the host was impossible. 
+        if (false === $data && !isset($http_response_header)) {
+            throw new Solarium_Client_HttpException("HTTP request failed");
+        }
+
+        $this->_checkHeaders($http_response_header);
+
         if ($method == Solarium_Client_Request::HEAD) {
             // HEAD request has no result data
             return true;
@@ -145,6 +142,46 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
             }
 
             return $this->_jsonDecode($data);
+        }
+    }
+
+    /**
+     * Check HTTP headers
+     *
+     * The status header is parsed, an exception will be thrown for an error
+     * code.
+     *
+     * @throws Solarium_Client_HttpException
+     * @param array $headers
+     * @return void
+     */
+    protected function _checkHeaders($headers)
+    {
+        // get the status header
+        $statusHeader = null;
+        foreach( $headers AS $header) {
+            if (substr($header, 0, 4) == 'HTTP') {
+                $statusHeader = $header;
+                break;
+            }
+        }
+
+        if (null == $statusHeader) {
+            throw new Solarium_Client_HttpException("No HTTP status found");
+        }
+
+        // parse header like "$statusInfo[1]" into code and message
+        // $statusInfo[1] = the HTTP response code
+        // $statusInfo[2] = the response message
+        $statusInfo = explode(' ', $statusHeader, 3);
+
+        // check status for error (range of 400 and 500)
+        $statusNum = floor($statusInfo[1] / 100);
+        if ($statusNum == 4 || $statusNum == 5) {
+            throw new Solarium_Client_HttpException(
+                $statusInfo[2],
+                $statusInfo[1]
+            );
         }
     }
 

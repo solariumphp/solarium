@@ -69,6 +69,7 @@ class Solarium_Client extends Solarium_Configurable
         'path'    => '/solr',
         'core'    => null,
         'adapter' => 'Solarium_Client_Adapter_Http',
+        'timeout' => 5,
     );
 
     /**

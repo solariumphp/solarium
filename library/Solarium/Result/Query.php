@@ -80,6 +80,8 @@ class Solarium_Result_Query
     /**
      * Get Solr status code
      *
+     * This is not the HTTP status code! The normal value for success is 0.
+     *
      * @return int
      */
     public function getStatus()

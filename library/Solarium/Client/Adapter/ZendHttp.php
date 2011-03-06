@@ -116,9 +116,12 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
     public function getZendHttp()
     {
         if (null == $this->_zendHttp) {
-            $options = null;
+            $options = array('timeout' => $this->getOption('timeout'));
             if (isset($this->_options['adapteroptions'])) {
-                $options = $this->_options['adapteroptions'];
+                $options = array_merge(
+                    $options,
+                    $this->_options['adapteroptions']
+                );
             }
 
             $this->_zendHttp = new Zend_Http_Client(null, $options);
@@ -142,6 +145,14 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
         $client->setRawData($request->getRawData());
 
         $response = $client->request();
+
+        // throw an exception in case of a HTTP error
+        if ($response->isError()) {
+            throw new Solarium_Client_HttpException(
+                $response->getMessage(),
+                $response->getStatus()
+            );
+        }
 
         if ($request->getMethod() == Solarium_Client_Request::HEAD) {
             return true;

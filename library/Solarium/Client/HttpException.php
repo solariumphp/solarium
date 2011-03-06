@@ -32,60 +32,65 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
+ * @subpackage Client
  */
 
 /**
- * Escape data for usage in a Solr query
+ * Solarium client HTTP exception
  *
- * Any (user) input for a query can be passed to one of the escape methods to
- * prevent any issues with special characters.
+ * This exception class exists to make it easy to catch HTTP errors.
+ * HTTP errors usually mean your Solr settings or Solr input (e.g. query)
+ * contain an error.
  *
- * Do mind that you cannot build a complete query first and then pass it to
- * this method, the whole query will be escaped. You need to escape only the
- * 'content' of your query.
+ * The getCode method will return the HTTP response code returned by the server.
+ *
+ * The getMessage method will return the corresponding message, as returned by
+ * the server.
  *
  * @package Solarium
+ * @subpackage Client
  */
-class Solarium_Escape
+class Solarium_Client_HttpException extends Solarium_Exception
 {
 
     /**
-     * Escape a term
+     * HTTP status message
      *
-     * A term is a single word.
-     * All characters that have a special meaning in a Solr query are escaped.
-     *
-     * If you want to use the input as a phrase please use the {@link phrase()}
-     * method, because a phrase requires much less escaping.\
-     *
-     * @link http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
-     *
-     * @param string $input
-     * @return string
+     * @var string
      */
-    static public function term($input)
-    {
-  	    $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\\\)/';
+    protected $_statusMessage;
 
-        return preg_replace($pattern, '\\\$1', $input);
+    /**
+     * Exception constructor
+     *
+     * The input message is a HTTP status message. Because an exception with the
+     * message 'Not Found' is not very clear it this message is tranformed to a
+     * more descriptive text. The original message is available using the
+     * {@link getStatusMessage} method.
+     *
+     * @param string $statusMessage
+     * @param int|null $code
+     */
+    public function __construct($statusMessage, $code = null)
+    {
+        $this->_statusMessage = $statusMessage;
+
+        $message = 'Solr HTTP error, ' . $statusMessage;
+        if (null !== $code) {
+             $message .= ' (' . $code . ')';
+        }
+
+        parent::__construct($message, $code);
     }
 
     /**
-     * Escape a phrase
+     * Get the HTTP status message
      *
-     * A phrase is a group of words.
-     * Special characters will be escaped and the phrase will be surrounded by
-     * double quotes to group the input into a single phrase. So don't put
-     * quotes around the input.
-     *
-     * @param string $input
      * @return string
      */
-    static public function phrase($input)
+    public function getStatusMessage()
     {
-        return '"' . preg_replace('/("|\\\)/', '\\\$1', $input) . '"';
+        return $this->_statusMessage;
     }
-
-    
 
 }

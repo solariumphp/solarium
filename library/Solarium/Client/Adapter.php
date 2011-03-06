@@ -57,17 +57,6 @@
 abstract class Solarium_Client_Adapter extends Solarium_Configurable
 {
 
-     /**
-     * Default options
-     *
-     * @var array
-     */
-    protected $_options = array(
-        'adapteroptions' => array(
-            'timeout' => 5
-        ),
-    );
-
     /**
      * Set options
      *
