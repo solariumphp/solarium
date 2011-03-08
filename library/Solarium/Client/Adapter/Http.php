@@ -159,7 +159,7 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
     {
         // get the status header
         $statusHeader = null;
-        foreach( $headers AS $header) {
+        foreach ($headers AS $header) {
             if (substr($header, 0, 4) == 'HTTP') {
                 $statusHeader = $header;
                 break;

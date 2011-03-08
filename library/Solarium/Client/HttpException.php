@@ -42,10 +42,13 @@
  * HTTP errors usually mean your Solr settings or Solr input (e.g. query)
  * contain an error.
  *
- * The getCode method will return the HTTP response code returned by the server.
+ * The getMessage method returns an error description that includes the status
+ * message and code.
  *
- * The getMessage method will return the corresponding message, as returned by
- * the server.
+ * The getCode method will return the HTTP response code returned by the server
+ * (if available).
+ *
+ * The getStatusMessage method will return the HTTP status message.
  *
  * @package Solarium
  * @subpackage Client
