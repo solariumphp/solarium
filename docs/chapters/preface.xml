@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<preface>
+
+    <title>Preface</title>
+    <para>TODO</para>
+
+    <sect2>
+        <title>About Solarium</title>
+        <para>Solarium is a Solr client library for PHP applications.</para>
+        <para>The main goal of Solarium is to offer good modelling of Solr functionality. Most existing Solr clients in PHP handle just the communication with Solr. This still leaves you responsible for constructing query strings and parameters, and for handling the results.</para>
+        <para>
+This works just fine for simple use cases, however when you for instance start using complex filterqueries and faceting with excludes it soon becomes quite complex to build your requests. Solarium aims to:
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Releave the developer of the "raw communication", like setting params, building complex query request strings
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Allow for reuse, for instance a query can be extended to modify it
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Be flexible. The query and result models are not tied to a specific Solr client implementation. Although there currently is only one Solr Client adapter this can easily be extended. All models can be extended by your own implementation if needed.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Be usable in any PHP application. No dependencies on other frameworks. Solarium tries to follow the Zend Framework standard and integrates nicely with ZF, but doesn’t in rely on it.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Accurately model Solr. For instance the updating of a Solr index. Most clients have separate add, delete and commit methods that also issue separate requests. But Solr actually has an update handler that supports all those actions in a single request. The model should reflect this while keeping it easy to use, instead of over-simplifying it.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Find a good balance between nice and feature-rich code and performance. A library/framework for general use will never be as fast as a custom implementation that only contains the bare minimum for your use case. But the performance difference between the two should be at a reasonable level. And because of the dynamic nature of PHP the models can’t be too extensive, yet they should not be over-simplified.
+                </para>
+            </listitem>
+        </itemizedlist>
+        <para>Solarium uses GitHub, the project page is <ulink url="https://github.com/basdenooijer/solarium">https://github.com/basdenooijer/solarium</ulink></para>
+    </sect2>
+
+    <sect2>
+        <title>Intended audience</title>
+        <para>This manual is written for developers. A good knowledge of PHP is assumed, and a least some basic experience with Solr. This manual will explain how to use Solr with Solarium, but won't explain all Solr functionalities. There are several good sources for more Solr info:</para>
+        <itemizedlist>
+            <listitem>
+                <ulink url="http://lucene.apache.org/solr/">Solr project website</ulink>
+            </listitem>
+            <listitem>
+                The book "Solr 1.4 Enterprise Search Server"
+            </listitem>
+            <listitem>
+                And many more, just search for Solr...
+            </listitem>
+        </itemizedlist>
+    </sect2>
+
+    <sect2>
+        <title>Conventions used in this manual</title>
+        <para>TODO</para>
+    </sect2>
+    
+</preface>

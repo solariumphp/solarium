@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<chapter>
+    <title>Client</title>
+    <para>TODO intro</para>
+
+    <sect1>
+        <title>Options</title>
+        <para>TODO</para>
+
+        <sect2>
+            <title>Host</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Port</title>
+            <para></para>
+        </sect2>
+
+        <sect2>
+            <title>Path</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Core</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Adapter</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Timeout</title>
+            <para>TODO</para>
+        </sect2>
+    </sect1>
+
+    <sect1>
+        <title>Adapters</title>
+        <para>TODO intro</para>
+
+        <sect2>
+            <title>Http</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>ZendHttp</title>
+            <para>TODO</para>
+        </sect2>
+    </sect1>
+
+    <sect1>
+        <title>Summary</title>
+        <para>TODO</para>
+    </sect1>
+
+</chapter>
+

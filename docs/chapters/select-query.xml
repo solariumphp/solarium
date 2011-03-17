@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<chapter>
+    <title>Select query</title>
+    <para>TODO intro</para>
+
+    <sect1>
+        <title>Building a select query</title>
+        <para>TODO</para>
+
+        <sect2>
+            <title>Query string</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Start and rows</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>ResultClass</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>DocumentClass</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Fields</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Sort fields</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Path</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Filterqueries</title>
+            <para>TODO</para>
+
+            <sect3>
+                <title>Adding a filterquery</title>
+                <para>TODO</para>
+            </sect3>
+
+            <sect3>
+                <title>Filterquery options</title>
+                <para>TODO</para>
+
+                <sect4>
+                    <title>Key</title>
+                    <para>TODO</para>
+                </sect4>
+
+                <sect4>
+                    <title>Query string</title>
+                    <para>TODO</para>
+                </sect4>
+
+                <sect4>
+                    <title>Tags</title>
+                    <para>TODO</para>
+                </sect4>
+
+            </sect3>
+
+            <sect3>
+                <title>Modify filterqueries</title>
+                <para>TODO</para>
+            </sect3>
+
+        </sect2>
+
+        <sect2>
+            <title>Facets</title>
+            <para>TODO</para>
+
+            <sect3>
+                <title>Key</title>
+                <para>TODO</para>
+            </sect3>
+
+            <sect3>
+                <title>Excludes</title>
+                <para>TODO</para>
+            </sect3>
+
+            <sect3>
+                <title>Types</title>
+                <para>TODO</para>
+
+                <sect4>
+                    <title>Field</title>
+                    <para>TODO</para>
+                </sect4>
+
+                <sect4>
+                    <title>Query</title>
+                    <para>TODO</para>
+                </sect4>
+
+            </sect3>
+
+        </sect2>
+
+    </sect1>
+
+    <sect1>
+        <title>Executing a select query</title>
+        <para>TODO</para>
+    </sect1>
+
+    <sect1>
+        <title>The result of a select query</title>
+        <para>TODO</para>
+
+        <sect2>
+            <title>Resultset</title>
+            <para>TODO</para>
+
+            <sect3>
+                <title>NumFound</title>
+                <para>TODO</para>
+            </sect3>
+
+            <sect3>
+                <title>Documents</title>
+                <para>TODO</para>
+            </sect3>
+
+            <sect3>
+                <title>Facets</title>
+                <para>TODO</para>
+
+                <sect4>
+                    <title>Field</title>
+                    <para>TODO</para>
+                </sect4>
+
+                <sect4>
+                    <title>Query</title>
+                    <para>TODO</para>
+                </sect4>
+            </sect3>
+
+        </sect2>
+
+    </sect1>
+
+    <sect1>
+        <title>Re-use of queries</title>
+        <para>TODO</para>
+
+        <sect2>
+            <title>Programmatic</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Extending</title>
+            <para>TODO</para>
+        </sect2>
+    </sect1>
+
+    <sect1>
+        <title>Complex select queries</title>
+        <para>TODO</para>
+    </sect1>
+
+    <sect1>
+        <title>Summary</title>
+        <para>TODO</para>
+    </sect1>
+
+</chapter>

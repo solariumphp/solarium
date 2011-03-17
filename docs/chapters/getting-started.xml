@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<chapter>
+    <title>Getting Started</title>
+    <para>In this chapter the installation of Solarium is covered and a quick-start with some simple queries. If you want to get a feel for Solarium you can skip the installation part and go right to the select and update query pages. If you intend to read the rest of the manual you might skip the example queries, they will be covered in-depth in their own chapters.</para>
+
+    <sect1>
+        <title>Installation</title>
+        <important>For installing Solarium you need at least PHP version 5.2</important>
+
+        <sect2>
+            <title>Getting Solarium</title>
+            <para>There are two ways to get Solarium. You can download a prepacked release from GitHub, or use git. In this case a prepacked download is assumed.</para>
+            <para>Go to the Solarium GitHub project page (<ulink url="https://github.com/basdenooijer/solarium">https://github.com/basdenooijer/solarium</ulink>) and click 'Downloads'. Select a version and download the file. Unpack the file, the Solarium library can be found in the 'library' folder.</para>
+        </sect2>
+
+        <sect2>
+            <title>Making Solarium available in your application</title>
+            <para>
+                Solarium doesn't use any require or include statements. See <ulink url="http://wiki.php.net/pear/rfc/pear2_standards#use_of_includerequirerequire_onceinclude_once_not_allowed">this page</ulink> for the reasons why.
+            </para>
+            <para>
+                This means you need to make sure yourself the classes are available. This can be done using an autoloader, see <ulink url="https://gist.github.com/836745">https://gist.github.com/836745</ulink> for an example.
+            </para>
+        </sect2>
+
+        <sect2>
+            <title>Checking Solarium</title>
+            <para>To check whether your application has Solarium available you can do a version check with the following code:</para>
+            <example>
+                <title>Checking Solarium availability</title>
+                <programlisting><![CDATA[
+echo Solarium_Version::VERSION;
+                ]]></programlisting>
+            </example>
+            <para>If everything works you should see the version of Solarium you downloaded.</para>
+        </sect2>
+    </sect1>
+
+    <sect1>
+        <title>Creating a client instance</title>
+        <para>TODO intro / steps</para>
+        <example>
+            <title>Creating a Solarium client instance</title>
+            <programlisting><![CDATA[
+TODO
+            ]]></programlisting>
+        </example>
+    </sect1>
+
+    <sect1>
+        <title>Executing a select query</title>
+        <para>TODO intro / steps</para>
+        <para>TODO example</para>
+    </sect1>
+
+    <sect1>
+        <title>Executing an update query</title>
+        <para>TODO intro / steps</para>
+        <para>TODO example</para>
+    </sect1>
+
+    <sect1>
+        <title>Summary</title>
+        <para>TODO</para>
+    </sect1>
+
+</chapter>

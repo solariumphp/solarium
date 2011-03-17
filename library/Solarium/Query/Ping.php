@@ -54,7 +54,7 @@ class Solarium_Query_Ping extends Solarium_Query
      * @var array
      */
     protected $_options = array(
-        'path' => '/admin/ping',
+        'handler' => 'admin/ping',
     );
     
 }

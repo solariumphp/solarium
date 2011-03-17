@@ -60,7 +60,7 @@ class Solarium_Query_Select extends Solarium_Query
      * @var array
      */
     protected $_options = array(
-        'path'          => '/select',
+        'handler'       => 'select',
         'resultclass'   => 'Solarium_Result_Select',
         'documentclass' => 'Solarium_Document_ReadOnly',
         'query'         => '*:*',

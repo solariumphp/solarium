@@ -45,24 +45,24 @@ class Solarium_Query extends Solarium_Configurable
 {
     
     /**
-     * Set path option
+     * Set handler option
      *
-     * @param string $path
+     * @param string $handler
      * @return Solarium_Query Provides fluent interface
      */
-    public function setPath($path)
+    public function setHandler($handler)
     {
-        return $this->_setOption('path', $path);
+        return $this->_setOption('handler', $handler);
     }
 
     /**
-     * Get path option
+     * Get handler option
      *
      * @return string
      */
-    public function getPath()
+    public function getHandler()
     {
-        return $this->getOption('path');
+        return $this->getOption('handler');
     }
 
     /**

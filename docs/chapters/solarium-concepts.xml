@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<chapter>
+    <title>Solarium concepts</title>
+    <para>TODO intro</para>
+
+    <sect1>
+        <title>Query flow</title>
+        <para>TODO intro</para>
+
+        <sect2>
+            <title>Client</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Query</title>
+            <para></para>
+        </sect2>
+
+        <sect2>
+            <title>Adapter</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Request</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Response</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Result</title>
+            <para>TODO</para>
+        </sect2>
+    </sect1>
+
+    <sect1>
+        <title>Usage modes</title>
+        <para>TODO intro</para>
+
+        <sect2>
+            <title>Declarative</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Extending</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Configuration</title>
+            <para>TODO</para>
+        </sect2>
+
+        <sect2>
+            <title>Mixing modes</title>
+            <para>TODO</para>
+        </sect2>
+
+    </sect1>
+
+    <sect1>
+        <title>Summary</title>
+        <para>TODO</para>
+    </sect1>
+
+</chapter>
+

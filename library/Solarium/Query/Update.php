@@ -54,10 +54,8 @@ class Solarium_Query_Update extends Solarium_Query
      * @var array
      */
     protected $_options = array(
-        'path'          => '/update',
-        'resultclass' => 'Solarium_Result_Update',
-        'override' => null,
-        'commitwithin' => null,
+        'handler'       => 'update',
+        'resultclass'   => 'Solarium_Result_Update',
     );
 
     /**
