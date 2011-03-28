@@ -1,16 +1,16 @@
 Solarium is a PHP Solr client that not only facilitates Solr communication but
 also tries to accurately model Solr concepts.
-Please see the wiki for a more detailed description.
+Please see the project website for a more detailed description.
 
-Project page:
+Project website:
+http://www.solarium-project.org/
+
+GitHub project:
 http://github.com/basdenooijer/solarium
 
 License:
 See the COPYING file or view online
 https://github.com/basdenooijer/solarium/blob/master/COPYING
-
-Wiki:
-https://github.com/basdenooijer/solarium/wiki
 
 Issue tracker:
 http://github.com/basdenooijer/solarium/issues
@@ -19,4 +19,4 @@ Contributors:
 https://github.com/basdenooijer/solarium/contributors
 
 API docs:
-http://solarium.raspberry.nl/api/
+http://api.solarium-project.org/
