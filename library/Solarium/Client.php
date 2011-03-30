@@ -284,6 +284,32 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
+     * Set adapter options
+     *
+     * @param array|object $options
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function setAdapterOptions($options)
+    {
+        // covert config object into an array if needed
+        if (is_object($options)) {
+            $options = $options->toArray();
+        }
+
+        return $this->_setOption('adapteroptions', $options);
+    }
+
+    /**
+     * Get adapteroptions
+     *
+     * @return array
+     */
+    public function getAdapterOptions()
+    {
+        return $this->getOption('adapteroptions');
+    }
+
+    /**
      * Execute a ping query
      *
      * Example usage:
