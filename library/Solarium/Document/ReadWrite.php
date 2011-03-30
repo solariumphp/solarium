@@ -113,6 +113,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      * Set a field value
      *
      * If a field already has a value it will be overwritten.
+     * If you supply NULL as the value the field will be removed
      *
      * @param string $key
      * @param mixed $value
@@ -121,8 +122,12 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      */
     public function setField($key, $value, $boost = null)
     {
-        $this->_fields[$key] = $value;
-        $this->setFieldBoost($key, $boost);
+        if ($value == null) {
+            $this->removeField($key);
+        } else {
+            $this->_fields[$key] = $value;
+            $this->setFieldBoost($key, $boost);
+        }
 
         return $this;
     }
@@ -210,11 +215,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      */
     public function __set($name, $value)
     {
-        if ($value == null) {
-            $this->removeField($name);
-        } else {
-            $this->setField($name, $value);
-        }
+        $this->setField($name, $value);
     }
 
 }
