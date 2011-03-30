@@ -212,6 +212,19 @@ class Solarium_Document_ReadWriteTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testUnsetFieldByProperty()
+    {
+        unset($this->_doc->name);
+
+        $expectedFields = $this->_fields;
+        unset($expectedFields['name']);
+
+        $this->assertEquals(
+            $expectedFields,
+            $this->_doc->getFields()
+        );
+    }
+
     public function testSetFieldAsArray()
     {
         $this->_doc['name'] = 'newname';

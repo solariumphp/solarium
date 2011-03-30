@@ -218,4 +218,17 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
         $this->setField($name, $value);
     }
 
+    /**
+     * Unset field value
+     *
+     * Magic method for removing fields by unsetting object properties
+     *
+     * @param string $name
+     * @return void
+     */
+    public function __unset($name)
+    {
+        $this->removeField($name);
+    }
+
 }

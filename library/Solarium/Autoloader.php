@@ -75,7 +75,7 @@ class Solarium_Autoloader
      */
     static public function load($class)
     {
-        if (substr($class,0,8) == 'Solarium') {
+        if (substr($class, 0, 8) == 'Solarium') {
 
             $class = str_replace(
                 array('Solarium', '_'),
