@@ -165,7 +165,27 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $client->setAdapter($observer);
         $client->update($query);
     }
-    
+
+
+    public function testSetAndGetAdapterOptions()
+    {
+        $options = array('useragent' => 'myAgent');
+
+        $client = new Solarium_Client();
+        $client->setAdapterOptions($options);
+        $this->assertEquals($options, $client->getAdapterOptions());
+    }
+
+    public function testSetAndGetAdapterOptionsWithObject()
+    {
+        $options = array('useragent' => 'myAgent');
+        $optionObject = (object) $options;
+
+        $client = new Solarium_Client();
+        $client->setAdapterOptions($optionObject);
+        $this->assertEquals($options, $client->getAdapterOptions());
+    }
+
 }
 
 class MyAdapter extends Solarium_Client_Adapter_Http{
