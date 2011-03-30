@@ -77,7 +77,12 @@ class Solarium_Autoloader
     {
         if (substr($class,0,8) == 'Solarium') {
 
-            $class = str_replace(array('Solarium','_'), array('','/'), $class);
+            $class = str_replace(
+                array('Solarium', '_'),
+                array('', '/'),
+                $class
+            );
+            
             $file = dirname(__FILE__) . '/' . $class . '.php';
 
             require($file);

@@ -86,7 +86,8 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
             );
 
             // forward adapter options if available
-            if( isset($this->_options['adapteroptions'])) {
+            if( isset($this->_options['adapteroptions']))
+            {
                 $this->_zendHttp->setConfig($this->_options['adapteroptions']);
             }
         }
