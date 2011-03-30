@@ -179,7 +179,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
     public function testSetAndGetAdapterOptionsWithObject()
     {
         $options = array('useragent' => 'myAgent');
-        $optionObject = (object) $options;
+        $optionObject = new myConfig($options);
 
         $client = new Solarium_Client();
         $client->setAdapterOptions($optionObject);
@@ -202,4 +202,19 @@ class MyAdapter extends Solarium_Client_Adapter_Http{
     {
     }
 
+}
+
+class myConfig{
+
+    protected $_options;
+
+    public function __construct($options)
+    {
+        $this->_options = $options;
+    }
+
+    public function toArray()
+    {
+        return $this->_options;
+    }
 }
