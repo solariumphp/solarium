@@ -202,13 +202,19 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      * Magic method for setting fields as properties of this document
      * object, by field name.
      *
+     * If you supply NULL as the value the field will be removed
+     *
      * @param string $name
-     * @param string $value
+     * @param string|null $value
      * @return void
      */
     public function __set($name, $value)
     {
-        $this->setField($name, $value);
+        if ($value == null) {
+            $this->removeField($name);
+        } else {
+            $this->setField($name, $value);
+        }
     }
 
 }

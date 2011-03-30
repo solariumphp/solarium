@@ -141,6 +141,19 @@ class Solarium_Document_ReadWriteTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRemoveFieldBySettingToNull()
+    {
+        $this->_doc->setField('name', NULL);
+
+        $expectedFields = $this->_fields;
+        unset($expectedFields['name']);
+
+        $this->assertEquals(
+            $expectedFields,
+            $this->_doc->getFields()
+        );
+    }
+
     public function testRemoveFieldBoostRemoval()
     {
         $this->_doc->setFieldBoost('name',3.2);
@@ -196,6 +209,32 @@ class Solarium_Document_ReadWriteTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'new name',
             $this->_doc->name
+        );
+    }
+
+    public function testSetFieldAsArray()
+    {
+        $this->_doc['name'] = 'newname';
+
+        $expectedFields = $this->_fields;
+        $expectedFields['name'] = 'newname';
+
+        $this->assertEquals(
+            $expectedFields,
+            $this->_doc->getFields()
+        );
+    }
+
+    public function testRemoveFieldAsArray()
+    {
+        unset($this->_doc['name']);
+
+        $expectedFields = $this->_fields;
+        unset($expectedFields['name']);
+
+        $this->assertEquals(
+            $expectedFields,
+            $this->_doc->getFields()
         );
     }
     
