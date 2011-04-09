@@ -212,6 +212,28 @@ class Solarium_Document_ReadWriteTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetAndGetMultivalueFieldByProperty()
+    {
+        $values = array('test1', 'test2', 'test3');
+        $this->_doc->multivaluefield = $values;
+
+        $this->assertEquals(
+            $values,
+            $this->_doc->multivaluefield
+        );
+    }
+
+    public function testSetAndGetMultivalueFieldByPropertyOverwrite()
+    {
+        $values = array('test1', 'test2', 'test3');
+        $this->_doc->name = $values;
+
+        $this->assertEquals(
+            $values,
+            $this->_doc->name
+        );
+    }
+
     public function testUnsetFieldByProperty()
     {
         unset($this->_doc->name);
