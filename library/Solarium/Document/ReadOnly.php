@@ -150,7 +150,7 @@ class Solarium_Document_ReadOnly
      */
     public function offsetExists($offset)
     {
-        return isset($this->_fields[$offset]);
+        return ($this->__get($offset) !== null);
     }
 
     /**
@@ -172,7 +172,7 @@ class Solarium_Document_ReadOnly
      */
     public function offsetGet($offset)
     {
-        return isset($this->_fields[$offset]) ? $this->_fields[$offset] : null;
+        return $this->__get($offset);
     }
 
 }

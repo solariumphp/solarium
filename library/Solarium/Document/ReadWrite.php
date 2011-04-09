@@ -218,14 +218,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      */
     public function __set($name, $value)
     {
-        if (is_array($value)) {
-            $this->removeField($name); // remove any existing value(s)
-            foreach ($value AS $multival) {
-                $this->addField($name, $multival);
-            }
-        } else {
-            $this->setField($name, $value);
-        }
+        $this->setField($name, $value);
     }
 
     /**
