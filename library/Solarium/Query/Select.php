@@ -456,7 +456,9 @@ class Solarium_Query_Select extends Solarium_Query
         foreach ($filterQueries AS $key => $filterQuery) {
 
             // in case of a config array: add key to config
-            if(is_array($filterQuery)) $filterQuery['key'] = $key;
+            if (is_array($filterQuery) && !isset($filterQuery['key'])) {
+                $filterQuery['key'] = $key;
+            }
 
             $this->addFilterQuery($filterQuery);
         }
@@ -566,8 +568,10 @@ class Solarium_Query_Select extends Solarium_Query
     {
         foreach ($facets AS $key => $facet) {
 
-             // in case of a config array: add key to config
-            if(is_array($facet)) $facet['key'] = $key;
+            // in case of a config array: add key to config
+            if (is_array($facet) && !isset($facet['key'])) {
+                $facet['key'] = $key;
+            }
 
             $this->addFacet($facet);
         }

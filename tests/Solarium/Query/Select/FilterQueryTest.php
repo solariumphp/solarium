@@ -83,4 +83,22 @@ class Solarium_Query_Select_FilterQueryTest extends PHPUnit_Framework_TestCase
         $this->_filterQuery->setTags(array('t3','t4'));
         $this->assertEquals(array('t3','t4'), $this->_filterQuery->getTags());
     }
+
+    public function testConstructorWithConfig()
+    {
+        $fq = new Solarium_Query_Select_FilterQuery(array('tag' => array('t1','t2'),'key' => 'k1','query'=> 'id:[10 TO 20]'));
+
+        $this->assertEquals(array('t1','t2'), $fq->getTags());
+        $this->assertEquals('k1', $fq->getKey());
+        $this->assertEquals('id:[10 TO 20]', $fq->getQuery());
+    }
+
+    public function testConstructorWithConfigSingleValueTag()
+    {
+        $fq = new Solarium_Query_Select_FilterQuery(array('tag' => 't1','key' => 'k1','query'=> 'id:[10 TO 20]'));
+
+        $this->assertEquals(array('t1'), $fq->getTags());
+        $this->assertEquals('k1', $fq->getKey());
+        $this->assertEquals('id:[10 TO 20]', $fq->getQuery());
+    }
 }
