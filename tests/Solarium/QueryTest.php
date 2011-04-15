@@ -32,11 +32,11 @@
 class Solarium_QueryTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testSetAndGetPath()
+    public function testSetAndGetHandler()
     {
         $query = new Solarium_Query;
-        $query->setPath('mypath');
-        $this->assertEquals('mypath', $query->getPath());
+        $query->setHandler('myhandler');
+        $this->assertEquals('myhandler', $query->getHandler());
     }
     
     public function testSetAndGetResultClass()

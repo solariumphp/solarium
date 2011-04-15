@@ -270,4 +270,93 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testConstructorWithConfig()
+    {
+        $config = array(
+            'command' => array(
+                'key1' => array(
+                    'type' => 'delete',
+                    'query' => 'population:[* TO 1000]',
+                    'id' => array(1,2),
+                ),
+                'key2' => array(
+                    'type' => 'commit',
+                    'waitflush' => true,
+                    'waitsearcher' => false,
+                    'expungedeletes' => true,
+                ),
+                'key3' => array(
+                    'type' => 'optimize',
+                    'waitflush' => true,
+                    'waitsearcher' => false,
+                    'maxsegments' => 5,
+                ),
+                'key4' => array(
+                    'type' => 'rollback',
+                )
+            )
+        );
+
+        $query = new Solarium_Query_Update($config);
+        $commands = $query->getCommands();
+
+        $delete = $commands['key1'];
+        $this->assertEquals(
+            array(1,2),
+            $delete->getIds()
+        );
+        $this->assertEquals(
+            array('population:[* TO 1000]'),
+            $delete->getQueries()
+        );
+
+        $commit = $commands['key2'];
+        $this->assertEquals(
+            true,
+            $commit->getWaitFlush()
+        );
+        $this->assertEquals(
+            false,
+            $commit->getWaitSearcher()
+        );
+        $this->assertEquals(
+            true,
+            $commit->getExpungeDeletes()
+        );
+
+        $optimize = $commands['key3'];
+        $this->assertEquals(
+            true,
+            $optimize->getWaitFlush()
+        );
+        $this->assertEquals(
+            false,
+            $optimize->getWaitSearcher()
+        );
+        $this->assertEquals(
+            5,
+            $optimize->getMaxSegments()
+        );
+
+        $rollback = $commands['key4'];
+        $this->assertEquals(
+            'Solarium_Query_Update_Command_Rollback',
+            get_class($rollback)
+        );
+    }
+
+    public function testConstructorWithConfigAddCommand()
+    {
+        $config = array(
+            'command' => array(
+                'key1' => array(
+                    'type' => 'add',
+                ),
+            )
+        );
+
+        $this->setExpectedException('Solarium_Exception');
+        new Solarium_Query_Update($config);
+    }
+
 }

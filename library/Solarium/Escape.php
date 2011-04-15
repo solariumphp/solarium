@@ -65,7 +65,7 @@ class Solarium_Escape
      */
     static public function term($input)
     {
-  	    $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\\\)/';
+        $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\\\)/';
 
         return preg_replace($pattern, '\\\$1', $input);
     }

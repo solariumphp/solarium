@@ -44,7 +44,8 @@
  * @package Solarium
  * @subpackage Document
  */
-class Solarium_Document_ReadOnly implements IteratorAggregate, Countable
+class Solarium_Document_ReadOnly
+    implements IteratorAggregate, Countable, ArrayAccess
 {
 
     /**
@@ -127,6 +128,51 @@ class Solarium_Document_ReadOnly implements IteratorAggregate, Countable
     public function count()
     {
         return count($this->_fields);
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * @param miex $offset
+     * @param mixed $value
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->__set($offset, $value);
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * @param mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return ($this->__get($offset) !== null);
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * @param mixed $offset
+     * @return void
+     */
+    public function offsetUnset($offset)
+    {
+        $this->__set($offset, null);
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * @param mixed $offset
+     * @return mixed|null
+     */
+    public function offsetGet($offset)
+    {
+        return $this->__get($offset);
     }
 
 }

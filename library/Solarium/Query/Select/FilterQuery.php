@@ -70,7 +70,11 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
         foreach ($this->_options AS $name => $value) {
             switch ($name) {
                 case 'tag':
+                    if(!is_array($value)) $value = array($value);
                     $this->addTags($value);
+                    break;
+                case 'key':
+                    $this->setKey($value);
                     break;
                 case 'query':
                     $this->setQuery($value);

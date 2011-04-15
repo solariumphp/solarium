@@ -490,11 +490,12 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             'rows'   => 100,
             'start'  => 200,
             'filterquery' => array(
-                array('key' => 'pub', 'tag' => array('pub'),'query' => 'published:true')
+                array('key' => 'pub', 'tag' => array('pub'),'query' => 'published:true'),
+                'online' => array('tag' => 'onl','query' => 'online:true')
             ),
             'facet' => array(
                 array('type' => 'field', 'key' => 'categories', 'field' => 'category'),
-                array('type' => 'query', 'key' => 'category13', 'query' => 'category:13')
+                'category13' => array('type' => 'query', 'query' => 'category:13')
             ),
         );
         $query = new Solarium_Query_Select($config);

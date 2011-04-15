@@ -77,9 +77,18 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
     {
         parent::setOptions($options);
 
-        if (null !== $this->_zendHttp
-                && isset($this->_options['adapteroptions'])) {
-            $this->_zendHttp->setOptions($this->_options['adapteroptions']);
+        // forward options to zendHttp instance
+        if (null !== $this->_zendHttp) {
+
+            // forward timeout setting
+            $this->_zendHttp->setConfig(
+                array('timeout' => $this->getOption('timeout'))
+            );
+
+            // forward adapter options if available
+            if (isset($this->_options['adapteroptions'])) {
+                $this->_zendHttp->setConfig($this->_options['adapteroptions']);
+            }
         }
 
         return $this;

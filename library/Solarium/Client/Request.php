@@ -171,7 +171,7 @@ abstract class Solarium_Client_Request
 
         return 'http://' . $this->_options['host'] . ':'
                . $this->_options['port'] . $this->_options['path']
-               . $core . $this->_query->getOption('path') . '?'
+               . $core . '/' . $this->_query->getHandler() . '?'
                . $queryString;
     }
 
