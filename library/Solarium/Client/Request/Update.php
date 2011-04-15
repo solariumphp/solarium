@@ -128,16 +128,41 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
             $xml .= '>';
 
             foreach ($doc->getFields() AS $name => $value) {
-                $xml .= '<field name="' . $name . '"';
-                $xml .= $this->attrib('boost', $doc->getFieldBoost($name));
-                $xml .= '>' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8')
-                        . '</field>';
+                $boost = $doc->getFieldBoost($name);
+                if(is_array($value))
+                {
+                    foreach ($value AS $multival) {
+                        $xml .= $this->_buildFieldXml($name, $boost, $multival);
+                    }
+                } else {
+                    $xml .= $this->_buildFieldXml($name, $boost, $value);
+                }
             }
 
             $xml .= '</doc>';
         }
 
         $xml .= '</add>';
+
+        return $xml;
+    }
+
+    /**
+     * Build XML for a field
+     *
+     * Used in the add command
+     *
+     * @param string $name
+     * @param float $boost
+     * @param mixed $value
+     * @return string
+     */
+    protected function _buildFieldXml($name, $boost, $value)
+    {
+        $xml = '<field name="' . $name . '"';
+        $xml .= $this->attrib('boost', $boost);
+        $xml .= '>' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
+        $xml .= '</field>';
 
         return $xml;
     }

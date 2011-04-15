@@ -54,10 +54,8 @@ class Solarium_Query_Update extends Solarium_Query
      * @var array
      */
     protected $_options = array(
-        'path'          => '/update',
-        'resultclass' => 'Solarium_Result_Update',
-        'override' => null,
-        'commitwithin' => null,
+        'handler'       => 'update',
+        'resultclass'   => 'Solarium_Result_Update',
     );
 
     /**
@@ -69,6 +67,41 @@ class Solarium_Query_Update extends Solarium_Query
      * @var array
      */
     protected $_commands = array();
+
+    /**
+     * Initialize options
+     *
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
+     *
+     * @return void
+     */
+    protected function _init()
+    {
+        if (isset($this->_options['command'])) {
+            foreach ($this->_options['command'] as $key => $value) {
+                switch ($value['type']) {
+                    case 'delete':
+                        $command = new Solarium_Query_Update_Command_Delete($value);
+                        break;
+                    case 'commit':
+                        $command = new Solarium_Query_Update_Command_Commit($value);
+                        break;
+                    case 'optimize':
+                        $command = new Solarium_Query_Update_Command_Optimize($value);
+                        break;
+                    case 'rollback':
+                        $command = new Solarium_Query_Update_Command_Rollback($value);
+                        break;
+                    case 'add':
+                        throw new Solarium_Exception("Adding documents is not supported in configuration, use the API for this");
+                }
+
+                $this->add($key, $command);
+            }
+        }
+
+    }
 
     /**
      * Get all commands for this update query

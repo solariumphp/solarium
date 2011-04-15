@@ -76,7 +76,11 @@ abstract class Solarium_Query_Select_Facet extends Solarium_Configurable
     {
         foreach ($this->_options AS $name => $value) {
             switch ($name) {
+                case 'key':
+                    $this->setKey($value);
+                    break;
                 case 'exclude':
+                    if(!is_array($value)) $value = array($value);
                     $this->setExcludes($value);
                     break;
             }

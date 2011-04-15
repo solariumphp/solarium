@@ -83,6 +83,12 @@ class Solarium_Query_Select_FacetTest extends PHPUnit_Framework_TestCase
         $this->_facet = new TestFacet(array('exclude' => array('e1','e2')));
         $this->assertEquals(array('e1','e2'), $this->_facet->getExcludes());
     }
+
+    public function testConstructorWithConfigSingleValueExclude()
+    {
+        $this->_facet = new TestFacet(array('exclude' => 'e1'));
+        $this->assertEquals(array('e1'), $this->_facet->getExcludes());
+    }
 }
 
 class TestFacet extends Solarium_Query_Select_Facet{

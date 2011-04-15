@@ -60,7 +60,7 @@ class Solarium_Query_Select extends Solarium_Query
      * @var array
      */
     protected $_options = array(
-        'path'          => '/select',
+        'handler'       => 'select',
         'resultclass'   => 'Solarium_Result_Select',
         'documentclass' => 'Solarium_Document_ReadOnly',
         'query'         => '*:*',
@@ -453,7 +453,13 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function addFilterQueries(array $filterQueries)
     {
-        foreach ($filterQueries AS $filterQuery) {
+        foreach ($filterQueries AS $key => $filterQuery) {
+
+            // in case of a config array: add key to config
+            if (is_array($filterQuery) && !isset($filterQuery['key'])) {
+                $filterQuery['key'] = $key;
+            }
+
             $this->addFilterQuery($filterQuery);
         }
 
@@ -560,7 +566,13 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function addFacets(array $facets)
     {
-        foreach ($facets AS $facet) {
+        foreach ($facets AS $key => $facet) {
+
+            // in case of a config array: add key to config
+            if (is_array($facet) && !isset($facet['key'])) {
+                $facet['key'] = $key;
+            }
+
             $this->addFacet($facet);
         }
 

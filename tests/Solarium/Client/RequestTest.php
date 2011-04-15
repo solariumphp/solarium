@@ -44,7 +44,7 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
     protected function _getRequest($options, $class = 'Solarium_Client_Request_Ping')
     {
         $query = new Solarium_Query;
-        $query->setPath('/mypath');
+        $query->setHandler('mypath');
 
         return new $class($options, $query);
     }

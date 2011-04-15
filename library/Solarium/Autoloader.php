@@ -32,65 +32,61 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
  */
 
 /**
- * Base class for all query types, not intended for direct usage
+ * Autoloader
+ *
+ * This class is included to allow for easy usage of Solarium. If you already
+ * have your own autoloader that follows the Zend Framework class/file naming
+ * you don't need this.
  *
  * @package Solarium
- * @subpackage Query
  */
-class Solarium_Query extends Solarium_Configurable
+class Solarium_Autoloader
 {
-    
+
     /**
-     * Set handler option
+     * Register the Solarium autoloader
      *
-     * @param string $handler
-     * @return Solarium_Query Provides fluent interface
+     * The autoloader only acts for classnames that start with 'Solarium'. It
+     * will be appended to any other autoloaders already registered.
+     *
+     * Using this autoloader will disable any existing __autoload function. If
+     * you want to use multiple autoloaders please use spl_autoload_register.
+     *
+     * @static
+     * @return void
      */
-    public function setHandler($handler)
+    static public function register()
     {
-        return $this->_setOption('handler', $handler);
+        spl_autoload_register(array(new self, 'load'));
     }
 
     /**
-     * Get handler option
+     * Autoload a class
      *
-     * @return string
+     * This method is automatically called after registering this autoloader.
+     * The autoloader only acts for classnames that start with 'Solarium'.
+     *
+     * @static
+     * @param string $class
+     * @return void
      */
-    public function getHandler()
+    static public function load($class)
     {
-        return $this->getOption('handler');
-    }
+        if (substr($class, 0, 8) == 'Solarium') {
 
-    /**
-     * Set resultclass option
-     *
-     * If you set a custom result class it must be available through autoloading
-     * or a manual require before calling this method. This is your
-     * responsibility.
-     *
-     * Also you need to make sure it extends the orginal result class of the
-     * query or has an identical API.
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
+            $class = str_replace(
+                array('Solarium', '_'),
+                array('', '/'),
+                $class
+            );
+            
+            $file = dirname(__FILE__) . '/' . $class . '.php';
 
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
+            require($file);
+        }
     }
 
 }

@@ -103,6 +103,19 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testBuildAddXmlMultivalueField()
+    {
+        $command = new Solarium_Query_Update_Command_Add;
+        $command->addDocument(new Solarium_Document_ReadWrite(array('id' => array(1,2,3), 'text' => 'test < 123 > test')));
+
+        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
+
+        $this->assertEquals(
+            '<add><doc><field name="id">1</field><field name="id">2</field><field name="id">3</field><field name="text">test &lt; 123 &gt; test</field></doc></add>',
+            $request->buildAddXml($command)
+        );
+    }
+
     public function testBuildAddXmlSingleDocumentWithBoost()
     {
         $doc = new Solarium_Document_ReadWrite(array('id' => 1));

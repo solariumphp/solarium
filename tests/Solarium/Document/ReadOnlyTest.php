@@ -83,6 +83,48 @@ class Solarium_Document_ReadOnlyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_fields, $fields);
     }
 
+    public function testArrayGet()
+    {
+        $this->assertEquals(
+            $this->_fields['categories'],
+            $this->_doc['categories']
+        );
+    }
+
+    public function testArrayGetInvalidField()
+    {
+        $this->assertEquals(
+            null,
+            $this->_doc['invalidfield']
+        );
+    }
+
+    public function testArrayIsset()
+    {
+        $this->assertTrue(
+            isset($this->_doc['categories'])
+        );
+    }
+
+    public function testArrayIssetInvalidField()
+    {
+        $this->assertFalse(
+            isset($this->_doc['invalidfield'])
+        );
+    }
+
+    public function testArraySet()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_doc['newField'] = 'new value';
+    }
+
+    public function testArrayUnset()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        unset($this->_doc['newField']);
+    }
+
     public function testCount()
     {
         $this->assertEquals(count($this->_fields), count($this->_doc));

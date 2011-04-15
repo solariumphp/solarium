@@ -112,7 +112,9 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     /**
      * Set a field value
      *
-     * If a field already has a value it will be overwritten.
+     * If a field already has a value it will be overwritten. You cannot use
+     * this method for a multivalue field.
+     * If you supply NULL as the value the field will be removed
      *
      * @param string $key
      * @param mixed $value
@@ -121,8 +123,12 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      */
     public function setField($key, $value, $boost = null)
     {
-        $this->_fields[$key] = $value;
-        $this->setFieldBoost($key, $boost);
+        if ($value == null) {
+            $this->removeField($key);
+        } else {
+            $this->_fields[$key] = $value;
+            $this->setFieldBoost($key, $boost);
+        }
 
         return $this;
     }
@@ -202,13 +208,30 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      * Magic method for setting fields as properties of this document
      * object, by field name.
      *
+     * If you supply NULL as the value the field will be removed
+     * If you supply an array a multivalue field will be created.
+     * In all cases any existing (multi)value will be overwritten.
+     *
      * @param string $name
-     * @param string $value
+     * @param string|null $value
      * @return void
      */
     public function __set($name, $value)
     {
         $this->setField($name, $value);
+    }
+
+    /**
+     * Unset field value
+     *
+     * Magic method for removing fields by unsetting object properties
+     *
+     * @param string $name
+     * @return void
+     */
+    public function __unset($name)
+    {
+        $this->removeField($name);
     }
 
 }
