@@ -96,6 +96,9 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                     case Solarium_Query_Select_Facet::QUERY:
                         $this->addFacetQuery($facet);
                         break;
+                     case Solarium_Query_Select_Facet::MULTIQUERY:
+                        $this->addFacetMultiQuery($facet);
+                        break;
                     default:
                         throw new Solarium_Exception('Unknown facet type');
                 }
@@ -108,7 +111,7 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
     /**
      * Add params for a field facet to request
      *
-     * @param mixed $facet
+     * @param Solarium_Query_Select_Facet_Field $facet
      * @return void
      */
     public function addFacetField($facet)
@@ -133,9 +136,9 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
     }
 
     /**
-     * Add params for a field query to request
+     * Add params for a facet query to request
      *
-     * @param mixed $facet
+     * @param Solarium_Query_Select_Facet_Query $facet
      * @return void
      */
     public function addFacetQuery($facet)
@@ -147,6 +150,19 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                 array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
             )
         );
+    }
+
+    /**
+     * Add params for a multiquery facet to request
+     *
+     * @param Solarium_Query_Select_Facet_MultiQuery $facet
+     * @return void
+     */
+    public function addFacetMultiQuery($facet)
+    {
+        foreach($facet->getQueries() AS $facetQuery) {
+            $this->addFacetQuery($facetQuery);
+        }
     }
 
 }

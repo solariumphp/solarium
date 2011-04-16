@@ -51,6 +51,7 @@ abstract class Solarium_Query_Select_Facet extends Solarium_Configurable
      */
     const QUERY = 'query';
     const FIELD = 'field';
+    const MULTIQUERY = 'multiquery';
 
     /**
      * Exclude tags for this facet
