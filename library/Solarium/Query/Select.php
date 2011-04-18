@@ -98,6 +98,13 @@ class Solarium_Query_Select extends Solarium_Query
     protected $_facets = array();
 
     /**
+     * Search components
+     *
+     * @var array
+     */
+    protected $_components = array();
+
+    /**
      * Initialize options
      *
      * Several options need some extra checks or setup work, for these options
@@ -641,6 +648,68 @@ class Solarium_Query_Select extends Solarium_Query
     {
         $this->clearFacets();
         $this->addFacets($facets);
+    }
+
+    /**
+     * Get all registered components
+     * 
+     * @return array
+     */
+    public function getComponents()
+    {
+        return $this->_components;
+    }
+
+    /**
+     * Get a component instance by key
+     *
+     * You can optionally supply an autoload class to create a new component
+     * instance if there is no registered component for the given key yet.
+     *
+     * @param string $key Use one of the constants
+     * @param string $autoload Class to autoload if component needs to be created
+     * @return object|null
+     */
+    public function getComponent($key, $autoload = null)
+    {
+        if (isset($this->_components[$key]) && $this->_components[$key] !== null) {
+            return $this->_components[$key];
+        } else {
+            if ($autoload !== null) {
+                $component = new $autoload;
+                $this->setComponent($key, $component);
+                return $this->_components[$key];
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Set a component instance
+     *
+     * This overwrites any existing component registered with the same key.
+     * If you want to remove a component use NULL as value.
+     *
+     * @param string $key
+     * @param object|null $value
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function setComponent($key, $value)
+    {
+        $this->_components[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * Get a MoreLikeThis component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_MoreLikeThis
+     */
+    public function getMoreLikeThis()
+    {
+        return $this->getComponent('MoreLikeThis', 'Solarium_Query_Select_Component_MoreLikeThis');
     }
 
 }

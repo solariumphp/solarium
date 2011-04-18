@@ -36,40 +36,13 @@
  */
 
 /**
- * Select query result
- *
- * This is the standard resulttype for a select query. Example usage:
- * <code>
- * // total solr results
- * $result->getNumFound();
- *
- * // results fetched
- * count($result);
- *
- * // get a single facet by key
- * $result->getFacet('category');
- *
- * // iterate over fetched docs
- * foreach ($result AS $doc) {
- *    ....
- * }
- * </code>
+ * Select component morelikethis result item
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select extends Solarium_Result_Query
-    implements IteratorAggregate, Countable
+class Solarium_Result_Select_MoreLikeThis_Result implements IteratorAggregate, Countable
 {
-
-    /**
-     * Solr numFound
-     *
-     * This is NOT the number of document fetched from Solr!
-     *
-     * @var int
-     */
-    protected $_numFound;
 
     /**
      * Document instances array
@@ -79,53 +52,57 @@ class Solarium_Result_Select extends Solarium_Result_Query
     protected $_documents;
 
     /**
-     * Facet result instances
+     * Solr numFound
      *
-     * @var array
+     * This is NOT the number of MLT documents fetched from Solr!
+     *
+     * @var int
      */
-    protected $_facets;
+    protected $_numFound;
 
     /**
-     * Component results
+     * Maximum score in this MLT set
+     *
+     * @var float
      */
-    protected $_components;
+    protected $_maxScore;
 
     /**
      * Constructor
      *
-     * This is the only point where data can be set in this immutable value
-     * object.
-     *
-     * @param int $status
-     * @param int $queryTime
      * @param int $numFound
+     * @param float $maxScore
      * @param array $documents
-     * @param array $facets
-     * @param array $components
      * @return void
      */
-    public function __construct($status, $queryTime, $numFound, $documents,
-                                $facets, $components)
+    public function __construct($numFound, $maxScore, $documents)
     {
-        $this->_status = $status;
-        $this->_queryTime = $queryTime;
         $this->_numFound = $numFound;
+        $this->_maxScore = $maxScore;
         $this->_documents = $documents;
-        $this->_facets = $facets;
-        $this->_components = $components;
     }
 
     /**
      * get Solr numFound
      *
-     * Returns the total number of documents found by Solr (this is NOT the
-     * number of document fetched from Solr!)
+     * Returns the number of MLT documents found by Solr (this is NOT the
+     * number of documents fetched from Solr!)
      *
      * @return int
      */
     public function getNumFound()
     {
         return $this->_numFound;
+    }
+
+    /**
+     * Get maximum score in the MLT document set
+     *
+     * @return float
+     */
+    public function getMaxScore()
+    {
+        return $this->_maxScore;
     }
 
     /**
@@ -138,31 +115,7 @@ class Solarium_Result_Select extends Solarium_Result_Query
         return $this->_documents;
     }
 
-    /**
-     * Get all facet results
-     *
-     * @return array
-     */
-    public function getFacets()
-    {
-        return $this->_facets;
-    }
-
-    /**
-     * Get a facet result by key
-     *
-     * @param string $key
-     * @return Solarium_Result_Select_Facet
-     */
-    public function getFacet($key)
-    {
-        if (isset($this->_facets[$key])) {
-            return $this->_facets[$key];
-        } else {
-            return null;   
-        }
-    }
-
+    
     /**
      * IteratorAggregate implementation
      *
@@ -181,42 +134,5 @@ class Solarium_Result_Select extends Solarium_Result_Query
     public function count()
     {
         return count($this->_documents);
-    }
-
-    /**
-     * Get all component results
-     *
-     * @return array
-     */
-    public function getComponents()
-    {
-        return $this->_components;
-    }
-
-    /**
-     * Get a component result by key
-     *
-     * @param string $key
-     * @return Solarium_Result_Select_Component
-     */
-    public function getComponent($key)
-    {
-        if (isset($this->_components[$key])) {
-            return $this->_components[$key];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Get morelikethis component result
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return Solarium_Result_Select_Component_MoreLikeThis
-     */
-    public function getMoreLikeThis()
-    {
-        return $this->getComponent(Solarium_Query_Select_Component::MORELIKETHIS);
     }
 }
