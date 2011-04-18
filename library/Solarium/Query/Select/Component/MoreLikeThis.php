@@ -85,7 +85,7 @@ class Solarium_Query_Select_Component_MoreLikeThis
      */
     public function setFields($fields)
     {
-        return $this->_setOption('fields',$fields);
+        return $this->_setOption('fields', $fields);
     }
 
     /**
@@ -109,7 +109,7 @@ class Solarium_Query_Select_Component_MoreLikeThis
      */
     public function setMinimumTermFrequency($minimum)
     {
-        return $this->_setOption('minimumtermfrequency',$minimum);
+        return $this->_setOption('minimumtermfrequency', $minimum);
     }
 
     /**
@@ -133,7 +133,7 @@ class Solarium_Query_Select_Component_MoreLikeThis
      */
     public function setMinimumDocumentFrequency($minimum)
     {
-        return $this->_setOption('minimumdocumentfrequency',$minimum);
+        return $this->_setOption('minimumdocumentfrequency', $minimum);
     }
 
     /**
@@ -156,7 +156,7 @@ class Solarium_Query_Select_Component_MoreLikeThis
      */
     public function setMinimumWordLength($minimum)
     {
-        return $this->_setOption('minimumwordlength',$minimum);
+        return $this->_setOption('minimumwordlength', $minimum);
     }
 
     /**
@@ -179,7 +179,7 @@ class Solarium_Query_Select_Component_MoreLikeThis
      */
     public function setMaximumWordLength($maximum)
     {
-        return $this->_setOption('maximumwordlength',$maximum);
+        return $this->_setOption('maximumwordlength', $maximum);
     }
 
     /**
@@ -203,7 +203,7 @@ class Solarium_Query_Select_Component_MoreLikeThis
      */
     public function setMaximumQueryTerms($maximum)
     {
-        return $this->_setOption('maximumqueryterms',$maximum);
+        return $this->_setOption('maximumqueryterms', $maximum);
     }
 
     /**
@@ -227,7 +227,7 @@ class Solarium_Query_Select_Component_MoreLikeThis
      */
     public function setMaximumNumberOfTokens($maximum)
     {
-        return $this->_setOption('maximumnumberoftokens',$maximum);
+        return $this->_setOption('maximumnumberoftokens', $maximum);
     }
 
     /**
@@ -250,7 +250,7 @@ class Solarium_Query_Select_Component_MoreLikeThis
      */
     public function setBoost($boost)
     {
-        return $this->_setOption('boost',$boost);
+        return $this->_setOption('boost', $boost);
     }
 
     /**
@@ -276,7 +276,7 @@ class Solarium_Query_Select_Component_MoreLikeThis
      */
     public function setQueryFields($queryFields)
     {
-        return $this->_setOption('queryfields',$queryFields);
+        return $this->_setOption('queryfields', $queryFields);
     }
 
     /**

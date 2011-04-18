@@ -97,6 +97,14 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
         );
     }
 
+    public function testGetInvalidComponent()
+    {
+        $this->assertEquals(
+            null,
+            $this->_result->getComponent('invalid')
+        );
+    }
+
     public function testGetMoreLikeThis()
     {
         $this->assertEquals(

@@ -178,7 +178,7 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
             $documentClass = $this->_query->getOption('documentclass');
 
             $searchResults = $this->_data['moreLikeThis'];
-            foreach($searchResults AS $key => $result) {
+            foreach ($searchResults AS $key => $result) {
 
                 // create document instances
                 $docs = array();

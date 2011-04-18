@@ -67,6 +67,14 @@ class Solarium_Result_Select_MoreLikeThisTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetInvalidResult()
+    {
+        $this->assertEquals(
+            null,
+            $this->_mlt->getResult('invalid')
+        );
+    }
+
     public function testIterator()
     {
         $items = array();
@@ -76,6 +84,11 @@ class Solarium_Result_Select_MoreLikeThisTest extends PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals($this->_results, $items);
+    }
+
+    public function testCount()
+    {
+        $this->assertEquals(count($this->_results), count($this->_mlt));
     }
 
 }
