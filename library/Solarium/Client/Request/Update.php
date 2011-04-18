@@ -129,8 +129,7 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
 
             foreach ($doc->getFields() AS $name => $value) {
                 $boost = $doc->getFieldBoost($name);
-                if(is_array($value))
-                {
+                if (is_array($value)) {
                     foreach ($value AS $multival) {
                         $xml .= $this->_buildFieldXml($name, $boost, $multival);
                     }

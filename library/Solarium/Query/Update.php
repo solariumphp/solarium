@@ -94,7 +94,9 @@ class Solarium_Query_Update extends Solarium_Query
                         $command = new Solarium_Query_Update_Command_Rollback($value);
                         break;
                     case 'add':
-                        throw new Solarium_Exception("Adding documents is not supported in configuration, use the API for this");
+                        throw new Solarium_Exception(
+                            "Adding documents is not supported in configuration, use the API for this"
+                        );
                 }
 
                 $this->add($key, $command);
