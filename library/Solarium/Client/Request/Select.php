@@ -81,6 +81,17 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
             }
         }
 
+        foreach ($this->_query->getComponents() as $component) {
+            switch ($component->getType())
+            {
+                case Solarium_Query_Select_Component::MORELIKETHIS:
+                    $this->addMoreLikeThis($component);
+                    break;
+                default:
+                    throw new Solarium_Exception('Unknown component type');
+            }
+        }
+
         $facets = $this->_query->getFacets();
         if (count($facets) !== 0) {
 
@@ -163,6 +174,29 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
         foreach($facet->getQueries() AS $facetQuery) {
             $this->addFacetQuery($facetQuery);
         }
+    }
+    
+    /**
+     * Add params for morelikethis
+     *
+     * @param Solarium_Query_Select_Component_MoreLikeThis $component
+     * @return void
+     */
+    public function addMoreLikeThis($component)
+    {
+        // enable morelikethis
+        $this->_params['mlt'] = 'true';
+
+        $this->addParam('mlt.fl', $component->getFields());
+        $this->addParam('mlt.mintf', $component->getMinimumTermFrequency());
+        $this->addParam('mlt.mindf', $component->getMinimumDocumentFrequency());
+        $this->addParam('mlt.minwl', $component->getMinimumWordLength());
+        $this->addParam('mlt.maxwl', $component->getMaximumWordLength());
+        $this->addParam('mlt.maxqt', $component->getMaximumQueryTerms());
+        $this->addParam('mlt.maxntp', $component->getMaximumNumberOfTokens());
+        $this->addParam('mlt.boost', $component->getBoost());
+        $this->addParam('mlt.qf', $component->getQueryFields());
+        $this->addParam('mlt.count', $component->getCount());
     }
 
 }

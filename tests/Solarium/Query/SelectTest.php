@@ -541,4 +541,62 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             $facets['category13']->getQuery()
         );
     }
+
+    public function testSetAndGetComponents()
+    {
+        $mlt = new Solarium_Query_Select_Component_MoreLikeThis;
+        $this->_query->setComponent('mlt',$mlt);
+
+        $this->assertEquals(
+            array('mlt' => $mlt),
+            $this->_query->getComponents()
+        );
+    }
+
+    public function testSetAndGetComponent()
+    {
+        $mlt = new Solarium_Query_Select_Component_MoreLikeThis;
+        $this->_query->setComponent('mlt',$mlt);
+
+        $this->assertEquals(
+            $mlt,
+            $this->_query->getComponent('mlt')
+        );
+    }
+
+    public function testGetInvalidComponent()
+    {
+        $this->assertEquals(
+            null,
+            $this->_query->getComponent('invalid')
+        );
+    }
+
+    public function testRemoveComponent()
+    {
+        $mlt = new Solarium_Query_Select_Component_MoreLikeThis;
+        $this->_query->setComponent('mlt',$mlt);
+
+        $this->assertEquals(
+            array('mlt' => $mlt),
+            $this->_query->getComponents()
+        );
+
+        $this->_query->removeComponent('mlt');
+
+        $this->assertEquals(
+            array(),
+            $this->_query->getComponents()
+        );
+    }
+
+    public function testGetMoreLikeThis()
+    {
+        $mlt = $this->_query->getMoreLikeThis();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_MoreLikeThis',
+            get_class($mlt)
+        );
+    }
 }

@@ -47,7 +47,11 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
             'f2' => new Solarium_Result_Select_Facet_Field(array('b' => 5)),
         );
 
-        $this->_result = new Solarium_Result_Select(0,45,100, $this->_docs, $this->_facets);
+        $this->_components = array(
+            Solarium_Query_Select_Component::MORELIKETHIS => new Solarium_Result_Select_MoreLikeThis(array())
+        );                
+
+        $this->_result = new Solarium_Result_Select(0,45,100, $this->_docs, $this->_facets, $this->_components);
     }
 
     public function testGetNumFound()
@@ -80,6 +84,35 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
         $this->assertEquals(3, count($this->_result));
     }
 
+    public function testGetComponents()
+    {
+        $this->assertEquals($this->_components, $this->_result->getComponents());
+    }
+
+    public function testGetComponent()
+    {
+        $this->assertEquals(
+            $this->_components[Solarium_Query_Select_Component::MORELIKETHIS],
+            $this->_result->getComponent(Solarium_Query_Select_Component::MORELIKETHIS)
+        );
+    }
+
+    public function testGetInvalidComponent()
+    {
+        $this->assertEquals(
+            null,
+            $this->_result->getComponent('invalid')
+        );
+    }
+
+    public function testGetMoreLikeThis()
+    {
+        $this->assertEquals(
+            $this->_components[Solarium_Query_Select_Component::MORELIKETHIS],
+            $this->_result->getMoreLikeThis()
+        );
+    }
+
     public function testIterator()
     {
         $docs = array();
@@ -90,5 +123,5 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
 
         $this->assertEquals($this->_docs, $docs);
     }
-    
+
 }

@@ -57,6 +57,13 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
     protected $_facets = array();
 
     /**
+     * Component results
+     * 
+     * @var array
+     */
+    protected $_components = array();
+
+    /**
      * Get a result instance for the response
      *
      * When this method is called the actual response parsing is done.
@@ -72,6 +79,18 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
             foreach ($this->_data['response']['docs'] AS $doc) {
                 $fields = (array)$doc;
                 $documents[] = new $documentClass($fields);
+            }
+        }
+
+        // component results
+        foreach ($this->_query->getComponents() as $component) {
+            switch ($component->getType())
+            {
+                case Solarium_Query_Select_Component::MORELIKETHIS:
+                    $this->_addMoreLikeThis($component);
+                    break;
+                default:
+                    throw new Solarium_Exception('Unknown component type');
             }
         }
 
@@ -100,7 +119,7 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
         // create the result instance that combines all data
         $resultClass = $this->_query->getOption('resultclass');
         return new $resultClass(
-            $status, $queryTime, $numFound, $documents, $this->_facets
+            $status, $queryTime, $numFound, $documents, $this->_facets, $this->_components
         );
     }
 
@@ -166,5 +185,41 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
         
         $this->_facets[$facet->getKey()] =
             new Solarium_Result_Select_Facet_MultiQuery($values);
+    }
+
+    /**
+     * Add morelikethis result
+     * 
+     * @param Solarium_Query_Select_Component_MoreLikeThis $component
+     * @return void
+     */
+    protected function _addMoreLikeThis($component)
+    {
+        $results = array();
+        if (isset($this->_data['moreLikeThis'])) {
+
+
+            $documentClass = $this->_query->getOption('documentclass');
+
+            $searchResults = $this->_data['moreLikeThis'];
+            foreach ($searchResults AS $key => $result) {
+
+                // create document instances
+                $docs = array();
+                foreach ($result['docs'] AS $fields) {
+                    $docs[] = new $documentClass($fields);
+                }
+
+                $results[$key] = new Solarium_Result_Select_MoreLikeThis_Result(
+                    $result['numFound'],
+                    $result['maxScore'],
+                    $docs
+                );
+            }
+        }
+
+        $moreLikeThis = new Solarium_Result_Select_MoreLikeThis($results);
+        
+        $this->_components[$component->getType()] = $moreLikeThis;
     }
 }
