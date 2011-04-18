@@ -65,7 +65,7 @@ class Solarium_Result_Select_MoreLikeThis_Result implements IteratorAggregate, C
      *
      * @var float
      */
-    protected $_maxScore;
+    protected $_maximumScore;
 
     /**
      * Constructor
@@ -78,7 +78,7 @@ class Solarium_Result_Select_MoreLikeThis_Result implements IteratorAggregate, C
     public function __construct($numFound, $maxScore, $documents)
     {
         $this->_numFound = $numFound;
-        $this->_maxScore = $maxScore;
+        $this->_maximumScore = $maxScore;
         $this->_documents = $documents;
     }
 
@@ -100,9 +100,9 @@ class Solarium_Result_Select_MoreLikeThis_Result implements IteratorAggregate, C
      *
      * @return float
      */
-    public function getMaxScore()
+    public function getMaximumScore()
     {
-        return $this->_maxScore;
+        return $this->_maximumScore;
     }
 
     /**

@@ -29,86 +29,43 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
+class Solarium_Result_Select_MoreLikeThis_ResultTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_result, $_docs, $_facets;
+    /**
+     * @var Solarium_Result_Select_MoreLikeThis_Result
+     */
+    protected $_mltResult;
 
     public function setUp()
     {
         $this->_docs = array(
             new Solarium_Document_ReadOnly(array('id'=>1,'name'=>'test1')),
             new Solarium_Document_ReadOnly(array('id'=>2,'name'=>'test2')),
-            new Solarium_Document_ReadOnly(array('id'=>3,'name'=>'test3')),
         );
 
-        $this->_facets = array(
-            'f1' => new Solarium_Result_Select_Facet_Field(array('a' => 14)),
-            'f2' => new Solarium_Result_Select_Facet_Field(array('b' => 5)),
-        );
-
-        $this->_components = array(
-            Solarium_Query_Select_Component::MORELIKETHIS => new Solarium_Result_Select_MoreLikeThis(array())
-        );                
-
-        $this->_result = new Solarium_Result_Select(0,45,100, $this->_docs, $this->_facets, $this->_components);
+        $this->_mltResult = new Solarium_Result_Select_MoreLikeThis_Result(2, 5.13, $this->_docs);
     }
 
     public function testGetNumFound()
     {
-        $this->assertEquals(100, $this->_result->getNumFound());
+        $this->assertEquals(2, $this->_mltResult->getNumFound());
+    }
+
+    public function testGetMaximumScore()
+    {
+        $this->assertEquals(5.13, $this->_mltResult->getMaximumScore());
     }
 
     public function testGetDocuments()
     {
-        $this->assertEquals($this->_docs, $this->_result->getDocuments());
-    }
-
-    public function testGetFacets()
-    {
-        $this->assertEquals($this->_facets, $this->_result->getFacets());
-    }
-
-    public function testGetFacetByKey()
-    {
-        $this->assertEquals($this->_facets['f2'], $this->_result->getFacet('f2'));
-    }
-
-    public function testGetFacetByInvalidKey()
-    {
-        $this->assertEquals(null, $this->_result->getFacet('f2123123'));
-    }
-
-    public function testCount()
-    {
-        $this->assertEquals(3, count($this->_result));
-    }
-
-    public function testGetComponents()
-    {
-        $this->assertEquals($this->_components, $this->_result->getComponents());
-    }
-
-    public function testGetComponent()
-    {
-        $this->assertEquals(
-            $this->_components[Solarium_Query_Select_Component::MORELIKETHIS],
-            $this->_result->getComponent(Solarium_Query_Select_Component::MORELIKETHIS)
-        );
-    }
-
-    public function testGetMoreLikeThis()
-    {
-        $this->assertEquals(
-            $this->_components[Solarium_Query_Select_Component::MORELIKETHIS],
-            $this->_result->getMoreLikeThis()
-        );
+         $this->assertEquals($this->_docs, $this->_mltResult->getDocuments());
     }
 
     public function testIterator()
     {
         $docs = array();
-        foreach($this->_result AS $key => $doc)
+        foreach($this->_mltResult AS $key => $doc)
         {
             $docs[$key] = $doc;
         }
@@ -116,4 +73,8 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
         $this->assertEquals($this->_docs, $docs);
     }
 
+    public function testCount()
+    {
+        $this->assertEquals(count($this->_docs), count($this->_mltResult));
+    }
 }

@@ -672,7 +672,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getComponent($key, $autoload = null)
     {
-        if (isset($this->_components[$key]) && $this->_components[$key] !== null) {
+        if (isset($this->_components[$key])) {
             return $this->_components[$key];
         } else {
             if ($autoload !== null) {
@@ -688,7 +688,6 @@ class Solarium_Query_Select extends Solarium_Query
      * Set a component instance
      *
      * This overwrites any existing component registered with the same key.
-     * If you want to remove a component use NULL as value.
      *
      * @param string $key
      * @param object|null $value
@@ -697,6 +696,20 @@ class Solarium_Query_Select extends Solarium_Query
     public function setComponent($key, $value)
     {
         $this->_components[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * Remove a component instance
+     *
+     * @param string $key
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function removeComponent($key)
+    {
+        if (isset($this->_components[$key])) {
+            unset($this->_components[$key]);
+        }
         return $this;
     }
 
