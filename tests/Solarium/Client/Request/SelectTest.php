@@ -113,6 +113,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
     {
         $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_Field(array('key' => 'f1', 'field' => 'owner')));
         $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_Query(array('key' => 'f2', 'query' => 'category:23')));
+        $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_MultiQuery(array('key' => 'f3', 'query' => array('f4' =>array('query' => 'category:40')))));
         $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
 
         $this->assertEquals(
@@ -121,7 +122,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.field={!key=f1}owner&facet.query={!key=f2}category:23',
+            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
             urldecode($request->getUri())
         );
     }

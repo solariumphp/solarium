@@ -221,7 +221,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
      * @param array $facetQueries
      * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
      */
-    public function setFacetQueries($facetQueries)
+    public function setQueries($facetQueries)
     {
         $this->clearQueries();
         return $this->addQueries($facetQueries);

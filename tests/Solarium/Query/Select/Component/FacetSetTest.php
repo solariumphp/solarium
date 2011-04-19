@@ -99,6 +99,21 @@ class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_Tes
         );
     }
 
+    public function testAddFacetsWithConfig()
+    {
+        $facets = array(
+            array('type' => 'query', 'key' => 'f1', 'query' => 'category:1'),
+            'f2' => array('type' => 'query', 'query' => 'category:2')
+        );
+
+        $this->_facetSet->addFacets($facets);
+
+        $this->assertEquals(
+            2,
+            count($this->_facetSet->getFacets())
+        );
+    }
+
     public function testRemoveFacet()
     {
         $fq1 = new Solarium_Query_Select_Component_Facet_Query;

@@ -115,7 +115,7 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                     case Solarium_Query_Select_Component_Facet::QUERY:
                         $this->addFacetQuery($facet);
                         break;
-                     case Solarium_Query_Select_Component_Facet::MULTIQUERY:
+                    case Solarium_Query_Select_Component_Facet::MULTIQUERY:
                         $this->addFacetMultiQuery($facet);
                         break;
                     default:
@@ -177,7 +177,7 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
      */
     public function addFacetMultiQuery($facet)
     {
-        foreach($facet->getQueries() AS $facetQuery) {
+        foreach ($facet->getQueries() AS $facetQuery) {
             $this->addFacetQuery($facetQuery);
         }
     }

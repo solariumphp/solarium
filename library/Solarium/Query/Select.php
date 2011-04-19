@@ -615,7 +615,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     protected function _createComponents($configs)
     {
-        foreach($configs AS $type => $config)
+        foreach ($configs AS $type => $config)
         {
             $this->getComponent($type, true, $config);
         }

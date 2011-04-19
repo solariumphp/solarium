@@ -433,6 +433,12 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetInvalidComponentAutoload()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_query->getComponent('invalid', true);
+    }
+
     public function testRemoveComponent()
     {
         $mlt = new Solarium_Query_Select_Component_MoreLikeThis;
