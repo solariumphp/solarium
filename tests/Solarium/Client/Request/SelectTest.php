@@ -111,8 +111,8 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
     public function testSelectUrlWithFacets()
     {
-        $this->_query->addFacet(new Solarium_Query_Select_Facet_Field(array('key' => 'f1', 'field' => 'owner')));
-        $this->_query->addFacet(new Solarium_Query_Select_Facet_Query(array('key' => 'f2', 'query' => 'category:23')));
+        $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_Field(array('key' => 'f1', 'field' => 'owner')));
+        $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_Query(array('key' => 'f2', 'query' => 'category:23')));
         $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
 
         $this->assertEquals(
@@ -128,7 +128,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
 
     public function testUnknownFacetType()
     {
-        $this->_query->addFacet(new UnknownFacet(array('key' => 'f1', 'field' => 'owner')));
+        $this->_query->getFacetSet()->addFacet(new UnknownFacet(array('key' => 'f1', 'field' => 'owner')));
         $this->setExpectedException('Solarium_Exception');
         $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
         $request->getUri();
@@ -163,7 +163,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
     
 }
 
-class UnknownFacet extends Solarium_Query_Select_Facet_Field{
+class UnknownFacet extends Solarium_Query_Select_Component_Facet_Field{
 
     public function getType()
     {

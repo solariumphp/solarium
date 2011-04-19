@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_Select_Component_moreLikeThisTest extends PHPUnit_Framework_TestCase
+class Solarium_Query_Select_Component_MoreLikeThisTest extends PHPUnit_Framework_TestCase
 {
 
     protected $_mlt;

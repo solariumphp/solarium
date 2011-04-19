@@ -29,6 +29,9 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
+error_reporting(E_ALL | E_STRICT); 
+ini_set('display_errors',true);
+
 // Define path to application directory
 $basePath = realpath(dirname(__FILE__) . '/../');
 

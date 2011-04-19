@@ -340,147 +340,6 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testAddAndGetFacet()
-    {
-        $fq = new Solarium_Query_Select_Facet_Query;
-        $fq->setKey('f1')->setQuery('category:1');
-        $this->_query->addFacet($fq);
-
-        $this->assertEquals(
-            $fq,
-            $this->_query->getFacet('f1')
-        );
-    }
-
-    public function testAddFacetWithoutKey()
-    {
-        $fq = new Solarium_Query_Select_Facet_Query;
-        $fq->setQuery('category:1');
-
-        $this->setExpectedException('Solarium_Exception');
-        $this->_query->addFacet($fq);
-    }
-
-    public function testAddFacetWithUsedKey()
-    {
-        $fq1 = new Solarium_Query_Select_Facet_Query;
-        $fq1->setKey('f1')->setQuery('category:1');
-
-        $fq2 = new Solarium_Query_Select_Facet_Query;
-        $fq2->setKey('f1')->setQuery('category:2');
-
-        $this->_query->addFacet($fq1);
-        $this->setExpectedException('Solarium_Exception');
-        $this->_query->addFacet($fq2);
-    }
-
-    public function testGetInvalidFacet()
-    {
-        $this->assertEquals(
-            null,
-            $this->_query->getFacet('invalidtag')
-        );
-    }
-
-    public function testAddFacets()
-    {
-        $fq1 = new Solarium_Query_Select_Facet_Query;
-        $fq1->setKey('f1')->setQuery('category:1');
-
-        $fq2 = new Solarium_Query_Select_Facet_Query;
-        $fq2->setKey('f2')->setQuery('category:2');
-
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
-
-        $this->_query->addFacets($facets);
-        $this->assertEquals(
-            $facets,
-            $this->_query->getFacets()
-        );
-    }
-
-    public function testRemoveFacet()
-    {
-        $fq1 = new Solarium_Query_Select_Facet_Query;
-        $fq1->setKey('f1')->setQuery('category:1');
-
-        $fq2 = new Solarium_Query_Select_Facet_Query;
-        $fq2->setKey('f2')->setQuery('category:2');
-
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
-
-        $this->_query->addFacets($facets);
-        $this->_query->removeFacet('f1');
-        $this->assertEquals(
-            array('f2' => $fq2),
-            $this->_query->getFacets()
-        );
-    }
-
-    public function testRemoveInvalidFacet()
-    {
-        $fq1 = new Solarium_Query_Select_Facet_Query;
-        $fq1->setKey('f1')->setQuery('category:1');
-
-        $fq2 = new Solarium_Query_Select_Facet_Query;
-        $fq2->setKey('f2')->setQuery('category:2');
-
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
-
-        $this->_query->addFacets($facets);
-        $this->_query->removeFacet('f3'); //continue silently
-        $this->assertEquals(
-            $facets,
-            $this->_query->getFacets()
-        );
-    }
-
-    public function testClearFacets()
-    {
-        $fq1 = new Solarium_Query_Select_Facet_Query;
-        $fq1->setKey('f1')->setQuery('category:1');
-
-        $fq2 = new Solarium_Query_Select_Facet_Query;
-        $fq2->setKey('f2')->setQuery('category:2');
-
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
-
-        $this->_query->addFacets($facets);
-        $this->_query->clearFacets();
-        $this->assertEquals(
-            array(),
-            $this->_query->getFacets()
-        );
-    }
-
-    public function testSetFacets()
-    {
-        $fq1 = new Solarium_Query_Select_Facet_Query;
-        $fq1->setKey('f1')->setQuery('category:1');
-
-        $fq2 = new Solarium_Query_Select_Facet_Query;
-        $fq2->setKey('f2')->setQuery('category:2');
-
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
-
-        $this->_query->addFacets($facets);
-
-        $fq3 = new Solarium_Query_Select_Facet_Query;
-        $fq3->setKey('f3')->setQuery('category:3');
-
-        $fq4 = new Solarium_Query_Select_Facet_Query;
-        $fq4->setKey('f4')->setQuery('category:4');
-
-        $facets = array('f3' => $fq3, 'f4' => $fq4);
-
-        $this->_query->setFacets($facets);
-
-        $this->assertEquals(
-            $facets,
-            $this->_query->getFacets()
-        );
-    }
-
     public function testConstructorWithConfig()
     {
         $config = array(
@@ -493,10 +352,12 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
                 array('key' => 'pub', 'tag' => array('pub'),'query' => 'published:true'),
                 'online' => array('tag' => 'onl','query' => 'online:true')
             ),
-            'facet' => array(
-                array('type' => 'field', 'key' => 'categories', 'field' => 'category'),
-                'category13' => array('type' => 'query', 'query' => 'category:13')
-            ),
+            'component' => array(
+                'facetset' => array(
+                    array('type' => 'field', 'key' => 'categories', 'field' => 'category'),
+                    'category13' => array('type' => 'query', 'query' => 'category:13')
+                ),
+            )
         );
         $query = new Solarium_Query_Select($config);
 
@@ -531,7 +392,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             $fq->getQuery()
         );
 
-        $facets = $query->getFacets();
+        $facets = $query->getFacetSet()->getFacets();
         $this->assertEquals(
             'category',
             $facets['categories']->getField()

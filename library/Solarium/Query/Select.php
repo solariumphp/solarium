@@ -91,13 +91,6 @@ class Solarium_Query_Select extends Solarium_Query
     protected $_filterQueries = array();
 
     /**
-     * Facets
-     *
-     * @var array
-     */
-    protected $_facets = array();
-
-    /**
      * Search components
      *
      * @var array
@@ -122,9 +115,6 @@ class Solarium_Query_Select extends Solarium_Query
                 case 'filterquery':
                     $this->addFilterQueries($value);
                     break;
-                case 'facet':
-                    $this->addFacets($value);
-                    break;
                 case 'sort':
                     $this->addSortFields($value);
                     break;
@@ -136,6 +126,9 @@ class Solarium_Query_Select extends Solarium_Query
                     break;
                 case 'start':
                     $this->setStart((int)$value);
+                    break;
+                case 'component':
+                    $this->_createComponents($value);
                     break;
             }
         }
@@ -538,119 +531,6 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Add a facet
-     *
-     * @param Solarium_Query_Select_Facet|array $facet
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function addFacet($facet)
-    {
-        if (is_array($facet)) {
-            $className = 'Solarium_Query_Select_Facet_'.ucfirst($facet['type']);
-            $facet = new $className($facet);
-        }
-
-        $key = $facet->getKey();
-
-        if (0 === strlen($key)) {
-            throw new Solarium_Exception('A facet must have a key value');
-        }
-
-        if (array_key_exists($key, $this->_facets)) {
-            throw new Solarium_Exception('A facet must have a unique key value'
-                . ' within a query');
-        }
-
-        $this->_facets[$key] = $facet;
-        return $this;
-    }
-
-    /**
-     * Add multiple facets
-     *
-     * @param array $facets
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function addFacets(array $facets)
-    {
-        foreach ($facets AS $key => $facet) {
-
-            // in case of a config array: add key to config
-            if (is_array($facet) && !isset($facet['key'])) {
-                $facet['key'] = $key;
-            }
-
-            $this->addFacet($facet);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get a facet
-     *
-     * @param string $key
-     * @return string
-     */
-    public function getFacet($key)
-    {
-        if (isset($this->_facets[$key])) {
-            return $this->_facets[$key];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Get all facets
-     *
-     * @return array
-     */
-    public function getFacets()
-    {
-        return $this->_facets;
-    }
-
-    /**
-     * Remove a single facet by key
-     *
-     * @param string $key
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function removeFacet($key)
-    {
-        if (isset($this->_facets[$key])) {
-            unset($this->_facets[$key]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove all facets
-     *
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function clearFacets()
-    {
-        $this->_facets = array();
-        return $this;
-    }
-
-    /**
-     * Set multiple facets
-     *
-     * This overwrites any existing facets
-     *
-     * @param array $facets
-     */
-    public function setFacets($facets)
-    {
-        $this->clearFacets();
-        $this->addFacets($facets);
-    }
-
-    /**
      * Get all registered components
      * 
      * @return array
@@ -668,15 +548,28 @@ class Solarium_Query_Select extends Solarium_Query
      *
      * @param string $key Use one of the constants
      * @param string $autoload Class to autoload if component needs to be created
+     * @param array $config Configuration to use for autoload
      * @return object|null
      */
-    public function getComponent($key, $autoload = null)
+    public function getComponent($key, $autoload = false, $config = null)
     {
         if (isset($this->_components[$key])) {
             return $this->_components[$key];
         } else {
-            if ($autoload !== null) {
-                $component = new $autoload;
+            if ($autoload == true) {
+
+                switch ($key) {
+                    case Solarium_Query_Select_Component::MORELIKETHIS:
+                        $className = 'Solarium_Query_Select_Component_MoreLikeThis';
+                        break;
+                    case Solarium_Query_Select_Component::FACETSET:
+                        $className = 'Solarium_Query_Select_Component_FacetSet';
+                        break;
+                    default:
+                        throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
+                }
+
+                $component = new $className($config);
                 $this->setComponent($key, $component);
                 return $this->_components[$key];
             }
@@ -713,6 +606,21 @@ class Solarium_Query_Select extends Solarium_Query
         return $this;
     }
 
+
+    /**
+     * Build component instances based on config
+     *
+     * @param array $configs
+     * @return void
+     */
+    protected function _createComponents($configs)
+    {
+        foreach($configs AS $type => $config)
+        {
+            $this->getComponent($type, true, $config);
+        }
+    }
+
     /**
      * Get a MoreLikeThis component instance
      *
@@ -722,7 +630,19 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getMoreLikeThis()
     {
-        return $this->getComponent('MoreLikeThis', 'Solarium_Query_Select_Component_MoreLikeThis');
+        return $this->getComponent(Solarium_Query_Select_Component::MORELIKETHIS, true);
+    }
+
+    /**
+     * Get a FacetSet component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_FacetSet
+     */
+    public function getFacetSet()
+    {
+        return $this->getComponent(Solarium_Query_Select_Component::FACETSET, true);
     }
 
 }

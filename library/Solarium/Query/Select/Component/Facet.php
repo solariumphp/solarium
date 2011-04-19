@@ -43,7 +43,7 @@
  * @package Solarium
  * @subpackage Query
  */
-abstract class Solarium_Query_Select_Facet extends Solarium_Configurable
+abstract class Solarium_Query_Select_Component_Facet extends Solarium_Configurable
 {
 
     /**
@@ -102,7 +102,7 @@ abstract class Solarium_Query_Select_Facet extends Solarium_Configurable
      * Set key value
      *
      * @param string $value
-     * @return Solarium_Query_Select_Facet Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet Provides fluent interface
      */
     public function setKey($value)
     {
@@ -113,7 +113,7 @@ abstract class Solarium_Query_Select_Facet extends Solarium_Configurable
      * Add an exclude tag
      *
      * @param string $tag
-     * @return Solarium_Query_Select_Facet Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet Provides fluent interface
      */
     public function addExclude($exclude)
     {
@@ -125,7 +125,7 @@ abstract class Solarium_Query_Select_Facet extends Solarium_Configurable
      * Add multiple exclude tags
      *
      * @param array $excludes
-     * @return Solarium_Query_Select_Facet Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet Provides fluent interface
      */
     public function addExcludes(array $excludes)
     {
@@ -150,7 +150,7 @@ abstract class Solarium_Query_Select_Facet extends Solarium_Configurable
      * Remove a single exclude tag
      *
      * @param string $exclude
-     * @return Solarium_Query_Select_Facet Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet Provides fluent interface
      */
     public function removeExclude($exclude)
     {

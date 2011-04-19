@@ -29,20 +29,20 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_Select_Facet_FieldTest extends PHPUnit_Framework_TestCase
+class Solarium_Query_Select_Component_Facet_FieldTest extends PHPUnit_Framework_TestCase
 {
 
     protected $_facet;
 
     public function setUp()
     {
-        $this->_facet = new Solarium_Query_Select_Facet_Field;
+        $this->_facet = new Solarium_Query_Select_Component_Facet_Field;
     }
 
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Select_Facet::FIELD,
+            Solarium_Query_Select_Component_Facet::FIELD,
             $this->_facet->getType()
         );
     }

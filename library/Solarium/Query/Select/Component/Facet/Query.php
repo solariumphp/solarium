@@ -43,7 +43,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Facet_Query extends Solarium_Query_Select_Facet
+class Solarium_Query_Select_Component_Facet_Query extends Solarium_Query_Select_Component_Facet
 {
 
     /**

@@ -87,12 +87,20 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                 case Solarium_Query_Select_Component::MORELIKETHIS:
                     $this->addMoreLikeThis($component);
                     break;
+                case Solarium_Query_Select_Component::FACETSET:
+                    $this->addFacetSet($component);
+                    break;
                 default:
                     throw new Solarium_Exception('Unknown component type');
             }
         }
 
-        $facets = $this->_query->getFacets();
+        return $this->buildUri();
+    }
+
+    public function addFacetSet($facetSet)
+    {
+        $facets = $facetSet->getFacets();
         if (count($facets) !== 0) {
 
             // enable faceting
@@ -101,13 +109,13 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
             foreach ($facets AS $facet) {
                 switch ($facet->getType())
                 {
-                    case Solarium_Query_Select_Facet::FIELD:
+                    case Solarium_Query_Select_Component_Facet::FIELD:
                         $this->addFacetField($facet);
                         break;
-                    case Solarium_Query_Select_Facet::QUERY:
+                    case Solarium_Query_Select_Component_Facet::QUERY:
                         $this->addFacetQuery($facet);
                         break;
-                     case Solarium_Query_Select_Facet::MULTIQUERY:
+                     case Solarium_Query_Select_Component_Facet::MULTIQUERY:
                         $this->addFacetMultiQuery($facet);
                         break;
                     default:
@@ -115,14 +123,12 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                 }
             }
         }
-
-        return $this->buildUri();
     }
 
     /**
      * Add params for a field facet to request
      *
-     * @param Solarium_Query_Select_Facet_Field $facet
+     * @param Solarium_Query_Select_Component_Facet_Field $facet
      * @return void
      */
     public function addFacetField($facet)
@@ -149,7 +155,7 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
     /**
      * Add params for a facet query to request
      *
-     * @param Solarium_Query_Select_Facet_Query $facet
+     * @param Solarium_Query_Select_Component_Facet_Query $facet
      * @return void
      */
     public function addFacetQuery($facet)
@@ -166,7 +172,7 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
     /**
      * Add params for a multiquery facet to request
      *
-     * @param Solarium_Query_Select_Facet_MultiQuery $facet
+     * @param Solarium_Query_Select_Component_Facet_MultiQuery $facet
      * @return void
      */
     public function addFacetMultiQuery($facet)

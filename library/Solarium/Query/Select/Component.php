@@ -48,6 +48,7 @@ class Solarium_Query_Select_Component extends Solarium_Configurable
      * Component types
      */
     const MORELIKETHIS = 'morelikethis';
+    const FACETSET = 'facetset';
 
     /**
      * Component type
