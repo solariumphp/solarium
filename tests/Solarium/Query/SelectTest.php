@@ -354,8 +354,10 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             ),
             'component' => array(
                 'facetset' => array(
-                    array('type' => 'field', 'key' => 'categories', 'field' => 'category'),
-                    'category13' => array('type' => 'query', 'query' => 'category:13')
+                    'facet' => array(
+                        array('type' => 'field', 'key' => 'categories', 'field' => 'category'),
+                        'category13' => array('type' => 'query', 'query' => 'category:13')
+                    )
                 ),
             )
         );

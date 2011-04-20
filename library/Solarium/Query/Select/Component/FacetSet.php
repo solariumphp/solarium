@@ -58,9 +58,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * 
      * @var array
      */
-    protected $_options = array(
-        //TODO global options: prefix, sort, limit, mincount, missing,
-    );
+    protected $_options = array();
 
     /**
      * Facets
@@ -79,13 +77,142 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      */
     protected function _init()
     {
-        foreach ($this->_options AS $key => $config) {
-            if (!isset($config['key'])) {
-                $config['key'] = $key;
-            }
+        if (isset($this->_options['facet'])) {
+            foreach ($this->_options['facet'] AS $key => $config) {
+                if (!isset($config['key'])) {
+                    $config['key'] = $key;
+                }
 
-            $this->addFacet($config);
+                $this->addFacet($config);
+            }
         }
+    }
+
+    /**
+     * Limit the terms for faceting by a prefix
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @param string $prefix
+     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     */
+    public function setPrefix($prefix)
+    {
+        return $this->_setOption('prefix', $prefix);
+    }
+
+    /**
+     * Get the facet prefix
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->getOption('prefix');
+    }
+
+    /**
+     * Set the facet sort order
+     *
+     * Use one of the SORT_* constants as the value
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @param string $sort
+     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     */
+    public function setSort($sort)
+    {
+        return $this->_setOption('sort', $sort);
+    }
+
+    /**
+     * Get the facet sort order
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @return string
+     */
+    public function getSort()
+    {
+        return $this->getOption('sort');
+    }
+
+    /**
+     * Set the facet limit
+     *
+     *  This is a global value for all facets in this facetset
+     *
+     * @param int $limit
+     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     */
+    public function setLimit($limit)
+    {
+        return $this->_setOption('limit', $limit);
+    }
+
+    /**
+     * Get the facet limit
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @return string
+     */
+    public function getLimit()
+    {
+        return $this->getOption('limit');
+    }
+
+    /**
+     * Set the facet mincount
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @param int $mincount
+     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     */
+    public function setMinCount($minCount)
+    {
+        return $this->_setOption('mincount', $minCount);
+    }
+
+    /**
+     * Get the facet mincount
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @return int
+     */
+    public function getMinCount()
+    {
+        return $this->getOption('mincount');
+    }
+
+    /**
+     * Set the missing count option
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @param boolean $missing
+     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     */
+    public function setMissing($missing)
+    {
+        return $this->_setOption('missing', $missing);
+    }
+
+    /**
+     * Get the facet missing option
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @return boolean
+     */
+    public function getMissing()
+    {
+        return $this->getOption('missing');
     }
 
     /**

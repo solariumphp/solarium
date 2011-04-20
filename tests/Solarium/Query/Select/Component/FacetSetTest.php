@@ -39,6 +39,35 @@ class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_Tes
         $this->_facetSet = new Solarium_Query_Select_Component_FacetSet;
     }
 
+    public function testSetAndGetSort()
+    {
+        $this->_facetSet->setSort('index');
+        $this->assertEquals('index', $this->_facetSet->getSort());
+    }
+
+    public function testSetAndGetPrefix()
+    {
+        $this->_facetSet->setPrefix('xyz');
+        $this->assertEquals('xyz', $this->_facetSet->getPrefix());
+    }
+
+    public function testSetAndGetLimit()
+    {
+        $this->_facetSet->setLimit(12);
+        $this->assertEquals(12, $this->_facetSet->getLimit());
+    }
+
+    public function testSetAndGetMinCount()
+    {
+        $this->_facetSet->setMincount(100);
+        $this->assertEquals(100, $this->_facetSet->getMincount());
+    }
+
+    public function testSetAndGetMissing()
+    {
+        $this->_facetSet->setMissing(true);
+        $this->assertEquals(true, $this->_facetSet->getMissing());
+    }
 
     public function testAddAndGetFacet()
     {

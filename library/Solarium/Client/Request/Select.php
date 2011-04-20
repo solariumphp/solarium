@@ -98,6 +98,11 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
         return $this->buildUri();
     }
 
+    /**
+     * @throws Solarium_Exception
+     * @param Solarium_Query_Select_Component_FacetSet $facetSet
+     * @return void
+     */
     public function addFacetSet($facetSet)
     {
         $facets = $facetSet->getFacets();
@@ -105,6 +110,13 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
 
             // enable faceting
             $this->_params['facet'] = 'true';
+
+            // global facet params
+            $this->addParam('facet.sort', $facetSet->getSort());
+            $this->addParam('facet.prefix', $facetSet->getPrefix());
+            $this->addParam('facet.missing', $facetSet->getMissing());
+            $this->addParam('facet.mincount', $facetSet->getMinCount());
+            $this->addParam('facet.limit', $facetSet->getLimit());
 
             foreach ($facets AS $facet) {
                 switch ($facet->getType())
