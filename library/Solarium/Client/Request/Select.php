@@ -130,6 +130,9 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                     case Solarium_Query_Select_Component_Facet::MULTIQUERY:
                         $this->addFacetMultiQuery($facet);
                         break;
+                    case Solarium_Query_Select_Component_Facet::RANGE:
+                        $this->addFacetRange($facet);
+                        break;
                     default:
                         throw new Solarium_Exception('Unknown facet type');
                 }
@@ -191,6 +194,40 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
     {
         foreach ($facet->getQueries() AS $facetQuery) {
             $this->addFacetQuery($facetQuery);
+        }
+    }
+
+    /**
+     * Add params for a range facet to request
+     *
+     * @param Solarium_Query_Select_Component_Facet_Range $facet
+     * @return void
+     */
+    public function addFacetRange($facet)
+    {
+        $field = $facet->getField();
+
+        $this->addParam(
+            'facet.range',
+            $this->renderLocalParams(
+                $field,
+                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+            )
+        );
+
+        $this->addParam("f.$field.facet.range.start", $facet->getStart());
+        $this->addParam("f.$field.facet.range.end", $facet->getEnd());
+        $this->addParam("f.$field.facet.range.gap", $facet->getGap());
+        $this->addParam("f.$field.facet.range.hardend", $facet->getHardend());
+
+        $other = explode(',', $facet->getOther());
+        foreach ($other AS $otherValue) {
+            $this->addParam("f.$field.facet.range.other", trim($otherValue));
+        }
+
+        $include = explode(',', $facet->getInclude());
+        foreach ($include AS $includeValue) {
+            $this->addParam("f.$field.facet.range.include", trim($includeValue));
         }
     }
     

@@ -127,6 +127,33 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSelectUrlWithRangeFacet()
+    {
+        $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_Range(
+            array(
+                'key' => 'f1',
+                'field' => 'price',
+                'start' => '1',
+                'end' => 100,
+                'gap' => 10,
+                'other' => 'all',
+                'include' => 'outer'
+            )
+        ));
+
+        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+
+        $this->assertEquals(
+            null,
+            $request->getRawData()
+        );
+
+        $this->assertEquals(
+            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.range.other=all&f.price.facet.range.include=outer',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testSelectUrlWithFacetsAndGlobalFacetSettings()
     {
         $this->_query->getFacetSet()->setMissing(true);
