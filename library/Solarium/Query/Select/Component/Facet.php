@@ -83,6 +83,7 @@ abstract class Solarium_Query_Select_Component_Facet extends Solarium_Configurab
                 case 'exclude':
                     if(!is_array($value)) $value = array($value);
                     $this->setExcludes($value);
+                    unset($this->_options['exclude']);
                     break;
             }
         }

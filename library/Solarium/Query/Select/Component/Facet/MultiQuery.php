@@ -98,7 +98,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
     public function createQuery($key, $query, $excludes = array())
     {
         // merge excludes with shared excludes
-        $excludes = array_merge($this->_excludes, $excludes);
+        $excludes = array_merge($this->getExcludes(), $excludes);
 
         $facetQuery = new Solarium_Query_Select_Component_Facet_Query;
         $facetQuery->setKey($key);
@@ -135,7 +135,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
         }
 
         // forward shared excludes
-        $facetQuery->addExcludes($this->_excludes);
+        $facetQuery->addExcludes($this->getExcludes());
 
         $this->_facetQueries[$key] = $facetQuery;
         return $this;
