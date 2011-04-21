@@ -92,7 +92,7 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
                 case Solarium_Query_Select_Component::FACETSET:
                     $this->_addFacetSet($component);
                     break;
-                 case Solarium_Query_Select_Component::DISMAX:
+                case Solarium_Query_Select_Component::DISMAX:
                     // no result action needed
                     break;
                 default:
