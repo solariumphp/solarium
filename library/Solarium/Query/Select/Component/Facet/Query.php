@@ -27,20 +27,65 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
+ *
+ * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
+ * @package Solarium
+ * @subpackage Query
  */
 
-error_reporting(E_ALL | E_STRICT); 
-ini_set('display_errors',true);
+/**
+ * Facet query
+ *
+ * @link http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
+ *
+ * @package Solarium
+ * @subpackage Query
+ */
+class Solarium_Query_Select_Component_Facet_Query extends Solarium_Query_Select_Component_Facet
+{
 
-// Define path to application directory
-$basePath = realpath(dirname(__FILE__) . '/../');
+    /**
+     * Default options
+     *
+     * @var array
+     */
+    protected $_options = array(
+        'query' => '*:*'
+    );
 
-// Ensure library/ is on include_path
-set_include_path(implode(PATH_SEPARATOR, array(
-    realpath($basePath . '/library'),
-    realpath($basePath . '/tests/library'),
-    get_include_path(),
-)));
+    /**
+     * Get the facet type
+     * 
+     * @return string
+     */
+    public function getType()
+    {
+        return self::QUERY;
+    }
 
-// set up an autoload for Zend / Pear style class loading
-spl_autoload_register(create_function('$class', '@include(str_replace("_", DIRECTORY_SEPARATOR, $class) . ".php");'));
+    /**
+     * Set the query string
+     *
+     * This overwrites the current value
+     *
+     * @param string $query
+     * @return Solarium_Query_Select_Facet_Query Provides fluent interface
+     */
+    public function setQuery($query)
+    {
+        return $this->_setOption('query', $query);
+    }
+
+    /**
+     * Get the query string
+     *
+     * @return string
+     */
+    public function getQuery()
+    {
+        return $this->getOption('query');
+    }
+
+}

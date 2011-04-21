@@ -29,69 +29,40 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_Select_Facet_FieldTest extends PHPUnit_Framework_TestCase
+class Solarium_Result_Select_Facet_MultiQueryTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_facet;
+    protected $_values, $_facet;
 
     public function setUp()
     {
-        $this->_facet = new Solarium_Query_Select_Facet_Field;
-    }
-
-    public function testGetType()
-    {
-        $this->assertEquals(
-            Solarium_Query_Select_Facet::FIELD,
-            $this->_facet->getType()
+        $this->_values = array(
+            'a' => 12,
+            'b' => 5,
+            'c' => 3,
         );
+        $this->_facet = new Solarium_Result_Select_Facet_MultiQuery($this->_values);
     }
 
-    public function testSetAndGetField()
+    public function testGetValues()
     {
-        $this->_facet->setField('category');
-        $this->assertEquals('category', $this->_facet->getField());
+        $this->assertEquals($this->_values, $this->_facet->getValues());
     }
 
-    public function testSetAndGetSort()
+    public function testCount()
     {
-        $this->_facet->setSort('index');
-        $this->assertEquals('index', $this->_facet->getSort());
+        $this->assertEquals(count($this->_values), count($this->_facet));
     }
 
-    public function testSetAndGetPrefix()
+    public function testIterator()
     {
-        $this->_facet->setPrefix('xyz');
-        $this->assertEquals('xyz', $this->_facet->getPrefix());
-    }
+        $values = array();
+        foreach($this->_facet AS $key => $value)
+        {
+            $values[$key] = $value;
+        }
 
-    public function testSetAndGetLimit()
-    {
-        $this->_facet->setLimit(12);
-        $this->assertEquals(12, $this->_facet->getLimit());
+        $this->assertEquals($this->_values, $values);
     }
-
-    public function testSetAndGetOffset()
-    {
-        $this->_facet->setOffset(40);
-        $this->assertEquals(40, $this->_facet->getOffset());
-    }
-
-    public function testSetAndGetMinCount()
-    {
-        $this->_facet->setMincount(100);
-        $this->assertEquals(100, $this->_facet->getMincount());
-    }
-
-    public function testSetAndGetMissing()
-    {
-        $this->_facet->setMissing(true);
-        $this->assertEquals(true, $this->_facet->getMissing());
-    }
-
-    public function testSetAndGetMethod()
-    {
-        $this->_facet->setMethod('enum');
-        $this->assertEquals('enum', $this->_facet->getMethod());
-    }
+    
 }

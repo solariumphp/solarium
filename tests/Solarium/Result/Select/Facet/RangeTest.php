@@ -27,65 +27,66 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @package Solarium
- * @subpackage Query
  */
 
-/**
- * Facet query
- *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
- *
- * @package Solarium
- * @subpackage Query
- */
-class Solarium_Query_Select_Facet_Query extends Solarium_Query_Select_Facet
+class Solarium_Result_Select_Facet_RangeTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * Default options
-     *
-     * @var array
+     * @var Solarium_Result_Select_Facet_Range
      */
-    protected $_options = array(
-        'query' => '*:*'
-    );
+    protected $_facet;
 
-    /**
-     * Get the facet type
-     * 
-     * @return string
-     */
-    public function getType()
+    protected $_values, $_before, $_after, $_between;
+
+    public function setUp()
     {
-        return self::QUERY;
+        $this->_values = array(
+            '10.0' => 12,
+            '20.0' => 5,
+            '30.0' => 3,
+        );
+        $this->_before = 2;
+        $this->_after = 4;
+        $this->_between = 3;
+
+        $this->_facet = new Solarium_Result_Select_Facet_Range($this->_values, $this->_before, $this->_after, $this->_between);
     }
 
-    /**
-     * Set the query string
-     *
-     * This overwrites the current value
-     *
-     * @param string $query
-     * @return Solarium_Query_Select_Facet_Query Provides fluent interface
-     */
-    public function setQuery($query)
+    public function testGetValues()
     {
-        return $this->_setOption('query', $query);
+        $this->assertEquals($this->_values, $this->_facet->getValues());
     }
 
-    /**
-     * Get the query string
-     *
-     * @return string
-     */
-    public function getQuery()
+    public function testCount()
     {
-        return $this->getOption('query');
+        $this->assertEquals(count($this->_values), count($this->_facet));
     }
 
+    public function testIterator()
+    {
+        $values = array();
+        foreach($this->_facet AS $key => $value)
+        {
+            $values[$key] = $value;
+        }
+
+        $this->assertEquals($this->_values, $values);
+    }
+
+    public function testGetBefore()
+    {
+        $this->assertEquals($this->_before, $this->_facet->getBefore());
+    }
+
+    public function testGetAfter()
+    {
+        $this->assertEquals($this->_after, $this->_facet->getAfter());
+    }
+
+    public function testGetBetween()
+    {
+        $this->assertEquals($this->_between, $this->_facet->getBetween());
+    }
+    
 }

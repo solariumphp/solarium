@@ -87,29 +87,14 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                 case Solarium_Query_Select_Component::MORELIKETHIS:
                     $this->addMoreLikeThis($component);
                     break;
+                case Solarium_Query_Select_Component::FACETSET:
+                    $this->addFacetSet($component);
+                    break;
+                case Solarium_Query_Select_Component::DISMAX:
+                    $this->addDisMax($component);
+                    break;
                 default:
                     throw new Solarium_Exception('Unknown component type');
-            }
-        }
-
-        $facets = $this->_query->getFacets();
-        if (count($facets) !== 0) {
-
-            // enable faceting
-            $this->_params['facet'] = 'true';
-
-            foreach ($facets AS $facet) {
-                switch ($facet->getType())
-                {
-                    case Solarium_Query_Select_Facet::FIELD:
-                        $this->addFacetField($facet);
-                        break;
-                    case Solarium_Query_Select_Facet::QUERY:
-                        $this->addFacetQuery($facet);
-                        break;
-                    default:
-                        throw new Solarium_Exception('Unknown facet type');
-                }
             }
         }
 
@@ -117,9 +102,51 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
     }
 
     /**
+     * @throws Solarium_Exception
+     * @param Solarium_Query_Select_Component_FacetSet $facetSet
+     * @return void
+     */
+    public function addFacetSet($facetSet)
+    {
+        $facets = $facetSet->getFacets();
+        if (count($facets) !== 0) {
+
+            // enable faceting
+            $this->_params['facet'] = 'true';
+
+            // global facet params
+            $this->addParam('facet.sort', $facetSet->getSort());
+            $this->addParam('facet.prefix', $facetSet->getPrefix());
+            $this->addParam('facet.missing', $facetSet->getMissing());
+            $this->addParam('facet.mincount', $facetSet->getMinCount());
+            $this->addParam('facet.limit', $facetSet->getLimit());
+
+            foreach ($facets AS $facet) {
+                switch ($facet->getType())
+                {
+                    case Solarium_Query_Select_Component_Facet::FIELD:
+                        $this->addFacetField($facet);
+                        break;
+                    case Solarium_Query_Select_Component_Facet::QUERY:
+                        $this->addFacetQuery($facet);
+                        break;
+                    case Solarium_Query_Select_Component_Facet::MULTIQUERY:
+                        $this->addFacetMultiQuery($facet);
+                        break;
+                    case Solarium_Query_Select_Component_Facet::RANGE:
+                        $this->addFacetRange($facet);
+                        break;
+                    default:
+                        throw new Solarium_Exception('Unknown facet type');
+                }
+            }
+        }
+    }
+
+    /**
      * Add params for a field facet to request
      *
-     * @param mixed $facet
+     * @param Solarium_Query_Select_Component_Facet_Field $facet
      * @return void
      */
     public function addFacetField($facet)
@@ -144,9 +171,9 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
     }
 
     /**
-     * Add params for a field query to request
+     * Add params for a facet query to request
      *
-     * @param mixed $facet
+     * @param Solarium_Query_Select_Component_Facet_Query $facet
      * @return void
      */
     public function addFacetQuery($facet)
@@ -160,6 +187,53 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
         );
     }
 
+    /**
+     * Add params for a multiquery facet to request
+     *
+     * @param Solarium_Query_Select_Component_Facet_MultiQuery $facet
+     * @return void
+     */
+    public function addFacetMultiQuery($facet)
+    {
+        foreach ($facet->getQueries() AS $facetQuery) {
+            $this->addFacetQuery($facetQuery);
+        }
+    }
+
+    /**
+     * Add params for a range facet to request
+     *
+     * @param Solarium_Query_Select_Component_Facet_Range $facet
+     * @return void
+     */
+    public function addFacetRange($facet)
+    {
+        $field = $facet->getField();
+
+        $this->addParam(
+            'facet.range',
+            $this->renderLocalParams(
+                $field,
+                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+            )
+        );
+
+        $this->addParam("f.$field.facet.range.start", $facet->getStart());
+        $this->addParam("f.$field.facet.range.end", $facet->getEnd());
+        $this->addParam("f.$field.facet.range.gap", $facet->getGap());
+        $this->addParam("f.$field.facet.range.hardend", $facet->getHardend());
+
+        $other = explode(',', $facet->getOther());
+        foreach ($other AS $otherValue) {
+            $this->addParam("f.$field.facet.range.other", trim($otherValue));
+        }
+
+        $include = explode(',', $facet->getInclude());
+        foreach ($include AS $includeValue) {
+            $this->addParam("f.$field.facet.range.include", trim($includeValue));
+        }
+    }
+    
     /**
      * Add params for morelikethis
      *
@@ -181,6 +255,28 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
         $this->addParam('mlt.boost', $component->getBoost());
         $this->addParam('mlt.qf', $component->getQueryFields());
         $this->addParam('mlt.count', $component->getCount());
+    }
+
+    /**
+     * Add params for DisMax
+     *
+     * @param Solarium_Query_Select_Component_DisMax $component
+     * @return void
+     */
+    public function addDisMax($component)
+    {
+        // enable dismax
+        $this->_params['defType'] = 'dismax';
+
+        $this->addParam('q.alt', $component->getQueryAlternative());
+        $this->addParam('qf', $component->getQueryFields());
+        $this->addParam('mm', $component->getMinimumMatch());
+        $this->addParam('pf', $component->getPhraseFields());
+        $this->addParam('ps', $component->getPhraseSlop());
+        $this->addParam('qs', $component->getQueryPhraseSlop());
+        $this->addParam('tie', $component->getTie());
+        $this->addParam('bq', $component->getBoostQuery());
+        $this->addParam('bf', $component->getBoostFunctions());
     }
 
 }

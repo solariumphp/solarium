@@ -43,8 +43,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_MoreLikeThis
-    extends Solarium_Query_Select_Component
+class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select_Component
 {
 
     /**
@@ -53,24 +52,6 @@ class Solarium_Query_Select_Component_MoreLikeThis
      * @var string
      */
     protected $_type = self::MORELIKETHIS;
-
-    /**
-     * Default options
-     * 
-     * @var array
-     */
-    protected $_options = array(
-        'fields' => null,
-        'minimumtermfrequency' => null,
-        'minimumdocumentfrequency' => null,
-        'minimumwordlength' => null,
-        'maximumwordlength' => null,
-        'maximumqueryterms' => null,
-        'maximumnumberoftokens' => null,
-        'boost' => null,
-        'queryfields' => null,
-        'count' => null,
-    );
 
     /**
      * Set fields option

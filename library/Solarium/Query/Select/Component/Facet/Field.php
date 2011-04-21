@@ -43,7 +43,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
+class Solarium_Query_Select_Component_Facet_Field extends Solarium_Query_Select_Component_Facet
 {
 
     /**
@@ -81,7 +81,7 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
      * Set the field name
      *
      * @param string $query
-     * @return Solarium_Query_Select_Facet_Field Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
      */
     public function setField($field)
     {
@@ -104,7 +104,7 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
      * Use one of the SORT_* constants as the value
      *
      * @param string $sort
-     * @return Solarium_Query_Select_Facet_Field Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
      */
     public function setSort($sort)
     {
@@ -125,7 +125,7 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
      * Limit the terms for faceting by a prefix
      *
      * @param string $prefix
-     * @return Solarium_Query_Select_Facet_Field Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
      */
     public function setPrefix($prefix)
     {
@@ -146,7 +146,7 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
      * Set the facet limit
      *
      * @param int $limit
-     * @return Solarium_Query_Select_Facet_Field Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
      */
     public function setLimit($limit)
     {
@@ -167,7 +167,7 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
      * Set the facet offset
      *
      * @param int $offset
-     * @return Solarium_Query_Select_Facet_Field Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
      */
     public function setOffset($offset)
     {
@@ -188,7 +188,7 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
      * Set the facet mincount
      *
      * @param int $mincount
-     * @return Solarium_Query_Select_Facet_Field Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
      */
     public function setMinCount($minCount)
     {
@@ -209,7 +209,7 @@ class Solarium_Query_Select_Facet_Field extends Solarium_Query_Select_Facet
      * Set the missing count option
      *
      * @param boolean $missing
-     * @return Solarium_Query_Select_Facet_Field Provides fluent interface
+     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
      */
     public function setMissing($missing)
     {

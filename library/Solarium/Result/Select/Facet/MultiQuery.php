@@ -27,20 +27,25 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
+ *
+ * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
+ * @package Solarium
+ * @subpackage Result
  */
 
-error_reporting(E_ALL | E_STRICT); 
-ini_set('display_errors',true);
+/**
+ * Select multiquery facet result
+ *
+ * A multiquery facet will usually return a dataset of multiple rows, in each
+ * row a query key and it's count. You can access the values as an array using
+ * {@link getValues()} or iterate this object.
+ *
+ * @package Solarium
+ * @subpackage Result
+ */
+class Solarium_Result_Select_Facet_MultiQuery extends Solarium_Result_Select_Facet_Field
+{
 
-// Define path to application directory
-$basePath = realpath(dirname(__FILE__) . '/../');
-
-// Ensure library/ is on include_path
-set_include_path(implode(PATH_SEPARATOR, array(
-    realpath($basePath . '/library'),
-    realpath($basePath . '/tests/library'),
-    get_include_path(),
-)));
-
-// set up an autoload for Zend / Pear style class loading
-spl_autoload_register(create_function('$class', '@include(str_replace("_", DIRECTORY_SEPARATOR, $class) . ".php");'));
+}

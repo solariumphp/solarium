@@ -29,128 +29,123 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_Select_Component_MoreLikeThisTest extends PHPUnit_Framework_TestCase
+class Solarium_Query_Select_Component_DisMaxTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_mlt;
+    /**
+     * @var Solarium_Query_Select_Component_DisMax
+     */
+    protected $_disMax;
 
     public function setUp()
     {
-        $this->_mlt = new Solarium_Query_Select_Component_MoreLikeThis;
+        $this->_disMax = new Solarium_Query_Select_Component_DisMax;
     }
 
     public function testGetType()
     {
-        $this->assertEquals(Solarium_Query_Select_Component::MORELIKETHIS, $this->_mlt->getType());
-    }
-
-    public function testSetAndGetFields()
-    {
-        $value = 'name,description';
-        $this->_mlt->setFields($value);
-
         $this->assertEquals(
-            $value,
-            $this->_mlt->getFields()
+            Solarium_Query_Select_Component::DISMAX,
+            $this->_disMax->getType()
         );
     }
 
-    public function testSetAndGetMinimumTermFrequency()
+    public function testSetAndGetQueryAlternative()
     {
-        $value = 2;
-        $this->_mlt->setMinimumTermFrequency($value);
+        $value = '*:*';
+        $this->_disMax->setQueryAlternative($value);
 
         $this->assertEquals(
             $value,
-            $this->_mlt->getMinimumTermFrequency()
-        );
-    }
-
-    public function testMinimumDocumentFrequency()
-    {
-        $value = 4;
-        $this->_mlt->setMinimumDocumentFrequency($value);
-
-        $this->assertEquals(
-            $value,
-            $this->_mlt->getMinimumDocumentFrequency()
-        );
-    }
-
-    public function testSetAndGetMinimumWordLength()
-    {
-        $value = 3;
-        $this->_mlt->setMinimumWordLength($value);
-
-        $this->assertEquals(
-            $value,
-            $this->_mlt->getMinimumWordLength()
-        );
-    }
-
-    public function testSetAndGetMaximumWordLength()
-    {
-        $value = 15;
-        $this->_mlt->setMaximumWordLength($value);
-
-        $this->assertEquals(
-            $value,
-            $this->_mlt->getMaximumWordLength()
-        );
-    }
-
-    public function testSetAndGetMaximumQueryTerms()
-    {
-        $value = 5;
-        $this->_mlt->setMaximumQueryTerms($value);
-
-        $this->assertEquals(
-            $value,
-            $this->_mlt->getMaximumQueryTerms()
-        );
-    }
-
-    public function testSetAndGetMaximumNumberOfTokens()
-    {
-        $value = 5;
-        $this->_mlt->setMaximumNumberOfTokens($value);
-
-        $this->assertEquals(
-            $value,
-            $this->_mlt->getMaximumNumberOfTokens()
-        );
-    }
-
-    public function testSetAndGetBoost()
-    {
-        $value = true;
-        $this->_mlt->setBoost($value);
-
-        $this->assertEquals(
-            $value,
-            $this->_mlt->getBoost()
+            $this->_disMax->getQueryAlternative()
         );
     }
 
     public function testSetAndGetQueryFields()
     {
-        $value = 'content,name';
-        $this->_mlt->setQueryFields($value);
+        $value = 'title^2.0 description';
+        $this->_disMax->setQueryFields($value);
 
         $this->assertEquals(
             $value,
-            $this->_mlt->getQueryFields()
+            $this->_disMax->getQueryFields()
         );
     }
 
-    public function testSetAndGetCount()
+    public function testSetAndGetMinimumMatch()
     {
-        $value = 8;
-        $this->_mlt->setCount($value);
+        $value = '2.0';
+        $this->_disMax->setMinimumMatch($value);
 
         $this->assertEquals(
             $value,
-            $this->_mlt->getCount()
+            $this->_disMax->getMinimumMatch()
+        );
+    }
+
+    public function testSetAndGetPhraseFields()
+    {
+        $value = 'title^2.0 description^3.5';
+        $this->_disMax->setPhraseFields($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_disMax->getPhraseFields()
+        );
+    }
+
+    public function testSetAndGetPhraseSlop()
+    {
+        $value = '2';
+        $this->_disMax->setPhraseSlop($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_disMax->getPhraseSlop()
+        );
+    }
+
+    public function testSetAndGetQueryPhraseSlop()
+    {
+        $value = '3';
+        $this->_disMax->setQueryPhraseSlop($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_disMax->getQueryPhraseSlop()
+        );
+    }
+
+    public function testSetAndGetTie()
+    {
+        $value = 2.1;
+        $this->_disMax->setTie($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_disMax->getTie()
+        );
+    }
+
+    public function testSetAndGetBoostQuery()
+    {
+        $value = 'cat:1^3';
+        $this->_disMax->setBoostQuery($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_disMax->getBoostQuery()
+        );
+    }
+
+    public function testSetAndGetBoostFunctions()
+    {
+        $value = 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2';
+        $this->_disMax->setBoostFunctions($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_disMax->getBoostFunctions()
         );
     }
     

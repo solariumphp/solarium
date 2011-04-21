@@ -29,29 +29,76 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_Select_Facet_QueryTest extends PHPUnit_Framework_TestCase
+class Solarium_Query_Select_Component_Facet_RangeTest extends PHPUnit_Framework_TestCase
 {
 
     protected $_facet;
 
     public function setUp()
     {
-        $this->_facet = new Solarium_Query_Select_Facet_Query;
+        $this->_facet = new Solarium_Query_Select_Component_Facet_Range;
     }
 
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Select_Facet::QUERY,
+            Solarium_Query_Select_Component_Facet::RANGE,
             $this->_facet->getType()
         );
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetField()
     {
-        $this->_facet->setQuery('category:1');
-        $this->assertEquals('category:1', $this->_facet->getQuery());
+        $this->_facet->setField('price');
+        $this->assertEquals('price', $this->_facet->getField());
     }
 
+    public function testSetAndGetStart()
+    {
+        $this->_facet->setStart(1);
+        $this->assertEquals(1, $this->_facet->getStart());
+    }
+
+    public function testSetAndGetEnd()
+    {
+        $this->_facet->setEnd(100);
+        $this->assertEquals(100, $this->_facet->getEnd());
+    }
+
+    public function testSetAndGetGap()
+    {
+        $this->_facet->setGap(10);
+        $this->assertEquals(10, $this->_facet->getGap());
+    }
+
+    public function testSetAndGetHardend()
+    {
+        $this->_facet->setHardend(true);
+        $this->assertEquals(true, $this->_facet->getHardend());
+    }
+
+    public function testSetAndGetOther()
+    {
+        $this->_facet->setOther('all');
+        $this->assertEquals('all', $this->_facet->getOther());
+    }
+
+    public function testSetAndGetOtherArray()
+    {
+        $this->_facet->setOther(array('before','after'));
+        $this->assertEquals('before,after', $this->_facet->getOther());
+    }
+
+    public function testSetAndGetInclude()
+    {
+        $this->_facet->setInclude('all');
+        $this->assertEquals('all', $this->_facet->getInclude());
+    }
+
+    public function testSetAndGetIncludeArray()
+    {
+        $this->_facet->setInclude(array('lower','upper'));
+        $this->assertEquals('lower,upper', $this->_facet->getInclude());
+    }
 
 }

@@ -89,22 +89,14 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
                 case Solarium_Query_Select_Component::MORELIKETHIS:
                     $this->_addMoreLikeThis($component);
                     break;
+                case Solarium_Query_Select_Component::FACETSET:
+                    $this->_addFacetSet($component);
+                    break;
+                case Solarium_Query_Select_Component::DISMAX:
+                    // no result action needed
+                    break;
                 default:
                     throw new Solarium_Exception('Unknown component type');
-            }
-        }
-
-        // create facet results
-        foreach ($this->_query->getFacets() AS $facet) {
-            switch ($facet->getType()) {
-                case Solarium_Query_Select_Facet::FIELD:
-                    $this->_addFacetField($facet);
-                    break;
-                case Solarium_Query_Select_Facet::QUERY:
-                    $this->_addFacetQuery($facet);
-                    break;
-                default:
-                    throw new Solarium_Exception('Unknown facet type');
             }
         }
 
@@ -120,10 +112,33 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
         );
     }
 
+    protected function _addFacetSet($facetSet)
+    {
+        // create facet results
+        foreach ($facetSet->getFacets() AS $facet) {
+            switch ($facet->getType()) {
+                case Solarium_Query_Select_Component_Facet::FIELD:
+                    $this->_addFacetField($facet);
+                    break;
+                case Solarium_Query_Select_Component_Facet::QUERY:
+                    $this->_addFacetQuery($facet);
+                    break;
+                case Solarium_Query_Select_Component_Facet::MULTIQUERY:
+                    $this->_addFacetMultiQuery($facet);
+                    break;
+                case Solarium_Query_Select_Component_Facet::RANGE:
+                    $this->_addFacetRange($facet);
+                    break;
+                default:
+                    throw new Solarium_Exception('Unknown facet type');
+            }
+        }
+    }
+
     /**
      * Add a facet result for a field facet
      *
-     * @param mixed $facet
+     * @param Solarium_Query_Select_Component_Facet_Field $facet
      * @return void
      */
     protected function _addFacetField($facet)
@@ -147,9 +162,9 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
     }
 
     /**
-     * Add a facet result for a field query
+     * Add a facet result for a facet query
      *
-     * @param mixed $facet
+     * @param Solarium_Query_Select_Component_Facet_Query $facet
      * @return void
      */
     protected function _addFacetQuery($facet)
@@ -160,6 +175,50 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
             $value = $this->_data['facet_counts']['facet_queries'][$key];
             $this->_facets[$key] =
                 new Solarium_Result_Select_Facet_Query($value);
+        }
+    }
+
+    /**
+     * Add a facet result for a multiquery facet
+     *
+     * @param Solarium_Query_Select_Component_Facet_MultiQuery $facet
+     * @return void
+     */
+    protected function _addFacetMultiQuery($facet)
+    {
+        $values = array();
+        foreach ($facet->getQueries() AS $query) {
+            $key = $query->getKey();
+            if (isset($this->_data['facet_counts']['facet_queries'][$key])) {
+                $count = $this->_data['facet_counts']['facet_queries'][$key];
+                $values[$key] = $count;
+            }
+        }
+        
+        $this->_facets[$facet->getKey()] =
+            new Solarium_Result_Select_Facet_MultiQuery($values);
+    }
+
+
+    /**
+     * Add a facet result for a range facet
+     *
+     * @param Solarium_Query_Select_Component_Facet_Range $facet
+     * @return void
+     */
+    protected function _addFacetRange($facet)
+    {
+        $key = $facet->getKey();
+        if (isset($this->_data['facet_counts']['facet_ranges'][$key])) {
+
+            $data = $this->_data['facet_counts']['facet_ranges'][$key];
+
+            $before = (isset($data['before'])) ? $data['before'] : null;
+            $after = (isset($data['after'])) ? $data['after'] : null;
+            $between = (isset($data['after'])) ? $data['after'] : null;
+
+            $this->_facets[$key] =
+                new Solarium_Result_Select_Facet_Range($data['counts'], $before, $after, $between);
         }
     }
 

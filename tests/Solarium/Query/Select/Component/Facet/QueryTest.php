@@ -29,18 +29,29 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-error_reporting(E_ALL | E_STRICT); 
-ini_set('display_errors',true);
+class Solarium_Query_Select_Component_Facet_QueryTest extends PHPUnit_Framework_TestCase
+{
 
-// Define path to application directory
-$basePath = realpath(dirname(__FILE__) . '/../');
+    protected $_facet;
 
-// Ensure library/ is on include_path
-set_include_path(implode(PATH_SEPARATOR, array(
-    realpath($basePath . '/library'),
-    realpath($basePath . '/tests/library'),
-    get_include_path(),
-)));
+    public function setUp()
+    {
+        $this->_facet = new Solarium_Query_Select_Component_Facet_Query;
+    }
 
-// set up an autoload for Zend / Pear style class loading
-spl_autoload_register(create_function('$class', '@include(str_replace("_", DIRECTORY_SEPARATOR, $class) . ".php");'));
+    public function testGetType()
+    {
+        $this->assertEquals(
+            Solarium_Query_Select_Component_Facet::QUERY,
+            $this->_facet->getType()
+        );
+    }
+
+    public function testSetAndGetQuery()
+    {
+        $this->_facet->setQuery('category:1');
+        $this->assertEquals('category:1', $this->_facet->getQuery());
+    }
+
+
+}
