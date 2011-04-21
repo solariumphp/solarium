@@ -39,6 +39,11 @@ class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_Tes
         $this->_facetSet = new Solarium_Query_Select_Component_FacetSet;
     }
 
+    public function testGetType()
+    {
+        $this->assertEquals(Solarium_Query_Select_Component::FACETSET, $this->_facetSet->getType());
+    }
+
     public function testSetAndGetSort()
     {
         $this->_facetSet->setSort('index');

@@ -565,6 +565,9 @@ class Solarium_Query_Select extends Solarium_Query
                     case Solarium_Query_Select_Component::FACETSET:
                         $className = 'Solarium_Query_Select_Component_FacetSet';
                         break;
+                    case Solarium_Query_Select_Component::DISMAX:
+                        $className = 'Solarium_Query_Select_Component_DisMax';
+                        break;
                     default:
                         throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
                 }
@@ -642,6 +645,18 @@ class Solarium_Query_Select extends Solarium_Query
     public function getFacetSet()
     {
         return $this->getComponent(Solarium_Query_Select_Component::FACETSET, true);
+    }
+
+    /**
+     * Get a DisMax component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_DisMax
+     */
+    public function getDisMax()
+    {
+        return $this->getComponent(Solarium_Query_Select_Component::DISMAX, true);
     }
 
 }

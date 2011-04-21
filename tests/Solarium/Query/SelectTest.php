@@ -468,4 +468,14 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             get_class($mlt)
         );
     }
+
+    public function testGetDisMax()
+    {
+        $dismax = $this->_query->getDisMax();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_DisMax',
+            get_class($dismax)
+        );
+    }
 }

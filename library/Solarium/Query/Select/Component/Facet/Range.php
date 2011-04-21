@@ -220,7 +220,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
     public function setOther($other)
     {
         if (is_array($other)) {
-            $other = implode(',',$other);
+            $other = implode(',', $other);
         }
 
         return $this->_setOption('other', $other);   
@@ -250,7 +250,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
     public function setInclude($include)
     {
         if (is_array($include)) {
-            $include = implode(',',$include);
+            $include = implode(',', $include);
         }
 
         return $this->_setOption('include', $include);

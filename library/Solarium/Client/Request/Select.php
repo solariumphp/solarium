@@ -90,6 +90,9 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                 case Solarium_Query_Select_Component::FACETSET:
                     $this->addFacetSet($component);
                     break;
+                case Solarium_Query_Select_Component::DISMAX:
+                    $this->addDisMax($component);
+                    break;
                 default:
                     throw new Solarium_Exception('Unknown component type');
             }
@@ -252,6 +255,28 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
         $this->addParam('mlt.boost', $component->getBoost());
         $this->addParam('mlt.qf', $component->getQueryFields());
         $this->addParam('mlt.count', $component->getCount());
+    }
+
+    /**
+     * Add params for DisMax
+     *
+     * @param Solarium_Query_Select_Component_DisMax $component
+     * @return void
+     */
+    public function addDisMax($component)
+    {
+        // enable dismax
+        $this->_params['defType'] = 'dismax';
+
+        $this->addParam('q.alt', $component->getQueryAlternative());
+        $this->addParam('qf', $component->getQueryFields());
+        $this->addParam('mm', $component->getMinimumMatch());
+        $this->addParam('pf', $component->getPhraseFields());
+        $this->addParam('ps', $component->getPhraseSlop());
+        $this->addParam('qs', $component->getQueryPhraseSlop());
+        $this->addParam('tie', $component->getTie());
+        $this->addParam('bq', $component->getBoostQuery());
+        $this->addParam('bf', $component->getBoostFunctions());
     }
 
 }

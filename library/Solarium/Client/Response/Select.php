@@ -92,6 +92,9 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
                 case Solarium_Query_Select_Component::FACETSET:
                     $this->_addFacetSet($component);
                     break;
+                 case Solarium_Query_Select_Component::DISMAX:
+                    // no result action needed
+                    break;
                 default:
                     throw new Solarium_Exception('Unknown component type');
             }
@@ -123,7 +126,7 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
                 case Solarium_Query_Select_Component_Facet::MULTIQUERY:
                     $this->_addFacetMultiQuery($facet);
                     break;
-                 case Solarium_Query_Select_Component_Facet::RANGE:
+                case Solarium_Query_Select_Component_Facet::RANGE:
                     $this->_addFacetRange($facet);
                     break;
                 default:
