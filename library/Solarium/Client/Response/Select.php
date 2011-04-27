@@ -95,6 +95,9 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
                 case Solarium_Query_Select_Component::DISMAX:
                     // no result action needed
                     break;
+                case Solarium_Query_Select_Component::HIGHLIGHTING:
+                    $this->_addHighlighting($component);
+                    break;
                 default:
                     throw new Solarium_Exception('Unknown component type');
             }
@@ -256,5 +259,28 @@ class Solarium_Client_Response_Select extends Solarium_Client_Response
         $moreLikeThis = new Solarium_Result_Select_MoreLikeThis($results);
         
         $this->_components[$component->getType()] = $moreLikeThis;
+    }
+
+    /**
+     * Add highlighting result
+     *
+     * @param Solarium_Query_Select_Component_Highlighting $component
+     * @return void
+     */
+    protected function _addHighlighting($component)
+    {
+        $results = array();
+        if (isset($this->_data['highlighting'])) {
+
+            $highlightResults = $this->_data['highlighting'];
+            foreach ($highlightResults AS $key => $result) {
+                $results[$key] = new Solarium_Result_Select_Highlighting_Result(
+                    $result
+                );
+            }
+        }
+
+        $highlighting = new Solarium_Result_Select_Highlighting($results);
+        $this->_components[$component->getType()] = $highlighting;
     }
 }

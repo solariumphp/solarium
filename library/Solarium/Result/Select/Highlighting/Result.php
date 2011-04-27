@@ -32,43 +32,77 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
 
 /**
- * Query component base class
+ * Select component highlighting result item
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
-class Solarium_Query_Select_Component extends Solarium_Configurable
+class Solarium_Result_Select_Highlighting_Result implements IteratorAggregate, Countable
 {
 
     /**
-     * Component types
+     * Fields array
+     *
+     * @var array
      */
-    const MORELIKETHIS = 'morelikethis';
-    const FACETSET = 'facetset';
-    const DISMAX = 'dismax';
-    const HIGHLIGHTING = 'highlighting';
+    protected $_fields;
 
     /**
-     * Component type
+     * Constructor
      *
-     * To be implemented in extending classes
-     *
-     * @var string
+     * @param array $fields
+     * @return void
      */
-    protected $_type = '';
-
-    /**
-     * Get component type
-     *
-     * @return string
-     */
-    public function getType()
+    public function __construct($fields)
     {
-        return $this->_type;
+        $this->_fields = $fields;
     }
 
+    /**
+     * Get highlights for all fields
+     *
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->_fields;
+    }
+
+    /**
+     * Get highlights for a single field
+     *
+     * @return array
+     */
+    public function getField($key)
+    {
+        if (isset($this->_fields[$key])) {
+            return $this->_fields[$key];
+        } else {
+            return array();
+        }
+    }
+    
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_fields);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_fields);
+    }
 }

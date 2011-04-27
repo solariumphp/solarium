@@ -32,43 +32,78 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
 
 /**
- * Query component base class
+ * Select component highlighting result
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
-class Solarium_Query_Select_Component extends Solarium_Configurable
+class Solarium_Result_Select_Highlighting implements IteratorAggregate, Countable
 {
 
     /**
-     * Component types
+     * Result array
+     *
+     * @var array
      */
-    const MORELIKETHIS = 'morelikethis';
-    const FACETSET = 'facetset';
-    const DISMAX = 'dismax';
-    const HIGHLIGHTING = 'highlighting';
-
+    protected $_results;
+    
     /**
-     * Component type
+     * Constructor
      *
-     * To be implemented in extending classes
-     *
-     * @var string
+     * @param array $results
+     * @return void
      */
-    protected $_type = '';
-
-    /**
-     * Get component type
-     *
-     * @return string
-     */
-    public function getType()
+    public function __construct($results)
     {
-        return $this->_type;
+        $this->_results = $results;
     }
 
+    /**
+     * Get a result by key
+     *
+     * @param mixed $key
+     * @return Solarium_Result_Select_Highlighting_Result|null
+     */
+    public function getResult($key)
+    {
+        if (isset($this->_results[$key])) {
+            return $this->_results[$key];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get all results
+     *
+     * @return array
+     */
+    public function getResults()
+    {
+        return $this->_results;
+    }
+    
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_results);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_results);
+    }
 }

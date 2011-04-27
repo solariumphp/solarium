@@ -98,6 +98,13 @@ class Solarium_Query_Select extends Solarium_Query
     protected $_components = array();
 
     /**
+     * Helper instance
+     *
+     * @var Solarium_Query_Select_Helper
+     */
+    protected $_helper;
+
+    /**
      * Initialize options
      *
      * Several options need some extra checks or setup work, for these options
@@ -568,6 +575,9 @@ class Solarium_Query_Select extends Solarium_Query
                     case Solarium_Query_Select_Component::DISMAX:
                         $className = 'Solarium_Query_Select_Component_DisMax';
                         break;
+                    case Solarium_Query_Select_Component::HIGHLIGHTING:
+                        $className = 'Solarium_Query_Select_Component_Highlighting';
+                        break;
                     default:
                         throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
                 }
@@ -659,4 +669,31 @@ class Solarium_Query_Select extends Solarium_Query
         return $this->getComponent(Solarium_Query_Select_Component::DISMAX, true);
     }
 
+    /**
+     * Get a highlighting component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_Highlighting
+     */
+    public function getHighlighting()
+    {
+        return $this->getComponent(Solarium_Query_Select_Component::HIGHLIGHTING, true);
+    }
+
+    /**
+     * Get a helper instance
+     *
+     * Uses lazy loading: the helper is instantiated on first use
+     *
+     * @return Solarium_Query_Select_Helper
+     */
+    public function getHelper()
+    {
+        if (null === $this->_helper) {
+            $this->_helper = new Solarium_Query_Select_Helper;
+        }
+
+        return $this->_helper;
+    }
 }

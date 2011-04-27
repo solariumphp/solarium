@@ -93,6 +93,9 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
                 case Solarium_Query_Select_Component::DISMAX:
                     $this->addDisMax($component);
                     break;
+                case Solarium_Query_Select_Component::HIGHLIGHTING:
+                    $this->addHighlighting($component);
+                    break;
                 default:
                     throw new Solarium_Exception('Unknown component type');
             }
@@ -277,6 +280,39 @@ class Solarium_Client_Request_Select extends Solarium_Client_Request
         $this->addParam('tie', $component->getTie());
         $this->addParam('bq', $component->getBoostQuery());
         $this->addParam('bf', $component->getBoostFunctions());
+    }
+
+    /**
+     * Add params for highlighting
+     *
+     * @param Solarium_Query_Select_Component_Highlighting $component
+     * @return void
+     */
+    public function addHighlighting($component)
+    {
+        // enable highlighting
+        $this->_params['hl'] = 'true';
+
+        $this->addParam('hl.fl', $component->getFields());
+        $this->addParam('hl.snippets', $component->getSnippets());
+        $this->addParam('hl.fragsize', $component->getFragSize());
+        $this->addParam('hl.mergeContiguous', $component->getMergeContiguous());
+        $this->addParam('hl.requireFieldMatch', $component->getRequireFieldMatch());
+        $this->addParam('hl.maxAnalyzedChars', $component->getMaxAnalyzedChars());
+        $this->addParam('hl.alternateField', $component->getAlternateField());
+        $this->addParam('hl.maxAlternateFieldLength', $component->getMaxAlternateFieldLength());
+        $this->addParam('hl.formatter', $component->getFormatter());
+        $this->addParam('hl.simple.pre', $component->getSimplePrefix());
+        $this->addParam('hl.simple.post', $component->getSimplePostfix());
+        $this->addParam('hl.fragmenter', $component->getFragmenter());
+        $this->addParam('hl.fragListBuilder', $component->getFragListBuilder());
+        $this->addParam('hl.fragmentsBuilder', $component->getFragmentsBuilder());
+        $this->addParam('hl.useFastVectorHighlighter', $component->getUseFastVectorHighlighter());
+        $this->addParam('hl.usePhraseHighlighter', $component->getUsePhraseHighlighter());
+        $this->addParam('hl.highlightMultiTerm', $component->getHighlightMultiTerm());
+        $this->addParam('hl.regex.slop', $component->getRegexSlop());
+        $this->addParam('hl.regex.pattern', $component->getRegexPattern());
+        $this->addParam('hl.regex.maxAnalyzedChars', $component->getRegexMaxAnalyzedChars());
     }
 
 }

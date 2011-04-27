@@ -58,7 +58,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      *
      * The fields to use for similarity. NOTE: if possible, these should have a
      * stored TermVector
-     * 
+     *
      * Separate multiple fields with commas.
      *
      * @param string $fields

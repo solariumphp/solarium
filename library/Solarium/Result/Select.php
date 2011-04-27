@@ -219,4 +219,16 @@ class Solarium_Result_Select extends Solarium_Result_Query
     {
         return $this->getComponent(Solarium_Query_Select_Component::MORELIKETHIS);
     }
+
+    /**
+     * Get highlighting component result
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Result_Select_Component_Highlighting
+     */
+    public function getHighlighting()
+    {
+        return $this->getComponent(Solarium_Query_Select_Component::HIGHLIGHTING);
+    }
 }
