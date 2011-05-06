@@ -80,12 +80,26 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
     /**
      * Add multiple documents
      *
-     * @param array $documents
+     * @param array|Traversable $documents
      * @return Solarium_Query_Update_Add Provides fluent interface
      */
     public function addDocuments($documents)
     {
-        $this->_documents = array_merge($this->_documents, $documents);
+        //if we don't have documents so far, accept arrays or Traversable objects as-is
+        if (empty($this->_documents)) {
+            $this->_documents = $documents;
+            return $this;
+        }
+
+        //if something Traversable is passed in, and there are existing documents, convert all to arrays before merging
+        if ($documents instanceof Traversable) {
+            $documents = iterator_to_array($documents);
+        }
+        if ($this->_documents instanceof Traversable) {
+            $this->_documents = array_merge(iterator_to_array($this->_documents), $documents);
+        } else {
+            $this->_documents = array_merge($this->_documents, $documents);
+        }
 
         return $this;
     }
