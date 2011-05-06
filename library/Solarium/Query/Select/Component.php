@@ -45,14 +45,6 @@ class Solarium_Query_Select_Component extends Solarium_Configurable
 {
 
     /**
-     * Component types
-     */
-    const MORELIKETHIS = 'morelikethis';
-    const FACETSET = 'facetset';
-    const DISMAX = 'dismax';
-    const HIGHLIGHTING = 'highlighting';
-
-    /**
      * Component type
      *
      * To be implemented in extending classes

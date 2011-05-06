@@ -51,7 +51,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * 
      * @var string
      */
-    protected $_type = self::MORELIKETHIS;
+    protected $_type = Solarium_Query_Select::COMPONENT_MORELIKETHIS;
 
     /**
      * Set fields option

@@ -47,7 +47,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Update extends Solarium_Result_Query
+class Solarium_Result_Update extends Solarium_Result
 {
 
 }

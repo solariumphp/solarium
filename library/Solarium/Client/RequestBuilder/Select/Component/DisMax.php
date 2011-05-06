@@ -32,72 +32,40 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
 
 /**
- * Base class for all query types, not intended for direct usage
+ * Add select component dismax to the request
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
-abstract class Solarium_Query extends Solarium_Configurable
+class Solarium_Client_RequestBuilder_Select_Component_DisMax
 {
-
-    /**
-     * Get type for this query
-     *
-     * @return string
-     */
-    abstract public function getType();
     
     /**
-     * Set handler option
+     * Add request settings for Dismax
      *
-     * @param string $handler
-     * @return Solarium_Query Provides fluent interface
+     * @param Solarium_Query_Select_Component_Dismax $component
+     * @param Solarium_Client_Request $request
+     * @return Solarium_Client_Request
      */
-    public function setHandler($handler)
+    public function build($component, $request)
     {
-        return $this->_setOption('handler', $handler);
-    }
+        // enable dismax
+        $request->addParam('defType', 'dismax');
 
-    /**
-     * Get handler option
-     *
-     * @return string
-     */
-    public function getHandler()
-    {
-        return $this->getOption('handler');
-    }
+        $request->addParam('q.alt', $component->getQueryAlternative());
+        $request->addParam('qf', $component->getQueryFields());
+        $request->addParam('mm', $component->getMinimumMatch());
+        $request->addParam('pf', $component->getPhraseFields());
+        $request->addParam('ps', $component->getPhraseSlop());
+        $request->addParam('qs', $component->getQueryPhraseSlop());
+        $request->addParam('tie', $component->getTie());
+        $request->addParam('bq', $component->getBoostQuery());
+        $request->addParam('bf', $component->getBoostFunctions());
 
-    /**
-     * Set resultclass option
-     *
-     * If you set a custom result class it must be available through autoloading
-     * or a manual require before calling this method. This is your
-     * responsibility.
-     *
-     * Also you need to make sure it extends the orginal result class of the
-     * query or has an identical API.
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
+        return $request;
     }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
-
 }

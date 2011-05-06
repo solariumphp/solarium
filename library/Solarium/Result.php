@@ -32,128 +32,113 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
 
 /**
- * Class for describing a response
+ * Query result
+ *
+ * This base class provides access to the response and decoded data. If you need more functionality
+ * like resultset parsing use one of the subclasses
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
-class Solarium_Client_Response
+class Solarium_Result
 {
 
     /**
-     * Headers
+     * Response object
+     *
+     * @var Solarium_Client_Response
+     */
+    protected $_response;
+
+    /**
+     * Decode response data
+     *
+     * This is lazy loaded, see getData()
      *
      * @var array
      */
-    protected $_headers;
+    protected $_data;
 
     /**
-     * Body
+     * Query used for this request
      *
-     * @var string
+     * @var Solarium_Query
      */
-    protected $_body;
+    protected $_query;
 
     /**
-     * HTTP response code
-     *
-     * @var int
+     * @var Solarium_Client
      */
-    protected $_statusCode;
-
-    /**
-     * HTTP response message
-     *
-     * @var string
-     */
-    protected $_statusMessage;
+    protected $_client;
 
     /**
      * Constructor
      *
-     * @param string $body
-     * @param array $headers
-     */
-    public function __construct($body, $headers = array())
-    {
-        $this->_body = $body;
-        $this->_headers = $headers;
-
-        $this->_setHeaders($headers);
-    }
-
-    /**
-     * Get body data
-     *
-     * @return string
-     */
-    public function getBody()
-    {
-        return $this->_body;
-    }
-
-    /**
-     * Get response headers
-     *
-     * @return array
-     */
-    public function getHeaders()
-    {
-        return $this->_headers;
-    }
-
-    /**
-     * Get status code
-     *
-     * @return int
-     */
-    public function getStatusCode()
-    {
-        return $this->_statusCode;
-    }
-
-    /**
-     * Get status message
-     *
-     * @return string
-     */
-    public function getStatusMessage()
-    {
-        return $this->_statusMessage;
-    }
-
-    /**
-     * Set headers
-     * 
-     * @param array $headers
+     * @param Solarium_Client $client
+     * @param Solarium_Query $query
+     * @param Solarium_Client_Response $response
      * @return void
      */
-    public function _setHeaders($headers)
+    public function __construct($client, $query, $response)
     {
-        $this->_headers = $headers;
+        $this->_client = $client;
+        $this->_query = $query;
+        $this->_response = $response;
 
-        // get the status header
-        $statusHeader = null;
-        foreach ($headers AS $header) {
-            if (substr($header, 0, 4) == 'HTTP') {
-                $statusHeader = $header;
-                break;
+        // check status for error (range of 400 and 500)
+        $statusNum = floor($response->getStatusCode() / 100);
+        if ($statusNum == 4 || $statusNum == 5) {
+            throw new Solarium_Client_HttpException(
+                $response->getStatusMessage(),
+                $response->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * Get response object
+     *
+     * This is the raw HTTP response object, not the parsed data!
+     *
+     * @return Solarium_Client_Response
+     */
+    public function getResponse()
+    {
+        return $this->_response;
+    }
+
+    /**
+     * Get query instance
+     *
+     * @return Solarium_Query
+     */
+    public function getQuery()
+    {
+        return $this->_query;
+    }
+
+    /**
+     * Get Solr response data
+     *
+     * Included a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
+     * 
+     * @return array
+     */
+    public function getData()
+    {
+        if (null == $this->_data) {
+            $this->_data = json_decode($this->_response->getBody(), true);
+            if (null === $this->_data) {
+                throw new Solarium_Exception(
+                    'Solr JSON response could not be decoded'
+                );
             }
         }
 
-        if (null == $statusHeader) {
-            throw new Solarium_Client_HttpException("No HTTP status found");
-        }
-
-        // parse header like "$statusInfo[1]" into code and message
-        // $statusInfo[1] = the HTTP response code
-        // $statusInfo[2] = the response message
-        $statusInfo = explode(' ', $statusHeader, 3);
-        $this->_statusCode = $statusInfo[1];
-        $this->_statusMessage = $statusInfo[2];
+        return $this->_data;
     }
 }

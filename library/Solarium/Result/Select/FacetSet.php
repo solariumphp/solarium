@@ -32,36 +32,78 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
 
 /**
- * Parse update response data
- *
- * Will create a result object based on response data of the type
- * {@Solarium_Result_Update} (or your own resultclass setting)
+ * Select component facetset result
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
-class Solarium_Client_Response_Update extends Solarium_Client_Response
+class Solarium_Result_Select_FacetSet implements IteratorAggregate, Countable
 {
 
     /**
-     * Get a result instance for the response
+     * Facet array
      *
-     * When this method is called the actual response parsing is done.
-     *
-     * @return mixed
+     * @var array
      */
-    public function getResult()
+    protected $_facets;
+    
+    /**
+     * Constructor
+     *
+     * @param array $facets
+     * @return void
+     */
+    public function __construct($facets)
     {
-        $resultClass = $this->_query->getOption('resultclass');
-
-        return new $resultClass(
-            $this->_data['responseHeader']['status'],
-            $this->_data['responseHeader']['QTime']
-        );
+        $this->_facets = $facets;
     }
 
+    /**
+     * Get a facet by key
+     *
+     * @param mixed $key
+     * @return mixed
+     */
+    public function getFacet($key)
+    {
+        if (isset($this->_facets[$key])) {
+            return $this->_facets[$key];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get all results
+     *
+     * @return array
+     */
+    public function getFacets()
+    {
+        return $this->_facets;
+    }
+    
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_facets);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_facets);
+    }
 }

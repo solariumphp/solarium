@@ -32,72 +32,45 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
 
 /**
- * Base class for all query types, not intended for direct usage
+ * Class for building Solarium client requests
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
-abstract class Solarium_Query extends Solarium_Configurable
+abstract class Solarium_Client_RequestBuilder
 {
 
     /**
-     * Get type for this query
+     * Render a param with localParams
      *
-     * @return string
-     */
-    abstract public function getType();
-    
-    /**
-     * Set handler option
+     * LocalParams can be use in various Solr GET params.
+     * @link http://wiki.apache.org/solr/LocalParams
      *
-     * @param string $handler
-     * @return Solarium_Query Provides fluent interface
+     * @param string $value
+     * @param array $localParams in key => value format
+     * @return string with Solr localparams syntax
      */
-    public function setHandler($handler)
+    public function renderLocalParams($value, $localParams = array())
     {
-        return $this->_setOption('handler', $handler);
-    }
+        $params = '';
+        foreach ($localParams AS $paramName => $paramValue) {
+            if (empty($paramValue)) continue;
 
-    /**
-     * Get handler option
-     *
-     * @return string
-     */
-    public function getHandler()
-    {
-        return $this->getOption('handler');
-    }
+            if (is_array($paramValue)) {
+                $paramValue = implode($paramValue, ',');
+            }
 
-    /**
-     * Set resultclass option
-     *
-     * If you set a custom result class it must be available through autoloading
-     * or a manual require before calling this method. This is your
-     * responsibility.
-     *
-     * Also you need to make sure it extends the orginal result class of the
-     * query or has an identical API.
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
+            $params .= $paramName . '=' . $paramValue . ' ';
+        }
 
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
+        if ($params !== '') {
+            $value = '{!' . trim($params) . '}' . $value;
+        }
 
+        return $value;
+    }
 }

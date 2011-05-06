@@ -32,73 +32,41 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage Client
  */
 
 /**
- * Query result
- *
- * This base class provides methods for two common result values: status and
- * querytime.
+ * Add select component morelikethis to the request
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage Client
  */
-class Solarium_Result_Query
+class Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis
 {
-
-    /**
-     * Status code returned by Solr
-     *
-     * @var int
-     */
-    protected $_status;
     
     /**
-     * Solr index queryTime
+     * Add request settings for morelikethis
      *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
-     *
-     * @var int
+     * @param Solarium_Query_Select_Component_MoreLikeThis $component
+     * @param Solarium_Client_Request $request
+     * @return Solarium_Client_Request
      */
-    protected $_queryTime;
-
-    /**
-     * Constructor
-     *
-     * @param int $status
-     * @param int $queryTime
-     * @return void
-     */
-    public function __construct($status, $queryTime)
+    public function build($component, $request)
     {
-        $this->_status = $status;
-        $this->_queryTime = $queryTime;
-    }
+        // enable morelikethis
+        $request->addParam('mlt','true');
 
-    /**
-     * Get Solr status code
-     *
-     * This is not the HTTP status code! The normal value for success is 0.
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->_status;
-    }
+        $request->addParam('mlt.fl', $component->getFields());
+        $request->addParam('mlt.mintf', $component->getMinimumTermFrequency());
+        $request->addParam('mlt.mindf', $component->getMinimumDocumentFrequency());
+        $request->addParam('mlt.minwl', $component->getMinimumWordLength());
+        $request->addParam('mlt.maxwl', $component->getMaximumWordLength());
+        $request->addParam('mlt.maxqt', $component->getMaximumQueryTerms());
+        $request->addParam('mlt.maxntp', $component->getMaximumNumberOfTokens());
+        $request->addParam('mlt.boost', $component->getBoost());
+        $request->addParam('mlt.qf', $component->getQueryFields());
+        $request->addParam('mlt.count', $component->getCount());
 
-    /**
-     * Get Solr query time
-     *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
-     * 
-     * @return int
-     */
-    public function getQueryTime()
-    {
-        return $this->_queryTime;
+        return $request;
     }
 }

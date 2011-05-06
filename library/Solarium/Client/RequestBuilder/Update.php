@@ -41,7 +41,7 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Request_Update extends Solarium_Client_Request
+class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuilder
 {
 
     /**

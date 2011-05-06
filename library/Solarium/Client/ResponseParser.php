@@ -32,72 +32,37 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
 
 /**
- * Base class for all query types, not intended for direct usage
+ * Base class for handling Solr response data
+ *
+ * Most {@link Solarium_Client_Adapter} implementations will use HTTP for
+ * communicating with Solr. While the HTTP part is adapter-specific, the parsing
+ * of the response into Solarium_Result classes is not. This abstract class is
+ * the base for several response handlers that do just that for the various
+ * querytypes.
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
-abstract class Solarium_Query extends Solarium_Configurable
+abstract class Solarium_Client_ResponseParser
 {
 
     /**
-     * Get type for this query
+     * Get a Solarium_Result instance for the given data
      *
-     * @return string
+     * When this method is called the actual response parsing is started.
+     *
+     * @internal Must be implemented in descendents because this parsing is
+     *  query specific.
+     *
+     * @abstract
+     *
+     * @param Solarium_Result $result
+     * @return mixed
      */
-    abstract public function getType();
-    
-    /**
-     * Set handler option
-     *
-     * @param string $handler
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setHandler($handler)
-    {
-        return $this->_setOption('handler', $handler);
-    }
-
-    /**
-     * Get handler option
-     *
-     * @return string
-     */
-    public function getHandler()
-    {
-        return $this->getOption('handler');
-    }
-
-    /**
-     * Set resultclass option
-     *
-     * If you set a custom result class it must be available through autoloading
-     * or a manual require before calling this method. This is your
-     * responsibility.
-     *
-     * Also you need to make sure it extends the orginal result class of the
-     * query or has an identical API.
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
+    abstract function parse($result);
 
 }

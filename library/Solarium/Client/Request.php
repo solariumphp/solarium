@@ -36,102 +36,117 @@
  */
 
 /**
- * Base class for building Solr HTTP requests
+ * Class for describing a request
  *
- * Most {@link Solarium_Client_Adapter} implementations will use HTTP for
- * communicating with Solr. While the HTTP part is adapter-specific, generating
- * the HTTP request setting (url, postdata, etc.) is not.
- * This abstract class is the base for several requestbuilders that generate the
- * settings for the various querytypes.
+ * @todo support config mode
  *
  * @package Solarium
  * @subpackage Client
  */
-abstract class Solarium_Client_Request
+class Solarium_Client_Request extends Solarium_Configurable
 {
+
     /**
      * Http request methods
      */
-    const GET     = 'GET';
-    const POST    = 'POST';
-    const HEAD    = 'HEAD';
+    const METHOD_GET     = 'get';
+    const METHOD_POST    = 'post';
+    const METHOD_HEAD    = 'head';
 
     /**
-     * Query instance
-     *
-     * The query that has to be used for building the request.
-     *
-     * @var Solarium_Query
-     */
-    protected $_query;
-
-    /**
-     * Adapter options
-     *
-     * When the adapter class the {@link __construct()} method it forwards it's
-     * options. These options are needed for building the right uri.
-     *
+     * Default options
+     * 
      * @var array
      */
-    protected $_options;
+    protected $_options = array(
+        'method' => self::METHOD_GET,
+    );
 
     /**
-     * HTTP GET params
+     * Request headers
+     */
+    protected $_headers;
+    
+    /**
+     * Request params
      *
-     * Used for building the uri in {@link buildUri()}
-     * 
+     * Multivalue params are supported using a multidimensional array:
+     * 'fq' => array('cat:1','published:1')
+     *
      * @var array
      */
     protected $_params;
 
     /**
-     * Constructor
+     * Raw POST data
      *
-     * @param array|object $options Passed on by the adapter
-     * @param Solarium_Query $query
+     * @var string
      */
-    public function __construct($options, $query)
+    protected $_rawData;
+
+    /**
+     * Set request handler
+     *
+     * @param string $handler
+     * @return Solarium_Client_Request
+     */
+    public function setHandler($handler)
     {
-        $this->_options = $options;
-        $this->_query = $query;
+        $this->_setOption('handler', $handler);
+        return $this;
     }
 
     /**
-     * Get HTTP request method
+     * Get request handler
+     *
+     * @return string
+     */
+    public function getHandler()
+    {
+        return $this->getOption('handler');
+    }
+
+    /**
+     * Set request method
+     *
+     * Use one of the constants as value
+     *
+     * @param string $method
+     * @return Solarium_Client_Request
+     */
+    public function setMethod($method)
+    {
+        $this->_setOption('method', $method);
+        return $this;
+    }
+
+    /**
+     * Get request method
      *
      * @return string
      */
     public function getMethod()
     {
-        return self::GET;
+        return $this->getOption('method');
     }
 
     /**
-     * Get request uri
+     * Get a param value
      *
-     * To be implemented by query specific request builders.
-     *
-     * @abstract
-     * @return string
+     * @param string $key
+     * @return string|array
      */
-    abstract public function getUri();
-
-    /**
-     * Get raw POST data
-     *
-     * Returns null by default, disabling raw POST.
-     * If raw POST data is needed for a request the builder must override this
-     * method and return a data string. This string must be safely encoded.
-     *
-     * @return null
-     */
-    public function getRawData()
+    public function getParam($key)
     {
-        return null;
+        if (isset($this->_params[$key])) {
+            return $this->_params[$key];
+        } else {
+            return null;
+        }
     }
 
     /**
-     * Get request GET params
+     * Get all params
      *
      * @return array
      */
@@ -141,17 +156,182 @@ abstract class Solarium_Client_Request
     }
 
     /**
-     * Build a URL for this request
+     * Set request params
      *
-     * Based on {@link $_options} and {@link $_params} as input.
+     * @param array $params
+     * @return Solarium_Client_Request
+     */
+    public function setParams($params)
+    {
+        $this->clearParams();
+        $this->addParams($params);
+        return $this;
+    }
+
+    /**
+     * Add a request param
      *
-     * @internal Solr expects multiple GET params of the same name instead of
-     *  the PHP array type notation. Therefore the result of http_build_query
-     *  has to be altered.
+     * If you add a request param that already exists the param will be converted into a multivalue param,
+     * unless you set the overwrite param to true.
+     *
+     * Empty params are not added to the request. If you want to empty a param disable it you should use
+     * remove param instead. 
+     *
+     * @param string $key
+     * @param string|array $value
+     * @param boolean $overwrite
+     * @return Solarium_Client_Request
+     */
+    public function addParam($key, $value, $overwrite = false)
+    {
+        if (!empty($value)) {
+            if (!$overwrite && isset($this->_params[$key])) {
+                if (!is_array($this->_params[$key])) {
+                    $this->_params[$key] = array($this->_params[$key]);
+                }
+                $this->_params[$key][] = $value;
+            } else {
+                $this->_params[$key] = $value;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add multiple params to the request
+     *
+     * @param array $params
+     * @param boolean $overwrite
+     * @return Solarium_Client_Request
+     */
+    public function addParams($params, $overwrite = false)
+    {
+        foreach ($params as $key => $value) {
+            $this->addParam($key, $value, $overwrite);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a param by key
+     *
+     * @param string $key
+     * @return Solarium_Client_Request
+     */
+    public function removeParam($key)
+    {
+        if (isset($this->_params[$key])) {
+            unset($this->_params[$key]);
+        }
+        return $this;
+    }
+
+    /**
+     * Clear all request params
+     * 
+     * @return Solarium_Client_Request
+     */
+    public function clearParams()
+    {
+        $this->_params = array();
+        return $this;
+    }
+
+    /**
+     * Get raw POST data
+     *
+     * @return null
+     */
+    public function getRawData()
+    {
+        return $this->_rawData;
+    }
+
+    /**
+     * Set raw POST data
+     *
+     * This string must be safely encoded.
+     *
+     * @param string $data
+     * @return Solarium_Client_Request
+     */
+    public function setRawData($data)
+    {
+        $this->_rawData = $data;
+        return $this;
+    }
+
+    /**
+     * Get all request headers
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->_headers;
+    }
+
+    /**
+     * Set request headers
+     *
+     * @header array $headers
+     * @return Solarium_Client_Request
+     */
+    public function setHeaders($headers)
+    {
+        $this->clearHeaders();
+        $this->addHeaders($headers);
+        return $this;
+    }
+
+    /**
+     * Add a request header
+     *
+     * @header string $key
+     * @header string|array $value
+     * @return Solarium_Client_Request
+     */
+    public function addHeader($key, $value)
+    {
+        $this->_headers[] = $value;
+        
+        return $this;
+    }
+
+    /**
+     * Add multiple headers to the request
+     *
+     * @header array $headers
+     * @return Solarium_Client_Request
+     */
+    public function addHeaders($headers)
+    {
+        foreach ($headers as $key => $value) {
+            $this->addHeader($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clear all request headers
+     * 
+     * @return Solarium_Client_Request
+     */
+    public function clearHeaders()
+    {
+        $this->_headers = array();
+        return $this;
+    }
+
+    /**
+     * Get an URI for this request
      *
      * @return string
      */
-    public function buildUri()
+    public function getUri()
     {
         $queryString = '';
         if (count($this->_params) > 0) {
@@ -162,112 +342,7 @@ abstract class Solarium_Client_Request
                 $queryString
             );
         }
-
-        if (null !== $this->_options['core']) {
-            $core = '/' . $this->_options['core'];
-        } else {
-            $core = '';
-        }
-
-        return 'http://' . $this->_options['host'] . ':'
-               . $this->_options['port'] . $this->_options['path']
-               . $core . '/' . $this->_query->getHandler() . '?'
-               . $queryString;
+        
+        return $this->getHandler() . '?' . $queryString;
     }
-
-    /**
-     * Render a boolean attribute
-     *
-     * For use in building XML messages
-     *
-     * @param string $name
-     * @param boolean $value
-     * @return string
-     */
-    public function boolAttrib($name, $value)
-    {
-        if (null !== $value) {
-            $value = (true == $value) ? 'true' : 'false';
-            return $this->attrib($name, $value);
-        } else {
-            return '';
-        }
-    }
-
-    /**
-     * Render an attribute
-     *
-     * For use in building XML messages
-     *
-     * @param string $name
-     * @param striung $value
-     * @return string
-     */
-    public function attrib($name, $value)
-    {
-        if (null !== $value) {
-            return ' ' . $name . '="' . $value . '"';
-        } else {
-            return '';
-        }
-    }
-    
-    /**
-     * Render a param with localParams
-     *
-     * LocalParams can be use in various Solr GET params.
-     * @link http://wiki.apache.org/solr/LocalParams
-     *
-     * @param string $value
-     * @param array $localParams in key => value format
-     * @return string with Solr localparams syntax
-     */
-    public function renderLocalParams($value, $localParams = array())
-    {
-        $params = '';
-        foreach ($localParams AS $paramName => $paramValue) {
-            if (empty($paramValue)) continue;
-
-            if (is_array($paramValue)) {
-                $paramValue = implode($paramValue, ',');
-            }
-
-            $params .= $paramName . '=' . $paramValue . ' ';
-        }
-
-        if ($params !== '') {
-            $value = '{!' . trim($params) . '}' . $value;
-        }
-
-        return $value;
-    }
-
-    /**
-     * Add a param to the request
-     *
-     * This method makes adding params easy in two ways:
-     * - empty params are filtered out, so you don't to manually check each
-     * param
-     * - if you add the same param twice it will be converted into a multivalue
-     * param automatically. This way you don't need to check for single or
-     * multiple values beforehand.
-     *
-     * @param string $name
-     * @param string $value
-     * @return void
-     */
-    public function addParam($name, $value)
-    {
-        if (0 === strlen($value)) return;
-
-        if (!isset($this->_params[$name])) {
-            $this->_params[$name] = $value;
-        } else {
-            if (!is_array($this->_params[$name])) {
-                $this->_params[$name] = array($this->_params[$name]);
-            }
-            $this->_params[$name][] = $value;
-        }
-    }
-
 }

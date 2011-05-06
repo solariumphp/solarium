@@ -51,7 +51,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * 
      * @var string
      */
-    protected $_type = self::FACETSET;
+    protected $_type = Solarium_Query_Select::COMPONENT_FACETSET;
 
     /**
      * Default options

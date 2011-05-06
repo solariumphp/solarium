@@ -36,60 +36,65 @@
  */
 
 /**
- * Basic HTTP adapter using a stream
+ * Build a select request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
+class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuilder
 {
 
     /**
-     * Handle Solr communication
+     * Build request for a select query
      *
-     * @throws Solarium_Exception
-     * @param Solarium_Client_Request
-     * @return Solarium_Client_Response
+     * @param Solarium_Query_Select $query
+     * @return Solarium_Client_Request
      */
-    public function execute($request)
+    public function build($query)
     {
-        $method = $request->getMethod();
-        $context = stream_context_create(
-            array('http' => array(
-                'method' => $method,
-                'timeout' => $this->getTimeout()
-            ))
-        );
+        $request = new Solarium_Client_Request;
+        $request->setHandler($query->getHandler());
 
-        if ($method == Solarium_Client_Request::METHOD_POST) {
-            $data = $request->getRawData();
-            if (null !== $data) {
-                stream_context_set_option(
-                    $context,
-                    'http',
-                    'content',
-                    $data
+        // add basic params to request
+        $request->addParam('q', $query->getQuery());
+        $request->addParam('start', $query->getStart());
+        $request->addParam('rows', $query->getRows());
+        $request->addParam('fl', implode(',', $query->getFields()));
+        $request->addParam('wt', 'json');
+
+        // add sort fields to request
+        $sort = array();
+        foreach ($query->getSortFields() AS $field => $order) {
+            $sort[] = $field . ' ' . $order;
+        }
+        if (count($sort) !== 0) {
+            $request->addParam('sort', implode(',', $sort));
+        }
+
+        // add filterqueries to request
+        $filterQueries = $query->getFilterQueries();
+        if (count($filterQueries) !== 0) {
+            foreach ($filterQueries AS $filterQuery) {
+                $fq = $this->renderLocalParams(
+                    $filterQuery->getQuery(),
+                    array('tag' => $filterQuery->getTags())
                 );
-                //TODO header via request->setRawData!!
-                stream_context_set_option(
-                    $context,
-                    'http',
-                    'header',
-                    'Content-Type: text/xml; charset=UTF-8'
-                );
+                $request->addParam('fq', $fq);
             }
         }
 
-        $uri = $this->getBaseUri() . $request->getUri();
-        $data = @file_get_contents($uri, false, $context);
-        
-        // if there is no data and there are no headers it's a total failure,
-        // a connection to the host was impossible. 
-        if (false === $data && !isset($http_response_header)) {
-            throw new Solarium_Client_HttpException("HTTP request failed");
+        // add components to request
+        $types = $query->getComponentTypes();
+        foreach ($query->getComponents() as $component) {
+            $componentBuilderClass = $types[$component->getType()]['requestbuilder'];
+            if (!empty($componentBuilderClass)) {
+                // todo add caching?
+                $componentBuilder = new $componentBuilderClass;
+                $request = $componentBuilder->build($component, $request);
+            }
         }
-
-        return new Solarium_Client_Response($data, $http_response_header);
+        
+        return $request;
     }
 
 }

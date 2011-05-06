@@ -55,6 +55,24 @@ class Solarium_Query_Select extends Solarium_Query
     const SORT_ASC = 'asc';
 
     /**
+     * Query components
+     */
+    const COMPONENT_FACETSET = 'facetset';
+    const COMPONENT_DISMAX = 'dismax';
+    const COMPONENT_MORELIKETHIS = 'morelikethis';
+    const COMPONENT_HIGHLIGHTING = 'highlighting';
+
+    /**
+     * Get type for this query
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return Solarium_Client::QUERYTYPE_SELECT;
+    }
+
+    /**
      * Default options
      * 
      * @var array
@@ -67,6 +85,34 @@ class Solarium_Query_Select extends Solarium_Query
         'start'         => 0,
         'rows'          => 10,
         'fields'        => '*,score',
+    );
+
+    /**
+     * Default select query component types
+     * 
+     * @var array
+     */
+    protected $_componentTypes = array(
+        self::COMPONENT_FACETSET => array(
+            'component' => 'Solarium_Query_Select_Component_FacetSet',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_FacetSet',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_FacetSet',
+        ),
+        self::COMPONENT_DISMAX => array(
+            'component' => 'Solarium_Query_Select_Component_DisMax',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_DisMax',
+            'responseparser' => null,
+        ),
+        self::COMPONENT_MORELIKETHIS => array(
+            'component' => 'Solarium_Query_Select_Component_MoreLikeThis',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_MoreLikeThis',
+        ),
+        self::COMPONENT_HIGHLIGHTING => array(
+            'component' => 'Solarium_Query_Select_Component_Highlighting',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Highlighting',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Highlighting',
+        ),
     );
 
     /**
@@ -538,6 +584,36 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
+     * Get all registered component types
+     *
+     * @return array
+     */
+    public function getComponentTypes()
+    {
+        return $this->_componentTypes;
+    }
+
+    /**
+     * Register a component type
+     *
+     * @param string $key
+     * @param string $component
+     * @param string $requestBuilder
+     * @param string $responseParser
+     * @return Solarium_Query Provides fluent interface
+     */
+    public function registerComponentType($key, $component, $requestBuilder=null, $responseParser=null)
+    {
+        $this->_componentTypes[$key] = array(
+            'component' => $component,
+            'requestbuilder' => $requestBuilder,
+            'responseparser' => $responseParser,
+        );
+
+        return $this;
+    }
+
+    /**
      * Get all registered components
      * 
      * @return array
@@ -566,16 +642,16 @@ class Solarium_Query_Select extends Solarium_Query
             if ($autoload == true) {
 
                 switch ($key) {
-                    case Solarium_Query_Select_Component::MORELIKETHIS:
+                    case Solarium_Query_Select::COMPONENT_MORELIKETHIS:
                         $className = 'Solarium_Query_Select_Component_MoreLikeThis';
                         break;
-                    case Solarium_Query_Select_Component::FACETSET:
+                    case Solarium_Query_Select::COMPONENT_FACETSET:
                         $className = 'Solarium_Query_Select_Component_FacetSet';
                         break;
-                    case Solarium_Query_Select_Component::DISMAX:
+                    case Solarium_Query_Select::COMPONENT_DISMAX:
                         $className = 'Solarium_Query_Select_Component_DisMax';
                         break;
-                    case Solarium_Query_Select_Component::HIGHLIGHTING:
+                    case Solarium_Query_Select::COMPONENT_HIGHLIGHTING:
                         $className = 'Solarium_Query_Select_Component_Highlighting';
                         break;
                     default:
@@ -642,7 +718,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getMoreLikeThis()
     {
-        return $this->getComponent(Solarium_Query_Select_Component::MORELIKETHIS, true);
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_MORELIKETHIS, true);
     }
 
     /**
@@ -654,7 +730,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getFacetSet()
     {
-        return $this->getComponent(Solarium_Query_Select_Component::FACETSET, true);
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_FACETSET, true);
     }
 
     /**
@@ -666,7 +742,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getDisMax()
     {
-        return $this->getComponent(Solarium_Query_Select_Component::DISMAX, true);
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_DISMAX, true);
     }
 
     /**
@@ -678,7 +754,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getHighlighting()
     {
-        return $this->getComponent(Solarium_Query_Select_Component::HIGHLIGHTING, true);
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_HIGHLIGHTING, true);
     }
 
     /**

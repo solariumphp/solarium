@@ -56,7 +56,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * 
      * @var string
      */
-    protected $_type = self::HIGHLIGHTING;
+    protected $_type = Solarium_Query_Select::COMPONENT_HIGHLIGHTING;
 
     /**
      * Set fields option

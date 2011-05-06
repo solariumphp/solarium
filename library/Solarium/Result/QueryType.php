@@ -32,72 +32,60 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
 
 /**
- * Base class for all query types, not intended for direct usage
+ * QueryType result
+ *
+ * TODO intro
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
-abstract class Solarium_Query extends Solarium_Configurable
+class Solarium_Result_QueryType extends Solarium_Result
 {
 
     /**
-     * Get type for this query
+     * Lazy load parsing indicator
      *
-     * @return string
+     * @var bool
      */
-    abstract public function getType();
+    protected $_parsed = false;
+
+    /**
+     * Parse response into result objects
+     *
+     * Only runs once
+     * 
+     * @return void
+     */
+    protected function _parseResponse()
+    {
+        if (!$this->_parsed) {
+            $queryType = $this->_query->getType();
+            $queryTypes = $this->_client->getQueryTypes();
+            if (!isset($queryTypes[$queryType])) {
+                throw new Solarium_Exception('No responseparser registered for querytype: '. $queryType);
+            }
+
+            $responseParserClass = $queryTypes[$queryType]['responseparser'];
+            $responseParser = new $responseParserClass;
+            $this->_mapData($responseParser->parse($this));
+        }
+    }
+
+    /**
+     * Map parser data into properties
+     *
+     * @param array $mapData
+     * @return void
+     */
+    protected function _mapData($mapData)
+    {
+        foreach($mapData AS $key => $data) {
+            $this->{'_'.$key} = $data;
+        }
+    }
     
-    /**
-     * Set handler option
-     *
-     * @param string $handler
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setHandler($handler)
-    {
-        return $this->_setOption('handler', $handler);
-    }
-
-    /**
-     * Get handler option
-     *
-     * @return string
-     */
-    public function getHandler()
-    {
-        return $this->getOption('handler');
-    }
-
-    /**
-     * Set resultclass option
-     *
-     * If you set a custom result class it must be available through autoloading
-     * or a manual require before calling this method. This is your
-     * responsibility.
-     *
-     * Also you need to make sure it extends the orginal result class of the
-     * query or has an identical API.
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
-
 }

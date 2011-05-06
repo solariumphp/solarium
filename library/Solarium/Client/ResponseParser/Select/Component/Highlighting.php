@@ -32,72 +32,39 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
 
 /**
- * Base class for all query types, not intended for direct usage
+ * Parse select component Highlighting result from the data
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
-abstract class Solarium_Query extends Solarium_Configurable
+class Solarium_Client_ResponseParser_Select_Component_Highlighting
 {
 
     /**
-     * Get type for this query
+     * Parse result data into result objects
      *
-     * @return string
+     * @param Solarium_Query_Select $query
+     * @param Solarium_Query_Select_Component_Highlighting $highlighting
+     * @param array $data
+     * @return Solarium_Result_Select_Highlighting
      */
-    abstract public function getType();
-    
-    /**
-     * Set handler option
-     *
-     * @param string $handler
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setHandler($handler)
+    public function parse($query, $highlighting, $data)
     {
-        return $this->_setOption('handler', $handler);
-    }
+        $results = array();
+        if (isset($data['highlighting'])) {
 
-    /**
-     * Get handler option
-     *
-     * @return string
-     */
-    public function getHandler()
-    {
-        return $this->getOption('handler');
-    }
+            $highlightResults = $data['highlighting'];
+            foreach ($highlightResults AS $key => $result) {
+                $results[$key] = new Solarium_Result_Select_Highlighting_Result(
+                    $result
+                );
+            }
+        }
 
-    /**
-     * Set resultclass option
-     *
-     * If you set a custom result class it must be available through autoloading
-     * or a manual require before calling this method. This is your
-     * responsibility.
-     *
-     * Also you need to make sure it extends the orginal result class of the
-     * query or has an identical API.
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
+        return new Solarium_Result_Select_Highlighting($results);
     }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
-
 }

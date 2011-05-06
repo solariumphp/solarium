@@ -32,72 +32,61 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
 
 /**
- * Base class for all query types, not intended for direct usage
+ * Parse select response data
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
-abstract class Solarium_Query extends Solarium_Configurable
+class Solarium_Client_ResponseParser_Select extends Solarium_Client_ResponseParser
 {
 
     /**
-     * Get type for this query
+     * Get result data for the response
      *
-     * @return string
+     * @param Solarium_Result_Select $result
+     * @return array
      */
-    abstract public function getType();
-    
-    /**
-     * Set handler option
-     *
-     * @param string $handler
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setHandler($handler)
+    public function parse($result)
     {
-        return $this->_setOption('handler', $handler);
-    }
+        $data = $result->getData();
+        $query = $result->getQuery();
+        
+        // reset arrays
+        $this->_components = array();
 
-    /**
-     * Get handler option
-     *
-     * @return string
-     */
-    public function getHandler()
-    {
-        return $this->getOption('handler');
-    }
+        // create document instances
+        $documentClass = $query->getOption('documentclass');
+        $documents = array();
+        if (isset($data['response']['docs'])) {
+            foreach ($data['response']['docs'] AS $doc) {
+                $fields = (array)$doc;
+                $documents[] = new $documentClass($fields);
+            }
+        }
 
-    /**
-     * Set resultclass option
-     *
-     * If you set a custom result class it must be available through autoloading
-     * or a manual require before calling this method. This is your
-     * responsibility.
-     *
-     * Also you need to make sure it extends the orginal result class of the
-     * query or has an identical API.
-     *
-     * @param string $classname
-     * @return Solarium_Query Provides fluent interface
-     */
-    public function setResultClass($classname)
-    {
-        return $this->_setOption('resultclass', $classname);
-    }
-
-    /**
-     * Get resultclass option
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
+        // component results
+        $components = array();
+        $types = $query->getComponentTypes();
+        foreach ($query->getComponents() as $component) {
+            $componentParserClass = $types[$component->getType()]['responseparser'];
+            if (!empty($componentParserClass)) {
+                // todo add caching?
+                $componentParser = new $componentParserClass;
+                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
+            }
+        }
+        
+        return array(
+            'status' => $data['responseHeader']['status'],
+            'querytime' => $data['responseHeader']['QTime'],
+            'numfound' => $data['response']['numFound'],
+            'documents' => $documents,
+            'components' => $components,
+        );
     }
 
 }
