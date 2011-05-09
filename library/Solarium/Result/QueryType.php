@@ -83,7 +83,7 @@ class Solarium_Result_QueryType extends Solarium_Result
      */
     protected function _mapData($mapData)
     {
-        foreach($mapData AS $key => $data) {
+        foreach ($mapData AS $key => $data) {
             $this->{'_'.$key} = $data;
         }
     }

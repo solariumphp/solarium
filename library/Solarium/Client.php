@@ -231,6 +231,10 @@ class Solarium_Client extends Solarium_Configurable
     public function registerPlugin($key, $class, $options = array())
     {
         $plugin = new $class($this, $options);
+        if (!($plugin instanceof Solarium_Plugin_Abstract)) {
+           throw new Solarium_Exception('All plugins must extend Solarium_Plugin_Abstract');
+        }
+
         $this->_plugins[$key] = $plugin;
 
         return $this;
@@ -285,8 +289,8 @@ class Solarium_Client extends Solarium_Configurable
      */
     protected function _callPlugins($event, $params, $resultOverride = false)
     {
-        foreach($this->_plugins AS $plugin) {
-            $result = call_user_func_array(array($plugin,$event),$params);
+        foreach ($this->_plugins AS $plugin) {
+            $result = call_user_func_array(array($plugin, $event), $params);
 
             if ($result !== null && $resultOverride) {
                 return $result;

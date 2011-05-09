@@ -68,7 +68,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
      * @return void|Solarium_Client_Request
      */
     public function preCreateRequest($query)
-    { }
+    {
+    }
 
     /**
      * @param Solarium_Query $query
@@ -76,14 +77,16 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
      * @return void
      */
     public function postCreateRequest($query, $request)
-    { }
+    {
+    }
 
     /**
      * @param Solarium_Client_Request $request
      * @return void|Solarium_Client_Response
      */
     public function preExecuteRequest($request)
-    { }
+    {
+    }
 
     /**
      * @param Solarium_Client_Request $request
@@ -91,7 +94,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
      * @return void
      */
     public function postExecuteRequest($request, $response)
-    { }
+    {
+    }
 
     /**
      * @param Solarium_Query $query
@@ -99,7 +103,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
      * @return void|Solarium_Result
      */
     public function preCreateResult($query, $response)
-    { }
+    {
+    }
 
     /**
      * @param Solarium_Query $query
@@ -108,14 +113,16 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
      * @return void
      */
     public function postCreateResult($query, $response, $result)
-    { }
+    {
+    }
 
     /**
      * @param Solarium_Query $query
      * @return void|Solarium_Result
      */
     public function preExecute($query)
-    { }
+    {
+    }
 
     /**
      * @param Solarium_Query $query
@@ -123,6 +130,7 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
      * @return void
      */
     public function postExecute($query, $result)
-    { }
+    {
+    }
 
 }

@@ -98,7 +98,28 @@ class Solarium_ConfigurableTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('Solarium_Exception');
         new ConfigTestInit;
     }
-    
+
+    public function testSetOptions()
+    {
+        $configTest = new ConfigTest();
+        $configTest->setOptions(array('option2' => 2, 'option3' => 3));
+
+        $this->assertEquals(
+            array('option1' => 1, 'option2' => 2, 'option3' => 3),
+            $configTest->getOptions()
+        );
+    }
+
+    public function testSetOptionsWithOverride()
+    {
+        $configTest = new ConfigTest();
+        $configTest->setOptions(array('option2' => 2, 'option3' => 3), true);
+
+        $this->assertEquals(
+            array('option2' => 2, 'option3' => 3),
+            $configTest->getOptions()
+        );
+    }
 }
 
 class ConfigTest extends Solarium_Configurable

@@ -289,11 +289,10 @@ class Solarium_Client_Request extends Solarium_Configurable
     /**
      * Add a request header
      *
-     * @header string $key
      * @header string|array $value
      * @return Solarium_Client_Request
      */
-    public function addHeader($key, $value)
+    public function addHeader($value)
     {
         $this->_headers[] = $value;
         

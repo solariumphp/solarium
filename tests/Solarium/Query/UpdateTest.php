@@ -39,6 +39,11 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $this->_query = new Solarium_Query_Update;
     }
 
+    public function testGetType()
+    {
+        $this->assertEquals(Solarium_Client::QUERYTYPE_UPDATE, $this->_query->getType());
+    }
+
     public function testAddWithoutKey()
     {
         $command = new Solarium_Query_Update_Command_Rollback;

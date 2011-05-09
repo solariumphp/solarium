@@ -56,6 +56,76 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $this->assertThat($client->getAdapter(), $this->isInstanceOf($adapterClass));
     }
 
+    public function testRegisterQueryTypeAndGetQueryTypes()
+    {
+
+    }
+
+    public function testRegisterAndGetPlugin()
+    {
+
+    }
+
+    public function testRemoveAndGetPlugins()
+    {
+
+    }
+
+    public function testCreateRequest()
+    {
+
+    }
+
+    public function testCreateRequestInvalidQueryType()
+    {
+
+    }
+
+    public function testCreateRequestWithOverridingPlugin()
+    {
+
+    }
+
+    public function testCreateRequestPostPlugin()
+    {
+
+    }
+
+    public function testCreateResult()
+    {
+
+    }
+
+    public function testCreateResultInvalidQueryType()
+    {
+
+    }
+
+    public function testCreateResultWithOverridingPlugin()
+    {
+
+    }
+
+    public function testCreateResultPostPlugin()
+    {
+
+    }
+
+    public function testPing()
+    {
+
+    }
+
+    public function testSelect()
+    {
+
+    }
+
+    public function testUpdate()
+    {
+
+    }
+
 }
 
 class MyAdapter extends Solarium_Client_Adapter_Http{

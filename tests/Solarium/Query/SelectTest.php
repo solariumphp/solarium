@@ -39,6 +39,11 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->_query = new Solarium_Query_Select;
     }
 
+    public function testGetType()
+    {
+        $this->assertEquals(Solarium_Client::QUERYTYPE_SELECT, $this->_query->getType());
+    }
+
     public function testSetAndGetStart()
     {
         $this->_query->setStart(234);
@@ -479,6 +484,16 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetHighlighting()
+    {
+        $dismax = $this->_query->getHighlighting();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_Highlighting',
+            get_class($dismax)
+        );
+    }
+
     public function testGetHelper()
     {
         $helper = $this->_query->getHelper();
@@ -486,6 +501,23 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'Solarium_Query_Select_Helper',
             get_class($helper)
+        );
+    }
+
+    public function testRegisterComponentType()
+    {
+        $components = $this->_query->getComponentTypes();
+        $components['mykey'] = array(
+            'component' => 'mycomponent',
+            'requestbuilder' => 'mybuilder',
+            'responseparser' => 'myparser',
+        );
+
+        $this->_query->registerComponentType('mykey','mycomponent','mybuilder','myparser');
+
+        $this->assertEquals(
+            $components,
+            $this->_query->getComponentTypes()
         );
     }
 }

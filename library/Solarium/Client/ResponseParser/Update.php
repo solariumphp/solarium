@@ -53,8 +53,6 @@ class Solarium_Client_ResponseParser_Update extends Solarium_Client_ResponsePars
     public function parse($result)
     {
         $data = $result->getData();
-        $query = $result->getQuery();
-        $resultClass = $query->getResultClass();
 
         return array(
             'status' => $data['responseHeader']['status'],

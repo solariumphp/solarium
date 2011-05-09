@@ -27,46 +27,22 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * Add select component morelikethis to the request
- *
- * @package Solarium
- * @subpackage Client
- */
-class Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis
+class Solarium_Query_PingTest extends PHPUnit_Framework_TestCase
 {
-    
-    /**
-     * Add request settings for morelikethis
-     *
-     * @param Solarium_Query_Select_Component_MoreLikeThis $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
-     */
-    public function build($component, $request)
+
+    protected $_query;
+
+    public function setUp()
     {
-        // enable morelikethis
-        $request->addParam('mlt', 'true');
-
-        $request->addParam('mlt.fl', $component->getFields());
-        $request->addParam('mlt.mintf', $component->getMinimumTermFrequency());
-        $request->addParam('mlt.mindf', $component->getMinimumDocumentFrequency());
-        $request->addParam('mlt.minwl', $component->getMinimumWordLength());
-        $request->addParam('mlt.maxwl', $component->getMaximumWordLength());
-        $request->addParam('mlt.maxqt', $component->getMaximumQueryTerms());
-        $request->addParam('mlt.maxntp', $component->getMaximumNumberOfTokens());
-        $request->addParam('mlt.boost', $component->getBoost());
-        $request->addParam('mlt.qf', $component->getQueryFields());
-        $request->addParam('mlt.count', $component->getCount());
-
-        return $request;
+        $this->_query = new Solarium_Query_Ping;
     }
+
+    public function testGetType()
+    {
+        $this->assertEquals(Solarium_Client::QUERYTYPE_PING, $this->_query->getType());
+    }
+
+
 }
