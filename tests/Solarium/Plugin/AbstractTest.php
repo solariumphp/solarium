@@ -56,14 +56,14 @@ class Solarium_Plugin_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testEventHooks()
     {
-        $this->assertEquals(null, $this->_plugin->preCreateRequest());
-        $this->assertEquals(null, $this->_plugin->postCreateRequest());
-        $this->assertEquals(null, $this->_plugin->preExecuteRequest());
-        $this->assertEquals(null, $this->_plugin->postExcuteRequest());
-        $this->assertEquals(null, $this->_plugin->preExecute());
-        $this->assertEquals(null, $this->_plugin->postExecute());
-        $this->assertEquals(null, $this->_plugin->preCreateResult());
-        $this->assertEquals(null, $this->_plugin->postCreateResult());
+        $this->assertEquals(null, $this->_plugin->preCreateRequest(null));
+        $this->assertEquals(null, $this->_plugin->postCreateRequest(null,null));
+        $this->assertEquals(null, $this->_plugin->preExecuteRequest(null));
+        $this->assertEquals(null, $this->_plugin->postExecuteRequest(null,null));
+        $this->assertEquals(null, $this->_plugin->preExecute(null));
+        $this->assertEquals(null, $this->_plugin->postExecute(null,null));
+        $this->assertEquals(null, $this->_plugin->preCreateResult(null,null));
+        $this->assertEquals(null, $this->_plugin->postCreateResult(null,null,null));
     }
 
 }
