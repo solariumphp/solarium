@@ -29,12 +29,12 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Result_UpdateTest extends Solarium_Result_QueryTest
+class Solarium_Result_UpdateTest extends Solarium_Result_QueryTypeTest
 {
 
     public function setUp()
     {
-        $this->_result = new Solarium_Result_Update(0,45);
+        
     }
     
 }

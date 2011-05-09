@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -37,30 +37,29 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
      */
     protected $_query;
 
-    protected $_options = array(
-        'host' => '127.0.0.1',
-        'port' => 80,
-        'path' => '/solr',
-        'core' => null,
-    );
+    /**
+     * @var Solarium_Client_RequestBuilder_Select
+     */
+    protected $_builder;
 
     public function setUp()
     {
         $this->_query = new Solarium_Query_Select;
+        $this->_builder = new Solarium_Client_RequestBuilder_Select;
     }
 
     public function testGetMethod()
     {
-        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $request = $this->_builder->build($this->_query);
         $this->assertEquals(
-            Solarium_Client_Request::GET,
+            Solarium_Client_Request::METHOD_GET,
             $request->getMethod()
         );
     }
 
     public function testSelectUrlWithDefaultValues()
     {
-        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $request = $this->_builder->build($this->_query);
 
         $this->assertEquals(
             null,
@@ -68,16 +67,16 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json',
+            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json',
             urldecode($request->getUri())
         );
     }
 
     public function testSelectUrlWithSort()
     {
-        $this->_query->addSortField('id', Solarium_Query_Select::SORT_ASC);
-        $this->_query->addSortField('name', Solarium_Query_Select::SORT_DESC);
-        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $this->_query->addSort('id', Solarium_Query_Select::SORT_ASC);
+        $this->_query->addSort('name', Solarium_Query_Select::SORT_DESC);
+        $request = $this->_builder->build($this->_query);
 
         $this->assertEquals(
             null,
@@ -85,18 +84,18 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc',
+            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc',
             urldecode($request->getUri())
         );
     }
 
     public function testSelectUrlWithSortAndFilters()
     {
-        $this->_query->addSortField('id', Solarium_Query_Select::SORT_ASC);
-        $this->_query->addSortField('name', Solarium_Query_Select::SORT_DESC);
+        $this->_query->addSort('id', Solarium_Query_Select::SORT_ASC);
+        $this->_query->addSort('name', Solarium_Query_Select::SORT_DESC);
         $this->_query->addFilterQuery(new Solarium_Query_Select_FilterQuery(array('key' => 'f1', 'query' => 'published:true')));
         $this->_query->addFilterQuery(new Solarium_Query_Select_FilterQuery(array('key' => 'f2', 'tag' => array('t1','t2'), 'query' => 'category:23')));
-        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $request = $this->_builder->build($this->_query);
 
         $this->assertEquals(
             null,
@@ -104,7 +103,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc&fq=published:true&fq={!tag=t1,t2}category:23',
+            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc&fq=published:true&fq={!tag=t1,t2}category:23',
             urldecode($request->getUri())
         );
     }
@@ -113,8 +112,8 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
     {
         $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_Field(array('key' => 'f1', 'field' => 'owner')));
         $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_Query(array('key' => 'f2', 'query' => 'category:23')));
-        $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_MultiQuery(array('key' => 'f3', 'query' => array('f4' =>array('query' => 'category:40')))));
-        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_MultiQuery(array('key' => 'f3', 'query' => array('f4' => array('query' => 'category:40')))));
+        $request = $this->_builder->build($this->_query);
 
         $this->assertEquals(
             null,
@@ -122,7 +121,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
+            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
             urldecode($request->getUri())
         );
     }
@@ -141,7 +140,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
             )
         ));
 
-        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $request = $this->_builder->build($this->_query);
 
         $this->assertEquals(
             null,
@@ -149,7 +148,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.range.other=all&f.price.facet.range.include=outer',
+            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.range.other=all&f.price.facet.range.include=outer',
             urldecode($request->getUri())
         );
     }
@@ -161,7 +160,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_Field(array('key' => 'f1', 'field' => 'owner')));
         $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_Query(array('key' => 'f2', 'query' => 'category:23')));
         $this->_query->getFacetSet()->addFacet(new Solarium_Query_Select_Component_Facet_MultiQuery(array('key' => 'f3', 'query' => array('f4' =>array('query' => 'category:40')))));
-        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $request = $this->_builder->build($this->_query);
 
         $this->assertEquals(
             null,
@@ -169,7 +168,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.missing=1&facet.limit=10&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
+            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&facet=true&facet.missing=1&facet.limit=10&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
             urldecode($request->getUri())
         );
     }
@@ -178,7 +177,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
     {
         $this->_query->getFacetSet()->addFacet(new UnknownFacet(array('key' => 'f1', 'field' => 'owner')));
         $this->setExpectedException('Solarium_Exception');
-        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $request = $this->_builder->build($this->_query);
         $request->getUri();
     }
 
@@ -196,7 +195,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         $mlt->setQueryFields('description');
         $mlt->setCount(6);
         
-        $request = new Solarium_Client_Request_Select($this->_options, $this->_query);
+        $request = $this->_builder->build($this->_query);
 
         $this->assertEquals(
             null,
@@ -204,7 +203,7 @@ class Solarium_Client_Request_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/select?q=*:*&start=0&rows=10&fl=*,score&wt=json&mlt=true&mlt.fl=description,name&mlt.mintf=1&mlt.mindf=3&mlt.minwl=2&mlt.maxwl=15&mlt.maxqt=4&mlt.maxntp=5&mlt.boost=1&mlt.qf=description&mlt.count=6',
+            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&mlt=true&mlt.fl=description,name&mlt.mintf=1&mlt.mindf=3&mlt.minwl=2&mlt.maxwl=15&mlt.maxqt=4&mlt.maxntp=5&mlt.boost=1&mlt.qf=description&mlt.count=6',
             urldecode($request->getUri())
         );
     }

@@ -29,14 +29,27 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_Response_SelectTest extends PHPUnit_Framework_TestCase
+class Solarium_Result_QueryTypeTest extends PHPUnit_Framework_TestCase
 {
 
-   public function testGetResult()
+    public function testParseLazyLoading()
     {
-        $query = new Solarium_Query_Select;
-        $response = new Solarium_Client_Response_Select($query);
 
-        $this->assertThat($response->getResult(), $this->isInstanceOf($query->getResultClass()));
     }
+
+    public function testParseResponse()
+    {
+
+    }
+
+    public function testMapData()
+    {
+
+    }
+    
+}
+
+class TestQueryType extends Solarium_Result_QueryType
+{
+
 }

@@ -64,7 +64,7 @@ class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuild
 
         // add sort fields to request
         $sort = array();
-        foreach ($query->getSortFields() AS $field => $order) {
+        foreach ($query->getSorts() AS $field => $order) {
             $sort[] = $field . ' ' . $order;
         }
         if (count($sort) !== 0) {

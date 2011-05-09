@@ -29,38 +29,22 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_Request_PingTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_RequestBuilder_PingTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_query;
-
-    protected $_options = array(
-        'host' => '127.0.0.1',
-        'port' => 80,
-        'path' => '/solr',
-        'core' => null,
-    );
-
-    public function setUp()
+    public function testBuild()
     {
-        $this->_query = new Solarium_Query_Ping;
-    }
+        $builder = new Solarium_Client_RequestBuilder_Ping;
+        $request = $builder->build(new Solarium_Query_Ping);
 
-    public function testGetMethod()
-    {
-        $request = new Solarium_Client_Request_Ping($this->_options, $this->_query);
         $this->assertEquals(
-            Solarium_Client_Request::HEAD,
-            $request->getMethod()
-        );
-    }
-
-    public function testGetUri()
-    {
-        $request = new Solarium_Client_Request_Ping($this->_options, $this->_query);
-        $this->assertEquals(
-            'http://127.0.0.1:80/solr/admin/ping?',
+            'admin/ping?',
             $request->getUri()
+        );
+
+        $this->assertEquals(
+            Solarium_Client_Request::METHOD_HEAD,
+            $request->getMethod()
         );
     }
 

@@ -29,24 +29,57 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Result_QueryTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_AdapterTest extends PHPUnit_Framework_TestCase
 {
-
-    protected $_result;
+    /**
+     * @var Solarium_Client_Adapter
+     */
+    protected $_adapter;
 
     public function setUp()
     {
-        $this->_result = new Solarium_Result_Query(0,45);
+        $client = new Solarium_Client();
+        $this->_adapter = $client->getAdapter();
     }
 
-    public function testGetStatus()
+    public function testSetAndGetHost()
     {
-        $this->assertEquals(0, $this->_result->getStatus());
+        $this->_adapter->setHost('myhost');
+        $this->assertEquals('myhost', $this->_adapter->getHost());
     }
 
-    public function testGetQueryTime()
+    public function testSetAndGetPort()
     {
-        $this->assertEquals(45, $this->_result->getQueryTime());
+        $this->_adapter->setPort(8080);
+        $this->assertEquals(8080, $this->_adapter->getPort());
     }
+
+    public function testSetAndGetPath()
+    {
+        $this->_adapter->setPath('/mysolr');
+        $this->assertEquals('/mysolr', $this->_adapter->getPath());
+    }
+
+    public function testSetAndGetPathWithTrailingSlash()
+    {
+        $this->_adapter->setPath('/mysolr/');
+        $this->assertEquals('/mysolr', $this->_adapter->getPath());
+    }
+
+    public function testSetAndGetCore()
+    {
+        $this->_adapter->setCore('core1');
+        $this->assertEquals('core1', $this->_adapter->getCore());
+    }
+
+}
+
+class TestAdapter extends Solarium_Client_Adapter
+{
     
+    public function execute($request)
+    {
+
+    }
+
 }

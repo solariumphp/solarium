@@ -123,11 +123,11 @@ class Solarium_Query_Select extends Solarium_Query
     protected $_fields = array();
 
     /**
-     * Fields to sort on
+     * Items to sort on
      *
      * @var array
      */
-    protected $_sortFields = array();
+    protected $_sorts = array();
 
     /**
      * Filterqueries
@@ -169,7 +169,7 @@ class Solarium_Query_Select extends Solarium_Query
                     $this->addFilterQueries($value);
                     break;
                 case 'sort':
-                    $this->addSortFields($value);
+                    $this->addSorts($value);
                     break;
                 case 'fields':
                     $this->addFields($value);
@@ -386,84 +386,84 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Add a sort field
+     * Add a sort
      *
-     * @param string $field
+     * @param string $sort
      * @param string $order
      * @return Solarium_Query Provides fluent interface
      */
-    public function addSortField($field, $order)
+    public function addSort($sort, $order)
     {
-        $this->_sortFields[$field] = $order;
+        $this->_sorts[$sort] = $order;
 
         return $this;
     }
 
     /**
-     * Add multiple sort fields
+     * Add multiple sorts
      *
-     * The input array must contain fieldnames as keys and the order as values.
+     * The input array must contain sort items as keys and the order as values.
      *
-     * @param array $sortFields
+     * @param array $sorts
      * @return Solarium_Query Provides fluent interface
      */
-    public function addSortFields(array $sortFields)
+    public function addSorts(array $sorts)
     {
-        foreach ($sortFields AS $sortField => $sortOrder) {
-            $this->addSortField($sortField, $sortOrder);
+        foreach ($sorts AS $sort => $order) {
+            $this->addSort($sort, $order);
         }
 
         return $this;
     }
 
     /**
-     * Remove a sortfield
+     * Remove a sort
      *
-     * @param string $field
+     * @param string $sort
      * @return Solarium_Query Provides fluent interface
      */
-    public function removeSortField($field)
+    public function removeSort($sort)
     {
-        if (isset($this->_sortFields[$field])) {
-            unset($this->_sortFields[$field]);
+        if (isset($this->_sorts[$sort])) {
+            unset($this->_sorts[$sort]);
         }
 
         return $this;
     }
 
     /**
-     * Remove all sortfields
+     * Remove all sorts
      *
      * @return Solarium_Query Provides fluent interface
      */
-    public function clearSortFields()
+    public function clearSorts()
     {
-        $this->_sortFields = array();
+        $this->_sorts = array();
         return $this;
     }
 
     /**
-     * Get a list of the sortfields
+     * Get a list of the sorts
      *
      * @return array
      */
-    public function getSortFields()
+    public function getSorts()
     {
-        return $this->_sortFields;
+        return $this->_sorts;
     }
 
     /**
-     * Set multiple sortfields
+     * Set multiple sorts
      *
-     * This overwrites any existing sortfields
+     * This overwrites any existing sorts
      *
-     * @param array $fields
+     * @param array $sorts
      * @return Solarium_Query Provides fluent interface
      */
-    public function setSortFields($fields)
+    public function setSorts($sorts)
     {
-        $this->clearSortFields();
-        $this->addSortFields($fields);
+        $this->clearSorts();
+        $this->addSorts($sorts);
 
         return $this;
     }

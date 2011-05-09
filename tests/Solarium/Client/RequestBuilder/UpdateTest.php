@@ -29,37 +29,39 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_RequestBuilder_UpdateTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Update
+     */
     protected $_query;
 
-    protected $_options = array(
-        'host' => '127.0.0.1',
-        'port' => 80,
-        'path' => '/solr',
-        'core' => null,
-    );
+    /**
+     * @var Solarium_Client_RequestBuilder_Update
+     */
+    protected $_builder;
 
     public function setUp()
     {
         $this->_query = new Solarium_Query_Update;
+        $this->_builder = new Solarium_Client_RequestBuilder_Update;
     }
 
     public function testGetMethod()
     {
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
+        $request = $this->_builder->build($this->_query);
         $this->assertEquals(
-            Solarium_Client_Request::POST,
+            Solarium_Client_Request::METHOD_POST,
             $request->getMethod()
         );
     }
 
     public function testGetUri()
     {
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
+        $request = $this->_builder->build($this->_query);
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/update?wt=json',
+            'update?wt=json',
             $request->getUri()
         );
     }
@@ -68,12 +70,10 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
     {
         $command = new Solarium_Query_Update_Command_Add;
         $command->addDocument(new Solarium_Document_ReadWrite(array('id' => 1)));
-
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
-
+        
         $this->assertEquals(
             '<add><doc><field name="id">1</field></doc></add>',
-            $request->buildAddXml($command)
+            $this->_builder->buildAddXml($command)
         );
     }
 
@@ -82,11 +82,9 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command = new Solarium_Query_Update_Command_Add(array('overwrite' => true,'commitwithin' => 100));
         $command->addDocument(new Solarium_Document_ReadWrite(array('id' => 1)));
 
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
-
         $this->assertEquals(
             '<add overwrite="true" commitWithin="100"><doc><field name="id">1</field></doc></add>',
-            $request->buildAddXml($command)
+            $this->_builder->buildAddXml($command)
         );
     }
 
@@ -95,11 +93,9 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command = new Solarium_Query_Update_Command_Add;
         $command->addDocument(new Solarium_Document_ReadWrite(array('id' => 1, 'text' => 'test < 123 > test')));
 
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
-
         $this->assertEquals(
             '<add><doc><field name="id">1</field><field name="text">test &lt; 123 &gt; test</field></doc></add>',
-            $request->buildAddXml($command)
+            $this->_builder->buildAddXml($command)
         );
     }
 
@@ -108,11 +104,9 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command = new Solarium_Query_Update_Command_Add;
         $command->addDocument(new Solarium_Document_ReadWrite(array('id' => array(1,2,3), 'text' => 'test < 123 > test')));
 
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
-
         $this->assertEquals(
             '<add><doc><field name="id">1</field><field name="id">2</field><field name="id">3</field><field name="text">test &lt; 123 &gt; test</field></doc></add>',
-            $request->buildAddXml($command)
+            $this->_builder->buildAddXml($command)
         );
     }
 
@@ -123,11 +117,9 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command = new Solarium_Query_Update_Command_Add;
         $command->addDocument($doc);
 
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
-
         $this->assertEquals(
             '<add><doc boost="2.5"><field name="id">1</field></doc></add>',
-            $request->buildAddXml($command)
+            $this->_builder->buildAddXml($command)
         );
     }
 
@@ -138,11 +130,9 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command = new Solarium_Query_Update_Command_Add;
         $command->addDocument($doc);
 
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
-
         $this->assertEquals(
             '<add><doc><field name="id" boost="2.1">1</field></doc></add>',
-            $request->buildAddXml($command)
+            $this->_builder->buildAddXml($command)
         );
     }
 
@@ -151,22 +141,20 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command = new Solarium_Query_Update_Command_Add;
         $command->addDocument(new Solarium_Document_ReadWrite(array('id' => 1)));
         $command->addDocument(new Solarium_Document_ReadWrite(array('id' => 2)));
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<add><doc><field name="id">1</field></doc><doc><field name="id">2</field></doc></add>',
-            $request->buildAddXml($command)
+            $this->_builder->buildAddXml($command)
         );
     }
 
     public function testBuildDeleteXml()
     {
         $command = new Solarium_Query_Update_Command_Delete;
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<delete></delete>',
-            $request->buildDeleteXml($command)
+            $this->_builder->buildDeleteXml($command)
         );
     }
 
@@ -174,11 +162,10 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
     {
         $command = new Solarium_Query_Update_Command_Delete;
         $command->addId(123);
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<delete><id>123</id></delete>',
-            $request->buildDeleteXml($command)
+            $this->_builder->buildDeleteXml($command)
         );
     }
 
@@ -187,11 +174,10 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command = new Solarium_Query_Update_Command_Delete;
         $command->addId(123);
         $command->addId(456);
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<delete><id>123</id><id>456</id></delete>',
-            $request->buildDeleteXml($command)
+            $this->_builder->buildDeleteXml($command)
         );
     }
 
@@ -199,11 +185,10 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
     {
         $command = new Solarium_Query_Update_Command_Delete;
         $command->addQuery('*:*');
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<delete><query>*:*</query></delete>',
-            $request->buildDeleteXml($command)
+            $this->_builder->buildDeleteXml($command)
         );
     }
 
@@ -212,11 +197,10 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command = new Solarium_Query_Update_Command_Delete;
         $command->addQuery('published:false');
         $command->addQuery('id:[10 TO 20]');
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<delete><query>published:false</query><query>id:[10 TO 20]</query></delete>',
-            $request->buildDeleteXml($command)
+            $this->_builder->buildDeleteXml($command)
         );
     }
 
@@ -227,11 +211,10 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command->addId(456);
         $command->addQuery('published:false');
         $command->addQuery('id:[10 TO 20]');
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<delete><id>123</id><id>456</id><query>published:false</query><query>id:[10 TO 20]</query></delete>',
-            $request->buildDeleteXml($command)
+            $this->_builder->buildDeleteXml($command)
         );
     }
 
@@ -240,80 +223,72 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
         $command = new Solarium_Query_Update_Command_Delete;
         $command->addId('special<char>id');
         $command->addQuery('id:special<char>id');
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<delete><id>special&lt;char&gt;id</id><query>id:special&lt;char&gt;id</query></delete>',
-            $request->buildDeleteXml($command)
+            $this->_builder->buildDeleteXml($command)
         );
     }
 
     public function testBuildOptimizeXml()
     {
         $command = new Solarium_Query_Update_Command_Optimize;
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<optimize/>',
-            $request->buildOptimizeXml($command)
+            $this->_builder->buildOptimizeXml($command)
         );
     }
 
     public function testBuildOptimizeXmlWithParams()
     {
         $command = new Solarium_Query_Update_Command_Optimize(array('waitflush'=>true,'waitsearcher'=>false,'maxsegments'=>10));
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<optimize waitFlush="true" waitSearcher="false" maxSegments="10"/>',
-            $request->buildOptimizeXml($command)
+            $this->_builder->buildOptimizeXml($command)
         );
     }
 
     public function testBuildCommitXml()
     {
         $command = new Solarium_Query_Update_Command_Commit;
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<commit/>',
-            $request->buildCommitXml($command)
+            $this->_builder->buildCommitXml($command)
         );
     }
 
     public function testBuildCommitXmlWithParams()
     {
         $command = new Solarium_Query_Update_Command_Commit(array('waitflush'=>true,'waitsearcher'=>false,'expungedeletes'=>true));
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<commit waitFlush="true" waitSearcher="false" expungeDeletes="true"/>',
-            $request->buildCommitXml($command)
+            $this->_builder->buildCommitXml($command)
         );
     }
 
     public function testBuildRollbackXml()
     {
         $command = new Solarium_Query_Update_Command_Rollback;
-        $request = new Solarium_Client_Request_Update($this->_options, $this->_query);
 
         $this->assertEquals(
             '<rollback/>',
-            $request->buildRollbackXml($command)
+            $this->_builder->buildRollbackXml($command)
         );
     }
 
     public function testCompleteRequest()
     {
-        $query = new Solarium_Query_Update;
-        $query->addDeleteById(1);
-        $query->addRollback();
-        $query->addDeleteQuery('*:*');
-        $query->addDocument(new Solarium_Document_ReadWrite(array('id' => 1)));
-        $query->addCommit();
-        $query->addOptimize();
+        $this->_query->addDeleteById(1);
+        $this->_query->addRollback();
+        $this->_query->addDeleteQuery('*:*');
+        $this->_query->addDocument(new Solarium_Document_ReadWrite(array('id' => 1)));
+        $this->_query->addCommit();
+        $this->_query->addOptimize();
 
-        $request = new Solarium_Client_Request_Update($this->_options, $query);
         $this->assertEquals(
             '<update>'
             . '<delete><id>1</id></delete>'
@@ -323,18 +298,16 @@ class Solarium_Client_Request_UpdateTest extends PHPUnit_Framework_TestCase
             . '<commit/>'
             . '<optimize/>'
             . '</update>',
-            $request->getRawData()
+            $this->_builder->getRawData($this->_query)
         );
     }
 
     public function testInvalidCommandInRequest()
     {
-        $query = new Solarium_Query_Update;
-        $query->add('invalidcommand',new InvalidCommand);
+        $this->_query->add('invalidcommand',new InvalidCommand);
 
         $this->setExpectedException('Solarium_Exception');
-        $request = new Solarium_Client_Request_Update($this->_options, $query);
-        $request->getRawData();
+        $this->_builder->build($this->_query);
     }
 }
 

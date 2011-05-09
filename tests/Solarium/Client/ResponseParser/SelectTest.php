@@ -29,41 +29,12 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_ResponseTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_ResponseParser_SelectTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_headers, $_data;
-
-    /**
-     * @var Solarium_Client_Response
-     */
-    protected $_response;
-
-    public function setUp()
+    public function testParse()
     {
-        $this->_headers = array('HTTP/1.0 304 Not Modified');
-        $this->_data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"mdsfgdsfgdf"}},"response":{"numFound":0,"start":0,"docs":[]}}';
-        $this->_response = new Solarium_Client_Response($this->_data, $this->_headers);
-    }
 
-    public function testGetStatusCode()
-    {
-        $this->assertEquals(304, $this->_response->getStatusCode());
-    }
-
-    public function testGetStatusMessage()
-    {
-        $this->assertEquals('Not Modified', $this->_response->getStatusMessage());
-    }
-
-    public function testGetHeaders()
-    {
-        $this->assertEquals($this->_headers, $this->_response->getHeaders());
-    }
-
-    public function testGetBody()
-    {
-        $this->assertEquals($this->_data, $this->_response->getBody());
     }
 
 }

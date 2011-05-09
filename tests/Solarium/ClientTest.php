@@ -32,41 +32,6 @@
 class Solarium_ClientTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testSetAndGetHost()
-    {
-        $client = new Solarium_Client();
-        $client->setHost('myhost');
-        $this->assertEquals('myhost', $client->getHost());
-    }
-    
-    public function testSetAndGetPort()
-    {
-        $client = new Solarium_Client();
-        $client->setPort(8080);
-        $this->assertEquals(8080, $client->getPort());
-    }
-    
-    public function testSetAndGetPath()
-    {
-        $client = new Solarium_Client();
-        $client->setPath('/mysolr');
-        $this->assertEquals('/mysolr', $client->getPath());
-    }
-
-    public function testSetAndGetPathWithTrailingSlash()
-    {
-        $client = new Solarium_Client();
-        $client->setPath('/mysolr/');
-        $this->assertEquals('/mysolr', $client->getPath());
-    }
-    
-    public function testSetAndGetCore()
-    {
-        $client = new Solarium_Client();
-        $client->setCore('core1');
-        $this->assertEquals('core1', $client->getCore());
-    }
-
     public function testGetAdapterWithDefaultAdapter()
     {
         $client = new Solarium_Client();
@@ -91,117 +56,15 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $this->assertThat($client->getAdapter(), $this->isInstanceOf($adapterClass));
     }
 
-    public function testOptionForwardingToAdapter()
-    {
-        $client = new Solarium_Client();
-        $options = $client->getOptions();
-
-        // initialising at adapter creation
-        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('setOptions'));
-        $observer->expects($this->once())
-                 ->method('setOptions')
-                 ->with($this->equalTo($options));
-        $client->setAdapter($observer);
-    }
-
-    public function testOptionForwardingToAdapterAfterChange()
-    {
-        $newHostValue = 'myCustomHost';
-
-        $client = new Solarium_Client;
-        $options = $client->getOptions();
-        $options['host'] = $newHostValue;
-
-        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('setOptions'));
-        $observer->expects($this->at(1))
-                 ->method('setOptions')
-                 ->with($this->equalTo($options));
-        
-        $client->setAdapter($observer);
-        $client->setHost($newHostValue); // this change should trigger a new adapter->setOptions call 
-    }
-
-    public function testSelect()
-    {
-        $client = new Solarium_Client;
-        $query = new Solarium_Query_Select;
-
-        // initialising at adapter creation
-        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('select'));
-        $observer->expects($this->once())
-                 ->method('select')
-                 ->with($this->equalTo($query));
-
-        $client->setAdapter($observer);
-        $client->select($query);
-    }
-
-    public function testPing()
-    {
-        $client = new Solarium_Client;
-        $query = new Solarium_Query_Ping;
-
-        // initialising at adapter creation
-        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('ping'));
-        $observer->expects($this->once())
-                 ->method('ping')
-                 ->with($this->equalTo($query));
-
-        $client->setAdapter($observer);
-        $client->ping($query);
-    }
-
-    public function testUpdate()
-    {
-        $client = new Solarium_Client;
-        $query = new Solarium_Query_Update;
-
-        // initialising at adapter creation
-        $observer = $this->getMock('Solarium_Client_Adapter_Http', array('update'));
-        $observer->expects($this->once())
-                 ->method('update')
-                 ->with($this->equalTo($query));
-
-        $client->setAdapter($observer);
-        $client->update($query);
-    }
-
-
-    public function testSetAndGetAdapterOptions()
-    {
-        $options = array('useragent' => 'myAgent');
-
-        $client = new Solarium_Client();
-        $client->setAdapterOptions($options);
-        $this->assertEquals($options, $client->getAdapterOptions());
-    }
-
-    public function testSetAndGetAdapterOptionsWithObject()
-    {
-        $options = array('useragent' => 'myAgent');
-        $optionObject = new myConfig($options);
-
-        $client = new Solarium_Client();
-        $client->setAdapterOptions($optionObject);
-        $this->assertEquals($options, $client->getAdapterOptions());
-    }
-
 }
 
 class MyAdapter extends Solarium_Client_Adapter_Http{
 
-    public function select($query)
+    public function execute($request)
     {
+        $response = new Solarium_Client_Response('{}', array('HTTP/1.1 200 OK'));
+        return $response;
     }
-
-    public function ping($query)
-    {
-    }
-
-    public function update($query)
-    {
-    }
-
 }
 
 class myConfig{

@@ -41,7 +41,7 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
 
     public function testGetType()
     {
-        $this->assertEquals(Solarium_Query_Select_Component::HIGHLIGHTING, $this->_hlt->getType());
+        $this->assertEquals(Solarium_Query_Select::COMPONENT_HIGHLIGHTING, $this->_hlt->getType());
     }
 
     public function testSetAndGetFields()

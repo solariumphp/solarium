@@ -68,9 +68,11 @@ class Solarium_Configurable
      */
     public function __construct($options = null)
     {
-        $this->setOptions($options);
-
-        $this->_init();
+        if (null !== $options) {
+            $this->setOptions($options);
+        } else {
+            $this->_init();
+        }
     }
 
     /**

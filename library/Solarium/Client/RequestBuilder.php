@@ -73,4 +73,41 @@ abstract class Solarium_Client_RequestBuilder
 
         return $value;
     }
+
+    /**
+    * Render a boolean attribute
+    *
+    * For use in building XML messages
+    *
+    * @param string $name
+    * @param boolean $value
+    * @return string
+    */
+    public function boolAttrib($name, $value)
+    {
+        if (null !== $value) {
+            $value = (true == $value) ? 'true' : 'false';
+            return $this->attrib($name, $value);
+        } else {
+            return '';
+        }
+    }
+
+    /**
+    * Render an attribute
+    *
+    * For use in building XML messages
+    *
+    * @param string $name
+    * @param striung $value
+    * @return string
+    */
+    public function attrib($name, $value)
+    {
+        if (null !== $value) {
+            return ' ' . $name . '="' . $value . '"';
+        } else {
+            return '';
+        }
+    }
 }

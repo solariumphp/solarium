@@ -184,7 +184,7 @@ class Solarium_Client_Request extends Solarium_Configurable
      */
     public function addParam($key, $value, $overwrite = false)
     {
-        if (!empty($value)) {
+        if ($value !== '' && $value !== null) {
             if (!$overwrite && isset($this->_params[$key])) {
                 if (!is_array($this->_params[$key])) {
                     $this->_params[$key] = array($this->_params[$key]);

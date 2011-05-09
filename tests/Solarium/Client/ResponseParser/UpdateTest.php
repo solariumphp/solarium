@@ -29,25 +29,12 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_Response_UpdateTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_ResponseParser_UpdateTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testGetResult()
+    public function testParse()
     {
-        $query = new Solarium_Query_Update;
-        $data = array('responseHeader' => array('status' => 0, 'QTime' => 145));
-        $response = new Solarium_Client_Response_Update($query, $data);
-        $result = $response->getResult();
 
-        $this->assertEquals(
-            0,
-            $result->getStatus()
-        );
-
-        $this->assertEquals(
-            145,
-            $result->getQueryTime()
-        );
-    }
-
+    }    
+    
 }

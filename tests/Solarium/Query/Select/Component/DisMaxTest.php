@@ -45,7 +45,7 @@ class Solarium_Query_Select_Component_DisMaxTest extends PHPUnit_Framework_TestC
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Select_Component::DISMAX,
+            Solarium_Query_Select::COMPONENT_DISMAX,
             $this->_disMax->getType()
         );
     }

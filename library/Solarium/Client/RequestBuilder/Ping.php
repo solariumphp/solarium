@@ -45,27 +45,18 @@ class Solarium_Client_RequestBuilder_Ping extends Solarium_Client_RequestBuilder
 {
 
     /**
-     * Get uri
+     * Build request for a ping query
      *
-     * Uses the default {@link buildUri()} method, no special uri needed in this
-     * case.
-     *
-     * @return string
+     * @param Solarium_Query_Ping $query
+     * @return Solarium_Client_Request
      */
-    public function getUri()
+    public function build($query)
     {
-        return $this->buildUri();
+        $request = new Solarium_Client_Request;
+        $request->setHandler($query->getHandler());
+        $request->setMethod(Solarium_Client_Request::METHOD_HEAD);
+
+        return $request;
     }
 
-    /**
-     * Get HTTP request method
-     *
-     * Ping has no useful result data, so a more optimal HEAD request is used.
-     *
-     * @return string
-     */
-    public function getMethod()
-    {
-        return self::HEAD;
-    }
 }

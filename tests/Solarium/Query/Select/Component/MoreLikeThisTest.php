@@ -41,7 +41,7 @@ class Solarium_Query_Select_Component_MoreLikeThisTest extends PHPUnit_Framework
 
     public function testGetType()
     {
-        $this->assertEquals(Solarium_Query_Select_Component::MORELIKETHIS, $this->_mlt->getType());
+        $this->assertEquals(Solarium_Query_Select::COMPONENT_MORELIKETHIS, $this->_mlt->getType());
     }
 
     public function testSetAndGetFields()

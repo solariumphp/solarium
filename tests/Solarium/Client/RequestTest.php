@@ -34,167 +34,25 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
 
     protected $_request;
 
-    protected $_options = array(
-        'host' => '127.0.0.1',
-        'port' => 80,
-        'path' => '/solr',
-        'core' => null,
-    );
-
-    protected function _getRequest($options, $class = 'Solarium_Client_Request_Ping')
+    public function setup()
     {
-        $query = new Solarium_Query;
-        $query->setHandler('mypath');
-
-        return new $class($options, $query);
+        $this->_request = new Solarium_Client_Request;
     }
 
     public function testGetMethod()
     {
         $this->assertEquals(
-            Solarium_Client_Request::HEAD,
-            $this->_getRequest($this->_options)->getMethod()
+            Solarium_Client_Request::METHOD_GET,
+            $this->_request->getMethod()
         );
     }
 
     public function testGetUri()
     {
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/mypath?',
-            $this->_getRequest($this->_options)->getUri()
+            '?',
+            $this->_request->getUri()
         );
-    }
-
-    public function testGetUriWithCore()
-    {
-        $options = $this->_options;
-        $options['core'] = 'core0';
-
-        $this->assertEquals(
-            'http://127.0.0.1:80/solr/core0/mypath?',
-            $this->_getRequest($options)->getUri()
-        );
-    }
-
-    public function testBoolAttrib()
-    {
-       $this->assertEquals(
-           ' name="false"',
-           $this->_getRequest($this->_options)->boolAttrib('name', false)
-        );
-    }
-
-    public function testBoolAttribNoValue()
-    {
-       $this->assertEquals(
-            '',
-           $this->_getRequest($this->_options)->boolAttrib('name', null)
-        );
-    }
-
-    public function testAttrib()
-    {
-       $this->assertEquals(
-           ' name="myvalue"',
-           $this->_getRequest($this->_options)->attrib('name', 'myvalue')
-        );
-    }
-
-    public function testAttribNoValue()
-    {
-       $this->assertEquals(
-           '',
-           $this->_getRequest($this->_options)->attrib('name', null)
-        );
-    }
-
-    public function testGetUriWithParams()
-    {
-        $this->assertEquals(
-            'http://127.0.0.1:80/solr/mypath?wt=json&fq=category%3A1&fq=published%3Atrue',
-            $this->_getRequest($this->_options, 'TestRequest')->getUri()
-        );
-    }
-
-    public function testGetRawData()
-    {
-        $this->assertEquals(
-            '<data>xyz</data>',
-            $this->_getRequest($this->_options, 'TestRequest')->getRawData()
-        );
-    }
-
-    public function testRenderLocalParams()
-    {
-        $myParams = array('tag' => 'mytag', 'ex' => array('exclude1','exclude2'));
-        
-        $this->assertEquals(
-            '{!tag=mytag ex=exclude1,exclude2}myValue',
-            $this->_getRequest($this->_options)->renderLocalParams('myValue', $myParams)
-        );
-    }
-
-    public function testRenderLocalParamsWithoutParams()
-    {
-        $this->assertEquals(
-            'myValue',
-            $this->_getRequest($this->_options)->renderLocalParams('myValue')
-        );
-    }
-
-    public function testAddParamWithNewParam()
-    {
-        $request = $this->_getRequest($this->_options);
-        $request->addParam('myparam',1);
-
-        $this->assertEquals(
-            $request->getParams(),
-            array('myparam' => 1)
-        );
-    }
-
-    public function testAddParamNoValue()
-    {
-        $request = $this->_getRequest($this->_options);
-        $request->addParam('myparam',1);
-        $request->addParam('mysecondparam',"");
-
-        $this->assertEquals(
-            $request->getParams(),
-            array('myparam' => 1)
-        );
-    }
-
-    public function testAddParamWithExistingParam()
-    {
-        $request = $this->_getRequest($this->_options);
-        $request->addParam('myparam',1);
-        $request->addParam('myparam',2);
-
-        $this->assertEquals(
-            $request->getParams(),
-            array('myparam' => array(1,2))
-        );
-    }
-
-}
-
-class TestRequest extends Solarium_Client_Request
-{
-    
-    protected $_params = array(
-        'wt' => 'json',
-        'fq' => array('category:1','published:true')
-    );
-
-    public function getUri()
-    {
-        return $this->buildUri();
-    }
-
-    public function getRawData()
-    {
-        return '<data>xyz</data>';
     }
 
 }

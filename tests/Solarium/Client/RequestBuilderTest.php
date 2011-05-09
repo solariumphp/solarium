@@ -29,41 +29,36 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_ResponseTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_RequestBuilderTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_headers, $_data;
+    protected $_builder;
 
-    /**
-     * @var Solarium_Client_Response
-     */
-    protected $_response;
-
-    public function setUp()
+    public function setup()
     {
-        $this->_headers = array('HTTP/1.0 304 Not Modified');
-        $this->_data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"mdsfgdsfgdf"}},"response":{"numFound":0,"start":0,"docs":[]}}';
-        $this->_response = new Solarium_Client_Response($this->_data, $this->_headers);
+        $this->_builder = new TestRequestBuilder;
     }
 
-    public function testGetStatusCode()
+    public function testRenderLocalParams()
     {
-        $this->assertEquals(304, $this->_response->getStatusCode());
+        $myParams = array('tag' => 'mytag', 'ex' => array('exclude1','exclude2'));
+        
+        $this->assertEquals(
+            '{!tag=mytag ex=exclude1,exclude2}myValue',
+            $this->_builder->renderLocalParams('myValue', $myParams)
+        );
     }
 
-    public function testGetStatusMessage()
+    public function testRenderLocalParamsWithoutParams()
     {
-        $this->assertEquals('Not Modified', $this->_response->getStatusMessage());
+        $this->assertEquals(
+            'myValue',
+            $this->_builder->renderLocalParams('myValue')
+        );
     }
 
-    public function testGetHeaders()
-    {
-        $this->assertEquals($this->_headers, $this->_response->getHeaders());
-    }
+}
 
-    public function testGetBody()
-    {
-        $this->assertEquals($this->_data, $this->_response->getBody());
-    }
-
+class TestRequestBuilder extends Solarium_Client_RequestBuilder{
+    
 }

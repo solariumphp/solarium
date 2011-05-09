@@ -116,86 +116,86 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('field3','field4'), $this->_query->getFields());
     }
 
-    public function testAddSortField()
+    public function testAddSort()
     {
-        $this->_query->addSortField('field1', Solarium_Query_Select::SORT_DESC);
+        $this->_query->addSort('field1', Solarium_Query_Select::SORT_DESC);
         $this->assertEquals(
             array('field1' => Solarium_Query_Select::SORT_DESC),
-            $this->_query->getSortFields()
+            $this->_query->getSorts()
         );
     }
 
-    public function testAddSortFields()
+    public function testAddSorts()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
+        $this->_query->addSorts($sorts);
         $this->assertEquals(
-            $sortFields,
-            $this->_query->getSortFields()
+            $sorts,
+            $this->_query->getSorts()
         );
     }
 
-    public function testRemoveSortField()
+    public function testRemoveSort()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
-        $this->_query->removeSortField('field1');
+        $this->_query->addSorts($sorts);
+        $this->_query->removeSort('field1');
         $this->assertEquals(
             array('field2' => Solarium_Query_Select::SORT_ASC),
-            $this->_query->getSortFields()
+            $this->_query->getSorts()
         );
     }
 
-    public function testRemoveInvalidSortField()
+    public function testRemoveInvalidSort()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
-        $this->_query->removeSortField('invalidfield'); //continue silently
+        $this->_query->addSorts($sorts);
+        $this->_query->removeSort('invalidfield'); //continue silently
         $this->assertEquals(
-            $sortFields,
-            $this->_query->getSortFields()
+            $sorts,
+            $this->_query->getSorts()
         );
     }
 
-    public function testClearSortFields()
+    public function testClearSorts()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
-        $this->_query->clearSortFields();
+        $this->_query->addSorts($sorts);
+        $this->_query->clearSorts();
         $this->assertEquals(
             array(),
-            $this->_query->getSortFields()
+            $this->_query->getSorts()
         );
     }
 
-    public function testSetSortFields()
+    public function testSetSorts()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
-        $this->_query->setSortFields(array('field3' => Solarium_Query_Select::SORT_ASC));
+        $this->_query->addSorts($sorts);
+        $this->_query->setSorts(array('field3' => Solarium_Query_Select::SORT_ASC));
         $this->assertEquals(
             array('field3' => Solarium_Query_Select::SORT_ASC),
-            $this->_query->getSortFields()
+            $this->_query->getSorts()
         );
     }
     
@@ -370,7 +370,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $config['sort'],
-            $query->getSortFields()
+            $query->getSorts()
         );
 
         $this->assertEquals(

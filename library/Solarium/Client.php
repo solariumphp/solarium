@@ -93,6 +93,13 @@ class Solarium_Client extends Solarium_Configurable
     );
 
     /**
+     * Registered plugin instances
+     * 
+     * @var array
+     */
+    protected $_plugins = array();
+
+    /**
      * Adapter instance
      *
      * If an adapter instance is set using {@link setAdapter()} this var will
@@ -214,6 +221,80 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
+     * Register a plugin
+     *
+     * @param string $key
+     * @param string $class
+     * @param array $options
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function registerPlugin($key, $class, $options = array())
+    {
+        $plugin = new $class($this, $options);
+        $this->_plugins[$key] = $plugin;
+
+        return $this;
+    }
+
+    /**
+     * Get all registered querytypes
+     *
+     * @return array
+     */
+    public function getPlugins()
+    {
+        return $this->_plugins;
+    }
+
+    /**
+     * Get a plugin instance
+     *
+     * @param string $key
+     * @return array|null
+     */
+    public function getPlugin($key)
+    {
+        if (isset($this->_plugins[$key])) {
+            return $this->_plugins[$key];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Remove a plugin instance
+     * 
+     * @param string $key
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function removePlugin($key)
+    {
+        if (isset($this->_plugins[$key])) {
+            unset($this->_plugins[$key]);
+        }
+        return $this;
+    }
+
+    /**
+     * Forward events to plugins
+     *
+     * @param string $event
+     * @param array $params
+     * @param bool $resultOverride
+     * @return void|mixed
+     */
+    protected function _callPlugins($event, $params, $resultOverride = false)
+    {
+        foreach($this->_plugins AS $plugin) {
+            $result = call_user_func_array(array($plugin,$event),$params);
+
+            if ($result !== null && $resultOverride) {
+                return $result;
+            }
+        }
+    }
+
+    /**
      * Creates a request based on a query instance
      *
      * @todo add caching of request builder?
@@ -223,6 +304,9 @@ class Solarium_Client extends Solarium_Configurable
      */
     public function createRequest($query)
     {
+        $pluginResult = $this->_callPlugins('preCreateRequest', array($query), true);
+        if($pluginResult !== null) return $pluginResult;
+
         $queryType = $query->getType();
         if (!isset($this->_queryTypes[$queryType])) {
             throw new Solarium_Exception('No requestbuilder registered for querytype: '. $queryType);
@@ -230,8 +314,11 @@ class Solarium_Client extends Solarium_Configurable
 
         $requestBuilderClass = $this->_queryTypes[$queryType]['requestbuilder'];
         $requestBuilder = new $requestBuilderClass;
+        $request = $requestBuilder->build($query);
 
-        return $requestBuilder->build($query);
+        $this->_callPlugins('postCreateRequest', array($query, $request));
+
+        return $request;
     }
 
     /**
@@ -243,8 +330,15 @@ class Solarium_Client extends Solarium_Configurable
      */
     public function createResult($query, $response)
     {
+        $pluginResult = $this->_callPlugins('preCreateResult', array($query, $response), true);
+        if($pluginResult !== null) return $pluginResult;
+
         $resultClass = $query->getResultClass();
-        return new $resultClass($this, $query, $response);
+        $result = new $resultClass($this, $query, $response);
+
+        $this->_callPlugins('postCreateResult', array($query, $response, $result));
+
+        return $result;
     }
 
     /**
@@ -255,10 +349,17 @@ class Solarium_Client extends Solarium_Configurable
      */
     public function execute($query)
     {
+        $pluginResult = $this->_callPlugins('preExecute', array($query), true);
+        if($pluginResult !== null) return $pluginResult;
+
         $request = $this->createRequest($query);
         $response = $this->executeRequest($request);
 
-        return $this->createResult($query, $response);
+        $result = $this->createResult($query, $response);
+
+        $this->_callPlugins('postExecute', array($query, $result));
+
+        return $result;
     }
     
     /**
@@ -269,7 +370,14 @@ class Solarium_Client extends Solarium_Configurable
      */
     public function executeRequest($request)
     {
-        return $this->getAdapter()->execute($request);
+        $pluginResult = $this->_callPlugins('preExecuteRequest', array($request), true);
+        if($pluginResult !== null) return $pluginResult;
+
+        $response = $this->getAdapter()->execute($request);
+
+        $this->_callPlugins('postExecuteRequest', array($request, $response));
+
+        return $response;
     }
 
     /**
