@@ -66,4 +66,12 @@ class Solarium_Client_ResponseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_data, $this->_response->getBody());
     }
 
+    public function testMissingHeader()
+    {
+        $headers = array();
+
+        $this->setExpectedException('Solarium_Exception');
+        new Solarium_Client_Response($this->_data, $headers);
+    }
+
 }

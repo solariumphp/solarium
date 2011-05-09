@@ -38,9 +38,9 @@ class Solarium_ResultTest extends PHPUnit_Framework_TestCase
     {
         $this->_client = new Solarium_Client();
         $this->_query = new Solarium_Query_Select();
-        $headers = array('HTTP/1.0 304 Not Modified');
+        $this->_headers = array('HTTP/1.0 304 Not Modified');
         $data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"xyz"}},"response":{"numFound":0,"start":0,"docs":[]}}';
-        $this->_response = new Solarium_Client_Response($data, $headers);
+        $this->_response = new Solarium_Client_Response($data, $this->_headers);
         
         $this->_result = new Solarium_Result($this->_client, $this->_query, $this->_response);
     }
@@ -72,6 +72,16 @@ class Solarium_ResultTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($data, $this->_result->getData());
+    }
+
+    public function testGetInvalidData()
+    {
+        $data = 'invalid';
+        $this->_response = new Solarium_Client_Response($data, $this->_headers);
+        $this->_result = new Solarium_Result($this->_client, $this->_query, $this->_response);
+
+        $this->setExpectedException('Solarium_Exception');
+        $this->_result->getData();
     }
     
 }

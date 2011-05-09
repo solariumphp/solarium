@@ -29,50 +29,37 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Plugin_AbstractTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_HttpExceptionTest extends PHPUnit_Framework_TestCase
 {
-    protected $_plugin, $_client, $_options;
-
-    public function setUp()
-    {
-        $this->_client = 'dummy';
-        $this->_options = array('option1' => 1);
-        $this->_plugin = new MyPlugin($this->_client, $this->_options);
-    }
 
     public function testConstructor()
     {
-       $this->assertEquals(
-            $this->_client,
-            $this->_plugin->getClient()
-        );
+        $exception = new Solarium_Client_HttpException('message text', 123);
 
         $this->assertEquals(
-            $this->_options,
-            $this->_plugin->getOptions()
+            'Solr HTTP error: message text (123)',
+            $exception->getMessage()
         );
     }
 
-
-    public function testEventHooks()
+    public function testGetMessage()
     {
-        $this->assertEquals(null, $this->_plugin->preCreateRequest());
-        $this->assertEquals(null, $this->_plugin->postCreateRequest());
-        $this->assertEquals(null, $this->_plugin->preExecuteRequest());
-        $this->assertEquals(null, $this->_plugin->postExcuteRequest());
-        $this->assertEquals(null, $this->_plugin->preExecute());
-        $this->assertEquals(null, $this->_plugin->postExecute());
-        $this->assertEquals(null, $this->_plugin->preCreateResult());
-        $this->assertEquals(null, $this->_plugin->postCreateResult());
+        $exception = new Solarium_Client_HttpException('message text', 123);
+
+        $this->assertEquals(
+            'message text',
+            $exception->getStatusMessage()
+        );
     }
 
-}
-
-class MyPlugin extends Solarium_Plugin_Abstract{
-
-    public function getClient()
+    public function testConstructorNoCode()
     {
-        return $this->_client;
+        $exception = new Solarium_Client_HttpException('message text');
+
+        $this->assertEquals(
+            'Solr HTTP error: message text',
+            $exception->getMessage()
+        );
     }
 
 }
