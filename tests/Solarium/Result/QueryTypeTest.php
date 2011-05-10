@@ -31,25 +31,70 @@
 
 class Solarium_Result_QueryTypeTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Solarium_Result_QueryTypeDummy
+     */
+    protected $_result;
 
-    public function testParseLazyLoading()
+    public function setUp()
     {
-
+        $client = new Solarium_Client;
+        $query = new Solarium_Query_Update;
+        $response = new Solarium_Client_Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
+        $this->_result = new Solarium_Result_QueryTypeDummy($client, $query, $response);
     }
 
     public function testParseResponse()
     {
+        $this->_result->parse();
+        $this->assertEquals(12, $this->_result->getVar('queryTime'));
+        $this->assertEquals(1, $this->_result->getVar('status'));
+    }
 
+    public function testParseLazyLoading()
+    {
+        $this->assertEquals(0,$this->_result->parseCount);
+
+        $this->_result->parse();
+        $this->assertEquals(1,$this->_result->parseCount);
+
+        $this->_result->parse();
+        $this->assertEquals(1,$this->_result->parseCount);
     }
 
     public function testMapData()
     {
+        $this->_result->mapData(array('dummyvar' => 'dummyvalue'));
 
+        $this->assertEquals('dummyvalue',$this->_result->getVar('dummyvar'));
     }
     
 }
 
-class TestQueryType extends Solarium_Result_QueryType
+class Solarium_Result_QueryTypeDummy extends Solarium_Result_QueryType
 {
+
+    public $parseCount = 0;
+
+    public function parse()
+    {
+        $this->_parseResponse();
+    }
+
+    public function _mapData($data)
+    {
+        $this->parseCount++;
+        parent::_mapData($data);
+    }
+
+    public function mapData($data)
+    {
+        $this->_mapData($data);
+    }
+
+    public function getVar($name)
+    {
+        return $this->{'_'.$name};
+    }
 
 }

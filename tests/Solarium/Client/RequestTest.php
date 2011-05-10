@@ -100,6 +100,14 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetInvalidParam()
+    {
+        $this->assertEquals(
+            null,
+            $this->_request->getParam('invalidname')
+        );
+    }
+
     public function testAddParam()
     {
         $params = array(

@@ -196,6 +196,6 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      */
     public function getFacetSet()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_HIGHLIGHTING);
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_FACETSET);
     }
 }

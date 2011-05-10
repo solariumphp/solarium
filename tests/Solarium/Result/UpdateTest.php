@@ -29,12 +29,45 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Result_UpdateTest extends Solarium_Result_QueryTypeTest
+class Solarium_Result_UpdateTest extends PHPUnit_Framework_TestCase
 {
+
+    /**
+     * @var Solarium_Result_Update
+     */
+    protected $_result;
 
     public function setUp()
     {
-        
+        $this->_result = new Solarium_Result_UpdateDummy();
+    }
+
+    public function testGetStatus()
+    {
+        $this->assertEquals(
+            1,
+            $this->_result->getStatus()
+        );
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertEquals(
+            12,
+            $this->_result->getQueryTime()
+        );
     }
     
+}
+
+class Solarium_Result_UpdateDummy extends Solarium_Result_Update
+{
+    protected $_parsed = true;
+
+    public function __construct()
+    {
+        $this->_status = 1;
+        $this->_queryTime = 12;
+    }
+
 }

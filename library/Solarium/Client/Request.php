@@ -75,7 +75,7 @@ class Solarium_Client_Request extends Solarium_Configurable
      *
      * @var array
      */
-    protected $_params;
+    protected $_params = array();
 
     /**
      * Raw POST data

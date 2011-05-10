@@ -358,7 +358,6 @@ class Solarium_Client extends Solarium_Configurable
 
         $request = $this->createRequest($query);
         $response = $this->executeRequest($request);
-
         $result = $this->createResult($query, $response);
 
         $this->_callPlugins('postExecute', array($query, $result));
@@ -397,8 +396,7 @@ class Solarium_Client extends Solarium_Configurable
      * @see Solarium_Query_Ping
      *
      * @internal This is a convenience method that forwards the query to the
-     *  adapter and returns the adapter result, thus allowing for an easy to use
-     *  and clean API.
+     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium_Query_Ping $query
      * @return boolean
@@ -423,8 +421,7 @@ class Solarium_Client extends Solarium_Configurable
      * @see Solarium_Result_Update
      *
      * @internal This is a convenience method that forwards the query to the
-     *  adapter and returns the adapter result, thus allowing for an easy to use
-     *  and clean API.
+     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium_Query_Update $query
      * @return Solarium_Result_Update
@@ -448,8 +445,7 @@ class Solarium_Client extends Solarium_Configurable
      * @see Solarium_Result_Select
      *
      * @internal This is a convenience method that forwards the query to the
-     *  adapter and returns the adapter result, thus allowing for an easy to use
-     *  and clean API.
+     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium_Query_Select $query
      * @return Solarium_Result_Select

@@ -72,6 +72,8 @@ class Solarium_Result_QueryType extends Solarium_Result
             $responseParserClass = $queryTypes[$queryType]['responseparser'];
             $responseParser = new $responseParserClass;
             $this->_mapData($responseParser->parse($this));
+
+            $this->_parsed = true;
         }
     }
 

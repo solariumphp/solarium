@@ -99,6 +99,20 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRegisterInvalidPlugin()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_client->registerPlugin('testplugin','MyInvalidClientPlugin');
+    }
+
+    public function testGetInvalidPlugin()
+    {
+        $this->assertEquals(
+            null,
+            $this->_client->getPlugin('invalidplugin')
+        );
+    }
+
     public function testRemoveAndGetPlugins()
     {
         $options = array('option1' => 1);
@@ -203,5 +217,9 @@ class myConfig{
 }
 
 class MyClientPlugin extends Solarium_Plugin_Abstract{
+
+}
+
+class MyInvalidClientPlugin{
 
 }

@@ -27,37 +27,45 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * Parse update response data
- *
- * @package Solarium
- * @subpackage Client
- */
-class Solarium_Client_ResponseParser_Update extends Solarium_Client_ResponseParser
+class Solarium_Client_RequestBuilder_Select_Component_DisMaxTest extends PHPUnit_Framework_TestCase
 {
 
-    /**
-     * Parse response data
-     *
-     * @param Solarium_Result_Select $result
-     * @return array
-     */
-    public function parse($result)
+    public function testBuild()
     {
-        $data = $result->getData();
+        $builder = new Solarium_Client_RequestBuilder_Select_Component_DisMax;
+        $request = new Solarium_Client_Request();
 
-        return array(
-            'status' => $data['responseHeader']['status'],
-            'queryTime' => $data['responseHeader']['QTime'],
+        $component = new Solarium_Query_Select_Component_DisMax();
+        $component->setQueryAlternative('test');
+        $component->setQueryFields('content,name');
+        $component->setMinimumMatch('75%');
+        $component->setPhraseFields('content,description');
+        $component->setPhraseSlop(1);
+        $component->setQueryPhraseSlop(2);
+        $component->setTie(0.5);
+        $component->setBoostQuery('cat:1');
+        $component->setBoostFunctions('functionX(price)');
+        
+        $request = $builder->build($component, $request);
+            
+        $this->assertEquals(
+            array(
+                'defType' => 'dismax',
+                'q.alt' => 'test',
+                'qf' => 'content,name',
+                'mm' => '75%',
+                'pf' => 'content,description',
+                'ps' => 1,
+                'qs' => 2,
+                'tie' => 0.5,
+                'bq' => 'cat:1',
+                'bf' => 'functionX(price)',
+            ),
+            $request->getParams()
         );
+
     }
 
 }
