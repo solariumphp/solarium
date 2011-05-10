@@ -27,46 +27,47 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * Add select component morelikethis to the request
- *
- * @package Solarium
- * @subpackage Client
- */
-class Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis
+class Solarium_Client_RequestBuilder_Select_Component_MoreLikeThisTest extends PHPUnit_Framework_TestCase
 {
-    
-    /**
-     * Add request settings for morelikethis
-     *
-     * @param Solarium_Query_Select_Component_MoreLikeThis $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
-     */
-    public function build($component, $request)
+
+    public function testBuild()
     {
-        // enable morelikethis
-        $request->addParam('mlt', true);
+        $builder = new Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis;
+        $request = new Solarium_Client_Request();
 
-        $request->addParam('mlt.fl', $component->getFields());
-        $request->addParam('mlt.mintf', $component->getMinimumTermFrequency());
-        $request->addParam('mlt.mindf', $component->getMinimumDocumentFrequency());
-        $request->addParam('mlt.minwl', $component->getMinimumWordLength());
-        $request->addParam('mlt.maxwl', $component->getMaximumWordLength());
-        $request->addParam('mlt.maxqt', $component->getMaximumQueryTerms());
-        $request->addParam('mlt.maxntp', $component->getMaximumNumberOfTokens());
-        $request->addParam('mlt.boost', $component->getBoost());
-        $request->addParam('mlt.qf', $component->getQueryFields());
-        $request->addParam('mlt.count', $component->getCount());
+        $component = new Solarium_Query_Select_Component_MoreLikeThis();
+        $component->setFields('description,name');
+        $component->setMinimumTermFrequency(1);
+        $component->setMinimumDocumentFrequency(3);
+        $component->setMinimumWordLength(2);
+        $component->setMaximumWordLength(15);
+        $component->setMaximumQueryTerms(4);
+        $component->setMaximumNumberOfTokens(5);
+        $component->setBoost(true);
+        $component->setQueryFields('description');
+        $component->setCount(6);
+        
+        $request = $builder->build($component, $request);
+            
+        $this->assertEquals(
+            array(
+                'mlt' => true,
+                'mlt.fl' => 'description,name',
+                'mlt.mintf' => 1,
+                'mlt.mindf' => 3,
+                'mlt.minwl' => 2,
+                'mlt.maxwl' => 15,
+                'mlt.maxqt' => 4,
+                'mlt.maxntp' => 5,
+                'mlt.boost' => true,
+                'mlt.qf' => 'description',
+                'mlt.count' => 6,
+            ),
+            $request->getParams()
+        );
 
-        return $request;
     }
+
 }

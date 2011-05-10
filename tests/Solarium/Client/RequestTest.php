@@ -32,6 +32,9 @@
 class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Client_Request
+     */
     protected $_request;
 
     public function setup()
@@ -39,7 +42,7 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         $this->_request = new Solarium_Client_Request;
     }
 
-    public function testGetMethod()
+    public function testGetDefaultMethod()
     {
         $this->assertEquals(
             Solarium_Client_Request::METHOD_GET,
@@ -47,10 +50,313 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetAndGetMethod()
+    {
+        $this->_request->setMethod(Solarium_Client_Request::METHOD_POST);
+
+        $this->assertEquals(
+            Solarium_Client_Request::METHOD_POST,
+            $this->_request->getMethod()
+        );
+    }
+
+    public function testSetAndGetHandler()
+    {
+        $this->_request->setHandler('myhandler');
+
+        $this->assertEquals(
+            'myhandler',
+            $this->_request->getHandler()
+        );
+    }
+
+    public function testSetAndGetParams()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+
+        $this->assertEquals(
+            $params,
+            $this->_request->getParams()
+        );
+    }
+
+    public function testSetAndGetParam()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+
+        $this->assertEquals(
+            2,
+            $this->_request->getParam('param2')
+        );
+    }
+
+    public function testAddParam()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParam('param3', 3);
+
+        $params['param3'] = 3;
+
+        $this->assertEquals(
+            $params,
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParamMultivalue()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParam('param2', 2);
+        $this->_request->addParam('param2', 3);
+
+        $params['param2'] = array(2, 3);
+
+        $this->assertEquals(
+            $params,
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParamNoValue()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParam('param2', 2);
+        $this->_request->addParam('param2', '');
+        $this->_request->addParam('param3', '');
+
+        $params['param2'] = 2;
+
+        $this->assertEquals(
+            $params,
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParamOverwrite()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParam('param1', 2, true);
+
+
+        $this->assertEquals(
+            array('param1' => 2),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParams()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $extraParams = array(
+            'param1' => 2,
+            'param2' => 3,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParams($extraParams);
+
+
+        $this->assertEquals(
+            array(
+                'param1' => array(1,2),
+                'param2' => 3,
+            ),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParamsOverwrite()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $extraParams = array(
+            'param1' => 2,
+            'param2' => 3,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParams($extraParams, true);
+
+
+        $this->assertEquals(
+            array(
+                'param1' => 2,
+                'param2' => 3,
+            ),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testRemoveParam()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->removeParam('param2');
+
+        $this->assertEquals(
+            array('param1' => 1),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testClearParams()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->clearParams();
+
+        $this->assertEquals(
+            array(),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testGetAndSetRawData()
+    {
+        $data = '1234567890';
+        $this->_request->setRawData($data);
+
+        $this->assertEquals(
+            $data,
+            $this->_request->getRawData()
+        );
+    }
+
+    public function testSetAndGetHeaders()
+    {
+        $headers = array(
+            'User-Agent: My Agent',
+            'Cache-Control: no-cache'
+        );
+        $this->_request->setHeaders($headers);
+
+        $this->assertEquals(
+            $headers,
+            $this->_request->getHeaders()
+        );
+    }
+
+    public function testAddHeader()
+    {
+        $headers = array(
+            'User-Agent: My Agent',
+
+        );
+
+        $this->_request->setHeaders($headers);
+        $this->_request->addHeader('Cache-Control: no-cache');
+
+        $headers[] = 'Cache-Control: no-cache';
+
+        $this->assertEquals(
+            $headers,
+            $this->_request->getHeaders()
+        );
+    }
+
+    public function testAddHeaders()
+    {
+        $headers = array(
+            'User-Agent: My Agent',
+
+        );
+
+        $extraHeaders = array(
+            'Cache-Control: no-cache',
+            'X-custom: 123',
+        );
+
+        $this->_request->setHeaders($headers);
+        $this->_request->addHeaders($extraHeaders);
+
+        $this->assertEquals(
+            array_merge($headers, $extraHeaders),
+            $this->_request->getHeaders()
+        );
+    }
+
+    public function testClearHeaders()
+    {
+        $headers = array(
+            'User-Agent: My Agent',
+            'Cache-Control: no-cache'
+        );
+
+        $this->_request->setHeaders($headers);
+
+        $this->assertEquals(
+            $headers,
+            $this->_request->getHeaders()
+        );
+
+        $this->_request->clearHeaders();
+
+        $this->assertEquals(
+            array(),
+            $this->_request->getHeaders()
+        );
+    }
+
     public function testGetUri()
     {
         $this->assertEquals(
             '?',
+            $this->_request->getUri()
+        );
+    }
+
+    public function testGetUriWithHandlerAndParams()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => array(2,3),
+        );
+
+        $this->_request->setHandler('myHandler');
+        $this->_request->addParams($params);
+
+        $this->assertEquals(
+            'myHandler?param1=1&param2=2&param2=3',
             $this->_request->getUri()
         );
     }

@@ -32,43 +32,93 @@
 class Solarium_ClientTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Client
+     */
+    protected $_client;
+
+    public function setUp()
+    {
+        $this->_client = new Solarium_Client();
+    }
+
     public function testGetAdapterWithDefaultAdapter()
     {
-        $client = new Solarium_Client();
-        $defaultAdapter = $client->getOption('adapter');
-        $adapter = $client->getAdapter();
+
+        $defaultAdapter = $this->_client->getOption('adapter');
+        $adapter = $this->_client->getAdapter();
         $this->assertThat($adapter, $this->isInstanceOf($defaultAdapter));
     }
 
     public function testGetAdapterWithString()
     {
         $adapterClass = 'MyAdapter';
-        $client = new Solarium_Client();
-        $client->setAdapter($adapterClass);
-        $this->assertThat($client->getAdapter(), $this->isInstanceOf($adapterClass));
+        $this->_client->setAdapter($adapterClass);
+        $this->assertThat($this->_client->getAdapter(), $this->isInstanceOf($adapterClass));
     }
     
     public function testGetAdapterWithObject()
     {
         $adapterClass = 'MyAdapter';
-        $client = new Solarium_Client();
-        $client->setAdapter(new $adapterClass);
-        $this->assertThat($client->getAdapter(), $this->isInstanceOf($adapterClass));
+        $this->_client->setAdapter(new $adapterClass);
+        $this->assertThat($this->_client->getAdapter(), $this->isInstanceOf($adapterClass));
     }
 
     public function testRegisterQueryTypeAndGetQueryTypes()
     {
+        $queryTypes = $this->_client->getQueryTypes();
 
+        $this->_client->registerQueryType('myquerytype','mybuilder','myparser');
+
+        $queryTypes['myquerytype'] = array(
+            'requestbuilder' => 'mybuilder',
+            'responseparser' => 'myparser',
+        );
+
+        $this->assertEquals(
+            $queryTypes,
+            $this->_client->getQueryTypes()
+        );
     }
 
     public function testRegisterAndGetPlugin()
     {
+        $options = array('option1' => 1);
+        $this->_client->registerPlugin('testplugin','MyClientPlugin',$options);
 
+        $plugin = $this->_client->getPlugin('testplugin');
+
+        $this->assertThat(
+            $plugin,
+            $this->isInstanceOf('MyClientPlugin')
+        );
+
+        $this->assertEquals(
+            $options,
+            $plugin->getOptions()
+        );
     }
 
     public function testRemoveAndGetPlugins()
     {
+        $options = array('option1' => 1);
+        $this->_client->registerPlugin('testplugin','MyClientPlugin',$options);
 
+        $plugin = $this->_client->getPlugin('testplugin');
+        $plugins = $this->_client->getPlugins();
+
+        $this->assertEquals(
+            array('testplugin' => $plugin),
+            $plugins
+        );
+
+        $this->_client->removePlugin('testplugin');
+        $plugins = $this->_client->getPlugins();
+
+        $this->assertEquals(
+            array(),
+            $plugins
+        );
     }
 
     public function testCreateRequest()
@@ -81,12 +131,12 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testCreateRequestWithOverridingPlugin()
+    public function testCreateRequestPlugin()
     {
 
     }
 
-    public function testCreateRequestPostPlugin()
+    public function testCreateRequestWithOverridingPlugin()
     {
 
     }
@@ -101,12 +151,12 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testCreateResultWithOverridingPlugin()
+    public function testCreateResultPlugin()
     {
 
     }
 
-    public function testCreateResultPostPlugin()
+    public function testCreateResultWithOverridingPlugin()
     {
 
     }
@@ -150,4 +200,8 @@ class myConfig{
     {
         return $this->_options;
     }
+}
+
+class MyClientPlugin extends Solarium_Plugin_Abstract{
+
 }

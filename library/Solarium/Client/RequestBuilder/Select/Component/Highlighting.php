@@ -54,7 +54,7 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
     public function build($component, $request)
     {
         // enable highlighting
-        $request->addParam('hl', 'true');
+        $request->addParam('hl', true);
 
         $request->addParam('hl.fl', $component->getFields());
         $request->addParam('hl.snippets', $component->getSnippets());

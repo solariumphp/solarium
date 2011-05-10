@@ -58,9 +58,9 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Querytype definitions
      */
-    const QUERYTYPE_SELECT = 'Select';
-    const QUERYTYPE_UPDATE = 'Update';
-    const QUERYTYPE_PING = 'Ping';
+    const QUERYTYPE_SELECT = 'select';
+    const QUERYTYPE_UPDATE = 'update';
+    const QUERYTYPE_PING = 'ping';
 
     /**
      * Default options

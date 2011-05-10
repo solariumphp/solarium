@@ -307,8 +307,8 @@ class Solarium_Client_Request extends Solarium_Configurable
      */
     public function addHeaders($headers)
     {
-        foreach ($headers as $key => $value) {
-            $this->addHeader($key, $value);
+        foreach ($headers as $header) {
+            $this->addHeader($header);
         }
 
         return $this;

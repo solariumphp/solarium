@@ -180,33 +180,6 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
         $request = $this->_builder->build($this->_query);
         $request->getUri();
     }
-
-    public function testSelectUrlWithMoreLikeThis()
-    {
-        $mlt = $this->_query->getMoreLikeThis();
-        $mlt->setFields('description,name');
-        $mlt->setMinimumTermFrequency(1);
-        $mlt->setMinimumDocumentFrequency(3);
-        $mlt->setMinimumWordLength(2);
-        $mlt->setMaximumWordLength(15);
-        $mlt->setMaximumQueryTerms(4);
-        $mlt->setMaximumNumberOfTokens(5);
-        $mlt->setBoost(true);
-        $mlt->setQueryFields('description');
-        $mlt->setCount(6);
-        
-        $request = $this->_builder->build($this->_query);
-
-        $this->assertEquals(
-            null,
-            $request->getRawData()
-        );
-
-        $this->assertEquals(
-            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&mlt=true&mlt.fl=description,name&mlt.mintf=1&mlt.mindf=3&mlt.minwl=2&mlt.maxwl=15&mlt.maxqt=4&mlt.maxntp=5&mlt.boost=1&mlt.qf=description&mlt.count=6',
-            urldecode($request->getUri())
-        );
-    }
     
 }
 

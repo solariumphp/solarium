@@ -72,6 +72,26 @@ class Solarium_Client_AdapterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('core1', $this->_adapter->getCore());
     }
 
+    public function testSetAndGetTimeout()
+    {
+        $this->_adapter->setTimeout(7);
+        $this->assertEquals(7, $this->_adapter->getTimeout());
+    }
+
+    public function testGetBaseUri()
+    {
+        $this->_adapter->setHost('myserver')->setPath('/mypath')->setPort(123);
+
+        $this->assertEquals('http://myserver:123/mypath/', $this->_adapter->getBaseUri());
+    }
+
+    public function testGetBaseUriWithCore()
+    {
+        $this->_adapter->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('mycore');
+
+        $this->assertEquals('http://myserver:123/mypath/mycore/', $this->_adapter->getBaseUri());
+    }
+
 }
 
 class TestAdapter extends Solarium_Client_Adapter
