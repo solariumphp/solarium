@@ -68,7 +68,7 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
      * Add a single document
      *
      * @param object $document
-     * @return Solarium_Query_Update_Add Provides fluent interface
+     * @return Solarium_Query_Update_Command_Add Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -81,7 +81,7 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
      * Add multiple documents
      *
      * @param array|Traversable $documents
-     * @return Solarium_Query_Update_Add Provides fluent interface
+     * @return Solarium_Query_Update_Command_Add Provides fluent interface
      */
     public function addDocuments($documents)
     {
@@ -118,7 +118,7 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
      * Set overwrite option
      *
      * @param boolean $overwrite
-     * @return Solarium_Query_Update_Add Provides fluent interface
+     * @return Solarium_Query_Update_Command_Add Provides fluent interface
      */
     public function setOverwrite($overwrite)
     {
@@ -139,7 +139,7 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
      * Get commitWithin option
      *
      * @param boolean $commitWithin
-     * @return Solarium_Query_Update_Add Provides fluent interface
+     * @return Solarium_Query_Update_Command_Add Provides fluent interface
      */
     public function setCommitWithin($commitWithin)
     {
