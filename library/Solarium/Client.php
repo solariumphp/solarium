@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
@@ -196,8 +197,8 @@ class Solarium_Client extends Solarium_Configurable
      * You can also use this method to override any existing querytype with a new mapping
      *
      * @param string $type
-     * @param string $requestBuilder
-     * @param string $responseParser
+     * @param string|object $requestBuilder
+     * @param string|object $responseParser
      * @return Solarium_Client Provides fluent interface
      */
     public function registerQueryType($type, $requestBuilder, $responseParser)
@@ -224,13 +225,16 @@ class Solarium_Client extends Solarium_Configurable
      * Register a plugin
      *
      * @param string $key
-     * @param string $class
+     * @param string|object $plugin
      * @param array $options
      * @return Solarium_Client Provides fluent interface
      */
-    public function registerPlugin($key, $class, $options = array())
+    public function registerPlugin($key, $plugin, $options = array())
     {
-        $plugin = new $class($this, $options);
+        if (is_string($plugin)) {
+            $plugin = new $plugin($this, $options);
+        }
+        
         if (!($plugin instanceof Solarium_Plugin_Abstract)) {
            throw new Solarium_Exception('All plugins must extend Solarium_Plugin_Abstract');
         }
@@ -316,8 +320,10 @@ class Solarium_Client extends Solarium_Configurable
             throw new Solarium_Exception('No requestbuilder registered for querytype: '. $queryType);
         }
 
-        $requestBuilderClass = $this->_queryTypes[$queryType]['requestbuilder'];
-        $requestBuilder = new $requestBuilderClass;
+        $requestBuilder = $this->_queryTypes[$queryType]['requestbuilder'];
+        if (is_string($requestBuilder)) {
+            $requestBuilder = new $requestBuilder;
+        }
         $request = $requestBuilder->build($query);
 
         $this->_callPlugins('postCreateRequest', array($query, $request));

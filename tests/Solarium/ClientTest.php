@@ -137,22 +137,76 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
 
     public function testCreateRequest()
     {
+        $queryStub = $this->getMock('Solarium_Query_Select');
+        $queryStub->expects($this->any())
+             ->method('getType')
+             ->will($this->returnValue('testquerytype'));
 
+        $observer = $this->getMock('Solarium_Client_RequestBuilder', array('build'));
+        $observer->expects($this->once())
+                 ->method('build')
+                 ->with($this->equalTo($queryStub));
+
+        $this->_client->registerQueryType('testquerytype', $observer, '');
+        $this->_client->createRequest($queryStub);
     }
 
     public function testCreateRequestInvalidQueryType()
     {
+        $queryStub = $this->getMock('Solarium_Query_Select');
+        $queryStub->expects($this->any())
+             ->method('getType')
+             ->will($this->returnValue('testquerytype'));
 
+        $this->setExpectedException('Solarium_Exception');
+        $this->_client->createRequest($queryStub);
     }
 
-    public function testCreateRequestPlugin()
+    public function testCreateRequestPrePlugin()
     {
+        $query = new Solarium_Query_Select();
 
+        $observer = $this->getMock('Solarium_Plugin_Abstract', array(), array($this->_client,array()));
+        $observer->expects($this->once())
+                 ->method('preCreateRequest')
+                 ->with($this->equalTo($query));
+
+        $this->_client->registerPlugin('testplugin', $observer);
+        $this->_client->createRequest($query);
+    }
+
+    public function testCreateRequestPostPlugin()
+    {
+        $query = new Solarium_Query_Select();
+        $request = $this->_client->createRequest($query);
+
+        $observer = $this->getMock('Solarium_Plugin_Abstract', array(), array($this->_client,array()));
+        $observer->expects($this->once())
+                 ->method('postCreateRequest')
+                 ->with($this->equalTo($query),$this->equalTo($request));
+
+        $this->_client->registerPlugin('testplugin', $observer);
+        $this->_client->createRequest($query);
     }
 
     public function testCreateRequestWithOverridingPlugin()
     {
+        $overrideValue =  'dummyvalue';
+        $query = new Solarium_Query_Select();
 
+        $observer = $this->getMock('Solarium_Plugin_Abstract', array(), array($this->_client,array()));
+        $observer->expects($this->once())
+                 ->method('preCreateRequest')
+                 ->with($this->equalTo($query))
+                 ->will($this->returnValue($overrideValue));
+
+        $this->_client->registerPlugin('testplugin', $observer);
+        $request = $this->_client->createRequest($query);
+
+        $this->assertEquals(
+            $overrideValue,
+            $request
+        );
     }
 
     public function testCreateResult()
@@ -165,7 +219,12 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testCreateResultPlugin()
+    public function testCreateResultPrePlugin()
+    {
+
+    }
+
+    public function testCreateResultPostPlugin()
     {
 
     }
