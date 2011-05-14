@@ -46,9 +46,18 @@ class Solarium_Result_QueryTypeTest extends PHPUnit_Framework_TestCase
 
     public function testParseResponse()
     {
+        $client = new Solarium_Client;
+        $query = new Solarium_Query_DummyTest;
+        $response = new Solarium_Client_Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
+        $result = new Solarium_Result_QueryTypeDummy($client, $query, $response);
+
+        $this->setExpectedException('Solarium_Exception');
+        $result->parse();
+    }
+
+    public function testParseResponseInvalidQuerytype()
+    {
         $this->_result->parse();
-        $this->assertEquals(12, $this->_result->getVar('queryTime'));
-        $this->assertEquals(1, $this->_result->getVar('status'));
     }
 
     public function testParseLazyLoading()
@@ -69,6 +78,14 @@ class Solarium_Result_QueryTypeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('dummyvalue',$this->_result->getVar('dummyvar'));
     }
     
+}
+
+class Solarium_Query_DummyTest extends Solarium_Query_Select
+{
+    public function getType()
+    {
+        return 'dummy';
+    }
 }
 
 class Solarium_Result_QueryTypeDummy extends Solarium_Result_QueryType
