@@ -21,6 +21,9 @@
   <whitelist>
     <directory suffix=".php">library</directory>
   </whitelist>
+  <blacklist>
+    <file>library/Solarium/Autoloader.php</file>
+  </blacklist>
 </filter>
 
 </phpunit>

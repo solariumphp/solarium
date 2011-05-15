@@ -67,6 +67,22 @@ class Solarium_Query_Update_Command_AddTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAddDocumentsMultipleTimes()
+    {
+        $doc1 = new Solarium_Document_ReadWrite(array('id' => 1));
+        $doc2 = new Solarium_Document_ReadWrite(array('id' => 2));
+        $this->_command->addDocuments(array($doc1, $doc2));
+
+        $doc3 = new Solarium_Document_ReadWrite(array('id' => 3));
+        $doc4 = new Solarium_Document_ReadWrite(array('id' => 4));
+        $this->_command->addDocuments(array($doc3, $doc4));
+
+        $this->assertEquals(
+            array($doc1, $doc2, $doc3, $doc4),
+            $this->_command->getDocuments()
+        );
+    }
+
     public function testAddDocumentsIteration()
     {
         $doc1 = new Solarium_Document_ReadWrite(array('id' => 1));
