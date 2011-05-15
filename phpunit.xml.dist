@@ -19,7 +19,7 @@
       <whitelist>
         <directory suffix=".php">library</directory>
         <exclude>
-            <file>Solarium/Autoloader.php</file>
+            <file>library/Solarium/Autoloader.php</file>
         </exclude>
       </whitelist>
     </filter>
