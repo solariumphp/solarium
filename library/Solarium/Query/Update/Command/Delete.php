@@ -101,7 +101,7 @@ class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
      * Add a single ID to the delete command
      *
      * @param int|string $id
-     * @return Solarium_Query_Update_Delete Provides fluent interface
+     * @return Solarium_Query_Update_Command_Delete Provides fluent interface
      */
     public function addId($id)
     {
@@ -114,7 +114,7 @@ class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
      * Add multiple IDs to the delete command
      *
      * @param array $id
-     * @return Solarium_Query_Update_Delete Provides fluent interface
+     * @return Solarium_Query_Update_Command_Delete Provides fluent interface
      */
     public function addIds($ids)
     {
@@ -127,7 +127,7 @@ class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
      * Add a single query to the delete command
      *
      * @param string $query
-     * @return Solarium_Query_Update_Delete Provides fluent interface
+     * @return Solarium_Query_Update_Command_Delete Provides fluent interface
      */
     public function addQuery($query)
     {
@@ -140,7 +140,7 @@ class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
      * Add multiple queries to the delete command
      *
      * @param array $queries
-     * @return Solarium_Query_Update_Delete Provides fluent interface
+     * @return Solarium_Query_Update_Command_Delete Provides fluent interface
      */
     public function addQueries($queries)
     {
