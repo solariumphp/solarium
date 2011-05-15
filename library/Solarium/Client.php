@@ -232,12 +232,14 @@ class Solarium_Client extends Solarium_Configurable
     public function registerPlugin($key, $plugin, $options = array())
     {
         if (is_string($plugin)) {
-            $plugin = new $plugin($this, $options);
+            $plugin = new $plugin;
         }
         
         if (!($plugin instanceof Solarium_Plugin_Abstract)) {
            throw new Solarium_Exception('All plugins must extend Solarium_Plugin_Abstract');
         }
+
+        $plugin->init($this, $options);
 
         $this->_plugins[$key] = $plugin;
 

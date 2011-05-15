@@ -107,5 +107,10 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
             urldecode($request->getUri())
         );
     }
+
+    public function testWithComponents()
+    {
+        //1 component met en 1 zonder builder registratie
+    }
     
 }

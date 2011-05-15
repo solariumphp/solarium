@@ -51,15 +51,31 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     protected $_client;
 
     /**
-     * Constructor
+     * Initialize
+     *
+     * This method is called when the plugin is registered to a client instance
      *
      * @param Solarium_Client $client
      * @param array $options
      */
-    public function __construct($client, $options)
+    public function init($client, $options)
     {
         $this->_client = $client;
         parent::__construct($options);
+
+        $this->_init();
+    }
+
+    /**
+     * Secondary init function
+     *
+     * This is an extension point for plugin implemenations
+     *
+     * @return void
+     */
+    public function _init()
+    {
+
     }
 
     /**

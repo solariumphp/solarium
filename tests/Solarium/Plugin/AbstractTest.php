@@ -37,7 +37,8 @@ class Solarium_Plugin_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->_client = 'dummy';
         $this->_options = array('option1' => 1);
-        $this->_plugin = new MyPlugin($this->_client, $this->_options);
+        $this->_plugin = new MyPlugin();
+        $this->_plugin->init($this->_client, $this->_options);
     }
 
     public function testConstructor()
