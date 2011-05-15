@@ -203,6 +203,19 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
+     * Clear all fields
+     *
+     * @return Solarium_Document_ReadWrite Provides fluent interface
+     **/
+    public function clear()
+    {
+        $this->_fields = array();
+        $this->_fieldBoosts = array();
+        
+        return $this;
+    }
+
+    /**
      * Set field value
      *
      * Magic method for setting fields as properties of this document
