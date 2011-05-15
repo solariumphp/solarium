@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-   backupStaticAttributes="false"
-   syntaxCheck="false" bootstrap="tests/bootstrap.php">
+<phpunit backupGlobals="false" backupStaticAttributes="false" syntaxCheck="false" bootstrap="tests/bootstrap.php">
 
-<testsuites>
-   <testsuite name="Solarium">
-     <directory suffix="Test.php">tests</directory>
-   </testsuite>
-</testsuites>
+    <testsuites>
+       <testsuite name="Solarium">
+         <directory suffix="Test.php">tests</directory>
+       </testsuite>
+    </testsuites>
 
-<logging>
-  <log type="coverage-html" target="build/coverage" title="Solarium"
-   charset="UTF-8" yui="true" highlight="true"
-   lowUpperBound="35" highLowerBound="70"/>
-  <log type="coverage-clover" target="build/logs/clover.xml"/>
-  <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
-</logging>
+    <logging>
+      <log type="coverage-html" target="build/coverage" title="Solarium"
+       charset="UTF-8" yui="true" highlight="true"
+       lowUpperBound="35" highLowerBound="70"/>
+      <log type="coverage-clover" target="build/logs/clover.xml"/>
+      <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
+    </logging>
 
-<filter>
-  <whitelist>
-    <directory suffix=".php">library</directory>
-  </whitelist>
-  <blacklist>
-    <file>library/Solarium/Autoloader.php</file>
-  </blacklist>
-</filter>
+    <filter>
+      <whitelist>
+        <directory suffix=".php">library</directory>
+        <exclude>
+            <file>Solarium/Autoloader.php</file>
+        </exclude>
+      </whitelist>
+    </filter>
 
 </phpunit>
