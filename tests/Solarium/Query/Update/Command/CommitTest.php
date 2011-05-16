@@ -41,7 +41,7 @@ class Solarium_Query_Update_Command_CommitTest extends PHPUnit_Framework_TestCas
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Update_Command::COMMIT,
+            Solarium_Query_Update::COMMAND_COMMIT,
             $this->_command->getType()
         );
     }

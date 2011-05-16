@@ -42,7 +42,7 @@ class Solarium_Query_Select_Component_Facet_FieldTest extends PHPUnit_Framework_
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Select_Component_Facet::FIELD,
+            Solarium_Query_Select_Component_FacetSet::FACET_FIELD,
             $this->_facet->getType()
         );
     }

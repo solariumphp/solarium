@@ -68,7 +68,7 @@ class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
      */
     public function getType()
     {
-        return Solarium_Query_Update_Command::DELETE;
+        return Solarium_Query_Update::COMMAND_DELETE;
     }
 
     /**

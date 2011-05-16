@@ -54,7 +54,7 @@ class Solarium_Query_Update_Command_Optimize
      */
     public function getType()
     {
-        return Solarium_Query_Update_Command::OPTIMIZE;
+        return Solarium_Query_Update::COMMAND_OPTIMIZE;
     }
 
     /**

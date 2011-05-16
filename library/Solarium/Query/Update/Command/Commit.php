@@ -54,7 +54,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      */
     public function getType()
     {
-        return Solarium_Query_Update_Command::COMMIT;
+        return Solarium_Query_Update::COMMAND_COMMIT;
     }
 
     /**

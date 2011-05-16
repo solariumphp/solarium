@@ -148,5 +148,24 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     public function postExecute($query, $result)
     {
     }
+    
+    /**
+     * @param string $query
+     * @param mixed $options
+     * @return void|Solarium_Query
+     */
+    public function preCreateQuery($type, $options)
+    {
+    }
+
+    /**
+     * @param string $query
+     * @param mixed $options
+     * @param Solarium_Query
+     * @return void
+     */
+    public function postCreateQuery($type, $options, $query)
+    {
+    }
 
 }

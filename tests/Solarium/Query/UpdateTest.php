@@ -107,7 +107,7 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $commands = $this->_query->getCommands();
 
         $this->assertEquals(
-            Solarium_Query_Update_Command::ROLLBACK,
+            Solarium_Query_Update::COMMAND_ROLLBACK,
             $commands[0]->getType()
         );
     }
@@ -118,7 +118,7 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $commands = $this->_query->getCommands();
 
         $this->assertEquals(
-            Solarium_Query_Update_Command::DELETE,
+            Solarium_Query_Update::COMMAND_DELETE,
             $commands[0]->getType()
         );
 
@@ -134,7 +134,7 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $commands = $this->_query->getCommands();
 
         $this->assertEquals(
-            Solarium_Query_Update_Command::DELETE,
+            Solarium_Query_Update::COMMAND_DELETE,
             $commands[0]->getType()
         );
 
@@ -150,7 +150,7 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $commands = $this->_query->getCommands();
 
         $this->assertEquals(
-            Solarium_Query_Update_Command::DELETE,
+            Solarium_Query_Update::COMMAND_DELETE,
             $commands[0]->getType()
         );
 
@@ -166,7 +166,7 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $commands = $this->_query->getCommands();
 
         $this->assertEquals(
-            Solarium_Query_Update_Command::DELETE,
+            Solarium_Query_Update::COMMAND_DELETE,
             $commands[0]->getType()
         );
 
@@ -184,7 +184,7 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $commands = $this->_query->getCommands();
 
         $this->assertEquals(
-            Solarium_Query_Update_Command::ADD,
+            Solarium_Query_Update::COMMAND_ADD,
             $commands[0]->getType()
         );
 
@@ -203,7 +203,7 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $commands = $this->_query->getCommands();
 
         $this->assertEquals(
-            Solarium_Query_Update_Command::ADD,
+            Solarium_Query_Update::COMMAND_ADD,
             $commands[0]->getType()
         );
 
@@ -229,7 +229,7 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $commands = $this->_query->getCommands();
 
         $this->assertEquals(
-            Solarium_Query_Update_Command::COMMIT,
+            Solarium_Query_Update::COMMAND_COMMIT,
             $commands[0]->getType()
         );
 
@@ -255,7 +255,8 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $commands = $this->_query->getCommands();
 
         $this->assertEquals(
-            Solarium_Query_Update_Command::OPTIMIZE,
+            Solarium_Query_Update::COMMAND_OPTIMIZE,
+            Solarium_Query_Update::COMMAND_OPTIMIZE,
             $commands[0]->getType()
         );
 

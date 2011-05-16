@@ -80,14 +80,17 @@ class Solarium_Client extends Solarium_Configurable
      */
     protected $_queryTypes = array(
         self::QUERYTYPE_SELECT => array(
+            'query'          => 'Solarium_Query_Select',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Select',
             'responseparser' => 'Solarium_Client_ResponseParser_Select'
         ),
         self::QUERYTYPE_UPDATE => array(
+            'query'          => 'Solarium_Query_Update',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Update',
             'responseparser' => 'Solarium_Client_ResponseParser_Update'
         ),
         self::QUERYTYPE_PING => array(
+            'query'          => 'Solarium_Query_Ping',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Ping',
             'responseparser' => 'Solarium_Client_ResponseParser_Ping'
         ),
@@ -462,4 +465,65 @@ class Solarium_Client extends Solarium_Configurable
     {
         return $this->execute($query);
     }
+
+    /**
+     * Create a query instance
+     *
+     * @param string $type
+     * @param array $options
+     * @return Solarium_Query
+     */
+    public function createQuery($type, $options = null)
+    {
+        $type = strtolower($type);
+
+        $pluginResult = $this->_callPlugins('preCreateQuery', array($type, $options), true);
+        if($pluginResult !== null) return $pluginResult;
+
+        if (!isset($this->_queryTypes[$type])) {
+            throw new Solarium_Exception('Unknown querytype: '. $type);
+        }
+
+        $class = $this->_queryTypes[$type]['query'];
+        $query = new $class($options);
+
+        $this->_callPlugins('postCreateQuery', array($type, $options, $query));
+
+        return $query;
+    }
+
+    /**
+     * Create a select query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Select
+     */
+    public function createSelect($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_SELECT, $options);
+    }
+
+    /**
+     * Create an update query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Update
+     */
+    public function createUpdate($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_UPDATE, $options);
+    }
+
+    /**
+     * Create a ping query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Ping
+     */
+    public function createPing($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_PING, $options);
+    }
+
+
 }

@@ -41,7 +41,7 @@ class Solarium_Query_Update_Command_OptimizeTest extends PHPUnit_Framework_TestC
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Update_Command::OPTIMIZE,
+            Solarium_Query_Update::COMMAND_OPTIMIZE,
             $this->_command->getType()
         );
     }

@@ -48,7 +48,7 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
+class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
 {
 
     /**
@@ -143,9 +143,9 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
      * Execute a Solr request using the Zend_Http_Client instance
      *
      * @param Solarium_Client_Request $request
-     * @return string
+     * @return Solarium_Client_Response
      */
-    protected function _handleRequest($request)
+    public function execute($request)
     {
         $client = $this->getZendHttp();
 
@@ -164,22 +164,12 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
         }
 
         if ($request->getMethod() == Solarium_Client_Request::HEAD) {
-            return true;
+            $data = '';
         } else {
             $data = $response->getBody();
-            $type = $response->getHeader('Content-Type');
-            switch ($type) {
-                case 'text/plain; charset=utf-8':
-                    return $this->_jsonDecode($data);
-                    break;
-                default:
-                    throw new Solarium_Exception(
-                        'Unknown Content-Type in ZendHttp adapter: ' . $type
-                    );
-                    break;
-            }
         }
 
+        return new Solarium_Client_Response($data, $response->getHeaders());
     }
 
 }

@@ -81,7 +81,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
      */
     public function getType()
     {
-        return self::MULTIQUERY;
+        return Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY;
     }
 
     /**

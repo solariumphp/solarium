@@ -69,16 +69,16 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
             foreach ($facets AS $facet) {
                 switch ($facet->getType())
                 {
-                    case Solarium_Query_Select_Component_Facet::FIELD:
+                    case Solarium_Query_Select_Component_FacetSet::FACET_FIELD:
                         $this->addFacetField($request, $facet);
                         break;
-                    case Solarium_Query_Select_Component_Facet::QUERY:
+                    case Solarium_Query_Select_Component_FacetSet::FACET_QUERY:
                         $this->addFacetQuery($request, $facet);
                         break;
-                    case Solarium_Query_Select_Component_Facet::MULTIQUERY:
+                    case Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY:
                         $this->addFacetMultiQuery($request, $facet);
                         break;
-                    case Solarium_Query_Select_Component_Facet::RANGE:
+                    case Solarium_Query_Select_Component_FacetSet::FACET_RANGE:
                         $this->addFacetRange($request, $facet);
                         break;
                     default:

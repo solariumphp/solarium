@@ -45,7 +45,7 @@ class Solarium_Query_Select_Component_Facet_MultiQueryTest extends PHPUnit_Frame
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Select_Component_Facet::MULTIQUERY,
+            Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY,
             $this->_facet->getType()
         );
     }

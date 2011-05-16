@@ -41,7 +41,7 @@ class Solarium_Query_Update_Command_AddTest extends PHPUnit_Framework_TestCase
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Update_Command::ADD,
+            Solarium_Query_Update::COMMAND_ADD,
             $this->_command->getType()
         );
     }

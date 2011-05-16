@@ -81,7 +81,7 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
         }
 
         $uri = $this->getBaseUri() . $request->getUri();
-        $data = @file_get_contents($uri, false, $context);
+        $data = $this->_getData($uri, $context);
         
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible. 
@@ -90,6 +90,18 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
         }
 
         return new Solarium_Client_Response($data, $http_response_header);
+    }
+
+    /**
+     * Execute request
+     *
+     * @param string $uri
+     * @param resource $context
+     * @return string
+     */
+    protected function _getData($uri, $context)
+    {
+        return @file_get_contents($uri, false, $context);
     }
 
 }

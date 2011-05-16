@@ -47,6 +47,26 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
 {
 
     /**
+     * Facet type keys
+     */
+    const FACET_FIELD = 'field';
+    const FACET_QUERY = 'query';
+    const FACET_MULTIQUERY = 'multiquery';
+    const FACET_RANGE = 'range';
+
+    /**
+     * Facet type mapping
+     *
+     * @var array
+     */
+    protected $_facetTypes = array(
+        self::FACET_FIELD => 'Solarium_Query_Select_Component_Facet_Field',
+        self::FACET_QUERY => 'Solarium_Query_Select_Component_Facet_Query',
+        self::FACET_MULTIQUERY => 'Solarium_Query_Select_Component_Facet_MultiQuery',
+        self::FACET_RANGE => 'Solarium_Query_Select_Component_Facet_Range',
+    );
+
+    /**
      * Component type
      * 
      * @var string
@@ -224,8 +244,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     public function addFacet($facet)
     {
         if (is_array($facet)) {
-            $className = 'Solarium_Query_Select_Component_Facet_'.ucfirst($facet['type']);
-            $facet = new $className($facet);
+            $facet = $this->createFacet($facet['type'], $facet);
         }
 
         $key = $facet->getKey();
@@ -326,6 +345,67 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     {
         $this->clearFacets();
         $this->addFacets($facets);
+    }
+
+    /**
+     * @param string $type
+     * @param array|object|null $options
+     * @return Solarium_Query_Select_Component_Facet
+     */
+    public function createFacet($type, $options = null)
+    {
+        $type = strtolower($type);
+
+        if (!isset($this->_facetTypes[$type])) {
+            throw new Solarium_Exception("Facettype unknown: " . $type);
+        }
+
+        $class = $this->_facetTypes[$type];
+        return new $class($options);
+    }
+
+    /**
+     * Get a facet field instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Select_Component_Facet_Field
+     */
+    public function createFacetField($options = null)
+    {
+        return $this->createFacet(self::FACET_FIELD, $options);
+    }
+
+    /**
+     * Get a facet query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Select_Component_Facet_Query
+     */
+    public function createFacetQuery($options = null)
+    {
+        return $this->createFacet(self::FACET_QUERY, $options);
+    }
+
+    /**
+     * Get a facet multiquery instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Select_Component_Facet_MultiQuery
+     */
+    public function createFacetMultiQuery($options = null)
+    {
+        return $this->createFacet(self::FACET_MULTIQUERY, $options);
+    }
+
+    /**
+     * Get a facet range instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Select_Component_Facet_Range
+     */
+    public function createFacetRange($options = null)
+    {
+        return $this->createFacet(self::FACET_RANGE, $options);
     }
 
 }

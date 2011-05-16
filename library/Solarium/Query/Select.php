@@ -469,6 +469,17 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
+     * Create a filterquery instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Select_FilterQuery
+     */
+    public function createFilterQuery($options = null)
+    {
+        return new Solarium_Query_Select_FilterQuery($options);
+    }
+
+    /**
      * Add a filter query
      *
      * Supports a filterquery instance or a config array, in that case a new

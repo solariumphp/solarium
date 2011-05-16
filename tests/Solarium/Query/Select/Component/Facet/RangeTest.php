@@ -42,7 +42,7 @@ class Solarium_Query_Select_Component_Facet_RangeTest extends PHPUnit_Framework_
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Select_Component_Facet::RANGE,
+            Solarium_Query_Select_Component_FacetSet::FACET_RANGE,
             $this->_facet->getType()
         );
     }

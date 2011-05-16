@@ -44,7 +44,6 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
 
     public function testGetAdapterWithDefaultAdapter()
     {
-
         $defaultAdapter = $this->_client->getOption('adapter');
         $adapter = $this->_client->getAdapter();
         $this->assertThat($adapter, $this->isInstanceOf($defaultAdapter));

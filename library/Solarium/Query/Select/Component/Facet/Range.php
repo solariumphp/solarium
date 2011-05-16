@@ -93,7 +93,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      */
     public function getType()
     {
-        return self::RANGE;
+        return Solarium_Query_Select_Component_FacetSet::FACET_RANGE;
     }
     
     /**

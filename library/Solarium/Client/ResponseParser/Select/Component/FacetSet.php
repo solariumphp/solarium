@@ -57,16 +57,16 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
         $facets = array();
         foreach ($facetSet->getFacets() AS $key => $facet) {
             switch ($facet->getType()) {
-                case Solarium_Query_Select_Component_Facet::FIELD:
+                case Solarium_Query_Select_Component_FacetSet::FACET_FIELD:
                     $result = $this->_facetField($facet, $data);
                     break;
-                case Solarium_Query_Select_Component_Facet::QUERY:
+                case Solarium_Query_Select_Component_FacetSet::FACET_QUERY:
                     $result = $this->_facetQuery($facet, $data);
                     break;
-                case Solarium_Query_Select_Component_Facet::MULTIQUERY:
+                case Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY:
                     $result = $this->_facetMultiQuery($facet, $data);
                     break;
-                case Solarium_Query_Select_Component_Facet::RANGE:
+                case Solarium_Query_Select_Component_FacetSet::FACET_RANGE:
                     $result = $this->_facetRange($facet, $data);
                     break;
                 default:

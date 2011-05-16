@@ -75,19 +75,19 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
         $xml = '<update>';
         foreach ($query->getCommands() AS $command) {
             switch ($command->getType()) {
-                case Solarium_Query_Update_Command::ADD:
+                case Solarium_Query_Update::COMMAND_ADD:
                     $xml .= $this->buildAddXml($command);
                     break;
-                case Solarium_Query_Update_Command::DELETE:
+                case Solarium_Query_Update::COMMAND_DELETE:
                     $xml .= $this->buildDeleteXml($command);
                     break;
-                case Solarium_Query_Update_Command::OPTIMIZE:
+                case Solarium_Query_Update::COMMAND_OPTIMIZE:
                     $xml .= $this->buildOptimizeXml($command);
                     break;
-                case Solarium_Query_Update_Command::COMMIT:
+                case Solarium_Query_Update::COMMAND_COMMIT:
                     $xml .= $this->buildCommitXml($command);
                     break;
-                case Solarium_Query_Update_Command::ROLLBACK:
+                case Solarium_Query_Update::COMMAND_ROLLBACK:
                     $xml .= $this->buildRollbackXml();
                     break;
                 default:
