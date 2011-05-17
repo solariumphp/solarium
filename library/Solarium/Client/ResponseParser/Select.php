@@ -54,9 +54,6 @@ class Solarium_Client_ResponseParser_Select extends Solarium_Client_ResponsePars
     {
         $data = $result->getData();
         $query = $result->getQuery();
-        
-        // reset arrays
-        $this->_components = array();
 
         // create document instances
         $documentClass = $query->getOption('documentclass');
@@ -74,7 +71,6 @@ class Solarium_Client_ResponseParser_Select extends Solarium_Client_ResponsePars
         foreach ($query->getComponents() as $component) {
             $componentParserClass = $types[$component->getType()]['responseparser'];
             if (!empty($componentParserClass)) {
-                // todo add caching?
                 $componentParser = new $componentParserClass;
                 $components[$component->getType()] = $componentParser->parse($query, $component, $data);
             }

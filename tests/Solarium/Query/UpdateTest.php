@@ -365,4 +365,30 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         new Solarium_Query_Update($config);
     }
 
+    public function testCreateCommand()
+    {
+        $type = Solarium_Query_Update::COMMAND_ROLLBACK;
+        $options = array('optionA' => 1, 'optionB' => 2);
+        $command = $this->_query->createCommand($type, $options);
+
+        // check command type
+        $this->assertEquals(
+            $type,
+            $command->getType()
+        );
+
+        // check option forwarding
+        $commandOptions = $command->getOptions();
+        $this->assertEquals(
+            $options['optionB'],
+            $commandOptions['optionB']
+        );
+    }
+
+    public function testCreateCommandWithInvalidQueryType()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_query->createCommand('invalidtype');
+    }
+
 }

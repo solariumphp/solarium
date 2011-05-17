@@ -88,7 +88,6 @@ class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuild
         foreach ($query->getComponents() as $component) {
             $componentBuilderClass = $types[$component->getType()]['requestbuilder'];
             if (!empty($componentBuilderClass)) {
-                // todo add caching?
                 $componentBuilder = new $componentBuilderClass;
                 $request = $componentBuilder->build($component, $request);
             }

@@ -520,4 +520,20 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             $this->_query->getComponentTypes()
         );
     }
+
+    public function testCreateFilterQuery()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+        $fq = $this->_query->createFilterQuery($options);
+
+        // check class
+       $this->assertThat($fq, $this->isInstanceOf('Solarium_Query_Select_FilterQuery'));
+
+        // check option forwarding
+        $fqOptions = $fq->getOptions();
+        $this->assertEquals(
+            $options['optionB'],
+            $fqOptions['optionB']
+        );
+    }
 }

@@ -55,7 +55,7 @@ class Solarium_Plugin_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
 
-    public function testEventHooks()
+    public function testEventHooksEmpty()
     {
         $this->assertEquals(null, $this->_plugin->preCreateRequest(null));
         $this->assertEquals(null, $this->_plugin->postCreateRequest(null,null));
@@ -65,6 +65,8 @@ class Solarium_Plugin_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $this->_plugin->postExecute(null,null));
         $this->assertEquals(null, $this->_plugin->preCreateResult(null,null));
         $this->assertEquals(null, $this->_plugin->postCreateResult(null,null,null));
+        $this->assertEquals(null, $this->_plugin->preCreateQuery(null,null));
+        $this->assertEquals(null, $this->_plugin->postCreateQuery(null,null,null));
     }
 
 }

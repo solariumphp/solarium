@@ -63,7 +63,7 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
      *
      * Overrides any existing values.
      * 
-     * If the options array has an 'adapteroptions' entry it is forwarded to the
+     * If the options array has an 'options' entry it is forwarded to the
      * Zend_Http_Client. See the Zend_Http_Clientdocs for the many config
      * options available.
      *
@@ -81,14 +81,14 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
         if (null !== $this->_zendHttp) {
 
             // forward timeout setting
-            $this->_zendHttp->setConfig(
-                array('timeout' => $this->getOption('timeout'))
-            );
+            $adapterOptions = array('timeout' => $this->getTimeout());
 
             // forward adapter options if available
-            if (isset($this->_options['adapteroptions'])) {
-                $this->_zendHttp->setConfig($this->_options['adapteroptions']);
+            if (isset($this->_options['options'])) {
+                $adapterOptions = array_merge($adapterOptions, $this->_options['options']);
             }
+            
+            $this->_zendHttp->setConfig($adapterOptions);
         }
 
         return $this;
@@ -126,10 +126,12 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
     {
         if (null == $this->_zendHttp) {
             $options = array('timeout' => $this->getOption('timeout'));
-            if (isset($this->_options['adapteroptions'])) {
+
+            // forward zendhttp options
+            if (isset($this->_options['options'])) {
                 $options = array_merge(
                     $options,
-                    $this->_options['adapteroptions']
+                    $this->_options['options']
                 );
             }
 
@@ -150,7 +152,7 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
         $client = $this->getZendHttp();
 
         $client->setMethod($request->getMethod());
-        $client->setUri($request->getUri());
+        $client->setUri($this->getBaseUri() . $request->getUri());
         $client->setRawData($request->getRawData());
 
         $response = $client->request();
@@ -163,7 +165,7 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
             );
         }
 
-        if ($request->getMethod() == Solarium_Client_Request::HEAD) {
+        if ($request->getMethod() == Solarium_Client_Request::METHOD_HEAD) {
             $data = '';
         } else {
             $data = $response->getBody();

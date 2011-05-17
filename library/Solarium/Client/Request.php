@@ -38,8 +38,6 @@
 /**
  * Class for describing a request
  *
- * @todo support config mode
- *
  * @package Solarium
  * @subpackage Client
  */

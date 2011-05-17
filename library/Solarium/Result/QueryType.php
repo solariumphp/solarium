@@ -38,8 +38,6 @@
 /**
  * QueryType result
  *
- * TODO intro
- *
  * @package Solarium
  * @subpackage Result
  */

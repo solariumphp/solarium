@@ -486,6 +486,114 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $observer->update($query);
     }
 
+    public function testCreateQuery()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+        $query = $this->_client->createQuery(Solarium_Client::QUERYTYPE_SELECT, $options);
+
+        // check class mapping
+        $this->assertThat($query, $this->isInstanceOf('Solarium_Query_Select'));
+
+        // check option forwarding
+        $queryOptions = $query->getOptions();
+        $this->assertEquals(
+            $options['optionB'],
+            $queryOptions['optionB']
+        );
+    }
+
+    public function testCreateQueryWithInvalidQueryType()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_client->createQuery('invalidtype');
+    }
+
+    public function testCreateQueryPrePlugin()
+    {
+        $type = Solarium_Client::QUERYTYPE_SELECT;
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Plugin_Abstract', array(), array($this->_client,array()));
+        $observer->expects($this->once())
+                 ->method('preCreateQuery')
+                 ->with($this->equalTo($type), $this->equalTo($options));
+
+        $this->_client->registerPlugin('testplugin', $observer);
+        $this->_client->createQuery($type, $options);
+    }
+
+    public function testCreateQueryWithOverridingPlugin()
+    {
+        $type = Solarium_Client::QUERYTYPE_SELECT;
+        $options = array('optionA' => 1, 'optionB' => 2);
+        $dummyvalue = 'test123';
+
+        $observer = $this->getMock('Solarium_Plugin_Abstract', array(), array($this->_client,array()));
+        $observer->expects($this->once())
+                 ->method('preCreateQuery')
+                 ->with($this->equalTo($type), $this->equalTo($options))
+                 ->will($this->returnValue($dummyvalue));
+
+        $this->_client->registerPlugin('testplugin', $observer);
+        $query = $this->_client->createQuery($type, $options);
+
+        $this->assertEquals(
+            $dummyvalue,
+            $query
+        );
+    }
+
+    public function testCreateQueryPostPlugin()
+    {
+        $type = Solarium_Client::QUERYTYPE_SELECT;
+        $options = array('optionA' => 1, 'optionB' => 2);
+        $query = $this->_client->createQuery($type, $options);
+
+        $observer = $this->getMock('Solarium_Plugin_Abstract', array(), array($this->_client,array()));
+        $observer->expects($this->once())
+                 ->method('postCreateQuery')
+                 ->with($this->equalTo($type), $this->equalTo($options), $this->equalTo($query));
+
+        $this->_client->registerPlugin('testplugin', $observer);
+        $this->_client->createQuery($type, $options);
+    }
+
+    public function testCreateSelect()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_SELECT), $this->equalTo($options));
+
+        $observer->createSelect($options);
+    }
+
+    public function testCreateUpdate()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_UPDATE), $this->equalTo($options));
+
+        $observer->createUpdate($options);
+    }
+
+    public function testCreatePing()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_PING), $this->equalTo($options));
+
+        $observer->createPing($options);
+    }
+
 }
 
 class MyAdapter extends Solarium_Client_Adapter_Http{
