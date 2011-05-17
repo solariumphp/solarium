@@ -71,11 +71,12 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
      * method, like Zend_Config
      *
      * @param array|object $options
+     * @param boolean $overwrite
      * @return Solarium_Client_Adapter_ZendHttp Provides fluent interface
      */
-    public function setOptions($options)
+    public function setOptions($options, $overwrite = false)
     {
-        parent::setOptions($options);
+        parent::setOptions($options, $overwrite);
 
         // forward options to zendHttp instance
         if (null !== $this->_zendHttp) {

@@ -38,7 +38,7 @@ class Solarium_Client_Adapter_ZendHttpTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (!class_exists('Zend_Loader_Autoloader') && (include_once 'Zend/Loader/Autoloader.php') !== 'OK') {
+        if (!class_exists('Zend_Loader_Autoloader') && (@include_once 'Zend/Loader/Autoloader.php') !== 'OK') {
             $this->markTestSkipped('ZF not in include_path, skipping ZendHttp adapter tests');
         }
 
