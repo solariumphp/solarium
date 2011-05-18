@@ -58,7 +58,7 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
             Solarium_Query_Select::COMPONENT_HIGHLIGHTING => $this->_highlighting
         );
 
-        $this->_result = new Solarium_Result_SelectDummy($this->_numFound, $this->_docs, $this->_components);
+        $this->_result = new Solarium_Result_SelectDummy(1, 12, $this->_numFound, $this->_docs, $this->_components);
     }
 
     public function testGetNumFound()
@@ -128,6 +128,22 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->_docs, $docs);
     }
+
+    public function testGetStatus()
+    {
+        $this->assertEquals(
+            1,
+            $this->_result->getStatus()
+        );
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertEquals(
+            12,
+            $this->_result->getQueryTime()
+        );
+    }
     
 }
 
@@ -135,12 +151,13 @@ class Solarium_Result_SelectDummy extends Solarium_Result_Select
 {
     protected $_parsed = true;
 
-    public function __construct($numfound, $docs, $components)
+    public function __construct($status, $queryTime, $numfound, $docs, $components)
     {
         $this->_numfound = $numfound;
         $this->_documents = $docs;
         $this->_components = $components;
-
+        $this->_queryTime = $queryTime;
+        $this->_status = $status;
     }
 
 }

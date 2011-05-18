@@ -27,37 +27,48 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * Parse update response data
- *
- * @package Solarium
- * @subpackage Client
- */
-class Solarium_Client_ResponseParser_Update extends Solarium_Client_ResponseParser
+class Solarium_Client_ResponseParser_Select_Component_MoreLikeThisTest extends PHPUnit_Framework_TestCase
 {
 
-    /**
-     * Parse response data
-     *
-     * @param Solarium_Result_Update $result
-     * @return array
-     */
-    public function parse($result)
-    {
-        $data = $result->getData();
+    protected $_parser;
 
-        return array(
-            'status' => $data['responseHeader']['status'],
-            'queryTime' => $data['responseHeader']['QTime'],
+    public function setUp()
+    {
+        $this->_parser = new Solarium_Client_ResponseParser_Select_Component_MoreLikeThis();
+    }
+
+    public function testParse()
+    {
+        $query = new Solarium_Query_Select();
+        $data = array(
+            'moreLikeThis' => array(
+                'id1' => array(
+                    'numFound' => 12,
+                    'maxScore' => 1.75,
+                    'docs' => array(
+                        array('field1' => 'value1')
+                    )
+                )
+            )
         );
+
+        $docs = array(new Solarium_Document_ReadOnly(array('field1' => 'value1')));
+        $expected = array(
+            'id1' => new Solarium_Result_Select_MoreLikeThis_Result(12, 1.75, $docs)
+        );
+
+        $result = $this->_parser->parse($query, null, $data);
+
+        $this->assertEquals($expected, $result->getResults());
+    }
+
+    public function testParseNoData()
+    {
+        $result = $this->_parser->parse(null, null, array());
+
+        $this->assertEquals(array(), $result->getResults());
     }
 
 }

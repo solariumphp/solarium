@@ -34,7 +34,15 @@ class Solarium_Client_ResponseParser_UpdateTest extends PHPUnit_Framework_TestCa
 
     public function testParse()
     {
+        $data = '{"responseHeader" : {"status":1,"QTime":15}}';
 
+        $response = new Solarium_Client_Response($data, array('HTTP 1.1 200 OK'));
+        $result = new Solarium_Result_Update(null,null,$response);
+        $parser = new Solarium_Client_ResponseParser_Update;
+        $parsed = $parser->parse($result);
+
+        $this->assertEquals(1, $parsed['status']);
+        $this->assertEquals(15, $parsed['queryTime']);
     }    
     
 }
