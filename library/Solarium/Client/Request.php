@@ -63,7 +63,7 @@ class Solarium_Client_Request extends Solarium_Configurable
     /**
      * Request headers
      */
-    protected $_headers;
+    protected $_headers = array();
     
     /**
      * Request params

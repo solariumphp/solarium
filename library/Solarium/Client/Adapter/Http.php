@@ -48,10 +48,45 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
      * Handle Solr communication
      *
      * @throws Solarium_Exception
-     * @param Solarium_Client_Request
+     * @param Solarium_Client_Request $request
      * @return Solarium_Client_Response
      */
     public function execute($request)
+    {
+        $context = $this->createContext($request);
+        $uri = $this->getBaseUri() . $request->getUri();
+
+        list($data, $headers) = $this->_getData($uri, $context);
+        
+        $this->check($data, $headers);
+        
+        return new Solarium_Client_Response($data, $headers);
+    }
+
+    /**
+     * Check result of a request
+     * 
+     * @throws Solarium_Client_HttpException
+     * @param string $data
+     * @param array $headers
+     * @return void
+     */
+    public function check($data, $headers)
+    {
+        // if there is no data and there are no headers it's a total failure,
+        // a connection to the host was impossible.
+        if (false === $data && count($headers) == 0) {
+            throw new Solarium_Client_HttpException("HTTP request failed");
+        }
+    }
+
+    /**
+     * Create a stream context for a request
+     *
+     * @param Solarium_Client_Request $request
+     * @return resource
+     */
+    public function createContext($request)
     {
         $method = $request->getMethod();
         $context = stream_context_create(
@@ -70,26 +105,22 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
                     'content',
                     $data
                 );
-                //TODO header via request->setRawData!!
-                stream_context_set_option(
-                    $context,
-                    'http',
-                    'header',
-                    'Content-Type: text/xml; charset=UTF-8'
-                );
+
+                $request->addHeader('Content-Type: text/xml; charset=UTF-8');
             }
         }
 
-        $uri = $this->getBaseUri() . $request->getUri();
-        $data = $this->_getData($uri, $context);
-        
-        // if there is no data and there are no headers it's a total failure,
-        // a connection to the host was impossible. 
-        if (false === $data && !isset($http_response_header)) {
-            throw new Solarium_Client_HttpException("HTTP request failed");
+        $headers = $request->getHeaders();
+        if (count($headers) > 0) {
+            stream_context_set_option(
+                $context,
+                'http',
+                'header',
+                implode("\r\n", $headers)
+            );
         }
 
-        return new Solarium_Client_Response($data, $http_response_header);
+        return $context;
     }
 
     /**
@@ -97,11 +128,18 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
      *
      * @param string $uri
      * @param resource $context
-     * @return string
+     * @return array
      */
     protected function _getData($uri, $context)
     {
-        return @file_get_contents($uri, false, $context);
+        $data = @file_get_contents($uri, false, $context);
+        if (isset($http_response_header)) {
+            $headers = $http_response_header;
+        } else {
+            $headers = array();
+        }
+
+        return array($data, $headers);
     }
 
 }

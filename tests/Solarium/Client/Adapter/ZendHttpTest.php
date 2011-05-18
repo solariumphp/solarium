@@ -75,9 +75,10 @@ class Solarium_Client_Adapter_ZendHttpTest extends PHPUnit_Framework_TestCase
 
     public function testGetZendHttpAutoload()
     {
-        $this->_adapter->setOptions(array('myoption', 123));
-        $zendHttp = $this->_adapter->getZendHttp();
+        $options = array('timeout' => 10, 'optionZ' => 123, 'options' => array('adapter' => 'Zend_Http_Client_Adapter_Curl'));
+        $this->_adapter->setOptions($options);
 
+        $zendHttp = $this->_adapter->getZendHttp();
         $this->assertThat($zendHttp, $this->isInstanceOf('Zend_Http_Client'));
     }
 
