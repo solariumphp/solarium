@@ -76,6 +76,17 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
             if($result !== null) $facets[$key] = $result;
         }
 
+        return $this->_createFacetSet($facets);
+    }
+
+    /**
+     * Create a facetset result object
+     *
+     * @param array $facets
+     * @return Solarium_Result_Select_FacetSet
+     */
+    protected function _createFacetSet($facets)
+    {
         return new Solarium_Result_Select_FacetSet($facets);
     }
 
@@ -140,7 +151,9 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
             }
         }
 
-        return new Solarium_Result_Select_Facet_MultiQuery($values);
+        if (count($values) > 0) {
+            return new Solarium_Result_Select_Facet_MultiQuery($values);
+        }
     }
 
 
@@ -160,7 +173,7 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
 
             $before = (isset($data['before'])) ? $data['before'] : null;
             $after = (isset($data['after'])) ? $data['after'] : null;
-            $between = (isset($data['after'])) ? $data['after'] : null;
+            $between = (isset($data['between'])) ? $data['between'] : null;
 
             return new Solarium_Result_Select_Facet_Range($data['counts'], $before, $after, $between);
         }
