@@ -83,6 +83,26 @@ class Solarium_Client_Request extends Solarium_Configurable
     protected $_rawData;
 
     /**
+     * Initialization hook
+     */
+    protected function _init()
+    {
+        foreach ($this->_options AS $name => $value) {
+            switch ($name) {
+                case 'rawdata':
+                    $this->setRawData($value);
+                    break;
+                case 'param':
+                    $this->setParams($value);
+                    break;
+                case 'header':
+                    $this->setHeaders($value);
+                    break;
+            }
+        }
+    }
+
+    /**
      * Set request handler
      *
      * @param string $handler

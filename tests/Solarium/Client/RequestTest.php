@@ -42,6 +42,52 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         $this->_request = new Solarium_Client_Request;
     }
 
+    public function testConfigMode()
+    {
+        $options = array(
+            'method'   => Solarium_Client_Request::METHOD_POST,
+            'handler'  => 'myHandler',
+            'param'    => array(
+                'param1' => 1,
+                'param2' => 'test',
+            ),
+            'rawdata'  => 'raw post data here',
+            'header'   => array(
+                'myHeader1' => 'X-myHeader1: value1',
+                'myHeader2' => 'X-myHeader2: value2',
+            ),
+        );
+        $this->_request->setOptions($options);
+
+        $this->assertEquals(
+            $options['method'],
+            $this->_request->getMethod()
+        );
+
+        $this->assertEquals(
+            $options['handler'],
+            $this->_request->getHandler()
+        );
+
+        $this->assertEquals(
+            $options['rawdata'],
+            $this->_request->getRawData()
+        );
+
+        $this->assertEquals(
+            $options['param'],
+            $this->_request->getParams()
+        );
+
+        $this->assertEquals(
+            array(
+                $options['header']['myHeader1'],
+                $options['header']['myHeader2']
+            ),
+            $this->_request->getHeaders()
+        );
+    }
+
     public function testGetDefaultMethod()
     {
         $this->assertEquals(

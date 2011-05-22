@@ -42,21 +42,117 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $this->_client = new Solarium_Client();
     }
 
-    public function testGetAdapterWithDefaultAdapter()
+    public function testConfigMode()
+    {
+        $options = array(
+            'adapter' => 'MyAdapter',
+            'adapteroptions' => array(
+                'host' => 'myhost',
+                'port' => 8080,
+            ),
+            'querytype' => array(
+                'myquerytype' => array(
+                    'query'          => 'MyQuery',
+                    'requestbuilder' => 'MyRequestBuilder',
+                    'responseparser' => 'MyResponseParser'
+                )
+            ),
+            'plugin' => array(
+                'myplugin' => array(
+                    'plugin' => 'MyClientPlugin',
+                    'options' => array(
+                        'option1' => 'value1',
+                        'option2' => 'value2',
+                    )
+                )
+            ),
+        );
+
+        $this->_client->setOptions($options);
+
+        $adapter = $this->_client->getAdapter();
+
+        $this->assertThat($adapter, $this->isInstanceOf('MyAdapter'));
+        $this->assertEquals(8080, $adapter->getPort());
+
+
+        $queryTypes = $this->_client->getQueryTypes();
+        $this->assertEquals(
+            $options['querytype']['myquerytype'],
+            $queryTypes['myquerytype']
+        );
+
+        $plugin = $this->_client->getPlugin('myplugin');
+        $this->assertThat($plugin, $this->isInstanceOf('MyClientPlugin'));
+        $this->assertEquals($options['plugin']['myplugin']['options'], $plugin->getOptions());
+        
+    }
+
+    public function testConfigModeWithoutKeys()
+    {
+        $options = array(
+            'adapter' => 'MyAdapter',
+            'adapteroptions' => array(
+                'host' => 'myhost',
+                'port' => 8080,
+            ),
+            'querytype' => array(
+                array(
+                    'type'           => 'myquerytype',
+                    'query'          => 'MyQuery',
+                    'requestbuilder' => 'MyRequestBuilder',
+                    'responseparser' => 'MyResponseParser',
+                )
+            ),
+            'plugin' => array(
+                 array(
+                    'key'     => 'myplugin',
+                    'plugin'  => 'MyClientPlugin',
+                    'options' => array(
+                        'option1' => 'value1',
+                        'option2' => 'value2',
+                    )
+                )
+            ),
+        );
+
+        $this->_client->setOptions($options);
+
+        $adapter = $this->_client->getAdapter();
+
+        $this->assertThat($adapter, $this->isInstanceOf('MyAdapter'));
+        $this->assertEquals(8080, $adapter->getPort());
+
+        $queryTypes = $this->_client->getQueryTypes();
+        $this->assertEquals(
+            array(
+                'requestbuilder' => 'MyRequestBuilder',
+                'responseparser' => 'MyResponseParser',
+                'query'          => 'MyQuery',
+            ),
+            $queryTypes['myquerytype']
+        );
+
+        $plugin = $this->_client->getPlugin('myplugin');
+        $this->assertThat($plugin, $this->isInstanceOf('MyClientPlugin'));
+        $this->assertEquals($options['plugin'][0]['options'], $plugin->getOptions());
+    }
+
+    public function testSetAndGetAdapterWithDefaultAdapter()
     {
         $defaultAdapter = $this->_client->getOption('adapter');
         $adapter = $this->_client->getAdapter();
         $this->assertThat($adapter, $this->isInstanceOf($defaultAdapter));
     }
 
-    public function testGetAdapterWithString()
+    public function testSetAndGetAdapterWithString()
     {
         $adapterClass = 'MyAdapter';
         $this->_client->setAdapter($adapterClass);
         $this->assertThat($this->_client->getAdapter(), $this->isInstanceOf($adapterClass));
     }
     
-    public function testGetAdapterWithObject()
+    public function testSetAndGetAdapterWithObject()
     {
         $adapterClass = 'MyAdapter';
         $this->_client->setAdapter(new $adapterClass);
@@ -67,9 +163,10 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
     {
         $queryTypes = $this->_client->getQueryTypes();
 
-        $this->_client->registerQueryType('myquerytype','mybuilder','myparser');
+        $this->_client->registerQueryType('myquerytype','myquery','mybuilder','myparser');
 
         $queryTypes['myquerytype'] = array(
+            'query' => 'myquery',
             'requestbuilder' => 'mybuilder',
             'responseparser' => 'myparser',
         );
@@ -146,7 +243,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
                  ->method('build')
                  ->with($this->equalTo($queryStub));
 
-        $this->_client->registerQueryType('testquerytype', $observer, '');
+        $this->_client->registerQueryType('testquerytype', 'Solarium_Query_Select', $observer, '');
         $this->_client->createRequest($queryStub);
     }
 

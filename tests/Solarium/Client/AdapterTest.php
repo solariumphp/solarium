@@ -32,14 +32,29 @@
 class Solarium_Client_AdapterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Solarium_Client_Adapter
+     * @var TestAdapter
      */
     protected $_adapter;
 
     public function setUp()
     {
-        $client = new Solarium_Client();
-        $this->_adapter = $client->getAdapter();
+        $this->_adapter = new TestAdapter();
+    }
+
+    public function testConfigMode()
+    {
+        $options = array(
+            'host'    => '192.168.0.1',
+            'port'    => 123,
+            'path'    => '/mysolr/',
+            'core'    => 'mycore',
+            'timeout' => 3,
+        );
+        $this->_adapter->setOptions($options);
+
+        $options['path'] = '/mysolr'; //expected trimming of trailing slash
+
+        $this->assertEquals($options, $this->_adapter->getOptions());
     }
 
     public function testSetAndGetHost()
