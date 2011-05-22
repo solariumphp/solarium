@@ -32,11 +32,27 @@
 class Solarium_Query_Select_Component_FacetTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Select_Component_Facet
+     */
     protected $_facet;
 
     public function setUp()
     {
         $this->_facet = new TestFacet;
+    }
+
+    public function testConfigMode()
+    {
+        $this->_facet->setOptions(array('key' => 'myKey','exclude' => array('e1','e2')));
+        $this->assertEquals('myKey', $this->_facet->getKey());
+        $this->assertEquals(array('e1','e2'), $this->_facet->getExcludes());
+    }
+
+    public function testConfigModeWithSingleValueExclude()
+    {
+        $this->_facet->setOptions(array('exclude' => 'e1'));
+        $this->assertEquals(array('e1'), $this->_facet->getExcludes());
     }
 
     public function testSetAndGetKey()
@@ -76,18 +92,6 @@ class Solarium_Query_Select_Component_FacetTest extends PHPUnit_Framework_TestCa
         $this->_facet->addExcludes(array('e1','e2'));
         $this->_facet->setExcludes(array('e3','e4'));
         $this->assertEquals(array('e3','e4'), $this->_facet->getExcludes());
-    }
-
-    public function testConstructorWithConfig()
-    {
-        $this->_facet = new TestFacet(array('exclude' => array('e1','e2')));
-        $this->assertEquals(array('e1','e2'), $this->_facet->getExcludes());
-    }
-
-    public function testConstructorWithConfigSingleValueExclude()
-    {
-        $this->_facet = new TestFacet(array('exclude' => 'e1'));
-        $this->assertEquals(array('e1'), $this->_facet->getExcludes());
     }
 }
 

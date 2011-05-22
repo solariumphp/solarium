@@ -74,6 +74,8 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      */
     protected function _init()
     {
+        parent::_init();
+
         foreach ($this->_options AS $name => $value) {
             switch ($name) {
                 case 'include':
@@ -93,7 +95,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      */
     public function getType()
     {
-        return self::RANGE;
+        return Solarium_Query_Select_Component_FacetSet::FACET_RANGE;
     }
     
     /**

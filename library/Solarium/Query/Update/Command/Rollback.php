@@ -54,7 +54,7 @@ class Solarium_Query_Update_Command_Rollback
      */
     public function getType()
     {
-        return Solarium_Query_Update_Command::ROLLBACK;
+        return Solarium_Query_Update::COMMAND_ROLLBACK;
     }
 
 }

@@ -32,169 +32,387 @@
 class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Client_Request
+     */
     protected $_request;
 
-    protected $_options = array(
-        'host' => '127.0.0.1',
-        'port' => 80,
-        'path' => '/solr',
-        'core' => null,
-    );
-
-    protected function _getRequest($options, $class = 'Solarium_Client_Request_Ping')
+    public function setup()
     {
-        $query = new Solarium_Query;
-        $query->setHandler('mypath');
-
-        return new $class($options, $query);
+        $this->_request = new Solarium_Client_Request;
     }
 
-    public function testGetMethod()
+    public function testConfigMode()
+    {
+        $options = array(
+            'method'   => Solarium_Client_Request::METHOD_POST,
+            'handler'  => 'myHandler',
+            'param'    => array(
+                'param1' => 1,
+                'param2' => 'test',
+            ),
+            'rawdata'  => 'raw post data here',
+            'header'   => array(
+                'myHeader1' => 'X-myHeader1: value1',
+                'myHeader2' => 'X-myHeader2: value2',
+            ),
+        );
+        $this->_request->setOptions($options);
+
+        $this->assertEquals(
+            $options['method'],
+            $this->_request->getMethod()
+        );
+
+        $this->assertEquals(
+            $options['handler'],
+            $this->_request->getHandler()
+        );
+
+        $this->assertEquals(
+            $options['rawdata'],
+            $this->_request->getRawData()
+        );
+
+        $this->assertEquals(
+            $options['param'],
+            $this->_request->getParams()
+        );
+
+        $this->assertEquals(
+            array(
+                $options['header']['myHeader1'],
+                $options['header']['myHeader2']
+            ),
+            $this->_request->getHeaders()
+        );
+    }
+
+    public function testGetDefaultMethod()
     {
         $this->assertEquals(
-            Solarium_Client_Request::HEAD,
-            $this->_getRequest($this->_options)->getMethod()
+            Solarium_Client_Request::METHOD_GET,
+            $this->_request->getMethod()
+        );
+    }
+
+    public function testSetAndGetMethod()
+    {
+        $this->_request->setMethod(Solarium_Client_Request::METHOD_POST);
+
+        $this->assertEquals(
+            Solarium_Client_Request::METHOD_POST,
+            $this->_request->getMethod()
+        );
+    }
+
+    public function testSetAndGetHandler()
+    {
+        $this->_request->setHandler('myhandler');
+
+        $this->assertEquals(
+            'myhandler',
+            $this->_request->getHandler()
+        );
+    }
+
+    public function testSetAndGetParams()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+
+        $this->assertEquals(
+            $params,
+            $this->_request->getParams()
+        );
+    }
+
+    public function testSetAndGetParam()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+
+        $this->assertEquals(
+            2,
+            $this->_request->getParam('param2')
+        );
+    }
+
+    public function testGetInvalidParam()
+    {
+        $this->assertEquals(
+            null,
+            $this->_request->getParam('invalidname')
+        );
+    }
+
+    public function testAddParam()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParam('param3', 3);
+
+        $params['param3'] = 3;
+
+        $this->assertEquals(
+            $params,
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParamMultivalue()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParam('param2', 2);
+        $this->_request->addParam('param2', 3);
+
+        $params['param2'] = array(2, 3);
+
+        $this->assertEquals(
+            $params,
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParamNoValue()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParam('param2', 2);
+        $this->_request->addParam('param2', '');
+        $this->_request->addParam('param3', '');
+
+        $params['param2'] = 2;
+
+        $this->assertEquals(
+            $params,
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParamOverwrite()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParam('param1', 2, true);
+
+
+        $this->assertEquals(
+            array('param1' => 2),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParams()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $extraParams = array(
+            'param1' => 2,
+            'param2' => 3,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParams($extraParams);
+
+
+        $this->assertEquals(
+            array(
+                'param1' => array(1,2),
+                'param2' => 3,
+            ),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testAddParamsOverwrite()
+    {
+        $params = array(
+            'param1' => 1,
+        );
+
+        $extraParams = array(
+            'param1' => 2,
+            'param2' => 3,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->addParams($extraParams, true);
+
+
+        $this->assertEquals(
+            array(
+                'param1' => 2,
+                'param2' => 3,
+            ),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testRemoveParam()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->removeParam('param2');
+
+        $this->assertEquals(
+            array('param1' => 1),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testClearParams()
+    {
+        $params = array(
+            'param1' => 1,
+            'param2' => 2,
+        );
+
+        $this->_request->setParams($params);
+        $this->_request->clearParams();
+
+        $this->assertEquals(
+            array(),
+            $this->_request->getParams()
+        );
+    }
+
+    public function testGetAndSetRawData()
+    {
+        $data = '1234567890';
+        $this->_request->setRawData($data);
+
+        $this->assertEquals(
+            $data,
+            $this->_request->getRawData()
+        );
+    }
+
+    public function testSetAndGetHeaders()
+    {
+        $headers = array(
+            'User-Agent: My Agent',
+            'Cache-Control: no-cache'
+        );
+        $this->_request->setHeaders($headers);
+
+        $this->assertEquals(
+            $headers,
+            $this->_request->getHeaders()
+        );
+    }
+
+    public function testAddHeader()
+    {
+        $headers = array(
+            'User-Agent: My Agent',
+
+        );
+
+        $this->_request->setHeaders($headers);
+        $this->_request->addHeader('Cache-Control: no-cache');
+
+        $headers[] = 'Cache-Control: no-cache';
+
+        $this->assertEquals(
+            $headers,
+            $this->_request->getHeaders()
+        );
+    }
+
+    public function testAddHeaders()
+    {
+        $headers = array(
+            'User-Agent: My Agent',
+
+        );
+
+        $extraHeaders = array(
+            'Cache-Control: no-cache',
+            'X-custom: 123',
+        );
+
+        $this->_request->setHeaders($headers);
+        $this->_request->addHeaders($extraHeaders);
+
+        $this->assertEquals(
+            array_merge($headers, $extraHeaders),
+            $this->_request->getHeaders()
+        );
+    }
+
+    public function testClearHeaders()
+    {
+        $headers = array(
+            'User-Agent: My Agent',
+            'Cache-Control: no-cache'
+        );
+
+        $this->_request->setHeaders($headers);
+
+        $this->assertEquals(
+            $headers,
+            $this->_request->getHeaders()
+        );
+
+        $this->_request->clearHeaders();
+
+        $this->assertEquals(
+            array(),
+            $this->_request->getHeaders()
         );
     }
 
     public function testGetUri()
     {
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/mypath?',
-            $this->_getRequest($this->_options)->getUri()
+            '?',
+            $this->_request->getUri()
         );
     }
 
-    public function testGetUriWithCore()
+    public function testGetUriWithHandlerAndParams()
     {
-        $options = $this->_options;
-        $options['core'] = 'core0';
+        $params = array(
+            'param1' => 1,
+            'param2' => array(2,3),
+        );
+
+        $this->_request->setHandler('myHandler');
+        $this->_request->addParams($params);
 
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/core0/mypath?',
-            $this->_getRequest($options)->getUri()
+            'myHandler?param1=1&param2=2&param2=3',
+            $this->_request->getUri()
         );
-    }
-
-    public function testBoolAttrib()
-    {
-       $this->assertEquals(
-           ' name="false"',
-           $this->_getRequest($this->_options)->boolAttrib('name', false)
-        );
-    }
-
-    public function testBoolAttribNoValue()
-    {
-       $this->assertEquals(
-            '',
-           $this->_getRequest($this->_options)->boolAttrib('name', null)
-        );
-    }
-
-    public function testAttrib()
-    {
-       $this->assertEquals(
-           ' name="myvalue"',
-           $this->_getRequest($this->_options)->attrib('name', 'myvalue')
-        );
-    }
-
-    public function testAttribNoValue()
-    {
-       $this->assertEquals(
-           '',
-           $this->_getRequest($this->_options)->attrib('name', null)
-        );
-    }
-
-    public function testGetUriWithParams()
-    {
-        $this->assertEquals(
-            'http://127.0.0.1:80/solr/mypath?wt=json&fq=category%3A1&fq=published%3Atrue',
-            $this->_getRequest($this->_options, 'TestRequest')->getUri()
-        );
-    }
-
-    public function testGetRawData()
-    {
-        $this->assertEquals(
-            '<data>xyz</data>',
-            $this->_getRequest($this->_options, 'TestRequest')->getRawData()
-        );
-    }
-
-    public function testRenderLocalParams()
-    {
-        $myParams = array('tag' => 'mytag', 'ex' => array('exclude1','exclude2'));
-        
-        $this->assertEquals(
-            '{!tag=mytag ex=exclude1,exclude2}myValue',
-            $this->_getRequest($this->_options)->renderLocalParams('myValue', $myParams)
-        );
-    }
-
-    public function testRenderLocalParamsWithoutParams()
-    {
-        $this->assertEquals(
-            'myValue',
-            $this->_getRequest($this->_options)->renderLocalParams('myValue')
-        );
-    }
-
-    public function testAddParamWithNewParam()
-    {
-        $request = $this->_getRequest($this->_options);
-        $request->addParam('myparam',1);
-
-        $this->assertEquals(
-            $request->getParams(),
-            array('myparam' => 1)
-        );
-    }
-
-    public function testAddParamNoValue()
-    {
-        $request = $this->_getRequest($this->_options);
-        $request->addParam('myparam',1);
-        $request->addParam('mysecondparam',"");
-
-        $this->assertEquals(
-            $request->getParams(),
-            array('myparam' => 1)
-        );
-    }
-
-    public function testAddParamWithExistingParam()
-    {
-        $request = $this->_getRequest($this->_options);
-        $request->addParam('myparam',1);
-        $request->addParam('myparam',2);
-
-        $this->assertEquals(
-            $request->getParams(),
-            array('myparam' => array(1,2))
-        );
-    }
-
-}
-
-class TestRequest extends Solarium_Client_Request
-{
-    
-    protected $_params = array(
-        'wt' => 'json',
-        'fq' => array('category:1','published:true')
-    );
-
-    public function getUri()
-    {
-        return $this->buildUri();
-    }
-
-    public function getRawData()
-    {
-        return '<data>xyz</data>';
     }
 
 }

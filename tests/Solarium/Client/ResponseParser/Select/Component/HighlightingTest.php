@@ -29,24 +29,35 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Result_QueryTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_ResponseParser_Select_Component_HighlightingTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_result;
+    protected $_parser;
 
     public function setUp()
     {
-        $this->_result = new Solarium_Result_Query(0,45);
+        $this->_parser = new Solarium_Client_ResponseParser_Select_Component_Highlighting;
     }
 
-    public function testGetStatus()
+    public function testParse()
     {
-        $this->assertEquals(0, $this->_result->getStatus());
+        $highlights = array('key1' => 'dummy1', 'key2' => 'dummy2');
+        $data = array('highlighting' => $highlights);
+        $expected = array(
+            'key1' => new Solarium_Result_Select_Highlighting_Result('dummy1'),
+            'key2' => new Solarium_Result_Select_Highlighting_Result('dummy2'),
+        );
+
+        $result = $this->_parser->parse(null, null, $data);
+
+        $this->assertEquals($expected, $result->getResults());
     }
 
-    public function testGetQueryTime()
+    public function testParseNoData()
     {
-        $this->assertEquals(45, $this->_result->getQueryTime());
+        $result = $this->_parser->parse(null, null, array());
+
+        $this->assertEquals(array(), $result->getResults());
     }
-    
+
 }

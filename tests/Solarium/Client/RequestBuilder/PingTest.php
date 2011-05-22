@@ -27,78 +27,25 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @package Solarium
- * @subpackage Result
  */
 
-/**
- * Query result
- *
- * This base class provides methods for two common result values: status and
- * querytime.
- *
- * @package Solarium
- * @subpackage Result
- */
-class Solarium_Result_Query
+class Solarium_Client_RequestBuilder_PingTest extends PHPUnit_Framework_TestCase
 {
 
-    /**
-     * Status code returned by Solr
-     *
-     * @var int
-     */
-    protected $_status;
-    
-    /**
-     * Solr index queryTime
-     *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
-     *
-     * @var int
-     */
-    protected $_queryTime;
-
-    /**
-     * Constructor
-     *
-     * @param int $status
-     * @param int $queryTime
-     * @return void
-     */
-    public function __construct($status, $queryTime)
+    public function testBuild()
     {
-        $this->_status = $status;
-        $this->_queryTime = $queryTime;
+        $builder = new Solarium_Client_RequestBuilder_Ping;
+        $request = $builder->build(new Solarium_Query_Ping);
+
+        $this->assertEquals(
+            'admin/ping?',
+            $request->getUri()
+        );
+
+        $this->assertEquals(
+            Solarium_Client_Request::METHOD_HEAD,
+            $request->getMethod()
+        );
     }
 
-    /**
-     * Get Solr status code
-     *
-     * This is not the HTTP status code! The normal value for success is 0.
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->_status;
-    }
-
-    /**
-     * Get Solr query time
-     *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
-     * 
-     * @return int
-     */
-    public function getQueryTime()
-    {
-        return $this->_queryTime;
-    }
 }

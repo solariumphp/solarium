@@ -29,24 +29,36 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_Response_UpdateTest extends PHPUnit_Framework_TestCase
+class Solarium_Client_HttpExceptionTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testGetResult()
+    public function testConstructor()
     {
-        $query = new Solarium_Query_Update;
-        $data = array('responseHeader' => array('status' => 0, 'QTime' => 145));
-        $response = new Solarium_Client_Response_Update($query, $data);
-        $result = $response->getResult();
+        $exception = new Solarium_Client_HttpException('message text', 123);
 
         $this->assertEquals(
-            0,
-            $result->getStatus()
+            'Solr HTTP error: message text (123)',
+            $exception->getMessage()
         );
+    }
+
+    public function testGetMessage()
+    {
+        $exception = new Solarium_Client_HttpException('message text', 123);
 
         $this->assertEquals(
-            145,
-            $result->getQueryTime()
+            'message text',
+            $exception->getStatusMessage()
+        );
+    }
+
+    public function testConstructorNoCode()
+    {
+        $exception = new Solarium_Client_HttpException('message text');
+
+        $this->assertEquals(
+            'Solr HTTP error: message text',
+            $exception->getMessage()
         );
     }
 

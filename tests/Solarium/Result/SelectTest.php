@@ -29,34 +29,41 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
+class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_result, $_docs, $_facets;
+    /**
+     * @var Solarium_Result_Select
+     */
+    protected $_result;
+
+    protected $_numFound, $_docs, $_components, $_facetSet, $_moreLikeThis, $_highlighting;
 
     public function setUp()
     {
+        $this->_numFound = 11;
+
         $this->_docs = array(
-            new Solarium_Document_ReadOnly(array('id'=>1,'name'=>'test1')),
-            new Solarium_Document_ReadOnly(array('id'=>2,'name'=>'test2')),
-            new Solarium_Document_ReadOnly(array('id'=>3,'name'=>'test3')),
+            new Solarium_Document_ReadOnly(array('id'=>1,'title'=>'doc1')),
+            new Solarium_Document_ReadOnly(array('id'=>1,'title'=>'doc1')),
         );
 
-        $this->_facets = array(
-            'f1' => new Solarium_Result_Select_Facet_Field(array('a' => 14)),
-            'f2' => new Solarium_Result_Select_Facet_Field(array('b' => 5)),
-        );
+        $this->_facetSet = 'dummy-facetset-value';
+        $this->_moreLikeThis = 'dummy-facetset-value';
+        $this->_highlighting = 'dummy-highlighting-value';
 
         $this->_components = array(
-            Solarium_Query_Select_Component::MORELIKETHIS => new Solarium_Result_Select_MoreLikeThis(array())
-        );                
+            Solarium_Query_Select::COMPONENT_FACETSET => $this->_facetSet,
+            Solarium_Query_Select::COMPONENT_MORELIKETHIS => $this->_moreLikeThis,
+            Solarium_Query_Select::COMPONENT_HIGHLIGHTING => $this->_highlighting
+        );
 
-        $this->_result = new Solarium_Result_Select(0,45,100, $this->_docs, $this->_facets, $this->_components);
+        $this->_result = new Solarium_Result_SelectDummy(1, 12, $this->_numFound, $this->_docs, $this->_components);
     }
 
     public function testGetNumFound()
     {
-        $this->assertEquals(100, $this->_result->getNumFound());
+        $this->assertEquals($this->_numFound, $this->_result->getNumFound());
     }
 
     public function testGetDocuments()
@@ -64,24 +71,14 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
         $this->assertEquals($this->_docs, $this->_result->getDocuments());
     }
 
-    public function testGetFacets()
+    public function testGetFacetSet()
     {
-        $this->assertEquals($this->_facets, $this->_result->getFacets());
-    }
-
-    public function testGetFacetByKey()
-    {
-        $this->assertEquals($this->_facets['f2'], $this->_result->getFacet('f2'));
-    }
-
-    public function testGetFacetByInvalidKey()
-    {
-        $this->assertEquals(null, $this->_result->getFacet('f2123123'));
+        $this->assertEquals($this->_facetSet, $this->_result->getFacetSet());
     }
 
     public function testCount()
     {
-        $this->assertEquals(3, count($this->_result));
+        $this->assertEquals(count($this->_docs), count($this->_result));
     }
 
     public function testGetComponents()
@@ -92,8 +89,8 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
     public function testGetComponent()
     {
         $this->assertEquals(
-            $this->_components[Solarium_Query_Select_Component::MORELIKETHIS],
-            $this->_result->getComponent(Solarium_Query_Select_Component::MORELIKETHIS)
+            $this->_components[Solarium_Query_Select::COMPONENT_MORELIKETHIS],
+            $this->_result->getComponent(Solarium_Query_Select::COMPONENT_MORELIKETHIS)
         );
     }
 
@@ -108,8 +105,16 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
     public function testGetMoreLikeThis()
     {
         $this->assertEquals(
-            $this->_components[Solarium_Query_Select_Component::MORELIKETHIS],
+            $this->_components[Solarium_Query_Select::COMPONENT_MORELIKETHIS],
             $this->_result->getMoreLikeThis()
+        );
+    }
+
+    public function testGetHighlighting()
+    {
+        $this->assertEquals(
+            $this->_components[Solarium_Query_Select::COMPONENT_HIGHLIGHTING],
+            $this->_result->getHighlighting()
         );
     }
 
@@ -122,6 +127,37 @@ class Solarium_Result_SelectTest extends Solarium_Result_QueryTest
         }
 
         $this->assertEquals($this->_docs, $docs);
+    }
+
+    public function testGetStatus()
+    {
+        $this->assertEquals(
+            1,
+            $this->_result->getStatus()
+        );
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertEquals(
+            12,
+            $this->_result->getQueryTime()
+        );
+    }
+    
+}
+
+class Solarium_Result_SelectDummy extends Solarium_Result_Select
+{
+    protected $_parsed = true;
+
+    public function __construct($status, $queryTime, $numfound, $docs, $components)
+    {
+        $this->_numfound = $numfound;
+        $this->_documents = $docs;
+        $this->_components = $components;
+        $this->_queryTime = $queryTime;
+        $this->_status = $status;
     }
 
 }

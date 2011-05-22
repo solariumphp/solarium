@@ -74,7 +74,7 @@ class Solarium_Query_Select_Component_Facet_Field extends Solarium_Query_Select_
      */
     public function getType()
     {
-        return self::FIELD;
+        return Solarium_Query_Select_Component_FacetSet::FACET_FIELD;
     }
     
     /**

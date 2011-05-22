@@ -173,7 +173,7 @@ class Solarium_Query_Select_Helper
      */
     public function functionCall($name, $params = array())
     {
-        return $name . '(' . implode($params,',') . ')';
+        return $name . '(' . implode($params, ',') . ')';
     }
 
 }

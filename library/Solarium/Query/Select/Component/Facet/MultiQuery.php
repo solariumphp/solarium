@@ -64,6 +64,8 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
      */
     protected function _init()
     {
+        parent::_init();
+        
         foreach ($this->_options AS $name => $value) {
             switch ($name) {
                 case 'query':
@@ -81,7 +83,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
      */
     public function getType()
     {
-        return self::MULTIQUERY;
+        return Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY;
     }
 
     /**

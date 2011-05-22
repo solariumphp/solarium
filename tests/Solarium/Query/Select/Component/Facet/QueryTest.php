@@ -32,6 +32,9 @@
 class Solarium_Query_Select_Component_Facet_QueryTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Select_Component_Facet_Query
+     */
     protected $_facet;
 
     public function setUp()
@@ -39,10 +42,25 @@ class Solarium_Query_Select_Component_Facet_QueryTest extends PHPUnit_Framework_
         $this->_facet = new Solarium_Query_Select_Component_Facet_Query;
     }
 
+    public function testConfigMode()
+    {
+        $options = array(
+            'key' => 'myKey',
+            'exclude' => array('e1','e2'),
+            'query' => 'category:1',
+        );
+
+        $this->_facet->setOptions($options);
+
+        $this->assertEquals($options['key'], $this->_facet->getKey());
+        $this->assertEquals($options['exclude'], $this->_facet->getExcludes());
+        $this->assertEquals($options['query'], $this->_facet->getQuery());
+    }
+
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Select_Component_Facet::QUERY,
+            Solarium_Query_Select_Component_FacetSet::FACET_QUERY,
             $this->_facet->getType()
         );
     }

@@ -44,15 +44,6 @@
 abstract class Solarium_Query_Update_Command extends Solarium_Configurable
 {
 
-     /**
-     * Command types
-     */
-    const ADD = 'add';
-    const DELETE = 'delete';
-    const COMMIT = 'commit';
-    const OPTIMIZE = 'optimize';
-    const ROLLBACK = 'rollback';
-
     /**
      * Returns command type, for use in adapters
      *

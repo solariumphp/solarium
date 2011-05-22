@@ -56,58 +56,175 @@
  */
 abstract class Solarium_Client_Adapter extends Solarium_Configurable
 {
+    /**
+     * Default options
+     *
+     * The defaults match a standard Solr example instance as distributed by
+     * the Apache Lucene Solr project.
+     *
+     * @var array
+     */
+    protected $_options = array(
+        'host'    => '127.0.0.1',
+        'port'    => 8983,
+        'path'    => '/solr',
+        'core'    => null,
+        'timeout' => 5,
+    );
 
     /**
-     * Set options
+     * Initialization hook
      *
-     * Overrides any existing values
-     *
-     * @param array $options
-     * @return void
+     * In this case the path needs to be cleaned of trailing slashes.
+     * @see setPath()
      */
-    public function setOptions($options)
+    protected function _init()
     {
-        $this->_setOptions($options, true);
+        foreach ($this->_options AS $name => $value) {
+            switch ($name) {
+                case 'path':
+                    $this->setPath($value);
+                    break;
+            }
+        }
     }
 
     /**
-     * Execute a select query
+     * Set host option
      *
-     * Abstract method to require an implementation inside all adapters.
-     * If the adapter cannot support this method it should implement a method
-     * that throws an exception.
-     *
-     * @abstract
-     * @param Solarium_Query_Select $query
-     * @return Solarium_Result_Select
+     * @param string $host This can be a hostname or an IP address
+     * @return Solarium_Client Provides fluent interface
      */
-    abstract public function select($query);
+    public function setHost($host)
+    {
+        return $this->_setOption('host', $host);
+    }
 
     /**
-     * Execute a ping query
+     * Get host option
      *
-     * Abstract method to require an implementation inside all adapters.
-     * If the adapter cannot support this method it should implement a method
-     * that throws an exception.
-     *
-     * @abstract
-     * @param Solarium_Query_Ping $query
-     * @return boolean
+     * @return string
      */
-    abstract public function ping($query);
+    public function getHost()
+    {
+        return $this->getOption('host');
+    }
 
     /**
-     * Execute an update query
+     * Set port option
+     *
+     * @param int $port Common values are 80, 8080 and 8983
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function setPort($port)
+    {
+        return $this->_setOption('port', $port);
+    }
+
+    /**
+     * Get port option
+     *
+     * @return int
+     */
+    public function getPort()
+    {
+        return $this->getOption('port');
+    }
+
+    /**
+     * Set path option
+     *
+     * If the path has a trailing slash it will be removed.
+     *
+     * @param string $path
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function setPath($path)
+    {
+        if (substr($path, -1) == '/') $path = substr($path, 0, -1);
+        
+        return $this->_setOption('path', $path);
+    }
+
+    /**
+     * Get path option
+     *
+     * @return void
+     */
+    public function getPath()
+    {
+        return $this->getOption('path');
+    }
+
+    /**
+     * Set core option
+     *
+     * @param string $core
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function setCore($core)
+    {
+        return $this->_setOption('core', $core);
+    }
+
+    /**
+     * Get core option
+     *
+     * @return string
+     */
+    public function getCore()
+    {
+        return $this->getOption('core');
+    }
+
+    /**
+     * Set timeout option
+     *
+     * @param int $timeout
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function setTimeout($timeout)
+    {
+        return $this->_setOption('timeout', $timeout);
+    }
+
+    /**
+     * Get timeout option
+     *
+     * @return string
+     */
+    public function getTimeout()
+    {
+        return $this->getOption('timeout');
+    }
+
+    /**
+     * Execute a request
      *
      * Abstract method to require an implementation inside all adapters.
-     * If the adapter cannot support this method it should implement a method
-     * that throws an exception.
      *
      * @abstract
-     * @param Solarium_Query_Update $query
-     * @return Solarium_Result_Update
+     * @param Solarium_Client_Request $request
+     * @return Solarium_Client_Response
      */
-    abstract public function update($query);
+    abstract public function execute($request);
 
-    
+    /**
+     * Get the base url for all requests
+     *
+     * Based on host, path, port and core options.
+     *
+     * @return void
+     */
+    public function getBaseUri()
+    {
+        $uri = 'http://' . $this->getHost() . ':' . $this->getPort() . $this->getPath() . '/';
+
+        $core = $this->getCore();
+        if (!empty($core)) {
+            $uri .= $core.'/';
+        }
+
+        return $uri;
+    }
 }

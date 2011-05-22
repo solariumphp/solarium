@@ -41,8 +41,15 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query extends Solarium_Configurable
+abstract class Solarium_Query extends Solarium_Configurable
 {
+
+    /**
+     * Get type for this query
+     *
+     * @return string
+     */
+    abstract public function getType();
     
     /**
      * Set handler option

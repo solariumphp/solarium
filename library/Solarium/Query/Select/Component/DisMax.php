@@ -51,7 +51,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * 
      * @var string
      */
-    protected $_type = self::DISMAX;
+    protected $_type = Solarium_Query_Select::COMPONENT_DISMAX;
 
     /**
      * Set QueryAlternative option

@@ -41,34 +41,24 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Request_Update extends Solarium_Client_Request
+class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuilder
 {
 
     /**
-     * Get HTTP request method
+     * Build request for an update query
      *
-     * Update uses raw POST data so a POST method has to be used.
-     *
-     * @return string
+     * @param Solarium_Query_Update $query
+     * @return Solarium_Client_Request
      */
-    public function getMethod()
+    public function build($query)
     {
-        return self::POST;
-    }
-
-    /**
-     * Get uri
-     *
-     * Return the default url with the addition of the wt param.
-     * This enables a JSON response, that is the easiest and most efficient
-     * format to decode in the response handler.
-     *
-     * @return string
-     */
-    public function getUri()
-    {
-        $this->_params = array('wt' => 'json');
-        return $this->buildUri();
+        $request = new Solarium_Client_Request;
+        $request->setHandler($query->getHandler());
+        $request->setMethod(Solarium_Client_Request::METHOD_POST);
+        $request->addParam('wt', 'json');
+        $request->setRawData($this->getRawData($query));
+        
+        return $request;
     }
 
     /**
@@ -76,27 +66,28 @@ class Solarium_Client_Request_Update extends Solarium_Client_Request
      *
      * Each commandtype is delegated to a separate builder method.
      *
+     * @param Solarium_Query_Update $query
      * @throws Solarium_Exception
      * @return string
      */
-    public function getRawData()
+    public function getRawData($query)
     {
         $xml = '<update>';
-        foreach ($this->_query->getCommands() AS $command) {
+        foreach ($query->getCommands() AS $command) {
             switch ($command->getType()) {
-                case Solarium_Query_Update_Command::ADD:
+                case Solarium_Query_Update::COMMAND_ADD:
                     $xml .= $this->buildAddXml($command);
                     break;
-                case Solarium_Query_Update_Command::DELETE:
+                case Solarium_Query_Update::COMMAND_DELETE:
                     $xml .= $this->buildDeleteXml($command);
                     break;
-                case Solarium_Query_Update_Command::OPTIMIZE:
+                case Solarium_Query_Update::COMMAND_OPTIMIZE:
                     $xml .= $this->buildOptimizeXml($command);
                     break;
-                case Solarium_Query_Update_Command::COMMIT:
+                case Solarium_Query_Update::COMMAND_COMMIT:
                     $xml .= $this->buildCommitXml($command);
                     break;
-                case Solarium_Query_Update_Command::ROLLBACK:
+                case Solarium_Query_Update::COMMAND_ROLLBACK:
                     $xml .= $this->buildRollbackXml();
                     break;
                 default:

@@ -61,14 +61,14 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
      */
     public function getType()
     {
-        return Solarium_Query_Update_Command::ADD;
+        return Solarium_Query_Update::COMMAND_ADD;
     }
 
     /**
      * Add a single document
      *
      * @param object $document
-     * @return Solarium_Query_Update_Add Provides fluent interface
+     * @return Solarium_Query_Update_Command_Add Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -80,12 +80,26 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
     /**
      * Add multiple documents
      *
-     * @param array $documents
-     * @return Solarium_Query_Update_Add Provides fluent interface
+     * @param array|Traversable $documents
+     * @return Solarium_Query_Update_Command_Add Provides fluent interface
      */
     public function addDocuments($documents)
     {
-        $this->_documents = array_merge($this->_documents, $documents);
+        //if we don't have documents so far, accept arrays or Traversable objects as-is
+        if (empty($this->_documents)) {
+            $this->_documents = $documents;
+            return $this;
+        }
+
+        //if something Traversable is passed in, and there are existing documents, convert all to arrays before merging
+        if ($documents instanceof Traversable) {
+            $documents = iterator_to_array($documents);
+        }
+        if ($this->_documents instanceof Traversable) {
+            $this->_documents = array_merge(iterator_to_array($this->_documents), $documents);
+        } else {
+            $this->_documents = array_merge($this->_documents, $documents);
+        }
 
         return $this;
     }
@@ -104,7 +118,7 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
      * Set overwrite option
      *
      * @param boolean $overwrite
-     * @return Solarium_Query_Update_Add Provides fluent interface
+     * @return Solarium_Query_Update_Command_Add Provides fluent interface
      */
     public function setOverwrite($overwrite)
     {
@@ -125,7 +139,7 @@ class Solarium_Query_Update_Command_Add extends Solarium_Query_Update_Command
      * Get commitWithin option
      *
      * @param boolean $commitWithin
-     * @return Solarium_Query_Update_Add Provides fluent interface
+     * @return Solarium_Query_Update_Command_Add Provides fluent interface
      */
     public function setCommitWithin($commitWithin)
     {

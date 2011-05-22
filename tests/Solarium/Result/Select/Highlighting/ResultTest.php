@@ -29,39 +29,61 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_Request_PingTest extends PHPUnit_Framework_TestCase
+class Solarium_Result_Select_Highlighting_ResultTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_query;
+    /**
+     * @var Solarium_Result_Select_Highlighting_Result
+     */
+    protected $_result;
 
-    protected $_options = array(
-        'host' => '127.0.0.1',
-        'port' => 80,
-        'path' => '/solr',
-        'core' => null,
-    );
+    protected $_fields;
 
     public function setUp()
     {
-        $this->_query = new Solarium_Query_Ping;
+        $this->_fields = array(
+            'field1' => 'content1',
+            'field2' => 'content2',
+        );
+        
+        $this->_result = new Solarium_Result_Select_Highlighting_Result($this->_fields);
     }
 
-    public function testGetMethod()
+    public function testGetFields()
     {
-        $request = new Solarium_Client_Request_Ping($this->_options, $this->_query);
+         $this->assertEquals($this->_fields, $this->_result->getFields());
+    }
+
+    public function testGetField()
+    {
         $this->assertEquals(
-            Solarium_Client_Request::HEAD,
-            $request->getMethod()
+            $this->_fields['field2'],
+            $this->_result->getField('field2')
         );
     }
 
-    public function testGetUri()
+    public function testGetInvalidField()
     {
-        $request = new Solarium_Client_Request_Ping($this->_options, $this->_query);
         $this->assertEquals(
-            'http://127.0.0.1:80/solr/admin/ping?',
-            $request->getUri()
+            array(),
+            $this->_result->getField('invalid')
         );
+    }
+
+    public function testIterator()
+    {
+        $items = array();
+        foreach($this->_result AS $key => $item)
+        {
+            $items[$key] = $item;
+        }
+
+        $this->assertEquals($this->_fields, $items);
+    }
+
+    public function testCount()
+    {
+        $this->assertEquals(count($this->_fields), count($this->_result));
     }
 
 }

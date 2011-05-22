@@ -42,10 +42,37 @@ class Solarium_Query_Select_Component_DisMaxTest extends PHPUnit_Framework_TestC
         $this->_disMax = new Solarium_Query_Select_Component_DisMax;
     }
 
+    public function testConfigMode()
+    {
+        $options = array(
+            'queryalternative' => '*:*',
+            'queryfields' => 'title^2.0 description',
+            'minimummatch' => '2.0',
+            'phrasefields' => 'title^2.0 description^3.5',
+            'phraseslop' => 2,
+            'queryphraseslop' => 4,
+            'tie' => 2.1,
+            'boostquery' => 'cat:1^3',
+            'boostfunctions' => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
+        );
+
+        $this->_disMax->setOptions($options);
+
+        $this->assertEquals($options['queryalternative'], $this->_disMax->getQueryAlternative());
+        $this->assertEquals($options['queryfields'], $this->_disMax->getQueryFields());
+        $this->assertEquals($options['minimummatch'], $this->_disMax->getMinimumMatch());
+        $this->assertEquals($options['phrasefields'], $this->_disMax->getPhraseFields());
+        $this->assertEquals($options['phraseslop'], $this->_disMax->getPhraseSlop());
+        $this->assertEquals($options['queryphraseslop'], $this->_disMax->getQueryPhraseSlop());
+        $this->assertEquals($options['tie'], $this->_disMax->getTie());
+        $this->assertEquals($options['boostquery'], $this->_disMax->getBoostQuery());
+        $this->assertEquals($options['boostfunctions'], $this->_disMax->getBoostFunctions());
+    }
+
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Select_Component::DISMAX,
+            Solarium_Query_Select::COMPONENT_DISMAX,
             $this->_disMax->getType()
         );
     }

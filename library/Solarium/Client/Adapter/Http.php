@@ -45,66 +45,58 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
 {
 
     /**
-     * Executes a select query
-     *
-     * @param Solarium_Query_Select $query
-     * @return Solarium_Result_Select
-     */
-    public function select($query)
-    {
-        $request = new Solarium_Client_Request_Select($this->_options, $query);
-        $data = $this->_handleRequest($request);
-
-        $response = new Solarium_Client_Response_Select($query, $data);
-        return $response->getResult();
-
-    }
-
-    /**
-     * Executes a ping query
-     *
-     * @param Solarium_Query_Ping $query
-     * @return boolean
-     */
-    public function ping($query)
-    {
-        $request = new Solarium_Client_Request_Ping($this->_options, $query);
-        return (boolean)$this->_handleRequest($request);
-    }
-
-    /**
-     * Executes an update query
-     *
-     * @param Solarium_Query_Update $query
-     * @return Solarium_Result_Update
-     */
-    public function update($query)
-    {
-        $request = new Solarium_Client_Request_Update($this->_options, $query);
-        $data = $this->_handleRequest($request);
-
-        $response = new Solarium_Client_Response_Update($query, $data);
-        return $response->getResult();
-    }
-
-    /**
      * Handle Solr communication
      *
      * @throws Solarium_Exception
-     * @param Solarium_Client_Request
-     * @return array
+     * @param Solarium_Client_Request $request
+     * @return Solarium_Client_Response
      */
-    protected function _handleRequest($request)
+    public function execute($request)
+    {
+        $context = $this->createContext($request);
+        $uri = $this->getBaseUri() . $request->getUri();
+
+        list($data, $headers) = $this->_getData($uri, $context);
+        
+        $this->check($data, $headers);
+        
+        return new Solarium_Client_Response($data, $headers);
+    }
+
+    /**
+     * Check result of a request
+     * 
+     * @throws Solarium_Client_HttpException
+     * @param string $data
+     * @param array $headers
+     * @return void
+     */
+    public function check($data, $headers)
+    {
+        // if there is no data and there are no headers it's a total failure,
+        // a connection to the host was impossible.
+        if (false === $data && count($headers) == 0) {
+            throw new Solarium_Client_HttpException("HTTP request failed");
+        }
+    }
+
+    /**
+     * Create a stream context for a request
+     *
+     * @param Solarium_Client_Request $request
+     * @return resource
+     */
+    public function createContext($request)
     {
         $method = $request->getMethod();
         $context = stream_context_create(
             array('http' => array(
                 'method' => $method,
-                'timeout' => $this->getOption('timeout')
+                'timeout' => $this->getTimeout()
             ))
         );
 
-        if ($method == Solarium_Client_Request::POST) {
+        if ($method == Solarium_Client_Request::METHOD_POST) {
             $data = $request->getRawData();
             if (null !== $data) {
                 stream_context_set_option(
@@ -113,94 +105,44 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
                     'content',
                     $data
                 );
-                stream_context_set_option(
-                    $context,
-                    'http',
-                    'header',
-                    'Content-Type: text/xml; charset=UTF-8'
-                );
+
+                $request->addHeader('Content-Type: text/xml; charset=UTF-8');
             }
         }
 
-        $data = @file_get_contents($request->getUri(), false, $context);
-
-        // if there is no data and there are no headers it's a total failure,
-        // a connection to the host was impossible. 
-        if (false === $data && !isset($http_response_header)) {
-            throw new Solarium_Client_HttpException("HTTP request failed");
+        $headers = $request->getHeaders();
+        if (count($headers) > 0) {
+            stream_context_set_option(
+                $context,
+                'http',
+                'header',
+                implode("\r\n", $headers)
+            );
         }
 
-        $this->_checkHeaders($http_response_header);
+        return $context;
+    }
 
-        if ($method == Solarium_Client_Request::HEAD) {
-            // HEAD request has no result data
-            return true;
+    /**
+     * Execute request
+     *
+     * @param string $uri
+     * @param resource $context
+     * @return array
+     */
+    protected function _getData($uri, $context)
+    {
+        $data = @file_get_contents($uri, false, $context);
+
+        // @codeCoverageIgnoreStart
+        if (isset($http_response_header)) {
+            $headers = $http_response_header;
         } else {
-            if (false === $data) {
-                $error = error_get_last();
-                throw new Solarium_Exception($error['message']);
-            }
-
-            return $this->_jsonDecode($data);
+            $headers = array();
         }
+        // @codeCoverageIgnoreEnd
+
+        return array($data, $headers);
     }
 
-    /**
-     * Check HTTP headers
-     *
-     * The status header is parsed, an exception will be thrown for an error
-     * code.
-     *
-     * @throws Solarium_Client_HttpException
-     * @param array $headers
-     * @return void
-     */
-    protected function _checkHeaders($headers)
-    {
-        // get the status header
-        $statusHeader = null;
-        foreach ($headers AS $header) {
-            if (substr($header, 0, 4) == 'HTTP') {
-                $statusHeader = $header;
-                break;
-            }
-        }
-
-        if (null == $statusHeader) {
-            throw new Solarium_Client_HttpException("No HTTP status found");
-        }
-
-        // parse header like "$statusInfo[1]" into code and message
-        // $statusInfo[1] = the HTTP response code
-        // $statusInfo[2] = the response message
-        $statusInfo = explode(' ', $statusHeader, 3);
-
-        // check status for error (range of 400 and 500)
-        $statusNum = floor($statusInfo[1] / 100);
-        if ($statusNum == 4 || $statusNum == 5) {
-            throw new Solarium_Client_HttpException(
-                $statusInfo[2],
-                $statusInfo[1]
-            );
-        }
-    }
-
-    /**
-     * Decode json response data
-     * 
-     * @throws Solarium_Exception
-     * @param string $data
-     * @return string
-     */
-    protected function _jsonDecode($data)
-    {
-        $data = json_decode($data, true);
-        if (null === $data) {
-            throw new Solarium_Exception(
-                'Solr JSON response could not be decoded'
-            );
-        }
-
-        return $data;
-    }
 }

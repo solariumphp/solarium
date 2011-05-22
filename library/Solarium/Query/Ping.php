@@ -49,6 +49,16 @@ class Solarium_Query_Ping extends Solarium_Query
 {
 
     /**
+     * Get type for this query
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return Solarium_Client::QUERYTYPE_PING;
+    }
+
+    /**
      * Default options
      * 
      * @var array

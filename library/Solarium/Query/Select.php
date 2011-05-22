@@ -55,6 +55,24 @@ class Solarium_Query_Select extends Solarium_Query
     const SORT_ASC = 'asc';
 
     /**
+     * Query components
+     */
+    const COMPONENT_FACETSET = 'facetset';
+    const COMPONENT_DISMAX = 'dismax';
+    const COMPONENT_MORELIKETHIS = 'morelikethis';
+    const COMPONENT_HIGHLIGHTING = 'highlighting';
+
+    /**
+     * Get type for this query
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return Solarium_Client::QUERYTYPE_SELECT;
+    }
+
+    /**
      * Default options
      * 
      * @var array
@@ -70,6 +88,34 @@ class Solarium_Query_Select extends Solarium_Query
     );
 
     /**
+     * Default select query component types
+     * 
+     * @var array
+     */
+    protected $_componentTypes = array(
+        self::COMPONENT_FACETSET => array(
+            'component' => 'Solarium_Query_Select_Component_FacetSet',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_FacetSet',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_FacetSet',
+        ),
+        self::COMPONENT_DISMAX => array(
+            'component' => 'Solarium_Query_Select_Component_DisMax',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_DisMax',
+            'responseparser' => null,
+        ),
+        self::COMPONENT_MORELIKETHIS => array(
+            'component' => 'Solarium_Query_Select_Component_MoreLikeThis',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_MoreLikeThis',
+        ),
+        self::COMPONENT_HIGHLIGHTING => array(
+            'component' => 'Solarium_Query_Select_Component_Highlighting',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Highlighting',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Highlighting',
+        ),
+    );
+
+    /**
      * Fields to fetch
      *
      * @var array
@@ -77,11 +123,11 @@ class Solarium_Query_Select extends Solarium_Query
     protected $_fields = array();
 
     /**
-     * Fields to sort on
+     * Items to sort on
      *
      * @var array
      */
-    protected $_sortFields = array();
+    protected $_sorts = array();
 
     /**
      * Filterqueries
@@ -123,7 +169,7 @@ class Solarium_Query_Select extends Solarium_Query
                     $this->addFilterQueries($value);
                     break;
                 case 'sort':
-                    $this->addSortFields($value);
+                    $this->addSorts($value);
                     break;
                 case 'fields':
                     $this->addFields($value);
@@ -340,86 +386,97 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Add a sort field
+     * Add a sort
      *
-     * @param string $field
+     * @param string $sort
      * @param string $order
      * @return Solarium_Query Provides fluent interface
      */
-    public function addSortField($field, $order)
+    public function addSort($sort, $order)
     {
-        $this->_sortFields[$field] = $order;
+        $this->_sorts[$sort] = $order;
 
         return $this;
     }
 
     /**
-     * Add multiple sort fields
+     * Add multiple sorts
      *
-     * The input array must contain fieldnames as keys and the order as values.
+     * The input array must contain sort items as keys and the order as values.
      *
-     * @param array $sortFields
+     * @param array $sorts
      * @return Solarium_Query Provides fluent interface
      */
-    public function addSortFields(array $sortFields)
+    public function addSorts(array $sorts)
     {
-        foreach ($sortFields AS $sortField => $sortOrder) {
-            $this->addSortField($sortField, $sortOrder);
+        foreach ($sorts AS $sort => $order) {
+            $this->addSort($sort, $order);
         }
 
         return $this;
     }
 
     /**
-     * Remove a sortfield
+     * Remove a sort
      *
-     * @param string $field
+     * @param string $sort
      * @return Solarium_Query Provides fluent interface
      */
-    public function removeSortField($field)
+    public function removeSort($sort)
     {
-        if (isset($this->_sortFields[$field])) {
-            unset($this->_sortFields[$field]);
+        if (isset($this->_sorts[$sort])) {
+            unset($this->_sorts[$sort]);
         }
 
         return $this;
     }
 
     /**
-     * Remove all sortfields
+     * Remove all sorts
      *
      * @return Solarium_Query Provides fluent interface
      */
-    public function clearSortFields()
+    public function clearSorts()
     {
-        $this->_sortFields = array();
+        $this->_sorts = array();
         return $this;
     }
 
     /**
-     * Get a list of the sortfields
+     * Get a list of the sorts
      *
      * @return array
      */
-    public function getSortFields()
+    public function getSorts()
     {
-        return $this->_sortFields;
+        return $this->_sorts;
     }
 
     /**
-     * Set multiple sortfields
+     * Set multiple sorts
      *
-     * This overwrites any existing sortfields
+     * This overwrites any existing sorts
      *
-     * @param array $fields
+     * @param array $sorts
      * @return Solarium_Query Provides fluent interface
      */
-    public function setSortFields($fields)
+    public function setSorts($sorts)
     {
-        $this->clearSortFields();
-        $this->addSortFields($fields);
+        $this->clearSorts();
+        $this->addSorts($sorts);
 
         return $this;
+    }
+
+    /**
+     * Create a filterquery instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Select_FilterQuery
+     */
+    public function createFilterQuery($options = null)
+    {
+        return new Solarium_Query_Select_FilterQuery($options);
     }
 
     /**
@@ -538,6 +595,36 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
+     * Get all registered component types
+     *
+     * @return array
+     */
+    public function getComponentTypes()
+    {
+        return $this->_componentTypes;
+    }
+
+    /**
+     * Register a component type
+     *
+     * @param string $key
+     * @param string $component
+     * @param string $requestBuilder
+     * @param string $responseParser
+     * @return Solarium_Query Provides fluent interface
+     */
+    public function registerComponentType($key, $component, $requestBuilder=null, $responseParser=null)
+    {
+        $this->_componentTypes[$key] = array(
+            'component' => $component,
+            'requestbuilder' => $requestBuilder,
+            'responseparser' => $responseParser,
+        );
+
+        return $this;
+    }
+
+    /**
      * Get all registered components
      * 
      * @return array
@@ -565,26 +652,14 @@ class Solarium_Query_Select extends Solarium_Query
         } else {
             if ($autoload == true) {
 
-                switch ($key) {
-                    case Solarium_Query_Select_Component::MORELIKETHIS:
-                        $className = 'Solarium_Query_Select_Component_MoreLikeThis';
-                        break;
-                    case Solarium_Query_Select_Component::FACETSET:
-                        $className = 'Solarium_Query_Select_Component_FacetSet';
-                        break;
-                    case Solarium_Query_Select_Component::DISMAX:
-                        $className = 'Solarium_Query_Select_Component_DisMax';
-                        break;
-                    case Solarium_Query_Select_Component::HIGHLIGHTING:
-                        $className = 'Solarium_Query_Select_Component_Highlighting';
-                        break;
-                    default:
-                        throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
+                if (!isset($this->_componentTypes[$key])) {
+                    throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
                 }
-
+                
+                $className = $this->_componentTypes[$key]['component'];
                 $component = new $className($config);
                 $this->setComponent($key, $component);
-                return $this->_components[$key];
+                return $component;
             }
             return null;
         }
@@ -642,7 +717,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getMoreLikeThis()
     {
-        return $this->getComponent(Solarium_Query_Select_Component::MORELIKETHIS, true);
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_MORELIKETHIS, true);
     }
 
     /**
@@ -654,7 +729,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getFacetSet()
     {
-        return $this->getComponent(Solarium_Query_Select_Component::FACETSET, true);
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_FACETSET, true);
     }
 
     /**
@@ -666,7 +741,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getDisMax()
     {
-        return $this->getComponent(Solarium_Query_Select_Component::DISMAX, true);
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_DISMAX, true);
     }
 
     /**
@@ -678,7 +753,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getHighlighting()
     {
-        return $this->getComponent(Solarium_Query_Select_Component::HIGHLIGHTING, true);
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_HIGHLIGHTING, true);
     }
 
     /**

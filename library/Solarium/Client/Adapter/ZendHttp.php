@@ -48,7 +48,7 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
+class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
 {
 
     /**
@@ -63,7 +63,7 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
      *
      * Overrides any existing values.
      * 
-     * If the options array has an 'adapteroptions' entry it is forwarded to the
+     * If the options array has an 'options' entry it is forwarded to the
      * Zend_Http_Client. See the Zend_Http_Clientdocs for the many config
      * options available.
      *
@@ -71,24 +71,25 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
      * method, like Zend_Config
      *
      * @param array|object $options
+     * @param boolean $overwrite
      * @return Solarium_Client_Adapter_ZendHttp Provides fluent interface
      */
-    public function setOptions($options)
+    public function setOptions($options, $overwrite = false)
     {
-        parent::setOptions($options);
+        parent::setOptions($options, $overwrite);
 
         // forward options to zendHttp instance
         if (null !== $this->_zendHttp) {
 
             // forward timeout setting
-            $this->_zendHttp->setConfig(
-                array('timeout' => $this->getOption('timeout'))
-            );
+            $adapterOptions = array('timeout' => $this->getTimeout());
 
             // forward adapter options if available
-            if (isset($this->_options['adapteroptions'])) {
-                $this->_zendHttp->setConfig($this->_options['adapteroptions']);
+            if (isset($this->_options['options'])) {
+                $adapterOptions = array_merge($adapterOptions, $this->_options['options']);
             }
+            
+            $this->_zendHttp->setConfig($adapterOptions);
         }
 
         return $this;
@@ -126,10 +127,12 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
     {
         if (null == $this->_zendHttp) {
             $options = array('timeout' => $this->getOption('timeout'));
-            if (isset($this->_options['adapteroptions'])) {
+
+            // forward zendhttp options
+            if (isset($this->_options['options'])) {
                 $options = array_merge(
                     $options,
-                    $this->_options['adapteroptions']
+                    $this->_options['options']
                 );
             }
 
@@ -143,14 +146,14 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
      * Execute a Solr request using the Zend_Http_Client instance
      *
      * @param Solarium_Client_Request $request
-     * @return string
+     * @return Solarium_Client_Response
      */
-    protected function _handleRequest($request)
+    public function execute($request)
     {
         $client = $this->getZendHttp();
 
         $client->setMethod($request->getMethod());
-        $client->setUri($request->getUri());
+        $client->setUri($this->getBaseUri() . $request->getUri());
         $client->setRawData($request->getRawData());
 
         $response = $client->request();
@@ -163,23 +166,13 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
             );
         }
 
-        if ($request->getMethod() == Solarium_Client_Request::HEAD) {
-            return true;
+        if ($request->getMethod() == Solarium_Client_Request::METHOD_HEAD) {
+            $data = '';
         } else {
             $data = $response->getBody();
-            $type = $response->getHeader('Content-Type');
-            switch ($type) {
-                case 'text/plain; charset=utf-8':
-                    return $this->_jsonDecode($data);
-                    break;
-                default:
-                    throw new Solarium_Exception(
-                        'Unknown Content-Type in ZendHttp adapter: ' . $type
-                    );
-                    break;
-            }
         }
 
+        return new Solarium_Client_Response($data, $response->getHeaders());
     }
 
 }

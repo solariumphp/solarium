@@ -39,6 +39,11 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->_query = new Solarium_Query_Select;
     }
 
+    public function testGetType()
+    {
+        $this->assertEquals(Solarium_Client::QUERYTYPE_SELECT, $this->_query->getType());
+    }
+
     public function testSetAndGetStart()
     {
         $this->_query->setStart(234);
@@ -116,86 +121,86 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('field3','field4'), $this->_query->getFields());
     }
 
-    public function testAddSortField()
+    public function testAddSort()
     {
-        $this->_query->addSortField('field1', Solarium_Query_Select::SORT_DESC);
+        $this->_query->addSort('field1', Solarium_Query_Select::SORT_DESC);
         $this->assertEquals(
             array('field1' => Solarium_Query_Select::SORT_DESC),
-            $this->_query->getSortFields()
+            $this->_query->getSorts()
         );
     }
 
-    public function testAddSortFields()
+    public function testAddSorts()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
+        $this->_query->addSorts($sorts);
         $this->assertEquals(
-            $sortFields,
-            $this->_query->getSortFields()
+            $sorts,
+            $this->_query->getSorts()
         );
     }
 
-    public function testRemoveSortField()
+    public function testRemoveSort()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
-        $this->_query->removeSortField('field1');
+        $this->_query->addSorts($sorts);
+        $this->_query->removeSort('field1');
         $this->assertEquals(
             array('field2' => Solarium_Query_Select::SORT_ASC),
-            $this->_query->getSortFields()
+            $this->_query->getSorts()
         );
     }
 
-    public function testRemoveInvalidSortField()
+    public function testRemoveInvalidSort()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
-        $this->_query->removeSortField('invalidfield'); //continue silently
+        $this->_query->addSorts($sorts);
+        $this->_query->removeSort('invalidfield'); //continue silently
         $this->assertEquals(
-            $sortFields,
-            $this->_query->getSortFields()
+            $sorts,
+            $this->_query->getSorts()
         );
     }
 
-    public function testClearSortFields()
+    public function testClearSorts()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
-        $this->_query->clearSortFields();
+        $this->_query->addSorts($sorts);
+        $this->_query->clearSorts();
         $this->assertEquals(
             array(),
-            $this->_query->getSortFields()
+            $this->_query->getSorts()
         );
     }
 
-    public function testSetSortFields()
+    public function testSetSorts()
     {
-        $sortFields = array(
+        $sorts = array(
             'field1' => Solarium_Query_Select::SORT_DESC,
             'field2' => Solarium_Query_Select::SORT_ASC
         );
 
-        $this->_query->addSortFields($sortFields);
-        $this->_query->setSortFields(array('field3' => Solarium_Query_Select::SORT_ASC));
+        $this->_query->addSorts($sorts);
+        $this->_query->setSorts(array('field3' => Solarium_Query_Select::SORT_ASC));
         $this->assertEquals(
             array('field3' => Solarium_Query_Select::SORT_ASC),
-            $this->_query->getSortFields()
+            $this->_query->getSorts()
         );
     }
     
@@ -340,7 +345,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testConstructorWithConfig()
+    public function testConfigMode()
     {
         $config = array(
             'query'  => 'text:mykeyword',
@@ -359,40 +364,21 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
                         'category13' => array('type' => 'query', 'query' => 'category:13')
                     )
                 ),
-            )
+            ),
+            'resultclass' => 'MyResultClass',
+            'documentclass' => 'MyDocumentClass',
         );
         $query = new Solarium_Query_Select($config);
 
-        $this->assertEquals(
-            $config['query'],
-            $query->getQuery()
-        );
-
-        $this->assertEquals(
-            $config['sort'],
-            $query->getSortFields()
-        );
-
-        $this->assertEquals(
-            $config['fields'],
-            $query->getFields()
-        );
-
-        $this->assertEquals(
-            $config['rows'],
-            $query->getRows()
-        );
-
-        $this->assertEquals(
-            $config['start'],
-            $query->getStart()
-        );
-        
-        $fq = $query->getFilterQuery('pub');
-        $this->assertEquals(
-            'published:true',
-            $fq->getQuery()
-        );
+        $this->assertEquals($config['query'], $query->getQuery());
+        $this->assertEquals($config['sort'], $query->getSorts());
+        $this->assertEquals($config['fields'], $query->getFields());
+        $this->assertEquals($config['rows'], $query->getRows());
+        $this->assertEquals($config['start'], $query->getStart());
+        $this->assertEquals($config['documentclass'], $query->getDocumentClass());
+        $this->assertEquals($config['resultclass'], $query->getResultClass());
+        $this->assertEquals('published:true', $query->getFilterQuery('pub')->getQuery());
+        $this->assertEquals('online:true', $query->getFilterQuery('online')->getQuery());
 
         $facets = $query->getFacetSet()->getFacets();
         $this->assertEquals(
@@ -403,6 +389,10 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             'category:13',
             $facets['category13']->getQuery()
         );
+
+        $components = $query->getComponents();
+        $this->assertEquals(1, count($components));
+        $this->assertThat(array_pop($components), $this->isInstanceOf('Solarium_Query_Select_Component_FacetSet'));
     }
 
     public function testSetAndGetComponents()
@@ -479,6 +469,16 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetHighlighting()
+    {
+        $dismax = $this->_query->getHighlighting();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_Highlighting',
+            get_class($dismax)
+        );
+    }
+
     public function testGetHelper()
     {
         $helper = $this->_query->getHelper();
@@ -486,6 +486,39 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'Solarium_Query_Select_Helper',
             get_class($helper)
+        );
+    }
+
+    public function testRegisterComponentType()
+    {
+        $components = $this->_query->getComponentTypes();
+        $components['mykey'] = array(
+            'component' => 'mycomponent',
+            'requestbuilder' => 'mybuilder',
+            'responseparser' => 'myparser',
+        );
+
+        $this->_query->registerComponentType('mykey','mycomponent','mybuilder','myparser');
+
+        $this->assertEquals(
+            $components,
+            $this->_query->getComponentTypes()
+        );
+    }
+
+    public function testCreateFilterQuery()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+        $fq = $this->_query->createFilterQuery($options);
+
+        // check class
+       $this->assertThat($fq, $this->isInstanceOf('Solarium_Query_Select_FilterQuery'));
+
+        // check option forwarding
+        $fqOptions = $fq->getOptions();
+        $this->assertEquals(
+            $options['optionB'],
+            $fqOptions['optionB']
         );
     }
 }

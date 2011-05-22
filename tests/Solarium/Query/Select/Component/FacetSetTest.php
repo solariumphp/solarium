@@ -32,6 +32,9 @@
 class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Select_Component_FacetSet
+     */
     protected $_facetSet;
 
     public function setUp()
@@ -39,9 +42,32 @@ class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_Tes
         $this->_facetSet = new Solarium_Query_Select_Component_FacetSet;
     }
 
+    public function testConfigMode()
+    {
+        $options = array(
+            'facet' => array(
+                array('type' => 'query', 'key' => 'f1', 'query' => 'category:1'),
+                'f2' => array('type' => 'query', 'query' => 'category:2')
+            ),
+            'prefix' => 'pr',
+            'sort' => 'index',
+            'mincount' => 10,
+            'missing' => 5,
+        );
+
+        $this->_facetSet->setOptions($options);
+        $facets = $this->_facetSet->getFacets();
+
+        $this->assertEquals(2, count($facets));
+        $this->assertEquals($options['prefix'], $this->_facetSet->getPrefix());
+        $this->assertEquals($options['sort'], $this->_facetSet->getSort());
+        $this->assertEquals($options['mincount'], $this->_facetSet->getMincount());
+        $this->assertEquals($options['missing'], $this->_facetSet->getMissing());
+    }
+
     public function testGetType()
     {
-        $this->assertEquals(Solarium_Query_Select_Component::FACETSET, $this->_facetSet->getType());
+        $this->assertEquals(Solarium_Query_Select::COMPONENT_FACETSET, $this->_facetSet->getType());
     }
 
     public function testSetAndGetSort()
@@ -228,6 +254,80 @@ class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_Tes
             $facets,
             $this->_facetSet->getFacets()
         );
+    }
+
+    public function testCreateFacet()
+    {
+        $type = Solarium_Query_Select_Component_FacetSet::FACET_FIELD;
+        $options = array('optionA' => 1, 'optionB' => 2);
+        $facet = $this->_facetSet->createFacet($type, $options);
+
+        // check class mapping
+        $this->assertEquals(
+            $type,
+            $facet->getType()
+        );
+
+        // check option forwarding
+        $facetOptions = $facet->getOptions();
+        $this->assertEquals(
+            $options['optionB'],
+            $facetOptions['optionB']
+        );
+    }
+
+    public function testCreateFacetWithInvalidType()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_facetSet->createFacet('invalidtype');
+    }
+
+    public function testCreateFacetField()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Query_Select_Component_FacetSet', array('createFacet'));
+        $observer->expects($this->once())
+                 ->method('createFacet')
+                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_FIELD), $this->equalTo($options));
+
+        $observer->createFacetField($options);
+    }
+
+    public function testCreateFacetQuery()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Query_Select_Component_FacetSet', array('createFacet'));
+        $observer->expects($this->once())
+                 ->method('createFacet')
+                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_QUERY), $this->equalTo($options));
+
+        $observer->createFacetQuery($options);
+    }
+
+    public function testCreateFacetMultiQuery()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Query_Select_Component_FacetSet', array('createFacet'));
+        $observer->expects($this->once())
+                 ->method('createFacet')
+                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY), $this->equalTo($options));
+
+        $observer->createFacetMultiQuery($options);
+    }
+
+    public function testCreateFacetRange()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Query_Select_Component_FacetSet', array('createFacet'));
+        $observer->expects($this->once())
+                 ->method('createFacet')
+                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_RANGE), $this->equalTo($options));
+
+        $observer->createFacetRange($options);
     }
     
 }

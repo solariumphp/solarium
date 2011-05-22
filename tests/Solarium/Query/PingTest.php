@@ -29,14 +29,37 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Client_Response_SelectTest extends PHPUnit_Framework_TestCase
+class Solarium_Query_PingTest extends PHPUnit_Framework_TestCase
 {
 
-   public function testGetResult()
-    {
-        $query = new Solarium_Query_Select;
-        $response = new Solarium_Client_Response_Select($query);
+    protected $_query;
 
-        $this->assertThat($response->getResult(), $this->isInstanceOf($query->getResultClass()));
+    public function setUp()
+    {
+        $this->_query = new Solarium_Query_Ping;
+    }
+
+    public function testGetType()
+    {
+        $this->assertEquals(Solarium_Client::QUERYTYPE_PING, $this->_query->getType());
+    }
+
+    public function testConfigMode()
+    {
+        $options = array(
+            'handler'  => 'myHandler',
+            'resultclass' => 'myResult',
+        );
+        $this->_query->setOptions($options);
+
+        $this->assertEquals(
+            $options['handler'],
+            $this->_query->getHandler()
+        );
+
+        $this->assertEquals(
+            $options['resultclass'],
+            $this->_query->getResultClass()
+        );
     }
 }

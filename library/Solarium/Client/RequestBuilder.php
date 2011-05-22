@@ -36,36 +36,78 @@
  */
 
 /**
- * Build a ping request
+ * Class for building Solarium client requests
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Request_Ping extends Solarium_Client_Request
+abstract class Solarium_Client_RequestBuilder
 {
 
     /**
-     * Get uri
+     * Render a param with localParams
      *
-     * Uses the default {@link buildUri()} method, no special uri needed in this
-     * case.
+     * LocalParams can be use in various Solr GET params.
+     * @link http://wiki.apache.org/solr/LocalParams
      *
-     * @return string
+     * @param string $value
+     * @param array $localParams in key => value format
+     * @return string with Solr localparams syntax
      */
-    public function getUri()
+    public function renderLocalParams($value, $localParams = array())
     {
-        return $this->buildUri();
+        $params = '';
+        foreach ($localParams AS $paramName => $paramValue) {
+            if (empty($paramValue)) continue;
+
+            if (is_array($paramValue)) {
+                $paramValue = implode($paramValue, ',');
+            }
+
+            $params .= $paramName . '=' . $paramValue . ' ';
+        }
+
+        if ($params !== '') {
+            $value = '{!' . trim($params) . '}' . $value;
+        }
+
+        return $value;
     }
 
     /**
-     * Get HTTP request method
-     *
-     * Ping has no useful result data, so a more optimal HEAD request is used.
-     *
-     * @return string
-     */
-    public function getMethod()
+    * Render a boolean attribute
+    *
+    * For use in building XML messages
+    *
+    * @param string $name
+    * @param boolean $value
+    * @return string
+    */
+    public function boolAttrib($name, $value)
     {
-        return self::HEAD;
+        if (null !== $value) {
+            $value = (true == $value) ? 'true' : 'false';
+            return $this->attrib($name, $value);
+        } else {
+            return '';
+        }
+    }
+
+    /**
+    * Render an attribute
+    *
+    * For use in building XML messages
+    *
+    * @param string $name
+    * @param striung $value
+    * @return string
+    */
+    public function attrib($name, $value)
+    {
+        if (null !== $value) {
+            return ' ' . $name . '="' . $value . '"';
+        } else {
+            return '';
+        }
     }
 }
