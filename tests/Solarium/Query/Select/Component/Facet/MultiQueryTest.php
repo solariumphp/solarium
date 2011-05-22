@@ -42,6 +42,38 @@ class Solarium_Query_Select_Component_Facet_MultiQueryTest extends PHPUnit_Frame
         $this->_facet = new Solarium_Query_Select_Component_Facet_MultiQuery;
     }
 
+    public function testConfigMode()
+    {
+        $options = array(
+            'key' => 'myKey',
+            'exclude' => array('e1','e2'),
+            'query' => array(
+                array(
+                    'key' => 'k1',
+                    'query' => 'category:1',
+                    'exclude' => array('fq1','fq2')
+                ),
+                'k2' => array(
+                    'query' => 'category:2'
+                ),
+            )
+        );
+
+        $this->_facet->setOptions($options);
+
+        $this->assertEquals($options['key'], $this->_facet->getKey());
+        $this->assertEquals($options['exclude'], $this->_facet->getExcludes());
+
+        $query1 = $this->_facet->getQuery('k1');
+        $this->assertEquals('k1', $query1->getKey());
+        $this->assertEquals('category:1', $query1->getQuery());
+        $this->assertEquals(array('fq1','fq2', 'e1', 'e2'), $query1->getExcludes());
+
+        $query2 = $this->_facet->getQuery('k2');
+        $this->assertEquals('k2', $query2->getKey());
+        $this->assertEquals('category:2', $query2->getQuery());
+    }
+
     public function testGetType()
     {
         $this->assertEquals(

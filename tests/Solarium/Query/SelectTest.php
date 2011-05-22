@@ -345,7 +345,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testConstructorWithConfig()
+    public function testConfigMode()
     {
         $config = array(
             'query'  => 'text:mykeyword',
@@ -364,40 +364,21 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
                         'category13' => array('type' => 'query', 'query' => 'category:13')
                     )
                 ),
-            )
+            ),
+            'resultclass' => 'MyResultClass',
+            'documentclass' => 'MyDocumentClass',
         );
         $query = new Solarium_Query_Select($config);
 
-        $this->assertEquals(
-            $config['query'],
-            $query->getQuery()
-        );
-
-        $this->assertEquals(
-            $config['sort'],
-            $query->getSorts()
-        );
-
-        $this->assertEquals(
-            $config['fields'],
-            $query->getFields()
-        );
-
-        $this->assertEquals(
-            $config['rows'],
-            $query->getRows()
-        );
-
-        $this->assertEquals(
-            $config['start'],
-            $query->getStart()
-        );
-        
-        $fq = $query->getFilterQuery('pub');
-        $this->assertEquals(
-            'published:true',
-            $fq->getQuery()
-        );
+        $this->assertEquals($config['query'], $query->getQuery());
+        $this->assertEquals($config['sort'], $query->getSorts());
+        $this->assertEquals($config['fields'], $query->getFields());
+        $this->assertEquals($config['rows'], $query->getRows());
+        $this->assertEquals($config['start'], $query->getStart());
+        $this->assertEquals($config['documentclass'], $query->getDocumentClass());
+        $this->assertEquals($config['resultclass'], $query->getResultClass());
+        $this->assertEquals('published:true', $query->getFilterQuery('pub')->getQuery());
+        $this->assertEquals('online:true', $query->getFilterQuery('online')->getQuery());
 
         $facets = $query->getFacetSet()->getFacets();
         $this->assertEquals(
@@ -408,6 +389,10 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             'category:13',
             $facets['category13']->getQuery()
         );
+
+        $components = $query->getComponents();
+        $this->assertEquals(1, count($components));
+        $this->assertThat(array_pop($components), $this->isInstanceOf('Solarium_Query_Select_Component_FacetSet'));
     }
 
     public function testSetAndGetComponents()

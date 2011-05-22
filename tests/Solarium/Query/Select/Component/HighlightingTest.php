@@ -32,11 +32,63 @@
 class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Select_Component_Highlighting
+     */
     protected $_hlt;
 
     public function setUp()
     {
         $this->_hlt = new Solarium_Query_Select_Component_Highlighting;
+    }
+
+    public function testConfigMode()
+    {
+        $options = array(
+            'fields' => 'fieldA,fieldB',
+            'snippets' => 2,
+            'fragsize' => 20,
+            'mergecontiguous' => true,
+            'requirefieldmatch' => false,
+            'maxanalyzedchars' => 40,
+            'alternatefield' => 'text',
+            'maxalternatefieldlength' => 50,
+            'formatter' => 'myFormatter',
+            'simpleprefix' => '<b>',
+            'simplepostfix' => '</b>',
+            'fragmenter' => 'myFragmenter',
+            'fraglistbuilder' => 'regex',
+            'fragmentsbuilder' => 'myBuilder',
+            'usefastvectorhighlighter' => true,
+            'usephrasehighlighter' => false,
+            'highlightmultiterm' => true,
+            'regexslop' => .8,
+            'regexpattern' => 'myPattern',
+            'regexmaxanalyzedchars' => 500,
+
+        );
+
+        $this->_hlt->setOptions($options);
+
+        $this->assertEquals($options['fields'], $this->_hlt->getFields());
+        $this->assertEquals($options['snippets'], $this->_hlt->getSnippets());
+        $this->assertEquals($options['fragsize'], $this->_hlt->getFragSize());
+        $this->assertEquals($options['mergecontiguous'], $this->_hlt->getMergeContiguous());
+        $this->assertEquals($options['maxanalyzedchars'], $this->_hlt->getMaxAnalyzedChars());
+        $this->assertEquals($options['alternatefield'], $this->_hlt->getAlternateField());
+        $this->assertEquals($options['maxalternatefieldlength'], $this->_hlt->getMaxAlternateFieldLength());
+        $this->assertEquals($options['formatter'], $this->_hlt->getFormatter());
+        $this->assertEquals($options['simpleprefix'], $this->_hlt->getSimplePrefix());
+        $this->assertEquals($options['simplepostfix'], $this->_hlt->getSimplePostfix());
+        $this->assertEquals($options['fragmenter'], $this->_hlt->getFragmenter());
+        $this->assertEquals($options['fraglistbuilder'], $this->_hlt->getFragListBuilder());
+        $this->assertEquals($options['fragmentsbuilder'], $this->_hlt->getFragmentsBuilder());
+        $this->assertEquals($options['usefastvectorhighlighter'], $this->_hlt->getUseFastVectorHighlighter());
+        $this->assertEquals($options['usephrasehighlighter'], $this->_hlt->getUsePhraseHighlighter());
+        $this->assertEquals($options['highlightmultiterm'], $this->_hlt->getHighlightMultiTerm());
+        $this->assertEquals($options['regexslop'], $this->_hlt->getRegexSlop());
+        $this->assertEquals($options['regexpattern'], $this->_hlt->getRegexPattern());
+        $this->assertEquals($options['regexmaxanalyzedchars'], $this->_hlt->getRegexMaxAnalyzedChars());
     }
 
     public function testGetType()

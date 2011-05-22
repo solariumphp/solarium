@@ -44,5 +44,22 @@ class Solarium_Query_PingTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Solarium_Client::QUERYTYPE_PING, $this->_query->getType());
     }
 
+    public function testConfigMode()
+    {
+        $options = array(
+            'handler'  => 'myHandler',
+            'resultclass' => 'myResult',
+        );
+        $this->_query->setOptions($options);
 
+        $this->assertEquals(
+            $options['handler'],
+            $this->_query->getHandler()
+        );
+
+        $this->assertEquals(
+            $options['resultclass'],
+            $this->_query->getResultClass()
+        );
+    }
 }

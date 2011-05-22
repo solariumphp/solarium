@@ -32,11 +32,42 @@
 class Solarium_Query_Select_Component_Facet_RangeTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Select_Component_Facet_Range
+     */
     protected $_facet;
 
     public function setUp()
     {
         $this->_facet = new Solarium_Query_Select_Component_Facet_Range;
+    }
+
+    public function testConfigMode()
+    {
+        $options = array(
+            'key' => 'myKey',
+            'exclude' => array('e1','e2'),
+            'field' => 'content',
+            'start' => 1,
+            'end' => 100,
+            'gap' => 10,
+            'hardend' => true,
+            'other' => 'all',
+            'include' => 'lower',
+
+        );
+
+        $this->_facet->setOptions($options);
+
+        $this->assertEquals($options['key'], $this->_facet->getKey());
+        $this->assertEquals($options['exclude'], $this->_facet->getExcludes());
+        $this->assertEquals($options['field'], $this->_facet->getField());
+        $this->assertEquals($options['start'], $this->_facet->getStart());
+        $this->assertEquals($options['end'], $this->_facet->getEnd());
+        $this->assertEquals($options['gap'], $this->_facet->getGap());
+        $this->assertEquals($options['hardend'], $this->_facet->getHardend());
+        $this->assertEquals($options['other'], $this->_facet->getOther());
+        $this->assertEquals($options['include'], $this->_facet->getInclude());
     }
 
     public function testGetType()

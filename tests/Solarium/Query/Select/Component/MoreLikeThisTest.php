@@ -32,11 +32,42 @@
 class Solarium_Query_Select_Component_MoreLikeThisTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Select_Component_MoreLikeThis
+     */
     protected $_mlt;
 
     public function setUp()
     {
         $this->_mlt = new Solarium_Query_Select_Component_MoreLikeThis;
+    }
+
+    public function testConfigMode()
+    {
+        $options = array(
+            'fields' => 'fieldA,fieldB',
+            'minimumtermfrequency' => 10,
+            'minimumdocumentfrequency' => 2,
+            'minimumwordlength' => 3,
+            'maximumwordlength' => 10,
+            'maximumqueryterms' => 4,
+            'maximumnumberoftokens' => 20,
+            'boost' => 1.5,
+            'queryfields' => 'fieldC,fieldD',
+            'count' => 5,
+        );
+
+        $this->_mlt->setOptions($options);
+
+        $this->assertEquals($options['fields'], $this->_mlt->getFields());
+        $this->assertEquals($options['minimumtermfrequency'], $this->_mlt->getMinimumTermFrequency());
+        $this->assertEquals($options['minimumdocumentfrequency'], $this->_mlt->getMinimumDocumentFrequency());
+        $this->assertEquals($options['minimumwordlength'], $this->_mlt->getMinimumWordLength());
+        $this->assertEquals($options['maximumwordlength'], $this->_mlt->getMaximumWordLength());
+        $this->assertEquals($options['maximumqueryterms'], $this->_mlt->getMaximumQueryTerms());
+        $this->assertEquals($options['boost'], $this->_mlt->getBoost());
+        $this->assertEquals($options['queryfields'], $this->_mlt->getQueryFields());
+        $this->assertEquals($options['count'], $this->_mlt->getCount());
     }
 
     public function testGetType()

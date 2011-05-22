@@ -32,11 +32,37 @@
 class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Select_Component_FacetSet
+     */
     protected $_facetSet;
 
     public function setUp()
     {
         $this->_facetSet = new Solarium_Query_Select_Component_FacetSet;
+    }
+
+    public function testConfigMode()
+    {
+        $options = array(
+            'facet' => array(
+                array('type' => 'query', 'key' => 'f1', 'query' => 'category:1'),
+                'f2' => array('type' => 'query', 'query' => 'category:2')
+            ),
+            'prefix' => 'pr',
+            'sort' => 'index',
+            'mincount' => 10,
+            'missing' => 5,
+        );
+
+        $this->_facetSet->setOptions($options);
+        $facets = $this->_facetSet->getFacets();
+
+        $this->assertEquals(2, count($facets));
+        $this->assertEquals($options['prefix'], $this->_facetSet->getPrefix());
+        $this->assertEquals($options['sort'], $this->_facetSet->getSort());
+        $this->assertEquals($options['mincount'], $this->_facetSet->getMincount());
+        $this->assertEquals($options['missing'], $this->_facetSet->getMissing());
     }
 
     public function testGetType()

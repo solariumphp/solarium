@@ -32,11 +32,41 @@
 class Solarium_Query_Select_Component_Facet_FieldTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Select_Component_Facet_Field
+     */
     protected $_facet;
 
     public function setUp()
     {
         $this->_facet = new Solarium_Query_Select_Component_Facet_Field;
+    }
+
+    public function testConfigMode()
+    {
+        $options = array(
+            'key' => 'myKey',
+            'exclude' => array('e1','e2'),
+            'field' => 'text',
+            'sort' => 'index',
+            'limit' => 10,
+            'offset' => 20,
+            'mincount' => 5,
+            'missing' => true,
+            'method' => 'enum',
+        );
+
+        $this->_facet->setOptions($options);
+        
+        $this->assertEquals($options['key'], $this->_facet->getKey());
+        $this->assertEquals($options['exclude'], $this->_facet->getExcludes());
+        $this->assertEquals($options['field'], $this->_facet->getField());
+        $this->assertEquals($options['sort'], $this->_facet->getSort());
+        $this->assertEquals($options['limit'], $this->_facet->getLimit());
+        $this->assertEquals($options['offset'], $this->_facet->getOffset());
+        $this->assertEquals($options['mincount'], $this->_facet->getMinCount());
+        $this->assertEquals($options['missing'], $this->_facet->getMissing());
+        $this->assertEquals($options['method'], $this->_facet->getMethod());
     }
 
     public function testGetType()

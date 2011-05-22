@@ -46,7 +46,7 @@ class Solarium_Query_Update_Command_DeleteTest extends PHPUnit_Framework_TestCas
         );
     }
 
-    public function testOptionsSingleValues()
+    public function testConfigMode()
     {
         $options = array(
             'id' => 1,
@@ -66,7 +66,7 @@ class Solarium_Query_Update_Command_DeleteTest extends PHPUnit_Framework_TestCas
         );
     }
 
-    public function testOptionsMultiValue()
+    public function testConfigModeMultiValue()
     {
         $options = array(
             'id' => array(1,2),

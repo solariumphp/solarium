@@ -46,6 +46,32 @@ class Solarium_Query_Update_Command_CommitTest extends PHPUnit_Framework_TestCas
         );
     }
 
+    public function testConfigMode()
+    {
+        $options = array(
+            'waitflush' => true,
+            'waitsearcher' => false,
+            'expungedeletes' => true,
+        );
+
+        $command = new Solarium_Query_Update_Command_Commit($options);
+
+        $this->assertEquals(
+            true,
+            $command->getWaitFlush()
+        );
+
+        $this->assertEquals(
+            false,
+            $command->getWaitSearcher()
+        );
+
+        $this->assertEquals(
+            true,
+            $command->getExpungeDeletes()
+        );
+    }
+
     public function testGetAndSetWaitFlush()
     {
         $this->_command->setWaitFlush(false);
