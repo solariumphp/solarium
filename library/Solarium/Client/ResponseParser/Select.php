@@ -78,7 +78,7 @@ class Solarium_Client_ResponseParser_Select extends Solarium_Client_ResponsePars
         
         return array(
             'status' => $data['responseHeader']['status'],
-            'querytime' => $data['responseHeader']['QTime'],
+            'queryTime' => $data['responseHeader']['QTime'],
             'numfound' => $data['response']['numFound'],
             'documents' => $documents,
             'components' => $components,

@@ -108,9 +108,38 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
         );
     }
 
-    public function testWithComponents()
+    public function testWithComponentNoBuilder()
     {
-        //1 component met en 1 zonder builder registratie
+        $request = $this->_builder->build($this->_query);
+
+        $this->_query->registerComponentType('testcomponent','TestDummyComponent');
+        $this->_query->getComponent('testcomponent', true);
+
+        $requestWithNoBuilderComponent = $this->_builder->build($this->_query);
+
+        $this->assertEquals(
+            $request,
+            $requestWithNoBuilderComponent
+        );
+    }
+
+    public function testWithComponent()
+    {
+        $this->_query->getDisMax();
+        $request = $this->_builder->build($this->_query);
+
+        $this->assertEquals(
+            'dismax',
+            $request->getParam('defType')
+        );
     }
     
+}
+
+class TestDummyComponent extends Solarium_Query_Select_Component{
+
+    public function getType()
+    {
+        return 'testcomponent';
+    }
 }

@@ -652,26 +652,14 @@ class Solarium_Query_Select extends Solarium_Query
         } else {
             if ($autoload == true) {
 
-                switch ($key) {
-                    case Solarium_Query_Select::COMPONENT_MORELIKETHIS:
-                        $className = 'Solarium_Query_Select_Component_MoreLikeThis';
-                        break;
-                    case Solarium_Query_Select::COMPONENT_FACETSET:
-                        $className = 'Solarium_Query_Select_Component_FacetSet';
-                        break;
-                    case Solarium_Query_Select::COMPONENT_DISMAX:
-                        $className = 'Solarium_Query_Select_Component_DisMax';
-                        break;
-                    case Solarium_Query_Select::COMPONENT_HIGHLIGHTING:
-                        $className = 'Solarium_Query_Select_Component_Highlighting';
-                        break;
-                    default:
-                        throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
+                if (!isset($this->_componentTypes[$key])) {
+                    throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
                 }
-
+                
+                $className = $this->_componentTypes[$key]['component'];
                 $component = new $className($config);
                 $this->setComponent($key, $component);
-                return $this->_components[$key];
+                return $component;
             }
             return null;
         }
