@@ -30,6 +30,8 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  */
