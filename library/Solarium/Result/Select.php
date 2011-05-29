@@ -214,7 +214,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Component_MoreLikeThis
+     * @return Solarium_Result_Select_MoreLikeThis
      */
     public function getMoreLikeThis()
     {
@@ -226,7 +226,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Component_Highlighting
+     * @return Solarium_Result_Select_Highlighting
      */
     public function getHighlighting()
     {
@@ -238,7 +238,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Component_FacetSet
+     * @return Solarium_Result_Select_FacetSet
      */
     public function getFacetSet()
     {

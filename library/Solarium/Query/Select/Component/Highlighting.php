@@ -66,7 +66,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Separate multiple fields with commas.
      *
      * @param string $fields
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -89,7 +89,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Maximum number of snippets per field
      *
      * @param int $maximum
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setSnippets($maximum)
     {
@@ -112,7 +112,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * The size, in characters, of fragments to consider for highlighting
      *
      * @param int $size
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setFragSize($size)
     {
@@ -135,7 +135,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Collapse contiguous fragments into a single fragment
      *
      * @param boolean $merge
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setMergeContiguous($merge)
     {
@@ -156,7 +156,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set requireFieldMatch option
      *
      * @param boolean $require
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setRequireFieldMatch($require)
     {
@@ -179,7 +179,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * How many characters into a document to look for suitable snippets
      *
      * @param int $chars
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setMaxAnalyzedChars($chars)
     {
@@ -200,7 +200,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set alternatefield option
      *
      * @param string $field
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setAlternateField($field)
     {
@@ -221,7 +221,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set maxAlternateFieldLength option
      *
      * @param int $length
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setMaxAlternateFieldLength($length)
     {
@@ -242,7 +242,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set formatter option
      *
      * @param string $formatter
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setFormatter($formatter = 'simple')
     {
@@ -265,7 +265,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Solr option h1.simple.pre
      *
      * @param string $prefix
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setSimplePrefix($prefix)
     {
@@ -290,7 +290,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Solr option h1.simple.post
      *
      * @param string $postfix
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setSimplePostfix($postfix)
     {
@@ -315,7 +315,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Use one of the constants as value.
      *
      * @param string $fragmenter
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setFragmenter($fragmenter)
     {
@@ -336,7 +336,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set fraglistbuilder option
      *
      * @param string $builder
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setFragListBuilder($builder)
     {
@@ -357,7 +357,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set fragmentsbuilder option
      *
      * @param string $builder
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setFragmentsBuilder($builder)
     {
@@ -378,7 +378,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set useFastVectorHighlighter option
      *
      * @param boolean $use
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setUseFastVectorHighlighter($use)
     {
@@ -399,7 +399,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set usePhraseHighlighter option
      *
      * @param boolean $use
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setUsePhraseHighlighter($use)
     {
@@ -420,7 +420,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set HighlightMultiTerm option
      *
      * @param boolean $highlight
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setHighlightMultiTerm($highlight)
     {
@@ -441,7 +441,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set RegexSlop option
      *
      * @param float $slop
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setRegexSlop($slop)
     {
@@ -462,7 +462,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set RegexPattern option
      *
      * @param string $pattern
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setRegexPattern($pattern)
     {
@@ -483,7 +483,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      * Set RegexMaxAnalyzedChars option
      *
      * @param int $chars
-     * @return Solarium_Query_Component_Highlighting Provides fluent interface
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setRegexMaxAnalyzedChars($chars)
     {

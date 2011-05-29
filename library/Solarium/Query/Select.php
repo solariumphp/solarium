@@ -194,7 +194,7 @@ class Solarium_Query_Select extends Solarium_Query
      * escaping of user input.
      *
      * @param string $query
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function setQuery($query)
     {
@@ -215,7 +215,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Set the start offset
      *
      * @param integer $start
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function setStart($start)
     {
@@ -236,7 +236,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Set a custom resultclass
      *
      * @param string $value classname
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function setResultClass($value)
     {
@@ -282,7 +282,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Set the number of rows to fetch
      *
      * @param integer $rows
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function setRows($rows)
     {
@@ -303,7 +303,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Specify a field to return in the resultset
      *
      * @param string $field
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function addField($field)
     {
@@ -317,7 +317,7 @@ class Solarium_Query_Select extends Solarium_Query
      * @param string|array $fields can be an array or string with comma
      * separated fieldnames
      *
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function addFields($fields)
     {
@@ -337,7 +337,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Remove a field from the field list
      *
      * @param string $field
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function removeField($field)
     {
@@ -351,7 +351,7 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Remove all fields from the field list.
      *
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function clearFields()
     {
@@ -375,7 +375,7 @@ class Solarium_Query_Select extends Solarium_Query
      * This overwrites any existing fields
      *
      * @param array $fields
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -390,7 +390,7 @@ class Solarium_Query_Select extends Solarium_Query
      *
      * @param string $sort
      * @param string $order
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function addSort($sort, $order)
     {
@@ -405,7 +405,7 @@ class Solarium_Query_Select extends Solarium_Query
      * The input array must contain sort items as keys and the order as values.
      *
      * @param array $sorts
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function addSorts(array $sorts)
     {
@@ -420,7 +420,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Remove a sort
      *
      * @param string $sort
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function removeSort($sort)
     {
@@ -434,7 +434,7 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Remove all sorts
      *
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function clearSorts()
     {
@@ -458,7 +458,7 @@ class Solarium_Query_Select extends Solarium_Query
      * This overwrites any existing sorts
      *
      * @param array $sorts
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function setSorts($sorts)
     {
@@ -486,7 +486,7 @@ class Solarium_Query_Select extends Solarium_Query
      * filterquery instance wil be created based on the options.
      *
      * @param Solarium_Query_Select_FilterQuery|array $filterQuery
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function addFilterQuery($filterQuery)
     {
@@ -513,7 +513,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Add multiple filterqueries
      *
      * @param array $filterQueries
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function addFilterQueries(array $filterQueries)
     {
@@ -559,7 +559,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Remove a single filterquery by key
      *
      * @param string $key
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function removeFilterQuery($key)
     {
@@ -573,7 +573,7 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Remove all filterqueries
      *
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function clearFilterQueries()
     {
@@ -611,7 +611,7 @@ class Solarium_Query_Select extends Solarium_Query
      * @param string $component
      * @param string $requestBuilder
      * @param string $responseParser
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium_Query_Select Provides fluent interface
      */
     public function registerComponentType($key, $component, $requestBuilder=null, $responseParser=null)
     {

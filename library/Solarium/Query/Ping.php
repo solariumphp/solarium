@@ -64,6 +64,7 @@ class Solarium_Query_Ping extends Solarium_Query
      * @var array
      */
     protected $_options = array(
+        'resultclass' => 'Solarium_Result_Ping',
         'handler' => 'admin/ping',
     );
     

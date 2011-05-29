@@ -62,7 +62,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * Separate multiple fields with commas.
      *
      * @param string $fields
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -86,7 +86,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * in the source doc.
      *
      * @param int $minimum
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setMinimumTermFrequency($minimum)
     {
@@ -110,7 +110,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * ignored which do not occur in at least this many docs.
      *
      * @param int $minimum
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setMinimumDocumentFrequency($minimum)
     {
@@ -133,7 +133,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * Minimum word length below which words will be ignored.
      *
      * @param int $minimum
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setMinimumWordLength($minimum)
     {
@@ -156,7 +156,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * Maximum word length above which words will be ignored.
      *
      * @param int $maximum
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setMaximumWordLength($maximum)
     {
@@ -180,7 +180,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * query.
      *
      * @param int $maximum
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setMaximumQueryTerms($maximum)
     {
@@ -204,7 +204,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * stored with TermVector support.
      *
      * @param int $maximum
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setMaximumNumberOfTokens($maximum)
     {
@@ -227,7 +227,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * If true the query will be boosted by the interesting term relevance.
      *
      * @param boolean $boost
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -253,7 +253,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * Separate multiple fields with commas.
      *
      * @param string $queryFields
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -276,7 +276,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * The number of similar documents to return for each result
      *
      * @param int $count
-     * @return Solarium_Query_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
      */
     public function setCount($count)
     {
