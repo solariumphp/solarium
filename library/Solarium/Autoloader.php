@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  */
@@ -39,7 +40,7 @@
  *
  * This class is included to allow for easy usage of Solarium. If you already
  * have your own autoloader that follows the Zend Framework class/file naming
- * you don't need this.
+ * you can use that to autoload Solarium (for instance Zend_Loader).
  *
  * @package Solarium
  */

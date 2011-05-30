@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Client
@@ -42,8 +43,7 @@
  * configuration options. For more info see the manual at
  * {@link http://framework.zend.com/manual/en/zend.http.html}
  *
- * To use this adapter you need to have the Zend Framework in your include path,
- * autoloader or manually included.
+ * To use this adapter you need to have the Zend Framework available (autoloading)
  *
  * @package Solarium
  * @subpackage Client
@@ -172,7 +172,10 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
             $data = $response->getBody();
         }
 
-        return new Solarium_Client_Response($data, $response->getHeaders());
+        // this is used because getHeaders doesn't return the HTTP header...
+        $headers = explode("\n",$response->getHeadersAsString());
+
+        return new Solarium_Client_Response($data, $headers);
     }
 
 }

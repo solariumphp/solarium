@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Query
@@ -61,7 +62,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * specified or blank.
      *
      * @param string $queryAlternative
-     * @return Solarium_Query_Component_DisMax Provides fluent interface
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
      */
     public function setQueryAlternative($queryAlternative)
     {
@@ -87,7 +88,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * The format supported is "fieldOne^2.3 fieldTwo fieldThree^0.4"
      *
      * @param string $queryFields
-     * @return Solarium_Query_Component_DisMax Provides fluent interface
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -111,7 +112,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * clauses must match. See Solr manual for details.
      *
      * @param string $minimumMatch
-     * @return Solarium_Query_Component_DisMax Provides fluent interface
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
      */
     public function setMinimumMatch($minimumMatch)
     {
@@ -137,7 +138,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * Format is: "fieldA^1.0 fieldB^2.2"
      *
      * @param string $phraseFields
-     * @return Solarium_Query_Component_DisMax Provides fluent interface
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
      */
     public function setPhraseFields($phraseFields)
     {
@@ -161,7 +162,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * (affects boosting)
      *
      * @param string $phraseSlop
-     * @return Solarium_Query_Component_DisMax Provides fluent interface
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
      */
     public function setPhraseSlop($phraseSlop)
     {
@@ -185,7 +186,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * query string (in qf fields; affects matching)
      *
      * @param string $queryPhraseSlop
-     * @return Solarium_Query_Component_DisMax Provides fluent interface
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
      */
     public function setQueryPhraseSlop($queryPhraseSlop)
     {
@@ -208,7 +209,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * Float value to use as tiebreaker in DisjunctionMaxQueries
      *
      * @param float $tie
-     * @return Solarium_Query_Component_DisMax Provides fluent interface
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
      */
     public function setTie($tie)
     {
@@ -232,7 +233,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * with the user's query to influence the score.
      *
      * @param string $boostQuery
-     * @return Solarium_Query_Component_DisMax Provides fluent interface
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
      */
     public function setBoostQuery($boostQuery)
     {
@@ -258,7 +259,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * Format is: "funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2"
      *
      * @param string $boostFunctions
-     * @return Solarium_Query_Component_DisMax Provides fluent interface
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
      */
     public function setBoostFunctions($boostFunctions)
     {

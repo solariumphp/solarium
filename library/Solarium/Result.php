@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Result
@@ -57,7 +58,7 @@ class Solarium_Result
     /**
      * Decode response data
      *
-     * This is lazy loaded, see getData()
+     * This is lazy loaded, {@link getData()}
      *
      * @var array
      */

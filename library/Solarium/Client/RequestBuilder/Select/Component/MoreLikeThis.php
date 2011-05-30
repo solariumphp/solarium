@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Client
@@ -54,7 +55,7 @@ class Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis
     public function build($component, $request)
     {
         // enable morelikethis
-        $request->addParam('mlt', true);
+        $request->addParam('mlt', 'true');
 
         $request->addParam('mlt.fl', $component->getFields());
         $request->addParam('mlt.mintf', $component->getMinimumTermFrequency());

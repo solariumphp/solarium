@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Result
@@ -214,7 +215,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Component_MoreLikeThis
+     * @return Solarium_Result_Select_MoreLikeThis
      */
     public function getMoreLikeThis()
     {
@@ -226,7 +227,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Component_Highlighting
+     * @return Solarium_Result_Select_Highlighting
      */
     public function getHighlighting()
     {
@@ -238,7 +239,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Component_FacetSet
+     * @return Solarium_Result_Select_FacetSet
      */
     public function getFacetSet()
     {

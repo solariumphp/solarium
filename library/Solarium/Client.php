@@ -31,6 +31,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Client
@@ -39,14 +40,15 @@
 /**
  * Main interface for interaction with Solr
  *
- * The client holds the Solr connection settings and uses an adapter instance to
- * execute queries and return the results. This is the main interface for any
- * user of the Solarium library.
+ * The client is the main interface for usage of the Solarium library.
+ * You can use it to get query instances and to execute them.
+ * It also allows to register plugins and querytypes to customize Solarium.
+ * Finally, it also gives access to the adapter, which holds the Solr connection settings.
  *
  * Example usage with default settings:
  * <code>
  * $client = new Solarium_Client;
- * $query = new Solarium_Query_Select;
+ * $query = $client->createSelect();
  * $result = $client->select($query);
  * </code>
  *
@@ -66,9 +68,6 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Default options
      *
-     * The defaults match a standard Solr example instance as distributed by
-     * the Apache Lucene Solr project.
-     *
      * @var array
      */
     protected $_options = array(
@@ -77,6 +76,8 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Querytype mappings
+     *
+     * These can be customized using {@link registerQueryType()}
      */
     protected $_queryTypes = array(
         self::QUERYTYPE_SELECT => array(
@@ -220,7 +221,9 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Register a querytype
      *
-     * You can also use this method to override any existing querytype with a new mapping
+     * You can also use this method to override any existing querytype with a new mapping.
+     * This requires the availability of the classes through autoloading or a manual
+     * require before calling this method.
      *
      * @param string $type
      * @param string $query
@@ -273,8 +276,12 @@ class Solarium_Client extends Solarium_Configurable
     /**
      * Register a plugin
      *
+     * You can supply a plugin instance or a plugin classname as string.
+     * This requires the availability of the class through autoloading
+     * or a manual require.
+     *
      * @param string $key
-     * @param string|object $plugin
+     * @param string|Solarium_Plugin_Abstract $plugin
      * @param array $options
      * @return Solarium_Client Provides fluent interface
      */
@@ -287,7 +294,7 @@ class Solarium_Client extends Solarium_Configurable
         if (!($plugin instanceof Solarium_Plugin_Abstract)) {
            throw new Solarium_Exception('All plugins must extend Solarium_Plugin_Abstract');
         }
-
+        
         $plugin->init($this, $options);
 
         $this->_plugins[$key] = $plugin;
@@ -331,7 +338,7 @@ class Solarium_Client extends Solarium_Configurable
      * Get a plugin instance
      *
      * @param string $key
-     * @return array|null
+     * @return Solarium_Plugin_Abstract|null
      */
     public function getPlugin($key)
     {
@@ -377,8 +384,6 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Creates a request based on a query instance
-     *
-     * @todo add caching of request builder?
      *
      * @param Solarium_Query $query
      * @return Solarium_Client_Request
@@ -468,7 +473,7 @@ class Solarium_Client extends Solarium_Configurable
      * Example usage:
      * <code>
      * $client = new Solarium_Client;
-     * $query = new Solarium_Query_Ping;
+     * $query = $client->createPing();
      * $result = $client->ping($query);
      * </code>
      *
@@ -478,7 +483,7 @@ class Solarium_Client extends Solarium_Configurable
      *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium_Query_Ping $query
-     * @return boolean
+     * @return Solarium_Result_Ping
      */
     public function ping($query)
     {
@@ -491,9 +496,9 @@ class Solarium_Client extends Solarium_Configurable
      * Example usage:
      * <code>
      * $client = new Solarium_Client;
-     * $update = new Solarium_Query_Update;
+     * $query = $client->createUpdate();
      * $update->addOptimize();
-     * $result = $client->ping($update);
+     * $result = $client->update($update);
      * </code>
      *
      * @see Solarium_Query_Update
@@ -516,8 +521,8 @@ class Solarium_Client extends Solarium_Configurable
      * Example usage:
      * <code>
      * $client = new Solarium_Client;
-     * $query = new Solarium_Query_Select;
-     * $result = $client->ping($query);
+     * $query = $client->createSelect();
+     * $result = $client->select($query);
      * </code>
      *
      * @see Solarium_Query_Select

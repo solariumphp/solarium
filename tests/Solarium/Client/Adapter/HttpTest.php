@@ -59,11 +59,21 @@ class Solarium_Client_Adapter_HttpTest extends PHPUnit_Framework_TestCase
 
     public function testExecuteErrorResponse()
     {
+        $data = 'test123';
+
         $request = new Solarium_Client_Request();
 
-        $this->setExpectedException('Solarium_Client_HttpException');
-        $this->_adapter->execute($request);
+        $mock = $this->getMock('Solarium_Client_Adapter_Http', array('_getData','check'));
+        $mock->expects($this->once())
+             ->method('_getData')
+             ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
+             ->will($this->returnValue(array($data, array('HTTP 1.1 200 OK'))));
+        $mock->expects($this->once())
+             ->method('check')
+             ->will($this->throwException(new Solarium_Client_HttpException("HTTP request failed")));
 
+        $this->setExpectedException('Solarium_Client_HttpException');
+        $mock->execute($request);
     }
 
     public function testCheckError()
