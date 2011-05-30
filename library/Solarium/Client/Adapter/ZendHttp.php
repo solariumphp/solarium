@@ -173,7 +173,7 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
         }
 
         // this is used because getHeaders doesn't return the HTTP header...
-        $headers = explode("\n",$response->getHeadersAsString());
+        $headers = explode("\n", $response->getHeadersAsString());
 
         return new Solarium_Client_Response($data, $headers);
     }

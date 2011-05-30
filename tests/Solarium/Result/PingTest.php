@@ -27,38 +27,18 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Result
  */
 
-/**
- * Ping query result
- *
- * A ping query has no useful result so only a dummy status var is available.
- * If you don't get an exception for a ping query it was succesful.
- *
- * @package Solarium
- * @subpackage Result
- */
-class Solarium_Result_Ping
+class Solarium_Result_PingTest extends PHPUnit_Framework_TestCase
 {
 
-    /**
-     * Get Solr status code
-     *
-     * Since no status is returned for a ping, a default of 0 is used.
-     * If you don't get an exception for a ping query it was succesful.
-     *
-     * @return int
-     */
-    public function getStatus()
+    public function testGetStatus()
     {
-        return 0;
+        $ping = new Solarium_Result_Ping();
+        $this->assertEquals(
+            0,
+            $ping->getStatus()
+        );
     }
-
+    
 }

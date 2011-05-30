@@ -295,7 +295,7 @@ class Solarium_Client_Request extends Solarium_Configurable
     /**
      * Set request headers
      *
-     * @header array $headers
+     * @param array $headers
      * @return Solarium_Client_Request
      */
     public function setHeaders($headers)
@@ -308,7 +308,7 @@ class Solarium_Client_Request extends Solarium_Configurable
     /**
      * Add a request header
      *
-     * @header string|array $value
+     * @param string|array $value
      * @return Solarium_Client_Request
      */
     public function addHeader($value)
@@ -321,7 +321,7 @@ class Solarium_Client_Request extends Solarium_Configurable
     /**
      * Add multiple headers to the request
      *
-     * @header array $headers
+     * @param array $headers
      * @return Solarium_Client_Request
      */
     public function addHeaders($headers)
