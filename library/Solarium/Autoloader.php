@@ -40,7 +40,7 @@
  *
  * This class is included to allow for easy usage of Solarium. If you already
  * have your own autoloader that follows the Zend Framework class/file naming
- * you don't need this.
+ * you can use that to autoload Solarium (for instance Zend_Loader).
  *
  * @package Solarium
  */

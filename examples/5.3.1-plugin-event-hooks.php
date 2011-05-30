@@ -9,7 +9,7 @@ class basicDebug extends Solarium_Plugin_Abstract
     protected $_start;
     protected $_output = array();
 
-    public function __construct()
+    public function _initPlugin()
     {
         $this->_start = microtime(true);
     }

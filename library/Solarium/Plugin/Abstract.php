@@ -64,22 +64,24 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
         $this->_client = $client;
         parent::__construct($options);
 
-        $this->_init();
+        $this->_initPlugin();
     }
 
     /**
-     * Secondary init function
+     * Plugin init function
      *
-     * This is an extension point for plugin implemenations
+     * This is an extension point for plugin implemenations.
+     * Will be called as soon as $this->_client and options have been set.
      *
      * @return void
      */
-    public function _init()
+    protected function _initPlugin()
     {
 
     }
 
     /**
+     * preCreateRequest hook
      *
      * @param Solarium_Query $query
      * @return void|Solarium_Client_Request
@@ -89,6 +91,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     }
 
     /**
+     * postCreateRequest hook
+     *
      * @param Solarium_Query $query
      * @param Solarium_Client_Request $request
      * @return void
@@ -98,6 +102,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     }
 
     /**
+     * preExecuteRequest hook
+     *
      * @param Solarium_Client_Request $request
      * @return void|Solarium_Client_Response
      */
@@ -106,6 +112,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     }
 
     /**
+     * postExecuteRequest hook
+     *
      * @param Solarium_Client_Request $request
      * @param Solarium_Client_Response $response
      * @return void
@@ -115,6 +123,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     }
 
     /**
+     * preCreateResult hook
+     *
      * @param Solarium_Query $query
      * @param Solarium_Client_Response $response
      * @return void|Solarium_Result
@@ -124,6 +134,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     }
 
     /**
+     * postCreateResult hook
+     *
      * @param Solarium_Query $query
      * @param Solarium_Client_Response $response
      * @param Solarium_Result $result
@@ -134,6 +146,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     }
 
     /**
+     * preExecute hook
+     *
      * @param Solarium_Query $query
      * @return void|Solarium_Result
      */
@@ -142,6 +156,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     }
 
     /**
+     * postExecute hook
+     * 
      * @param Solarium_Query $query
      * @param Solarium_Result $result
      * @return void
@@ -151,6 +167,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     }
     
     /**
+     * preCreateQuery hook
+     *
      * @param string $query
      * @param mixed $options
      * @return void|Solarium_Query
@@ -160,6 +178,8 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     }
 
     /**
+     * postCreateQuery hook
+     * 
      * @param string $query
      * @param mixed $options
      * @param Solarium_Query

@@ -58,7 +58,7 @@ class Solarium_Result
     /**
      * Decode response data
      *
-     * This is lazy loaded, see getData()
+     * This is lazy loaded, {@link getData()}
      *
      * @var array
      */
