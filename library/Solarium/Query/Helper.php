@@ -37,15 +37,56 @@
  */
 
 /**
- * Select query helper
+ * Query helper
  *
  * Generates small snippets for use in queries, filterqueries and sorting
  *
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Helper
+class Solarium_Query_Helper
 {
+
+    /**
+     * Escape a term
+     *
+     * A term is a single word.
+     * All characters that have a special meaning in a Solr query are escaped.
+     *
+     * If you want to use the input as a phrase please use the {@link phrase()}
+     * method, because a phrase requires much less escaping.\
+     *
+     * @link http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
+     *
+     * @param string $input
+     * @return string
+     */
+    public function escapeTerm($input)
+    {
+        $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\\\)/';
+
+        return preg_replace($pattern, '\\\$1', $input);
+    }
+
+    /**
+     * Escape a phrase
+     *
+     * A phrase is a group of words.
+     * Special characters will be escaped and the phrase will be surrounded by
+     * double quotes to group the input into a single phrase. So don't put
+     * quotes around the input.
+     *
+     * Do mind that you cannot build a complete query first and then pass it to
+     * this method, the whole query will be escaped. You need to escape only the
+     * 'content' of your query.
+     *
+     * @param string $input
+     * @return string
+     */
+    public function escapePhrase($input)
+    {
+        return '"' . preg_replace('/("|\\\)/', '\\\$1', $input) . '"';
+    }
 
     /**
      * Render a range query

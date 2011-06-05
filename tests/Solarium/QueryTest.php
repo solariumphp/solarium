@@ -45,6 +45,17 @@ class Solarium_QueryTest extends PHPUnit_Framework_TestCase
         $query->setResultClass('myResultClass');
         $this->assertEquals('myResultClass', $query->getResultClass());
     }
+
+    public function testGetHelper()
+    {
+        $query = new TestQuery;
+        $helper = $query->getHelper();
+
+        $this->assertEquals(
+            'Solarium_Query_Helper',
+            get_class($helper)
+        );
+    }
     
 }
 

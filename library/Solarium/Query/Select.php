@@ -145,13 +145,6 @@ class Solarium_Query_Select extends Solarium_Query
     protected $_components = array();
 
     /**
-     * Helper instance
-     *
-     * @var Solarium_Query_Select_Helper
-     */
-    protected $_helper;
-
-    /**
      * Initialize options
      *
      * Several options need some extra checks or setup work, for these options
@@ -757,19 +750,4 @@ class Solarium_Query_Select extends Solarium_Query
         return $this->getComponent(Solarium_Query_Select::COMPONENT_HIGHLIGHTING, true);
     }
 
-    /**
-     * Get a helper instance
-     *
-     * Uses lazy loading: the helper is instantiated on first use
-     *
-     * @return Solarium_Query_Select_Helper
-     */
-    public function getHelper()
-    {
-        if (null === $this->_helper) {
-            $this->_helper = new Solarium_Query_Select_Helper;
-        }
-
-        return $this->_helper;
-    }
 }
