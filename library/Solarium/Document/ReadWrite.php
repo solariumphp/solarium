@@ -124,7 +124,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      */
     public function setField($key, $value, $boost = null)
     {
-        if ($value == null) {
+        if ($value === null) {
             $this->removeField($key);
         } else {
             $this->_fields[$key] = $value;
