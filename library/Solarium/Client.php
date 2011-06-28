@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
