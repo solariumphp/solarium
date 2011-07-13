@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Query
@@ -54,7 +55,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      */
     public function getType()
     {
-        return Solarium_Query_Update_Command::COMMIT;
+        return Solarium_Query_Update::COMMAND_COMMIT;
     }
 
     /**
@@ -71,7 +72,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      * Set waitFlush option
      * 
      * @param boolean $waitFlush
-     * @return Solarium_Query_Update_Commit Provides fluent interface
+     * @return Solarium_Query_Update_Command_Commit Provides fluent interface
      */
     public function setWaitFlush($waitFlush)
     {
@@ -92,7 +93,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      * Set waitSearcher option
      * 
      * @param boolean $waitSearcher
-     * @return Solarium_Query_Update_Commit Provides fluent interface
+     * @return Solarium_Query_Update_Command_Commit Provides fluent interface
      */
     public function setWaitSearcher($waitSearcher)
     {
@@ -113,7 +114,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      * Set expungeDeletes option
      * 
      * @param boolean $expungeDeletes
-     * @return Solarium_Query_Update_Commit Provides fluent interface
+     * @return Solarium_Query_Update_Command_Commit Provides fluent interface
      */
     public function setExpungeDeletes($expungeDeletes)
     {

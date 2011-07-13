@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Query
@@ -54,7 +55,7 @@ class Solarium_Query_Update_Command_Rollback
      */
     public function getType()
     {
-        return Solarium_Query_Update_Command::ROLLBACK;
+        return Solarium_Query_Update::COMMAND_ROLLBACK;
     }
 
 }

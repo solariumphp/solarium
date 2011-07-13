@@ -29,6 +29,9 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
+error_reporting(E_ALL | E_STRICT); 
+ini_set('display_errors',true);
+
 // Define path to application directory
 $basePath = realpath(dirname(__FILE__) . '/../');
 
@@ -39,5 +42,11 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+function solariumUnittestAutoload($class)
+{
+    @include(str_replace("_", DIRECTORY_SEPARATOR, $class) . ".php");
+}
+
 // set up an autoload for Zend / Pear style class loading
-spl_autoload_register(create_function('$class', '@include(str_replace("_", DIRECTORY_SEPARATOR, $class) . ".php");'));
+spl_autoload_register('solariumUnittestAutoload');
+

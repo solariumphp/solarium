@@ -30,69 +30,131 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Client
  */
 
 /**
- * Base class for handling Solr HTTP responses
- *
- * Most {@link Solarium_Client_Adapter} implementations will use HTTP for
- * communicating with Solr. While the HTTP part is adapter-specific, the parsing
- * of the response into Solarium_Result classes is not. This abstract class is
- * the base for several response handlers that do just that for the various
- * querytypes.
+ * Class for describing a response
  *
  * @package Solarium
  * @subpackage Client
  */
-abstract class Solarium_Client_Response
+class Solarium_Client_Response
 {
 
     /**
-     * Query instance
-     *
-     * The query that was used for executing a request that led to this
-     * response. The query holds important settings for generating the right
-     * result, like the resultclass and documentclass settings.
-     *
-     * @var Solarium_Query
-     */
-    protected $_query;
-
-    /**
-     * Response data
-     *
-     * A (json)decoded HTTP response body data array.
+     * Headers
      *
      * @var array
      */
-    protected $_data;
+    protected $_headers;
+
+    /**
+     * Body
+     *
+     * @var string
+     */
+    protected $_body;
+
+    /**
+     * HTTP response code
+     *
+     * @var int
+     */
+    protected $_statusCode;
+
+    /**
+     * HTTP response message
+     *
+     * @var string
+     */
+    protected $_statusMessage;
 
     /**
      * Constructor
      *
-     * @param Solarium_Query $query Query instance that was used for the request
-     * @param array $data Decoded data array of the HTTP response
+     * @param string $body
+     * @param array $headers
      */
-    public function __construct($query, $data = null)
+    public function __construct($body, $headers = array())
     {
-        $this->_query = $query;
-        $this->_data = $data;
+        $this->_body = $body;
+        $this->_headers = $headers;
+
+        $this->_setHeaders($headers);
     }
 
     /**
-     * Get a Solarium_Result instance for the response
+     * Get body data
      *
-     * When this method is called the actual response parsing is started.
-     *
-     * @internal Must be implemented in descendents because this parsing is
-     *  query specific.
-     *
-     * @abstract
-     * @return mixed
+     * @return string
      */
-    abstract function getResult();
+    public function getBody()
+    {
+        return $this->_body;
+    }
 
+    /**
+     * Get response headers
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->_headers;
+    }
+
+    /**
+     * Get status code
+     *
+     * @return int
+     */
+    public function getStatusCode()
+    {
+        return $this->_statusCode;
+    }
+
+    /**
+     * Get status message
+     *
+     * @return string
+     */
+    public function getStatusMessage()
+    {
+        return $this->_statusMessage;
+    }
+
+    /**
+     * Set headers
+     * 
+     * @param array $headers
+     * @return void
+     */
+    public function _setHeaders($headers)
+    {
+        $this->_headers = $headers;
+
+        // get the status header
+        $statusHeader = null;
+        foreach ($headers AS $header) {
+            if (substr($header, 0, 4) == 'HTTP') {
+                $statusHeader = $header;
+                break;
+            }
+        }
+
+        if (null == $statusHeader) {
+            throw new Solarium_Client_HttpException("No HTTP status found");
+        }
+
+        // parse header like "$statusInfo[1]" into code and message
+        // $statusInfo[1] = the HTTP response code
+        // $statusInfo[2] = the response message
+        $statusInfo = explode(' ', $statusHeader, 3);
+        $this->_statusCode = $statusInfo[1];
+        $this->_statusMessage = $statusInfo[2];
+    }
 }

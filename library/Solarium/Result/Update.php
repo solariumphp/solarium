@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Result
@@ -47,7 +48,51 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Update extends Solarium_Result_Query
+class Solarium_Result_Update extends Solarium_Result_QueryType
 {
+    /**
+     * Status code returned by Solr
+     *
+     * @var int
+     */
+    protected $_status;
 
+    /**
+     * Solr index queryTime
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @var int
+     */
+    protected $_queryTime;
+
+    /**
+     * Get Solr status code
+     *
+     * This is not the HTTP status code! The normal value for success is 0.
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        $this->_parseResponse();
+
+        return $this->_status;
+    }
+
+    /**
+     * Get Solr query time
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @return int
+     */
+    public function getQueryTime()
+    {
+        $this->_parseResponse();
+
+        return $this->_queryTime;
+    }
 }

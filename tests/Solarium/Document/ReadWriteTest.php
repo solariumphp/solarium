@@ -128,6 +128,20 @@ class Solarium_Document_ReadWriteTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetFieldWithFalsyValue()
+    {
+        $falsy_value = '';
+        $this->_doc->setField('name', $falsy_value);
+ 
+        $expectedFields = $this->_fields;
+        $expectedFields['name'] = $falsy_value;
+ 
+        $this->assertEquals(
+            $expectedFields,
+            $this->_doc->getFields()
+        );
+    }
+
     public function testRemoveField()
     {
         $this->_doc->removeField('name');
@@ -270,6 +284,31 @@ class Solarium_Document_ReadWriteTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $expectedFields,
             $this->_doc->getFields()
+        );
+    }
+
+    public function testClearFields()
+    {
+        $this->_doc->clear();
+
+        $expectedFields = array();
+
+        $this->assertEquals(
+            $expectedFields,
+            $this->_doc->getFields()
+        );
+    }
+
+    public function testClearFieldsBoostRemoval()
+    {
+        $this->_doc->setFieldBoost('name', 3.2);
+        $this->_doc->clear();
+
+        $expectedFields = array();
+
+        $this->assertEquals(
+            null,
+            $this->_doc->getFieldBoost('name')
         );
     }
     

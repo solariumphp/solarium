@@ -38,10 +38,36 @@ class Solarium_Query_Update_Command_OptimizeTest extends PHPUnit_Framework_TestC
         $this->_command = new Solarium_Query_Update_Command_Optimize; 
     }
 
+    public function testConfigMode()
+    {
+        $options = array(
+            'waitflush' => true,
+            'waitsearcher' => false,
+            'maxsegments' => 6,
+        );
+
+        $command = new Solarium_Query_Update_Command_Optimize($options);
+
+        $this->assertEquals(
+            true,
+            $command->getWaitFlush()
+        );
+
+        $this->assertEquals(
+            false,
+            $command->getWaitSearcher()
+        );
+
+        $this->assertEquals(
+            6,
+            $command->getMaxSegments()
+        );
+    }
+
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Update_Command::OPTIMIZE,
+            Solarium_Query_Update::COMMAND_OPTIMIZE,
             $this->_command->getType()
         );
     }

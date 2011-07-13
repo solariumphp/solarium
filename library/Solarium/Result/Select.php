@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Result
@@ -58,7 +59,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select extends Solarium_Result_Query
+class Solarium_Result_Select extends Solarium_Result_QueryType
     implements IteratorAggregate, Countable
 {
 
@@ -69,7 +70,7 @@ class Solarium_Result_Select extends Solarium_Result_Query
      *
      * @var int
      */
-    protected $_numFound;
+    protected $_numfound;
 
     /**
      * Document instances array
@@ -79,33 +80,54 @@ class Solarium_Result_Select extends Solarium_Result_Query
     protected $_documents;
 
     /**
-     * Facet result instances
-     *
-     * @var array
+     * Component results
      */
-    protected $_facets;
+    protected $_components;
 
     /**
-     * Constructor
+     * Status code returned by Solr
      *
-     * This is the only point where data can be set in this immutable value
-     * object.
-     *
-     * @param int $status
-     * @param int $queryTime
-     * @param int $numFound
-     * @param array $documents
-     * @param array $facets
-     * @return void
+     * @var int
      */
-    public function __construct($status, $queryTime, $numFound, $documents,
-                                $facets)
+    protected $_status;
+
+    /**
+     * Solr index queryTime
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @var int
+     */
+    protected $_queryTime;
+
+    /**
+     * Get Solr status code
+     *
+     * This is not the HTTP status code! The normal value for success is 0.
+     *
+     * @return int
+     */
+    public function getStatus()
     {
-        $this->_status = $status;
-        $this->_queryTime = $queryTime;
-        $this->_numFound = $numFound;
-        $this->_documents = $documents;
-        $this->_facets = $facets;
+        $this->_parseResponse();
+
+        return $this->_status;
+    }
+
+    /**
+     * Get Solr query time
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @return int
+     */
+    public function getQueryTime()
+    {
+        $this->_parseResponse();
+
+        return $this->_queryTime;
     }
 
     /**
@@ -118,7 +140,9 @@ class Solarium_Result_Select extends Solarium_Result_Query
      */
     public function getNumFound()
     {
-        return $this->_numFound;
+        $this->_parseResponse();
+
+        return $this->_numfound;
     }
 
     /**
@@ -128,32 +152,9 @@ class Solarium_Result_Select extends Solarium_Result_Query
      */
     public function getDocuments()
     {
+        $this->_parseResponse();
+
         return $this->_documents;
-    }
-
-    /**
-     * Get all facet results
-     *
-     * @return array
-     */
-    public function getFacets()
-    {
-        return $this->_facets;
-    }
-
-    /**
-     * Get a facet result by key
-     *
-     * @param string $key
-     * @return Solarium_Result_Select_Facet
-     */
-    public function getFacet($key)
-    {
-        if (isset($this->_facets[$key])) {
-            return $this->_facets[$key];
-        } else {
-            return null;   
-        }
     }
 
     /**
@@ -163,6 +164,8 @@ class Solarium_Result_Select extends Solarium_Result_Query
      */
     public function getIterator()
     {
+        $this->_parseResponse();
+
         return new ArrayIterator($this->_documents);
     }
 
@@ -173,6 +176,73 @@ class Solarium_Result_Select extends Solarium_Result_Query
      */
     public function count()
     {
+        $this->_parseResponse();
+
         return count($this->_documents);
+    }
+
+    /**
+     * Get all component results
+     *
+     * @return array
+     */
+    public function getComponents()
+    {
+        $this->_parseResponse();
+
+        return $this->_components;
+    }
+
+    /**
+     * Get a component result by key
+     *
+     * @param string $key
+     * @return Solarium_Result_Select_Component
+     */
+    public function getComponent($key)
+    {
+        $this->_parseResponse();
+
+        if (isset($this->_components[$key])) {
+            return $this->_components[$key];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get morelikethis component result
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Result_Select_MoreLikeThis
+     */
+    public function getMoreLikeThis()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_MORELIKETHIS);
+    }
+
+    /**
+     * Get highlighting component result
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Result_Select_Highlighting
+     */
+    public function getHighlighting()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_HIGHLIGHTING);
+    }
+
+    /**
+     * Get facetset component result
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Result_Select_FacetSet
+     */
+    public function getFacetSet()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_FACETSET);
     }
 }

@@ -34,16 +34,36 @@ class Solarium_QueryTest extends PHPUnit_Framework_TestCase
 
     public function testSetAndGetHandler()
     {
-        $query = new Solarium_Query;
+        $query = new TestQuery;
         $query->setHandler('myhandler');
         $this->assertEquals('myhandler', $query->getHandler());
     }
     
     public function testSetAndGetResultClass()
     {
-        $query = new Solarium_Query;
+        $query = new TestQuery;
         $query->setResultClass('myResultClass');
         $this->assertEquals('myResultClass', $query->getResultClass());
     }
+
+    public function testGetHelper()
+    {
+        $query = new TestQuery;
+        $helper = $query->getHelper();
+
+        $this->assertEquals(
+            'Solarium_Query_Helper',
+            get_class($helper)
+        );
+    }
     
+}
+
+class TestQuery extends Solarium_Query
+{
+
+    public function getType()
+    {
+        return 'testType';
+    }
 }

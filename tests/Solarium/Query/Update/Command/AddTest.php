@@ -41,7 +41,7 @@ class Solarium_Query_Update_Command_AddTest extends PHPUnit_Framework_TestCase
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Update_Command::ADD,
+            Solarium_Query_Update::COMMAND_ADD,
             $this->_command->getType()
         );
     }
@@ -64,6 +64,90 @@ class Solarium_Query_Update_Command_AddTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             array($doc1, $doc2),
             $this->_command->getDocuments()
+        );
+    }
+
+    public function testAddDocumentsMultipleTimes()
+    {
+        $doc1 = new Solarium_Document_ReadWrite(array('id' => 1));
+        $doc2 = new Solarium_Document_ReadWrite(array('id' => 2));
+        $this->_command->addDocuments(array($doc1, $doc2));
+
+        $doc3 = new Solarium_Document_ReadWrite(array('id' => 3));
+        $doc4 = new Solarium_Document_ReadWrite(array('id' => 4));
+        $this->_command->addDocuments(array($doc3, $doc4));
+
+        $this->assertEquals(
+            array($doc1, $doc2, $doc3, $doc4),
+            $this->_command->getDocuments()
+        );
+    }
+
+    public function testAddDocumentsIteration()
+    {
+        $doc1 = new Solarium_Document_ReadWrite(array('id' => 1));
+        $doc2 = new Solarium_Document_ReadWrite(array('id' => 2));
+
+        $it = new ArrayIterator(array($doc1, $doc2));
+
+        $this->_command->addDocuments($it);
+
+        if ($this->_command->getDocuments() instanceof Traversable) {
+            $command_documents = iterator_to_array($this->_command->getDocuments());
+        } else {
+            $command_documents = $this->_command->getDocuments();
+        }
+
+        $this->assertEquals(
+            array($doc1, $doc2),
+            $command_documents,
+            'checking first two documents are added correctly'
+        );
+
+        $doc3 = new Solarium_Document_ReadWrite(array('id' => 3));
+        $doc4 = new Solarium_Document_ReadWrite(array('id' => 4));
+        $doc5 = new Solarium_Document_ReadWrite(array('id' => 5));
+
+        $it2 = new ArrayIterator(array($doc3, $doc4, $doc5));
+
+        $this->_command->addDocuments($it2);
+
+        if ($this->_command->getDocuments() instanceof Traversable) {
+            $command_documents = iterator_to_array($this->_command->getDocuments());
+        } else {
+            $command_documents = $this->_command->getDocuments();
+        }
+
+        $this->assertEquals(
+            array($doc1, $doc2, $doc3, $doc4, $doc5),
+            $command_documents,
+            'checking second three documents are added correctly to first two'
+        );
+    }
+
+    /**
+     * @depends testAddDocumentsIteration
+     */
+    public function testAddDocumentToIteration()
+    {
+        $doc1 = new Solarium_Document_ReadWrite(array('id' => 1));
+        $doc2 = new Solarium_Document_ReadWrite(array('id' => 2));
+
+        $this->_command->addDocuments(new ArrayIterator(array($doc1, $doc2)));
+
+        $doc3 = new Solarium_Document_ReadWrite(array('id' => 3));
+
+        $this->_command->addDocument($doc3);
+
+        if ($this->_command->getDocuments() instanceof Traversable) {
+            $command_documents = iterator_to_array($this->_command->getDocuments());
+        } else {
+            $command_documents = $this->_command->getDocuments();
+        }
+
+        $this->assertEquals(
+            array($doc1, $doc2, $doc3),
+            $command_documents
         );
     }
 

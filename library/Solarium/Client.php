@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Client
@@ -38,14 +39,15 @@
 /**
  * Main interface for interaction with Solr
  *
- * The client holds the Solr connection settings and uses an adapter instance to
- * execute queries and return the results. This is the main interface for any
- * user of the Solarium library.
+ * The client is the main interface for usage of the Solarium library.
+ * You can use it to get query instances and to execute them.
+ * It also allows to register plugins and querytypes to customize Solarium.
+ * Finally, it also gives access to the adapter, which holds the Solr connection settings.
  *
  * Example usage with default settings:
  * <code>
  * $client = new Solarium_Client;
- * $query = new Solarium_Query_Select;
+ * $query = $client->createSelect();
  * $result = $client->select($query);
  * </code>
  *
@@ -56,21 +58,50 @@ class Solarium_Client extends Solarium_Configurable
 {
 
     /**
+     * Querytype definitions
+     */
+    const QUERYTYPE_SELECT = 'select';
+    const QUERYTYPE_UPDATE = 'update';
+    const QUERYTYPE_PING = 'ping';
+
+    /**
      * Default options
-     *
-     * The defaults match a standard Solr example instance as distributed by
-     * the Apache Lucene Solr project.
      *
      * @var array
      */
     protected $_options = array(
-        'host'    => '127.0.0.1',
-        'port'    => 8983,
-        'path'    => '/solr',
-        'core'    => null,
         'adapter' => 'Solarium_Client_Adapter_Http',
-        'timeout' => 5,
     );
+
+    /**
+     * Querytype mappings
+     *
+     * These can be customized using {@link registerQueryType()}
+     */
+    protected $_queryTypes = array(
+        self::QUERYTYPE_SELECT => array(
+            'query'          => 'Solarium_Query_Select',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select'
+        ),
+        self::QUERYTYPE_UPDATE => array(
+            'query'          => 'Solarium_Query_Update',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Update',
+            'responseparser' => 'Solarium_Client_ResponseParser_Update'
+        ),
+        self::QUERYTYPE_PING => array(
+            'query'          => 'Solarium_Query_Ping',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Ping',
+            'responseparser' => 'Solarium_Client_ResponseParser_Ping'
+        ),
+    );
+
+    /**
+     * Registered plugin instances
+     * 
+     * @var array
+     */
+    protected $_plugins = array();
 
     /**
      * Adapter instance
@@ -87,130 +118,32 @@ class Solarium_Client extends Solarium_Configurable
     protected $_adapter;
 
     /**
-     * Initialization hook
+     * Request builder instances
      *
-     * In this case the path needs to be cleaned of trailing slashes.
-     * @see setPath()
+     * @var array
+     */
+    protected $_requestBuilders;
+
+    /**
+     * Initialization hook
      */
     protected function _init()
     {
         foreach ($this->_options AS $name => $value) {
             switch ($name) {
-                case 'path':
-                    $this->setPath($value);
+                case 'adapteroptions':
+                    $this->_setOption('adapteroptions', $value);
+                    $adapter = $this->getAdapter();
+                    if ($adapter) $adapter->setOptions($value);
+                    break;
+                case 'querytype':
+                    $this->registerQueryTypes($value);
+                    break;
+                case 'plugin':
+                    $this->registerPlugins($value);
                     break;
             }
         }
-    }
-
-    /**
-     * Set an option
-     *
-     * If any option of this client is changed after the adapter has been
-     * instantiated the change is propagated to the adapter. This allows for
-     * switching the client to another core for a second query, for instance.
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return Solarium_Configurable
-     */
-    protected function _setOption($name, $value)
-    {
-        parent::_setOption($name, $value);
-
-        if (null !== $this->_adapter) {
-            $this->_adapter->setOptions($this->_options);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set host option
-     *
-     * @param string $host This can be a hostname or an IP address
-     * @return Solarium_Client Provides fluent interface
-     */
-    public function setHost($host)
-    {
-        return $this->_setOption('host', $host);
-    }
-
-    /**
-     * Get host option
-     *
-     * @return string
-     */
-    public function getHost()
-    {
-        return $this->getOption('host');
-    }
-
-    /**
-     * Set port option
-     *
-     * @param int $port Common values are 80, 8080 and 8983
-     * @return Solarium_Client Provides fluent interface
-     */
-    public function setPort($port)
-    {
-        return $this->_setOption('port', $port);
-    }
-
-    /**
-     * Get port option
-     *
-     * @return int
-     */
-    public function getPort()
-    {
-        return $this->getOption('port');
-    }
-
-    /**
-     * Set path option
-     *
-     * If the path has a trailing slash it will be removed.
-     *
-     * @param string $path
-     * @return Solarium_Client Provides fluent interface
-     */
-    public function setPath($path)
-    {
-        if (substr($path, -1) == '/') $path = substr($path, 0, -1);
-
-        return $this->_setOption('path', $path);
-    }
-
-    /**
-     * Get path option
-     *
-     * @return void
-     */
-    public function getPath()
-    {
-        return $this->getOption('path');
-    }
-
-    /**
-     * Set core option
-     *
-     * @param string $core
-     * @return Solarium_Client Provides fluent interface
-     */
-    public function setCore($core)
-    {
-        return $this->_setOption('core', $core);
-    }
-
-    /**
-     * Get core option
-     *
-     * @return string
-     */
-    public function getCore()
-    {
-        return $this->getOption('core');
     }
 
     /**
@@ -263,7 +196,7 @@ class Solarium_Client extends Solarium_Configurable
     {
         $adapterClass = $this->getOption('adapter');
         $this->_adapter = new $adapterClass;
-        $this->_adapter->setOptions($this->_options);
+        $this->_adapter->setOptions($this->getOption('adapteroptions'));
     }
 
     /**
@@ -272,11 +205,12 @@ class Solarium_Client extends Solarium_Configurable
      * If {@see $_adapter} doesn't hold an instance a new one will be created by
      * calling {@see _createAdapter()}
      *
+     * @param boolean $autoload
      * @return Solarium_Client_Adapter
      */
-    public function getAdapter()
+    public function getAdapter($autoload = true)
     {
-        if (null === $this->_adapter) {
+        if (null === $this->_adapter && $autoload) {
             $this->_createAdapter();
         }
 
@@ -284,29 +218,252 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
-     * Set adapter options
+     * Register a querytype
      *
-     * @param array|object $options
+     * You can also use this method to override any existing querytype with a new mapping.
+     * This requires the availability of the classes through autoloading or a manual
+     * require before calling this method.
+     *
+     * @param string $type
+     * @param string $query
+     * @param string|object $requestBuilder
+     * @param string|object $responseParser
      * @return Solarium_Client Provides fluent interface
      */
-    public function setAdapterOptions($options)
+    public function registerQueryType($type, $query, $requestBuilder, $responseParser)
     {
-        // covert config object into an array if needed
-        if (is_object($options)) {
-            $options = $options->toArray();
-        }
+        $this->_queryTypes[$type] = array(
+            'query' => $query,
+            'requestbuilder' => $requestBuilder,
+            'responseparser' => $responseParser,
+        );
 
-        return $this->_setOption('adapteroptions', $options);
+        return $this;
     }
 
     /**
-     * Get adapteroptions
+     * Register multiple querytypes
+     *
+     * @param array $queryTypes
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function registerQueryTypes($queryTypes)
+    {
+        foreach ($queryTypes as $type => $queryType) {
+
+            if (!isset($queryType['type'])) $queryType['type'] = $type;
+
+            $this->registerQueryType(
+                $queryType['type'],
+                $queryType['query'],
+                $queryType['requestbuilder'],
+                $queryType['responseparser']
+            );
+        }
+    }
+
+    /**
+     * Get all registered querytypes
+     * 
+     * @return array
+     */
+    public function getQueryTypes()
+    {
+        return $this->_queryTypes;
+    }
+
+    /**
+     * Register a plugin
+     *
+     * You can supply a plugin instance or a plugin classname as string.
+     * This requires the availability of the class through autoloading
+     * or a manual require.
+     *
+     * @param string $key
+     * @param string|Solarium_Plugin_Abstract $plugin
+     * @param array $options
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function registerPlugin($key, $plugin, $options = array())
+    {
+        if (is_string($plugin)) {
+            $plugin = new $plugin;
+        }
+        
+        if (!($plugin instanceof Solarium_Plugin_Abstract)) {
+           throw new Solarium_Exception('All plugins must extend Solarium_Plugin_Abstract');
+        }
+        
+        $plugin->init($this, $options);
+
+        $this->_plugins[$key] = $plugin;
+
+        return $this;
+    }
+
+    /**
+     * Register multiple plugins
+     * 
+     * @param array $plugins
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function registerPlugins($plugins)
+    {
+        foreach ($plugins as $key => $plugin) {
+
+            if (!isset($plugin['key'])) $plugin['key'] = $key;
+
+            $this->registerPlugin(
+                $plugin['key'],
+                $plugin['plugin'],
+                $plugin['options']
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get all registered querytypes
      *
      * @return array
      */
-    public function getAdapterOptions()
+    public function getPlugins()
     {
-        return $this->getOption('adapteroptions');
+        return $this->_plugins;
+    }
+
+    /**
+     * Get a plugin instance
+     *
+     * @param string $key
+     * @return Solarium_Plugin_Abstract|null
+     */
+    public function getPlugin($key)
+    {
+        if (isset($this->_plugins[$key])) {
+            return $this->_plugins[$key];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Remove a plugin instance
+     * 
+     * @param string $key
+     * @return Solarium_Client Provides fluent interface
+     */
+    public function removePlugin($key)
+    {
+        if (isset($this->_plugins[$key])) {
+            unset($this->_plugins[$key]);
+        }
+        return $this;
+    }
+
+    /**
+     * Forward events to plugins
+     *
+     * @param string $event
+     * @param array $params
+     * @param bool $resultOverride
+     * @return void|mixed
+     */
+    protected function _callPlugins($event, $params, $resultOverride = false)
+    {
+        foreach ($this->_plugins AS $plugin) {
+            $result = call_user_func_array(array($plugin, $event), $params);
+
+            if ($result !== null && $resultOverride) {
+                return $result;
+            }
+        }
+    }
+
+    /**
+     * Creates a request based on a query instance
+     *
+     * @param Solarium_Query $query
+     * @return Solarium_Client_Request
+     */
+    public function createRequest($query)
+    {
+        $pluginResult = $this->_callPlugins('preCreateRequest', array($query), true);
+        if($pluginResult !== null) return $pluginResult;
+
+        $queryType = $query->getType();
+        if (!isset($this->_queryTypes[$queryType])) {
+            throw new Solarium_Exception('No requestbuilder registered for querytype: '. $queryType);
+        }
+
+        $requestBuilder = $this->_queryTypes[$queryType]['requestbuilder'];
+        if (is_string($requestBuilder)) {
+            $requestBuilder = new $requestBuilder;
+        }
+        $request = $requestBuilder->build($query);
+
+        $this->_callPlugins('postCreateRequest', array($query, $request));
+
+        return $request;
+    }
+
+    /**
+     * Creates a result object
+     *
+     * @param Solarium_Query $query
+     * @param array Solarium_Client_Response $response
+     * @return Solarium_Result
+     */
+    public function createResult($query, $response)
+    {
+        $pluginResult = $this->_callPlugins('preCreateResult', array($query, $response), true);
+        if($pluginResult !== null) return $pluginResult;
+
+        $resultClass = $query->getResultClass();
+        $result = new $resultClass($this, $query, $response);
+
+        $this->_callPlugins('postCreateResult', array($query, $response, $result));
+
+        return $result;
+    }
+
+    /**
+     * Execute a query
+     *
+     * @param Solarium_Query
+     * @return Solarium_Result
+     */
+    public function execute($query)
+    {
+        $pluginResult = $this->_callPlugins('preExecute', array($query), true);
+        if($pluginResult !== null) return $pluginResult;
+
+        $request = $this->createRequest($query);
+        $response = $this->executeRequest($request);
+        $result = $this->createResult($query, $response);
+
+        $this->_callPlugins('postExecute', array($query, $result));
+
+        return $result;
+    }
+    
+    /**
+     * Execute a request and return the response
+     *
+     * @param Solarium_Client_Request
+     * @return Solarium_Client_Response
+     */
+    public function executeRequest($request)
+    {
+        $pluginResult = $this->_callPlugins('preExecuteRequest', array($request), true);
+        if($pluginResult !== null) return $pluginResult;
+
+        $response = $this->getAdapter()->execute($request);
+
+        $this->_callPlugins('postExecuteRequest', array($request, $response));
+
+        return $response;
     }
 
     /**
@@ -315,22 +472,21 @@ class Solarium_Client extends Solarium_Configurable
      * Example usage:
      * <code>
      * $client = new Solarium_Client;
-     * $query = new Solarium_Query_Ping;
+     * $query = $client->createPing();
      * $result = $client->ping($query);
      * </code>
      *
      * @see Solarium_Query_Ping
      *
      * @internal This is a convenience method that forwards the query to the
-     *  adapter and returns the adapter result, thus allowing for an easy to use
-     *  and clean API.
+     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium_Query_Ping $query
-     * @return boolean
+     * @return Solarium_Result_Ping
      */
     public function ping($query)
     {
-        return $this->getAdapter()->ping($query);
+        return $this->execute($query);
     }
 
     /**
@@ -339,24 +495,23 @@ class Solarium_Client extends Solarium_Configurable
      * Example usage:
      * <code>
      * $client = new Solarium_Client;
-     * $update = new Solarium_Query_Update;
+     * $query = $client->createUpdate();
      * $update->addOptimize();
-     * $result = $client->ping($update);
+     * $result = $client->update($update);
      * </code>
      *
      * @see Solarium_Query_Update
      * @see Solarium_Result_Update
      *
      * @internal This is a convenience method that forwards the query to the
-     *  adapter and returns the adapter result, thus allowing for an easy to use
-     *  and clean API.
+     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium_Query_Update $query
      * @return Solarium_Result_Update
      */
     public function update($query)
     {
-        return $this->getAdapter()->update($query);
+        return $this->execute($query);
     }
 
     /**
@@ -365,22 +520,82 @@ class Solarium_Client extends Solarium_Configurable
      * Example usage:
      * <code>
      * $client = new Solarium_Client;
-     * $query = new Solarium_Query_Select;
-     * $result = $client->ping($query);
+     * $query = $client->createSelect();
+     * $result = $client->select($query);
      * </code>
      *
      * @see Solarium_Query_Select
      * @see Solarium_Result_Select
      *
      * @internal This is a convenience method that forwards the query to the
-     *  adapter and returns the adapter result, thus allowing for an easy to use
-     *  and clean API.
+     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium_Query_Select $query
      * @return Solarium_Result_Select
      */
     public function select($query)
     {
-        return $this->getAdapter()->select($query);
+        return $this->execute($query);
     }
+
+    /**
+     * Create a query instance
+     *
+     * @param string $type
+     * @param array $options
+     * @return Solarium_Query
+     */
+    public function createQuery($type, $options = null)
+    {
+        $type = strtolower($type);
+
+        $pluginResult = $this->_callPlugins('preCreateQuery', array($type, $options), true);
+        if($pluginResult !== null) return $pluginResult;
+
+        if (!isset($this->_queryTypes[$type])) {
+            throw new Solarium_Exception('Unknown querytype: '. $type);
+        }
+
+        $class = $this->_queryTypes[$type]['query'];
+        $query = new $class($options);
+
+        $this->_callPlugins('postCreateQuery', array($type, $options, $query));
+
+        return $query;
+    }
+
+    /**
+     * Create a select query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Select
+     */
+    public function createSelect($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_SELECT, $options);
+    }
+
+    /**
+     * Create an update query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Update
+     */
+    public function createUpdate($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_UPDATE, $options);
+    }
+
+    /**
+     * Create a ping query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Ping
+     */
+    public function createPing($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_PING, $options);
+    }
+
+
 }

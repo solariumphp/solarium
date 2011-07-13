@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  */
@@ -69,7 +70,7 @@ class Solarium_Version
      * 
      * @var string
      */
-    const VERSION = '1.0.0';
+    const VERSION = '2.0.0';
 
 
     /**

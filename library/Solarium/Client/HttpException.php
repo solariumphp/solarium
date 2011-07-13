@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Client
@@ -78,7 +79,7 @@ class Solarium_Client_HttpException extends Solarium_Exception
     {
         $this->_statusMessage = $statusMessage;
 
-        $message = 'Solr HTTP error, ' . $statusMessage;
+        $message = 'Solr HTTP error: ' . $statusMessage;
         if (null !== $code) {
              $message .= ' (' . $code . ')';
         }
