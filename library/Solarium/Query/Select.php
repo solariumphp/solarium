@@ -60,6 +60,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     const COMPONENT_FACETSET = 'facetset';
     const COMPONENT_DISMAX = 'dismax';
+	const COMPONENT_EDISMAX = 'edismax';
     const COMPONENT_MORELIKETHIS = 'morelikethis';
     const COMPONENT_HIGHLIGHTING = 'highlighting';
 	const COMPONENT_SPELLCHECK = 'spellcheck';
@@ -103,6 +104,11 @@ class Solarium_Query_Select extends Solarium_Query
         self::COMPONENT_DISMAX => array(
             'component' => 'Solarium_Query_Select_Component_DisMax',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_DisMax',
+            'responseparser' => null,
+        ),
+        self::COMPONENT_EDISMAX => array(
+            'component' => 'Solarium_Query_Select_Component_eDisMax',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_eDisMax',
             'responseparser' => null,
         ),
         self::COMPONENT_MORELIKETHIS => array(
@@ -766,6 +772,18 @@ class Solarium_Query_Select extends Solarium_Query
     public function getSpellcheck()
     {
         return $this->getComponent(Solarium_Query_Select::COMPONENT_SPELLCHECK, true);
+    }
+
+    /**
+     * Get a edismax component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_eDisMax
+     */
+    public function getEDisMax()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_EDISMAX, true);
     }
 
 }
