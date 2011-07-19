@@ -46,6 +46,13 @@ abstract class Solarium_Query extends Solarium_Configurable
 {
 
     /**
+     * Helper instance
+     *
+     * @var Solarium_Query_Helper
+     */
+    protected $_helper;
+    
+    /**
      * Get type for this query
      *
      * @return string
@@ -99,6 +106,22 @@ abstract class Solarium_Query extends Solarium_Configurable
     public function getResultClass()
     {
         return $this->getOption('resultclass');
+    }
+
+    /**
+     * Get a helper instance
+     *
+     * Uses lazy loading: the helper is instantiated on first use
+     *
+     * @return Solarium_Query_Helper
+     */
+    public function getHelper()
+    {
+        if (null === $this->_helper) {
+            $this->_helper = new Solarium_Query_Helper;
+        }
+
+        return $this->_helper;
     }
 
 }

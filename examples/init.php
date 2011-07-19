@@ -3,8 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 
-require('../library/Solarium/Autoloader.php');
-Solarium_Autoloader::register();
+require('autoload.php');
 
 if (file_exists('config.php')) {
     require('config.php');

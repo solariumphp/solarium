@@ -29,13 +29,13 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_Select_HelperTest extends PHPUnit_Framework_TestCase
+class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
 {
     protected $_helper;
 
     public function setUp()
     {
-        $this->_helper = new Solarium_Query_Select_Helper;
+        $this->_helper = new Solarium_Query_Helper;
     }
 
     public function testRangeQueryInclusive()
@@ -117,6 +117,38 @@ class Solarium_Query_Select_HelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'sum(1,2)',
             $this->_helper->functionCall('sum', array(1,2))
+        );
+    }
+
+    public function testEscapeTerm()
+    {
+        $this->assertEquals(
+            'a\\+b',
+            $this->_helper->escapeTerm('a+b')
+        );
+    }
+
+    public function testEscapeTermNoEscape()
+    {
+        $this->assertEquals(
+            'abc',
+            $this->_helper->escapeTerm('abc')
+        );
+    }
+
+    public function testEscapePhrase()
+    {
+        $this->assertEquals(
+            '"a+\\"b"',
+            $this->_helper->escapePhrase('a+"b')
+        );
+    }
+
+    public function testEscapePhraseNoEscape()
+    {
+        $this->assertEquals(
+            '"a+b"',
+            $this->_helper->escapePhrase('a+b')
         );
     }
 

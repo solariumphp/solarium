@@ -13,7 +13,8 @@ $query = $client->createSelect();
 $input = 'ATA "133';
 
 // in this case phrase escaping is used (most common) but you can also do term escaping, see the manual
-$query->setQuery('features:' . Solarium_Escape::phrase($input));
+$helper = $query->getHelper();
+$query->setQuery('features:' . $helper->escapePhrase($input));
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
