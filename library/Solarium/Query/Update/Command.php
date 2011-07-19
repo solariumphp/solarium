@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Query
@@ -43,15 +44,6 @@
  */
 abstract class Solarium_Query_Update_Command extends Solarium_Configurable
 {
-
-     /**
-     * Command types
-     */
-    const ADD = 'add';
-    const DELETE = 'delete';
-    const COMMIT = 'commit';
-    const OPTIMIZE = 'optimize';
-    const ROLLBACK = 'rollback';
 
     /**
      * Returns command type, for use in adapters

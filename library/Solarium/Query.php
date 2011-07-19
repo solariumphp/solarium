@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Query
@@ -41,8 +42,22 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query extends Solarium_Configurable
+abstract class Solarium_Query extends Solarium_Configurable
 {
+
+    /**
+     * Helper instance
+     *
+     * @var Solarium_Query_Helper
+     */
+    protected $_helper;
+    
+    /**
+     * Get type for this query
+     *
+     * @return string
+     */
+    abstract public function getType();
     
     /**
      * Set handler option
@@ -91,6 +106,22 @@ class Solarium_Query extends Solarium_Configurable
     public function getResultClass()
     {
         return $this->getOption('resultclass');
+    }
+
+    /**
+     * Get a helper instance
+     *
+     * Uses lazy loading: the helper is instantiated on first use
+     *
+     * @return Solarium_Query_Helper
+     */
+    public function getHelper()
+    {
+        if (null === $this->_helper) {
+            $this->_helper = new Solarium_Query_Helper;
+        }
+
+        return $this->_helper;
     }
 
 }

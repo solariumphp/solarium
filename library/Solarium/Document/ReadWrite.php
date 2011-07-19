@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Document
@@ -123,7 +124,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      */
     public function setField($key, $value, $boost = null)
     {
-        if ($value == null) {
+        if ($value === null) {
             $this->removeField($key);
         } else {
             $this->_fields[$key] = $value;
@@ -200,6 +201,19 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     public function getBoost()
     {
         return $this->_boost;
+    }
+
+    /**
+     * Clear all fields
+     *
+     * @return Solarium_Document_ReadWrite Provides fluent interface
+     **/
+    public function clear()
+    {
+        $this->_fields = array();
+        $this->_fieldBoosts = array();
+        
+        return $this;
     }
 
     /**

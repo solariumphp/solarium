@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Query
@@ -48,6 +49,28 @@
 class Solarium_Query_Update extends Solarium_Query
 {
 
+    /**
+     * Update command type names
+     */
+    const COMMAND_ADD = 'add';
+    const COMMAND_DELETE = 'delete';
+    const COMMAND_COMMIT = 'commit';
+    const COMMAND_ROLLBACK = 'rollback';
+    const COMMAND_OPTIMIZE = 'optimize';
+
+    /**
+     * Update command types
+     *
+     * @var array
+     */
+    protected $_commandTypes = array(
+        self::COMMAND_ADD => 'Solarium_Query_Update_Command_Add',
+        self::COMMAND_DELETE => 'Solarium_Query_Update_Command_Delete',
+        self::COMMAND_COMMIT => 'Solarium_Query_Update_Command_Commit',
+        self::COMMAND_OPTIMIZE => 'Solarium_Query_Update_Command_Optimize',
+        self::COMMAND_ROLLBACK => 'Solarium_Query_Update_Command_Rollback',
+    );
+    
     /**
      * Default options
      * 
@@ -69,6 +92,16 @@ class Solarium_Query_Update extends Solarium_Query
     protected $_commands = array();
 
     /**
+     * Get type for this query
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return Solarium_Client::QUERYTYPE_UPDATE;
+    }
+
+    /**
      * Initialize options
      *
      * Several options need some extra checks or setup work, for these options
@@ -80,27 +113,39 @@ class Solarium_Query_Update extends Solarium_Query
     {
         if (isset($this->_options['command'])) {
             foreach ($this->_options['command'] as $key => $value) {
-                switch ($value['type']) {
-                    case 'delete':
-                        $command = new Solarium_Query_Update_Command_Delete($value);
-                        break;
-                    case 'commit':
-                        $command = new Solarium_Query_Update_Command_Commit($value);
-                        break;
-                    case 'optimize':
-                        $command = new Solarium_Query_Update_Command_Optimize($value);
-                        break;
-                    case 'rollback':
-                        $command = new Solarium_Query_Update_Command_Rollback($value);
-                        break;
-                    case 'add':
-                        throw new Solarium_Exception("Adding documents is not supported in configuration, use the API for this");
+
+                $type = $value['type'];
+
+                if ($type == self::COMMAND_ADD) {
+                    throw new Solarium_Exception(
+                        "Adding documents is not supported in configuration, use the API for this"
+                    );
                 }
 
-                $this->add($key, $command);
+                $this->add($key, $this->createCommand($type, $value));
             }
         }
 
+    }
+
+    /**
+     * Create a command instance
+     *
+     * @throws Solarium_Exception
+     * @param string $type
+     * @param mixed $options
+     * @return Solarium_Query_Update_Command
+     */
+    public function createCommand($type, $options = null)
+    {
+        $type = strtolower($type);
+
+        if (!isset($this->_commandTypes[$type])) {
+            throw new Solarium_Exception("Update commandtype unknown: " . $type);
+        }
+
+        $class = $this->_commandTypes[$type];
+        return new $class($options);
     }
 
     /**

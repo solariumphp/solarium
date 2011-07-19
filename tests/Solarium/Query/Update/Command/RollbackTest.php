@@ -35,7 +35,7 @@ class Solarium_Query_Update_Command_RollbackTest extends PHPUnit_Framework_TestC
     {
         $command = new Solarium_Query_Update_Command_Rollback;
         $this->assertEquals(
-            Solarium_Query_Update_Command::ROLLBACK,
+            Solarium_Query_Update::COMMAND_ROLLBACK,
             $command->getType()
         );
     }

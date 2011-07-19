@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Query
@@ -49,11 +50,22 @@ class Solarium_Query_Ping extends Solarium_Query
 {
 
     /**
+     * Get type for this query
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return Solarium_Client::QUERYTYPE_PING;
+    }
+
+    /**
      * Default options
      * 
      * @var array
      */
     protected $_options = array(
+        'resultclass' => 'Solarium_Result_Ping',
         'handler' => 'admin/ping',
     );
     

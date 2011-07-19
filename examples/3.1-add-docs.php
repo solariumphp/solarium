@@ -1,0 +1,36 @@
+<?php
+
+require('init.php');
+htmlHeader();
+
+
+// create a new document for the data
+$doc1 = new Solarium_Document_ReadWrite();
+$doc1->id = 123;
+$doc1->name = 'testdoc-1';
+$doc1->price = 364;
+
+// and a second one
+$doc2 = new Solarium_Document_ReadWrite();
+$doc2->id = 124;
+$doc2->name = 'testdoc-2';
+$doc2->price = 340;
+
+// create a client instance
+$client = new Solarium_Client($config);
+
+// get an update query instance
+$update = $client->createUpdate();
+
+// add the documents and a commit command to the update query
+$update->addDocuments(array($doc1, $doc2));
+$update->addCommit();
+
+// this executes the query and returns the result
+$result = $client->update($update);
+
+echo '<b>Update query executed<b><br/>';
+echo 'Query status: ' . $result->getStatus(). '<br/>';
+echo 'Query time: ' . $result->getQueryTime();
+
+htmlFooter();

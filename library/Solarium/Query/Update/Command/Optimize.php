@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  * @subpackage Query
@@ -54,7 +55,7 @@ class Solarium_Query_Update_Command_Optimize
      */
     public function getType()
     {
-        return Solarium_Query_Update_Command::OPTIMIZE;
+        return Solarium_Query_Update::COMMAND_OPTIMIZE;
     }
 
     /**
@@ -71,7 +72,7 @@ class Solarium_Query_Update_Command_Optimize
      * Set waitFlush option
      *
      * @param boolean $waitFlush
-     * @return Solarium_Query_Update_Optimize Provides fluent interface
+     * @return Solarium_Query_Update_Command_Optimize Provides fluent interface
      */
     public function setWaitFlush($waitFlush)
     {
@@ -92,7 +93,7 @@ class Solarium_Query_Update_Command_Optimize
      * Set waitSearcher option
      *
      * @param boolean $waitSearcher
-     * @return Solarium_Query_Update_Optimize Provides fluent interface
+     * @return Solarium_Query_Update_Command_Optimize Provides fluent interface
      */
     public function setWaitSearcher($waitSearcher)
     {
@@ -113,7 +114,7 @@ class Solarium_Query_Update_Command_Optimize
      * Set maxSegments option
      * 
      * @param boolean $maxSegments
-     * @return Solarium_Query_Update_Optimize Provides fluent interface
+     * @return Solarium_Query_Update_Command_Optimize Provides fluent interface
      */
     public function setMaxSegments($maxSegments)
     {

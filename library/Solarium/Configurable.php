@@ -30,6 +30,7 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  *
  * @package Solarium
  */
@@ -58,7 +59,7 @@ class Solarium_Configurable
      * Constructor
      *
      * If options are passed they will be merged with {@link $_options} using
-     * the {@link _setOptions()} method.
+     * the {@link setOptions()} method.
      *
      * After handling the options the {@link _init()} method is called.
      *
@@ -68,9 +69,11 @@ class Solarium_Configurable
      */
     public function __construct($options = null)
     {
-        $this->_setOptions($options);
-
-        $this->_init();
+        if (null !== $options) {
+            $this->setOptions($options);
+        } else {
+            $this->_init();
+        }
     }
 
     /**
@@ -87,7 +90,7 @@ class Solarium_Configurable
      * 
      * @return void
      */
-    protected function _setOptions($options, $overwrite = false)
+    public function setOptions($options, $overwrite = false)
     {
         if (null !== $options) {
             // first convert to array if needed
@@ -105,6 +108,9 @@ class Solarium_Configurable
             } else {
                 $this->_options = array_merge($this->_options, $options);
             }
+
+            // re-init for new options
+            $this->_init();
         }
     }
 
