@@ -167,17 +167,7 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter_Http
             return true;
         } else {
             $data = $response->getBody();
-            $type = $response->getHeader('Content-Type');
-            switch ($type) {
-                case 'text/plain; charset=utf-8':
-                    return $this->_jsonDecode($data);
-                    break;
-                default:
-                    throw new Solarium_Exception(
-                        'Unknown Content-Type in ZendHttp adapter: ' . $type
-                    );
-                    break;
-            }
+            return $this->_jsonDecode($data);
         }
 
     }
