@@ -71,5 +71,9 @@ class Solarium_Query_Select_Component_Facet_QueryTest extends PHPUnit_Framework_
         $this->assertEquals('category:1', $this->_facet->getQuery());
     }
 
-
+    public function testSetAndGetQueryWithBind()
+    {
+        $this->_facet->setQuery('id:%1%', array(678));
+        $this->assertEquals('id:678', $this->_facet->getQuery());
+    }
 }

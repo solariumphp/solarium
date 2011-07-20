@@ -56,6 +56,12 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('*:*', $this->_query->getQuery());
     }
 
+    public function testSetAndGetQueryWithBind()
+    {
+        $this->_query->setQuery('id:%1%', array(678));
+        $this->assertEquals('id:678', $this->_query->getQuery());
+    }
+
     public function testSetAndGetResultClass()
     {
         $this->_query->setResultClass('MyResult');
