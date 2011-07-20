@@ -188,10 +188,15 @@ class Solarium_Query_Select extends Solarium_Query
      * escaping of user input.
      *
      * @param string $query
+     * @param array $bind Bind values for placeholders in the query string
      * @return Solarium_Query_Select Provides fluent interface
      */
-    public function setQuery($query)
+    public function setQuery($query, $bind = null)
     {
+        if (!is_null($bind)) {
+            $query = $this->getHelper()->assemble($query, $bind);
+        }
+
         return $this->_setOption('query', trim($query));
     }
 

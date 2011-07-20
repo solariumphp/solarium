@@ -111,10 +111,16 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
      * This overwrites the current value
      *
      * @param string $query
+     * @param array $bind Bind values for placeholders in the query string
      * @return Solarium_Query Provides fluent interface
      */
-    public function setQuery($query)
+    public function setQuery($query, $bind = null)
     {
+        if (!is_null($bind)) {
+            $helper = new Solarium_Query_Helper;
+            $query = $helper->assemble($query, $bind);
+        }
+
         $this->_query = trim($query);
         return $this;
     }

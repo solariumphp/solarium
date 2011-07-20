@@ -69,6 +69,12 @@ class Solarium_Query_Select_FilterQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('category:1', $this->_filterQuery->getQuery());
     }
 
+    public function testSetAndGetQueryWithBind()
+    {
+        $this->_filterQuery->setQuery('id:%1%', array(678));
+        $this->assertEquals('id:678', $this->_filterQuery->getQuery());
+    }
+
     public function testAddTag()
     {
         $this->_filterQuery->addTag('testtag');
