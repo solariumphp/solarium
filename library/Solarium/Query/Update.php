@@ -79,6 +79,7 @@ class Solarium_Query_Update extends Solarium_Query
     protected $_options = array(
         'handler'       => 'update',
         'resultclass'   => 'Solarium_Result_Update',
+        'documentclass' => 'Solarium_Document_ReadWrite',
     );
 
     /**
@@ -358,5 +359,48 @@ class Solarium_Query_Update extends Solarium_Query
 
        return $this->add(null, $optimize);
    }
+
+   /**
+    * Set a custom document class for use in the createDocument method
+    *
+    * This class should extend Solarium_Document_ReadWrite or
+    * at least be compatible with it's interface
+    *
+    * @param string $value classname
+    * @return Solarium_Query
+    */
+    public function setDocumentClass($value)
+    {
+        return $this->_setOption('documentclass', $value);
+    }
+
+    /**
+     * Get the current documentclass option
+     *
+     * The value is a classname, not an instance
+     *
+     * @return string
+     */
+    public function getDocumentClass()
+    {
+        return $this->getOption('documentclass');
+    }
+
+    /**
+     * Create a document object instance
+     *
+     * You can optionally directly supply the fields and boosts
+     * to get a ready-made document instance for direct use in an add command
+     *
+     * @param array $fields
+     * @param array $boosts
+     * @return Solarium_Document_ReadWrite
+     */
+    public function createDocument($fields = array(), $boosts = array())
+    {
+        $class = $this->getDocumentClass();
+
+        return new $class($fields, $boosts);
+    }
 
 }

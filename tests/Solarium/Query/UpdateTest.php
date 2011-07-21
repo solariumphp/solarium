@@ -402,4 +402,48 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         $this->_query->createCommand('invalidtype');
     }
 
+    public function testSetAndGetDocumentClass()
+    {
+        $this->_query->setDocumentClass('MyDocument');
+        $this->assertEquals('MyDocument', $this->_query->getDocumentClass());
+    }
+
+    public function testCreateDocument()
+    {
+        $doc = $this->_query->createDocument();
+        $this->assertThat($doc, $this->isInstanceOf($this->_query->getDocumentClass()));
+    }
+
+    public function testCreateDocumentWithCustomClass()
+    {
+        $this->_query->setDocumentClass('MyCustomDoc');
+
+        $doc = $this->_query->createDocument();
+        $this->assertThat($doc, $this->isInstanceOf('MyCustomDoc'));
+    }
+
+    public function testCreateDocumentWithFieldsAndBoosts()
+    {
+        $fields = array('id' => 1, 'name' => 'testname');
+        $boosts = array('name' => 2.7);
+
+        $doc = $this->_query->createDocument($fields, $boosts);
+
+        $this->assertThat($doc, $this->isInstanceOf($this->_query->getDocumentClass()));
+
+        $this->assertEquals(
+            $fields,
+            $doc->getFields()
+        );
+
+        $this->assertEquals(
+            2.7,
+            $doc->getFieldBoost('name')
+        );
+    }
+
+}
+
+class MyCustomDoc extends Solarium_Document_ReadWrite{
+
 }
