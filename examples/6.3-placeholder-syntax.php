@@ -12,10 +12,12 @@ $query = $client->createSelect();
 // search input string, this value fails without escaping because of the double-quote
 $input = 'ATA "133';
 
-// in this case phrase escaping is used (most common) but you can also do term escaping, see the manual
-// also note that the same can be done using the placeholder syntax, see example 6.3
-$helper = $query->getHelper();
-$query->setQuery('features:' . $helper->escapePhrase($input));
+// the placeholder syntax applies phrase escaping to the first term
+// see the manual for all supported formats
+$query->setQuery('features: %p1% AND inStock:%2%',array($input,1));
+
+// show the result after replacing the placeholders with values
+echo $query->getQuery() . '<br/>';
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

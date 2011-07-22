@@ -6,19 +6,19 @@ htmlHeader();
 if ($_POST) {
     // if data is posted add it to solr
 
-    // create a new document for the data
-    // please note that any type of validation is missing in this example to keep it simple!
-    $doc = new Solarium_Document_ReadWrite();
-    $doc->id = $_POST['id'];
-    $doc->name = $_POST['name'];
-    $doc->price = $_POST['price'];
-
     // create a client instance
     $client = new Solarium_Client($config);
 
     // get an update query instance
     $update = $client->createUpdate();
 
+    // create a new document for the data
+    // please note that any type of validation is missing in this example to keep it simple!
+    $doc = $update->createDocument();
+    $doc->id = $_POST['id'];
+    $doc->name = $_POST['name'];
+    $doc->price = $_POST['price'];
+    
     // add the document and a commit command to the update query
     $update->addDocument($doc);
     $update->addCommit();
