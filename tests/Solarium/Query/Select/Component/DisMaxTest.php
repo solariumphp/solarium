@@ -45,6 +45,7 @@ class Solarium_Query_Select_Component_DisMaxTest extends PHPUnit_Framework_TestC
     public function testConfigMode()
     {
         $options = array(
+            'queryparser' => 'edismax',
             'queryalternative' => '*:*',
             'queryfields' => 'title^2.0 description',
             'minimummatch' => '2.0',
@@ -58,6 +59,7 @@ class Solarium_Query_Select_Component_DisMaxTest extends PHPUnit_Framework_TestC
 
         $this->_disMax->setOptions($options);
 
+        $this->assertEquals($options['queryparser'], $this->_disMax->getQueryParser());
         $this->assertEquals($options['queryalternative'], $this->_disMax->getQueryAlternative());
         $this->assertEquals($options['queryfields'], $this->_disMax->getQueryFields());
         $this->assertEquals($options['minimummatch'], $this->_disMax->getMinimumMatch());
@@ -74,6 +76,17 @@ class Solarium_Query_Select_Component_DisMaxTest extends PHPUnit_Framework_TestC
         $this->assertEquals(
             Solarium_Query_Select::COMPONENT_DISMAX,
             $this->_disMax->getType()
+        );
+    }
+
+    public function testSetAndGetQueryParser()
+    {
+        $value = 'dummyparser';
+        $this->_disMax->setQueryParser($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_disMax->getQueryParser()
         );
     }
 
