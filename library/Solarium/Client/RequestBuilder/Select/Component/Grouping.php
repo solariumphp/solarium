@@ -37,59 +37,35 @@
  */
 
 /**
- * Parse select response data
+ * Add select component Grouping to the request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select extends Solarium_Client_ResponseParser
+class Solarium_Client_RequestBuilder_Select_Component_Grouping
 {
-
+    
     /**
-     * Get result data for the response
+     * Add request settings for Grouping
      *
-     * @param Solarium_Result_Select $result
-     * @return array
+     * @param Solarium_Query_Select_Component_Grouping $component
+     * @param Solarium_Client_Request $request
+     * @return Solarium_Client_Request
      */
-    public function parse($result)
+    public function build($component, $request)
     {
-        $data = $result->getData();
-        $query = $result->getQuery();
+        // enable grouping
+        $request->addParam('group', 'true');
 
-        // create document instances
-        $documentClass = $query->getOption('documentclass');
-        $documents = array();
-        if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
-                $documents[] = new $documentClass($fields);
-            }
-        }
+        $request->addParam('group.field', $component->getFields());
+        $request->addParam('group.query', $component->getQueries());
+        $request->addParam('group.limit', $component->getLimit());
+        $request->addParam('group.offset', $component->getOffset());
+        $request->addParam('group.sort', $component->getSort());
+        $request->addParam('group.main', $component->getMainResult());
+        $request->addParam('group.ngroups', $component->getNumberOfGroups());
+        $request->addParam('group.cache.percent', $component->getCachePercentage());
 
-        // component results
-        $components = array();
-        $types = $query->getComponentTypes();
-        foreach ($query->getComponents() as $component) {
-            $componentParserClass = $types[$component->getType()]['responseparser'];
-            if (!empty($componentParserClass)) {
-                $componentParser = new $componentParserClass;
-                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
-            }
-        }
-
-        if (isset($data['response']['numFound'])) {
-            $numFound = $data['response']['numFound'];
-        } else {
-            $numFound = null;
-        }
-        
-        return array(
-            'status' => $data['responseHeader']['status'],
-            'queryTime' => $data['responseHeader']['QTime'],
-            'numfound' => $numFound,
-            'documents' => $documents,
-            'components' => $components,
-        );
+        return $request;
     }
-
 }

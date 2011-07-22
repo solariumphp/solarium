@@ -33,63 +33,103 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
 
 /**
- * Parse select response data
+ * Select component grouping field group result
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
-class Solarium_Client_ResponseParser_Select extends Solarium_Client_ResponseParser
+class Solarium_Result_Select_Grouping_FieldGroup implements IteratorAggregate, Countable
 {
 
     /**
-     * Get result data for the response
+     * Match count
      *
-     * @param Solarium_Result_Select $result
-     * @return array
+     * @var int
      */
-    public function parse($result)
+    protected $_matches;
+
+    /**
+     * Number of groups
+     *
+     * @var int
+     */
+    protected $_numberOfGroups;
+
+    /**
+     * Value groups
+     *
+     * @var array
+     */
+    protected $_valueGroups;
+    
+    /**
+     * Constructor
+     *
+     * @param int $matches
+     * @param int $numberOfGroups
+     * @param array $groups
+     * @return void
+     */
+    public function __construct($matches, $numberOfGroups, $groups)
     {
-        $data = $result->getData();
-        $query = $result->getQuery();
-
-        // create document instances
-        $documentClass = $query->getOption('documentclass');
-        $documents = array();
-        if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
-                $documents[] = new $documentClass($fields);
-            }
-        }
-
-        // component results
-        $components = array();
-        $types = $query->getComponentTypes();
-        foreach ($query->getComponents() as $component) {
-            $componentParserClass = $types[$component->getType()]['responseparser'];
-            if (!empty($componentParserClass)) {
-                $componentParser = new $componentParserClass;
-                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
-            }
-        }
-
-        if (isset($data['response']['numFound'])) {
-            $numFound = $data['response']['numFound'];
-        } else {
-            $numFound = null;
-        }
-        
-        return array(
-            'status' => $data['responseHeader']['status'],
-            'queryTime' => $data['responseHeader']['QTime'],
-            'numfound' => $numFound,
-            'documents' => $documents,
-            'components' => $components,
-        );
+        $this->_matches = $matches;
+        $this->_numberOfGroups = $numberOfGroups;
+        $this->_valueGroups = $groups;
     }
 
+    /**
+     * Get matches value
+     * 
+     * @return int
+     */
+    public function getMatches()
+    {
+        return $this->_matches;
+    }
+
+    /**
+     * Get numberOfGroups value
+     *
+     * Only available if the numberofgroups option in the query was 'true'
+     *
+     * @return int
+     */
+    public function getNumberOfGroups()
+    {
+        return $this->_numberOfGroups;
+    }
+
+    /**
+     * Get all value groups
+     *
+     * @return array
+     */
+    public function getValueGroups()
+    {
+        return $this->_valueGroups;
+    }
+    
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_valueGroups);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_valueGroups);
+    }
 }

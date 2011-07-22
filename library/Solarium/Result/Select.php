@@ -235,6 +235,18 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
     }
 
     /**
+     * Get grouping component result
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Result_Select_Grouping
+     */
+    public function getGrouping()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_GROUPING);
+    }
+
+    /**
      * Get facetset component result
      *
      * This is a convenience method that maps presets to getComponent
