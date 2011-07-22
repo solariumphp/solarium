@@ -191,4 +191,10 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAssembleInvalidPartNumber()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_helper->assemble('cat:%1% AND content:%2%',array('value1'));
+    }
+
 }

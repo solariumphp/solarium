@@ -260,7 +260,8 @@ class Solarium_Query_Helper
         return preg_replace_callback(
             $this->_placeHolderPattern,
             array($this, '_renderPlaceHolder'),
-            $query);
+            $query
+        );
     }
 
     protected function _renderPlaceHolder($matches)

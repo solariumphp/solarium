@@ -37,7 +37,7 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
      */
     protected $_result;
 
-    protected $_numFound, $_docs, $_components, $_facetSet, $_moreLikeThis, $_highlighting;
+    protected $_numFound, $_docs, $_components, $_facetSet, $_moreLikeThis, $_highlighting, $_grouping;
 
     public function setUp()
     {
@@ -51,11 +51,13 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
         $this->_facetSet = 'dummy-facetset-value';
         $this->_moreLikeThis = 'dummy-facetset-value';
         $this->_highlighting = 'dummy-highlighting-value';
+        $this->_grouping = 'dummy-grouping-value';
 
         $this->_components = array(
             Solarium_Query_Select::COMPONENT_FACETSET => $this->_facetSet,
             Solarium_Query_Select::COMPONENT_MORELIKETHIS => $this->_moreLikeThis,
-            Solarium_Query_Select::COMPONENT_HIGHLIGHTING => $this->_highlighting
+            Solarium_Query_Select::COMPONENT_HIGHLIGHTING => $this->_highlighting,
+            Solarium_Query_Select::COMPONENT_GROUPING => $this->_grouping
         );
 
         $this->_result = new Solarium_Result_SelectDummy(1, 12, $this->_numFound, $this->_docs, $this->_components);
@@ -115,6 +117,14 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $this->_components[Solarium_Query_Select::COMPONENT_HIGHLIGHTING],
             $this->_result->getHighlighting()
+        );
+    }
+
+    public function testGetGrouping()
+    {
+        $this->assertEquals(
+            $this->_components[Solarium_Query_Select::COMPONENT_GROUPING],
+            $this->_result->getGrouping()
         );
     }
 

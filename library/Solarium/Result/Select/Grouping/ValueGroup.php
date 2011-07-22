@@ -33,63 +33,120 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
 
 /**
- * Parse select response data
+ * Select component grouping field value group result
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
-class Solarium_Client_ResponseParser_Select extends Solarium_Client_ResponseParser
+class Solarium_Result_Select_Grouping_ValueGroup implements IteratorAggregate, Countable
 {
 
     /**
-     * Get result data for the response
+     * Field value
      *
-     * @param Solarium_Result_Select $result
-     * @return array
+     * @var string
      */
-    public function parse($result)
+    protected $_value;
+
+    /**
+     * NumFound
+     *
+     * @var int
+     */
+    protected $_numFound;
+
+    /**
+     * Start position
+     *
+     * @var int
+     */
+    protected $_start;
+
+    /**
+     * Documents in this group
+     *
+     * @var array
+     */
+    protected $_documents;
+    
+    /**
+     * Constructor
+     *
+     * @param string $value
+     * @param int $numFound
+     * @param int $start
+     * @param array $documents
+     * @return void
+     */
+    public function __construct($value, $numFound, $start, $documents)
     {
-        $data = $result->getData();
-        $query = $result->getQuery();
-
-        // create document instances
-        $documentClass = $query->getOption('documentclass');
-        $documents = array();
-        if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
-                $documents[] = new $documentClass($fields);
-            }
-        }
-
-        // component results
-        $components = array();
-        $types = $query->getComponentTypes();
-        foreach ($query->getComponents() as $component) {
-            $componentParserClass = $types[$component->getType()]['responseparser'];
-            if (!empty($componentParserClass)) {
-                $componentParser = new $componentParserClass;
-                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
-            }
-        }
-
-        if (isset($data['response']['numFound'])) {
-            $numFound = $data['response']['numFound'];
-        } else {
-            $numFound = null;
-        }
-        
-        return array(
-            'status' => $data['responseHeader']['status'],
-            'queryTime' => $data['responseHeader']['QTime'],
-            'numfound' => $numFound,
-            'documents' => $documents,
-            'components' => $components,
-        );
+        $this->_value = $value;
+        $this->_numFound = $numFound;
+        $this->_start = $start;
+        $this->_documents = $documents;
     }
 
+    /**
+     * Get value
+     * 
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->_value;
+    }
+
+    /**
+     * Get numFound
+     *
+     * @return int
+     */
+    public function getNumFound()
+    {
+        return $this->_numFound;
+    }
+
+    /**
+     * Get start
+     *
+     * @return int
+     */
+    public function getStart()
+    {
+        return $this->_start;
+    }
+
+    /**
+     * Get all documents
+     *
+     * @return array
+     */
+    public function getDocuments()
+    {
+        return $this->_documents;
+    }
+    
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_documents);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_documents);
+    }
 }

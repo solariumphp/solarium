@@ -33,63 +33,78 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
 
 /**
- * Parse select response data
+ * Select component grouping result
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
-class Solarium_Client_ResponseParser_Select extends Solarium_Client_ResponseParser
+class Solarium_Result_Select_Grouping implements IteratorAggregate, Countable
 {
 
     /**
-     * Get result data for the response
+     * Group results array
      *
-     * @param Solarium_Result_Select $result
-     * @return array
+     * @var array
      */
-    public function parse($result)
+    protected $_groups;
+    
+    /**
+     * Constructor
+     *
+     * @param array $groups
+     * @return void
+     */
+    public function __construct($groups)
     {
-        $data = $result->getData();
-        $query = $result->getQuery();
-
-        // create document instances
-        $documentClass = $query->getOption('documentclass');
-        $documents = array();
-        if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
-                $documents[] = new $documentClass($fields);
-            }
-        }
-
-        // component results
-        $components = array();
-        $types = $query->getComponentTypes();
-        foreach ($query->getComponents() as $component) {
-            $componentParserClass = $types[$component->getType()]['responseparser'];
-            if (!empty($componentParserClass)) {
-                $componentParser = new $componentParserClass;
-                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
-            }
-        }
-
-        if (isset($data['response']['numFound'])) {
-            $numFound = $data['response']['numFound'];
-        } else {
-            $numFound = null;
-        }
-        
-        return array(
-            'status' => $data['responseHeader']['status'],
-            'queryTime' => $data['responseHeader']['QTime'],
-            'numfound' => $numFound,
-            'documents' => $documents,
-            'components' => $components,
-        );
+        $this->_groups = $groups;
     }
 
+    /**
+     * Get all groups
+     *
+     * @return array
+     */
+    public function getGroups()
+    {
+        return $this->_groups;
+    }
+
+    /**
+     * Get a group
+     *
+     * @param string $key
+     * @return Solarium_Result_Select_Grouping_FieldGroup|Solarium_Result_Select_Grouping_QueryGroup
+     */
+    public function getGroup($key)
+    {
+        if (isset($this->_groups[$key])) {
+            return $this->_groups[$key];
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_groups);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_groups);
+    }
 }
