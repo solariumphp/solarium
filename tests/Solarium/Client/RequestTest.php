@@ -172,6 +172,24 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAddParamBoolean()
+    {
+        $params = array(
+            'param1' => true,
+            'param2' => false,
+        );
+
+        $this->_request->addParams($params);
+
+        $this->assertEquals(
+            array(
+                'param1' => 'true',
+                'param2' => 'false',
+            ),
+            $this->_request->getParams()
+        );
+    }
+
     public function testAddParamMultivalue()
     {
         $params = array(

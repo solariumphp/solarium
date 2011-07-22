@@ -126,7 +126,7 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSetTest extends PHPUn
         );
 
         $this->assertEquals(
-            '?facet=true&facet.missing=1&facet.limit=10&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
+            '?facet=true&facet.missing=true&facet.limit=10&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
             urldecode($request->getUri())
         );
     }

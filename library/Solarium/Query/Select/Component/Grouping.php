@@ -78,6 +78,28 @@ class Solarium_Query_Select_Component_Grouping extends Solarium_Query_Select_Com
     protected $_queries = array();
 
     /**
+     * Initialize options
+     *
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
+     *
+     * @return void
+     */
+    protected function _init()
+    {
+        foreach ($this->_options AS $name => $value) {
+            switch ($name) {
+                case 'queries':
+                    $this->setQueries($value);
+                    break;
+                case 'fields':
+                    $this->setFields($value);
+                    break;
+            }
+        }
+    }
+
+    /**
      * Add a grouping field
      *
      * Group based on the unique values of a field
@@ -95,11 +117,18 @@ class Solarium_Query_Select_Component_Grouping extends Solarium_Query_Select_Com
     /**
      * Add multiple grouping fields
      *
-     * @param array $fields
+     * You can use an array or a comma separated string as input
+     *
+     * @param array|string $fields
      * @return Solarium_Field_Select_Component_Grouping Provides fluent interface
      */
     public function addFields($fields)
     {
+        if (is_string($fields)) {
+            $fields = explode(',', $fields);
+            $fields = array_map('trim', $fields);
+        }
+
         $this->_fields = array_merge($this->_fields, $fields);
 
         return $this;
@@ -157,11 +186,13 @@ class Solarium_Query_Select_Component_Grouping extends Solarium_Query_Select_Com
     /**
      * Add multiple grouping queries
      *
-     * @param array $queries
+     * @param array|string $queries
      * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
      */
     public function addQueries($queries)
     {
+        if(!is_array($queries)) $queries = array($queries);
+
         $this->_queries = array_merge($this->_queries, $queries);
 
         return $this;

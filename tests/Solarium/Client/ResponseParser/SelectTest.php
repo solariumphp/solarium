@@ -76,8 +76,40 @@ class Solarium_Client_ResponseParser_SelectTest extends PHPUnit_Framework_TestCa
             Solarium_Query_Select::COMPONENT_FACETSET => new Solarium_Result_Select_FacetSet(array())
         );
         $this->assertEquals($components, $result['components']);
+    }
 
+    public function testParseWithoutNumFound()
+    {
+        $data = array(
+            'response' => array(
+                'docs' => array(
+                    array('fieldA' => 1, 'fieldB' => 'Test'),
+                    array('fieldA' => 2, 'fieldB' => 'Test2')
+                ),
+            ),
+            'responseHeader' => array(
+                'status' => 1,
+                'QTime' => 13,
+            )
+        );
 
+        $query = new Solarium_Query_Select(array('documentclass' => 'Solarium_Document_ReadWrite'));
+        $query->getFacetSet();
+
+        $resultStub = $this->getMock('Solarium_Result_Select', array(), array(), '', false);
+        $resultStub->expects($this->once())
+             ->method('getData')
+             ->will($this->returnValue($data));
+        $resultStub->expects($this->once())
+             ->method('getQuery')
+             ->will($this->returnValue($query));
+
+        $parser = new Solarium_Client_ResponseParser_Select;
+        $result = $parser->parse($resultStub);
+
+        $this->assertEquals(1, $result['status']);
+        $this->assertEquals(13, $result['queryTime']);
+        $this->assertEquals(null, $result['numfound']);
     }
 
 }
