@@ -57,6 +57,22 @@ class Solarium_Result_Select_GroupingTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetGroup()
+    {
+        $this->assertEquals(
+            $this->_items['key1'],
+            $this->_grouping->getGroup('key1')
+        );
+    }
+
+    public function testGetGroupInvalid()
+    {
+        $this->assertEquals(
+            null,
+            $this->_grouping->getGroup('invalidkey')
+        );
+    }
+
     public function testIterator()
     {
         $items = array();

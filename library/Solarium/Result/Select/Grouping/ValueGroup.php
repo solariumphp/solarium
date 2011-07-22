@@ -119,6 +119,16 @@ class Solarium_Result_Select_Grouping_ValueGroup implements IteratorAggregate, C
     {
         return $this->_start;
     }
+
+    /**
+     * Get all documents
+     *
+     * @return array
+     */
+    public function getDocuments()
+    {
+        return $this->_documents;
+    }
     
     /**
      * IteratorAggregate implementation

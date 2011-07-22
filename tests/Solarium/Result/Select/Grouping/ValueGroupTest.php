@@ -77,6 +77,14 @@ class Solarium_Result_Select_Grouping_ValueGroupTest extends PHPUnit_Framework_T
         );
     }
 
+    public function testGetDocuments()
+    {
+        $this->assertEquals(
+            $this->_items,
+            $this->_group->getDocuments()
+        );
+    }
+
     public function testIterator()
     {
         $items = array();

@@ -72,6 +72,21 @@ class Solarium_Result_Select_Grouping implements IteratorAggregate, Countable
     {
         return $this->_groups;
     }
+
+    /**
+     * Get a group
+     *
+     * @param string $key
+     * @return Solarium_Result_Select_Grouping_FieldGroup|Solarium_Result_Select_Grouping_QueryGroup
+     */
+    public function getGroup($key)
+    {
+        if (isset($this->_groups[$key])) {
+            return $this->_groups[$key];
+        } else {
+            return null;
+        }
+    }
     
     /**
      * IteratorAggregate implementation
