@@ -43,6 +43,8 @@
  * See the Solr wiki for more info about this functionality
  *
  * @link http://wiki.apache.org/solr/FieldCollapsing
+ *
+ * @since 2.1.0
  * 
  * @package Solarium
  * @subpackage Query
