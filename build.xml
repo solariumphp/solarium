@@ -26,7 +26,7 @@ you could also write the switches here)
 <antcall target="phpmd"/>
 <antcall target="phpcpd"/>
 <antcall target="phpcs"/>
-<antcall target="phpdoc"/>
+<antcall target="docblox"/>
 </parallel>
 </target>
 
