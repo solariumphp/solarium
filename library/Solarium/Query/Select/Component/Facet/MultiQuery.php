@@ -248,7 +248,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
             $facetQuery->addExclude($tag);
         }
 
-        return parent::addExclude($exclude);
+        return parent::addExclude($tag);
     }
 
     /**
