@@ -242,10 +242,10 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
      * @param string $tag
      * @return Solarium_Query_Select_Component_Facet Provides fluent interface
      */
-    public function addExclude($exclude)
+    public function addExclude($tag)
     {
         foreach ($this->_facetQueries AS $facetQuery) {
-            $facetQuery->addExclude($exclude);
+            $facetQuery->addExclude($tag);
         }
 
         return parent::addExclude($exclude);

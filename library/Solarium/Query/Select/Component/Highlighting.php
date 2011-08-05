@@ -47,9 +47,13 @@
 class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select_Component
 {
     /**
-     * Values for fragmenter option
+     * Value for fragmenter option gap
      */
     const FRAGMENTER_GAP = 'gap';
+
+    /**
+     * Value for fragmenter option regex
+     */
     const FRAGMENTER_REGEX = 'regex';
 
     /**

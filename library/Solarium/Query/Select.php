@@ -50,18 +50,38 @@ class Solarium_Query_Select extends Solarium_Query
 {
 
     /**
-     * Solr sort modes
+     * Solr sort mode descending
      */
     const SORT_DESC = 'desc';
+
+    /**
+     * Solr sort mode ascending
+     */
     const SORT_ASC = 'asc';
 
     /**
-     * Query components
+     * Query component facetset
      */
     const COMPONENT_FACETSET = 'facetset';
+
+    /**
+     * Query component dismax
+     */
     const COMPONENT_DISMAX = 'dismax';
+
+    /**
+     * Query component morelikethis
+     */
     const COMPONENT_MORELIKETHIS = 'morelikethis';
+
+    /**
+     * Query component highlighting
+     */
     const COMPONENT_HIGHLIGHTING = 'highlighting';
+
+    /**
+     * Query component grouping
+     */
     const COMPONENT_GROUPING = 'grouping';
 
     /**

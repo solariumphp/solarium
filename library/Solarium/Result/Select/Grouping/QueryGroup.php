@@ -85,7 +85,11 @@ class Solarium_Result_Select_Grouping_QueryGroup implements IteratorAggregate, C
     /**
      * Constructor
      *
-     * @param array $groups
+     * @param int $matches
+     * @param int $numFound
+     * @param int $start
+     * @param float $maximumScore
+     * @param array $documents
      * @return void
      */
     public function __construct($matches, $numFound, $start, $maximumScore, $documents)

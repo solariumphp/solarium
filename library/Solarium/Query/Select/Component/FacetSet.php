@@ -48,11 +48,23 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
 {
 
     /**
-     * Facet type keys
+     * Facet type field
      */
     const FACET_FIELD = 'field';
+
+    /**
+     * Facet type query
+     */
     const FACET_QUERY = 'query';
+
+    /**
+     * Facet type multiquery
+     */
     const FACET_MULTIQUERY = 'multiquery';
+
+    /**
+     * Facet type range
+     */
     const FACET_RANGE = 'range';
 
     /**
@@ -191,7 +203,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      *
      * This is a global value for all facets in this facetset
      *
-     * @param int $mincount
+     * @param int $minCount
      * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
      */
     public function setMinCount($minCount)

@@ -77,6 +77,9 @@ class Solarium_Result_Select_Facet_Range extends Solarium_Result_Select_Facet_Fi
      * Constructor
      *
      * @param array $values
+     * @param int $before
+     * @param int $after
+     * @param int $between
      * @return void
      */
     public function __construct($values, $before, $after, $between)

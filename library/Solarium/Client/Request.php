@@ -46,10 +46,18 @@ class Solarium_Client_Request extends Solarium_Configurable
 {
 
     /**
-     * Http request methods
+     * Request GET method
      */
     const METHOD_GET     = 'get';
+
+    /**
+     * Request POST method
+     */
     const METHOD_POST    = 'post';
+
+    /**
+     * Request HEAD method
+     */
     const METHOD_HEAD    = 'head';
 
     /**

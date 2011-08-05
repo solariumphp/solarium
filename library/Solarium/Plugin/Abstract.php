@@ -169,7 +169,7 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     /**
      * preCreateQuery hook
      *
-     * @param string $query
+     * @param string $type
      * @param mixed $options
      * @return void|Solarium_Query
      */
@@ -180,7 +180,7 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     /**
      * postCreateQuery hook
      * 
-     * @param string $query
+     * @param string $type
      * @param mixed $options
      * @param Solarium_Query
      * @return void

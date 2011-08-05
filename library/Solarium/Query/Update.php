@@ -50,12 +50,28 @@ class Solarium_Query_Update extends Solarium_Query
 {
 
     /**
-     * Update command type names
+     * Update command add
      */
     const COMMAND_ADD = 'add';
+
+    /**
+     * Update command delete
+     */
     const COMMAND_DELETE = 'delete';
+
+    /**
+     * Update command commit
+     */
     const COMMAND_COMMIT = 'commit';
+
+    /**
+     * Update command rollback
+     */
     const COMMAND_ROLLBACK = 'rollback';
+
+    /**
+     * Update command optimize
+     */
     const COMMAND_OPTIMIZE = 'optimize';
 
     /**
@@ -230,7 +246,6 @@ class Solarium_Query_Update extends Solarium_Query
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param string $key
      * @param array $queries
      * @return Solarium_Query_Update Provides fluent interface
      */
@@ -265,7 +280,7 @@ class Solarium_Query_Update extends Solarium_Query
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param array $id
+     * @param array $ids
      * @return Solarium_Query_Update Provides fluent interface
      */
     public function addDeleteByIds($ids)
@@ -287,10 +302,10 @@ class Solarium_Query_Update extends Solarium_Query
      * @param int $commitWithin
      * @return Solarium_Query_Update Provides fluent interface
      */
-    public function addDocument($document, $override = null,
+    public function addDocument($document, $overwrite = null,
                                 $commitWithin = null)
     {
-        return $this->addDocuments(array($document), $override, $commitWithin);
+        return $this->addDocuments(array($document), $overwrite, $commitWithin);
     }
 
     /**
