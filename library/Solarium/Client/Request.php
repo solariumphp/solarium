@@ -210,6 +210,10 @@ class Solarium_Client_Request extends Solarium_Configurable
                 }
                 $this->_params[$key][] = $value;
             } else {
+                // not all solr handlers support 0/1 as boolean values...
+                if($value === true) $value = 'true';
+                if($value === false) $value = 'false';
+
                 $this->_params[$key] = $value;
             }
         }

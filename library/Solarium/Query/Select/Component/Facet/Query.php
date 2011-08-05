@@ -72,10 +72,16 @@ class Solarium_Query_Select_Component_Facet_Query extends Solarium_Query_Select_
      * This overwrites the current value
      *
      * @param string $query
+     * @param array $bind Bind values for placeholders in the query string
      * @return Solarium_Query_Select_Facet_Query Provides fluent interface
      */
-    public function setQuery($query)
+    public function setQuery($query, $bind = null)
     {
+        if (!is_null($bind)) {
+            $helper = new Solarium_Query_Helper;
+            $query = $helper->assemble($query, $bind);
+        }
+        
         return $this->_setOption('query', $query);
     }
 

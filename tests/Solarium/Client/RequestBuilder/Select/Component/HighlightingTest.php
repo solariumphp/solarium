@@ -63,12 +63,12 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
 
         $this->assertEquals(
             array(
-                'hl' => true,
+                'hl' => 'true',
                 'hl.fl' => 'fieldA,fieldB',
                 'hl.snippets' => 2,
                 'hl.fragsize' => 3,
-                'hl.mergeContiguous' => true,
-                'hl.requireFieldMatch' => false,
+                'hl.mergeContiguous' => 'true',
+                'hl.requireFieldMatch' => 'false',
                 'hl.maxAnalyzedChars' => 100,
                 'hl.alternateField' => 'fieldC',
                 'hl.maxAlternateFieldLength' => 5,
@@ -78,9 +78,9 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
                 'hl.fragmenter' => 'myFragmenter',
                 'hl.fragListBuilder' => 'myFragListBuilder',
                 'hl.fragmentsBuilder' => 'myFragmentsBuilder',
-                'hl.useFastVectorHighlighter' => false,
-                'hl.usePhraseHighlighter' => true,
-                'hl.highlightMultiTerm' => true,
+                'hl.useFastVectorHighlighter' => 'false',
+                'hl.usePhraseHighlighter' => 'true',
+                'hl.highlightMultiTerm' => 'true',
                 'hl.regex.slop' => 1.3,
                 'hl.regex.pattern' => 'mypattern',
             ),

@@ -152,4 +152,49 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAssemble()
+    {
+        // test single basic placeholder
+        $this->assertEquals(
+            'id:456 AND cat:2',
+            $this->_helper->assemble('id:%1% AND cat:2',array(456))
+        );
+
+        // test multiple basic placeholders and placeholder repeat
+        $this->assertEquals(
+            '(id:456 AND cat:2) OR (id:456 AND cat:1)',
+            $this->_helper->assemble('(id:%1% AND cat:%2%) OR (id:%1% AND cat:%3%)',array(456, 2, 1))
+        );
+
+        // test literal placeholder (same as basic)
+        $this->assertEquals(
+            'id:456 AND cat:2',
+            $this->_helper->assemble('id:%L1% AND cat:2',array(456))
+        );
+
+        // test term placeholder
+        $this->assertEquals(
+            'cat:2 AND content:a\\+b',
+            $this->_helper->assemble('cat:2 AND content:%T1%',array('a+b'))
+        );
+
+        // test term placeholder case-insensitive
+        $this->assertEquals(
+            'cat:2 AND content:a\\+b',
+            $this->_helper->assemble('cat:2 AND content:%t1%',array('a+b'))
+        );
+
+        // test phrase placeholder
+        $this->assertEquals(
+            'cat:2 AND content:"a+\\"b"',
+            $this->_helper->assemble('cat:2 AND content:%P1%',array('a+"b'))
+        );
+    }
+
+    public function testAssembleInvalidPartNumber()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_helper->assemble('cat:%1% AND content:%2%',array('value1'));
+    }
+
 }

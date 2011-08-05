@@ -9,13 +9,14 @@ $client = new Solarium_Client($config);
 // get a select query instance
 $query = $client->createSelect();
 
-// search input string, this value fails without escaping because of the double-quote
-$input = 'ATA "133';
+// get the dismax component and set a boost query
+$dismax = $query->getDisMax();
 
-// in this case phrase escaping is used (most common) but you can also do term escaping, see the manual
-// also note that the same can be done using the placeholder syntax, see example 6.3
-$helper = $query->getHelper();
-$query->setQuery('features:' . $helper->escapePhrase($input));
+// override the default setting of 'dismax' to enable 'edismax'
+$dismax->setQueryParser('edismax');
+
+// this query is now a dismax query
+$query->setQuery('memory -printer');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

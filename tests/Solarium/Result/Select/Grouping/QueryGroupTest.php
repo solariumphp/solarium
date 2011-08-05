@@ -29,51 +29,85 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_Select_Component_Facet_QueryTest extends PHPUnit_Framework_TestCase
+class Solarium_Result_Select_Grouping_QueryGroupTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Solarium_Query_Select_Component_Facet_Query
+     * @var Solarium_Result_Select_Grouping_QueryGroup
      */
-    protected $_facet;
+    protected $_group;
+
+    protected $_matches, $_numFound, $_start, $_maximumScore, $_items;
 
     public function setUp()
     {
-        $this->_facet = new Solarium_Query_Select_Component_Facet_Query;
-    }
+        $this->_matches = 12;
+        $this->_numFound = 6;
+        $this->_start = 2;
+        $this->_maximumScore = 0.89;
 
-    public function testConfigMode()
-    {
-        $options = array(
-            'key' => 'myKey',
-            'exclude' => array('e1','e2'),
-            'query' => 'category:1',
+        $this->_items = array(
+            'key1' => 'content1',
+            'key2' => 'content2',
         );
 
-        $this->_facet->setOptions($options);
-
-        $this->assertEquals($options['key'], $this->_facet->getKey());
-        $this->assertEquals($options['exclude'], $this->_facet->getExcludes());
-        $this->assertEquals($options['query'], $this->_facet->getQuery());
+        $this->_group = new Solarium_Result_Select_Grouping_QueryGroup($this->_matches, $this->_numFound, $this->_start, $this->_maximumScore, $this->_items);
     }
 
-    public function testGetType()
+    public function testGetMatches()
     {
         $this->assertEquals(
-            Solarium_Query_Select_Component_FacetSet::FACET_QUERY,
-            $this->_facet->getType()
+            $this->_matches,
+            $this->_group->getMatches()
         );
     }
 
-    public function testSetAndGetQuery()
+    public function testGetNumFound()
     {
-        $this->_facet->setQuery('category:1');
-        $this->assertEquals('category:1', $this->_facet->getQuery());
+        $this->assertEquals(
+            $this->_numFound,
+            $this->_group->getNumFound()
+        );
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testGetStart()
     {
-        $this->_facet->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->_facet->getQuery());
+        $this->assertEquals(
+            $this->_start,
+            $this->_group->getStart()
+        );
     }
+
+    public function testGetMaximumScore()
+    {
+        $this->assertEquals(
+            $this->_maximumScore,
+            $this->_group->getMaximumScore()
+        );
+    }
+
+    public function testGetDocuments()
+    {
+        $this->assertEquals(
+            $this->_items,
+            $this->_group->getDocuments()
+        );
+    }
+
+    public function testIterator()
+    {
+        $items = array();
+        foreach($this->_group AS $key => $item)
+        {
+            $items[$key] = $item;
+        }
+
+        $this->assertEquals($this->_items, $items);
+    }
+
+    public function testCount()
+    {
+        $this->assertEquals(count($this->_items), count($this->_group));
+    }
+
 }

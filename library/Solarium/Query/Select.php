@@ -62,6 +62,7 @@ class Solarium_Query_Select extends Solarium_Query
     const COMPONENT_DISMAX = 'dismax';
     const COMPONENT_MORELIKETHIS = 'morelikethis';
     const COMPONENT_HIGHLIGHTING = 'highlighting';
+    const COMPONENT_GROUPING = 'grouping';
 
     /**
      * Get type for this query
@@ -113,6 +114,11 @@ class Solarium_Query_Select extends Solarium_Query
             'component' => 'Solarium_Query_Select_Component_Highlighting',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Highlighting',
             'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Highlighting',
+        ),
+        self::COMPONENT_GROUPING => array(
+            'component' => 'Solarium_Query_Select_Component_Grouping',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Grouping',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Grouping',
         ),
     );
 
@@ -188,10 +194,15 @@ class Solarium_Query_Select extends Solarium_Query
      * escaping of user input.
      *
      * @param string $query
+     * @param array $bind Bind values for placeholders in the query string
      * @return Solarium_Query_Select Provides fluent interface
      */
-    public function setQuery($query)
+    public function setQuery($query, $bind = null)
     {
+        if (!is_null($bind)) {
+            $query = $this->getHelper()->assemble($query, $bind);
+        }
+
         return $this->_setOption('query', trim($query));
     }
 
@@ -748,6 +759,18 @@ class Solarium_Query_Select extends Solarium_Query
     public function getHighlighting()
     {
         return $this->getComponent(Solarium_Query_Select::COMPONENT_HIGHLIGHTING, true);
+    }
+
+    /**
+     * Get a grouping component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_Grouping
+     */
+    public function getGrouping()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_GROUPING, true);
     }
 
 }

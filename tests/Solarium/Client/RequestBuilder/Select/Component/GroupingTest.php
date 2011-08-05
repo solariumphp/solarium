@@ -27,46 +27,43 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * Add select component dismax to the request
- *
- * @package Solarium
- * @subpackage Client
- */
-class Solarium_Client_RequestBuilder_Select_Component_DisMax
+class Solarium_Client_RequestBuilder_Select_Component_GroupingTest extends PHPUnit_Framework_TestCase
 {
-    
-    /**
-     * Add request settings for Dismax
-     *
-     * @param Solarium_Query_Select_Component_Dismax $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
-     */
-    public function build($component, $request)
+
+    public function testBuild()
     {
-        // enable dismax
-        $request->addParam('defType', $component->getQueryParser());
+        $builder = new Solarium_Client_RequestBuilder_Select_Component_Grouping;
+        $request = new Solarium_Client_Request();
 
-        $request->addParam('q.alt', $component->getQueryAlternative());
-        $request->addParam('qf', $component->getQueryFields());
-        $request->addParam('mm', $component->getMinimumMatch());
-        $request->addParam('pf', $component->getPhraseFields());
-        $request->addParam('ps', $component->getPhraseSlop());
-        $request->addParam('qs', $component->getQueryPhraseSlop());
-        $request->addParam('tie', $component->getTie());
-        $request->addParam('bq', $component->getBoostQuery());
-        $request->addParam('bf', $component->getBoostFunctions());
+        $component = new Solarium_Query_Select_Component_Grouping();
+        $component->setFields(array('fieldA','fieldB'));
+        $component->setQueries(array('cat:1','cat:2'));
+        $component->setLimit(12);
+        $component->setOffset(2);
+        $component->setSort('score desc');
+        $component->setMainResult(true);
+        $component->setNumberOfGroups(false);
+        $component->setCachePercentage(50);
 
-        return $request;
+        $request = $builder->build($component, $request);
+
+        $this->assertEquals(
+            array(
+                'group' => 'true',
+                'group.field' => array('fieldA','fieldB'),
+                'group.query' => array('cat:1','cat:2'),
+                'group.limit' => 12,
+                'group.offset' => 2,
+                'group.sort' => 'score desc',
+                'group.main' => 'true',
+                'group.ngroups' => 'false',
+                'group.cache.percent' => 50,
+            ),
+            $request->getParams()
+        );
+
     }
+
 }

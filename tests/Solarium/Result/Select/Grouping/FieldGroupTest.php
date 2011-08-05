@@ -27,46 +27,61 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * Add select component dismax to the request
- *
- * @package Solarium
- * @subpackage Client
- */
-class Solarium_Client_RequestBuilder_Select_Component_DisMax
+class Solarium_Result_Select_Grouping_FieldGroupTest extends PHPUnit_Framework_TestCase
 {
-    
+
     /**
-     * Add request settings for Dismax
-     *
-     * @param Solarium_Query_Select_Component_Dismax $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @var Solarium_Result_Select_Grouping_FieldGroup
      */
-    public function build($component, $request)
+    protected $_group;
+
+    protected $_matches, $_numberOfGroups, $_items;
+
+    public function setUp()
     {
-        // enable dismax
-        $request->addParam('defType', $component->getQueryParser());
+        $this->_matches = 12;
+        $this->_numberOfGroups = 6;
 
-        $request->addParam('q.alt', $component->getQueryAlternative());
-        $request->addParam('qf', $component->getQueryFields());
-        $request->addParam('mm', $component->getMinimumMatch());
-        $request->addParam('pf', $component->getPhraseFields());
-        $request->addParam('ps', $component->getPhraseSlop());
-        $request->addParam('qs', $component->getQueryPhraseSlop());
-        $request->addParam('tie', $component->getTie());
-        $request->addParam('bq', $component->getBoostQuery());
-        $request->addParam('bf', $component->getBoostFunctions());
+        $this->_items = array(
+            'key1' => 'content1',
+            'key2' => 'content2',
+        );
 
-        return $request;
+        $this->_group = new Solarium_Result_Select_Grouping_FieldGroup($this->_matches, $this->_numberOfGroups, $this->_items);
     }
+
+    public function testGetMatches()
+    {
+        $this->assertEquals(
+            $this->_matches,
+            $this->_group->getMatches()
+        );
+    }
+
+    public function testGetNumberOfGroups()
+    {
+        $this->assertEquals(
+            $this->_numberOfGroups,
+            $this->_group->getNumberOfGroups()
+        );
+    }
+
+    public function testIterator()
+    {
+        $items = array();
+        foreach($this->_group AS $key => $item)
+        {
+            $items[$key] = $item;
+        }
+
+        $this->assertEquals($this->_items, $items);
+    }
+
+    public function testCount()
+    {
+        $this->assertEquals(count($this->_items), count($this->_group));
+    }
+
 }

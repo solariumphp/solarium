@@ -75,6 +75,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      * Constructor
      *
      * @param array $fields
+     * @param array $boosts
      */
     public function __construct($fields = array(), $boosts = array())
     {

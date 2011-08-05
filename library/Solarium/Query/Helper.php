@@ -48,6 +48,20 @@ class Solarium_Query_Helper
 {
 
     /**
+     * Placeholder pattern for use in the assemble method
+     *
+     * @var string
+     */
+    protected $_placeHolderPattern = '/%(L|P|T|)([0-9]+)%/i';
+
+    /**
+     * Array of parts to use for assembling a query string
+     *
+     * @var array
+     */
+    protected $_assembleParts;
+
+    /**
      * Escape a term
      *
      * A term is a single word.
@@ -216,6 +230,71 @@ class Solarium_Query_Helper
     public function functionCall($name, $params = array())
     {
         return $name . '(' . implode($params, ',') . ')';
+    }
+
+    /**
+     * Assemble a querystring with placeholders
+     *
+     * These placeholder modes are supported:
+     * %1% = no mode, will default to literal
+     * %L2% = literal
+     * %P3% = phrase-escaped
+     * %T4% = term-escaped
+     *
+     * Numbering starts at 1, so number 1 refers to the first entry
+     * of $parts (which has array key 0)
+     * You can use the same part multiple times, even in multiple modes.
+     * The mode letters are not case sensitive.
+     *
+     * The mode matching pattern can be customized by overriding the
+     * value of $this->_placeHolderPattern
+     *
+     * @since 2.1.0
+     * 
+     * @param string $query
+     * @param array $parts Array of strings
+     * @return string
+     */
+    public function assemble($query, $parts)
+    {
+        $this->_assembleParts = $parts;
+        
+        return preg_replace_callback(
+            $this->_placeHolderPattern,
+            array($this, '_renderPlaceHolder'),
+            $query
+        );
+    }
+
+    /**
+     * Render placeholders in a querystring
+     *
+     * @throws Solarium_Exception
+     * @param array $matches
+     * @return string
+     */
+    protected function _renderPlaceHolder($matches)
+    {
+        $partNumber = $matches[2];
+        $partMode = strtoupper($matches[1]);
+
+        if (isset($this->_assembleParts[$partNumber-1])) {
+            $value = $this->_assembleParts[$partNumber-1];
+        } else {
+            throw new Solarium_Exception('No value supplied for part #' . $partNumber . ' in query assembler');
+        }
+
+        switch($partMode)
+        {
+            case 'P':
+                $value = $this->escapePhrase($value);
+                break;
+            case 'T':
+                $value = $this->escapeTerm($value);
+                break;
+        }
+
+        return $value;
     }
 
 }

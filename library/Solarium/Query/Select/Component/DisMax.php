@@ -55,6 +55,15 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
     protected $_type = Solarium_Query_Select::COMPONENT_DISMAX;
 
     /**
+     * Default options
+     *
+     * @var array
+     */
+    protected $_options = array(
+        'queryparser' => 'dismax',
+    );
+
+    /**
      * Set QueryAlternative option
      *
      * If specified, this query will be used (and parsed by default using
@@ -274,6 +283,33 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
     public function getBoostFunctions()
     {
         return $this->getOption('boostfunctions');
+    }
+
+    /**
+     * Set QueryParser option
+     *
+     * Can be used to enable edismax
+     *
+     * @since 2.1.0
+     *
+     * @param string $parser
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     */
+    public function setQueryParser($parser)
+    {
+        return $this->_setOption('queryparser', $parser);
+    }
+
+    /**
+     * Get QueryParser option
+     *
+     * @since 2.1.0
+     * 
+     * @return string
+     */
+    public function getQueryParser()
+    {
+        return $this->getOption('queryparser');
     }
 
 }

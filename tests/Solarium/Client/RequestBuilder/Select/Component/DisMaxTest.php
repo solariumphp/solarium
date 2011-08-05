@@ -38,6 +38,7 @@ class Solarium_Client_RequestBuilder_Select_Component_DisMaxTest extends PHPUnit
         $request = new Solarium_Client_Request();
 
         $component = new Solarium_Query_Select_Component_DisMax();
+        $component->setQueryParser('dummyparser');
         $component->setQueryAlternative('test');
         $component->setQueryFields('content,name');
         $component->setMinimumMatch('75%');
@@ -52,7 +53,7 @@ class Solarium_Client_RequestBuilder_Select_Component_DisMaxTest extends PHPUnit
             
         $this->assertEquals(
             array(
-                'defType' => 'dismax',
+                'defType' => 'dummyparser',
                 'q.alt' => 'test',
                 'qf' => 'content,name',
                 'mm' => '75%',

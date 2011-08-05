@@ -56,6 +56,12 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('*:*', $this->_query->getQuery());
     }
 
+    public function testSetAndGetQueryWithBind()
+    {
+        $this->_query->setQuery('id:%1%', array(678));
+        $this->assertEquals('id:678', $this->_query->getQuery());
+    }
+
     public function testSetAndGetResultClass()
     {
         $this->_query->setResultClass('MyResult');
@@ -471,11 +477,21 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
     public function testGetHighlighting()
     {
-        $dismax = $this->_query->getHighlighting();
+        $hlt = $this->_query->getHighlighting();
 
         $this->assertEquals(
             'Solarium_Query_Select_Component_Highlighting',
-            get_class($dismax)
+            get_class($hlt)
+        );
+    }
+
+    public function testGetGrouping()
+    {
+        $grouping = $this->_query->getGrouping();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_Grouping',
+            get_class($grouping)
         );
     }
     
