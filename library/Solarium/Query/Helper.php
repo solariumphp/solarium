@@ -249,6 +249,8 @@ class Solarium_Query_Helper
      * The mode matching pattern can be customized by overriding the
      * value of $this->_placeHolderPattern
      *
+     * @since 1.1.0
+     * 
      * @param string $query
      * @param array $parts Array of strings
      * @return string
@@ -264,6 +266,13 @@ class Solarium_Query_Helper
         );
     }
 
+    /**
+     * Render placeholders in a querystring
+     *
+     * @throws Solarium_Exception
+     * @param array $matches
+     * @return string
+     */
     protected function _renderPlaceHolder($matches)
     {
         $partNumber = $matches[2];

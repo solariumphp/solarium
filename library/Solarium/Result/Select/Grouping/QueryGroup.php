@@ -39,6 +39,8 @@
 /**
  * Select component grouping query group result
  *
+ * @since 1.1.0
+ *
  * @package Solarium
  * @subpackage Result
  */
