@@ -59,9 +59,9 @@ you could also write the switches here)
 </target>
 
 <!-- Generate API documentation -->
-<target name="phpdoc">
-<exec executable="phpdoc">
-<arg line="-s on -ue on -d library -t build/api -o HTML:frames:DOM/earthli -ti 'Solarium API Documentation'"/>
+<target name="docblox">
+<exec executable="docblox">
+<arg line="run -d library -t build/api"/>
 </exec>
 </target>
 
