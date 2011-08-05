@@ -392,7 +392,7 @@ class Solarium_Query_Update extends Solarium_Query
      * You can optionally directly supply the fields and boosts
      * to get a ready-made document instance for direct use in an add command
      *
-     * @since 1.1.0
+     * @since 2.1.0
      *
      * @param array $fields
      * @param array $boosts

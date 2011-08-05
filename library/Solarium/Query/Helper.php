@@ -249,7 +249,7 @@ class Solarium_Query_Helper
      * The mode matching pattern can be customized by overriding the
      * value of $this->_placeHolderPattern
      *
-     * @since 1.1.0
+     * @since 2.1.0
      * 
      * @param string $query
      * @param array $parts Array of strings

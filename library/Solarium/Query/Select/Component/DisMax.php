@@ -290,7 +290,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      *
      * Can be used to enable edismax
      *
-     * @since 1.1.0
+     * @since 2.1.0
      *
      * @param string $parser
      * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
@@ -303,7 +303,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
     /**
      * Get QueryParser option
      *
-     * @since 1.1.0
+     * @since 2.1.0
      * 
      * @return string
      */

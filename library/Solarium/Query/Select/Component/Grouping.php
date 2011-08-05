@@ -44,7 +44,7 @@
  *
  * @link http://wiki.apache.org/solr/FieldCollapsing
  *
- * @since 1.1.0
+ * @since 2.1.0
  * 
  * @package Solarium
  * @subpackage Query
