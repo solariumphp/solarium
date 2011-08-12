@@ -713,6 +713,30 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $observer->createPing($options);
     }
 
+    public function testCreateAnalysisField()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_ANALYSIS_FIELD), $this->equalTo($options));
+
+        $observer->createAnalysisField($options);
+    }
+
+    public function testCreateAnalysisDocument()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_ANALYSIS_DOCUMENT), $this->equalTo($options));
+
+        $observer->createAnalysisDocument($options);
+    }
+
 }
 
 class MyAdapter extends Solarium_Client_Adapter_Http{
