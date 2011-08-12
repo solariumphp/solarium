@@ -78,6 +78,16 @@ class Solarium_Client extends Solarium_Configurable
     const QUERYTYPE_MORELIKETHIS = 'mlt';
 
     /**
+     * Querytype analysis field
+     */
+    const QUERYTYPE_ANALYSIS_FIELD = 'analysis-field';
+
+    /**
+     * Querytype analysis document
+     */
+    const QUERYTYPE_ANALYSIS_DOCUMENT = 'analysis-document';
+
+    /**
      * Default options
      *
      * @var array
@@ -111,6 +121,16 @@ class Solarium_Client extends Solarium_Configurable
             'query'           => 'Solarium_Query_MoreLikeThis',
             'requestbuilder'  => 'Solarium_Client_RequestBuilder_MoreLikeThis',
             'responseparser'  => 'Solarium_Client_ResponseParser_MoreLikeThis'
+        ),
+        self::QUERYTYPE_ANALYSIS_DOCUMENT => array(
+            'query'          => 'Solarium_Query_Analysis_Document',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Analysis_Document',
+            'responseparser' => 'Solarium_Client_ResponseParser_Analysis_Document'
+        ),
+        self::QUERYTYPE_ANALYSIS_FIELD => array(
+            'query'          => 'Solarium_Query_Analysis_Field',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Analysis_Field',
+            'responseparser' => 'Solarium_Client_ResponseParser_Analysis_Field'
         ),
     );
 
@@ -657,5 +677,25 @@ class Solarium_Client extends Solarium_Configurable
         return $this->createQuery(self::QUERYTYPE_PING, $options);
     }
 
+    /**
+     * Create an analysis field query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Analysis_Field
+     */
+    public function createAnalysisField($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_ANALYSIS_FIELD, $options);
+    }
 
+    /**
+     * Create an analysis document query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Analysis_Document
+     */
+    public function createAnalysisDocument($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_ANALYSIS_DOCUMENT, $options);
+    }
 }
