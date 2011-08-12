@@ -192,6 +192,24 @@ class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_Tes
         );
     }
 
+    public function testRemoveFacetWithObjectInput()
+    {
+        $fq1 = new Solarium_Query_Select_Component_Facet_Query;
+        $fq1->setKey('f1')->setQuery('category:1');
+
+        $fq2 = new Solarium_Query_Select_Component_Facet_Query;
+        $fq2->setKey('f2')->setQuery('category:2');
+
+        $facets = array('f1' => $fq1, 'f2' => $fq2);
+
+        $this->_facetSet->addFacets($facets);
+        $this->_facetSet->removeFacet($fq1);
+        $this->assertEquals(
+            array('f2' => $fq2),
+            $this->_facetSet->getFacets()
+        );
+    }
+
     public function testRemoveInvalidFacet()
     {
         $fq1 = new Solarium_Query_Select_Component_Facet_Query;

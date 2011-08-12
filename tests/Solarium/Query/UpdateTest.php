@@ -185,6 +185,22 @@ class Solarium_Query_UpdateTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRemoveWithObjectInput()
+    {
+        $rollback = new Solarium_Query_Update_Command_Rollback;
+        $this->_query->add('rb', $rollback);
+
+        $commit = new Solarium_Query_Update_Command_Commit;
+        $this->_query->add('cm', $commit);
+
+        $this->_query->remove($rollback);
+
+        $this->assertEquals(
+            array('cm' => $commit),
+            $this->_query->getCommands()
+        );
+    }
+
     public function testRemoveInvalidKey()
     {
         $rollback = new Solarium_Query_Update_Command_Rollback;

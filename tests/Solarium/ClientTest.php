@@ -231,6 +231,28 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRemovePluginAndGetPluginsWithObjectInput()
+    {
+        $options = array('option1' => 1);
+        $this->_client->registerPlugin('testplugin','MyClientPlugin',$options);
+
+        $plugin = $this->_client->getPlugin('testplugin');
+        $plugins = $this->_client->getPlugins();
+
+        $this->assertEquals(
+            array('testplugin' => $plugin),
+            $plugins
+        );
+
+        $this->_client->removePlugin($plugin);
+        $plugins = $this->_client->getPlugins();
+
+        $this->assertEquals(
+            array(),
+            $plugins
+        );
+    }
+
     public function testCreateRequest()
     {
         $queryStub = $this->getMock('Solarium_Query_Select');

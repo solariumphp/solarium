@@ -260,6 +260,25 @@ class Solarium_Query_Select_Component_Facet_MultiQueryTest extends PHPUnit_Frame
         );
     }
 
+    public function testRemoveQueryWithObjectInput()
+    {
+        $facetQuery = new Solarium_Query_Select_Component_Facet_Query;
+        $facetQuery->setKey('k1');
+        $facetQuery->setQuery('category:1');
+
+        $this->_facet->addQuery($facetQuery);
+        $this->assertEquals(
+            array('k1' => $facetQuery),
+            $this->_facet->getQueries()
+        );
+
+        $this->_facet->removeQuery($facetQuery);
+        $this->assertEquals(
+            array(),
+            $this->_facet->getQueries()
+        );
+    }
+
     public function testRemoveInvalidQuery()
     {
         $facetQuery = new Solarium_Query_Select_Component_Facet_Query;
