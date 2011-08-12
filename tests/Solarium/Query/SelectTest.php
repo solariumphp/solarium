@@ -222,6 +222,24 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAddAndGetFilterQueryWithKey()
+    {
+        $key = 'fq1';
+
+        $fq = $this->_query->createFilterQuery($key, true);
+        $fq->setQuery('category:1');
+
+        $this->assertEquals(
+            $key,
+            $fq->getKey()
+        );
+
+        $this->assertEquals(
+            $fq,
+            $this->_query->getFilterQuery('fq1')
+        );
+    }
+
     public function testAddFilterQueryWithoutKey()
     {
         $fq = new Solarium_Query_Select_FilterQuery;

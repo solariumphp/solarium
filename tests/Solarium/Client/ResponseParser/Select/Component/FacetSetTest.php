@@ -39,12 +39,10 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSetTest extends PHPUn
         $this->_parser = new Solarium_Client_ResponseParser_Select_Component_FacetSet;
 
         $this->_facetSet = new Solarium_Query_Select_Component_FacetSet();
-        $this->_facetSet->addFacets(array(
-            $this->_facetSet->createFacet('field', array('key' => 'keyA', 'field' => 'fieldA')),
-            $this->_facetSet->createFacet('query', array('key' => 'keyB')),
-            $this->_facetSet->createFacet('multiquery', array('key' => 'keyC', 'query' => array('keyC_A' => array('query' => 'id:1'), 'keyC_B' => array('query' => 'id:2')))),
-            $this->_facetSet->createFacet('range', array('key' => 'keyD')),
-        ));
+        $this->_facetSet->createFacet('field', array('key' => 'keyA', 'field' => 'fieldA'));
+        $this->_facetSet->createFacet('query', array('key' => 'keyB'));
+        $this->_facetSet->createFacet('multiquery', array('key' => 'keyC', 'query' => array('keyC_A' => array('query' => 'id:1'), 'keyC_B' => array('query' => 'id:2'))));
+        $this->_facetSet->createFacet('range', array('key' => 'keyD'));
     }
 
     public function testParse()

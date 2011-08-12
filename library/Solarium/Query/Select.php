@@ -496,12 +496,30 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Create a filterquery instance
      *
+     * If you supply a string as the first arguments ($options) it will be used as the key for the filterquery
+     * and it will be added to this query.
+     * If you supply an options array/object that contains a key the filterquery will also be added to the query.
+     *
+     * When no key is supplied the filterquery cannot be added, in that case you will need to add it manually
+     * after setting the key, by using the addFilterQuery method.
+     *
      * @param mixed $options
      * @return Solarium_Query_Select_FilterQuery
      */
     public function createFilterQuery($options = null)
     {
-        return new Solarium_Query_Select_FilterQuery($options);
+        if (is_string($options)) {
+            $fq = new Solarium_Query_Select_FilterQuery;
+            $fq->setKey($options);
+        } else {
+            $fq = new Solarium_Query_Select_FilterQuery($options);
+        }
+
+        if ($fq->getKey() !== null) {
+            $this->addFilterQuery($fq);
+        }
+
+        return $fq;
     }
 
     /**
@@ -526,11 +544,16 @@ class Solarium_Query_Select extends Solarium_Query
         }
 
         if (array_key_exists($key, $this->_filterQueries)) {
-            throw new Solarium_Exception('A filterquery must have a unique key'
-                . ' value within a query');
+            if($this->_filterQueries[$key] === $filterQuery) {
+                //double add calls for the same FQ are ignored
+                //@todo add trigger_error with a notice?
+            } else {
+                throw new Solarium_Exception('A filterquery must have a unique key value within a query');
+            }
+        } else {
+            $this->_filterQueries[$key] = $filterQuery;
         }
 
-        $this->_filterQueries[$key] = $filterQuery;
         return $this;
     }
 

@@ -294,6 +294,24 @@ class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_Tes
         );
     }
 
+    public function testCreateFacetAdd()
+    {
+        $type = Solarium_Query_Select_Component_FacetSet::FACET_FIELD;
+        $options = array('key' => 'mykey','optionA' => 1, 'optionB' => 2);
+        $facet = $this->_facetSet->createFacet($type, $options);
+
+        $this->assertEquals($facet, $this->_facetSet->getFacet('mykey'));
+    }
+
+    public function testCreateFacetAddWithString()
+    {
+        $type = Solarium_Query_Select_Component_FacetSet::FACET_FIELD;
+        $options = 'mykey';
+        $facet = $this->_facetSet->createFacet($type, $options);
+
+        $this->assertEquals($facet, $this->_facetSet->getFacet('mykey'));
+    }
+
     public function testCreateFacetWithInvalidType()
     {
         $this->setExpectedException('Solarium_Exception');
