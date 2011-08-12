@@ -191,15 +191,21 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
     }
 
     /**
-     * Remove a single facetquery by key
+     * Remove a single facetquery
      *
-     * @param string $key
+     * You can remove a facetquery by passing it's key or the facetquery instance
+     *
+     * @param string|Solarium_Query_Select_Component_Facet_Query $query
      * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
      */
-    public function removeQuery($key)
+    public function removeQuery($query)
     {
-        if (isset($this->_facetQueries[$key])) {
-            unset($this->_facetQueries[$key]);
+        if (is_object($query)) {
+            $query = $query->getKey();
+        }
+
+        if (isset($this->_facetQueries[$query])) {
+            unset($this->_facetQueries[$query]);
         }
 
         return $this;

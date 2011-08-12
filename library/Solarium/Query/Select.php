@@ -581,15 +581,21 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Remove a single filterquery by key
+     * Remove a single filterquery
      *
-     * @param string $key
+     * You can remove a filterquery by passing it's key, or by passing the filterquery instance
+     *
+     * @param string|Solarium_Query_Select_FilterQuery $filterQuery
      * @return Solarium_Query_Select Provides fluent interface
      */
-    public function removeFilterQuery($key)
+    public function removeFilterQuery($filterQuery)
     {
-        if (isset($this->_filterQueries[$key])) {
-            unset($this->_filterQueries[$key]);
+        if (is_object($filterQuery)) {
+            $filterQuery = $filterQuery->getKey();
+        }
+
+        if (isset($this->_filterQueries[$filterQuery])) {
+            unset($this->_filterQueries[$filterQuery]);
         }
 
         return $this;
@@ -708,13 +714,25 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Remove a component instance
      *
-     * @param string $key
+     * You can remove a component by passing it's key or the component instance
+     *
+     * @param string|Solarium_Query_Select_Component $component
      * @return Solarium_Query_Select Provides fluent interface
      */
-    public function removeComponent($key)
+    public function removeComponent($component)
     {
-        if (isset($this->_components[$key])) {
-            unset($this->_components[$key]);
+        if (is_object($component)) {
+            foreach ($this->_components as $key => $instance)
+            {
+                if ($instance === $component) {
+                    unset($this->_components[$key]);
+                    break;
+                }
+            }
+        } else {
+            if (isset($this->_components[$component])) {
+                unset($this->_components[$component]);
+            }
         }
         return $this;
     }

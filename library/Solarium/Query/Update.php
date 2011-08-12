@@ -197,16 +197,29 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Remove a command by key
+     * Remove a command
      *
-     * @param string $key
+     * You can remove a command by passing it's key or by passing the command instance
+     *
+     * @param string|Solarium_Query_Update_Command $command
      * @return Solarium_Query_Update Provides fluent interface
      */
-    public function remove($key)
+    public function remove($command)
     {
-        if (isset($this->_commands[$key])) {
-            unset($this->_commands[$key]); 
+        if (is_object($command)) {
+            foreach ($this->_commands as $key => $instance)
+            {
+                if ($instance === $command) {
+                    unset($this->_commands[$key]);
+                    break;
+                }
+            }
+        } else {
+            if (isset($this->_commands[$command])) {
+                unset($this->_commands[$command]);
+            }
         }
+
         return $this;
     }
 

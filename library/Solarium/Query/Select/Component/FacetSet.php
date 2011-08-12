@@ -322,15 +322,21 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     }
 
     /**
-     * Remove a single facet by key
+     * Remove a single facet
      *
-     * @param string $key
+     * You can remove a facet by passing it's key or the facet instance
+     *
+     * @param string|Solarium_Query_Select_Component_Facet $facet
      * @return Solarium_Query Provides fluent interface
      */
-    public function removeFacet($key)
+    public function removeFacet($facet)
     {
-        if (isset($this->_facets[$key])) {
-            unset($this->_facets[$key]);
+        if (is_object($facet)) {
+            $facet = $facet->getKey();
+        }
+
+        if (isset($this->_facets[$facet])) {
+            unset($this->_facets[$facet]);
         }
 
         return $this;
