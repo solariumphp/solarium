@@ -287,6 +287,24 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRemoveFilterQueryWithObjectInput()
+    {
+        $fq1 = new Solarium_Query_Select_FilterQuery;
+        $fq1->setKey('fq1')->setQuery('category:1');
+
+        $fq2 = new Solarium_Query_Select_FilterQuery;
+        $fq2->setKey('fq2')->setQuery('category:2');
+
+        $filterQueries = array($fq1, $fq2);
+
+        $this->_query->addFilterQueries($filterQueries);
+        $this->_query->removeFilterQuery($fq1);
+        $this->assertEquals(
+            array('fq2' => $fq2),
+            $this->_query->getFilterQueries()
+        );
+    }
+
     public function testRemoveInvalidFilterQuery()
     {
         $fq1 = new Solarium_Query_Select_FilterQuery;
@@ -448,6 +466,24 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
 
         $this->_query->removeComponent('mlt');
+
+        $this->assertEquals(
+            array(),
+            $this->_query->getComponents()
+        );
+    }
+
+    public function testRemoveComponentWithObjectInput()
+    {
+        $mlt = new Solarium_Query_Select_Component_MoreLikeThis;
+        $this->_query->setComponent('mlt',$mlt);
+
+        $this->assertEquals(
+            array('mlt' => $mlt),
+            $this->_query->getComponents()
+        );
+
+        $this->_query->removeComponent($mlt);
 
         $this->assertEquals(
             array(),

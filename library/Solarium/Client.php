@@ -358,14 +358,26 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Remove a plugin instance
-     * 
-     * @param string $key
+     *
+     * You can remove a plugin by passing the plugin key, or the plugin instance
+     *
+     * @param string|Solarium_Plugin_Abstract $plugin
      * @return Solarium_Client Provides fluent interface
      */
-    public function removePlugin($key)
+    public function removePlugin($plugin)
     {
-        if (isset($this->_plugins[$key])) {
-            unset($this->_plugins[$key]);
+        if (is_object($plugin)) {
+            foreach ($this->_plugins as $key => $instance)
+            {
+                if ($instance === $plugin) {
+                    unset($this->_plugins[$key]);
+                    break;
+                }
+            }
+        } else {
+            if (isset($this->_plugins[$plugin])) {
+                unset($this->_plugins[$plugin]);
+            }
         }
         return $this;
     }
