@@ -79,8 +79,7 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
      */
     protected $_options = array(
         'handler'       => 'mlt',
-        //'resultclass'   => 'Solarium_Result_MoreLikeThis',
-        'resultclass'   => 'Solarium_Result_Select',
+        'resultclass'   => 'Solarium_Result_MoreLikeThis',
         'documentclass' => 'Solarium_Document_ReadOnly',
         'query'         => '*:*',
         'start'         => 0,
