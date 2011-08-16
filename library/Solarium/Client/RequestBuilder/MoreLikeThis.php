@@ -64,12 +64,12 @@ class Solarium_Client_RequestBuilder_MoreLikeThis extends Solarium_Client_Reques
             $request->addParam('q', $query->getQuery());
         }
         // add basic params to request
-        $request->addParam('mlt.match.offset', $query->getStart());
+        $request->addParam('wt', 'json');
         $request->addParam('rows', $query->getRows());
         $request->addParam('fl', implode(',', $query->getFields()));
-        $request->addParam('wt', 'json');
         $request->addParam('mlt.interestingTerms', $query->getInterestingTerms());
         $request->addParam('mlt.match.include', $query->getMatchInclude());
+        $request->addParam('mlt.match.offset', $query->getStart());
 
         // add sort fields to request
         $sort = array();
