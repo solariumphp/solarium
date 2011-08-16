@@ -84,7 +84,8 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
         'query'         => '*:*',
         'start'         => 0,
         'rows'          => 10,
-        'mlt.fl'        => '*,score',
+        'fl'            => '*,score',
+        'mlt.fl'        => 'text',
         'mlt.interestingTerms' => 'none',
         'mlt.match.include' => 'false',
     );

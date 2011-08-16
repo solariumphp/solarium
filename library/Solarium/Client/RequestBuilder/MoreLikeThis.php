@@ -60,7 +60,7 @@ class Solarium_Client_RequestBuilder_MoreLikeThis extends Solarium_Client_Reques
         $request->addParam('q', $query->getQuery());
         $request->addParam('mlt.match.offset', $query->getStart());
         $request->addParam('rows', $query->getRows());
-        $request->addParam('mlt.fl', implode(',', $query->getFields()));
+        $request->addParam('fl', implode(',', $query->getFields()));
         $request->addParam('wt', 'json');
         $request->addParam('mlt.interestingTerms', $query->getInterestingTerms());
         $request->addParam('mlt.match.include', $query->getMatchInclude());
