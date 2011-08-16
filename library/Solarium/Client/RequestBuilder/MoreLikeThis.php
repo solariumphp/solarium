@@ -56,8 +56,14 @@ class Solarium_Client_RequestBuilder_MoreLikeThis extends Solarium_Client_Reques
         $request = new Solarium_Client_Request;
         $request->setHandler($query->getHandler());
 
+        if ($query->isStream()) {
+            $request->setRawData($query->getQuery());
+            $request->setMethod(Solarium_Client_Request::METHOD_POST);
+            $request->addHeader('Content-Type: text/plain; charset=utf-8');
+        } else {
+            $request->addParam('q', $query->getQuery());
+        }
         // add basic params to request
-        $request->addParam('q', $query->getQuery());
         $request->addParam('mlt.match.offset', $query->getStart());
         $request->addParam('rows', $query->getRows());
         $request->addParam('fl', implode(',', $query->getFields()));

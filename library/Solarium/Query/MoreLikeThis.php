@@ -88,6 +88,7 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
         'mlt.fl'        => 'text',
         'mlt.interestingTerms' => 'none',
         'mlt.match.include' => 'false',
+        'stream'        => false
     );
 
     /**
@@ -185,11 +186,24 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
      * escaping of user input.
      *
      * @param string $query
+     * @param boolean $stream true for POST requests where the content-type is
+     * not "application/x-www-form-urlencoded", the raw POST body is passed as a stream.
+     * @link http://wiki.apache.org/solr/ContentStream ContentStream
      * @return Solarium_Query_Select Provides fluent interface
      */
-    public function setQuery($query)
+    public function setQuery($query, $stream = false)
     {
-        return $this->_setOption('query', trim($query));
+        return $this->_setOption('stream', $stream)
+                    ->_setOption('query', trim($query));
+    }
+
+    /**
+     * @see setQuery
+     * @return boolean
+     */
+    public function isStream()
+    {
+        return $this->getOption('stream');
     }
 
     /**
