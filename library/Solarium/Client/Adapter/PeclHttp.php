@@ -108,7 +108,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
         );
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);
-            if (!$header = trim($header)) {
+            if ($header = trim($header)) {
                 $options['headers'][$header] = trim($value);
             }
         }
