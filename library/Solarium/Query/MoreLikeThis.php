@@ -50,12 +50,6 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
 {
 
     /**
-     * Solr sort modes
-     */
-    const SORT_DESC = 'desc';
-    const SORT_ASC = 'asc';
-
-    /**
      * Query components
      */
     const COMPONENT_DISMAX = 'dismax';
@@ -122,13 +116,6 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
     protected $_fields = array();
 
     /**
-     * Items to sort on
-     *
-     * @var array
-     */
-    protected $_sorts = array();
-
-    /**
      * Filterqueries
      *
      * @var array
@@ -159,9 +146,6 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
                     break;
                 case 'filterquery':
                     $this->addFilterQueries($value);
-                    break;
-                case 'sort':
-                    $this->addSorts($value);
                     break;
                 case 'fields':
                     $this->addFields($value);
@@ -429,89 +413,6 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
     {
         $this->clearFields();
         $this->addFields($fields);
-
-        return $this;
-    }
-
-    /**
-     * Add a sort
-     *
-     * @param string $sort
-     * @param string $order
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function addSort($sort, $order)
-    {
-        $this->_sorts[$sort] = $order;
-
-        return $this;
-    }
-
-    /**
-     * Add multiple sorts
-     *
-     * The input array must contain sort items as keys and the order as values.
-     *
-     * @param array $sorts
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function addSorts(array $sorts)
-    {
-        foreach ($sorts AS $sort => $order) {
-            $this->addSort($sort, $order);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove a sort
-     *
-     * @param string $sort
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function removeSort($sort)
-    {
-        if (isset($this->_sorts[$sort])) {
-            unset($this->_sorts[$sort]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove all sorts
-     *
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function clearSorts()
-    {
-        $this->_sorts = array();
-        return $this;
-    }
-
-    /**
-     * Get a list of the sorts
-     *
-     * @return array
-     */
-    public function getSorts()
-    {
-        return $this->_sorts;
-    }
-
-    /**
-     * Set multiple sorts
-     *
-     * This overwrites any existing sorts
-     *
-     * @param array $sorts
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function setSorts($sorts)
-    {
-        $this->clearSorts();
-        $this->addSorts($sorts);
 
         return $this;
     }

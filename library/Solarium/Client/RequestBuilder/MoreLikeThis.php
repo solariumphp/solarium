@@ -71,15 +71,6 @@ class Solarium_Client_RequestBuilder_MoreLikeThis extends Solarium_Client_Reques
         $request->addParam('mlt.match.include', $query->getMatchInclude());
         $request->addParam('mlt.match.offset', $query->getStart());
 
-        // add sort fields to request
-        $sort = array();
-        foreach ($query->getSorts() AS $field => $order) {
-            $sort[] = $field . ' ' . $order;
-        }
-        if (count($sort) !== 0) {
-            $request->addParam('sort', implode(',', $sort));
-        }
-
         // add filterqueries to request
         $filterQueries = $query->getFilterQueries();
         if (count($filterQueries) !== 0) {
