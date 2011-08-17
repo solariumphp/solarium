@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +29,7 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
  *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  *
