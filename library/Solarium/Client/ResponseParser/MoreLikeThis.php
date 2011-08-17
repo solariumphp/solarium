@@ -58,7 +58,9 @@ class Solarium_Client_ResponseParser_MoreLikeThis
         $query = $result->getQuery();
 
         $postResult = parent::parse($result);
-        if (isset($data['interestingTerms']) and 'none' != $query->getInterestingTerms()) {
+        if (isset($data['interestingTerms'])
+            and 'none' != $query->getInterestingTerms()
+        ) {
             $terms = $data['interestingTerms'];
             if ('details' == $query->getInterestingTerms()) {
                 $tempTerms = array();
