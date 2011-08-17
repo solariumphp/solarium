@@ -65,12 +65,12 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
     {
         $uri = $this->getBaseUri() . $request->getUri();
         $method = $request->getMethod();
-        $options = array(
-            'timeout' => $this->getTimeout()
-        );
+        $options = $this->_createOptions($request);
 
         if ($method == Solarium_Client_Request::METHOD_POST) {
-            $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
+            if (!isset($options['headers']['Content-Type'])) {
+                $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
+            }
             $httpResponse = http_post_data($uri, $request->getRawData(), $options);
         } else if ($method == Solarium_Client_Request::METHOD_GET) {
             $httpResponse = http_get($uri, $options);
@@ -91,6 +91,28 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
         }
 
         return array($data, $headers);
+    }
+
+    /**
+     * Create http request options from request.
+     *
+     * @link http://php.net/manual/en/http.request.options.php
+     *
+     * @param Solarium_Client_Request $request
+     * @return array
+     */
+    protected function _createOptions($request)
+    {
+        $options = array(
+            'timeout' => $this->getTimeout()
+        );
+        foreach ($request->getHeaders() as $headerLine) {
+            list($header, $value) = explode(':', $headerLine);
+            if ($header = trim($header)) {
+                $options['headers'][$header] = trim($value);
+            }
+        }
+        return $options;
     }
 
     /**

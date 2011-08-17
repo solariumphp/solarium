@@ -71,6 +71,7 @@ class Solarium_Client extends Solarium_Configurable
      * Querytype ping
      */
     const QUERYTYPE_PING = 'ping';
+    const QUERYTYPE_MORELIKETHIS = 'mlt';
 
     /**
      * Default options
@@ -101,6 +102,11 @@ class Solarium_Client extends Solarium_Configurable
             'query'          => 'Solarium_Query_Ping',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Ping',
             'responseparser' => 'Solarium_Client_ResponseParser_Ping'
+        ),
+        self::QUERYTYPE_MORELIKETHIS => array(
+            'query'						=> 'Solarium_Query_MoreLikeThis',
+            'requestbuilder'  => 'Solarium_Client_RequestBuilder_MoreLikeThis',
+            'responseparser'  => 'Solarium_Client_ResponseParser_MoreLikeThis'
         ),
     );
 
@@ -557,6 +563,30 @@ class Solarium_Client extends Solarium_Configurable
     {
         return $this->execute($query);
     }
+    
+    /**
+     * Execute a MoreLikeThis query
+     *
+     * Example usage:
+     * <code>
+     * $client = new Solarium_Client;
+     * $query = $client->createMoreLikeThis();
+     * $result = $client->moreLikeThis($query);
+     * </code>
+     *
+     * @see Solarium_Query_Select
+     * @see Solarium_Result_Select
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param Solarium_Query_Select $query
+     * @return Solarium_Result_Select
+     */
+    public function moreLikeThis($query)
+    {
+        return $this->execute($query);
+    }
 
     /**
      * Create a query instance
@@ -593,6 +623,17 @@ class Solarium_Client extends Solarium_Configurable
     public function createSelect($options = null)
     {
         return $this->createQuery(self::QUERYTYPE_SELECT, $options);
+    }
+    
+    /**
+     * Create a MoreLikeThis query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Select
+     */
+    public function createMoreLikeThis($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_MORELIKETHIS, $options);
     }
 
     /**
