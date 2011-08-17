@@ -39,7 +39,7 @@
 /**
  * MoreLikeThis query result
  *
- * This is the standard resulttype for a select query. Example usage:
+ * This is the standard resulttype for a moreLikeThis query. Example usage:
  * <code>
  * // total solr results
  * $result->getNumFound();
