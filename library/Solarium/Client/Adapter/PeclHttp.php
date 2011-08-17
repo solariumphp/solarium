@@ -74,7 +74,8 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
             if (!isset($options['headers']['Content-Type'])) {
                 $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
             }
-            $httpResponse = http_post_data($uri, $request->getRawData(), $options);
+            $httpResponse = http_post_data($uri, $request->getRawData(),
+                $options);
         } else if ($method == Solarium_Client_Request::METHOD_GET) {
             $httpResponse = http_get($uri, $options);
         } else if ($method == Solarium_Client_Request::METHOD_HEAD) {
@@ -88,7 +89,8 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
         if ($message = http_parse_message($httpResponse)) {
             $data = $message->body;
             if ($firstPositionOfCRLF = strpos($httpResponse, "\r\n\r\n")) {
-                $headersAsString = substr($httpResponse, 0, $firstPositionOfCRLF);
+                $headersAsString = substr($httpResponse, 0,
+                    $firstPositionOfCRLF);
                 $headers = explode("\n", $headersAsString);
             }
         }
