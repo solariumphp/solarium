@@ -59,6 +59,11 @@
 class Solarium_Result_MoreLikeThis extends Solarium_Result_Select
 {
     /**
+     * interesting terms
+     */
+    protected $_interestingTerms;
+
+    /**
      * this will show what "interesting" terms are used for the MoreLikeThis
      * query. These are the top tf/idf terms. NOTE: if you select 'details',
      * this shows you the term and boost used for each term. Unless
@@ -68,8 +73,6 @@ class Solarium_Result_MoreLikeThis extends Solarium_Result_Select
      *
      * @var array
      */
-    protected $_interestingTerms;
-
     public function getInterestingTerms()
     {
         $query = $this->getQuery();

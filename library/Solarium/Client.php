@@ -71,6 +71,10 @@ class Solarium_Client extends Solarium_Configurable
      * Querytype ping
      */
     const QUERYTYPE_PING = 'ping';
+
+    /**
+     * Querytype morelikethis
+     */
     const QUERYTYPE_MORELIKETHIS = 'mlt';
 
     /**

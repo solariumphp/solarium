@@ -53,7 +53,15 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
      * Query components
      */
     const COMPONENT_DISMAX = 'dismax';
+
+    /**
+     * Query component morelikethis
+     */
     const COMPONENT_MORELIKETHIS = 'morelikethis';
+
+    /**
+     * Query component highlighting
+     */
     const COMPONENT_HIGHLIGHTING = 'highlighting';
 
     /**
