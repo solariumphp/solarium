@@ -42,7 +42,8 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_MoreLikeThis extends Solarium_Client_ResponseParser_Select
+class Solarium_Client_ResponseParser_MoreLikeThis
+    extends Solarium_Client_ResponseParser_Select
 {
 
     /**

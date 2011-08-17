@@ -42,7 +42,8 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_MoreLikeThis extends Solarium_Client_RequestBuilder
+class Solarium_Client_RequestBuilder_MoreLikeThis
+    extends Solarium_Client_RequestBuilder
 {
 
     /**
