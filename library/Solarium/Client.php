@@ -71,6 +71,10 @@ class Solarium_Client extends Solarium_Configurable
      * Querytype ping
      */
     const QUERYTYPE_PING = 'ping';
+
+    /**
+     * Querytype morelikethis
+     */
     const QUERYTYPE_MORELIKETHIS = 'mlt';
 
     /**
@@ -104,7 +108,7 @@ class Solarium_Client extends Solarium_Configurable
             'responseparser' => 'Solarium_Client_ResponseParser_Ping'
         ),
         self::QUERYTYPE_MORELIKETHIS => array(
-            'query'						=> 'Solarium_Query_MoreLikeThis',
+            'query'           => 'Solarium_Query_MoreLikeThis',
             'requestbuilder'  => 'Solarium_Client_RequestBuilder_MoreLikeThis',
             'responseparser'  => 'Solarium_Client_ResponseParser_MoreLikeThis'
         ),

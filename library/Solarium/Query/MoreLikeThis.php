@@ -1,6 +1,8 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2011 Bas de Nooijer.
+ * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -29,6 +31,7 @@
  * policies, either expressed or implied, of the copyright holder.
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  *
@@ -53,7 +56,15 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
      * Query components
      */
     const COMPONENT_DISMAX = 'dismax';
+
+    /**
+     * Query component morelikethis
+     */
     const COMPONENT_MORELIKETHIS = 'morelikethis';
+
+    /**
+     * Query component highlighting
+     */
     const COMPONENT_HIGHLIGHTING = 'highlighting';
 
     /**

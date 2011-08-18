@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,9 +29,12 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
  *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
+ *
+ * @package Solarium
+ * @subpackage Client
  */
 
 /**
@@ -71,7 +75,8 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
             if (!isset($options['headers']['Content-Type'])) {
                 $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
             }
-            $httpResponse = http_post_data($uri, $request->getRawData(), $options);
+            $httpResponse = http_post_data($uri, $request->getRawData(),
+                $options);
         } else if ($method == Solarium_Client_Request::METHOD_GET) {
             $httpResponse = http_get($uri, $options);
         } else if ($method == Solarium_Client_Request::METHOD_HEAD) {
@@ -85,7 +90,8 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
         if ($message = http_parse_message($httpResponse)) {
             $data = $message->body;
             if ($firstPositionOfCRLF = strpos($httpResponse, "\r\n\r\n")) {
-                $headersAsString = substr($httpResponse, 0, $firstPositionOfCRLF);
+                $headersAsString = substr($httpResponse, 0,
+                    $firstPositionOfCRLF);
                 $headers = explode("\n", $headersAsString);
             }
         }
