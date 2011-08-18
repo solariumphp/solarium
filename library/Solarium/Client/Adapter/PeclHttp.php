@@ -71,53 +71,88 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
      */
     public function execute($request)
     {
-        list($data, $headers) = $this->_getData($request);
-        $this->check($data, $headers);
-        return new Solarium_Client_Response($data, $headers);
+        $httpRequest = $this->getHttpRequest($request);
+
+        try {
+            $httpMessage = $httpRequest->send();
+        } catch (Exception $e) {
+            throw new Solarium_Client_HttpException($e->getMessage());
+        }
+
+        if ($error = $httpRequest->getResponseInfo('error')) {
+            throw new Solarium_Client_HttpException($error);
+        }
+
+        return new Solarium_Client_Response($httpMessage->getBody(),
+            $this->_getRawHeaders($httpMessage));
     }
 
     /**
-     * Execute request
+     * Convert key/value pair header to raw header.
      *
-     * @param Solarium_Client_Request $request
+     * <code>
+     * //before
+     * $headers['Content-Type'] = 'text/plain';
+     *
+     * ...
+     *
+     * //after
+     * $headers[0] = 'Content-Type: text/plain';
+     * </code>
+     *
+     * @param $message HttpMessage
      * @return array
      */
-    protected function _getData($request)
+    protected function _getRawHeaders($message)
     {
-        // @codeCoverageIgnoreStart
-        $uri = $this->getBaseUri() . $request->getUri();
-        $method = $request->getMethod();
+        $headers[] = 'HTTP/' . $message->getHttpVersion()
+                   . ' ' . $message->getResponseCode()
+                   . ' ' . $message->getResponseStatus();
+
+        foreach ($message->getHeaders() as $header => $value) {
+            $headers[] = "$header: $value";
+        }
+
+        return $headers;
+    }
+
+    /**
+     *
+     * adapt Solarium_Client_Request to HttpRequest
+     *
+     * {@link http://us.php.net/manual/en/http.constants.php
+     *  HTTP Predefined Constant}
+     *
+     * @param Solarium_Client_Request $request
+     * @param HttpRequest
+     */
+    protected function getHttpRequest($request)
+    {
+        $url = $this->getBaseUri() . $request->getUri();
+
+        switch($request->getMethod()) {
+        case Solarium_Client_Request::METHOD_GET:
+            $method = HTTP_METH_GET;
+            break;
+        case Solarium_Client_Request::METHOD_POST:
+            $method = HTTP_METH_POST;
+            break;
+        case Solarium_Client_Request::METHOD_HEAD:
+            $method = HTTP_METH_HEAD;
+            break;
+        default:
+            throw new Solarium_Exception('Unsupported method: ' .
+                $request->getMethod());
+        }
+
         $options = $this->_createOptions($request);
 
-        if ($method == Solarium_Client_Request::METHOD_POST) {
-            if (!isset($options['headers']['Content-Type'])) {
-                $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
-            }
-            $httpResponse = http_post_data(
-                $uri, $request->getRawData(), $options
-            );
-        } else if ($method == Solarium_Client_Request::METHOD_GET) {
-            $httpResponse = http_get($uri, $options);
-        } else if ($method == Solarium_Client_Request::METHOD_HEAD) {
-            $httpResponse = http_head($uri, $options);
-        } else {
-            throw new Solarium_Exception("unsupported method: $method");
+        $httpRequest = new HttpRequest($url, $method, $options);
+        if (HTTP_METH_POST == $httpRequest->getMethod()) {
+            $httpRequest->setBody($request->getRawData());
         }
 
-        $headers = array();
-        $data = '';
-        if ($message = http_parse_message($httpResponse)) {
-            $data = $message->body;
-            if ($firstPositionOfCRLF = strpos($httpResponse, "\r\n\r\n")) {
-                $headersAsString = substr(
-                    $httpResponse, 0, $firstPositionOfCRLF
-                );
-                $headers = explode("\n", $headersAsString);
-            }
-        }
-
-        return array($data, $headers);
-        // @codeCoverageIgnoreEnd
+        return $httpRequest;
     }
 
     /**
@@ -140,24 +175,11 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
                 $options['headers'][$header] = trim($value);
             }
         }
-        return $options;
-        // @codeCoverageIgnoreEnd
-    }
-
-    /**
-     * Check result of a request
-     *
-     * @throws Solarium_Client_HttpException
-     * @param string $data
-     * @param array $headers
-     * @return void
-     */
-    public function check($data, $headers)
-    {
-        // if there is no data and there are no headers it's a total failure,
-        // a connection to the host was impossible.
-        if (empty($data) && count($headers) == 0) {
-            throw new Solarium_Client_HttpException("HTTP request failed");
+        if ($request->getMethod() == Solarium_Client_Request::METHOD_POST) {
+            if (!isset($options['headers']['Content-Type'])) {
+                $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
+            }
         }
+        return $options;
     }
 }
