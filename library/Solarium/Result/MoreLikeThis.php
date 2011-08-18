@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +29,7 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
  *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  *
@@ -39,7 +40,7 @@
 /**
  * MoreLikeThis query result
  *
- * This is the standard resulttype for a select query. Example usage:
+ * This is the standard resulttype for a moreLikeThis query. Example usage:
  * <code>
  * // total solr results
  * $result->getNumFound();
@@ -59,6 +60,11 @@
 class Solarium_Result_MoreLikeThis extends Solarium_Result_Select
 {
     /**
+     * interesting terms
+     */
+    protected $_interestingTerms;
+
+    /**
      * this will show what "interesting" terms are used for the MoreLikeThis
      * query. These are the top tf/idf terms. NOTE: if you select 'details',
      * this shows you the term and boost used for each term. Unless
@@ -68,8 +74,6 @@ class Solarium_Result_MoreLikeThis extends Solarium_Result_Select
      *
      * @var array
      */
-    protected $_interestingTerms;
-
     public function getInterestingTerms()
     {
         $query = $this->getQuery();

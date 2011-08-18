@@ -42,7 +42,8 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_MoreLikeThis_Result implements IteratorAggregate, Countable
+class Solarium_Result_Select_MoreLikeThis_Result
+    implements IteratorAggregate, Countable
 {
 
     /**
