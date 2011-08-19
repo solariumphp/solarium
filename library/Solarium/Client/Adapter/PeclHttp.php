@@ -83,8 +83,10 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
             throw new Solarium_Client_HttpException($error);
         }
 
-        return new Solarium_Client_Response($httpMessage->getBody(),
-            $this->_getRawHeaders($httpMessage));
+        return new Solarium_Client_Response(
+            $httpMessage->getBody(),
+            $this->_getRawHeaders($httpMessage)
+        );
     }
 
     /**
@@ -141,8 +143,9 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
             $method = HTTP_METH_HEAD;
             break;
         default:
-            throw new Solarium_Exception('Unsupported method: ' .
-                $request->getMethod());
+            throw new Solarium_Exception(
+                'Unsupported method: ' . $request->getMethod()
+            );
         }
 
         $options = $this->_createOptions($request);
