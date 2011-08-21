@@ -46,6 +46,21 @@
  */
 class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
 {
+
+    /**
+     * Initialization hook
+     *
+     * Checks the availability of pecl_http
+     */
+    protected function _init()
+    {
+        if (!function_exists('http_get')) {
+           throw new Solarium_Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
+        }
+
+        parent::_init();
+    }
+
     /**
      * Execute a Solr request using the Pecl Http
      *
