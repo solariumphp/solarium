@@ -26,38 +26,47 @@
                 <li><a href="1.3-basic-update.php">1.3 Basic update - add document</a></li>
             </ul>
 
-            <li>2. Select query</li>
+            <li>2. Queries</li>
             <ul style="list-style:none;">
-                <li><a href="2.1-query-params.php">2.1 Select query params</a></li>
-                <li><a href="2.2-custom-result-document.php">2.2 Custom result document</a></li>
-                <li><a href="2.3-filterquery.php">2.3 Filterquery</a></li>
-                <li>2.4 Components</li>
+                <li>2.1. Select query</li>
                 <ul style="list-style:none;">
-                    <li>2.5.1 FacetSet</li>
+                    <li><a href="2.1.1-query-params.php">2.1.1 Select query params</a></li>
+                    <li><a href="2.1.2-custom-result-document.php">2.1.2 Custom result document</a></li>
+                    <li><a href="2.1.3-filterquery.php">2.1.3 Filterquery</a></li>
+                    <li>2.1.4 Components</li>
                     <ul style="list-style:none;">
-                        <li><a href="2.5.1.1-facet-field.php">2.5.1.1 Facet field</a></li>
-                        <li><a href="2.5.1.2-facet-query.php">2.5.1.2 Facet query</a></li>
-                        <li><a href="2.5.1.3-facet-multiquery.php">2.5.1.3 Facet multiquery</a></li>
-                        <li><a href="2.5.1.4-facet-range.php">2.5.1.4 Facet range</a></li>
+                        <li>2.1.5.1 FacetSet</li>
+                        <ul style="list-style:none;">
+                            <li><a href="2.1.5.1.1-facet-field.php">2.1.5.1.1 Facet field</a></li>
+                            <li><a href="2.1.5.1.2-facet-query.php">2.1.5.1.2 Facet query</a></li>
+                            <li><a href="2.1.5.1.3-facet-multiquery.php">2.1.5.1.3 Facet multiquery</a></li>
+                            <li><a href="2.1.5.1.4-facet-range.php">2.1.5.1.4 Facet range</a></li>
+                        </ul>
+                        <li><a href="2.1.5.2-morelikethis.php">2.1.5.2 MoreLikeThis</a></li>
+                        <li><a href="2.1.5.3-highlighting.php">2.1.5.3 Highlighting</a></li>
+                        <li><a href="2.1.5.4-dismax.php">2.1.5.4 Dismax</a></li>
+                        <li><a href="2.1.5.5-edismax.php">2.1.5.5 Edismax</a></li>
+                        <li><a href="2.1.5.6-grouping-by-field.php">2.1.5.5 Grouping by field</a></li>
+                        <li><a href="2.1.5.7-grouping-by-query.php">2.1.5.6 Grouping by query</a></li>
                     </ul>
-                    <li><a href="2.5.2-morelikethis.php">2.5.2 MoreLikeThis</a></li>
-                    <li><a href="2.5.3-highlighting.php">2.5.3 Highlighting</a></li>
-                    <li><a href="2.5.4-dismax.php">2.5.4 Dismax</a></li>
-                    <li><a href="2.5.5-edismax.php">2.5.5 Edismax</a></li>
-                    <li><a href="2.5.6-grouping-by-field.php">2.5.5 Grouping by field</a></li>
-                    <li><a href="2.5.7-grouping-by-query.php">2.5.6 Grouping by query</a></li>
+                    <li><a href="2.1.6-helper-functions.php">2.1.6 Helper functions</a></li>
+                    <li><a href="2.1.7-query-reuse.php">2.1.7 Query re-use</a></li>
                 </ul>
-                <li><a href="2.6-helper-functions.php">2.6 Helper functions</a></li>
-                <li><a href="2.7-query-reuse.php">2.7 Query re-use</a></li>
-            </ul>
 
-            <li>3. Update query</li>
-            <ul style="list-style:none;">
-                <li><a href="3.1-add-docs.php">3.1 Add docs</a></li>
-                <li><a href="3.2-delete-by-query.php">3.2 Delete by query</a></li>
-                <li><a href="3.3-delete-by-id.php">3.3 Delete by ID</a></li>
-                <li><a href="3.4-optimize.php">3.4 Optimize index</a></li>
-                <li><a href="3.5-rollback.php">3.5 Rollback</a></li>
+                <li>2.2. Update query</li>
+                <ul style="list-style:none;">
+                    <li><a href="2.2.1-add-docs.php">2.2.1 Add docs</a></li>
+                    <li><a href="2.2.2-delete-by-query.php">2.2.2 Delete by query</a></li>
+                    <li><a href="2.2.3-delete-by-id.php">2.2.3 Delete by ID</a></li>
+                    <li><a href="2.2.4-optimize.php">2.2.4 Optimize index</a></li>
+                    <li><a href="2.2.5-rollback.php">2.2.5 Rollback</a></li>
+                </ul>
+
+                <li>2.3. MoreLikeThis query</li>
+                <ul style="list-style:none;">
+                    <li><a href="2.3.1-mlt-query.php">2.3.1 MoreLikeThis query</a></li>
+                    <li><a href="2.3.2-mlt-stream.php">2.3.2 MoreLikeThis query input as stream</a></li>
+                </ul>
             </ul>
 
             <li>4. Usage modes</li>
@@ -80,7 +89,11 @@
 
             <li>6. Miscellaneous</li>
             <ul style="list-style:none;">
-                <li><a href="6.1-zend-http-adapter.php">6.1 Zend_Http adapter</a></li>
+                <li>6.1 Client adapters</li>
+                <ul style="list-style:none;">
+                    <li><a href="6.1.1-zend-http-adapter.php">6.1 Zend_Http adapter</a></li>
+                    <li><a href="6.1.2-pecl-http-adapter.php">6.2 Pecl_Http adapter</a></li>
+                </ul>
                 <li><a href="6.2-escaping.php">6.2 Escaping</a></li>
                 <li><a href="6.3-placeholder-syntax.php">6.3 Placeholder syntax</a></li>
             </ul>
