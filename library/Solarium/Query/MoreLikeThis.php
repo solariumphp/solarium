@@ -49,23 +49,8 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_MoreLikeThis extends Solarium_Query
+class Solarium_Query_MoreLikeThis extends Solarium_Query_Select
 {
-
-    /**
-     * Query components
-     */
-    const COMPONENT_DISMAX = 'dismax';
-
-    /**
-     * Query component morelikethis
-     */
-    const COMPONENT_MORELIKETHIS = 'morelikethis';
-
-    /**
-     * Query component highlighting
-     */
-    const COMPONENT_HIGHLIGHTING = 'highlighting';
 
     /**
      * Get type for this query
@@ -76,7 +61,7 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
     {
         return Solarium_Client::QUERYTYPE_MORELIKETHIS;
     }
-
+    
     /**
      * Default options
      * 
@@ -89,147 +74,35 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
         'query'         => '*:*',
         'start'         => 0,
         'rows'          => 10,
-        'fl'            => '*,score',
-        'mlt.fl'        => 'text',
-        'mlt.interestingTerms' => 'none',
-        'mlt.match.include' => 'false',
+        'fields'        => '*,score',
+        'interestingTerms' => 'none',
+        'matchinclude'  => false,
         'stream'        => false
     );
 
     /**
-     * Default select query component types
-     * 
-     * @var array
-     */
-    protected $_componentTypes = array(
-        self::COMPONENT_DISMAX => array(
-            'component' => 'Solarium_Query_Select_Component_DisMax',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_DisMax',
-            'responseparser' => null,
-        ),
-        self::COMPONENT_MORELIKETHIS => array(
-            'component' => 'Solarium_Query_Select_Component_MoreLikeThis',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis',
-            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_MoreLikeThis',
-        ),
-        self::COMPONENT_HIGHLIGHTING => array(
-            'component' => 'Solarium_Query_Select_Component_Highlighting',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Highlighting',
-            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Highlighting',
-        ),
-    );
-
-    /**
-     * Fields to fetch
+     * Set query stream option
      *
-     * @var array
-     */
-    protected $_fields = array();
-
-    /**
-     * Filterqueries
+     * Set to true to post query content instead of using the URL param
      *
-     * @var array
-     */
-    protected $_filterQueries = array();
-
-    /**
-     * Search components
-     *
-     * @var array
-     */
-    protected $_components = array();
-
-    /**
-     * Initialize options
-     *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
-     * 
-     * @return void
-     */
-    protected function _init()
-    {
-        foreach ($this->_options AS $name => $value) {
-            switch ($name) {
-                case 'query':
-                    $this->setQuery($value);
-                    break;
-                case 'filterquery':
-                    $this->addFilterQueries($value);
-                    break;
-                case 'fields':
-                    $this->addFields($value);
-                    break;
-                case 'rows':
-                    $this->setRows((int)$value);
-                    break;
-                case 'start':
-                    $this->setStart((int)$value);
-                    break;
-                case 'component':
-                    $this->_createComponents($value);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Set the query string
-     *
-     * Overwrites the current value. You are responsible for the correct
-     * escaping of user input.
-     *
-     * @param string $query
-     * @param boolean $stream true for POST requests where the content-type is
-     * not "application/x-www-form-urlencoded", the raw POST body is passed as a stream.
      * @link http://wiki.apache.org/solr/ContentStream ContentStream
-     * @return Solarium_Query_Select Provides fluent interface
+     *
+     * @param boolean $stream
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function setQuery($query, $stream = false)
+    public function setQueryStream($stream)
     {
-        return $this->_setOption('stream', $stream)
-                    ->_setOption('query', trim($query));
+        return $this->_setOption('stream', $stream);
     }
 
     /**
-     * @see setQuery
+     * Get stream option
+     *
      * @return boolean
      */
-    public function isStream()
+    public function getQueryStream()
     {
         return $this->getOption('stream');
-    }
-
-    /**
-     * Get the query string
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->getOption('query');
-    }
-
-    /**
-     * Set the start offset
-     *
-     * @param integer $start
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function setStart($start)
-    {
-        return $this->_setOption('start', $start);
-    }
-
-    /**
-     * Get the start offset
-     *
-     * @return integer
-     */
-    public function getStart()
-    {
-        return $this->getOption('start');
     }
 
     /**
@@ -241,7 +114,7 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
      */
     public function setInterestingTerms($term)
     {
-        return $this->_setOption('mlt.interestingTerms', $term);
+        return $this->_setOption('interestingTerms', $term);
     }
     
     /**
@@ -251,7 +124,7 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
      */
     public function getInterestingTerms() 
     {
-        return $this->getOption('mlt.interestingTerms');
+        return $this->getOption('interestingTerms');
     }
     
     /**
@@ -262,7 +135,7 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
      */
     public function setMatchInclude() 
     {
-        return $this->_setOption('mlt.match.include', 'true');
+        return $this->_setOption('matchinclude', 'true');
     }
     
     /**
@@ -272,448 +145,224 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query
      */
     public function getMatchInclude() 
     {
-        return $this->getOption('mlt.match.include');
-    }
-    
-    /**
-     * Set a custom resultclass
-     *
-     * @param string $value classname
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function setResultClass($value)
-    {
-        return $this->_setOption('resultclass', $value);
+        return $this->getOption('matchinclude');
     }
 
     /**
-     * Get the current resultclass option
+     * Set MLT fields option
      *
-     * The value is a classname, not an instance
+     * The fields to use for similarity. NOTE: if possible, these should have a
+     * stored TermVector
      *
-     * @return string
+     * Separate multiple fields with commas.
+     *
+     * @param string $fields
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function getResultClass()
+    public function setMltFields($fields)
     {
-        return $this->getOption('resultclass');
+        return $this->_setOption('mltfields', $fields);
     }
 
     /**
-     * Set a custom document class
+     * Get MLT fields option
      *
-     * @param string $value classname
-     * @return Solarium_Query
+     * @return string|null
      */
-    public function setDocumentClass($value)
+    public function getMltFields()
     {
-        return $this->_setOption('documentclass', $value);
+        return $this->getOption('mltfields');
     }
 
     /**
-     * Get the current documentclass option
+     * Set minimumtermfrequency option
      *
-     * The value is a classname, not an instance
-     * 
-     * @return string
+     * Minimum Term Frequency - the frequency below which terms will be ignored
+     * in the source doc.
+     *
+     * @param int $minimum
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function getDocumentClass()
+    public function setMinimumTermFrequency($minimum)
     {
-        return $this->getOption('documentclass');
+        return $this->_setOption('minimumtermfrequency', $minimum);
     }
 
     /**
-     * Set the number of rows to fetch
+     * Get minimumtermfrequency option
      *
-     * @param integer $rows
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return integer|null
      */
-    public function setRows($rows)
+    public function getMinimumTermFrequency()
     {
-        return $this->_setOption('rows', $rows);
+        return $this->getOption('minimumtermfrequency');
     }
 
     /**
-     * Get the number of rows
+     * Set minimumdocumentfrequency option
      *
-     * @return integer
+     * Minimum Document Frequency - the frequency at which words will be
+     * ignored which do not occur in at least this many docs.
+     *
+     * @param int $minimum
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function getRows()
+    public function setMinimumDocumentFrequency($minimum)
     {
-        return $this->getOption('rows');
+        return $this->_setOption('minimumdocumentfrequency', $minimum);
     }
 
     /**
-     * Specify a field to return in the resultset
+     * Get minimumdocumentfrequency option
      *
-     * @param string $field
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return integer|null
      */
-    public function addField($field)
+    public function getMinimumDocumentFrequency()
     {
-       $this->_fields[$field] = true;
-       return $this;
+        return $this->getOption('minimumdocumentfrequency');
     }
 
     /**
-     * Specify multiple fields to return in the resultset
+     * Set minimumwordlength option
      *
-     * @param string|array $fields can be an array or string with comma
-     * separated fieldnames
+     * Minimum word length below which words will be ignored.
      *
-     * @return Solarium_Query_Select Provides fluent interface
+     * @param int $minimum
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function addFields($fields)
+    public function setMinimumWordLength($minimum)
     {
-        if (is_string($fields)) {
-            $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
-        }
-
-        foreach ($fields AS $field) {
-            $this->addField($field);
-        }
-
-        return $this;
+        return $this->_setOption('minimumwordlength', $minimum);
     }
 
     /**
-     * Remove a field from the field list
+     * Get minimumwordlength option
      *
-     * @param string $field
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return integer|null
      */
-    public function removeField($field)
+    public function getMinimumWordLength()
     {
-        if (isset($this->_fields[$field])) {
-           unset($this->_fields[$field]);
-        }
-
-        return $this;
+        return $this->getOption('minimumwordlength');
     }
 
     /**
-     * Remove all fields from the field list.
+     * Set maximumwordlength option
      *
-     * @return Solarium_Query_Select Provides fluent interface
+     * Maximum word length above which words will be ignored.
+     *
+     * @param int $maximum
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function clearFields()
+    public function setMaximumWordLength($maximum)
     {
-        $this->_fields = array();
-        return $this;
+        return $this->_setOption('maximumwordlength', $maximum);
     }
 
     /**
-     * Get the list of fields
+     * Get maximumwordlength option
      *
-     * @return array
+     * @return integer|null
      */
-    public function getFields()
+    public function getMaximumWordLength()
     {
-        return array_keys($this->_fields);
+        return $this->getOption('maximumwordlength');
     }
 
     /**
-     * Set multiple fields
+     * Set maximumqueryterms option
      *
-     * This overwrites any existing fields
+     * Maximum number of query terms that will be included in any generated
+     * query.
      *
-     * @param array $fields
-     * @return Solarium_Query_Select Provides fluent interface
+     * @param int $maximum
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function setFields($fields)
+    public function setMaximumQueryTerms($maximum)
     {
-        $this->clearFields();
-        $this->addFields($fields);
-
-        return $this;
+        return $this->_setOption('maximumqueryterms', $maximum);
     }
 
     /**
-     * Create a filterquery instance
+     * Get maximumqueryterms option
      *
-     * @param mixed $options
-     * @return Solarium_Query_Select_FilterQuery
+     * @return integer|null
      */
-    public function createFilterQuery($options = null)
+    public function getMaximumQueryTerms()
     {
-        return new Solarium_Query_Select_FilterQuery($options);
+        return $this->getOption('maximumqueryterms');
     }
 
     /**
-     * Add a filter query
+     * Set maximumnumberoftokens option
      *
-     * Supports a filterquery instance or a config array, in that case a new
-     * filterquery instance wil be created based on the options.
+     * Maximum number of tokens to parse in each example doc field that is not
+     * stored with TermVector support.
      *
-     * @param Solarium_Query_Select_FilterQuery|array $filterQuery
-     * @return Solarium_Query_Select Provides fluent interface
+     * @param int $maximum
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function addFilterQuery($filterQuery)
+    public function setMaximumNumberOfTokens($maximum)
     {
-        if (is_array($filterQuery)) {
-            $filterQuery = new Solarium_Query_Select_FilterQuery($filterQuery);
-        }
-        
-        $key = $filterQuery->getKey();
-
-        if (0 === strlen($key)) {
-            throw new Solarium_Exception('A filterquery must have a key value');
-        }
-
-        if (array_key_exists($key, $this->_filterQueries)) {
-            throw new Solarium_Exception('A filterquery must have a unique key'
-                . ' value within a query');
-        }
-
-        $this->_filterQueries[$key] = $filterQuery;
-        return $this;
+        return $this->_setOption('maximumnumberoftokens', $maximum);
     }
 
     /**
-     * Add multiple filterqueries
+     * Get maximumnumberoftokens option
      *
-     * @param array $filterQueries
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return integer|null
      */
-    public function addFilterQueries(array $filterQueries)
+    public function getMaximumNumberOfTokens()
     {
-        foreach ($filterQueries AS $key => $filterQuery) {
-
-            // in case of a config array: add key to config
-            if (is_array($filterQuery) && !isset($filterQuery['key'])) {
-                $filterQuery['key'] = $key;
-            }
-
-            $this->addFilterQuery($filterQuery);
-        }
-
-        return $this;
+        return $this->getOption('maximumnumberoftokens');
     }
 
     /**
-     * Get a filterquery
+     * Set boost option
      *
-     * @param string $key
-     * @return string
+     * If true the query will be boosted by the interesting term relevance.
+     *
+     * @param boolean $boost
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function getFilterQuery($key)
+    public function setBoost($boost)
     {
-        if (isset($this->_filterQueries[$key])) {
-            return $this->_filterQueries[$key];
-        } else {
-            return null;
-        }
+        return $this->_setOption('boost', $boost);
     }
 
     /**
-     * Get all filterqueries
+     * Get boost option
      *
-     * @return array
+     * @return boolean|null
      */
-    public function getFilterQueries()
+    public function getBoost()
     {
-        return $this->_filterQueries;
+        return $this->getOption('boost');
     }
 
     /**
-     * Remove a single filterquery by key
+     * Set queryfields option
      *
-     * @param string $key
-     * @return Solarium_Query_Select Provides fluent interface
+     * Query fields and their boosts using the same format as that used in
+     * DisMaxQParserPlugin. These fields must also be specified in fields.
+     *
+     * Separate multiple fields with commas.
+     *
+     * @param string $queryFields
+     * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function removeFilterQuery($key)
+    public function setQueryFields($queryFields)
     {
-        if (isset($this->_filterQueries[$key])) {
-            unset($this->_filterQueries[$key]);
-        }
-
-        return $this;
+        return $this->_setOption('queryfields', $queryFields);
     }
 
     /**
-     * Remove all filterqueries
+     * Get queryfields option
      *
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return string|null
      */
-    public function clearFilterQueries()
+    public function getQueryFields()
     {
-        $this->_filterQueries = array();
-        return $this;
-    }
-
-    /**
-     * Set multiple filterqueries
-     *
-     * This overwrites any existing filterqueries
-     *
-     * @param array $filterQueries
-     */
-    public function setFilterQueries($filterQueries)
-    {
-        $this->clearFilterQueries();
-        $this->addFilterQueries($filterQueries);
-    }
-
-    /**
-     * Get all registered component types
-     *
-     * @return array
-     */
-    public function getComponentTypes()
-    {
-        return $this->_componentTypes;
-    }
-
-    /**
-     * Register a component type
-     *
-     * @param string $key
-     * @param string $component
-     * @param string $requestBuilder
-     * @param string $responseParser
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function registerComponentType($key, $component, $requestBuilder=null, $responseParser=null)
-    {
-        $this->_componentTypes[$key] = array(
-            'component' => $component,
-            'requestbuilder' => $requestBuilder,
-            'responseparser' => $responseParser,
-        );
-
-        return $this;
-    }
-
-    /**
-     * Get all registered components
-     * 
-     * @return array
-     */
-    public function getComponents()
-    {
-        return $this->_components;
-    }
-
-    /**
-     * Get a component instance by key
-     *
-     * You can optionally supply an autoload class to create a new component
-     * instance if there is no registered component for the given key yet.
-     *
-     * @param string $key Use one of the constants
-     * @param string $autoload Class to autoload if component needs to be created
-     * @param array $config Configuration to use for autoload
-     * @return object|null
-     */
-    public function getComponent($key, $autoload = false, $config = null)
-    {
-        if (isset($this->_components[$key])) {
-            return $this->_components[$key];
-        } else {
-            if ($autoload == true) {
-
-                if (!isset($this->_componentTypes[$key])) {
-                    throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
-                }
-                
-                $className = $this->_componentTypes[$key]['component'];
-                $component = new $className($config);
-                $this->setComponent($key, $component);
-                return $component;
-            }
-            return null;
-        }
-    }
-
-    /**
-     * Set a component instance
-     *
-     * This overwrites any existing component registered with the same key.
-     *
-     * @param string $key
-     * @param object|null $value
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function setComponent($key, $value)
-    {
-        $this->_components[$key] = $value;
-        return $this;
-    }
-
-    /**
-     * Remove a component instance
-     *
-     * @param string $key
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function removeComponent($key)
-    {
-        if (isset($this->_components[$key])) {
-            unset($this->_components[$key]);
-        }
-        return $this;
-    }
-
-
-    /**
-     * Build component instances based on config
-     *
-     * @param array $configs
-     * @return void
-     */
-    protected function _createComponents($configs)
-    {
-        foreach ($configs AS $type => $config) {
-            $this->getComponent($type, true, $config);
-        }
-    }
-
-    /**
-     * Get a MoreLikeThis component instance
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return Solarium_Query_Select_Component_MoreLikeThis
-     */
-    public function getMoreLikeThis()
-    {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_MORELIKETHIS, true);
-    }
-
-    /**
-     * Get a FacetSet component instance
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return Solarium_Query_Select_Component_FacetSet
-     */
-    public function getFacetSet()
-    {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_FACETSET, true);
-    }
-
-    /**
-     * Get a DisMax component instance
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return Solarium_Query_Select_Component_DisMax
-     */
-    public function getDisMax()
-    {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_DISMAX, true);
-    }
-
-    /**
-     * Get a highlighting component instance
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return Solarium_Query_Select_Component_Highlighting
-     */
-    public function getHighlighting()
-    {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_HIGHLIGHTING, true);
+        return $this->getOption('queryfields');
     }
 
 }
