@@ -54,11 +54,13 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
      */
     protected function _init()
     {
+        // @codeCoverageIgnoreStart
         if (!function_exists('http_get')) {
            throw new Solarium_Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
         }
 
         parent::_init();
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -82,6 +84,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
      */
     protected function _getData($request)
     {
+        // @codeCoverageIgnoreStart
         $uri = $this->getBaseUri() . $request->getUri();
         $method = $request->getMethod();
         $options = $this->_createOptions($request);
@@ -112,6 +115,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
         }
 
         return array($data, $headers);
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -124,6 +128,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
      */
     protected function _createOptions($request)
     {
+        // @codeCoverageIgnoreStart
         $options = array(
             'timeout' => $this->getTimeout()
         );
@@ -134,6 +139,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
             }
         }
         return $options;
+        // @codeCoverageIgnoreEnd
     }
 
     /**
