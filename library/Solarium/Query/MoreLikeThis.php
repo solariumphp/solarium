@@ -131,11 +131,13 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query_Select
      * Set the match.include parameter, which is either 'true' or 'false'.  
      * 
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     *
+     * @param boolean $include
      * @return Solarium_Query_MoreLikeThis Provides fluent interface
      */
-    public function setMatchInclude() 
+    public function setMatchInclude($include)
     {
-        return $this->_setOption('matchinclude', 'true');
+        return $this->_setOption('matchinclude', $include);
     }
     
     /**

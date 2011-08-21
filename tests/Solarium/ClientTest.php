@@ -605,6 +605,18 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $observer->update($query);
     }
 
+    public function testMoreLikeThis()
+    {
+        $query = new Solarium_Query_MoreLikeThis();
+
+        $observer = $this->getMock('Solarium_Client', array('execute'));
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query));
+
+        $observer->moreLikeThis($query);
+    }
+
     public function testCreateQuery()
     {
         $options = array('optionA' => 1, 'optionB' => 2);
@@ -711,6 +723,18 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
                  ->with($this->equalTo(Solarium_Client::QUERYTYPE_PING), $this->equalTo($options));
 
         $observer->createPing($options);
+    }
+
+    public function testCreateMoreLikeThis()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_MORELIKETHIS), $this->equalTo($options));
+
+        $observer->createMoreLikeThis($options);
     }
 
 }

@@ -65,6 +65,11 @@ class Solarium_Result_MoreLikeThis extends Solarium_Result_Select
     protected $_interestingTerms;
 
     /**
+     * MLT match document
+     */
+    protected $_match;
+
+    /**
      * Get MLT interesting terms
      * 
      * this will show what "interesting" terms are used for the MoreLikeThis
