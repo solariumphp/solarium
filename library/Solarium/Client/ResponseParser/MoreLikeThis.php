@@ -43,14 +43,13 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_MoreLikeThis
-    extends Solarium_Client_ResponseParser_Select
+class Solarium_Client_ResponseParser_MoreLikeThis extends Solarium_Client_ResponseParser_Select
 {
 
     /**
      * Get result data for the response
      *
-     * @param Solarium_Result_Select $result
+     * @param Solarium_Result_MoreLikeThis $result
      * @return array
      */
     public function parse($result)
@@ -58,10 +57,8 @@ class Solarium_Client_ResponseParser_MoreLikeThis
         $data = $result->getData();
         $query = $result->getQuery();
 
-        $postResult = parent::parse($result);
-        if (isset($data['interestingTerms'])
-            and 'none' != $query->getInterestingTerms()
-        ) {
+        $parseResult = parent::parse($result);
+        if (isset($data['interestingTerms']) && 'none' != $query->getInterestingTerms()) {
             $terms = $data['interestingTerms'];
             if ('details' == $query->getInterestingTerms()) {
                 $tempTerms = array();
@@ -70,9 +67,18 @@ class Solarium_Client_ResponseParser_MoreLikeThis
                 }
                 $terms = $tempTerms;
             }
-            $postResult['interestingTerms'] = $terms;
+            $parseResult['interestingTerms'] = $terms;
         }
-        return $postResult;
+
+        if (isset($data['match']['docs'][0]) && true == $query->getMatchInclude()) {
+            $matchData = $data['match']['docs'][0];
+            
+            $documentClass = $query->getOption('documentclass');
+            $fields = (array)$matchData;
+            $parseResult['match'] = new $documentClass($fields);
+        }
+
+        return $parseResult;
     }
 
 }
