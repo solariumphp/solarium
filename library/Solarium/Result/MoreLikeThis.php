@@ -42,13 +42,13 @@
  *
  * This is the standard resulttype for a moreLikeThis query. Example usage:
  * <code>
- * // total solr results
+ * // total solr mlt results
  * $result->getNumFound();
  *
  * // results fetched
  * count($result);
  *
- * // iterate over fetched docs
+ * // iterate over fetched mlt docs
  * foreach ($result AS $doc) {
  *    ....
  * }
@@ -60,27 +60,45 @@
 class Solarium_Result_MoreLikeThis extends Solarium_Result_Select
 {
     /**
-     * interesting terms
+     * MLT interesting terms
      */
     protected $_interestingTerms;
 
     /**
+     * Get MLT interesting terms
+     * 
      * this will show what "interesting" terms are used for the MoreLikeThis
      * query. These are the top tf/idf terms. NOTE: if you select 'details',
      * this shows you the term and boost used for each term. Unless
      * mlt.boost=true all terms will have boost=1.0
      *
-     * This is NOT the number of document fetched from Solr!
-     *
-     * @var array
+     * @return array
      */
     public function getInterestingTerms()
     {
         $query = $this->getQuery();
         if ('none' == $query->getInterestingTerms()) {
-            throw new Solarium_Exception('mlt.interestingTerms is none');
+            throw new Solarium_Exception('interestingterms is none');
         }
         $this->_parseResponse();
         return $this->_interestingTerms;
+    }
+
+    /**
+     * Get matched document
+     *
+     * Only available if matchinclude was set to true in the query.
+     *
+     * @throws Solarium_Exception
+     * @return Solarium_Document
+     */
+    public function getMatch()
+    {
+        $query = $this->getQuery();
+        if (true != $query->getMatchInclude()) {
+            throw new Solarium_Exception('matchinclude was disabled in the MLT query');
+        }
+        $this->_parseResponse();
+        return $this->_match;
     }
 }
