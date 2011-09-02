@@ -33,78 +33,50 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
 
 /**
- * Analysis document query
+ * Analysis types result
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
-class Solarium_Query_Analysis_Document extends Solarium_Query_Analysis
+class Solarium_Result_Analysis_Types extends Solarium_Result_Analysis_List
 {
 
     /**
-     * Documents to analyze
+     * Get index analysis list
      *
-     * @var array
+     * @return Solarium_Result_Analysis_List|null
      */
-    protected $_documents = array();
-
-    /**
-     * Default options
-     *
-     * @var array
-     */
-    protected $_options = array(
-        'handler'       => 'analysis/document',
-        'resultclass'   => 'Solarium_Result_Analysis_Document',
-    );
-
-    /**
-     * Get type for this query
-     *
-     * @return string
-     */
-    public function getType()
+    public function getIndexAnalysis()
     {
-        return Solarium_Client::QUERYTYPE_ANALYSIS_DOCUMENT;
+        foreach($this->_items AS $item)
+        {
+            if ($item->getName() == 'index') {
+                return $item;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Add a single document
+     * Get query analysis list
      *
-     * @param object $document
-     * @return Solarium_Query_Analysis_Document Provides fluent interface
+     * @return Solarium_Result_Analysis_List|null
      */
-    public function addDocument($document)
+    public function getQueryAnalysis()
     {
-        $this->_documents[] = $document;
+        foreach($this->_items AS $item)
+        {
+            if ($item->getName() == 'query') {
+                return $item;
+            }
+        }
 
-        return $this;
+        return null;
     }
 
-    /**
-     * Add multiple documents
-     *
-     * @param array $documents
-     * @return Solarium_Query_Analysis_Document fluent interface
-     */
-    public function addDocuments($documents)
-    {
-        $this->_documents = array_merge($this->_documents, $documents);
-        return $this;
-    }
-
-    /**
-     * Get all documents
-     *
-     * @return array
-     */
-    public function getDocuments()
-    {
-        return $this->_documents;
-    }
-    
 }

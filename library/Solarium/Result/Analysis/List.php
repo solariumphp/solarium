@@ -33,105 +33,79 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
 
 /**
- * Analysis document query
+ * Analysis list result
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
-class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
+class Solarium_Result_Analysis_List implements IteratorAggregate, Countable
 {
 
     /**
-     * Default options
-     *
+     * @var string
+     */
+    protected $_name;
+
+    /**
      * @var array
      */
-    protected $_options = array(
-        'handler'       => 'analysis/field',
-        'resultclass'   => 'Solarium_Result_Analysis_Field',
-    );
-    
-    /**
-     * Get type for this query
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return Solarium_Client::QUERYTYPE_ANALYSIS_FIELD;
-    }
+    protected $_items;
+
 
     /**
-     * Set the field value option
-     *
-     * The text that will be analyzed. The analysis will mimic the index-time analysis.
-     *
-     * @param string $value
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
-     */
-    public function setFieldValue($value)
-    {
-        return $this->_setOption('fieldvalue', $value);
-    }
-
-    /**
-     * Get the field value option
-     *
-     * @return string
-     */
-    public function getFieldValue()
-    {
-        return $this->getOption('fieldvalue');
-    }
-
-    /**
-     * Set the field type option
-     *
-     * When present, the text will be analyzed based on the specified type
-     *
-     * @param string $type
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
-     */
-    public function setFieldType($type)
-    {
-        return $this->_setOption('fieldtype', $type);
-    }
-
-    /**
-     * Get the fieldtype option
-     *
-     * @return string
-     */
-    public function getFieldType()
-    {
-        return $this->getOption('fieldtype');
-    }
-
-    /**
-     * Set the field name option
-     *
-     * When present, the text will be analyzed based on the type of this field name
+     * Constructor
      *
      * @param string $name
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @param array $items
      */
-    public function setFieldName($name)
+    public function __construct($name, $items)
     {
-        return $this->_setOption('fieldname', $name);
+        $this->_name = $name;
+        $this->_items = $items;
     }
 
     /**
-     * Get the fieldname option
+     * Get type value
      *
      * @return string
      */
-    public function getFieldName()
+    public function getName()
     {
-        return $this->getOption('fieldname');
+        return $this->_name;
+    }
+
+    /**
+     * Get all items
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        return $this->_items;
+    }
+
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_items);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_items);
     }
 
 }

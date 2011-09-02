@@ -33,105 +33,143 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
 
 /**
- * Analysis document query
+ * Analysis item
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
-class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
+class Solarium_Result_Analysis_Item
 {
 
     /**
-     * Default options
-     *
+     * @var string
+     */
+    protected $_text;
+
+    /**
+     * @var string
+     */
+    protected $_rawText;
+
+    /**
+     * @var int
+     */
+    protected $_start;
+
+    /**
+     * @var int
+     */
+    protected $_end;
+
+    /**
+     * @var int
+     */
+    protected $_position;
+
+    /**
      * @var array
      */
-    protected $_options = array(
-        'handler'       => 'analysis/field',
-        'resultclass'   => 'Solarium_Result_Analysis_Field',
-    );
-    
+    protected $_positionHistory;
+
     /**
-     * Get type for this query
+     * @var string
+     */
+    protected $_type;
+
+
+    /**
+     * Constructor
+     *
+     * @param array $analysis
+     */
+    public function __construct($analysis)
+    {
+        $this->_text = $analysis['text'];
+        $this->_start = $analysis['start'];
+        $this->_end = $analysis['end'];
+        $this->_position = $analysis['position'];
+        $this->_positionHistory = $analysis['positionHistory'];
+        $this->_type = $analysis['type'];
+
+        if (isset($analysis['raw_text'])) {
+            $this->_rawText = $analysis['raw_text'];
+        }
+    }
+
+    /**
+     * Get text value
+     *
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->_text;
+    }
+
+    /**
+     * Get raw text value
+     *
+     * This values is not available in all cases
+     *
+     * @return string
+     */
+    public function getRawText()
+    {
+        return $this->_rawText;
+    }
+
+    /**
+     * Get start value
+     *
+     * @return int
+     */
+    public function getStart()
+    {
+        return $this->_start;
+    }
+
+    /**
+     * Get end value
+     *
+     * @return int
+     */
+    public function getEnd()
+    {
+        return $this->_end;
+    }
+
+    /**
+     * Get postion value
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->_position;
+    }
+
+    /**
+     * Get position history value
+     * 
+     * @return array
+     */
+    public function getPositionHistory()
+    {
+        return $this->_positionHistory;
+    }
+
+    /**
+     * Get type value
      *
      * @return string
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_ANALYSIS_FIELD;
-    }
-
-    /**
-     * Set the field value option
-     *
-     * The text that will be analyzed. The analysis will mimic the index-time analysis.
-     *
-     * @param string $value
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
-     */
-    public function setFieldValue($value)
-    {
-        return $this->_setOption('fieldvalue', $value);
-    }
-
-    /**
-     * Get the field value option
-     *
-     * @return string
-     */
-    public function getFieldValue()
-    {
-        return $this->getOption('fieldvalue');
-    }
-
-    /**
-     * Set the field type option
-     *
-     * When present, the text will be analyzed based on the specified type
-     *
-     * @param string $type
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
-     */
-    public function setFieldType($type)
-    {
-        return $this->_setOption('fieldtype', $type);
-    }
-
-    /**
-     * Get the fieldtype option
-     *
-     * @return string
-     */
-    public function getFieldType()
-    {
-        return $this->getOption('fieldtype');
-    }
-
-    /**
-     * Set the field name option
-     *
-     * When present, the text will be analyzed based on the type of this field name
-     *
-     * @param string $name
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
-     */
-    public function setFieldName($name)
-    {
-        return $this->_setOption('fieldname', $name);
-    }
-
-    /**
-     * Get the fieldname option
-     *
-     * @return string
-     */
-    public function getFieldName()
-    {
-        return $this->getOption('fieldname');
+        return $this->_type;
     }
 
 }

@@ -33,105 +33,123 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
 
 /**
- * Analysis document query
+ * Analysis document query result
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
-class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
+class Solarium_Result_Analysis_Document extends Solarium_Result_QueryType
+    implements IteratorAggregate, Countable
 {
 
     /**
-     * Default options
+     * Document instances array
      *
      * @var array
      */
-    protected $_options = array(
-        'handler'       => 'analysis/field',
-        'resultclass'   => 'Solarium_Result_Analysis_Field',
-    );
-    
+    protected $_items;
+
     /**
-     * Get type for this query
+     * Status code returned by Solr
      *
-     * @return string
+     * @var int
      */
-    public function getType()
+    protected $_status;
+
+    /**
+     * Solr index queryTime
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @var int
+     */
+    protected $_queryTime;
+
+    /**
+     * Get Solr status code
+     *
+     * This is not the HTTP status code! The normal value for success is 0.
+     *
+     * @return int
+     */
+    public function getStatus()
     {
-        return Solarium_Client::QUERYTYPE_ANALYSIS_FIELD;
+        $this->_parseResponse();
+
+        return $this->_status;
     }
 
     /**
-     * Set the field value option
+     * Get Solr query time
      *
-     * The text that will be analyzed. The analysis will mimic the index-time analysis.
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
      *
-     * @param string $value
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @return int
      */
-    public function setFieldValue($value)
+    public function getQueryTime()
     {
-        return $this->_setOption('fieldvalue', $value);
+        $this->_parseResponse();
+
+        return $this->_queryTime;
     }
 
     /**
-     * Get the field value option
+     * Get all documents
      *
-     * @return string
+     * @return array
      */
-    public function getFieldValue()
+    public function getDocuments()
     {
-        return $this->getOption('fieldvalue');
+        $this->_parseResponse();
+
+        return $this->_items;
     }
 
     /**
-     * Set the field type option
+     * IteratorAggregate implementation
      *
-     * When present, the text will be analyzed based on the specified type
-     *
-     * @param string $type
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @return ArrayIterator
      */
-    public function setFieldType($type)
+    public function getIterator()
     {
-        return $this->_setOption('fieldtype', $type);
+        $this->_parseResponse();
+
+        return new ArrayIterator($this->_items);
     }
 
     /**
-     * Get the fieldtype option
+     * Countable implementation
      *
-     * @return string
+     * @return int
      */
-    public function getFieldType()
+    public function count()
     {
-        return $this->getOption('fieldtype');
+        $this->_parseResponse();
+
+        return count($this->_items);
     }
 
     /**
-     * Set the field name option
+     * Get a document by uniquekey value
      *
-     * When present, the text will be analyzed based on the type of this field name
-     *
-     * @param string $name
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @param string $key
+     * @return Solarium_Result_Analysis_List|null
      */
-    public function setFieldName($name)
+    public function getDocument($key)
     {
-        return $this->_setOption('fieldname', $name);
-    }
-
-    /**
-     * Get the fieldname option
-     *
-     * @return string
-     */
-    public function getFieldName()
-    {
-        return $this->getOption('fieldname');
+        $this->_parseResponse();
+        
+        if(isset($this->_items[$key])) {
+            return $this->_items[$key];
+        } else {
+            return null;
+        }
     }
 
 }

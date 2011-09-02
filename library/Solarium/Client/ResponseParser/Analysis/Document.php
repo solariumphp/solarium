@@ -33,78 +33,33 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
 
 /**
- * Analysis document query
+ * Parse document analysis response data
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Client
  */
-class Solarium_Query_Analysis_Document extends Solarium_Query_Analysis
+class Solarium_Client_ResponseParser_Analysis_Document extends Solarium_Client_ResponseParser_Analysis_Field
 {
 
     /**
-     * Documents to analyze
+     * Parse implementation
      *
-     * @var array
-     */
-    protected $_documents = array();
-
-    /**
-     * Default options
-     *
-     * @var array
-     */
-    protected $_options = array(
-        'handler'       => 'analysis/document',
-        'resultclass'   => 'Solarium_Result_Analysis_Document',
-    );
-
-    /**
-     * Get type for this query
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return Solarium_Client::QUERYTYPE_ANALYSIS_DOCUMENT;
-    }
-
-    /**
-     * Add a single document
-     *
-     * @param object $document
-     * @return Solarium_Query_Analysis_Document Provides fluent interface
-     */
-    public function addDocument($document)
-    {
-        $this->_documents[] = $document;
-
-        return $this;
-    }
-
-    /**
-     * Add multiple documents
-     *
-     * @param array $documents
-     * @return Solarium_Query_Analysis_Document fluent interface
-     */
-    public function addDocuments($documents)
-    {
-        $this->_documents = array_merge($this->_documents, $documents);
-        return $this;
-    }
-
-    /**
-     * Get all documents
-     *
+     * @param array $data
      * @return array
      */
-    public function getDocuments()
+    protected function _parseAnalysis($data)
     {
-        return $this->_documents;
+        $documents = array();
+        foreach($data as $documentKey => $documentData) {
+            $fields = $this->_parseTypes($documentData);
+            $documents[] = new Solarium_Result_Analysis_List($documentKey, $fields);
+        }
+
+        return $documents;
     }
-    
+
 }

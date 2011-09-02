@@ -608,6 +608,20 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
+     * Execute an analysis query
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param Solarium_Query_Analysis_Document|Solarium_Query_Analysis_Field $query
+     * @return Solarium_Result_Analysis_Document|Solarium_Result_Analysis_Field
+     */
+    public function analyze($query)
+    {
+        return $this->execute($query);
+    }
+
+    /**
      * Create a query instance
      *
      * @param string $type
