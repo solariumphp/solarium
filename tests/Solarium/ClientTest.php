@@ -617,6 +617,18 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $observer->moreLikeThis($query);
     }
 
+    public function testAnalyze()
+    {
+        $query = new Solarium_Query_Analysis_Field();
+
+        $observer = $this->getMock('Solarium_Client', array('execute'));
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query));
+
+        $observer->analyze($query);
+    }
+
     public function testCreateQuery()
     {
         $options = array('optionA' => 1, 'optionB' => 2);

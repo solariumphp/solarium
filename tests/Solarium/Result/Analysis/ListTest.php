@@ -29,44 +29,50 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_AnalysisTest extends PHPUnit_Framework_TestCase
+class Solarium_Result_Analysis_ListTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_query;
+    /**
+     * @var Solarium_Result_Analysis_List
+     */
+    protected $_result;
+
+    protected $_items, $_name;
 
     public function setUp()
     {
-        $this->_query = new TestAnalysisQuery;
+        $this->_name = 'testname';
+        $this->_items = array('key1' => 'dummy1', 'key2' => 'dummy2', 'key3' => 'dummy3');
+        $this->_result = new Solarium_Result_Analysis_List($this->_name, $this->_items);
     }
 
-    public function testSetAndGetQuery()
+    public function testGetItems()
     {
-        $querystring = 'test query values';
-
-        $this->_query->setQuery($querystring);
-        $this->assertEquals($querystring, $this->_query->getQuery());
+        $this->assertEquals($this->_items, $this->_result->getItems());
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testCount()
     {
-        $this->_query->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->_query->getQuery());
+        $this->assertEquals(count($this->_items), count($this->_result));
     }
 
-    public function testSetAndGetShowMatch()
+    public function testIterator()
     {
-        $show = true;
+        $lists = array();
+        foreach($this->_result AS $key => $list)
+        {
+            $lists[$key] = $list;
+        }
 
-        $this->_query->setShowMatch($show);
-        $this->assertEquals($show, $this->_query->getShowMatch());
+        $this->assertEquals($this->_items, $lists);
     }
-}
 
-class TestAnalysisQuery extends Solarium_Query_Analysis{
-
-    public function getType()
+    public function testGetName()
     {
-        
+        $this->assertEquals(
+            $this->_name,
+            $this->_result->getName()
+        );
     }
 
 }

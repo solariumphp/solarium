@@ -29,44 +29,70 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_AnalysisTest extends PHPUnit_Framework_TestCase
+class Solarium_Result_Analysis_FieldTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $_query;
+    /**
+     * @var Solarium_Result_Analysis_Field
+     */
+    protected $_result;
+
+    protected $_items;
 
     public function setUp()
     {
-        $this->_query = new TestAnalysisQuery;
+        $this->_items = array('key1' => 'dummy1', 'key2' => 'dummy2', 'key3' => 'dummy3');
+        $this->_result = new Solarium_Result_Analysis_FieldDummy(1, 12, $this->_items);
     }
 
-    public function testSetAndGetQuery()
+    public function testGetLists()
     {
-        $querystring = 'test query values';
-
-        $this->_query->setQuery($querystring);
-        $this->assertEquals($querystring, $this->_query->getQuery());
+        $this->assertEquals($this->_items, $this->_result->getLists());
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testCount()
     {
-        $this->_query->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->_query->getQuery());
+        $this->assertEquals(count($this->_items), count($this->_result));
     }
 
-    public function testSetAndGetShowMatch()
+    public function testIterator()
     {
-        $show = true;
+        $lists = array();
+        foreach($this->_result AS $key => $list)
+        {
+            $lists[$key] = $list;
+        }
 
-        $this->_query->setShowMatch($show);
-        $this->assertEquals($show, $this->_query->getShowMatch());
+        $this->assertEquals($this->_items, $lists);
     }
+
+    public function testGetStatus()
+    {
+        $this->assertEquals(
+            1,
+            $this->_result->getStatus()
+        );
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertEquals(
+            12,
+            $this->_result->getQueryTime()
+        );
+    }
+    
 }
 
-class TestAnalysisQuery extends Solarium_Query_Analysis{
+class Solarium_Result_Analysis_FieldDummy extends Solarium_Result_Analysis_Field
+{
+    protected $_parsed = true;
 
-    public function getType()
+    public function __construct($status, $queryTime, $items)
     {
-        
+        $this->_items = $items;
+        $this->_queryTime = $queryTime;
+        $this->_status = $status;
     }
 
 }
