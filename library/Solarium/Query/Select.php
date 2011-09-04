@@ -80,6 +80,11 @@ class Solarium_Query_Select extends Solarium_Query
     const COMPONENT_HIGHLIGHTING = 'highlighting';
 
     /**
+     * Query component spellcheck
+     */
+	const COMPONENT_SPELLCHECK = 'spellcheck';
+
+    /**
      * Query component grouping
      */
     const COMPONENT_GROUPING = 'grouping';
@@ -139,6 +144,11 @@ class Solarium_Query_Select extends Solarium_Query
             'component' => 'Solarium_Query_Select_Component_Grouping',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Grouping',
             'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Grouping',
+        ),
+        self::COMPONENT_SPELLCHECK => array(
+            'component' => 'Solarium_Query_Select_Component_Spellcheck',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Spellcheck',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Spellcheck',
         ),
     );
 
@@ -832,6 +842,18 @@ class Solarium_Query_Select extends Solarium_Query
     public function getGrouping()
     {
         return $this->getComponent(Solarium_Query_Select::COMPONENT_GROUPING, true);
+    }
+
+    /*
+     * Get a spellcheck component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_Spellcheck
+     */
+    public function getSpellcheck()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_SPELLCHECK, true);
     }
 
 }

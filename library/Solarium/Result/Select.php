@@ -257,4 +257,16 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
     {
         return $this->getComponent(Solarium_Query_Select::COMPONENT_FACETSET);
     }
+
+    /**
+     * Get spellcheck component result
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Result_Select_Spellcheck
+     */
+    public function getSpellcheck()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_SPELLCHECK);
+    }
 }
