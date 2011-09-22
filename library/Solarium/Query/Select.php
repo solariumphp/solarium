@@ -527,7 +527,7 @@ class Solarium_Query_Select extends Solarium_Query
         return $this;
     }
 
-    /*
+    /**
      * Add multiple shards
      *
      * Example usage:
