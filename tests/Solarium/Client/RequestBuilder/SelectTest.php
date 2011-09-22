@@ -89,6 +89,29 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
         );
     }
 
+    public function testSelectUrlWithShard()
+    {
+        $this->_query->addShard('shard1', 'localhost:8983/solr/shard1');
+        $this->_query->addShards(array(
+            'shard2' => 'localhost:8983/solr/shard2',
+            'shard3' => 'localhost:8983/solr/shard3'
+        ));
+        $this->_query->setShardRequestHandler('dummy');
+        $request = $this->_builder->build($this->_query);
+
+        $this->assertEquals(
+            null,
+            $request->getRawData()
+        );
+
+        $this->assertEquals(
+            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json' .
+            '&shards=localhost:8983/solr/shard1,localhost:8983/solr/shard2,localhost:8983/solr/shard3' .
+            '&shards.qt=dummy',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testSelectUrlWithSortAndFilters()
     {
         $this->_query->addSort('id', Solarium_Query_Select::SORT_ASC);

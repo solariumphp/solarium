@@ -167,6 +167,13 @@ class Solarium_Query_Select extends Solarium_Query
     protected $_sorts = array();
 
     /**
+     * Request to be distributed across all shards in the list
+     *
+     * @var array
+     */
+    protected $_shards = array();
+
+    /**
      * Filterqueries
      *
      * @var array
@@ -209,6 +216,9 @@ class Solarium_Query_Select extends Solarium_Query
                     break;
                 case 'start':
                     $this->setStart((int)$value);
+                    break;
+                case 'shards':
+                    $this->setShards($value);
                     break;
                 case 'component':
                     $this->_createComponents($value);
@@ -501,6 +511,132 @@ class Solarium_Query_Select extends Solarium_Query
         $this->addSorts($sorts);
 
         return $this;
+    }
+
+    /**
+     * Add a shard
+     *
+     * @param string $key unique string
+     * @param string $shard  The syntax is host:port/base_url
+     * @return Solarium_Query_Select Provides fluent interface
+     * @link http://wiki.apache.org/solr/DistributedSearch
+     */
+    public function addShard($key, $shard)
+    {
+        $this->_shards[$key] = $shard;
+        return $this;
+    }
+
+    /**
+     * Add multiple shards
+     *
+     * Example usage:
+     * <code>
+     * $client = new Solarium_Client;
+     * $query = $client->createSelect();
+     * $query->addShards(array(
+     *     'core0' => 'localhost:8983/solr/core0',
+     *     'core1' => 'localhost:8983/solr/core1'
+     * ));
+     * $result = $client->select($query);
+     * </code>
+     * @param array $shards
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function addShards(array $shards)
+    {
+        foreach ($shards as $key => $shard) {
+            $this->addShard($key, $shard);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a shard
+     *
+     * @param string $key
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function removeShard($key)
+    {
+        if (isset($this->_shards[$key])) {
+            unset($this->_shards[$key]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all shards
+     *
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function clearShards()
+    {
+        $this->_shards = array();
+        return $this;
+    }
+
+    /**
+     * Set multiple shards
+     *
+     * This overwrites any existing shards
+     *
+     * Example usage:
+     * <code>
+     * $client = new Solarium_Client;
+     * $query = $client->createSelect();
+     * $query->setShards(array(
+     *     'core0' => 'localhost:8983/solr/core0',
+     *     'core1' => 'localhost:8983/solr/core1'
+     * ));
+     * $result = $client->select($query);
+     * </code>
+     *
+     * @param array $shards Associative array of shards
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function setShards(array $shards)
+    {
+        $this->clearShards();
+        $this->addShards($shards);
+
+        return $this;
+    }
+
+    /**
+     * Get a list of the shards
+     *
+     * @return array
+     */
+    public function getShards()
+    {
+        return $this->_shards;
+    }
+
+    /**
+     *  A sharded request will go to the standard request handler
+     *  (not necessarily the original); this can be overridden via shards.qt
+     *
+     * @param string
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function setShardRequestHandler($handler)
+    {
+        $this->_setOption('shardhandler', $handler);
+        return $this;
+    }
+
+    /**
+     * Get a shard request handler (shards.qt)
+     *
+     * @param string
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function getShardRequestHandler()
+    {
+        return $this->getOption('shardhandler');
     }
 
     /**
