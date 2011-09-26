@@ -59,6 +59,11 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
         $component->setRegexPattern('mypattern');
         $component->setMaxAnalyzedChars(100);
         
+        // Per field
+        $component->field->setSnippets(20)
+                         ->setFragsize(200)
+                         ->endPerFieldOptions();
+        
         $request = $builder->build($component, $request);
 
         $this->assertEquals(
@@ -83,6 +88,8 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
                 'hl.highlightMultiTerm' => 'true',
                 'hl.regex.slop' => 1.3,
                 'hl.regex.pattern' => 'mypattern',
+                'f.field.hl.snippets' => 20,
+                'f.field.hl.fragsize' => 200
             ),
             $request->getParams()
         );

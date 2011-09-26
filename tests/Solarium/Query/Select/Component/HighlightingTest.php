@@ -315,4 +315,31 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
         );
     }
     
+    public function testNonExistentPropertiesWillReturnTheComponentItself()
+    {
+        $this->assertInstanceOf('Solarium_Query_Select_Component', $this->_hlt->field);
+    }
+    
+    /**
+     * @depends testNonExistentPropertiesWillReturnTheComponentItself
+     */
+    public function testNonExistentPropertiesWillBeAddedToTheFieldsList()
+    {
+        $this->_hlt->field->endPerFieldOptions();
+        $this->assertContains('field', $this->_hlt->getFields());
+    }
+    
+    public function testMethodsCalledAfterUnexistendPropertySetWillBeAddedAsAFieldSpecificOption()
+    {
+        $this->_hlt->field->setSnippets(20)->setFragSize(200)->endPerFieldOptions();
+        
+        $fieldOptions = $this->_hlt->getPerFieldOptions();
+        
+        $this->assertArrayHasKey('field', $fieldOptions);
+        $this->assertInternalType('array', $fieldOptions['field']);
+        $this->assertArrayHasKey('snippets', $fieldOptions['field']);
+        $this->assertArrayHasKey('fragsize', $fieldOptions['field']);
+        $this->assertEquals(20, $fieldOptions['field']['snippets']);
+        $this->assertEquals(200, $fieldOptions['field']['fragsize']);
+    }
 }

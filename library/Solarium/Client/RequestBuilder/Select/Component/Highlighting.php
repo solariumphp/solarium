@@ -52,7 +52,7 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
      * @param Solarium_Client_Request $request
      * @return Solarium_Client_Request
      */
-    public function build($component, $request)
+    public function build(Solarium_Query_Select_Component_Highlighting $component, Solarium_Client_Request $request)
     {
         // enable highlighting
         $request->addParam('hl', 'true');
@@ -77,7 +77,27 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
         $request->addParam('hl.regex.slop', $component->getRegexSlop());
         $request->addParam('hl.regex.pattern', $component->getRegexPattern());
         $request->addParam('hl.regex.maxAnalyzedChars', $component->getRegexMaxAnalyzedChars());
+        
+        $fieldOptions = $component->getPerFieldOptions();
+        if (sizeof($fieldOptions)) {
+            $this->_buildPerField($fieldOptions, $request);
+        }
 
         return $request;
+    }
+    
+    /**
+     * Set the per field highlighting options
+     * 
+     * @param array $fieldOptions
+     * @param Solarium_Client_Request $request 
+     */
+    protected function _buildPerField(array $fieldOptions, Solarium_Client_Request $request)
+    {
+        foreach ($fieldOptions as $field => $options) {
+            foreach ($options as $option => $value) {
+                $request->addParam('f.' . $field . '.hl.' . $option, $value, true);
+            }
+        }
     }
 }
