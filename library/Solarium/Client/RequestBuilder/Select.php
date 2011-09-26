@@ -63,6 +63,13 @@ class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuild
         $request->addParam('fl', implode(',', $query->getFields()));
         $request->addParam('wt', 'json');
 
+        // add shard fields to request
+        $shards = array_values($query->getShards());
+        if (count($shards)) {
+            $request->addParam('shards', implode(',', $shards));
+        }
+        $request->addParam('shards.qt', $query->getShardRequestHandler());
+
         // add sort fields to request
         $sort = array();
         foreach ($query->getSorts() AS $field => $order) {
@@ -93,7 +100,7 @@ class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuild
                 $request = $componentBuilder->build($component, $request);
             }
         }
-        
+
         return $request;
     }
 
