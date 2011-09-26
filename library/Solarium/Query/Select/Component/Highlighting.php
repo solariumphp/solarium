@@ -40,7 +40,7 @@
  * Highlighting component
  *
  * @link http://wiki.apache.org/solr/HighlightingParameters
- * 
+ *
  * @package Solarium
  * @subpackage Query
  */
@@ -58,48 +58,157 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
 
     /**
      * Component type
-     * 
+     *
      * @var string
      */
     protected $_type = Solarium_Query_Select::COMPONENT_HIGHLIGHTING;
-    
-    /**
-     * Specifies the field over the highlight will be set
-     * 
-     * @var string
-     */
-    protected $_overField;
-    
-    /**
-     * The options applied to specific fields
-     * 
-     * @var array
-     */
-    protected $_fieldOptions = array();
 
     /**
-     * Set fields option
+     * Array of fields for highlighting
      *
-     * Fields to generate highlighted snippets for
+     * @var array
+     */
+    protected $_fields = array();
+
+    /**
+     * Initialize options
      *
-     * Separate multiple fields with commas.
+     * The field option needs setup work
      *
-     * @param string $fields
+     * @return void
+     */
+    protected function _init()
+    {
+        foreach ($this->_options AS $name => $value) {
+            switch ($name) {
+                case 'field':
+                    $this->addFields($value);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Get a field options object
+     *
+     * @param string $name
+     * @param boolean $autocreate
+     * @return Solarium_Query_Select_Component_Highlighting_Field
+     */
+    public function getField($name, $autocreate = true)
+    {
+        if (isset($this->_fields[$name])) {
+            return $this->_fields[$name];
+        } else if($autocreate) {
+            $this->addField($name);
+            return $this->_fields[$name];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Add a field for highlighting
+     *
+     * @param string|array|Solarium_Query_Select_Component_Highlighting_Field $field
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     */
+    public function addField($field)
+    {
+        // autocreate object for string input
+        if (is_string($field)) {
+            $field = new Solarium_Query_Select_Component_Highlighting_Field(array('name' => $field));
+        } else if (is_array($field)) {
+            $field = new Solarium_Query_Select_Component_Highlighting_Field($field);
+        }
+
+        // validate field
+        if ($field->getName() === null) {
+            throw new Solarium_Exception('To add a highlighting field it needs to have at least a "name" setting');
+        }
+
+        $this->_fields[$field->getName()] = $field;
+        return $this;
+    }
+
+    /**
+     * Add multiple fields for highlighting
+     *
+     * @param string|array $fields can be an array of object instances or a string with comma
+     * separated fieldnames
+     *
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     */
+    public function addFields($fields)
+    {
+        if (is_string($fields)) {
+            $fields = explode(',', $fields);
+            $fields = array_map('trim', $fields);
+        }
+
+        foreach ($fields AS $key => $field) {
+
+            // in case of a config array without key: add key to config
+            if (is_array($field) && !isset($field['name'])) {
+                $field['name'] = $key;
+            }
+
+            $this->addField($field);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a highlighting field
+     *
+     * @param string $field
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     */
+    public function removeField($field)
+    {
+        if (isset($this->_fields[$field])) {
+           unset($this->_fields[$field]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all fields
+     *
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     */
+    public function clearFields()
+    {
+        $this->_fields = array();
+        return $this;
+    }
+
+    /**
+     * Get the list of fields
+     *
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->_fields;
+    }
+
+    /**
+     * Set multiple fields
+     *
+     * This overwrites any existing fields
+     *
+     * @param array $fields
      * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
      */
     public function setFields($fields)
     {
-        return $this->_setOption('fields', $fields);
-    }
+        $this->clearFields();
+        $this->addFields($fields);
 
-    /**
-     * Get fields option
-     *
-     * @return string|null
-     */
-    public function getFields()
-    {
-        return $this->getOption('fields');
+        return $this;
     }
 
     /**
@@ -518,67 +627,5 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
     {
         return $this->getOption('regexmaxanalyzedchars');
     }
-    
-    /**
-     * Stop setting per field options
-     */
-    public function endPerFieldOptions()
-    {
-        $this->_overField = null;
-    }
-    
-    /**
-     * Returns the array with all the specific per field options
-     * 
-     * @return array
-     */
-    public function getPerFieldOptions()
-    {
-        return $this->_fieldOptions;
-    }
-    
-    /**
-     * Override the _setOption method to take in account the per field options
-     * 
-     * @param string $name
-     * @param mixed $value 
-     */
-    protected function _setOption($name, $value)
-    {
-        if (null !== $this->_overField) {
-            $this->_fieldOptions[$this->_overField][$name] = $value;
-        } else {
-            parent::_setOption($name, $value);
-        }
-        
-        return $this;
-    }
-    
-    /**
-     * Checks if a given field exists on the lists field. If not, it will
-     * be added
-     * 
-     * @param string $fieldName 
-     */
-    protected function _checkField($fieldName)
-    {
-        if(strstr($this->getFields(), $fieldName) === false) {
-            $this->setFields($this->getFields() . (strlen($this->getFields()) > 0 ? ',' : '') . $fieldName);
-        }
-    }
-    
-    /**
-     * This magic method implementation, sets the field over the highlight options
-     * will be applied
-     * 
-     * @param string $name
-     * @return Solarium_Query_Select_Component_Highlighting 
-     */
-    public function __get($name)
-    {
-        $this->_checkField($name);
-        $this->_overField = $name;
-        
-        return $this;
-    }
+
 }

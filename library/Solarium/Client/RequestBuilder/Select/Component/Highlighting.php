@@ -44,7 +44,7 @@
  */
 class Solarium_Client_RequestBuilder_Select_Component_Highlighting
 {
-    
+
     /**
      * Add request settings for Highlighting
      *
@@ -57,7 +57,8 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
         // enable highlighting
         $request->addParam('hl', 'true');
 
-        $request->addParam('hl.fl', $component->getFields());
+        // set global highlighting params
+        $request->addParam('hl.fl', implode(',', array_keys($component->getFields())));
         $request->addParam('hl.snippets', $component->getSnippets());
         $request->addParam('hl.fragsize', $component->getFragSize());
         $request->addParam('hl.mergeContiguous', $component->getMergeContiguous());
@@ -77,27 +78,34 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
         $request->addParam('hl.regex.slop', $component->getRegexSlop());
         $request->addParam('hl.regex.pattern', $component->getRegexPattern());
         $request->addParam('hl.regex.maxAnalyzedChars', $component->getRegexMaxAnalyzedChars());
-        
-        $fieldOptions = $component->getPerFieldOptions();
-        if (sizeof($fieldOptions)) {
-            $this->_buildPerField($fieldOptions, $request);
+
+        // set per-field highlighting params
+        foreach($component->getFields() as $field) {
+            $this->_addFieldParams($field, $request);
         }
 
         return $request;
     }
-    
+
     /**
-     * Set the per field highlighting options
-     * 
-     * @param array $fieldOptions
-     * @param Solarium_Client_Request $request 
+     * Add per-field override options to the request
+     *
+     * @param Solarium_Query_Select_Component_Highlighting_Field $field
+     * @param Solarium_Client_Request $request
+     * @return void
      */
-    protected function _buildPerField(array $fieldOptions, Solarium_Client_Request $request)
+    protected function _addFieldParams($field, $request)
     {
-        foreach ($fieldOptions as $field => $options) {
-            foreach ($options as $option => $value) {
-                $request->addParam('f.' . $field . '.hl.' . $option, $value, true);
-            }
-        }
+        $prefix = 'f.' . $field->getName() . '.hl.';
+        $request->addParam($prefix.'snippets', $field->getSnippets());
+        $request->addParam($prefix.'fragsize', $field->getFragSize());
+        $request->addParam($prefix.'mergeContiguous', $field->getMergeContiguous());
+        $request->addParam($prefix.'alternateField', $field->getAlternateField());
+        $request->addParam($prefix.'formatter', $field->getFormatter());
+        $request->addParam($prefix.'simple.pre', $field->getSimplePrefix());
+        $request->addParam($prefix.'simple.post', $field->getSimplePostfix());
+        $request->addParam($prefix.'fragmenter', $field->getFragmenter());
+        $request->addParam($prefix.'useFastVectorHighlighter', $field->getUseFastVectorHighlighter());
     }
+
 }
