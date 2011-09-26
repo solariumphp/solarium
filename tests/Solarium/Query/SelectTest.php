@@ -464,6 +464,10 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             'fields' => array('id','title','category'),
             'rows'   => 100,
             'start'  => 200,
+            'shards' => array(
+                'shard1' => 'localhost:8983/solr/shard1',
+                'shard2' => 'localhost:8983/solr/shard2',
+            ),
             'filterquery' => array(
                 array('key' => 'pub', 'tag' => array('pub'),'query' => 'published:true'),
                 'online' => array('tag' => 'onl','query' => 'online:true')
@@ -486,6 +490,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($config['fields'], $query->getFields());
         $this->assertEquals($config['rows'], $query->getRows());
         $this->assertEquals($config['start'], $query->getStart());
+        $this->assertEquals($config['shards'], $query->getShards());
         $this->assertEquals($config['documentclass'], $query->getDocumentClass());
         $this->assertEquals($config['resultclass'], $query->getResultClass());
         $this->assertEquals('published:true', $query->getFilterQuery('pub')->getQuery());
@@ -617,7 +622,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             get_class($grouping)
         );
     }
-    
+
     public function testRegisterComponentType()
     {
         $components = $this->_query->getComponentTypes();
@@ -648,6 +653,16 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $options['optionB'],
             $fqOptions['optionB']
+        );
+    }
+
+    public function testGetSpellcheck()
+    {
+        $spellcheck = $this->_query->getSpellcheck();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_Spellcheck',
+            get_class($spellcheck)
         );
     }
 }
