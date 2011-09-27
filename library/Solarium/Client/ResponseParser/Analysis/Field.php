@@ -48,13 +48,13 @@ class Solarium_Client_ResponseParser_Analysis_Field extends Solarium_Client_Resp
     /**
      * Parse response data
      *
-     * @param Solarium_Result_Update $result
+     * @param Solarium_Result $result
      * @return array
      */
     public function parse($result)
     {
         $data = $result->getData();
-        
+
         if (isset($data['analysis'])) {
             $items = $this->_parseAnalysis($data['analysis']);
         } else {
