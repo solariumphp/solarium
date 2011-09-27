@@ -37,64 +37,30 @@
  */
 
 /**
- * Build a select request
+ * Add select component distributedsearch to the request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuilder
+class Solarium_Client_RequestBuilder_Select_Component_DistributedSearch
 {
 
     /**
-     * Build request for a select query
+     * Add request settings for DistributedSearch
      *
-     * @param Solarium_Query_Select $query
+     * @param Solarium_Query_Select_Component_DistributedSearch $component
+     * @param Solarium_Client_Request $request
      * @return Solarium_Client_Request
      */
-    public function build($query)
+    public function build($component, $request)
     {
-        $request = new Solarium_Client_Request;
-        $request->setHandler($query->getHandler());
-
-        // add basic params to request
-        $request->addParam('q', $query->getQuery());
-        $request->addParam('start', $query->getStart());
-        $request->addParam('rows', $query->getRows());
-        $request->addParam('fl', implode(',', $query->getFields()));
-        $request->addParam('wt', 'json');
-
-        // add sort fields to request
-        $sort = array();
-        foreach ($query->getSorts() AS $field => $order) {
-            $sort[] = $field . ' ' . $order;
+        // add shard fields to request
+        $shards = array_values($component->getShards());
+        if (count($shards)) {
+            $request->addParam('shards', implode(',', $shards));
         }
-        if (count($sort) !== 0) {
-            $request->addParam('sort', implode(',', $sort));
-        }
-
-        // add filterqueries to request
-        $filterQueries = $query->getFilterQueries();
-        if (count($filterQueries) !== 0) {
-            foreach ($filterQueries AS $filterQuery) {
-                $fq = $this->renderLocalParams(
-                    $filterQuery->getQuery(),
-                    array('tag' => $filterQuery->getTags())
-                );
-                $request->addParam('fq', $fq);
-            }
-        }
-
-        // add components to request
-        $types = $query->getComponentTypes();
-        foreach ($query->getComponents() as $component) {
-            $componentBuilderClass = $types[$component->getType()]['requestbuilder'];
-            if (!empty($componentBuilderClass)) {
-                $componentBuilder = new $componentBuilderClass;
-                $request = $componentBuilder->build($component, $request);
-            }
-        }
+        $request->addParam('shards.qt', $component->getShardRequestHandler());
 
         return $request;
     }
-
 }

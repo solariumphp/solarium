@@ -210,75 +210,6 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testAddShard()
-    {
-        $this->_query->addShard('shard1', 'localhost:8983/solr/shard1');
-        $shards = $this->_query->getShards();
-        $this->assertEquals(
-            'localhost:8983/solr/shard1',
-            $shards['shard1']
-        );
-    }
-
-    public function testRemoveShard()
-    {
-        $this->_query->addShard('shard1', 'localhost:8983/solr/shard1');
-        $this->_query->removeShard('shard1');
-        $shards = $this->_query->getShards();
-        $this->assertFalse(isset($shards['shard1']));
-    }
-
-    public function testClearShards()
-    {
-        $this->_query->addShards(array(
-            'shard1' => 'localhost:8983/solr/shard1',
-            'shard2' => 'localhost:8983/solr/shard2',
-        ));
-        $this->_query->clearShards();
-        $shards = $this->_query->getShards();
-        $this->assertTrue(is_array($shards));
-        $this->assertEquals(0, count($shards));
-    }
-
-    public function testAddShards()
-    {
-        $shards = array(
-            'shard1' => 'localhost:8983/solr/shard1',
-            'shard2' => 'localhost:8983/solr/shard2',
-        );
-        $this->_query->addShards($shards);
-        $this->assertEquals($shards, $this->_query->getShards());
-    }
-
-    public function testSetShards()
-    {
-        $this->_query->addShards(array(
-            'shard1' => 'localhost:8983/solr/shard1',
-            'shard2' => 'localhost:8983/solr/shard2',
-        ));
-        $this->_query->setShards(array(
-            'shard3' => 'localhost:8983/solr/shard3',
-            'shard4' => 'localhost:8983/solr/shard4',
-            'shard5' => 'localhost:8983/solr/shard5',
-        ));
-        $shards = $this->_query->getShards();
-        $this->assertEquals(3, count($shards));
-        $this->assertEquals(array(
-            'shard3' => 'localhost:8983/solr/shard3',
-            'shard4' => 'localhost:8983/solr/shard4',
-            'shard5' => 'localhost:8983/solr/shard5',
-        ), $shards);
-    }
-
-    public function testSetShardRequestHandler()
-    {
-        $this->_query->setShardRequestHandler('dummy');
-        $this->assertEquals(
-            'dummy',
-            $this->_query->getShardRequestHandler()
-        );
-    }
-
     public function testAddAndGetFilterQuery()
     {
         $fq = new Solarium_Query_Select_FilterQuery;
@@ -464,10 +395,6 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             'fields' => array('id','title','category'),
             'rows'   => 100,
             'start'  => 200,
-            'shards' => array(
-                'shard1' => 'localhost:8983/solr/shard1',
-                'shard2' => 'localhost:8983/solr/shard2',
-            ),
             'filterquery' => array(
                 array('key' => 'pub', 'tag' => array('pub'),'query' => 'published:true'),
                 'online' => array('tag' => 'onl','query' => 'online:true')
@@ -490,7 +417,6 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($config['fields'], $query->getFields());
         $this->assertEquals($config['rows'], $query->getRows());
         $this->assertEquals($config['start'], $query->getStart());
-        $this->assertEquals($config['shards'], $query->getShards());
         $this->assertEquals($config['documentclass'], $query->getDocumentClass());
         $this->assertEquals($config['resultclass'], $query->getResultClass());
         $this->assertEquals('published:true', $query->getFilterQuery('pub')->getQuery());
@@ -662,6 +588,16 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'Solarium_Query_Select_Component_Spellcheck',
+            get_class($spellcheck)
+        );
+    }
+
+    public function testGetDistributedSearch()
+    {
+        $spellcheck = $this->_query->getDistributedSearch();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_DistributedSearch',
             get_class($spellcheck)
         );
     }

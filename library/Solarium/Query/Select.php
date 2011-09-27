@@ -90,6 +90,11 @@ class Solarium_Query_Select extends Solarium_Query
     const COMPONENT_GROUPING = 'grouping';
 
     /**
+     * Query component distributed search
+     */
+    const COMPONENT_DISTRIBUTEDSEARCH = 'distributedsearch';
+
+    /**
      * Get type for this query
      *
      * @return string
@@ -101,7 +106,7 @@ class Solarium_Query_Select extends Solarium_Query
 
     /**
      * Default options
-     * 
+     *
      * @var array
      */
     protected $_options = array(
@@ -116,7 +121,7 @@ class Solarium_Query_Select extends Solarium_Query
 
     /**
      * Default select query component types
-     * 
+     *
      * @var array
      */
     protected $_componentTypes = array(
@@ -150,6 +155,11 @@ class Solarium_Query_Select extends Solarium_Query
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Spellcheck',
             'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Spellcheck',
         ),
+        self::COMPONENT_DISTRIBUTEDSEARCH => array(
+            'component' => 'Solarium_Query_Select_Component_DistributedSearch',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_DistributedSearch',
+            'responseparser' => null,
+        ),
     );
 
     /**
@@ -165,13 +175,6 @@ class Solarium_Query_Select extends Solarium_Query
      * @var array
      */
     protected $_sorts = array();
-
-    /**
-     * Request to be distributed across all shards in the list
-     *
-     * @var array
-     */
-    protected $_shards = array();
 
     /**
      * Filterqueries
@@ -192,7 +195,7 @@ class Solarium_Query_Select extends Solarium_Query
      *
      * Several options need some extra checks or setup work, for these options
      * the setters are called.
-     * 
+     *
      * @return void
      */
     protected function _init()
@@ -216,9 +219,6 @@ class Solarium_Query_Select extends Solarium_Query
                     break;
                 case 'start':
                     $this->setStart((int)$value);
-                    break;
-                case 'shards':
-                    $this->setShards($value);
                     break;
                 case 'component':
                     $this->_createComponents($value);
@@ -315,7 +315,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Get the current documentclass option
      *
      * The value is a classname, not an instance
-     * 
+     *
      * @return string
      */
     public function getDocumentClass()
@@ -514,132 +514,6 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Add a shard
-     *
-     * @param string $key unique string
-     * @param string $shard  The syntax is host:port/base_url
-     * @return Solarium_Query_Select Provides fluent interface
-     * @link http://wiki.apache.org/solr/DistributedSearch
-     */
-    public function addShard($key, $shard)
-    {
-        $this->_shards[$key] = $shard;
-        return $this;
-    }
-
-    /**
-     * Add multiple shards
-     *
-     * Example usage:
-     * <code>
-     * $client = new Solarium_Client;
-     * $query = $client->createSelect();
-     * $query->addShards(array(
-     *     'core0' => 'localhost:8983/solr/core0',
-     *     'core1' => 'localhost:8983/solr/core1'
-     * ));
-     * $result = $client->select($query);
-     * </code>
-     * @param array $shards
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function addShards(array $shards)
-    {
-        foreach ($shards as $key => $shard) {
-            $this->addShard($key, $shard);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove a shard
-     *
-     * @param string $key
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function removeShard($key)
-    {
-        if (isset($this->_shards[$key])) {
-            unset($this->_shards[$key]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove all shards
-     *
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function clearShards()
-    {
-        $this->_shards = array();
-        return $this;
-    }
-
-    /**
-     * Set multiple shards
-     *
-     * This overwrites any existing shards
-     *
-     * Example usage:
-     * <code>
-     * $client = new Solarium_Client;
-     * $query = $client->createSelect();
-     * $query->setShards(array(
-     *     'core0' => 'localhost:8983/solr/core0',
-     *     'core1' => 'localhost:8983/solr/core1'
-     * ));
-     * $result = $client->select($query);
-     * </code>
-     *
-     * @param array $shards Associative array of shards
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function setShards(array $shards)
-    {
-        $this->clearShards();
-        $this->addShards($shards);
-
-        return $this;
-    }
-
-    /**
-     * Get a list of the shards
-     *
-     * @return array
-     */
-    public function getShards()
-    {
-        return $this->_shards;
-    }
-
-    /**
-     *  A sharded request will go to the standard request handler
-     *  (not necessarily the original); this can be overridden via shards.qt
-     *
-     * @param string
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function setShardRequestHandler($handler)
-    {
-        $this->_setOption('shardhandler', $handler);
-        return $this;
-    }
-
-    /**
-     * Get a shard request handler (shards.qt)
-     *
-     * @param string
-     * @return Solarium_Query_Select Provides fluent interface
-     */
-    public function getShardRequestHandler()
-    {
-        return $this->getOption('shardhandler');
-    }
-
-    /**
      * Create a filterquery instance
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the filterquery
@@ -682,7 +556,7 @@ class Solarium_Query_Select extends Solarium_Query
         if (is_array($filterQuery)) {
             $filterQuery = new Solarium_Query_Select_FilterQuery($filterQuery);
         }
-        
+
         $key = $filterQuery->getKey();
 
         if (0 === strlen($key)) {
@@ -826,7 +700,7 @@ class Solarium_Query_Select extends Solarium_Query
 
     /**
      * Get all registered components
-     * 
+     *
      * @return array
      */
     public function getComponents()
@@ -855,7 +729,7 @@ class Solarium_Query_Select extends Solarium_Query
                 if (!isset($this->_componentTypes[$key])) {
                     throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
                 }
-                
+
                 $className = $this->_componentTypes[$key]['component'];
                 $component = new $className($config);
                 $this->setComponent($key, $component);
@@ -990,6 +864,18 @@ class Solarium_Query_Select extends Solarium_Query
     public function getSpellcheck()
     {
         return $this->getComponent(Solarium_Query_Select::COMPONENT_SPELLCHECK, true);
+    }
+
+    /*
+     * Get a DistributedSearch component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_DistributedSearch
+     */
+    public function getDistributedSearch()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_DISTRIBUTEDSEARCH, true);
     }
 
 }

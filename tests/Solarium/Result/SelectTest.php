@@ -52,12 +52,14 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
         $this->_moreLikeThis = 'dummy-facetset-value';
         $this->_highlighting = 'dummy-highlighting-value';
         $this->_grouping = 'dummy-grouping-value';
+        $this->_spellcheck = 'dummy-grouping-value';
 
         $this->_components = array(
             Solarium_Query_Select::COMPONENT_FACETSET => $this->_facetSet,
             Solarium_Query_Select::COMPONENT_MORELIKETHIS => $this->_moreLikeThis,
             Solarium_Query_Select::COMPONENT_HIGHLIGHTING => $this->_highlighting,
-            Solarium_Query_Select::COMPONENT_GROUPING => $this->_grouping
+            Solarium_Query_Select::COMPONENT_GROUPING => $this->_grouping,
+            Solarium_Query_Select::COMPONENT_SPELLCHECK => $this->_spellcheck,
         );
 
         $this->_result = new Solarium_Result_SelectDummy(1, 12, $this->_numFound, $this->_docs, $this->_components);
@@ -128,6 +130,14 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetSpellcheck()
+    {
+        $this->assertEquals(
+            $this->_components[Solarium_Query_Select::COMPONENT_SPELLCHECK],
+            $this->_result->getSpellcheck()
+        );
+    }
+
     public function testIterator()
     {
         $docs = array();
@@ -154,7 +164,7 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
             $this->_result->getQueryTime()
         );
     }
-    
+
 }
 
 class Solarium_Result_SelectDummy extends Solarium_Result_Select

@@ -40,7 +40,7 @@
  * Spellcheck component
  *
  * @link http://wiki.apache.org/solr/SpellCheckComponent
- * 
+ *
  * @package Solarium
  * @subpackage Query
  */
@@ -48,7 +48,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
 {
     /**
      * Component type
-     * 
+     *
      * @var string
      */
     protected $_type = Solarium_Query_Select::COMPONENT_SPELLCHECK;
@@ -81,7 +81,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
      *
      * Build the spellcheck?
      *
-     * @param string $build
+     * @param boolean $build
      * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
      */
     public function setBuild($build)
@@ -92,7 +92,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
     /**
      * Get build option
      *
-     * @return string|null
+     * @return boolean|null
      */
     public function getBuild()
     {
@@ -104,7 +104,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
      *
      * Reload the dictionary?
      *
-     * @param string $reload
+     * @param boolean $reload
      * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
      */
     public function setReload($reload)
@@ -115,7 +115,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
     /**
      * Get fragsize option
      *
-     * @return string|null
+     * @return boolean|null
      */
     public function getReload()
     {
@@ -149,7 +149,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
      * Set count option
      *
 	 * The maximum number of suggestions to return
-	 * 
+	 *
      * @param int $count
      * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
      */
@@ -173,7 +173,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
      *
      * Only return suggestions that result in more hits for the query than the existing query
      *
-     * @param string $onlyMorePopular
+     * @param boolean $onlyMorePopular
      * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
      */
     public function setOnlyMorePopular($onlyMorePopular)
@@ -184,7 +184,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
     /**
      * Get onlyMorePopular option
      *
-     * @return string|null
+     * @return boolean|null
      */
     public function getOnlyMorePopular()
     {
@@ -194,7 +194,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
     /**
      * Set extendedResults option
      *
-     * @param string $extendedResults
+     * @param boolean $extendedResults
      * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
      */
     public function setExtendedResults($extendedResults)
@@ -205,7 +205,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
     /**
      * Get extendedResults option
      *
-     * @return string|null
+     * @return boolean|null
      */
     public function getExtendedResults()
     {
@@ -215,7 +215,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
     /**
      * Set collate option
      *
-     * @param string $collate
+     * @param boolean $collate
      * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
      */
     public function setCollate($collate)
@@ -226,7 +226,7 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
     /**
      * Get collate option
      *
-     * @return string|null
+     * @return boolean|null
      */
     public function getCollate()
     {
@@ -337,5 +337,5 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
     {
         return $this->getOption('accuracy');
     }
-    
+
 }
