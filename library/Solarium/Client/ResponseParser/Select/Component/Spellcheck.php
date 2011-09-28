@@ -51,21 +51,109 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
      * @param Solarium_Query_Select $query
      * @param Solarium_Query_Select_Component_Spellcheck $spellcheck
      * @param array $data
-     * @return Solarium_Result_Select_Spellcheck
+     * @return Solarium_Result_Select_Spellcheck|null
      */
     public function parse($query, $spellcheck, $data)
     {
         $results = array();
-        if (isset($data['spellcheck'])) {
+        if (isset($data['spellcheck']['suggestions']) && is_array($data['spellcheck']['suggestions']) && count($data['spellcheck']['suggestions']) > 0) {
 
-            $spellcheckResults = $data['spellcheck'];
-            foreach ($spellcheckResults AS $key => $result) {
-                $results[$key] = new Solarium_Result_Select_Spellcheck_Result(
-                    $result
-                );
+            $spellcheckResults = $data['spellcheck']['suggestions'];
+
+            $suggestions = array();
+            $correctlySpelled = null;
+            $collation = null;
+
+            $index = 0;
+            while (isset($spellcheckResults[$index]) && isset($spellcheckResults[$index+1])) {
+                $key = $spellcheckResults[$index];
+                $value = $spellcheckResults[$index+1];
+
+                switch ($key) {
+                    case 'correctlySpelled':
+                        $correctlySpelled = $value;
+                        break;
+                    case 'collation':
+                        $collation = $this->_parseCollation($value);
+                        break;
+                    default:
+                        $suggestions[] = $this->_parseSuggestion($key, $value);
+                }
+
+                $index +=2;
             }
+
+            return new Solarium_Result_Select_Spellcheck($suggestions, $collation, $correctlySpelled);
+        } else {
+            return null;
+        }
+    }
+
+    protected function _parseCollation($values)
+    {
+        if (is_string($values)) {
+
+            return new Solarium_Result_Select_Spellcheck_Collation($values, null, array());
+
+        } else {
+
+            $query = null;
+            $hits = null;
+            $correctionResult = null;
+
+            $index = 0;
+            while (isset($values[$index]) && isset($values[$index+1])) {
+                $key = $values[$index];
+                $value = $values[$index+1];
+
+                switch ($key) {
+                    case 'collationQuery':
+                        $query = $value;
+                        break;
+                    case 'hits':
+                        $hits = $value;
+                        break;
+                    case 'misspellingsAndCorrections':
+                        $correctionResult = $value;
+                        break;
+                }
+
+                $index +=2;
+            }
+
+            $corrections = array();
+            if ($correctionResult !== null) {
+                $index = 0;
+                while (isset($correctionResult[$index]) && isset($correctionResult[$index+1])) {
+                    $input = $correctionResult[$index];
+                    $correction = $correctionResult[$index+1];
+
+                    $corrections[$input] = $correction;
+                    $index += 2;
+                }
+            }
+
+            return new Solarium_Result_Select_Spellcheck_Collation($query, $hits, $corrections);
+        }
+    }
+
+    protected function _parseSuggestion($key, $value)
+    {
+        $numFound = (isset($value['numFound'])) ? $value['numFound'] : null;
+        $startOffset = (isset($value['startOffset'])) ? $value['startOffset'] : null;
+        $endOffset = (isset($value['endOffset'])) ? $value['endOffset'] : null;
+        $originalFrequency = (isset($value['origFreq'])) ? $value['origFreq'] : null;
+
+        if(is_string($value['suggestion'][0])) {
+            $word = $value['suggestion'][0];
+            $frequency = null;
+        } else {
+            $word = $value['suggestion'][0]['word'];
+            $frequency = $value['suggestion'][0]['freq'];
         }
 
-        return new Solarium_Result_Select_Spellcheck($results);
+        return new Solarium_Result_Select_Spellcheck_Suggestion(
+            $numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency
+        );
     }
 }

@@ -37,112 +37,96 @@
  */
 
 /**
- * Select component spellcheck result
+ * Select component spellcheck suggestion result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
+class Solarium_Result_Select_Spellcheck_Suggestion
 {
-
-    /**
-     * Suggestions array
-     *
-     * @var array
-     */
-    protected $_suggestions;
-
-    /**
-     * Collation object
-     *
-     * @var Solarium_Result_Select_Spellcheck_Collation
-     */
-    protected $_collation;
-
-    /**
-     * @var boolean
-     */
-    protected $_correctlySpelled;
 
     /**
      * Constructor
      *
-     * @param array $suggestions
-     * @param Solarium_Result_Select_Spellcheck_Collation $collation
-     * @param boolean $correctlySpelled
-     * @return void
+     * @param int $numFound
+     * @param int $startOffset
+     * @param int $endOffset
+     * @param int $originalFrequency
+     * @param string $word
+     * @param int $frequency
      */
-    public function __construct($suggestions, $collation, $correctlySpelled)
+    public function __construct($numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency)
     {
-        $this->_suggestions = $suggestions;
-        $this->_collation = $collation;
-        $this->_correctlySpelled = $correctlySpelled;
+        $this->_numFound = $numFound;
+        $this->_startOffset = $startOffset;
+        $this->_endOffset = $endOffset;
+        $this->_originalFrequency = $originalFrequency;
+        $this->_word = $word;
+        $this->_frequency = $frequency;
     }
 
     /**
-     * Get the collation result
-     *
-     * @return Solarium_Result_Select_Spellcheck_Collation
-     */
-    public function getCollation()
-    {
-        return $this->_collation;
-    }
-
-    /**
-     * Get correctly spelled status
-     *
-     * Only available if ExtendedResults was enabled in your query
-     *
-     * @return bool
-     */
-    public function getCorrectlySpelled()
-    {
-        return $this->_correctlySpelled;
-    }
-
-    /**
-     * Get a result by key
-     *
-     * @param mixed $key
-     * @return Solarium_Result_Select_Highlighting_Suggestion|null
-     */
-    public function getSuggestion($key)
-    {
-        if (isset($this->_suggestions[$key])) {
-            return $this->_suggestions[$key];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Get all suggestions
-     *
-     * @return array
-     */
-    public function getSuggestions()
-    {
-        return $this->_suggestions;
-    }
-
-    /**
-     * IteratorAggregate implementation
-     *
-     * @return ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->_suggestions);
-    }
-
-    /**
-     * Countable implementation
+     * Get numFound value
      *
      * @return int
      */
-    public function count()
+    public function getNumFound()
     {
-        return count($this->_suggestions);
+        return $this->_numFound;
     }
+
+    /**
+     * Get startOffset value
+     *
+     * @return int
+     */
+    public function getStartOffset()
+    {
+        return $this->_startOffset;
+    }
+
+    /**
+     * Get endOffset value
+     *
+     * @return int
+     */
+    public function getEndOffset()
+    {
+        return $this->_endOffset;
+    }
+
+    /**
+     * Get originalFrequency value
+     *
+     * Only available if CollateExtendedResults was enabled in your query
+     *
+     * @return int
+     */
+    public function getOriginalFrequency()
+    {
+        return $this->_originalFrequency;
+    }
+
+    /**
+     * Get word
+     *
+     * @return string
+     */
+    public function getWord()
+    {
+        return $this->_word;
+    }
+
+    /**
+     * Get frequency value
+     *
+     * Only available if CollateExtendedResults was enabled in your query
+     *
+     * @return int
+     */
+    public function getFrequency()
+    {
+        return $this->_frequency;
+    }
+
 }

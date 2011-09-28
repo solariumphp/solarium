@@ -37,73 +37,98 @@
  */
 
 /**
- * Select component spellcheck result item
+ * Select component spellcheck collation result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Spellcheck_Result implements IteratorAggregate, Countable
+class Solarium_Result_Select_Spellcheck_Collation implements IteratorAggregate, Countable
 {
 
     /**
-     * Fields array
-     *
+     * @var string
+     */
+    protected $_query;
+
+    /**
+     * @var int
+     */
+    protected $_hits;
+
+    /**
      * @var array
      */
-    protected $_fields;
+    protected $_corrections;
 
     /**
      * Constructor
      *
-     * @param array $fields
-     * @return void
+     * @param string $query
+     * @param int|null $hits
+     * @param array $corrections
      */
-    public function __construct($fields)
+    public function __construct($query, $hits, $corrections)
     {
-        $this->_fields = $fields;
+        $this->_query = $query;
+        $this->_hits = $hits;
+        $this->_corrections = $corrections;
     }
 
     /**
-     * Get highlights for all fields
+     * Get query string
      *
-     * @return array
+     * @return string
      */
-    public function getFields()
+    public function getQuery()
     {
-        return $this->_fields;
+        return $this->_query;
     }
 
     /**
-     * Get highlights for a single field
+     * Get hit count
+     *
+     * Only available if ExtendedResults was enabled in your query
+     *
+     * @return int|null
+     */
+    public function getHits()
+    {
+        return $this->_hits;
+    }
+
+    /**
+     * Get all corrrections
+     *
+     * Only available if ExtendedResults was enabled in your query
      *
      * @return array
      */
-    public function getField($key)
+    public function getCorrections()
     {
-        if (isset($this->_fields[$key])) {
-            return $this->_fields[$key];
-        } else {
-            return array();
-        }
+        return $this->_corrections;
     }
-    
+
     /**
      * IteratorAggregate implementation
+     *
+     * Only available if ExtendedResults was enabled in your query
      *
      * @return ArrayIterator
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_fields);
+        return new ArrayIterator($this->_corrections);
     }
 
     /**
      * Countable implementation
      *
+     * Only available if ExtendedResults was enabled in your query
+     *
      * @return int
      */
     public function count()
     {
-        return count($this->_fields);
+        return count($this->_corrections);
     }
 }
