@@ -56,7 +56,11 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
     public function parse($query, $spellcheck, $data)
     {
         $results = array();
-        if (isset($data['spellcheck']['suggestions']) && is_array($data['spellcheck']['suggestions']) && count($data['spellcheck']['suggestions']) > 0) {
+        if (
+            isset($data['spellcheck']['suggestions']) &&
+            is_array($data['spellcheck']['suggestions']) &&
+            count($data['spellcheck']['suggestions']) > 0
+        ) {
 
             $spellcheckResults = $data['spellcheck']['suggestions'];
 
@@ -144,7 +148,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
         $endOffset = (isset($value['endOffset'])) ? $value['endOffset'] : null;
         $originalFrequency = (isset($value['origFreq'])) ? $value['origFreq'] : null;
 
-        if(is_string($value['suggestion'][0])) {
+        if (is_string($value['suggestion'][0])) {
             $word = $value['suggestion'][0];
             $frequency = null;
         } else {

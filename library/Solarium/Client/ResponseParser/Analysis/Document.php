@@ -54,7 +54,7 @@ class Solarium_Client_ResponseParser_Analysis_Document extends Solarium_Client_R
     protected function _parseAnalysis($data)
     {
         $documents = array();
-        foreach($data as $documentKey => $documentData) {
+        foreach ($data as $documentKey => $documentData) {
             $fields = $this->_parseTypes($documentData);
             $documents[] = new Solarium_Result_Analysis_List($documentKey, $fields);
         }

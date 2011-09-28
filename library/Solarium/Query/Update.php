@@ -86,10 +86,10 @@ class Solarium_Query_Update extends Solarium_Query
         self::COMMAND_OPTIMIZE => 'Solarium_Query_Update_Command_Optimize',
         self::COMMAND_ROLLBACK => 'Solarium_Query_Update_Command_Rollback',
     );
-    
+
     /**
      * Default options
-     * 
+     *
      * @var array
      */
     protected $_options = array(
@@ -167,7 +167,7 @@ class Solarium_Query_Update extends Solarium_Query
 
     /**
      * Get all commands for this update query
-     * 
+     *
      * @return array
      */
     public function getCommands()
@@ -207,8 +207,7 @@ class Solarium_Query_Update extends Solarium_Query
     public function remove($command)
     {
         if (is_object($command)) {
-            foreach ($this->_commands as $key => $instance)
-            {
+            foreach ($this->_commands as $key => $instance) {
                 if ($instance === $command) {
                     unset($this->_commands[$key]);
                     break;

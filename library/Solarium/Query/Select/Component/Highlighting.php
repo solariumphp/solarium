@@ -99,7 +99,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
     {
         if (isset($this->_fields[$name])) {
             return $this->_fields[$name];
-        } else if($autocreate) {
+        } else if ($autocreate) {
             $this->addField($name);
             return $this->_fields[$name];
         } else {

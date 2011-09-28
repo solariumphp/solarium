@@ -144,8 +144,8 @@ class Solarium_Result_Analysis_Document extends Solarium_Result_QueryType
     public function getDocument($key)
     {
         $this->_parseResponse();
-        
-        if(isset($this->_items[$key])) {
+
+        if (isset($this->_items[$key])) {
             return $this->_items[$key];
         } else {
             return null;

@@ -52,8 +52,7 @@ class Solarium_Result_Analysis_Types extends Solarium_Result_Analysis_List
      */
     public function getIndexAnalysis()
     {
-        foreach($this->_items AS $item)
-        {
+        foreach ($this->_items AS $item) {
             if ($item->getName() == 'index') {
                 return $item;
             }
@@ -69,8 +68,7 @@ class Solarium_Result_Analysis_Types extends Solarium_Result_Analysis_List
      */
     public function getQueryAnalysis()
     {
-        foreach($this->_items AS $item)
-        {
+        foreach ($this->_items AS $item) {
             if ($item->getName() == 'query') {
                 return $item;
             }

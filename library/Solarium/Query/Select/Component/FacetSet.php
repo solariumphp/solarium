@@ -40,7 +40,7 @@
  * MoreLikeThis component
  *
  * @link http://wiki.apache.org/solr/MoreLikeThis
- * 
+ *
  * @package Solarium
  * @subpackage Query
  */
@@ -81,14 +81,14 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
 
     /**
      * Component type
-     * 
+     *
      * @var string
      */
     protected $_type = Solarium_Query_Select::COMPONENT_FACETSET;
 
     /**
      * Default options
-     * 
+     *
      * @var array
      */
     protected $_options = array();
@@ -267,7 +267,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
         }
 
         if (array_key_exists($key, $this->_facets)) {
-            if($this->_facets[$key] === $facet) {
+            if ($this->_facets[$key] === $facet) {
                 //double add calls for the same facet are ignored
                 //@todo add trigger_error with a notice?
             } else {

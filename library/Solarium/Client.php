@@ -136,7 +136,7 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Registered plugin instances
-     * 
+     *
      * @var array
      */
     protected $_plugins = array();
@@ -193,7 +193,7 @@ class Solarium_Client extends Solarium_Configurable
      * the adapter (lazy-loading)
      *
      * If an adapter instance is passed it will replace the current adapter
-     * immediately, bypassing the lazy loading. 
+     * immediately, bypassing the lazy loading.
      *
      * @param string|Solarium_Client_Adapter $adapter
      * @return Solarium_Client Provides fluent interface
@@ -297,7 +297,7 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Get all registered querytypes
-     * 
+     *
      * @return array
      */
     public function getQueryTypes()
@@ -322,11 +322,11 @@ class Solarium_Client extends Solarium_Configurable
         if (is_string($plugin)) {
             $plugin = new $plugin;
         }
-        
+
         if (!($plugin instanceof Solarium_Plugin_Abstract)) {
            throw new Solarium_Exception('All plugins must extend Solarium_Plugin_Abstract');
         }
-        
+
         $plugin->init($this, $options);
 
         $this->_plugins[$key] = $plugin;
@@ -336,7 +336,7 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Register multiple plugins
-     * 
+     *
      * @param array $plugins
      * @return Solarium_Client Provides fluent interface
      */
@@ -392,8 +392,7 @@ class Solarium_Client extends Solarium_Configurable
     public function removePlugin($plugin)
     {
         if (is_object($plugin)) {
-            foreach ($this->_plugins as $key => $instance)
-            {
+            foreach ($this->_plugins as $key => $instance) {
                 if ($instance === $plugin) {
                     unset($this->_plugins[$key]);
                     break;
@@ -492,7 +491,7 @@ class Solarium_Client extends Solarium_Configurable
 
         return $result;
     }
-    
+
     /**
      * Execute a request and return the response
      *
@@ -582,7 +581,7 @@ class Solarium_Client extends Solarium_Configurable
     {
         return $this->execute($query);
     }
-    
+
     /**
      * Execute a MoreLikeThis query
      *
@@ -657,7 +656,7 @@ class Solarium_Client extends Solarium_Configurable
     {
         return $this->createQuery(self::QUERYTYPE_SELECT, $options);
     }
-    
+
     /**
      * Create a MoreLikeThis query instance
      *

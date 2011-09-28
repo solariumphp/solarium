@@ -80,7 +80,7 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
         $request->addParam('hl.regex.maxAnalyzedChars', $component->getRegexMaxAnalyzedChars());
 
         // set per-field highlighting params
-        foreach($component->getFields() as $field) {
+        foreach ($component->getFields() as $field) {
             $this->_addFieldParams($field, $request);
         }
 
