@@ -93,6 +93,12 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
         }
     }
 
+    /**
+     * Parse collation data into a result object
+     *
+     * @param array $values
+     * @return Solarium_Result_Select_Spellcheck_Collation
+     */
     protected function _parseCollation($values)
     {
         if (is_string($values)) {
@@ -141,6 +147,13 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
         }
     }
 
+    /**
+     * Parse suggestion data into a result object
+     *
+     * @param string $key
+     * @param array $value
+     * @return Solarium_Result_Select_Spellcheck_Suggestion
+     */
     protected function _parseSuggestion($key, $value)
     {
         $numFound = (isset($value['numFound'])) ? $value['numFound'] : null;
