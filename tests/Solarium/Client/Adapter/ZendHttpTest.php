@@ -88,10 +88,14 @@ class Solarium_Client_Adapter_ZendHttpTest extends PHPUnit_Framework_TestCase
         $rawData = 'xyz';
         $responseData = 'abc';
         $handler = 'myhandler';
+        $headers = array(
+            'Content-Type: application/x-www-form-urlencoded'
+        );
 
         $request = new Solarium_Client_Request();
         $request->setMethod($method);
         $request->setHandler($handler);
+        $request->setHeaders($headers);
         $request->setRawData($rawData);
 
         $response = new Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
@@ -103,6 +107,9 @@ class Solarium_Client_Adapter_ZendHttpTest extends PHPUnit_Framework_TestCase
         $mock->expects($this->once())
                  ->method('setUri')
                  ->with($this->equalTo('http://127.0.0.1:8983/solr/myhandler?'));
+        $mock->expects($this->once())
+                 ->method('setHeaders')
+                 ->with($this->equalTo($headers));
         $mock->expects($this->once())
                  ->method('setRawData')
                  ->with($this->equalTo($rawData));
