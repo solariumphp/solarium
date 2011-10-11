@@ -48,21 +48,21 @@ class Solarium_Client_Request extends Solarium_Configurable
     /**
      * Request GET method
      */
-    const METHOD_GET     = 'get';
+    const METHOD_GET     = 'GET';
 
     /**
      * Request POST method
      */
-    const METHOD_POST    = 'post';
+    const METHOD_POST    = 'POST';
 
     /**
      * Request HEAD method
      */
-    const METHOD_HEAD    = 'head';
+    const METHOD_HEAD    = 'HEAD';
 
     /**
      * Default options
-     * 
+     *
      * @var array
      */
     protected $_options = array(
@@ -73,7 +73,7 @@ class Solarium_Client_Request extends Solarium_Configurable
      * Request headers
      */
     protected $_headers = array();
-    
+
     /**
      * Request params
      *
@@ -202,7 +202,7 @@ class Solarium_Client_Request extends Solarium_Configurable
      * unless you set the overwrite param to true.
      *
      * Empty params are not added to the request. If you want to empty a param disable it you should use
-     * remove param instead. 
+     * remove param instead.
      *
      * @param string $key
      * @param string|array $value
@@ -261,7 +261,7 @@ class Solarium_Client_Request extends Solarium_Configurable
 
     /**
      * Clear all request params
-     * 
+     *
      * @return Solarium_Client_Request
      */
     public function clearParams()
@@ -326,7 +326,7 @@ class Solarium_Client_Request extends Solarium_Configurable
     public function addHeader($value)
     {
         $this->_headers[] = $value;
-        
+
         return $this;
     }
 
@@ -347,7 +347,7 @@ class Solarium_Client_Request extends Solarium_Configurable
 
     /**
      * Clear all request headers
-     * 
+     *
      * @return Solarium_Client_Request
      */
     public function clearHeaders()
@@ -372,7 +372,7 @@ class Solarium_Client_Request extends Solarium_Configurable
                 $queryString
             );
         }
-        
+
         return $this->getHandler() . '?' . $queryString;
     }
 }
