@@ -13,15 +13,11 @@ $query = $client->createSelect();
 $facetSet = $query->getFacetSet();
 
 // create a facet query instance and set options
-$facet = $facetSet->createFacetMultiQuery();
-$facet->setKey('stock');
+$facet = $facetSet->createFacetMultiQuery('stock');
 $facet->createQuery('stock_pricecat1', 'inStock:true AND price:[1 TO 300]');
 $facet->createQuery('nostock_pricecat1', 'inStock:false AND price:[1 TO 300]');
 $facet->createQuery('stock_pricecat2', 'inStock:true AND price:[300 TO *]');
 $facet->createQuery('nostock_pricecat2', 'inStock:false AND price:[300 TO *]');
-
-// add the facet instance to the facetset
-$facetSet->addFacet($facet);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

@@ -13,15 +13,11 @@ $query = $client->createSelect();
 $facetSet = $query->getFacetSet();
 
 // create a facet field instance and set options
-$facet = $facetSet->createFacetRange();
-$facet->setKey('priceranges');
+$facet = $facetSet->createFacetRange('priceranges');
 $facet->setField('price');
 $facet->setStart(1);
 $facet->setGap(100);
 $facet->setEnd(1000);
-
-// add the facet instance to the facetset
-$facetSet->addFacet($facet);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

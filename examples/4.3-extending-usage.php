@@ -19,10 +19,7 @@ class ProductQuery extends Solarium_Query_Select{
 
         // create a facet field instance and set options
         $facetSet = $this->getFacetSet();
-        $facet = $facetSet->createFacetField();
-        $facet->setKey('stock');
-        $facet->setField('inStock');
-        $facetSet->addFacet($facet);
+        $facetSet->createFacetField('stock')->setField('inStock');
     }
 
 }
@@ -36,12 +33,7 @@ class ProductPriceLimitedQuery extends ProductQuery{
         parent::_init();
 
         // create a filterquery
-        $fq = $this->createFilterQuery();
-        $fq->setKey('maxprice');
-        $fq->setQuery('price:[1 TO 300]');
-        // and add it
-        $this->addFilterQuery($fq);
-
+        $this->createFilterQuery('maxprice')->setQuery('price:[1 TO 300]');
     }
 
 }
