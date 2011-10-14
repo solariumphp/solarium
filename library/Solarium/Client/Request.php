@@ -363,6 +363,18 @@ class Solarium_Client_Request extends Solarium_Configurable
      */
     public function getUri()
     {
+        $queryString = $this->getQueryString();
+        
+        return $this->getHandler() . '?' . $queryString;
+    }
+    
+    /**
+     * Get the query string for this request
+     *
+     * @return string
+     */
+    public function getQueryString()
+    {
         $queryString = '';
         if (count($this->_params) > 0) {
             $queryString = http_build_query($this->_params, null, '&');
@@ -373,6 +385,6 @@ class Solarium_Client_Request extends Solarium_Configurable
             );
         }
         
-        return $this->getHandler() . '?' . $queryString;
+        return $queryString;
     }
 }
