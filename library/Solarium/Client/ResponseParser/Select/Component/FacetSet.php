@@ -177,7 +177,7 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
 
             $offset = 0;
             $counts = array();
-            while(isset($data['counts'][$offset]) && isset($data['counts'][$offset+1])) {
+            while (isset($data['counts'][$offset]) && isset($data['counts'][$offset+1])) {
                 $counts[$data['counts'][$offset]] = $data['counts'][$offset+1];
                 $offset += 2;
             }

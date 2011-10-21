@@ -48,7 +48,8 @@ class Solarium_Result_Analysis_ItemTest extends PHPUnit_Framework_TestCase
             'position' => 2,
             'positionHistory' => array(2,1),
             'type' => '<dummytype>',
-            'raw_text' => 'dummy raw text'
+            'raw_text' => 'dummy raw text',
+            'match' => true
         );
         $this->_item = new Solarium_Result_Analysis_Item($this->_data);
     }
@@ -100,5 +101,10 @@ class Solarium_Result_Analysis_ItemTest extends PHPUnit_Framework_TestCase
         );
         $item = new Solarium_Result_Analysis_Item($data);
         $this->assertEquals(null, $item->getRawText());
+    }
+
+    public function testGetMatch()
+    {
+        $this->assertEquals($this->_data['match'], $this->_item->getMatch());
     }
 }

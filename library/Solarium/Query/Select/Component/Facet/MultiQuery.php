@@ -66,7 +66,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
     protected function _init()
     {
         parent::_init();
-        
+
         foreach ($this->_options AS $name => $value) {
             switch ($name) {
                 case 'query':
@@ -79,7 +79,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
 
     /**
      * Get the facet type
-     * 
+     *
      * @return string
      */
     public function getType()
@@ -133,8 +133,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
         }
 
         if (array_key_exists($key, $this->_facetQueries)) {
-            throw new Solarium_Exception('A query must have a unique key'
-                . ' value within a multiquery facet');
+            throw new Solarium_Exception('A query must have a unique key value within a multiquery facet');
         }
 
         // forward shared excludes
