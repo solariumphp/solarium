@@ -13,12 +13,7 @@ $query = $client->createSelect();
 $facetSet = $query->getFacetSet();
 
 // create a facet query instance and set options
-$facet = $facetSet->createFacetQuery();
-$facet->setKey('stock');
-$facet->setQuery('inStock: true');
-
-// add the facet instance to the facetset
-$facetSet->addFacet($facet);
+$facetSet->createFacetQuery('stock')->setQuery('inStock: true');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

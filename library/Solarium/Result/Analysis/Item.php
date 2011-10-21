@@ -80,6 +80,10 @@ class Solarium_Result_Analysis_Item
      */
     protected $_type;
 
+    /**
+     * @var boolean
+     */
+    protected $_match = false;
 
     /**
      * Constructor
@@ -97,6 +101,10 @@ class Solarium_Result_Analysis_Item
 
         if (isset($analysis['raw_text'])) {
             $this->_rawText = $analysis['raw_text'];
+        }
+
+        if (isset($analysis['match'])) {
+            $this->_match = $analysis['match'];
         }
     }
 
@@ -154,7 +162,7 @@ class Solarium_Result_Analysis_Item
 
     /**
      * Get position history value
-     * 
+     *
      * @return array
      */
     public function getPositionHistory()
@@ -170,6 +178,16 @@ class Solarium_Result_Analysis_Item
     public function getType()
     {
         return $this->_type;
+    }
+
+    /**
+     * Get match value
+     *
+     * @return boolean
+     */
+    public function getMatch()
+    {
+        return $this->_match;
     }
 
 }

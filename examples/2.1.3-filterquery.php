@@ -10,12 +10,7 @@ $client = new Solarium_Client($config);
 $query = $client->createSelect();
 
 // create a filterquery
-$fq = $query->createFilterQuery();
-$fq->setKey('maxprice');
-$fq->setQuery('price:[1 TO 300]');
-
-// add it to the query
-$query->addFilterQuery($fq);
+$query->createFilterQuery('maxprice')->setQuery('price:[1 TO 300]');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

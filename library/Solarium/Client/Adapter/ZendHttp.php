@@ -154,6 +154,7 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
 
         $client->setMethod($request->getMethod());
         $client->setUri($this->getBaseUri() . $request->getUri());
+        $client->setHeaders($request->getHeaders());
         $client->setRawData($request->getRawData());
 
         $response = $client->request();

@@ -10,8 +10,7 @@ $client = new Solarium_Client($config);
 $query = $client->createSelect();
 $query->setRows(0);
 
-// add distributed search settings
-// see http://wiki.apache.org/solr/DistributedSearch#Distributed_Search_Example for setting up two solr instances
+// add spellcheck settings
 $spellcheck = $query->getSpellcheck();
 $spellcheck->setQuery('delll ultrashar');
 $spellcheck->setBuild(true);

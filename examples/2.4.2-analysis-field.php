@@ -42,6 +42,7 @@ foreach ($results as $result) {
                     echo 'Position: ' . $result->getPosition() . '<br/>';
                     echo 'Position history: ' . implode(', ',$result->getPositionHistory()) . '<br/>';
                     echo 'Type: ' . htmlspecialchars($result->getType()) . '<br/>';
+                    echo 'Match: ' . var_export($result->getMatch(),true) . '<br/>';
                     echo '-----------<br/>';
                 }
             }
@@ -62,6 +63,7 @@ foreach ($results as $result) {
                     echo 'Position: ' . $result->getPosition() . '<br/>';
                     echo 'Position history: ' . implode(', ',$result->getPositionHistory()) . '<br/>';
                     echo 'Type: ' . htmlspecialchars($result->getType()) . '<br/>';
+                    echo 'Match: ' . var_export($result->getMatch(),true) . '<br/>';
                     echo '-----------<br/>';
                 }
             }

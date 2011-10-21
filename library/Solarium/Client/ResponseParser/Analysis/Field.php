@@ -100,7 +100,7 @@ class Solarium_Client_ResponseParser_Analysis_Field extends Solarium_Client_Resp
             foreach ($fieldData as $typeKey => $typeData) {
 
                 // fix for extra level for key fields
-                if (count($typeData) == 1){
+                if (count($typeData) == 1) {
                     $typeData = current($typeData);
                 }
 

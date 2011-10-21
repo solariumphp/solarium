@@ -853,7 +853,7 @@ class Solarium_Query_Select extends Solarium_Query
         return $this->getComponent(Solarium_Query_Select::COMPONENT_GROUPING, true);
     }
 
-    /*
+    /**
      * Get a spellcheck component instance
      *
      * This is a convenience method that maps presets to getComponent
@@ -865,7 +865,7 @@ class Solarium_Query_Select extends Solarium_Query
         return $this->getComponent(Solarium_Query_Select::COMPONENT_SPELLCHECK, true);
     }
 
-    /*
+    /**
      * Get a DistributedSearch component instance
      *
      * This is a convenience method that maps presets to getComponent
