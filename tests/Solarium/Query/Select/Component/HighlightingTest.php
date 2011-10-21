@@ -45,7 +45,13 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
     public function testConfigMode()
     {
         $options = array(
-            'fields' => 'fieldA,fieldB',
+            'field' => array(
+                'fieldA' => array(
+                    'snippets' => 3,
+                    'fragsize' => 25,
+                ),
+                'fieldB'
+            ),
             'snippets' => 2,
             'fragsize' => 20,
             'mergecontiguous' => true,
@@ -70,7 +76,10 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
 
         $this->_hlt->setOptions($options);
 
-        $this->assertEquals($options['fields'], $this->_hlt->getFields());
+        $this->assertEquals(array('fieldA','fieldB'), array_keys($this->_hlt->getFields()));
+        $this->assertEquals($options['field']['fieldA']['snippets'], $this->_hlt->getField('fieldA')->getSnippets());
+        $this->assertEquals($options['field']['fieldA']['fragsize'], $this->_hlt->getField('fieldA')->getFragSize());
+        $this->assertEquals(null, $this->_hlt->getField('FieldB')->getSnippets());
         $this->assertEquals($options['snippets'], $this->_hlt->getSnippets());
         $this->assertEquals($options['fragsize'], $this->_hlt->getFragSize());
         $this->assertEquals($options['mergecontiguous'], $this->_hlt->getMergeContiguous());
@@ -96,16 +105,139 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
         $this->assertEquals(Solarium_Query_Select::COMPONENT_HIGHLIGHTING, $this->_hlt->getType());
     }
 
-    public function testSetAndGetFields()
+    public function testGetFieldAutocreate()
     {
-        $value = 'name,description';
-        $this->_hlt->setFields($value);
+        $name = 'test';
+        $field = $this->_hlt->getField($name);
 
-        $this->assertEquals(
-            $value,
-            $this->_hlt->getFields()
-        );
+        $this->assertEquals($name, $field->getName());
     }
+
+    public function testGetFieldNoAutocreate()
+    {
+        $name = 'test';
+        $field = $this->_hlt->getField($name, false);
+
+        $this->assertEquals(null, $field);
+    }
+
+    public function testAddFieldWithObject()
+    {
+        $field = new Solarium_Query_Select_Component_Highlighting_Field;
+        $field->setName('test');
+
+        $this->_hlt->addField($field);
+
+        $this->assertEquals($field, $this->_hlt->getField('test'));
+    }
+
+    public function testAddFieldWithString()
+    {
+        $name = 'test';
+        $this->_hlt->addField($name);
+
+        $this->assertEquals(array($name), array_keys($this->_hlt->getFields()));
+    }
+
+    public function testAddFieldWithArray()
+    {
+        $config = array(
+            'name' => 'fieldA',
+            'snippets' => 6
+        );
+        $this->_hlt->addField($config);
+
+        $this->assertEquals(6, $this->_hlt->getField('fieldA')->getSnippets());
+    }
+
+    public function testAddFieldWithObjectWithoutName()
+    {
+        $field = new Solarium_Query_Select_Component_Highlighting_Field;
+        $this->setExpectedException('Solarium_Exception');
+        $this->_hlt->addField($field);
+    }
+
+    public function testAddsFieldsWithString()
+    {
+        $fields = 'test1,test2';
+        $this->_hlt->addFields($fields);
+
+        $this->assertEquals(array('test1','test2'), array_keys($this->_hlt->getFields()));
+    }
+
+    public function testAddsFieldsWithArray()
+    {
+        $fields = array(
+            'test1' => array('snippets' => 2),
+            'test2' => array('snippets' => 5),
+        );
+        $this->_hlt->addFields($fields);
+
+        $this->assertEquals(2, $this->_hlt->getField('test1')->getSnippets());
+        $this->assertEquals(5, $this->_hlt->getField('test2')->getSnippets());
+    }
+
+    public function testRemoveField()
+    {
+        $fields = array(
+            'test1' => array('snippets' => 2),
+            'test2' => array('snippets' => 5),
+        );
+
+        $this->_hlt->addFields($fields);
+        $this->assertEquals(array('test1','test2'), array_keys($this->_hlt->getFields()));
+
+        $this->_hlt->removeField('test1');
+        $this->assertEquals(array('test2'), array_keys($this->_hlt->getFields()));
+    }
+
+    public function testRemoveFieldWithInvalidName()
+    {
+        $fields = array(
+            'test1' => array('snippets' => 2),
+            'test2' => array('snippets' => 5),
+        );
+
+        $this->_hlt->addFields($fields);
+        $this->assertEquals(array('test1','test2'), array_keys($this->_hlt->getFields()));
+
+        $this->_hlt->removeField('test1=3'); // should fail silently and do nothing
+        $this->assertEquals(array('test1','test2'), array_keys($this->_hlt->getFields()));
+    }
+
+    public function testClearFields()
+    {
+        $fields = array(
+            'test1' => array('snippets' => 2),
+            'test2' => array('snippets' => 5),
+        );
+
+        $this->_hlt->addFields($fields);
+        $this->assertEquals(array('test1','test2'), array_keys($this->_hlt->getFields()));
+
+        $this->_hlt->clearFields();
+        $this->assertEquals(array(), array_keys($this->_hlt->getFields()));
+    }
+
+    public function testSetFields()
+    {
+        $fields = array(
+            'test1' => array('snippets' => 2),
+            'test2' => array('snippets' => 5),
+        );
+
+        $this->_hlt->addFields($fields);
+        $this->assertEquals(array('test1','test2'), array_keys($this->_hlt->getFields()));
+
+        $newFields = array(
+            'test3' => array('snippets' => 4),
+            'test4' => array('snippets' => 6),
+        );
+
+        $this->_hlt->setFields($newFields);
+        $this->assertEquals(array('test3','test4'), array_keys($this->_hlt->getFields()));
+    }
+
 
     public function testSetAndGetSnippets()
     {
@@ -314,5 +446,5 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
             $this->_hlt->getRegexMaxAnalyzedChars()
         );
     }
-    
+
 }

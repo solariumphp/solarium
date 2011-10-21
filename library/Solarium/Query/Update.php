@@ -50,12 +50,28 @@ class Solarium_Query_Update extends Solarium_Query
 {
 
     /**
-     * Update command type names
+     * Update command add
      */
     const COMMAND_ADD = 'add';
+
+    /**
+     * Update command delete
+     */
     const COMMAND_DELETE = 'delete';
+
+    /**
+     * Update command commit
+     */
     const COMMAND_COMMIT = 'commit';
+
+    /**
+     * Update command rollback
+     */
     const COMMAND_ROLLBACK = 'rollback';
+
+    /**
+     * Update command optimize
+     */
     const COMMAND_OPTIMIZE = 'optimize';
 
     /**
@@ -70,10 +86,10 @@ class Solarium_Query_Update extends Solarium_Query
         self::COMMAND_OPTIMIZE => 'Solarium_Query_Update_Command_Optimize',
         self::COMMAND_ROLLBACK => 'Solarium_Query_Update_Command_Rollback',
     );
-    
+
     /**
      * Default options
-     * 
+     *
      * @var array
      */
     protected $_options = array(
@@ -151,7 +167,7 @@ class Solarium_Query_Update extends Solarium_Query
 
     /**
      * Get all commands for this update query
-     * 
+     *
      * @return array
      */
     public function getCommands()
@@ -181,16 +197,28 @@ class Solarium_Query_Update extends Solarium_Query
     }
 
     /**
-     * Remove a command by key
+     * Remove a command
      *
-     * @param string $key
+     * You can remove a command by passing it's key or by passing the command instance
+     *
+     * @param string|Solarium_Query_Update_Command $command
      * @return Solarium_Query_Update Provides fluent interface
      */
-    public function remove($key)
+    public function remove($command)
     {
-        if (isset($this->_commands[$key])) {
-            unset($this->_commands[$key]); 
+        if (is_object($command)) {
+            foreach ($this->_commands as $key => $instance) {
+                if ($instance === $command) {
+                    unset($this->_commands[$key]);
+                    break;
+                }
+            }
+        } else {
+            if (isset($this->_commands[$command])) {
+                unset($this->_commands[$command]);
+            }
         }
+
         return $this;
     }
 
@@ -230,7 +258,6 @@ class Solarium_Query_Update extends Solarium_Query
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param string $key
      * @param array $queries
      * @return Solarium_Query_Update Provides fluent interface
      */
@@ -265,7 +292,7 @@ class Solarium_Query_Update extends Solarium_Query
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param array $id
+     * @param array $ids
      * @return Solarium_Query_Update Provides fluent interface
      */
     public function addDeleteByIds($ids)
@@ -287,10 +314,10 @@ class Solarium_Query_Update extends Solarium_Query
      * @param int $commitWithin
      * @return Solarium_Query_Update Provides fluent interface
      */
-    public function addDocument($document, $override = null,
+    public function addDocument($document, $overwrite = null,
                                 $commitWithin = null)
     {
-        return $this->addDocuments(array($document), $override, $commitWithin);
+        return $this->addDocuments(array($document), $overwrite, $commitWithin);
     }
 
     /**

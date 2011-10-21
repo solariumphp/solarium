@@ -209,12 +209,30 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             $this->_query->getSorts()
         );
     }
-    
+
     public function testAddAndGetFilterQuery()
     {
         $fq = new Solarium_Query_Select_FilterQuery;
         $fq->setKey('fq1')->setQuery('category:1');
         $this->_query->addFilterQuery($fq);
+
+        $this->assertEquals(
+            $fq,
+            $this->_query->getFilterQuery('fq1')
+        );
+    }
+
+    public function testAddAndGetFilterQueryWithKey()
+    {
+        $key = 'fq1';
+
+        $fq = $this->_query->createFilterQuery($key, true);
+        $fq->setQuery('category:1');
+
+        $this->assertEquals(
+            $key,
+            $fq->getKey()
+        );
 
         $this->assertEquals(
             $fq,
@@ -281,6 +299,24 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 
         $this->_query->addFilterQueries($filterQueries);
         $this->_query->removeFilterQuery('fq1');
+        $this->assertEquals(
+            array('fq2' => $fq2),
+            $this->_query->getFilterQueries()
+        );
+    }
+
+    public function testRemoveFilterQueryWithObjectInput()
+    {
+        $fq1 = new Solarium_Query_Select_FilterQuery;
+        $fq1->setKey('fq1')->setQuery('category:1');
+
+        $fq2 = new Solarium_Query_Select_FilterQuery;
+        $fq2->setKey('fq2')->setQuery('category:2');
+
+        $filterQueries = array($fq1, $fq2);
+
+        $this->_query->addFilterQueries($filterQueries);
+        $this->_query->removeFilterQuery($fq1);
         $this->assertEquals(
             array('fq2' => $fq2),
             $this->_query->getFilterQueries()
@@ -455,6 +491,24 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRemoveComponentWithObjectInput()
+    {
+        $mlt = new Solarium_Query_Select_Component_MoreLikeThis;
+        $this->_query->setComponent('mlt',$mlt);
+
+        $this->assertEquals(
+            array('mlt' => $mlt),
+            $this->_query->getComponents()
+        );
+
+        $this->_query->removeComponent($mlt);
+
+        $this->assertEquals(
+            array(),
+            $this->_query->getComponents()
+        );
+    }
+
     public function testGetMoreLikeThis()
     {
         $mlt = $this->_query->getMoreLikeThis();
@@ -494,7 +548,7 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             get_class($grouping)
         );
     }
-    
+
     public function testRegisterComponentType()
     {
         $components = $this->_query->getComponentTypes();
@@ -525,6 +579,26 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $options['optionB'],
             $fqOptions['optionB']
+        );
+    }
+
+    public function testGetSpellcheck()
+    {
+        $spellcheck = $this->_query->getSpellcheck();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_Spellcheck',
+            get_class($spellcheck)
+        );
+    }
+
+    public function testGetDistributedSearch()
+    {
+        $spellcheck = $this->_query->getDistributedSearch();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_DistributedSearch',
+            get_class($spellcheck)
         );
     }
 }

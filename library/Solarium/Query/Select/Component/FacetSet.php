@@ -40,7 +40,7 @@
  * MoreLikeThis component
  *
  * @link http://wiki.apache.org/solr/MoreLikeThis
- * 
+ *
  * @package Solarium
  * @subpackage Query
  */
@@ -48,11 +48,23 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
 {
 
     /**
-     * Facet type keys
+     * Facet type field
      */
     const FACET_FIELD = 'field';
+
+    /**
+     * Facet type query
+     */
     const FACET_QUERY = 'query';
+
+    /**
+     * Facet type multiquery
+     */
     const FACET_MULTIQUERY = 'multiquery';
+
+    /**
+     * Facet type range
+     */
     const FACET_RANGE = 'range';
 
     /**
@@ -69,14 +81,14 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
 
     /**
      * Component type
-     * 
+     *
      * @var string
      */
     protected $_type = Solarium_Query_Select::COMPONENT_FACETSET;
 
     /**
      * Default options
-     * 
+     *
      * @var array
      */
     protected $_options = array();
@@ -191,7 +203,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      *
      * This is a global value for all facets in this facetset
      *
-     * @param int $mincount
+     * @param int $minCount
      * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
      */
     public function setMinCount($minCount)
@@ -245,7 +257,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     public function addFacet($facet)
     {
         if (is_array($facet)) {
-            $facet = $this->createFacet($facet['type'], $facet);
+            $facet = $this->createFacet($facet['type'], $facet, false);
         }
 
         $key = $facet->getKey();
@@ -255,11 +267,16 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
         }
 
         if (array_key_exists($key, $this->_facets)) {
-            throw new Solarium_Exception('A facet must have a unique key value'
-                . ' within a query');
+            if ($this->_facets[$key] === $facet) {
+                //double add calls for the same facet are ignored
+                //@todo add trigger_error with a notice?
+            } else {
+                throw new Solarium_Exception('A facet must have a unique key value within a query');
+            }
+        } else {
+             $this->_facets[$key] = $facet;
         }
 
-        $this->_facets[$key] = $facet;
         return $this;
     }
 
@@ -310,15 +327,21 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     }
 
     /**
-     * Remove a single facet by key
+     * Remove a single facet
      *
-     * @param string $key
+     * You can remove a facet by passing it's key or the facet instance
+     *
+     * @param string|Solarium_Query_Select_Component_Facet $facet
      * @return Solarium_Query Provides fluent interface
      */
-    public function removeFacet($key)
+    public function removeFacet($facet)
     {
-        if (isset($this->_facets[$key])) {
-            unset($this->_facets[$key]);
+        if (is_object($facet)) {
+            $facet = $facet->getKey();
+        }
+
+        if (isset($this->_facets[$facet])) {
+            unset($this->_facets[$facet]);
         }
 
         return $this;
@@ -349,11 +372,21 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     }
 
     /**
+     * Create a facet instance
+     *
+     * If you supply a string as the first arguments ($options) it will be used as the key for the facet
+     * and it will be added to this query.
+     * If you supply an options array/object that contains a key the facet will also be added to the query.
+     *
+     * When no key is supplied the facet cannot be added, in that case you will need to add it manually
+     * after setting the key, by using the addFacet method.
+     *
      * @param string $type
      * @param array|object|null $options
+     * @param boolean $add
      * @return Solarium_Query_Select_Component_Facet
      */
-    public function createFacet($type, $options = null)
+    public function createFacet($type, $options = null, $add = true)
     {
         $type = strtolower($type);
 
@@ -362,7 +395,19 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
         }
 
         $class = $this->_facetTypes[$type];
-        return new $class($options);
+
+        if (is_string($options)) {
+            $facet = new $class;
+            $facet->setKey($options);
+        } else {
+            $facet = new $class($options);
+        }
+
+        if ($add && $facet->getKey() !== null) {
+            $this->addFacet($facet);
+        }
+
+        return $facet;
     }
 
     /**

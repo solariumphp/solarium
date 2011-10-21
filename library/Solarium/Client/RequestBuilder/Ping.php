@@ -55,7 +55,8 @@ class Solarium_Client_RequestBuilder_Ping extends Solarium_Client_RequestBuilder
     {
         $request = new Solarium_Client_Request;
         $request->setHandler($query->getHandler());
-        $request->setMethod(Solarium_Client_Request::METHOD_HEAD);
+        $request->setMethod(Solarium_Client_Request::METHOD_GET);
+        $request->addParam('wt', 'json');
 
         return $request;
     }

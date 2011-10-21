@@ -58,7 +58,7 @@ class Solarium_Result_Select_Facet_Query
     /**
      * Constructor
      *
-     * @param array $values
+     * @param mixed $value
      * @return void
      */
     public function __construct($value)

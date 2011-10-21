@@ -110,9 +110,9 @@ abstract class Solarium_Query_Select_Component_Facet extends Solarium_Configurab
      * @param string $tag
      * @return Solarium_Query_Select_Component_Facet Provides fluent interface
      */
-    public function addExclude($exclude)
+    public function addExclude($tag)
     {
-        $this->_excludes[$exclude] = true;
+        $this->_excludes[$tag] = true;
         return $this;
     }
 

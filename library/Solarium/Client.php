@@ -58,11 +58,34 @@ class Solarium_Client extends Solarium_Configurable
 {
 
     /**
-     * Querytype definitions
+     * Querytype select
      */
     const QUERYTYPE_SELECT = 'select';
+
+    /**
+     * Querytype update
+     */
     const QUERYTYPE_UPDATE = 'update';
+
+    /**
+     * Querytype ping
+     */
     const QUERYTYPE_PING = 'ping';
+
+    /**
+     * Querytype morelikethis
+     */
+    const QUERYTYPE_MORELIKETHIS = 'mlt';
+
+    /**
+     * Querytype analysis field
+     */
+    const QUERYTYPE_ANALYSIS_FIELD = 'analysis-field';
+
+    /**
+     * Querytype analysis document
+     */
+    const QUERYTYPE_ANALYSIS_DOCUMENT = 'analysis-document';
 
     /**
      * Default options
@@ -94,11 +117,26 @@ class Solarium_Client extends Solarium_Configurable
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Ping',
             'responseparser' => 'Solarium_Client_ResponseParser_Ping'
         ),
+        self::QUERYTYPE_MORELIKETHIS => array(
+            'query'           => 'Solarium_Query_MoreLikeThis',
+            'requestbuilder'  => 'Solarium_Client_RequestBuilder_MoreLikeThis',
+            'responseparser'  => 'Solarium_Client_ResponseParser_MoreLikeThis'
+        ),
+        self::QUERYTYPE_ANALYSIS_DOCUMENT => array(
+            'query'          => 'Solarium_Query_Analysis_Document',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Analysis_Document',
+            'responseparser' => 'Solarium_Client_ResponseParser_Analysis_Document'
+        ),
+        self::QUERYTYPE_ANALYSIS_FIELD => array(
+            'query'          => 'Solarium_Query_Analysis_Field',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Analysis_Field',
+            'responseparser' => 'Solarium_Client_ResponseParser_Analysis_Field'
+        ),
     );
 
     /**
      * Registered plugin instances
-     * 
+     *
      * @var array
      */
     protected $_plugins = array();
@@ -131,11 +169,6 @@ class Solarium_Client extends Solarium_Configurable
     {
         foreach ($this->_options AS $name => $value) {
             switch ($name) {
-                case 'adapteroptions':
-                    $this->_setOption('adapteroptions', $value);
-                    $adapter = $this->getAdapter();
-                    if ($adapter) $adapter->setOptions($value);
-                    break;
                 case 'querytype':
                     $this->registerQueryTypes($value);
                     break;
@@ -160,7 +193,7 @@ class Solarium_Client extends Solarium_Configurable
      * the adapter (lazy-loading)
      *
      * If an adapter instance is passed it will replace the current adapter
-     * immediately, bypassing the lazy loading. 
+     * immediately, bypassing the lazy loading.
      *
      * @param string|Solarium_Client_Adapter $adapter
      * @return Solarium_Client Provides fluent interface
@@ -264,7 +297,7 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Get all registered querytypes
-     * 
+     *
      * @return array
      */
     public function getQueryTypes()
@@ -289,11 +322,11 @@ class Solarium_Client extends Solarium_Configurable
         if (is_string($plugin)) {
             $plugin = new $plugin;
         }
-        
+
         if (!($plugin instanceof Solarium_Plugin_Abstract)) {
            throw new Solarium_Exception('All plugins must extend Solarium_Plugin_Abstract');
         }
-        
+
         $plugin->init($this, $options);
 
         $this->_plugins[$key] = $plugin;
@@ -303,7 +336,7 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Register multiple plugins
-     * 
+     *
      * @param array $plugins
      * @return Solarium_Client Provides fluent interface
      */
@@ -350,14 +383,25 @@ class Solarium_Client extends Solarium_Configurable
 
     /**
      * Remove a plugin instance
-     * 
-     * @param string $key
+     *
+     * You can remove a plugin by passing the plugin key, or the plugin instance
+     *
+     * @param string|Solarium_Plugin_Abstract $plugin
      * @return Solarium_Client Provides fluent interface
      */
-    public function removePlugin($key)
+    public function removePlugin($plugin)
     {
-        if (isset($this->_plugins[$key])) {
-            unset($this->_plugins[$key]);
+        if (is_object($plugin)) {
+            foreach ($this->_plugins as $key => $instance) {
+                if ($instance === $plugin) {
+                    unset($this->_plugins[$key]);
+                    break;
+                }
+            }
+        } else {
+            if (isset($this->_plugins[$plugin])) {
+                unset($this->_plugins[$plugin]);
+            }
         }
         return $this;
     }
@@ -447,7 +491,7 @@ class Solarium_Client extends Solarium_Configurable
 
         return $result;
     }
-    
+
     /**
      * Execute a request and return the response
      *
@@ -539,6 +583,44 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
+     * Execute a MoreLikeThis query
+     *
+     * Example usage:
+     * <code>
+     * $client = new Solarium_Client;
+     * $query = $client->createMoreLikeThis();
+     * $result = $client->moreLikeThis($query);
+     * </code>
+     *
+     * @see Solarium_Query_MoreLikeThis
+     * @see Solarium_Result_MoreLikeThis
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param Solarium_Query_MoreLikeThis $query
+     * @return Solarium_Result_MoreLikeThis
+     */
+    public function moreLikeThis($query)
+    {
+        return $this->execute($query);
+    }
+
+    /**
+     * Execute an analysis query
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param Solarium_Query_Analysis_Document|Solarium_Query_Analysis_Field $query
+     * @return Solarium_Result_Analysis_Document|Solarium_Result_Analysis_Field
+     */
+    public function analyze($query)
+    {
+        return $this->execute($query);
+    }
+
+    /**
      * Create a query instance
      *
      * @param string $type
@@ -576,6 +658,17 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
+     * Create a MoreLikeThis query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_MoreLikeThis
+     */
+    public function createMoreLikeThis($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_MORELIKETHIS, $options);
+    }
+
+    /**
      * Create an update query instance
      *
      * @param mixed $options
@@ -597,5 +690,25 @@ class Solarium_Client extends Solarium_Configurable
         return $this->createQuery(self::QUERYTYPE_PING, $options);
     }
 
+    /**
+     * Create an analysis field query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Analysis_Field
+     */
+    public function createAnalysisField($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_ANALYSIS_FIELD, $options);
+    }
 
+    /**
+     * Create an analysis document query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Analysis_Document
+     */
+    public function createAnalysisDocument($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_ANALYSIS_DOCUMENT, $options);
+    }
 }

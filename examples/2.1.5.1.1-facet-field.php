@@ -9,19 +9,24 @@ $client = new Solarium_Client($config);
 // get a select query instance
 $query = $client->createSelect();
 
-// create a filterquery
-$fq = $query->createFilterQuery();
-$fq->setKey('maxprice');
-$fq->setQuery('price:[1 TO 300]');
+// get the facetset component
+$facetSet = $query->getFacetSet();
 
-// add it to the query
-$query->addFilterQuery($fq);
+// create a facet field instance and set options
+$facetSet->createFacetField('stock')->setField('inStock');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
 // display the total number of documents found by solr
 echo 'NumFound: '.$resultset->getNumFound();
+
+// display facet counts
+echo '<hr/>Facet counts for field "inStock":<br/>';
+$facet = $resultset->getFacetSet()->getFacet('stock');
+foreach($facet as $value => $count) {
+    echo $value . ' [' . $count . ']<br/>';
+}
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {

@@ -14,8 +14,10 @@ $ping = $client->createPing();
 
 // execute the ping query
 try{
-    $client->ping($ping);
+    $result = $client->ping($ping);
     echo 'Ping query succesful';
+    echo '<br/><pre>';
+    var_dump($result->getData());
 }catch(Solarium_Exception $e){
     echo 'Ping query failed';
 }

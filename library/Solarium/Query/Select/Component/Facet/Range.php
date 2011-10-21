@@ -48,21 +48,53 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
 {
 
     /**
-     * Values for the 'other' option
+     * Value for the 'other' option
      */
     const OTHER_BEFORE = 'before';
+
+    /**
+     * Value for the 'other' option
+     */
     const OTHER_AFTER = 'after';
+
+    /**
+     * Value for the 'other' option
+     */
     const OTHER_BETWEEN = 'between';
+
+    /**
+     * Value for the 'other' option
+     */
     const OTHER_ALL = 'all';
+
+    /**
+     * Value for the 'other' option
+     */
     const OTHER_NONE = 'none';
 
     /**
-     * Values for the 'include' option
+     * Value for the 'include' option
      */
     const INCLUDE_LOWER = 'lower';
+
+    /**
+     * Value for the 'include' option
+     */
     const INCLUDE_UPPER = 'upper';
+
+    /**
+     * Value for the 'include' option
+     */
     const INCLUDE_EDGE = 'edge';
+
+    /**
+     * Value for the 'include' option
+     */
     const INCLUDE_OUTER = 'outer';
+
+    /**
+     * Value for the 'include' option
+     */
     const INCLUDE_ALL = 'all';
 
     /**
@@ -102,7 +134,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
     /**
      * Set the field name
      *
-     * @param string $query
+     * @param string $field
      * @return Solarium_Query_Select_Component_Facet_Range Provides fluent interface
      */
     public function setField($field)

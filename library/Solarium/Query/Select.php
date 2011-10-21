@@ -50,19 +50,49 @@ class Solarium_Query_Select extends Solarium_Query
 {
 
     /**
-     * Solr sort modes
+     * Solr sort mode descending
      */
     const SORT_DESC = 'desc';
+
+    /**
+     * Solr sort mode ascending
+     */
     const SORT_ASC = 'asc';
 
     /**
-     * Query components
+     * Query component facetset
      */
     const COMPONENT_FACETSET = 'facetset';
+
+    /**
+     * Query component dismax
+     */
     const COMPONENT_DISMAX = 'dismax';
+
+    /**
+     * Query component morelikethis
+     */
     const COMPONENT_MORELIKETHIS = 'morelikethis';
+
+    /**
+     * Query component highlighting
+     */
     const COMPONENT_HIGHLIGHTING = 'highlighting';
+
+    /**
+     * Query component spellcheck
+     */
+    const COMPONENT_SPELLCHECK = 'spellcheck';
+
+    /**
+     * Query component grouping
+     */
     const COMPONENT_GROUPING = 'grouping';
+
+    /**
+     * Query component distributed search
+     */
+    const COMPONENT_DISTRIBUTEDSEARCH = 'distributedsearch';
 
     /**
      * Get type for this query
@@ -76,7 +106,7 @@ class Solarium_Query_Select extends Solarium_Query
 
     /**
      * Default options
-     * 
+     *
      * @var array
      */
     protected $_options = array(
@@ -91,7 +121,7 @@ class Solarium_Query_Select extends Solarium_Query
 
     /**
      * Default select query component types
-     * 
+     *
      * @var array
      */
     protected $_componentTypes = array(
@@ -119,6 +149,16 @@ class Solarium_Query_Select extends Solarium_Query
             'component' => 'Solarium_Query_Select_Component_Grouping',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Grouping',
             'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Grouping',
+        ),
+        self::COMPONENT_SPELLCHECK => array(
+            'component' => 'Solarium_Query_Select_Component_Spellcheck',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Spellcheck',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Spellcheck',
+        ),
+        self::COMPONENT_DISTRIBUTEDSEARCH => array(
+            'component' => 'Solarium_Query_Select_Component_DistributedSearch',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_DistributedSearch',
+            'responseparser' => null,
         ),
     );
 
@@ -155,7 +195,7 @@ class Solarium_Query_Select extends Solarium_Query
      *
      * Several options need some extra checks or setup work, for these options
      * the setters are called.
-     * 
+     *
      * @return void
      */
     protected function _init()
@@ -275,7 +315,7 @@ class Solarium_Query_Select extends Solarium_Query
      * Get the current documentclass option
      *
      * The value is a classname, not an instance
-     * 
+     *
      * @return string
      */
     public function getDocumentClass()
@@ -476,12 +516,30 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Create a filterquery instance
      *
+     * If you supply a string as the first arguments ($options) it will be used as the key for the filterquery
+     * and it will be added to this query.
+     * If you supply an options array/object that contains a key the filterquery will also be added to the query.
+     *
+     * When no key is supplied the filterquery cannot be added, in that case you will need to add it manually
+     * after setting the key, by using the addFilterQuery method.
+     *
      * @param mixed $options
      * @return Solarium_Query_Select_FilterQuery
      */
     public function createFilterQuery($options = null)
     {
-        return new Solarium_Query_Select_FilterQuery($options);
+        if (is_string($options)) {
+            $fq = new Solarium_Query_Select_FilterQuery;
+            $fq->setKey($options);
+        } else {
+            $fq = new Solarium_Query_Select_FilterQuery($options);
+        }
+
+        if ($fq->getKey() !== null) {
+            $this->addFilterQuery($fq);
+        }
+
+        return $fq;
     }
 
     /**
@@ -498,7 +556,7 @@ class Solarium_Query_Select extends Solarium_Query
         if (is_array($filterQuery)) {
             $filterQuery = new Solarium_Query_Select_FilterQuery($filterQuery);
         }
-        
+
         $key = $filterQuery->getKey();
 
         if (0 === strlen($key)) {
@@ -506,11 +564,16 @@ class Solarium_Query_Select extends Solarium_Query
         }
 
         if (array_key_exists($key, $this->_filterQueries)) {
-            throw new Solarium_Exception('A filterquery must have a unique key'
-                . ' value within a query');
+            if ($this->_filterQueries[$key] === $filterQuery) {
+                //double add calls for the same FQ are ignored
+                //@todo add trigger_error with a notice?
+            } else {
+                throw new Solarium_Exception('A filterquery must have a unique key value within a query');
+            }
+        } else {
+            $this->_filterQueries[$key] = $filterQuery;
         }
 
-        $this->_filterQueries[$key] = $filterQuery;
         return $this;
     }
 
@@ -561,15 +624,21 @@ class Solarium_Query_Select extends Solarium_Query
     }
 
     /**
-     * Remove a single filterquery by key
+     * Remove a single filterquery
      *
-     * @param string $key
+     * You can remove a filterquery by passing it's key, or by passing the filterquery instance
+     *
+     * @param string|Solarium_Query_Select_FilterQuery $filterQuery
      * @return Solarium_Query_Select Provides fluent interface
      */
-    public function removeFilterQuery($key)
+    public function removeFilterQuery($filterQuery)
     {
-        if (isset($this->_filterQueries[$key])) {
-            unset($this->_filterQueries[$key]);
+        if (is_object($filterQuery)) {
+            $filterQuery = $filterQuery->getKey();
+        }
+
+        if (isset($this->_filterQueries[$filterQuery])) {
+            unset($this->_filterQueries[$filterQuery]);
         }
 
         return $this;
@@ -631,7 +700,7 @@ class Solarium_Query_Select extends Solarium_Query
 
     /**
      * Get all registered components
-     * 
+     *
      * @return array
      */
     public function getComponents()
@@ -660,7 +729,7 @@ class Solarium_Query_Select extends Solarium_Query
                 if (!isset($this->_componentTypes[$key])) {
                     throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
                 }
-                
+
                 $className = $this->_componentTypes[$key]['component'];
                 $component = new $className($config);
                 $this->setComponent($key, $component);
@@ -688,13 +757,24 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Remove a component instance
      *
-     * @param string $key
+     * You can remove a component by passing it's key or the component instance
+     *
+     * @param string|Solarium_Query_Select_Component $component
      * @return Solarium_Query_Select Provides fluent interface
      */
-    public function removeComponent($key)
+    public function removeComponent($component)
     {
-        if (isset($this->_components[$key])) {
-            unset($this->_components[$key]);
+        if (is_object($component)) {
+            foreach ($this->_components as $key => $instance) {
+                if ($instance === $component) {
+                    unset($this->_components[$key]);
+                    break;
+                }
+            }
+        } else {
+            if (isset($this->_components[$component])) {
+                unset($this->_components[$component]);
+            }
         }
         return $this;
     }
@@ -771,6 +851,30 @@ class Solarium_Query_Select extends Solarium_Query
     public function getGrouping()
     {
         return $this->getComponent(Solarium_Query_Select::COMPONENT_GROUPING, true);
+    }
+
+    /**
+     * Get a spellcheck component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_Spellcheck
+     */
+    public function getSpellcheck()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_SPELLCHECK, true);
+    }
+
+    /**
+     * Get a DistributedSearch component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_DistributedSearch
+     */
+    public function getDistributedSearch()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_DISTRIBUTEDSEARCH, true);
     }
 
 }

@@ -231,6 +231,28 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRemovePluginAndGetPluginsWithObjectInput()
+    {
+        $options = array('option1' => 1);
+        $this->_client->registerPlugin('testplugin','MyClientPlugin',$options);
+
+        $plugin = $this->_client->getPlugin('testplugin');
+        $plugins = $this->_client->getPlugins();
+
+        $this->assertEquals(
+            array('testplugin' => $plugin),
+            $plugins
+        );
+
+        $this->_client->removePlugin($plugin);
+        $plugins = $this->_client->getPlugins();
+
+        $this->assertEquals(
+            array(),
+            $plugins
+        );
+    }
+
     public function testCreateRequest()
     {
         $queryStub = $this->getMock('Solarium_Query_Select');
@@ -583,6 +605,30 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $observer->update($query);
     }
 
+    public function testMoreLikeThis()
+    {
+        $query = new Solarium_Query_MoreLikeThis();
+
+        $observer = $this->getMock('Solarium_Client', array('execute'));
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query));
+
+        $observer->moreLikeThis($query);
+    }
+
+    public function testAnalyze()
+    {
+        $query = new Solarium_Query_Analysis_Field();
+
+        $observer = $this->getMock('Solarium_Client', array('execute'));
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query));
+
+        $observer->analyze($query);
+    }
+
     public function testCreateQuery()
     {
         $options = array('optionA' => 1, 'optionB' => 2);
@@ -689,6 +735,42 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
                  ->with($this->equalTo(Solarium_Client::QUERYTYPE_PING), $this->equalTo($options));
 
         $observer->createPing($options);
+    }
+
+    public function testCreateMoreLikeThis()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_MORELIKETHIS), $this->equalTo($options));
+
+        $observer->createMoreLikeThis($options);
+    }    
+    
+    public function testCreateAnalysisField()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_ANALYSIS_FIELD), $this->equalTo($options));
+
+        $observer->createAnalysisField($options);
+    }
+
+    public function testCreateAnalysisDocument()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_ANALYSIS_DOCUMENT), $this->equalTo($options));
+
+        $observer->createAnalysisDocument($options);
     }
 
 }

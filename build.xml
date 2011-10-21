@@ -26,14 +26,14 @@ you could also write the switches here)
 <antcall target="phpmd"/>
 <antcall target="phpcpd"/>
 <antcall target="phpcs"/>
-<antcall target="phpdoc"/>
+<antcall target="docblox"/>
 </parallel>
 </target>
 
 <!-- Generate jdepend.xml and software metrics charts -->
 <target name="pdepend">
 <exec executable="pdepend">
-<arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml libraru" />
+<arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml library" />
 </exec>
 </target>
 
@@ -59,9 +59,9 @@ you could also write the switches here)
 </target>
 
 <!-- Generate API documentation -->
-<target name="phpdoc">
-<exec executable="phpdoc">
-<arg line="-s on -ue on -d library -t build/api -o HTML:frames:DOM/earthli -ti 'Solarium API Documentation'"/>
+<target name="docblox">
+<exec executable="docblox">
+<arg line="run -d library -t build/api"/>
 </exec>
 </target>
 

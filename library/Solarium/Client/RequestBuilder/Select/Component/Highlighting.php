@@ -44,7 +44,7 @@
  */
 class Solarium_Client_RequestBuilder_Select_Component_Highlighting
 {
-    
+
     /**
      * Add request settings for Highlighting
      *
@@ -52,12 +52,13 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
      * @param Solarium_Client_Request $request
      * @return Solarium_Client_Request
      */
-    public function build($component, $request)
+    public function build(Solarium_Query_Select_Component_Highlighting $component, Solarium_Client_Request $request)
     {
         // enable highlighting
         $request->addParam('hl', 'true');
 
-        $request->addParam('hl.fl', $component->getFields());
+        // set global highlighting params
+        $request->addParam('hl.fl', implode(',', array_keys($component->getFields())));
         $request->addParam('hl.snippets', $component->getSnippets());
         $request->addParam('hl.fragsize', $component->getFragSize());
         $request->addParam('hl.mergeContiguous', $component->getMergeContiguous());
@@ -78,6 +79,33 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
         $request->addParam('hl.regex.pattern', $component->getRegexPattern());
         $request->addParam('hl.regex.maxAnalyzedChars', $component->getRegexMaxAnalyzedChars());
 
+        // set per-field highlighting params
+        foreach ($component->getFields() as $field) {
+            $this->_addFieldParams($field, $request);
+        }
+
         return $request;
     }
+
+    /**
+     * Add per-field override options to the request
+     *
+     * @param Solarium_Query_Select_Component_Highlighting_Field $field
+     * @param Solarium_Client_Request $request
+     * @return void
+     */
+    protected function _addFieldParams($field, $request)
+    {
+        $prefix = 'f.' . $field->getName() . '.hl.';
+        $request->addParam($prefix.'snippets', $field->getSnippets());
+        $request->addParam($prefix.'fragsize', $field->getFragSize());
+        $request->addParam($prefix.'mergeContiguous', $field->getMergeContiguous());
+        $request->addParam($prefix.'alternateField', $field->getAlternateField());
+        $request->addParam($prefix.'formatter', $field->getFormatter());
+        $request->addParam($prefix.'simple.pre', $field->getSimplePrefix());
+        $request->addParam($prefix.'simple.post', $field->getSimplePostfix());
+        $request->addParam($prefix.'fragmenter', $field->getFragmenter());
+        $request->addParam($prefix.'useFastVectorHighlighter', $field->getUseFastVectorHighlighter());
+    }
+
 }

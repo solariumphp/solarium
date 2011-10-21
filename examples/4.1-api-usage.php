@@ -16,18 +16,11 @@ $query->setFields(array('id','name','price'));
 $query->addSort('price', Solarium_Query_Select::SORT_ASC);
 
 // create a filterquery using the API
-$fq = $query->createFilterQuery();
-$fq->setKey('maxprice');
-$fq->setQuery('price:[1 TO 300]');
-// and add it to the query
-$query->addFilterQuery($fq);
+$fq = $query->createFilterQuery('maxprice')->setQuery('price:[1 TO 300]');
 
 // create a facet field instance and set options using the API
 $facetSet = $query->getFacetSet();
-$facet = $facetSet->createFacetField();
-$facet->setKey('stock');
-$facet->setField('inStock');
-$facetSet->addFacet($facet);
+$facet = $facetSet->createFacetField('stock')->setField('inStock');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

@@ -1,26 +1,19 @@
 <?php
 
+require_once 'Zend/Loader/Autoloader.php';
+$loader = Zend_Loader_Autoloader::getInstance();
+
 require('init.php');
 htmlHeader();
 
 // create a client instance
 $client = new Solarium_Client($config);
 
-// get a select query instance and a query helper instance
+// set the adapter to peclhttp
+$client->setAdapter('Solarium_Client_Adapter_PeclHttp');
+
+// get a select query instance
 $query = $client->createSelect();
-$helper = $query->getHelper();
-
-// add a filterquery on a price range, using the helper to generate the range
-$fqPrice = $query->createFilterQuery();
-$fqPrice->setKey('price');
-$fqPrice->setQuery($helper->rangeQuery('price', 10, 300));
-$query->addFilterQuery($fqPrice);
-
-// add a filterquery to find products in a range of 5km, using the helper to generate the 'geofilt' filter
-$fqRegion = $query->createFilterQuery();
-$fqRegion->setKey('region');
-$fqRegion->setQuery($helper->geofilt(45.15, -93.85, 'store', 5));
-$query->addFilterQuery($fqRegion);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

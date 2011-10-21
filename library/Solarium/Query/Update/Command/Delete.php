@@ -114,7 +114,7 @@ class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
     /**
      * Add multiple IDs to the delete command
      *
-     * @param array $id
+     * @param array $ids
      * @return Solarium_Query_Update_Command_Delete Provides fluent interface
      */
     public function addIds($ids)

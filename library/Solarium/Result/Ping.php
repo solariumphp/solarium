@@ -45,7 +45,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Ping
+class Solarium_Result_Ping extends Solarium_Result
 {
 
     /**

@@ -93,7 +93,7 @@ class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuild
                 $request = $componentBuilder->build($component, $request);
             }
         }
-        
+
         return $request;
     }
 

@@ -53,9 +53,13 @@ class Solarium_Query_Select_Component_Grouping extends Solarium_Query_Select_Com
 {
 
     /**
-     * Values for format option
+     * Value for format grouped
      */
     const FORMAT_GROUPED = 'grouped';
+
+    /**
+     * Value for format simple
+     */
     const FORMAT_SIMPLE = 'simple';
 
     /**

@@ -133,7 +133,7 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
             $request->getParam('defType')
         );
     }
-    
+
 }
 
 class TestDummyComponent extends Solarium_Query_Select_Component{

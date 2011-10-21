@@ -48,15 +48,23 @@ class Solarium_Query_Select_Component_Facet_Field extends Solarium_Query_Select_
 {
 
     /**
-     * Facet sort types
+     * Facet sort type index
      */
     const SORT_INDEX = 'index';
+
+    /**
+     * Facet sort type count
+     */
     const SORT_COUNT = 'count';
 
     /**
-     * Facet methods
+     * Facet method enum
      */
     const METHOD_ENUM = 'enum';
+
+    /**
+     * Facet method fc
+     */
     const METHOD_FC = 'fc';
 
     /**
@@ -81,7 +89,7 @@ class Solarium_Query_Select_Component_Facet_Field extends Solarium_Query_Select_
     /**
      * Set the field name
      *
-     * @param string $query
+     * @param string $field
      * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
      */
     public function setField($field)
@@ -188,7 +196,7 @@ class Solarium_Query_Select_Component_Facet_Field extends Solarium_Query_Select_
     /**
      * Set the facet mincount
      *
-     * @param int $mincount
+     * @param int $minCount
      * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
      */
     public function setMinCount($minCount)

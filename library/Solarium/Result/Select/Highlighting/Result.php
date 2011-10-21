@@ -76,6 +76,7 @@ class Solarium_Result_Select_Highlighting_Result implements IteratorAggregate, C
     /**
      * Get highlights for a single field
      *
+     * @param string $key
      * @return array
      */
     public function getField($key)

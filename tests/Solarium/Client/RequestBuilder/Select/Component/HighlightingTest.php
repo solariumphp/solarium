@@ -38,7 +38,19 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
         $request = new Solarium_Client_Request();
 
         $component = new Solarium_Query_Select_Component_Highlighting();
-        $component->setFields('fieldA,fieldB');
+        $component->addField('fieldA');
+
+        $field = $component->getField('fieldB');
+        $field->setSnippets(3);
+        $field->setFragSize(25);
+        $field->setMergeContiguous(true);
+        $field->setAlternateField('text');
+        $field->setFormatter('myFormatter');
+        $field->setSimplePrefix('<b>');
+        $field->setSimplePostfix('</b>');
+        $field->setFragmenter('myFragmenter');
+        $field->setUseFastVectorHighlighter(true);
+
         $component->setSnippets(2);
         $component->setFragSize(3);
         $component->setMergeContiguous(true);
@@ -58,7 +70,7 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
         $component->setRegexSlop(1.3);
         $component->setRegexPattern('mypattern');
         $component->setMaxAnalyzedChars(100);
-        
+
         $request = $builder->build($component, $request);
 
         $this->assertEquals(
@@ -83,6 +95,15 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
                 'hl.highlightMultiTerm' => 'true',
                 'hl.regex.slop' => 1.3,
                 'hl.regex.pattern' => 'mypattern',
+                'f.fieldB.hl.snippets' => 3,
+                'f.fieldB.hl.fragsize' => 25,
+                'f.fieldB.hl.mergeContiguous' => 'true',
+                'f.fieldB.hl.alternateField' => 'text',
+                'f.fieldB.hl.formatter' => 'myFormatter',
+                'f.fieldB.hl.simple.pre' => '<b>',
+                'f.fieldB.hl.simple.post' => '</b>',
+                'f.fieldB.hl.fragmenter' => 'myFragmenter',
+                'f.fieldB.hl.useFastVectorHighlighter' => 'true',
             ),
             $request->getParams()
         );
