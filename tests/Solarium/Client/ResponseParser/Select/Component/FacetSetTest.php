@@ -68,9 +68,12 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSetTest extends PHPUn
                         'after' => 5,
                         'between' => 4,
                         'counts' => array(
-                            '1.0' => 1,
-                            '101.0' => 2,
-                            '201.0' => 1,
+                            '1.0',
+                            1,
+                            '101.0',
+                            2,
+                            '201.0',
+                            1,
                         )
                     )
                 )
@@ -136,7 +139,7 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSetTest extends PHPUn
 
         $this->_facetSet->addFacet($facetStub);
 
-        $this->setExpectedException('Solarium_Exception');      
+        $this->setExpectedException('Solarium_Exception');
         $this->_parser->parse(null, $this->_facetSet, array());
     }
 
