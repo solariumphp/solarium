@@ -541,9 +541,11 @@ class Solarium_Client extends Solarium_Configurable
     public function executeRequest($request)
     {
         $pluginResult = $this->_callPlugins('preExecuteRequest', array($request), true);
-        if($pluginResult !== null) return $pluginResult;
-
-        $response = $this->getAdapter()->execute($request);
+        if ($pluginResult !== null) {
+            $response = $pluginResult; //a plugin result overrules the standard execution result
+        } else {
+            $response = $this->getAdapter()->execute($request);
+        }
 
         $this->_callPlugins('postExecuteRequest', array($request, $response));
 

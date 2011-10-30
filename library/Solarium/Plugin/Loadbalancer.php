@@ -46,9 +46,7 @@
  * Any querytype that may not be loadbalanced will be executed by Solarium with the default adapter settings.
  * In a master-slave setup the default adapter should be connecting to the master server.
  *
- * You can also enable the failover mode. In this case a query will be retried in case of an error.
- *
- * @todo implement failover (including event trigger)
+ * You can also enable the failover mode. In this case a query will be retried on another server in case of error.
  *
  * @package Solarium
  * @subpackage Plugin
@@ -121,6 +119,13 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * @var string
      */
     protected $_queryType;
+
+    /**
+     * Used for failover mechanism
+     *
+     * @var array
+     */
+    protected $_serverExcludes;
 
     /**
      * Initialize options
@@ -381,6 +386,18 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
     }
 
     /**
+     * Get the key of the server that was used for the last query
+     *
+     * May return a null value if no query has been executed yet, or the last query could not be loadbalanced.
+     *
+     * @return null|string
+     */
+    public function getLastServerKey()
+    {
+        return $this->_lastServerKey;
+    }
+
+    /**
      * Event hook to capture querytype
      *
      * @param Solarium_Query $query
@@ -395,7 +412,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * Event hook to adjust client settings just before query execution
      *
      * @param Solarium_Client_Request $request
-     * @return void
+     * @return Solarium_Client_Response
      */
     public function preExecuteRequest($request)
     {
@@ -414,38 +431,74 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
 
         // check querytype: is loadbalancing allowed?
         if (!array_key_exists($this->_queryType, $this->_blockedQueryTypes)) {
-
-            // determine the server to use
-            if ($this->_nextServer !== null) {
-                $serverKey = $this->_nextServer;
-            } else {
-                $serverKey = $this->_getRandomizer()->getRandom();
-            }
-
-            $options = $this->_servers[$serverKey]['options'];
-            $this->_lastServerKey = $serverKey;
+            return  $this->_getLoadbalancedResponse($request);
         } else {
             $options = $this->_adapterPresets;
             $this->_lastServerKey = null;
+
+            // apply new settings to adapter
+            $adapter->setOptions($options);
+
+            // execute request and return result
+            return $adapter->execute($request);
         }
-
-        // apply new settings to adapter
-        $adapter->setOptions($options);
-
-        // always reset forced server for next query
-        $this->_nextServer = null;
     }
 
     /**
-     * Get the key of the server that was used for the last query
+     * Execute a request using the adapter
      *
-     * May return a null value if no query has been executed yet, or the last query could not be loadbalanced.
-     *
-     * @return null|string
+     * @param Solarium_Client_Request $request
+     * @return Solarium_Client_Response $response
      */
-    public function getLastServerKey()
+    protected function _getLoadbalancedResponse($request) {
+
+        $adapter = $this->_client->getAdapter();
+
+        if ($this->getFailoverEnabled() == true) {
+
+            $e = new Solarium_Exception('Maximum number of loadbalancer retries reached');
+            $this->_serverExcludes = array(); // reset
+
+            for($i=0; $i<=$this->getFailoverMaxRetries(); $i++) {
+                $options = $this->_getRandomServerOptions();
+                $adapter->setOptions($options);
+                try{
+                    return $adapter->execute($request);
+                } catch(Solarium_Client_HttpException $e) {
+                    // ignore HTTP errors, try again
+                }
+            }
+
+            // if we get here no more retries available, throw exception
+            throw $e;
+
+        } else {
+            // no failover retries, just execute and let an exception bubble upwards
+            $options = $this->_getRandomServerOptions();
+            $adapter->setOptions($options);
+            return $adapter->execute($request);
+        }
+    }
+
+    /**
+     * Get options array for a randomized server
+     *
+     * @return array
+     */
+    protected function _getRandomServerOptions()
     {
-        return $this->_lastServerKey;
+        // determine the server to use
+        if ($this->_nextServer !== null) {
+            $serverKey = $this->_nextServer;
+            // reset forced server directly after use
+            $this->_nextServer = null;
+        } else {
+            $serverKey = $this->_getRandomizer()->getRandom($this->_serverExcludes);
+        }
+
+        $this->_serverExcludes[] = $serverKey;
+        $this->_lastServerKey = $serverKey;
+        return $this->_servers[$serverKey]['options'];
     }
 
     /**

@@ -89,11 +89,21 @@ class Solarium_Plugin_Loadbalancer_WeightedRandomChoice
     /**
      * Get a (weighted) random entry
      *
+     * @param array $excludes Keys to exclude
      * @return string
      */
-    public function getRandom()
+    public function getRandom($excludes = array())
     {
-        return $this->_values[$this->_getKey()];
+        if (count($excludes) == count($this->_values)) {
+            throw new Solarium_Exception('No more server entries available');
+        }
+
+        // continue until a non-excluded value is found
+        // @todo optimize?
+        while(1) {
+            $result = $this->_values[$this->_getKey()];
+            if(!in_array($result, $excludes)) return $result;
+        }
     }
 
     /**
