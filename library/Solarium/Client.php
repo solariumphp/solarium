@@ -457,10 +457,12 @@ class Solarium_Client extends Solarium_Configurable
     protected function _callPlugins($event, $params, $resultOverride = false)
     {
         foreach ($this->_pluginInstances AS $plugin) {
-            $result = call_user_func_array(array($plugin, $event), $params);
+            if (method_exists($plugin, $event)) {
+                $result = call_user_func_array(array($plugin, $event), $params);
 
-            if ($result !== null && $resultOverride) {
-                return $result;
+                if ($result !== null && $resultOverride) {
+                    return $result;
+                }
             }
         }
     }

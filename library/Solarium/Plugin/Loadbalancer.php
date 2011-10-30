@@ -452,20 +452,22 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      */
     protected function _getLoadbalancedResponse($request) {
 
+        $this->_serverExcludes = array(); // reset for each query
         $adapter = $this->_client->getAdapter();
 
         if ($this->getFailoverEnabled() == true) {
 
             $e = new Solarium_Exception('Maximum number of loadbalancer retries reached');
-            $this->_serverExcludes = array(); // reset
 
             for($i=0; $i<=$this->getFailoverMaxRetries(); $i++) {
                 $options = $this->_getRandomServerOptions();
                 $adapter->setOptions($options);
-                try{
+                try {
                     return $adapter->execute($request);
                 } catch(Solarium_Client_HttpException $e) {
-                    // ignore HTTP errors, try again
+                    // ignore HTTP errors and try again
+                    // but do issue an event for things like logging
+                    $this->_client->triggerEvent('LoadbalancerServerFail', array($options, $e));
                 }
             }
 
