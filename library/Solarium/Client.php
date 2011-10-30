@@ -135,11 +135,20 @@ class Solarium_Client extends Solarium_Configurable
     );
 
     /**
+     * Plugin types
+     *
+     * @var array
+     */
+    protected $_pluginTypes = array(
+        'loadbalancer' => 'Solarium_Plugin_Loadbalancer',
+    );
+
+    /**
      * Registered plugin instances
      *
      * @var array
      */
-    protected $_plugins = array();
+    protected $_pluginInstances = array();
 
     /**
      * Adapter instance
@@ -329,7 +338,7 @@ class Solarium_Client extends Solarium_Configurable
 
         $plugin->init($this, $options);
 
-        $this->_plugins[$key] = $plugin;
+        $this->_pluginInstances[$key] = $plugin;
 
         return $this;
     }
@@ -363,19 +372,27 @@ class Solarium_Client extends Solarium_Configurable
      */
     public function getPlugins()
     {
-        return $this->_plugins;
+        return $this->_pluginInstances;
     }
 
     /**
      * Get a plugin instance
      *
      * @param string $key
+     * @param boolean $autocreate
      * @return Solarium_Plugin_Abstract|null
      */
-    public function getPlugin($key)
+    public function getPlugin($key, $autocreate = true)
     {
-        if (isset($this->_plugins[$key])) {
-            return $this->_plugins[$key];
+        if (isset($this->_pluginInstances[$key])) {
+            return $this->_pluginInstances[$key];
+        } elseif ($autocreate) {
+            if (array_key_exists($key, $this->_pluginTypes)) {
+                $this->registerPlugin($key, $this->_pluginTypes[$key]);
+                return $this->_pluginInstances[$key];
+            } else {
+                throw new Solarium_Exception('Cannot autoload plugin of unknown type: ' . $key);
+            }
         } else {
             return null;
         }
@@ -392,18 +409,41 @@ class Solarium_Client extends Solarium_Configurable
     public function removePlugin($plugin)
     {
         if (is_object($plugin)) {
-            foreach ($this->_plugins as $key => $instance) {
+            foreach ($this->_pluginInstances as $key => $instance) {
                 if ($instance === $plugin) {
-                    unset($this->_plugins[$key]);
+                    unset($this->_pluginInstances[$key]);
                     break;
                 }
             }
         } else {
-            if (isset($this->_plugins[$plugin])) {
-                unset($this->_plugins[$plugin]);
+            if (isset($this->_pluginInstances[$plugin])) {
+                unset($this->_pluginInstances[$plugin]);
             }
         }
         return $this;
+    }
+
+    /**
+     * Trigger external events for plugins
+     *
+     * This methods adds 'namespacing' to the event name to prevent conflicts with Solariums internal event keys.
+     *
+     * Based on the event name you can always tell if an event was internal (Solarium base classes)
+     * or external (plugins, even if it's a plugin included with Solarium).
+     *
+     * External events always have the 'event' prefix in the event name.
+     *
+     * @param string $event
+     * @param array $params
+     * @param bool $resultOverride
+     * @return void|mixed
+     */
+    public function triggerEvent($event, $params, $resultOverride = false)
+    {
+        // Add namespacing
+        $event = 'event'.$event;
+
+        return $this->_callPlugins($event, $params, $resultOverride);
     }
 
     /**
@@ -416,7 +456,7 @@ class Solarium_Client extends Solarium_Configurable
      */
     protected function _callPlugins($event, $params, $resultOverride = false)
     {
-        foreach ($this->_plugins AS $plugin) {
+        foreach ($this->_pluginInstances AS $plugin) {
             $result = call_user_func_array(array($plugin, $event), $params);
 
             if ($result !== null && $resultOverride) {
