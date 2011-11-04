@@ -61,6 +61,27 @@ class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
     );
 
     /**
+     * Set maxquerystringlength enabled option
+     *
+     * @param integer $value
+     * @return self Provides fluent interface
+     */
+    public function setMaxQueryStringLength($value)
+    {
+        return $this->_setOption('maxquerystringlength', $value);
+    }
+
+    /**
+     * Get maxquerystringlength option
+     *
+     * @return integer
+     */
+    public function getMaxQueryStringLength()
+    {
+        return $this->getOption('maxquerystringlength');
+    }
+
+    /**
      * Event hook to adjust client settings just before query execution
      *
      * @param Solarium_Query $query
@@ -69,7 +90,13 @@ class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
      */
     public function postCreateRequest($query, $request)
     {
-
+        $queryString = $request->getQueryString();
+        if (strlen($queryString) > $this->getMaxQueryStringLength()) {
+            $request->setMethod(Solarium_Client_Request::METHOD_POST);
+            $request->setRawData($queryString);
+            $request->clearParams();
+            $request->addHeader('Content-Type: application/x-www-form-urlencoded');
+        }
     }
 
 }
