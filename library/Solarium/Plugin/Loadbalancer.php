@@ -77,7 +77,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * @var array
      */
     protected $_blockedQueryTypes = array(
-        Solarium_Client::QUERYTYPE_UPDATE
+        Solarium_Client::QUERYTYPE_UPDATE => true
     );
 
     /**
@@ -296,21 +296,33 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
     /**
      * Set a forced server (by key) for the next request
      *
-     * As soon as one query has used the forced server this setting is reset.
+     * As soon as one query has used the forced server this setting is reset. If you want to remove this setting
+     * pass NULL as the key value.
      *
      * If the next query cannot be loadbalanced (for instance based on the querytype) this setting is ignored
      * but will still be reset.
      *
-     * @param string $key
+     * @param string|null $key
      * @return self Provides fluent interface
      */
-    public function forceServerForNextQuery($key)
+    public function setForcedServerForNextQuery($key)
     {
-        if (!array_key_exists($key, $this->_servers)) {
+        if ($key !== null && !array_key_exists($key, $this->_servers)) {
             throw new Solarium_Exception('Unknown server forced for next query');
         }
 
         $this->_nextServer = $key;
+        return $this;
+    }
+
+    /**
+     * Get the ForcedServerForNextQuery value
+     *
+     * @return string|null
+     */
+    public function getForcedServerForNextQuery()
+    {
+        return $this->_nextServer;
     }
 
     /**

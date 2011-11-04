@@ -53,4 +53,27 @@ class Solarium_Plugin_Loadbalancer_WeightedRandomChoiceTest extends PHPUnit_Fram
         $this->assertTrue($counts['key2'] < $counts['key3']);
     }
 
+    public function testGetRandomWithExclude()
+    {
+        $choices = array('key1' => 1, 'key2' => 1, 'key3' => 300);
+        $excludes = array('key3');
+
+        $randomizer = new Solarium_Plugin_Loadbalancer_WeightedRandomChoice($choices);
+
+        $key = $randomizer->getRandom($excludes);
+
+        $this->assertTrue($key !== 'key3');
+    }
+
+    public function testAllEntriesExcluded()
+    {
+        $choices = array('key1' => 1, 'key2' => 2, 'key3' => 3);
+        $excludes = array_keys($choices);
+
+        $randomizer = new Solarium_Plugin_Loadbalancer_WeightedRandomChoice($choices);
+
+        $this->setExpectedException('Solarium_Exception');
+        $randomizer->getRandom($excludes);
+    }
+
 }
