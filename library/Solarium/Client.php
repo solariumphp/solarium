@@ -141,6 +141,7 @@ class Solarium_Client extends Solarium_Configurable
      */
     protected $_pluginTypes = array(
         'loadbalancer' => 'Solarium_Plugin_Loadbalancer',
+        'postbigrequest' => 'Solarium_Plugin_PostBigRequest',
     );
 
     /**
