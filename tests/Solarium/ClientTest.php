@@ -644,6 +644,18 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $observer->analyze($query);
     }
 
+    public function testTerms()
+    {
+        $query = new Solarium_Query_Terms();
+
+        $observer = $this->getMock('Solarium_Client', array('execute'));
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query));
+
+        $observer->terms($query);
+    }
+
     public function testCreateQuery()
     {
         $options = array('optionA' => 1, 'optionB' => 2);
@@ -786,6 +798,18 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
                  ->with($this->equalTo(Solarium_Client::QUERYTYPE_ANALYSIS_DOCUMENT), $this->equalTo($options));
 
         $observer->createAnalysisDocument($options);
+    }
+
+    public function testCreateTerms()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_TERMS), $this->equalTo($options));
+
+        $observer->createTerms($options);
     }
 
     public function testTriggerEvent()

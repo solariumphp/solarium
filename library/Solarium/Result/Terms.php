@@ -33,128 +33,120 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
 
 /**
- * Class for describing a response
+ * Terms query result
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
-class Solarium_Client_Response
+class Solarium_Result_Terms extends Solarium_Result_QueryType implements IteratorAggregate, Countable
 {
-
     /**
-     * Headers
-     *
-     * @var array
-     */
-    protected $_headers;
-
-    /**
-     * Body
-     *
-     * @var string
-     */
-    protected $_body;
-
-    /**
-     * HTTP response code
+     * Status code returned by Solr
      *
      * @var int
      */
-    protected $_statusCode;
+    protected $_status;
 
     /**
-     * HTTP response message
+     * Solr index queryTime
      *
-     * @var string
-     */
-    protected $_statusMessage;
-
-    /**
-     * Constructor
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
      *
-     * @param string $body
-     * @param array $headers
+     * @var int
      */
-    public function __construct($body, $headers = array())
-    {
-        $this->_body = $body;
-        $this->_headers = $headers;
-
-        $this->_setHeaders($headers);
-    }
+    protected $_queryTime;
 
     /**
-     * Get body data
+     * Term results
      *
-     * @return string
+     * @var array
      */
-    public function getBody()
-    {
-        return $this->_body;
-    }
+    protected $_results;
 
     /**
-     * Get response headers
+     * Get Solr status code
      *
-     * @return array
-     */
-    public function getHeaders()
-    {
-        return $this->_headers;
-    }
-
-    /**
-     * Get status code
+     * This is not the HTTP status code! The normal value for success is 0.
      *
      * @return int
      */
-    public function getStatusCode()
+    public function getStatus()
     {
-        return $this->_statusCode;
+        $this->_parseResponse();
+
+        return $this->_status;
     }
 
     /**
-     * Get status message
+     * Get Solr query time
      *
-     * @return string
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @return int
      */
-    public function getStatusMessage()
+    public function getQueryTime()
     {
-        return $this->_statusMessage;
+        $this->_parseResponse();
+
+        return $this->_queryTime;
     }
 
     /**
-     * Set headers
+     * Get all term results
      *
-     * @param array $headers
-     * @return void
+     * @return array
      */
-    public function _setHeaders($headers)
+    public function getResults()
     {
-        $this->_headers = $headers;
+        $this->_parseResponse();
 
-        // get the status header
-        $statusHeader = null;
-        foreach ($headers AS $header) {
-            if (substr($header, 0, 4) == 'HTTP') {
-                $statusHeader = $header;
-                break;
-            }
+        return $this->_results;
+    }
+
+    /**
+     * Get term results for a specific field
+     *
+     * @param string $field
+     * @return array
+     */
+    public function getTerms($field)
+    {
+        $this->_parseResponse();
+
+        if (isset($this->_results[$field])) {
+            return $this->_results[$field];
+        } else {
+            return array();
         }
+    }
 
-        if (null == $statusHeader) {
-            throw new Solarium_Client_HttpException("No HTTP status found");
-        }
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        $this->_parseResponse();
 
-        // parse header like "$statusInfo[1]" into code and message
-        // $statusInfo[1] = the HTTP response code
-        // $statusInfo[2] = the response message
-        $statusInfo = explode(' ', $statusHeader, 3);
-        $this->_statusCode = $statusInfo[1];
-        $this->_statusMessage = $statusInfo[2];
+        return new ArrayIterator($this->_results);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        $this->_parseResponse();
+
+        return count($this->_results);
     }
 }

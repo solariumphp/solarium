@@ -88,6 +88,11 @@ class Solarium_Client extends Solarium_Configurable
     const QUERYTYPE_ANALYSIS_DOCUMENT = 'analysis-document';
 
     /**
+     * Querytype terms
+     */
+    const QUERYTYPE_TERMS = 'terms';
+
+    /**
      * Default options
      *
      * @var array
@@ -132,6 +137,11 @@ class Solarium_Client extends Solarium_Configurable
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Analysis_Field',
             'responseparser' => 'Solarium_Client_ResponseParser_Analysis_Field'
         ),
+        self::QUERYTYPE_TERMS => array(
+            'query'          => 'Solarium_Query_Terms',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Terms',
+            'responseparser' => 'Solarium_Client_ResponseParser_Terms'
+        ),
     );
 
     /**
@@ -142,6 +152,7 @@ class Solarium_Client extends Solarium_Configurable
     protected $_pluginTypes = array(
         'loadbalancer' => 'Solarium_Plugin_Loadbalancer',
         'postbigrequest' => 'Solarium_Plugin_PostBigRequest',
+        'customizerequest' => 'Solarium_Plugin_CustomizeRequest',
     );
 
     /**
@@ -666,6 +677,20 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
+     * Execute a terms query
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param Solarium_Query_Terms $query
+     * @return Solarium_Result_Terms
+     */
+    public function terms($query)
+    {
+        return $this->execute($query);
+    }
+
+    /**
      * Create a query instance
      *
      * @param string $type
@@ -755,5 +780,16 @@ class Solarium_Client extends Solarium_Configurable
     public function createAnalysisDocument($options = null)
     {
         return $this->createQuery(self::QUERYTYPE_ANALYSIS_DOCUMENT, $options);
+    }
+
+    /**
+     * Create a terms query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Terms
+     */
+    public function createTerms($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_TERMS, $options);
     }
 }

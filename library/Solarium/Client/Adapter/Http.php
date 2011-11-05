@@ -58,15 +58,15 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
         $uri = $this->getBaseUri() . $request->getUri();
 
         list($data, $headers) = $this->_getData($uri, $context);
-        
+
         $this->check($data, $headers);
-        
+
         return new Solarium_Client_Response($data, $headers);
     }
 
     /**
      * Check result of a request
-     * 
+     *
      * @throws Solarium_Client_HttpException
      * @param string $data
      * @param array $headers

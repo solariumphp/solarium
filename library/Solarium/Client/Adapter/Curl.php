@@ -43,7 +43,7 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Adapter_CurlHttp extends Solarium_Client_Adapter
+class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
 {
 
     /**
@@ -129,7 +129,7 @@ class Solarium_Client_Adapter_CurlHttp extends Solarium_Client_Adapter
             $data = $httpResponse;
             $info = curl_getinfo($ch);
             $headers = array();
-            $headers[] = 'HTTP/1.1 ' . $info['http_code'];
+            $headers[] = 'HTTP/1.1 ' . $info['http_code']. ' OK';
         }
 
         return array($data, $headers);
