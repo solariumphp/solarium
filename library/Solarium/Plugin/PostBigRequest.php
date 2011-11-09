@@ -91,7 +91,9 @@ class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
     public function postCreateRequest($query, $request)
     {
         $queryString = $request->getQueryString();
-        if (strlen($queryString) > $this->getMaxQueryStringLength()) {
+        if ($request->getMethod() == Solarium_Client_Request::METHOD_GET &&
+            strlen($queryString) > $this->getMaxQueryStringLength()) {
+
             $request->setMethod(Solarium_Client_Request::METHOD_POST);
             $request->setRawData($queryString);
             $request->clearParams();

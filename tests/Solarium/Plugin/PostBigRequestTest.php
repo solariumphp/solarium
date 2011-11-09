@@ -90,4 +90,16 @@ class Solarium_Plugin_PostBigRequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($requestInput, $requestOutput);
     }
 
+    public function testPostCreateRequestUnalteredPostRequest()
+    {
+        $query = $this->_client->createUpdate();
+        $query->addDeleteById(1);
+
+        $requestOutput = $this->_client->createRequest($query);
+        $requestInput = clone $requestOutput;
+        $this->_plugin->postCreateRequest($query, $requestOutput);
+
+        $this->assertEquals($requestInput, $requestOutput);
+    }
+
 }
