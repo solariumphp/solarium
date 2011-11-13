@@ -573,13 +573,10 @@ class Solarium_Query_Select extends Solarium_Query
             throw new Solarium_Exception('A filterquery must have a key value');
         }
 
-        if (array_key_exists($key, $this->_filterQueries)) {
-            if ($this->_filterQueries[$key] === $filterQuery) {
-                //double add calls for the same FQ are ignored
-                //@todo add trigger_error with a notice?
-            } else {
-                throw new Solarium_Exception('A filterquery must have a unique key value within a query');
-            }
+        //double add calls for the same FQ are ignored, but non-unique keys cause an exception
+        //@todo add trigger_error with a notice for double add calls?
+        if (array_key_exists($key, $this->_filterQueries) && $this->_filterQueries[$key] !== $filterQuery) {
+            throw new Solarium_Exception('A filterquery must have a unique key value within a query');
         } else {
             $this->_filterQueries[$key] = $filterQuery;
         }

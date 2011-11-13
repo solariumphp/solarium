@@ -140,13 +140,10 @@ class Solarium_Query_Select_Component_Stats extends Solarium_Query_Select_Compon
             throw new Solarium_Exception('A field must have a key value');
         }
 
-        if (array_key_exists($key, $this->_fields)) {
-            if ($this->_fields[$key] === $field) {
-                //double add calls for the same FQ are ignored
-                //@todo add trigger_error with a notice?
-            } else {
-                throw new Solarium_Exception('A field must have a unique key value');
-            }
+        //double add calls for the same field are ignored, but non-unique keys cause an exception
+        //@todo add trigger_error with a notice for double add calls?
+        if (array_key_exists($key, $this->_fields) && $this->_fields[$key] !== $field) {
+            throw new Solarium_Exception('A field must have a unique key value');
         } else {
             $this->_fields[$key] = $field;
         }
