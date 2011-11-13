@@ -33,72 +33,142 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Result
  */
 
 /**
- * PostBigRequest plugin
- *
- * If you reach the url/header length limit of your servlet container your queries will fail.
- * You can increase the limit in the servlet container, but if that's not possible this plugin can automatically
- * convert big GET requests into POST requests. A POST request (usually) has a much higher limit.
- *
- * The default maximum querystring length is 1024. This doesn't include the base url or headers.
- * For most servlet setups this limit leaves enough room for that extra data. Adjust the limit if needed.
+ * Select component stats facet value
  *
  * @package Solarium
- * @subpackage Plugin
+ * @subpackage Result
  */
-class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
+class Solarium_Result_Select_Stats_FacetValue
 {
 
     /**
-     * Default options
+     * Facet value
+     *
+     * @var string
+     */
+    protected $_value;
+
+    /**
+     * Stats data
      *
      * @var array
      */
-    protected $_options = array(
-        'maxquerystringlength' => 1024,
-    );
+    protected $_stats;
 
     /**
-     * Set maxquerystringlength enabled option
+     * Constructor
      *
-     * @param integer $value
-     * @return self Provides fluent interface
-     */
-    public function setMaxQueryStringLength($value)
-    {
-        return $this->_setOption('maxquerystringlength', $value);
-    }
-
-    /**
-     * Get maxquerystringlength option
-     *
-     * @return integer
-     */
-    public function getMaxQueryStringLength()
-    {
-        return $this->getOption('maxquerystringlength');
-    }
-
-    /**
-     * Event hook to adjust client settings just before query execution
-     *
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Request $request
+     * @param string $value
+     * @param array $stats
      * @return void
      */
-    public function postCreateRequest($query, $request)
+    public function __construct($value, $stats)
     {
-        $queryString = $request->getQueryString();
-        if ($request->getMethod() == Solarium_Client_Request::METHOD_GET &&
-            strlen($queryString) > $this->getMaxQueryStringLength()) {
-
-            $request->setMethod(Solarium_Client_Request::METHOD_POST);
-            $request->setRawData($queryString);
-            $request->clearParams();
-            $request->addHeader('Content-Type: application/x-www-form-urlencoded');
-        }
+        $this->_value = $value;
+        $this->_stats = $stats;
     }
 
+    /**
+     * Get facet value
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->_value;
+    }
+
+    /**
+     * Get min value
+     *
+     * @return string
+     */
+    public function getMin()
+    {
+        return $this->_stats['min'];
+    }
+
+    /**
+     * Get max value
+     *
+     * @return string
+     */
+    public function getMax()
+    {
+        return $this->_stats['max'];
+    }
+
+    /**
+     * Get sum value
+     *
+     * @return string
+     */
+    public function getSum()
+    {
+        return $this->_stats['sum'];
+    }
+
+    /**
+     * Get count value
+     *
+     * @return string
+     */
+    public function getCount()
+    {
+        return $this->_stats['count'];
+    }
+
+    /**
+     * Get missing value
+     *
+     * @return string
+     */
+    public function getMissing()
+    {
+        return $this->_stats['missing'];
+    }
+
+    /**
+     * Get sumOfSquares value
+     *
+     * @return string
+     */
+    public function getSumOfSquares()
+    {
+        return $this->_stats['sumOfSquares'];
+    }
+
+    /**
+     * Get mean value
+     *
+     * @return string
+     */
+    public function getMean()
+    {
+        return $this->_stats['mean'];
+    }
+
+    /**
+     * Get stddev value
+     *
+     * @return string
+     */
+    public function getStddev()
+    {
+        return $this->_stats['stddev'];
+    }
+
+    /**
+     * Get facet stats
+     *
+     * @return array
+     */
+    public function getFacets()
+    {
+        return $this->_stats['facets'];
+    }
 }

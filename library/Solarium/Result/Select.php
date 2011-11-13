@@ -269,4 +269,16 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
     {
         return $this->getComponent(Solarium_Query_Select::COMPONENT_SPELLCHECK);
     }
+
+    /**
+     * Get stats component result
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Result_Select_Stats
+     */
+    public function getStats()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_STATS);
+    }
 }

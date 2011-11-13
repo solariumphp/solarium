@@ -33,72 +33,79 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Result
  */
 
 /**
- * PostBigRequest plugin
- *
- * If you reach the url/header length limit of your servlet container your queries will fail.
- * You can increase the limit in the servlet container, but if that's not possible this plugin can automatically
- * convert big GET requests into POST requests. A POST request (usually) has a much higher limit.
- *
- * The default maximum querystring length is 1024. This doesn't include the base url or headers.
- * For most servlet setups this limit leaves enough room for that extra data. Adjust the limit if needed.
+ * Select component stats result
  *
  * @package Solarium
- * @subpackage Plugin
+ * @subpackage Result
  */
-class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
+class Solarium_Result_Select_Stats
+    implements IteratorAggregate, Countable
 {
 
     /**
-     * Default options
+     * Result array
      *
      * @var array
      */
-    protected $_options = array(
-        'maxquerystringlength' => 1024,
-    );
+    protected $_results;
 
     /**
-     * Set maxquerystringlength enabled option
+     * Constructor
      *
-     * @param integer $value
-     * @return self Provides fluent interface
-     */
-    public function setMaxQueryStringLength($value)
-    {
-        return $this->_setOption('maxquerystringlength', $value);
-    }
-
-    /**
-     * Get maxquerystringlength option
-     *
-     * @return integer
-     */
-    public function getMaxQueryStringLength()
-    {
-        return $this->getOption('maxquerystringlength');
-    }
-
-    /**
-     * Event hook to adjust client settings just before query execution
-     *
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Request $request
+     * @param array $results
      * @return void
      */
-    public function postCreateRequest($query, $request)
+    public function __construct($results)
     {
-        $queryString = $request->getQueryString();
-        if ($request->getMethod() == Solarium_Client_Request::METHOD_GET &&
-            strlen($queryString) > $this->getMaxQueryStringLength()) {
+        $this->_results = $results;
+    }
 
-            $request->setMethod(Solarium_Client_Request::METHOD_POST);
-            $request->setRawData($queryString);
-            $request->clearParams();
-            $request->addHeader('Content-Type: application/x-www-form-urlencoded');
+    /**
+     * Get a result by key
+     *
+     * @param mixed $key
+     * @return Solarium_Result_Select_Stats_Result|null
+     */
+    public function getResult($key)
+    {
+        if (isset($this->_results[$key])) {
+            return $this->_results[$key];
+        } else {
+            return null;
         }
     }
 
+    /**
+     * Get all results
+     *
+     * @return array
+     */
+    public function getResults()
+    {
+        return $this->_results;
+    }
+
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_results);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_results);
+    }
 }

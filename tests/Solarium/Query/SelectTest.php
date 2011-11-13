@@ -601,4 +601,14 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             get_class($spellcheck)
         );
     }
+
+    public function testGetStats()
+    {
+        $stats = $this->_query->getStats();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_Stats',
+            get_class($stats)
+        );
+    }
 }
