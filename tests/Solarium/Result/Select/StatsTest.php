@@ -27,51 +27,54 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * Parse select component Stats result from the data
- *
- * @package Solarium
- * @subpackage Client
- */
-class Solarium_Client_ResponseParser_Select_Component_Stats
+class Solarium_Result_Select_StatsTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * Parse result data into result objects
-     *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Stats $stats
-     * @param array $data
-     * @return Solarium_Result_Select_Stats
+     * @var Solarium_Result_Select_Stats
      */
-    public function parse($query, $stats, $data)
+    protected $_result;
+
+    public function setUp()
     {
-        $results = array();
-        if (isset($data['stats']['stats_fields'])) {
+        $this->_data = array(
+            'key1' => 'value1',
+            'key2' => 'value2',
+        );
+        $this->_result = new Solarium_Result_Select_Stats($this->_data);
+    }
 
-            $statResults = $data['stats']['stats_fields'];
-            foreach ($statResults AS $field => $stats) {
-                if (isset($stats['facets'])) {
-                    foreach($stats['facets'] as $facetField => $values) {
-                        foreach ($values as $value => $valueStats) {
-                            $stats['facets'][$facetField][$value] = new Solarium_Result_Select_Stats_FacetValue($value, $valueStats);
-                        }
-                    }
-                }
+    public function testGetResult()
+    {
+         $this->assertEquals($this->_data['key1'], $this->_result->getResult('key1'));
+    }
 
-                $results[$field] = new Solarium_Result_Select_Stats_Result($field, $stats);
-            }
+    public function testGetInvalidResult()
+    {
+         $this->assertEquals(null, $this->_result->getResult('key3'));
+    }
+
+    public function testGetResults()
+    {
+         $this->assertEquals($this->_data, $this->_result->getResults());
+    }
+
+    public function testIterator()
+    {
+        $items = array();
+        foreach($this->_result AS $key => $item)
+        {
+            $items[$key] = $item;
         }
 
-        return new Solarium_Result_Select_Stats($results);
+        $this->assertEquals($this->_data, $items);
     }
+
+    public function testCount()
+    {
+        $this->assertEquals(count($this->_data), count($this->_result));
+    }
+
 }

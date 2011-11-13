@@ -27,51 +27,39 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * Parse select component Stats result from the data
- *
- * @package Solarium
- * @subpackage Client
- */
-class Solarium_Client_ResponseParser_Select_Component_Stats
+class Solarium_Client_RequestBuilder_Select_Component_StatsTest extends PHPUnit_Framework_TestCase
 {
 
-    /**
-     * Parse result data into result objects
-     *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Stats $stats
-     * @param array $data
-     * @return Solarium_Result_Select_Stats
-     */
-    public function parse($query, $stats, $data)
+    public function testBuild()
     {
-        $results = array();
-        if (isset($data['stats']['stats_fields'])) {
+        $builder = new Solarium_Client_RequestBuilder_Select_Component_Stats();
+        $request = new Solarium_Client_Request();
 
-            $statResults = $data['stats']['stats_fields'];
-            foreach ($statResults AS $field => $stats) {
-                if (isset($stats['facets'])) {
-                    foreach($stats['facets'] as $facetField => $values) {
-                        foreach ($values as $value => $valueStats) {
-                            $stats['facets'][$facetField][$value] = new Solarium_Result_Select_Stats_FacetValue($value, $valueStats);
-                        }
-                    }
-                }
+        $component = new Solarium_Query_Select_Component_Stats();
+        $component->createField('fieldA')->addFacet('fieldFacetA');
+        $component->createField('fieldB');
+        $component->addFacets(array('facetA', 'facetB'));
 
-                $results[$field] = new Solarium_Result_Select_Stats_Result($field, $stats);
-            }
-        }
+        $request = $builder->build($component, $request);
 
-        return new Solarium_Result_Select_Stats($results);
+        $this->assertEquals(
+            array(
+                'stats' => true,
+                'stats.facet' => array(
+                    'facetA',
+                    'facetB',
+                ),
+                'stats.field' => array(
+                    'fieldA',
+                    'fieldB',
+                ),
+                'f.fieldA.stats.facet' => 'fieldFacetA',
+            ),
+            $request->getParams()
+        );
+
     }
+
 }

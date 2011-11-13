@@ -27,51 +27,53 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * Parse select component Stats result from the data
- *
- * @package Solarium
- * @subpackage Client
- */
-class Solarium_Client_ResponseParser_Select_Component_Stats
+class Solarium_Client_ResponseParser_Select_Component_StatsTest extends PHPUnit_Framework_TestCase
 {
 
-    /**
-     * Parse result data into result objects
-     *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Stats $stats
-     * @param array $data
-     * @return Solarium_Result_Select_Stats
-     */
-    public function parse($query, $stats, $data)
+    protected $_parser;
+
+    public function setUp()
     {
-        $results = array();
-        if (isset($data['stats']['stats_fields'])) {
-
-            $statResults = $data['stats']['stats_fields'];
-            foreach ($statResults AS $field => $stats) {
-                if (isset($stats['facets'])) {
-                    foreach($stats['facets'] as $facetField => $values) {
-                        foreach ($values as $value => $valueStats) {
-                            $stats['facets'][$facetField][$value] = new Solarium_Result_Select_Stats_FacetValue($value, $valueStats);
-                        }
-                    }
-                }
-
-                $results[$field] = new Solarium_Result_Select_Stats_Result($field, $stats);
-            }
-        }
-
-        return new Solarium_Result_Select_Stats($results);
+        $this->_parser = new Solarium_Client_ResponseParser_Select_Component_Stats();
     }
+
+    public function testParse()
+    {
+        $data = array(
+            'stats' => array(
+                'stats_fields' => array(
+                    'fieldA' => array(
+                        'min' => 3,
+                    ),
+                    'fieldB' => array(
+                        'min' => 4,
+                        'facets' => array(
+                            'fieldC' => array(
+                                'value1' => array(
+                                    'min' => 5,
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        $result = $this->_parser->parse(null, null, $data);
+
+        $this->assertEquals(3, $result->getResult('fieldA')->getMin());
+        $this->assertEquals(4, $result->getResult('fieldB')->getMin());
+
+        $facets = $result->getResult('fieldB')->getFacets();
+        $this->assertEquals(5, $facets['fieldC']['value1']->getMin());
+    }
+
+    public function testParseNoData()
+    {
+        $result = $this->_parser->parse(null, null, array());
+        $this->assertEquals(0, count($result));
+    }
+
 }
