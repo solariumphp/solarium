@@ -100,6 +100,11 @@ class Solarium_Query_Select extends Solarium_Query
     const COMPONENT_STATS = 'stats';
 
     /**
+     * Query component debug
+     */
+    const COMPONENT_DEBUG = 'debug';
+
+    /**
      * Get type for this query
      *
      * @return string
@@ -169,6 +174,11 @@ class Solarium_Query_Select extends Solarium_Query
             'component' => 'Solarium_Query_Select_Component_Stats',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Stats',
             'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Stats',
+        ),
+        self::COMPONENT_DEBUG => array(
+            'component' => 'Solarium_Query_Select_Component_Debug',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Debug',
+            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Debug',
         ),
     );
 
@@ -894,6 +904,18 @@ class Solarium_Query_Select extends Solarium_Query
     public function getStats()
     {
         return $this->getComponent(Solarium_Query_Select::COMPONENT_STATS, true);
+    }
+
+    /**
+     * Get a Debug component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Solarium_Query_Select_Component_Debug
+     */
+    public function getDebug()
+    {
+        return $this->getComponent(Solarium_Query_Select::COMPONENT_DEBUG, true);
     }
 
 }
