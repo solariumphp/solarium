@@ -9,7 +9,7 @@ htmlHeader();
 // create a client instance
 $client = new Solarium_Client($config);
 
-// set the adapter to peclhttp
+// set the adapter to curl
 $client->setAdapter('Solarium_Client_Adapter_Curl');
 
 // get a select query instance
