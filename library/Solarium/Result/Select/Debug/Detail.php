@@ -37,109 +37,71 @@
  */
 
 /**
- * Query result
- *
- * This base class provides access to the response and decoded data. If you need more functionality
- * like resultset parsing use one of the subclasses
+ * Select component debug detail result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result
+class Solarium_Result_Select_Debug_Detail
 {
 
     /**
-     * Response object
-     *
-     * @var Solarium_Client_Response
+     * @var float
      */
-    protected $_response;
+    protected $_value;
 
     /**
-     * Decode response data
-     *
-     * This is lazy loaded, {@link getData()}
-     *
-     * @var array
+     * @var boolean
      */
-    protected $_data;
+    protected $_match;
 
     /**
-     * Query used for this request
-     *
-     * @var Solarium_Query
+     * @var string
      */
-    protected $_query;
-
-    /**
-     * @var Solarium_Client
-     */
-    protected $_client;
+    protected $_description;
 
     /**
      * Constructor
      *
-     * @param Solarium_Client $client
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Response $response
-     * @return void
+     * @param boolean $match
+     * @param float $value
+     * @param string $description
      */
-    public function __construct($client, $query, $response)
+    public function __construct($match, $value, $description)
     {
-        $this->_client = $client;
-        $this->_query = $query;
-        $this->_response = $response;
-
-        // check status for error (range of 400 and 500)
-        $statusNum = floor($response->getStatusCode() / 100);
-        if ($statusNum == 4 || $statusNum == 5) {
-            throw new Solarium_Client_HttpException(
-                $response->getStatusMessage(),
-                $response->getStatusCode()
-            );
-        }
+        $this->_match = $match;
+        $this->_value = $value;
+        $this->_description = $description;
     }
 
     /**
-     * Get response object
+     * Get match status
      *
-     * This is the raw HTTP response object, not the parsed data!
-     *
-     * @return Solarium_Client_Response
+     * @return bool
      */
-    public function getResponse()
+    public function getMatch()
     {
-        return $this->_response;
+        return $this->_match;
     }
 
     /**
-     * Get query instance
+     * Get match value (score)
      *
-     * @return Solarium_Query
+     * @return float
      */
-    public function getQuery()
+    public function getValue()
     {
-        return $this->_query;
+        return $this->_value;
     }
 
     /**
-     * Get Solr response data
+     * Get description
      *
-     * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
-     *
-     * @return array
+     * @return string
      */
-    public function getData()
+    public function getDescription()
     {
-        if (null == $this->_data) {
-            $this->_data = json_decode($this->_response->getBody(), true);
-            if (null === $this->_data) {
-                throw new Solarium_Exception(
-                    'Solr JSON response could not be decoded'
-                );
-            }
-        }
-
-        return $this->_data;
+        return $this->_description;
     }
+
 }

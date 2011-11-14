@@ -37,109 +37,75 @@
  */
 
 /**
- * Query result
- *
- * This base class provides access to the response and decoded data. If you need more functionality
- * like resultset parsing use one of the subclasses
+ * Select component debug documentset result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result
+class Solarium_Result_Select_Debug_DocumentSet
+    implements IteratorAggregate, Countable
 {
 
     /**
-     * Response object
-     *
-     * @var Solarium_Client_Response
-     */
-    protected $_response;
-
-    /**
-     * Decode response data
-     *
-     * This is lazy loaded, {@link getData()}
+     * Docs array
      *
      * @var array
      */
-    protected $_data;
-
-    /**
-     * Query used for this request
-     *
-     * @var Solarium_Query
-     */
-    protected $_query;
-
-    /**
-     * @var Solarium_Client
-     */
-    protected $_client;
+    protected $_docs;
 
     /**
      * Constructor
      *
-     * @param Solarium_Client $client
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Response $response
+     * @param array $docs
      * @return void
      */
-    public function __construct($client, $query, $response)
+    public function __construct($docs)
     {
-        $this->_client = $client;
-        $this->_query = $query;
-        $this->_response = $response;
+        $this->_docs = $docs;
+    }
 
-        // check status for error (range of 400 and 500)
-        $statusNum = floor($response->getStatusCode() / 100);
-        if ($statusNum == 4 || $statusNum == 5) {
-            throw new Solarium_Client_HttpException(
-                $response->getStatusMessage(),
-                $response->getStatusCode()
-            );
+    /**
+     * Get a document by key
+     *
+     * @param mixed $key
+     * @return Solarium_Result_Select_Debug_Document|null
+     */
+    public function getDocument($key)
+    {
+        if (isset($this->_docs[$key])) {
+            return $this->_docs[$key];
+        } else {
+            return null;
         }
     }
 
     /**
-     * Get response object
-     *
-     * This is the raw HTTP response object, not the parsed data!
-     *
-     * @return Solarium_Client_Response
-     */
-    public function getResponse()
-    {
-        return $this->_response;
-    }
-
-    /**
-     * Get query instance
-     *
-     * @return Solarium_Query
-     */
-    public function getQuery()
-    {
-        return $this->_query;
-    }
-
-    /**
-     * Get Solr response data
-     *
-     * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
+     * Get all docs
      *
      * @return array
      */
-    public function getData()
+    public function getDocuments()
     {
-        if (null == $this->_data) {
-            $this->_data = json_decode($this->_response->getBody(), true);
-            if (null === $this->_data) {
-                throw new Solarium_Exception(
-                    'Solr JSON response could not be decoded'
-                );
-            }
-        }
+        return $this->_docs;
+    }
 
-        return $this->_data;
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_docs);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_docs);
     }
 }
