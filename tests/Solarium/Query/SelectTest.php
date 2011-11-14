@@ -611,4 +611,14 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
             get_class($stats)
         );
     }
+
+    public function testGetDebug()
+    {
+        $stats = $this->_query->getDebug();
+
+        $this->assertEquals(
+            'Solarium_Query_Select_Component_Debug',
+            get_class($stats)
+        );
+    }
 }

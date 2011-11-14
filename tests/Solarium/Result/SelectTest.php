@@ -37,7 +37,8 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
      */
     protected $_result;
 
-    protected $_numFound, $_docs, $_components, $_facetSet, $_moreLikeThis, $_highlighting, $_grouping, $_stats;
+    protected $_numFound, $_docs, $_components, $_facetSet, $_moreLikeThis,
+              $_highlighting, $_grouping, $_stats, $_debug;
 
     public function setUp()
     {
@@ -54,6 +55,7 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
         $this->_grouping = 'dummy-grouping-value';
         $this->_spellcheck = 'dummy-grouping-value';
         $this->_stats = 'dummy-stats-value';
+        $this->_debug = 'dummy-debug-value';
 
         $this->_components = array(
             Solarium_Query_Select::COMPONENT_FACETSET => $this->_facetSet,
@@ -62,6 +64,7 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
             Solarium_Query_Select::COMPONENT_GROUPING => $this->_grouping,
             Solarium_Query_Select::COMPONENT_SPELLCHECK => $this->_spellcheck,
             Solarium_Query_Select::COMPONENT_STATS => $this->_stats,
+            Solarium_Query_Select::COMPONENT_DEBUG => $this->_debug,
         );
 
         $this->_result = new Solarium_Result_SelectDummy(1, 12, $this->_numFound, $this->_docs, $this->_components);
@@ -145,6 +148,14 @@ class Solarium_Result_SelectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $this->_components[Solarium_Query_Select::COMPONENT_STATS],
             $this->_result->getStats()
+        );
+    }
+
+    public function testGetDebug()
+    {
+        $this->assertEquals(
+            $this->_components[Solarium_Query_Select::COMPONENT_DEBUG],
+            $this->_result->getDebug()
         );
     }
 
