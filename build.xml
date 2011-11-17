@@ -16,7 +16,7 @@
 you could also write the switches here)
 -->
 <target name="phpunit">
- <exec executable="phpunit" failonerror="true" />
+ <exec executable="phpunit" />
 </target>
 
 <!-- Run pdepend, phpmd, phpcpd, and phpcs in parallel -->
