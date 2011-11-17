@@ -55,7 +55,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
     protected function _init()
     {
         // @codeCoverageIgnoreStart
-        if (!function_exists('http_get')) {
+        if (!class_exists('HttpRequest', false)) {
            throw new Solarium_Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
         }
 
