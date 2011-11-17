@@ -131,6 +131,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
     protected function toHttpRequest($request)
     {
         $url = $this->getBaseUri() . $request->getUri();
+        $httpRequest = new HttpRequest($url);
 
         switch($request->getMethod()) {
         case Solarium_Client_Request::METHOD_GET:
@@ -138,6 +139,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
             break;
         case Solarium_Client_Request::METHOD_POST:
             $method = HTTP_METH_POST;
+            $httpRequest->setBody($request->getRawData());
             break;
         case Solarium_Client_Request::METHOD_HEAD:
             $method = HTTP_METH_HEAD;
@@ -148,12 +150,9 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
             );
         }
 
+        $httpRequest->setMethod($method);
         $options = $this->_createOptions($request);
-
-        $httpRequest = new HttpRequest($url, $method, $options);
-        if (HTTP_METH_POST == $httpRequest->getMethod()) {
-            $httpRequest->setBody($request->getRawData());
-        }
+        $httpRequest->setOptions($options);
 
         return $httpRequest;
     }
