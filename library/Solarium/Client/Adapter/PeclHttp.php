@@ -85,7 +85,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
 
         return new Solarium_Client_Response(
             $httpMessage->getBody(),
-            $this->_getRawHeaders($httpMessage)
+            $this->_toRawHeaders($httpMessage)
         );
     }
 
@@ -105,7 +105,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
      * @param $message HttpMessage
      * @return array
      */
-    protected function _getRawHeaders($message)
+    protected function _toRawHeaders($message)
     {
         $headers[] = 'HTTP/' . $message->getHttpVersion()
                    . ' ' . $message->getResponseCode()
