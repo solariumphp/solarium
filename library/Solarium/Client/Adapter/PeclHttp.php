@@ -128,7 +128,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
      * @param Solarium_Client_Request $request
      * @param HttpRequest
      */
-    protected function toHttpRequest($request)
+    public function toHttpRequest($request)
     {
         $url = $this->getBaseUri() . $request->getUri();
         $httpRequest = new HttpRequest($url);
