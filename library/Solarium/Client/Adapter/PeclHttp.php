@@ -71,7 +71,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
      */
     public function execute($request)
     {
-        $httpRequest = $this->getHttpRequest($request);
+        $httpRequest = $this->toHttpRequest($request);
 
         try {
             $httpMessage = $httpRequest->send();
@@ -128,7 +128,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
      * @param Solarium_Client_Request $request
      * @param HttpRequest
      */
-    protected function getHttpRequest($request)
+    protected function toHttpRequest($request)
     {
         $url = $this->getBaseUri() . $request->getUri();
 
