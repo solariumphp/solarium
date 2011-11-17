@@ -45,21 +45,6 @@ class Solarium_Client_Adapter_PeclHttpTest extends PHPUnit_Framework_TestCase
         $this->_adapter = new Solarium_Client_Adapter_PeclHttp();
     }
 
-    public function testCheck()
-    {
-        $data = 'data';
-        $headers = array('X-dummy: data');
-
-        // this should be ok, no exception
-        $this->_adapter->check($data, $headers);
-
-        $data = '';
-        $headers = array();
-
-        $this->setExpectedException('Solarium_Exception');
-        $this->_adapter->check($data, $headers);
-    }
-
     public function testExecute()
     {
         $headers = array('HTTP/1.0 200 OK');
