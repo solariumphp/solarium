@@ -33,7 +33,10 @@ you could also write the switches here)
 <!-- Generate jdepend.xml and software metrics charts -->
 <target name="pdepend">
 <exec executable="pdepend">
-<arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml library" />
+<arg line="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+<arg line="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+<arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+<arg line="library" />
 </exec>
 </target>
 
