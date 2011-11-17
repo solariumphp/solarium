@@ -156,4 +156,13 @@ EOF;
         $this->assertEquals($statusMessage, $response->getStatusMessage());
     }
 
+    /**
+     * @expectedException Solarium_Client_HttpException
+     */
+    public function testExecuteWithException()
+    {
+        $request = new Solarium_Client_Request();
+        $this->_adapter->execute($request);
+    }
+
 }
