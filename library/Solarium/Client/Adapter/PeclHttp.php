@@ -133,6 +133,14 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
         $url = $this->getBaseUri() . $request->getUri();
         $httpRequest = new HttpRequest($url);
 
+        $headers = array();
+        foreach ($request->getHeaders() as $headerLine) {
+            list($header, $value) = explode(':', $headerLine);
+            if ($header = trim($header)) {
+                $headers[$header] = trim($value);
+            }
+        }
+
         switch($request->getMethod()) {
         case Solarium_Client_Request::METHOD_GET:
             $method = HTTP_METH_GET;
@@ -140,6 +148,9 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
         case Solarium_Client_Request::METHOD_POST:
             $method = HTTP_METH_POST;
             $httpRequest->setBody($request->getRawData());
+            if (!isset($headers['Content-Type'])) {
+                $headers['Content-Type'] = 'text/xml; charset=utf-8';
+            }
             break;
         case Solarium_Client_Request::METHOD_HEAD:
             $method = HTTP_METH_HEAD;
@@ -151,37 +162,9 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
         }
 
         $httpRequest->setMethod($method);
-        $options = $this->_createOptions($request);
-        $httpRequest->setOptions($options);
+        $httpRequest->setOptions(array('timeout' => $this->getTimeout()));
+        $httpRequest->setHeaders($headers);
 
         return $httpRequest;
-    }
-
-    /**
-     * Create http request options from request.
-     *
-     * @link http://php.net/manual/en/http.request.options.php
-     *
-     * @param Solarium_Client_Request $request
-     * @return array
-     */
-    protected function _createOptions($request)
-    {
-        // @codeCoverageIgnoreStart
-        $options = array(
-            'timeout' => $this->getTimeout()
-        );
-        foreach ($request->getHeaders() as $headerLine) {
-            list($header, $value) = explode(':', $headerLine);
-            if ($header = trim($header)) {
-                $options['headers'][$header] = trim($value);
-            }
-        }
-        if ($request->getMethod() == Solarium_Client_Request::METHOD_POST) {
-            if (!isset($options['headers']['Content-Type'])) {
-                $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
-            }
-        }
-        return $options;
     }
 }
