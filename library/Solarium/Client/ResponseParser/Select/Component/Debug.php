@@ -141,7 +141,8 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
                 $documentData['match'],
                 $documentData['value'],
                 $documentData['description'],
-                $details);
+                $details
+            );
         }
 
         return $docs;
