@@ -72,7 +72,7 @@ class Solarium_Client_ResponseParser_MoreLikeThis extends Solarium_Client_Respon
 
         if (isset($data['match']['docs'][0]) && true == $query->getMatchInclude()) {
             $matchData = $data['match']['docs'][0];
-            
+
             $documentClass = $query->getOption('documentclass');
             $fields = (array)$matchData;
             $parseResult['match'] = new $documentClass($fields);

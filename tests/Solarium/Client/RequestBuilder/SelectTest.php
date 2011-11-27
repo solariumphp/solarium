@@ -89,6 +89,23 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
         );
     }
 
+    public function testSelectUrlWithQueryDefaultFieldAndOperator()
+    {
+        $this->_query->setQueryDefaultField('mydefault');
+        $this->_query->setQueryDefaultOperator(Solarium_Query_Select::QUERY_OPERATOR_AND);
+        $request = $this->_builder->build($this->_query);
+
+        $this->assertEquals(
+            null,
+            $request->getRawData()
+        );
+
+        $this->assertEquals(
+            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&q.op=AND&df=mydefault',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testSelectUrlWithSortAndFilters()
     {
         $this->_query->addSort('id', Solarium_Query_Select::SORT_ASC);

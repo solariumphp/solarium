@@ -46,6 +46,7 @@ class Solarium_Client_RequestBuilder_Select_Component_GroupingTest extends PHPUn
         $component->setMainResult(true);
         $component->setNumberOfGroups(false);
         $component->setCachePercentage(50);
+        $component->setTruncate(true);
 
         $request = $builder->build($component, $request);
 
@@ -60,6 +61,7 @@ class Solarium_Client_RequestBuilder_Select_Component_GroupingTest extends PHPUn
                 'group.main' => 'true',
                 'group.ngroups' => 'false',
                 'group.cache.percent' => 50,
+                'group.truncate' => 'true',
             ),
             $request->getParams()
         );

@@ -53,7 +53,7 @@ class Solarium_Client_RequestBuilder_Select_Component_MoreLikeThisTest extends P
             
         $this->assertEquals(
             array(
-                'mlt' => true,
+                'mlt' => 'true',
                 'mlt.fl' => 'description,name',
                 'mlt.mintf' => 1,
                 'mlt.mindf' => 3,
@@ -61,7 +61,7 @@ class Solarium_Client_RequestBuilder_Select_Component_MoreLikeThisTest extends P
                 'mlt.maxwl' => 15,
                 'mlt.maxqt' => 4,
                 'mlt.maxntp' => 5,
-                'mlt.boost' => true,
+                'mlt.boost' => 'true',
                 'mlt.qf' => 'description',
                 'mlt.count' => 6,
             ),

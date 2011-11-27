@@ -75,7 +75,7 @@ class Solarium_Plugin_Loadbalancer_WeightedRandomChoice
     public function __construct($choices)
     {
         $i = 0;
-        foreach($choices AS $key => $weight) {
+        foreach ($choices AS $key => $weight) {
             if ($weight <= 0) throw new Solarium_Exception('Weight must be greater than zero');
 
             $this->_totalWeight += $weight;
@@ -100,7 +100,7 @@ class Solarium_Plugin_Loadbalancer_WeightedRandomChoice
 
         // continue until a non-excluded value is found
         // @todo optimize?
-        while(1) {
+        while (1) {
             $result = $this->_values[$this->_getKey()];
             if(!in_array($result, $excludes)) return $result;
         }
@@ -113,7 +113,7 @@ class Solarium_Plugin_Loadbalancer_WeightedRandomChoice
      */
     protected function _getKey()
     {
-	    $random = mt_rand(1, $this->_totalWeight);
+        $random = mt_rand(1, $this->_totalWeight);
         $high = count($this->_lookup)-1;
         $low = 0;
 

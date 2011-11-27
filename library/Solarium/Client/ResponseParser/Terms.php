@@ -69,9 +69,16 @@ class Solarium_Client_ResponseParser_Terms extends Solarium_Client_ResponseParse
             }
         }
 
+        $status = null;
+        $queryTime = null;
+        if (isset($data['responseHeader'])) {
+            $status = $data['responseHeader']['status'];
+            $queryTime = $data['responseHeader']['QTime'];
+        }
+
         return array(
-            'status' => $data['responseHeader']['status'],
-            'queryTime' => $data['responseHeader']['QTime'],
+            'status' => $status,
+            'queryTime' => $queryTime,
             'results' => $termResults,
         );
     }

@@ -32,6 +32,9 @@
 class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Solarium_Query_Select
+     */
     protected $_query;
 
     public function setUp()
@@ -60,6 +63,22 @@ class Solarium_Query_SelectTest extends PHPUnit_Framework_TestCase
     {
         $this->_query->setQuery('id:%1%', array(678));
         $this->assertEquals('id:678', $this->_query->getQuery());
+    }
+
+    public function testSetAndGetQueryDefaultOperator()
+    {
+        $value = Solarium_Query_Select::QUERY_OPERATOR_AND;
+
+        $this->_query->setQueryDefaultOperator($value);
+        $this->assertEquals($value, $this->_query->getQueryDefaultOperator());
+    }
+
+    public function testSetAndGetQueryDefaultField()
+    {
+        $value = 'mydefault';
+
+        $this->_query->setQueryDefaultField($value);
+        $this->assertEquals($value, $this->_query->getQueryDefaultField());
     }
 
     public function testSetAndGetResultClass()

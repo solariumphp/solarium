@@ -55,9 +55,16 @@ class Solarium_Client_ResponseParser_Update extends Solarium_Client_ResponsePars
     {
         $data = $result->getData();
 
+        $status = null;
+        $queryTime = null;
+        if (isset($data['responseHeader'])) {
+            $status = $data['responseHeader']['status'];
+            $queryTime = $data['responseHeader']['QTime'];
+        }
+
         return array(
-            'status' => $data['responseHeader']['status'],
-            'queryTime' => $data['responseHeader']['QTime'],
+            'status' => $status,
+            'queryTime' => $queryTime,
         );
     }
 

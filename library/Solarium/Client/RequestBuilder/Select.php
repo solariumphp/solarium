@@ -62,6 +62,8 @@ class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuild
         $request->addParam('rows', $query->getRows());
         $request->addParam('fl', implode(',', $query->getFields()));
         $request->addParam('wt', 'json');
+        $request->addParam('q.op', $query->getQueryDefaultOperator());
+        $request->addParam('df', $query->getQueryDefaultField());
 
         // add sort fields to request
         $sort = array();

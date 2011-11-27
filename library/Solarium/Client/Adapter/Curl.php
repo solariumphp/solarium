@@ -91,7 +91,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uri);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION , true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, $options['timeout']);
 
         if (!isset($options['headers']['Content-Type'])) {
@@ -101,7 +101,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
             $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
         }
 
-        if(count($options['headers'])) {
+        if (count($options['headers'])) {
             $arr = array();
             foreach ($options['headers'] as $k => $v) {
                 $arr[] = $k . ": " . $v;
@@ -125,7 +125,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
 
         $headers = array(); $data = '';
 
-        if($httpResponse !== false) {
+        if ($httpResponse !== false) {
             $data = $httpResponse;
             $info = curl_getinfo($ch);
             $headers = array();

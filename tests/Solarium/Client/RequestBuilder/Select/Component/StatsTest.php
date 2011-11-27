@@ -46,7 +46,7 @@ class Solarium_Client_RequestBuilder_Select_Component_StatsTest extends PHPUnit_
 
         $this->assertEquals(
             array(
-                'stats' => true,
+                'stats' => 'true',
                 'stats.facet' => array(
                     'facetA',
                     'facetB',

@@ -61,9 +61,11 @@ class Solarium_Client_ResponseParser_Select_Component_Stats
             $statResults = $data['stats']['stats_fields'];
             foreach ($statResults AS $field => $stats) {
                 if (isset($stats['facets'])) {
-                    foreach($stats['facets'] as $facetField => $values) {
+                    foreach ($stats['facets'] as $facetField => $values) {
                         foreach ($values as $value => $valueStats) {
-                            $stats['facets'][$facetField][$value] = new Solarium_Result_Select_Stats_FacetValue($value, $valueStats);
+                            $stats['facets'][$facetField][$value] = new Solarium_Result_Select_Stats_FacetValue(
+                                $value, $valueStats
+                            );
                         }
                     }
                 }
