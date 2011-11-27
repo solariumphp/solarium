@@ -69,23 +69,34 @@ class Solarium_Client_ResponseParser_Select_Component_Grouping
                     $valueGroups = array();
                     foreach ($result['groups'] as $valueGroupResult) {
 
-                        $value = (isset($valueGroupResult['groupValue'])) ? $valueGroupResult['groupValue'] : null;
-                        $numFound = (isset($valueGroupResult['doclist']['numFound'])) ? $valueGroupResult['doclist']['numFound'] : null;
-                        $start = (isset($valueGroupResult['doclist']['start'])) ? $valueGroupResult['doclist']['start'] : null;
+                        $value = (isset($valueGroupResult['groupValue'])) ?
+                                $valueGroupResult['groupValue'] : null;
+
+                        $numFound = (isset($valueGroupResult['doclist']['numFound'])) ?
+                                $valueGroupResult['doclist']['numFound'] : null;
+
+                        $start = (isset($valueGroupResult['doclist']['start'])) ?
+                                $valueGroupResult['doclist']['start'] : null;
 
                         // create document instances
                         $documentClass = $query->getOption('documentclass');
                         $documents = array();
-                        if (isset($valueGroupResult['doclist']['docs']) && is_array($valueGroupResult['doclist']['docs'])) {
+                        if (isset($valueGroupResult['doclist']['docs']) &&
+                            is_array($valueGroupResult['doclist']['docs'])) {
+
                             foreach ($valueGroupResult['doclist']['docs'] as $doc) {
                                 $documents[] = new $documentClass($doc);
                             }
                         }
 
-                        $valueGroups[] = new Solarium_Result_Select_Grouping_ValueGroup($value, $numFound, $start, $documents);
+                        $valueGroups[] = new Solarium_Result_Select_Grouping_ValueGroup(
+                            $value, $numFound, $start, $documents
+                        );
                     }
 
-                    $groups[$field] = new Solarium_Result_Select_Grouping_FieldGroup($matches, $groupCount, $valueGroups);
+                    $groups[$field] = new Solarium_Result_Select_Grouping_FieldGroup(
+                        $matches, $groupCount, $valueGroups
+                    );
                 }
             }
 
@@ -110,7 +121,9 @@ class Solarium_Client_ResponseParser_Select_Component_Grouping
                     }
 
                     // create a group result object
-                    $group = new Solarium_Result_Select_Grouping_QueryGroup($matches, $numFound, $start, $maxScore, $documents);
+                    $group = new Solarium_Result_Select_Grouping_QueryGroup(
+                        $matches, $numFound, $start, $maxScore, $documents
+                    );
                     $groups[$groupQuery] = $group;
                 }
             }

@@ -238,7 +238,7 @@ class Solarium_Plugin_CustomizeRequest extends Solarium_Plugin_Abstract
 
             // first validate
             if (!$customization->isValid()) {
-                throw new Solarium_Exception('Request customization with key "' . $key . '" is invalid' );
+                throw new Solarium_Exception('Request customization with key "' . $key . '" is invalid');
             }
 
             // apply to request, depending on type

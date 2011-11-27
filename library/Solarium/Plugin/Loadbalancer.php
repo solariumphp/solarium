@@ -199,7 +199,8 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * @param int $weight Must be a positive number
      * @return self Provides fluent interface
      */
-    public function addServer($key, $options, $weight = 1) {
+    public function addServer($key, $options, $weight = 1)
+    {
         if (array_key_exists($key, $this->_servers)) {
             throw new Solarium_Exception('A server for the loadbalancer plugin must have a unique key');
         } else {
@@ -330,7 +331,8 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      *
      * @return array
      */
-    public function getBlockedQueryTypes() {
+    public function getBlockedQueryTypes()
+    {
         return array_keys($this->_blockedQueryTypes);
     }
 
@@ -342,7 +344,8 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * @param array $types Use an array with the constants defined in Solarium_Client as values
      * @return self Provides fluent interface
      */
-    public function setBlockedQueryTypes($types) {
+    public function setBlockedQueryTypes($types)
+    {
         $this->clearBlockedQueryTypes();
         $this->addBlockedQueryTypes($types);
         return $this;
@@ -354,7 +357,8 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * @param string $type Use one of the constants defined in Solarium_Client
      * @return self Provides fluent interface
      */
-    public function addBlockedQueryType($type) {
+    public function addBlockedQueryType($type)
+    {
         if (!array_key_exists($type, $this->_blockedQueryTypes)) {
             $this->_blockedQueryTypes[$type] = true;
         }
@@ -370,7 +374,8 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * @param array $types Use an array with the constants defined in Solarium_Client as values
      * @return self Provides fluent interface
      */
-    public function addBlockedQueryTypes($types) {
+    public function addBlockedQueryTypes($types)
+    {
         foreach ($types AS $type) {
             $this->addBlockedQueryType($type);
         }
@@ -382,7 +387,8 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * @param string $type
      * @return void
      */
-    public function removeBlockedQueryType($type) {
+    public function removeBlockedQueryType($type)
+    {
         if (array_key_exists($type, $this->_blockedQueryTypes)) {
             unset($this->_blockedQueryTypes[$type]);
         }
@@ -393,7 +399,8 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      *
      * @return self Provides fluent interface
      */
-    public function clearBlockedQueryTypes() {
+    public function clearBlockedQueryTypes()
+    {
         $this->_blockedQueryTypes = array();
     }
 
@@ -462,7 +469,8 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * @param Solarium_Client_Request $request
      * @return Solarium_Client_Response $response
      */
-    protected function _getLoadbalancedResponse($request) {
+    protected function _getLoadbalancedResponse($request)
+    {
 
         $this->_serverExcludes = array(); // reset for each query
         $adapter = $this->_client->getAdapter();
@@ -471,7 +479,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
 
             $e = new Solarium_Exception('Maximum number of loadbalancer retries reached');
 
-            for($i=0; $i<=$this->getFailoverMaxRetries(); $i++) {
+            for ($i=0; $i<=$this->getFailoverMaxRetries(); $i++) {
                 $options = $this->_getRandomServerOptions();
                 $adapter->setOptions($options);
                 try {
@@ -524,7 +532,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
     {
         if ($this->_randomizer === null) {
             $choices = array();
-            foreach($this->_servers AS $key => $settings) {
+            foreach ($this->_servers AS $key => $settings) {
                 $choices[$key] = $settings['weight'];
             }
             $this->_randomizer = new Solarium_Plugin_Loadbalancer_WeightedRandomChoice($choices);
