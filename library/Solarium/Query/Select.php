@@ -60,6 +60,16 @@ class Solarium_Query_Select extends Solarium_Query
     const SORT_ASC = 'asc';
 
     /**
+     * Solr query operator AND
+     */
+    const QUERY_OPERATOR_AND = 'AND';
+
+    /**
+     * Solr query operator OR
+     */
+    const QUERY_OPERATOR_OR = 'OR';
+
+    /**
      * Query component facetset
      */
     const COMPONENT_FACETSET = 'facetset';
@@ -264,6 +274,50 @@ class Solarium_Query_Select extends Solarium_Query
     public function getQuery()
     {
         return $this->getOption('query');
+    }
+
+    /**
+     * Set default query operator
+     *
+     * Use one of the constants as value
+     *
+     * @param string $operator
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function setQueryDefaultOperator($operator)
+    {
+        return $this->_setOption('querydefaultoperator', $operator);
+    }
+
+    /**
+     * Get the default query operator
+     *
+     * @return null|string
+     */
+    public function getQueryDefaultOperator()
+    {
+        return $this->getOption('querydefaultoperator');
+    }
+
+    /**
+     * Set default query field
+     *
+     * @param string $field
+     * @return Solarium_Query_Select Provides fluent interface
+     */
+    public function setQueryDefaultField($field)
+    {
+        return $this->_setOption('querydefaultfield', $field);
+    }
+
+    /**
+     * Get the default query field
+     *
+     * @return null|string
+     */
+    public function getQueryDefaultField()
+    {
+        return $this->getOption('querydefaultfield');
     }
 
     /**
