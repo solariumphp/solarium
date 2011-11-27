@@ -63,7 +63,7 @@ class Solarium_Client_RequestBuilder_AnalysisTest extends PHPUnit_Framework_Test
             array(
                 'wt' => 'json',
                 'analysis.query' => $query,
-                'analysis.showmatch' => $showMatch,
+                'analysis.showmatch' => 'true',
             ),
             $request->getParams()
         );
