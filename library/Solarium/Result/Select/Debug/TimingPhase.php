@@ -37,109 +37,99 @@
  */
 
 /**
- * Query result
- *
- * This base class provides access to the response and decoded data. If you need more functionality
- * like resultset parsing use one of the subclasses
+ * Select component debug timing phase result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result
+class Solarium_Result_Select_Debug_TimingPhase
+    implements IteratorAggregate, Countable
 {
 
     /**
-     * Response object
-     *
-     * @var Solarium_Client_Response
+     * @var string
      */
-    protected $_response;
+    protected $_name;
 
     /**
-     * Decode response data
-     *
-     * This is lazy loaded, {@link getData()}
+     * @var float
+     */
+    protected $_time;
+
+    /**
+     * Timing array
      *
      * @var array
      */
-    protected $_data;
-
-    /**
-     * Query used for this request
-     *
-     * @var Solarium_Query
-     */
-    protected $_query;
-
-    /**
-     * @var Solarium_Client
-     */
-    protected $_client;
+    protected $_timings;
 
     /**
      * Constructor
      *
-     * @param Solarium_Client $client
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Response $response
+     * @param string $name
+     * @param float $time
+     * @param array $timings
      * @return void
      */
-    public function __construct($client, $query, $response)
+    public function __construct($name, $time, $timings)
     {
-        $this->_client = $client;
-        $this->_query = $query;
-        $this->_response = $response;
+        $this->_name = $name;
+        $this->_time = $time;
+        $this->_timings = $timings;
+    }
 
-        // check status for error (range of 400 and 500)
-        $statusNum = floor($response->getStatusCode() / 100);
-        if ($statusNum == 4 || $statusNum == 5) {
-            throw new Solarium_Client_HttpException(
-                $response->getStatusMessage(),
-                $response->getStatusCode()
-            );
+    /**
+     * Get total time
+     *
+     * @return float
+     */
+    public function getTime()
+    {
+        return $this->_time;
+    }
+
+    /**
+     * Get a timing by key
+     *
+     * @param mixed $key
+     * @return float|null
+     */
+    public function getTiming($key)
+    {
+        if (isset($this->_timings[$key])) {
+            return $this->_timings[$key];
+        } else {
+            return null;
         }
     }
 
     /**
-     * Get response object
-     *
-     * This is the raw HTTP response object, not the parsed data!
-     *
-     * @return Solarium_Client_Response
-     */
-    public function getResponse()
-    {
-        return $this->_response;
-    }
-
-    /**
-     * Get query instance
-     *
-     * @return Solarium_Query
-     */
-    public function getQuery()
-    {
-        return $this->_query;
-    }
-
-    /**
-     * Get Solr response data
-     *
-     * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
+     * Get timings
      *
      * @return array
      */
-    public function getData()
+    public function getTimings()
     {
-        if (null == $this->_data) {
-            $this->_data = json_decode($this->_response->getBody(), true);
-            if (null === $this->_data) {
-                throw new Solarium_Exception(
-                    'Solr JSON response could not be decoded'
-                );
-            }
-        }
+        return $this->_timings;
+    }
 
-        return $this->_data;
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_timings);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_timings);
     }
 }
