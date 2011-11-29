@@ -137,7 +137,6 @@ HTTP/1.1 $statusCode $statusMessage
 
 $body
 EOF;
-        $message = new HttpMessage($data);
         $request = new Solarium_Client_Request();
 
         $mockHttpRequest = $this->getMock('HttpRequest');

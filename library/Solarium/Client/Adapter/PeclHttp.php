@@ -79,10 +79,6 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
             throw new Solarium_Client_HttpException($e->getMessage());
         }
 
-        if ($error = $httpRequest->getResponseInfo('error')) {
-            throw new Solarium_Client_HttpException($error);
-        }
-
         return new Solarium_Client_Response(
             $httpMessage->getBody(),
             $this->_toRawHeaders($httpMessage)
