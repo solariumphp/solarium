@@ -142,7 +142,7 @@ EOF;
         $mockHttpRequest = $this->getMock('HttpRequest');
         $mockHttpRequest->expects($this->once())
                         ->method('send')
-                        ->will($this->returnValue(new HttpMessage($data)));
+                        ->will($this->returnValue(HttpMessage::factory($data)));
         $mock = $this->getMock('Solarium_Client_Adapter_PeclHttp', array('toHttpRequest'));
         $mock->expects($this->once())
              ->method('toHttpRequest')
