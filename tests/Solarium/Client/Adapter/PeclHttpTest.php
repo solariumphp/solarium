@@ -134,6 +134,7 @@ class Solarium_Client_Adapter_PeclHttpTest extends PHPUnit_Framework_TestCase
         $body = 'data';
         $data = <<<EOF
 HTTP/1.1 $statusCode $statusMessage
+X-Foo: test
 
 $body
 EOF;
