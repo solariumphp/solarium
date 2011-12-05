@@ -161,6 +161,7 @@ EOF;
      */
     public function testExecuteWithException()
     {
+        $this->_adapter->setPort(-1); // this forces an error
         $request = new Solarium_Client_Request();
         $this->_adapter->execute($request);
     }
