@@ -162,6 +162,20 @@ class Solarium_Plugin_CustomizeRequestTest extends PHPUnit_Framework_TestCase
         $this->_plugin->addCustomization($customization2);
     }
 
+    public function testAddDuplicateCustomizationWith()
+    {
+        $customization = new Solarium_Plugin_CustomizeRequest_Customization;
+        $customization->setKey('id1')->setName('test1');
+
+        $this->_plugin->addCustomization($customization);
+        $this->_plugin->addCustomization($customization);
+
+        $this->assertEquals(
+            $customization,
+            $this->_plugin->getCustomization('id1')
+        );
+    }
+
     public function testGetInvalidCustomization()
     {
         $this->assertEquals(
@@ -284,6 +298,115 @@ class Solarium_Plugin_CustomizeRequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $customizations2,
             $this->_plugin->getCustomizations()
+        );
+    }
+
+    public function testPostCreateRequestWithHeaderAndParam()
+    {
+        $input = array(
+                    'key' => 'xid',
+                    'type' => 'param',
+                    'name' => 'xid',
+                    'value' => 123,
+                );
+        $this->_plugin->addCustomization($input);
+
+        $input = array(
+                    'key' => 'auth',
+                    'type' => 'header',
+                    'name' => 'X-my-auth',
+                    'value' => 'mypassword',
+                    'persistent' => true
+                );
+        $this->_plugin->addCustomization($input);
+
+        $request = new Solarium_Client_Request();
+        $this->_plugin->postCreateRequest(null, $request);
+
+        $this->assertEquals(
+            123,
+            $request->getParam('xid')
+        );
+
+        $this->assertEquals(
+            array('X-my-auth: mypassword'),
+            $request->getHeaders()
+        );
+    }
+
+    public function testPostCreateRequestWithInvalidCustomization()
+    {
+        $input = array(
+            'key' => 'xid',
+            'type' => 'invalid',
+            'name' => 'xid',
+            'value' => 123,
+        );
+        $this->_plugin->addCustomization($input);
+
+        $request = new Solarium_Client_Request();
+
+        $this->setExpectedException('Solarium_Exception');
+        $this->_plugin->postCreateRequest(null, $request);
+    }
+
+    public function testPostCreateRequestWithoutCustomizations()
+    {
+        $request = new Solarium_Client_Request();
+        $originalRequest = clone $request;
+
+        $this->_plugin->postCreateRequest(null, $request);
+
+        $this->assertEquals(
+            $originalRequest,
+            $request
+        );
+    }
+
+    public function testPostCreateRequestWithPersistentAndNonPersistentCustomizations()
+    {
+        $input = array(
+                    'key' => 'xid',
+                    'type' => 'param',
+                    'name' => 'xid',
+                    'value' => 123,
+                );
+        $this->_plugin->addCustomization($input);
+
+        $input = array(
+                    'key' => 'auth',
+                    'type' => 'header',
+                    'name' => 'X-my-auth',
+                    'value' => 'mypassword',
+                    'persistent' => true
+                );
+        $this->_plugin->addCustomization($input);
+
+        $request = new Solarium_Client_Request();
+        $this->_plugin->postCreateRequest(null, $request);
+
+        $this->assertEquals(
+            123,
+            $request->getParam('xid')
+        );
+
+        $this->assertEquals(
+            array('X-my-auth: mypassword'),
+            $request->getHeaders()
+        );
+
+        // second use, only the header should be persistent
+        $request = new Solarium_Client_Request();
+        $this->_plugin->postCreateRequest(null, $request);
+
+        $this->assertEquals(
+            null,
+            $request->getParam('xid')
+        );
+
+        $this->assertEquals(
+            array('X-my-auth: mypassword'),
+            $request->getHeaders()
         );
     }
 

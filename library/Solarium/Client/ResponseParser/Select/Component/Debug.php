@@ -118,7 +118,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
      * Used for explain and explainOther
      *
      * @param array $data
-     * @return array
+     * @return Solarium_Result_Select_Debug_DocumentSet
      */
     protected function _parseDocumentSet($data)
     {
@@ -145,7 +145,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
             );
         }
 
-        return $docs;
+        return new Solarium_Result_Select_Debug_DocumentSet($docs);
     }
 
     /**

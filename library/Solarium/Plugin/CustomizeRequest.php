@@ -116,20 +116,20 @@ class Solarium_Plugin_CustomizeRequest extends Solarium_Plugin_Abstract
 
         $key = $customization->getKey();
 
+        // check for non-empty key
         if (0 === strlen($key)) {
             throw new Solarium_Exception('A Customization must have a key value');
         }
 
+        // check for a unique key
         if (array_key_exists($key, $this->_customizations)) {
-            if ($this->_customizations[$key] === $customization) {
-                //double add calls for the same customization are ignored
-                //@todo add trigger_error with a notice?
-            } else {
+            //double add calls for the same customization are ignored, others cause an exception
+            if ($this->_customizations[$key] !== $customization) {
                 throw new Solarium_Exception('A Customization must have a unique key value');
             }
-        } else {
-            $this->_customizations[$key] = $customization;
         }
+
+        $this->_customizations[$key] = $customization;
 
         return $this;
     }
