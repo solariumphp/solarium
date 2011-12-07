@@ -5,7 +5,7 @@
     "keywords": ["solr", "search"],
     "homepage": "http://www.solarium-project.org",
     "version": "2.3.0",
-    "license": "MIT",
+    "license": "NewBSD",
     "authors": [
         {
             "name": "Bas de Nooijer",

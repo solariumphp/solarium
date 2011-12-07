@@ -67,10 +67,10 @@ class Solarium_Version
      *
      * @see checkExact()
      * @see checkMinimal()
-     * 
+     *
      * @var string
      */
-    const VERSION = '2.0.0';
+    const VERSION = '2.3.0';
 
 
     /**
