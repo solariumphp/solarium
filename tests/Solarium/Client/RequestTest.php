@@ -212,17 +212,23 @@ class Solarium_Client_RequestTest extends PHPUnit_Framework_TestCase
     {
         $params = array(
             'param1' => 1,
+            'param2' => 2,
+            'param3' => 3,
         );
 
         $this->_request->setParams($params);
-        $this->_request->addParam('param2', 2);
-        $this->_request->addParam('param2', '');
-        $this->_request->addParam('param3', '');
-
-        $params['param2'] = 2;
+        $this->_request->addParam('param2', ''); // this should add an empty value to param2
+        $this->_request->addParam('param3', '' , true); // this should overwrite param2 with an empty value
+        $this->_request->addParam('param4', ''); // this should add an empty param (for instance "q=" in dismax)
+        $this->_request->addParam('param5', null); // this param should be ignored
 
         $this->assertEquals(
-            $params,
+            array(
+                'param1' => 1,
+                'param2' => array(2,''),
+                'param3' => '',
+                'param4' => '',
+            ),
             $this->_request->getParams()
         );
     }
