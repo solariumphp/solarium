@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Analysis;
+
+/**
  * Build an analysis request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Analysis extends Solarium_Client_RequestBuilder
+class Analysis extends \Solarium\Client\RequestBuilder\RequestBuilder
 {
 
     /**
@@ -53,7 +58,7 @@ class Solarium_Client_RequestBuilder_Analysis extends Solarium_Client_RequestBui
      */
     public function build($query)
     {
-        $request = new Solarium_Client_Request;
+        $request = new \Solarium\Client\Request;
         $request->setHandler($query->getHandler());
 
         $request->addParam('wt', 'json');

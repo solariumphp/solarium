@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Analysis;
+
+/**
  * Analysis item
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Analysis_Item
+class Item
 {
 
     /**

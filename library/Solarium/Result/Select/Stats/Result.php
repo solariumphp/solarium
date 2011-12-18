@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Stats;
+
+/**
  * Select component stats field result item
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Stats_Result
+class Result
 {
 
     /**

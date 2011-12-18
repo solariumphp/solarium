@@ -33,80 +33,42 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage Client
  */
 
 /**
- * Select component grouping result
- *
- * @since 2.1.0
- * 
- * @package Solarium
- * @subpackage Result
+ * @namespace
  */
-class Solarium_Result_Select_Grouping implements IteratorAggregate, Countable
+namespace Solarium\Client\ResponseParser;
+
+/**
+ * Base class for handling Solr response data
+ *
+ * Most {@link Solarium_Client_Adapter} implementations will use HTTP for
+ * communicating with Solr. While the HTTP part is adapter-specific, the parsing
+ * of the response into Solarium_Result classes is not. This abstract class is
+ * the base for several response handlers that do just that for the various
+ * querytypes.
+ *
+ * @package Solarium
+ * @subpackage Client
+ */
+abstract class ResponseParser
 {
 
     /**
-     * Group results array
+     * Get a Solarium_Result instance for the given data
      *
-     * @var array
-     */
-    protected $_groups;
-    
-    /**
-     * Constructor
+     * When this method is called the actual response parsing is started.
      *
-     * @param array $groups
-     * @return void
+     * @internal Must be implemented in descendents because this parsing is
+     *  query specific.
+     *
+     * @abstract
+     *
+     * @param Solarium_Result $result
+     * @return mixed
      */
-    public function __construct($groups)
-    {
-        $this->_groups = $groups;
-    }
+    abstract function parse($result);
 
-    /**
-     * Get all groups
-     *
-     * @return array
-     */
-    public function getGroups()
-    {
-        return $this->_groups;
-    }
-
-    /**
-     * Get a group
-     *
-     * @param string $key
-     * @return Solarium_Result_Select_Grouping_FieldGroup|Solarium_Result_Select_Grouping_QueryGroup
-     */
-    public function getGroup($key)
-    {
-        if (isset($this->_groups[$key])) {
-            return $this->_groups[$key];
-        } else {
-            return null;
-        }
-    }
-    
-    /**
-     * IteratorAggregate implementation
-     *
-     * @return ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->_groups);
-    }
-
-    /**
-     * Countable implementation
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->_groups);
-    }
 }

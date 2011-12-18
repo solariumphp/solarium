@@ -37,12 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder;
+use Solarium\Client;
+
+/**
  * Build a ping request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Ping extends Solarium_Client_RequestBuilder
+class Ping extends RequestBuilder
 {
 
     /**
@@ -53,9 +59,9 @@ class Solarium_Client_RequestBuilder_Ping extends Solarium_Client_RequestBuilder
      */
     public function build($query)
     {
-        $request = new Solarium_Client_Request;
+        $request = new Client\Request;
         $request->setHandler($query->getHandler());
-        $request->setMethod(Solarium_Client_Request::METHOD_GET);
+        $request->setMethod(Client\Request::METHOD_GET);
         $request->addParam('wt', 'json');
 
         return $request;

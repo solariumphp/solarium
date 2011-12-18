@@ -37,12 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+use Solarium\Result\Select\Spellcheck;
+
+/**
  * Parse select component Highlighting result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_Spellcheck
+class Spellcheck
 {
 
     /**
@@ -87,7 +93,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
                 $index +=2;
             }
 
-            return new Solarium_Result_Select_Spellcheck($suggestions, $collation, $correctlySpelled);
+            return new Spellcheck\Spellcheck($suggestions, $collation, $correctlySpelled);
         } else {
             return null;
         }
@@ -103,7 +109,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
     {
         if (is_string($values)) {
 
-            return new Solarium_Result_Select_Spellcheck_Collation($values, null, array());
+            return new Spellcheck\Collation($values, null, array());
 
         } else {
 
@@ -143,7 +149,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
                 }
             }
 
-            return new Solarium_Result_Select_Spellcheck_Collation($query, $hits, $corrections);
+            return new Spellcheck\Collation($query, $hits, $corrections);
         }
     }
 
@@ -169,7 +175,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
             $frequency = $value['suggestion'][0]['freq'];
         }
 
-        return new Solarium_Result_Select_Spellcheck_Suggestion(
+        return new Spellcheck\Suggestion(
             $numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency
         );
     }

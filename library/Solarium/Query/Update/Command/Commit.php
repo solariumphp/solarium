@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Update\Command;
+
+/**
  * Update query commit command
  *
  * For details about the Solr options see:
@@ -45,7 +50,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
+class Commit extends Command
 {
 
     /**
@@ -55,7 +60,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      */
     public function getType()
     {
-        return Solarium_Query_Update::COMMAND_COMMIT;
+        return \Solarium\Query\Update\Update::COMMAND_COMMIT;
     }
 
     /**

@@ -37,12 +37,19 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder;
+use Solarium\Client;
+use Solarium\Query\Update;
+
+/**
  * Build an update request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuilder
+class Update extends RequestBuilder
 {
 
     /**
@@ -53,9 +60,9 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
      */
     public function build($query)
     {
-        $request = new Solarium_Client_Request;
+        $request = new Client\Request;
         $request->setHandler($query->getHandler());
-        $request->setMethod(Solarium_Client_Request::METHOD_POST);
+        $request->setMethod(Client\Request::METHOD_POST);
         $request->addParam('wt', 'json');
         $request->setRawData($this->getRawData($query));
         
@@ -76,23 +83,23 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
         $xml = '<update>';
         foreach ($query->getCommands() AS $command) {
             switch ($command->getType()) {
-                case Solarium_Query_Update::COMMAND_ADD:
+                case Update\Update::COMMAND_ADD:
                     $xml .= $this->buildAddXml($command);
                     break;
-                case Solarium_Query_Update::COMMAND_DELETE:
+                case Update\Update::COMMAND_DELETE:
                     $xml .= $this->buildDeleteXml($command);
                     break;
-                case Solarium_Query_Update::COMMAND_OPTIMIZE:
+                case Update\Update::COMMAND_OPTIMIZE:
                     $xml .= $this->buildOptimizeXml($command);
                     break;
-                case Solarium_Query_Update::COMMAND_COMMIT:
+                case Update\Update::COMMAND_COMMIT:
                     $xml .= $this->buildCommitXml($command);
                     break;
-                case Solarium_Query_Update::COMMAND_ROLLBACK:
+                case Update\Update::COMMAND_ROLLBACK:
                     $xml .= $this->buildRollbackXml();
                     break;
                 default:
-                    throw new Solarium_Exception('Unsupported command type');
+                    throw new \Solarium\Exception('Unsupported command type');
                     break;
             }
         }

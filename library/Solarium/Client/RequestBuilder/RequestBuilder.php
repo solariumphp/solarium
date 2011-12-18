@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder;
+
+/**
  * Class for building Solarium client requests
  *
  * @package Solarium
  * @subpackage Client
  */
-abstract class Solarium_Client_RequestBuilder
+abstract class RequestBuilder
 {
 
     /**

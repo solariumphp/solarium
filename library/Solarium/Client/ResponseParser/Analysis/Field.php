@@ -37,12 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Analysis;
+use Solarium\Result\Analysis;
+
+/**
  * Parse document analysis response data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Analysis_Field extends Solarium_Client_ResponseParser
+class Field extends \Solarium\Client\ResponseParser\ResponseParser
 {
 
     /**
@@ -79,7 +85,7 @@ class Solarium_Client_ResponseParser_Analysis_Field extends Solarium_Client_Resp
         $types = array();
         foreach ($data as $documentKey => $documentData) {
             $fields = $this->_parseTypes($documentData);
-            $types[] = new Solarium_Result_Analysis_List($documentKey, $fields);
+            $types[] = new Analysis\List($documentKey, $fields);
         }
 
         return $types;
@@ -112,17 +118,17 @@ class Solarium_Client_ResponseParser_Analysis_Field extends Solarium_Client_Resp
 
                     $items = array();
                     foreach ($analysis AS $itemData) {
-                        $items[] = new Solarium_Result_Analysis_Item($itemData);
+                        $items[] = new Analysis\Item($itemData);
                     }
 
-                    $classes[] = new Solarium_Result_Analysis_List($class, $items);
+                    $classes[] = new Analysis\List($class, $items);
                     $counter += 2;
                 }
 
-                $types[] = new Solarium_Result_Analysis_List($typeKey, $classes);
+                $types[] = new Analysis\List($typeKey, $classes);
             }
 
-            $results[] = new Solarium_Result_Analysis_Types($fieldKey, $types);
+            $results[] = new Analysis\Types($fieldKey, $types);
         }
 
         return $results;

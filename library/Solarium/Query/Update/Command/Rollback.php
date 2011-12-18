@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Update\Command;
+
+/**
  * Update query rollback command
  *
  * For details see:
@@ -45,8 +50,8 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Update_Command_Rollback
-    extends Solarium_Query_Update_Command
+class Rollback
+    extends Command
 {
     /**
      * Get command type
@@ -55,7 +60,7 @@ class Solarium_Query_Update_Command_Rollback
      */
     public function getType()
     {
-        return Solarium_Query_Update::COMMAND_ROLLBACK;
+        return \Solarium\Query\Update\Update::COMMAND_ROLLBACK;
     }
 
 }

@@ -37,13 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\MoreLikeThis;
+
+/**
  * Select component morelikethis result item
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_MoreLikeThis_Result
-    implements IteratorAggregate, Countable
+class Result
+    implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -125,7 +130,7 @@ class Solarium_Result_Select_MoreLikeThis_Result
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_documents);
+        return new \ArrayIterator($this->_documents);
     }
 
     /**

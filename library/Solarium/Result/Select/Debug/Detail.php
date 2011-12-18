@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Debug;
+
+/**
  * Select component debug detail result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Debug_Detail
+class Detail
 {
 
     /**

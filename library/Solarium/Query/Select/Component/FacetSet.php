@@ -37,6 +37,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+use Solarium;
+
+/**
  * MoreLikeThis component
  *
  * @link http://wiki.apache.org/solr/MoreLikeThis
@@ -44,7 +50,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Component
+class FacetSet extends Component
 {
 
     /**
@@ -84,7 +90,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_FACETSET;
+    protected $_type = olarium\Query\Select\Select::COMPONENT_FACETSET;
 
     /**
      * Default options
@@ -263,13 +269,13 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
         $key = $facet->getKey();
 
         if (0 === strlen($key)) {
-            throw new Solarium_Exception('A facet must have a key value');
+            throw new olarium\Exception('A facet must have a key value');
         }
 
         //double add calls for the same facet are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->_facets) && $this->_facets[$key] !== $facet) {
-            throw new Solarium_Exception('A facet must have a unique key value within a query');
+            throw new olarium\Exception('A facet must have a unique key value within a query');
         } else {
              $this->_facets[$key] = $facet;
         }
@@ -388,19 +394,19 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
         $type = strtolower($type);
 
         if (!isset($this->_facetTypes[$type])) {
-            throw new Solarium_Exception("Facettype unknown: " . $type);
+            throw new olarium\Exception("Facettype unknown: " . $type);
         }
 
         $class = $this->_facetTypes[$type];
 
         if (is_string($options)) {
             $facet = new $class;
-            $facet->setKey($options);
+            $facet->\setKey($options);
         } else {
             $facet = new $class($options);
         }
 
-        if ($add && $facet->getKey() !== null) {
+        if ($add && $facet->\getKey() !== null) {
             $this->addFacet($facet);
         }
 

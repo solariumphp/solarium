@@ -37,6 +37,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select;
+use Solarium;
+
+/**
  * Select Query
  *
  * Can be used to select documents and/or facets from Solr. This querytype has
@@ -46,7 +52,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select extends Solarium_Query
+class Select extends olarium\Query\Query
 {
 
     /**
@@ -121,7 +127,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_SELECT;
+        return olarium\Client\Client::QUERYTYPE_SELECT;
     }
 
     /**
@@ -603,10 +609,10 @@ class Solarium_Query_Select extends Solarium_Query
     public function createFilterQuery($options = null)
     {
         if (is_string($options)) {
-            $fq = new Solarium_Query_Select_FilterQuery;
+            $fq = new FilterQuery;
             $fq->setKey($options);
         } else {
-            $fq = new Solarium_Query_Select_FilterQuery($options);
+            $fq = new FilterQuery($options);
         }
 
         if ($fq->getKey() !== null) {
@@ -628,19 +634,19 @@ class Solarium_Query_Select extends Solarium_Query
     public function addFilterQuery($filterQuery)
     {
         if (is_array($filterQuery)) {
-            $filterQuery = new Solarium_Query_Select_FilterQuery($filterQuery);
+            $filterQuery = new FilterQuery($filterQuery);
         }
 
         $key = $filterQuery->getKey();
 
         if (0 === strlen($key)) {
-            throw new Solarium_Exception('A filterquery must have a key value');
+            throw new olarium\Exception('A filterquery must have a key value');
         }
 
         //double add calls for the same FQ are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->_filterQueries) && $this->_filterQueries[$key] !== $filterQuery) {
-            throw new Solarium_Exception('A filterquery must have a unique key value within a query');
+            throw new olarium\Exception('A filterquery must have a unique key value within a query');
         } else {
             $this->_filterQueries[$key] = $filterQuery;
         }
@@ -798,12 +804,12 @@ class Solarium_Query_Select extends Solarium_Query
             if ($autoload == true) {
 
                 if (!isset($this->_componentTypes[$key])) {
-                    throw new Solarium_Exception('Cannot autoload unknown component: ' . $key);
+                    throw new olarium\Exception('Cannot autoload unknown component: ' . $key);
                 }
 
                 $className = $this->_componentTypes[$key]['component'];
                 $component = new $className($config);
-                $this->setComponent($key, $component);
+                $this->\setComponent($key, $component);
                 return $component;
             }
             return null;
@@ -873,7 +879,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getMoreLikeThis()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_MORELIKETHIS, true);
+        return $this->getComponent(Select::COMPONENT_MORELIKETHIS, true);
     }
 
     /**
@@ -885,7 +891,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getFacetSet()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_FACETSET, true);
+        return $this->getComponent(Select::COMPONENT_FACETSET, true);
     }
 
     /**
@@ -897,7 +903,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getDisMax()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_DISMAX, true);
+        return $this->getComponent(Select::COMPONENT_DISMAX, true);
     }
 
     /**
@@ -909,7 +915,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getHighlighting()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_HIGHLIGHTING, true);
+        return $this->getComponent(Select::COMPONENT_HIGHLIGHTING, true);
     }
 
     /**
@@ -921,7 +927,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getGrouping()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_GROUPING, true);
+        return $this->getComponent(Select::COMPONENT_GROUPING, true);
     }
 
     /**
@@ -933,7 +939,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getSpellcheck()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_SPELLCHECK, true);
+        return $this->getComponent(Select::COMPONENT_SPELLCHECK, true);
     }
 
     /**
@@ -945,7 +951,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getDistributedSearch()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_DISTRIBUTEDSEARCH, true);
+        return $this->getComponent(Select::COMPONENT_DISTRIBUTEDSEARCH, true);
     }
 
     /**
@@ -957,7 +963,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getStats()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_STATS, true);
+        return $this->getComponent(Select::COMPONENT_STATS, true);
     }
 
     /**
@@ -969,7 +975,7 @@ class Solarium_Query_Select extends Solarium_Query
      */
     public function getDebug()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_DEBUG, true);
+        return $this->getComponent(Select::COMPONENT_DEBUG, true);
     }
 
 }

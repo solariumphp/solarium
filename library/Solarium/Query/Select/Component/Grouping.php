@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+
+/**
  * Grouping component
  *
  * Also known as Result Grouping or Field Collapsing.
@@ -49,7 +54,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Grouping extends Solarium_Query_Select_Component
+class Grouping extends Component
 {
 
     /**
@@ -67,7 +72,7 @@ class Solarium_Query_Select_Component_Grouping extends Solarium_Query_Select_Com
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_GROUPING;
+    protected $_type = \Solarium\Query\Select\Select::COMPONENT_GROUPING;
 
     /**
      * Fields for grouping

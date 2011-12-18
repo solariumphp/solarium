@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+
+/**
  * Distributed Search (sharding) component
  *
  * @link http://wiki.apache.org/solr/DistributedSearch
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_Select_Component
+class DistributedSearch extends Component
 {
 
     /**
@@ -52,7 +57,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_DISTRIBUTEDSEARCH;
+    protected $_type = \Solarium\Query\Select\Select::COMPONENT_DISTRIBUTEDSEARCH;
 
     /**
      * Request to be distributed across all shards in the list

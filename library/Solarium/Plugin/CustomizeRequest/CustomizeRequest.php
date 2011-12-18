@@ -36,6 +36,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Plugin\CustomizeRequest;
+use Solarium;
+
+/**
  * CustomizeRequest plugin
  *
  * You can use this plugin to customize the requests generated for Solarium queries by adding or overwriting
@@ -44,7 +50,7 @@
  * @package Solarium
  * @subpackage Plugin
  */
-class Solarium_Plugin_CustomizeRequest extends Solarium_Plugin_Abstract
+class CustomizeRequest extends olarium\Plugin\AbstractPlugin
 {
 
     /**
@@ -86,10 +92,10 @@ class Solarium_Plugin_CustomizeRequest extends Solarium_Plugin_Abstract
     public function createCustomization($options = null)
     {
         if (is_string($options)) {
-            $fq = new Solarium_Plugin_CustomizeRequest_Customization;
+            $fq = new Customization;
             $fq->setKey($options);
         } else {
-            $fq = new Solarium_Plugin_CustomizeRequest_Customization($options);
+            $fq = new Customization($options);
         }
 
         if ($fq->getKey() !== null) {
@@ -111,21 +117,21 @@ class Solarium_Plugin_CustomizeRequest extends Solarium_Plugin_Abstract
     public function addCustomization($customization)
     {
         if (is_array($customization)) {
-            $customization = new Solarium_Plugin_CustomizeRequest_Customization($customization);
+            $customization = new Customization($customization);
         }
 
         $key = $customization->getKey();
 
         // check for non-empty key
         if (0 === strlen($key)) {
-            throw new Solarium_Exception('A Customization must have a key value');
+            throw new olarium\Exception('A Customization must have a key value');
         }
 
         // check for a unique key
         if (array_key_exists($key, $this->_customizations)) {
             //double add calls for the same customization are ignored, others cause an exception
             if ($this->_customizations[$key] !== $customization) {
-                throw new Solarium_Exception('A Customization must have a unique key value');
+                throw new olarium\Exception('A Customization must have a unique key value');
             }
         }
 
@@ -238,19 +244,19 @@ class Solarium_Plugin_CustomizeRequest extends Solarium_Plugin_Abstract
 
             // first validate
             if (!$customization->isValid()) {
-                throw new Solarium_Exception('Request customization with key "' . $key . '" is invalid');
+                throw new olarium\Exception('Request customization with key "' . $key . '" is invalid');
             }
 
             // apply to request, depending on type
             switch ($customization->getType()) {
-                case Solarium_Plugin_CustomizeRequest_Customization::TYPE_PARAM:
+                case Customization::TYPE_PARAM:
                     $request->addParam(
                         $customization->getName(),
                         $customization->getValue(),
                         $customization->getOverwrite()
                     );
                     break;
-                case Solarium_Plugin_CustomizeRequest_Customization::TYPE_HEADER:
+                case Customization::TYPE_HEADER:
                     $request->addHeader($customization->getName() . ': ' . $customization->getValue());
                     break;
             }

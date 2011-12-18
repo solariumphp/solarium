@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Analysis;
+
+/**
  * Analysis types result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Analysis_Types extends Solarium_Result_Analysis_List
+class Types extends List
 {
 
     /**

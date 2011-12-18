@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Update\Command;
+
+/**
  * Update query optimize command
  *
  * For details about the Solr options see:
@@ -45,8 +50,8 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Update_Command_Optimize
-    extends Solarium_Query_Update_Command
+class Optimize
+    extends Command
 {
     /**
      * Get command type
@@ -55,7 +60,7 @@ class Solarium_Query_Update_Command_Optimize
      */
     public function getType()
     {
-        return Solarium_Query_Update::COMMAND_OPTIMIZE;
+        return \Solarium\Query\Update\Update::COMMAND_OPTIMIZE;
     }
 
     /**

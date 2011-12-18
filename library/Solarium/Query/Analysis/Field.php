@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Analysis;
+
+/**
  * Analysis document query
  *
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
+class Field extends Analysis
 {
 
     /**
@@ -62,7 +67,7 @@ class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_ANALYSIS_FIELD;
+        return \Solarium\Client\Client::QUERYTYPE_ANALYSIS_FIELD;
     }
 
     /**

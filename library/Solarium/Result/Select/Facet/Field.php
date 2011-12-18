@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Facet;
+
+/**
  * Select field facet result
  *
  * A field facet will usually return a dataset of multiple rows, in each row a
@@ -46,7 +51,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Facet_Field implements IteratorAggregate, Countable
+class Field implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -84,7 +89,7 @@ class Solarium_Result_Select_Facet_Field implements IteratorAggregate, Countable
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_values);
+        return new \ArrayIterator($this->_values);
     }
 
     /**

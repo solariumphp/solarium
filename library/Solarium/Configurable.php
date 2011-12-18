@@ -36,6 +36,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium;
+
+/**
  * Base class for configurable classes
  *
  * All classes extending this class are  configurable using the constructor or
@@ -44,7 +49,7 @@
  *
  * @package Solarium
  */
-class Solarium_Configurable
+class Configurable
 {
 
     /**
@@ -98,7 +103,7 @@ class Solarium_Configurable
                 if (is_object($options)) {
                     $options = $options->toArray();
                 } else {
-                    throw new Solarium_Exception('Options must be an array or a Zend_Config object');
+                    throw new Exception('Options must be an array or a Zend_Config object');
                 }
             }
 

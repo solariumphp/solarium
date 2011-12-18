@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query;
+
+/**
  * Ping query
  *
  * Use a ping query to test Solr communication.
@@ -46,7 +51,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Ping extends Solarium_Query
+class Ping extends Query
 {
 
     /**
@@ -56,7 +61,7 @@ class Solarium_Query_Ping extends Solarium_Query
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_PING;
+        return \Solarium\Client\Client::QUERYTYPE_PING;
     }
 
     /**

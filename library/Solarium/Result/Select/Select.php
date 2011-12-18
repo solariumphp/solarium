@@ -37,6 +37,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select;
+use Solarium\Query\Select;
+
+/**
  * Select query result
  *
  * This is the standard resulttype for a select query. Example usage:
@@ -59,8 +65,8 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select extends Solarium_Result_QueryType
-    implements IteratorAggregate, Countable
+class Select extends \Solarium\Result\QueryType
+    implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -166,7 +172,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
     {
         $this->_parseResponse();
 
-        return new ArrayIterator($this->_documents);
+        return new \ArrayIterator($this->_documents);
     }
 
     /**
@@ -219,7 +225,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      */
     public function getMoreLikeThis()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_MORELIKETHIS);
+        return $this->getComponent(Select\Select::COMPONENT_MORELIKETHIS);
     }
 
     /**
@@ -231,7 +237,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      */
     public function getHighlighting()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_HIGHLIGHTING);
+        return $this->getComponent(Select\Select::COMPONENT_HIGHLIGHTING);
     }
 
     /**
@@ -243,7 +249,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      */
     public function getGrouping()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_GROUPING);
+        return $this->getComponent(Select\Select::COMPONENT_GROUPING);
     }
 
     /**
@@ -255,7 +261,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      */
     public function getFacetSet()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_FACETSET);
+        return $this->getComponent(Select\Select::COMPONENT_FACETSET);
     }
 
     /**
@@ -267,7 +273,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      */
     public function getSpellcheck()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_SPELLCHECK);
+        return $this->getComponent(Select\Select::COMPONENT_SPELLCHECK);
     }
 
     /**
@@ -279,7 +285,7 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      */
     public function getStats()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_STATS);
+        return $this->getComponent(Select\Select::COMPONENT_STATS);
     }
 
     /**
@@ -291,6 +297,6 @@ class Solarium_Result_Select extends Solarium_Result_QueryType
      */
     public function getDebug()
     {
-        return $this->getComponent(Solarium_Query_Select::COMPONENT_DEBUG);
+        return $this->getComponent(Select\Select::COMPONENT_DEBUG);
     }
 }

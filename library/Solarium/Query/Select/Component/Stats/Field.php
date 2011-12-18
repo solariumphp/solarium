@@ -43,12 +43,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Stats;
+
+/**
  * Stats component field class
  *
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Stats_Field extends Solarium_Configurable
+class Field extends \Solarium\Configurable
 {
 
     /**

@@ -36,12 +36,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Plugin\CustomizeRequest;
+
+/**
  * Customization value object
  *
  * @package Solarium
  * @subpackage Plugin
  */
-class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurable
+class Customization extends \Solarium\Configurable
 {
 
     /**

@@ -36,12 +36,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Plugin;
+
+/**
  * Base class for plugins
  *
  * @package Solarium
  * @subpackage Plugin
  */
-abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
+abstract class AbstractPlugin extends \Solarium\Configurable
 {
 
     /**

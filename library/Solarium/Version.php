@@ -36,6 +36,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium;
+
+/**
  * Version indicator
  *
  * This class can be used to check the library version within your code. This
@@ -43,7 +48,7 @@
  *
  * @package Solarium
  */
-class Solarium_Version
+class Version
 {
 
     /**

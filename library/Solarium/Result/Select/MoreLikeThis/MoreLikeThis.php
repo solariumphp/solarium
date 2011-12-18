@@ -33,70 +33,84 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
 
 /**
- * Parse select response data
+ * @namespace
+ */
+namespace Solarium\Result\Select\MoreLikeThis;
+
+/**
+ * Select component morelikethis result
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
-class Solarium_Client_ResponseParser_Select extends Solarium_Client_ResponseParser
+class MoreLikeThis
+    implements \IteratorAggregate, \Countable
 {
 
     /**
-     * Get result data for the response
+     * Result array
      *
-     * @param Solarium_Result_Select $result
-     * @return array
+     * @var array
      */
-    public function parse($result)
+    protected $_results;
+    
+    /**
+     * Constructor
+     *
+     * @param array $results
+     * @return void
+     */
+    public function __construct($results)
     {
-        $data = $result->getData();
-        $query = $result->getQuery();
-
-        // create document instances
-        $documentClass = $query->getOption('documentclass');
-        $documents = array();
-        if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
-                $documents[] = new $documentClass($fields);
-            }
-        }
-
-        // component results
-        $components = array();
-        $types = $query->getComponentTypes();
-        foreach ($query->getComponents() as $component) {
-            $componentParserClass = $types[$component->getType()]['responseparser'];
-            if (!empty($componentParserClass)) {
-                $componentParser = new $componentParserClass;
-                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
-            }
-        }
-
-        if (isset($data['response']['numFound'])) {
-            $numFound = $data['response']['numFound'];
-        } else {
-            $numFound = null;
-        }
-
-        $status = null;
-        $queryTime = null;
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
-        }
-
-        return array(
-            'status' => $status,
-            'queryTime' => $queryTime,
-            'numfound' => $numFound,
-            'documents' => $documents,
-            'components' => $components,
-        );
+        $this->_results = $results;
     }
 
+    /**
+     * Get a result by key
+     *
+     * @param mixed $key
+     * @return Solarium_Result_Select_MoreLikeThis_Result|null
+     */
+    public function getResult($key)
+    {
+        if (isset($this->_results[$key])) {
+            return $this->_results[$key];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get all results
+     *
+     * @return array
+     */
+    public function getResults()
+    {
+        return $this->_results;
+    }
+    
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->_results);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_results);
+    }
 }

@@ -37,31 +37,66 @@
  */
 
 /**
- * Query component base class
+ * @namespace
+ */
+namespace Solarium\Query\Analysis;
+
+/**
+ * Base class for Analysis queries
  *
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component extends Solarium_Configurable
+abstract class Analysis extends \Solarium\Query\Query
 {
 
     /**
-     * Component type
+     * Set the query string
      *
-     * To be implemented in extending classes
+     * When present, the text that will be analyzed. The analysis will mimic the query-time analysis.
      *
-     * @var string
+     * @param string $query
+     * @param array $bind Optional bind values for placeholders in the query string
+     * @return Solarium_Query_Analysis Provides fluent interface
      */
-    protected $_type = '';
+    public function setQuery($query, $bind = null)
+    {
+        if (!is_null($bind)) {
+            $query = $this->getHelper()->assemble($query, $bind);
+        }
+
+        return $this->_setOption('query', trim($query));
+    }
 
     /**
-     * Get component type
+     * Get the query string
      *
      * @return string
      */
-    public function getType()
+    public function getQuery()
     {
-        return $this->_type;
+        return $this->getOption('query');
     }
 
+    /**
+     * Set the showmatch option
+     *
+     * @param boolean $show
+     * @return Solarium_Query_Analysis Provides fluent interface
+     */
+    public function setShowMatch($show)
+    {
+        return $this->_setOption('showmatch', $show);
+    }
+
+    /**
+     * Get the showmatch option
+     *
+     * @return mixed
+     */
+    public function getShowMatch()
+    {
+        return $this->getOption('showmatch');
+    }
+    
 }

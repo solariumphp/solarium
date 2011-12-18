@@ -39,73 +39,69 @@
 /**
  * @namespace
  */
-namespace Solarium\Client\RequestBuilder\Analysis;
+namespace Solarium\Client\RequestBuilder\Select;
 
 /**
- * Build a document analysis request
+ * Build a select request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Document extends Analysis
+class Select extends \Solarium\Client\RequestBuilder\RequestBuilder
 {
 
     /**
-     * Build request for an analysis document query
+     * Build request for a select query
      *
-     * @param Solarium_Query_Analysis_Document $query
+     * @param Solarium_Query_Select $query
      * @return Solarium_Client_Request
      */
     public function build($query)
     {
-        $request = parent::build($query);
-        $request->setRawData($this->getRawData($query));
-        $request->setMethod(\Solarium\Client\Request::METHOD_POST);
-        
-        return $request;
-    }
+        $request = new \Solarium\Client\Request;
+        $request->setHandler($query->getHandler());
 
-    /**
-     * Create the raw post data (xml)
-     *
-     * @param Solarium_Query_Analysis_Document $query
-     * @return string
-     */
-    public function getRawData($query)
-    {
-        $xml = '<docs>';
+        // add basic params to request
+        $request->addParam('q', $query->getQuery());
+        $request->addParam('start', $query->getStart());
+        $request->addParam('rows', $query->getRows());
+        $request->addParam('fl', implode(',', $query->getFields()));
+        $request->addParam('wt', 'json');
+        $request->addParam('q.op', $query->getQueryDefaultOperator());
+        $request->addParam('df', $query->getQueryDefaultField());
 
-        foreach ($query->getDocuments() AS $doc) {
-            $xml .= '<doc>';
-
-            foreach ($doc->getFields() AS $name => $value) {
-                if (is_array($value)) {
-                    foreach ($value AS $multival) {
-                        $xml .= $this->_buildFieldXml($name, $multival);
-                    }
-                } else {
-                    $xml .= $this->_buildFieldXml($name, $value);
-                }
-            }
-
-            $xml .= '</doc>';
+        // add sort fields to request
+        $sort = array();
+        foreach ($query->getSorts() AS $field => $order) {
+            $sort[] = $field . ' ' . $order;
+        }
+        if (count($sort) !== 0) {
+            $request->addParam('sort', implode(',', $sort));
         }
 
-        $xml .= '</docs>';
-        
-        return $xml;
-    }
+        // add filterqueries to request
+        $filterQueries = $query->getFilterQueries();
+        if (count($filterQueries) !== 0) {
+            foreach ($filterQueries AS $filterQuery) {
+                $fq = $this->renderLocalParams(
+                    $filterQuery->getQuery(),
+                    array('tag' => $filterQuery->getTags())
+                );
+                $request->addParam('fq', $fq);
+            }
+        }
 
-    /**
-     * Build XML for a field
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return string
-     */
-    protected function _buildFieldXml($name, $value)
-    {
-        return '<field name="' . $name . '">' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8') . '</field>';
+        // add components to request
+        $types = $query->getComponentTypes();
+        foreach ($query->getComponents() as $component) {
+            $componentBuilderClass = $types[$component->getType()]['requestbuilder'];
+            if (!empty($componentBuilderClass)) {
+                $componentBuilder = new $componentBuilderClass;
+                $request = $componentBuilder->\build($component, $request);
+            }
+        }
+
+        return $request;
     }
 
 }

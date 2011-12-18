@@ -36,6 +36,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Plugin\Loadbalancer;
+use Solarium;
+
+/**
  * Loadbalancer plugin
  *
  * Using this plugin you can use software loadbalancing over multiple Solr instances.
@@ -51,7 +57,7 @@
  * @package Solarium
  * @subpackage Plugin
  */
-class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
+class Loadbalancer extends olarium\Plugin\AbstractPlugin
 {
 
     /**
@@ -77,7 +83,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
      * @var array
      */
     protected $_blockedQueryTypes = array(
-        Solarium_Client::QUERYTYPE_UPDATE => true
+        olarium\Client\Client::QUERYTYPE_UPDATE => true
     );
 
     /**
@@ -202,7 +208,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
     public function addServer($key, $options, $weight = 1)
     {
         if (array_key_exists($key, $this->_servers)) {
-            throw new Solarium_Exception('A server for the loadbalancer plugin must have a unique key');
+            throw new olarium\Exception('A server for the loadbalancer plugin must have a unique key');
         } else {
             $this->_servers[$key] = array(
                 'options' => $options,
@@ -235,7 +241,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
     public function getServer($key)
     {
         if (!isset($this->_servers[$key])) {
-            throw new Solarium_Exception('Unknown server key');
+            throw new olarium\Exception('Unknown server key');
         }
 
         return $this->_servers[$key];
@@ -309,7 +315,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
     public function setForcedServerForNextQuery($key)
     {
         if ($key !== null && !array_key_exists($key, $this->_servers)) {
-            throw new Solarium_Exception('Unknown server forced for next query');
+            throw new olarium\Exception('Unknown server forced for next query');
         }
 
         $this->_nextServer = $key;
@@ -481,16 +487,16 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
                 $adapter->setOptions($options);
                 try {
                     return $adapter->execute($request);
-                } catch(Solarium_Client_HttpException $e) {
+                } catch(olarium\Client\HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
-                    $e = new Solarium_Exception('Maximum number of loadbalancer retries reached');
+                    $e = new olarium\Exception('Maximum number of loadbalancer retries reached');
                     $this->_client->triggerEvent('LoadbalancerServerFail', array($options, $e));
                 }
             }
 
             // if we get here no more retries available, throw exception
-            $e = new Solarium_Exception('Maximum number of loadbalancer retries reached');
+            $e = new olarium\Exception('Maximum number of loadbalancer retries reached');
             throw $e;
 
         } else {
@@ -534,7 +540,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
             foreach ($this->_servers AS $key => $settings) {
                 $choices[$key] = $settings['weight'];
             }
-            $this->_randomizer = new Solarium_Plugin_Loadbalancer_WeightedRandomChoice($choices);
+            $this->_randomizer = new WeightedRandomChoice($choices);
         }
 
         return $this->_randomizer;

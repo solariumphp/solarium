@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result;
+
+/**
  * Update result
  *
  * An update query only returns a query time and status. Both are accessible
@@ -48,7 +53,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Update extends Solarium_Result_QueryType
+class Update extends QueryType
 {
     /**
      * Status code returned by Solr

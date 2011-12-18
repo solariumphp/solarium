@@ -37,66 +37,71 @@
  */
 
 /**
- * Build a select request
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select;
+
+/**
+ * Parse select response data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuilder
+class Select extends \Solarium\Client\ResponseParser\ResponseParser
 {
 
     /**
-     * Build request for a select query
+     * Get result data for the response
      *
-     * @param Solarium_Query_Select $query
-     * @return Solarium_Client_Request
+     * @param Solarium_Result_Select $result
+     * @return array
      */
-    public function build($query)
+    public function parse($result)
     {
-        $request = new Solarium_Client_Request;
-        $request->setHandler($query->getHandler());
+        $data = $result->getData();
+        $query = $result->getQuery();
 
-        // add basic params to request
-        $request->addParam('q', $query->getQuery());
-        $request->addParam('start', $query->getStart());
-        $request->addParam('rows', $query->getRows());
-        $request->addParam('fl', implode(',', $query->getFields()));
-        $request->addParam('wt', 'json');
-        $request->addParam('q.op', $query->getQueryDefaultOperator());
-        $request->addParam('df', $query->getQueryDefaultField());
-
-        // add sort fields to request
-        $sort = array();
-        foreach ($query->getSorts() AS $field => $order) {
-            $sort[] = $field . ' ' . $order;
-        }
-        if (count($sort) !== 0) {
-            $request->addParam('sort', implode(',', $sort));
-        }
-
-        // add filterqueries to request
-        $filterQueries = $query->getFilterQueries();
-        if (count($filterQueries) !== 0) {
-            foreach ($filterQueries AS $filterQuery) {
-                $fq = $this->renderLocalParams(
-                    $filterQuery->getQuery(),
-                    array('tag' => $filterQuery->getTags())
-                );
-                $request->addParam('fq', $fq);
+        // create document instances
+        $documentClass = $query->getOption('documentclass');
+        $documents = array();
+        if (isset($data['response']['docs'])) {
+            foreach ($data['response']['docs'] AS $doc) {
+                $fields = (array)$doc;
+                $documents[] = new $documentClass($fields);
             }
         }
 
-        // add components to request
-        $types = $query->getComponentTypes();
+        // component results
+        $components = array();
+        $types = $query->\getComponentTypes();
         foreach ($query->getComponents() as $component) {
-            $componentBuilderClass = $types[$component->getType()]['requestbuilder'];
-            if (!empty($componentBuilderClass)) {
-                $componentBuilder = new $componentBuilderClass;
-                $request = $componentBuilder->build($component, $request);
+            $componentParserClass = $types[$component->getType()]['responseparser'];
+            if (!empty($componentParserClass)) {
+                $componentParser = new $componentParserClass;
+                $components[$component->\getType()] = $componentParser->parse($query, $component, $data);
             }
         }
 
-        return $request;
+        if (isset($data['response']['numFound'])) {
+            $numFound = $data['response']['numFound'];
+        } else {
+            $numFound = null;
+        }
+
+        $status = null;
+        $queryTime = null;
+        if (isset($data['responseHeader'])) {
+            $status = $data['responseHeader']['status'];
+            $queryTime = $data['responseHeader']['QTime'];
+        }
+
+        return array(
+            'status' => $status,
+            'queryTime' => $queryTime,
+            'numfound' => $numFound,
+            'documents' => $documents,
+            'components' => $components,
+        );
     }
 
 }

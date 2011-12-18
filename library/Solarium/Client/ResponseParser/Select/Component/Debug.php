@@ -37,12 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+use Solarium\Result\Select\Debug;
+
+/**
  * Parse select component Debug result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_Debug
+class Debug
 {
 
     /**
@@ -70,14 +76,14 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
             if (isset($debug['explain']) && is_array($debug['explain'])) {
                 $explain = $this->_parseDocumentSet($debug['explain']);
             } else {
-                $explain = new Solarium_Result_Select_Debug_DocumentSet(array());
+                $explain = new Debug\DocumentSet(array());
             }
 
             // parse explainOther data
             if (isset($debug['explainOther']) && is_array($debug['explainOther'])) {
                 $explainOther = $this->_parseDocumentSet($debug['explainOther']);
             } else {
-                $explainOther = new Solarium_Result_Select_Debug_DocumentSet(array());
+                $explainOther = new Debug\DocumentSet(array());
             }
 
             // parse timing data
@@ -94,11 +100,11 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
                             $timingPhases[$key] = $this->_parseTimingPhase($key, $timingData);
                     }
                 }
-                $timing = new Solarium_Result_Select_Debug_Timing($time, $timingPhases);
+                $timing = new Debug\Timing($time, $timingPhases);
             }
 
             // create result object
-            $result = new Solarium_Result_Select_Debug(
+            $result = new Debug\Debug(
                 $queryString,
                 $parsedQuery,
                 $queryParser,
@@ -128,7 +134,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
             $details = array();
             if (isset($documentData['details']) && is_array($documentData['details'])) {
                 foreach ($documentData['details'] as $detailData) {
-                    $details[] = new Solarium_Result_Select_Debug_Detail(
+                    $details[] = new Debug\Detail(
                         $detailData['match'],
                         $detailData['value'],
                         $detailData['description']
@@ -136,7 +142,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
                 }
             }
 
-            $docs[$key] = new Solarium_Result_Select_Debug_Document(
+            $docs[$key] = new Debug\Document(
                 $key,
                 $documentData['match'],
                 $documentData['value'],
@@ -145,7 +151,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
             );
         }
 
-        return new Solarium_Result_Select_Debug_DocumentSet($docs);
+        return new Debug\DocumentSet($docs);
     }
 
     /**
@@ -169,7 +175,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
             }
         }
 
-        return new Solarium_Result_Select_Debug_TimingPhase($name, $time, $classes);
+        return new Debug\TimingPhase($name, $time, $classes);
     }
 
 }

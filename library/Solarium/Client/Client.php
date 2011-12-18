@@ -37,6 +37,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client;
+use Solarium;
+
+/**
  * Main interface for interaction with Solr
  *
  * The client is the main interface for usage of the Solarium library.
@@ -54,7 +60,7 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client extends Solarium_Configurable
+class Client extends olarium\Configurable
 {
 
     /**
@@ -250,7 +256,7 @@ class Solarium_Client extends Solarium_Configurable
     {
         $adapterClass = $this->getOption('adapter');
         $this->_adapter = new $adapterClass;
-        $this->_adapter->setOptions($this->getOption('adapteroptions'));
+        $this->\\adapter->setOptions($this->getOption('adapteroptions'));
     }
 
     /**
@@ -344,8 +350,8 @@ class Solarium_Client extends Solarium_Configurable
             $plugin = new $plugin;
         }
 
-        if (!($plugin instanceof Solarium_Plugin_Abstract)) {
-           throw new Solarium_Exception('All plugins must extend Solarium_Plugin_Abstract');
+        if (!($plugin \instanceof olarium\Plugin\AbstractPlugin)) {
+           throw new olarium\Exception('All plugins must extend Solarium_Plugin_Abstract');
         }
 
         $plugin->init($this, $options);
@@ -403,7 +409,7 @@ class Solarium_Client extends Solarium_Configurable
                 $this->registerPlugin($key, $this->_pluginTypes[$key]);
                 return $this->_pluginInstances[$key];
             } else {
-                throw new Solarium_Exception('Cannot autoload plugin of unknown type: ' . $key);
+                throw new olarium\Exception('Cannot autoload plugin of unknown type: ' . $key);
             }
         } else {
             return null;
@@ -492,14 +498,14 @@ class Solarium_Client extends Solarium_Configurable
 
         $queryType = $query->getType();
         if (!isset($this->_queryTypes[$queryType])) {
-            throw new Solarium_Exception('No requestbuilder registered for querytype: '. $queryType);
+            throw new olarium\Exception('No requestbuilder registered for querytype: '. $queryType);
         }
 
         $requestBuilder = $this->_queryTypes[$queryType]['requestbuilder'];
         if (is_string($requestBuilder)) {
             $requestBuilder = new $requestBuilder;
         }
-        $request = $requestBuilder->build($query);
+        $request = $requestBuilder->\build($query);
 
         $this->_callPlugins('postCreateRequest', array($query, $request));
 
@@ -521,7 +527,7 @@ class Solarium_Client extends Solarium_Configurable
         $resultClass = $query->getResultClass();
         $result = new $resultClass($this, $query, $response);
 
-        $this->_callPlugins('postCreateResult', array($query, $response, $result));
+        $this->\\callPlugins('postCreateResult', array($query, $response, $result));
 
         return $result;
     }
@@ -705,13 +711,13 @@ class Solarium_Client extends Solarium_Configurable
         if($pluginResult !== null) return $pluginResult;
 
         if (!isset($this->_queryTypes[$type])) {
-            throw new Solarium_Exception('Unknown querytype: '. $type);
+            throw new olarium\Exception('Unknown querytype: '. $type);
         }
 
         $class = $this->_queryTypes[$type]['query'];
         $query = new $class($options);
 
-        $this->_callPlugins('postCreateQuery', array($type, $options, $query));
+        $this->\\callPlugins('postCreateQuery', array($type, $options, $query));
 
         return $query;
     }

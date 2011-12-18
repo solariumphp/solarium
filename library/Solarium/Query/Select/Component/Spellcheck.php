@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+
+/**
  * Spellcheck component
  *
  * @link http://wiki.apache.org/solr/SpellCheckComponent
@@ -44,14 +49,14 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_Component
+class Spellcheck extends Component
 {
     /**
      * Component type
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_SPELLCHECK;
+    protected $_type = \Solarium\Query\Select\Select::COMPONENT_SPELLCHECK;
 
     /**
      * Set query option

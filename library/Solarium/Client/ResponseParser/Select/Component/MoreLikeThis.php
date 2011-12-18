@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+
+/**
  * Parse select component MoreLikeThis result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_MoreLikeThis
+class MoreLikeThis
 {
 
     /**
@@ -69,7 +74,7 @@ class Solarium_Client_ResponseParser_Select_Component_MoreLikeThis
                     $docs[] = new $documentClass($fields);
                 }
 
-                $results[$key] = new Solarium_Result_Select_MoreLikeThis_Result(
+                $results[$key] = new \Solarium\Result\Select\MoreLikeThis\Result(
                     $result['numFound'],
                     $result['maxScore'],
                     $docs
@@ -77,6 +82,6 @@ class Solarium_Client_ResponseParser_Select_Component_MoreLikeThis
             }
         }
 
-        return new Solarium_Result_Select_MoreLikeThis($results);
+        return new \Solarium\Result\Select\MoreLikeThis\MoreLikeThis($results);
     }
 }

@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Select\Component;
+
+/**
  * Add select component distributedsearch to the request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Select_Component_DistributedSearch
+class DistributedSearch
 {
 
     /**

@@ -38,13 +38,20 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\Adapter;
+use Solarium;
+use Solarium\Client;
+
+/**
  * Pecl HTTP adapter
  *
  * @author Gasol Wu <gasol.wu@gmail.com>
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
+class PeclHttp extends Adapter
 {
 
     /**
@@ -56,7 +63,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
     {
         // @codeCoverageIgnoreStart
         if (!class_exists('HttpRequest', false)) {
-           throw new Solarium_Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
+           throw new olarium\Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
         }
 
         parent::_init();
@@ -75,11 +82,11 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
 
         try {
             $httpMessage = $httpRequest->send();
-        } catch (Exception $e) {
-            throw new Solarium_Client_HttpException($e->getMessage());
+        } catch (\Exception $e) {
+            throw new Client\HttpException($e->getMessage());
         }
 
-        return new Solarium_Client_Response(
+        return new Client\Response(
             $httpMessage->getBody(),
             $this->_toRawHeaders($httpMessage)
         );
@@ -127,7 +134,7 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
     public function toHttpRequest($request)
     {
         $url = $this->getBaseUri() . $request->getUri();
-        $httpRequest = new HttpRequest($url);
+        $httpRequest = new \HttpRequest($url);
 
         $headers = array();
         foreach ($request->getHeaders() as $headerLine) {
@@ -138,21 +145,21 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
         }
 
         switch($request->getMethod()) {
-        case Solarium_Client_Request::METHOD_GET:
+        case Client\Request::METHOD_GET:
             $method = HTTP_METH_GET;
             break;
-        case Solarium_Client_Request::METHOD_POST:
+        case Client\Request::METHOD_POST:
             $method = HTTP_METH_POST;
             $httpRequest->setBody($request->getRawData());
             if (!isset($headers['Content-Type'])) {
                 $headers['Content-Type'] = 'text/xml; charset=utf-8';
             }
             break;
-        case Solarium_Client_Request::METHOD_HEAD:
+        case Client\Request::METHOD_HEAD:
             $method = HTTP_METH_HEAD;
             break;
         default:
-            throw new Solarium_Exception(
+            throw new olarium\Exception(
                 'Unsupported method: ' . $request->getMethod()
             );
         }

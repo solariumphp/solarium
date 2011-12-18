@@ -37,12 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+use Solarium\Query\Select\Component;
+
+/**
  * Parse select component FacetSet result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_FacetSet
+class FacetSet
 {
 
     /**
@@ -58,20 +64,20 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
         $facets = array();
         foreach ($facetSet->getFacets() AS $key => $facet) {
             switch ($facet->getType()) {
-                case Solarium_Query_Select_Component_FacetSet::FACET_FIELD:
+                case Component\FacetSet::FACET_FIELD:
                     $result = $this->_facetField($facet, $data);
                     break;
-                case Solarium_Query_Select_Component_FacetSet::FACET_QUERY:
+                case Component\FacetSet::FACET_QUERY:
                     $result = $this->_facetQuery($facet, $data);
                     break;
-                case Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY:
+                case Component\FacetSet::FACET_MULTIQUERY:
                     $result = $this->_facetMultiQuery($facet, $data);
                     break;
-                case Solarium_Query_Select_Component_FacetSet::FACET_RANGE:
+                case Component\FacetSet::FACET_RANGE:
                     $result = $this->_facetRange($facet, $data);
                     break;
                 default:
-                    throw new Solarium_Exception('Unknown facet type');
+                    throw new \Solarium\Exception('Unknown facet type');
             }
 
             if($result !== null) $facets[$key] = $result;
@@ -88,7 +94,7 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
      */
     protected function _createFacetSet($facets)
     {
-        return new Solarium_Result_Select_FacetSet($facets);
+        return new \Solarium\Result\Select\FacetSet($facets);
     }
 
     /**
@@ -113,7 +119,7 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
                 $facetValues[$value[0]] = $value[1];
             }
 
-            return new Solarium_Result_Select_Facet_Field($facetValues);
+            return new \Solarium\Result\Select\Facet\Field($facetValues);
         }
     }
 
@@ -130,7 +136,7 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
         if (isset($data['facet_counts']['facet_queries'][$key])) {
 
             $value = $data['facet_counts']['facet_queries'][$key];
-            return new Solarium_Result_Select_Facet_Query($value);
+            return new \Solarium\Result\Select\Facet\Query($value);
         }
     }
 
@@ -153,7 +159,7 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
         }
 
         if (count($values) > 0) {
-            return new Solarium_Result_Select_Facet_MultiQuery($values);
+            return new \Solarium\Result\Select\Facet\MultiQuery($values);
         }
     }
 
@@ -182,7 +188,7 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
                 $offset += 2;
             }
 
-            return new Solarium_Result_Select_Facet_Range($counts, $before, $after, $between);
+            return new \Solarium\Result\Select\Facet\Range($counts, $before, $after, $between);
         }
     }
 

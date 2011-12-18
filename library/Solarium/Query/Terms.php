@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query;
+
+/**
  * Terns query
  *
  * A terms query provides access to the indexed terms in a field and the number of documents that match each term.
@@ -47,7 +52,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Terms extends Solarium_Query
+class Terms extends Query
 {
 
     /**
@@ -57,7 +62,7 @@ class Solarium_Query_Terms extends Solarium_Query
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_TERMS;
+        return \Solarium\Client\Client::QUERYTYPE_TERMS;
     }
 
     /**

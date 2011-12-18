@@ -37,109 +37,117 @@
  */
 
 /**
- * Query result
- *
- * This base class provides access to the response and decoded data. If you need more functionality
- * like resultset parsing use one of the subclasses
+ * @namespace
+ */
+namespace Solarium\Result\Select\Spellcheck;
+
+/**
+ * Select component spellcheck result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result
+class Spellcheck implements \IteratorAggregate, \Countable
 {
 
     /**
-     * Response object
-     *
-     * @var Solarium_Client_Response
-     */
-    protected $_response;
-
-    /**
-     * Decode response data
-     *
-     * This is lazy loaded, {@link getData()}
+     * Suggestions array
      *
      * @var array
      */
-    protected $_data;
+    protected $_suggestions;
 
     /**
-     * Query used for this request
+     * Collation object
      *
-     * @var Solarium_Query
+     * @var Solarium_Result_Select_Spellcheck_Collation
      */
-    protected $_query;
+    protected $_collation;
 
     /**
-     * @var Solarium_Client
+     * @var boolean
      */
-    protected $_client;
+    protected $_correctlySpelled;
 
     /**
      * Constructor
      *
-     * @param Solarium_Client $client
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Response $response
+     * @param array $suggestions
+     * @param Solarium_Result_Select_Spellcheck_Collation $collation
+     * @param boolean $correctlySpelled
      * @return void
      */
-    public function __construct($client, $query, $response)
+    public function __construct($suggestions, $collation, $correctlySpelled)
     {
-        $this->_client = $client;
-        $this->_query = $query;
-        $this->_response = $response;
+        $this->_suggestions = $suggestions;
+        $this->_collation = $collation;
+        $this->_correctlySpelled = $correctlySpelled;
+    }
 
-        // check status for error (range of 400 and 500)
-        $statusNum = floor($response->getStatusCode() / 100);
-        if ($statusNum == 4 || $statusNum == 5) {
-            throw new Solarium_Client_HttpException(
-                $response->getStatusMessage(),
-                $response->getStatusCode()
-            );
+    /**
+     * Get the collation result
+     *
+     * @return Solarium_Result_Select_Spellcheck_Collation
+     */
+    public function getCollation()
+    {
+        return $this->_collation;
+    }
+
+    /**
+     * Get correctly spelled status
+     *
+     * Only available if ExtendedResults was enabled in your query
+     *
+     * @return bool
+     */
+    public function getCorrectlySpelled()
+    {
+        return $this->_correctlySpelled;
+    }
+
+    /**
+     * Get a result by key
+     *
+     * @param mixed $key
+     * @return Solarium_Result_Select_Highlighting_Suggestion|null
+     */
+    public function getSuggestion($key)
+    {
+        if (isset($this->_suggestions[$key])) {
+            return $this->_suggestions[$key];
+        } else {
+            return null;
         }
     }
 
     /**
-     * Get response object
-     *
-     * This is the raw HTTP response object, not the parsed data!
-     *
-     * @return Solarium_Client_Response
-     */
-    public function getResponse()
-    {
-        return $this->_response;
-    }
-
-    /**
-     * Get query instance
-     *
-     * @return Solarium_Query
-     */
-    public function getQuery()
-    {
-        return $this->_query;
-    }
-
-    /**
-     * Get Solr response data
-     *
-     * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
+     * Get all suggestions
      *
      * @return array
      */
-    public function getData()
+    public function getSuggestions()
     {
-        if (null == $this->_data) {
-            $this->_data = json_decode($this->_response->getBody(), true);
-            if (null === $this->_data) {
-                throw new Solarium_Exception(
-                    'Solr JSON response could not be decoded'
-                );
-            }
-        }
+        return $this->_suggestions;
+    }
 
-        return $this->_data;
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->_suggestions);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_suggestions);
     }
 }

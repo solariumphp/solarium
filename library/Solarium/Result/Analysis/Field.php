@@ -37,13 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Analysis;
+
+/**
  * Analysis field query result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Analysis_Field extends Solarium_Result_QueryType
-    implements IteratorAggregate, Countable
+class Field extends \Solarium\Result\QueryType
+    implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -120,7 +125,7 @@ class Solarium_Result_Analysis_Field extends Solarium_Result_QueryType
     {
         $this->_parseResponse();
 
-        return new ArrayIterator($this->_items);
+        return new \ArrayIterator($this->_items);
     }
 
     /**

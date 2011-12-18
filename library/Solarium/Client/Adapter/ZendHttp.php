@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\Adapter;
+
+/**
  * Adapter that uses a Zend_Http_Client
  *
  * The Zend Framework HTTP client has many great features and has lots of
@@ -48,7 +53,7 @@
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
+class ZendHttp extends Adapter
 {
 
     /**
@@ -136,7 +141,7 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
                 );
             }
 
-            $this->_zendHttp = new Zend_Http_Client(null, $options);
+            $this->_zendHttp = new \Zend\Http\Client(null, $options);
         }
 
         return $this->_zendHttp;
@@ -161,13 +166,13 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
 
         // throw an exception in case of a HTTP error
         if ($response->isError()) {
-            throw new Solarium_Client_HttpException(
+            throw new \Solarium\Client\HttpException(
                 $response->getMessage(),
                 $response->getStatus()
             );
         }
 
-        if ($request->getMethod() == Solarium_Client_Request::METHOD_HEAD) {
+        if ($request->getMethod() == \Solarium\Client\Request::METHOD_HEAD) {
             $data = '';
         } else {
             $data = $response->getBody();
@@ -176,7 +181,7 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
         // this is used because getHeaders doesn't return the HTTP header...
         $headers = explode("\n", $response->getHeadersAsString());
 
-        return new Solarium_Client_Response($data, $headers);
+        return new \Solarium\Client\Response($data, $headers);
     }
 
 }

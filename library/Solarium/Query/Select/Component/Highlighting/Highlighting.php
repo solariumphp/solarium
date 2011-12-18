@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Highlighting;
+
+/**
  * Highlighting component
  *
  * @link http://wiki.apache.org/solr/HighlightingParameters
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select_Component
+class Highlighting extends \Solarium\Query\Select\Component\Component
 {
     /**
      * Value for fragmenter option gap
@@ -61,7 +66,7 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_HIGHLIGHTING;
+    protected $_type = \Solarium\Query\Select\Select::COMPONENT_HIGHLIGHTING;
 
     /**
      * Array of fields for highlighting
@@ -117,14 +122,14 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
     {
         // autocreate object for string input
         if (is_string($field)) {
-            $field = new Solarium_Query_Select_Component_Highlighting_Field(array('name' => $field));
+            $field = new Field(array('name' => $field));
         } else if (is_array($field)) {
-            $field = new Solarium_Query_Select_Component_Highlighting_Field($field);
+            $field = new Field($field);
         }
 
         // validate field
         if ($field->getName() === null) {
-            throw new Solarium_Exception('To add a highlighting field it needs to have at least a "name" setting');
+            throw new \Solarium\Exception('To add a highlighting field it needs to have at least a "name" setting');
         }
 
         $this->_fields[$field->getName()] = $field;

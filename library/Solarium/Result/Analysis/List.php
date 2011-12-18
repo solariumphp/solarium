@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Analysis;
+
+/**
  * Analysis list result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Analysis_List implements IteratorAggregate, Countable
+class List implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -95,7 +100,7 @@ class Solarium_Result_Analysis_List implements IteratorAggregate, Countable
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_items);
+        return new \ArrayIterator($this->_items);
     }
 
     /**

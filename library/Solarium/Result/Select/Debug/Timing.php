@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Debug;
+
+/**
  * Select component debug timing result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Debug_Timing implements IteratorAggregate, Countable
+class Timing implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -112,7 +117,7 @@ class Solarium_Result_Select_Debug_Timing implements IteratorAggregate, Countabl
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_phases);
+        return new \ArrayIterator($this->_phases);
     }
 
     /**

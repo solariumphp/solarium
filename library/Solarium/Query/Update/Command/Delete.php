@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Update\Command;
+
+/**
  * Update query delete command
  *
  * For details about the Solr options see:
@@ -45,7 +50,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
+class Delete extends Command
 {
 
     /**
@@ -69,7 +74,7 @@ class Solarium_Query_Update_Command_Delete extends Solarium_Query_Update_Command
      */
     public function getType()
     {
-        return Solarium_Query_Update::COMMAND_DELETE;
+        return \Solarium\Query\Update\Update::COMMAND_DELETE;
     }
 
     /**

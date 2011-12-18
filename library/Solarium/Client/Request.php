@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client;
+
+/**
  * Class for describing a request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Request extends Solarium_Configurable
+class Request extends \Solarium\Configurable
 {
 
     /**

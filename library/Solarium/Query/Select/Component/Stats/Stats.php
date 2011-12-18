@@ -37,6 +37,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Stats;
+use Solarium;
+
+/**
  * Stats component
  *
  * @link http://wiki.apache.org/solr/StatsComponent
@@ -44,7 +50,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Stats extends Solarium_Query_Select_Component
+class Stats extends olarium\Query\Select\Component\Component
 {
 
     /**
@@ -52,7 +58,7 @@ class Solarium_Query_Select_Component_Stats extends Solarium_Query_Select_Compon
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_STATS;
+    protected $_type = olarium\Query\Select\Select::COMPONENT_STATS;
 
     /**
      * Stats facets for all fields
@@ -106,10 +112,10 @@ class Solarium_Query_Select_Component_Stats extends Solarium_Query_Select_Compon
     public function createField($options = null)
     {
         if (is_string($options)) {
-            $fq = new Solarium_Query_Select_Component_Stats_Field;
+            $fq = new Field;
             $fq->setKey($options);
         } else {
-            $fq = new Solarium_Query_Select_Component_Stats_Field($options);
+            $fq = new Field($options);
         }
 
         if ($fq->getKey() !== null) {
@@ -131,19 +137,19 @@ class Solarium_Query_Select_Component_Stats extends Solarium_Query_Select_Compon
     public function addField($field)
     {
         if (is_array($field)) {
-            $field = new Solarium_Query_Select_Component_Stats_Field($field);
+            $field = new Field($field);
         }
 
         $key = $field->getKey();
 
         if (0 === strlen($key)) {
-            throw new Solarium_Exception('A field must have a key value');
+            throw new olarium\Exception('A field must have a key value');
         }
 
         //double add calls for the same field are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->_fields) && $this->_fields[$key] !== $field) {
-            throw new Solarium_Exception('A field must have a unique key value');
+            throw new olarium\Exception('A field must have a unique key value');
         } else {
             $this->_fields[$key] = $field;
         }

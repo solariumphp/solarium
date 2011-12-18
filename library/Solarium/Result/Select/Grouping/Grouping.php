@@ -33,65 +33,85 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Result
  */
 
 /**
- * Base class for Analysis queries
- *
- * @package Solarium
- * @subpackage Query
+ * @namespace
  */
-abstract class Solarium_Query_Analysis extends Solarium_Query
+namespace Solarium\Result\Select\Grouping;
+
+/**
+ * Select component grouping result
+ *
+ * @since 2.1.0
+ * 
+ * @package Solarium
+ * @subpackage Result
+ */
+class Grouping implements \IteratorAggregate, \Countable
 {
 
     /**
-     * Set the query string
+     * Group results array
      *
-     * When present, the text that will be analyzed. The analysis will mimic the query-time analysis.
-     *
-     * @param string $query
-     * @param array $bind Optional bind values for placeholders in the query string
-     * @return Solarium_Query_Analysis Provides fluent interface
+     * @var array
      */
-    public function setQuery($query, $bind = null)
+    protected $_groups;
+    
+    /**
+     * Constructor
+     *
+     * @param array $groups
+     * @return void
+     */
+    public function __construct($groups)
     {
-        if (!is_null($bind)) {
-            $query = $this->getHelper()->assemble($query, $bind);
+        $this->_groups = $groups;
+    }
+
+    /**
+     * Get all groups
+     *
+     * @return array
+     */
+    public function getGroups()
+    {
+        return $this->_groups;
+    }
+
+    /**
+     * Get a group
+     *
+     * @param string $key
+     * @return Solarium_Result_Select_Grouping_FieldGroup|Solarium_Result_Select_Grouping_QueryGroup
+     */
+    public function getGroup($key)
+    {
+        if (isset($this->_groups[$key])) {
+            return $this->_groups[$key];
+        } else {
+            return null;
         }
-
-        return $this->_setOption('query', trim($query));
-    }
-
-    /**
-     * Get the query string
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->getOption('query');
-    }
-
-    /**
-     * Set the showmatch option
-     *
-     * @param boolean $show
-     * @return Solarium_Query_Analysis Provides fluent interface
-     */
-    public function setShowMatch($show)
-    {
-        return $this->_setOption('showmatch', $show);
-    }
-
-    /**
-     * Get the showmatch option
-     *
-     * @return mixed
-     */
-    public function getShowMatch()
-    {
-        return $this->getOption('showmatch');
     }
     
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->_groups);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_groups);
+    }
 }

@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\Adapter;
+
+/**
  * Base class for all adapters
  *
  * The goal of an adapter is to accept a query, execute it and return the right
@@ -55,7 +60,7 @@
  * @package Solarium
  * @subpackage Client
  */
-abstract class Solarium_Client_Adapter extends Solarium_Configurable
+abstract class Adapter extends \Solarium\Configurable
 {
     /**
      * Default options

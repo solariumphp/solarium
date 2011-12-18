@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Document;
+
+/**
  * Read/Write Solr document
  *
  * This document type is used for update queries. It has all of the features of
@@ -52,7 +57,7 @@
  * @package Solarium
  * @subpackage Document
  */
-class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
+class ReadWrite extends ReadOnly
 {
 
     /**

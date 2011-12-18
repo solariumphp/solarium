@@ -40,6 +40,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query;
+
+/**
  * MoreLikeThis Query
  *
  * Can be used to select documents and/or facets from Solr. This querytype has
@@ -49,7 +54,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_MoreLikeThis extends Solarium_Query_Select
+class MoreLikeThis extends Select\Select
 {
 
     /**
@@ -59,7 +64,7 @@ class Solarium_Query_MoreLikeThis extends Solarium_Query_Select
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_MORELIKETHIS;
+        return \Solarium\Client\Client::QUERYTYPE_MORELIKETHIS;
     }
     
     /**

@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser;
+
+/**
  * Parse update response data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Update extends Solarium_Client_ResponseParser
+class Update extends ResponseParser
 {
 
     /**

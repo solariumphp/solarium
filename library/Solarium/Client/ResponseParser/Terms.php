@@ -38,12 +38,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser;
+
+/**
  * Parse MoreLikeThis response data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Terms extends Solarium_Client_ResponseParser
+class Terms extends ResponseParser
 {
 
     /**

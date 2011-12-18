@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result;
+
+/**
  * Terms query result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Terms extends Solarium_Result_QueryType implements IteratorAggregate, Countable
+class Terms extends QueryType implements \IteratorAggregate, \Countable
 {
     /**
      * Status code returned by Solr
@@ -135,7 +140,7 @@ class Solarium_Result_Terms extends Solarium_Result_QueryType implements Iterato
     {
         $this->_parseResponse();
 
-        return new ArrayIterator($this->_results);
+        return new \ArrayIterator($this->_results);
     }
 
     /**

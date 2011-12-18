@@ -39,77 +39,112 @@
 /**
  * @namespace
  */
-namespace Solarium\Result\Select\Highlighting;
+namespace Solarium\Result;
 
 /**
- * Select component highlighting result item
+ * Query result
+ *
+ * This base class provides access to the response and decoded data. If you need more functionality
+ * like resultset parsing use one of the subclasses
  *
  * @package Solarium
  * @subpackage Result
  */
-class Result implements \IteratorAggregate, \Countable
+class Result
 {
 
     /**
-     * Fields array
+     * Response object
+     *
+     * @var Solarium_Client_Response
+     */
+    protected $_response;
+
+    /**
+     * Decode response data
+     *
+     * This is lazy loaded, {@link getData()}
      *
      * @var array
      */
-    protected $_fields;
+    protected $_data;
+
+    /**
+     * Query used for this request
+     *
+     * @var Solarium_Query
+     */
+    protected $_query;
+
+    /**
+     * @var Solarium_Client
+     */
+    protected $_client;
 
     /**
      * Constructor
      *
-     * @param array $fields
+     * @param Solarium_Client $client
+     * @param Solarium_Query $query
+     * @param Solarium_Client_Response $response
      * @return void
      */
-    public function __construct($fields)
+    public function __construct($client, $query, $response)
     {
-        $this->_fields = $fields;
-    }
+        $this->_client = $client;
+        $this->_query = $query;
+        $this->_response = $response;
 
-    /**
-     * Get highlights for all fields
-     *
-     * @return array
-     */
-    public function getFields()
-    {
-        return $this->_fields;
-    }
-
-    /**
-     * Get highlights for a single field
-     *
-     * @param string $key
-     * @return array
-     */
-    public function getField($key)
-    {
-        if (isset($this->_fields[$key])) {
-            return $this->_fields[$key];
-        } else {
-            return array();
+        // check status for error (range of 400 and 500)
+        $statusNum = floor($response->getStatusCode() / 100);
+        if ($statusNum == 4 || $statusNum == 5) {
+            throw new \Solarium\Client\HttpException(
+                $response->getStatusMessage(),
+                $response->getStatusCode()
+            );
         }
     }
-    
+
     /**
-     * IteratorAggregate implementation
+     * Get response object
      *
-     * @return ArrayIterator
+     * This is the raw HTTP response object, not the parsed data!
+     *
+     * @return Solarium_Client_Response
      */
-    public function getIterator()
+    public function getResponse()
     {
-        return new \ArrayIterator($this->_fields);
+        return $this->_response;
     }
 
     /**
-     * Countable implementation
+     * Get query instance
      *
-     * @return int
+     * @return Solarium_Query
      */
-    public function count()
+    public function getQuery()
     {
-        return count($this->_fields);
+        return $this->_query;
+    }
+
+    /**
+     * Get Solr response data
+     *
+     * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        if (null == $this->_data) {
+            $this->_data = json_decode($this->_response->getBody(), true);
+            if (null === $this->_data) {
+                throw new \Solarium\Exception(
+                    'Solr JSON response could not be decoded'
+                );
+            }
+        }
+
+        return $this->_data;
     }
 }

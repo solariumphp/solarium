@@ -36,6 +36,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Plugin\Loadbalancer;
+use Solarium;
+
+/**
  * Weighted random choice class
  *
  * For use in the loadbalancer plugin
@@ -43,7 +49,7 @@
  * @package Solarium
  * @subpackage Plugin
  */
-class Solarium_Plugin_Loadbalancer_WeightedRandomChoice
+class WeightedRandomChoice
 {
 
     /**
@@ -76,7 +82,7 @@ class Solarium_Plugin_Loadbalancer_WeightedRandomChoice
     {
         $i = 0;
         foreach ($choices AS $key => $weight) {
-            if ($weight <=0) throw new Solarium_Exception('Weight must be greater than zero');
+            if ($weight <=0) throw new olarium\Exception('Weight must be greater than zero');
 
             $this->_totalWeight += $weight;
             $this->_lookup[$i] = $this->_totalWeight;
@@ -95,7 +101,7 @@ class Solarium_Plugin_Loadbalancer_WeightedRandomChoice
     public function getRandom($excludes = array())
     {
         if (count($excludes) == count($this->_values)) {
-            throw new Solarium_Exception('No more server entries available');
+            throw new olarium\Exception('No more server entries available');
         }
 
         // continue until a non-excluded value is found

@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Analysis;
+
+/**
  * Build a field analysis request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Analysis_Field extends Solarium_Client_RequestBuilder_Analysis
+class Field extends Analysis
 {
 
     /**

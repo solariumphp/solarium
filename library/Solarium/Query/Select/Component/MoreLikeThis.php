@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+
+/**
  * MoreLikeThis component
  *
  * @link http://wiki.apache.org/solr/MoreLikeThis
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select_Component
+class MoreLikeThis extends Component
 {
 
     /**
@@ -52,7 +57,7 @@ class Solarium_Query_Select_Component_MoreLikeThis extends Solarium_Query_Select
      * 
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_MORELIKETHIS;
+    protected $_type = \Solarium\Query\Select\Select::COMPONENT_MORELIKETHIS;
 
     /**
      * Set fields option

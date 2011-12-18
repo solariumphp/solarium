@@ -37,6 +37,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Update;
+use Solarium;
+
+/**
  * Update query
  *
  * Can be used to send multiple update commands to solr, e.g. add, delete,
@@ -46,7 +52,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Update extends Solarium_Query
+class Update extends olarium\Query\Query
 {
 
     /**
@@ -115,7 +121,7 @@ class Solarium_Query_Update extends Solarium_Query
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_UPDATE;
+        return olarium\Client\Client::QUERYTYPE_UPDATE;
     }
 
     /**
@@ -134,7 +140,7 @@ class Solarium_Query_Update extends Solarium_Query
                 $type = $value['type'];
 
                 if ($type == self::COMMAND_ADD) {
-                    throw new Solarium_Exception(
+                    throw new olarium\Exception(
                         "Adding documents is not supported in configuration, use the API for this"
                     );
                 }
@@ -158,7 +164,7 @@ class Solarium_Query_Update extends Solarium_Query
         $type = strtolower($type);
 
         if (!isset($this->_commandTypes[$type])) {
-            throw new Solarium_Exception("Update commandtype unknown: " . $type);
+            throw new olarium\Exception("Update commandtype unknown: " . $type);
         }
 
         $class = $this->_commandTypes[$type];
@@ -232,7 +238,7 @@ class Solarium_Query_Update extends Solarium_Query
      */
     public function addRollback()
     {
-        return $this->add(null, new Solarium_Query_Update_Command_Rollback);
+        return $this->add(null, new Command\Rollback);
     }
 
     /**
@@ -246,7 +252,7 @@ class Solarium_Query_Update extends Solarium_Query
      */
     public function addDeleteQuery($query)
     {
-        $delete = new Solarium_Query_Update_Command_Delete;
+        $delete = new Command\Delete;
         $delete->addQuery($query);
 
         return $this->add(null, $delete);
@@ -263,7 +269,7 @@ class Solarium_Query_Update extends Solarium_Query
      */
     public function addDeleteQueries($queries)
     {
-        $delete = new Solarium_Query_Update_Command_Delete;
+        $delete = new Command\Delete;
         $delete->addQueries($queries);
 
         return $this->add(null, $delete);
@@ -280,7 +286,7 @@ class Solarium_Query_Update extends Solarium_Query
      */
     public function addDeleteById($id)
     {
-        $delete = new Solarium_Query_Update_Command_Delete;
+        $delete = new Command\Delete;
         $delete->addId($id);
 
         return $this->add(null, $delete);
@@ -297,7 +303,7 @@ class Solarium_Query_Update extends Solarium_Query
      */
     public function addDeleteByIds($ids)
     {
-        $delete = new Solarium_Query_Update_Command_Delete;
+        $delete = new Command\Delete;
         $delete->addIds($ids);
 
         return $this->add(null, $delete);
@@ -334,7 +340,7 @@ class Solarium_Query_Update extends Solarium_Query
     public function addDocuments($documents, $overwrite = null,
                                  $commitWithin = null)
     {
-        $add = new Solarium_Query_Update_Command_Add;
+        $add = new Command\Add;
         if (null !== $overwrite) $add->setOverwrite($overwrite);
         if (null !== $commitWithin) $add->setCommitWithin($commitWithin);
 
@@ -356,7 +362,7 @@ class Solarium_Query_Update extends Solarium_Query
     public function addCommit($waitFlush = null, $waitSearcher = null,
                               $expungeDeletes = null)
     {
-        $commit = new Solarium_Query_Update_Command_Commit();
+        $commit = new Command\Commit();
         if (null !== $waitFlush) $commit->setWaitFlush($waitFlush);
         if (null !== $waitSearcher) $commit->setWaitSearcher($waitSearcher);
         if (null !== $expungeDeletes)
@@ -379,7 +385,7 @@ class Solarium_Query_Update extends Solarium_Query
    public function addOptimize($waitFlush = null, $waitSearcher = null,
                                $maxSegments = null)
    {
-       $optimize = new Solarium_Query_Update_Command_Optimize();
+       $optimize = new Command\Optimize();
        if (null !== $waitFlush) $optimize->setWaitFlush($waitFlush);
        if (null !== $waitSearcher) $optimize->setWaitSearcher($waitSearcher);
        if (null !== $maxSegments) $optimize->setMaxSegments($maxSegments);

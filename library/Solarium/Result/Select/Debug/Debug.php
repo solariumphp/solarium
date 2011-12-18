@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Debug;
+
+/**
  * Select component debug result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Debug implements IteratorAggregate, Countable
+class Debug implements \IteratorAggregate, \Countable
 {
 
     /**

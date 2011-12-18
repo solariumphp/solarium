@@ -37,19 +37,96 @@
  */
 
 /**
- * Update query command base class
+ * @namespace
+ */
+namespace Solarium\Query;
+
+/**
+ * Base class for all query types, not intended for direct usage
  *
  * @package Solarium
  * @subpackage Query
  */
-abstract class Solarium_Query_Update_Command extends Solarium_Configurable
+abstract class Query extends \Solarium\Configurable
 {
 
     /**
-     * Returns command type, for use in adapters
+     * Helper instance
+     *
+     * @var Solarium_Query_Helper
+     */
+    protected $_helper;
+    
+    /**
+     * Get type for this query
      *
      * @return string
      */
     abstract public function getType();
+    
+    /**
+     * Set handler option
+     *
+     * @param string $handler
+     * @return Solarium_Query Provides fluent interface
+     */
+    public function setHandler($handler)
+    {
+        return $this->_setOption('handler', $handler);
+    }
+
+    /**
+     * Get handler option
+     *
+     * @return string
+     */
+    public function getHandler()
+    {
+        return $this->getOption('handler');
+    }
+
+    /**
+     * Set resultclass option
+     *
+     * If you set a custom result class it must be available through autoloading
+     * or a manual require before calling this method. This is your
+     * responsibility.
+     *
+     * Also you need to make sure it extends the orginal result class of the
+     * query or has an identical API.
+     *
+     * @param string $classname
+     * @return Solarium_Query Provides fluent interface
+     */
+    public function setResultClass($classname)
+    {
+        return $this->_setOption('resultclass', $classname);
+    }
+
+    /**
+     * Get resultclass option
+     *
+     * @return string
+     */
+    public function getResultClass()
+    {
+        return $this->getOption('resultclass');
+    }
+
+    /**
+     * Get a helper instance
+     *
+     * Uses lazy loading: the helper is instantiated on first use
+     *
+     * @return Solarium_Query_Helper
+     */
+    public function getHelper()
+    {
+        if (null === $this->_helper) {
+            $this->_helper = new Helper;
+        }
+
+        return $this->_helper;
+    }
 
 }

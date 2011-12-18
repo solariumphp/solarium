@@ -40,13 +40,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder;
+
+/**
  * Build a MoreLikeThis request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_MoreLikeThis
-    extends Solarium_Client_RequestBuilder_Select
+class MoreLikeThis
+    extends Select\Select
 {
 
     /**
@@ -77,7 +82,7 @@ class Solarium_Client_RequestBuilder_MoreLikeThis
         if (true === $query->getQueryStream()) {
             $request->removeParam('q');
             $request->setRawData($query->getQuery());
-            $request->setMethod(Solarium_Client_Request::METHOD_POST);
+            $request->setMethod(\Solarium\Client\Request::METHOD_POST);
             $request->addHeader('Content-Type: text/plain; charset=utf-8');
         }
         

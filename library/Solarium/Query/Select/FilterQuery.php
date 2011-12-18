@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select;
+
+/**
  * Filterquery
  *
  * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
+class FilterQuery extends \Solarium\Configurable
 {
 
     /**
@@ -117,7 +122,7 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
     public function setQuery($query, $bind = null)
     {
         if (!is_null($bind)) {
-            $helper = new Solarium_Query_Helper;
+            $helper = new \Solarium\Query\Helper;
             $query = $helper->assemble($query, $bind);
         }
 

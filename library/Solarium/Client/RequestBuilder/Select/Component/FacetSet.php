@@ -37,12 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Select\Component;
+use Solarium\Query\Select\Component;
+
+/**
  * Add select component FacetSet to the request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_Client_RequestBuilder
+class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
 {
     
     /**
@@ -70,20 +76,20 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
             foreach ($facets AS $facet) {
                 switch ($facet->getType())
                 {
-                    case Solarium_Query_Select_Component_FacetSet::FACET_FIELD:
+                    case Component\FacetSet::FACET_FIELD:
                         $this->addFacetField($request, $facet);
                         break;
-                    case Solarium_Query_Select_Component_FacetSet::FACET_QUERY:
+                    case Component\FacetSet::FACET_QUERY:
                         $this->addFacetQuery($request, $facet);
                         break;
-                    case Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY:
+                    case Component\FacetSet::FACET_MULTIQUERY:
                         $this->addFacetMultiQuery($request, $facet);
                         break;
-                    case Solarium_Query_Select_Component_FacetSet::FACET_RANGE:
+                    case Component\FacetSet::FACET_RANGE:
                         $this->addFacetRange($request, $facet);
                         break;
                     default:
-                        throw new Solarium_Exception('Unknown facet type');
+                        throw new \Solarium\Exception('Unknown facet type');
                 }
             }
         }

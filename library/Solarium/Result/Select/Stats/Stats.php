@@ -37,93 +37,61 @@
  */
 
 /**
- * Select component spellcheck result
+ * @namespace
+ */
+namespace Solarium\Result\Select\Stats;
+
+/**
+ * Select component stats result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
+class Stats
+    implements \IteratorAggregate, \Countable
 {
 
     /**
-     * Suggestions array
+     * Result array
      *
      * @var array
      */
-    protected $_suggestions;
-
-    /**
-     * Collation object
-     *
-     * @var Solarium_Result_Select_Spellcheck_Collation
-     */
-    protected $_collation;
-
-    /**
-     * @var boolean
-     */
-    protected $_correctlySpelled;
+    protected $_results;
 
     /**
      * Constructor
      *
-     * @param array $suggestions
-     * @param Solarium_Result_Select_Spellcheck_Collation $collation
-     * @param boolean $correctlySpelled
+     * @param array $results
      * @return void
      */
-    public function __construct($suggestions, $collation, $correctlySpelled)
+    public function __construct($results)
     {
-        $this->_suggestions = $suggestions;
-        $this->_collation = $collation;
-        $this->_correctlySpelled = $correctlySpelled;
-    }
-
-    /**
-     * Get the collation result
-     *
-     * @return Solarium_Result_Select_Spellcheck_Collation
-     */
-    public function getCollation()
-    {
-        return $this->_collation;
-    }
-
-    /**
-     * Get correctly spelled status
-     *
-     * Only available if ExtendedResults was enabled in your query
-     *
-     * @return bool
-     */
-    public function getCorrectlySpelled()
-    {
-        return $this->_correctlySpelled;
+        $this->_results = $results;
     }
 
     /**
      * Get a result by key
      *
      * @param mixed $key
-     * @return Solarium_Result_Select_Highlighting_Suggestion|null
+     * @return Solarium_Result_Select_Stats_Result|null
      */
-    public function getSuggestion($key)
+    public function getResult($key)
     {
-        if (isset($this->_suggestions[$key])) {
-            return $this->_suggestions[$key];
+        if (isset($this->_results[$key])) {
+            return $this->_results[$key];
         } else {
             return null;
         }
     }
 
     /**
-     * Get all suggestions
+     * Get all results
      *
      * @return array
      */
-    public function getSuggestions()
+    public function getResults()
     {
-        return $this->_suggestions;
+        return $this->_results;
     }
 
     /**
@@ -133,7 +101,7 @@ class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_suggestions);
+        return new \ArrayIterator($this->_results);
     }
 
     /**
@@ -143,6 +111,6 @@ class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
      */
     public function count()
     {
-        return count($this->_suggestions);
+        return count($this->_results);
     }
 }

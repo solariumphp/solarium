@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Facet;
+
+/**
  * Facet base class
  *
  * @link http://wiki.apache.org/solr/SimpleFacetParameters
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-abstract class Solarium_Query_Select_Component_Facet extends Solarium_Configurable
+abstract class Facet extends \Solarium\Configurable
 {
 
     /**

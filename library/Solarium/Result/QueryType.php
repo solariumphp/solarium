@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result;
+
+/**
  * QueryType result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_QueryType extends Solarium_Result
+class QueryType extends Result
 {
 
     /**
@@ -65,12 +70,12 @@ class Solarium_Result_QueryType extends Solarium_Result
             $queryType = $this->_query->getType();
             $queryTypes = $this->_client->getQueryTypes();
             if (!isset($queryTypes[$queryType])) {
-                throw new Solarium_Exception('No responseparser registered for querytype: '. $queryType);
+                throw new \Solarium\Exception('No responseparser registered for querytype: '. $queryType);
             }
 
             $responseParserClass = $queryTypes[$queryType]['responseparser'];
             $responseParser = new $responseParserClass;
-            $this->_mapData($responseParser->parse($this));
+            $this->\\mapData($responseParser->parse($this));
 
             $this->_parsed = true;
         }

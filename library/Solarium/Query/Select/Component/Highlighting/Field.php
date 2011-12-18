@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Highlighting;
+
+/**
  * Highlighting per-field settings
  *
  * @link http://wiki.apache.org/solr/HighlightingParameters
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_Select_Component
+class Field extends \Solarium\Query\Select\Component\Component
 {
     /**
      * Value for fragmenter option gap

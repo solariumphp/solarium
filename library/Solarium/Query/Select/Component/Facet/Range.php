@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Facet;
+
+/**
  * Facet range
  *
  * @link http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_Component_Facet
+class Range extends Facet
 {
 
     /**
@@ -128,7 +133,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      */
     public function getType()
     {
-        return Solarium_Query_Select_Component_FacetSet::FACET_RANGE;
+        return et::FACET_RANGE;
     }
     
     /**

@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+
+/**
  * DisMax component
  *
  * @link http://wiki.apache.org/solr/DisMaxQParserPlugin
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Component
+class DisMax extends Component
 {
 
     /**
@@ -52,7 +57,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * 
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_DISMAX;
+    protected $_type = \Solarium\Query\Select\Select::COMPONENT_DISMAX;
 
     /**
      * Default options

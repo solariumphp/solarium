@@ -33,79 +33,40 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage Query
  */
 
 /**
- * Select component stats result
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+
+/**
+ * Query component base class
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage Query
  */
-class Solarium_Result_Select_Stats
-    implements IteratorAggregate, Countable
+class Component extends \Solarium\Configurable
 {
 
     /**
-     * Result array
+     * Component type
      *
-     * @var array
+     * To be implemented in extending classes
+     *
+     * @var string
      */
-    protected $_results;
+    protected $_type = '';
 
     /**
-     * Constructor
+     * Get component type
      *
-     * @param array $results
-     * @return void
+     * @return string
      */
-    public function __construct($results)
+    public function getType()
     {
-        $this->_results = $results;
+        return $this->_type;
     }
 
-    /**
-     * Get a result by key
-     *
-     * @param mixed $key
-     * @return Solarium_Result_Select_Stats_Result|null
-     */
-    public function getResult($key)
-    {
-        if (isset($this->_results[$key])) {
-            return $this->_results[$key];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Get all results
-     *
-     * @return array
-     */
-    public function getResults()
-    {
-        return $this->_results;
-    }
-
-    /**
-     * IteratorAggregate implementation
-     *
-     * @return ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->_results);
-    }
-
-    /**
-     * Countable implementation
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->_results);
-    }
 }

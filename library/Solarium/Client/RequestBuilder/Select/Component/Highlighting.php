@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Select\Component;
+
+/**
  * Add select component Highlighting to the request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Select_Component_Highlighting
+class Highlighting
 {
 
     /**
@@ -52,7 +57,7 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
      * @param Solarium_Client_Request $request
      * @return Solarium_Client_Request
      */
-    public function build(Solarium_Query_Select_Component_Highlighting $component, Solarium_Client_Request $request)
+    public function build(\Solarium\Query\Select\Component\Highlighting\Highlighting $component, \Solarium\Client\Request $request)
     {
         // enable highlighting
         $request->addParam('hl', 'true');

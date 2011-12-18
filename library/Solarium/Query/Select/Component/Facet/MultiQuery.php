@@ -37,6 +37,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Facet;
+use Solarium;
+
+/**
  * Facet MultiQuery
  *
  * This is a 'virtual' querytype that combines multiple facet queries into a
@@ -45,7 +51,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Select_Component_Facet
+class MultiQuery extends Facet
 {
 
     /**
@@ -84,7 +90,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
      */
     public function getType()
     {
-        return Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY;
+        return et::FACET_MULTIQUERY;
     }
 
     /**
@@ -103,7 +109,7 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
         // merge excludes with shared excludes
         $excludes = array_merge($this->getExcludes(), $excludes);
 
-        $facetQuery = new Solarium_Query_Select_Component_Facet_Query;
+        $facetQuery = new Query;
         $facetQuery->setKey($key);
         $facetQuery->setQuery($query);
         $facetQuery->setExcludes($excludes);
@@ -123,17 +129,17 @@ class Solarium_Query_Select_Component_Facet_MultiQuery extends Solarium_Query_Se
     public function addQuery($facetQuery)
     {
         if (is_array($facetQuery)) {
-            $facetQuery = new Solarium_Query_Select_Component_Facet_Query($facetQuery);
+            $facetQuery = new Query($facetQuery);
         }
 
         $key = $facetQuery->getKey();
 
         if (0 === strlen($key)) {
-            throw new Solarium_Exception('A facetquery must have a key value');
+            throw new olarium\Exception('A facetquery must have a key value');
         }
 
         if (array_key_exists($key, $this->_facetQueries)) {
-            throw new Solarium_Exception('A query must have a unique key value within a multiquery facet');
+            throw new olarium\Exception('A query must have a unique key value within a multiquery facet');
         }
 
         // forward shared excludes
