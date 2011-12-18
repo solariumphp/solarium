@@ -37,13 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Analysis;
+
+/**
  * Analysis document query result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Analysis_Document extends Solarium_Result_QueryType
-    implements IteratorAggregate, Countable
+class Document extends \Solarium\Result\QueryType
+    implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -120,7 +125,7 @@ class Solarium_Result_Analysis_Document extends Solarium_Result_QueryType
     {
         $this->_parseResponse();
 
-        return new ArrayIterator($this->_items);
+        return new \ArrayIterator($this->_items);
     }
 
     /**
@@ -139,7 +144,7 @@ class Solarium_Result_Analysis_Document extends Solarium_Result_QueryType
      * Get a document by uniquekey value
      *
      * @param string $key
-     * @return Solarium_Result_Analysis_List|null
+     * @return Solarium\Result\Analysis\List|null
      */
     public function getDocument($key)
     {

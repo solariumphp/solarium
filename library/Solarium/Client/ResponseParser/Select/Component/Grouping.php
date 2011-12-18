@@ -37,21 +37,26 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+
+/**
  * Parse select component Grouping result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_Grouping
+class Grouping
 {
 
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Grouping $grouping
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\Grouping $grouping
      * @param array $data
-     * @return Solarium_Result_Select_Grouping
+     * @return Solarium\Result\Select\Grouping
      */
     public function parse($query, $grouping, $data)
     {
@@ -89,12 +94,12 @@ class Solarium_Client_ResponseParser_Select_Component_Grouping
                             }
                         }
 
-                        $valueGroups[] = new Solarium_Result_Select_Grouping_ValueGroup(
+                        $valueGroups[] = new \Solarium\Result\Select\Grouping\ValueGroup(
                             $value, $numFound, $start, $documents
                         );
                     }
 
-                    $groups[$field] = new Solarium_Result_Select_Grouping_FieldGroup(
+                    $groups[$field] = new \Solarium\Result\Select\Grouping\FieldGroup(
                         $matches, $groupCount, $valueGroups
                     );
                 }
@@ -121,7 +126,7 @@ class Solarium_Client_ResponseParser_Select_Component_Grouping
                     }
 
                     // create a group result object
-                    $group = new Solarium_Result_Select_Grouping_QueryGroup(
+                    $group = new \Solarium\Result\Select\Grouping\QueryGroup(
                         $matches, $numFound, $start, $maxScore, $documents
                     );
                     $groups[$groupQuery] = $group;
@@ -129,6 +134,6 @@ class Solarium_Client_ResponseParser_Select_Component_Grouping
             }
         }
 
-        return new Solarium_Result_Select_Grouping($groups);
+        return new \Solarium\Result\Select\Grouping\Grouping($groups);
     }
 }

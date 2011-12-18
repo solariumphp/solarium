@@ -36,12 +36,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Plugin\CustomizeRequest;
+
+/**
  * Customization value object
  *
  * @package Solarium
  * @subpackage Plugin
  */
-class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurable
+class Customization extends \Solarium\Configurable
 {
 
     /**
@@ -68,7 +73,7 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
      * Set key value
      *
      * @param string $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @return Solarium\Plugin\CustomizeRequest\Customization
      */
     public function setKey($value)
     {
@@ -90,7 +95,7 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
      * Set type value
      *
      * @param string $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @return Solarium\Plugin\CustomizeRequest\Customization
      */
     public function setType($value)
     {
@@ -112,7 +117,7 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
      * Set name value
      *
      * @param string $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @return Solarium\Plugin\CustomizeRequest\Customization
      */
     public function setName($value)
     {
@@ -134,7 +139,7 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
      * Set value
      *
      * @param string $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @return Solarium\Plugin\CustomizeRequest\Customization
      */
     public function setValue($value)
     {
@@ -156,7 +161,7 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
      * Set persistent on/off
      *
      * @param boolean $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @return Solarium\Plugin\CustomizeRequest\Customization
      */
     public function setPersistent($value)
     {
@@ -178,7 +183,7 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
      * Set overwrite option on/off
      *
      * @param boolean $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @return Solarium\Plugin\CustomizeRequest\Customization
      */
     public function setOverwrite($value)
     {

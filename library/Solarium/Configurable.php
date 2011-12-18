@@ -36,6 +36,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium;
+
+/**
  * Base class for configurable classes
  *
  * All classes extending this class are  configurable using the constructor or
@@ -44,7 +49,7 @@
  *
  * @package Solarium
  */
-class Solarium_Configurable
+class Configurable
 {
 
     /**
@@ -63,7 +68,7 @@ class Solarium_Configurable
      *
      * After handling the options the {@link _init()} method is called.
      *
-     * @throws Solarium_Exception
+     * @throws Solarium\Exception
      * @param array|Zend_Config $options
      * @return void
      */
@@ -83,7 +88,7 @@ class Solarium_Configurable
      * it's toArray method. This is compatible with the Zend_Config classes in
      * Zend Framework, but can also easily be implemented in any other object.
      *
-     * @throws Solarium_Exception
+     * @throws Solarium\Exception
      * @param array|Zend_Config $options
      * @param boolean $overwrite True for overwriting existing options, false
      *  for merging (new values overwrite old ones if needed)
@@ -98,7 +103,7 @@ class Solarium_Configurable
                 if (is_object($options)) {
                     $options = $options->toArray();
                 } else {
-                    throw new Solarium_Exception('Options must be an array or a Zend_Config object');
+                    throw new Exception('Options must be an array or a Zend_Config object');
                 }
             }
 
@@ -139,7 +144,7 @@ class Solarium_Configurable
      *
      * @param string $name
      * @param mixed $value
-     * @return Solarium_Configurable
+     * @return Solarium\Configurable
      */
     protected function _setOption($name, $value)
     {

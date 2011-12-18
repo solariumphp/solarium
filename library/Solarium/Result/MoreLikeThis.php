@@ -38,6 +38,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result;
+use Solarium;
+
+/**
  * MoreLikeThis query result
  *
  * This is the standard resulttype for a moreLikeThis query. Example usage:
@@ -57,7 +63,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_MoreLikeThis extends Solarium_Result_Select
+class MoreLikeThis extends Select\Select
 {
     /**
      * MLT interesting terms
@@ -83,7 +89,7 @@ class Solarium_Result_MoreLikeThis extends Solarium_Result_Select
     {
         $query = $this->getQuery();
         if ('none' == $query->getInterestingTerms()) {
-            throw new Solarium_Exception('interestingterms is none');
+            throw new \Solarium\Exception('interestingterms is none');
         }
         $this->_parseResponse();
         return $this->_interestingTerms;
@@ -94,14 +100,14 @@ class Solarium_Result_MoreLikeThis extends Solarium_Result_Select
      *
      * Only available if matchinclude was set to true in the query.
      *
-     * @throws Solarium_Exception
-     * @return Solarium_Document
+     * @throws Solarium\Exception
+     * @return Solarium\Document
      */
     public function getMatch()
     {
         $query = $this->getQuery();
         if (true != $query->getMatchInclude()) {
-            throw new Solarium_Exception('matchinclude was disabled in the MLT query');
+            throw new \Solarium\Exception('matchinclude was disabled in the MLT query');
         }
         $this->_parseResponse();
         return $this->_match;

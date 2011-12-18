@@ -37,19 +37,24 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Analysis;
+
+/**
  * Build a field analysis request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Analysis_Field extends Solarium_Client_RequestBuilder_Analysis
+class Field extends Analysis
 {
 
     /**
      * Build request for an analysis field query
      *
-     * @param Solarium_Query_Analysis_Field $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Analysis\Field $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {

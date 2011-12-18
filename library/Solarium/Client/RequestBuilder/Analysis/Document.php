@@ -37,25 +37,30 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Analysis;
+
+/**
  * Build a document analysis request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Analysis_Document extends Solarium_Client_RequestBuilder_Analysis
+class Document extends Analysis
 {
 
     /**
      * Build request for an analysis document query
      *
-     * @param Solarium_Query_Analysis_Document $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Analysis\Document $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {
         $request = parent::build($query);
         $request->setRawData($this->getRawData($query));
-        $request->setMethod(Solarium_Client_Request::METHOD_POST);
+        $request->setMethod(\Solarium\Client\Request::METHOD_POST);
         
         return $request;
     }
@@ -63,7 +68,7 @@ class Solarium_Client_RequestBuilder_Analysis_Document extends Solarium_Client_R
     /**
      * Create the raw post data (xml)
      *
-     * @param Solarium_Query_Analysis_Document $query
+     * @param Solarium\Query\Analysis\Document $query
      * @return string
      */
     public function getRawData($query)

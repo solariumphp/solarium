@@ -5,7 +5,7 @@ htmlHeader();
 
 // In most cases using the API or config is advisable, however in some cases it can make sense to extend classes.
 // This makes it possible to create 'query inheritance' like in this example
-class ProductQuery extends Solarium_Query_Select{
+class ProductQuery extends Solarium\Query\Select{
 
     protected function _init()
     {
@@ -15,7 +15,7 @@ class ProductQuery extends Solarium_Query_Select{
         $this->setQuery('*:*');
         $this->setStart(2)->setRows(20);
         $this->setFields(array('id','name','price'));
-        $this->addSort('price', Solarium_Query_Select::SORT_ASC);
+        $this->addSort('price', Solarium\Query\Select::SORT_ASC);
 
         // create a facet field instance and set options
         $facetSet = $this->getFacetSet();
@@ -39,7 +39,7 @@ class ProductPriceLimitedQuery extends ProductQuery{
 }
 
 // create a client instance
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 
 // create a query instance
 $query = new ProductPriceLimitedQuery;

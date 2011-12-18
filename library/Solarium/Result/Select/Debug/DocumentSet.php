@@ -37,13 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Debug;
+
+/**
  * Select component debug documentset result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Debug_DocumentSet
-    implements IteratorAggregate, Countable
+class DocumentSet
+    implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -68,7 +73,7 @@ class Solarium_Result_Select_Debug_DocumentSet
      * Get a document by key
      *
      * @param mixed $key
-     * @return Solarium_Result_Select_Debug_Document|null
+     * @return Solarium\Result\Select\Debug\Document|null
      */
     public function getDocument($key)
     {
@@ -96,7 +101,7 @@ class Solarium_Result_Select_Debug_DocumentSet
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_docs);
+        return new \ArrayIterator($this->_docs);
     }
 
     /**

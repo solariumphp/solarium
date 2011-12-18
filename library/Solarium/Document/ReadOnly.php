@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Document;
+
+/**
  * Read-only Solr document
  *
  * This is the default Solr document type returned by a select query. You can
@@ -45,8 +50,8 @@
  * @package Solarium
  * @subpackage Document
  */
-class Solarium_Document_ReadOnly
-    implements IteratorAggregate, Countable, ArrayAccess
+class ReadOnly
+    implements \IteratorAggregate, \Countable, \ArrayAccess
 {
 
     /**
@@ -108,7 +113,7 @@ class Solarium_Document_ReadOnly
      */
     public function __set($name, $value)
     {
-        throw new Solarium_Exception('A readonly document cannot be altered');
+        throw new \Solarium\Exception('A readonly document cannot be altered');
     }
 
     /**
@@ -118,7 +123,7 @@ class Solarium_Document_ReadOnly
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_fields);
+        return new \ArrayIterator($this->_fields);
     }
 
     /**

@@ -37,25 +37,32 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder;
+use Solarium\Client;
+use Solarium\Query\Update\Update as QueryUpdate;
+
+/**
  * Build an update request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuilder
+class Update extends RequestBuilder
 {
 
     /**
      * Build request for an update query
      *
-     * @param Solarium_Query_Update $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Update $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {
-        $request = new Solarium_Client_Request;
+        $request = new Client\Request;
         $request->setHandler($query->getHandler());
-        $request->setMethod(Solarium_Client_Request::METHOD_POST);
+        $request->setMethod(Client\Request::METHOD_POST);
         $request->addParam('wt', 'json');
         $request->setRawData($this->getRawData($query));
         
@@ -67,8 +74,8 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
      *
      * Each commandtype is delegated to a separate builder method.
      *
-     * @param Solarium_Query_Update $query
-     * @throws Solarium_Exception
+     * @param Solarium\Query\Update $query
+     * @throws Solarium\Exception
      * @return string
      */
     public function getRawData($query)
@@ -76,23 +83,23 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
         $xml = '<update>';
         foreach ($query->getCommands() AS $command) {
             switch ($command->getType()) {
-                case Solarium_Query_Update::COMMAND_ADD:
+                case QueryUpdate::COMMAND_ADD:
                     $xml .= $this->buildAddXml($command);
                     break;
-                case Solarium_Query_Update::COMMAND_DELETE:
+                case QueryUpdate::COMMAND_DELETE:
                     $xml .= $this->buildDeleteXml($command);
                     break;
-                case Solarium_Query_Update::COMMAND_OPTIMIZE:
+                case QueryUpdate::COMMAND_OPTIMIZE:
                     $xml .= $this->buildOptimizeXml($command);
                     break;
-                case Solarium_Query_Update::COMMAND_COMMIT:
+                case QueryUpdate::COMMAND_COMMIT:
                     $xml .= $this->buildCommitXml($command);
                     break;
-                case Solarium_Query_Update::COMMAND_ROLLBACK:
+                case QueryUpdate::COMMAND_ROLLBACK:
                     $xml .= $this->buildRollbackXml();
                     break;
                 default:
-                    throw new Solarium_Exception('Unsupported command type');
+                    throw new \Solarium\Exception('Unsupported command type');
                     break;
             }
         }
@@ -104,7 +111,7 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
     /**
      * Build XML for an add command
      *
-     * @param Solarium_Query_Update_Command_Add $command
+     * @param Solarium\Query\Update\Command\Add $command
      * @return string
      */
     public function buildAddXml($command)
@@ -161,7 +168,7 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
     /**
      * Build XML for a delete command
      *
-     * @param Solarium_Query_Update_Command_Delete $command
+     * @param Solarium\Query\Update\Command\Delete $command
      * @return string
      */
     public function buildDeleteXml($command)
@@ -183,7 +190,7 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
     /**
      * Build XML for an update command
      *
-     * @param Solarium_Query_Update_Command_Optimize $command
+     * @param Solarium\Query\Update\Command\Optimize $command
      * @return string
      */
     public function buildOptimizeXml($command)
@@ -200,7 +207,7 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
     /**
      * Build XML for a commit command
      *
-     * @param Solarium_Query_Update_Command_Commit $command
+     * @param Solarium\Query\Update\Command\Commit $command
      * @return string
      */
     public function buildCommitXml($command)

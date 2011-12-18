@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Spellcheck;
+
+/**
  * Select component spellcheck collation result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Spellcheck_Collation implements IteratorAggregate, Countable
+class Collation implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -117,7 +122,7 @@ class Solarium_Result_Select_Spellcheck_Collation implements IteratorAggregate, 
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_corrections);
+        return new \ArrayIterator($this->_corrections);
     }
 
     /**

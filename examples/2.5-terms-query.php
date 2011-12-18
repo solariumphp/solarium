@@ -4,7 +4,7 @@ require('init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 
 // get a terms query instance
 $query = $client->createTerms();

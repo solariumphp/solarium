@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Spellcheck;
+
+/**
  * Select component spellcheck suggestion result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Spellcheck_Suggestion
+class Suggestion
 {
 
     /**

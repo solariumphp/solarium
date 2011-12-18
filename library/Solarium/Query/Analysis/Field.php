@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Analysis;
+
+/**
  * Analysis document query
  *
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
+class Field extends Analysis
 {
 
     /**
@@ -52,7 +57,7 @@ class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
      */
     protected $_options = array(
         'handler'       => 'analysis/field',
-        'resultclass'   => 'Solarium_Result_Analysis_Field',
+        'resultclass'   => 'Solarium\Result\Analysis\Field',
     );
     
     /**
@@ -62,7 +67,7 @@ class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_ANALYSIS_FIELD;
+        return \Solarium\Client\Client::QUERYTYPE_ANALYSIS_FIELD;
     }
 
     /**
@@ -71,7 +76,7 @@ class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
      * The text that will be analyzed. The analysis will mimic the index-time analysis.
      *
      * @param string $value
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @return Solarium\Query\Analysis\Field Provides fluent interface
      */
     public function setFieldValue($value)
     {
@@ -94,7 +99,7 @@ class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
      * When present, the text will be analyzed based on the specified type
      *
      * @param string $type
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @return Solarium\Query\Analysis\Field Provides fluent interface
      */
     public function setFieldType($type)
     {
@@ -117,7 +122,7 @@ class Solarium_Query_Analysis_Field extends Solarium_Query_Analysis
      * When present, the text will be analyzed based on the type of this field name
      *
      * @param string $name
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @return Solarium\Query\Analysis\Field Provides fluent interface
      */
     public function setFieldName($name)
     {

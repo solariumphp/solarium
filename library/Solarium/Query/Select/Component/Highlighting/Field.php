@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Highlighting;
+
+/**
  * Highlighting per-field settings
  *
  * @link http://wiki.apache.org/solr/HighlightingParameters
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_Select_Component
+class Field extends \Solarium\Query\Select\Component\Component
 {
     /**
      * Value for fragmenter option gap
@@ -70,7 +75,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * Set name option
      *
      * @param string $name
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setName($name)
     {
@@ -83,7 +88,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * Maximum number of snippets per field
      *
      * @param int $maximum
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setSnippets($maximum)
     {
@@ -106,7 +111,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * The size, in characters, of fragments to consider for highlighting
      *
      * @param int $size
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setFragSize($size)
     {
@@ -129,7 +134,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * Collapse contiguous fragments into a single fragment
      *
      * @param boolean $merge
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setMergeContiguous($merge)
     {
@@ -150,7 +155,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * Set alternatefield option
      *
      * @param string $field
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setAlternateField($field)
     {
@@ -171,7 +176,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * Set formatter option
      *
      * @param string $formatter
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setFormatter($formatter = 'simple')
     {
@@ -194,7 +199,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * Solr option h1.simple.pre
      *
      * @param string $prefix
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setSimplePrefix($prefix)
     {
@@ -219,7 +224,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * Solr option h1.simple.post
      *
      * @param string $postfix
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setSimplePostfix($postfix)
     {
@@ -244,7 +249,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * Use one of the constants as value.
      *
      * @param string $fragmenter
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setFragmenter($fragmenter)
     {
@@ -265,7 +270,7 @@ class Solarium_Query_Select_Component_Highlighting_Field extends Solarium_Query_
      * Set useFastVectorHighlighter option
      *
      * @param boolean $use
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setUseFastVectorHighlighter($use)
     {

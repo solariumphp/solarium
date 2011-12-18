@@ -37,20 +37,26 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Select\Component;
+use Solarium\Query\Select\Component;
+
+/**
  * Add select component FacetSet to the request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_Client_RequestBuilder
+class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
 {
     
     /**
      * Add request settings for FacetSet
      *
-     * @param Solarium_Query_Select_Component_FacetSet $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select\Component\FacetSet $component
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Request
      */
     public function build($component, $request)
     {
@@ -70,20 +76,20 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
             foreach ($facets AS $facet) {
                 switch ($facet->getType())
                 {
-                    case Solarium_Query_Select_Component_FacetSet::FACET_FIELD:
+                    case Component\FacetSet::FACET_FIELD:
                         $this->addFacetField($request, $facet);
                         break;
-                    case Solarium_Query_Select_Component_FacetSet::FACET_QUERY:
+                    case Component\FacetSet::FACET_QUERY:
                         $this->addFacetQuery($request, $facet);
                         break;
-                    case Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY:
+                    case Component\FacetSet::FACET_MULTIQUERY:
                         $this->addFacetMultiQuery($request, $facet);
                         break;
-                    case Solarium_Query_Select_Component_FacetSet::FACET_RANGE:
+                    case Component\FacetSet::FACET_RANGE:
                         $this->addFacetRange($request, $facet);
                         break;
                     default:
-                        throw new Solarium_Exception('Unknown facet type');
+                        throw new \Solarium\Exception('Unknown facet type');
                 }
             }
         }
@@ -94,8 +100,8 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
     /**
      * Add params for a field facet to request
      *
-     * @param Solarium_Client_Request $request
-     * @param Solarium_Query_Select_Component_Facet_Field $facet
+     * @param Solarium\Client\Request $request
+     * @param Solarium\Query\Select\Component\Facet\Field $facet
      * @return void
      */
     public function addFacetField($request, $facet)
@@ -122,8 +128,8 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
     /**
      * Add params for a facet query to request
      *
-     * @param Solarium_Client_Request $request
-     * @param Solarium_Query_Select_Component_Facet_Query $facet
+     * @param Solarium\Client\Request $request
+     * @param Solarium\Query\Select\Component\Facet\Query $facet
      * @return void
      */
     public function addFacetQuery($request, $facet)
@@ -140,8 +146,8 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
     /**
      * Add params for a multiquery facet to request
      *
-     * @param Solarium_Client_Request $request
-     * @param Solarium_Query_Select_Component_Facet_MultiQuery $facet
+     * @param Solarium\Client\Request $request
+     * @param Solarium\Query\Select\Component\Facet\MultiQuery $facet
      * @return void
      */
     public function addFacetMultiQuery($request, $facet)
@@ -154,8 +160,8 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
     /**
      * Add params for a range facet to request
      *
-     * @param Solarium_Client_Request $request
-     * @param Solarium_Query_Select_Component_Facet_Range $facet
+     * @param Solarium\Client\Request $request
+     * @param Solarium\Query\Select\Component\Facet\Range $facet
      * @return void
      */
     public function addFacetRange($request, $facet)

@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Highlighting;
+
+/**
  * Select component highlighting result item
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Highlighting_Result implements IteratorAggregate, Countable
+class Result implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -95,7 +100,7 @@ class Solarium_Result_Select_Highlighting_Result implements IteratorAggregate, C
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_fields);
+        return new \ArrayIterator($this->_fields);
     }
 
     /**

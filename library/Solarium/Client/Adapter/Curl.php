@@ -37,13 +37,20 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\Adapter;
+use Solarium;
+use Solarium\Client;
+
+/**
  * cURL HTTP adapter
  *
  * @author Intervals <info@myintervals.com>
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
+class Curl extends Adapter
 {
 
     /**
@@ -55,7 +62,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
     {
         // @codeCoverageIgnoreStart
         if (!function_exists('curl_init')) {
-           throw new Solarium_Exception('cURL is not available, install it to use the CurlHttp adapter');
+           throw new \Solarium\Exception('cURL is not available, install it to use the CurlHttp adapter');
         }
 
         parent::_init();
@@ -65,20 +72,20 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
     /**
      * Execute a Solr request using the cURL Http
      *
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Response
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Response
      */
     public function execute($request)
     {
         list($data, $headers) = $this->_getData($request);
         $this->check($data, $headers);
-        return new Solarium_Client_Response($data, $headers);
+        return new Client\Response($data, $headers);
     }
 
     /**
      * Execute request
      *
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Client\Request $request
      * @return array
      */
     protected function _getData($request)
@@ -109,18 +116,18 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
             curl_setopt($ch, CURLOPT_HTTPHEADER, $arr);
         }
 
-        if ($method == Solarium_Client_Request::METHOD_POST) {
+        if ($method == Client\Request::METHOD_POST) {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getRawData());
             $httpResponse  = curl_exec($ch);
-        } else if ($method == Solarium_Client_Request::METHOD_GET) {
+        } else if ($method == Client\Request::METHOD_GET) {
             curl_setopt($ch, CURLOPT_HTTPGET, true);
             $httpResponse  = curl_exec($ch);
-        } else if ($method == Solarium_Client_Request::METHOD_HEAD) {
+        } else if ($method == Client\Request::METHOD_HEAD) {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
             $httpResponse  = curl_exec($ch);
         } else {
-            throw new Solarium_Exception("unsupported method: $method");
+            throw new \Solarium\Exception("unsupported method: $method");
         }
 
         $headers = array(); $data = '';
@@ -139,7 +146,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
     /**
      * Create http request options from request.
      *
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Client\Request $request
      * @return array
      */
     protected function _createOptions($request)
@@ -161,7 +168,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
     /**
      * Check result of a request
      *
-     * @throws Solarium_Client_HttpException
+     * @throws Solarium\Client\HttpException
      * @param string $data
      * @param array $headers
      * @return void
@@ -171,7 +178,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
         if (empty($data) && count($headers) == 0) {
-            throw new Solarium_Client_HttpException("HTTP request failed");
+            throw new Client\HttpException("HTTP request failed");
         }
     }
 }

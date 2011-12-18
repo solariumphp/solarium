@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result;
+
+/**
  * Ping query result
  *
  * A ping query has no useful result so only a dummy status var is available.
@@ -45,7 +50,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Ping extends Solarium_Result
+class Ping extends Result
 {
 
     /**

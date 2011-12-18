@@ -37,6 +37,13 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Facet;
+
+use Solarium\Query\Select\Component\FacetSet;
+
+/**
  * Facet query
  *
  * @link http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
@@ -44,7 +51,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Facet_Query extends Solarium_Query_Select_Component_Facet
+class Query extends Facet
 {
 
     /**
@@ -63,7 +70,7 @@ class Solarium_Query_Select_Component_Facet_Query extends Solarium_Query_Select_
      */
     public function getType()
     {
-        return Solarium_Query_Select_Component_FacetSet::FACET_QUERY;
+        return FacetSet::FACET_QUERY;
     }
 
     /**
@@ -73,12 +80,12 @@ class Solarium_Query_Select_Component_Facet_Query extends Solarium_Query_Select_
      *
      * @param string $query
      * @param array $bind Bind values for placeholders in the query string
-     * @return Solarium_Query_Select_Facet_Query Provides fluent interface
+     * @return Solarium\Query\Select\Facet\Query Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
         if (!is_null($bind)) {
-            $helper = new Solarium_Query_Helper;
+            $helper = new \Solarium\Query\Helper;
             $query = $helper->assemble($query, $bind);
         }
         
