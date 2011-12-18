@@ -68,7 +68,7 @@ class Configurable
      *
      * After handling the options the {@link _init()} method is called.
      *
-     * @throws Solarium_Exception
+     * @throws Solarium\Exception
      * @param array|Zend_Config $options
      * @return void
      */
@@ -88,7 +88,7 @@ class Configurable
      * it's toArray method. This is compatible with the Zend_Config classes in
      * Zend Framework, but can also easily be implemented in any other object.
      *
-     * @throws Solarium_Exception
+     * @throws Solarium\Exception
      * @param array|Zend_Config $options
      * @param boolean $overwrite True for overwriting existing options, false
      *  for merging (new values overwrite old ones if needed)
@@ -144,7 +144,7 @@ class Configurable
      *
      * @param string $name
      * @param mixed $value
-     * @return Solarium_Configurable
+     * @return Solarium\Configurable
      */
     protected function _setOption($name, $value)
     {

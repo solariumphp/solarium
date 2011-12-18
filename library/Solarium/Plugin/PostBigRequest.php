@@ -90,8 +90,8 @@ class PostBigRequest extends AbstractPlugin
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Query $query
+     * @param Solarium\Client\Request $request
      * @return void
      */
     public function postCreateRequest($query, $request)

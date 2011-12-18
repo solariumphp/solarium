@@ -76,7 +76,7 @@ class DisMax extends Component
      * specified or blank.
      *
      * @param string $queryAlternative
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setQueryAlternative($queryAlternative)
     {
@@ -102,7 +102,7 @@ class DisMax extends Component
      * The format supported is "fieldOne^2.3 fieldTwo fieldThree^0.4"
      *
      * @param string $queryFields
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -126,7 +126,7 @@ class DisMax extends Component
      * clauses must match. See Solr manual for details.
      *
      * @param string $minimumMatch
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setMinimumMatch($minimumMatch)
     {
@@ -152,7 +152,7 @@ class DisMax extends Component
      * Format is: "fieldA^1.0 fieldB^2.2"
      *
      * @param string $phraseFields
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setPhraseFields($phraseFields)
     {
@@ -176,7 +176,7 @@ class DisMax extends Component
      * (affects boosting)
      *
      * @param string $phraseSlop
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setPhraseSlop($phraseSlop)
     {
@@ -200,7 +200,7 @@ class DisMax extends Component
      * query string (in qf fields; affects matching)
      *
      * @param string $queryPhraseSlop
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setQueryPhraseSlop($queryPhraseSlop)
     {
@@ -223,7 +223,7 @@ class DisMax extends Component
      * Float value to use as tiebreaker in DisjunctionMaxQueries
      *
      * @param float $tie
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setTie($tie)
     {
@@ -247,7 +247,7 @@ class DisMax extends Component
      * with the user's query to influence the score.
      *
      * @param string $boostQuery
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setBoostQuery($boostQuery)
     {
@@ -273,7 +273,7 @@ class DisMax extends Component
      * Format is: "funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2"
      *
      * @param string $boostFunctions
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setBoostFunctions($boostFunctions)
     {
@@ -298,7 +298,7 @@ class DisMax extends Component
      * @since 2.1.0
      *
      * @param string $parser
-     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     * @return Solarium\Query\Select\Component\DisMax Provides fluent interface
      */
     public function setQueryParser($parser)
     {

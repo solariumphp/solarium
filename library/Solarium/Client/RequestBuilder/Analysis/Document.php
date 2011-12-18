@@ -53,8 +53,8 @@ class Document extends Analysis
     /**
      * Build request for an analysis document query
      *
-     * @param Solarium_Query_Analysis_Document $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Analysis\Document $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {
@@ -68,7 +68,7 @@ class Document extends Analysis
     /**
      * Create the raw post data (xml)
      *
-     * @param Solarium_Query_Analysis_Document $query
+     * @param Solarium\Query\Analysis\Document $query
      * @return string
      */
     public function getRawData($query)

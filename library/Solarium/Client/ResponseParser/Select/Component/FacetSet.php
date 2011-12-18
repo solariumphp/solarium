@@ -54,10 +54,10 @@ class FacetSet
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_FacetSet $facetSet
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\FacetSet $facetSet
      * @param array $data
-     * @return Solarium_Result_Select_FacetSet
+     * @return Solarium\Result\Select\FacetSet
      */
     public function parse($query, $facetSet, $data)
     {
@@ -90,7 +90,7 @@ class FacetSet
      * Create a facetset result object
      *
      * @param array $facets
-     * @return Solarium_Result_Select_FacetSet
+     * @return Solarium\Result\Select\FacetSet
      */
     protected function _createFacetSet($facets)
     {
@@ -100,7 +100,7 @@ class FacetSet
     /**
      * Add a facet result for a field facet
      *
-     * @param Solarium_Query_Select_Component_Facet_Field $facet
+     * @param Solarium\Query\Select\Component\Facet\Field $facet
      * @param array $data
      * @return void
      */
@@ -126,7 +126,7 @@ class FacetSet
     /**
      * Add a facet result for a facet query
      *
-     * @param Solarium_Query_Select_Component_Facet_Query $facet
+     * @param Solarium\Query\Select\Component\Facet\Query $facet
      * @param array $data
      * @return void
      */
@@ -143,7 +143,7 @@ class FacetSet
     /**
      * Add a facet result for a multiquery facet
      *
-     * @param Solarium_Query_Select_Component_Facet_MultiQuery $facet
+     * @param Solarium\Query\Select\Component\Facet\MultiQuery $facet
      * @param array $data
      * @return void
      */
@@ -167,7 +167,7 @@ class FacetSet
     /**
      * Add a facet result for a range facet
      *
-     * @param Solarium_Query_Select_Component_Facet_Range $facet
+     * @param Solarium\Query\Select\Component\Facet\Range $facet
      * @param array $data
      * @return void
      */

@@ -47,13 +47,13 @@ namespace Solarium\Result\Analysis;
  * @package Solarium
  * @subpackage Result
  */
-class Types extends List
+class Types extends ResultList
 {
 
     /**
      * Get index analysis list
      *
-     * @return Solarium_Result_Analysis_List|null
+     * @return Solarium\Result\Analysis\List|null
      */
     public function getIndexAnalysis()
     {
@@ -69,7 +69,7 @@ class Types extends List
     /**
      * Get query analysis list
      *
-     * @return Solarium_Result_Analysis_List|null
+     * @return Solarium\Result\Analysis\List|null
      */
     public function getQueryAnalysis()
     {

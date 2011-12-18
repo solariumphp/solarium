@@ -71,7 +71,7 @@ class Terms extends Query
      * @var array
      */
     protected $_options = array(
-        'resultclass' => 'Solarium_Result_Terms',
+        'resultclass' => 'Solarium\Result\Terms',
         'handler' => 'terms',
     );
 

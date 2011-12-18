@@ -53,10 +53,10 @@ class Grouping
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Grouping $grouping
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\Grouping $grouping
      * @param array $data
-     * @return Solarium_Result_Select_Grouping
+     * @return Solarium\Result\Select\Grouping
      */
     public function parse($query, $grouping, $data)
     {

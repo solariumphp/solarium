@@ -53,9 +53,9 @@ class Grouping
     /**
      * Add request settings for Grouping
      *
-     * @param Solarium_Query_Select_Component_Grouping $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select\Component\Grouping $component
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Request
      */
     public function build($component, $request)
     {

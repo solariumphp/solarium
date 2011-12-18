@@ -41,6 +41,8 @@
  */
 namespace Solarium\Query\Select\Component\Facet;
 
+use Solarium\Query\Select\Component\FacetSet;
+
 /**
  * Facet query
  *
@@ -88,14 +90,14 @@ class Field extends Facet
      */
     public function getType()
     {
-        return et::FACET_FIELD;
+        return FacetSet::FACET_FIELD;
     }
     
     /**
      * Set the field name
      *
      * @param string $field
-     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Field Provides fluent interface
      */
     public function setField($field)
     {
@@ -118,7 +120,7 @@ class Field extends Facet
      * Use one of the SORT_* constants as the value
      *
      * @param string $sort
-     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Field Provides fluent interface
      */
     public function setSort($sort)
     {
@@ -139,7 +141,7 @@ class Field extends Facet
      * Limit the terms for faceting by a prefix
      *
      * @param string $prefix
-     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Field Provides fluent interface
      */
     public function setPrefix($prefix)
     {
@@ -160,7 +162,7 @@ class Field extends Facet
      * Set the facet limit
      *
      * @param int $limit
-     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Field Provides fluent interface
      */
     public function setLimit($limit)
     {
@@ -181,7 +183,7 @@ class Field extends Facet
      * Set the facet offset
      *
      * @param int $offset
-     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Field Provides fluent interface
      */
     public function setOffset($offset)
     {
@@ -202,7 +204,7 @@ class Field extends Facet
      * Set the facet mincount
      *
      * @param int $minCount
-     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Field Provides fluent interface
      */
     public function setMinCount($minCount)
     {
@@ -223,7 +225,7 @@ class Field extends Facet
      * Set the missing count option
      *
      * @param boolean $missing
-     * @return Solarium_Query_Select_Component_Facet_Field Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Field Provides fluent interface
      */
     public function setMissing($missing)
     {
@@ -246,7 +248,7 @@ class Field extends Facet
      * Use one of the METHOD_* constants as value
      *
      * @param string $method
-     * @return Solarium_Query_Select_Facet_Field Provides fluent interface
+     * @return Solarium\Query\Select\Facet\Field Provides fluent interface
      */
     public function setMethod($method)
     {

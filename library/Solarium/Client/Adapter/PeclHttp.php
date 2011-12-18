@@ -63,7 +63,7 @@ class PeclHttp extends Adapter
     {
         // @codeCoverageIgnoreStart
         if (!class_exists('HttpRequest', false)) {
-           throw new olarium\Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
+           throw new \Solarium\Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
         }
 
         parent::_init();
@@ -73,8 +73,8 @@ class PeclHttp extends Adapter
     /**
      * Execute a Solr request using the Pecl Http
      *
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Response
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Response
      */
     public function execute($request)
     {
@@ -123,12 +123,12 @@ class PeclHttp extends Adapter
 
     /**
      *
-     * adapt Solarium_Client_Request to HttpRequest
+     * adapt Solarium\Client\Request to HttpRequest
      *
      * {@link http://us.php.net/manual/en/http.constants.php
      *  HTTP Predefined Constant}
      *
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Client\Request $request
      * @param HttpRequest
      */
     public function toHttpRequest($request)
@@ -159,7 +159,7 @@ class PeclHttp extends Adapter
             $method = HTTP_METH_HEAD;
             break;
         default:
-            throw new olarium\Exception(
+            throw new \Solarium\Exception(
                 'Unsupported method: ' . $request->getMethod()
             );
         }

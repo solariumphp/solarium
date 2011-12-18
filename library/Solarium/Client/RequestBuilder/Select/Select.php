@@ -53,8 +53,8 @@ class Select extends \Solarium\Client\RequestBuilder\RequestBuilder
     /**
      * Build request for a select query
      *
-     * @param Solarium_Query_Select $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {
@@ -97,7 +97,7 @@ class Select extends \Solarium\Client\RequestBuilder\RequestBuilder
             $componentBuilderClass = $types[$component->getType()]['requestbuilder'];
             if (!empty($componentBuilderClass)) {
                 $componentBuilder = new $componentBuilderClass;
-                $request = $componentBuilder->\build($component, $request);
+                $request = $componentBuilder->build($component, $request);
             }
         }
 

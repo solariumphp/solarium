@@ -53,8 +53,8 @@ class Analysis extends \Solarium\Client\RequestBuilder\RequestBuilder
     /**
      * Build request for an analysis query
      *
-     * @param Solarium_Query_Analysis $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Analysis $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {

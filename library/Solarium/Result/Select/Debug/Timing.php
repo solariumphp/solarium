@@ -89,7 +89,7 @@ class Timing implements \IteratorAggregate, \Countable
      * Get a timing phase by key
      *
      * @param mixed $key
-     * @return Solarium_Result_Select_Debug_TimingPhase|null
+     * @return Solarium\Result\Select\Debug\TimingPhase|null
      */
     public function getPhase($key)
     {

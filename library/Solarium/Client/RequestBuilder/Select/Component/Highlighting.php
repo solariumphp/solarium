@@ -53,9 +53,9 @@ class Highlighting
     /**
      * Add request settings for Highlighting
      *
-     * @param Solarium_Query_Select_Component_Highlighting $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select\Component\Highlighting $component
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Request
      */
     public function build(\Solarium\Query\Select\Component\Highlighting\Highlighting $component, \Solarium\Client\Request $request)
     {
@@ -95,8 +95,8 @@ class Highlighting
     /**
      * Add per-field override options to the request
      *
-     * @param Solarium_Query_Select_Component_Highlighting_Field $field
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Query\Select\Component\Highlighting\Field $field
+     * @param Solarium\Client\Request $request
      * @return void
      */
     protected function _addFieldParams($field, $request)

@@ -53,7 +53,7 @@ class Select extends \Solarium\Client\ResponseParser\ResponseParser
     /**
      * Get result data for the response
      *
-     * @param Solarium_Result_Select $result
+     * @param Solarium\Result\Select $result
      * @return array
      */
     public function parse($result)
@@ -73,12 +73,12 @@ class Select extends \Solarium\Client\ResponseParser\ResponseParser
 
         // component results
         $components = array();
-        $types = $query->\getComponentTypes();
+        $types = $query->getComponentTypes();
         foreach ($query->getComponents() as $component) {
             $componentParserClass = $types[$component->getType()]['responseparser'];
             if (!empty($componentParserClass)) {
                 $componentParser = new $componentParserClass;
-                $components[$component->\getType()] = $componentParser->parse($query, $component, $data);
+                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
             }
         }
 

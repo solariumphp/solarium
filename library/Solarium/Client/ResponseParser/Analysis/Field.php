@@ -54,7 +54,7 @@ class Field extends \Solarium\Client\ResponseParser\ResponseParser
     /**
      * Parse response data
      *
-     * @param Solarium_Result $result
+     * @param Solarium\Result $result
      * @return array
      */
     public function parse($result)
@@ -85,7 +85,7 @@ class Field extends \Solarium\Client\ResponseParser\ResponseParser
         $types = array();
         foreach ($data as $documentKey => $documentData) {
             $fields = $this->_parseTypes($documentData);
-            $types[] = new Analysis\List($documentKey, $fields);
+            $types[] = new Analysis\ResultList($documentKey, $fields);
         }
 
         return $types;
@@ -121,11 +121,11 @@ class Field extends \Solarium\Client\ResponseParser\ResponseParser
                         $items[] = new Analysis\Item($itemData);
                     }
 
-                    $classes[] = new Analysis\List($class, $items);
+                    $classes[] = new Analysis\ResultList($class, $items);
                     $counter += 2;
                 }
 
-                $types[] = new Analysis\List($typeKey, $classes);
+                $types[] = new Analysis\ResultList($typeKey, $classes);
             }
 
             $results[] = new Analysis\Types($fieldKey, $types);

@@ -74,8 +74,8 @@ class MoreLikeThis extends Select\Select
      */
     protected $_options = array(
         'handler'       => 'mlt',
-        'resultclass'   => 'Solarium_Result_MoreLikeThis',
-        'documentclass' => 'Solarium_Document_ReadOnly',
+        'resultclass'   => 'Solarium\Result\MoreLikeThis',
+        'documentclass' => 'Solarium\Document\ReadOnly',
         'query'         => '*:*',
         'start'         => 0,
         'rows'          => 10,
@@ -93,7 +93,7 @@ class MoreLikeThis extends Select\Select
      * @link http://wiki.apache.org/solr/ContentStream ContentStream
      *
      * @param boolean $stream
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setQueryStream($stream)
     {
@@ -115,7 +115,7 @@ class MoreLikeThis extends Select\Select
      *
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
      * @param string $term
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setInterestingTerms($term)
     {
@@ -138,7 +138,7 @@ class MoreLikeThis extends Select\Select
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
      *
      * @param boolean $include
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setMatchInclude($include)
     {
@@ -164,7 +164,7 @@ class MoreLikeThis extends Select\Select
      * Separate multiple fields with commas.
      *
      * @param string $fields
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setMltFields($fields)
     {
@@ -188,7 +188,7 @@ class MoreLikeThis extends Select\Select
      * in the source doc.
      *
      * @param int $minimum
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setMinimumTermFrequency($minimum)
     {
@@ -212,7 +212,7 @@ class MoreLikeThis extends Select\Select
      * ignored which do not occur in at least this many docs.
      *
      * @param int $minimum
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setMinimumDocumentFrequency($minimum)
     {
@@ -235,7 +235,7 @@ class MoreLikeThis extends Select\Select
      * Minimum word length below which words will be ignored.
      *
      * @param int $minimum
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setMinimumWordLength($minimum)
     {
@@ -258,7 +258,7 @@ class MoreLikeThis extends Select\Select
      * Maximum word length above which words will be ignored.
      *
      * @param int $maximum
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setMaximumWordLength($maximum)
     {
@@ -282,7 +282,7 @@ class MoreLikeThis extends Select\Select
      * query.
      *
      * @param int $maximum
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setMaximumQueryTerms($maximum)
     {
@@ -306,7 +306,7 @@ class MoreLikeThis extends Select\Select
      * stored with TermVector support.
      *
      * @param int $maximum
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setMaximumNumberOfTokens($maximum)
     {
@@ -329,7 +329,7 @@ class MoreLikeThis extends Select\Select
      * If true the query will be boosted by the interesting term relevance.
      *
      * @param boolean $boost
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -355,7 +355,7 @@ class MoreLikeThis extends Select\Select
      * Separate multiple fields with commas.
      *
      * @param string $queryFields
-     * @return Solarium_Query_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\MoreLikeThis Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {

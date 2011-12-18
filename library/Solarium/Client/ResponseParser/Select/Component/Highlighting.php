@@ -53,10 +53,10 @@ class Highlighting
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Highlighting $highlighting
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\Highlighting $highlighting
      * @param array $data
-     * @return Solarium_Result_Select_Highlighting
+     * @return Solarium\Result\Select\Highlighting
      */
     public function parse($query, $highlighting, $data)
     {

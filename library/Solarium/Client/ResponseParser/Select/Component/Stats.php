@@ -53,10 +53,10 @@ class Stats
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Stats $stats
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\Stats $stats
      * @param array $data
-     * @return Solarium_Result_Select_Stats
+     * @return Solarium\Result\Select\Stats
      */
     public function parse($query, $stats, $data)
     {

@@ -56,8 +56,8 @@ class Terms extends RequestBuilder
     /**
      * Build request for a Terms query
      *
-     * @param Solarium_Query_Terms $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Terms $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {

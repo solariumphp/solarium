@@ -77,7 +77,7 @@ class Commit extends Command
      * Set waitFlush option
      * 
      * @param boolean $waitFlush
-     * @return Solarium_Query_Update_Command_Commit Provides fluent interface
+     * @return Solarium\Query\Update\Command\Commit Provides fluent interface
      */
     public function setWaitFlush($waitFlush)
     {
@@ -98,7 +98,7 @@ class Commit extends Command
      * Set waitSearcher option
      * 
      * @param boolean $waitSearcher
-     * @return Solarium_Query_Update_Command_Commit Provides fluent interface
+     * @return Solarium\Query\Update\Command\Commit Provides fluent interface
      */
     public function setWaitSearcher($waitSearcher)
     {
@@ -119,7 +119,7 @@ class Commit extends Command
      * Set expungeDeletes option
      * 
      * @param boolean $expungeDeletes
-     * @return Solarium_Query_Update_Command_Commit Provides fluent interface
+     * @return Solarium\Query\Update\Command\Commit Provides fluent interface
      */
     public function setExpungeDeletes($expungeDeletes)
     {

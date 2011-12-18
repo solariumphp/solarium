@@ -116,7 +116,7 @@ class Grouping extends Component
      * Group based on the unique values of a field
      *
      * @param string $field
-     * @return Solarium_Field_Select_Component_Grouping fluent interface
+     * @return Solarium\Field\Select\Component\Grouping fluent interface
      */
     public function addField($field)
     {
@@ -131,7 +131,7 @@ class Grouping extends Component
      * You can use an array or a comma separated string as input
      *
      * @param array|string $fields
-     * @return Solarium_Field_Select_Component_Grouping Provides fluent interface
+     * @return Solarium\Field\Select\Component\Grouping Provides fluent interface
      */
     public function addFields($fields)
     {
@@ -158,7 +158,7 @@ class Grouping extends Component
     /**
      * Remove all fields
      *
-     * @return Solarium_Field_Select_Component_Grouping fluent interface
+     * @return Solarium\Field\Select\Component\Grouping fluent interface
      */
     public function clearFields()
     {
@@ -185,7 +185,7 @@ class Grouping extends Component
      * Group documents that match the given query
      *
      * @param string $query
-     * @return Solarium_Query_Select_Component_Grouping fluent interface
+     * @return Solarium\Query\Select\Component\Grouping fluent interface
      */
     public function addQuery($query)
     {
@@ -198,7 +198,7 @@ class Grouping extends Component
      * Add multiple grouping queries
      *
      * @param array|string $queries
-     * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
+     * @return Solarium\Query\Select\Component\Grouping Provides fluent interface
      */
     public function addQueries($queries)
     {
@@ -222,7 +222,7 @@ class Grouping extends Component
     /**
      * Remove all queries
      *
-     * @return Solarium_Query_Select_Component_Grouping fluent interface
+     * @return Solarium\Query\Select\Component\Grouping fluent interface
      */
     public function clearQueries()
     {
@@ -249,7 +249,7 @@ class Grouping extends Component
      * The number of results (documents) to return for each group
      *
      * @param int $limit
-     * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
+     * @return Solarium\Query\Select\Component\Grouping Provides fluent interface
      */
     public function setLimit($limit)
     {
@@ -272,7 +272,7 @@ class Grouping extends Component
      * The offset into the document list of each group.
      *
      * @param int $offset
-     * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
+     * @return Solarium\Query\Select\Component\Grouping Provides fluent interface
      */
     public function setOffset($offset)
     {
@@ -295,7 +295,7 @@ class Grouping extends Component
      * How to sort documents within a single group
      *
      * @param string $sort
-     * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
+     * @return Solarium\Query\Select\Component\Grouping Provides fluent interface
      */
     public function setSort($sort)
     {
@@ -319,7 +319,7 @@ class Grouping extends Component
      * result list in the response, using group format 'simple'
      *
      * @param boolean $value
-     * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
+     * @return Solarium\Query\Select\Component\Grouping Provides fluent interface
      */
     public function setMainResult($value)
     {
@@ -342,7 +342,7 @@ class Grouping extends Component
      * If true, includes the number of groups that have matched the query.
      *
      * @param boolean $value
-     * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
+     * @return Solarium\Query\Select\Component\Grouping Provides fluent interface
      */
     public function setNumberOfGroups($value)
     {
@@ -370,7 +370,7 @@ class Grouping extends Component
      * a match all query this cache has a negative impact on performance
      *
      * @param integer $value
-     * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
+     * @return Solarium\Query\Select\Component\Grouping Provides fluent interface
      */
     public function setCachePercentage($value)
     {
@@ -394,7 +394,7 @@ class Grouping extends Component
      * Same applies for StatsComponent. Default is false. Only available from Solr 3.4
      *
      * @param boolean $value
-     * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
+     * @return Solarium\Query\Select\Component\Grouping Provides fluent interface
      */
     public function setTruncate($value)
     {

@@ -4,7 +4,7 @@ require('init.php');
 htmlHeader();
 
 // create a client instance and get loadbalancer plugin instance
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 $loadbalancer = $client->getPlugin('loadbalancer');
 
 // apply loadbalancer settings
@@ -39,7 +39,7 @@ echo 'Loadbalanced ping query, should display a loadbalancing server:<br/>';
 echo 'Ping server: ' . $loadbalancer->getLastServerKey() .'<hr/>';
 
 // exclude ping query from loadbalancing
-$loadbalancer->addBlockedQueryType(Solarium_Client::QUERYTYPE_PING);
+$loadbalancer->addBlockedQueryType(Solarium\Client::QUERYTYPE_PING);
 $client->ping($query);
 echo 'Non-loadbalanced ping query, should not display a loadbalancing server:<br/>';
 echo 'Ping server: ' . $loadbalancer->getLastServerKey() .'<hr/>';

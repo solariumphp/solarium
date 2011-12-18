@@ -52,7 +52,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Query
  */
-class Select extends olarium\Query\Query
+class Select extends Solarium\Query\Query
 {
 
     /**
@@ -127,7 +127,7 @@ class Select extends olarium\Query\Query
      */
     public function getType()
     {
-        return olarium\Client\Client::QUERYTYPE_SELECT;
+        return Solarium\Client\Client::QUERYTYPE_SELECT;
     }
 
     /**
@@ -137,8 +137,8 @@ class Select extends olarium\Query\Query
      */
     protected $_options = array(
         'handler'       => 'select',
-        'resultclass'   => 'Solarium_Result_Select',
-        'documentclass' => 'Solarium_Document_ReadOnly',
+        'resultclass'   => 'Solarium\Result\Select\Select',
+        'documentclass' => 'Solarium\Document\ReadOnly',
         'query'         => '*:*',
         'start'         => 0,
         'rows'          => 10,
@@ -152,49 +152,49 @@ class Select extends olarium\Query\Query
      */
     protected $_componentTypes = array(
         self::COMPONENT_FACETSET => array(
-            'component' => 'Solarium_Query_Select_Component_FacetSet',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_FacetSet',
-            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_FacetSet',
+            'component' => 'Solarium\Query\Select\Component\FacetSet',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\FacetSet',
+            'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\FacetSet',
         ),
         self::COMPONENT_DISMAX => array(
-            'component' => 'Solarium_Query_Select_Component_DisMax',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_DisMax',
+            'component' => 'Solarium\Query\Select\Component\DisMax',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\DisMax',
             'responseparser' => null,
         ),
         self::COMPONENT_MORELIKETHIS => array(
-            'component' => 'Solarium_Query_Select_Component_MoreLikeThis',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis',
-            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_MoreLikeThis',
+            'component' => 'Solarium\Query\Select\Component\MoreLikeThis',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\MoreLikeThis',
+            'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\MoreLikeThis',
         ),
         self::COMPONENT_HIGHLIGHTING => array(
-            'component' => 'Solarium_Query_Select_Component_Highlighting',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Highlighting',
-            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Highlighting',
+            'component' => 'Solarium\Query\Select\Component\Highlighting',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\Highlighting',
+            'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\Highlighting',
         ),
         self::COMPONENT_GROUPING => array(
-            'component' => 'Solarium_Query_Select_Component_Grouping',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Grouping',
-            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Grouping',
+            'component' => 'Solarium\Query\Select\Component\Grouping',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\Grouping',
+            'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\Grouping',
         ),
         self::COMPONENT_SPELLCHECK => array(
-            'component' => 'Solarium_Query_Select_Component_Spellcheck',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Spellcheck',
-            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Spellcheck',
+            'component' => 'Solarium\Query\Select\Component\Spellcheck',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\Spellcheck',
+            'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\Spellcheck',
         ),
         self::COMPONENT_DISTRIBUTEDSEARCH => array(
-            'component' => 'Solarium_Query_Select_Component_DistributedSearch',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_DistributedSearch',
+            'component' => 'Solarium\Query\Select\Component\DistributedSearch',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\DistributedSearch',
             'responseparser' => null,
         ),
         self::COMPONENT_STATS => array(
-            'component' => 'Solarium_Query_Select_Component_Stats',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Stats',
-            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Stats',
+            'component' => 'Solarium\Query\Select\Component\Stats',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\Stats',
+            'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\Stats',
         ),
         self::COMPONENT_DEBUG => array(
-            'component' => 'Solarium_Query_Select_Component_Debug',
-            'requestbuilder' => 'Solarium_Client_RequestBuilder_Select_Component_Debug',
-            'responseparser' => 'Solarium_Client_ResponseParser_Select_Component_Debug',
+            'component' => 'Solarium\Query\Select\Component\Debug',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\Debug',
+            'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\Debug',
         ),
     );
 
@@ -271,7 +271,7 @@ class Select extends olarium\Query\Query
      *
      * @param string $query
      * @param array $bind Bind values for placeholders in the query string
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
@@ -298,7 +298,7 @@ class Select extends olarium\Query\Query
      * Use one of the constants as value
      *
      * @param string $operator
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setQueryDefaultOperator($operator)
     {
@@ -319,7 +319,7 @@ class Select extends olarium\Query\Query
      * Set default query field
      *
      * @param string $field
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setQueryDefaultField($field)
     {
@@ -340,7 +340,7 @@ class Select extends olarium\Query\Query
      * Set the start offset
      *
      * @param integer $start
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setStart($start)
     {
@@ -361,7 +361,7 @@ class Select extends olarium\Query\Query
      * Set a custom resultclass
      *
      * @param string $value classname
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setResultClass($value)
     {
@@ -384,7 +384,7 @@ class Select extends olarium\Query\Query
      * Set a custom document class
      *
      * @param string $value classname
-     * @return Solarium_Query
+     * @return Solarium\Query
      */
     public function setDocumentClass($value)
     {
@@ -407,7 +407,7 @@ class Select extends olarium\Query\Query
      * Set the number of rows to fetch
      *
      * @param integer $rows
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setRows($rows)
     {
@@ -428,7 +428,7 @@ class Select extends olarium\Query\Query
      * Specify a field to return in the resultset
      *
      * @param string $field
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function addField($field)
     {
@@ -442,7 +442,7 @@ class Select extends olarium\Query\Query
      * @param string|array $fields can be an array or string with comma
      * separated fieldnames
      *
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function addFields($fields)
     {
@@ -462,7 +462,7 @@ class Select extends olarium\Query\Query
      * Remove a field from the field list
      *
      * @param string $field
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function removeField($field)
     {
@@ -476,7 +476,7 @@ class Select extends olarium\Query\Query
     /**
      * Remove all fields from the field list.
      *
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function clearFields()
     {
@@ -500,7 +500,7 @@ class Select extends olarium\Query\Query
      * This overwrites any existing fields
      *
      * @param array $fields
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -515,7 +515,7 @@ class Select extends olarium\Query\Query
      *
      * @param string $sort
      * @param string $order
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function addSort($sort, $order)
     {
@@ -530,7 +530,7 @@ class Select extends olarium\Query\Query
      * The input array must contain sort items as keys and the order as values.
      *
      * @param array $sorts
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function addSorts(array $sorts)
     {
@@ -545,7 +545,7 @@ class Select extends olarium\Query\Query
      * Remove a sort
      *
      * @param string $sort
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function removeSort($sort)
     {
@@ -559,7 +559,7 @@ class Select extends olarium\Query\Query
     /**
      * Remove all sorts
      *
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function clearSorts()
     {
@@ -583,7 +583,7 @@ class Select extends olarium\Query\Query
      * This overwrites any existing sorts
      *
      * @param array $sorts
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setSorts($sorts)
     {
@@ -604,7 +604,7 @@ class Select extends olarium\Query\Query
      * after setting the key, by using the addFilterQuery method.
      *
      * @param mixed $options
-     * @return Solarium_Query_Select_FilterQuery
+     * @return Solarium\Query\Select\FilterQuery
      */
     public function createFilterQuery($options = null)
     {
@@ -628,8 +628,8 @@ class Select extends olarium\Query\Query
      * Supports a filterquery instance or a config array, in that case a new
      * filterquery instance wil be created based on the options.
      *
-     * @param Solarium_Query_Select_FilterQuery|array $filterQuery
-     * @return Solarium_Query_Select Provides fluent interface
+     * @param Solarium\Query\Select\FilterQuery|array $filterQuery
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function addFilterQuery($filterQuery)
     {
@@ -640,13 +640,13 @@ class Select extends olarium\Query\Query
         $key = $filterQuery->getKey();
 
         if (0 === strlen($key)) {
-            throw new olarium\Exception('A filterquery must have a key value');
+            throw new \Solarium\Exception('A filterquery must have a key value');
         }
 
         //double add calls for the same FQ are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->_filterQueries) && $this->_filterQueries[$key] !== $filterQuery) {
-            throw new olarium\Exception('A filterquery must have a unique key value within a query');
+            throw new \Solarium\Exception('A filterquery must have a unique key value within a query');
         } else {
             $this->_filterQueries[$key] = $filterQuery;
         }
@@ -658,7 +658,7 @@ class Select extends olarium\Query\Query
      * Add multiple filterqueries
      *
      * @param array $filterQueries
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function addFilterQueries(array $filterQueries)
     {
@@ -705,8 +705,8 @@ class Select extends olarium\Query\Query
      *
      * You can remove a filterquery by passing it's key, or by passing the filterquery instance
      *
-     * @param string|Solarium_Query_Select_FilterQuery $filterQuery
-     * @return Solarium_Query_Select Provides fluent interface
+     * @param string|Solarium\Query\Select\FilterQuery $filterQuery
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function removeFilterQuery($filterQuery)
     {
@@ -724,7 +724,7 @@ class Select extends olarium\Query\Query
     /**
      * Remove all filterqueries
      *
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function clearFilterQueries()
     {
@@ -762,7 +762,7 @@ class Select extends olarium\Query\Query
      * @param string $component
      * @param string $requestBuilder
      * @param string $responseParser
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function registerComponentType($key, $component, $requestBuilder=null, $responseParser=null)
     {
@@ -804,12 +804,13 @@ class Select extends olarium\Query\Query
             if ($autoload == true) {
 
                 if (!isset($this->_componentTypes[$key])) {
-                    throw new olarium\Exception('Cannot autoload unknown component: ' . $key);
+                    throw new \Solarium\Exception('Cannot autoload unknown component: ' . $key);
                 }
 
                 $className = $this->_componentTypes[$key]['component'];
+                $className = class_exists($className) ? $className : $className.strrchr($className, '\\');
                 $component = new $className($config);
-                $this->\setComponent($key, $component);
+                $this->setComponent($key, $component);
                 return $component;
             }
             return null;
@@ -823,7 +824,7 @@ class Select extends olarium\Query\Query
      *
      * @param string $key
      * @param object|null $value
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setComponent($key, $value)
     {
@@ -836,8 +837,8 @@ class Select extends olarium\Query\Query
      *
      * You can remove a component by passing it's key or the component instance
      *
-     * @param string|Solarium_Query_Select_Component $component
-     * @return Solarium_Query_Select Provides fluent interface
+     * @param string|Solarium\Query\Select\Component $component
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function removeComponent($component)
     {
@@ -875,7 +876,7 @@ class Select extends olarium\Query\Query
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Query_Select_Component_MoreLikeThis
+     * @return Solarium\Query\Select\Component\MoreLikeThis
      */
     public function getMoreLikeThis()
     {
@@ -887,7 +888,7 @@ class Select extends olarium\Query\Query
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Query_Select_Component_FacetSet
+     * @return Solarium\Query\Select\Component\FacetSet
      */
     public function getFacetSet()
     {
@@ -899,7 +900,7 @@ class Select extends olarium\Query\Query
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Query_Select_Component_DisMax
+     * @return Solarium\Query\Select\Component\DisMax
      */
     public function getDisMax()
     {
@@ -911,7 +912,7 @@ class Select extends olarium\Query\Query
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Query_Select_Component_Highlighting
+     * @return Solarium\Query\Select\Component\Highlighting
      */
     public function getHighlighting()
     {
@@ -923,7 +924,7 @@ class Select extends olarium\Query\Query
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Query_Select_Component_Grouping
+     * @return Solarium\Query\Select\Component\Grouping
      */
     public function getGrouping()
     {
@@ -935,7 +936,7 @@ class Select extends olarium\Query\Query
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Query_Select_Component_Spellcheck
+     * @return Solarium\Query\Select\Component\Spellcheck
      */
     public function getSpellcheck()
     {
@@ -947,7 +948,7 @@ class Select extends olarium\Query\Query
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Query_Select_Component_DistributedSearch
+     * @return Solarium\Query\Select\Component\DistributedSearch
      */
     public function getDistributedSearch()
     {
@@ -959,7 +960,7 @@ class Select extends olarium\Query\Query
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Query_Select_Component_Stats
+     * @return Solarium\Query\Select\Component\Stats
      */
     public function getStats()
     {
@@ -971,7 +972,7 @@ class Select extends olarium\Query\Query
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Query_Select_Component_Debug
+     * @return Solarium\Query\Select\Component\Debug
      */
     public function getDebug()
     {

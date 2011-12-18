@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\Client\ResponseParser\Select\Component;
-use Solarium\Result\Select\Spellcheck;
+use Solarium\Result\Select\Spellcheck as ResultSelectSpellcheck;
 
 /**
  * Parse select component Highlighting result from the data
@@ -54,10 +54,10 @@ class Spellcheck
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Spellcheck $spellcheck
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\Spellcheck $spellcheck
      * @param array $data
-     * @return Solarium_Result_Select_Spellcheck|null
+     * @return Solarium\Result\Select\Spellcheck|null
      */
     public function parse($query, $spellcheck, $data)
     {
@@ -93,7 +93,7 @@ class Spellcheck
                 $index +=2;
             }
 
-            return new Spellcheck\Spellcheck($suggestions, $collation, $correctlySpelled);
+            return new ResultSelectSpellcheck\Spellcheck($suggestions, $collation, $correctlySpelled);
         } else {
             return null;
         }
@@ -103,13 +103,13 @@ class Spellcheck
      * Parse collation data into a result object
      *
      * @param array $values
-     * @return Solarium_Result_Select_Spellcheck_Collation
+     * @return Solarium\Result\Select\ResultSelectSpellcheck\Collation
      */
     protected function _parseCollation($values)
     {
         if (is_string($values)) {
 
-            return new Spellcheck\Collation($values, null, array());
+            return new ResultSelectSpellcheck\Collation($values, null, array());
 
         } else {
 
@@ -149,7 +149,7 @@ class Spellcheck
                 }
             }
 
-            return new Spellcheck\Collation($query, $hits, $corrections);
+            return new ResultSelectSpellcheck\Collation($query, $hits, $corrections);
         }
     }
 
@@ -158,7 +158,7 @@ class Spellcheck
      *
      * @param string $key
      * @param array $value
-     * @return Solarium_Result_Select_Spellcheck_Suggestion
+     * @return Solarium\Result\Select\ResultSelectSpellcheck\Suggestion
      */
     protected function _parseSuggestion($key, $value)
     {
@@ -175,7 +175,7 @@ class Spellcheck
             $frequency = $value['suggestion'][0]['freq'];
         }
 
-        return new Spellcheck\Suggestion(
+        return new ResultSelectSpellcheck\Suggestion(
             $numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency
         );
     }

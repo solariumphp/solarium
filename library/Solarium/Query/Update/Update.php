@@ -52,7 +52,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Query
  */
-class Update extends olarium\Query\Query
+class Update extends Solarium\Query\Query
 {
 
     /**
@@ -86,11 +86,11 @@ class Update extends olarium\Query\Query
      * @var array
      */
     protected $_commandTypes = array(
-        self::COMMAND_ADD => 'Solarium_Query_Update_Command_Add',
-        self::COMMAND_DELETE => 'Solarium_Query_Update_Command_Delete',
-        self::COMMAND_COMMIT => 'Solarium_Query_Update_Command_Commit',
-        self::COMMAND_OPTIMIZE => 'Solarium_Query_Update_Command_Optimize',
-        self::COMMAND_ROLLBACK => 'Solarium_Query_Update_Command_Rollback',
+        self::COMMAND_ADD => 'Solarium\Query\Update\Command\Add',
+        self::COMMAND_DELETE => 'Solarium\Query\Update\Command\Delete',
+        self::COMMAND_COMMIT => 'Solarium\Query\Update\Command\Commit',
+        self::COMMAND_OPTIMIZE => 'Solarium\Query\Update\Command\Optimize',
+        self::COMMAND_ROLLBACK => 'Solarium\Query\Update\Command\Rollback',
     );
 
     /**
@@ -100,8 +100,8 @@ class Update extends olarium\Query\Query
      */
     protected $_options = array(
         'handler'       => 'update',
-        'resultclass'   => 'Solarium_Result_Update',
-        'documentclass' => 'Solarium_Document_ReadWrite',
+        'resultclass'   => 'Solarium\Result\Update',
+        'documentclass' => 'Solarium\Document\ReadWrite',
     );
 
     /**
@@ -121,7 +121,7 @@ class Update extends olarium\Query\Query
      */
     public function getType()
     {
-        return olarium\Client\Client::QUERYTYPE_UPDATE;
+        return Solarium\Client\Client::QUERYTYPE_UPDATE;
     }
 
     /**
@@ -140,7 +140,7 @@ class Update extends olarium\Query\Query
                 $type = $value['type'];
 
                 if ($type == self::COMMAND_ADD) {
-                    throw new olarium\Exception(
+                    throw new \Solarium\Exception(
                         "Adding documents is not supported in configuration, use the API for this"
                     );
                 }
@@ -154,17 +154,17 @@ class Update extends olarium\Query\Query
     /**
      * Create a command instance
      *
-     * @throws Solarium_Exception
+     * @throws Solarium\Exception
      * @param string $type
      * @param mixed $options
-     * @return Solarium_Query_Update_Command
+     * @return Solarium\Query\Update\Command
      */
     public function createCommand($type, $options = null)
     {
         $type = strtolower($type);
 
         if (!isset($this->_commandTypes[$type])) {
-            throw new olarium\Exception("Update commandtype unknown: " . $type);
+            throw new \Solarium\Exception("Update commandtype unknown: " . $type);
         }
 
         $class = $this->_commandTypes[$type];
@@ -184,12 +184,12 @@ class Update extends olarium\Query\Query
     /**
      * Add a command to this update query
      *
-     * The command must be an instance of one of the Solarium_Query_Update_*
+     * The command must be an instance of one of the Solarium\Query\Update_*
      * classes.
      *
      * @param string $key
      * @param object $command
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function add($key, $command)
     {
@@ -207,8 +207,8 @@ class Update extends olarium\Query\Query
      *
      * You can remove a command by passing it's key or by passing the command instance
      *
-     * @param string|Solarium_Query_Update_Command $command
-     * @return Solarium_Query_Update Provides fluent interface
+     * @param string|Solarium\Query\Update\Command $command
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function remove($command)
     {
@@ -234,7 +234,7 @@ class Update extends olarium\Query\Query
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function addRollback()
     {
@@ -248,7 +248,7 @@ class Update extends olarium\Query\Query
      * create you own command instance and use the add method.
      *
      * @param string $query
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function addDeleteQuery($query)
     {
@@ -265,7 +265,7 @@ class Update extends olarium\Query\Query
      * create you own command instance and use the add method.
      *
      * @param array $queries
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function addDeleteQueries($queries)
     {
@@ -282,7 +282,7 @@ class Update extends olarium\Query\Query
      * create you own command instance and use the add method.
      *
      * @param int|string $id
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function addDeleteById($id)
     {
@@ -299,7 +299,7 @@ class Update extends olarium\Query\Query
      * create you own command instance and use the add method.
      *
      * @param array $ids
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function addDeleteByIds($ids)
     {
@@ -315,10 +315,10 @@ class Update extends olarium\Query\Query
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param Solarium_Document_ReadWrite $document
+     * @param Solarium\Document\ReadWrite $document
      * @param boolean $overwrite
      * @param int $commitWithin
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function addDocument($document, $overwrite = null,
                                 $commitWithin = null)
@@ -335,7 +335,7 @@ class Update extends olarium\Query\Query
      * @param array $documents
      * @param boolean $overwrite
      * @param int $commitWithin
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function addDocuments($documents, $overwrite = null,
                                  $commitWithin = null)
@@ -357,7 +357,7 @@ class Update extends olarium\Query\Query
      * @param boolean $waitFlush
      * @param boolean $waitSearcher
      * @param boolean $expungeDeletes
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
     public function addCommit($waitFlush = null, $waitSearcher = null,
                               $expungeDeletes = null)
@@ -380,7 +380,7 @@ class Update extends olarium\Query\Query
      * @param boolean $waitFlush
      * @param boolean $waitSearcher
      * @param int $maxSegments
-     * @return Solarium_Query_Update Provides fluent interface
+     * @return Solarium\Query\Update Provides fluent interface
      */
    public function addOptimize($waitFlush = null, $waitSearcher = null,
                                $maxSegments = null)
@@ -396,11 +396,11 @@ class Update extends olarium\Query\Query
    /**
     * Set a custom document class for use in the createDocument method
     *
-    * This class should extend Solarium_Document_ReadWrite or
+    * This class should extend Solarium\Document\ReadWrite or
     * at least be compatible with it's interface
     *
     * @param string $value classname
-    * @return Solarium_Query
+    * @return Solarium\Query
     */
     public function setDocumentClass($value)
     {
@@ -429,7 +429,7 @@ class Update extends olarium\Query\Query
      *
      * @param array $fields
      * @param array $boosts
-     * @return Solarium_Document_ReadWrite
+     * @return Solarium\Document\ReadWrite
      */
     public function createDocument($fields = array(), $boosts = array())
     {

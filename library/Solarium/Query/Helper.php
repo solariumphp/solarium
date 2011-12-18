@@ -274,7 +274,7 @@ class Helper
     /**
      * Render placeholders in a querystring
      *
-     * @throws Solarium_Exception
+     * @throws Solarium\Exception
      * @param array $matches
      * @return string
      */

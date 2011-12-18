@@ -53,7 +53,7 @@ class Update extends ResponseParser
     /**
      * Parse response data
      *
-     * @param Solarium_Result_Update $result
+     * @param Solarium\Result\Update $result
      * @return array
      */
     public function parse($result)

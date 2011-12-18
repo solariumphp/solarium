@@ -97,7 +97,7 @@ class ReadWrite extends ReadOnly
      * @param string $key
      * @param mixed $value
      * @param float $boost
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function addField($key, $value, $boost = null)
     {
@@ -126,7 +126,7 @@ class ReadWrite extends ReadOnly
      * @param string $key
      * @param mixed $value
      * @param float $boost
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function setField($key, $value, $boost = null)
     {
@@ -144,7 +144,7 @@ class ReadWrite extends ReadOnly
      * Remove a field
      *
      * @param string $key
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function removeField($key)
     {
@@ -179,7 +179,7 @@ class ReadWrite extends ReadOnly
      *
      * @param string $key
      * @param float $boost
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function setFieldBoost($key, $boost)
     {
@@ -191,7 +191,7 @@ class ReadWrite extends ReadOnly
      * Set the document boost value
      *
      * @param float $boost
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -212,7 +212,7 @@ class ReadWrite extends ReadOnly
     /**
      * Clear all fields
      *
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      **/
     public function clear()
     {

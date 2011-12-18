@@ -50,7 +50,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Query
  */
-class Stats extends olarium\Query\Select\Component\Component
+class Stats extends Solarium\Query\Select\Component\Component
 {
 
     /**
@@ -58,7 +58,7 @@ class Stats extends olarium\Query\Select\Component\Component
      *
      * @var string
      */
-    protected $_type = olarium\Query\Select\Select::COMPONENT_STATS;
+    protected $_type = Solarium\Query\Select\Select::COMPONENT_STATS;
 
     /**
      * Stats facets for all fields
@@ -107,7 +107,7 @@ class Stats extends olarium\Query\Select\Component\Component
      * after setting the key, by using the addField method.
      *
      * @param mixed $options
-     * @return Solarium_Query_Select_Component_Stats_Field
+     * @return Solarium\Query\Select\Component\Stats\Field
      */
     public function createField($options = null)
     {
@@ -131,8 +131,8 @@ class Stats extends olarium\Query\Select\Component\Component
      * Supports a field instance or a config array, in that case a new
      * field instance wil be created based on the options.
      *
-     * @param Solarium_Query_Select_Component_Stats_Field|array $field
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @param Solarium\Query\Select\Component\Stats\Field|array $field
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function addField($field)
     {
@@ -143,13 +143,13 @@ class Stats extends olarium\Query\Select\Component\Component
         $key = $field->getKey();
 
         if (0 === strlen($key)) {
-            throw new olarium\Exception('A field must have a key value');
+            throw new \Solarium\Exception('A field must have a key value');
         }
 
         //double add calls for the same field are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->_fields) && $this->_fields[$key] !== $field) {
-            throw new olarium\Exception('A field must have a unique key value');
+            throw new \Solarium\Exception('A field must have a unique key value');
         } else {
             $this->_fields[$key] = $field;
         }
@@ -161,7 +161,7 @@ class Stats extends olarium\Query\Select\Component\Component
      * Add multiple fields
      *
      * @param array $fields
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function addFields(array $fields)
     {
@@ -208,8 +208,8 @@ class Stats extends olarium\Query\Select\Component\Component
      *
      * You can remove a field by passing it's key, or by passing the field instance
      *
-     * @param string|Solarium_Query_Select_Component_Stats_Field $field
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @param string|Solarium\Query\Select\Component\Stats\Field $field
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function removeField($field)
     {
@@ -227,7 +227,7 @@ class Stats extends olarium\Query\Select\Component\Component
     /**
      * Remove all fields
      *
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function clearFields()
     {
@@ -252,7 +252,7 @@ class Stats extends olarium\Query\Select\Component\Component
      * Specify a facet to return in the resultset
      *
      * @param string $facet
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function addFacet($facet)
     {
@@ -266,7 +266,7 @@ class Stats extends olarium\Query\Select\Component\Component
      * @param string|array $facets can be an array or string with comma
      * separated facetnames
      *
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function addFacets($facets)
     {
@@ -286,7 +286,7 @@ class Stats extends olarium\Query\Select\Component\Component
      * Remove a facet from the facet list
      *
      * @param string $facet
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function removeFacet($facet)
     {
@@ -300,7 +300,7 @@ class Stats extends olarium\Query\Select\Component\Component
     /**
      * Remove all facets from the facet list.
      *
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function clearFacets()
     {
@@ -324,7 +324,7 @@ class Stats extends olarium\Query\Select\Component\Component
      * This overwrites any existing facets
      *
      * @param array $facets
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function setFacets($facets)
     {

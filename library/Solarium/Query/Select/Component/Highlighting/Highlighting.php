@@ -98,7 +98,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      *
      * @param string $name
      * @param boolean $autocreate
-     * @return Solarium_Query_Select_Component_Highlighting_Field
+     * @return Solarium\Query\Select\Component\Highlighting\Field
      */
     public function getField($name, $autocreate = true)
     {
@@ -115,8 +115,8 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
     /**
      * Add a field for highlighting
      *
-     * @param string|array|Solarium_Query_Select_Component_Highlighting_Field $field
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @param string|array|Solarium\Query\Select\Component\Highlighting\Field $field
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function addField($field)
     {
@@ -142,7 +142,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * @param string|array $fields can be an array of object instances or a string with comma
      * separated fieldnames
      *
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function addFields($fields)
     {
@@ -168,7 +168,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Remove a highlighting field
      *
      * @param string $field
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function removeField($field)
     {
@@ -182,7 +182,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
     /**
      * Remove all fields
      *
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function clearFields()
     {
@@ -206,7 +206,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * This overwrites any existing fields
      *
      * @param array $fields
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -222,7 +222,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Maximum number of snippets per field
      *
      * @param int $maximum
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setSnippets($maximum)
     {
@@ -245,7 +245,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * The size, in characters, of fragments to consider for highlighting
      *
      * @param int $size
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setFragSize($size)
     {
@@ -268,7 +268,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Collapse contiguous fragments into a single fragment
      *
      * @param boolean $merge
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setMergeContiguous($merge)
     {
@@ -289,7 +289,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set requireFieldMatch option
      *
      * @param boolean $require
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setRequireFieldMatch($require)
     {
@@ -312,7 +312,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * How many characters into a document to look for suitable snippets
      *
      * @param int $chars
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setMaxAnalyzedChars($chars)
     {
@@ -333,7 +333,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set alternatefield option
      *
      * @param string $field
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setAlternateField($field)
     {
@@ -354,7 +354,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set maxAlternateFieldLength option
      *
      * @param int $length
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setMaxAlternateFieldLength($length)
     {
@@ -375,7 +375,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set formatter option
      *
      * @param string $formatter
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setFormatter($formatter = 'simple')
     {
@@ -398,7 +398,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Solr option h1.simple.pre
      *
      * @param string $prefix
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setSimplePrefix($prefix)
     {
@@ -423,7 +423,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Solr option h1.simple.post
      *
      * @param string $postfix
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setSimplePostfix($postfix)
     {
@@ -448,7 +448,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Use one of the constants as value.
      *
      * @param string $fragmenter
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setFragmenter($fragmenter)
     {
@@ -469,7 +469,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set fraglistbuilder option
      *
      * @param string $builder
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setFragListBuilder($builder)
     {
@@ -490,7 +490,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set fragmentsbuilder option
      *
      * @param string $builder
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setFragmentsBuilder($builder)
     {
@@ -511,7 +511,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set useFastVectorHighlighter option
      *
      * @param boolean $use
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setUseFastVectorHighlighter($use)
     {
@@ -532,7 +532,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set usePhraseHighlighter option
      *
      * @param boolean $use
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setUsePhraseHighlighter($use)
     {
@@ -553,7 +553,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set HighlightMultiTerm option
      *
      * @param boolean $highlight
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setHighlightMultiTerm($highlight)
     {
@@ -574,7 +574,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set RegexSlop option
      *
      * @param float $slop
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setRegexSlop($slop)
     {
@@ -595,7 +595,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set RegexPattern option
      *
      * @param string $pattern
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setRegexPattern($pattern)
     {
@@ -616,7 +616,7 @@ class Highlighting extends \Solarium\Query\Select\Component\Component
      * Set RegexMaxAnalyzedChars option
      *
      * @param int $chars
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return Solarium\Query\Select\Component\Highlighting Provides fluent interface
      */
     public function setRegexMaxAnalyzedChars($chars)
     {

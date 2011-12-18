@@ -64,7 +64,7 @@ class Spellcheck extends Component
      * Query to spellcheck
      *
      * @param string $query
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setQuery($query)
     {
@@ -87,7 +87,7 @@ class Spellcheck extends Component
      * Build the spellcheck?
      *
      * @param boolean $build
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setBuild($build)
     {
@@ -110,7 +110,7 @@ class Spellcheck extends Component
      * Reload the dictionary?
      *
      * @param boolean $reload
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setReload($reload)
     {
@@ -133,7 +133,7 @@ class Spellcheck extends Component
      * The name of the dictionary to use
      *
      * @param string $dictionary
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setDictionary($dictionary)
     {
@@ -156,7 +156,7 @@ class Spellcheck extends Component
 	 * The maximum number of suggestions to return
 	 *
      * @param int $count
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setCount($count)
     {
@@ -179,7 +179,7 @@ class Spellcheck extends Component
      * Only return suggestions that result in more hits for the query than the existing query
      *
      * @param boolean $onlyMorePopular
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setOnlyMorePopular($onlyMorePopular)
     {
@@ -200,7 +200,7 @@ class Spellcheck extends Component
      * Set extendedResults option
      *
      * @param boolean $extendedResults
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setExtendedResults($extendedResults)
     {
@@ -221,7 +221,7 @@ class Spellcheck extends Component
      * Set collate option
      *
      * @param boolean $collate
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setCollate($collate)
     {
@@ -242,7 +242,7 @@ class Spellcheck extends Component
      * Set maxCollations option
      *
      * @param int $maxCollations
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setMaxCollations($maxCollations)
     {
@@ -263,7 +263,7 @@ class Spellcheck extends Component
      * Set maxCollationTries option
      *
      * @param string $maxCollationTries
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setMaxCollationTries($maxCollationTries)
     {
@@ -284,7 +284,7 @@ class Spellcheck extends Component
      * Set maxCollationEvaluations option
      *
      * @param int $maxCollationEvaluations
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setMaxCollationEvaluations($maxCollationEvaluations)
     {
@@ -305,7 +305,7 @@ class Spellcheck extends Component
      * Set collateExtendedResults option
      *
      * @param string $collateExtendedResults
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setCollateExtendedResults($collateExtendedResults)
     {
@@ -326,7 +326,7 @@ class Spellcheck extends Component
      * Set accuracy option
      *
      * @param float $accuracy
-     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface
+     * @return Solarium\Query\Select\Component\Spellcheck Provides fluent interface
      */
     public function setAccuracy($accuracy)
     {

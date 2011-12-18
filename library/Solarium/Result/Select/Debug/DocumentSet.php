@@ -73,7 +73,7 @@ class DocumentSet
      * Get a document by key
      *
      * @param mixed $key
-     * @return Solarium_Result_Select_Debug_Document|null
+     * @return Solarium\Result\Select\Debug\Document|null
      */
     public function getDocument($key)
     {

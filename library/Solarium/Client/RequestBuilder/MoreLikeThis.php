@@ -57,8 +57,8 @@ class MoreLikeThis
     /**
      * Build request for a MoreLikeThis query
      *
-     * @param Solarium_Query_MoreLikeThis $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\MoreLikeThis $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {

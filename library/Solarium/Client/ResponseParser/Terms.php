@@ -54,7 +54,7 @@ class Terms extends ResponseParser
     /**
      * Get result data for the response
      *
-     * @param Solarium_Result_Terms $result
+     * @param Solarium\Result\Terms $result
      * @return array
      */
     public function parse($result)

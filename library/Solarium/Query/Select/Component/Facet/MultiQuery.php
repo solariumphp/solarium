@@ -40,7 +40,9 @@
  * @namespace
  */
 namespace Solarium\Query\Select\Component\Facet;
+
 use Solarium;
+use Solarium\Query\Select\Component\FacetSet;
 
 /**
  * Facet MultiQuery
@@ -90,7 +92,7 @@ class MultiQuery extends Facet
      */
     public function getType()
     {
-        return et::FACET_MULTIQUERY;
+        return FacetSet::FACET_MULTIQUERY;
     }
 
     /**
@@ -102,7 +104,7 @@ class MultiQuery extends Facet
      * @param string $key
      * @param string $query
      * @param array $excludes
-     * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\MultiQuery Provides fluent interface
      */
     public function createQuery($key, $query, $excludes = array())
     {
@@ -123,8 +125,8 @@ class MultiQuery extends Facet
      * Supports a facetquery instance or a config array, in that case a new
      * facetquery instance wil be created based on the options.
      *
-     * @param Solarium_Query_Select_Component_Facet_Query|array $facetQuery
-     * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
+     * @param Solarium\Query\Select\Component\Facet\Query|array $facetQuery
+     * @return Solarium\Query\Select\Component\Facet\MultiQuery Provides fluent interface
      */
     public function addQuery($facetQuery)
     {
@@ -135,11 +137,11 @@ class MultiQuery extends Facet
         $key = $facetQuery->getKey();
 
         if (0 === strlen($key)) {
-            throw new olarium\Exception('A facetquery must have a key value');
+            throw new \Solarium\Exception('A facetquery must have a key value');
         }
 
         if (array_key_exists($key, $this->_facetQueries)) {
-            throw new olarium\Exception('A query must have a unique key value within a multiquery facet');
+            throw new \Solarium\Exception('A query must have a unique key value within a multiquery facet');
         }
 
         // forward shared excludes
@@ -153,7 +155,7 @@ class MultiQuery extends Facet
      * Add multiple facetqueries
      *
      * @param array $facetQueries Instances or config array
-     * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\MultiQuery Provides fluent interface
      */
     public function addQueries(array $facetQueries)
     {
@@ -200,8 +202,8 @@ class MultiQuery extends Facet
      *
      * You can remove a facetquery by passing it's key or the facetquery instance
      *
-     * @param string|Solarium_Query_Select_Component_Facet_Query $query
-     * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
+     * @param string|Solarium\Query\Select\Component\Facet\Query $query
+     * @return Solarium\Query\Select\Component\Facet\MultiQuery Provides fluent interface
      */
     public function removeQuery($query)
     {
@@ -219,7 +221,7 @@ class MultiQuery extends Facet
     /**
      * Remove all facetqueries
      *
-     * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\MultiQuery Provides fluent interface
      */
     public function clearQueries()
     {
@@ -233,7 +235,7 @@ class MultiQuery extends Facet
      * This overwrites any existing facetqueries
      *
      * @param array $facetQueries
-     * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\MultiQuery Provides fluent interface
      */
     public function setQueries($facetQueries)
     {
@@ -251,7 +253,7 @@ class MultiQuery extends Facet
      * specific FacetQuery instance instead.
      *
      * @param string $tag
-     * @return Solarium_Query_Select_Component_Facet Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet Provides fluent interface
      */
     public function addExclude($tag)
     {
@@ -272,7 +274,7 @@ class MultiQuery extends Facet
      * specific FacetQuery instance instead.
      *
      * @param string $exclude
-     * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\MultiQuery Provides fluent interface
      */
     public function removeExclude($exclude)
     {
@@ -292,7 +294,7 @@ class MultiQuery extends Facet
      * If you don't want this use the clearExcludes method of a
      * specific FacetQuery instance instead.
      *
-     * @return Solarium_Query_Select_Component_Facet_MultiQuery Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\MultiQuery Provides fluent interface
      */
     public function clearExcludes()
     {

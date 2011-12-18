@@ -73,7 +73,7 @@ class Stats
      * Get a result by key
      *
      * @param mixed $key
-     * @return Solarium_Result_Select_Stats_Result|null
+     * @return Solarium\Result\Select\Stats\Result|null
      */
     public function getResult($key)
     {

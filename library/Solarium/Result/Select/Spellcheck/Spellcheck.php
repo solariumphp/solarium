@@ -60,7 +60,7 @@ class Spellcheck implements \IteratorAggregate, \Countable
     /**
      * Collation object
      *
-     * @var Solarium_Result_Select_Spellcheck_Collation
+     * @var Solarium\Result\Select\Spellcheck\Collation
      */
     protected $_collation;
 
@@ -73,7 +73,7 @@ class Spellcheck implements \IteratorAggregate, \Countable
      * Constructor
      *
      * @param array $suggestions
-     * @param Solarium_Result_Select_Spellcheck_Collation $collation
+     * @param Solarium\Result\Select\Spellcheck\Collation $collation
      * @param boolean $correctlySpelled
      * @return void
      */
@@ -87,7 +87,7 @@ class Spellcheck implements \IteratorAggregate, \Countable
     /**
      * Get the collation result
      *
-     * @return Solarium_Result_Select_Spellcheck_Collation
+     * @return Solarium\Result\Select\Spellcheck\Collation
      */
     public function getCollation()
     {
@@ -110,7 +110,7 @@ class Spellcheck implements \IteratorAggregate, \Countable
      * Get a result by key
      *
      * @param mixed $key
-     * @return Solarium_Result_Select_Highlighting_Suggestion|null
+     * @return Solarium\Result\Select\Highlighting\Suggestion|null
      */
     public function getSuggestion($key)
     {

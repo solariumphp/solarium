@@ -56,7 +56,7 @@ class Result
     /**
      * Response object
      *
-     * @var Solarium_Client_Response
+     * @var Solarium\Client\Response
      */
     protected $_response;
 
@@ -72,21 +72,21 @@ class Result
     /**
      * Query used for this request
      *
-     * @var Solarium_Query
+     * @var Solarium\Query
      */
     protected $_query;
 
     /**
-     * @var Solarium_Client
+     * @var Solarium\Client
      */
     protected $_client;
 
     /**
      * Constructor
      *
-     * @param Solarium_Client $client
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Response $response
+     * @param Solarium\Client $client
+     * @param Solarium\Query $query
+     * @param Solarium\Client\Response $response
      * @return void
      */
     public function __construct($client, $query, $response)
@@ -110,7 +110,7 @@ class Result
      *
      * This is the raw HTTP response object, not the parsed data!
      *
-     * @return Solarium_Client_Response
+     * @return Solarium\Client\Response
      */
     public function getResponse()
     {
@@ -120,7 +120,7 @@ class Result
     /**
      * Get query instance
      *
-     * @return Solarium_Query
+     * @return Solarium\Query
      */
     public function getQuery()
     {

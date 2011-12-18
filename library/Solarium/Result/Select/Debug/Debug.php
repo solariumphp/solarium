@@ -71,17 +71,17 @@ class Debug implements \IteratorAggregate, \Countable
     protected $_otherQuery;
 
     /**
-     * @var Solarium_Result_Select_Debug_DocumentSet
+     * @var Solarium\Result\Select\Debug\DocumentSet
      */
     protected $_explain;
 
     /**
-     * @var Solarium_Result_Select_Debug_DocumentSet
+     * @var Solarium\Result\Select\Debug\DocumentSet
      */
     protected $_explainOther;
 
     /**
-     * @var Solarium_Result_Select_Debug_Timing
+     * @var Solarium\Result\Select\Debug\Timing
      */
     protected $_timing;
 
@@ -92,9 +92,9 @@ class Debug implements \IteratorAggregate, \Countable
      * @param string $parsedQuery
      * @param string $queryParser
      * @param string $otherQuery
-     * @param Solarium_Result_Select_Debug_DocumentSet $explain
-     * @param Solarium_Result_Select_Debug_DocumentSet $explainOther
-     * @param Solarium_Result_Select_Debug_Timing $timing
+     * @param Solarium\Result\Select\Debug\DocumentSet $explain
+     * @param Solarium\Result\Select\Debug\DocumentSet $explainOther
+     * @param Solarium\Result\Select\Debug\Timing $timing
      */
     public function __construct($queryString, $parsedQuery, $queryParser, $otherQuery, $explain, $explainOther, $timing)
     {
@@ -150,7 +150,7 @@ class Debug implements \IteratorAggregate, \Countable
     /**
      * Get explain document set
      *
-     * @return Solarium_Result_Select_Debug_DocumentSet
+     * @return Solarium\Result\Select\Debug\DocumentSet
      */
     public function getExplain()
     {
@@ -160,7 +160,7 @@ class Debug implements \IteratorAggregate, \Countable
     /**
      * Get explain other document set (only available if otherquery was set in query)
      *
-     * @return Solarium_Result_Select_Debug_DocumentSet
+     * @return Solarium\Result\Select\Debug\DocumentSet
      */
     public function getExplainOther()
     {
@@ -170,7 +170,7 @@ class Debug implements \IteratorAggregate, \Countable
     /**
      * Get timing object
      *
-     * @return Solarium_Result_Select_Debug_Timing
+     * @return Solarium\Result\Select\Debug\Timing
      */
     public function getTiming()
     {
@@ -182,7 +182,7 @@ class Debug implements \IteratorAggregate, \Countable
      *
      * Iterates the explain results
      *
-     * @return Solarium_Result_Select_Debug_DocumentSet
+     * @return Solarium\Result\Select\Debug\DocumentSet
      */
     public function getIterator()
     {

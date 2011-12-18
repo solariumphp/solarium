@@ -96,7 +96,7 @@ class Field extends \Solarium\Configurable
      * Set key value
      *
      * @param string $value
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function setKey($value)
     {
@@ -107,7 +107,7 @@ class Field extends \Solarium\Configurable
      * Specify a facet to return in the resultset
      *
      * @param string $facet
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function addFacet($facet)
     {
@@ -121,7 +121,7 @@ class Field extends \Solarium\Configurable
      * @param string|array $facets can be an array or string with comma
      * separated facetnames
      *
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function addFacets($facets)
     {
@@ -141,7 +141,7 @@ class Field extends \Solarium\Configurable
      * Remove a facet from the facet list
      *
      * @param string $facet
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function removeFacet($facet)
     {
@@ -155,7 +155,7 @@ class Field extends \Solarium\Configurable
     /**
      * Remove all facets from the facet list.
      *
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function clearFacets()
     {
@@ -179,7 +179,7 @@ class Field extends \Solarium\Configurable
      * This overwrites any existing facets
      *
      * @param array $facets
-     * @return Solarium_Query_Select_Component_Stats Provides fluent interface
+     * @return Solarium\Query\Select\Component\Stats Provides fluent interface
      */
     public function setFacets($facets)
     {

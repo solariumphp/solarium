@@ -53,9 +53,9 @@ class Debug
     /**
      * Add request settings for the debug component
      *
-     * @param Solarium_Query_Select_Component_Debug $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select\Component\Debug $component
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Request
      */
     public function build($component, $request)
     {

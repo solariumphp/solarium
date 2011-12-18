@@ -77,7 +77,7 @@ class Optimize
      * Set waitFlush option
      *
      * @param boolean $waitFlush
-     * @return Solarium_Query_Update_Command_Optimize Provides fluent interface
+     * @return Solarium\Query\Update\Command\Optimize Provides fluent interface
      */
     public function setWaitFlush($waitFlush)
     {
@@ -98,7 +98,7 @@ class Optimize
      * Set waitSearcher option
      *
      * @param boolean $waitSearcher
-     * @return Solarium_Query_Update_Command_Optimize Provides fluent interface
+     * @return Solarium\Query\Update\Command\Optimize Provides fluent interface
      */
     public function setWaitSearcher($waitSearcher)
     {
@@ -119,7 +119,7 @@ class Optimize
      * Set maxSegments option
      * 
      * @param boolean $maxSegments
-     * @return Solarium_Query_Update_Command_Optimize Provides fluent interface
+     * @return Solarium\Query\Update\Command\Optimize Provides fluent interface
      */
     public function setMaxSegments($maxSegments)
     {

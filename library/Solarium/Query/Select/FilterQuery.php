@@ -103,7 +103,7 @@ class FilterQuery extends \Solarium\Configurable
      * Set key value
      *
      * @param string $value
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function setKey($value)
     {
@@ -117,7 +117,7 @@ class FilterQuery extends \Solarium\Configurable
      *
      * @param string $query
      * @param array $bind Bind values for placeholders in the query string
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium\Query Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
@@ -144,7 +144,7 @@ class FilterQuery extends \Solarium\Configurable
      * Add a tag
      *
      * @param string $tag
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function addTag($tag)
     {
@@ -156,7 +156,7 @@ class FilterQuery extends \Solarium\Configurable
      * Add tags
      *
      * @param array $tags
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function addTags($tags)
     {
@@ -180,7 +180,7 @@ class FilterQuery extends \Solarium\Configurable
      * Remove a tag
      *
      * @param string $tag
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function removeTag($tag)
     {
@@ -194,7 +194,7 @@ class FilterQuery extends \Solarium\Configurable
     /**
      * Remove all tags
      *
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function clearTags()
     {
@@ -208,7 +208,7 @@ class FilterQuery extends \Solarium\Configurable
      * This overwrites any existing tags
      *
      * @param array $filterQueries
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function setTags($filterQueries)
     {

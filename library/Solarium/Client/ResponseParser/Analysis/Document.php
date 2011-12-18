@@ -61,7 +61,7 @@ class Document extends Field
         $documents = array();
         foreach ($data as $documentKey => $documentData) {
             $fields = $this->_parseTypes($documentData);
-            $documents[] = new \Solarium\Result\Analysis\List($documentKey, $fields);
+            $documents[] = new \Solarium\Result\Analysis\ResultList($documentKey, $fields);
         }
 
         return $documents;

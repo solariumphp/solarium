@@ -57,7 +57,7 @@ class Field extends Analysis
      */
     protected $_options = array(
         'handler'       => 'analysis/field',
-        'resultclass'   => 'Solarium_Result_Analysis_Field',
+        'resultclass'   => 'Solarium\Result\Analysis\Field',
     );
     
     /**
@@ -76,7 +76,7 @@ class Field extends Analysis
      * The text that will be analyzed. The analysis will mimic the index-time analysis.
      *
      * @param string $value
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @return Solarium\Query\Analysis\Field Provides fluent interface
      */
     public function setFieldValue($value)
     {
@@ -99,7 +99,7 @@ class Field extends Analysis
      * When present, the text will be analyzed based on the specified type
      *
      * @param string $type
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @return Solarium\Query\Analysis\Field Provides fluent interface
      */
     public function setFieldType($type)
     {
@@ -122,7 +122,7 @@ class Field extends Analysis
      * When present, the text will be analyzed based on the type of this field name
      *
      * @param string $name
-     * @return Solarium_Query_Analysis_Field Provides fluent interface
+     * @return Solarium\Query\Analysis\Field Provides fluent interface
      */
     public function setFieldName($name)
     {

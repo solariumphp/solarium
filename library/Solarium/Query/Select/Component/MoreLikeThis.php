@@ -68,7 +68,7 @@ class MoreLikeThis extends Component
      * Separate multiple fields with commas.
      *
      * @param string $fields
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -92,7 +92,7 @@ class MoreLikeThis extends Component
      * in the source doc.
      *
      * @param int $minimum
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setMinimumTermFrequency($minimum)
     {
@@ -116,7 +116,7 @@ class MoreLikeThis extends Component
      * ignored which do not occur in at least this many docs.
      *
      * @param int $minimum
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setMinimumDocumentFrequency($minimum)
     {
@@ -139,7 +139,7 @@ class MoreLikeThis extends Component
      * Minimum word length below which words will be ignored.
      *
      * @param int $minimum
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setMinimumWordLength($minimum)
     {
@@ -162,7 +162,7 @@ class MoreLikeThis extends Component
      * Maximum word length above which words will be ignored.
      *
      * @param int $maximum
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setMaximumWordLength($maximum)
     {
@@ -186,7 +186,7 @@ class MoreLikeThis extends Component
      * query.
      *
      * @param int $maximum
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setMaximumQueryTerms($maximum)
     {
@@ -210,7 +210,7 @@ class MoreLikeThis extends Component
      * stored with TermVector support.
      *
      * @param int $maximum
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setMaximumNumberOfTokens($maximum)
     {
@@ -233,7 +233,7 @@ class MoreLikeThis extends Component
      * If true the query will be boosted by the interesting term relevance.
      *
      * @param boolean $boost
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -259,7 +259,7 @@ class MoreLikeThis extends Component
      * Separate multiple fields with commas.
      *
      * @param string $queryFields
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -282,7 +282,7 @@ class MoreLikeThis extends Component
      * The number of similar documents to return for each result
      *
      * @param int $count
-     * @return Solarium_Query_Select_Component_MoreLikeThis Provides fluent interface
+     * @return Solarium\Query\Select\Component\MoreLikeThis Provides fluent interface
      */
     public function setCount($count)
     {

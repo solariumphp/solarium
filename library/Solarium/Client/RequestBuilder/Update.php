@@ -41,7 +41,7 @@
  */
 namespace Solarium\Client\RequestBuilder;
 use Solarium\Client;
-use Solarium\Query\Update;
+use Solarium\Query\Update\Update as QueryUpdate;
 
 /**
  * Build an update request
@@ -55,8 +55,8 @@ class Update extends RequestBuilder
     /**
      * Build request for an update query
      *
-     * @param Solarium_Query_Update $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Update $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {
@@ -74,8 +74,8 @@ class Update extends RequestBuilder
      *
      * Each commandtype is delegated to a separate builder method.
      *
-     * @param Solarium_Query_Update $query
-     * @throws Solarium_Exception
+     * @param Solarium\Query\Update $query
+     * @throws Solarium\Exception
      * @return string
      */
     public function getRawData($query)
@@ -83,19 +83,19 @@ class Update extends RequestBuilder
         $xml = '<update>';
         foreach ($query->getCommands() AS $command) {
             switch ($command->getType()) {
-                case Update\Update::COMMAND_ADD:
+                case QueryUpdate::COMMAND_ADD:
                     $xml .= $this->buildAddXml($command);
                     break;
-                case Update\Update::COMMAND_DELETE:
+                case QueryUpdate::COMMAND_DELETE:
                     $xml .= $this->buildDeleteXml($command);
                     break;
-                case Update\Update::COMMAND_OPTIMIZE:
+                case QueryUpdate::COMMAND_OPTIMIZE:
                     $xml .= $this->buildOptimizeXml($command);
                     break;
-                case Update\Update::COMMAND_COMMIT:
+                case QueryUpdate::COMMAND_COMMIT:
                     $xml .= $this->buildCommitXml($command);
                     break;
-                case Update\Update::COMMAND_ROLLBACK:
+                case QueryUpdate::COMMAND_ROLLBACK:
                     $xml .= $this->buildRollbackXml();
                     break;
                 default:
@@ -111,7 +111,7 @@ class Update extends RequestBuilder
     /**
      * Build XML for an add command
      *
-     * @param Solarium_Query_Update_Command_Add $command
+     * @param Solarium\Query\Update\Command\Add $command
      * @return string
      */
     public function buildAddXml($command)
@@ -168,7 +168,7 @@ class Update extends RequestBuilder
     /**
      * Build XML for a delete command
      *
-     * @param Solarium_Query_Update_Command_Delete $command
+     * @param Solarium\Query\Update\Command\Delete $command
      * @return string
      */
     public function buildDeleteXml($command)
@@ -190,7 +190,7 @@ class Update extends RequestBuilder
     /**
      * Build XML for an update command
      *
-     * @param Solarium_Query_Update_Command_Optimize $command
+     * @param Solarium\Query\Update\Command\Optimize $command
      * @return string
      */
     public function buildOptimizeXml($command)
@@ -207,7 +207,7 @@ class Update extends RequestBuilder
     /**
      * Build XML for a commit command
      *
-     * @param Solarium_Query_Update_Command_Commit $command
+     * @param Solarium\Query\Update\Command\Commit $command
      * @return string
      */
     public function buildCommitXml($command)

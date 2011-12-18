@@ -73,7 +73,7 @@ class MoreLikeThis
      * Get a result by key
      *
      * @param mixed $key
-     * @return Solarium_Result_Select_MoreLikeThis_Result|null
+     * @return Solarium\Result\Select\MoreLikeThis\Result|null
      */
     public function getResult($key)
     {

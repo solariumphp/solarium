@@ -54,8 +54,8 @@ class Ping extends RequestBuilder
     /**
      * Build request for a ping query
      *
-     * @param Solarium_Query_Ping $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Ping $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {

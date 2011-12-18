@@ -4,7 +4,7 @@ require('init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 
 // get an analysis document query
 $query = $client->createAnalysisDocument();
@@ -12,7 +12,7 @@ $query = $client->createAnalysisDocument();
 $query->setShowMatch(true);
 $query->setQuery('ipod');
 
-$doc = new Solarium_Document_ReadWrite(
+$doc = new Solarium\Document\ReadWrite(
     array(
         'id' => 'MA147LL',
         'name' => 'Apple 60 GB iPod with Video Playback Black',

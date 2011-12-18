@@ -53,9 +53,9 @@ class Stats
     /**
      * Add request settings for the stats component
      *
-     * @param Solarium_Query_Select_Component_Stats $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select\Component\Stats $component
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Request
      */
     public function build($component, $request)
     {

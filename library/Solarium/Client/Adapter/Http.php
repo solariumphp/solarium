@@ -53,9 +53,9 @@ class Http extends Adapter
     /**
      * Handle Solr communication
      *
-     * @throws Solarium_Exception
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Response
+     * @throws Solarium\Exception
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Response
      */
     public function execute($request)
     {
@@ -72,7 +72,7 @@ class Http extends Adapter
     /**
      * Check result of a request
      *
-     * @throws Solarium_Client_HttpException
+     * @throws Solarium\Client\HttpException
      * @param string $data
      * @param array $headers
      * @return void
@@ -89,7 +89,7 @@ class Http extends Adapter
     /**
      * Create a stream context for a request
      *
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Client\Request $request
      * @return resource
      */
     public function createContext($request)

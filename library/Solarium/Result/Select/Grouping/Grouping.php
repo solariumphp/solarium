@@ -84,7 +84,7 @@ class Grouping implements \IteratorAggregate, \Countable
      * Get a group
      *
      * @param string $key
-     * @return Solarium_Result_Select_Grouping_FieldGroup|Solarium_Result_Select_Grouping_QueryGroup
+     * @return Solarium\Result\Select\Grouping\FieldGroup|Solarium\Result\Select\Grouping\QueryGroup
      */
     public function getGroup($key)
     {

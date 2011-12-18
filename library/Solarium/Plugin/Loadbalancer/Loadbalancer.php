@@ -57,7 +57,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Plugin
  */
-class Loadbalancer extends olarium\Plugin\AbstractPlugin
+class Loadbalancer extends Solarium\Plugin\AbstractPlugin
 {
 
     /**
@@ -83,7 +83,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
      * @var array
      */
     protected $_blockedQueryTypes = array(
-        olarium\Client\Client::QUERYTYPE_UPDATE => true
+        Solarium\Client\Client::QUERYTYPE_UPDATE => true
     );
 
     /**
@@ -115,7 +115,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
     /**
      * Pool of servers to use for requests
      *
-     * @var Solarium_Plugin_Loadbalancer_WeightedRandomChoice
+     * @var Solarium\Plugin\Loadbalancer\WeightedRandomChoice
      */
     protected $_randomizer;
 
@@ -208,7 +208,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
     public function addServer($key, $options, $weight = 1)
     {
         if (array_key_exists($key, $this->_servers)) {
-            throw new olarium\Exception('A server for the loadbalancer plugin must have a unique key');
+            throw new \Solarium\Exception('A server for the loadbalancer plugin must have a unique key');
         } else {
             $this->_servers[$key] = array(
                 'options' => $options,
@@ -241,7 +241,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
     public function getServer($key)
     {
         if (!isset($this->_servers[$key])) {
-            throw new olarium\Exception('Unknown server key');
+            throw new \Solarium\Exception('Unknown server key');
         }
 
         return $this->_servers[$key];
@@ -315,7 +315,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
     public function setForcedServerForNextQuery($key)
     {
         if ($key !== null && !array_key_exists($key, $this->_servers)) {
-            throw new olarium\Exception('Unknown server forced for next query');
+            throw new \Solarium\Exception('Unknown server forced for next query');
         }
 
         $this->_nextServer = $key;
@@ -347,7 +347,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
      *
      * Overwrites any existing types
      *
-     * @param array $types Use an array with the constants defined in Solarium_Client as values
+     * @param array $types Use an array with the constants defined in Solarium\Client as values
      * @return self Provides fluent interface
      */
     public function setBlockedQueryTypes($types)
@@ -360,7 +360,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
     /**
      * Add a querytype to block from loadbalancing
      *
-     * @param string $type Use one of the constants defined in Solarium_Client
+     * @param string $type Use one of the constants defined in Solarium\Client
      * @return self Provides fluent interface
      */
     public function addBlockedQueryType($type)
@@ -377,7 +377,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
      *
      * Appended to any existing types
      *
-     * @param array $types Use an array with the constants defined in Solarium_Client as values
+     * @param array $types Use an array with the constants defined in Solarium\Client as values
      * @return self Provides fluent interface
      */
     public function addBlockedQueryTypes($types)
@@ -425,7 +425,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
     /**
      * Event hook to capture querytype
      *
-     * @param Solarium_Query $query
+     * @param Solarium\Query $query
      * @return void
      */
     public function preCreateRequest($query)
@@ -436,8 +436,8 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Response
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Response
      */
     public function preExecuteRequest($request)
     {
@@ -472,8 +472,8 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
     /**
      * Execute a request using the adapter
      *
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Response $response
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Response $response
      */
     protected function _getLoadbalancedResponse($request)
     {
@@ -490,13 +490,13 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
                 } catch(olarium\Client\HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
-                    $e = new olarium\Exception('Maximum number of loadbalancer retries reached');
+                    $e = new \Solarium\Exception('Maximum number of loadbalancer retries reached');
                     $this->_client->triggerEvent('LoadbalancerServerFail', array($options, $e));
                 }
             }
 
             // if we get here no more retries available, throw exception
-            $e = new olarium\Exception('Maximum number of loadbalancer retries reached');
+            $e = new \Solarium\Exception('Maximum number of loadbalancer retries reached');
             throw $e;
 
         } else {
@@ -531,7 +531,7 @@ class Loadbalancer extends olarium\Plugin\AbstractPlugin
     /**
      * Get randomizer instance
      *
-     * @return Solarium_Plugin_Loadbalancer_WeightedRandomChoice
+     * @return Solarium\Plugin\Loadbalancer\WeightedRandomChoice
      */
     protected function _getRandomizer()
     {

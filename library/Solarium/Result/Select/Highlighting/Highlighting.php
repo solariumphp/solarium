@@ -72,7 +72,7 @@ class Highlighting implements \IteratorAggregate, \Countable
      * Get a result by key
      *
      * @param mixed $key
-     * @return Solarium_Result_Select_Highlighting_Result|null
+     * @return Solarium\Result\Select\Highlighting\Result|null
      */
     public function getResult($key)
     {

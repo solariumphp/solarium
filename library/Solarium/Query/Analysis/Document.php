@@ -64,7 +64,7 @@ class Document extends Analysis
      */
     protected $_options = array(
         'handler'       => 'analysis/document',
-        'resultclass'   => 'Solarium_Result_Analysis_Document',
+        'resultclass'   => 'Solarium\Result\Analysis\Document',
     );
 
     /**
@@ -81,7 +81,7 @@ class Document extends Analysis
      * Add a single document
      *
      * @param object $document
-     * @return Solarium_Query_Analysis_Document Provides fluent interface
+     * @return Solarium\Query\Analysis\Document Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -94,7 +94,7 @@ class Document extends Analysis
      * Add multiple documents
      *
      * @param array $documents
-     * @return Solarium_Query_Analysis_Document fluent interface
+     * @return Solarium\Query\Analysis\Document fluent interface
      */
     public function addDocuments($documents)
     {

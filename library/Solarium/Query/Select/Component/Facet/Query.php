@@ -41,6 +41,8 @@
  */
 namespace Solarium\Query\Select\Component\Facet;
 
+use Solarium\Query\Select\Component\FacetSet;
+
 /**
  * Facet query
  *
@@ -68,7 +70,7 @@ class Query extends Facet
      */
     public function getType()
     {
-        return et::FACET_QUERY;
+        return FacetSet::FACET_QUERY;
     }
 
     /**
@@ -78,7 +80,7 @@ class Query extends Facet
      *
      * @param string $query
      * @param array $bind Bind values for placeholders in the query string
-     * @return Solarium_Query_Select_Facet_Query Provides fluent interface
+     * @return Solarium\Query\Select\Facet\Query Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {

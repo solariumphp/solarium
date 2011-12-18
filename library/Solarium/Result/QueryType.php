@@ -75,7 +75,7 @@ class QueryType extends Result
 
             $responseParserClass = $queryTypes[$queryType]['responseparser'];
             $responseParser = new $responseParserClass;
-            $this->\\mapData($responseParser->parse($this));
+            $this->_mapData($responseParser->parse($this));
 
             $this->_parsed = true;
         }

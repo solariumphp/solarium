@@ -53,7 +53,7 @@ abstract class Query extends \Solarium\Configurable
     /**
      * Helper instance
      *
-     * @var Solarium_Query_Helper
+     * @var Solarium\Query\Helper
      */
     protected $_helper;
     
@@ -68,7 +68,7 @@ abstract class Query extends \Solarium\Configurable
      * Set handler option
      *
      * @param string $handler
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium\Query Provides fluent interface
      */
     public function setHandler($handler)
     {
@@ -96,7 +96,7 @@ abstract class Query extends \Solarium\Configurable
      * query or has an identical API.
      *
      * @param string $classname
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium\Query Provides fluent interface
      */
     public function setResultClass($classname)
     {
@@ -118,7 +118,7 @@ abstract class Query extends \Solarium\Configurable
      *
      * Uses lazy loading: the helper is instantiated on first use
      *
-     * @return Solarium_Query_Helper
+     * @return Solarium\Query\Helper
      */
     public function getHelper()
     {

@@ -89,7 +89,7 @@ class MoreLikeThis extends Select\Select
     {
         $query = $this->getQuery();
         if ('none' == $query->getInterestingTerms()) {
-            throw new olarium\Exception('interestingterms is none');
+            throw new \Solarium\Exception('interestingterms is none');
         }
         $this->_parseResponse();
         return $this->_interestingTerms;
@@ -100,14 +100,14 @@ class MoreLikeThis extends Select\Select
      *
      * Only available if matchinclude was set to true in the query.
      *
-     * @throws Solarium_Exception
-     * @return Solarium_Document
+     * @throws Solarium\Exception
+     * @return Solarium\Document
      */
     public function getMatch()
     {
         $query = $this->getQuery();
         if (true != $query->getMatchInclude()) {
-            throw new olarium\Exception('matchinclude was disabled in the MLT query');
+            throw new \Solarium\Exception('matchinclude was disabled in the MLT query');
         }
         $this->_parseResponse();
         return $this->_match;

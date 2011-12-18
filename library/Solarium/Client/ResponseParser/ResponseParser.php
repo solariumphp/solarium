@@ -44,9 +44,9 @@ namespace Solarium\Client\ResponseParser;
 /**
  * Base class for handling Solr response data
  *
- * Most {@link Solarium_Client_Adapter} implementations will use HTTP for
+ * Most {@link Solarium\Client\Adapter} implementations will use HTTP for
  * communicating with Solr. While the HTTP part is adapter-specific, the parsing
- * of the response into Solarium_Result classes is not. This abstract class is
+ * of the response into Solarium\Result classes is not. This abstract class is
  * the base for several response handlers that do just that for the various
  * querytypes.
  *
@@ -57,7 +57,7 @@ abstract class ResponseParser
 {
 
     /**
-     * Get a Solarium_Result instance for the given data
+     * Get a Solarium\Result instance for the given data
      *
      * When this method is called the actual response parsing is started.
      *
@@ -66,7 +66,7 @@ abstract class ResponseParser
      *
      * @abstract
      *
-     * @param Solarium_Result $result
+     * @param Solarium\Result $result
      * @return mixed
      */
     abstract function parse($result);

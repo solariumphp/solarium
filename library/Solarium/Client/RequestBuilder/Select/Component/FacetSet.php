@@ -54,9 +54,9 @@ class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
     /**
      * Add request settings for FacetSet
      *
-     * @param Solarium_Query_Select_Component_FacetSet $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select\Component\FacetSet $component
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Request
      */
     public function build($component, $request)
     {
@@ -100,8 +100,8 @@ class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
     /**
      * Add params for a field facet to request
      *
-     * @param Solarium_Client_Request $request
-     * @param Solarium_Query_Select_Component_Facet_Field $facet
+     * @param Solarium\Client\Request $request
+     * @param Solarium\Query\Select\Component\Facet\Field $facet
      * @return void
      */
     public function addFacetField($request, $facet)
@@ -128,8 +128,8 @@ class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
     /**
      * Add params for a facet query to request
      *
-     * @param Solarium_Client_Request $request
-     * @param Solarium_Query_Select_Component_Facet_Query $facet
+     * @param Solarium\Client\Request $request
+     * @param Solarium\Query\Select\Component\Facet\Query $facet
      * @return void
      */
     public function addFacetQuery($request, $facet)
@@ -146,8 +146,8 @@ class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
     /**
      * Add params for a multiquery facet to request
      *
-     * @param Solarium_Client_Request $request
-     * @param Solarium_Query_Select_Component_Facet_MultiQuery $facet
+     * @param Solarium\Client\Request $request
+     * @param Solarium\Query\Select\Component\Facet\MultiQuery $facet
      * @return void
      */
     public function addFacetMultiQuery($request, $facet)
@@ -160,8 +160,8 @@ class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
     /**
      * Add params for a range facet to request
      *
-     * @param Solarium_Client_Request $request
-     * @param Solarium_Query_Select_Component_Facet_Range $facet
+     * @param Solarium\Client\Request $request
+     * @param Solarium\Query\Select\Component\Facet\Range $facet
      * @return void
      */
     public function addFacetRange($request, $facet)

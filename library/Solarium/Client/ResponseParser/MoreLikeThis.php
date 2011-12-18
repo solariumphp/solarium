@@ -54,7 +54,7 @@ class MoreLikeThis extends Select\Select
     /**
      * Get result data for the response
      *
-     * @param Solarium_Result_MoreLikeThis $result
+     * @param Solarium\Result\MoreLikeThis $result
      * @return array
      */
     public function parse($result)

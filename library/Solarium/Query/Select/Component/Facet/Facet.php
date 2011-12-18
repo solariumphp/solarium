@@ -102,7 +102,7 @@ abstract class Facet extends \Solarium\Configurable
      * Set key value
      *
      * @param string $value
-     * @return Solarium_Query_Select_Component_Facet Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet Provides fluent interface
      */
     public function setKey($value)
     {
@@ -113,7 +113,7 @@ abstract class Facet extends \Solarium\Configurable
      * Add an exclude tag
      *
      * @param string $tag
-     * @return Solarium_Query_Select_Component_Facet Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet Provides fluent interface
      */
     public function addExclude($tag)
     {
@@ -125,7 +125,7 @@ abstract class Facet extends \Solarium\Configurable
      * Add multiple exclude tags
      *
      * @param array $excludes
-     * @return Solarium_Query_Select_Component_Facet Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet Provides fluent interface
      */
     public function addExcludes(array $excludes)
     {
@@ -150,7 +150,7 @@ abstract class Facet extends \Solarium\Configurable
      * Remove a single exclude tag
      *
      * @param string $exclude
-     * @return Solarium_Query_Select_Component_Facet Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet Provides fluent interface
      */
     public function removeExclude($exclude)
     {
@@ -164,7 +164,7 @@ abstract class Facet extends \Solarium\Configurable
     /**
      * Remove all excludes
      *
-     * @return Solarium_Query_Select_Facet Provides fluent interface
+     * @return Solarium\Query\Select\Facet Provides fluent interface
      */
     public function clearExcludes()
     {

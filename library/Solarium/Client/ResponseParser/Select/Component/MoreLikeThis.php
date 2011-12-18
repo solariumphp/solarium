@@ -53,10 +53,10 @@ class MoreLikeThis
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_MoreLikeThis $moreLikeThis
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\MoreLikeThis $moreLikeThis
      * @param array $data
-     * @return Solarium_Result_Select_MoreLikeThis
+     * @return Solarium\Result\Select\MoreLikeThis
      */
     public function parse($query, $moreLikeThis, $data)
     {

@@ -144,7 +144,7 @@ class Document extends \Solarium\Result\QueryType
      * Get a document by uniquekey value
      *
      * @param string $key
-     * @return Solarium_Result_Analysis_List|null
+     * @return Solarium\Result\Analysis\List|null
      */
     public function getDocument($key)
     {

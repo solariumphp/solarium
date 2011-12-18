@@ -40,7 +40,8 @@
  * @namespace
  */
 namespace Solarium\Result\Select;
-use Solarium\Query\Select;
+
+use Solarium\Query\Select\Select as QuerySelect;
 
 /**
  * Select query result
@@ -203,7 +204,7 @@ class Select extends \Solarium\Result\QueryType
      * Get a component result by key
      *
      * @param string $key
-     * @return Solarium_Result_Select_Component
+     * @return Solarium\Result\Select\Component
      */
     public function getComponent($key)
     {
@@ -221,11 +222,11 @@ class Select extends \Solarium\Result\QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_MoreLikeThis
+     * @return Solarium\Result\Select\MoreLikeThis
      */
     public function getMoreLikeThis()
     {
-        return $this->getComponent(Select\Select::COMPONENT_MORELIKETHIS);
+        return $this->getComponent(QuerySelect::COMPONENT_MORELIKETHIS);
     }
 
     /**
@@ -233,11 +234,11 @@ class Select extends \Solarium\Result\QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Highlighting
+     * @return Solarium\Result\Select\Highlighting
      */
     public function getHighlighting()
     {
-        return $this->getComponent(Select\Select::COMPONENT_HIGHLIGHTING);
+        return $this->getComponent(QuerySelect::COMPONENT_HIGHLIGHTING);
     }
 
     /**
@@ -245,11 +246,11 @@ class Select extends \Solarium\Result\QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Grouping
+     * @return Solarium\Result\Select\Grouping
      */
     public function getGrouping()
     {
-        return $this->getComponent(Select\Select::COMPONENT_GROUPING);
+        return $this->getComponent(QuerySelect::COMPONENT_GROUPING);
     }
 
     /**
@@ -257,11 +258,11 @@ class Select extends \Solarium\Result\QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_FacetSet
+     * @return Solarium\Result\Select\FacetSet
      */
     public function getFacetSet()
     {
-        return $this->getComponent(Select\Select::COMPONENT_FACETSET);
+        return $this->getComponent(QuerySelect::COMPONENT_FACETSET);
     }
 
     /**
@@ -269,11 +270,11 @@ class Select extends \Solarium\Result\QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Spellcheck
+     * @return Solarium\Result\Select\Spellcheck
      */
     public function getSpellcheck()
     {
-        return $this->getComponent(Select\Select::COMPONENT_SPELLCHECK);
+        return $this->getComponent(QuerySelect::COMPONENT_SPELLCHECK);
     }
 
     /**
@@ -281,11 +282,11 @@ class Select extends \Solarium\Result\QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Stats
+     * @return Solarium\Result\Select\Stats
      */
     public function getStats()
     {
-        return $this->getComponent(Select\Select::COMPONENT_STATS);
+        return $this->getComponent(QuerySelect::COMPONENT_STATS);
     }
 
     /**
@@ -293,10 +294,10 @@ class Select extends \Solarium\Result\QueryType
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Solarium_Result_Select_Debug
+     * @return Solarium\Result\Select\Debug
      */
     public function getDebug()
     {
-        return $this->getComponent(Select\Select::COMPONENT_DEBUG);
+        return $this->getComponent(QuerySelect::COMPONENT_DEBUG);
     }
 }

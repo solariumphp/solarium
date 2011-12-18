@@ -50,7 +50,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Plugin
  */
-class CustomizeRequest extends olarium\Plugin\AbstractPlugin
+class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
 {
 
     /**
@@ -87,7 +87,7 @@ class CustomizeRequest extends olarium\Plugin\AbstractPlugin
      * after setting the key, by using the addCustomization method.
      *
      * @param mixed $options
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @return Solarium\Plugin\CustomizeRequest\Customization
      */
     public function createCustomization($options = null)
     {
@@ -111,8 +111,8 @@ class CustomizeRequest extends olarium\Plugin\AbstractPlugin
      * Supports a Customization instance or a config array, in that case a new
      * Customization instance wil be created based on the options.
      *
-     * @param Solarium_Plugin_CustomizeRequest_Customization|array $customization
-     * @return Solarium_Plugin_CustomizeRequest Provides fluent interface
+     * @param Solarium\Plugin\CustomizeRequest\Customization|array $customization
+     * @return Solarium\Plugin\CustomizeRequest Provides fluent interface
      */
     public function addCustomization($customization)
     {
@@ -124,14 +124,14 @@ class CustomizeRequest extends olarium\Plugin\AbstractPlugin
 
         // check for non-empty key
         if (0 === strlen($key)) {
-            throw new olarium\Exception('A Customization must have a key value');
+            throw new \Solarium\Exception('A Customization must have a key value');
         }
 
         // check for a unique key
         if (array_key_exists($key, $this->_customizations)) {
             //double add calls for the same customization are ignored, others cause an exception
             if ($this->_customizations[$key] !== $customization) {
-                throw new olarium\Exception('A Customization must have a unique key value');
+                throw new \Solarium\Exception('A Customization must have a unique key value');
             }
         }
 
@@ -144,7 +144,7 @@ class CustomizeRequest extends olarium\Plugin\AbstractPlugin
      * Add multiple Customizations
      *
      * @param array $customizations
-     * @return Solarium_Plugin_CustomizeRequest Provides fluent interface
+     * @return Solarium\Plugin\CustomizeRequest Provides fluent interface
      */
     public function addCustomizations(array $customizations)
     {
@@ -191,8 +191,8 @@ class CustomizeRequest extends olarium\Plugin\AbstractPlugin
      *
      * You can remove a Customization by passing it's key, or by passing the Customization instance
      *
-     * @param string|Solarium_Plugin_CustomizeRequest_Customization $customization
-     * @return Solarium_Plugin_CustomizeRequest Provides fluent interface
+     * @param string|Solarium\Plugin\CustomizeRequest\Customization $customization
+     * @return Solarium\Plugin\CustomizeRequest Provides fluent interface
      */
     public function removeCustomization($customization)
     {
@@ -210,7 +210,7 @@ class CustomizeRequest extends olarium\Plugin\AbstractPlugin
     /**
      * Remove all Customizations
      *
-     * @return Solarium_Plugin_CustomizeRequest Provides fluent interface
+     * @return Solarium\Plugin\CustomizeRequest Provides fluent interface
      */
     public function clearCustomizations()
     {
@@ -234,8 +234,8 @@ class CustomizeRequest extends olarium\Plugin\AbstractPlugin
     /**
      * Event hook to customize the request object
      *
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Query $query
+     * @param Solarium\Client\Request $request
      * @return void
      */
     public function postCreateRequest($query, $request)
@@ -244,7 +244,7 @@ class CustomizeRequest extends olarium\Plugin\AbstractPlugin
 
             // first validate
             if (!$customization->isValid()) {
-                throw new olarium\Exception('Request customization with key "' . $key . '" is invalid');
+                throw new \Solarium\Exception('Request customization with key "' . $key . '" is invalid');
             }
 
             // apply to request, depending on type

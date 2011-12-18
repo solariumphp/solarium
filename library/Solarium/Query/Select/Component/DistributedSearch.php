@@ -90,7 +90,7 @@ class DistributedSearch extends Component
      *
      * @param string $key unique string
      * @param string $shard  The syntax is host:port/base_url
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      * @link http://wiki.apache.org/solr/DistributedSearch
      */
     public function addShard($key, $shard)
@@ -104,7 +104,7 @@ class DistributedSearch extends Component
      *
      * Example usage:
      * <code>
-     * $client = new Solarium_Client;
+     * $client = new Solarium\Client;
      * $query = $client->createSelect();
      * $distributedSearch = $query->getDistributedSearch();
      * $distributedSearch->addShards(array(
@@ -114,7 +114,7 @@ class DistributedSearch extends Component
      * $result = $client->select($query);
      * </code>
      * @param array $shards
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function addShards(array $shards)
     {
@@ -129,7 +129,7 @@ class DistributedSearch extends Component
      * Remove a shard
      *
      * @param string $key
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function removeShard($key)
     {
@@ -143,7 +143,7 @@ class DistributedSearch extends Component
     /**
      * Remove all shards
      *
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function clearShards()
     {
@@ -158,7 +158,7 @@ class DistributedSearch extends Component
      *
      * Example usage:
      * <code>
-     * $client = new Solarium_Client;
+     * $client = new Solarium\Client;
      * $query = $client->createSelect();
      * $distributedSearch = $query->getDistributedSearch();
      * $distributedSearch->setShards(array(
@@ -169,7 +169,7 @@ class DistributedSearch extends Component
      * </code>
      *
      * @param array $shards Associative array of shards
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setShards(array $shards)
     {
@@ -194,7 +194,7 @@ class DistributedSearch extends Component
      *  (not necessarily the original); this can be overridden via shards.qt
      *
      * @param string
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setShardRequestHandler($handler)
     {
@@ -206,7 +206,7 @@ class DistributedSearch extends Component
      * Get a shard request handler (shards.qt)
      *
      * @param string
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function getShardRequestHandler()
     {

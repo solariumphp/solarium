@@ -120,7 +120,7 @@ class Request extends \Solarium\Configurable
      * Set request handler
      *
      * @param string $handler
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function setHandler($handler)
     {
@@ -144,7 +144,7 @@ class Request extends \Solarium\Configurable
      * Use one of the constants as value
      *
      * @param string $method
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function setMethod($method)
     {
@@ -191,7 +191,7 @@ class Request extends \Solarium\Configurable
      * Set request params
      *
      * @param array $params
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function setParams($params)
     {
@@ -212,7 +212,7 @@ class Request extends \Solarium\Configurable
      * @param string $key
      * @param string|array $value
      * @param boolean $overwrite
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function addParam($key, $value, $overwrite = false)
     {
@@ -239,7 +239,7 @@ class Request extends \Solarium\Configurable
      *
      * @param array $params
      * @param boolean $overwrite
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function addParams($params, $overwrite = false)
     {
@@ -254,7 +254,7 @@ class Request extends \Solarium\Configurable
      * Remove a param by key
      *
      * @param string $key
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function removeParam($key)
     {
@@ -267,7 +267,7 @@ class Request extends \Solarium\Configurable
     /**
      * Clear all request params
      *
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function clearParams()
     {
@@ -291,7 +291,7 @@ class Request extends \Solarium\Configurable
      * This string must be safely encoded.
      *
      * @param string $data
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function setRawData($data)
     {
@@ -313,7 +313,7 @@ class Request extends \Solarium\Configurable
      * Set request headers
      *
      * @param array $headers
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function setHeaders($headers)
     {
@@ -326,7 +326,7 @@ class Request extends \Solarium\Configurable
      * Add a request header
      *
      * @param string|array $value
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function addHeader($value)
     {
@@ -339,7 +339,7 @@ class Request extends \Solarium\Configurable
      * Add multiple headers to the request
      *
      * @param array $headers
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function addHeaders($headers)
     {
@@ -353,7 +353,7 @@ class Request extends \Solarium\Configurable
     /**
      * Clear all request headers
      *
-     * @return Solarium_Client_Request
+     * @return Solarium\Client\Request
      */
     public function clearHeaders()
     {

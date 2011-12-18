@@ -57,7 +57,7 @@ abstract class Analysis extends \Solarium\Query\Query
      *
      * @param string $query
      * @param array $bind Optional bind values for placeholders in the query string
-     * @return Solarium_Query_Analysis Provides fluent interface
+     * @return Solarium\Query\Analysis Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
@@ -82,7 +82,7 @@ abstract class Analysis extends \Solarium\Query\Query
      * Set the showmatch option
      *
      * @param boolean $show
-     * @return Solarium_Query_Analysis Provides fluent interface
+     * @return Solarium\Query\Analysis Provides fluent interface
      */
     public function setShowMatch($show)
     {

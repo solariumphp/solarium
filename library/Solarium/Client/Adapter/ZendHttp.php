@@ -77,7 +77,7 @@ class ZendHttp extends Adapter
      *
      * @param array|object $options
      * @param boolean $overwrite
-     * @return Solarium_Client_Adapter_ZendHttp Provides fluent interface
+     * @return Solarium\Client\Adapter\ZendHttp Provides fluent interface
      */
     public function setOptions($options, $overwrite = false)
     {
@@ -108,7 +108,7 @@ class ZendHttp extends Adapter
      * case)
      *
      * @param Zend_Http_Client $zendHttp
-     * @return Solarium_Client_Adapter_ZendHttp Provides fluent interface
+     * @return Solarium\Client\Adapter\ZendHttp Provides fluent interface
      */
     public function setZendHttp($zendHttp)
     {
@@ -150,8 +150,8 @@ class ZendHttp extends Adapter
     /**
      * Execute a Solr request using the Zend_Http_Client instance
      *
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Response
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Response
      */
     public function execute($request)
     {
