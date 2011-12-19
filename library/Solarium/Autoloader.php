@@ -66,7 +66,7 @@ class Autoloader
      */
     static public function register()
     {
-        spl_autoload_register(array(new \self, 'load'));
+        spl_autoload_register(array(new self, 'load'));
     }
 
     /**
@@ -84,12 +84,12 @@ class Autoloader
         if (substr($class, 0, 8) == 'Solarium') {
 
             $class = str_replace(
-                array('Solarium', '_'),
+                array('Solarium', '\\'),
                 array('', '/'),
                 $class
             );
-            
-            $file = dirname(__FILE__) . '/' . $class . '.php';
+
+            $file = dirname(__FILE__) . $class . '.php';
 
             require($file);
         }

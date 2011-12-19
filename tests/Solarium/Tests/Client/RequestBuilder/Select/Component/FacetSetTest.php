@@ -60,7 +60,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     public function testBuildEmptyFacetSet()
     {
         $request = $this->_builder->build($this->_component, $this->_request);
-            
+
         $this->assertEquals(
             array(),
             $request->getParams()
@@ -109,6 +109,31 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.range.other=all&f.price.facet.range.include=outer',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithRangeFacetNoIncludeNoOther()
+    {
+        $this->_component->addFacet(new \Solarium\Query\Select\Component\Facet\Range(
+            array(
+                'key' => 'f1',
+                'field' => 'price',
+                'start' => '1',
+                'end' => 100,
+                'gap' => 10
+            )
+        ));
+
+        $request = $this->_builder->build($this->_component, $this->_request);
+
+        $this->assertEquals(
+            null,
+            $request->getRawData()
+        );
+
+        $this->assertEquals(
+            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10',
             urldecode($request->getUri())
         );
     }

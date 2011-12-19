@@ -50,7 +50,7 @@ use Solarium\Query\Select\Component;
  */
 class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
 {
-    
+
     /**
      * Add request settings for FacetSet
      *
@@ -181,14 +181,18 @@ class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
         $request->addParam("f.$field.facet.range.gap", $facet->getGap());
         $request->addParam("f.$field.facet.range.hardend", $facet->getHardend());
 
-        $other = explode(',', $facet->getOther());
-        foreach ($other AS $otherValue) {
-            $request->addParam("f.$field.facet.range.other", trim($otherValue));
+        if ($facet->getInclude() !== null) {
+            $other = explode(',', $facet->getOther());
+            foreach ($other AS $otherValue) {
+                $request->addParam("f.$field.facet.range.other", trim($otherValue));
+            }
         }
 
-        $include = explode(',', $facet->getInclude());
-        foreach ($include AS $includeValue) {
-            $request->addParam("f.$field.facet.range.include", trim($includeValue));
+        if ($facet->getInclude() !== null) {
+            $include = explode(',', $facet->getInclude());
+            foreach ($include AS $includeValue) {
+                $request->addParam("f.$field.facet.range.include", trim($includeValue));
+            }
         }
     }
 }

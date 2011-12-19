@@ -116,7 +116,7 @@ class Client extends Solarium\Configurable
         self::QUERYTYPE_SELECT => array(
             'query'          => 'Solarium\Query\Select\Select',
             'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Select',
-            'responseparser' => 'Solarium\Client\ResponseParser\Select'
+            'responseparser' => 'Solarium\Client\ResponseParser\Select\Select'
         ),
         self::QUERYTYPE_UPDATE => array(
             'query'          => 'Solarium\Query\Update\Update',

@@ -167,7 +167,7 @@ class Select extends Solarium\Query\Query
             'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\MoreLikeThis',
         ),
         self::COMPONENT_HIGHLIGHTING => array(
-            'component' => 'Solarium\Query\Select\Component\Highlighting',
+            'component' => 'Solarium\Query\Select\Component\Highlighting\Highlighting',
             'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\Highlighting',
             'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\Highlighting',
         ),
@@ -187,7 +187,7 @@ class Select extends Solarium\Query\Query
             'responseparser' => null,
         ),
         self::COMPONENT_STATS => array(
-            'component' => 'Solarium\Query\Select\Component\Stats',
+            'component' => 'Solarium\Query\Select\Component\Stats\Stats',
             'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Component\Stats',
             'responseparser' => 'Solarium\Client\ResponseParser\Select\Component\Stats',
         ),
