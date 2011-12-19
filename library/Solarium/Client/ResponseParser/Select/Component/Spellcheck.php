@@ -37,21 +37,27 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+use Solarium\Result\Select\Spellcheck as ResultSelectSpellcheck;
+
+/**
  * Parse select component Highlighting result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_Spellcheck
+class Spellcheck
 {
 
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Spellcheck $spellcheck
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\Spellcheck $spellcheck
      * @param array $data
-     * @return Solarium_Result_Select_Spellcheck|null
+     * @return Solarium\Result\Select\Spellcheck|null
      */
     public function parse($query, $spellcheck, $data)
     {
@@ -87,7 +93,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
                 $index +=2;
             }
 
-            return new Solarium_Result_Select_Spellcheck($suggestions, $collation, $correctlySpelled);
+            return new ResultSelectSpellcheck\Spellcheck($suggestions, $collation, $correctlySpelled);
         } else {
             return null;
         }
@@ -97,13 +103,13 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
      * Parse collation data into a result object
      *
      * @param array $values
-     * @return Solarium_Result_Select_Spellcheck_Collation
+     * @return Solarium\Result\Select\ResultSelectSpellcheck\Collation
      */
     protected function _parseCollation($values)
     {
         if (is_string($values)) {
 
-            return new Solarium_Result_Select_Spellcheck_Collation($values, null, array());
+            return new ResultSelectSpellcheck\Collation($values, null, array());
 
         } else {
 
@@ -143,7 +149,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
                 }
             }
 
-            return new Solarium_Result_Select_Spellcheck_Collation($query, $hits, $corrections);
+            return new ResultSelectSpellcheck\Collation($query, $hits, $corrections);
         }
     }
 
@@ -152,7 +158,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
      *
      * @param string $key
      * @param array $value
-     * @return Solarium_Result_Select_Spellcheck_Suggestion
+     * @return Solarium\Result\Select\ResultSelectSpellcheck\Suggestion
      */
     protected function _parseSuggestion($key, $value)
     {
@@ -169,7 +175,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
             $frequency = $value['suggestion'][0]['freq'];
         }
 
-        return new Solarium_Result_Select_Spellcheck_Suggestion(
+        return new ResultSelectSpellcheck\Suggestion(
             $numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency
         );
     }

@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select;
+
+/**
  * Select component facetset result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_FacetSet implements IteratorAggregate, Countable
+class FacetSet implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -95,7 +100,7 @@ class Solarium_Result_Select_FacetSet implements IteratorAggregate, Countable
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_facets);
+        return new \ArrayIterator($this->_facets);
     }
 
     /**

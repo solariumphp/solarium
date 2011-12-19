@@ -36,6 +36,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium;
+
+/**
  * Solarium specific exception
  *
  * All exceptions thrown by Solarium are of this type. This way you can easily
@@ -43,7 +48,7 @@
  *
  * @package Solarium
  */
-class Solarium_Exception extends Exception
+class Exception extends \Exception
 {
     
 }

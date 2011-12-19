@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+
+/**
  * Distributed Search (sharding) component
  *
  * @link http://wiki.apache.org/solr/DistributedSearch
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_Select_Component
+class DistributedSearch extends Component
 {
 
     /**
@@ -52,7 +57,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_DISTRIBUTEDSEARCH;
+    protected $_type = \Solarium\Query\Select\Select::COMPONENT_DISTRIBUTEDSEARCH;
 
     /**
      * Request to be distributed across all shards in the list
@@ -85,7 +90,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      *
      * @param string $key unique string
      * @param string $shard  The syntax is host:port/base_url
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      * @link http://wiki.apache.org/solr/DistributedSearch
      */
     public function addShard($key, $shard)
@@ -99,7 +104,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      *
      * Example usage:
      * <code>
-     * $client = new Solarium_Client;
+     * $client = new Solarium\Client;
      * $query = $client->createSelect();
      * $distributedSearch = $query->getDistributedSearch();
      * $distributedSearch->addShards(array(
@@ -109,7 +114,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      * $result = $client->select($query);
      * </code>
      * @param array $shards
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function addShards(array $shards)
     {
@@ -124,7 +129,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      * Remove a shard
      *
      * @param string $key
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function removeShard($key)
     {
@@ -138,7 +143,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
     /**
      * Remove all shards
      *
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function clearShards()
     {
@@ -153,7 +158,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      *
      * Example usage:
      * <code>
-     * $client = new Solarium_Client;
+     * $client = new Solarium\Client;
      * $query = $client->createSelect();
      * $distributedSearch = $query->getDistributedSearch();
      * $distributedSearch->setShards(array(
@@ -164,7 +169,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      * </code>
      *
      * @param array $shards Associative array of shards
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setShards(array $shards)
     {
@@ -189,7 +194,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      *  (not necessarily the original); this can be overridden via shards.qt
      *
      * @param string
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function setShardRequestHandler($handler)
     {
@@ -201,7 +206,7 @@ class Solarium_Query_Select_Component_DistributedSearch extends Solarium_Query_S
      * Get a shard request handler (shards.qt)
      *
      * @param string
-     * @return Solarium_Query_Select Provides fluent interface
+     * @return Solarium\Query\Select Provides fluent interface
      */
     public function getShardRequestHandler()
     {

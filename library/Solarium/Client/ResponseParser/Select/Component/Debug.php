@@ -37,21 +37,28 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+
+use Solarium\Result\Select\Debug as ResultSelectDebug;
+
+/**
  * Parse select component Debug result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_Debug
+class Debug
 {
 
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Debug $component
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\Debug $component
      * @param array $data
-     * @return Solarium_Result_Select_Debug|null
+     * @return Solarium\Result\Select\Debug|null
      */
     public function parse($query, $component, $data)
     {
@@ -70,14 +77,14 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
             if (isset($debug['explain']) && is_array($debug['explain'])) {
                 $explain = $this->_parseDocumentSet($debug['explain']);
             } else {
-                $explain = new Solarium_Result_Select_Debug_DocumentSet(array());
+                $explain = new ResultSelectDebug\DocumentSet(array());
             }
 
             // parse explainOther data
             if (isset($debug['explainOther']) && is_array($debug['explainOther'])) {
                 $explainOther = $this->_parseDocumentSet($debug['explainOther']);
             } else {
-                $explainOther = new Solarium_Result_Select_Debug_DocumentSet(array());
+                $explainOther = new ResultSelectDebug\DocumentSet(array());
             }
 
             // parse timing data
@@ -94,11 +101,11 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
                             $timingPhases[$key] = $this->_parseTimingPhase($key, $timingData);
                     }
                 }
-                $timing = new Solarium_Result_Select_Debug_Timing($time, $timingPhases);
+                $timing = new ResultSelectDebug\Timing($time, $timingPhases);
             }
 
             // create result object
-            $result = new Solarium_Result_Select_Debug(
+            $result = new ResultSelectDebug\Debug(
                 $queryString,
                 $parsedQuery,
                 $queryParser,
@@ -118,7 +125,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
      * Used for explain and explainOther
      *
      * @param array $data
-     * @return Solarium_Result_Select_Debug_DocumentSet
+     * @return Solarium\Result\Select\ResultSelectDebug\DocumentSet
      */
     protected function _parseDocumentSet($data)
     {
@@ -128,7 +135,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
             $details = array();
             if (isset($documentData['details']) && is_array($documentData['details'])) {
                 foreach ($documentData['details'] as $detailData) {
-                    $details[] = new Solarium_Result_Select_Debug_Detail(
+                    $details[] = new ResultSelectDebug\Detail(
                         $detailData['match'],
                         $detailData['value'],
                         $detailData['description']
@@ -136,7 +143,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
                 }
             }
 
-            $docs[$key] = new Solarium_Result_Select_Debug_Document(
+            $docs[$key] = new ResultSelectDebug\Document(
                 $key,
                 $documentData['match'],
                 $documentData['value'],
@@ -145,7 +152,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
             );
         }
 
-        return new Solarium_Result_Select_Debug_DocumentSet($docs);
+        return new ResultSelectDebug\DocumentSet($docs);
     }
 
     /**
@@ -153,7 +160,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
      *
      * @param string $name
      * @param array $data
-     * @return Solarium_Result_Select_Debug_TimingPhase
+     * @return Solarium\Result\Select\ResultSelectDebug\TimingPhase
      */
     protected function _parseTimingPhase($name, $data)
     {
@@ -169,7 +176,7 @@ class Solarium_Client_ResponseParser_Select_Component_Debug
             }
         }
 
-        return new Solarium_Result_Select_Debug_TimingPhase($name, $time, $classes);
+        return new ResultSelectDebug\TimingPhase($name, $time, $classes);
     }
 
 }

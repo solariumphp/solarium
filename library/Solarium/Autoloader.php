@@ -36,6 +36,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium;
+
+/**
  * Autoloader
  *
  * This class is included to allow for easy usage of Solarium. If you already
@@ -44,7 +49,7 @@
  *
  * @package Solarium
  */
-class Solarium_Autoloader
+class Autoloader
 {
 
     /**
@@ -61,7 +66,7 @@ class Solarium_Autoloader
      */
     static public function register()
     {
-        spl_autoload_register(array(new self, 'load'));
+        spl_autoload_register(array(new \self, 'load'));
     }
 
     /**

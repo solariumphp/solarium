@@ -37,18 +37,23 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Analysis;
+
+/**
  * Analysis types result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Analysis_Types extends Solarium_Result_Analysis_List
+class Types extends ResultList
 {
 
     /**
      * Get index analysis list
      *
-     * @return Solarium_Result_Analysis_List|null
+     * @return Solarium\Result\Analysis\List|null
      */
     public function getIndexAnalysis()
     {
@@ -64,7 +69,7 @@ class Solarium_Result_Analysis_Types extends Solarium_Result_Analysis_List
     /**
      * Get query analysis list
      *
-     * @return Solarium_Result_Analysis_List|null
+     * @return Solarium\Result\Analysis\List|null
      */
     public function getQueryAnalysis()
     {

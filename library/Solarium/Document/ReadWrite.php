@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Document;
+
+/**
  * Read/Write Solr document
  *
  * This document type is used for update queries. It has all of the features of
@@ -52,7 +57,7 @@
  * @package Solarium
  * @subpackage Document
  */
-class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
+class ReadWrite extends ReadOnly
 {
 
     /**
@@ -92,7 +97,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      * @param string $key
      * @param mixed $value
      * @param float $boost
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function addField($key, $value, $boost = null)
     {
@@ -121,7 +126,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      * @param string $key
      * @param mixed $value
      * @param float $boost
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function setField($key, $value, $boost = null)
     {
@@ -139,7 +144,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      * Remove a field
      *
      * @param string $key
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function removeField($key)
     {
@@ -174,7 +179,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      *
      * @param string $key
      * @param float $boost
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function setFieldBoost($key, $boost)
     {
@@ -186,7 +191,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
      * Set the document boost value
      *
      * @param float $boost
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -207,7 +212,7 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     /**
      * Clear all fields
      *
-     * @return Solarium_Document_ReadWrite Provides fluent interface
+     * @return Solarium\Document\ReadWrite Provides fluent interface
      **/
     public function clear()
     {

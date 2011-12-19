@@ -37,6 +37,13 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component\Facet;
+
+use Solarium\Query\Select\Component\FacetSet;
+
+/**
  * Facet range
  *
  * @link http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range
@@ -44,7 +51,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_Component_Facet
+class Range extends Facet
 {
 
     /**
@@ -128,14 +135,14 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      */
     public function getType()
     {
-        return Solarium_Query_Select_Component_FacetSet::FACET_RANGE;
+        return FacetSet::FACET_RANGE;
     }
     
     /**
      * Set the field name
      *
      * @param string $field
-     * @return Solarium_Query_Select_Component_Facet_Range Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Range Provides fluent interface
      */
     public function setField($field)
     {
@@ -156,7 +163,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      * Set the lower bound of the range
      *
      * @param string $start
-     * @return Solarium_Query_Select_Component_Facet_Range Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Range Provides fluent interface
      */
     public function setStart($start)
     {
@@ -177,7 +184,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      * Set the upper bound of the range
      *
      * @param string $end
-     * @return Solarium_Query_Select_Component_Facet_Range Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Range Provides fluent interface
      */
     public function setEnd($end)
     {
@@ -200,7 +207,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      * The size of each range expressed as a value to be added to the lower bound
      *
      * @param string $gap
-     * @return Solarium_Query_Select_Component_Facet_Range Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Range Provides fluent interface
      */
     public function setGap($gap)
     {
@@ -226,7 +233,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      * does not divide evenly between facet.range.start and facet.range.end
      *
      * @param boolean $hardend
-     * @return Solarium_Query_Select_Component_Facet_Range Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Range Provides fluent interface
      */
     public function setHardend($hardend)
     {
@@ -250,7 +257,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      * If you want to use multiple values supply an array or comma separated string
      *
      * @param string|array $other
-     * @return Solarium_Query_Select_Component_Facet_Range Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Range Provides fluent interface
      */
     public function setOther($other)
     {
@@ -280,7 +287,7 @@ class Solarium_Query_Select_Component_Facet_Range extends Solarium_Query_Select_
      * If you want to use multiple values supply an array or comma separated string
      *
      * @param string|array $include
-     * @return Solarium_Query_Select_Component_Facet_Range Provides fluent interface
+     * @return Solarium\Query\Select\Component\Facet\Range Provides fluent interface
      */
     public function setInclude($include)
     {

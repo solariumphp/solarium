@@ -4,10 +4,10 @@ require('init.php');
 htmlHeader();
 
 // check solarium version available
-echo 'Solarium library version: ' . Solarium_Version::VERSION . ' - ';
+echo 'Solarium library version: ' . Solarium\Version::VERSION . ' - ';
 
 // create a client instance
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 
 // create a ping query
 $ping = $client->createPing();
@@ -18,7 +18,7 @@ try{
     echo 'Ping query succesful';
     echo '<br/><pre>';
     var_dump($result->getData());
-}catch(Solarium_Exception $e){
+}catch(Solarium\Exception $e){
     echo 'Ping query failed';
 }
 

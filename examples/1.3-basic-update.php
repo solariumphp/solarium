@@ -7,7 +7,7 @@ if ($_POST) {
     // if data is posted add it to solr
 
     // create a client instance
-    $client = new Solarium_Client($config);
+    $client = new Solarium\Client($config);
 
     // get an update query instance
     $update = $client->createUpdate();

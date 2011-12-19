@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Facet;
+
+/**
  * Select multiquery facet result
  *
  * A multiquery facet will usually return a dataset of multiple rows, in each
@@ -46,7 +51,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Facet_MultiQuery extends Solarium_Result_Select_Facet_Field
+class MultiQuery extends Field
 {
 
 }

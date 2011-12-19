@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Stats;
+
+/**
  * Select component stats facet value
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Stats_FacetValue
+class FacetValue
 {
 
     /**

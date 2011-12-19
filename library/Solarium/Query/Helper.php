@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query;
+
+/**
  * Query helper
  *
  * Generates small snippets for use in queries, filterqueries and sorting
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Helper
+class Helper
 {
 
     /**
@@ -269,7 +274,7 @@ class Solarium_Query_Helper
     /**
      * Render placeholders in a querystring
      *
-     * @throws Solarium_Exception
+     * @throws Solarium\Exception
      * @param array $matches
      * @return string
      */
@@ -281,7 +286,7 @@ class Solarium_Query_Helper
         if (isset($this->_assembleParts[$partNumber-1])) {
             $value = $this->_assembleParts[$partNumber-1];
         } else {
-            throw new Solarium_Exception('No value supplied for part #' . $partNumber . ' in query assembler');
+            throw new \Solarium\Exception('No value supplied for part #' . $partNumber . ' in query assembler');
         }
 
         switch($partMode)

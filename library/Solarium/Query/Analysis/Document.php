@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Analysis;
+
+/**
  * Analysis document query
  *
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Analysis_Document extends Solarium_Query_Analysis
+class Document extends Analysis
 {
 
     /**
@@ -59,7 +64,7 @@ class Solarium_Query_Analysis_Document extends Solarium_Query_Analysis
      */
     protected $_options = array(
         'handler'       => 'analysis/document',
-        'resultclass'   => 'Solarium_Result_Analysis_Document',
+        'resultclass'   => 'Solarium\Result\Analysis\Document',
     );
 
     /**
@@ -69,14 +74,14 @@ class Solarium_Query_Analysis_Document extends Solarium_Query_Analysis
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_ANALYSIS_DOCUMENT;
+        return \Solarium\Client\Client::QUERYTYPE_ANALYSIS_DOCUMENT;
     }
 
     /**
      * Add a single document
      *
      * @param object $document
-     * @return Solarium_Query_Analysis_Document Provides fluent interface
+     * @return Solarium\Query\Analysis\Document Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -89,7 +94,7 @@ class Solarium_Query_Analysis_Document extends Solarium_Query_Analysis
      * Add multiple documents
      *
      * @param array $documents
-     * @return Solarium_Query_Analysis_Document fluent interface
+     * @return Solarium\Query\Analysis\Document fluent interface
      */
     public function addDocuments($documents)
     {

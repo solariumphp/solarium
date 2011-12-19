@@ -37,21 +37,26 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+
+/**
  * Parse select component Highlighting result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_Highlighting
+class Highlighting
 {
 
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Highlighting $highlighting
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\Highlighting $highlighting
      * @param array $data
-     * @return Solarium_Result_Select_Highlighting
+     * @return Solarium\Result\Select\Highlighting
      */
     public function parse($query, $highlighting, $data)
     {
@@ -60,12 +65,12 @@ class Solarium_Client_ResponseParser_Select_Component_Highlighting
 
             $highlightResults = $data['highlighting'];
             foreach ($highlightResults AS $key => $result) {
-                $results[$key] = new Solarium_Result_Select_Highlighting_Result(
+                $results[$key] = new \Solarium\Result\Select\Highlighting\Result(
                     $result
                 );
             }
         }
 
-        return new Solarium_Result_Select_Highlighting($results);
+        return new \Solarium\Result\Select\Highlighting\Highlighting($results);
     }
 }

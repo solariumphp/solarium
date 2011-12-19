@@ -37,20 +37,25 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\Adapter;
+
+/**
  * Basic HTTP adapter using a stream
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
+class Http extends Adapter
 {
 
     /**
      * Handle Solr communication
      *
-     * @throws Solarium_Exception
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Response
+     * @throws Solarium\Exception
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Response
      */
     public function execute($request)
     {
@@ -61,13 +66,13 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
 
         $this->check($data, $headers);
 
-        return new Solarium_Client_Response($data, $headers);
+        return new \Solarium\Client\Response($data, $headers);
     }
 
     /**
      * Check result of a request
      *
-     * @throws Solarium_Client_HttpException
+     * @throws Solarium\Client\HttpException
      * @param string $data
      * @param array $headers
      * @return void
@@ -77,14 +82,14 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
         if (false === $data && count($headers) == 0) {
-            throw new Solarium_Client_HttpException("HTTP request failed");
+            throw new \Solarium\Client\HttpException("HTTP request failed");
         }
     }
 
     /**
      * Create a stream context for a request
      *
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Client\Request $request
      * @return resource
      */
     public function createContext($request)
@@ -97,7 +102,7 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
             ))
         );
 
-        if ($method == Solarium_Client_Request::METHOD_POST) {
+        if ($method == \Solarium\Client\Request::METHOD_POST) {
             $data = $request->getRawData();
             if (null !== $data) {
                 stream_context_set_option(

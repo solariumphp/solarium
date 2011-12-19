@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Update\Command;
+
+/**
  * Update query commit command
  *
  * For details about the Solr options see:
@@ -45,7 +50,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
+class Commit extends Command
 {
 
     /**
@@ -55,7 +60,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      */
     public function getType()
     {
-        return Solarium_Query_Update::COMMAND_COMMIT;
+        return \Solarium\Query\Update\Update::COMMAND_COMMIT;
     }
 
     /**
@@ -72,7 +77,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      * Set waitFlush option
      * 
      * @param boolean $waitFlush
-     * @return Solarium_Query_Update_Command_Commit Provides fluent interface
+     * @return Solarium\Query\Update\Command\Commit Provides fluent interface
      */
     public function setWaitFlush($waitFlush)
     {
@@ -93,7 +98,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      * Set waitSearcher option
      * 
      * @param boolean $waitSearcher
-     * @return Solarium_Query_Update_Command_Commit Provides fluent interface
+     * @return Solarium\Query\Update\Command\Commit Provides fluent interface
      */
     public function setWaitSearcher($waitSearcher)
     {
@@ -114,7 +119,7 @@ class Solarium_Query_Update_Command_Commit extends Solarium_Query_Update_Command
      * Set expungeDeletes option
      * 
      * @param boolean $expungeDeletes
-     * @return Solarium_Query_Update_Command_Commit Provides fluent interface
+     * @return Solarium\Query\Update\Command\Commit Provides fluent interface
      */
     public function setExpungeDeletes($expungeDeletes)
     {

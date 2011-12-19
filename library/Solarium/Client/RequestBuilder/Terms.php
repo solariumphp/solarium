@@ -40,23 +40,28 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder;
+
+/**
  * Build a Terms query request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Terms extends Solarium_Client_RequestBuilder
+class Terms extends RequestBuilder
 {
 
     /**
      * Build request for a Terms query
      *
-     * @param Solarium_Query_Terms $query
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Terms $query
+     * @return Solarium\Client\Request
      */
     public function build($query)
     {
-        $request = new Solarium_Client_Request;
+        $request = new \Solarium\Client\Request;
         $request->setHandler($query->getHandler());
         $request->addParam('terms', true);
         $request->addParam('wt', 'json');

@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Facet;
+
+/**
  * Select range facet result
  *
  * A multiquery facet will usually return a dataset of multiple count, in each
@@ -49,7 +54,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Facet_Range extends Solarium_Result_Select_Facet_Field
+class Range extends Field
 {
 
     /**

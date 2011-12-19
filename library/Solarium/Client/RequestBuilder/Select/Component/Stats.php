@@ -37,20 +37,25 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Select\Component;
+
+/**
  * Add select component stats to the request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Select_Component_Stats
+class Stats
 {
 
     /**
      * Add request settings for the stats component
      *
-     * @param Solarium_Query_Select_Component_Stats $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select\Component\Stats $component
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Request
      */
     public function build($component, $request)
     {

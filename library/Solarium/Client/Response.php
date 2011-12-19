@@ -37,12 +37,17 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client;
+
+/**
  * Class for describing a response
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_Response
+class Response
 {
 
     /**
@@ -147,7 +152,7 @@ class Solarium_Client_Response
         }
 
         if (null == $statusHeader) {
-            throw new Solarium_Client_HttpException("No HTTP status found");
+            throw new HttpException("No HTTP status found");
         }
 
         // parse header like "$statusInfo[1]" into code and message

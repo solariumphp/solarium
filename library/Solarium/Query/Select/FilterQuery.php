@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select;
+
+/**
  * Filterquery
  *
  * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
+class FilterQuery extends \Solarium\Configurable
 {
 
     /**
@@ -98,7 +103,7 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
      * Set key value
      *
      * @param string $value
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function setKey($value)
     {
@@ -112,12 +117,12 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
      *
      * @param string $query
      * @param array $bind Bind values for placeholders in the query string
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium\Query Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
         if (!is_null($bind)) {
-            $helper = new Solarium_Query_Helper;
+            $helper = new \Solarium\Query\Helper;
             $query = $helper->assemble($query, $bind);
         }
 
@@ -139,7 +144,7 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
      * Add a tag
      *
      * @param string $tag
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function addTag($tag)
     {
@@ -151,7 +156,7 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
      * Add tags
      *
      * @param array $tags
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function addTags($tags)
     {
@@ -175,7 +180,7 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
      * Remove a tag
      *
      * @param string $tag
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function removeTag($tag)
     {
@@ -189,7 +194,7 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
     /**
      * Remove all tags
      *
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function clearTags()
     {
@@ -203,7 +208,7 @@ class Solarium_Query_Select_FilterQuery extends Solarium_Configurable
      * This overwrites any existing tags
      *
      * @param array $filterQueries
-     * @return Solarium_Query_Select_FilterQuery Provides fluent interface
+     * @return Solarium\Query\Select\FilterQuery Provides fluent interface
      */
     public function setTags($filterQueries)
     {

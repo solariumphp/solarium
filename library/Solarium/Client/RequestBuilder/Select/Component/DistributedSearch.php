@@ -37,20 +37,25 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Select\Component;
+
+/**
  * Add select component distributedsearch to the request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Select_Component_DistributedSearch
+class DistributedSearch
 {
 
     /**
      * Add request settings for DistributedSearch
      *
-     * @param Solarium_Query_Select_Component_DistributedSearch $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select\Component\DistributedSearch $component
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Request
      */
     public function build($component, $request)
     {

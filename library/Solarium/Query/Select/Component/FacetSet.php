@@ -37,6 +37,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+use Solarium;
+
+/**
  * MoreLikeThis component
  *
  * @link http://wiki.apache.org/solr/MoreLikeThis
@@ -44,7 +50,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Component
+class FacetSet extends Component
 {
 
     /**
@@ -73,10 +79,10 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * @var array
      */
     protected $_facetTypes = array(
-        self::FACET_FIELD => 'Solarium_Query_Select_Component_Facet_Field',
-        self::FACET_QUERY => 'Solarium_Query_Select_Component_Facet_Query',
-        self::FACET_MULTIQUERY => 'Solarium_Query_Select_Component_Facet_MultiQuery',
-        self::FACET_RANGE => 'Solarium_Query_Select_Component_Facet_Range',
+        self::FACET_FIELD => 'Solarium\Query\Select\Component\Facet\Field',
+        self::FACET_QUERY => 'Solarium\Query\Select\Component\Facet\Query',
+        self::FACET_MULTIQUERY => 'Solarium\Query\Select\Component\Facet\MultiQuery',
+        self::FACET_RANGE => 'Solarium\Query\Select\Component\Facet\Range',
     );
 
     /**
@@ -84,7 +90,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_FACETSET;
+    protected $_type = Solarium\Query\Select\Select::COMPONENT_FACETSET;
 
     /**
      * Default options
@@ -127,7 +133,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * This is a global value for all facets in this facetset
      *
      * @param string $prefix
-     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     * @return Solarium\Query\Select\Component\FacetSet Provides fluent interface
      */
     public function setPrefix($prefix)
     {
@@ -154,7 +160,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * This is a global value for all facets in this facetset
      *
      * @param string $sort
-     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     * @return Solarium\Query\Select\Component\FacetSet Provides fluent interface
      */
     public function setSort($sort)
     {
@@ -179,7 +185,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      *  This is a global value for all facets in this facetset
      *
      * @param int $limit
-     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     * @return Solarium\Query\Select\Component\FacetSet Provides fluent interface
      */
     public function setLimit($limit)
     {
@@ -204,7 +210,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * This is a global value for all facets in this facetset
      *
      * @param int $minCount
-     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     * @return Solarium\Query\Select\Component\FacetSet Provides fluent interface
      */
     public function setMinCount($minCount)
     {
@@ -229,7 +235,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * This is a global value for all facets in this facetset
      *
      * @param boolean $missing
-     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     * @return Solarium\Query\Select\Component\FacetSet Provides fluent interface
      */
     public function setMissing($missing)
     {
@@ -251,8 +257,8 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     /**
      * Add a facet
      *
-     * @param Solarium_Query_Select_Component_Facet|array $facet
-     * @return Solarium_Query Provides fluent interface
+     * @param Solarium\Query\Select\Component\Facet|array $facet
+     * @return Solarium\Query Provides fluent interface
      */
     public function addFacet($facet)
     {
@@ -263,13 +269,13 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
         $key = $facet->getKey();
 
         if (0 === strlen($key)) {
-            throw new Solarium_Exception('A facet must have a key value');
+            throw new \Solarium\Exception('A facet must have a key value');
         }
 
         //double add calls for the same facet are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->_facets) && $this->_facets[$key] !== $facet) {
-            throw new Solarium_Exception('A facet must have a unique key value within a query');
+            throw new \Solarium\Exception('A facet must have a unique key value within a query');
         } else {
              $this->_facets[$key] = $facet;
         }
@@ -281,7 +287,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * Add multiple facets
      *
      * @param array $facets
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium\Query Provides fluent interface
      */
     public function addFacets(array $facets)
     {
@@ -328,8 +334,8 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      *
      * You can remove a facet by passing it's key or the facet instance
      *
-     * @param string|Solarium_Query_Select_Component_Facet $facet
-     * @return Solarium_Query Provides fluent interface
+     * @param string|Solarium\Query\Select\Component\Facet $facet
+     * @return Solarium\Query Provides fluent interface
      */
     public function removeFacet($facet)
     {
@@ -347,7 +353,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     /**
      * Remove all facets
      *
-     * @return Solarium_Query Provides fluent interface
+     * @return Solarium\Query Provides fluent interface
      */
     public function clearFacets()
     {
@@ -381,14 +387,14 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * @param string $type
      * @param array|object|null $options
      * @param boolean $add
-     * @return Solarium_Query_Select_Component_Facet
+     * @return Solarium\Query\Select\Component\Facet
      */
     public function createFacet($type, $options = null, $add = true)
     {
         $type = strtolower($type);
 
         if (!isset($this->_facetTypes[$type])) {
-            throw new Solarium_Exception("Facettype unknown: " . $type);
+            throw new \Solarium\Exception("Facettype unknown: " . $type);
         }
 
         $class = $this->_facetTypes[$type];
@@ -411,7 +417,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * Get a facet field instance
      *
      * @param mixed $options
-     * @return Solarium_Query_Select_Component_Facet_Field
+     * @return Solarium\Query\Select\Component\Facet\Field
      */
     public function createFacetField($options = null)
     {
@@ -422,7 +428,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * Get a facet query instance
      *
      * @param mixed $options
-     * @return Solarium_Query_Select_Component_Facet_Query
+     * @return Solarium\Query\Select\Component\Facet\Query
      */
     public function createFacetQuery($options = null)
     {
@@ -433,7 +439,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * Get a facet multiquery instance
      *
      * @param mixed $options
-     * @return Solarium_Query_Select_Component_Facet_MultiQuery
+     * @return Solarium\Query\Select\Component\Facet\MultiQuery
      */
     public function createFacetMultiQuery($options = null)
     {
@@ -444,7 +450,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * Get a facet range instance
      *
      * @param mixed $options
-     * @return Solarium_Query_Select_Component_Facet_Range
+     * @return Solarium\Query\Select\Component\Facet\Range
      */
     public function createFacetRange($options = null)
     {

@@ -37,16 +37,21 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query;
+
+/**
  * Ping query
  *
  * Use a ping query to test Solr communication.
  * A ping query has only two options, the path to use and the resultclass. See
- * {@link Solarium_Query} for the methods to set these options.
+ * {@link Solarium\Query} for the methods to set these options.
  *
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Ping extends Solarium_Query
+class Ping extends Query
 {
 
     /**
@@ -56,7 +61,7 @@ class Solarium_Query_Ping extends Solarium_Query
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_PING;
+        return \Solarium\Client\Client::QUERYTYPE_PING;
     }
 
     /**
@@ -65,7 +70,7 @@ class Solarium_Query_Ping extends Solarium_Query
      * @var array
      */
     protected $_options = array(
-        'resultclass' => 'Solarium_Result_Ping',
+        'resultclass' => 'Solarium\Result\Ping',
         'handler' => 'admin/ping',
     );
     

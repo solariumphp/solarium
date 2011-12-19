@@ -37,21 +37,26 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+
+/**
  * Parse select component Stats result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_Stats
+class Stats
 {
 
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_Stats $stats
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\Stats $stats
      * @param array $data
-     * @return Solarium_Result_Select_Stats
+     * @return Solarium\Result\Select\Stats
      */
     public function parse($query, $stats, $data)
     {
@@ -63,17 +68,17 @@ class Solarium_Client_ResponseParser_Select_Component_Stats
                 if (isset($stats['facets'])) {
                     foreach ($stats['facets'] as $facetField => $values) {
                         foreach ($values as $value => $valueStats) {
-                            $stats['facets'][$facetField][$value] = new Solarium_Result_Select_Stats_FacetValue(
+                            $stats['facets'][$facetField][$value] = new \Solarium\Result\Select\Stats\FacetValue(
                                 $value, $valueStats
                             );
                         }
                     }
                 }
 
-                $results[$field] = new Solarium_Result_Select_Stats_Result($field, $stats);
+                $results[$field] = new \Solarium\Result\Select\Stats\Result($field, $stats);
             }
         }
 
-        return new Solarium_Result_Select_Stats($results);
+        return new \Solarium\Result\Select\Stats\Stats($results);
     }
 }

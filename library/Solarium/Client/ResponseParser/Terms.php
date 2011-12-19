@@ -38,18 +38,23 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser;
+
+/**
  * Parse MoreLikeThis response data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Terms extends Solarium_Client_ResponseParser
+class Terms extends ResponseParser
 {
 
     /**
      * Get result data for the response
      *
-     * @param Solarium_Result_Terms $result
+     * @param Solarium\Result\Terms $result
      * @return array
      */
     public function parse($result)

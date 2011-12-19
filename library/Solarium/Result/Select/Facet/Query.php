@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Facet;
+
+/**
  * Select query facet result
  *
  * Since a query facet has only a single result, the count for the query, this
@@ -45,7 +50,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Facet_Query
+class Query
 {
 
     /**

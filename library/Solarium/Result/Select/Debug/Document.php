@@ -37,13 +37,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Debug;
+
+/**
  * Select component debug document result
  *
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Debug_Document extends Solarium_Result_Select_Debug_Detail
-     implements IteratorAggregate, Countable
+class Document extends Detail
+     implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -98,7 +103,7 @@ class Solarium_Result_Select_Debug_Document extends Solarium_Result_Select_Debug
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_details);
+        return new \ArrayIterator($this->_details);
     }
 
     /**

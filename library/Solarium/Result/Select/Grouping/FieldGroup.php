@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Result\Select\Grouping;
+
+/**
  * Select component grouping field group result
  *
  * @since 2.1.0
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Result
  */
-class Solarium_Result_Select_Grouping_FieldGroup implements IteratorAggregate, Countable
+class FieldGroup implements \IteratorAggregate, \Countable
 {
 
     /**
@@ -122,7 +127,7 @@ class Solarium_Result_Select_Grouping_FieldGroup implements IteratorAggregate, C
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_valueGroups);
+        return new \ArrayIterator($this->_valueGroups);
     }
 
     /**

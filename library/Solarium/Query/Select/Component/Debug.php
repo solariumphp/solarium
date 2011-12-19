@@ -37,6 +37,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Query\Select\Component;
+
+/**
  * Debug component
  *
  * @link http://wiki.apache.org/solr/CommonQueryParameters#Debugging
@@ -44,7 +49,7 @@
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Select_Component_Debug extends Solarium_Query_Select_Component
+class Debug extends Component
 {
 
     /**
@@ -52,7 +57,7 @@ class Solarium_Query_Select_Component_Debug extends Solarium_Query_Select_Compon
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_DEBUG;
+    protected $_type = \Solarium\Query\Select\Select::COMPONENT_DEBUG;
 
     /**
      * Get the explainOther option

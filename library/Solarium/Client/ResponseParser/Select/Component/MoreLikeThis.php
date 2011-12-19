@@ -37,21 +37,26 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\ResponseParser\Select\Component;
+
+/**
  * Parse select component MoreLikeThis result from the data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_ResponseParser_Select_Component_MoreLikeThis
+class MoreLikeThis
 {
 
     /**
      * Parse result data into result objects
      *
-     * @param Solarium_Query_Select $query
-     * @param Solarium_Query_Select_Component_MoreLikeThis $moreLikeThis
+     * @param Solarium\Query\Select $query
+     * @param Solarium\Query\Select\Component\MoreLikeThis $moreLikeThis
      * @param array $data
-     * @return Solarium_Result_Select_MoreLikeThis
+     * @return Solarium\Result\Select\MoreLikeThis
      */
     public function parse($query, $moreLikeThis, $data)
     {
@@ -69,7 +74,7 @@ class Solarium_Client_ResponseParser_Select_Component_MoreLikeThis
                     $docs[] = new $documentClass($fields);
                 }
 
-                $results[$key] = new Solarium_Result_Select_MoreLikeThis_Result(
+                $results[$key] = new \Solarium\Result\Select\MoreLikeThis\Result(
                     $result['numFound'],
                     $result['maxScore'],
                     $docs
@@ -77,6 +82,6 @@ class Solarium_Client_ResponseParser_Select_Component_MoreLikeThis
             }
         }
 
-        return new Solarium_Result_Select_MoreLikeThis($results);
+        return new \Solarium\Result\Select\MoreLikeThis\MoreLikeThis($results);
     }
 }

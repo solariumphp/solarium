@@ -36,6 +36,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Plugin;
+use Solarium\Client;
+
+/**
  * PostBigRequest plugin
  *
  * If you reach the url/header length limit of your servlet container your queries will fail.
@@ -48,7 +54,7 @@
  * @package Solarium
  * @subpackage Plugin
  */
-class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
+class PostBigRequest extends AbstractPlugin
 {
 
     /**
@@ -84,17 +90,17 @@ class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Query $query
+     * @param Solarium\Client\Request $request
      * @return void
      */
     public function postCreateRequest($query, $request)
     {
         $queryString = $request->getQueryString();
-        if ($request->getMethod() == Solarium_Client_Request::METHOD_GET &&
+        if ($request->getMethod() == Client\Request::METHOD_GET &&
             strlen($queryString) > $this->getMaxQueryStringLength()) {
 
-            $request->setMethod(Solarium_Client_Request::METHOD_POST);
+            $request->setMethod(Client\Request::METHOD_POST);
             $request->setRawData($queryString);
             $request->clearParams();
             $request->addHeader('Content-Type: application/x-www-form-urlencoded');

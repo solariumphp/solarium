@@ -37,22 +37,27 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\Client\RequestBuilder\Select\Component;
+
+/**
  * Add select component Highlighting to the request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Select_Component_Highlighting
+class Highlighting
 {
 
     /**
      * Add request settings for Highlighting
      *
-     * @param Solarium_Query_Select_Component_Highlighting $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Solarium\Query\Select\Component\Highlighting $component
+     * @param Solarium\Client\Request $request
+     * @return Solarium\Client\Request
      */
-    public function build(Solarium_Query_Select_Component_Highlighting $component, Solarium_Client_Request $request)
+    public function build(\Solarium\Query\Select\Component\Highlighting\Highlighting $component, \Solarium\Client\Request $request)
     {
         // enable highlighting
         $request->addParam('hl', 'true');
@@ -90,8 +95,8 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
     /**
      * Add per-field override options to the request
      *
-     * @param Solarium_Query_Select_Component_Highlighting_Field $field
-     * @param Solarium_Client_Request $request
+     * @param Solarium\Query\Select\Component\Highlighting\Field $field
+     * @param Solarium\Client\Request $request
      * @return void
      */
     protected function _addFieldParams($field, $request)
