@@ -425,7 +425,7 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $query = new \Solarium\Query\Select\Select();
         $this->_plugin->preCreateRequest($query);
 
-        $this->setExpectedException('Solarium\Exception', 'Maximum number of loadbalancer retries reached');
+        $this->setExpectedException('\Solarium\Exception', 'Maximum number of loadbalancer retries reached');
 
         $this->_plugin->preExecuteRequest($request);
     }

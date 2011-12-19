@@ -67,7 +67,7 @@ class ZendHttp extends Adapter
      * Set options
      *
      * Overrides any existing values.
-     * 
+     *
      * If the options array has an 'options' entry it is forwarded to the
      * Zend_Http_Client. See the Zend_Http_Clientdocs for the many config
      * options available.
@@ -93,7 +93,7 @@ class ZendHttp extends Adapter
             if (isset($this->_options['options'])) {
                 $adapterOptions = array_merge($adapterOptions, $this->_options['options']);
             }
-            
+
             $this->_zendHttp->setConfig($adapterOptions);
         }
 
@@ -141,7 +141,7 @@ class ZendHttp extends Adapter
                 );
             }
 
-            $this->_zendHttp = new \Zend\Http\Client(null, $options);
+            $this->_zendHttp = new \Zend_Http_Client(null, $options);
         }
 
         return $this->_zendHttp;

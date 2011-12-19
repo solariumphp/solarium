@@ -487,7 +487,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
                 $adapter->setOptions($options);
                 try {
                     return $adapter->execute($request);
-                } catch(olarium\Client\HttpException $e) {
+                } catch(\Solarium\Client\HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
                     $e = new \Solarium\Exception('Maximum number of loadbalancer retries reached');

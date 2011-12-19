@@ -40,11 +40,11 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (!class_exists('Zend_Loader_Autoloader') && (@include_once 'Zend/Loader/Autoloader.php') !== 'OK') {
+        if (!class_exists('Zend_Loader_Autoloader') && !(@include_once 'Zend/Loader/Autoloader.php')) {
             $this->markTestSkipped('ZF not in include_path, skipping ZendHttp adapter tests');
         }
 
-        Zend_Loader_Autoloader::getInstance();
+        \Zend_Loader_Autoloader::getInstance();
 
         $this->_adapter = new \Solarium\Client\Adapter\ZendHttp();
     }
@@ -53,7 +53,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
     {
         $options = array('timeout' => 10, 'optionZ' => 123, 'options' => array('optionX' => 'Y'));
         $adapterOptions = array('timeout' => 10, 'optionX' => 'Y');
-        
+
         $mock = $this->getMock('Zend_Http_Client');
         $mock->expects($this->once())
                  ->method('setConfig')
@@ -100,7 +100,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $request->setHeaders($headers);
         $request->setRawData($rawData);
 
-        $response = new Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
+        $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
 
         $mock = $this->getMock('Zend_Http_Client');
         $mock->expects($this->once())
@@ -131,7 +131,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
     public function testExecuteErrorResponse()
     {
         $request = new \Solarium\Client\Request();
-        $response = new Zend_Http_Response(404, array(), '');
+        $response = new \Zend_Http_Response(404, array(), '');
 
         $mock = $this->getMock('Zend_Http_Client');
         $mock->expects($this->once())
@@ -149,7 +149,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
     {
         $request = new \Solarium\Client\Request();
         $request->setMethod(\Solarium\Client\Request::METHOD_HEAD);
-        $response = new Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'data');
+        $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'data');
 
         $mock = $this->getMock('Zend_Http_Client');
         $mock->expects($this->once())
