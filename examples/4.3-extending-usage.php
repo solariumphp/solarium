@@ -39,7 +39,7 @@ class ProductPriceLimitedQuery extends ProductQuery{
 }
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client\Client($config);
 
 // create a query instance
 $query = new ProductPriceLimitedQuery;

@@ -4,7 +4,7 @@ require('init.php');
 htmlHeader();
 
 // This is a custom query class that could have some customized logic
-class MyQuery extends Solarium\Query\Select
+class MyQuery extends Solarium\Query\Select\Select
 {
     // ...customization here...
 }
@@ -12,7 +12,7 @@ class MyQuery extends Solarium\Query\Select
 // And this is the extended client, that modifies the default query mapping
 // for select queries to our custom query class.
 // BTW, the same could also be done using a plugin, see example 5.3.2
-class MyClient extends Solarium\Client
+class MyClient extends Solarium\Client\Client
 {
      /**
      * Querytype mappings
@@ -20,8 +20,8 @@ class MyClient extends Solarium\Client
     protected $_queryTypes = array(
         self::QUERYTYPE_SELECT => array(
             'query'          => 'MyQuery',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select',
-            'responseparser' => 'Solarium\Client\ResponseParser\Select'
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Select',
+            'responseparser' => 'Solarium\Client\ResponseParser\Select\Select'
         ),
         self::QUERYTYPE_UPDATE => array(
             'query'          => 'Solarium\Query\Update',
@@ -62,7 +62,7 @@ foreach ($result as $document) {
     {
         // this converts multivalue fields to a comma-separated string
         if(is_array($value)) $value = implode(', ', $value);
-        
+
         echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
     }
 

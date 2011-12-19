@@ -2,32 +2,32 @@
 require('init.php');
 
 // This is a custom query class that could have some customized logic
-class MyQuery extends Solarium\Query\Select
+class MyQuery extends Solarium\Query\Select\Select
 {
     // ...customization here...
 }
 
 // this very simple plugin that modifies the default querytype mapping
-class queryCustomizer extends Solarium\PluginAbstractPlugin
+class queryCustomizer extends Solarium\Plugin\AbstractPlugin
 {
 
     protected function _initPlugin()
     {
         $this->_client->registerQueryType(
-            Solarium\Client::QUERYTYPE_SELECT,
+            Solarium\Client\Client::QUERYTYPE_SELECT,
             'MyQuery',
-            'Solarium\Client\RequestBuilder\Select',
-            'Solarium\Client\ResponseParser\Select'
+            'Solarium\Client\RequestBuilder\Select\Select',
+            'Solarium\Client\ResponseParser\Select\Select'
         );
     }
-    
+
 }
 
 
 htmlHeader();
 
 // create a client instance and register the plugin
-$client = new Solarium\Client($config);
+$client = new Solarium\Client\Client($config);
 $client->registerPlugin('querycustomizer', 'queryCustomizer');
 
 // create a select query instance

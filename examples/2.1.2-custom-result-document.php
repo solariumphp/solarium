@@ -16,7 +16,7 @@ class myDoc extends Solarium\Document\ReadOnly{
 
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client\Client($config);
 
 // get a select query instance
 $query = $client->createSelect();

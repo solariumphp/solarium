@@ -4,7 +4,7 @@ require('init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client\Client($config);
 
 // get an update query instance
 $update = $client->createUpdate();

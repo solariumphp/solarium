@@ -7,7 +7,7 @@ if ($_POST) {
     // if data is posted add it to solr
 
     // create a client instance
-    $client = new Solarium\Client($config);
+    $client = new Solarium\Client\Client($config);
 
     // get an update query instance
     $update = $client->createUpdate();
@@ -18,7 +18,7 @@ if ($_POST) {
     $doc->id = $_POST['id'];
     $doc->name = $_POST['name'];
     $doc->price = $_POST['price'];
-    
+
     // add the document and a commit command to the update query
     $update->addDocument($doc);
     $update->addCommit();

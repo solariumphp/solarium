@@ -3,7 +3,7 @@ require('init.php');
 
 
 // this very simple plugin shows a timing for each event and display some request debug info
-class basicDebug extends Solarium\PluginAbstractPlugin
+class basicDebug extends Solarium\Plugin\AbstractPlugin
 {
 
     protected $_start;
@@ -90,7 +90,7 @@ htmlHeader();
 
 // create a client instance and register the plugin
 $plugin = new basicDebug();
-$client = new Solarium\Client($config);
+$client = new Solarium\Client\Client($config);
 $client->registerPlugin('debugger', $plugin);
 
 // execute a select query and display the results

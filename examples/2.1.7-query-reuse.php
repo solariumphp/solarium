@@ -4,11 +4,11 @@ require('init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client\Client($config);
 
 
 // first create a base query as a query class
-class PriceQuery extends Solarium\Query\Select
+class PriceQuery extends Solarium\Query\Select\Select
 {
     protected function _init()
     {

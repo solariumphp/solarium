@@ -10,7 +10,7 @@ htmlHeader();
 
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client\Client($config);
 
 // create a select query instance
 $query = $client->createSelect();
@@ -41,7 +41,7 @@ foreach ($result as $document) {
     {
         // this converts multivalue fields to a comma-separated string
         if(is_array($value)) $value = implode(', ', $value);
-        
+
         echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
     }
 

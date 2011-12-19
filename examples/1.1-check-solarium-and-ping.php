@@ -7,7 +7,7 @@ htmlHeader();
 echo 'Solarium library version: ' . Solarium\Version::VERSION . ' - ';
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client\Client($config);
 
 // create a ping query
 $ping = $client->createPing();
