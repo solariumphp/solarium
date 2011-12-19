@@ -57,7 +57,9 @@ class Highlighting
      * @param Solarium\Client\Request $request
      * @return Solarium\Client\Request
      */
-    public function build(\Solarium\Query\Select\Component\Highlighting\Highlighting $component, \Solarium\Client\Request $request)
+    public function build(
+        \Solarium\Query\Select\Component\Highlighting\Highlighting $component,
+        \Solarium\Client\Request $request)
     {
         // enable highlighting
         $request->addParam('hl', 'true');
