@@ -44,7 +44,7 @@
  */
 class Solarium_Client_RequestBuilder_Select_Component_Grouping
 {
-    
+
     /**
      * Add request settings for Grouping
      *
@@ -65,6 +65,7 @@ class Solarium_Client_RequestBuilder_Select_Component_Grouping
         $request->addParam('group.main', $component->getMainResult());
         $request->addParam('group.ngroups', $component->getNumberOfGroups());
         $request->addParam('group.cache.percent', $component->getCachePercentage());
+        $request->addParam('group.truncate', $component->getTruncate());
 
         return $request;
     }

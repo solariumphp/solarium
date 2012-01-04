@@ -1,0 +1,25 @@
+{
+    "name": "solarium/solarium",
+    "type": "library",
+    "description": "PHP Solr client",
+    "keywords": ["solr", "search"],
+    "homepage": "http://www.solarium-project.org",
+    "version": "2.3.0",
+    "license": "NewBSD",
+    "authors": [
+        {
+            "name": "Bas de Nooijer",
+            "email": "github@raspberry.nl"
+        },
+        {
+            "name": "Gasol Wu",
+            "email": "gasol.wu@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "psr-0": { "Solarium": "library/" }
+    }
+}

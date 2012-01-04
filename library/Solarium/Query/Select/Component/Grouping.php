@@ -45,7 +45,7 @@
  * @link http://wiki.apache.org/solr/FieldCollapsing
  *
  * @since 2.1.0
- * 
+ *
  * @package Solarium
  * @subpackage Query
  */
@@ -64,7 +64,7 @@ class Solarium_Query_Select_Component_Grouping extends Solarium_Query_Select_Com
 
     /**
      * Component type
-     * 
+     *
      * @var string
      */
     protected $_type = Solarium_Query_Select::COMPONENT_GROUPING;
@@ -78,7 +78,7 @@ class Solarium_Query_Select_Component_Grouping extends Solarium_Query_Select_Com
 
     /**
      * Queries for grouping
-     * 
+     *
      * @var array
      */
     protected $_queries = array();
@@ -381,5 +381,29 @@ class Solarium_Query_Select_Component_Grouping extends Solarium_Query_Select_Com
     {
         return $this->getOption('cachepercentage');
     }
-    
+
+    /**
+     * Set truncate option
+     *
+     * If true, facet counts are based on the most relevant document of each group matching the query.
+     * Same applies for StatsComponent. Default is false. Only available from Solr 3.4
+     *
+     * @param boolean $value
+     * @return Solarium_Query_Select_Component_Grouping Provides fluent interface
+     */
+    public function setTruncate($value)
+    {
+        return $this->_setOption('truncate', $value);
+    }
+
+    /**
+     * Get truncate option
+     *
+     * @return boolean|null
+     */
+    public function getTruncate()
+    {
+        return $this->getOption('truncate');
+    }
+
 }

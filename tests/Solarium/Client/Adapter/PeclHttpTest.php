@@ -42,42 +42,128 @@ class Solarium_Client_Adapter_PeclHttpTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Pecl_http not available, skipping PeclHttp adapter tests');
         }
 
-        $this->_adapter = new Solarium_Client_Adapter_PeclHttp();
+        $this->_adapter = new Solarium_Client_Adapter_PeclHttp(array('timeout' => 10));
     }
 
-    public function testCheck()
+    /**
+     * @dataProvider requestProvider
+     */
+    public function testToHttpRequestWithMethod($request, $method, $support)
     {
-        $data = 'data';
-        $headers = array('X-dummy: data');
+        try {
+            $httpRequest = $this->_adapter->toHttpRequest($request);
+            $this->assertEquals($httpRequest->getMethod(), $method);
+        } catch (Solarium_Exception $e) {
+            if ($support) {
+                $this->fail("Unsupport method: {$request->getMethod()}");
+            }
+        }
+    }
 
-        // this should be ok, no exception
-        $this->_adapter->check($data, $headers);
+    public function requestProvider()
+    {
+        $methods = array(
+            Solarium_Client_Request::METHOD_GET  => array(
+                'method' => HTTP_METH_GET,
+                'support' => true
+            ),
+            Solarium_Client_Request::METHOD_POST => array(
+                'method' => HTTP_METH_POST,
+                'support' => true
+            ),
+            Solarium_Client_Request::METHOD_HEAD => array(
+                'method' => HTTP_METH_HEAD,
+                'support' => true
+            ),
+            'PUT'                                => array(
+                'method' => HTTP_METH_PUT,
+                'support' => false
+            ),
+            'DELETE'                             => array(
+                'method' => HTTP_METH_DELETE,
+                'support' => false
+            ),
+        );
 
-        $data = '';
-        $headers = array();
+        foreach ($methods as $method => $options) {
+            $request = new Solarium_Client_Request;
+            $request->setMethod($method);
+            $data[] = array_merge(array($request), $options);
+        }
 
-        $this->setExpectedException('Solarium_Exception');
-        $this->_adapter->check($data, $headers);
+        return $data;
+    }
+
+    public function testToHttpRequestWithHeaders()
+    {
+        $request = new Solarium_Client_Request(array(
+            'header' => array(
+                'Content-Type: application/json',
+                'User-Agent: Foo'
+            )
+        ));
+
+        $httpRequest = $this->_adapter->toHttpRequest($request);
+        $this->assertEquals(array(
+            'timeout' => 10,
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'User-Agent' => 'Foo'
+            )
+        ), $httpRequest->getOptions());
+    }
+
+    public function testToHttpRequestWithDefaultContentType()
+    {
+        $request = new Solarium_Client_Request;
+        $request->setMethod(Solarium_Client_Request::METHOD_POST);
+
+        $httpRequest = $this->_adapter->toHttpRequest($request);
+        $this->assertEquals(array(
+            'timeout' => 10,
+            'headers' => array(
+                'Content-Type' => 'text/xml; charset=utf-8',
+            )
+        ), $httpRequest->getOptions());
     }
 
     public function testExecute()
     {
-        $headers = array('HTTP/1.0 200 OK');
+        $statusCode = 200;
+        $statusMessage = 'OK';
         $body = 'data';
-        $data = array($body, $headers);
+        $data = <<<EOF
+HTTP/1.1 $statusCode $statusMessage
+X-Foo: test
 
+$body
+EOF;
         $request = new Solarium_Client_Request();
 
-        $mock = $this->getMock('Solarium_Client_Adapter_PeclHttp', array('_getData'));
+        $mockHttpRequest = $this->getMock('HttpRequest');
+        $mockHttpRequest->expects($this->once())
+                        ->method('send')
+                        ->will($this->returnValue(HttpMessage::factory($data)));
+        $mock = $this->getMock('Solarium_Client_Adapter_PeclHttp', array('toHttpRequest'));
         $mock->expects($this->once())
-                 ->method('_getData')
-                 ->with($request)
-                 ->will($this->returnValue($data));
+             ->method('toHttpRequest')
+             ->with($request)
+             ->will($this->returnValue($mockHttpRequest));
 
         $response = $mock->execute($request);
+        $this->assertEquals($body, $response->getBody());
+        $this->assertEquals($statusCode, $response->getStatusCode());
+        $this->assertEquals($statusMessage, $response->getStatusMessage());
+    }
 
-        $this->assertEquals($body,$response->getBody());
-        $this->assertEquals($headers,$response->getHeaders());
+    /**
+     * @expectedException Solarium_Client_HttpException
+     */
+    public function testExecuteWithException()
+    {
+        $this->_adapter->setPort(-1); // this forces an error
+        $request = new Solarium_Client_Request();
+        $this->_adapter->execute($request);
     }
 
 }

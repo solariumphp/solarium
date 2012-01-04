@@ -88,6 +88,11 @@ class Solarium_Client extends Solarium_Configurable
     const QUERYTYPE_ANALYSIS_DOCUMENT = 'analysis-document';
 
     /**
+     * Querytype terms
+     */
+    const QUERYTYPE_TERMS = 'terms';
+
+    /**
      * Default options
      *
      * @var array
@@ -132,6 +137,22 @@ class Solarium_Client extends Solarium_Configurable
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Analysis_Field',
             'responseparser' => 'Solarium_Client_ResponseParser_Analysis_Field'
         ),
+        self::QUERYTYPE_TERMS => array(
+            'query'          => 'Solarium_Query_Terms',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Terms',
+            'responseparser' => 'Solarium_Client_ResponseParser_Terms'
+        ),
+    );
+
+    /**
+     * Plugin types
+     *
+     * @var array
+     */
+    protected $_pluginTypes = array(
+        'loadbalancer' => 'Solarium_Plugin_Loadbalancer',
+        'postbigrequest' => 'Solarium_Plugin_PostBigRequest',
+        'customizerequest' => 'Solarium_Plugin_CustomizeRequest',
     );
 
     /**
@@ -139,7 +160,7 @@ class Solarium_Client extends Solarium_Configurable
      *
      * @var array
      */
-    protected $_plugins = array();
+    protected $_pluginInstances = array();
 
     /**
      * Adapter instance
@@ -329,7 +350,7 @@ class Solarium_Client extends Solarium_Configurable
 
         $plugin->init($this, $options);
 
-        $this->_plugins[$key] = $plugin;
+        $this->_pluginInstances[$key] = $plugin;
 
         return $this;
     }
@@ -363,19 +384,27 @@ class Solarium_Client extends Solarium_Configurable
      */
     public function getPlugins()
     {
-        return $this->_plugins;
+        return $this->_pluginInstances;
     }
 
     /**
      * Get a plugin instance
      *
      * @param string $key
+     * @param boolean $autocreate
      * @return Solarium_Plugin_Abstract|null
      */
-    public function getPlugin($key)
+    public function getPlugin($key, $autocreate = true)
     {
-        if (isset($this->_plugins[$key])) {
-            return $this->_plugins[$key];
+        if (isset($this->_pluginInstances[$key])) {
+            return $this->_pluginInstances[$key];
+        } elseif ($autocreate) {
+            if (array_key_exists($key, $this->_pluginTypes)) {
+                $this->registerPlugin($key, $this->_pluginTypes[$key]);
+                return $this->_pluginInstances[$key];
+            } else {
+                throw new Solarium_Exception('Cannot autoload plugin of unknown type: ' . $key);
+            }
         } else {
             return null;
         }
@@ -392,18 +421,41 @@ class Solarium_Client extends Solarium_Configurable
     public function removePlugin($plugin)
     {
         if (is_object($plugin)) {
-            foreach ($this->_plugins as $key => $instance) {
+            foreach ($this->_pluginInstances as $key => $instance) {
                 if ($instance === $plugin) {
-                    unset($this->_plugins[$key]);
+                    unset($this->_pluginInstances[$key]);
                     break;
                 }
             }
         } else {
-            if (isset($this->_plugins[$plugin])) {
-                unset($this->_plugins[$plugin]);
+            if (isset($this->_pluginInstances[$plugin])) {
+                unset($this->_pluginInstances[$plugin]);
             }
         }
         return $this;
+    }
+
+    /**
+     * Trigger external events for plugins
+     *
+     * This methods adds 'namespacing' to the event name to prevent conflicts with Solariums internal event keys.
+     *
+     * Based on the event name you can always tell if an event was internal (Solarium base classes)
+     * or external (plugins, even if it's a plugin included with Solarium).
+     *
+     * External events always have the 'event' prefix in the event name.
+     *
+     * @param string $event
+     * @param array $params
+     * @param bool $resultOverride
+     * @return void|mixed
+     */
+    public function triggerEvent($event, $params, $resultOverride = false)
+    {
+        // Add namespacing
+        $event = 'event'.$event;
+
+        return $this->_callPlugins($event, $params, $resultOverride);
     }
 
     /**
@@ -416,11 +468,13 @@ class Solarium_Client extends Solarium_Configurable
      */
     protected function _callPlugins($event, $params, $resultOverride = false)
     {
-        foreach ($this->_plugins AS $plugin) {
-            $result = call_user_func_array(array($plugin, $event), $params);
+        foreach ($this->_pluginInstances AS $plugin) {
+            if (method_exists($plugin, $event)) {
+                $result = call_user_func_array(array($plugin, $event), $params);
 
-            if ($result !== null && $resultOverride) {
-                return $result;
+                if ($result !== null && $resultOverride) {
+                    return $result;
+                }
             }
         }
     }
@@ -501,9 +555,11 @@ class Solarium_Client extends Solarium_Configurable
     public function executeRequest($request)
     {
         $pluginResult = $this->_callPlugins('preExecuteRequest', array($request), true);
-        if($pluginResult !== null) return $pluginResult;
-
-        $response = $this->getAdapter()->execute($request);
+        if ($pluginResult !== null) {
+            $response = $pluginResult; //a plugin result overrules the standard execution result
+        } else {
+            $response = $this->getAdapter()->execute($request);
+        }
 
         $this->_callPlugins('postExecuteRequest', array($request, $response));
 
@@ -621,6 +677,20 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
+     * Execute a terms query
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param Solarium_Query_Terms $query
+     * @return Solarium_Result_Terms
+     */
+    public function terms($query)
+    {
+        return $this->execute($query);
+    }
+
+    /**
      * Create a query instance
      *
      * @param string $type
@@ -710,5 +780,16 @@ class Solarium_Client extends Solarium_Configurable
     public function createAnalysisDocument($options = null)
     {
         return $this->createQuery(self::QUERYTYPE_ANALYSIS_DOCUMENT, $options);
+    }
+
+    /**
+     * Create a terms query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Terms
+     */
+    public function createTerms($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_TERMS, $options);
     }
 }

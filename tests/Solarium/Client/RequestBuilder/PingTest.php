@@ -38,12 +38,12 @@ class Solarium_Client_RequestBuilder_PingTest extends PHPUnit_Framework_TestCase
         $request = $builder->build(new Solarium_Query_Ping);
 
         $this->assertEquals(
-            'admin/ping?',
+            'admin/ping?wt=json',
             $request->getUri()
         );
 
         $this->assertEquals(
-            Solarium_Client_Request::METHOD_HEAD,
+            Solarium_Client_Request::METHOD_GET,
             $request->getMethod()
         );
     }

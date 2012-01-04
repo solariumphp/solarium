@@ -53,6 +53,7 @@ class Solarium_Query_Select_Component_GroupingTest extends PHPUnit_Framework_Tes
             'mainresult' => false,
             'numberofgroups' => true,
             'cachepercentage' => 45,
+            'truncate' => true,
         );
 
         $this->_grouping->setOptions($options);
@@ -65,6 +66,7 @@ class Solarium_Query_Select_Component_GroupingTest extends PHPUnit_Framework_Tes
         $this->assertEquals($options['mainresult'], $this->_grouping->getMainResult());
         $this->assertEquals($options['numberofgroups'], $this->_grouping->getNumberOfGroups());
         $this->assertEquals($options['cachepercentage'], $this->_grouping->getCachePercentage());
+        $this->assertEquals($options['truncate'], $this->_grouping->getTruncate());
     }
 
     public function testGetType()
@@ -195,5 +197,16 @@ class Solarium_Query_Select_Component_GroupingTest extends PHPUnit_Framework_Tes
             $this->_grouping->getCachePercentage()
         );
     }
-    
+
+    public function testSetAndGetTruncate()
+    {
+        $value = true;
+        $this->_grouping->setTruncate($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_grouping->getTruncate()
+        );
+    }
+
 }

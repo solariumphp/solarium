@@ -87,7 +87,7 @@ class Solarium_Configurable
      * @param array|Zend_Config $options
      * @param boolean $overwrite True for overwriting existing options, false
      *  for merging (new values overwrite old ones if needed)
-     * 
+     *
      * @return void
      */
     public function setOptions($options, $overwrite = false)
@@ -98,8 +98,7 @@ class Solarium_Configurable
                 if (is_object($options)) {
                     $options = $options->toArray();
                 } else {
-                    throw new Solarium_Exception('Options must be an '
-                        . 'array or a Zend_Config object');
+                    throw new Solarium_Exception('Options must be an array or a Zend_Config object');
                 }
             }
 

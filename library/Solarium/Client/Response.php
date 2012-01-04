@@ -129,7 +129,7 @@ class Solarium_Client_Response
 
     /**
      * Set headers
-     * 
+     *
      * @param array $headers
      * @return void
      */

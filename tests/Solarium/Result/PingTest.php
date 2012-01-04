@@ -34,11 +34,15 @@ class Solarium_Result_PingTest extends PHPUnit_Framework_TestCase
 
     public function testGetStatus()
     {
-        $ping = new Solarium_Result_Ping();
+        $client = new Solarium_Client;
+        $query = new Solarium_Query_Ping;
+        $response = new Solarium_Client_Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
+
+        $ping = new Solarium_Result_Ping($client, $query, $response);
         $this->assertEquals(
             0,
             $ping->getStatus()
         );
     }
-    
+
 }

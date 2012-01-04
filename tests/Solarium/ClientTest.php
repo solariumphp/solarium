@@ -85,7 +85,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $plugin = $this->_client->getPlugin('myplugin');
         $this->assertThat($plugin, $this->isInstanceOf('MyClientPlugin'));
         $this->assertEquals($options['plugin']['myplugin']['options'], $plugin->getOptions());
-        
+
     }
 
     public function testConfigModeWithoutKeys()
@@ -151,7 +151,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $this->_client->setAdapter($adapterClass);
         $this->assertThat($this->_client->getAdapter(), $this->isInstanceOf($adapterClass));
     }
-    
+
     public function testSetAndGetAdapterWithObject()
     {
         $adapterClass = 'MyAdapter';
@@ -205,8 +205,23 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             null,
-            $this->_client->getPlugin('invalidplugin')
+            $this->_client->getPlugin('invalidplugin', false)
         );
+    }
+
+    public function testAutoloadPlugin()
+    {
+        $loadbalancer = $this->_client->getPlugin('loadbalancer');
+        $this->assertThat(
+            $loadbalancer,
+            $this->isInstanceOf('Solarium_Plugin_Loadbalancer')
+        );
+    }
+
+    public function testAutoloadInvalidPlugin()
+    {
+        $this->setExpectedException('Solarium_Exception');
+        $this->_client->getPlugin('invalidpluginname');
     }
 
     public function testRemoveAndGetPlugins()
@@ -469,7 +484,7 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
     public function testExecuteWithOverridingPlugin()
     {
         $query = new Solarium_Query_Ping();
-        
+
         $observer = $this->getMock('Solarium_Plugin_Abstract', array(), array($this->_client,array()));
         $observer->expects($this->once())
                  ->method('preExecute')
@@ -629,6 +644,18 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $observer->analyze($query);
     }
 
+    public function testTerms()
+    {
+        $query = new Solarium_Query_Terms();
+
+        $observer = $this->getMock('Solarium_Client', array('execute'));
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query));
+
+        $observer->terms($query);
+    }
+
     public function testCreateQuery()
     {
         $options = array('optionA' => 1, 'optionB' => 2);
@@ -747,8 +774,8 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
                  ->with($this->equalTo(Solarium_Client::QUERYTYPE_MORELIKETHIS), $this->equalTo($options));
 
         $observer->createMoreLikeThis($options);
-    }    
-    
+    }
+
     public function testCreateAnalysisField()
     {
         $options = array('optionA' => 1, 'optionB' => 2);
@@ -771,6 +798,32 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
                  ->with($this->equalTo(Solarium_Client::QUERYTYPE_ANALYSIS_DOCUMENT), $this->equalTo($options));
 
         $observer->createAnalysisDocument($options);
+    }
+
+    public function testCreateTerms()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Solarium_Client::QUERYTYPE_TERMS), $this->equalTo($options));
+
+        $observer->createTerms($options);
+    }
+
+    public function testTriggerEvent()
+    {
+        $eventName = 'Test';
+        $params = array('a', 'b');
+        $override = true;
+
+        $clientMock = $this->getMock('Solarium_Client', array('_callPlugins'));
+        $clientMock->expects($this->once())
+             ->method('_callPlugins')
+             ->with($this->equalTo('event'.$eventName), $this->equalTo($params), $override);
+
+        $clientMock->triggerEvent($eventName, $params, $override);
     }
 
 }

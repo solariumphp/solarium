@@ -143,14 +143,14 @@ abstract class Solarium_Client_Adapter extends Solarium_Configurable
     public function setPath($path)
     {
         if (substr($path, -1) == '/') $path = substr($path, 0, -1);
-        
+
         return $this->_setOption('path', $path);
     }
 
     /**
      * Get path option
      *
-     * @return void
+     * @return string
      */
     public function getPath()
     {
@@ -215,7 +215,7 @@ abstract class Solarium_Client_Adapter extends Solarium_Configurable
      *
      * Based on host, path, port and core options.
      *
-     * @return void
+     * @return string
      */
     public function getBaseUri()
     {

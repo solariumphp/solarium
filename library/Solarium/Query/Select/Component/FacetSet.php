@@ -266,13 +266,10 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
             throw new Solarium_Exception('A facet must have a key value');
         }
 
-        if (array_key_exists($key, $this->_facets)) {
-            if ($this->_facets[$key] === $facet) {
-                //double add calls for the same facet are ignored
-                //@todo add trigger_error with a notice?
-            } else {
-                throw new Solarium_Exception('A facet must have a unique key value within a query');
-            }
+        //double add calls for the same facet are ignored, but non-unique keys cause an exception
+        //@todo add trigger_error with a notice for double add calls?
+        if (array_key_exists($key, $this->_facets) && $this->_facets[$key] !== $facet) {
+            throw new Solarium_Exception('A facet must have a unique key value within a query');
         } else {
              $this->_facets[$key] = $facet;
         }
