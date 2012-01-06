@@ -197,4 +197,12 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
         $this->_helper->assemble('cat:%1% AND content:%2%',array('value1'));
     }
 
+    public function testJoin()
+    {
+        $this->assertEquals(
+            '{!join from=manu_id to=id}',
+            $this->_helper->join('manu_id', 'id')
+        );
+    }
+
 }
