@@ -56,10 +56,8 @@ class Solarium_Client_RequestBuilder_Terms extends Solarium_Client_RequestBuilde
      */
     public function build($query)
     {
-        $request = new Solarium_Client_Request;
-        $request->setHandler($query->getHandler());
+        $request = parent::build($query);
         $request->addParam('terms', true);
-        $request->addParam('wt', 'json');
         $request->addParam('terms.lower', $query->getLowerbound());
         $request->addParam('terms.lower.incl', $query->getLowerboundInclude());
         $request->addParam('terms.mincount', $query->getMinCount());

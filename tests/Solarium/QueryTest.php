@@ -38,7 +38,7 @@ class Solarium_QueryTest extends PHPUnit_Framework_TestCase
         $query->setHandler('myhandler');
         $this->assertEquals('myhandler', $query->getHandler());
     }
-    
+
     public function testSetAndGetResultClass()
     {
         $query = new TestQuery;
@@ -56,7 +56,20 @@ class Solarium_QueryTest extends PHPUnit_Framework_TestCase
             get_class($helper)
         );
     }
-    
+
+    public function testAddAndGetParams()
+    {
+        $query = new TestQuery;
+        $query->addParam('p1','v1');
+        $query->addParam('p2','v2');
+        $query->addParam('p2','v3'); //should overwrite previous value
+
+        $this->assertEquals(
+            array('p1' => 'v1', 'p2' => 'v3'),
+            $query->getParams()
+        );
+    }
+
 }
 
 class TestQuery extends Solarium_Query

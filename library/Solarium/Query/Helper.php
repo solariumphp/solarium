@@ -62,6 +62,27 @@ class Solarium_Query_Helper
     protected $_assembleParts;
 
     /**
+     * Counter to keep dereferenced params unique (within a single query instance)
+     *
+     * @var int
+     */
+    protected $_derefencedParamsLastKey = 0;
+
+    /**
+     * @var Solarium_Query
+     */
+    protected $_query;
+
+    /**
+     * Constructor
+     *
+     * @param Solarium_Query $query
+     */
+    public function __construct($query = null) {
+        $this->_query = $query;
+    }
+
+    /**
      * Escape a term
      *
      * A term is a single word.
@@ -201,10 +222,28 @@ class Solarium_Query_Helper
      *
      * @param string $name
      * @param array $params
+     * @param boolean $dereferenced
      * @return string
      */
-    public function qparser($name, $params = array())
+    public function qparser($name, $params = array(), $dereferenced = false)
     {
+        if ($dereferenced) {
+
+            if(!$this->_query) {
+                throw new Solarium_Exception(
+                    'Dereferenced params can only be used in a Solarium_Query_Helper instance retrieved from the query '
+                    . 'by using the getHelper() method, this instance was manually created'
+                );
+            }
+
+            foreach($params as $paramKey => $paramValue) {
+                $this->_derefencedParamsLastKey++;
+                $derefKey = 'deref_' . $this->_derefencedParamsLastKey;
+                $this->_query->addParam($derefKey, $paramValue);
+                $params[$paramKey] = '$'.$derefKey;
+            }
+        }
+
         $output = '{!'.$name;
         foreach ($params as $key=>$value) {
             $output .= ' ' . $key . '=' . $value;
@@ -297,13 +336,14 @@ class Solarium_Query_Helper
      * @see http://wiki.apache.org/solr/Join
      * @since 2.4.0
      *
-     * @param $from
-     * @param $to
+     * @param string $from
+     * @param string $to
+     * @param boolean $dereferenced
      * @return string
      */
-    public function join($from, $to)
+    public function join($from, $to, $dereferenced = false)
     {
-        return $this->qparser('join', array('from' => $from, 'to' => $to));
+        return $this->qparser('join', array('from' => $from, 'to' => $to), $dereferenced);
     }
 
 }
