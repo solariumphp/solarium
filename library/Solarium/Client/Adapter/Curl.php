@@ -121,39 +121,36 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
         $method = $request->getMethod();
         $options = $this->_createOptions($request);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $uri);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, $options['timeout']);
+        $handler = curl_init();
+        curl_setopt($handler, CURLOPT_URL, $uri);
+        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($handler, CURLOPT_TIMEOUT, $options['timeout']);
 
-        if (!isset($options['headers']['Content-Type'])) {
-            $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
-        }
         if (!isset($options['headers']['Content-Type'])) {
             $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
         }
 
         if (count($options['headers'])) {
-            $arr = array();
-            foreach ($options['headers'] as $k => $v) {
-                $arr[] = $k . ": " . $v;
+            $headers = array();
+            foreach ($options['headers'] as $key => $value) {
+                $headers[] = $key . ": " . $value;
             }
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $arr);
+            curl_setopt($handler, CURLOPT_HTTPHEADER, $headers);
         }
 
         if ($method == Solarium_Client_Request::METHOD_POST) {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getRawData());
+            curl_setopt($handler, CURLOPT_POST, true);
+            curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
         } else if ($method == Solarium_Client_Request::METHOD_GET) {
-            curl_setopt($ch, CURLOPT_HTTPGET, true);
+            curl_setopt($handler, CURLOPT_HTTPGET, true);
         } else if ($method == Solarium_Client_Request::METHOD_HEAD) {
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
+            curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'HEAD');
         } else {
             throw new Solarium_Exception("unsupported method: $method");
         }
 
-        return $ch;
+        return $handler;
         // @codeCoverageIgnoreEnd
     }
 
