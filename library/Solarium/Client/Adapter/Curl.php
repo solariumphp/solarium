@@ -91,6 +91,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
 
     public function getResponse($handle, $httpResponse)
     {
+        // @codeCoverageIgnoreStart
         if ($httpResponse !== false) {
             $data = $httpResponse;
             $info = curl_getinfo($handle);
@@ -101,8 +102,10 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
             $data = '';
         }
 
+        curl_close($handle);
         $this->check($data, $headers);
         return new Solarium_Client_Response($data, $headers);
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -151,6 +154,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
         }
 
         return $ch;
+        // @codeCoverageIgnoreEnd
     }
 
     /**

@@ -61,19 +61,17 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
      */
     public function execute($queries)
     {
+        // @codeCoverageIgnoreStart
         $adapter = $this->_client->setAdapter('Solarium_Client_Adapter_Curl')->getAdapter();
 
-        // create handles
+        // create handles and add all handles to the multihandle
+        $multiHandle = curl_multi_init();
         $handles = array();
         foreach($queries as $key => $query) {
             $request = $this->_client->createRequest($query);
-            $handles[$key] = $adapter->createHandle($request);
-        }
-
-        // add all handles to the multihandle
-        $multiHandle = curl_multi_init();
-        foreach($handles as $handle) {
+            $handle = $adapter->createHandle($request);
             curl_multi_add_handle($multiHandle, $handle);
+            $handles[$key] = $handle;
         }
 
         // executing multihandle (all requests)
@@ -87,6 +85,7 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
         $results = array();
         foreach ($handles as $key => $handle) {
             try {
+                curl_multi_remove_handle($multiHandle, $handle);
                 $response = $adapter->getResponse($handle, curl_multi_getcontent($handle));
                 $results[$key] = $this->_client->createResult($queries[$key], $response);
             } catch(Solarium_Client_HttpException $e) {
@@ -94,7 +93,10 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
             }
         }
 
+        curl_multi_close($multiHandle);
+
         return $results;
+        // @codeCoverageIgnoreEnd
     }
 
 }
