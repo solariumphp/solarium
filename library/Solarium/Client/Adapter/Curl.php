@@ -70,9 +70,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
      */
     public function execute($request)
     {
-        list($data, $headers) = $this->_getData($request);
-        $this->check($data, $headers);
-        return new Solarium_Client_Response($data, $headers);
+        return $this->_getData($request);
     }
 
     /**
@@ -82,6 +80,38 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
      * @return array
      */
     protected function _getData($request)
+    {
+        // @codeCoverageIgnoreStart
+        $handle = $this->createHandle($request);
+        $httpResponse = curl_exec($handle);
+
+        return $this->getResponse($handle, $httpResponse);
+        // @codeCoverageIgnoreEnd
+    }
+
+    public function getResponse($handle, $httpResponse)
+    {
+        if ($httpResponse !== false) {
+            $data = $httpResponse;
+            $info = curl_getinfo($handle);
+            $headers = array();
+            $headers[] = 'HTTP/1.1 ' . $info['http_code']. ' OK';
+        } else {
+            $headers = array();
+            $data = '';
+        }
+
+        $this->check($data, $headers);
+        return new Solarium_Client_Response($data, $headers);
+    }
+
+    /**
+     * Create curl handle for a request
+     *
+     * @param Solarium_Client_Request $request
+     * @return resource
+     */
+    public function createHandle($request)
     {
         // @codeCoverageIgnoreStart
         $uri = $this->getBaseUri() . $request->getUri();
@@ -112,28 +142,15 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
         if ($method == Solarium_Client_Request::METHOD_POST) {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getRawData());
-            $httpResponse  = curl_exec($ch);
         } else if ($method == Solarium_Client_Request::METHOD_GET) {
             curl_setopt($ch, CURLOPT_HTTPGET, true);
-            $httpResponse  = curl_exec($ch);
         } else if ($method == Solarium_Client_Request::METHOD_HEAD) {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
-            $httpResponse  = curl_exec($ch);
         } else {
             throw new Solarium_Exception("unsupported method: $method");
         }
 
-        $headers = array(); $data = '';
-
-        if ($httpResponse !== false) {
-            $data = $httpResponse;
-            $info = curl_getinfo($ch);
-            $headers = array();
-            $headers[] = 'HTTP/1.1 ' . $info['http_code']. ' OK';
-        }
-
-        return array($data, $headers);
-        // @codeCoverageIgnoreEnd
+        return $ch;
     }
 
     /**

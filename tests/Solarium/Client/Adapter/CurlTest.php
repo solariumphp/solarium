@@ -76,8 +76,7 @@ class Solarium_Client_Adapter_CurlTest extends PHPUnit_Framework_TestCase
 
         $response = $mock->execute($request);
 
-        $this->assertEquals($body,$response->getBody());
-        $this->assertEquals($headers,$response->getHeaders());
+        $this->assertEquals($data, $response);
     }
 
 }
