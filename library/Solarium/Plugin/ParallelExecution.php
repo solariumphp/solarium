@@ -86,8 +86,12 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
         // get the results
         $results = array();
         foreach ($handles as $key => $handle) {
-            $response = $adapter->getResponse($handle, curl_multi_getcontent($handle));
-            $results[$key] = $this->_client->createResult($queries[$key], $response);
+            try {
+                $response = $adapter->getResponse($handle, curl_multi_getcontent($handle));
+                $results[$key] = $this->_client->createResult($queries[$key], $response);
+            } catch(Solarium_Client_HttpException $e) {
+                $results[$key] = $e;
+            }
         }
 
         return $results;
