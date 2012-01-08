@@ -70,9 +70,7 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
      */
     public function execute($request)
     {
-        list($data, $headers) = $this->_getData($request);
-        $this->check($data, $headers);
-        return new Solarium_Client_Response($data, $headers);
+        return $this->_getData($request);
     }
 
     /**
@@ -84,55 +82,75 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
     protected function _getData($request)
     {
         // @codeCoverageIgnoreStart
+        $handle = $this->createHandle($request);
+        $httpResponse = curl_exec($handle);
+
+        return $this->getResponse($handle, $httpResponse);
+        // @codeCoverageIgnoreEnd
+    }
+
+    public function getResponse($handle, $httpResponse)
+    {
+        // @codeCoverageIgnoreStart
+        if ($httpResponse !== false) {
+            $data = $httpResponse;
+            $info = curl_getinfo($handle);
+            $headers = array();
+            $headers[] = 'HTTP/1.1 ' . $info['http_code']. ' OK';
+        } else {
+            $headers = array();
+            $data = '';
+        }
+
+        curl_close($handle);
+        $this->check($data, $headers);
+        return new Solarium_Client_Response($data, $headers);
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * Create curl handle for a request
+     *
+     * @param Solarium_Client_Request $request
+     * @return resource
+     */
+    public function createHandle($request)
+    {
+        // @codeCoverageIgnoreStart
         $uri = $this->getBaseUri() . $request->getUri();
         $method = $request->getMethod();
         $options = $this->_createOptions($request);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $uri);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, $options['timeout']);
+        $handler = curl_init();
+        curl_setopt($handler, CURLOPT_URL, $uri);
+        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($handler, CURLOPT_TIMEOUT, $options['timeout']);
 
-        if (!isset($options['headers']['Content-Type'])) {
-            $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
-        }
         if (!isset($options['headers']['Content-Type'])) {
             $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
         }
 
         if (count($options['headers'])) {
-            $arr = array();
-            foreach ($options['headers'] as $k => $v) {
-                $arr[] = $k . ": " . $v;
+            $headers = array();
+            foreach ($options['headers'] as $key => $value) {
+                $headers[] = $key . ": " . $value;
             }
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $arr);
+            curl_setopt($handler, CURLOPT_HTTPHEADER, $headers);
         }
 
         if ($method == Solarium_Client_Request::METHOD_POST) {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getRawData());
-            $httpResponse  = curl_exec($ch);
+            curl_setopt($handler, CURLOPT_POST, true);
+            curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
         } else if ($method == Solarium_Client_Request::METHOD_GET) {
-            curl_setopt($ch, CURLOPT_HTTPGET, true);
-            $httpResponse  = curl_exec($ch);
+            curl_setopt($handler, CURLOPT_HTTPGET, true);
         } else if ($method == Solarium_Client_Request::METHOD_HEAD) {
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
-            $httpResponse  = curl_exec($ch);
+            curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'HEAD');
         } else {
             throw new Solarium_Exception("unsupported method: $method");
         }
 
-        $headers = array(); $data = '';
-
-        if ($httpResponse !== false) {
-            $data = $httpResponse;
-            $info = curl_getinfo($ch);
-            $headers = array();
-            $headers[] = 'HTTP/1.1 ' . $info['http_code']. ' OK';
-        }
-
-        return array($data, $headers);
+        return $handler;
         // @codeCoverageIgnoreEnd
     }
 

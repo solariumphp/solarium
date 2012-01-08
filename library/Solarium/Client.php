@@ -153,6 +153,7 @@ class Solarium_Client extends Solarium_Configurable
         'loadbalancer' => 'Solarium_Plugin_Loadbalancer',
         'postbigrequest' => 'Solarium_Plugin_PostBigRequest',
         'customizerequest' => 'Solarium_Plugin_CustomizeRequest',
+        'parallelexecution' => 'Solarium_Plugin_ParallelExecution',
     );
 
     /**
@@ -450,7 +451,7 @@ class Solarium_Client extends Solarium_Configurable
      * @param bool $resultOverride
      * @return void|mixed
      */
-    public function triggerEvent($event, $params, $resultOverride = false)
+    public function triggerEvent($event, $params = array(), $resultOverride = false)
     {
         // Add namespacing
         $event = 'event'.$event;
