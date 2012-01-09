@@ -972,4 +972,21 @@ class Solarium_Query_Select extends Solarium_Query
         return $this->getComponent(Solarium_Query_Select::COMPONENT_DEBUG, true);
     }
 
+    /**
+     * Get a summary on the data containing in this object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $client = new Solarium_Client;
+        $request = $client->createRequest($this);
+        $string = __CLASS__ . ' (toString) ' . " \n"
+                . 'header: ' . print_r($request->getHeaders(), 1)
+                . 'method: ' . $request->getMethod() . " \n"
+                . 'uri: '    . $request->getUri() . " \n";
+
+        return $string;
+    }
+
 }

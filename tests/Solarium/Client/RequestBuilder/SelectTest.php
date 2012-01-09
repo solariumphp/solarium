@@ -67,7 +67,7 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
         );
 
         $this->assertEquals(
-            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json',
+            'select?wt=json&q=*:*&start=0&rows=10&fl=*,score',
             urldecode($request->getUri())
         );
     }
@@ -84,7 +84,7 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
         );
 
         $this->assertEquals(
-            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc',
+            'select?wt=json&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc',
             urldecode($request->getUri())
         );
     }
@@ -101,7 +101,7 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
         );
 
         $this->assertEquals(
-            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&q.op=AND&df=mydefault',
+            'select?wt=json&q=*:*&start=0&rows=10&fl=*,score&q.op=AND&df=mydefault',
             urldecode($request->getUri())
         );
     }
@@ -120,7 +120,7 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
         );
 
         $this->assertEquals(
-            'select?q=*:*&start=0&rows=10&fl=*,score&wt=json&sort=id asc,name desc&fq=published:true&fq={!tag=t1,t2}category:23',
+            'select?wt=json&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc&fq=published:true&fq={!tag=t1,t2}category:23',
             urldecode($request->getUri())
         );
     }

@@ -58,7 +58,7 @@ class Solarium_Query_Select_Component_Facet_Query extends Solarium_Query_Select_
 
     /**
      * Get the facet type
-     * 
+     *
      * @return string
      */
     public function getType()
@@ -81,7 +81,7 @@ class Solarium_Query_Select_Component_Facet_Query extends Solarium_Query_Select_
             $helper = new Solarium_Query_Helper;
             $query = $helper->assemble($query, $bind);
         }
-        
+
         return $this->_setOption('query', $query);
     }
 

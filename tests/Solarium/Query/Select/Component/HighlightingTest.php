@@ -71,6 +71,8 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
             'regexslop' => .8,
             'regexpattern' => 'myPattern',
             'regexmaxanalyzedchars' => 500,
+            'query' => 'text:myvalue',
+            'phraselimit' => 35,
 
         );
 
@@ -98,6 +100,8 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
         $this->assertEquals($options['regexslop'], $this->_hlt->getRegexSlop());
         $this->assertEquals($options['regexpattern'], $this->_hlt->getRegexPattern());
         $this->assertEquals($options['regexmaxanalyzedchars'], $this->_hlt->getRegexMaxAnalyzedChars());
+        $this->assertEquals($options['query'], $this->_hlt->getQuery());
+        $this->assertEquals($options['phraselimit'], $this->_hlt->getPhraseLimit());
     }
 
     public function testGetType()
@@ -444,6 +448,28 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
         $this->assertEquals(
             $value,
             $this->_hlt->getRegexMaxAnalyzedChars()
+        );
+    }
+
+    public function testSetAndGetQuery()
+    {
+        $value = 'text:myvalue';
+        $this->_hlt->setQuery($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_hlt->getQuery()
+        );
+    }
+
+    public function testSetAndGetPhraseLimit()
+    {
+        $value = 20;
+        $this->_hlt->setPhraseLimit($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_hlt->getPhraseLimit()
         );
     }
 
