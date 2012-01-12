@@ -185,6 +185,35 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testFormatDate()
+    {
+        //accepts a time
+        $this->assertNotEquals(
+            false,
+            $this->_helper->formatDate(strtotime('2011-10-01')),
+            'Expects timestamp input to be accpted'
+        );
+
+        //accepts a date
+        $this->assertNotEquals(
+            false,
+            $this->_helper->formatDate(date('Y-m-d', strtotime('2011-10-01'))),
+            'Expects date string inputs to be accepted'
+        );
+
+        //accepts a DateTime object
+        $this->assertNotEquals(
+            false,
+            $this->_helper->formatDate(new DateTime(strtotime('2011-10-01'))),
+            'Expects DateTime object to be accepted'
+        );
+
+        //check if timezone is stripped
+        $expected = strtoupper('Z');
+        $actual = substr($this->_helper->formatDate(time()), 19, 20);
+        $this->assertEquals($expected, $actual, 'Expects last charachter to be uppercased Z');
+    }
+
     public function testAssemble()
     {
         // test single basic placeholder

@@ -123,6 +123,36 @@ class Solarium_Query_Helper
         return '"' . preg_replace('/("|\\\)/', '\\\$1', $input) . '"';
     }
 
+    public function formatDate($input)
+    {
+        $isTimestamp = function($input) {
+            return checkdate(date('m', $input), date('d', $input), date('Y', $input));
+        };
+
+        switch(true) {
+            case is_numeric($input) && $isTimestamp($input):
+                $dateTime = new DateTime($input);
+                break;
+
+            case is_string($input) && $isTimestamp(strtotime($input)):
+                $dateTime = new DateTime(strtotime($input));
+                break;
+
+            case !is_string($input) && !is_numeric($input) && $input instanceof DateTime:
+                $dateTime = $input;
+                break;
+
+            //if input does not match any of these requirements then fail
+            default:
+                return false;
+        }
+
+        $iso8601 = $dateTime->format(DateTime::ISO8601);
+        $iso8601 = strstr($iso8601, '+', true); //strip timezone
+        $iso8601 .= 'Z';
+        return $iso8601;
+    }
+
     /**
      * Render a range query
      *
