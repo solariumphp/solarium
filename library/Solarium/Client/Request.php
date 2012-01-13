@@ -391,15 +391,16 @@ class Solarium_Client_Request extends Solarium_Configurable
      *
      * Get a summary showing significant variables in the object
      * note: uri resource is decoded for readability
-     * 
+     *
      * @return string
      */
     public function __toString()
     {
-        $output = __CLASS__ . '::toString ' . " \n"
+        $output = __CLASS__ . '::toString' . "\n"
                 . 'method: ' . $this->getMethod() . "\n"
                 . 'header: ' . print_r($this->getHeaders(), 1) //don't add newline when using print_r
-                . 'resource: ' . urldecode($this->getUri()) . "\n"
+                . 'resource: ' . $this->getUri() . "\n"
+                . 'resource urldecoded: ' . urldecode($this->getUri()) . "\n"
                 . 'raw data: ' . $this->getRawData() . "\n";
 
         return $output;
