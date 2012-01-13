@@ -123,29 +123,30 @@ class Solarium_Query_Helper
         return '"' . preg_replace('/("|\\\)/', '\\\$1', $input) . '"';
     }
 
-    protected function isTimestamp($timestamp)
-    {
-        try {
-            new DateTime($timestamp);
-        } catch (Exception $e) {
-            return false;
-        }
-        return true;
-    }
-
+    /**
+     * Format a date to the expected formatting used in SOLR
+     *
+     * This format was derived to be standards compliant (ISO 8601)
+     * A date field shall be of the form 1995-12-31T23:59:59Z The trailing "Z" designates UTC time and is mandatory
+     *
+     * @see http://lucene.apache.org/solr/api/org/apache/solr/schema/DateField.html
+     *
+     * @param mixed $input accepted formats: timestamp, date string or DateTime
+     * @return string or false when input is invalid
+     */
     public function formatDate($input)
     {
 
         switch(true) {
-            case is_numeric($input) && $this->isTimestamp($input):
+            case is_numeric($input) && $this->_isTimestamp($input):
                 $dateTime = new DateTime($input);
                 break;
 
-            case is_string($input) && $this->isTimestamp(strtotime($input)):
+            case is_string($input) && $this->_isTimestamp(strtotime($input)):
                 $dateTime = new DateTime(strtotime($input));
                 break;
 
-            case !is_string($input) && !is_numeric($input) && $input instanceof DateTime:
+            case $input instanceof DateTime:
                 $dateTime = $input;
                 break;
 
@@ -158,6 +159,23 @@ class Solarium_Query_Helper
         $iso8601 = strstr($iso8601, '+', true); //strip timezone
         $iso8601 .= 'Z';
         return $iso8601;
+    }
+
+    /**
+     * Validate if date is valid
+     * note: do not use checkdate() and support negative timestamps
+     *
+     * @return boolean
+     */
+    protected function _isTimestamp($timestamp)
+    {
+        try {
+            new DateTime($timestamp);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
