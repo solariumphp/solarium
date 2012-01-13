@@ -187,37 +187,69 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
 
     public function testFormatTimestampInput()
     {
+        $actual = $this->_helper->formatDate(strtotime('2011-10-01'));
+
         $this->assertNotEquals(
             false,
-            $this->_helper->formatDate(strtotime('2011-10-01')),
+            $actual,
             'Expects timestamp input to be accpted'
+        );
+        $this->assertEquals(
+            $this->_mockFormatDateOutput(strtotime('2011-10-01')),
+            $actual,
+            'Expects formatDate with Timstamp input to output ISO8601 with stripped timezone'
         );
     }
 
     public function testFormatDateStringInput()
     {
+        $actual = $this->_helper->formatDate(date('Y-m-d', strtotime('2011-10-01')));
+
         $this->assertNotEquals(
             false,
-            $this->_helper->formatDate(date('Y-m-d', strtotime('2011-10-01'))),
+            $actual,
             'Expects date string inputs to be accepted'
+        );
+        $this->assertEquals(
+            $this->_mockFormatDateOutput(strtotime('2011-10-01')),
+            $actual,
+            'Expects formatDate with String input to output ISO8601 with stripped timezone'
         );
     }
 
     public function testFormatDateTimeInput()
     {
+        $actual = $this->_helper->formatDate(new DateTime(strtotime('2011-10-01')));
+
         $this->assertNotEquals(
             false,
-            $this->_helper->formatDate(new DateTime(strtotime('2011-10-01'))),
+            $actual,
             'Expects DateTime object to be accepted'
+        );
+        $this->assertEquals(
+            $this->_mockFormatDateOutput(strtotime('2011-10-01')),
+            $actual,
+            'Expects formatDate with DateTime input to output ISO8601 with stripped timezone'
         );
     }
 
     public function testFormatDate()
-   {
+    {
         //check if timezone is stripped
         $expected = strtoupper('Z');
         $actual = substr($this->_helper->formatDate(time()), 19, 20);
         $this->assertEquals($expected, $actual, 'Expects last charachter to be uppercased Z');
+
+        $this->assertEquals(
+            $this->_mockFormatDateOutput(time()),
+            $this->_helper->formatDate(time())
+        );
+    }
+
+    protected function _mockFormatDateOutput($timestamp)
+    {
+        $date = new DateTime($timestamp);
+        return strstr($date->format(DateTime::ISO8601), '+', true) . 'Z';
     }
 
     public function testAssemble()
