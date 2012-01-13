@@ -123,18 +123,25 @@ class Solarium_Query_Helper
         return '"' . preg_replace('/("|\\\)/', '\\\$1', $input) . '"';
     }
 
+    protected function isTimestamp($timestamp)
+    {
+        try {
+            new DateTime($timestamp);
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
+    }
+
     public function formatDate($input)
     {
-        $isTimestamp = function($input) {
-            return checkdate(date('m', $input), date('d', $input), date('Y', $input));
-        };
 
         switch(true) {
-            case is_numeric($input) && $isTimestamp($input):
+            case is_numeric($input) && $this->isTimestamp($input):
                 $dateTime = new DateTime($input);
                 break;
 
-            case is_string($input) && $isTimestamp(strtotime($input)):
+            case is_string($input) && $this->isTimestamp(strtotime($input)):
                 $dateTime = new DateTime(strtotime($input));
                 break;
 
