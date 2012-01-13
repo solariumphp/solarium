@@ -185,7 +185,7 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFormatTimestampInput()
+    public function testFormatDateInputTimestamp()
     {
         $this->assertFalse(
             $this->_helper->formatDate(strtotime('2011---')),
@@ -213,7 +213,7 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFormatDateStringInput()
+    public function testFormatDateInputString()
     {
         $this->assertFalse(
             $this->_helper->formatDate(date('Y-m-d', strtotime('2011-11-31'))),
@@ -227,7 +227,7 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFormatDateTimeInput()
+    public function testFormatDateInputDateTime()
     {
 
         $this->assertFalse(
