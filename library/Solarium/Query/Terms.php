@@ -37,7 +37,7 @@
  */
 
 /**
- * Terns query
+ * Terms query
  *
  * A terms query provides access to the indexed terms in a field and the number of documents that match each term.
  * This can be useful for doing auto-suggest or other things that operate at the term level instead of the search
