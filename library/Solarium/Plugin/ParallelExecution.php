@@ -47,6 +47,8 @@
  * @package Solarium
  * @subpackage Plugin
  */
+
+// @codeCoverageIgnoreStart
 class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
 {
 
@@ -61,7 +63,6 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
      */
     public function execute($queries)
     {
-        // @codeCoverageIgnoreStart
         $adapter = $this->_client->setAdapter('Solarium_Client_Adapter_Curl')->getAdapter();
 
         // create handles and add all handles to the multihandle
@@ -96,7 +97,7 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
         curl_multi_close($multiHandle);
 
         return $results;
-        // @codeCoverageIgnoreEnd
     }
 
 }
+// @codeCoverageIgnoreEnd
