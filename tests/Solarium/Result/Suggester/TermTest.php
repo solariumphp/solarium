@@ -27,23 +27,15 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Result
  */
 
-/**
- * Suggester query term result
- *
- * @package Solarium
- * @subpackage Result
- */
-class Solarium_Result_Suggester_Term implements IteratorAggregate, Countable
+class Solarium_Result_Suggester_TermTest extends PHPUnit_Framework_TestCase
 {
+
+    /**
+     * @var Solarium_Result_Suggester_Term
+     */
+    protected $_result;
 
     /**
      * @var int
@@ -65,82 +57,67 @@ class Solarium_Result_Suggester_Term implements IteratorAggregate, Countable
      */
     protected $_suggestions;
 
-
-    /**
-     * Constructor
-     *
-     * @param int $numFound
-     * @param int $startOffset
-     * @param int $endOffset
-     * @param array $suggestions
-     */
-    public function __construct($numFound, $startOffset, $endOffset, $suggestions)
+    public function setUp()
     {
-        $this->_numFound = $numFound;
-        $this->_startOffset = $startOffset;
-        $this->_endOffset = $endOffset;
-        $this->_suggestions = $suggestions;
+        $this->_numFound = 5;
+        $this->_startOffset = 2;
+        $this->_endOffset = 6;
+        $this->_suggestions = array(
+            'suggestion1',
+            'suggestion2',
+        );
+
+        $this->_result = new Solarium_Result_Suggester_Term(
+            $this->_numFound, $this->_startOffset, $this->_endOffset, $this->_suggestions
+        );
     }
 
-    /**
-     * Get NumFound
-     *
-     * @return int
-     */
-    public function getNumFound()
+    public function testGetNumFound()
     {
-        return $this->_numFound;
+        $this->assertEquals(
+            $this->_numFound,
+            $this->_result->getNumFound()
+        );
     }
 
-    /**
-     * Get StartOffset
-     *
-     * @return int
-     */
-    public function getStartOffset()
+    public function testGetStartOffset()
     {
-        return $this->_startOffset;
+        $this->assertEquals(
+            $this->_startOffset,
+            $this->_result->getStartOffset()
+        );
     }
 
-    /**
-     * Get EndOffset
-     *
-     * @return int
-     */
-    public function getEndOffset()
+    public function testGetEndOffset()
     {
-        return $this->_endOffset;
+        $this->assertEquals(
+            $this->_endOffset,
+            $this->_result->getEndOffset()
+        );
     }
 
-    /**
-     * Get suggestions
-     *
-     * @return array
-     */
-    public function getSuggestions()
+    public function testGetSuggestions()
     {
-        return $this->_suggestions;
+        $this->assertEquals(
+            $this->_suggestions,
+            $this->_result->getSuggestions()
+        );
     }
 
-
-    /**
-     * IteratorAggregate implementation
-     *
-     * @return ArrayIterator
-     */
-    public function getIterator()
+    public function testCount()
     {
-        return new ArrayIterator($this->_suggestions);
+        $this->assertEquals(count($this->_suggestions), count($this->_result));
     }
 
-    /**
-     * Countable implementation
-     *
-     * @return int
-     */
-    public function count()
+    public function testIterator()
     {
-        return count($this->_suggestions);
+        $results = array();
+        foreach($this->_result AS $key => $doc)
+        {
+            $results[$key] = $doc;
+        }
+
+        $this->assertEquals($this->_suggestions, $results);
     }
 
 }
