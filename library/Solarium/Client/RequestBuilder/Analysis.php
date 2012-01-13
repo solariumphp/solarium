@@ -53,10 +53,7 @@ class Solarium_Client_RequestBuilder_Analysis extends Solarium_Client_RequestBui
      */
     public function build($query)
     {
-        $request = new Solarium_Client_Request;
-        $request->setHandler($query->getHandler());
-
-        $request->addParam('wt', 'json');
+        $request = parent::build($query);
         $request->addParam('analysis.query', $query->getQuery());
         $request->addParam('analysis.showmatch', $query->getShowMatch());
 

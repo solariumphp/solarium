@@ -44,8 +44,8 @@ class Solarium_Client_RequestBuilder_Select_Component_DebugTest extends PHPUnit_
 
         $this->assertEquals(
             array(
-                'debugQuery' => true,
-                'debug.explain.structured' => true,
+                'debugQuery' => 'true',
+                'debug.explain.structured' => 'true',
                 'explainOther' => 'id:45',
             ),
             $request->getParams()

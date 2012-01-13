@@ -46,6 +46,22 @@ abstract class Solarium_Client_RequestBuilder
 {
 
     /**
+     * Build request for a select query
+     *
+     * @param Solarium_Query $query
+     * @return Solarium_Client_Request
+     */
+    public function build($query)
+    {
+        $request = new Solarium_Client_Request;
+        $request->setHandler($query->getHandler());
+        $request->addParams($query->getParams());
+        $request->addParam('wt', 'json');
+
+        return $request;
+    }
+
+    /**
      * Render a param with localParams
      *
      * LocalParams can be use in various Solr GET params.

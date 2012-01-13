@@ -53,12 +53,10 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
      */
     public function build($query)
     {
-        $request = new Solarium_Client_Request;
-        $request->setHandler($query->getHandler());
+        $request = parent::build($query);
         $request->setMethod(Solarium_Client_Request::METHOD_POST);
-        $request->addParam('wt', 'json');
         $request->setRawData($this->getRawData($query));
-        
+
         return $request;
     }
 
@@ -213,13 +211,13 @@ class Solarium_Client_RequestBuilder_Update extends Solarium_Client_RequestBuild
             $command->getExpungeDeletes()
         );
         $xml .= '/>';
-        
+
         return $xml;
     }
 
     /**
      * Build XMl for a rollback command
-     * 
+     *
      * @return string
      */
     public function buildRollbackXml()
