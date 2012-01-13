@@ -93,6 +93,11 @@ class Solarium_Client extends Solarium_Configurable
     const QUERYTYPE_TERMS = 'terms';
 
     /**
+     * Querytype suggester
+     */
+    const QUERYTYPE_SUGGESTER = 'suggester';
+
+    /**
      * Default options
      *
      * @var array
@@ -141,6 +146,11 @@ class Solarium_Client extends Solarium_Configurable
             'query'          => 'Solarium_Query_Terms',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Terms',
             'responseparser' => 'Solarium_Client_ResponseParser_Terms'
+        ),
+        self::QUERYTYPE_SUGGESTER => array(
+            'query'          => 'Solarium_Query_Suggester',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Suggester',
+            'responseparser' => 'Solarium_Client_ResponseParser_Suggester'
         ),
     );
 
@@ -692,6 +702,20 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
+     * Execute a suggester query
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param Solarium_Query_Suggester $query
+     * @return Solarium_Result_Suggester
+     */
+    public function suggester($query)
+    {
+        return $this->execute($query);
+    }
+
+    /**
      * Create a query instance
      *
      * @param string $type
@@ -792,5 +816,16 @@ class Solarium_Client extends Solarium_Configurable
     public function createTerms($options = null)
     {
         return $this->createQuery(self::QUERYTYPE_TERMS, $options);
+    }
+
+    /**
+     * Create a suggester query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Suggester
+     */
+    public function createSuggester($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_SUGGESTER, $options);
     }
 }
