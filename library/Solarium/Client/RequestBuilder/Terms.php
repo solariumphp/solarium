@@ -61,10 +61,9 @@ class Terms extends RequestBuilder
      */
     public function build($query)
     {
-        $request = new \Solarium\Client\Request;
+        $request = parent::build($query);
         $request->setHandler($query->getHandler());
         $request->addParam('terms', true);
-        $request->addParam('wt', 'json');
         $request->addParam('terms.lower', $query->getLowerbound());
         $request->addParam('terms.lower.incl', $query->getLowerboundInclude());
         $request->addParam('terms.mincount', $query->getMinCount());

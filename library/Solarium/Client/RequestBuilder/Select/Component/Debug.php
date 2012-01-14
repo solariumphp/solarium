@@ -57,7 +57,7 @@ class Debug
      * @param Solarium\Client\Request $request
      * @return Solarium\Client\Request
      */
-    public function build($component, $request)
+    public function buildComponent($component, $request)
     {
         $request->addParam('debugQuery', 'true');
         $request->addParam('debug.explain.structured', 'true');

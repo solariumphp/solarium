@@ -58,7 +58,7 @@ class FacetSet extends \Solarium\Client\RequestBuilder\RequestBuilder
      * @param Solarium\Client\Request $request
      * @return Solarium\Client\Request
      */
-    public function build($component, $request)
+    public function buildComponent($component, $request)
     {
         $facets = $component->getFacets();
         if (count($facets) !== 0) {

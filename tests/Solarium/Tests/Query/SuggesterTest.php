@@ -27,57 +27,81 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * @namespace
- */
-namespace Solarium\Client\RequestBuilder\Select\Component;
+namespace Solarium\Tests\Query;
 
-/**
- * Add select component stats to the request
- *
- * @package Solarium
- * @subpackage Client
- */
-class Stats
+class SuggesterTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * Add request settings for the stats component
-     *
-     * @param Solarium\Query\Select\Component\Stats $component
-     * @param Solarium\Client\Request $request
-     * @return Solarium\Client\Request
+     * @var \Solarium\Query\Suggester
      */
-    public function buildComponent($component, $request)
+    protected $_query;
+
+    public function setUp()
     {
-        // enable stats
-        $request->addParam('stats', 'true');
-
-        // add fields
-        foreach ($component->getFields() as $field) {
-
-            $request->addParam('stats.field', $field->getKey());
-
-            // add field specific facet stats
-            foreach ($field->getFacets() as $facet) {
-                $request->addParam('f.'.$field->getKey().'.stats.facet', $facet);
-            }
-        }
-
-        // add facet stats for all fields
-        foreach ($component->getFacets() as $facet) {
-            $request->addParam('stats.facet', $facet);
-        }
-
-        return $request;
+        $this->_query = new \Solarium\Query\Suggester;
     }
+
+    public function testGetType()
+    {
+        $this->assertEquals(\Solarium\Client\Client::QUERYTYPE_SUGGESTER, $this->_query->getType());
+    }
+
+    public function testSetAndGetQuery()
+    {
+        $value = 'testquery';
+        $this->_query->setQuery($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_query->getQuery()
+        );
+    }
+
+    public function testSetAndGetDictionary()
+    {
+        $value = 'myDictionary';
+        $this->_query->setDictionary($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_query->getDictionary()
+        );
+    }
+
+    public function testSetAndGetCount()
+    {
+        $value = 11;
+        $this->_query->setCount($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_query->getCount()
+        );
+    }
+
+    public function testSetAndGetOnlyMorePopular()
+    {
+        $value = false;
+        $this->_query->setOnlyMorePopular($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_query->getOnlyMorePopular()
+        );
+    }
+
+    public function testSetAndGetCollate()
+    {
+        $value = false;
+        $this->_query->setCollate($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_query->getCollate()
+        );
+    }
+
 }

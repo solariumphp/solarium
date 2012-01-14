@@ -33,11 +33,12 @@ namespace Solarium\Tests\Query;
 
 class HelperTest extends \PHPUnit_Framework_TestCase
 {
-    protected $_helper;
+    protected $_helper, $_query;
 
     public function setUp()
     {
-        $this->_helper = new \Solarium\Query\Helper;
+        $this->_query = new \Solarium\Query\Select\Select;
+        $this->_helper = new \Solarium\Query\Helper($this->_query);
     }
 
     public function testRangeQueryInclusive()
@@ -103,6 +104,38 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             '{!parser a=1 b=test}',
             $this->_helper->qparser('parser', array('a' => 1, 'b' => 'test'))
+        );
+    }
+
+    public function testQparserDereferencedNoQuery()
+    {
+        $helper = new \Solarium\Query\Helper();
+        $this->setExpectedException('Solarium\Exception');
+        $helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true);
+    }
+
+    public function testQparserDereferenced()
+    {
+        $this->assertEquals(
+            '{!join from=$deref_1 to=$deref_2}',
+            $this->_helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true)
+        );
+
+        $this->assertEquals(
+            array('deref_1' => 'manu_id', 'deref_2' => 'id'),
+            $this->_query->getParams()
+        );
+
+        // second call, params should have updated counts
+        $this->assertEquals(
+            '{!join from=$deref_3 to=$deref_4}',
+            $this->_helper->qparser('join', array('from' => 'cat_id', 'to' => 'prod_id'), true)
+        );
+
+        // previous params should also still be there
+        $this->assertEquals(
+            array('deref_1' => 'manu_id', 'deref_2' => 'id', 'deref_3' => 'cat_id', 'deref_4' => 'prod_id'),
+            $this->_query->getParams()
         );
     }
 
@@ -197,6 +230,27 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Solarium\Exception');
         $this->_helper->assemble('cat:%1% AND content:%2%',array('value1'));
+    }
+
+    public function testJoin()
+    {
+        $this->assertEquals(
+            '{!join from=manu_id to=id}',
+            $this->_helper->join('manu_id', 'id')
+        );
+    }
+
+    public function testJoinDereferenced()
+    {
+        $this->assertEquals(
+            '{!join from=$deref_1 to=$deref_2}',
+            $this->_helper->join('manu_id', 'id', true)
+        );
+
+        $this->assertEquals(
+            array('deref_1' => 'manu_id', 'deref_2' => 'id'),
+            $this->_query->getParams()
+        );
     }
 
 }

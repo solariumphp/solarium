@@ -39,45 +39,35 @@
 /**
  * @namespace
  */
-namespace Solarium\Client\RequestBuilder\Select\Component;
+namespace Solarium\Client\RequestBuilder;
+use Solarium\Client;
 
 /**
- * Add select component stats to the request
+ * Build a Suggester query request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Stats
+class Suggester extends RequestBuilder
 {
 
     /**
-     * Add request settings for the stats component
+     * Build request for a Suggester query
      *
-     * @param Solarium\Query\Select\Component\Stats $component
-     * @param Solarium\Client\Request $request
+     * @param Solarium\Query\Suggester $query
      * @return Solarium\Client\Request
      */
-    public function buildComponent($component, $request)
+    public function build($query)
     {
-        // enable stats
-        $request->addParam('stats', 'true');
-
-        // add fields
-        foreach ($component->getFields() as $field) {
-
-            $request->addParam('stats.field', $field->getKey());
-
-            // add field specific facet stats
-            foreach ($field->getFacets() as $facet) {
-                $request->addParam('f.'.$field->getKey().'.stats.facet', $facet);
-            }
-        }
-
-        // add facet stats for all fields
-        foreach ($component->getFacets() as $facet) {
-            $request->addParam('stats.facet', $facet);
-        }
+        $request = parent::build($query);
+        $request->addParam('spellcheck', 'true');
+        $request->addParam('q', $query->getQuery());
+        $request->addParam('spellcheck.dictionary', $query->getDictionary());
+        $request->addParam('spellcheck.count', $query->getCount());
+        $request->addParam('spellcheck.onlyMorePopular', $query->getOnlyMorePopular());
+        $request->addParam('spellcheck.collate', $query->getCollate());
 
         return $request;
     }
+
 }

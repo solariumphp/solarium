@@ -33,51 +33,119 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Client\RequestBuilder\Select\Component;
+namespace Solarium\Result\Suggester;
 
 /**
- * Add select component stats to the request
+ * Suggester query term result
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage Result
  */
-class Stats
+class Term implements \IteratorAggregate, \Countable
 {
 
     /**
-     * Add request settings for the stats component
-     *
-     * @param Solarium\Query\Select\Component\Stats $component
-     * @param Solarium\Client\Request $request
-     * @return Solarium\Client\Request
+     * @var int
      */
-    public function buildComponent($component, $request)
+    protected $_numFound;
+
+    /**
+     * @var int
+     */
+    protected $_startOffset;
+
+    /**
+     * @var int
+     */
+    protected $_endOffset;
+
+    /**
+     * @var array
+     */
+    protected $_suggestions;
+
+
+    /**
+     * Constructor
+     *
+     * @param int $numFound
+     * @param int $startOffset
+     * @param int $endOffset
+     * @param array $suggestions
+     */
+    public function __construct($numFound, $startOffset, $endOffset, $suggestions)
     {
-        // enable stats
-        $request->addParam('stats', 'true');
-
-        // add fields
-        foreach ($component->getFields() as $field) {
-
-            $request->addParam('stats.field', $field->getKey());
-
-            // add field specific facet stats
-            foreach ($field->getFacets() as $facet) {
-                $request->addParam('f.'.$field->getKey().'.stats.facet', $facet);
-            }
-        }
-
-        // add facet stats for all fields
-        foreach ($component->getFacets() as $facet) {
-            $request->addParam('stats.facet', $facet);
-        }
-
-        return $request;
+        $this->_numFound = $numFound;
+        $this->_startOffset = $startOffset;
+        $this->_endOffset = $endOffset;
+        $this->_suggestions = $suggestions;
     }
+
+    /**
+     * Get NumFound
+     *
+     * @return int
+     */
+    public function getNumFound()
+    {
+        return $this->_numFound;
+    }
+
+    /**
+     * Get StartOffset
+     *
+     * @return int
+     */
+    public function getStartOffset()
+    {
+        return $this->_startOffset;
+    }
+
+    /**
+     * Get EndOffset
+     *
+     * @return int
+     */
+    public function getEndOffset()
+    {
+        return $this->_endOffset;
+    }
+
+    /**
+     * Get suggestions
+     *
+     * @return array
+     */
+    public function getSuggestions()
+    {
+        return $this->_suggestions;
+    }
+
+
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->_suggestions);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_suggestions);
+    }
+
 }

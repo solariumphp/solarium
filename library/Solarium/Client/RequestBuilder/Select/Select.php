@@ -58,15 +58,13 @@ class Select extends \Solarium\Client\RequestBuilder\RequestBuilder
      */
     public function build($query)
     {
-        $request = new \Solarium\Client\Request;
-        $request->setHandler($query->getHandler());
+        $request = parent::build($query);
 
         // add basic params to request
         $request->addParam('q', $query->getQuery());
         $request->addParam('start', $query->getStart());
         $request->addParam('rows', $query->getRows());
         $request->addParam('fl', implode(',', $query->getFields()));
-        $request->addParam('wt', 'json');
         $request->addParam('q.op', $query->getQueryDefaultOperator());
         $request->addParam('df', $query->getQueryDefaultField());
 
@@ -97,7 +95,7 @@ class Select extends \Solarium\Client\RequestBuilder\RequestBuilder
             $componentBuilderClass = $types[$component->getType()]['requestbuilder'];
             if (!empty($componentBuilderClass)) {
                 $componentBuilder = new $componentBuilderClass;
-                $request = $componentBuilder->build($component, $request);
+                $request = $componentBuilder->buildComponent($component, $request);
             }
         }
 

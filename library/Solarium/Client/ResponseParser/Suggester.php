@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +29,7 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
  *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  *
@@ -39,45 +40,65 @@
 /**
  * @namespace
  */
-namespace Solarium\Client\RequestBuilder\Select\Component;
+namespace Solarium\Client\ResponseParser;
+use Solarium\Client;
 
 /**
- * Add select component stats to the request
+ * Parse Suggester response data
  *
  * @package Solarium
  * @subpackage Client
  */
-class Stats
+class Suggester extends ResponseParser
 {
 
     /**
-     * Add request settings for the stats component
+     * Get result data for the response
      *
-     * @param Solarium\Query\Select\Component\Stats $component
-     * @param Solarium\Client\Request $request
-     * @return Solarium\Client\Request
+     * @param Solarium\Result\Terms $result
+     * @return array
      */
-    public function buildComponent($component, $request)
+    public function parse($result)
     {
-        // enable stats
-        $request->addParam('stats', 'true');
+        $data = $result->getData();
+        $query = $result->getQuery();
 
-        // add fields
-        foreach ($component->getFields() as $field) {
+        $status = null;
+        $queryTime = null;
+        if (isset($data['responseHeader'])) {
+            $status = $data['responseHeader']['status'];
+            $queryTime = $data['responseHeader']['QTime'];
+        }
 
-            $request->addParam('stats.field', $field->getKey());
+        $suggestions = array();
+        $collation = null;
 
-            // add field specific facet stats
-            foreach ($field->getFacets() as $facet) {
-                $request->addParam('f.'.$field->getKey().'.stats.facet', $facet);
+        if (isset($data['spellcheck']['suggestions']) && is_array($data['spellcheck']['suggestions'])) {
+            $suggestResults = $data['spellcheck']['suggestions'];
+            $termClass = $query->getOption('termclass');
+            for ($i = 0; $i < count($suggestResults); $i += 2) {
+                $term = $suggestResults[$i];
+                $termData = $suggestResults[$i+1];
+
+                if ($term == 'collation'&& $i == count($suggestResults)-2) {
+                    $collation = $termData;
+                } else {
+                    $suggestions[$term] = new $termClass(
+                        $termData['numFound'],
+                        $termData['startOffset'],
+                        $termData['endOffset'],
+                        $termData['suggestion']
+                    );
+                }
             }
         }
 
-        // add facet stats for all fields
-        foreach ($component->getFacets() as $facet) {
-            $request->addParam('stats.facet', $facet);
-        }
-
-        return $request;
+        return array(
+            'status' => $status,
+            'queryTime' => $queryTime,
+            'results' => $suggestions,
+            'collation' => $collation,
+        );
     }
+
 }

@@ -47,7 +47,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         ));
         $component->setShardRequestHandler('dummy');
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(

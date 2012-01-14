@@ -57,7 +57,7 @@ class DistributedSearch
      * @param Solarium\Client\Request $request
      * @return Solarium\Client\Request
      */
-    public function build($component, $request)
+    public function buildComponent($component, $request)
     {
         // add shard fields to request
         $shards = array_values($component->getShards());

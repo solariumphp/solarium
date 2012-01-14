@@ -59,10 +59,8 @@ class Ping extends RequestBuilder
      */
     public function build($query)
     {
-        $request = new Client\Request;
-        $request->setHandler($query->getHandler());
+        $request = parent::build($query);
         $request->setMethod(Client\Request::METHOD_GET);
-        $request->addParam('wt', 'json');
 
         return $request;
     }

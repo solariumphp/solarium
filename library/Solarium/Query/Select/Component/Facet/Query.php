@@ -65,7 +65,7 @@ class Query extends Facet
 
     /**
      * Get the facet type
-     * 
+     *
      * @return string
      */
     public function getType()
@@ -88,7 +88,7 @@ class Query extends Facet
             $helper = new \Solarium\Query\Helper;
             $query = $helper->assemble($query, $bind);
         }
-        
+
         return $this->_setOption('query', $query);
     }
 

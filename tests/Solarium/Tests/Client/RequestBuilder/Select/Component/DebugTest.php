@@ -42,12 +42,12 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         $component = new \Solarium\Query\Select\Component\Debug();
         $component->setExplainOther('id:45');
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(
-                'debugQuery' => true,
-                'debug.explain.structured' => true,
+                'debugQuery' => 'true',
+                'debug.explain.structured' => 'true',
                 'explainOther' => 'id:45',
             ),
             $request->getParams()

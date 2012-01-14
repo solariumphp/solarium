@@ -50,7 +50,7 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $component->setCachePercentage(50);
         $component->setTruncate(true);
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(

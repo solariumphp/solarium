@@ -72,8 +72,10 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $component->setRegexSlop(1.3);
         $component->setRegexPattern('mypattern');
         $component->setMaxAnalyzedChars(100);
+        $component->setQuery('text:myvalue');
+        $component->setPhraseLimit(40);
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(
@@ -97,6 +99,8 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
                 'hl.highlightMultiTerm' => 'true',
                 'hl.regex.slop' => 1.3,
                 'hl.regex.pattern' => 'mypattern',
+                'hl.q' => 'text:myvalue',
+                'hl.phraseLimit' => 40,
                 'f.fieldB.hl.snippets' => 3,
                 'f.fieldB.hl.fragsize' => 25,
                 'f.fieldB.hl.mergeContiguous' => 'true',

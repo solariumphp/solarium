@@ -390,4 +390,25 @@ class Request extends \Solarium\Configurable
 
         return $queryString;
     }
+
+    /**
+     * Magic method enables a object to be transformed to a string
+     *
+     * Get a summary showing significant variables in the object
+     * note: uri resource is decoded for readability
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $output = __CLASS__ . '::toString' . "\n"
+                . 'method: ' . $this->getMethod() . "\n"
+                . 'header: ' . print_r($this->getHeaders(), 1) //don't add newline when using print_r
+                . 'resource: ' . $this->getUri() . "\n"
+                . 'resource urldecoded: ' . urldecode($this->getUri()) . "\n"
+                . 'raw data: ' . $this->getRawData() . "\n";
+
+        return $output;
+    }
+
 }

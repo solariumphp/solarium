@@ -52,7 +52,7 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * Client instance
      *
-     * @var Solarium\Client
+     * @var \Solarium\Client\Client
      */
     protected $_client;
 
@@ -162,7 +162,7 @@ abstract class AbstractPlugin extends \Solarium\Configurable
 
     /**
      * postExecute hook
-     * 
+     *
      * @param Solarium\Query $query
      * @param Solarium\Result $result
      * @return void
@@ -170,7 +170,7 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     public function postExecute($query, $result)
     {
     }
-    
+
     /**
      * preCreateQuery hook
      *
@@ -184,7 +184,7 @@ abstract class AbstractPlugin extends \Solarium\Configurable
 
     /**
      * postCreateQuery hook
-     * 
+     *
      * @param string $type
      * @param mixed $options
      * @param Solarium\Query

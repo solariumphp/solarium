@@ -441,4 +441,37 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testToString()
+    {
+        $options = array(
+            'method'   => \Solarium\Client\Request::METHOD_POST,
+            'handler'  => '/myHandler',
+            'param'    => array(
+                'param1' => 1,
+                'param2' => 'test content',
+            ),
+            'rawdata'  => 'post data',
+            'header'   => array(
+                'myHeader1' => 'X-myHeader1: value1',
+                'myHeader2' => 'X-myHeader2: value2',
+            ),
+        );
+        $this->_request->setOptions($options);
+
+        $this->assertEquals(
+'Solarium\Client\Request::toString
+method: POST
+header: Array
+(
+    [0] => X-myHeader1: value1
+    [1] => X-myHeader2: value2
+)
+resource: /myHandler?param1=1&param2=test+content
+resource urldecoded: /myHandler?param1=1&param2=test content
+raw data: post data
+',
+            (string)$this->_request
+        );
+    }
+
 }

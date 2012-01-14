@@ -658,6 +658,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $observer->terms($query);
     }
 
+    public function testSuggester()
+    {
+        $query = new \Solarium\Query\Suggester();
+
+        $observer = $this->getMock('Solarium\Client\Client', array('execute'));
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query));
+
+        $observer->suggester($query);
+    }
+
     public function testCreateQuery()
     {
         $options = array('optionA' => 1, 'optionB' => 2);
@@ -812,6 +824,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                  ->with($this->equalTo(\Solarium\Client\Client::QUERYTYPE_TERMS), $this->equalTo($options));
 
         $observer->createTerms($options);
+    }
+
+    public function testCreateSuggester()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium\Client\Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(\Solarium\Client\Client::QUERYTYPE_SUGGESTER), $this->equalTo($options));
+
+        $observer->createSuggester($options);
     }
 
     public function testTriggerEvent()

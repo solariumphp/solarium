@@ -60,12 +60,10 @@ class Update extends RequestBuilder
      */
     public function build($query)
     {
-        $request = new Client\Request;
-        $request->setHandler($query->getHandler());
+        $request = parent::build($query);
         $request->setMethod(Client\Request::METHOD_POST);
-        $request->addParam('wt', 'json');
         $request->setRawData($this->getRawData($query));
-        
+
         return $request;
     }
 
@@ -220,13 +218,13 @@ class Update extends RequestBuilder
             $command->getExpungeDeletes()
         );
         $xml .= '/>';
-        
+
         return $xml;
     }
 
     /**
      * Build XMl for a rollback command
-     * 
+     *
      * @return string
      */
     public function buildRollbackXml()

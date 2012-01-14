@@ -99,6 +99,11 @@ class Client extends Solarium\Configurable
     const QUERYTYPE_TERMS = 'terms';
 
     /**
+     * Querytype suggester
+     */
+    const QUERYTYPE_SUGGESTER = 'suggester';
+
+    /**
      * Default options
      *
      * @var array
@@ -148,6 +153,11 @@ class Client extends Solarium\Configurable
             'requestbuilder' => 'Solarium\Client\RequestBuilder\Terms',
             'responseparser' => 'Solarium\Client\ResponseParser\Terms'
         ),
+        self::QUERYTYPE_SUGGESTER => array(
+            'query'          => 'Solarium\Query\Suggester',
+            'requestbuilder' => 'Solarium\Client\RequestBuilder\Suggester',
+            'responseparser' => 'Solarium\Client\ResponseParser\Suggester'
+        ),
     );
 
     /**
@@ -159,6 +169,7 @@ class Client extends Solarium\Configurable
         'loadbalancer' => 'Solarium\Plugin\Loadbalancer\Loadbalancer',
         'postbigrequest' => 'Solarium\Plugin\PostBigRequest',
         'customizerequest' => 'Solarium\Plugin\CustomizeRequest\CustomizeRequest',
+        'parallelexecution' => 'Solarium\Plugin\ParallelExecution',
     );
 
     /**
@@ -223,7 +234,7 @@ class Client extends Solarium\Configurable
      * immediately, bypassing the lazy loading.
      *
      * @param string|Solarium\Client\Adapter $adapter
-     * @return Solarium\Client Provides fluent interface
+     * @return \Solarium\Client\Client Provides fluent interface
      */
     public function setAdapter($adapter)
     {
@@ -266,7 +277,7 @@ class Client extends Solarium\Configurable
      * calling {@see _createAdapter()}
      *
      * @param boolean $autoload
-     * @return Solarium\Client\Adapter
+     * @return Solarium\Client\Adapter\Adapter
      */
     public function getAdapter($autoload = true)
     {
@@ -457,7 +468,7 @@ class Client extends Solarium\Configurable
      * @param bool $resultOverride
      * @return void|mixed
      */
-    public function triggerEvent($event, $params, $resultOverride = false)
+    public function triggerEvent($event, $params = array(), $resultOverride = false)
     {
         // Add namespacing
         $event = 'event'.$event;
@@ -698,6 +709,20 @@ class Client extends Solarium\Configurable
     }
 
     /**
+     * Execute a suggester query
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param Solarium\Query\Suggester $query
+     * @return Solarium\Result\Suggester
+     */
+    public function suggester($query)
+    {
+        return $this->execute($query);
+    }
+
+    /**
      * Create a query instance
      *
      * @param string $type
@@ -798,5 +823,16 @@ class Client extends Solarium\Configurable
     public function createTerms($options = null)
     {
         return $this->createQuery(self::QUERYTYPE_TERMS, $options);
+    }
+
+    /**
+     * Create a suggester query instance
+     *
+     * @param mixed $options
+     * @return Solarium\Query\Suggester
+     */
+    public function createSuggester($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_SUGGESTER, $options);
     }
 }

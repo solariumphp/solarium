@@ -44,7 +44,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $component->createField('fieldB');
         $component->addFacets(array('facetA', 'facetB'));
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(

@@ -58,10 +58,7 @@ class Analysis extends \Solarium\Client\RequestBuilder\RequestBuilder
      */
     public function build($query)
     {
-        $request = new \Solarium\Client\Request;
-        $request->setHandler($query->getHandler());
-
-        $request->addParam('wt', 'json');
+        $request = parent::build($query);
         $request->addParam('analysis.query', $query->getQuery());
         $request->addParam('analysis.showmatch', $query->getShowMatch());
 

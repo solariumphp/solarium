@@ -56,14 +56,21 @@ abstract class Query extends \Solarium\Configurable
      * @var Solarium\Query\Helper
      */
     protected $_helper;
-    
+
+    /**
+     * Extra query params (e.g. dereferenced params)
+     *
+     * @var array
+     */
+    protected $_params = array();
+
     /**
      * Get type for this query
      *
      * @return string
      */
     abstract public function getType();
-    
+
     /**
      * Set handler option
      *
@@ -123,10 +130,36 @@ abstract class Query extends \Solarium\Configurable
     public function getHelper()
     {
         if (null === $this->_helper) {
-            $this->_helper = new Helper;
+            $this->_helper = new Helper($this);
         }
 
         return $this->_helper;
+    }
+
+    /**
+     * Add extra params to the request
+     *
+     * Only intended for internal use, for instance with dereferenced params.
+     * Therefore the params are limited in functionality. Only add and get
+     *
+     * @param string $name
+     * @param string $value
+     * @return self Provides fluent interface
+     */
+    public function addParam($name, $value)
+    {
+        $this->_params[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * Get extra params
+     *
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->_params;
     }
 
 }

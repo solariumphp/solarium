@@ -27,57 +27,56 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Client
  */
 
-/**
- * @namespace
- */
-namespace Solarium\Client\RequestBuilder\Select\Component;
+namespace Solarium\Tests\Client\RequestBuilder;
 
-/**
- * Add select component stats to the request
- *
- * @package Solarium
- * @subpackage Client
- */
-class Stats
+class SuggesterTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * Add request settings for the stats component
-     *
-     * @param Solarium\Query\Select\Component\Stats $component
-     * @param Solarium\Client\Request $request
-     * @return Solarium\Client\Request
+     * @var \Solarium\Query\Suggester
      */
-    public function buildComponent($component, $request)
+    protected $_query;
+
+    /**
+     * @var \Solarium\Client\RequestBuilder\Suggester
+     */
+    protected $_builder;
+
+    public function setUp()
     {
-        // enable stats
-        $request->addParam('stats', 'true');
-
-        // add fields
-        foreach ($component->getFields() as $field) {
-
-            $request->addParam('stats.field', $field->getKey());
-
-            // add field specific facet stats
-            foreach ($field->getFacets() as $facet) {
-                $request->addParam('f.'.$field->getKey().'.stats.facet', $facet);
-            }
-        }
-
-        // add facet stats for all fields
-        foreach ($component->getFacets() as $facet) {
-            $request->addParam('stats.facet', $facet);
-        }
-
-        return $request;
+        $this->_query = new \Solarium\Query\Suggester;
+        $this->_builder = new \Solarium\Client\RequestBuilder\Suggester;
     }
+
+    public function testBuildParams()
+    {
+        $this->_query->setCollate(true);
+        $this->_query->setCount(13);
+        $this->_query->setDictionary('suggest');
+        $this->_query->setQuery('ap ip');
+        $this->_query->setOnlyMorePopular(true);
+
+        $request = $this->_builder->build($this->_query);
+
+        $this->assertEquals(
+            array(
+                'spellcheck' => 'true',
+                'q' => 'ap ip',
+                'spellcheck.dictionary' => 'suggest',
+                'spellcheck.count' => 13,
+                'spellcheck.onlyMorePopular' => 'true',
+                'spellcheck.collate' => 'true',
+                'wt' => 'json',
+            ),
+            $request->getParams()
+        );
+
+        $this->assertEquals(
+            \Solarium\Client\Request::METHOD_GET,
+            $request->getMethod()
+        );
+    }
+
 }

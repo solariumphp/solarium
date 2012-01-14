@@ -50,9 +50,9 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
         $component->setTie(0.5);
         $component->setBoostQuery('cat:1');
         $component->setBoostFunctions('functionX(price)');
-        
-        $request = $builder->build($component, $request);
-            
+
+        $request = $builder->buildComponent($component, $request);
+
         $this->assertEquals(
             array(
                 'defType' => 'dummyparser',

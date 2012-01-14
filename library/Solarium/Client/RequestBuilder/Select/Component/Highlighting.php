@@ -57,7 +57,7 @@ class Highlighting
      * @param Solarium\Client\Request $request
      * @return Solarium\Client\Request
      */
-    public function build(
+    public function buildComponent(
         \Solarium\Query\Select\Component\Highlighting\Highlighting $component,
         \Solarium\Client\Request $request)
     {
@@ -85,6 +85,8 @@ class Highlighting
         $request->addParam('hl.regex.slop', $component->getRegexSlop());
         $request->addParam('hl.regex.pattern', $component->getRegexPattern());
         $request->addParam('hl.regex.maxAnalyzedChars', $component->getRegexMaxAnalyzedChars());
+        $request->addParam('hl.q', $component->getQuery());
+        $request->addParam('hl.phraseLimit', $component->getPhraseLimit());
 
         // set per-field highlighting params
         foreach ($component->getFields() as $field) {

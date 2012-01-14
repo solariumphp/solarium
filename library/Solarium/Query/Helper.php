@@ -67,6 +67,27 @@ class Helper
     protected $_assembleParts;
 
     /**
+     * Counter to keep dereferenced params unique (within a single query instance)
+     *
+     * @var int
+     */
+    protected $_derefencedParamsLastKey = 0;
+
+    /**
+     * @var Solarium\Query
+     */
+    protected $_query;
+
+    /**
+     * Constructor
+     *
+     * @param Solarium\Query $query
+     */
+    public function __construct($query = null) {
+        $this->_query = $query;
+    }
+
+    /**
      * Escape a term
      *
      * A term is a single word.
@@ -115,7 +136,6 @@ class Helper
      * Example: rangeQuery('store', '45,-94', '46,-93')
      * Returns: store:[45,-94 TO 46,-93]
      *
-     * @static
      * @param string $field
      * @param string $from
      * @param string $to
@@ -136,7 +156,6 @@ class Helper
      *
      * Find all entries within the distance of a certain point.
      *
-     * @static
      * @param  $pointX
      * @param  $pointY
      * @param  $field
@@ -163,7 +182,6 @@ class Helper
      * guaranteed to encompass all of the points of interest, but it may also
      * include other points that are slightly outside of the required distance.
      *
-     * @static
      * @param string $pointX
      * @param string $pointY
      * @param string $field
@@ -191,7 +209,6 @@ class Helper
      * or combining the distance with the relevancy score,
      * such as boosting by the inverse of the distance.
      *
-     * @static
      * @param  $pointX
      * @param  $pointY
      * @param  $field
@@ -208,26 +225,42 @@ class Helper
     /**
      * Render a qparser plugin call
      *
-     * @static
      * @param string $name
      * @param array $params
+     * @param boolean $dereferenced
      * @return string
      */
-    public function qparser($name, $params = array())
+    public function qparser($name, $params = array(), $dereferenced = false)
     {
+        if ($dereferenced) {
+
+            if(!$this->_query) {
+                throw new \Solarium\Exception(
+                    'Dereferenced params can only be used in a Solarium_Query_Helper instance retrieved from the query '
+                    . 'by using the getHelper() method, this instance was manually created'
+                );
+            }
+
+            foreach($params as $paramKey => $paramValue) {
+                $this->_derefencedParamsLastKey++;
+                $derefKey = 'deref_' . $this->_derefencedParamsLastKey;
+                $this->_query->addParam($derefKey, $paramValue);
+                $params[$paramKey] = '$'.$derefKey;
+            }
+        }
+
         $output = '{!'.$name;
-        foreach ($params AS $key=>$value) {
+        foreach ($params as $key=>$value) {
             $output .= ' ' . $key . '=' . $value;
         }
         $output .= '}';
-        
+
         return $output;
     }
 
     /**
      * Render a functionCall
      *
-     * @static
      * @param string $name
      * @param array $params
      * @return string
@@ -255,7 +288,7 @@ class Helper
      * value of $this->_placeHolderPattern
      *
      * @since 2.1.0
-     * 
+     *
      * @param string $query
      * @param array $parts Array of strings
      * @return string
@@ -263,7 +296,7 @@ class Helper
     public function assemble($query, $parts)
     {
         $this->_assembleParts = $parts;
-        
+
         return preg_replace_callback(
             $this->_placeHolderPattern,
             array($this, '_renderPlaceHolder'),
@@ -300,6 +333,22 @@ class Helper
         }
 
         return $value;
+    }
+
+    /**
+     * Render join localparams syntax
+     *
+     * @see http://wiki.apache.org/solr/Join
+     * @since 2.4.0
+     *
+     * @param string $from
+     * @param string $to
+     * @param boolean $dereferenced
+     * @return string
+     */
+    public function join($from, $to, $dereferenced = false)
+    {
+        return $this->qparser('join', array('from' => $from, 'to' => $to), $dereferenced);
     }
 
 }

@@ -49,7 +49,7 @@ namespace Solarium\Client\RequestBuilder\Select\Component;
  */
 class MoreLikeThis
 {
-    
+
     /**
      * Add request settings for morelikethis
      *
@@ -57,7 +57,7 @@ class MoreLikeThis
      * @param Solarium\Client\Request $request
      * @return Solarium\Client\Request
      */
-    public function build($component, $request)
+    public function buildComponent($component, $request)
     {
         // enable morelikethis
         $request->addParam('mlt', 'true');

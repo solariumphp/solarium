@@ -29,56 +29,97 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests;
+namespace Solarium\Tests\Result\Suggester;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+class TermTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testSetAndGetHandler()
-    {
-        $query = new TestQuery;
-        $query->setHandler('myhandler');
-        $this->assertEquals('myhandler', $query->getHandler());
-    }
+    /**
+     * @var Solarium\Result\Suggester\Term
+     */
+    protected $_result;
 
-    public function testSetAndGetResultClass()
-    {
-        $query = new TestQuery;
-        $query->setResultClass('myResultClass');
-        $this->assertEquals('myResultClass', $query->getResultClass());
-    }
+    /**
+     * @var int
+     */
+    protected $_numFound;
 
-    public function testGetHelper()
-    {
-        $query = new TestQuery;
-        $helper = $query->getHelper();
+    /**
+     * @var int
+     */
+    protected $_startOffset;
 
-        $this->assertEquals(
-            'Solarium\Query\Helper',
-            get_class($helper)
+    /**
+     * @var int
+     */
+    protected $_endOffset;
+
+    /**
+     * @var array
+     */
+    protected $_suggestions;
+
+    public function setUp()
+    {
+        $this->_numFound = 5;
+        $this->_startOffset = 2;
+        $this->_endOffset = 6;
+        $this->_suggestions = array(
+            'suggestion1',
+            'suggestion2',
+        );
+
+        $this->_result = new \Solarium\Result\Suggester\Term(
+            $this->_numFound, $this->_startOffset, $this->_endOffset, $this->_suggestions
         );
     }
 
-    public function testAddAndGetParams()
+    public function testGetNumFound()
     {
-        $query = new TestQuery;
-        $query->addParam('p1','v1');
-        $query->addParam('p2','v2');
-        $query->addParam('p2','v3'); //should overwrite previous value
-
         $this->assertEquals(
-            array('p1' => 'v1', 'p2' => 'v3'),
-            $query->getParams()
+            $this->_numFound,
+            $this->_result->getNumFound()
         );
     }
 
-}
-
-class TestQuery extends \Solarium\Query\Query
-{
-
-    public function getType()
+    public function testGetStartOffset()
     {
-        return 'testType';
+        $this->assertEquals(
+            $this->_startOffset,
+            $this->_result->getStartOffset()
+        );
     }
+
+    public function testGetEndOffset()
+    {
+        $this->assertEquals(
+            $this->_endOffset,
+            $this->_result->getEndOffset()
+        );
+    }
+
+    public function testGetSuggestions()
+    {
+        $this->assertEquals(
+            $this->_suggestions,
+            $this->_result->getSuggestions()
+        );
+    }
+
+    public function testCount()
+    {
+        $this->assertEquals(count($this->_suggestions), count($this->_result));
+    }
+
+    public function testIterator()
+    {
+        $results = array();
+        foreach($this->_result AS $key => $doc)
+        {
+            $results[$key] = $doc;
+        }
+
+        $this->assertEquals($this->_suggestions, $results);
+    }
+
 }

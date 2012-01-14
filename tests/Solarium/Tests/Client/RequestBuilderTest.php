@@ -33,7 +33,9 @@ namespace Solarium\Tests\Client;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
+    /**
+     * @var TestRequestBuilder
+     */
     protected $_builder;
 
     public function setup()
@@ -41,10 +43,23 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->_builder = new TestRequestBuilder;
     }
 
+    public function testBuild()
+    {
+        $query = new \Solarium\Query\Select\Select;
+        $query->addParam('p1','v1');
+        $query->addParam('p2','v2');
+        $request = $this->_builder->build($query);
+
+        $this->assertEquals(
+            'select?p1=v1&p2=v2&wt=json',
+             urldecode($request->getUri())
+        );
+    }
+
     public function testRenderLocalParams()
     {
         $myParams = array('tag' => 'mytag', 'ex' => array('exclude1','exclude2'));
-        
+
         $this->assertEquals(
             '{!tag=mytag ex=exclude1,exclude2}myValue',
             $this->_builder->renderLocalParams('myValue', $myParams)
@@ -62,5 +77,5 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 }
 
 class TestRequestBuilder extends \Solarium\Client\RequestBuilder\RequestBuilder{
-    
+
 }
