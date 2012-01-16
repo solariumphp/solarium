@@ -164,6 +164,7 @@ class Solarium_Client extends Solarium_Configurable
         'postbigrequest' => 'Solarium_Plugin_PostBigRequest',
         'customizerequest' => 'Solarium_Plugin_CustomizeRequest',
         'parallelexecution' => 'Solarium_Plugin_ParallelExecution',
+        'bufferedadd' => 'Solarium_Plugin_BufferedAdd',
     );
 
     /**
