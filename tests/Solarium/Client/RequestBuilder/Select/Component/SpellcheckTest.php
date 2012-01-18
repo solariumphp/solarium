@@ -32,7 +32,7 @@
 class Solarium_Client_RequestBuilder_Select_Component_SpellcheckTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testBuildComponent()
     {
         $builder = new Solarium_Client_RequestBuilder_Select_Component_Spellcheck();
         $request = new Solarium_Client_Request();
@@ -52,7 +52,7 @@ class Solarium_Client_RequestBuilder_Select_Component_SpellcheckTest extends PHP
         $component->setCollateExtendedResults(true);
         $component->setAccuracy(.2);
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(

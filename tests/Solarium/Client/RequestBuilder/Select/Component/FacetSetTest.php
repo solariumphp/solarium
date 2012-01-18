@@ -57,8 +57,8 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSetTest extends PHPUn
 
     public function testBuildEmptyFacetSet()
     {
-        $request = $this->_builder->build($this->_component, $this->_request);
-            
+        $request = $this->_builder->buildComponent($this->_component, $this->_request);
+
         $this->assertEquals(
             array(),
             $request->getParams()
@@ -71,7 +71,7 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSetTest extends PHPUn
         $this->_component->addFacet(new Solarium_Query_Select_Component_Facet_Field(array('key' => 'f1', 'field' => 'owner')));
         $this->_component->addFacet(new Solarium_Query_Select_Component_Facet_Query(array('key' => 'f2', 'query' => 'category:23')));
         $this->_component->addFacet(new Solarium_Query_Select_Component_Facet_MultiQuery(array('key' => 'f3', 'query' => array('f4' => array('query' => 'category:40')))));
-        $request = $this->_builder->build($this->_component, $this->_request);
+        $request = $this->_builder->buildComponent($this->_component, $this->_request);
 
         $this->assertEquals(
             null,
@@ -98,7 +98,7 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSetTest extends PHPUn
             )
         ));
 
-        $request = $this->_builder->build($this->_component, $this->_request);
+        $request = $this->_builder->buildComponent($this->_component, $this->_request);
 
         $this->assertEquals(
             null,
@@ -118,7 +118,7 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSetTest extends PHPUn
         $this->_component->addFacet(new Solarium_Query_Select_Component_Facet_Field(array('key' => 'f1', 'field' => 'owner')));
         $this->_component->addFacet(new Solarium_Query_Select_Component_Facet_Query(array('key' => 'f2', 'query' => 'category:23')));
         $this->_component->addFacet(new Solarium_Query_Select_Component_Facet_MultiQuery(array('key' => 'f3', 'query' => array('f4' =>array('query' => 'category:40')))));
-        $request = $this->_builder->build($this->_component, $this->_request);
+        $request = $this->_builder->buildComponent($this->_component, $this->_request);
 
         $this->assertEquals(
             null,
@@ -135,7 +135,7 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSetTest extends PHPUn
     {
         $this->_component->addFacet(new UnknownFacet(array('key' => 'f1', 'field' => 'owner')));
         $this->setExpectedException('Solarium_Exception');
-        $request = $this->_builder->build($this->_component, $this->_request);
+        $request = $this->_builder->buildComponent($this->_component, $this->_request);
         $request->getUri();
     }
 

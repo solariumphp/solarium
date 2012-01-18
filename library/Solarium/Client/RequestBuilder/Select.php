@@ -90,7 +90,7 @@ class Solarium_Client_RequestBuilder_Select extends Solarium_Client_RequestBuild
             $componentBuilderClass = $types[$component->getType()]['requestbuilder'];
             if (!empty($componentBuilderClass)) {
                 $componentBuilder = new $componentBuilderClass;
-                $request = $componentBuilder->build($component, $request);
+                $request = $componentBuilder->buildComponent($component, $request);
             }
         }
 

@@ -44,7 +44,7 @@
  */
 class Solarium_Client_RequestBuilder_Select_Component_DisMax
 {
-    
+
     /**
      * Add request settings for Dismax
      *
@@ -52,7 +52,7 @@ class Solarium_Client_RequestBuilder_Select_Component_DisMax
      * @param Solarium_Client_Request $request
      * @return Solarium_Client_Request
      */
-    public function build($component, $request)
+    public function buildComponent($component, $request)
     {
         // enable dismax
         $request->addParam('defType', $component->getQueryParser());

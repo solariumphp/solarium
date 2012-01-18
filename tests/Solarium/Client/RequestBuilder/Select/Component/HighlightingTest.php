@@ -32,7 +32,7 @@
 class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testBuildComponent()
     {
         $builder = new Solarium_Client_RequestBuilder_Select_Component_Highlighting;
         $request = new Solarium_Client_Request();
@@ -73,7 +73,7 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
         $component->setQuery('text:myvalue');
         $component->setPhraseLimit(40);
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(

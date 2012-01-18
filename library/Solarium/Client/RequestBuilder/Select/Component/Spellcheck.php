@@ -52,7 +52,7 @@ class Solarium_Client_RequestBuilder_Select_Component_Spellcheck
      * @param Solarium_Client_Request $request
      * @return Solarium_Client_Request
      */
-    public function build($component, $request)
+    public function buildComponent($component, $request)
     {
         // enable spellcheck
         $request->addParam('spellcheck', 'true');

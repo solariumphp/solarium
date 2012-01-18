@@ -44,7 +44,7 @@
  */
 class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_Client_RequestBuilder
 {
-    
+
     /**
      * Add request settings for FacetSet
      *
@@ -52,7 +52,7 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
      * @param Solarium_Client_Request $request
      * @return Solarium_Client_Request
      */
-    public function build($component, $request)
+    public function buildComponent($component, $request)
     {
         $facets = $component->getFacets();
         if (count($facets) !== 0) {

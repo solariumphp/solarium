@@ -32,7 +32,7 @@
 class Solarium_Client_RequestBuilder_Select_Component_DebugTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testBuildComponent()
     {
         $builder = new Solarium_Client_RequestBuilder_Select_Component_Debug();
         $request = new Solarium_Client_Request();
@@ -40,7 +40,7 @@ class Solarium_Client_RequestBuilder_Select_Component_DebugTest extends PHPUnit_
         $component = new Solarium_Query_Select_Component_Debug();
         $component->setExplainOther('id:45');
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(

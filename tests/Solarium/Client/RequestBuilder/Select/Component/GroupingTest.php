@@ -32,7 +32,7 @@
 class Solarium_Client_RequestBuilder_Select_Component_GroupingTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testBuildComponent()
     {
         $builder = new Solarium_Client_RequestBuilder_Select_Component_Grouping;
         $request = new Solarium_Client_Request();
@@ -48,7 +48,7 @@ class Solarium_Client_RequestBuilder_Select_Component_GroupingTest extends PHPUn
         $component->setCachePercentage(50);
         $component->setTruncate(true);
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(

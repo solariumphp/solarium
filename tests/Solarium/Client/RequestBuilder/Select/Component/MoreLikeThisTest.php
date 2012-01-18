@@ -32,7 +32,7 @@
 class Solarium_Client_RequestBuilder_Select_Component_MoreLikeThisTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testBuildComponent()
     {
         $builder = new Solarium_Client_RequestBuilder_Select_Component_MoreLikeThis;
         $request = new Solarium_Client_Request();
@@ -48,9 +48,9 @@ class Solarium_Client_RequestBuilder_Select_Component_MoreLikeThisTest extends P
         $component->setBoost(true);
         $component->setQueryFields('description');
         $component->setCount(6);
-        
-        $request = $builder->build($component, $request);
-            
+
+        $request = $builder->buildComponent($component, $request);
+
         $this->assertEquals(
             array(
                 'mlt' => 'true',
