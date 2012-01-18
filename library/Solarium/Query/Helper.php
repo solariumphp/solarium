@@ -131,51 +131,58 @@ class Solarium_Query_Helper
      *
      * @see http://lucene.apache.org/solr/api/org/apache/solr/schema/DateField.html
      *
-     * @param mixed $input accepted formats: timestamp, date string or DateTime
-     * @return string or false when input is invalid
+     * @param int|string|DateTime $input accepted formats: timestamp, date string or DateTime
+     * @return string|false false is returned in case of invalid input
      */
     public function formatDate($input)
     {
+        switch(true){
 
-        switch(true) {
-            case is_numeric($input) && $this->_isTimestamp($input):
-                $dateTime = new DateTime($input);
-                break;
 
-            case is_string($input) && $this->_isTimestamp(strtotime($input)):
-                $dateTime = new DateTime(strtotime($input));
-                break;
-
+            // input of datetime object
             case $input instanceof DateTime:
-                $dateTime = $input;
+                // no work needed
                 break;
 
-            //if input does not match any of these requirements then fail
+
+            // input of timestamp or date/time string
+            case is_string($input) || is_numeric($input):
+
+                // if date/time string: convert to timestamp first
+                if (is_string($input)) $input = strtotime($input);
+
+                // now try converting the timestamp to a datetime instance, on failure return false
+                try {
+                    $input = new DateTime('@' . $input);
+                } catch (Exception $e) {
+                    $input = false;
+                }
+                break;
+
+
+            // any other input formats can be added in additional cases here...
+            // case $input instanceof Zend_Date:
+
+
+            // unsupported input format
             default:
-                return false;
+                $input = false;
+                break;
         }
 
-        $iso8601 = $dateTime->format(DateTime::ISO8601);
-        $iso8601 = strstr($iso8601, '+', true); //strip timezone
-        $iso8601 .= 'Z';
-        return $iso8601;
-    }
 
-    /**
-     * Validate if date is valid
-     * note: do not use checkdate() and support negative timestamps
-     *
-     * @return boolean
-     */
-    protected function _isTimestamp($timestamp)
-    {
-        try {
-            new DateTime($timestamp);
-        } catch (Exception $e) {
+        // handle the filtered input
+        if ($input) {
+            // when we get here the input is always a datetime object
+            $input->setTimezone(new DateTimeZone('UTC'));
+            $iso8601 = $input->format(DateTime::ISO8601);
+            $iso8601 = strstr($iso8601, '+', true); //strip timezone
+            $iso8601 .= 'Z';
+            return $iso8601;
+        } else {
+            // unsupported input
             return false;
         }
-
-        return true;
     }
 
     /**
