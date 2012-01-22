@@ -165,6 +165,7 @@ class Solarium_Client extends Solarium_Configurable
         'customizerequest' => 'Solarium_Plugin_CustomizeRequest',
         'parallelexecution' => 'Solarium_Plugin_ParallelExecution',
         'bufferedadd' => 'Solarium_Plugin_BufferedAdd',
+        'prefetchiterator' => 'Solarium_Plugin_PrefetchIterator',
     );
 
     /**
