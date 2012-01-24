@@ -391,7 +391,7 @@ class Solarium_Client extends Solarium_Configurable
     }
 
     /**
-     * Get all registered querytypes
+     * Get all registered plugins
      *
      * @return array
      */
