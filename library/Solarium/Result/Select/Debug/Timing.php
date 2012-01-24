@@ -46,6 +46,8 @@ class Solarium_Result_Select_Debug_Timing implements IteratorAggregate, Countabl
 {
 
     /**
+     * Time
+     *
      * @var float
      */
     protected $_time;

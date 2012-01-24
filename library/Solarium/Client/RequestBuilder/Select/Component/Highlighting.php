@@ -52,8 +52,10 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
      * @param Solarium_Client_Request $request
      * @return Solarium_Client_Request
      */
-    public function buildComponent(Solarium_Query_Select_Component_Highlighting $component, Solarium_Client_Request $request)
-    {
+    public function buildComponent(
+        Solarium_Query_Select_Component_Highlighting $component,
+        Solarium_Client_Request $request
+    ){
         // enable highlighting
         $request->addParam('hl', 'true');
 

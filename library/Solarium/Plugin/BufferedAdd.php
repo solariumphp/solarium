@@ -183,7 +183,7 @@ class Solarium_Plugin_BufferedAdd extends Solarium_Plugin_Abstract
      */
     public function flush($overwrite = null, $commitWithin = null)
     {
-        if(count($this->_buffer) == 0) {
+        if (count($this->_buffer) == 0) {
             // nothing to do
             return false;
         }

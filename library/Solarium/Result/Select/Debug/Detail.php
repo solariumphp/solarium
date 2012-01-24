@@ -46,16 +46,22 @@ class Solarium_Result_Select_Debug_Detail
 {
 
     /**
+     * Value
+     *
      * @var float
      */
     protected $_value;
 
     /**
+     * Match
+     *
      * @var boolean
      */
     protected $_match;
 
     /**
+     * Description
+     *
      * @var string
      */
     protected $_description;

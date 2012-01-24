@@ -46,41 +46,57 @@ class Solarium_Result_Analysis_Item
 {
 
     /**
+     * Text string
+     *
      * @var string
      */
     protected $_text;
 
     /**
+     * RawText string
+     *
      * @var string
      */
     protected $_rawText;
 
     /**
+     * Start
+     *
      * @var int
      */
     protected $_start;
 
     /**
+     * End
+     *
      * @var int
      */
     protected $_end;
 
     /**
+     * Position
+     *
      * @var int
      */
     protected $_position;
 
     /**
+     * Position history
+     *
      * @var array
      */
     protected $_positionHistory;
 
     /**
+     * Type
+     *
      * @var string
      */
     protected $_type;
 
     /**
+     * Match
+     *
      * @var boolean
      */
     protected $_match = false;

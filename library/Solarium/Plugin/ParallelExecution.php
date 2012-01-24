@@ -68,7 +68,7 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
         // create handles and add all handles to the multihandle
         $multiHandle = curl_multi_init();
         $handles = array();
-        foreach($queries as $key => $query) {
+        foreach ($queries as $key => $query) {
             $request = $this->_client->createRequest($query);
             $handle = $adapter->createHandle($request);
             curl_multi_add_handle($multiHandle, $handle);

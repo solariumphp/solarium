@@ -57,16 +57,22 @@ class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implemen
     );
 
     /**
+     * Query instance to execute
+     *
      * @var Solarium_Query_Select
      */
     protected $_query;
 
     /**
+     * Start position (offset)
+     *
      * @var int
      */
     protected $_start = 0;
 
     /**
+     * Last resultset from the query instance
+     *
      * @var Solarium_Result_Select
      */
     protected $_result;
@@ -79,6 +85,8 @@ class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implemen
     protected $_position;
 
     /**
+     * Documents from the last resultset
+     *
      * @var array
      */
     protected $_documents;
@@ -142,11 +150,12 @@ class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implemen
     /**
      * Iterator implementation
      */
-    function rewind() {
+    function rewind()
+    {
         $this->_position = 0;
 
         // this condition prevent useless re-fetching of data if a count is done before the iterator is used
-        if($this->_start !== $this->_options['prefetch']) {
+        if ($this->_start !== $this->_options['prefetch']) {
             $this->_start = 0;
         }
     }

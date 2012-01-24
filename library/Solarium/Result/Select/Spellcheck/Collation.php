@@ -46,16 +46,22 @@ class Solarium_Result_Select_Spellcheck_Collation implements IteratorAggregate, 
 {
 
     /**
+     * Query
+     *
      * @var string
      */
     protected $_query;
 
     /**
+     * Hit count
+     *
      * @var int
      */
     protected $_hits;
 
     /**
+     * Corrections
+     *
      * @var array
      */
     protected $_corrections;

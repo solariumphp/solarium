@@ -121,7 +121,7 @@ class Solarium_Result_Suggester extends Solarium_Result_QueryType implements Ite
     /**
      * Get results for a specific term
      *
-     * @param string $field
+     * @param string $term
      * @return array
      */
     public function getTerm($term)

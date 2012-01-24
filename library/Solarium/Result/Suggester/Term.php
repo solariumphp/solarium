@@ -46,21 +46,29 @@ class Solarium_Result_Suggester_Term implements IteratorAggregate, Countable
 {
 
     /**
+     * NumFound
+     *
      * @var int
      */
     protected $_numFound;
 
     /**
+     * StartOffset
+     *
      * @var int
      */
     protected $_startOffset;
 
     /**
+     * EndOffset
+     *
      * @var int
      */
     protected $_endOffset;
 
     /**
+     * Suggestions
+     *
      * @var array
      */
     protected $_suggestions;

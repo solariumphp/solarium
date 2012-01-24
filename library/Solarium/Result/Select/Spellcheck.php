@@ -60,6 +60,8 @@ class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
     protected $_collation;
 
     /**
+     * Correctly spelled?
+     *
      * @var boolean
      */
     protected $_correctlySpelled;

@@ -69,6 +69,9 @@ class Solarium_Query_Helper
     protected $_derefencedParamsLastKey = 0;
 
     /**
+     * Solarium_Query instance, optional.
+     * Used for dereferenced params.
+     *
      * @var Solarium_Query
      */
     protected $_query;
@@ -78,7 +81,8 @@ class Solarium_Query_Helper
      *
      * @param Solarium_Query $query
      */
-    public function __construct($query = null) {
+    public function __construct($query = null)
+    {
         $this->_query = $query;
     }
 
@@ -291,14 +295,14 @@ class Solarium_Query_Helper
     {
         if ($dereferenced) {
 
-            if(!$this->_query) {
+            if (!$this->_query) {
                 throw new Solarium_Exception(
                     'Dereferenced params can only be used in a Solarium_Query_Helper instance retrieved from the query '
                     . 'by using the getHelper() method, this instance was manually created'
                 );
             }
 
-            foreach($params as $paramKey => $paramValue) {
+            foreach ($params as $paramKey => $paramValue) {
                 $this->_derefencedParamsLastKey++;
                 $derefKey = 'deref_' . $this->_derefencedParamsLastKey;
                 $this->_query->addParam($derefKey, $paramValue);
