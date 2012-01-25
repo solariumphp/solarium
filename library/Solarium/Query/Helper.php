@@ -178,7 +178,8 @@ class Solarium_Query_Helper
         // handle the filtered input
         if ($input) {
             // when we get here the input is always a datetime object
-            $input->setTimezone(new DateTimeZone('UTC'));
+            $zone = @date_default_timezone_get();
+            $input->setTimezone(new DateTimeZone($zone));
             $iso8601 = $input->format(DateTime::ISO8601);
             $iso8601 = strstr($iso8601, '+', true); //strip timezone
             $iso8601 .= 'Z';
