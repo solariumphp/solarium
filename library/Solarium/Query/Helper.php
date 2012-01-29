@@ -74,7 +74,10 @@ class Helper
     protected $_derefencedParamsLastKey = 0;
 
     /**
-     * @var Solarium\Query
+     * Solarium_Query instance, optional.
+     * Used for dereferenced params.
+     *
+     * @var Solarium\Query\Query
      */
     protected $_query;
 
@@ -83,7 +86,8 @@ class Helper
      *
      * @param Solarium\Query $query
      */
-    public function __construct($query = null) {
+    public function __construct($query = null)
+    {
         $this->_query = $query;
     }
 
@@ -126,6 +130,68 @@ class Helper
     public function escapePhrase($input)
     {
         return '"' . preg_replace('/("|\\\)/', '\\\$1', $input) . '"';
+    }
+
+    /**
+     * Format a date to the expected formatting used in SOLR
+     *
+     * This format was derived to be standards compliant (ISO 8601)
+     * A date field shall be of the form 1995-12-31T23:59:59Z The trailing "Z" designates UTC time and is mandatory
+     *
+     * @see http://lucene.apache.org/solr/api/org/apache/solr/schema/DateField.html
+     *
+     * @param int|string|DateTime $input accepted formats: timestamp, date string or DateTime
+     * @return string|false false is returned in case of invalid input
+     */
+    public function formatDate($input)
+    {
+        switch(true){
+
+
+            // input of datetime object
+            case $input instanceof \DateTime:
+                // no work needed
+                break;
+
+
+            // input of timestamp or date/time string
+            case is_string($input) || is_numeric($input):
+
+                // if date/time string: convert to timestamp first
+                if (is_string($input)) $input = strtotime($input);
+
+                // now try converting the timestamp to a datetime instance, on failure return false
+                try {
+                    $input = new \DateTime('@' . $input);
+                } catch (\Exception $e) {
+                    $input = false;
+                }
+                break;
+
+
+            // any other input formats can be added in additional cases here...
+            // case $input instanceof Zend_Date:
+
+
+            // unsupported input format
+            default:
+                $input = false;
+                break;
+        }
+
+
+        // handle the filtered input
+        if ($input) {
+            // when we get here the input is always a datetime object
+            $input->setTimezone(new \DateTimeZone('UTC'));
+            $iso8601 = $input->format(\DateTime::ISO8601);
+            $iso8601 = strstr($iso8601, '+', true); //strip timezone
+            $iso8601 .= 'Z';
+            return $iso8601;
+        } else {
+            // unsupported input
+            return false;
+        }
     }
 
     /**
@@ -234,14 +300,14 @@ class Helper
     {
         if ($dereferenced) {
 
-            if(!$this->_query) {
+            if (!$this->_query) {
                 throw new \Solarium\Exception(
                     'Dereferenced params can only be used in a Solarium_Query_Helper instance retrieved from the query '
                     . 'by using the getHelper() method, this instance was manually created'
                 );
             }
 
-            foreach($params as $paramKey => $paramValue) {
+            foreach ($params as $paramKey => $paramValue) {
                 $this->_derefencedParamsLastKey++;
                 $derefKey = 'deref_' . $this->_derefencedParamsLastKey;
                 $this->_query->addParam($derefKey, $paramValue);

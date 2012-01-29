@@ -51,11 +51,15 @@ class ResultList implements \IteratorAggregate, \Countable
 {
 
     /**
+     * List name
+     *
      * @var string
      */
     protected $_name;
 
     /**
+     * List items
+     *
      * @var array
      */
     protected $_items;

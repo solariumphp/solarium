@@ -42,6 +42,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
                     'field1' => array(
                         'type1' => array(
                             array(
+                                'org.apache.solr.analysis.PatternReplaceCharFilter',
+                                'string value',
                                 'analysisClass',
                                 array(
                                     array(
@@ -83,9 +85,11 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $docs = $result['items'][0]->getItems();
         $fields = $docs[0]->getItems();
         $types = $fields[0]->getItems();
-        $classes = $types[0]->getItems();
+        $class1items = $types[0]->getItems();
+        $class2items = $types[1]->getItems();
 
-        $this->assertEquals('test2', $classes[1]->getText());
+        $this->assertEquals('string value', $class1items[0]->getText());
+        $this->assertEquals('test2', $class2items[1]->getText());
     }
 
     public function testParseNoData()

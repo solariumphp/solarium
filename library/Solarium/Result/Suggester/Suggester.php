@@ -126,7 +126,7 @@ class Suggester extends \Solarium\Result\QueryType implements \IteratorAggregate
     /**
      * Get results for a specific term
      *
-     * @param string $field
+     * @param string $term
      * @return array
      */
     public function getTerm($term)

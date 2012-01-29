@@ -75,7 +75,7 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * Plugin init function
      *
-     * This is an extension point for plugin implemenations.
+     * This is an extension point for plugin implementations.
      * Will be called as soon as $this->_client and options have been set.
      *
      * @return void

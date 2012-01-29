@@ -116,12 +116,29 @@ class Field extends \Solarium\Client\ResponseParser\ResponseParser
                     $class = $typeData[$counter];
                     $analysis = $typeData[$counter+1];
 
-                    $items = array();
-                    foreach ($analysis AS $itemData) {
-                        $items[] = new Analysis\Item($itemData);
+                    if (is_string($analysis)) {
+
+                        $item = new Analysis\Item(array(
+                            'text' => $analysis,
+                            'start' => null,
+                            'end' => null,
+                            'position' => null,
+                            'positionHistory' => null,
+                            'type' => null,
+                        ));
+
+                        $classes[] = new Analysis\ResultList($class, array($item));
+
+                    } else {
+
+                        $items = array();
+                        foreach ($analysis as $itemData) {
+                            $items[] = new Analysis\Item($itemData);
+                        }
+
+                        $classes[] = new Analysis\ResultList($class, $items);
                     }
 
-                    $classes[] = new Analysis\ResultList($class, $items);
                     $counter += 2;
                 }
 

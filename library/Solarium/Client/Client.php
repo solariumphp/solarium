@@ -170,6 +170,8 @@ class Client extends Solarium\Configurable
         'postbigrequest' => 'Solarium\Plugin\PostBigRequest',
         'customizerequest' => 'Solarium\Plugin\CustomizeRequest\CustomizeRequest',
         'parallelexecution' => 'Solarium\Plugin\ParallelExecution',
+        'bufferedadd' => 'Solarium\Plugin\BufferedAdd',
+        'prefetchiterator' => 'Solarium\Plugin\PrefetchIterator',
     );
 
     /**
@@ -396,7 +398,7 @@ class Client extends Solarium\Configurable
     }
 
     /**
-     * Get all registered querytypes
+     * Get all registered plugins
      *
      * @return array
      */

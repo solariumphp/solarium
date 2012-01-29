@@ -52,11 +52,15 @@ class Document extends Detail
 {
 
     /**
+     * Key
+     *
      * @var string
      */
     protected $_key;
 
     /**
+     * Details
+     *
      * @var array
      */
     protected $_details;
@@ -68,6 +72,7 @@ class Document extends Detail
      * @param boolean $match
      * @param float $value
      * @param string $description
+     * @param array $details
      */
     public function __construct($key, $match, $value, $description, $details)
     {

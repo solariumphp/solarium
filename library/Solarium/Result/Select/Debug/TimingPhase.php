@@ -52,11 +52,15 @@ class TimingPhase
 {
 
     /**
+     * Phase name
+     *
      * @var string
      */
     protected $_name;
 
     /**
+     * Phase time
+     *
      * @var float
      */
     protected $_time;

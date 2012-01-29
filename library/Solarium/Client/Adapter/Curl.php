@@ -96,6 +96,13 @@ class Curl extends Adapter
         // @codeCoverageIgnoreEnd
     }
 
+    /**
+     * Get the response for a curl handle
+     *
+     * @param resource $handle
+     * @param string $httpResponse
+     * @return Solarium_Client_Response
+     */
     public function getResponse($handle, $httpResponse)
     {
         // @codeCoverageIgnoreStart

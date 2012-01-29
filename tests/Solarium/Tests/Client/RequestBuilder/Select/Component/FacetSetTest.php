@@ -73,6 +73,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->_component->addFacet(new \Solarium\Query\Select\Component\Facet\Field(array('key' => 'f1', 'field' => 'owner')));
         $this->_component->addFacet(new \Solarium\Query\Select\Component\Facet\Query(array('key' => 'f2', 'query' => 'category:23')));
         $this->_component->addFacet(new \Solarium\Query\Select\Component\Facet\MultiQuery(array('key' => 'f3', 'query' => array('f4' => array('query' => 'category:40')))));
+
         $request = $this->_builder->buildComponent($this->_component, $this->_request);
 
         $this->assertEquals(
@@ -145,6 +146,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->_component->addFacet(new \Solarium\Query\Select\Component\Facet\Field(array('key' => 'f1', 'field' => 'owner')));
         $this->_component->addFacet(new \Solarium\Query\Select\Component\Facet\Query(array('key' => 'f2', 'query' => 'category:23')));
         $this->_component->addFacet(new \Solarium\Query\Select\Component\Facet\MultiQuery(array('key' => 'f3', 'query' => array('f4' =>array('query' => 'category:40')))));
+
         $request = $this->_builder->buildComponent($this->_component, $this->_request);
 
         $this->assertEquals(

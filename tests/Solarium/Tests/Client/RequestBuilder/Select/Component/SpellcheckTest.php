@@ -34,7 +34,7 @@ namespace Solarium\Tests\Client\RequestBuilder\Select\Component;
 class SpellcheckTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testBuildComponent()
     {
         $builder = new \Solarium\Client\RequestBuilder\Select\Component\Spellcheck();
         $request = new \Solarium\Client\Request();

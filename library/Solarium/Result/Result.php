@@ -77,7 +77,9 @@ class Result
     protected $_query;
 
     /**
-     * @var Solarium\Client
+     * Solarium client instance
+     *
+     * @var \Solarium\Client\Client
      */
     protected $_client;
 

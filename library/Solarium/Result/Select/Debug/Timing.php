@@ -51,6 +51,8 @@ class Timing implements \IteratorAggregate, \Countable
 {
 
     /**
+     * Time
+     *
      * @var float
      */
     protected $_time;

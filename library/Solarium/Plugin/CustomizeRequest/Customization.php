@@ -50,9 +50,13 @@ class Customization extends \Solarium\Configurable
 {
 
     /**
-     * Type definitions
+     * Type definition for params
      */
     const TYPE_PARAM = 'param';
+
+    /**
+     * Type definition for headers
+     */
     const TYPE_HEADER = 'header';
 
     /**

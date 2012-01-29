@@ -51,36 +51,50 @@ class Debug implements \IteratorAggregate, \Countable
 {
 
     /**
+     * QueryString
+     *
      * @var string
      */
     protected $_queryString;
 
     /**
+     * ParsedQuery
+     *
      * @var string
      */
     protected $_parsedQuery;
 
     /**
+     * QueryParser
+     *
      * @var string
      */
     protected $_queryParser;
 
     /**
+     * OtherQuery
+     *
      * @var string
      */
     protected $_otherQuery;
 
     /**
+     * Explain instance
+     *
      * @var Solarium\Result\Select\Debug\DocumentSet
      */
     protected $_explain;
 
     /**
+     * ExplainOther instance
+     *
      * @var Solarium\Result\Select\Debug\DocumentSet
      */
     protected $_explainOther;
 
     /**
+     * Timing instance
+     *
      * @var Solarium\Result\Select\Debug\Timing
      */
     protected $_timing;
