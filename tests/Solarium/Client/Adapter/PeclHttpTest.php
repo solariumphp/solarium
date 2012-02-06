@@ -62,36 +62,39 @@ class Solarium_Client_Adapter_PeclHttpTest extends PHPUnit_Framework_TestCase
 
     public function requestProvider()
     {
-        $methods = array(
-            Solarium_Client_Request::METHOD_GET  => array(
-                'method' => HTTP_METH_GET,
-                'support' => true
-            ),
-            Solarium_Client_Request::METHOD_POST => array(
-                'method' => HTTP_METH_POST,
-                'support' => true
-            ),
-            Solarium_Client_Request::METHOD_HEAD => array(
-                'method' => HTTP_METH_HEAD,
-                'support' => true
-            ),
-            'PUT'                                => array(
-                'method' => HTTP_METH_PUT,
-                'support' => false
-            ),
-            'DELETE'                             => array(
-                'method' => HTTP_METH_DELETE,
-                'support' => false
-            ),
-        );
+        // prevents undefined constants errors
+        if (function_exists('http_get')) {
+            $methods = array(
+                Solarium_Client_Request::METHOD_GET  => array(
+                    'method' => HTTP_METH_GET,
+                    'support' => true
+                ),
+                Solarium_Client_Request::METHOD_POST => array(
+                    'method' => HTTP_METH_POST,
+                    'support' => true
+                ),
+                Solarium_Client_Request::METHOD_HEAD => array(
+                    'method' => HTTP_METH_HEAD,
+                    'support' => true
+                ),
+                'PUT'                                => array(
+                    'method' => HTTP_METH_PUT,
+                    'support' => false
+                ),
+                'DELETE'                             => array(
+                    'method' => HTTP_METH_DELETE,
+                    'support' => false
+                ),
+            );
 
-        foreach ($methods as $method => $options) {
-            $request = new Solarium_Client_Request;
-            $request->setMethod($method);
-            $data[] = array_merge(array($request), $options);
+            foreach ($methods as $method => $options) {
+                $request = new Solarium_Client_Request;
+                $request->setMethod($method);
+                $data[] = array_merge(array($request), $options);
+            }
+
+            return $data;
         }
-
-        return $data;
     }
 
     public function testToHttpRequestWithHeaders()
