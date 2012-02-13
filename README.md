@@ -23,4 +23,4 @@ http://api.solarium-project.org/
 ## Travis Continuous Integration status
 
 * Develop branch [![Develop build status](https://secure.travis-ci.org/basdenooijer/solarium.png?branch=develop)](http://travis-ci.org/basdenooijer/solarium)
-* Master branch [![Develop build status](https://secure.travis-ci.org/basdenooijer/solarium.png?branch=develop)](http://travis-ci.org/basdenooijer/solarium)
+* Master branch [![Develop build status](https://secure.travis-ci.org/basdenooijer/solarium.png?branch=master)](http://travis-ci.org/basdenooijer/solarium)
