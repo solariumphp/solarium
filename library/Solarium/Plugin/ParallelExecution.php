@@ -48,9 +48,66 @@
  * @subpackage Plugin
  */
 
-// @codeCoverageIgnoreStart
 class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
 {
+
+    /**
+     * Default options
+     *
+     * @var array
+     */
+    protected $_options = array(
+        'curlmultiselecttimeout' => 0.1,
+    );
+
+    /**
+     * Queries (and optionally clients) to execute
+     *
+     * @var array
+     */
+    protected $_queries = array();
+
+    /**
+     * Add a query to execute
+     *
+     * @param string $key
+     * @param Solarium_Query $query
+     * @param null|Solarium_Client $client
+     * @return Solarium_Plugin_ParallelExecution
+     */
+    public function addQuery($key, $query, $client = null)
+    {
+        if($client == null) $client = $this->_client;
+
+        $this->_queries[$key] = array(
+            'query' => $query,
+            'client' => $client,
+        );
+
+        return $this;
+    }
+
+    /**
+     * Get queries (and coupled client instances)
+     *
+     * @return array
+     */
+    public function getQueries()
+    {
+        return $this->_queries;
+    }
+
+    /**
+     * Clear all queries
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearQueries() {
+        $this->_queries = array();
+        return $this;
+    }
+
+    // @codeCoverageIgnoreStart
 
     /**
      * Execute queries parallel
@@ -58,18 +115,24 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
      * Use an array of Solarium_Query objects as input. The keys of the array are important, as they are also used in
      * the result array. You can mix all querytypes in the input array.
      *
-     * @param array $queries
+     * @param array $queries (deprecated, use addQuery instead)
      * @return array
      */
-    public function execute($queries)
+    public function execute($queries = null)
     {
-        $adapter = $this->_client->setAdapter('Solarium_Client_Adapter_Curl')->getAdapter();
+        // this is for backwards compatibility
+        if(is_array($queries)) {
+            foreach ($queries as $key => $query) {
+                $this->addQuery($key, $query);
+            }
+        }
 
         // create handles and add all handles to the multihandle
         $multiHandle = curl_multi_init();
         $handles = array();
-        foreach ($queries as $key => $query) {
-            $request = $this->_client->createRequest($query);
+        foreach ($this->_queries as $key => $data) {
+            $request = $this->_client->createRequest($data['query']);
+            $adapter = $data['client']->setAdapter('Solarium_Client_Adapter_Curl')->getAdapter();
             $handle = $adapter->createHandle($request);
             curl_multi_add_handle($multiHandle, $handle);
             $handles[$key] = $handle;
@@ -77,9 +140,20 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
 
         // executing multihandle (all requests)
         $this->_client->triggerEvent('ParallelExecutionStart');
+
         do {
-            curl_multi_exec($multiHandle, $running);
-        } while($running > 0);
+            $mrc = curl_multi_exec($multiHandle, $active);
+        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+
+        $timeout = $this->getOption('curlmultiselecttimeout');
+        while ($active && $mrc == CURLM_OK) {
+            if (curl_multi_select($multiHandle, $timeout) != -1) {
+                do {
+                    $mrc = curl_multi_exec($multiHandle, $active);
+                } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            }
+        }
+
         $this->_client->triggerEvent('ParallelExecutionEnd');
 
         // get the results
@@ -88,7 +162,7 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
             try {
                 curl_multi_remove_handle($multiHandle, $handle);
                 $response = $adapter->getResponse($handle, curl_multi_getcontent($handle));
-                $results[$key] = $this->_client->createResult($queries[$key], $response);
+                $results[$key] = $this->_client->createResult($this->_queries[$key]['query'], $response);
             } catch(Solarium_Client_HttpException $e) {
                 $results[$key] = $e;
             }
@@ -99,5 +173,5 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
         return $results;
     }
 
+    // @codeCoverageIgnoreEnd
 }
-// @codeCoverageIgnoreEnd
