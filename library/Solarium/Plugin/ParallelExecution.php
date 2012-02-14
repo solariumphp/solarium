@@ -102,7 +102,8 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
      *
      * @return self Provides fluent interface
      */
-    public function clearQueries() {
+    public function clearQueries()
+    {
         $this->_queries = array();
         return $this;
     }
@@ -121,7 +122,7 @@ class Solarium_Plugin_ParallelExecution extends Solarium_Plugin_Abstract
     public function execute($queries = null)
     {
         // this is for backwards compatibility
-        if(is_array($queries)) {
+        if (is_array($queries)) {
             foreach ($queries as $key => $query) {
                 $this->addQuery($key, $query);
             }

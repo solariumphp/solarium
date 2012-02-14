@@ -112,14 +112,16 @@ class Solarium_Client_ResponseParser_Analysis_Field extends Solarium_Client_Resp
 
                     if (is_string($analysis)) {
 
-                        $item = new Solarium_Result_Analysis_Item(array(
-                            'text' => $analysis,
-                            'start' => null,
-                            'end' => null,
-                            'position' => null,
-                            'positionHistory' => null,
-                            'type' => null,
-                        ));
+                        $item = new Solarium_Result_Analysis_Item(
+                            array(
+                                'text' => $analysis,
+                                'start' => null,
+                                'end' => null,
+                                'position' => null,
+                                'positionHistory' => null,
+                                'type' => null,
+                            )
+                        );
 
                         $classes[] = new Solarium_Result_Analysis_List($class, array($item));
 
