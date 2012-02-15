@@ -118,14 +118,16 @@ class Field extends \Solarium\Client\ResponseParser\ResponseParser
 
                     if (is_string($analysis)) {
 
-                        $item = new Analysis\Item(array(
-                            'text' => $analysis,
-                            'start' => null,
-                            'end' => null,
-                            'position' => null,
-                            'positionHistory' => null,
-                            'type' => null,
-                        ));
+                        $item = new Analysis\Item(
+                            array(
+                                'text' => $analysis,
+                                'start' => null,
+                                'end' => null,
+                                'position' => null,
+                                'positionHistory' => null,
+                                'type' => null,
+                            )
+                        );
 
                         $classes[] = new Analysis\ResultList($class, array($item));
 

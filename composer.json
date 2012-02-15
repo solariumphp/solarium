@@ -2,18 +2,14 @@
     "name": "solarium/solarium",
     "type": "library",
     "description": "PHP Solr client",
-    "keywords": ["solr", "search"],
+    "keywords": ["solr", "search", "php"],
     "homepage": "http://www.solarium-project.org",
-    "version": "2.3.0",
+    "version": "3.0.0",
     "license": "NewBSD",
     "authors": [
         {
-            "name": "Bas de Nooijer",
-            "email": "github@raspberry.nl"
-        },
-        {
-            "name": "Gasol Wu",
-            "email": "gasol.wu@gmail.com"
+            "name": "See GitHub contributors",
+            "homepage": "https://github.com/basdenooijer/solarium/contributors"
         }
     ],
     "require": {

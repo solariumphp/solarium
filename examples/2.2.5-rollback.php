@@ -15,7 +15,7 @@ $update->addRollback();
 // this executes the query and returns the result
 $result = $client->update($update);
 
-echo '<b>Update query executed<b><br/>';
+echo '<b>Update query executed</b><br/>';
 echo 'Query status: ' . $result->getStatus(). '<br/>';
 echo 'Query time: ' . $result->getQueryTime();
 
