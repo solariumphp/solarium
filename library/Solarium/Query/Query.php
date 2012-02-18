@@ -40,6 +40,8 @@
  * @namespace
  */
 namespace Solarium\Query;
+use Solarium\Query\Helper;
+use Solarium\Configurable;
 
 /**
  * Base class for all query types, not intended for direct usage
@@ -47,13 +49,13 @@ namespace Solarium\Query;
  * @package Solarium
  * @subpackage Query
  */
-abstract class Query extends \Solarium\Configurable
+abstract class Query extends Configurable
 {
 
     /**
      * Helper instance
      *
-     * @var Solarium\Query\Helper
+     * @var Helper
      */
     protected $_helper;
 
@@ -75,7 +77,7 @@ abstract class Query extends \Solarium\Configurable
      * Set handler option
      *
      * @param string $handler
-     * @return Solarium\Query Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setHandler($handler)
     {
@@ -103,7 +105,7 @@ abstract class Query extends \Solarium\Configurable
      * query or has an identical API.
      *
      * @param string $classname
-     * @return Solarium\Query Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setResultClass($classname)
     {
@@ -125,7 +127,7 @@ abstract class Query extends \Solarium\Configurable
      *
      * Uses lazy loading: the helper is instantiated on first use
      *
-     * @return Solarium\Query\Helper
+     * @return Helper
      */
     public function getHelper()
     {

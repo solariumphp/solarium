@@ -40,6 +40,7 @@
  * @namespace
  */
 namespace Solarium\Result;
+use Solarium;
 
 /**
  * QueryType result
@@ -61,7 +62,7 @@ class QueryType extends Result
      * Parse response into result objects
      *
      * Only runs once
-     * 
+     *
      * @return void
      */
     protected function _parseResponse()
@@ -70,7 +71,7 @@ class QueryType extends Result
             $queryType = $this->_query->getType();
             $queryTypes = $this->_client->getQueryTypes();
             if (!isset($queryTypes[$queryType])) {
-                throw new \Solarium\Exception('No responseparser registered for querytype: '. $queryType);
+                throw new Solarium\Exception('No responseparser registered for querytype: '. $queryType);
             }
 
             $responseParserClass = $queryTypes[$queryType]['responseparser'];
@@ -93,5 +94,5 @@ class QueryType extends Result
             $this->{'_'.$key} = $data;
         }
     }
-    
+
 }

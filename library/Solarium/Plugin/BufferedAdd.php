@@ -33,6 +33,7 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Plugin
  */
 
 /**
@@ -40,6 +41,9 @@
  */
 namespace Solarium\Plugin;
 use Solarium\Client;
+use Solarium\QueryType\Update\Result as UpdateResult;
+use Solarium\QueryType\Update\Query as UpdateQuery;
+use Solarium\Document\ReadOnly as ReadOnlyDocument;
 
 /**
  * Buffered add plugin
@@ -65,7 +69,7 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Update query instance
      *
-     * @var Solarium_Query_Update
+     * @var UpdateQuery
      */
     protected $_updateQuery;
 
@@ -93,7 +97,7 @@ class BufferedAdd extends AbstractPlugin
      * Set buffer size option
      *
      * @param int $size
-     * @return Solarium_Configurable
+     * @return self
      */
     public function setBufferSize($size)
     {
@@ -128,7 +132,7 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Add a document
      *
-     * @param Solarium\Document\ReadOnly $document
+     * @param ReadOnlyDocument $document
      * @return self Provides fluent interface
      */
     public function addDocument($document)
@@ -185,7 +189,7 @@ class BufferedAdd extends AbstractPlugin
      *
      * @param boolean $overwrite
      * @param int $commitWithin
-     * @return boolean|Solarium\Result\Update
+     * @return boolean|UpdateResult
      */
     public function flush($overwrite = null, $commitWithin = null)
     {
@@ -214,7 +218,7 @@ class BufferedAdd extends AbstractPlugin
      * @param boolean $waitFlush
      * @param boolean $waitSearcher
      * @param boolean $expungeDeletes
-     * @return Solarium\Result\Update
+     * @return UpdateResult
      */
     public function commit($overwrite = null, $waitFlush = null, $waitSearcher = null, $expungeDeletes = null)
     {

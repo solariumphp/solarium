@@ -31,87 +31,385 @@
 
 namespace Solarium\Tests\Plugin\CustomizeRequest;
 
-class CustomizationTest extends \PHPUnit_Framework_TestCase
+class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
-     * @var Solarium\Plugin\CustomizeRequest\Customization
+     * @var Solarium\Plugin\CustomizeRequest
      */
-    protected $_instance;
+    protected $_plugin;
 
     public function setUp()
     {
-        $this->_instance = new \Solarium\Plugin\CustomizeRequest\Customization();
+        $this->_plugin = new \Solarium\Plugin\CustomizeRequest\CustomizeRequest();
     }
 
-    public function testSetAndGetKey()
+    public function testConfigMode()
     {
-        $value = 'mykey';
-        $this->_instance->setKey($value);
-        $this->assertEquals($value, $this->_instance->getKey());
+        $options = array(
+            'customization' => array(
+                array(
+                    'key' => 'auth',
+                    'type' => 'header',
+                    'name' => 'X-my-auth',
+                    'value' => 'mypassword',
+                    'persistent' => true
+                ),
+                'id' => array(
+                    'type' => 'param',
+                    'name' => 'id',
+                    'value' => '1234',
+                    'persistent' => false,
+                    'overwrite' => false,
+                ),
+            )
+        );
+
+        $this->_plugin->setOptions($options);
+
+        $auth = $this->_plugin->getCustomization('auth');
+        $id = $this->_plugin->getCustomization('id');
+
+        $this->assertThat($auth, $this->isInstanceOf('Solarium\Plugin\CustomizeRequest\Customization'));
+        $this->assertEquals('auth', $auth->getKey());
+        $this->assertEquals('header', $auth->getType());
+        $this->assertEquals('X-my-auth', $auth->getName());
+        $this->assertEquals('mypassword', $auth->getValue());
+        $this->assertEquals(true, $auth->getPersistent());
+
+        $this->assertThat($id, $this->isInstanceOf('Solarium\Plugin\CustomizeRequest\Customization'));
+        $this->assertEquals('id', $id->getKey());
+        $this->assertEquals('param', $id->getType());
+        $this->assertEquals('id', $id->getName());
+        $this->assertEquals('1234', $id->getValue());
+        $this->assertEquals(false, $id->getPersistent());
+        $this->assertEquals(false, $id->getOverwrite());
     }
 
-    public function testSetAndGetName()
+    public function testCreateCustomization()
     {
-        $value = 'myname';
-        $this->_instance->setName($value);
-        $this->assertEquals($value, $this->_instance->getName());
+        $customization = $this->_plugin->createCustomization('id1');
+
+        $this->assertEquals(
+            $customization,
+            $this->_plugin->getCustomization('id1')
+        );
     }
 
-    public function testSetAndGetType()
+    public function testCreateCustomizationWithArray()
     {
-        $value = 'mytype';
-        $this->_instance->setType($value);
-        $this->assertEquals($value, $this->_instance->getType());
+        $input = array(
+            'key' => 'auth',
+            'type' => 'header',
+            'name' => 'X-my-auth',
+            'value' => 'mypassword',
+            'persistent' => true
+        );
+        $customization = $this->_plugin->createCustomization($input);
+
+        $this->assertEquals($customization, $this->_plugin->getCustomization('auth'));
+        $this->assertEquals($input['key'], $customization->getKey());
+        $this->assertEquals($input['type'], $customization->getType());
+        $this->assertEquals($input['name'], $customization->getName());
+        $this->assertEquals($input['value'], $customization->getValue());
+        $this->assertEquals($input['persistent'], $customization->getPersistent());
     }
 
-    public function testSetAndGetValue()
+    public function testAddAndGetCustomization()
     {
-        $value = 'myvalue';
-        $this->_instance->setValue($value);
-        $this->assertEquals($value, $this->_instance->getValue());
+        $customization = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization->setKey('id1');
+        $this->_plugin->addCustomization($customization);
+
+        $this->assertEquals(
+            $customization,
+            $this->_plugin->getCustomization('id1')
+        );
     }
 
-    public function testSetAndGetPersistence()
+    public function testAddAndGetCustomizationWithKey()
     {
-        $value = true;
-        $this->_instance->setPersistent($value);
-        $this->assertEquals($value, $this->_instance->getPersistent());
+        $key = 'id1';
+
+        $customization = $this->_plugin->createCustomization($key);
+
+        $this->assertEquals(
+            $key,
+            $customization->getKey()
+        );
+
+        $this->assertEquals(
+            $customization,
+            $this->_plugin->getCustomization($key)
+        );
     }
 
-    public function testSetAndGetOverwrite()
+    public function testAddCustomizationWithoutKey()
     {
-        $value = false;
-        $this->_instance->setOverwrite($value);
-        $this->assertEquals($value, $this->_instance->getOverwrite());
+        $customization = new \Solarium\Plugin\CustomizeRequest\Customization;;
+
+        $this->setExpectedException('Solarium\Exception');
+        $this->_plugin->addCustomization($customization);
     }
 
-    public function testIsValid()
+    public function testAddCustomizationWithUsedKey()
     {
-        $this->_instance->setKey('mykey');
-        $this->_instance->setType('param');
-        $this->_instance->setName('myname');
-        $this->_instance->setValue('myvalue');
-        $this->assertTrue($this->_instance->isValid());
+        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1->setKey('id1')->setName('test1');
+
+        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2->setKey('id1')->setName('test2');
+
+        $this->_plugin->addCustomization($customization1);
+        $this->setExpectedException('Solarium\Exception');
+        $this->_plugin->addCustomization($customization2);
     }
 
-    public function testIsValidWithInvalidType()
+    public function testAddDuplicateCustomizationWith()
     {
-        $this->_instance->setKey('mykey');
-        $this->_instance->setType('mytype');
-        $this->_instance->setName('myname');
-        $this->_instance->setValue('myvalue');
+        $customization = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization->setKey('id1')->setName('test1');
 
-        $this->assertFalse($this->_instance->isValid());
+        $this->_plugin->addCustomization($customization);
+        $this->_plugin->addCustomization($customization);
+
+        $this->assertEquals(
+            $customization,
+            $this->_plugin->getCustomization('id1')
+        );
     }
 
-    public function testIsValidWithMissingValue()
+    public function testGetInvalidCustomization()
     {
-        $this->_instance->setKey('mykey');
-        $this->_instance->setType('param');
-        $this->_instance->setName('myname');
+        $this->assertEquals(
+            null,
+            $this->_plugin->getCustomization('invalidkey')
+        );
+    }
 
-        $this->assertFalse($this->_instance->isValid());
+    public function testAddCustomizations()
+    {
+        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1->setKey('id1')->setName('test1');
+
+        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2->setKey('id2')->setName('test2');
+
+        $customizations = array('id1' => $customization1, 'id2' => $customization2);
+
+        $this->_plugin->addCustomizations($customizations);
+        $this->assertEquals(
+            $customizations,
+            $this->_plugin->getCustomizations()
+        );
+    }
+
+    public function testRemoveCustomization()
+    {
+        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1->setKey('id1')->setName('test1');
+
+        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2->setKey('id2')->setName('test2');
+
+        $customizations = array($customization1, $customization2);
+
+        $this->_plugin->addCustomizations($customizations);
+        $this->_plugin->removeCustomization('id1');
+        $this->assertEquals(
+            array('id2' => $customization2),
+            $this->_plugin->getCustomizations()
+        );
+    }
+
+    public function testRemoveCustomizationWithObjectInput()
+    {
+        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1->setKey('id1')->setName('test1');
+
+        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2->setKey('id2')->setName('test2');
+
+        $customizations = array($customization1, $customization2);
+
+        $this->_plugin->addCustomizations($customizations);
+        $this->_plugin->removeCustomization($customization1);
+        $this->assertEquals(
+            array('id2' => $customization2),
+            $this->_plugin->getCustomizations()
+        );
+    }
+
+    public function testRemoveInvalidCustomization()
+    {
+        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1->setKey('id1')->setName('test1');
+
+        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2->setKey('id2')->setName('test2');
+
+        $customizations = array('id1' => $customization1, 'id2' => $customization2);
+
+        $this->_plugin->addCustomizations($customizations);
+        $this->_plugin->removeCustomization('id3'); //continue silently
+        $this->assertEquals(
+            $customizations,
+            $this->_plugin->getCustomizations()
+        );
+    }
+
+    public function testClearCustomizations()
+    {
+        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1->setKey('id1')->setName('test1');
+
+        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2->setKey('id2')->setName('test2');
+
+        $customizations = array($customization1, $customization2);
+
+        $this->_plugin->addCustomizations($customizations);
+        $this->_plugin->clearCustomizations();
+        $this->assertEquals(
+            array(),
+            $this->_plugin->getCustomizations()
+        );
+    }
+
+    public function testSetCustomizations()
+    {
+        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1->setKey('id1')->setName('test1');
+
+        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2->setKey('id2')->setName('test2');
+
+        $customizations1 = array('id1' => $customization1, 'id2' => $customization2);
+
+        $this->_plugin->addCustomizations($customizations1);
+
+        $customization3 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization3->setKey('id3')->setName('test3');
+
+        $customization4 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization4->setKey('id4')->setName('test4');
+
+        $customizations2 = array('id3' => $customization3, 'id4' => $customization4);
+
+        $this->_plugin->setCustomizations($customizations2);
+
+        $this->assertEquals(
+            $customizations2,
+            $this->_plugin->getCustomizations()
+        );
+    }
+
+    public function testPostCreateRequestWithHeaderAndParam()
+    {
+        $input = array(
+                    'key' => 'xid',
+                    'type' => 'param',
+                    'name' => 'xid',
+                    'value' => 123,
+                );
+        $this->_plugin->addCustomization($input);
+
+        $input = array(
+                    'key' => 'auth',
+                    'type' => 'header',
+                    'name' => 'X-my-auth',
+                    'value' => 'mypassword',
+                    'persistent' => true
+                );
+        $this->_plugin->addCustomization($input);
+
+        $request = new \Solarium\Client\Request();
+        $this->_plugin->postCreateRequest(null, $request);
+
+        $this->assertEquals(
+            123,
+            $request->getParam('xid')
+        );
+
+        $this->assertEquals(
+            array('X-my-auth: mypassword'),
+            $request->getHeaders()
+        );
+    }
+
+    public function testPostCreateRequestWithInvalidCustomization()
+    {
+        $input = array(
+            'key' => 'xid',
+            'type' => 'invalid',
+            'name' => 'xid',
+            'value' => 123,
+        );
+        $this->_plugin->addCustomization($input);
+
+        $request = new \Solarium\Client\Request();
+
+        $this->setExpectedException('Solarium\Exception');
+        $this->_plugin->postCreateRequest(null, $request);
+    }
+
+    public function testPostCreateRequestWithoutCustomizations()
+    {
+        $request = new \Solarium\Client\Request();
+        $originalRequest = clone $request;
+
+        $this->_plugin->postCreateRequest(null, $request);
+
+        $this->assertEquals(
+            $originalRequest,
+            $request
+        );
+    }
+
+    public function testPostCreateRequestWithPersistentAndNonPersistentCustomizations()
+    {
+        $input = array(
+                    'key' => 'xid',
+                    'type' => 'param',
+                    'name' => 'xid',
+                    'value' => 123,
+                );
+        $this->_plugin->addCustomization($input);
+
+        $input = array(
+                    'key' => 'auth',
+                    'type' => 'header',
+                    'name' => 'X-my-auth',
+                    'value' => 'mypassword',
+                    'persistent' => true
+                );
+        $this->_plugin->addCustomization($input);
+
+        $request = new \Solarium\Client\Request();
+        $this->_plugin->postCreateRequest(null, $request);
+
+        $this->assertEquals(
+            123,
+            $request->getParam('xid')
+        );
+
+        $this->assertEquals(
+            array('X-my-auth: mypassword'),
+            $request->getHeaders()
+        );
+
+        // second use, only the header should be persistent
+        $request = new \Solarium\Client\Request();
+        $this->_plugin->postCreateRequest(null, $request);
+
+        $this->assertEquals(
+            null,
+            $request->getParam('xid')
+        );
+
+        $this->assertEquals(
+            array('X-my-auth: mypassword'),
+            $request->getHeaders()
+        );
     }
 
 }

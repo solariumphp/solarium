@@ -122,7 +122,7 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
 }
 
 
-class SelectDummy extends \Solarium\Result\Select\Select
+class SelectDummy extends \Solarium\QueryType\Select\Result\Result
 {
     protected $_parsed = true;
 

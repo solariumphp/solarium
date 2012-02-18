@@ -45,7 +45,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_query = new \Solarium\Query\Select\Select;
+        $this->_query = new \Solarium\QueryType\Select\Query\Query;
         $this->_helper = new \Solarium\Query\Helper($this->_query);
     }
 

@@ -41,6 +41,10 @@
  */
 namespace Solarium\Client;
 use Solarium;
+use Solarium\Configurable;
+use Solarium\Plugin\AbstractPlugin;
+use Solarium\Query\Query;
+use Solarium\Result\Result;
 
 /**
  * Main interface for interaction with Solr
@@ -60,7 +64,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Client
  */
-class Client extends Solarium\Configurable
+class Client extends Configurable
 {
 
     /**
@@ -119,44 +123,44 @@ class Client extends Solarium\Configurable
      */
     protected $_queryTypes = array(
         self::QUERYTYPE_SELECT => array(
-            'query'          => 'Solarium\Query\Select\Select',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Select',
-            'responseparser' => 'Solarium\Client\ResponseParser\Select\Select'
+            'query'          => 'Solarium\QueryType\Select\Query\Query',
+            'requestbuilder' => 'Solarium\QueryType\Select\RequestBuilder\RequestBuilder',
+            'responseparser' => 'Solarium\QueryType\Select\ResponseParser\ResponseParser'
         ),
         self::QUERYTYPE_UPDATE => array(
-            'query'          => 'Solarium\Query\Update\Update',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Update',
-            'responseparser' => 'Solarium\Client\ResponseParser\Update'
+            'query'          => 'Solarium\QueryType\Update\Query\Query',
+            'requestbuilder' => 'Solarium\QueryType\Update\RequestBuilder',
+            'responseparser' => 'Solarium\QueryType\Update\ResponseParser'
         ),
         self::QUERYTYPE_PING => array(
-            'query'          => 'Solarium\Query\Ping',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Ping',
-            'responseparser' => 'Solarium\Client\ResponseParser\Ping'
+            'query'          => 'Solarium\QueryType\Ping\Query',
+            'requestbuilder' => 'Solarium\QueryType\Ping\RequestBuilder',
+            'responseparser' => 'Solarium\QueryType\Ping\ResponseParser'
         ),
         self::QUERYTYPE_MORELIKETHIS => array(
-            'query'           => 'Solarium\Query\MoreLikeThis',
-            'requestbuilder'  => 'Solarium\Client\RequestBuilder\MoreLikeThis',
-            'responseparser'  => 'Solarium\Client\ResponseParser\MoreLikeThis'
+            'query'           => 'Solarium\QueryType\MoreLikeThis\Query',
+            'requestbuilder'  => 'Solarium\QueryType\MoreLikeThis\RequestBuilder',
+            'responseparser'  => 'Solarium\QueryType\MoreLikeThis\ResponseParser'
         ),
         self::QUERYTYPE_ANALYSIS_DOCUMENT => array(
-            'query'          => 'Solarium\Query\Analysis\Document',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Analysis\Document',
-            'responseparser' => 'Solarium\Client\ResponseParser\Analysis\Document'
+            'query'          => 'Solarium\QueryType\Analysis\Query\Document',
+            'requestbuilder' => 'Solarium\QueryType\Analysis\RequestBuilder\Document',
+            'responseparser' => 'Solarium\QueryType\Analysis\ResponseParser\Document'
         ),
         self::QUERYTYPE_ANALYSIS_FIELD => array(
-            'query'          => 'Solarium\Query\Analysis\Field',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Analysis\Field',
-            'responseparser' => 'Solarium\Client\ResponseParser\Analysis\Field'
+            'query'          => 'Solarium\QueryType\Analysis\Query\Field',
+            'requestbuilder' => 'Solarium\QueryType\Analysis\RequestBuilder\Field',
+            'responseparser' => 'Solarium\QueryType\Analysis\ResponseParser\Field'
         ),
         self::QUERYTYPE_TERMS => array(
-            'query'          => 'Solarium\Query\Terms',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Terms',
-            'responseparser' => 'Solarium\Client\ResponseParser\Terms'
+            'query'          => 'Solarium\QueryType\Terms\Query',
+            'requestbuilder' => 'Solarium\QueryType\Terms\RequestBuilder',
+            'responseparser' => 'Solarium\QueryType\Terms\ResponseParser'
         ),
         self::QUERYTYPE_SUGGESTER => array(
-            'query'          => 'Solarium\Query\Suggester',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Suggester',
-            'responseparser' => 'Solarium\Client\ResponseParser\Suggester'
+            'query'          => 'Solarium\QueryType\Suggester\Query',
+            'requestbuilder' => 'Solarium\QueryType\Suggester\RequestBuilder',
+            'responseparser' => 'Solarium\QueryType\Suggester\ResponseParser'
         ),
     );
 
@@ -191,7 +195,7 @@ class Client extends Solarium\Configurable
      * on first use by {@link getAdapter()} based on the 'adapter' entry in
      * {@link $_options}. This option can be set using {@link setAdapter()}
      *
-     * @var Solarium\Client\Adapter
+     * @var Adapter\Adapter
      */
     protected $_adapter;
 
@@ -235,8 +239,8 @@ class Client extends Solarium\Configurable
      * If an adapter instance is passed it will replace the current adapter
      * immediately, bypassing the lazy loading.
      *
-     * @param string|Solarium\Client\Adapter $adapter
-     * @return \Solarium\Client\Client Provides fluent interface
+     * @param string|Adapter\Adapter $adapter
+     * @return self Provides fluent interface
      */
     public function setAdapter($adapter)
     {
@@ -279,7 +283,7 @@ class Client extends Solarium\Configurable
      * calling {@see _createAdapter()}
      *
      * @param boolean $autoload
-     * @return Solarium\Client\Adapter\Adapter
+     * @return Adapter\Adapter
      */
     public function getAdapter($autoload = true)
     {
@@ -301,7 +305,7 @@ class Client extends Solarium\Configurable
      * @param string $query
      * @param string|object $requestBuilder
      * @param string|object $responseParser
-     * @return Solarium\Client Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function registerQueryType($type, $query, $requestBuilder, $responseParser)
     {
@@ -318,7 +322,7 @@ class Client extends Solarium\Configurable
      * Register multiple querytypes
      *
      * @param array $queryTypes
-     * @return Solarium\Client Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function registerQueryTypes($queryTypes)
     {
@@ -353,9 +357,9 @@ class Client extends Solarium\Configurable
      * or a manual require.
      *
      * @param string $key
-     * @param string|Solarium\PluginAbstractPlugin $plugin
+     * @param string|AbstractPlugin $plugin
      * @param array $options
-     * @return Solarium\Client Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function registerPlugin($key, $plugin, $options = array())
     {
@@ -365,7 +369,7 @@ class Client extends Solarium\Configurable
         }
 
         if (!($plugin instanceof Solarium\Plugin\AbstractPlugin)) {
-           throw new \Solarium\Exception('All plugins must extend Solarium\PluginAbstractPlugin');
+           throw new Solarium\Exception('All plugins must extend Solarium\PluginAbstractPlugin');
         }
 
         $plugin->init($this, $options);
@@ -379,7 +383,7 @@ class Client extends Solarium\Configurable
      * Register multiple plugins
      *
      * @param array $plugins
-     * @return Solarium\Client Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function registerPlugins($plugins)
     {
@@ -412,7 +416,7 @@ class Client extends Solarium\Configurable
      *
      * @param string $key
      * @param boolean $autocreate
-     * @return Solarium\PluginAbstractPlugin|null
+     * @return Plugin\AbstractPlugin|null
      */
     public function getPlugin($key, $autocreate = true)
     {
@@ -423,7 +427,7 @@ class Client extends Solarium\Configurable
                 $this->registerPlugin($key, $this->_pluginTypes[$key]);
                 return $this->_pluginInstances[$key];
             } else {
-                throw new \Solarium\Exception('Cannot autoload plugin of unknown type: ' . $key);
+                throw new Solarium\Exception('Cannot autoload plugin of unknown type: ' . $key);
             }
         } else {
             return null;
@@ -435,8 +439,8 @@ class Client extends Solarium\Configurable
      *
      * You can remove a plugin by passing the plugin key, or the plugin instance
      *
-     * @param string|Solarium\PluginAbstractPlugin $plugin
-     * @return Solarium\Client Provides fluent interface
+     * @param string|AbstractPlugin $plugin
+     * @return self Provides fluent interface
      */
     public function removePlugin($plugin)
     {
@@ -502,8 +506,8 @@ class Client extends Solarium\Configurable
     /**
      * Creates a request based on a query instance
      *
-     * @param Solarium\Query $query
-     * @return Solarium\Client\Request
+     * @param Query $query
+     * @return Request
      */
     public function createRequest($query)
     {
@@ -512,7 +516,7 @@ class Client extends Solarium\Configurable
 
         $queryType = $query->getType();
         if (!isset($this->_queryTypes[$queryType])) {
-            throw new \Solarium\Exception('No requestbuilder registered for querytype: '. $queryType);
+            throw new Solarium\Exception('No requestbuilder registered for querytype: '. $queryType);
         }
 
         $requestBuilder = $this->_queryTypes[$queryType]['requestbuilder'];
@@ -529,9 +533,9 @@ class Client extends Solarium\Configurable
     /**
      * Creates a result object
      *
-     * @param Solarium\Query $query
-     * @param array Solarium\Client\Response $response
-     * @return Solarium\Result
+     * @param Query $query
+     * @param array Response $response
+     * @return Result
      */
     public function createResult($query, $response)
     {
@@ -549,8 +553,8 @@ class Client extends Solarium\Configurable
     /**
      * Execute a query
      *
-     * @param Solarium\Query
-     * @return Solarium\Result
+     * @param Query
+     * @return Result
      */
     public function execute($query)
     {
@@ -569,8 +573,8 @@ class Client extends Solarium\Configurable
     /**
      * Execute a request and return the response
      *
-     * @param Solarium\Client\Request
-     * @return Solarium\Client\Response
+     * @param Request
+     * @return Response
      */
     public function executeRequest($request)
     {
@@ -601,8 +605,8 @@ class Client extends Solarium\Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Ping $query
-     * @return Solarium\Result\Ping
+     * @param Solarium\QueryType\Ping\Query $query
+     * @return Solarium\QueryType\Ping\Result
      */
     public function ping($query)
     {
@@ -626,8 +630,8 @@ class Client extends Solarium\Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Update $query
-     * @return Solarium\Result\Update
+     * @param Solarium\QueryType\Update\Query $query
+     * @return Solarium\QueryType\Update\Result
      */
     public function update($query)
     {
@@ -650,8 +654,8 @@ class Client extends Solarium\Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Select $query
-     * @return Solarium\Result\Select
+     * @param Solarium\QueryType\Query\Select\Query $query
+     * @return Solarium\QueryType\Result\Select\Result
      */
     public function select($query)
     {
@@ -674,8 +678,8 @@ class Client extends Solarium\Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\MoreLikeThis $query
-     * @return Solarium\Result\MoreLikeThis
+     * @param Solarium\QueryType\MoreLikeThis\Query $query
+     * @return Solarium\QueryType\MoreLikeThis\Result
      */
     public function moreLikeThis($query)
     {
@@ -688,8 +692,8 @@ class Client extends Solarium\Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Analysis\Document|Solarium\Query\Analysis\Field $query
-     * @return Solarium\Result\Analysis\Document|Solarium\Result\Analysis\Field
+     * @param Solarium\QueryType\Analysis\Query\Document|Solarium\QueryType\Analysis\Query\Field $query
+     * @return Solarium\QueryType\Analysis\Result\Document|Solarium\QueryType\Analysis\Result\Field
      */
     public function analyze($query)
     {
@@ -702,8 +706,8 @@ class Client extends Solarium\Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Terms $query
-     * @return Solarium\Result\Terms
+     * @param Solarium\QueryType\Terms\Query $query
+     * @return Solarium\QueryType\Terms\Result
      */
     public function terms($query)
     {
@@ -716,8 +720,8 @@ class Client extends Solarium\Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Suggester $query
-     * @return Solarium\Result\Suggester
+     * @param Solarium\QueryType\Suggester\Query $query
+     * @return Solarium\QueryType\Suggester\Result
      */
     public function suggester($query)
     {
@@ -739,7 +743,7 @@ class Client extends Solarium\Configurable
         if($pluginResult !== null) return $pluginResult;
 
         if (!isset($this->_queryTypes[$type])) {
-            throw new \Solarium\Exception('Unknown querytype: '. $type);
+            throw new Solarium\Exception('Unknown querytype: '. $type);
         }
 
         $class = $this->_queryTypes[$type]['query'];
@@ -754,7 +758,7 @@ class Client extends Solarium\Configurable
      * Create a select query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Select
+     * @return Solarium\QueryType\Select\Query\Query
      */
     public function createSelect($options = null)
     {
@@ -765,7 +769,7 @@ class Client extends Solarium\Configurable
      * Create a MoreLikeThis query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\MoreLikeThis
+     * @return Solarium\QueryType\MorelikeThis\Query
      */
     public function createMoreLikeThis($options = null)
     {
@@ -776,7 +780,7 @@ class Client extends Solarium\Configurable
      * Create an update query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Update
+     * @return Solarium\QueryType\Update\Query
      */
     public function createUpdate($options = null)
     {
@@ -787,7 +791,7 @@ class Client extends Solarium\Configurable
      * Create a ping query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Ping
+     * @return Solarium\QueryType\Ping\Query
      */
     public function createPing($options = null)
     {
@@ -798,7 +802,7 @@ class Client extends Solarium\Configurable
      * Create an analysis field query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Analysis\Field
+     * @return Solarium\QueryType\Analysis\Query\Field
      */
     public function createAnalysisField($options = null)
     {
@@ -809,7 +813,7 @@ class Client extends Solarium\Configurable
      * Create an analysis document query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Analysis\Document
+     * @return Solarium\QueryType\Analysis\Query\Document
      */
     public function createAnalysisDocument($options = null)
     {
@@ -820,7 +824,7 @@ class Client extends Solarium\Configurable
      * Create a terms query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Terms
+     * @return Solarium\QueryType\Terms\Query
      */
     public function createTerms($options = null)
     {
@@ -831,7 +835,7 @@ class Client extends Solarium\Configurable
      * Create a suggester query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Suggester
+     * @return Solarium\QueryType\Suggester\Query
      */
     public function createSuggester($options = null)
     {

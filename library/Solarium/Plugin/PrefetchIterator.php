@@ -33,6 +33,7 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Plugin
  */
 
 /**
@@ -40,6 +41,8 @@
  */
 namespace Solarium\Plugin;
 use Solarium\Client;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Select\Result\Result as SelectResult;
 
 /**
  * Prefetch plugin
@@ -65,7 +68,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     /**
      * Query instance to execute
      *
-     * @var Solarium\Query\Select
+     * @var SelectQuery
      */
     protected $_query;
 
@@ -79,7 +82,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     /**
      * Last resultset from the query instance
      *
-     * @var Solarium\Result\Select
+     * @var SelectResult
      */
     protected $_result;
 
@@ -121,7 +124,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     /**
      * Set query to use for prefetching
      *
-     * @param Solarium\Query\Select $query
+     * @param SelectQuery $query
      * @return self Provides fluent interface
      */
     public function setQuery($query)
@@ -133,7 +136,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     /**
      * Get the query object used
      *
-     * @return Solarium\Query\Select
+     * @return SelectQuery
      */
     public function getQuery()
     {

@@ -33,6 +33,7 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Plugin
  */
 
 /**
@@ -40,6 +41,8 @@
  */
 namespace Solarium\Plugin;
 use Solarium\Client;
+use Solarium\Query\Query;
+use Solarium\Client\Request;
 
 /**
  * PostBigRequest plugin
@@ -90,17 +93,17 @@ class PostBigRequest extends AbstractPlugin
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param Solarium\Query $query
-     * @param Solarium\Client\Request $request
+     * @param Query $query
+     * @param Request $request
      * @return void
      */
     public function postCreateRequest($query, $request)
     {
         $queryString = $request->getQueryString();
-        if ($request->getMethod() == Client\Request::METHOD_GET &&
+        if ($request->getMethod() == Request::METHOD_GET &&
             strlen($queryString) > $this->getMaxQueryStringLength()) {
 
-            $request->setMethod(Client\Request::METHOD_POST);
+            $request->setMethod(Request::METHOD_POST);
             $request->setRawData($queryString);
             $request->clearParams();
             $request->addHeader('Content-Type: application/x-www-form-urlencoded');

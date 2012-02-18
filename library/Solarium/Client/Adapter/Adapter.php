@@ -40,6 +40,9 @@
  * @namespace
  */
 namespace Solarium\Client\Adapter;
+use Solarium\Configurable;
+use Solarium\Client\Request;
+use Solarium\Client\Response;
 
 /**
  * Base class for all adapters
@@ -60,7 +63,7 @@ namespace Solarium\Client\Adapter;
  * @package Solarium
  * @subpackage Client
  */
-abstract class Adapter extends \Solarium\Configurable
+abstract class Adapter extends Configurable
 {
     /**
      * Default options
@@ -99,7 +102,7 @@ abstract class Adapter extends \Solarium\Configurable
      * Set host option
      *
      * @param string $host This can be a hostname or an IP address
-     * @return Solarium\Client Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setHost($host)
     {
@@ -120,7 +123,7 @@ abstract class Adapter extends \Solarium\Configurable
      * Set port option
      *
      * @param int $port Common values are 80, 8080 and 8983
-     * @return Solarium\Client Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setPort($port)
     {
@@ -143,7 +146,7 @@ abstract class Adapter extends \Solarium\Configurable
      * If the path has a trailing slash it will be removed.
      *
      * @param string $path
-     * @return Solarium\Client Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setPath($path)
     {
@@ -166,7 +169,7 @@ abstract class Adapter extends \Solarium\Configurable
      * Set core option
      *
      * @param string $core
-     * @return Solarium\Client Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setCore($core)
     {
@@ -187,7 +190,7 @@ abstract class Adapter extends \Solarium\Configurable
      * Set timeout option
      *
      * @param int $timeout
-     * @return Solarium\Client Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setTimeout($timeout)
     {
@@ -210,8 +213,8 @@ abstract class Adapter extends \Solarium\Configurable
      * Abstract method to require an implementation inside all adapters.
      *
      * @abstract
-     * @param Solarium\Client\Request $request
-     * @return Solarium\Client\Response
+     * @param Request $request
+     * @return Response
      */
     abstract public function execute($request);
 

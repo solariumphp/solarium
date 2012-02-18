@@ -33,12 +33,19 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Plugin
  */
 
 /**
  * @namespace
  */
 namespace Solarium\Plugin;
+use Solarium\Client\Client;
+use Solarium\Configurable;
+use Solarium\Query\Query;
+use Solarium\Client\Request;
+use Solarium\Client\Response;
+use Solarium\Result\Result;
 
 /**
  * Base class for plugins
@@ -46,13 +53,13 @@ namespace Solarium\Plugin;
  * @package Solarium
  * @subpackage Plugin
  */
-abstract class AbstractPlugin extends \Solarium\Configurable
+abstract class AbstractPlugin extends Configurable
 {
 
     /**
      * Client instance
      *
-     * @var \Solarium\Client\Client
+     * @var Client
      */
     protected $_client;
 
@@ -61,7 +68,7 @@ abstract class AbstractPlugin extends \Solarium\Configurable
      *
      * This method is called when the plugin is registered to a client instance
      *
-     * @param Solarium\Client $client
+     * @param Client $client
      * @param array $options
      */
     public function init($client, $options)
@@ -88,8 +95,8 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * preCreateRequest hook
      *
-     * @param Solarium\Query $query
-     * @return void|Solarium\Client\Request
+     * @param Query $query
+     * @return void|Request
      */
     public function preCreateRequest($query)
     {
@@ -98,8 +105,8 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * postCreateRequest hook
      *
-     * @param Solarium\Query $query
-     * @param Solarium\Client\Request $request
+     * @param Query $query
+     * @param Request $request
      * @return void
      */
     public function postCreateRequest($query, $request)
@@ -109,8 +116,8 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * preExecuteRequest hook
      *
-     * @param Solarium\Client\Request $request
-     * @return void|Solarium\Client\Response
+     * @param Request $request
+     * @return void|Response
      */
     public function preExecuteRequest($request)
     {
@@ -119,8 +126,8 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * postExecuteRequest hook
      *
-     * @param Solarium\Client\Request $request
-     * @param Solarium\Client\Response $response
+     * @param Request $request
+     * @param Response $response
      * @return void
      */
     public function postExecuteRequest($request, $response)
@@ -130,9 +137,9 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * preCreateResult hook
      *
-     * @param Solarium\Query $query
-     * @param Solarium\Client\Response $response
-     * @return void|Solarium\Result
+     * @param Query $query
+     * @param Response $response
+     * @return void|Result
      */
     public function preCreateResult($query, $response)
     {
@@ -141,9 +148,9 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * postCreateResult hook
      *
-     * @param Solarium\Query $query
-     * @param Solarium\Client\Response $response
-     * @param Solarium\Result $result
+     * @param Query $query
+     * @param Response $response
+     * @param Result $result
      * @return void
      */
     public function postCreateResult($query, $response, $result)
@@ -153,8 +160,8 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * preExecute hook
      *
-     * @param Solarium\Query $query
-     * @return void|Solarium\Result
+     * @param Query $query
+     * @return void|Result
      */
     public function preExecute($query)
     {
@@ -163,8 +170,8 @@ abstract class AbstractPlugin extends \Solarium\Configurable
     /**
      * postExecute hook
      *
-     * @param Solarium\Query $query
-     * @param Solarium\Result $result
+     * @param Query $query
+     * @param Result $result
      * @return void
      */
     public function postExecute($query, $result)
@@ -176,7 +183,7 @@ abstract class AbstractPlugin extends \Solarium\Configurable
      *
      * @param string $type
      * @param mixed $options
-     * @return void|Solarium\Query
+     * @return void|Query
      */
     public function preCreateQuery($type, $options)
     {
@@ -187,7 +194,7 @@ abstract class AbstractPlugin extends \Solarium\Configurable
      *
      * @param string $type
      * @param mixed $options
-     * @param Solarium\Query
+     * @param Query
      * @return void
      */
     public function postCreateQuery($type, $options, $query)

@@ -40,6 +40,12 @@
  * @namespace
  */
 namespace Solarium\Result;
+use Solarium;
+use Solarium\Client\Client;
+use Solarium\Client\Response;
+use Solarium\Client\HttpException;
+use Solarium\Query\Query;
+
 
 /**
  * Query result
@@ -56,7 +62,7 @@ class Result
     /**
      * Response object
      *
-     * @var Solarium\Client\Response
+     * @var Response
      */
     protected $_response;
 
@@ -72,23 +78,23 @@ class Result
     /**
      * Query used for this request
      *
-     * @var Solarium\Query
+     * @var Query
      */
     protected $_query;
 
     /**
      * Solarium client instance
      *
-     * @var \Solarium\Client\Client
+     * @var Client
      */
     protected $_client;
 
     /**
      * Constructor
      *
-     * @param Solarium\Client $client
-     * @param Solarium\Query $query
-     * @param Solarium\Client\Response $response
+     * @param Client $client
+     * @param Query $query
+     * @param Response $response
      * @return void
      */
     public function __construct($client, $query, $response)
@@ -100,7 +106,7 @@ class Result
         // check status for error (range of 400 and 500)
         $statusNum = floor($response->getStatusCode() / 100);
         if ($statusNum == 4 || $statusNum == 5) {
-            throw new \Solarium\Client\HttpException(
+            throw new HttpException(
                 $response->getStatusMessage(),
                 $response->getStatusCode()
             );
@@ -112,7 +118,7 @@ class Result
      *
      * This is the raw HTTP response object, not the parsed data!
      *
-     * @return Solarium\Client\Response
+     * @return Response
      */
     public function getResponse()
     {
@@ -122,7 +128,7 @@ class Result
     /**
      * Get query instance
      *
-     * @return Solarium\Query
+     * @return Query
      */
     public function getQuery()
     {
@@ -141,7 +147,7 @@ class Result
         if (null == $this->_data) {
             $this->_data = json_decode($this->_response->getBody(), true);
             if (null === $this->_data) {
-                throw new \Solarium\Exception(
+                throw new Solarium\Exception(
                     'Solr JSON response could not be decoded'
                 );
             }

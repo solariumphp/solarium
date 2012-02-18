@@ -33,6 +33,7 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Plugin
  */
 
 /**
@@ -40,6 +41,9 @@
  */
 namespace Solarium\Plugin\CustomizeRequest;
 use Solarium;
+use Solarium\Plugin\AbstractPlugin;
+use Solarium\Query\Query;
+use Solarium\Client\Request;
 
 /**
  * CustomizeRequest plugin
@@ -50,7 +54,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Plugin
  */
-class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
+class CustomizeRequest extends AbstractPlugin
 {
 
     /**
@@ -87,7 +91,7 @@ class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
      * after setting the key, by using the addCustomization method.
      *
      * @param mixed $options
-     * @return Solarium\Plugin\CustomizeRequest\Customization
+     * @return Customization
      */
     public function createCustomization($options = null)
     {
@@ -111,8 +115,8 @@ class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
      * Supports a Customization instance or a config array, in that case a new
      * Customization instance wil be created based on the options.
      *
-     * @param Solarium\Plugin\CustomizeRequest\Customization|array $customization
-     * @return Solarium\Plugin\CustomizeRequest Provides fluent interface
+     * @param Customization|array $customization
+     * @return self Provides fluent interface
      */
     public function addCustomization($customization)
     {
@@ -124,14 +128,14 @@ class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
 
         // check for non-empty key
         if (0 === strlen($key)) {
-            throw new \Solarium\Exception('A Customization must have a key value');
+            throw new Solarium\Exception('A Customization must have a key value');
         }
 
         // check for a unique key
         if (array_key_exists($key, $this->_customizations)) {
             //double add calls for the same customization are ignored, others cause an exception
             if ($this->_customizations[$key] !== $customization) {
-                throw new \Solarium\Exception('A Customization must have a unique key value');
+                throw new Solarium\Exception('A Customization must have a unique key value');
             }
         }
 
@@ -144,7 +148,7 @@ class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
      * Add multiple Customizations
      *
      * @param array $customizations
-     * @return Solarium\Plugin\CustomizeRequest Provides fluent interface
+     * @return CustomizeRequest Provides fluent interface
      */
     public function addCustomizations(array $customizations)
     {
@@ -191,8 +195,8 @@ class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
      *
      * You can remove a Customization by passing it's key, or by passing the Customization instance
      *
-     * @param string|Solarium\Plugin\CustomizeRequest\Customization $customization
-     * @return Solarium\Plugin\CustomizeRequest Provides fluent interface
+     * @param string|Customization $customization
+     * @return CustomizeRequest Provides fluent interface
      */
     public function removeCustomization($customization)
     {
@@ -210,7 +214,7 @@ class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
     /**
      * Remove all Customizations
      *
-     * @return Solarium\Plugin\CustomizeRequest Provides fluent interface
+     * @return CustomizeRequest Provides fluent interface
      */
     public function clearCustomizations()
     {
@@ -234,8 +238,8 @@ class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
     /**
      * Event hook to customize the request object
      *
-     * @param Solarium\Query $query
-     * @param Solarium\Client\Request $request
+     * @param Query $query
+     * @param Request $request
      * @return void
      */
     public function postCreateRequest($query, $request)
@@ -244,7 +248,7 @@ class CustomizeRequest extends Solarium\Plugin\AbstractPlugin
 
             // first validate
             if (!$customization->isValid()) {
-                throw new \Solarium\Exception('Request customization with key "' . $key . '" is invalid');
+                throw new Solarium\Exception('Request customization with key "' . $key . '" is invalid');
             }
 
             // apply to request, depending on type

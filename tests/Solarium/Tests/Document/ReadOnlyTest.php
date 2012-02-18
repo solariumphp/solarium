@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Client;
+namespace Solarium\Tests\Document;
 
 class ReadOnlyTest extends \PHPUnit_Framework_TestCase
 {
@@ -131,5 +131,5 @@ class ReadOnlyTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->_fields), count($this->_doc));
     }
-    
+
 }

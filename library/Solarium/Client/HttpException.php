@@ -40,6 +40,7 @@
  * @namespace
  */
 namespace Solarium\Client;
+use Solarium\Exception;
 
 /**
  * Solarium client HTTP exception
@@ -59,7 +60,7 @@ namespace Solarium\Client;
  * @package Solarium
  * @subpackage Client
  */
-class HttpException extends \Solarium\Exception
+class HttpException extends Exception
 {
 
     /**

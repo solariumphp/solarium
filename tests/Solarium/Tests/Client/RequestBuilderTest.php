@@ -45,7 +45,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuild()
     {
-        $query = new \Solarium\Query\Select\Select;
+        $query = new \Solarium\QueryType\Select\Query\Query;
         $query->addParam('p1','v1');
         $query->addParam('p2','v2');
         $request = $this->_builder->build($query);
@@ -76,6 +76,6 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class TestRequestBuilder extends \Solarium\Client\RequestBuilder\RequestBuilder{
+class TestRequestBuilder extends \Solarium\Client\RequestBuilder{
 
 }

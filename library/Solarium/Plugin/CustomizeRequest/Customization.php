@@ -33,12 +33,14 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Plugin
  */
 
 /**
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
+use Solarium\Configurable;
 
 /**
  * Customization value object
@@ -46,7 +48,7 @@ namespace Solarium\Plugin\CustomizeRequest;
  * @package Solarium
  * @subpackage Plugin
  */
-class Customization extends \Solarium\Configurable
+class Customization extends Configurable
 {
 
     /**
@@ -77,7 +79,7 @@ class Customization extends \Solarium\Configurable
      * Set key value
      *
      * @param string $value
-     * @return Solarium\Plugin\CustomizeRequest\Customization
+     * @return self Provides fluent interface
      */
     public function setKey($value)
     {
@@ -99,7 +101,7 @@ class Customization extends \Solarium\Configurable
      * Set type value
      *
      * @param string $value
-     * @return Solarium\Plugin\CustomizeRequest\Customization
+     * @return Customization
      */
     public function setType($value)
     {
@@ -121,7 +123,7 @@ class Customization extends \Solarium\Configurable
      * Set name value
      *
      * @param string $value
-     * @return Solarium\Plugin\CustomizeRequest\Customization
+     * @return Customization
      */
     public function setName($value)
     {
@@ -143,7 +145,7 @@ class Customization extends \Solarium\Configurable
      * Set value
      *
      * @param string $value
-     * @return Solarium\Plugin\CustomizeRequest\Customization
+     * @return Customization
      */
     public function setValue($value)
     {
@@ -165,7 +167,7 @@ class Customization extends \Solarium\Configurable
      * Set persistent on/off
      *
      * @param boolean $value
-     * @return Solarium\Plugin\CustomizeRequest\Customization
+     * @return Customization
      */
     public function setPersistent($value)
     {
@@ -187,7 +189,7 @@ class Customization extends \Solarium\Configurable
      * Set overwrite option on/off
      *
      * @param boolean $value
-     * @return Solarium\Plugin\CustomizeRequest\Customization
+     * @return Customization
      */
     public function setOverwrite($value)
     {

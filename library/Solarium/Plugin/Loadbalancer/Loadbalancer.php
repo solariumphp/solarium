@@ -33,6 +33,7 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Plugin
  */
 
 /**
@@ -40,6 +41,11 @@
  */
 namespace Solarium\Plugin\Loadbalancer;
 use Solarium;
+use Solarium\Client\Client;
+use Solarium\Client\HttpException;
+use Solarium\Query\Query;
+use Solarium\Client\Request;
+use Solarium\Client\Response;
 
 /**
  * Loadbalancer plugin
@@ -83,7 +89,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
      * @var array
      */
     protected $_blockedQueryTypes = array(
-        Solarium\Client\Client::QUERYTYPE_UPDATE => true
+        Client::QUERYTYPE_UPDATE => true
     );
 
     /**
@@ -115,7 +121,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     /**
      * Pool of servers to use for requests
      *
-     * @var Solarium\Plugin\Loadbalancer\WeightedRandomChoice
+     * @var WeightedRandomChoice
      */
     protected $_randomizer;
 
@@ -208,7 +214,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     public function addServer($key, $options, $weight = 1)
     {
         if (array_key_exists($key, $this->_servers)) {
-            throw new \Solarium\Exception('A server for the loadbalancer plugin must have a unique key');
+            throw new Solarium\Exception('A server for the loadbalancer plugin must have a unique key');
         } else {
             $this->_servers[$key] = array(
                 'options' => $options,
@@ -241,7 +247,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     public function getServer($key)
     {
         if (!isset($this->_servers[$key])) {
-            throw new \Solarium\Exception('Unknown server key');
+            throw new Solarium\Exception('Unknown server key');
         }
 
         return $this->_servers[$key];
@@ -315,7 +321,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     public function setForcedServerForNextQuery($key)
     {
         if ($key !== null && !array_key_exists($key, $this->_servers)) {
-            throw new \Solarium\Exception('Unknown server forced for next query');
+            throw new Solarium\Exception('Unknown server forced for next query');
         }
 
         $this->_nextServer = $key;
@@ -425,7 +431,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     /**
      * Event hook to capture querytype
      *
-     * @param Solarium\Query $query
+     * @param Query $query
      * @return void
      */
     public function preCreateRequest($query)
@@ -436,8 +442,8 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param Solarium\Client\Request $request
-     * @return Solarium\Client\Response
+     * @param Request $request
+     * @return Response
      */
     public function preExecuteRequest($request)
     {
@@ -472,8 +478,8 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     /**
      * Execute a request using the adapter
      *
-     * @param Solarium\Client\Request $request
-     * @return Solarium\Client\Response $response
+     * @param Request $request
+     * @return Response $response
      */
     protected function _getLoadbalancedResponse($request)
     {
@@ -487,16 +493,16 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
                 $adapter->setOptions($options);
                 try {
                     return $adapter->execute($request);
-                } catch(\Solarium\Client\HttpException $e) {
+                } catch(HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
-                    $e = new \Solarium\Exception('Maximum number of loadbalancer retries reached');
+                    $e = new Solarium\Exception('Maximum number of loadbalancer retries reached');
                     $this->_client->triggerEvent('LoadbalancerServerFail', array($options, $e));
                 }
             }
 
             // if we get here no more retries available, throw exception
-            $e = new \Solarium\Exception('Maximum number of loadbalancer retries reached');
+            $e = new Solarium\Exception('Maximum number of loadbalancer retries reached');
             throw $e;
 
         } else {
@@ -531,7 +537,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     /**
      * Get randomizer instance
      *
-     * @return Solarium\Plugin\Loadbalancer\WeightedRandomChoice
+     * @return WeightedRandomChoice
      */
     protected function _getRandomizer()
     {

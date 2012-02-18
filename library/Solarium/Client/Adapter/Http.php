@@ -40,6 +40,10 @@
  * @namespace
  */
 namespace Solarium\Client\Adapter;
+use Solarium;
+use Solarium\Client;
+use Solarium\Client\Request;
+use Solarium\Client\Response;
 
 /**
  * Basic HTTP adapter using a stream
@@ -54,8 +58,8 @@ class Http extends Adapter
      * Handle Solr communication
      *
      * @throws Solarium\Exception
-     * @param Solarium\Client\Request $request
-     * @return Solarium\Client\Response
+     * @param Request $request
+     * @return Response
      */
     public function execute($request)
     {
@@ -66,13 +70,13 @@ class Http extends Adapter
 
         $this->check($data, $headers);
 
-        return new \Solarium\Client\Response($data, $headers);
+        return new Response($data, $headers);
     }
 
     /**
      * Check result of a request
      *
-     * @throws Solarium\Client\HttpException
+     * @throws Client\HttpException
      * @param string $data
      * @param array $headers
      * @return void
@@ -82,14 +86,14 @@ class Http extends Adapter
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
         if (false === $data && count($headers) == 0) {
-            throw new \Solarium\Client\HttpException("HTTP request failed");
+            throw new Client\HttpException("HTTP request failed");
         }
     }
 
     /**
      * Create a stream context for a request
      *
-     * @param Solarium\Client\Request $request
+     * @param Request $request
      * @return resource
      */
     public function createContext($request)
@@ -102,7 +106,7 @@ class Http extends Adapter
             ))
         );
 
-        if ($method == \Solarium\Client\Request::METHOD_POST) {
+        if ($method == Request::METHOD_POST) {
             $data = $request->getRawData();
             if (null !== $data) {
                 stream_context_set_option(

@@ -71,7 +71,7 @@ class ReadWrite extends ReadOnly
      * Field boosts
      *
      * Using fieldname as the key and the boost as the value
-     * 
+     *
      * @var array
      */
     protected $_fieldBoosts;
@@ -97,7 +97,7 @@ class ReadWrite extends ReadOnly
      * @param string $key
      * @param mixed $value
      * @param float $boost
-     * @return Solarium\Document\ReadWrite Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function addField($key, $value, $boost = null)
     {
@@ -126,7 +126,7 @@ class ReadWrite extends ReadOnly
      * @param string $key
      * @param mixed $value
      * @param float $boost
-     * @return Solarium\Document\ReadWrite Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setField($key, $value, $boost = null)
     {
@@ -144,7 +144,7 @@ class ReadWrite extends ReadOnly
      * Remove a field
      *
      * @param string $key
-     * @return Solarium\Document\ReadWrite Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function removeField($key)
     {
@@ -179,7 +179,7 @@ class ReadWrite extends ReadOnly
      *
      * @param string $key
      * @param float $boost
-     * @return Solarium\Document\ReadWrite Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setFieldBoost($key, $boost)
     {
@@ -191,7 +191,7 @@ class ReadWrite extends ReadOnly
      * Set the document boost value
      *
      * @param float $boost
-     * @return Solarium\Document\ReadWrite Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -212,13 +212,13 @@ class ReadWrite extends ReadOnly
     /**
      * Clear all fields
      *
-     * @return Solarium\Document\ReadWrite Provides fluent interface
+     * @return self Provides fluent interface
      **/
     public function clear()
     {
         $this->_fields = array();
         $this->_fieldBoosts = array();
-        
+
         return $this;
     }
 

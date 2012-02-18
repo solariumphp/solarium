@@ -41,7 +41,7 @@ class QueryTypeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $client = new \Solarium\Client\Client;
-        $query = new \Solarium\Query\Update\Update;
+        $query = new \Solarium\QueryType\Update\Query\Query;
         $response = new \Solarium\Client\Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
         $this->_result = new QueryTypeDummy($client, $query, $response);
     }
@@ -79,10 +79,10 @@ class QueryTypeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('dummyvalue',$this->_result->getVar('dummyvar'));
     }
-    
+
 }
 
-class QueryDummyTest extends \Solarium\Query\Select\Select
+class QueryDummyTest extends \Solarium\QueryType\Select\Query\Query
 {
     public function getType()
     {

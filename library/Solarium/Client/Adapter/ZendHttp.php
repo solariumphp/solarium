@@ -39,7 +39,11 @@
 /**
  * @namespace
  */
+
 namespace Solarium\Client\Adapter;
+use Solarium\Client;
+use Solarium\Client\Request;
+use Solarium\Client\Response;
 
 /**
  * Adapter that uses a Zend_Http_Client
@@ -77,7 +81,7 @@ class ZendHttp extends Adapter
      *
      * @param array|object $options
      * @param boolean $overwrite
-     * @return Solarium\Client\Adapter\ZendHttp Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setOptions($options, $overwrite = false)
     {
@@ -108,7 +112,7 @@ class ZendHttp extends Adapter
      * case)
      *
      * @param Zend_Http_Client $zendHttp
-     * @return Solarium\Client\Adapter\ZendHttp Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setZendHttp($zendHttp)
     {
@@ -150,8 +154,8 @@ class ZendHttp extends Adapter
     /**
      * Execute a Solr request using the Zend_Http_Client instance
      *
-     * @param Solarium\Client\Request $request
-     * @return Solarium\Client\Response
+     * @param Request $request
+     * @return Response
      */
     public function execute($request)
     {
@@ -166,13 +170,13 @@ class ZendHttp extends Adapter
 
         // throw an exception in case of a HTTP error
         if ($response->isError()) {
-            throw new \Solarium\Client\HttpException(
+            throw new Client\HttpException(
                 $response->getMessage(),
                 $response->getStatus()
             );
         }
 
-        if ($request->getMethod() == \Solarium\Client\Request::METHOD_HEAD) {
+        if ($request->getMethod() == Request::METHOD_HEAD) {
             $data = '';
         } else {
             $data = $response->getBody();
@@ -181,7 +185,7 @@ class ZendHttp extends Adapter
         // this is used because getHeaders doesn't return the HTTP header...
         $headers = explode("\n", $response->getHeadersAsString());
 
-        return new \Solarium\Client\Response($data, $headers);
+        return new Response($data, $headers);
     }
 
 }

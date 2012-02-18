@@ -40,6 +40,7 @@
  * @namespace
  */
 namespace Solarium\Document;
+use Solarium;
 
 /**
  * Read-only Solr document
@@ -50,8 +51,7 @@ namespace Solarium\Document;
  * @package Solarium
  * @subpackage Document
  */
-class ReadOnly
-    implements \IteratorAggregate, \Countable, \ArrayAccess
+class ReadOnly implements \IteratorAggregate, \Countable, \ArrayAccess
 {
 
     /**
@@ -100,7 +100,7 @@ class ReadOnly
 
         return $this->_fields[$name];
     }
-    
+
     /**
      * Set field value
      *
@@ -113,13 +113,13 @@ class ReadOnly
      */
     public function __set($name, $value)
     {
-        throw new \Solarium\Exception('A readonly document cannot be altered');
+        throw new Solarium\Exception('A readonly document cannot be altered');
     }
 
     /**
      * IteratorAggregate implementation
      *
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator()
     {
@@ -139,7 +139,7 @@ class ReadOnly
     /**
      * ArrayAccess implementation
      *
-     * @param miex $offset
+     * @param mixed $offset
      * @param mixed $value
      * @return void
      */

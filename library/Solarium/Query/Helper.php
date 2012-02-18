@@ -40,6 +40,8 @@
  * @namespace
  */
 namespace Solarium\Query;
+use Solarium\Query\Query;
+use Solarium;
 
 /**
  * Query helper
@@ -77,14 +79,14 @@ class Helper
      * Solarium_Query instance, optional.
      * Used for dereferenced params.
      *
-     * @var Solarium\Query\Query
+     * @var Query
      */
     protected $_query;
 
     /**
      * Constructor
      *
-     * @param Solarium\Query $query
+     * @param Query $query
      */
     public function __construct($query = null)
     {
@@ -140,8 +142,8 @@ class Helper
      *
      * @see http://lucene.apache.org/solr/api/org/apache/solr/schema/DateField.html
      *
-     * @param int|string|DateTime $input accepted formats: timestamp, date string or DateTime
-     * @return string|false false is returned in case of invalid input
+     * @param int|string|\DateTime $input accepted formats: timestamp, date string or DateTime
+     * @return string|boolean false is returned in case of invalid input
      */
     public function formatDate($input)
     {
@@ -301,7 +303,7 @@ class Helper
         if ($dereferenced) {
 
             if (!$this->_query) {
-                throw new \Solarium\Exception(
+                throw new Solarium\Exception(
                     'Dereferenced params can only be used in a Solarium_Query_Helper instance retrieved from the query '
                     . 'by using the getHelper() method, this instance was manually created'
                 );
@@ -385,7 +387,7 @@ class Helper
         if (isset($this->_assembleParts[$partNumber-1])) {
             $value = $this->_assembleParts[$partNumber-1];
         } else {
-            throw new \Solarium\Exception('No value supplied for part #' . $partNumber . ' in query assembler');
+            throw new Solarium\Exception('No value supplied for part #' . $partNumber . ' in query assembler');
         }
 
         switch($partMode)

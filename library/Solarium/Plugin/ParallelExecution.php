@@ -33,13 +33,16 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
+ * @subpackage Plugin
  */
 
 /**
  * @namespace
  */
 namespace Solarium\Plugin;
-use Solarium\Client;
+use Solarium\Client\HttpException;
+use Solarium\Client\Client;
+use Solarium\Query\Query;
 
 /**
  * ParallelExecution plugin
@@ -53,7 +56,6 @@ use Solarium\Client;
  * @package Solarium
  * @subpackage Plugin
  */
-
 
 // @codeCoverageIgnoreStart
 class ParallelExecution extends AbstractPlugin
@@ -79,9 +81,9 @@ class ParallelExecution extends AbstractPlugin
      * Add a query to execute
      *
      * @param string $key
-     * @param Solarium_Query $query
-     * @param null|Solarium_Client $client
-     * @return Solarium_Plugin_ParallelExecution
+     * @param Query $query
+     * @param null|Client $client
+     * @return self Provides fluent interface
      */
     public function addQuery($key, $query, $client = null)
     {
@@ -173,7 +175,7 @@ class ParallelExecution extends AbstractPlugin
                 curl_multi_remove_handle($multiHandle, $handle);
                 $response = $adapter->getResponse($handle, curl_multi_getcontent($handle));
                 $results[$key] = $this->_client->createResult($queries[$key]['query'], $response);
-            } catch(Client\HttpException $e) {
+            } catch(HttpException $e) {
 
                 $results[$key] = $e;
             }
