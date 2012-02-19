@@ -63,7 +63,7 @@ class ZendHttp extends Adapter
     /**
      * Zend Http instance for communication with Solr
      *
-     * @var Zend_Http_Client
+     * @var \Zend_Http_Client
      */
     protected $_zendHttp;
 
@@ -111,7 +111,7 @@ class ZendHttp extends Adapter
      * upon first use, using default and/or custom options (the most common use
      * case)
      *
-     * @param Zend_Http_Client $zendHttp
+     * @param \Zend_Http_Client $zendHttp
      * @return self Provides fluent interface
      */
     public function setZendHttp($zendHttp)
@@ -130,7 +130,7 @@ class ZendHttp extends Adapter
      * options, get the last response and use many other features offered by the
      * Zend_Http_Client API.
      *
-     * @return Zend_Http_Client
+     * @return \Zend_Http_Client
      */
     public function getZendHttp()
     {

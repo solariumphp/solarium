@@ -40,7 +40,6 @@
  * @namespace
  */
 namespace Solarium\QueryType\Suggester;
-use Solarium\Client;
 use Solarium\Client\Request;
 use Solarium\Client\RequestBuilder as BaseRequestBuilder;
 
@@ -48,7 +47,7 @@ use Solarium\Client\RequestBuilder as BaseRequestBuilder;
  * Build a Suggester query request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class RequestBuilder extends BaseRequestBuilder
 {

@@ -48,7 +48,7 @@ use Solarium\QueryType\Select\Result\Highlighting as HighlightingResult;
  * Parse select component Highlighting result from the data
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class Highlighting
 {

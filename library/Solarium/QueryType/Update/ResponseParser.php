@@ -46,7 +46,7 @@ use Solarium\Client\ResponseParser as BaseResponseParser;
  * Parse update response data
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class ResponseParser extends BaseResponseParser
 {

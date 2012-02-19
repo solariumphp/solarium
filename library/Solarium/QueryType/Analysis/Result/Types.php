@@ -45,7 +45,7 @@ namespace Solarium\QueryType\Analysis\Result;
  * Analysis types result
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage QueryType
  */
 class Types extends ResultList
 {

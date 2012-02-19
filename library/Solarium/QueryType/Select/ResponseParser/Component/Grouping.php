@@ -48,7 +48,7 @@ use Solarium\QueryType\Select\Result\Grouping as GroupingResult;
  * Parse select component Grouping result from the data
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class Grouping
 {

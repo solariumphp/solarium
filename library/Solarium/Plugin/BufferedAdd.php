@@ -42,7 +42,7 @@
 namespace Solarium\Plugin;
 use Solarium\Client;
 use Solarium\QueryType\Update\Result as UpdateResult;
-use Solarium\QueryType\Update\Query as UpdateQuery;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\Document\ReadOnly as ReadOnlyDocument;
 
 /**

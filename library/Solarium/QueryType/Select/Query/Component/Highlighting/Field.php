@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
-use Solarium;
+use Solarium\Configurable;
 
 /**
  * Highlighting per-field settings
@@ -50,7 +50,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Query
  */
-class Field extends Solarium\Configurable
+class Field extends Configurable
 {
     /**
      * Value for fragmenter option gap

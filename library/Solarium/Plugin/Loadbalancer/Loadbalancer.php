@@ -40,7 +40,8 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer;
-use Solarium;
+use Solarium\Plugin\AbstractPlugin;
+use Solarium\Exception;
 use Solarium\Client\Client;
 use Solarium\Client\HttpException;
 use Solarium\Query\Query;
@@ -63,7 +64,7 @@ use Solarium\Client\Response;
  * @package Solarium
  * @subpackage Plugin
  */
-class Loadbalancer extends Solarium\Plugin\AbstractPlugin
+class Loadbalancer extends AbstractPlugin
 {
 
     /**
@@ -214,7 +215,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     public function addServer($key, $options, $weight = 1)
     {
         if (array_key_exists($key, $this->_servers)) {
-            throw new Solarium\Exception('A server for the loadbalancer plugin must have a unique key');
+            throw new Exception('A server for the loadbalancer plugin must have a unique key');
         } else {
             $this->_servers[$key] = array(
                 'options' => $options,
@@ -247,7 +248,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     public function getServer($key)
     {
         if (!isset($this->_servers[$key])) {
-            throw new Solarium\Exception('Unknown server key');
+            throw new Exception('Unknown server key');
         }
 
         return $this->_servers[$key];
@@ -321,7 +322,7 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
     public function setForcedServerForNextQuery($key)
     {
         if ($key !== null && !array_key_exists($key, $this->_servers)) {
-            throw new Solarium\Exception('Unknown server forced for next query');
+            throw new Exception('Unknown server forced for next query');
         }
 
         $this->_nextServer = $key;
@@ -496,13 +497,13 @@ class Loadbalancer extends Solarium\Plugin\AbstractPlugin
                 } catch(HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
-                    $e = new Solarium\Exception('Maximum number of loadbalancer retries reached');
+                    $e = new Exception('Maximum number of loadbalancer retries reached');
                     $this->_client->triggerEvent('LoadbalancerServerFail', array($options, $e));
                 }
             }
 
             // if we get here no more retries available, throw exception
-            $e = new Solarium\Exception('Maximum number of loadbalancer retries reached');
+            $e = new Exception('Maximum number of loadbalancer retries reached');
             throw $e;
 
         } else {

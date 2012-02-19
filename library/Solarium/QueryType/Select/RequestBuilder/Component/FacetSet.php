@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
-use Solarium;
+use Solarium\Exception;
 use Solarium\Client\Request;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\FacetSet as FacetsetComponent;
@@ -54,7 +54,7 @@ use Solarium\QueryType\Select\Query\Component\Facet\Range as FacetRange;
  * Add select component FacetSet to the request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class FacetSet extends RequestBuilder
 {
@@ -97,7 +97,7 @@ class FacetSet extends RequestBuilder
                         $this->addFacetRange($request, $facet);
                         break;
                     default:
-                        throw new Solarium\Exception('Unknown facet type');
+                        throw new Exception('Unknown facet type');
                 }
             }
         }

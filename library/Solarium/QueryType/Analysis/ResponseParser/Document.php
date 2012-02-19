@@ -46,7 +46,7 @@ use Solarium\QueryType\Analysis\Result as AnalysisResult;
  * Parse document analysis response data
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class Document extends Field
 {

@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query\Command;
-use Solarium;
+use Solarium\Configurable;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
@@ -49,7 +49,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
  * @package Solarium
  * @subpackage Query
  */
-abstract class Command extends Solarium\Configurable
+abstract class Command extends Configurable
 {
 
     /**

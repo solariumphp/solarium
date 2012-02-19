@@ -41,8 +41,8 @@
  * @namespace
  */
 namespace Solarium\QueryType\MoreLikeThis;
-use Solarium;
-use Solarium\Document;
+use Solarium\Exception;
+use Solarium\Document\ReadOnly as ReadOnlyDocument;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 
 /**
@@ -91,7 +91,7 @@ class Result extends SelectResult
     {
         $query = $this->getQuery();
         if ('none' == $query->getInterestingTerms()) {
-            throw new Solarium\Exception('interestingterms is none');
+            throw new Exception('interestingterms is none');
         }
         $this->_parseResponse();
         return $this->_interestingTerms;
@@ -103,13 +103,13 @@ class Result extends SelectResult
      * Only available if matchinclude was set to true in the query.
      *
      * @throws Solarium\Exception
-     * @return Document\ReadOnly
+     * @return ReadOnlyDocument
      */
     public function getMatch()
     {
         $query = $this->getQuery();
         if (true != $query->getMatchInclude()) {
-            throw new Solarium\Exception('matchinclude was disabled in the MLT query');
+            throw new Exception('matchinclude was disabled in the MLT query');
         }
         $this->_parseResponse();
         return $this->_match;

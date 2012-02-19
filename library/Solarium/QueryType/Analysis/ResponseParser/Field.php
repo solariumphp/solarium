@@ -48,7 +48,7 @@ use Solarium\Client\ResponseParser as BaseResponseParser;
  * Parse document analysis response data
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class Field extends BaseResponseParser
 {

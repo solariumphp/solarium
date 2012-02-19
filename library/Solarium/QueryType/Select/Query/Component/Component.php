@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
-use Solarium;
+use Solarium\Configurable;
 
 /**
  * Query component base class
@@ -48,7 +48,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Query
  */
-class Component extends Solarium\Configurable
+class Component extends Configurable
 {
 
     /**

@@ -46,7 +46,7 @@ use Solarium\Client\Client;
  * Analysis document query
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage QueryType
  */
 class Field extends Query
 {

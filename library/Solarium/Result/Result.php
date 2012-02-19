@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\Result;
-use Solarium;
+use Solarium\Exception;
 use Solarium\Client\Client;
 use Solarium\Client\Response;
 use Solarium\Client\HttpException;
@@ -147,7 +147,7 @@ class Result
         if (null == $this->_data) {
             $this->_data = json_decode($this->_response->getBody(), true);
             if (null === $this->_data) {
-                throw new Solarium\Exception(
+                throw new Exception(
                     'Solr JSON response could not be decoded'
                 );
             }

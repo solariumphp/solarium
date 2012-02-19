@@ -41,7 +41,7 @@
  */
 namespace Solarium\Query;
 use Solarium\Query\Query;
-use Solarium;
+use Solarium\Exception;
 
 /**
  * Query helper
@@ -303,7 +303,7 @@ class Helper
         if ($dereferenced) {
 
             if (!$this->_query) {
-                throw new Solarium\Exception(
+                throw new Exception(
                     'Dereferenced params can only be used in a Solarium_Query_Helper instance retrieved from the query '
                     . 'by using the getHelper() method, this instance was manually created'
                 );
@@ -375,7 +375,7 @@ class Helper
     /**
      * Render placeholders in a querystring
      *
-     * @throws Solarium\Exception
+     * @throws Exception
      * @param array $matches
      * @return string
      */
@@ -387,7 +387,7 @@ class Helper
         if (isset($this->_assembleParts[$partNumber-1])) {
             $value = $this->_assembleParts[$partNumber-1];
         } else {
-            throw new Solarium\Exception('No value supplied for part #' . $partNumber . ' in query assembler');
+            throw new Exception('No value supplied for part #' . $partNumber . ' in query assembler');
         }
 
         switch($partMode)

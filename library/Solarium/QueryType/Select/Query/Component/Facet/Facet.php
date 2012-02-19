@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Facet;
-use Solarium;
+use Solarium\Configurable;
 
 /**
  * Facet base class
@@ -50,7 +50,7 @@ use Solarium;
  * @package Solarium
  * @subpackage Query
  */
-abstract class Facet extends Solarium\Configurable
+abstract class Facet extends Configurable
 {
 
     /**

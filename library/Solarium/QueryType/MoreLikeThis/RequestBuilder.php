@@ -50,7 +50,7 @@ use Solarium\QueryType\Select\RequestBuilder\RequestBuilder as SelectRequestBuil
  * Build a MoreLikeThis request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class RequestBuilder extends SelectRequestBuilder
 {

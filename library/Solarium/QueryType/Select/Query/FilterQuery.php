@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query;
-use Solarium;
+use Solarium\Configurable;
 use Solarium\Query\Helper;
 
 /**
@@ -51,7 +51,7 @@ use Solarium\Query\Helper;
  * @package Solarium
  * @subpackage Query
  */
-class FilterQuery extends Solarium\Configurable
+class FilterQuery extends Configurable
 {
 
     /**

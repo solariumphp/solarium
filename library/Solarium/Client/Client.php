@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\Client;
-use Solarium;
+use Solarium\Exception;
 use Solarium\Configurable;
 use Solarium\Plugin\AbstractPlugin;
 use Solarium\Query\Query;
@@ -368,8 +368,8 @@ class Client extends Configurable
             $plugin = new $plugin;
         }
 
-        if (!($plugin instanceof Solarium\Plugin\AbstractPlugin)) {
-           throw new Solarium\Exception('All plugins must extend Solarium\PluginAbstractPlugin');
+        if (!($plugin instanceof \Solarium\Plugin\AbstractPlugin)) {
+           throw new Exception('All plugins must extend Solarium\Plugin\AbstractPlugin');
         }
 
         $plugin->init($this, $options);
@@ -427,7 +427,7 @@ class Client extends Configurable
                 $this->registerPlugin($key, $this->_pluginTypes[$key]);
                 return $this->_pluginInstances[$key];
             } else {
-                throw new Solarium\Exception('Cannot autoload plugin of unknown type: ' . $key);
+                throw new Exception('Cannot autoload plugin of unknown type: ' . $key);
             }
         } else {
             return null;
@@ -516,7 +516,7 @@ class Client extends Configurable
 
         $queryType = $query->getType();
         if (!isset($this->_queryTypes[$queryType])) {
-            throw new Solarium\Exception('No requestbuilder registered for querytype: '. $queryType);
+            throw new Exception('No requestbuilder registered for querytype: '. $queryType);
         }
 
         $requestBuilder = $this->_queryTypes[$queryType]['requestbuilder'];
@@ -743,7 +743,7 @@ class Client extends Configurable
         if($pluginResult !== null) return $pluginResult;
 
         if (!isset($this->_queryTypes[$type])) {
-            throw new Solarium\Exception('Unknown querytype: '. $type);
+            throw new Exception('Unknown querytype: '. $type);
         }
 
         $class = $this->_queryTypes[$type]['query'];

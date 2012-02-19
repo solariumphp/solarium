@@ -41,8 +41,8 @@
  * @namespace
  */
 namespace Solarium\Client\Adapter;
-use Solarium;
-use Solarium\Client;
+use Solarium\Exception;
+use Solarium\Client\HttpException;
 use Solarium\Client\Request;
 use Solarium\Client\Response;
 
@@ -65,7 +65,7 @@ class PeclHttp extends Adapter
     {
         // @codeCoverageIgnoreStart
         if (!class_exists('HttpRequest', false)) {
-           throw new Solarium\Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
+           throw new Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
         }
 
         parent::_init();
@@ -85,7 +85,7 @@ class PeclHttp extends Adapter
         try {
             $httpMessage = $httpRequest->send();
         } catch (\Exception $e) {
-            throw new Client\HttpException($e->getMessage());
+            throw new HttpException($e->getMessage());
         }
 
         return new Response(
@@ -107,7 +107,7 @@ class PeclHttp extends Adapter
      * $headers[0] = 'Content-Type: text/plain';
      * </code>
      *
-     * @param $message HttpMessage
+     * @param $message \HttpMessage
      * @return array
      */
     protected function _toRawHeaders($message)
@@ -161,7 +161,7 @@ class PeclHttp extends Adapter
             $method = HTTP_METH_HEAD;
             break;
         default:
-            throw new Solarium\Exception(
+            throw new Exception(
                 'Unsupported method: ' . $request->getMethod()
             );
         }

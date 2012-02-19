@@ -40,8 +40,8 @@
  * @namespace
  */
 namespace Solarium\Client\Adapter;
-use Solarium;
-use Solarium\Client;
+use Solarium\Exception;
+use Solarium\Client\HttpException;
 use Solarium\Client\Request;
 use Solarium\Client\Response;
 
@@ -64,7 +64,7 @@ class Curl extends Adapter
     {
         // @codeCoverageIgnoreStart
         if (!function_exists('curl_init')) {
-           throw new Solarium\Exception('cURL is not available, install it to use the CurlHttp adapter');
+           throw new Exception('cURL is not available, install it to use the CurlHttp adapter');
         }
 
         parent::_init();
@@ -167,7 +167,7 @@ class Curl extends Adapter
             $httpResponse  = curl_exec($handler);
 
         } else {
-            throw new Solarium\Exception("unsupported method: $method");
+            throw new Exception("unsupported method: $method");
         }
 
         return $handler;
@@ -199,7 +199,7 @@ class Curl extends Adapter
     /**
      * Check result of a request
      *
-     * @throws Client\HttpException
+     * @throws HttpException
      * @param string $data
      * @param array $headers
      * @return void
@@ -209,7 +209,7 @@ class Curl extends Adapter
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
         if (empty($data) && count($headers) == 0) {
-            throw new Client\HttpException("HTTP request failed");
+            throw new HttpException("HTTP request failed");
         }
     }
 }

@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\Result;
-use Solarium;
+use Solarium\Exception;
 
 /**
  * QueryType result
@@ -71,7 +71,7 @@ class QueryType extends Result
             $queryType = $this->_query->getType();
             $queryTypes = $this->_client->getQueryTypes();
             if (!isset($queryTypes[$queryType])) {
-                throw new Solarium\Exception('No responseparser registered for querytype: '. $queryType);
+                throw new Exception('No responseparser registered for querytype: '. $queryType);
             }
 
             $responseParserClass = $queryTypes[$queryType]['responseparser'];

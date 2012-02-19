@@ -47,8 +47,7 @@ namespace Solarium\QueryType\Select\Result\Stats;
  * @package Solarium
  * @subpackage Result
  */
-class Stats
-    implements \IteratorAggregate, \Countable
+class Stats implements \IteratorAggregate, \Countable
 {
 
     /**

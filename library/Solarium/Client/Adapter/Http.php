@@ -40,8 +40,8 @@
  * @namespace
  */
 namespace Solarium\Client\Adapter;
-use Solarium;
-use Solarium\Client;
+use Solarium\Exception;
+use Solarium\Client\HttpException;
 use Solarium\Client\Request;
 use Solarium\Client\Response;
 
@@ -57,7 +57,7 @@ class Http extends Adapter
     /**
      * Handle Solr communication
      *
-     * @throws Solarium\Exception
+     * @throws Exception
      * @param Request $request
      * @return Response
      */
@@ -76,7 +76,7 @@ class Http extends Adapter
     /**
      * Check result of a request
      *
-     * @throws Client\HttpException
+     * @throws HttpException
      * @param string $data
      * @param array $headers
      * @return void
@@ -86,7 +86,7 @@ class Http extends Adapter
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
         if (false === $data && count($headers) == 0) {
-            throw new Client\HttpException("HTTP request failed");
+            throw new HttpException("HTTP request failed");
         }
     }
 

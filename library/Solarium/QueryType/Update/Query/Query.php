@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query;
-use Solarium;
+use Solarium\Exception;
 use Solarium\Document\ReadWrite as ReadWriteDocument;
 use Solarium\Client\Client;
 use Solarium\Query\Query as BaseQuery;
@@ -143,7 +143,7 @@ class Query extends BaseQuery
                 $type = $value['type'];
 
                 if ($type == self::COMMAND_ADD) {
-                    throw new Solarium\Exception(
+                    throw new Exception(
                         "Adding documents is not supported in configuration, use the API for this"
                     );
                 }
@@ -167,7 +167,7 @@ class Query extends BaseQuery
         $type = strtolower($type);
 
         if (!isset($this->_commandTypes[$type])) {
-            throw new Solarium\Exception("Update commandtype unknown: " . $type);
+            throw new Exception("Update commandtype unknown: " . $type);
         }
 
         $class = $this->_commandTypes[$type];

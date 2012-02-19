@@ -48,7 +48,7 @@ use Solarium\Client\Request;
  * Parse MoreLikeThis response data
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class ResponseParser extends BaseResponseParser
 {

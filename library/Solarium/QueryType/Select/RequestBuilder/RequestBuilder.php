@@ -48,7 +48,7 @@ use Solarium\Client\RequestBuilder as BaseRequestBuilder;
  * Build a select request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class RequestBuilder extends BaseRequestBuilder
 {

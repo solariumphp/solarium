@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Facet;
-use Solarium;
+use Solarium\Exception;
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 /**
@@ -136,11 +136,11 @@ class MultiQuery extends Facet
         $key = $facetQuery->getKey();
 
         if (0 === strlen($key)) {
-            throw new Solarium\Exception('A facetquery must have a key value');
+            throw new Exception('A facetquery must have a key value');
         }
 
         if (array_key_exists($key, $this->_facetQueries)) {
-            throw new Solarium\Exception('A query must have a unique key value within a multiquery facet');
+            throw new Exception('A query must have a unique key value within a multiquery facet');
         }
 
         // forward shared excludes

@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query;
-use Solarium;
+use Solarium\Exception;
 use Solarium\Client\Client;
 use Solarium\Query\Query as BaseQuery;
 
@@ -642,13 +642,13 @@ class Query extends BaseQuery
         $key = $filterQuery->getKey();
 
         if (0 === strlen($key)) {
-            throw new Solarium\Exception('A filterquery must have a key value');
+            throw new Exception('A filterquery must have a key value');
         }
 
         //double add calls for the same FQ are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->_filterQueries) && $this->_filterQueries[$key] !== $filterQuery) {
-            throw new Solarium\Exception('A filterquery must have a unique key value within a query');
+            throw new Exception('A filterquery must have a unique key value within a query');
         } else {
             $this->_filterQueries[$key] = $filterQuery;
         }
@@ -806,7 +806,7 @@ class Query extends BaseQuery
             if ($autoload == true) {
 
                 if (!isset($this->_componentTypes[$key])) {
-                    throw new Solarium\Exception('Cannot autoload unknown component: ' . $key);
+                    throw new Exception('Cannot autoload unknown component: ' . $key);
                 }
 
                 $className = $this->_componentTypes[$key]['component'];
@@ -914,7 +914,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\Highlighting
+     * @return Component\Highlighting\Highlighting
      */
     public function getHighlighting()
     {
@@ -962,7 +962,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\Stats
+     * @return Component\Stats\Stats
      */
     public function getStats()
     {

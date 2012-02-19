@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
-use Solarium;
+use Solarium\Exception;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Query\Component\Component;
 
@@ -132,7 +132,7 @@ class Highlighting extends Component
 
         // validate field
         if ($field->getName() === null) {
-            throw new Solarium\Exception('To add a highlighting field it needs to have at least a "name" setting');
+            throw new Exception('To add a highlighting field it needs to have at least a "name" setting');
         }
 
         $this->_fields[$field->getName()] = $field;

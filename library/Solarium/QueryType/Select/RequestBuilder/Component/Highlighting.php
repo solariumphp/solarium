@@ -48,7 +48,7 @@ use Solarium\Client\Request;
  * Add select component Highlighting to the request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class Highlighting
 {

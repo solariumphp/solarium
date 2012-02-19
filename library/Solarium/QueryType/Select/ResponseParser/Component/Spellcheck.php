@@ -48,7 +48,7 @@ use Solarium\QueryType\Select\Result\Spellcheck as SpellcheckResult;
  * Parse select component Highlighting result from the data
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class Spellcheck
 {

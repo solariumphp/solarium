@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
-use Solarium;
+use Solarium\Exception;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 /**
@@ -270,13 +270,13 @@ class FacetSet extends Component
         $key = $facet->getKey();
 
         if (0 === strlen($key)) {
-            throw new Solarium\Exception('A facet must have a key value');
+            throw new Exception('A facet must have a key value');
         }
 
         //double add calls for the same facet are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->_facets) && $this->_facets[$key] !== $facet) {
-            throw new Solarium\Exception('A facet must have a unique key value within a query');
+            throw new Exception('A facet must have a unique key value within a query');
         } else {
              $this->_facets[$key] = $facet;
         }
@@ -395,7 +395,7 @@ class FacetSet extends Component
         $type = strtolower($type);
 
         if (!isset($this->_facetTypes[$type])) {
-            throw new Solarium\Exception("Facettype unknown: " . $type);
+            throw new Exception("Facettype unknown: " . $type);
         }
 
         $class = $this->_facetTypes[$type];

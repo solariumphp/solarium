@@ -69,7 +69,7 @@ class Configurable
      * After handling the options the {@link _init()} method is called.
      *
      * @throws Exception
-     * @param array|Zend_Config $options
+     * @param array|\Zend_Config $options
      * @return void
      */
     public function __construct($options = null)
@@ -89,7 +89,7 @@ class Configurable
      * Zend Framework, but can also easily be implemented in any other object.
      *
      * @throws Exception
-     * @param array|Zend_Config $options
+     * @param array|\Zend_Config $options
      * @param boolean $overwrite True for overwriting existing options, false
      *  for merging (new values overwrite old ones if needed)
      *

@@ -48,7 +48,7 @@ use Solarium\QueryType\Select\Result\Debug as DebugResult;
  * Parse select component Debug result from the data
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class Debug
 {

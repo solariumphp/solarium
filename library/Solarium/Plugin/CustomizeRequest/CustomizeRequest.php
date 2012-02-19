@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
-use Solarium;
+use Solarium\Exception;
 use Solarium\Plugin\AbstractPlugin;
 use Solarium\Query\Query;
 use Solarium\Client\Request;
@@ -128,14 +128,14 @@ class CustomizeRequest extends AbstractPlugin
 
         // check for non-empty key
         if (0 === strlen($key)) {
-            throw new Solarium\Exception('A Customization must have a key value');
+            throw new Exception('A Customization must have a key value');
         }
 
         // check for a unique key
         if (array_key_exists($key, $this->_customizations)) {
             //double add calls for the same customization are ignored, others cause an exception
             if ($this->_customizations[$key] !== $customization) {
-                throw new Solarium\Exception('A Customization must have a unique key value');
+                throw new Exception('A Customization must have a unique key value');
             }
         }
 
@@ -248,7 +248,7 @@ class CustomizeRequest extends AbstractPlugin
 
             // first validate
             if (!$customization->isValid()) {
-                throw new Solarium\Exception('Request customization with key "' . $key . '" is invalid');
+                throw new Exception('Request customization with key "' . $key . '" is invalid');
             }
 
             // apply to request, depending on type

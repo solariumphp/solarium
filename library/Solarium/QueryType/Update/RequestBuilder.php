@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update;
-use Solarium;
+use Solarium\Exception;
 use Solarium\Client;
 use Solarium\Client\Request;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -50,7 +50,7 @@ use Solarium\Client\RequestBuilder as BaseRequestBuilder;
  * Build an update request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class RequestBuilder extends BaseRequestBuilder
 {
@@ -76,7 +76,7 @@ class RequestBuilder extends BaseRequestBuilder
      * Each commandtype is delegated to a separate builder method.
      *
      * @param UpdateQuery $query
-     * @throws Solarium\Exception
+     * @throws Exception
      * @return string
      */
     public function getRawData($query)
@@ -100,7 +100,7 @@ class RequestBuilder extends BaseRequestBuilder
                     $xml .= $this->buildRollbackXml();
                     break;
                 default:
-                    throw new Solarium\Exception('Unsupported command type');
+                    throw new Exception('Unsupported command type');
                     break;
             }
         }

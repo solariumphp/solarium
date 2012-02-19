@@ -49,7 +49,7 @@ use Solarium\QueryType\Analysis\Query\Query;
  * Build an analysis request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class RequestBuilder extends BaseRequestBuilder
 {

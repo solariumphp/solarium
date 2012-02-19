@@ -47,7 +47,7 @@ use Solarium\Client\Request;
  * Build a document analysis request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class Document extends BaseRequestBuilder
 {

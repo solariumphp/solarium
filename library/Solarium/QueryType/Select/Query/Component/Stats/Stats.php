@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Stats;
-use Solarium;
+use Solarium\Exception;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Query\Component\Component;
 
@@ -145,13 +145,13 @@ class Stats extends Component
         $key = $field->getKey();
 
         if (0 === strlen($key)) {
-            throw new Solarium\Exception('A field must have a key value');
+            throw new Exception('A field must have a key value');
         }
 
         //double add calls for the same field are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->_fields) && $this->_fields[$key] !== $field) {
-            throw new Solarium\Exception('A field must have a unique key value');
+            throw new Exception('A field must have a unique key value');
         } else {
             $this->_fields[$key] = $field;
         }

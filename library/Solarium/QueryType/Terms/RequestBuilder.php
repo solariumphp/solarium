@@ -50,7 +50,7 @@ use Solarium\Client\Request;
  * Build a Terms query request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class RequestBuilder extends BaseRequestBuilder
 {

@@ -47,7 +47,7 @@ use Solarium\Client\Request;
  * Add select component Grouping to the request
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class Grouping
 {

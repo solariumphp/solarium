@@ -48,7 +48,7 @@ use Solarium\QueryType\Select\Result\MoreLikeThis as MoreLikeThisResult;
  * Parse select component MoreLikeThis result from the data
  *
  * @package Solarium
- * @subpackage Client
+ * @subpackage QueryType
  */
 class MoreLikeThis
 {

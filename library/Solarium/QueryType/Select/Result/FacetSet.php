@@ -96,7 +96,7 @@ class FacetSet implements \IteratorAggregate, \Countable
     /**
      * IteratorAggregate implementation
      *
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator()
     {

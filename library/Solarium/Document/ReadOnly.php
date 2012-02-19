@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\Document;
-use Solarium;
+use Solarium\Exception;
 
 /**
  * Read-only Solr document
@@ -113,7 +113,7 @@ class ReadOnly implements \IteratorAggregate, \Countable, \ArrayAccess
      */
     public function __set($name, $value)
     {
-        throw new Solarium\Exception('A readonly document cannot be altered');
+        throw new Exception('A readonly document cannot be altered');
     }
 
     /**
