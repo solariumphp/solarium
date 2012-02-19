@@ -66,7 +66,7 @@ class Document extends Query
      */
     protected $_options = array(
         'handler'       => 'analysis/document',
-        'resultclass'   => 'Solarium\Result\Analysis\Document',
+        'resultclass'   => 'Solarium\QueryType\Analysis\Result\Document',
     );
 
     /**

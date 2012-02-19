@@ -72,7 +72,7 @@ class Query extends BaseQuery
      * @var array
      */
     protected $_options = array(
-        'resultclass' => 'Solarium\Result\Ping',
+        'resultclass' => 'Solarium\QueryType\Ping\Result',
         'handler' => 'admin/ping',
     );
 

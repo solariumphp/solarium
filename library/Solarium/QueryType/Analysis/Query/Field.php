@@ -58,7 +58,7 @@ class Field extends Query
      */
     protected $_options = array(
         'handler'       => 'analysis/field',
-        'resultclass'   => 'Solarium\Result\Analysis\Field',
+        'resultclass'   => 'Solarium\QueryType\Analysis\Result\Field',
     );
 
     /**

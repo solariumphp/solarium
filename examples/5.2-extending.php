@@ -1,10 +1,13 @@
 <?php
 
 require('init.php');
+use Solarium\Client\Client;
+use Solarium\QueryType\Select\Query\Query as Select;
+
 htmlHeader();
 
 // This is a custom query class that could have some customized logic
-class MyQuery extends Solarium\Query\Select\Select
+class MyQuery extends Select
 {
     // ...customization here...
 }
@@ -12,7 +15,7 @@ class MyQuery extends Solarium\Query\Select\Select
 // And this is the extended client, that modifies the default query mapping
 // for select queries to our custom query class.
 // BTW, the same could also be done using a plugin, see example 5.3.2
-class MyClient extends Solarium\Client\Client
+class MyClient extends Client
 {
      /**
      * Querytype mappings
@@ -20,18 +23,8 @@ class MyClient extends Solarium\Client\Client
     protected $_queryTypes = array(
         self::QUERYTYPE_SELECT => array(
             'query'          => 'MyQuery',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Select\Select',
-            'responseparser' => 'Solarium\Client\ResponseParser\Select\Select'
-        ),
-        self::QUERYTYPE_UPDATE => array(
-            'query'          => 'Solarium\Query\Update',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Update',
-            'responseparser' => 'Solarium\Client\ResponseParser\Update'
-        ),
-        self::QUERYTYPE_PING => array(
-            'query'          => 'Solarium\Query\Ping',
-            'requestbuilder' => 'Solarium\Client\RequestBuilder\Ping',
-            'responseparser' => 'Solarium\Client\ResponseParser\Ping'
+            'requestbuilder' => 'Solarium\QueryType\Select\RequestBuilder\RequestBuilder',
+            'responseparser' => 'Solarium\QueryType\Select\ResponseParser\ResponseParser'
         ),
     );
 }

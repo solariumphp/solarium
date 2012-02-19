@@ -71,7 +71,7 @@ class Query extends BaseQuery
      */
     protected $_options = array(
         'handler'       => 'suggest',
-        'resultclass'   => 'Solarium\QueryType\Suggester\Result\Suggester',
+        'resultclass'   => 'Solarium\QueryType\Suggester\Result\Result',
         'termclass'     => 'Solarium\QueryType\Suggester\Result\Term',
     );
 
