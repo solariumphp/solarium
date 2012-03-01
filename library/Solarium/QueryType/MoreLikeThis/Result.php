@@ -42,7 +42,7 @@
  */
 namespace Solarium\QueryType\MoreLikeThis;
 use Solarium\Exception;
-use Solarium\Document\ReadOnly as ReadOnlyDocument;
+use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 
 /**

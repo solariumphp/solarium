@@ -29,9 +29,9 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Document;
+namespace Solarium\Tests\QueryType\Select\Result;
 
-class ReadOnlyTest extends \PHPUnit_Framework_TestCase
+class DocumentTest extends \PHPUnit_Framework_TestCase
 {
 
     protected $_doc;
@@ -44,7 +44,7 @@ class ReadOnlyTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_doc = new \Solarium\Document\ReadOnly($this->_fields);
+        $this->_doc = new \Solarium\QueryType\Select\Result\Document($this->_fields);
     }
 
     public function testGetFields()

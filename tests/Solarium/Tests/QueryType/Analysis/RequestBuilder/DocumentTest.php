@@ -61,10 +61,10 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testGetRawData()
     {
         // this doc tests data escaping
-        $doc1 = new \Solarium\Document\ReadWrite(array('id' => 1, 'name' => 'doc1', 'cat' => 'my > cat'));
+        $doc1 = new \Solarium\QueryType\Update\Query\Document(array('id' => 1, 'name' => 'doc1', 'cat' => 'my > cat'));
 
         // this doc tests a multivalue field
-        $doc2 = new \Solarium\Document\ReadWrite(array('id' => 2, 'name' => 'doc2', 'cat' => array(1,2,3)));
+        $doc2 = new \Solarium\QueryType\Update\Query\Document(array('id' => 2, 'name' => 'doc2', 'cat' => array(1,2,3)));
 
         $this->_query->addDocuments(array($doc1, $doc2));
 

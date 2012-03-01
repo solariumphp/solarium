@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Plugin;
+use Solarium\QueryType\Select\Result\Document;
 
 class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -110,11 +111,11 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
         $numFound = 5;
 
         $docs = array(
-            new \Solarium\Document\ReadOnly(array('id'=>1,'title'=>'doc1')),
-            new \Solarium\Document\ReadOnly(array('id'=>2,'title'=>'doc2')),
-            new \Solarium\Document\ReadOnly(array('id'=>3,'title'=>'doc3')),
-            new \Solarium\Document\ReadOnly(array('id'=>4,'title'=>'doc4')),
-            new \Solarium\Document\ReadOnly(array('id'=>5,'title'=>'doc5')),
+            new Document(array('id'=>1,'title'=>'doc1')),
+            new Document(array('id'=>2,'title'=>'doc2')),
+            new Document(array('id'=>3,'title'=>'doc3')),
+            new Document(array('id'=>4,'title'=>'doc4')),
+            new Document(array('id'=>5,'title'=>'doc5')),
         );
 
         return new SelectDummy(1, 12, $numFound, $docs, array());

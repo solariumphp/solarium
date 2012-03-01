@@ -50,7 +50,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocument()
     {
-        $doc = new \Solarium\Document\ReadWrite(array('id' => 1));
+        $doc = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
         $this->_command->addDocument($doc);
         $this->assertEquals(
             array($doc),
@@ -60,8 +60,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocuments()
     {
-        $doc1 = new \Solarium\Document\ReadWrite(array('id' => 1));
-        $doc2 = new \Solarium\Document\ReadWrite(array('id' => 2));
+        $doc1 = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
+        $doc2 = new \Solarium\QueryType\Update\Query\Document(array('id' => 2));
         $this->_command->addDocuments(array($doc1, $doc2));
         $this->assertEquals(
             array($doc1, $doc2),
@@ -71,12 +71,12 @@ class AddTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocumentsMultipleTimes()
     {
-        $doc1 = new \Solarium\Document\ReadWrite(array('id' => 1));
-        $doc2 = new \Solarium\Document\ReadWrite(array('id' => 2));
+        $doc1 = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
+        $doc2 = new \Solarium\QueryType\Update\Query\Document(array('id' => 2));
         $this->_command->addDocuments(array($doc1, $doc2));
 
-        $doc3 = new \Solarium\Document\ReadWrite(array('id' => 3));
-        $doc4 = new \Solarium\Document\ReadWrite(array('id' => 4));
+        $doc3 = new \Solarium\QueryType\Update\Query\Document(array('id' => 3));
+        $doc4 = new \Solarium\QueryType\Update\Query\Document(array('id' => 4));
         $this->_command->addDocuments(array($doc3, $doc4));
 
         $this->assertEquals(
@@ -87,8 +87,8 @@ class AddTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocumentsIteration()
     {
-        $doc1 = new \Solarium\Document\ReadWrite(array('id' => 1));
-        $doc2 = new \Solarium\Document\ReadWrite(array('id' => 2));
+        $doc1 = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
+        $doc2 = new \Solarium\QueryType\Update\Query\Document(array('id' => 2));
 
         $it = new \ArrayIterator(array($doc1, $doc2));
 
@@ -106,9 +106,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
             'checking first two documents are added correctly'
         );
 
-        $doc3 = new \Solarium\Document\ReadWrite(array('id' => 3));
-        $doc4 = new \Solarium\Document\ReadWrite(array('id' => 4));
-        $doc5 = new \Solarium\Document\ReadWrite(array('id' => 5));
+        $doc3 = new \Solarium\QueryType\Update\Query\Document(array('id' => 3));
+        $doc4 = new \Solarium\QueryType\Update\Query\Document(array('id' => 4));
+        $doc5 = new \Solarium\QueryType\Update\Query\Document(array('id' => 5));
 
         $it2 = new \ArrayIterator(array($doc3, $doc4, $doc5));
 
@@ -132,12 +132,12 @@ class AddTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddDocumentToIteration()
     {
-        $doc1 = new \Solarium\Document\ReadWrite(array('id' => 1));
-        $doc2 = new \Solarium\Document\ReadWrite(array('id' => 2));
+        $doc1 = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
+        $doc2 = new \Solarium\QueryType\Update\Query\Document(array('id' => 2));
 
         $this->_command->addDocuments(new \ArrayIterator(array($doc1, $doc2)));
 
-        $doc3 = new \Solarium\Document\ReadWrite(array('id' => 3));
+        $doc3 = new \Solarium\QueryType\Update\Query\Document(array('id' => 3));
 
         $this->_command->addDocument($doc3);
 

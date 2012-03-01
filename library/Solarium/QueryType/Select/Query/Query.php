@@ -140,7 +140,7 @@ class Query extends BaseQuery
     protected $_options = array(
         'handler'       => 'select',
         'resultclass'   => 'Solarium\QueryType\Select\Result\Result',
-        'documentclass' => 'Solarium\Document\ReadOnly',
+        'documentclass' => 'Solarium\QueryType\Select\Result\Document',
         'query'         => '*:*',
         'start'         => 0,
         'rows'          => 10,

@@ -51,7 +51,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetDocument()
     {
-        $doc = new \Solarium\Document\ReadWrite(array('id' => 1));
+        $doc = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
         $this->_query->addDocument($doc);
         $this->assertEquals(
             array($doc),
@@ -61,8 +61,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetDocuments()
     {
-        $doc1 = new \Solarium\Document\ReadWrite(array('id' => 1));
-        $doc2 = new \Solarium\Document\ReadWrite(array('id' => 2));
+        $doc1 = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
+        $doc2 = new \Solarium\QueryType\Update\Query\Document(array('id' => 2));
         $this->_query->addDocuments(array($doc1, $doc2));
         $this->assertEquals(
             array($doc1, $doc2),

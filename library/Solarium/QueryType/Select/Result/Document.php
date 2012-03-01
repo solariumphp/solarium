@@ -33,13 +33,13 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Document
+ * @subpackage QueryType
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Document;
+namespace Solarium\QueryType\Select\Result;
 use Solarium\Exception;
 
 /**
@@ -51,7 +51,7 @@ use Solarium\Exception;
  * @package Solarium
  * @subpackage Document
  */
-class ReadOnly implements \IteratorAggregate, \Countable, \ArrayAccess
+class Document implements \IteratorAggregate, \Countable, \ArrayAccess
 {
 
     /**

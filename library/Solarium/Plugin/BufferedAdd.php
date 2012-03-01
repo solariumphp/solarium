@@ -43,7 +43,7 @@ namespace Solarium\Plugin;
 use Solarium\Client;
 use Solarium\QueryType\Update\Result as UpdateResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\Document\ReadOnly as ReadOnlyDocument;
+use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 
 /**
  * Buffered add plugin

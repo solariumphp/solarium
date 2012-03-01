@@ -56,7 +56,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $docs = array(new \Solarium\Document\ReadOnly(array('field1' => 'value1')));
+        $docs = array(new \Solarium\QueryType\Select\Result\Document(array('field1' => 'value1')));
         $expected = array(
             'id1' => new \Solarium\QueryType\Select\Result\MoreLikeThis\Result(12, 1.75, $docs)
         );

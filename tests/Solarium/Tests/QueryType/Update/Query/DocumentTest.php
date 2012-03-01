@@ -29,9 +29,9 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Document;
+namespace Solarium\Tests\QueryType\Update\Query;
 
-class ReadWriteTest extends \PHPUnit_Framework_TestCase
+class DocumentTest extends \PHPUnit_Framework_TestCase
 {
 
     protected $_doc;
@@ -44,14 +44,14 @@ class ReadWriteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_doc = new \Solarium\Document\ReadWrite($this->_fields);
+        $this->_doc = new \Solarium\QueryType\Update\Query\Document($this->_fields);
     }
-    
+
     public function testConstructorWithFieldsAndBoosts()
     {
         $fields = array('id' => 1, 'name' => 'testname');
         $boosts = array('name' => 2.7);
-        $doc = new \Solarium\Document\ReadWrite($fields, $boosts);
+        $doc = new \Solarium\QueryType\Update\Query\Document($fields, $boosts);
 
         $this->assertEquals(
             $fields,
@@ -123,7 +123,7 @@ class ReadWriteTest extends \PHPUnit_Framework_TestCase
 
         $expectedFields = $this->_fields;
         $expectedFields['name'] = 'newname';
-        
+
         $this->assertEquals(
             $expectedFields,
             $this->_doc->getFields()
@@ -134,10 +134,10 @@ class ReadWriteTest extends \PHPUnit_Framework_TestCase
     {
         $falsy_value = '';
         $this->_doc->setField('name', $falsy_value);
- 
+
         $expectedFields = $this->_fields;
         $expectedFields['name'] = $falsy_value;
- 
+
         $this->assertEquals(
             $expectedFields,
             $this->_doc->getFields()
@@ -313,5 +313,5 @@ class ReadWriteTest extends \PHPUnit_Framework_TestCase
             $this->_doc->getFieldBoost('name')
         );
     }
-    
+
 }

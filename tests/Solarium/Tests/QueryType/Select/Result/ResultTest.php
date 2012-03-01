@@ -47,8 +47,8 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->_numFound = 11;
 
         $this->_docs = array(
-            new \Solarium\Document\ReadOnly(array('id'=>1,'title'=>'doc1')),
-            new \Solarium\Document\ReadOnly(array('id'=>1,'title'=>'doc1')),
+            new \Solarium\QueryType\Select\Result\Document(array('id'=>1,'title'=>'doc1')),
+            new \Solarium\QueryType\Select\Result\Document(array('id'=>1,'title'=>'doc1')),
         );
 
         $this->_facetSet = 'dummy-facetset-value';

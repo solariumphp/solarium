@@ -77,7 +77,7 @@ class Query extends SelectQuery
     protected $_options = array(
         'handler'       => 'mlt',
         'resultclass'   => 'Solarium\QueryType\MoreLikeThis\Result',
-        'documentclass' => 'Solarium\Document\ReadOnly',
+        'documentclass' => 'Solarium\QueryType\Select\Result\Document',
         'query'         => '*:*',
         'start'         => 0,
         'rows'          => 10,

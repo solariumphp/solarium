@@ -296,7 +296,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocument()
     {
-        $doc = new \Solarium\Document\ReadWrite(array('id' => 1));
+        $doc = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
 
         $this->_query->addDocument($doc);
         $commands = $this->_query->getCommands();
@@ -314,8 +314,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocuments()
     {
-        $doc1 = new \Solarium\Document\ReadWrite(array('id' => 1));
-        $doc2 = new \Solarium\Document\ReadWrite(array('id' => 1));
+        $doc1 = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
+        $doc2 = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
 
         $this->_query->addDocuments(array($doc1,$doc2), true, 100);
         $commands = $this->_query->getCommands();
@@ -462,6 +462,6 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class MyCustomDoc extends \Solarium\Document\ReadWrite{
+class MyCustomDoc extends \Solarium\QueryType\Update\Query\Document{
 
 }

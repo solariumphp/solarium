@@ -44,8 +44,8 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $docs = array(
-            new \Solarium\Document\ReadOnly(array('id'=>1,'name'=>'test1')),
-            new \Solarium\Document\ReadOnly(array('id'=>2,'name'=>'test2')),
+            new \Solarium\QueryType\Select\Result\Document(array('id'=>1,'name'=>'test1')),
+            new \Solarium\QueryType\Select\Result\Document(array('id'=>2,'name'=>'test2')),
         );
 
         $this->_results = array(

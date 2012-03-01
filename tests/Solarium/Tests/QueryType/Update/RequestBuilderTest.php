@@ -71,7 +71,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlNoParamsSingleDocument()
     {
         $command = new \Solarium\QueryType\Update\Query\Command\Add;
-        $command->addDocument(new \Solarium\Document\ReadWrite(array('id' => 1)));
+        $command->addDocument(new \Solarium\QueryType\Update\Query\Document(array('id' => 1)));
 
         $this->assertEquals(
             '<add><doc><field name="id">1</field></doc></add>',
@@ -82,7 +82,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlWithParams()
     {
         $command = new \Solarium\QueryType\Update\Query\Command\Add(array('overwrite' => true,'commitwithin' => 100));
-        $command->addDocument(new \Solarium\Document\ReadWrite(array('id' => 1)));
+        $command->addDocument(new \Solarium\QueryType\Update\Query\Document(array('id' => 1)));
 
         $this->assertEquals(
             '<add overwrite="true" commitWithin="100"><doc><field name="id">1</field></doc></add>',
@@ -93,7 +93,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlSpecialCharacters()
     {
         $command = new \Solarium\QueryType\Update\Query\Command\Add;
-        $command->addDocument(new \Solarium\Document\ReadWrite(array('id' => 1, 'text' => 'test < 123 > test')));
+        $command->addDocument(new \Solarium\QueryType\Update\Query\Document(array('id' => 1, 'text' => 'test < 123 > test')));
 
         $this->assertEquals(
             '<add><doc><field name="id">1</field><field name="text">test &lt; 123 &gt; test</field></doc></add>',
@@ -104,7 +104,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlMultivalueField()
     {
         $command = new \Solarium\QueryType\Update\Query\Command\Add;
-        $command->addDocument(new \Solarium\Document\ReadWrite(array('id' => array(1,2,3), 'text' => 'test < 123 > test')));
+        $command->addDocument(new \Solarium\QueryType\Update\Query\Document(array('id' => array(1,2,3), 'text' => 'test < 123 > test')));
 
         $this->assertEquals(
             '<add><doc><field name="id">1</field><field name="id">2</field><field name="id">3</field><field name="text">test &lt; 123 &gt; test</field></doc></add>',
@@ -114,7 +114,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildAddXmlSingleDocumentWithBoost()
     {
-        $doc = new \Solarium\Document\ReadWrite(array('id' => 1));
+        $doc = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
         $doc->setBoost(2.5);
         $command = new \Solarium\QueryType\Update\Query\Command\Add;
         $command->addDocument($doc);
@@ -127,7 +127,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildAddXmlSingleDocumentWithFieldBoost()
     {
-        $doc = new \Solarium\Document\ReadWrite(array('id' => 1));
+        $doc = new \Solarium\QueryType\Update\Query\Document(array('id' => 1));
         $doc->setFieldBoost('id',2.1);
         $command = new \Solarium\QueryType\Update\Query\Command\Add;
         $command->addDocument($doc);
@@ -141,8 +141,8 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlMultipleDocuments()
     {
         $command = new \Solarium\QueryType\Update\Query\Command\Add;
-        $command->addDocument(new \Solarium\Document\ReadWrite(array('id' => 1)));
-        $command->addDocument(new \Solarium\Document\ReadWrite(array('id' => 2)));
+        $command->addDocument(new \Solarium\QueryType\Update\Query\Document(array('id' => 1)));
+        $command->addDocument(new \Solarium\QueryType\Update\Query\Document(array('id' => 2)));
 
         $this->assertEquals(
             '<add><doc><field name="id">1</field></doc><doc><field name="id">2</field></doc></add>',
@@ -287,7 +287,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->_query->addDeleteById(1);
         $this->_query->addRollback();
         $this->_query->addDeleteQuery('*:*');
-        $this->_query->addDocument(new \Solarium\Document\ReadWrite(array('id' => 1)));
+        $this->_query->addDocument(new \Solarium\QueryType\Update\Query\Document(array('id' => 1)));
         $this->_query->addCommit();
         $this->_query->addOptimize();
 

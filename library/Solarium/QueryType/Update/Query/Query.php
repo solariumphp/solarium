@@ -41,7 +41,6 @@
  */
 namespace Solarium\QueryType\Update\Query;
 use Solarium\Exception;
-use Solarium\Document\ReadWrite as ReadWriteDocument;
 use Solarium\Client\Client;
 use Solarium\Query\Query as BaseQuery;
 
@@ -104,7 +103,7 @@ class Query extends BaseQuery
     protected $_options = array(
         'handler'       => 'update',
         'resultclass'   => 'Solarium\QueryType\Update\Result',
-        'documentclass' => 'Solarium\Document\ReadWrite',
+        'documentclass' => 'Solarium\QueryType\Update\Query\Document',
     );
 
     /**
@@ -318,7 +317,7 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param ReadWriteDocument $document
+     * @param Document $document
      * @param boolean $overwrite
      * @param int $commitWithin
      * @return self Provides fluent interface
@@ -399,7 +398,7 @@ class Query extends BaseQuery
    /**
     * Set a custom document class for use in the createDocument method
     *
-    * This class should extend Solarium\Document\ReadWrite or
+    * This class should extend the Document class or
     * at least be compatible with it's interface
     *
     * @param string $value classname
@@ -432,7 +431,7 @@ class Query extends BaseQuery
      *
      * @param array $fields
      * @param array $boosts
-     * @return ReadWriteDocument
+     * @return Document
      */
     public function createDocument($fields = array(), $boosts = array())
     {

@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Plugin;
+use Solarium\QueryType\Update\Query\Document;
 
 class BufferedAddTest extends \PHPUnit_Framework_TestCase
 {
@@ -52,7 +53,7 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocument()
     {
-        $doc = new \Solarium\Document\ReadWrite();
+        $doc = new Document();
         $doc->id = '123';
         $doc->name = 'test';
 
@@ -64,7 +65,7 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
     public function testCreateDocument()
     {
         $data = array('id' => '123', 'name' => 'test');
-        $doc = new \Solarium\Document\ReadWrite($data);
+        $doc = new Document($data);
 
         $this->_plugin->createDocument($data);
 
@@ -73,11 +74,11 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocuments()
     {
-        $doc1 = new \Solarium\Document\ReadWrite();
+        $doc1 = new Document();
         $doc1->id = '123';
         $doc1->name = 'test';
 
-        $doc2 = new \Solarium\Document\ReadWrite();
+        $doc2 = new Document();
         $doc2->id = '234';
         $doc2->name = 'test2';
 
@@ -94,11 +95,11 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $observer->expects($this->once())->method('flush');
         $observer->setBufferSize(1);
 
-        $doc1 = new \Solarium\Document\ReadWrite();
+        $doc1 = new Document();
         $doc1->id = '123';
         $doc1->name = 'test';
 
-        $doc2 = new \Solarium\Document\ReadWrite();
+        $doc2 = new Document();
         $doc2->id = '234';
         $doc2->name = 'test2';
 
@@ -109,7 +110,7 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
 
     public function testClear()
     {
-        $doc = new \Solarium\Document\ReadWrite();
+        $doc = new Document();
         $doc->id = '123';
         $doc->name = 'test';
 
@@ -127,7 +128,7 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
     public function testFlush()
     {
         $data = array('id' => '123', 'name' => 'test');
-        $doc = new \Solarium\Document\ReadWrite($data);
+        $doc = new Document($data);
 
         $mockUpdate = $this->getMock('Solarium\Query\Update', array('addDocuments'));
         $mockUpdate->expects($this->once())->method('addDocuments')->with($this->equalTo(array($doc)),$this->equalTo(true),$this->equalTo(12));
@@ -147,7 +148,7 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
     public function testCommit()
     {
         $data = array('id' => '123', 'name' => 'test');
-        $doc = new \Solarium\Document\ReadWrite($data);
+        $doc = new Document($data);
 
         $mockUpdate = $this->getMock('Solarium\Query\Update', array('addDocuments', 'addCommit'));
         $mockUpdate->expects($this->once())->method('addDocuments')->with($this->equalTo(array($doc)),$this->equalTo(true));

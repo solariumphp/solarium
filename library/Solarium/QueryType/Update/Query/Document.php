@@ -39,7 +39,8 @@
 /**
  * @namespace
  */
-namespace Solarium\Document;
+namespace Solarium\QueryType\Update\Query;
+use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 
 /**
  * Read/Write Solr document
@@ -55,9 +56,9 @@ namespace Solarium\Document;
  * Solr. Always update from the original data source.
  *
  * @package Solarium
- * @subpackage Document
+ * @subpackage QueryType
  */
-class ReadWrite extends ReadOnly
+class Document extends ReadOnlyDocument
 {
 
     /**

@@ -50,7 +50,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $query = new \Solarium\QueryType\Select\Query\Query(array('documentclass' => 'Solarium\Document\ReadWrite'));
+        $query = new \Solarium\QueryType\Select\Query\Query(array('documentclass' => 'Solarium\QueryType\Update\Query\Document'));
         $query->getFacetSet();
 
         $resultStub = $this->getMock('Solarium\QueryType\Select\Result\Result', array(), array(), '', false);
@@ -69,8 +69,8 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(503, $result['numfound']);
 
         $docs = array(
-            new \Solarium\Document\ReadWrite(array('fieldA' => 1, 'fieldB' => 'Test')),
-            new \Solarium\Document\ReadWrite(array('fieldA' => 2, 'fieldB' => 'Test2'))
+            new \Solarium\QueryType\Update\Query\Document(array('fieldA' => 1, 'fieldB' => 'Test')),
+            new \Solarium\QueryType\Update\Query\Document(array('fieldA' => 2, 'fieldB' => 'Test2'))
         );
         $this->assertEquals($docs, $result['documents']);
 
@@ -95,7 +95,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $query = new \Solarium\QueryType\Select\Query\Query(array('documentclass' => 'Solarium\Document\ReadWrite'));
+        $query = new \Solarium\QueryType\Select\Query\Query(array('documentclass' => 'Solarium\QueryType\Update\Query\Document'));
         $query->getFacetSet();
 
         $resultStub = $this->getMock('Solarium\QueryType\Select\Result\Result', array(), array(), '', false);
