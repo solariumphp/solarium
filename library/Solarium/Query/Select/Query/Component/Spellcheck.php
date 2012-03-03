@@ -41,6 +41,8 @@
  */
 namespace Solarium\Query\Select\Query\Component;
 use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\Query\Select\RequestBuilder\Component\Spellcheck as RequestBuilder;
+use Solarium\Query\Select\ResponseParser\Component\Spellcheck as ResponseParser;
 
 /**
  * Spellcheck component
@@ -53,11 +55,34 @@ use Solarium\Query\Select\Query\Query as SelectQuery;
 class Spellcheck extends Component
 {
     /**
-     * Component type
+     * Get component type
      *
-     * @var string
+     * @return string
      */
-    protected $type = SelectQuery::COMPONENT_SPELLCHECK;
+    public function getType()
+    {
+        return SelectQuery::COMPONENT_SPELLCHECK;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
+    }
 
     /**
      * Set query option

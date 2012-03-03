@@ -41,6 +41,7 @@
  */
 namespace Solarium\Query\Select\Query\Component;
 use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\Query\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 
 /**
  * DisMax component
@@ -54,13 +55,6 @@ class DisMax extends Component
 {
 
     /**
-     * Component type
-     *
-     * @var string
-     */
-    protected $type = SelectQuery::COMPONENT_DISMAX;
-
-    /**
      * Default options
      *
      * @var array
@@ -68,6 +62,36 @@ class DisMax extends Component
     protected $options = array(
         'queryparser' => 'dismax',
     );
+
+    /**
+     * Get component type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return SelectQuery::COMPONENT_DISMAX;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * This component has no response parser...
+     *
+     * @return null
+     */
+    public function getResponseParser()
+    {
+        return null;
+    }
 
     /**
      * Set QueryAlternative option

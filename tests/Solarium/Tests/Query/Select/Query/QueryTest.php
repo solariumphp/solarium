@@ -577,11 +577,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testRegisterComponentType()
     {
         $components = $this->query->getComponentTypes();
-        $components['mykey'] = array(
-            'component' => 'mycomponent',
-            'requestbuilder' => 'mybuilder',
-            'responseparser' => 'myparser',
-        );
+        $components['mykey'] = 'mycomponent';
 
         $this->query->registerComponentType('mykey','mycomponent','mybuilder','myparser');
 

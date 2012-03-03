@@ -41,6 +41,7 @@
  */
 namespace Solarium\Query\Select\Query\Component;
 use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\Query\Select\RequestBuilder\Component\DistributedSearch as RequestBuilder;
 
 /**
  * Distributed Search (sharding) component
@@ -54,18 +55,41 @@ class DistributedSearch extends Component
 {
 
     /**
-     * Component type
-     *
-     * @var string
-     */
-    protected $type = SelectQuery::COMPONENT_DISTRIBUTEDSEARCH;
-
-    /**
      * Request to be distributed across all shards in the list
      *
      * @var array
      */
     protected $shards = array();
+
+    /**
+     * Get component type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return SelectQuery::COMPONENT_DISTRIBUTEDSEARCH;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * This component has no response parser...
+     *
+     * @return null
+     */
+    public function getResponseParser()
+    {
+        return null;
+    }
 
     /**
      * Initialize options

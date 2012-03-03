@@ -43,6 +43,8 @@ namespace Solarium\Query\Select\Query\Component\Stats;
 use Solarium\Core\Exception;
 use Solarium\Query\Select\Query\Query as SelectQuery;
 use Solarium\Query\Select\Query\Component\Component;
+use Solarium\Query\Select\RequestBuilder\Component\Stats as RequestBuilder;
+use Solarium\Query\Select\ResponseParser\Component\Stats as ResponseParser;
 
 /**
  * Stats component
@@ -54,13 +56,6 @@ use Solarium\Query\Select\Query\Component\Component;
  */
 class Stats extends Component
 {
-
-    /**
-     * Component type
-     *
-     * @var string
-     */
-    protected $type = SelectQuery::COMPONENT_STATS;
 
     /**
      * Stats facets for all fields
@@ -75,6 +70,36 @@ class Stats extends Component
      * @var array
      */
     protected $fields = array();
+
+    /**
+     * Get component type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return SelectQuery::COMPONENT_STATS;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
+    }
 
     /**
      * Initialize options

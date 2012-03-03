@@ -48,26 +48,29 @@ use Solarium\Core\Configurable;
  * @package Solarium
  * @subpackage Query
  */
-class Component extends Configurable
+abstract class Component extends Configurable
 {
-
-    /**
-     * Component type
-     *
-     * To be implemented in extending classes
-     *
-     * @var string
-     */
-    protected $type = '';
 
     /**
      * Get component type
      *
      * @return string
      */
-    public function getType()
-    {
-        return $this->type;
-    }
+    abstract public function getType();
+
+    /**
+     * Get the requestbuilder class for this query
+     *
+     * @return object
+     */
+    abstract public function getRequestBuilder();
+
+
+    /**
+     * Get the response parser class for this query
+     *
+     * @return object
+     */
+    abstract public function getResponseParser();
 
 }

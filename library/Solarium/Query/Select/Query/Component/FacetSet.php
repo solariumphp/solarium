@@ -42,6 +42,8 @@
 namespace Solarium\Query\Select\Query\Component;
 use Solarium\Core\Exception;
 use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\Query\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
+use Solarium\Query\Select\ResponseParser\Component\FacetSet as ResponseParser;
 
 /**
  * MoreLikeThis component
@@ -87,13 +89,6 @@ class FacetSet extends Component
     );
 
     /**
-     * Component type
-     *
-     * @var string
-     */
-    protected $type = SelectQuery::COMPONENT_FACETSET;
-
-    /**
      * Default options
      *
      * @var array
@@ -106,6 +101,36 @@ class FacetSet extends Component
      * @var array
      */
     protected $facets = array();
+
+    /**
+     * Get component type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return SelectQuery::COMPONENT_FACETSET;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
+    }
 
     /**
      * Initialize options

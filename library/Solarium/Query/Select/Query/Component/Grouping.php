@@ -41,6 +41,8 @@
  */
 namespace Solarium\Query\Select\Query\Component;
 use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\Query\Select\RequestBuilder\Component\Grouping as RequestBuilder;
+use Solarium\Query\Select\ResponseParser\Component\Grouping as ResponseParser;
 
 /**
  * Grouping component
@@ -88,6 +90,36 @@ class Grouping extends Component
      * @var array
      */
     protected $queries = array();
+
+    /**
+     * Get component type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return SelectQuery::COMPONENT_GROUPING;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
+    }
 
     /**
      * Initialize options

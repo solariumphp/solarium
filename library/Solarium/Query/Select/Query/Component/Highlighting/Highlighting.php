@@ -43,6 +43,8 @@ namespace Solarium\Query\Select\Query\Component\Highlighting;
 use Solarium\Core\Exception;
 use Solarium\Query\Select\Query\Query as SelectQuery;
 use Solarium\Query\Select\Query\Component\Component;
+use Solarium\Query\Select\RequestBuilder\Component\Highlighting as RequestBuilder;
+use Solarium\Query\Select\ResponseParser\Component\Highlighting as ResponseParser;
 
 /**
  * Highlighting component
@@ -65,18 +67,41 @@ class Highlighting extends Component
     const FRAGMENTER_REGEX = 'regex';
 
     /**
-     * Component type
-     *
-     * @var string
-     */
-    protected $type = SelectQuery::COMPONENT_HIGHLIGHTING;
-
-    /**
      * Array of fields for highlighting
      *
      * @var array
      */
     protected $fields = array();
+
+    /**
+     * Get component type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return SelectQuery::COMPONENT_HIGHLIGHTING;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
+    }
 
     /**
      * Initialize options

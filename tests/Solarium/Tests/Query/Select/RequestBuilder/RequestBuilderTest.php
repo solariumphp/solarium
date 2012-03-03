@@ -166,4 +166,14 @@ class TestDummyComponent extends Component{
     {
         return 'testcomponent';
     }
+
+    public function getRequestBuilder()
+    {
+        return null;
+    }
+
+    public function getResponseParser()
+    {
+        return null;
+    }
 }

@@ -93,11 +93,9 @@ class RequestBuilder extends BaseRequestBuilder
         }
 
         // add components to request
-        $types = $query->getComponentTypes();
         foreach ($query->getComponents() as $component) {
-            $componentBuilderClass = $types[$component->getType()]['requestbuilder'];
-            if (!empty($componentBuilderClass)) {
-                $componentBuilder = new $componentBuilderClass;
+            $componentBuilder = $component->getRequestBuilder();
+            if ($componentBuilder) {
                 $request = $componentBuilder->buildComponent($component, $request);
             }
         }

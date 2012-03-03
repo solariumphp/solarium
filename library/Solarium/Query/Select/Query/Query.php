@@ -175,51 +175,15 @@ class Query extends BaseQuery
      * @var array
      */
     protected $componentTypes = array(
-        self::COMPONENT_FACETSET => array(
-            'component' => 'Solarium\Query\Select\Query\Component\FacetSet',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\Component\FacetSet',
-            'responseparser' => 'Solarium\Query\Select\ResponseParser\Component\FacetSet',
-        ),
-        self::COMPONENT_DISMAX => array(
-            'component' => 'Solarium\Query\Select\Query\Component\DisMax',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\Component\DisMax',
-            'responseparser' => null,
-        ),
-        self::COMPONENT_MORELIKETHIS => array(
-            'component' => 'Solarium\Query\Select\Query\Component\MoreLikeThis',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\Component\MoreLikeThis',
-            'responseparser' => 'Solarium\Query\Select\ResponseParser\Component\MoreLikeThis',
-        ),
-        self::COMPONENT_HIGHLIGHTING => array(
-            'component' => 'Solarium\Query\Select\Query\Component\Highlighting\Highlighting',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\Component\Highlighting',
-            'responseparser' => 'Solarium\Query\Select\ResponseParser\Component\Highlighting',
-        ),
-        self::COMPONENT_GROUPING => array(
-            'component' => 'Solarium\Query\Select\Query\Component\Grouping',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\Component\Grouping',
-            'responseparser' => 'Solarium\Query\Select\ResponseParser\Component\Grouping',
-        ),
-        self::COMPONENT_SPELLCHECK => array(
-            'component' => 'Solarium\Query\Select\Query\Component\Spellcheck',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\Component\Spellcheck',
-            'responseparser' => 'Solarium\Query\Select\ResponseParser\Component\Spellcheck',
-        ),
-        self::COMPONENT_DISTRIBUTEDSEARCH => array(
-            'component' => 'Solarium\Query\Select\Query\Component\DistributedSearch',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\Component\DistributedSearch',
-            'responseparser' => null,
-        ),
-        self::COMPONENT_STATS => array(
-            'component' => 'Solarium\Query\Select\Query\Component\Stats\Stats',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\Component\Stats',
-            'responseparser' => 'Solarium\Query\Select\ResponseParser\Component\Stats',
-        ),
-        self::COMPONENT_DEBUG => array(
-            'component' => 'Solarium\Query\Select\Query\Component\Debug',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\Component\Debug',
-            'responseparser' => 'Solarium\Query\Select\ResponseParser\Component\Debug',
-        ),
+        self::COMPONENT_FACETSET          => 'Solarium\Query\Select\Query\Component\FacetSet',
+        self::COMPONENT_DISMAX            => 'Solarium\Query\Select\Query\Component\DisMax',
+        self::COMPONENT_MORELIKETHIS      => 'Solarium\Query\Select\Query\Component\MoreLikeThis',
+        self::COMPONENT_HIGHLIGHTING      => 'Solarium\Query\Select\Query\Component\Highlighting\Highlighting',
+        self::COMPONENT_GROUPING          => 'Solarium\Query\Select\Query\Component\Grouping',
+        self::COMPONENT_SPELLCHECK        => 'Solarium\Query\Select\Query\Component\Spellcheck',
+        self::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\Query\Select\Query\Component\DistributedSearch',
+        self::COMPONENT_STATS             => 'Solarium\Query\Select\Query\Component\Stats\Stats',
+        self::COMPONENT_DEBUG             => 'Solarium\Query\Select\Query\Component\Debug',
     );
 
     /**
@@ -784,18 +748,11 @@ class Query extends BaseQuery
      *
      * @param string $key
      * @param string $component
-     * @param string $requestBuilder
-     * @param string $responseParser
      * @return self Provides fluent interface
      */
-    public function registerComponentType($key, $component, $requestBuilder=null, $responseParser=null)
+    public function registerComponentType($key, $component)
     {
-        $this->componentTypes[$key] = array(
-            'component' => $component,
-            'requestbuilder' => $requestBuilder,
-            'responseparser' => $responseParser,
-        );
-
+        $this->componentTypes[$key] = $component;
         return $this;
     }
 
@@ -831,7 +788,7 @@ class Query extends BaseQuery
                     throw new Exception('Cannot autoload unknown component: ' . $key);
                 }
 
-                $className = $this->componentTypes[$key]['component'];
+                $className = $this->componentTypes[$key];
                 $className = class_exists($className) ? $className : $className.strrchr($className, '\\');
                 $component = new $className($config);
                 $this->setComponent($key, $component);

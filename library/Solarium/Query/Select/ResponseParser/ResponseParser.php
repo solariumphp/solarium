@@ -75,11 +75,9 @@ class ResponseParser extends BaseResponseParser
 
         // component results
         $components = array();
-        $types = $query->getComponentTypes();
         foreach ($query->getComponents() as $component) {
-            $componentParserClass = $types[$component->getType()]['responseparser'];
-            if (!empty($componentParserClass)) {
-                $componentParser = new $componentParserClass;
+            $componentParser = $component->getResponseParser();
+            if ($componentParser) {
                 $components[$component->getType()] = $componentParser->parse($query, $component, $data);
             }
         }

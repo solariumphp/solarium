@@ -46,5 +46,18 @@ class ComponentTest extends \PHPUnit_Framework_TestCase
 
 class TestComponent extends Component{
 
-    protected $type = 'testtype';
+    public function getType()
+    {
+        return 'testtype';
+    }
+
+    public function getRequestBuilder()
+    {
+        return null;
+    }
+
+    public function getResponseParser()
+    {
+        return null;
+    }
 }

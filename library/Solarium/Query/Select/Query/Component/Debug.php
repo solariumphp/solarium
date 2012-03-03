@@ -41,6 +41,8 @@
  */
 namespace Solarium\Query\Select\Query\Component;
 use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\Query\Select\RequestBuilder\Component\Debug as RequestBuilder;
+use Solarium\Query\Select\ResponseParser\Component\Debug as ResponseParser;
 
 /**
  * Debug component
@@ -54,11 +56,34 @@ class Debug extends Component
 {
 
     /**
-     * Component type
+     * Get component type
      *
-     * @var string
+     * @return string
      */
-    protected $type = SelectQuery::COMPONENT_DEBUG;
+    public function getType()
+    {
+        return SelectQuery::COMPONENT_DEBUG;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
+    }
 
     /**
      * Get the explainOther option
