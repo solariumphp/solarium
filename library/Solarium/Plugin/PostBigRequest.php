@@ -41,8 +41,9 @@
  */
 namespace Solarium\Plugin;
 use Solarium\Client;
-use Solarium\Query\Query;
-use Solarium\Client\Request;
+use Solarium\Core\Plugin;
+use Solarium\Core\Query\Query;
+use Solarium\Core\Client\Request;
 
 /**
  * PostBigRequest plugin
@@ -57,7 +58,7 @@ use Solarium\Client\Request;
  * @package Solarium
  * @subpackage Plugin
  */
-class PostBigRequest extends AbstractPlugin
+class PostBigRequest extends Plugin
 {
 
     /**
@@ -65,7 +66,7 @@ class PostBigRequest extends AbstractPlugin
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'maxquerystringlength' => 1024,
     );
 
@@ -77,7 +78,7 @@ class PostBigRequest extends AbstractPlugin
      */
     public function setMaxQueryStringLength($value)
     {
-        return $this->_setOption('maxquerystringlength', $value);
+        return $this->setOption('maxquerystringlength', $value);
     }
 
     /**

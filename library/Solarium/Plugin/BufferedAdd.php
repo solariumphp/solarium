@@ -41,9 +41,10 @@
  */
 namespace Solarium\Plugin;
 use Solarium\Client;
-use Solarium\QueryType\Update\Result as UpdateResult;
-use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
+use Solarium\Core\Plugin;
+use Solarium\Query\Update\Result as UpdateResult;
+use Solarium\Query\Update\Query\Query as UpdateQuery;
+use Solarium\Query\Select\Result\Document as ReadOnlyDocument;
 
 /**
  * Buffered add plugin
@@ -54,7 +55,7 @@ use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
  * @package Solarium
  * @subpackage Plugin
  */
-class BufferedAdd extends AbstractPlugin
+class BufferedAdd extends Plugin
 {
 
     /**
@@ -62,7 +63,7 @@ class BufferedAdd extends AbstractPlugin
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'buffersize' => 100,
     );
 
@@ -71,26 +72,26 @@ class BufferedAdd extends AbstractPlugin
      *
      * @var UpdateQuery
      */
-    protected $_updateQuery;
+    protected $updateQuery;
 
     /**
      * Buffered documents
      *
      * @var array
      */
-    protected $_buffer = array();
+    protected $buffer = array();
 
     /**
      * Plugin init function
      *
      * This is an extension point for plugin implementations.
-     * Will be called as soon as $this->_client and options have been set.
+     * Will be called as soon as $this->client and options have been set.
      *
      * @return void
      */
-    protected function _initPlugin()
+    protected function initPluginType()
     {
-        $this->_updateQuery = $this->_client->createUpdate();
+        $this->updateQuery = $this->client->createUpdate();
     }
 
     /**
@@ -101,7 +102,7 @@ class BufferedAdd extends AbstractPlugin
      */
     public function setBufferSize($size)
     {
-        return $this->_setOption('buffersize', $size);
+        return $this->setOption('buffersize', $size);
     }
 
     /**
@@ -123,7 +124,7 @@ class BufferedAdd extends AbstractPlugin
      */
     public function createDocument($fields, $boosts = array())
     {
-        $doc = $this->_updateQuery->createDocument($fields, $boosts);
+        $doc = $this->updateQuery->createDocument($fields, $boosts);
         $this->addDocument($doc);
 
         return $this;
@@ -137,8 +138,8 @@ class BufferedAdd extends AbstractPlugin
      */
     public function addDocument($document)
     {
-        $this->_buffer[] = $document;
-        if (count($this->_buffer) == $this->_options['buffersize']) {
+        $this->buffer[] = $document;
+        if (count($this->buffer) == $this->options['buffersize']) {
             $this->flush();
         }
 
@@ -169,7 +170,7 @@ class BufferedAdd extends AbstractPlugin
      */
     public function getDocuments()
     {
-        return $this->_buffer;
+        return $this->buffer;
     }
 
     /**
@@ -179,8 +180,8 @@ class BufferedAdd extends AbstractPlugin
      */
     public function clear()
     {
-        $this->_updateQuery = $this->_client->createUpdate();
-        $this->_buffer = array();
+        $this->updateQuery = $this->client->createUpdate();
+        $this->buffer = array();
         return $this;
     }
 
@@ -193,18 +194,18 @@ class BufferedAdd extends AbstractPlugin
      */
     public function flush($overwrite = null, $commitWithin = null)
     {
-        if (count($this->_buffer) == 0) {
+        if (count($this->buffer) == 0) {
             // nothing to do
             return false;
         }
 
-        $this->_client->triggerEvent('BufferedAddFlushStart', array($this->_buffer));
+        $this->client->triggerEvent('BufferedAddFlushStart', array($this->buffer));
 
-        $this->_updateQuery->addDocuments($this->_buffer, $overwrite, $commitWithin);
-        $result = $this->_client->update($this->_updateQuery);
+        $this->updateQuery->addDocuments($this->buffer, $overwrite, $commitWithin);
+        $result = $this->client->update($this->updateQuery);
         $this->clear();
 
-        $this->_client->triggerEvent('BufferedAddFlushEnd', array($result));
+        $this->client->triggerEvent('BufferedAddFlushEnd', array($result));
 
         return $result;
     }
@@ -222,14 +223,14 @@ class BufferedAdd extends AbstractPlugin
      */
     public function commit($overwrite = null, $waitFlush = null, $waitSearcher = null, $expungeDeletes = null)
     {
-        $this->_client->triggerEvent('BufferedAddCommitStart', array($this->_buffer));
+        $this->client->triggerEvent('BufferedAddCommitStart', array($this->buffer));
 
-        $this->_updateQuery->addDocuments($this->_buffer, $overwrite);
-        $this->_updateQuery->addCommit($waitFlush, $waitSearcher, $expungeDeletes);
-        $result = $this->_client->update($this->_updateQuery);
+        $this->updateQuery->addDocuments($this->buffer, $overwrite);
+        $this->updateQuery->addCommit($waitFlush, $waitSearcher, $expungeDeletes);
+        $result = $this->client->update($this->updateQuery);
         $this->clear();
 
-        $this->_client->triggerEvent('BufferedAddCommitEnd', array($result));
+        $this->client->triggerEvent('BufferedAddCommitEnd', array($result));
 
         return $result;
     }

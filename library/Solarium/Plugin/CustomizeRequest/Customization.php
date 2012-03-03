@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
-use Solarium\Configurable;
+use Solarium\Core\Configurable;
 
 /**
  * Customization value object
@@ -66,7 +66,7 @@ class Customization extends Configurable
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'key' => null,
         'type' => null,
         'name' => null,
@@ -83,7 +83,7 @@ class Customization extends Configurable
      */
     public function setKey($value)
     {
-        $this->_setOption('key', $value);
+        $this->setOption('key', $value);
         return $this;
     }
 
@@ -105,7 +105,7 @@ class Customization extends Configurable
      */
     public function setType($value)
     {
-        $this->_setOption('type', $value);
+        $this->setOption('type', $value);
         return $this;
     }
 
@@ -127,7 +127,7 @@ class Customization extends Configurable
      */
     public function setName($value)
     {
-        $this->_setOption('name', $value);
+        $this->setOption('name', $value);
         return $this;
     }
 
@@ -149,7 +149,7 @@ class Customization extends Configurable
      */
     public function setValue($value)
     {
-        $this->_setOption('value', $value);
+        $this->setOption('value', $value);
         return $this;
     }
 
@@ -171,7 +171,7 @@ class Customization extends Configurable
      */
     public function setPersistent($value)
     {
-        $this->_setOption('persistent', $value);
+        $this->setOption('persistent', $value);
         return $this;
     }
 
@@ -193,7 +193,7 @@ class Customization extends Configurable
      */
     public function setOverwrite($value)
     {
-        $this->_setOption('overwrite', $value);
+        $this->setOption('overwrite', $value);
         return $this;
     }
 

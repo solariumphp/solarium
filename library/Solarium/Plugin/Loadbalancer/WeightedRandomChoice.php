@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer;
-use Solarium\Exception;
+use Solarium\Core\Exception;
 
 /**
  * Weighted random choice class
@@ -58,21 +58,21 @@ class WeightedRandomChoice
      *
      * @var int
      */
-    protected $_totalWeight = 0;
+    protected $totalWeight = 0;
 
     /**
      * Choices total lookup array
      *
      * @var array
      */
-    protected $_lookup = array();
+    protected $lookup = array();
 
     /**
      * Values lookup array
      *
      * @var array
      */
-    protected $_values = array();
+    protected $values = array();
 
     /**
      * Constructor
@@ -85,9 +85,9 @@ class WeightedRandomChoice
         foreach ($choices AS $key => $weight) {
             if ($weight <=0) throw new Exception('Weight must be greater than zero');
 
-            $this->_totalWeight += $weight;
-            $this->_lookup[$i] = $this->_totalWeight;
-            $this->_values[$i] = $key;
+            $this->totalWeight += $weight;
+            $this->lookup[$i] = $this->totalWeight;
+            $this->values[$i] = $key;
 
             $i++;
         }
@@ -101,7 +101,7 @@ class WeightedRandomChoice
      */
     public function getRandom($excludes = array())
     {
-        if (count($excludes) == count($this->_values)) {
+        if (count($excludes) == count($this->values)) {
             throw new Exception('No more server entries available');
         }
 
@@ -109,7 +109,7 @@ class WeightedRandomChoice
         // @todo optimize?
         $result = null;
         while (1) {
-            $result = $this->_values[$this->_getKey()];
+            $result = $this->values[$this->getKey()];
             if(!in_array($result, $excludes)) break;
         }
 
@@ -121,24 +121,24 @@ class WeightedRandomChoice
      *
      * @return int
      */
-    protected function _getKey()
+    protected function getKey()
     {
-        $random = mt_rand(1, $this->_totalWeight);
-        $high = count($this->_lookup)-1;
+        $random = mt_rand(1, $this->totalWeight);
+        $high = count($this->lookup)-1;
         $low = 0;
 
         while ( $low < $high ) {
             $probe = (int)(($high + $low) / 2);
-            if ($this->_lookup[$probe] < $random) {
+            if ($this->lookup[$probe] < $random) {
                 $low = $probe + 1;
-            } else if ($this->_lookup[$probe] > $random) {
+            } else if ($this->lookup[$probe] > $random) {
                 $high = $probe - 1;
             } else {
                 return $probe;
             }
         }
 
-        if ($this->_lookup[$low] >= $random) {
+        if ($this->lookup[$low] >= $random) {
             return $low;
         } else {
             return $low+1;

@@ -41,8 +41,9 @@
  */
 namespace Solarium\Plugin;
 use Solarium\Client;
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\Result\Result as SelectResult;
+use Solarium\Core\Plugin;
+use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\Query\Select\Result\Result as SelectResult;
 
 /**
  * Prefetch plugin
@@ -53,7 +54,7 @@ use Solarium\QueryType\Select\Result\Result as SelectResult;
  * @package Solarium
  * @subpackage Plugin
  */
-class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
+class PrefetchIterator extends Plugin implements \Iterator, \Countable
 {
 
     /**
@@ -61,7 +62,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'prefetch' => 100,
     );
 
@@ -70,35 +71,35 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      *
      * @var SelectQuery
      */
-    protected $_query;
+    protected $query;
 
     /**
      * Start position (offset)
      *
      * @var int
      */
-    protected $_start = 0;
+    protected $start = 0;
 
     /**
      * Last resultset from the query instance
      *
      * @var SelectResult
      */
-    protected $_result;
+    protected $result;
 
     /**
      * Iterator position
      *
      * @var int
      */
-    protected $_position;
+    protected $position;
 
     /**
      * Documents from the last resultset
      *
      * @var array
      */
-    protected $_documents;
+    protected $documents;
 
     /**
      * Set prefetch option
@@ -108,7 +109,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     public function setPrefetch($value)
     {
-        return $this->_setOption('prefetch', $value);
+        return $this->setOption('prefetch', $value);
     }
 
     /**
@@ -129,7 +130,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     public function setQuery($query)
     {
-        $this->_query = $query;
+        $this->query = $query;
         return $this;
     }
 
@@ -140,7 +141,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     public function getQuery()
     {
-        return $this->_query;
+        return $this->query;
     }
 
     /**
@@ -151,9 +152,9 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     public function count()
     {
         // if no results are available yet, get them now
-        if (null == $this->_result) $this->_fetchNext();
+        if (null == $this->result) $this->fetchNext();
 
-        return $this->_result->getNumFound();
+        return $this->result->getNumFound();
     }
 
     /**
@@ -161,11 +162,11 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     function rewind()
     {
-        $this->_position = 0;
+        $this->position = 0;
 
         // this condition prevent useless re-fetching of data if a count is done before the iterator is used
-        if ($this->_start !== $this->_options['prefetch']) {
-            $this->_start = 0;
+        if ($this->start !== $this->options['prefetch']) {
+            $this->start = 0;
         }
     }
 
@@ -174,8 +175,8 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     function current()
     {
-        $adjustedIndex = $this->_position % $this->_options['prefetch'];
-        return $this->_documents[$adjustedIndex];
+        $adjustedIndex = $this->position % $this->options['prefetch'];
+        return $this->documents[$adjustedIndex];
     }
 
     /**
@@ -185,7 +186,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     function key()
     {
-        return $this->_position;
+        return $this->position;
     }
 
     /**
@@ -193,7 +194,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     function next()
     {
-        ++$this->_position;
+        ++$this->position;
     }
 
     /**
@@ -203,14 +204,14 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     function valid()
     {
-        $adjustedIndex = $this->_position % $this->_options['prefetch'];
+        $adjustedIndex = $this->position % $this->options['prefetch'];
 
         // this condition prevent useless re-fetching of data if a count is done before the iterator is used
-        if ($adjustedIndex == 0 && ($this->_position !== 0 || null == $this->_result)) {
-            $this->_fetchNext();
+        if ($adjustedIndex == 0 && ($this->position !== 0 || null == $this->result)) {
+            $this->fetchNext();
         }
 
-        return isset($this->_documents[$adjustedIndex]);
+        return isset($this->documents[$adjustedIndex]);
     }
 
     /**
@@ -218,11 +219,11 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      *
      * @return void
      */
-    protected function _fetchNext()
+    protected function fetchNext()
     {
-        $this->_query->setStart($this->_start)->setRows($this->getPrefetch());
-        $this->_result = $this->_client->execute($this->_query);
-        $this->_documents = $this->_result->getDocuments();
-        $this->_start += $this->getPrefetch();
+        $this->query->setStart($this->start)->setRows($this->getPrefetch());
+        $this->result = $this->client->execute($this->query);
+        $this->documents = $this->result->getDocuments();
+        $this->start += $this->getPrefetch();
     }
 }

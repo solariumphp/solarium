@@ -40,10 +40,10 @@
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
-use Solarium\Exception;
-use Solarium\Plugin\AbstractPlugin;
-use Solarium\Query\Query;
-use Solarium\Client\Request;
+use Solarium\Core\Exception;
+use Solarium\Core\Plugin;
+use Solarium\Core\Query\Query;
+use Solarium\Core\Client\Request;
 
 /**
  * CustomizeRequest plugin
@@ -54,7 +54,7 @@ use Solarium\Client\Request;
  * @package Solarium
  * @subpackage Plugin
  */
-class CustomizeRequest extends AbstractPlugin
+class CustomizeRequest extends Plugin
 {
 
     /**
@@ -62,16 +62,16 @@ class CustomizeRequest extends AbstractPlugin
      *
      * @var array
      */
-    protected $_customizations = array();
+    protected $customizations = array();
 
     /**
      * Initialize options
      *
      * @return void
      */
-    protected function _init()
+    protected function init()
     {
-        foreach ($this->_options AS $name => $value) {
+        foreach ($this->options AS $name => $value) {
             switch ($name) {
                 case 'customization':
                     $this->addCustomizations($value);
@@ -132,14 +132,14 @@ class CustomizeRequest extends AbstractPlugin
         }
 
         // check for a unique key
-        if (array_key_exists($key, $this->_customizations)) {
+        if (array_key_exists($key, $this->customizations)) {
             //double add calls for the same customization are ignored, others cause an exception
-            if ($this->_customizations[$key] !== $customization) {
+            if ($this->customizations[$key] !== $customization) {
                 throw new Exception('A Customization must have a unique key value');
             }
         }
 
-        $this->_customizations[$key] = $customization;
+        $this->customizations[$key] = $customization;
 
         return $this;
     }
@@ -173,8 +173,8 @@ class CustomizeRequest extends AbstractPlugin
      */
     public function getCustomization($key)
     {
-        if (isset($this->_customizations[$key])) {
-            return $this->_customizations[$key];
+        if (isset($this->customizations[$key])) {
+            return $this->customizations[$key];
         } else {
             return null;
         }
@@ -187,7 +187,7 @@ class CustomizeRequest extends AbstractPlugin
      */
     public function getCustomizations()
     {
-        return $this->_customizations;
+        return $this->customizations;
     }
 
     /**
@@ -204,8 +204,8 @@ class CustomizeRequest extends AbstractPlugin
             $customization = $customization->getKey();
         }
 
-        if (isset($this->_customizations[$customization])) {
-            unset($this->_customizations[$customization]);
+        if (isset($this->customizations[$customization])) {
+            unset($this->customizations[$customization]);
         }
 
         return $this;
@@ -218,7 +218,7 @@ class CustomizeRequest extends AbstractPlugin
      */
     public function clearCustomizations()
     {
-        $this->_customizations = array();
+        $this->customizations = array();
         return $this;
     }
 

@@ -40,13 +40,13 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer;
-use Solarium\Plugin\AbstractPlugin;
-use Solarium\Exception;
-use Solarium\Client\Client;
-use Solarium\Client\HttpException;
-use Solarium\Query\Query;
-use Solarium\Client\Request;
-use Solarium\Client\Response;
+use Solarium\Core\Plugin;
+use Solarium\Core\Exception;
+use Solarium\Core\Client\Client;
+use Solarium\Core\Client\HttpException;
+use Solarium\Core\Query\Query;
+use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Response;
 
 /**
  * Loadbalancer plugin
@@ -64,7 +64,7 @@ use Solarium\Client\Response;
  * @package Solarium
  * @subpackage Plugin
  */
-class Loadbalancer extends AbstractPlugin
+class Loadbalancer extends Plugin
 {
 
     /**
@@ -72,7 +72,7 @@ class Loadbalancer extends AbstractPlugin
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'failoverenabled' => false,
         'failovermaxretries' => 1,
     );
@@ -82,15 +82,15 @@ class Loadbalancer extends AbstractPlugin
      *
      * @var array
      */
-    protected $_servers = array();
+    protected $servers = array();
 
     /**
      * Query types that are blocked from loadbalancing
      *
      * @var array
      */
-    protected $_blockedQueryTypes = array(
-        Client::QUERYTYPE_UPDATE => true
+    protected $blockedQueryTypes = array(
+        Client::QUERY_UPDATE => true
     );
 
     /**
@@ -100,14 +100,14 @@ class Loadbalancer extends AbstractPlugin
      *
      * @var null|string
      */
-    protected $_lastServerKey;
+    protected $lastServerKey;
 
     /**
      * Server to use for next query (overrules randomizer)
      *
      * @var string
      */
-    protected $_nextServer;
+    protected $nextServer;
 
     /**
      * Presets of the client adapter
@@ -117,28 +117,28 @@ class Loadbalancer extends AbstractPlugin
      *
      * @var array
      */
-    protected $_adapterPresets;
+    protected $adapterPresets;
 
     /**
      * Pool of servers to use for requests
      *
      * @var WeightedRandomChoice
      */
-    protected $_randomizer;
+    protected $randomizer;
 
     /**
      * Query type
      *
      * @var string
      */
-    protected $_queryType;
+    protected $queryType;
 
     /**
      * Used for failover mechanism
      *
      * @var array
      */
-    protected $_serverExcludes;
+    protected $serverExcludes;
 
     /**
      * Initialize options
@@ -148,9 +148,9 @@ class Loadbalancer extends AbstractPlugin
      *
      * @return void
      */
-    protected function _init()
+    protected function init()
     {
-        foreach ($this->_options AS $name => $value) {
+        foreach ($this->options AS $name => $value) {
             switch ($name) {
                 case 'server':
                     $this->setServers($value);
@@ -170,7 +170,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function setFailoverEnabled($value)
     {
-        return $this->_setOption('failoverenabled', $value);
+        return $this->setOption('failoverenabled', $value);
     }
 
     /**
@@ -191,7 +191,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function setFailoverMaxRetries($value)
     {
-        return $this->_setOption('failovermaxretries', $value);
+        return $this->setOption('failovermaxretries', $value);
     }
 
     /**
@@ -214,17 +214,17 @@ class Loadbalancer extends AbstractPlugin
      */
     public function addServer($key, $options, $weight = 1)
     {
-        if (array_key_exists($key, $this->_servers)) {
+        if (array_key_exists($key, $this->servers)) {
             throw new Exception('A server for the loadbalancer plugin must have a unique key');
         } else {
-            $this->_servers[$key] = array(
+            $this->servers[$key] = array(
                 'options' => $options,
                 'weight' => $weight,
             );
         }
 
         // reset the randomizer as soon as a new server is added
-        $this->_randomizer = null;
+        $this->randomizer = null;
 
         return $this;
     }
@@ -236,7 +236,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function getServers()
     {
-        return $this->_servers;
+        return $this->servers;
     }
 
     /**
@@ -247,11 +247,11 @@ class Loadbalancer extends AbstractPlugin
      */
     public function getServer($key)
     {
-        if (!isset($this->_servers[$key])) {
+        if (!isset($this->servers[$key])) {
             throw new Exception('Unknown server key');
         }
 
-        return $this->_servers[$key];
+        return $this->servers[$key];
     }
 
     /**
@@ -289,7 +289,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function clearServers()
     {
-        $this->_servers = array();
+        $this->servers = array();
     }
 
     /**
@@ -300,8 +300,8 @@ class Loadbalancer extends AbstractPlugin
      */
     public function removeServer($key)
     {
-        if (isset($this->_servers[$key])) {
-            unset($this->_servers[$key]);
+        if (isset($this->servers[$key])) {
+            unset($this->servers[$key]);
         }
 
         return $this;
@@ -321,11 +321,11 @@ class Loadbalancer extends AbstractPlugin
      */
     public function setForcedServerForNextQuery($key)
     {
-        if ($key !== null && !array_key_exists($key, $this->_servers)) {
+        if ($key !== null && !array_key_exists($key, $this->servers)) {
             throw new Exception('Unknown server forced for next query');
         }
 
-        $this->_nextServer = $key;
+        $this->nextServer = $key;
         return $this;
     }
 
@@ -336,7 +336,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function getForcedServerForNextQuery()
     {
-        return $this->_nextServer;
+        return $this->nextServer;
     }
 
     /**
@@ -346,7 +346,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function getBlockedQueryTypes()
     {
-        return array_keys($this->_blockedQueryTypes);
+        return array_keys($this->blockedQueryTypes);
     }
 
     /**
@@ -372,8 +372,8 @@ class Loadbalancer extends AbstractPlugin
      */
     public function addBlockedQueryType($type)
     {
-        if (!array_key_exists($type, $this->_blockedQueryTypes)) {
-            $this->_blockedQueryTypes[$type] = true;
+        if (!array_key_exists($type, $this->blockedQueryTypes)) {
+            $this->blockedQueryTypes[$type] = true;
         }
 
         return $this;
@@ -402,8 +402,8 @@ class Loadbalancer extends AbstractPlugin
      */
     public function removeBlockedQueryType($type)
     {
-        if (array_key_exists($type, $this->_blockedQueryTypes)) {
-            unset($this->_blockedQueryTypes[$type]);
+        if (array_key_exists($type, $this->blockedQueryTypes)) {
+            unset($this->blockedQueryTypes[$type]);
         }
     }
 
@@ -414,7 +414,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function clearBlockedQueryTypes()
     {
-        $this->_blockedQueryTypes = array();
+        $this->blockedQueryTypes = array();
     }
 
     /**
@@ -426,7 +426,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function getLastServerKey()
     {
-        return $this->_lastServerKey;
+        return $this->lastServerKey;
     }
 
     /**
@@ -437,7 +437,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function preCreateRequest($query)
     {
-        $this->_queryType = $query->getType();
+        $this->queryType = $query->getType();
     }
 
     /**
@@ -448,11 +448,11 @@ class Loadbalancer extends AbstractPlugin
      */
     public function preExecuteRequest($request)
     {
-        $adapter = $this->_client->getAdapter();
+        $adapter = $this->client->getAdapter();
 
         // save adapter presets (once) to allow the settings to be restored later
-        if ($this->_adapterPresets == null) {
-            $this->_adapterPresets = array(
+        if ($this->adapterPresets == null) {
+            $this->adapterPresets = array(
                 'host'    => $adapter->getHost(),
                 'port'    => $adapter->getPort(),
                 'path'    => $adapter->getPath(),
@@ -462,11 +462,11 @@ class Loadbalancer extends AbstractPlugin
         }
 
         // check querytype: is loadbalancing allowed?
-        if (!array_key_exists($this->_queryType, $this->_blockedQueryTypes)) {
-            return  $this->_getLoadbalancedResponse($request);
+        if (!array_key_exists($this->queryType, $this->blockedQueryTypes)) {
+            return  $this->getLoadbalancedResponse($request);
         } else {
-            $options = $this->_adapterPresets;
-            $this->_lastServerKey = null;
+            $options = $this->adapterPresets;
+            $this->lastServerKey = null;
 
             // apply new settings to adapter
             $adapter->setOptions($options);
@@ -482,15 +482,15 @@ class Loadbalancer extends AbstractPlugin
      * @param Request $request
      * @return Response $response
      */
-    protected function _getLoadbalancedResponse($request)
+    protected function getLoadbalancedResponse($request)
     {
-        $this->_serverExcludes = array(); // reset for each query
-        $adapter = $this->_client->getAdapter();
+        $this->serverExcludes = array(); // reset for each query
+        $adapter = $this->client->getAdapter();
 
         if ($this->getFailoverEnabled() == true) {
 
             for ($i=0; $i<=$this->getFailoverMaxRetries(); $i++) {
-                $options = $this->_getRandomServerOptions();
+                $options = $this->getRandomServerOptions();
                 $adapter->setOptions($options);
                 try {
                     return $adapter->execute($request);
@@ -498,7 +498,7 @@ class Loadbalancer extends AbstractPlugin
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
                     $e = new Exception('Maximum number of loadbalancer retries reached');
-                    $this->_client->triggerEvent('LoadbalancerServerFail', array($options, $e));
+                    $this->client->triggerEvent('LoadbalancerServerFail', array($options, $e));
                 }
             }
 
@@ -508,7 +508,7 @@ class Loadbalancer extends AbstractPlugin
 
         } else {
             // no failover retries, just execute and let an exception bubble upwards
-            $options = $this->_getRandomServerOptions();
+            $options = $this->getRandomServerOptions();
             $adapter->setOptions($options);
             return $adapter->execute($request);
         }
@@ -519,20 +519,20 @@ class Loadbalancer extends AbstractPlugin
      *
      * @return array
      */
-    protected function _getRandomServerOptions()
+    protected function getRandomServerOptions()
     {
         // determine the server to use
-        if ($this->_nextServer !== null) {
-            $serverKey = $this->_nextServer;
+        if ($this->nextServer !== null) {
+            $serverKey = $this->nextServer;
             // reset forced server directly after use
-            $this->_nextServer = null;
+            $this->nextServer = null;
         } else {
-            $serverKey = $this->_getRandomizer()->getRandom($this->_serverExcludes);
+            $serverKey = $this->getRandomizer()->getRandom($this->serverExcludes);
         }
 
-        $this->_serverExcludes[] = $serverKey;
-        $this->_lastServerKey = $serverKey;
-        return $this->_servers[$serverKey]['options'];
+        $this->serverExcludes[] = $serverKey;
+        $this->lastServerKey = $serverKey;
+        return $this->servers[$serverKey]['options'];
     }
 
     /**
@@ -540,17 +540,17 @@ class Loadbalancer extends AbstractPlugin
      *
      * @return WeightedRandomChoice
      */
-    protected function _getRandomizer()
+    protected function getRandomizer()
     {
-        if ($this->_randomizer === null) {
+        if ($this->randomizer === null) {
             $choices = array();
-            foreach ($this->_servers AS $key => $settings) {
+            foreach ($this->servers AS $key => $settings) {
                 $choices[$key] = $settings['weight'];
             }
-            $this->_randomizer = new WeightedRandomChoice($choices);
+            $this->randomizer = new WeightedRandomChoice($choices);
         }
 
-        return $this->_randomizer;
+        return $this->randomizer;
     }
 
 }

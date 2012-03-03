@@ -40,9 +40,10 @@
  * @namespace
  */
 namespace Solarium\Plugin;
-use Solarium\Client\HttpException;
-use Solarium\Client\Client;
-use Solarium\Query\Query;
+use Solarium\Core\Plugin;
+use Solarium\Core\Client\HttpException;
+use Solarium\Core\Client\Client;
+use Solarium\Core\Query\Query;
 
 /**
  * ParallelExecution plugin
@@ -58,7 +59,7 @@ use Solarium\Query\Query;
  */
 
 // @codeCoverageIgnoreStart
-class ParallelExecution extends AbstractPlugin
+class ParallelExecution extends Plugin
 {
 
     /**
@@ -66,7 +67,7 @@ class ParallelExecution extends AbstractPlugin
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'curlmultiselecttimeout' => 0.1,
     );
 
@@ -75,7 +76,7 @@ class ParallelExecution extends AbstractPlugin
      *
      * @var array
      */
-    protected $_queries = array();
+    protected $queries = array();
 
     /**
      * Add a query to execute
@@ -87,9 +88,9 @@ class ParallelExecution extends AbstractPlugin
      */
     public function addQuery($key, $query, $client = null)
     {
-        if($client == null) $client = $this->_client;
+        if($client == null) $client = $this->client;
 
-        $this->_queries[$key] = array(
+        $this->queries[$key] = array(
             'query' => $query,
             'client' => $client,
         );
@@ -104,7 +105,7 @@ class ParallelExecution extends AbstractPlugin
      */
     public function getQueries()
     {
-        return $this->_queries;
+        return $this->queries;
     }
 
     /**
@@ -114,7 +115,7 @@ class ParallelExecution extends AbstractPlugin
      */
     public function clearQueries()
     {
-        $this->_queries = array();
+        $this->queries = array();
         return $this;
     }
 
@@ -142,8 +143,8 @@ class ParallelExecution extends AbstractPlugin
         // create handles and add all handles to the multihandle
         $multiHandle = curl_multi_init();
         $handles = array();
-        foreach ($this->_queries as $key => $data) {
-            $request = $this->_client->createRequest($data['query']);
+        foreach ($this->queries as $key => $data) {
+            $request = $this->client->createRequest($data['query']);
             $adapter = $data['client']->setAdapter('Solarium\Client\Adapter\Curl')->getAdapter();
             $handle = $adapter->createHandle($request);
             curl_multi_add_handle($multiHandle, $handle);
@@ -151,7 +152,7 @@ class ParallelExecution extends AbstractPlugin
         }
 
         // executing multihandle (all requests)
-        $this->_client->triggerEvent('ParallelExecutionStart');
+        $this->client->triggerEvent('ParallelExecutionStart');
 
         do {
             $mrc = curl_multi_exec($multiHandle, $active);
@@ -166,7 +167,7 @@ class ParallelExecution extends AbstractPlugin
             }
         }
 
-        $this->_client->triggerEvent('ParallelExecutionEnd');
+        $this->client->triggerEvent('ParallelExecutionEnd');
 
         // get the results
         $results = array();
@@ -174,7 +175,7 @@ class ParallelExecution extends AbstractPlugin
             try {
                 curl_multi_remove_handle($multiHandle, $handle);
                 $response = $adapter->getResponse($handle, curl_multi_getcontent($handle));
-                $results[$key] = $this->_client->createResult($queries[$key]['query'], $response);
+                $results[$key] = $this->client->createResult($queries[$key]['query'], $response);
             } catch(HttpException $e) {
 
                 $results[$key] = $e;

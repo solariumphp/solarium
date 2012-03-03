@@ -43,9 +43,10 @@ namespace Solarium;
 /**
  * Autoloader
  *
- * This class is included to allow for easy usage of Solarium. If you already
- * have your own autoloader that follows the Zend Framework class/file naming
- * you can use that to autoload Solarium (for instance Zend_Loader).
+ * This class is included to allow for easy usage of Solarium.
+ *
+ * Please note that Solarium is also PSR-0 compliant, so you can
+ * use any compatible autoloader (most modern frameworks include one)
  *
  * @package Solarium
  */
