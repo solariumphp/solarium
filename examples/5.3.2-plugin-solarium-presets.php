@@ -1,8 +1,8 @@
 <?php
 require('init.php');
-use Solarium\Client\Client;
+use Solarium\Client;
 use Solarium\Plugin\AbstractPlugin;
-use Solarium\QueryType\Select\Query\Query as Select;
+use Solarium\Query\Select\Query\Query as Select;
 
 // This is a custom query class that could have some customized logic
 class MyQuery extends Select
@@ -17,10 +17,10 @@ class queryCustomizer extends AbstractPlugin
     protected function _initPlugin()
     {
         $this->_client->registerQueryType(
-            Client::QUERYTYPE_SELECT,
+            Client::QUERY_SELECT,
             'MyQuery',
-            'Solarium\QueryType\Select\RequestBuilder\RequestBuilder',
-            'Solarium\QueryType\Select\ResponseParser\ResponseParser'
+            'Solarium\Query\Select\RequestBuilder\RequestBuilder',
+            'Solarium\Query\Select\ResponseParser\ResponseParser'
         );
     }
 

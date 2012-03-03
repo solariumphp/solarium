@@ -5,7 +5,7 @@ htmlHeader();
 
 
 // this is the custom result document class
-class myDoc extends Solarium\Document\ReadOnly{
+class myDoc extends Solarium\Query\Select\Result\Document{
 
     public function getSpecialPrice()
     {
@@ -16,7 +16,7 @@ class myDoc extends Solarium\Document\ReadOnly{
 
 
 // create a client instance
-$client = new Solarium\Client\Client($config);
+$client = new Solarium\Client($config);
 
 // get a select query instance
 $query = $client->createSelect();

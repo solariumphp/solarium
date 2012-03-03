@@ -4,13 +4,13 @@ require('init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client\Client($config);
+$client = new Solarium\Client($config);
 
 // get a select query instance
-$query = $client->createSelect();
+$query = $client->createQuery($client::QUERY_SELECT);
 
 // this executes the query and returns the result
-$resultset = $client->select($query);
+$resultset = $client->execute($query);
 
 // display the total number of documents found by solr
 echo 'NumFound: '.$resultset->getNumFound();

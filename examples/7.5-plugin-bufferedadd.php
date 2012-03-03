@@ -19,7 +19,7 @@ class simpleDebug extends \Solarium\Plugin\AbstractPlugin
 htmlHeader();
 
 // create a client instance and autoload the buffered add plugin
-$client = new Solarium\Client\Client($config);
+$client = new Solarium\Client($config);
 $buffer = $client->getPlugin('bufferedadd');
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 

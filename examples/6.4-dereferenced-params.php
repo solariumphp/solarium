@@ -4,7 +4,7 @@ require('init.php');
 htmlHeader();
 
 // create a client instance and get a select query instance
-$client = new Solarium\Client\Client($config);
+$client = new Solarium\Client($config);
 
 
 

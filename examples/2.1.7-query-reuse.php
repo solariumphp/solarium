@@ -1,8 +1,8 @@
 <?php
 
 require('init.php');
-use Solarium\Client\Client;
-use Solarium\QueryType\Select\Query\Query as Select;
+use Solarium\Client;
+use Solarium\Query\Select\Query\Query as Select;
 
 htmlHeader();
 

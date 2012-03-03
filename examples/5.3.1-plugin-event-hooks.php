@@ -3,84 +3,84 @@ require('init.php');
 
 
 // this very simple plugin shows a timing for each event and display some request debug info
-class basicDebug extends Solarium\Plugin\AbstractPlugin
+class basicDebug extends Solarium\Core\Plugin
 {
 
-    protected $_start;
-    protected $_output = array();
+    protected $start;
+    protected $output = array();
 
-    public function _initPlugin()
+    public function initPlugin()
     {
-        $this->_start = microtime(true);
+        $this->start = microtime(true);
     }
 
-    protected function _timer($event)
+    protected function timer($event)
     {
-        $time = round(microtime(true) - $this->_start, 5);
-        $this->_output[] = '['.$time.'] ' . $event;
+        $time = round(microtime(true) - $this->start, 5);
+        $this->output[] = '['.$time.'] ' . $event;
 
     }
 
     public function display()
     {
-        echo implode('<br/>', $this->_output);
+        echo implode('<br/>', $this->output);
     }
 
     public function preCreateRequest()
     {
-        $this->_timer('preCreateRequest');
+        $this->timer('preCreateRequest');
     }
 
     public function postCreateRequest()
     {
-        $this->_timer('postCreateRequest');
+        $this->timer('postCreateRequest');
     }
 
     // This method uses the aviable param(s) (see plugin abstract class)
     // You can access or modify data this way
     public function preExecuteRequest($request)
     {
-        $this->_timer('preExecuteRequest');
+        $this->timer('preExecuteRequest');
 
         // this dummy param will be visible in the debug output but will also be used in the actual Solr request
         $request->addParam('dummyparam', 'dummyvalue');
 
-        $this->_output[] = 'Request URI: ' . $request->getUri();
+        $this->output[] = 'Request URI: ' . $request->getUri();
     }
 
     public function postExecuteRequest()
     {
-        $this->_timer('postExecuteRequest');
+        $this->timer('postExecuteRequest');
     }
 
     public function preCreateResult()
     {
-        $this->_timer('preCreateResult');
+        $this->timer('preCreateResult');
     }
 
     public function postCreateResult()
     {
-        $this->_timer('postCreateResult');
+        $this->timer('postCreateResult');
     }
 
     public function preExecute()
     {
-        $this->_timer('preExecute');
+        $this->timer('preExecute');
     }
 
     public function postExecute()
     {
-        $this->_timer('postExecute');
+        $this->timer('postExecute');
     }
 
     public function preCreateQuery()
     {
-        $this->_timer('preCreateResult');
+        $this->timer('preCreateResult');
     }
 
     public function postCreateQuery()
     {
-        $this->_timer('postCreateResult');
+        $this->timer('postCreateResult');
     }
 
 }
@@ -90,7 +90,7 @@ htmlHeader();
 
 // create a client instance and register the plugin
 $plugin = new basicDebug();
-$client = new Solarium\Client\Client($config);
+$client = new Solarium\Client($config);
 $client->registerPlugin('debugger', $plugin);
 
 // execute a select query and display the results

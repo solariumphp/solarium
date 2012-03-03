@@ -1,7 +1,7 @@
 <?php
 
 require('init.php');
-use Solarium\Client\Client;
+use Solarium\Client;
 
 htmlHeader();
 

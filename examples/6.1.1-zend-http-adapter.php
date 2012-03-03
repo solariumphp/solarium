@@ -7,7 +7,7 @@ require('init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client\Client($config);
+$client = new Solarium\Client($config);
 
 // set the adapter to zendhttp and get a zendhttp client instance reference
 $client->setAdapter('Solarium\Client\Adapter\ZendHttp');

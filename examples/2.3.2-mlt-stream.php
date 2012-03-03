@@ -4,7 +4,7 @@ require('init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client\Client($config);
+$client = new Solarium\Client($config);
 
 // get a morelikethis query instance
 $query = $client->createMoreLikeThis();

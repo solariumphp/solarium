@@ -1,12 +1,12 @@
 <?php
 
 require('init.php');
-use Solarium\QueryType\Select\Query\Query as Select;
+use Solarium\Query\Select\Query\Query as Select;
 
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client\Client($config);
+$client = new Solarium\Client($config);
 
 // get a select query instance
 $query = $client->createSelect();
