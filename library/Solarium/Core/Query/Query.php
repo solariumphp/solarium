@@ -74,6 +74,21 @@ abstract class Query extends Configurable
     abstract public function getType();
 
     /**
+     * Get the requestbuilder class for this query
+     *
+     * @return object
+     */
+    abstract public function getRequestBuilder();
+
+
+    /**
+     * Get the response parser class for this query
+     *
+     * @return object
+     */
+    abstract public function getResponseParser();
+
+    /**
      * Set handler option
      *
      * @param string $handler

@@ -67,11 +67,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'port' => 8080,
             ),
             'querytype' => array(
-                'myquerytype' => array(
-                    'query'          => 'MyQuery',
-                    'requestbuilder' => 'MyRequestBuilder',
-                    'responseparser' => 'MyResponseParser'
-                )
+                'myquerytype' => 'MyQuery',
             ),
             'plugin' => array(
                 'myplugin' => array(
@@ -116,8 +112,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 array(
                     'type'           => 'myquerytype',
                     'query'          => 'MyQuery',
-                    'requestbuilder' => 'MyRequestBuilder',
-                    'responseparser' => 'MyResponseParser',
                 )
             ),
             'plugin' => array(
@@ -141,11 +135,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $queryTypes = $this->client->getQueryTypes();
         $this->assertEquals(
-            array(
-                'requestbuilder' => 'MyRequestBuilder',
-                'responseparser' => 'MyResponseParser',
-                'query'          => 'MyQuery',
-            ),
+            'MyQuery',
             $queryTypes['myquerytype']
         );
 
@@ -179,13 +169,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $queryTypes = $this->client->getQueryTypes();
 
-        $this->client->registerQueryType('myquerytype','myquery','mybuilder','myparser');
+        $this->client->registerQueryType('myquerytype','myquery');
 
-        $queryTypes['myquerytype'] = array(
-            'query' => 'myquery',
-            'requestbuilder' => 'mybuilder',
-            'responseparser' => 'myparser',
-        );
+        $queryTypes['myquerytype'] = 'myquery';
 
         $this->assertEquals(
             $queryTypes,
@@ -287,14 +273,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateRequest()
     {
         $queryStub = $this->getMock('Solarium\Query\Select\Query\Query');
-        $queryStub->expects($this->any())
-             ->method('getType')
-             ->will($this->returnValue('testquerytype'));
 
         $observer = $this->getMock('Solarium\Core\Client\RequestBuilder', array('build'));
         $observer->expects($this->once())
                  ->method('build')
                  ->with($this->equalTo($queryStub));
+
+        $queryStub->expects($this->any())
+             ->method('getType')
+             ->will($this->returnValue('testquerytype'));
+        $queryStub->expects($this->any())
+             ->method('getType')
+             ->will($this->returnValue('testquerytype'));
+        $queryStub->expects($this->any())
+             ->method('getRequestBuilder')
+             ->will($this->returnValue($observer));
 
         $this->client->registerQueryType('testquerytype', 'Solarium\Query\Select\Query\Query', $observer, '');
         $this->client->createRequest($queryStub);

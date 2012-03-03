@@ -69,7 +69,17 @@ class TestAnalysisQuery extends Query{
 
     public function getType()
     {
+        return null;
+    }
 
+    public function getRequestBuilder()
+    {
+        return null;
+    }
+
+    public function getResponseParser()
+    {
+        return null;
     }
 
 }

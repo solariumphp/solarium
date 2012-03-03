@@ -42,6 +42,7 @@
 namespace Solarium\Query\Ping;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\Core\Client\Client;
+use Solarium\Query\Ping\RequestBuilder as RequestBuilder;
 
 /**
  * Ping query
@@ -64,6 +65,26 @@ class Query extends BaseQuery
     public function getType()
     {
         return Client::QUERY_PING;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * The ping query has no response parser so we return a null value
+     *
+     * @return null;
+     */
+    public function getResponseParser()
+    {
+        return null;
     }
 
     /**

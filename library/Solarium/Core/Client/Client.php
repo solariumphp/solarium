@@ -122,46 +122,14 @@ class Client extends Configurable
      * These can be customized using {@link registerQueryType()}
      */
     protected $queryTypes = array(
-        self::QUERY_SELECT => array(
-            'query'          => 'Solarium\Query\Select\Query\Query',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\RequestBuilder',
-            'responseparser' => 'Solarium\Query\Select\ResponseParser\ResponseParser'
-        ),
-        self::QUERY_UPDATE => array(
-            'query'          => 'Solarium\Query\Update\Query\Query',
-            'requestbuilder' => 'Solarium\Query\Update\RequestBuilder',
-            'responseparser' => 'Solarium\Query\Update\ResponseParser'
-        ),
-        self::QUERY_PING => array(
-            'query'          => 'Solarium\Query\Ping\Query',
-            'requestbuilder' => 'Solarium\Query\Ping\RequestBuilder',
-            'responseparser' => 'Solarium\Query\Ping\ResponseParser'
-        ),
-        self::QUERY_MORELIKETHIS => array(
-            'query'           => 'Solarium\Query\MoreLikeThis\Query',
-            'requestbuilder'  => 'Solarium\Query\MoreLikeThis\RequestBuilder',
-            'responseparser'  => 'Solarium\Query\MoreLikeThis\ResponseParser'
-        ),
-        self::QUERY_ANALYSIS_DOCUMENT => array(
-            'query'          => 'Solarium\Query\Analysis\Query\Document',
-            'requestbuilder' => 'Solarium\Query\Analysis\RequestBuilder\Document',
-            'responseparser' => 'Solarium\Query\Analysis\ResponseParser\Document'
-        ),
-        self::QUERY_ANALYSIS_FIELD => array(
-            'query'          => 'Solarium\Query\Analysis\Query\Field',
-            'requestbuilder' => 'Solarium\Query\Analysis\RequestBuilder\Field',
-            'responseparser' => 'Solarium\Query\Analysis\ResponseParser\Field'
-        ),
-        self::QUERY_TERMS => array(
-            'query'          => 'Solarium\Query\Terms\Query',
-            'requestbuilder' => 'Solarium\Query\Terms\RequestBuilder',
-            'responseparser' => 'Solarium\Query\Terms\ResponseParser'
-        ),
-        self::QUERY_SUGGESTER => array(
-            'query'          => 'Solarium\Query\Suggester\Query',
-            'requestbuilder' => 'Solarium\Query\Suggester\RequestBuilder',
-            'responseparser' => 'Solarium\Query\Suggester\ResponseParser'
-        ),
+        self::QUERY_SELECT => 'Solarium\Query\Select\Query\Query',
+        self::QUERY_UPDATE => 'Solarium\Query\Update\Query\Query',
+        self::QUERY_PING => 'Solarium\Query\Ping\Query',
+        self::QUERY_MORELIKETHIS => 'Solarium\Query\MoreLikeThis\Query',
+        self::QUERY_ANALYSIS_DOCUMENT => 'Solarium\Query\Analysis\Query\Document',
+        self::QUERY_ANALYSIS_FIELD => 'Solarium\Query\Analysis\Query\Field',
+        self::QUERY_TERMS => 'Solarium\Query\Terms\Query',
+        self::QUERY_SUGGESTER => 'Solarium\Query\Suggester\Query',
     );
 
     /**
@@ -228,6 +196,7 @@ class Client extends Configurable
      *
      * The adapter has to be a class that extends
      * {@link Solarium\Client\Adapter}.
+     *
      *
      * If a string is passed it is assumed to be the classname and it will be
      * instantiated on first use. This requires the availability of the class
@@ -302,18 +271,12 @@ class Client extends Configurable
      * require before calling this method.
      *
      * @param string $type
-     * @param string $query
-     * @param string|object $requestBuilder
-     * @param string|object $responseParser
+     * @param string $queryClass
      * @return self Provides fluent interface
      */
-    public function registerQueryType($type, $query, $requestBuilder, $responseParser)
+    public function registerQueryType($type, $queryClass)
     {
-        $this->queryTypes[$type] = array(
-            'query' => $query,
-            'requestbuilder' => $requestBuilder,
-            'responseparser' => $responseParser,
-        );
+        $this->queryTypes[$type] = $queryClass;
 
         return $this;
     }
@@ -326,16 +289,15 @@ class Client extends Configurable
      */
     public function registerQueryTypes($queryTypes)
     {
-        foreach ($queryTypes as $type => $queryType) {
+        foreach ($queryTypes as $type => $class) {
 
-            if (!isset($queryType['type'])) $queryType['type'] = $type;
+            // support both "key=>value" and "(no-key) => array(key=>x,query=>y)" formats
+            if (is_array($class)) {
+                if (isset($class['type'])) $type = $class['type'];
+                $class = $class['query'];
+            }
 
-            $this->registerQueryType(
-                $queryType['type'],
-                $queryType['query'],
-                $queryType['requestbuilder'],
-                $queryType['responseparser']
-            );
+            $this->registerQueryType($type, $class);
         }
     }
 
@@ -439,7 +401,7 @@ class Client extends Configurable
      *
      * You can remove a plugin by passing the plugin key, or the plugin instance
      *
-     * @param string|AbstractPlugin $plugin
+     * @param string|Plugin $plugin
      * @return self Provides fluent interface
      */
     public function removePlugin($plugin)
@@ -514,15 +476,11 @@ class Client extends Configurable
         $pluginResult = $this->callPlugins('preCreateRequest', array($query), true);
         if($pluginResult !== null) return $pluginResult;
 
-        $queryType = $query->getType();
-        if (!isset($this->queryTypes[$queryType])) {
-            throw new Exception('No requestbuilder registered for querytype: '. $queryType);
+        $requestBuilder = $query->getRequestBuilder();
+        if (!$requestBuilder) {
+            throw new Exception('No requestbuilder returned by querytype: '. $query->getType());
         }
 
-        $requestBuilder = $this->queryTypes[$queryType]['requestbuilder'];
-        if (is_string($requestBuilder)) {
-            $requestBuilder = new $requestBuilder;
-        }
         $request = $requestBuilder->build($query);
 
         $this->callPlugins('postCreateRequest', array($query, $request));
@@ -746,7 +704,7 @@ class Client extends Configurable
             throw new Exception('Unknown querytype: '. $type);
         }
 
-        $class = $this->queryTypes[$type]['query'];
+        $class = $this->queryTypes[$type];
         $query = new $class($options);
 
         $this->callPlugins('postCreateQuery', array($type, $options, $query));

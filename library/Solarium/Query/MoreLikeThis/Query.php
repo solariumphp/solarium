@@ -45,6 +45,8 @@
 namespace Solarium\Query\MoreLikeThis;
 use Solarium\Query\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Client;
+use Solarium\Query\MoreLikeThis\ResponseParser as ResponseParser;
+use Solarium\Query\MoreLikeThis\RequestBuilder as RequestBuilder;
 
 /**
  * MoreLikeThis Query
@@ -67,6 +69,26 @@ class Query extends SelectQuery
     public function getType()
     {
         return Client::QUERY_MORELIKETHIS;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
     }
 
     /**

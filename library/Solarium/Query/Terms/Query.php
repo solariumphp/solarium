@@ -42,6 +42,8 @@
 namespace Solarium\Query\Terms;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Query\Terms\RequestBuilder;
+use Solarium\Query\Terms\ResponseParser;
 
 /**
  * Terms query
@@ -65,6 +67,26 @@ class Query extends BaseQuery
     public function getType()
     {
         return Client::QUERY_TERMS;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
     }
 
     /**

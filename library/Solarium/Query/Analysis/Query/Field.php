@@ -41,6 +41,8 @@
  */
 namespace Solarium\Query\Analysis\Query;
 use Solarium\Core\Client\Client;
+use Solarium\Query\Analysis\ResponseParser\Field as ResponseParser;
+use Solarium\Query\Analysis\RequestBuilder\Field as RequestBuilder;
 
 /**
  * Analysis document query
@@ -69,6 +71,26 @@ class Field extends Query
     public function getType()
     {
         return Client::QUERY_ANALYSIS_FIELD;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
     }
 
     /**

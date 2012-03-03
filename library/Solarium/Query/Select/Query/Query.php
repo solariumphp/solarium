@@ -43,6 +43,8 @@ namespace Solarium\Query\Select\Query;
 use Solarium\Core\Exception;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Query\Select\RequestBuilder\RequestBuilder;
+use Solarium\Query\Select\ResponseParser\ResponseParser;
 
 /**
  * Select Query
@@ -130,6 +132,26 @@ class Query extends BaseQuery
     public function getType()
     {
         return Client::QUERY_SELECT;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
     }
 
     /**

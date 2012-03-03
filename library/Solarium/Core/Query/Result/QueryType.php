@@ -68,14 +68,12 @@ class QueryType extends Result
     protected function parseResponse()
     {
         if (!$this->parsed) {
-            $queryType = $this->query->getType();
-            $queryTypes = $this->client->getQueryTypes();
-            if (!isset($queryTypes[$queryType])) {
-                throw new Exception('No responseparser registered for querytype: '. $queryType);
+
+            $responseParser = $this->query->getResponseParser();
+            if (!$responseParser) {
+                throw new Exception('No responseparser returned by querytype: '. $this->query->getType());
             }
 
-            $responseParserClass = $queryTypes[$queryType]['responseparser'];
-            $responseParser = new $responseParserClass;
             $this->mapData($responseParser->parse($this));
 
             $this->parsed = true;

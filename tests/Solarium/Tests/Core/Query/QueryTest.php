@@ -82,4 +82,14 @@ class TestQuery extends Query
     {
         return 'testType';
     }
+
+    public function getRequestBuilder()
+    {
+        return null;
+    }
+
+    public function getResponseParser()
+    {
+        return null;
+    }
 }

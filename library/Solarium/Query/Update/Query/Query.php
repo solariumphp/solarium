@@ -43,6 +43,8 @@ namespace Solarium\Query\Update\Query;
 use Solarium\Core\Exception;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Query\Update\RequestBuilder;
+use Solarium\Query\Update\ResponseParser;
 
 /**
  * Update query
@@ -124,6 +126,26 @@ class Query extends BaseQuery
     public function getType()
     {
         return Client::QUERY_UPDATE;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
     }
 
     /**

@@ -94,6 +94,11 @@ class QueryDummyTest extends SelectQuery
     {
         return 'dummy';
     }
+
+    public function getResponseParser()
+    {
+        return null;
+    }
 }
 
 class QueryTypeDummy extends QueryTypeResult
