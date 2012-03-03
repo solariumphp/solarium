@@ -30,75 +30,79 @@
  */
 
 namespace Solarium\Tests\Plugin;
-use Solarium\QueryType\Select\Result\Document;
+use Solarium\Query\Select\Result\Document;
+use Solarium\Query\Select\Query\Query;
+use Solarium\Query\Select\Result\Result;
+use Solarium\Core\Client\Client;
+use Solarium\Plugin\PrefetchIterator;
 
 class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Solarium\Plugin\PrefetchIterator
+     * @var PrefetchIterator
      */
-    protected $_plugin;
+    protected $plugin;
 
     /**
-     * @var \Solarium\Client\Client
+     * @var Client
      */
-    protected $_client;
+    protected $client;
 
     /**
-     * @var \Solarium\Query\Select\Select
+     * @var Query
      */
-    protected $_query;
+    protected $query;
 
 
     public function setUp()
     {
-        $this->_plugin = new \Solarium\Plugin\PrefetchIterator();
+        $this->plugin = new PrefetchIterator();
 
-        $this->_client = new \Solarium\Client\Client();
-        $this->_query = $this->_client->createSelect();
+        $this->client = new Client();
+        $this->query = $this->client->createSelect();
 
     }
 
     public function testSetAndGetPrefetch()
     {
-        $this->_plugin->setPrefetch(120);
-        $this->assertEquals(120, $this->_plugin->getPrefetch());
+        $this->plugin->setPrefetch(120);
+        $this->assertEquals(120, $this->plugin->getPrefetch());
     }
 
     public function testSetAndGetQuery()
     {
-        $this->_plugin->setQuery($this->_query);
-        $this->assertEquals($this->_query, $this->_plugin->getQuery());
+        $this->plugin->setQuery($this->query);
+        $this->assertEquals($this->query, $this->plugin->getQuery());
     }
 
     public function testCount()
     {
-        $result = $this->_getResult();
-        $mockClient = $this->getMock('Solarium\Client\Client', array('execute'));
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
         $mockClient->expects($this->exactly(1))->method('execute')->will($this->returnValue($result));
 
-        $this->_plugin->init($mockClient, array());
-        $this->_plugin->setQuery($this->_query);
-        $this->assertEquals(5, count($this->_plugin));
+        $this->plugin->initPlugin($mockClient, array());
+        $this->plugin->setQuery($this->query);
+        $this->assertEquals(5, count($this->plugin));
     }
 
     public function testIteratorAndRewind()
     {
-        $result = $this->_getResult();
-        $mockClient = $this->getMock('Solarium\Client\Client', array('execute'));
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
         $mockClient->expects($this->exactly(1))->method('execute')->will($this->returnValue($result));
 
-        $this->_plugin->init($mockClient, array());
-        $this->_plugin->setQuery($this->_query);
+        $this->plugin->initPlugin($mockClient, array());
+        $this->plugin->setQuery($this->query);
 
         $results1 = array();
-        foreach($this->_plugin as $doc) {
+        foreach($this->plugin as $doc) {
             $results1[] = $doc;
         }
 
         // the second foreach will trigger a rewind, this time include keys
         $results2 = array();
-        foreach($this->_plugin as $key => $doc) {
+        foreach($this->plugin as $key => $doc) {
             $results2[$key] = $doc;
         }
 
@@ -106,7 +110,7 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getDocuments(), $results2);
     }
 
-    public function _getResult()
+    public function getResult()
     {
         $numFound = 5;
 
@@ -123,17 +127,17 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
 }
 
 
-class SelectDummy extends \Solarium\QueryType\Select\Result\Result
+class SelectDummy extends Result
 {
-    protected $_parsed = true;
+    protected $parsed = true;
 
     public function __construct($status, $queryTime, $numfound, $docs, $components)
     {
-        $this->_numfound = $numfound;
-        $this->_documents = $docs;
-        $this->_components = $components;
-        $this->_queryTime = $queryTime;
-        $this->_status = $status;
+        $this->numfound = $numfound;
+        $this->documents = $docs;
+        $this->components = $components;
+        $this->queryTime = $queryTime;
+        $this->status = $status;
     }
 
 }

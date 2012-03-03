@@ -30,32 +30,39 @@
  */
 
 namespace Solarium\Tests\Plugin\Loadbalancer;
+use Solarium\Core\Client\Client;
+use Solarium\Plugin\Loadbalancer\Loadbalancer;
+use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\Query\Update\Query\Query as UpdateQuery;
+use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Adapter\Http as HttpAdapter;
+use Solarium\Core\Client\HttpException;
 
 class LoadbalancerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Solarium\Plugin\Loadbalancer\Loadbalancer
+     * @var Loadbalancer
      */
-    protected $_plugin;
+    protected $plugin;
 
     /**
-     * @var Solarium\Client
+     * @var Client
      */
-    protected $_client;
+    protected $client;
 
-    protected $_serverOptions = array('host' => 'nonexistinghostname');
+    protected $serverOptions = array('host' => 'nonexistinghostname');
 
     public function setUp()
     {
-        $this->_plugin = new \Solarium\Plugin\Loadbalancer\Loadbalancer();
+        $this->plugin = new Loadbalancer();
 
-        $this->_client = new \Solarium\Client\Client();
-        $adapter = $this->getMock('Solarium\Client\Adapter\Http');
+        $this->client = new Client();
+        $adapter = $this->getMock('Solarium\Core\Client\Adapter\Http');
         $adapter->expects($this->any())
             ->method('execute')
             ->will($this->returnValue('dummyresult'));
-        $this->_client->setAdapter($adapter);
-        $this->_plugin->init($this->_client, array());
+        $this->client->setAdapter($adapter);
+        $this->plugin->initPlugin($this->client, array());
     }
 
     public function testConfigMode()
@@ -75,10 +82,10 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
                     'weight' => 5,
                 ),
             ),
-            'blockedquerytype' => array(\Solarium\Client\Client::QUERYTYPE_UPDATE, \Solarium\Client\Client::QUERYTYPE_MORELIKETHIS)
+            'blockedquerytype' => array(Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS)
         );
 
-        $this->_plugin->setOptions($options);
+        $this->plugin->setOptions($options);
 
         $this->assertEquals(
             array(
@@ -91,186 +98,186 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
                     'weight' => 5,
                 )
             ),
-            $this->_plugin->getServers()
+            $this->plugin->getServers()
         );
 
         $this->assertEquals(
-            array(\Solarium\Client\Client::QUERYTYPE_UPDATE, \Solarium\Client\Client::QUERYTYPE_MORELIKETHIS),
-            $this->_plugin->getBlockedQueryTypes()
+            array(Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS),
+            $this->plugin->getBlockedQueryTypes()
         );
     }
 
     public function testSetAndGetFailoverEnabled()
     {
-        $this->_plugin->setFailoverEnabled(true);
-        $this->assertEquals(true, $this->_plugin->getFailoverEnabled());
+        $this->plugin->setFailoverEnabled(true);
+        $this->assertEquals(true, $this->plugin->getFailoverEnabled());
     }
 
     public function testSetAndGetFailoverMaxRetries()
     {
-        $this->_plugin->setFailoverMaxRetries(16);
-        $this->assertEquals(16, $this->_plugin->getFailoverMaxRetries());
+        $this->plugin->setFailoverMaxRetries(16);
+        $this->assertEquals(16, $this->plugin->getFailoverMaxRetries());
     }
 
     public function testAddServer()
     {
-        $this->_plugin->addServer('s1', $this->_serverOptions, 10);
+        $this->plugin->addServer('s1', $this->serverOptions, 10);
 
         $this->assertEquals(
             array('s1' =>
                 array(
-                    'options' => $this->_serverOptions,
+                    'options' => $this->serverOptions,
                     'weight' => 10,
                 )
             ),
-            $this->_plugin->getServers()
+            $this->plugin->getServers()
         );
     }
 
     public function testAddServerWithDuplicateKey()
     {
-        $this->_plugin->addServer('s1', $this->_serverOptions, 10);
+        $this->plugin->addServer('s1', $this->serverOptions, 10);
 
-        $this->setExpectedException('Solarium\Exception');
-        $this->_plugin->addServer('s1', $this->_serverOptions, 20);
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->plugin->addServer('s1', $this->serverOptions, 20);
     }
 
     public function testGetServer()
     {
-        $this->_plugin->addServer('s1', $this->_serverOptions, 10);
+        $this->plugin->addServer('s1', $this->serverOptions, 10);
 
         $this->assertEquals(
-            array('options' => $this->_serverOptions, 'weight' => 10),
-            $this->_plugin->getServer('s1')
+            array('options' => $this->serverOptions, 'weight' => 10),
+            $this->plugin->getServer('s1')
         );
     }
 
     public function testGetInvalidServer()
     {
-        $this->_plugin->addServer('s1', $this->_serverOptions, 10);
+        $this->plugin->addServer('s1', $this->serverOptions, 10);
 
-        $this->setExpectedException('Solarium\Exception');
-        $this->_plugin->getServer('s2');
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->plugin->getServer('s2');
     }
 
     public function testClearServers()
     {
-        $this->_plugin->addServer('s1', $this->_serverOptions, 10);
-        $this->_plugin->clearServers();
-        $this->assertEquals(array(), $this->_plugin->getServers());
+        $this->plugin->addServer('s1', $this->serverOptions, 10);
+        $this->plugin->clearServers();
+        $this->assertEquals(array(), $this->plugin->getServers());
     }
 
     public function testAddServers()
     {
         $servers = array(
-            's1' => array('options' => $this->_serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->_serverOptions, 'weight' => 20),
+            's1' => array('options' => $this->serverOptions, 'weight' => 10),
+            's2' => array('options' => $this->serverOptions, 'weight' => 20),
         );
 
-        $this->_plugin->addServers($servers);
-        $this->assertEquals($servers, $this->_plugin->getServers());
+        $this->plugin->addServers($servers);
+        $this->assertEquals($servers, $this->plugin->getServers());
     }
 
     public function testRemoveServer()
     {
         $servers = array(
-            's1' => array('options' => $this->_serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->_serverOptions, 'weight' => 20),
+            's1' => array('options' => $this->serverOptions, 'weight' => 10),
+            's2' => array('options' => $this->serverOptions, 'weight' => 20),
         );
 
-        $this->_plugin->addServers($servers);
-        $this->_plugin->removeServer('s1');
+        $this->plugin->addServers($servers);
+        $this->plugin->removeServer('s1');
 
         $this->assertEquals(
-            array('s2' => array('options' => $this->_serverOptions, 'weight' => 20)),
-            $this->_plugin->getServers()
+            array('s2' => array('options' => $this->serverOptions, 'weight' => 20)),
+            $this->plugin->getServers()
         );
     }
 
     public function testSetServers()
     {
         $servers1 = array(
-            's1' => array('options' => $this->_serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->_serverOptions, 'weight' => 20),
+            's1' => array('options' => $this->serverOptions, 'weight' => 10),
+            's2' => array('options' => $this->serverOptions, 'weight' => 20),
         );
 
         $servers2 = array(
-            's3' => array('options' => $this->_serverOptions, 'weight' => 50),
-            's4' => array('options' => $this->_serverOptions, 'weight' => 30),
+            's3' => array('options' => $this->serverOptions, 'weight' => 50),
+            's4' => array('options' => $this->serverOptions, 'weight' => 30),
         );
 
-        $this->_plugin->addServers($servers1);
-        $this->_plugin->setServers($servers2);
+        $this->plugin->addServers($servers1);
+        $this->plugin->setServers($servers2);
 
         $this->assertEquals(
             $servers2,
-            $this->_plugin->getServers()
+            $this->plugin->getServers()
         );
     }
 
     public function testSetAndGetForcedServerForNextQuery()
     {
         $servers1 = array(
-            's1' => array('options' => $this->_serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->_serverOptions, 'weight' => 20),
+            's1' => array('options' => $this->serverOptions, 'weight' => 10),
+            's2' => array('options' => $this->serverOptions, 'weight' => 20),
         );
-        $this->_plugin->addServers($servers1);
+        $this->plugin->addServers($servers1);
 
-        $this->_plugin->setForcedServerForNextQuery('s2');
-        $this->assertEquals('s2', $this->_plugin->getForcedServerForNextQuery());
+        $this->plugin->setForcedServerForNextQuery('s2');
+        $this->assertEquals('s2', $this->plugin->getForcedServerForNextQuery());
     }
 
     public function testSetForcedServerForNextQueryWithInvalidKey()
     {
         $servers1 = array(
-            's1' => array('options' => $this->_serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->_serverOptions, 'weight' => 20),
+            's1' => array('options' => $this->serverOptions, 'weight' => 10),
+            's2' => array('options' => $this->serverOptions, 'weight' => 20),
         );
-        $this->_plugin->addServers($servers1);
+        $this->plugin->addServers($servers1);
 
-        $this->setExpectedException('Solarium\Exception');
-        $this->_plugin->setForcedServerForNextQuery('s3');
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->plugin->setForcedServerForNextQuery('s3');
     }
 
     public function testAddBlockedQueryType()
     {
-        $this->_plugin->addBlockedQueryType('type1');
-        $this->_plugin->addBlockedQueryType('type2');
+        $this->plugin->addBlockedQueryType('type1');
+        $this->plugin->addBlockedQueryType('type2');
 
         $this->assertEquals(
-            array(\Solarium\Client\Client::QUERYTYPE_UPDATE, 'type1', 'type2'),
-            $this->_plugin->getBlockedQueryTypes()
+            array(Client::QUERY_UPDATE, 'type1', 'type2'),
+            $this->plugin->getBlockedQueryTypes()
         );
     }
 
     public function testClearBlockedQueryTypes()
     {
-        $this->_plugin->addBlockedQueryType('type1');
-        $this->_plugin->addBlockedQueryType('type2');
-        $this->_plugin->clearBlockedQueryTypes();
-        $this->assertEquals(array(), $this->_plugin->getBlockedQueryTypes());
+        $this->plugin->addBlockedQueryType('type1');
+        $this->plugin->addBlockedQueryType('type2');
+        $this->plugin->clearBlockedQueryTypes();
+        $this->assertEquals(array(), $this->plugin->getBlockedQueryTypes());
     }
 
     public function testAddBlockedQueryTypes()
     {
         $blockedQueryTypes = array('type1', 'type2', 'type3');
 
-        $this->_plugin->clearBlockedQueryTypes();
-        $this->_plugin->addBlockedQueryTypes($blockedQueryTypes);
-        $this->assertEquals($blockedQueryTypes, $this->_plugin->getBlockedQueryTypes());
+        $this->plugin->clearBlockedQueryTypes();
+        $this->plugin->addBlockedQueryTypes($blockedQueryTypes);
+        $this->assertEquals($blockedQueryTypes, $this->plugin->getBlockedQueryTypes());
     }
 
     public function testRemoveBlockedQueryType()
     {
         $blockedQueryTypes = array('type1', 'type2', 'type3');
 
-        $this->_plugin->clearBlockedQueryTypes();
-        $this->_plugin->addBlockedQueryTypes($blockedQueryTypes);
-        $this->_plugin->removeBlockedQueryType('type2');
+        $this->plugin->clearBlockedQueryTypes();
+        $this->plugin->addBlockedQueryTypes($blockedQueryTypes);
+        $this->plugin->removeBlockedQueryType('type2');
 
         $this->assertEquals(
             array('type1', 'type3'),
-            $this->_plugin->getBlockedQueryTypes()
+            $this->plugin->getBlockedQueryTypes()
         );
     }
 
@@ -278,199 +285,199 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
     {
         $blockedQueryTypes = array('type1', 'type2', 'type3');
 
-        $this->_plugin->setBlockedQueryTypes($blockedQueryTypes);
+        $this->plugin->setBlockedQueryTypes($blockedQueryTypes);
 
         $this->assertEquals(
             $blockedQueryTypes,
-            $this->_plugin->getBlockedQueryTypes()
+            $this->plugin->getBlockedQueryTypes()
         );
     }
 
     public function testPreExecuteRequestWithForcedServer()
     {
         $servers = array(
-           's1' => array('options' => $this->_serverOptions, 'weight' => 100),
-           's2' => array('options' => $this->_serverOptions, 'weight' => 1),
+           's1' => array('options' => $this->serverOptions, 'weight' => 100),
+           's2' => array('options' => $this->serverOptions, 'weight' => 1),
         );
-        $query = new \Solarium\QueryType\Select\Query\Query();
-        $request = new \Solarium\Client\Request();
+        $query = new SelectQuery();
+        $request = new Request();
 
-        $this->_plugin->setServers($servers);
-        $this->_plugin->setForcedServerForNextQuery('s2');
-        $this->_plugin->preCreateRequest($query);
-        $this->_plugin->preExecuteRequest($request);
+        $this->plugin->setServers($servers);
+        $this->plugin->setForcedServerForNextQuery('s2');
+        $this->plugin->preCreateRequest($query);
+        $this->plugin->preExecuteRequest($request);
 
         $this->assertEquals(
             's2',
-            $this->_plugin->getLastServerKey()
+            $this->plugin->getLastServerKey()
         );
     }
 
     public function testAdapterPresetRestore()
     {
-        $originalHost = $this->_client->getAdapter()->getHost();
+        $originalHost = $this->client->getAdapter()->getHost();
         $servers = array(
-           's1' => array('options' => $this->_serverOptions, 'weight' => 100),
-           's2' => array('options' => $this->_serverOptions, 'weight' => 1),
+           's1' => array('options' => $this->serverOptions, 'weight' => 100),
+           's2' => array('options' => $this->serverOptions, 'weight' => 1),
         );
-        $request = new \Solarium\Client\Request();
+        $request = new Request();
 
-        $this->_plugin->setServers($servers);
-        $this->_plugin->setForcedServerForNextQuery('s2');
+        $this->plugin->setServers($servers);
+        $this->plugin->setForcedServerForNextQuery('s2');
 
-        $query = new \Solarium\QueryType\Select\Query\Query();
-        $this->_plugin->preCreateRequest($query);
-        $this->_plugin->preExecuteRequest($request);
+        $query = new SelectQuery();
+        $this->plugin->preCreateRequest($query);
+        $this->plugin->preExecuteRequest($request);
 
         $this->assertEquals(
             's2',
-            $this->_plugin->getLastServerKey()
+            $this->plugin->getLastServerKey()
         );
 
-        $query = new \Solarium\QueryType\Update\Query\Query(); // this is a blocked querytype that should trigger a restore
-        $this->_plugin->preCreateRequest($query);
-        $this->_plugin->preExecuteRequest($request);
+        $query = new SelectQuery(); // this is a blocked querytype that should trigger a restore
+        $this->plugin->preCreateRequest($query);
+        $this->plugin->preExecuteRequest($request);
 
         $this->assertEquals(
             $originalHost,
-            $this->_client->getAdapter()->getHost()
+            $this->client->getAdapter()->getHost()
         );
     }
 
     public function testBlockedQueryTypeNotLoadbalanced()
     {
-        $originalHost = $this->_client->getAdapter()->getHost();
+        $originalHost = $this->client->getAdapter()->getHost();
         $servers = array(
-           's1' => array('options' => $this->_serverOptions, 'weight' => 100),
-           's2' => array('options' => $this->_serverOptions, 'weight' => 1),
+           's1' => array('options' => $this->serverOptions, 'weight' => 100),
+           's2' => array('options' => $this->serverOptions, 'weight' => 1),
         );
-        $this->_plugin->setServers($servers);
-        $request = new \Solarium\Client\Request();
+        $this->plugin->setServers($servers);
+        $request = new Request();
 
-        $query = new \Solarium\QueryType\Update\Query\Query(); // this is a blocked querytype that should not be loadbalanced
-        $this->_plugin->preCreateRequest($query);
-        $this->_plugin->preExecuteRequest($request);
+        $query = new UpdateQuery(); // this is a blocked querytype that should not be loadbalanced
+        $this->plugin->preCreateRequest($query);
+        $this->plugin->preExecuteRequest($request);
 
         $this->assertEquals(
             $originalHost,
-            $this->_client->getAdapter()->getHost()
+            $this->client->getAdapter()->getHost()
         );
 
         $this->assertEquals(
             null,
-            $this->_plugin->getLastServerKey()
+            $this->plugin->getLastServerKey()
         );
     }
 
     public function testLoadbalancerRandomizing()
     {
         $servers = array(
-           's1' => array('options' => $this->_serverOptions, 'weight' => 1),
-           's2' => array('options' => $this->_serverOptions, 'weight' => 1),
+           's1' => array('options' => $this->serverOptions, 'weight' => 1),
+           's2' => array('options' => $this->serverOptions, 'weight' => 1),
         );
-        $this->_plugin->setServers($servers);
-        $request = new \Solarium\Client\Request();
+        $this->plugin->setServers($servers);
+        $request = new Request();
 
-        $query = new \Solarium\QueryType\Select\Query\Query(); //
-        $this->_plugin->preCreateRequest($query);
-        $this->_plugin->preExecuteRequest($request);
+        $query = new SelectQuery(); //
+        $this->plugin->preCreateRequest($query);
+        $this->plugin->preExecuteRequest($request);
 
         $this->assertTrue(
-            in_array($this->_plugin->getLastServerKey(), array('s1','s2'))
+            in_array($this->plugin->getLastServerKey(), array('s1','s2'))
         );
     }
 
     public function testFailover()
     {
-        $this->_plugin = new TestLoadbalancer(); // special loadbalancer that returns servers in fixed order
-        $this->_client = new \Solarium\Client\Client();
-        $this->_client->setAdapter(new TestAdapterForFailover()); // set special mock that fails once
-        $this->_plugin->init($this->_client, array());
+        $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns servers in fixed order
+        $this->client = new Client();
+        $this->client->setAdapter(new TestAdapterForFailover()); // set special mock that fails once
+        $this->plugin->initPlugin($this->client, array());
 
-        $request = new \Solarium\Client\Request();
+        $request = new Request();
         $servers = array(
-           's1' => array('options' => $this->_serverOptions, 'weight' => 1),
-           's2' => array('options' => $this->_serverOptions, 'weight' => 1),
+           's1' => array('options' => $this->serverOptions, 'weight' => 1),
+           's2' => array('options' => $this->serverOptions, 'weight' => 1),
         );
-        $this->_plugin->setServers($servers);
-        $this->_plugin->setFailoverEnabled(true);
+        $this->plugin->setServers($servers);
+        $this->plugin->setFailoverEnabled(true);
 
-        $query = new \Solarium\QueryType\Select\Query\Query();
-        $this->_plugin->preCreateRequest($query);
-        $this->_plugin->preExecuteRequest($request);
+        $query = new SelectQuery();
+        $this->plugin->preCreateRequest($query);
+        $this->plugin->preExecuteRequest($request);
 
         $this->assertEquals(
             's2',
-            $this->_plugin->getLastServerKey()
+            $this->plugin->getLastServerKey()
         );
     }
 
     public function testFailoverMaxRetries()
     {
-        $this->_plugin = new TestLoadbalancer(); // special loadbalancer that returns servers in fixed order
-        $this->_client = new \Solarium\Client\Client();
+        $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns servers in fixed order
+        $this->client = new Client();
         $adapter = new TestAdapterForFailover();
         $adapter->setFailCount(10);
-        $this->_client->setAdapter($adapter); // set special mock that fails for all servers
-        $this->_plugin->init($this->_client, array());
+        $this->client->setAdapter($adapter); // set special mock that fails for all servers
+        $this->plugin->initPlugin($this->client, array());
 
-        $request = new \Solarium\Client\Request();
+        $request = new Request();
         $servers = array(
-           's1' => array('options' => $this->_serverOptions, 'weight' => 1),
-           's2' => array('options' => $this->_serverOptions, 'weight' => 1),
+           's1' => array('options' => $this->serverOptions, 'weight' => 1),
+           's2' => array('options' => $this->serverOptions, 'weight' => 1),
         );
-        $this->_plugin->setServers($servers);
-        $this->_plugin->setFailoverEnabled(true);
+        $this->plugin->setServers($servers);
+        $this->plugin->setFailoverEnabled(true);
 
-        $query = new \Solarium\QueryType\Select\Query\Query();
-        $this->_plugin->preCreateRequest($query);
+        $query = new SelectQuery();
+        $this->plugin->preCreateRequest($query);
 
-        $this->setExpectedException('Solarium\Exception', 'Maximum number of loadbalancer retries reached');
+        $this->setExpectedException('Solarium\Core\Exception', 'Maximum number of loadbalancer retries reached');
 
-        $this->_plugin->preExecuteRequest($request);
+        $this->plugin->preExecuteRequest($request);
     }
 
 
 
 }
 
-class TestLoadbalancer extends \Solarium\Plugin\Loadbalancer\Loadbalancer{
+class TestLoadbalancer extends Loadbalancer{
 
-    protected $_counter = 0;
+    protected $counter = 0;
 
     /**
      * Get options array for a randomized server
      *
      * @return array
      */
-    protected function _getRandomServerOptions()
+    protected function getRandomServerOptions()
     {
-        $this->_counter++;
-        $serverKey = 's'.$this->_counter;
+        $this->counter++;
+        $serverKey = 's'.$this->counter;
 
-        $this->_serverExcludes[] = $serverKey;
-        $this->_lastServerKey = $serverKey;
-        return $this->_servers[$serverKey]['options'];
+        $this->serverExcludes[] = $serverKey;
+        $this->lastServerKey = $serverKey;
+        return $this->servers[$serverKey]['options'];
     }
 
 }
 
-class TestAdapterForFailover extends \Solarium\Client\Adapter\Http{
+class TestAdapterForFailover extends HttpAdapter{
 
-    protected $_counter = 0;
+    protected $counter = 0;
 
-    protected $_failCount = 1;
+    protected $failCount = 1;
 
     public function setFailCount($count)
     {
-        $this->_failCount = $count;
+        $this->failCount = $count;
     }
 
     public function execute($request)
     {
-        $this->_counter++;
-        if($this->_counter <= $this->_failCount) {
-            throw new \Solarium\Client\HttpException('failover exception');
+        $this->counter++;
+        if($this->counter <= $this->failCount) {
+            throw new HttpException('failover exception');
         }
 
         return 'dummyvalue';

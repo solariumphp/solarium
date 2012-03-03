@@ -30,88 +30,89 @@
  */
 
 namespace Solarium\Tests\Plugin\CustomizeRequest;
+use Solarium\Plugin\CustomizeRequest\Customization;
 
 class CustomizationTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Solarium\Plugin\CustomizeRequest\Customization
+     * @var Customization
      */
-    protected $_instance;
+    protected $instance;
 
     public function setUp()
     {
-        $this->_instance = new \Solarium\Plugin\CustomizeRequest\Customization();
+        $this->instance = new Customization();
     }
 
     public function testSetAndGetKey()
     {
         $value = 'mykey';
-        $this->_instance->setKey($value);
-        $this->assertEquals($value, $this->_instance->getKey());
+        $this->instance->setKey($value);
+        $this->assertEquals($value, $this->instance->getKey());
     }
 
     public function testSetAndGetName()
     {
         $value = 'myname';
-        $this->_instance->setName($value);
-        $this->assertEquals($value, $this->_instance->getName());
+        $this->instance->setName($value);
+        $this->assertEquals($value, $this->instance->getName());
     }
 
     public function testSetAndGetType()
     {
         $value = 'mytype';
-        $this->_instance->setType($value);
-        $this->assertEquals($value, $this->_instance->getType());
+        $this->instance->setType($value);
+        $this->assertEquals($value, $this->instance->getType());
     }
 
     public function testSetAndGetValue()
     {
         $value = 'myvalue';
-        $this->_instance->setValue($value);
-        $this->assertEquals($value, $this->_instance->getValue());
+        $this->instance->setValue($value);
+        $this->assertEquals($value, $this->instance->getValue());
     }
 
     public function testSetAndGetPersistence()
     {
         $value = true;
-        $this->_instance->setPersistent($value);
-        $this->assertEquals($value, $this->_instance->getPersistent());
+        $this->instance->setPersistent($value);
+        $this->assertEquals($value, $this->instance->getPersistent());
     }
 
     public function testSetAndGetOverwrite()
     {
         $value = false;
-        $this->_instance->setOverwrite($value);
-        $this->assertEquals($value, $this->_instance->getOverwrite());
+        $this->instance->setOverwrite($value);
+        $this->assertEquals($value, $this->instance->getOverwrite());
     }
 
     public function testIsValid()
     {
-        $this->_instance->setKey('mykey');
-        $this->_instance->setType('param');
-        $this->_instance->setName('myname');
-        $this->_instance->setValue('myvalue');
-        $this->assertTrue($this->_instance->isValid());
+        $this->instance->setKey('mykey');
+        $this->instance->setType('param');
+        $this->instance->setName('myname');
+        $this->instance->setValue('myvalue');
+        $this->assertTrue($this->instance->isValid());
     }
 
     public function testIsValidWithInvalidType()
     {
-        $this->_instance->setKey('mykey');
-        $this->_instance->setType('mytype');
-        $this->_instance->setName('myname');
-        $this->_instance->setValue('myvalue');
+        $this->instance->setKey('mykey');
+        $this->instance->setType('mytype');
+        $this->instance->setName('myname');
+        $this->instance->setValue('myvalue');
 
-        $this->assertFalse($this->_instance->isValid());
+        $this->assertFalse($this->instance->isValid());
     }
 
     public function testIsValidWithMissingValue()
     {
-        $this->_instance->setKey('mykey');
-        $this->_instance->setType('param');
-        $this->_instance->setName('myname');
+        $this->instance->setKey('mykey');
+        $this->instance->setType('param');
+        $this->instance->setName('myname');
 
-        $this->assertFalse($this->_instance->isValid());
+        $this->assertFalse($this->instance->isValid());
     }
 
 }

@@ -30,25 +30,27 @@
  */
 
 namespace Solarium\Tests\Plugin;
-use Solarium\QueryType\Update\Query\Document;
+use Solarium\Query\Update\Query\Document;
+use Solarium\Plugin\BufferedAdd;
+use Solarium\Core\Client\Client;
 
 class BufferedAddTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Solarium_Plugin_BufferedAdd
+     * @var BufferedAdd
      */
-    protected $_plugin;
+    protected $plugin;
 
     public function setUp()
     {
-        $this->_plugin = new \Solarium\Plugin\BufferedAdd();
-        $this->_plugin->init(new \Solarium\Client\Client(), array());
+        $this->plugin = new BufferedAdd();
+        $this->plugin->initPlugin(new Client(), array());
     }
 
     public function testSetAndGetBufferSize()
     {
-        $this->_plugin->setBufferSize(500);
-        $this->assertEquals(500, $this->_plugin->getBufferSize());
+        $this->plugin->setBufferSize(500);
+        $this->assertEquals(500, $this->plugin->getBufferSize());
     }
 
     public function testAddDocument()
@@ -57,9 +59,9 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $doc->id = '123';
         $doc->name = 'test';
 
-        $this->_plugin->addDocument($doc);
+        $this->plugin->addDocument($doc);
 
-        $this->assertEquals(array($doc), $this->_plugin->getDocuments());
+        $this->assertEquals(array($doc), $this->plugin->getDocuments());
     }
 
     public function testCreateDocument()
@@ -67,9 +69,9 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $data = array('id' => '123', 'name' => 'test');
         $doc = new Document($data);
 
-        $this->_plugin->createDocument($data);
+        $this->plugin->createDocument($data);
 
-        $this->assertEquals(array($doc), $this->_plugin->getDocuments());
+        $this->assertEquals(array($doc), $this->plugin->getDocuments());
     }
 
     public function testAddDocuments()
@@ -84,9 +86,9 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
 
         $docs = array($doc1, $doc2);
 
-        $this->_plugin->addDocuments($docs);
+        $this->plugin->addDocuments($docs);
 
-        $this->assertEquals($docs, $this->_plugin->getDocuments());
+        $this->assertEquals($docs, $this->plugin->getDocuments());
     }
 
     public function testAddDocumentAutoFlush()
@@ -114,15 +116,15 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $doc->id = '123';
         $doc->name = 'test';
 
-        $this->_plugin->addDocument($doc);
-        $this->_plugin->clear();
+        $this->plugin->addDocument($doc);
+        $this->plugin->clear();
 
-        $this->assertEquals(array(), $this->_plugin->getDocuments());
+        $this->assertEquals(array(), $this->plugin->getDocuments());
     }
 
     public function testFlushEmptyBuffer()
     {
-        $this->assertEquals(false, $this->_plugin->flush());
+        $this->assertEquals(false, $this->plugin->flush());
     }
 
     public function testFlush()
@@ -130,16 +132,16 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $data = array('id' => '123', 'name' => 'test');
         $doc = new Document($data);
 
-        $mockUpdate = $this->getMock('Solarium\Query\Update', array('addDocuments'));
+        $mockUpdate = $this->getMock('Solarium\Query\Update\Query\Query', array('addDocuments'));
         $mockUpdate->expects($this->once())->method('addDocuments')->with($this->equalTo(array($doc)),$this->equalTo(true),$this->equalTo(12));
 
-        $mockClient = $this->getMock('Solarium\Client', array('createUpdate', 'update', 'triggerEvent'));
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('createUpdate', 'update', 'triggerEvent'));
         $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
         $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
         $mockClient->expects($this->exactly(2))->method('triggerEvent');
 
-        $plugin = new \Solarium\Plugin\BufferedAdd();
-        $plugin->init($mockClient, array());
+        $plugin = new BufferedAdd();
+        $plugin->initPlugin($mockClient, array());
         $plugin->addDocument($doc);
 
         $this->assertEquals('dummyResult', $plugin->flush(true,12));
@@ -150,17 +152,17 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $data = array('id' => '123', 'name' => 'test');
         $doc = new Document($data);
 
-        $mockUpdate = $this->getMock('Solarium\Query\Update', array('addDocuments', 'addCommit'));
+        $mockUpdate = $this->getMock('Solarium\Core\Query\Update\Query\Query', array('addDocuments', 'addCommit'));
         $mockUpdate->expects($this->once())->method('addDocuments')->with($this->equalTo(array($doc)),$this->equalTo(true));
         $mockUpdate->expects($this->once())->method('addCommit')->with($this->equalTo(false),$this->equalTo(true),$this->equalTo(false));
 
-        $mockClient = $this->getMock('Solarium\Client\Client', array('createUpdate', 'update', 'triggerEvent'));
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('createUpdate', 'update', 'triggerEvent'));
         $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
         $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
         $mockClient->expects($this->exactly(2))->method('triggerEvent');
 
-        $plugin = new \Solarium\Plugin\BufferedAdd();
-        $plugin->init($mockClient, array());
+        $plugin = new BufferedAdd();
+        $plugin->initPlugin($mockClient, array());
         $plugin->addDocument($doc);
 
         $this->assertEquals('dummyResult', $plugin->commit(true, false, true, false));

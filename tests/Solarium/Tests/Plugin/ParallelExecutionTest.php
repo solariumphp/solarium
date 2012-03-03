@@ -30,62 +30,64 @@
  */
 
 namespace Solarium\Tests\Plugin;
+use Solarium\Plugin\ParallelExecution;
+use Solarium\Core\Client\Client;
 
 class ParallelExecutionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Solarium\Plugin\ParallelExecution
+     * @var ParallelExecution
      */
-    protected $_plugin;
+    protected $plugin;
 
     public function setUp()
     {
-        $this->_plugin = new \Solarium\Plugin\ParallelExecution();
+        $this->plugin = new ParallelExecution();
 
     }
 
     public function testAddAndGetQueries()
     {
-        $client1 = new \Solarium\Client\Client();
-        $client2 = new \Solarium\Client\Client(array(
+        $client1 = new Client();
+        $client2 = new Client(array(
             'adapter' => 'MyAdapter',
                     'adapteroptions' => array(
                         'host' => 'myhost',
                     )
             )
         );
-        $this->_plugin->init($client1, array());
+        $this->plugin->initPlugin($client1, array());
 
         $query1 = $client1->createSelect()->setQuery('test1');
         $query2 = $client1->createSelect()->setQuery('test2');
 
-        $this->_plugin->addQuery(1, $query1);
-        $this->_plugin->addQuery(2, $query2, $client2);
+        $this->plugin->addQuery(1, $query1);
+        $this->plugin->addQuery(2, $query2, $client2);
 
         $this->assertEquals(
             array(
                 1 => array('query' => $query1, 'client' => $client1),
                 2 => array('query' => $query2, 'client' => $client2),
             ),
-            $this->_plugin->getQueries()
+            $this->plugin->getQueries()
         );
     }
 
     public function testClearQueries()
         {
-            $client = new \Solarium\Client\Client();
-            $this->_plugin->init($client, array());
+            $client = new Client();
+            $this->plugin->initPlugin($client, array());
 
             $query1 = $client->createSelect()->setQuery('test1');
             $query2 = $client->createSelect()->setQuery('test2');
 
-            $this->_plugin->addQuery(1, $query1);
-            $this->_plugin->addQuery(2, $query2);
-            $this->_plugin->clearQueries();
+            $this->plugin->addQuery(1, $query1);
+            $this->plugin->addQuery(2, $query2);
+            $this->plugin->clearQueries();
 
             $this->assertEquals(
                 array(),
-                $this->_plugin->getQueries()
+                $this->plugin->getQueries()
             );
         }
 

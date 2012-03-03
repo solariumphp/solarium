@@ -30,17 +30,20 @@
  */
 
 namespace Solarium\Tests\Plugin\CustomizeRequest;
+use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
+use Solarium\Plugin\CustomizeRequest\Customization;
+use Solarium\Core\Client\Request;
 
 class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Solarium\Plugin\CustomizeRequest
+     * @var CustomizeRequest
      */
-    protected $_plugin;
+    protected $plugin;
 
     public function setUp()
     {
-        $this->_plugin = new \Solarium\Plugin\CustomizeRequest\CustomizeRequest();
+        $this->plugin = new CustomizeRequest();
     }
 
     public function testConfigMode()
@@ -64,10 +67,10 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->_plugin->setOptions($options);
+        $this->plugin->setOptions($options);
 
-        $auth = $this->_plugin->getCustomization('auth');
-        $id = $this->_plugin->getCustomization('id');
+        $auth = $this->plugin->getCustomization('auth');
+        $id = $this->plugin->getCustomization('id');
 
         $this->assertThat($auth, $this->isInstanceOf('Solarium\Plugin\CustomizeRequest\Customization'));
         $this->assertEquals('auth', $auth->getKey());
@@ -87,11 +90,11 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateCustomization()
     {
-        $customization = $this->_plugin->createCustomization('id1');
+        $customization = $this->plugin->createCustomization('id1');
 
         $this->assertEquals(
             $customization,
-            $this->_plugin->getCustomization('id1')
+            $this->plugin->getCustomization('id1')
         );
     }
 
@@ -104,9 +107,9 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
             'value' => 'mypassword',
             'persistent' => true
         );
-        $customization = $this->_plugin->createCustomization($input);
+        $customization = $this->plugin->createCustomization($input);
 
-        $this->assertEquals($customization, $this->_plugin->getCustomization('auth'));
+        $this->assertEquals($customization, $this->plugin->getCustomization('auth'));
         $this->assertEquals($input['key'], $customization->getKey());
         $this->assertEquals($input['type'], $customization->getType());
         $this->assertEquals($input['name'], $customization->getName());
@@ -116,13 +119,13 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetCustomization()
     {
-        $customization = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization = new Customization;
         $customization->setKey('id1');
-        $this->_plugin->addCustomization($customization);
+        $this->plugin->addCustomization($customization);
 
         $this->assertEquals(
             $customization,
-            $this->_plugin->getCustomization('id1')
+            $this->plugin->getCustomization('id1')
         );
     }
 
@@ -130,7 +133,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
     {
         $key = 'id1';
 
-        $customization = $this->_plugin->createCustomization($key);
+        $customization = $this->plugin->createCustomization($key);
 
         $this->assertEquals(
             $key,
@@ -139,42 +142,42 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $customization,
-            $this->_plugin->getCustomization($key)
+            $this->plugin->getCustomization($key)
         );
     }
 
     public function testAddCustomizationWithoutKey()
     {
-        $customization = new \Solarium\Plugin\CustomizeRequest\Customization;;
+        $customization = new Customization;;
 
-        $this->setExpectedException('Solarium\Exception');
-        $this->_plugin->addCustomization($customization);
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->plugin->addCustomization($customization);
     }
 
     public function testAddCustomizationWithUsedKey()
     {
-        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1 = new Customization;
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2 = new Customization;
         $customization2->setKey('id1')->setName('test2');
 
-        $this->_plugin->addCustomization($customization1);
-        $this->setExpectedException('Solarium\Exception');
-        $this->_plugin->addCustomization($customization2);
+        $this->plugin->addCustomization($customization1);
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->plugin->addCustomization($customization2);
     }
 
     public function testAddDuplicateCustomizationWith()
     {
-        $customization = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization = new Customization;
         $customization->setKey('id1')->setName('test1');
 
-        $this->_plugin->addCustomization($customization);
-        $this->_plugin->addCustomization($customization);
+        $this->plugin->addCustomization($customization);
+        $this->plugin->addCustomization($customization);
 
         $this->assertEquals(
             $customization,
-            $this->_plugin->getCustomization('id1')
+            $this->plugin->getCustomization('id1')
         );
     }
 
@@ -182,124 +185,124 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             null,
-            $this->_plugin->getCustomization('invalidkey')
+            $this->plugin->getCustomization('invalidkey')
         );
     }
 
     public function testAddCustomizations()
     {
-        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1 = new Customization;
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2 = new Customization;
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array('id1' => $customization1, 'id2' => $customization2);
 
-        $this->_plugin->addCustomizations($customizations);
+        $this->plugin->addCustomizations($customizations);
         $this->assertEquals(
             $customizations,
-            $this->_plugin->getCustomizations()
+            $this->plugin->getCustomizations()
         );
     }
 
     public function testRemoveCustomization()
     {
-        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1 = new Customization;
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2 = new Customization;
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array($customization1, $customization2);
 
-        $this->_plugin->addCustomizations($customizations);
-        $this->_plugin->removeCustomization('id1');
+        $this->plugin->addCustomizations($customizations);
+        $this->plugin->removeCustomization('id1');
         $this->assertEquals(
             array('id2' => $customization2),
-            $this->_plugin->getCustomizations()
+            $this->plugin->getCustomizations()
         );
     }
 
     public function testRemoveCustomizationWithObjectInput()
     {
-        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1 = new Customization;
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2 = new Customization;
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array($customization1, $customization2);
 
-        $this->_plugin->addCustomizations($customizations);
-        $this->_plugin->removeCustomization($customization1);
+        $this->plugin->addCustomizations($customizations);
+        $this->plugin->removeCustomization($customization1);
         $this->assertEquals(
             array('id2' => $customization2),
-            $this->_plugin->getCustomizations()
+            $this->plugin->getCustomizations()
         );
     }
 
     public function testRemoveInvalidCustomization()
     {
-        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1 = new Customization;
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2 = new Customization;
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array('id1' => $customization1, 'id2' => $customization2);
 
-        $this->_plugin->addCustomizations($customizations);
-        $this->_plugin->removeCustomization('id3'); //continue silently
+        $this->plugin->addCustomizations($customizations);
+        $this->plugin->removeCustomization('id3'); //continue silently
         $this->assertEquals(
             $customizations,
-            $this->_plugin->getCustomizations()
+            $this->plugin->getCustomizations()
         );
     }
 
     public function testClearCustomizations()
     {
-        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1 = new Customization;
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2 = new Customization;
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array($customization1, $customization2);
 
-        $this->_plugin->addCustomizations($customizations);
-        $this->_plugin->clearCustomizations();
+        $this->plugin->addCustomizations($customizations);
+        $this->plugin->clearCustomizations();
         $this->assertEquals(
             array(),
-            $this->_plugin->getCustomizations()
+            $this->plugin->getCustomizations()
         );
     }
 
     public function testSetCustomizations()
     {
-        $customization1 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization1 = new Customization;
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization2 = new Customization;
         $customization2->setKey('id2')->setName('test2');
 
         $customizations1 = array('id1' => $customization1, 'id2' => $customization2);
 
-        $this->_plugin->addCustomizations($customizations1);
+        $this->plugin->addCustomizations($customizations1);
 
-        $customization3 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization3 = new Customization;
         $customization3->setKey('id3')->setName('test3');
 
-        $customization4 = new \Solarium\Plugin\CustomizeRequest\Customization;
+        $customization4 = new Customization;
         $customization4->setKey('id4')->setName('test4');
 
         $customizations2 = array('id3' => $customization3, 'id4' => $customization4);
 
-        $this->_plugin->setCustomizations($customizations2);
+        $this->plugin->setCustomizations($customizations2);
 
         $this->assertEquals(
             $customizations2,
-            $this->_plugin->getCustomizations()
+            $this->plugin->getCustomizations()
         );
     }
 
@@ -311,7 +314,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'name' => 'xid',
                     'value' => 123,
                 );
-        $this->_plugin->addCustomization($input);
+        $this->plugin->addCustomization($input);
 
         $input = array(
                     'key' => 'auth',
@@ -320,10 +323,10 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'value' => 'mypassword',
                     'persistent' => true
                 );
-        $this->_plugin->addCustomization($input);
+        $this->plugin->addCustomization($input);
 
-        $request = new \Solarium\Client\Request();
-        $this->_plugin->postCreateRequest(null, $request);
+        $request = new Request();
+        $this->plugin->postCreateRequest(null, $request);
 
         $this->assertEquals(
             123,
@@ -344,20 +347,20 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
             'name' => 'xid',
             'value' => 123,
         );
-        $this->_plugin->addCustomization($input);
+        $this->plugin->addCustomization($input);
 
-        $request = new \Solarium\Client\Request();
+        $request = new Request();
 
-        $this->setExpectedException('Solarium\Exception');
-        $this->_plugin->postCreateRequest(null, $request);
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->plugin->postCreateRequest(null, $request);
     }
 
     public function testPostCreateRequestWithoutCustomizations()
     {
-        $request = new \Solarium\Client\Request();
+        $request = new Request();
         $originalRequest = clone $request;
 
-        $this->_plugin->postCreateRequest(null, $request);
+        $this->plugin->postCreateRequest(null, $request);
 
         $this->assertEquals(
             $originalRequest,
@@ -373,7 +376,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'name' => 'xid',
                     'value' => 123,
                 );
-        $this->_plugin->addCustomization($input);
+        $this->plugin->addCustomization($input);
 
         $input = array(
                     'key' => 'auth',
@@ -382,10 +385,10 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'value' => 'mypassword',
                     'persistent' => true
                 );
-        $this->_plugin->addCustomization($input);
+        $this->plugin->addCustomization($input);
 
-        $request = new \Solarium\Client\Request();
-        $this->_plugin->postCreateRequest(null, $request);
+        $request = new Request();
+        $this->plugin->postCreateRequest(null, $request);
 
         $this->assertEquals(
             123,
@@ -398,8 +401,8 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         );
 
         // second use, only the header should be persistent
-        $request = new \Solarium\Client\Request();
-        $this->_plugin->postCreateRequest(null, $request);
+        $request = new Request();
+        $this->plugin->postCreateRequest(null, $request);
 
         $this->assertEquals(
             null,

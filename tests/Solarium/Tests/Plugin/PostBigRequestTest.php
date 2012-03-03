@@ -30,37 +30,41 @@
  */
 
 namespace Solarium\Tests\Plugin;
+use Solarium\Plugin\PostBigRequest;
+use Solarium\Core\Client\Client;
+use Solarium\Query\Select\Query\Query;
+use Solarium\Core\Client\Request;
 
 class PostBigRequestTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Solarium\Plugin\PostBigRequest
+     * @var PostBigRequest
      */
-    protected $_plugin;
+    protected $plugin;
 
     /**
-     * @var Solarium\Client
+     * @var Client
      */
-    protected $_client;
+    protected $client;
 
     /**
-     * @var Solarium\Query\Select\Select
+     * @var Query
      */
     protected $query;
 
     public function setUp()
     {
-        $this->_plugin = new \Solarium\Plugin\PostBigRequest();
+        $this->plugin = new PostBigRequest();
 
-        $this->_client = new \Solarium\Client\Client();
-        $this->_query = $this->_client->createSelect();
+        $this->client = new Client();
+        $this->query = $this->client->createSelect();
 
     }
 
     public function testSetAndGetMaxQueryStringLength()
     {
-        $this->_plugin->setMaxQueryStringLength(512);
-        $this->assertEquals(512, $this->_plugin->getMaxQueryStringLength());
+        $this->plugin->setMaxQueryStringLength(512);
+        $this->assertEquals(512, $this->plugin->getMaxQueryStringLength());
     }
 
     public function testPostCreateRequest()
@@ -71,35 +75,35 @@ class PostBigRequestTest extends \PHPUnit_Framework_TestCase
            $fq .= ' OR price:'.$i;
         }
         $fq = substr($fq, 4);
-        $this->_query->createFilterQuery('fq')->setQuery($fq);
+        $this->query->createFilterQuery('fq')->setQuery($fq);
 
-        $requestOutput = $this->_client->createRequest($this->_query);
+        $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
-        $this->_plugin->postCreateRequest($this->_query, $requestOutput);
+        $this->plugin->postCreateRequest($this->query, $requestOutput);
 
-        $this->assertEquals(\Solarium\Client\Request::METHOD_GET, $requestInput->getMethod());
-        $this->assertEquals(\Solarium\Client\Request::METHOD_POST, $requestOutput->getMethod());
+        $this->assertEquals(Request::METHOD_GET, $requestInput->getMethod());
+        $this->assertEquals(Request::METHOD_POST, $requestOutput->getMethod());
         $this->assertEquals($requestInput->getQueryString(), $requestOutput->getRawData());
         $this->assertEquals('', $requestOutput->getQueryString());
     }
 
     public function testPostCreateRequestUnalteredSmallRequest()
     {
-        $requestOutput = $this->_client->createRequest($this->_query);
+        $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
-        $this->_plugin->postCreateRequest($this->_query, $requestOutput);
+        $this->plugin->postCreateRequest($this->query, $requestOutput);
 
         $this->assertEquals($requestInput, $requestOutput);
     }
 
     public function testPostCreateRequestUnalteredPostRequest()
     {
-        $query = $this->_client->createUpdate();
+        $query = $this->client->createUpdate();
         $query->addDeleteById(1);
 
-        $requestOutput = $this->_client->createRequest($query);
+        $requestOutput = $this->client->createRequest($query);
         $requestInput = clone $requestOutput;
-        $this->_plugin->postCreateRequest($query, $requestOutput);
+        $this->plugin->postCreateRequest($query, $requestOutput);
 
         $this->assertEquals($requestInput, $requestOutput);
     }
