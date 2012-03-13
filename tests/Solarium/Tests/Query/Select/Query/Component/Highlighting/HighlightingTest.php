@@ -114,6 +114,16 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Query::COMPONENT_HIGHLIGHTING, $this->hlt->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\Highlighting', $this->hlt->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\Highlighting', $this->hlt->getRequestBuilder());
+    }
+
     public function testGetFieldAutocreate()
     {
         $name = 'test';

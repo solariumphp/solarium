@@ -51,6 +51,16 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Client::QUERY_TERMS, $this->query->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Terms\ResponseParser', $this->query->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Terms\RequestBuilder', $this->query->getRequestBuilder());
+    }
+
     public function testSetAndGetFields()
     {
         $this->query->setFields('fieldA,fieldB');

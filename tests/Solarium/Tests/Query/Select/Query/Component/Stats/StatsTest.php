@@ -52,6 +52,16 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Query::COMPONENT_STATS, $this->stats->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\Stats', $this->stats->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\Stats', $this->stats->getRequestBuilder());
+    }
+
     public function testConfigMode()
     {
         $options = array(

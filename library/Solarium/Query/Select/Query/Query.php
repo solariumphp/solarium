@@ -125,36 +125,6 @@ class Query extends BaseQuery
     const COMPONENT_DEBUG = 'debug';
 
     /**
-     * Get type for this query
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return Client::QUERY_SELECT;
-    }
-
-    /**
-     * Get a requestbuilder for this query
-     *
-     * @return RequestBuilder
-     */
-    public function getRequestBuilder()
-    {
-        return new RequestBuilder;
-    }
-
-    /**
-     * Get a response parser for this query
-     *
-     * @return ResponseParser
-     */
-    public function getResponseParser()
-    {
-        return new ResponseParser;
-    }
-
-    /**
      * Default options
      *
      * @var array
@@ -213,6 +183,36 @@ class Query extends BaseQuery
      * @var array
      */
     protected $components = array();
+
+    /**
+     * Get type for this query
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return Client::QUERY_SELECT;
+    }
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return ResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new ResponseParser;
+    }
 
     /**
      * Initialize options

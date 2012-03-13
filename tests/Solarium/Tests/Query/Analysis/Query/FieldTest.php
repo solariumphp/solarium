@@ -51,6 +51,16 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Client::QUERY_ANALYSIS_FIELD, $this->query->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Analysis\ResponseParser\Field', $this->query->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Analysis\RequestBuilder\Field', $this->query->getRequestBuilder());
+    }
+
     public function testSetAndGetFieldValue()
     {
         $data = 'testdata';

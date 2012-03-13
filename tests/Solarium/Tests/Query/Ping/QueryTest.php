@@ -48,6 +48,16 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Client::QUERY_PING, $this->query->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertEquals(null, $this->query->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Ping\RequestBuilder', $this->query->getRequestBuilder());
+    }
+
     public function testConfigMode()
     {
         $options = array(

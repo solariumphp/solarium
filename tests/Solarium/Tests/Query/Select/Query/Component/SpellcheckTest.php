@@ -51,6 +51,16 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Query::COMPONENT_SPELLCHECK, $this->spellCheck->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\Spellcheck', $this->spellCheck->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\Spellcheck', $this->spellCheck->getRequestBuilder());
+    }
+
     public function testSetAndGetQuery()
     {
         $value = 'testquery';

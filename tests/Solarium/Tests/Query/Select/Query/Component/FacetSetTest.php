@@ -75,6 +75,16 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Query::COMPONENT_FACETSET, $this->facetSet->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\FacetSet', $this->facetSet->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\FacetSet', $this->facetSet->getRequestBuilder());
+    }
+
     public function testSetAndGetSort()
     {
         $this->facetSet->setSort('index');

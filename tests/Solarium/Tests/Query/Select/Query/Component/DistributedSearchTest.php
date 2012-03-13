@@ -70,6 +70,16 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertEquals(null, $this->distributedSearch->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\DistributedSearch', $this->distributedSearch->getRequestBuilder());
+    }
+
     public function testAddShard()
     {
         $this->distributedSearch->addShard('shard1', 'localhost:8983/solr/shard1');

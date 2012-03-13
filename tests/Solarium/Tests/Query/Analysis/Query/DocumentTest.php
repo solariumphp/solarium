@@ -51,6 +51,16 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Client::QUERY_ANALYSIS_DOCUMENT, $this->query->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Analysis\ResponseParser\Document', $this->query->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Analysis\RequestBuilder\Document', $this->query->getRequestBuilder());
+    }
+
     public function testAddAndGetDocument()
     {
         $doc = new Document(array('id' => 1));

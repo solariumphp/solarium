@@ -65,6 +65,16 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\Debug', $this->debug->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\Debug', $this->debug->getRequestBuilder());
+    }
+
     public function testSetAndGetExplainOther()
     {
         $value = 'id:24';

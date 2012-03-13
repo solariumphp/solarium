@@ -83,6 +83,16 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertEquals(null, $this->disMax->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\Dismax', $this->disMax->getRequestBuilder());
+    }
+
     public function testSetAndGetQueryParser()
     {
         $value = 'dummyparser';

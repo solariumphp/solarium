@@ -49,6 +49,16 @@ class QueryTest extends SelectQueryTest
         $this->assertEquals(Client::QUERY_MORELIKETHIS, $this->query->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\MoreLikeThis\ResponseParser', $this->query->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\MoreLikeThis\RequestBuilder', $this->query->getRequestBuilder());
+    }
+
     public function testSetAndGetMatchInclude()
     {
         $value = true;

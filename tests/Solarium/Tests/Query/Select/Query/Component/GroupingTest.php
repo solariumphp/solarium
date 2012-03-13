@@ -78,6 +78,16 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Query::COMPONENT_GROUPING, $this->grouping->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\Grouping', $this->grouping->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\Grouping', $this->grouping->getRequestBuilder());
+    }
+
     public function testSetAndGetFieldsSingle()
     {
         $value = 'fieldC';

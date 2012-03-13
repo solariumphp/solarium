@@ -79,6 +79,16 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Query::COMPONENT_MORELIKETHIS, $this->mlt->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\MoreLikeThis', $this->mlt->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\MoreLikeThis', $this->mlt->getRequestBuilder());
+    }
+
     public function testSetAndGetFields()
     {
         $value = 'name,description';

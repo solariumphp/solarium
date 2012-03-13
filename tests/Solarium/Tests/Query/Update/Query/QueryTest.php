@@ -51,6 +51,16 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Client::QUERY_UPDATE, $this->query->getType());
     }
 
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\Query\Update\ResponseParser', $this->query->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\Query\Update\RequestBuilder', $this->query->getRequestBuilder());
+    }
+
     public function testConfigMode()
     {
         $options = array(
