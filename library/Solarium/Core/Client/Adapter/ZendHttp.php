@@ -44,6 +44,7 @@ namespace Solarium\Core\Client\Adapter;
 use Solarium\Core\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
+use Solarium\Core\Client\Endpoint;
 
 /**
  * Adapter that uses a Zend_Http_Client
@@ -66,6 +67,11 @@ class ZendHttp extends Adapter
      * @var \Zend_Http_Client
      */
     protected $zendHttp;
+
+    /**
+     * @var int
+     */
+    protected $timeout;
 
     /**
      * Set options
@@ -91,7 +97,7 @@ class ZendHttp extends Adapter
         if (null !== $this->zendHttp) {
 
             // forward timeout setting
-            $adapterOptions = array('timeout' => $this->getTimeout());
+            $adapterOptions = array();
 
             // forward adapter options if available
             if (isset($this->options['options'])) {
@@ -135,7 +141,7 @@ class ZendHttp extends Adapter
     public function getZendHttp()
     {
         if (null == $this->zendHttp) {
-            $options = array('timeout' => $this->getOption('timeout'));
+            $options = array();
 
             // forward zendhttp options
             if (isset($this->options['options'])) {
@@ -155,16 +161,18 @@ class ZendHttp extends Adapter
      * Execute a Solr request using the Zend_Http_Client instance
      *
      * @param Request $request
+     * @param Endpoint $endpoint
      * @return Response
      */
-    public function execute($request)
+    public function execute($request, $endpoint)
     {
         $client = $this->getZendHttp();
 
         $client->setMethod($request->getMethod());
-        $client->setUri($this->getBaseUri() . $request->getUri());
+        $client->setUri($endpoint->getBaseUri() . $request->getUri());
         $client->setHeaders($request->getHeaders());
         $client->setRawData($request->getRawData());
+        $this->timeout = $endpoint->getTimeout();
 
         $response = $client->request();
 

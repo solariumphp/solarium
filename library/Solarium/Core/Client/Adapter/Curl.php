@@ -44,6 +44,7 @@ use Solarium\Core\Exception;
 use Solarium\Core\Client\HttpException;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
+use Solarium\Core\Client\Endpoint;
 
 /**
  * cURL HTTP adapter
@@ -75,23 +76,25 @@ class Curl extends Adapter
      * Execute a Solr request using the cURL Http
      *
      * @param Request $request
+     * @param Endpoint $endpoint
      * @return Response
      */
-    public function execute($request)
+    public function execute($request, $endpoint)
     {
-        return $this->getData($request);
+        return $this->getData($request, $endpoint);
     }
 
     /**
      * Execute request
      *
      * @param Request $request
+     * @param Endpoint $endpoint
      * @return array
      */
-    protected function getData($request)
+    protected function getData($request, $endpoint)
     {
         // @codeCoverageIgnoreStart
-        $handle = $this->createHandle($request);
+        $handle = $this->createHandle($request, $endpoint);
         $httpResponse = curl_exec($handle);
 
         return $this->getResponse($handle, $httpResponse);
@@ -128,14 +131,15 @@ class Curl extends Adapter
      * Create curl handle for a request
      *
      * @param Request $request
+     * @param Endpoint $endpoint
      * @return resource
      */
-    public function createHandle($request)
+    public function createHandle($request, $endpoint)
     {
         // @codeCoverageIgnoreStart
-        $uri = $this->getBaseUri() . $request->getUri();
+        $uri = $endpoint->getBaseUri() . $request->getUri();
         $method = $request->getMethod();
-        $options = $this->createOptions($request);
+        $options = $this->createOptions($request, $endpoint);
 
         $handler = curl_init();
         curl_setopt($handler, CURLOPT_URL, $uri);
@@ -178,13 +182,14 @@ class Curl extends Adapter
      * Create http request options from request.
      *
      * @param Request $request
+     * @param Endpoint $endpoint
      * @return array
      */
-    protected function createOptions($request)
+    protected function createOptions($request, $endpoint)
     {
         // @codeCoverageIgnoreStart
         $options = array(
-            'timeout' => $this->getTimeout()
+            'timeout' => $endpoint->getTimeout()
         );
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);

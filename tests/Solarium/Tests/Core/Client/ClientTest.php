@@ -62,9 +62,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'adapter' => __NAMESPACE__.'\\MyAdapter',
-            'adapteroptions' => array(
-                'host' => 'myhost',
-                'port' => 8080,
+            'endpoint' => array(
+                'myhost' => array(
+                    'host' => 'myhost',
+                    'port' => 8080,
+                ),
             ),
             'querytype' => array(
                 'myquerytype' => 'MyQuery',
@@ -85,7 +87,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $adapter = $this->client->getAdapter();
 
         $this->assertThat($adapter, $this->isInstanceOf(__NAMESPACE__.'\\MyAdapter'));
-        $this->assertEquals(8080, $adapter->getPort());
+        $this->assertEquals(8080, $this->client->getEndpoint('myhost')->getPort());
 
 
         $queryTypes = $this->client->getQueryTypes();
@@ -104,9 +106,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'adapter' => __NAMESPACE__.'\\MyAdapter',
-            'adapteroptions' => array(
-                'host' => 'myhost',
-                'port' => 8080,
+            'endpoint' => array(
+                array(
+                    'key' => 'myhost',
+                    'host' => 'myhost',
+                    'port' => 8080,
+                ),
             ),
             'querytype' => array(
                 array(
@@ -131,7 +136,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $adapter = $this->client->getAdapter();
 
         $this->assertThat($adapter, $this->isInstanceOf(__NAMESPACE__.'\\MyAdapter'));
-        $this->assertEquals(8080, $adapter->getPort());
+        $this->assertEquals(8080, $this->client->getEndpoint('myhost')->getPort());
 
         $queryTypes = $this->client->getQueryTypes();
         $this->assertEquals(
@@ -863,7 +868,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 class MyAdapter extends ClientAdapterHttp {
 
-    public function execute($request)
+    public function execute($request, $endpoint)
     {
         $response = new Response('{}', array('HTTP/1.1 200 OK'));
         return $response;

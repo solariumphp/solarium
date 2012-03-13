@@ -32,6 +32,7 @@
 namespace Solarium\Tests\Core\Client\Adapter;
 use Solarium\Core\Client\Adapter\ZendHttp as ZendHttpAdapter;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Endpoint;
 
 class ZendHttpTest extends \PHPUnit_Framework_TestCase
 {
@@ -53,8 +54,8 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
     public function testForwardingToZendHttpInSetOptions()
     {
-        $options = array('timeout' => 10, 'optionZ' => 123, 'options' => array('optionX' => 'Y'));
-        $adapterOptions = array('timeout' => 10, 'optionX' => 'Y');
+        $options = array('optionZ' => 123, 'options' => array('optionX' => 'Y'));
+        $adapterOptions = array('optionX' => 'Y');
 
         $mock = $this->getMock('Zend_Http_Client');
         $mock->expects($this->once())
@@ -79,7 +80,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetZendHttpAutoload()
     {
-        $options = array('timeout' => 10, 'optionZ' => 123, 'options' => array('adapter' => 'Zend_Http_Client_Adapter_Curl'));
+        $options = array('optionZ' => 123, 'options' => array('adapter' => 'Zend_Http_Client_Adapter_Curl'));
         $this->adapter->setOptions($options);
 
         $zendHttp = $this->adapter->getZendHttp();
@@ -102,6 +103,8 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $request->setHeaders($headers);
         $request->setRawData($rawData);
 
+        $endpoint = new Endpoint();
+
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
 
         $mock = $this->getMock('Zend_Http_Client');
@@ -122,7 +125,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
                  ->will($this->returnValue($response));
 
         $this->adapter->setZendHttp($mock);
-        $adapterResponse = $this->adapter->execute($request);
+        $adapterResponse = $this->adapter->execute($request, $endpoint);
 
         $this->assertEquals(
             $responseData,
@@ -134,6 +137,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request();
         $response = new \Zend_Http_Response(404, array(), '');
+        $endpoint = new Endpoint();
 
         $mock = $this->getMock('Zend_Http_Client');
         $mock->expects($this->once())
@@ -143,7 +147,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $this->adapter->setZendHttp($mock);
 
         $this->setExpectedException('Solarium\Core\Client\HttpException');
-        $this->adapter->execute($request);
+        $this->adapter->execute($request, $endpoint);
 
     }
 
@@ -152,6 +156,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $request->setMethod(Request::METHOD_HEAD);
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'data');
+        $endpoint = new Endpoint();
 
         $mock = $this->getMock('Zend_Http_Client');
         $mock->expects($this->once())
@@ -159,7 +164,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
                  ->will($this->returnValue($response));
 
         $this->adapter->setZendHttp($mock);
-        $response = $this->adapter->execute($request);
+        $response = $this->adapter->execute($request, $endpoint);
 
         $this->assertEquals(
             '',

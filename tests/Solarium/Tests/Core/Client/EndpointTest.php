@@ -29,22 +29,19 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Core\Client\Adapter;
-use Solarium\Core\Client\Adapter\Adapter;
-use Solarium\Core\Client\Request;
-use Solarium\Core\Exception;
-use Solarium\Core\Client\HttpException;
+namespace Solarium\Tests\Core\Client;
+use Solarium\Core\Client\Endpoint;
 
-class AdapterTest extends \PHPUnit_Framework_TestCase
+class EndpointTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var TestAdapter
+     * @var Endpoint
      */
-    protected $adapter;
+    protected $endpoint;
 
     public function setUp()
     {
-        $this->adapter = new TestAdapter();
+        $this->endpoint = new Endpoint();
     }
 
     public function testConfigMode()
@@ -56,71 +53,61 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             'core'    => 'mycore',
             'timeout' => 3,
         );
-        $this->adapter->setOptions($options);
+        $this->endpoint->setOptions($options);
 
         $options['path'] = '/mysolr'; //expected trimming of trailing slash
 
-        $this->assertEquals($options, $this->adapter->getOptions());
+        $this->assertEquals($options, $this->endpoint->getOptions());
     }
 
     public function testSetAndGetHost()
     {
-        $this->adapter->setHost('myhost');
-        $this->assertEquals('myhost', $this->adapter->getHost());
+        $this->endpoint->setHost('myhost');
+        $this->assertEquals('myhost', $this->endpoint->getHost());
     }
 
     public function testSetAndGetPort()
     {
-        $this->adapter->setPort(8080);
-        $this->assertEquals(8080, $this->adapter->getPort());
+        $this->endpoint->setPort(8080);
+        $this->assertEquals(8080, $this->endpoint->getPort());
     }
 
     public function testSetAndGetPath()
     {
-        $this->adapter->setPath('/mysolr');
-        $this->assertEquals('/mysolr', $this->adapter->getPath());
+        $this->endpoint->setPath('/mysolr');
+        $this->assertEquals('/mysolr', $this->endpoint->getPath());
     }
 
     public function testSetAndGetPathWithTrailingSlash()
     {
-        $this->adapter->setPath('/mysolr/');
-        $this->assertEquals('/mysolr', $this->adapter->getPath());
+        $this->endpoint->setPath('/mysolr/');
+        $this->assertEquals('/mysolr', $this->endpoint->getPath());
     }
 
     public function testSetAndGetCore()
     {
-        $this->adapter->setCore('core1');
-        $this->assertEquals('core1', $this->adapter->getCore());
+        $this->endpoint->setCore('core1');
+        $this->assertEquals('core1', $this->endpoint->getCore());
     }
 
     public function testSetAndGetTimeout()
     {
-        $this->adapter->setTimeout(7);
-        $this->assertEquals(7, $this->adapter->getTimeout());
+        $this->endpoint->setTimeout(7);
+        $this->assertEquals(7, $this->endpoint->getTimeout());
     }
 
     public function testGetBaseUri()
     {
-        $this->adapter->setHost('myserver')->setPath('/mypath')->setPort(123);
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
 
-        $this->assertEquals('http://myserver:123/mypath/', $this->adapter->getBaseUri());
+        $this->assertEquals('http://myserver:123/mypath/', $this->endpoint->getBaseUri());
     }
 
     public function testGetBaseUriWithCore()
     {
-        $this->adapter->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('mycore');
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('mycore');
 
-        $this->assertEquals('http://myserver:123/mypath/mycore/', $this->adapter->getBaseUri());
-    }
-
-}
-
-class TestAdapter extends Adapter
-{
-
-    public function execute($request)
-    {
-
+        $this->assertEquals('http://myserver:123/mypath/mycore/', $this->endpoint->getBaseUri());
     }
 
 }

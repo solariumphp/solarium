@@ -32,6 +32,7 @@
 namespace Solarium\Tests\Core\Client\Adapter;
 use Solarium\Core\Client\Adapter\Http as HttpAdapter;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Exception;
 use Solarium\Core\Client\HttpException;
 
@@ -54,13 +55,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
 
+        $endpoint = new Endpoint();
+
         $mock = $this->getMock('Solarium\Core\Client\Adapter\Http', array('getData','check'));
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
              ->will($this->returnValue(array($data, array('HTTP 1.1 200 OK'))));
 
-        $mock->execute($request);
+        $mock->execute($request, $endpoint);
     }
 
     public function testExecuteErrorResponse()
@@ -68,6 +71,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $data = 'test123';
 
         $request = new Request();
+        $endpoint = new Endpoint();
 
         $mock = $this->getMock('Solarium\Core\Client\Adapter\Http', array('getData','check'));
         $mock->expects($this->once())
@@ -79,7 +83,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
              ->will($this->throwException(new HttpException("HTTP request failed")));
 
         $this->setExpectedException('Solarium\Core\Client\HttpException');
-        $mock->execute($request);
+        $mock->execute($request, $endpoint);
     }
 
     public function testCheckError()
@@ -106,9 +110,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $request = new Request();
         $request->setMethod($method);
-        $this->adapter->setTimeout($timeout);
+        $endpoint = new Endpoint();
+        $endpoint->setTimeout($timeout);
 
-        $context = $this->adapter->createContext($request);
+        $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertEquals(
             array('http' => array('method' => $method, 'timeout' => $timeout)),
@@ -127,9 +132,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $request->setMethod($method);
         $request->addHeader($header1);
         $request->addHeader($header2);
-        $this->adapter->setTimeout($timeout);
+        $endpoint = new Endpoint();
+        $endpoint->setTimeout($timeout);
 
-        $context = $this->adapter->createContext($request);
+        $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertEquals(
             array('http' => array('method' => $method, 'timeout' => $timeout, 'header' => $header1."\r\n".$header2)),
@@ -146,9 +152,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $request->setMethod($method);
         $request->setRawData($data);
-        $this->adapter->setTimeout($timeout);
+        $endpoint = new Endpoint();
+        $endpoint->setTimeout($timeout);
 
-        $context = $this->adapter->createContext($request);
+        $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertEquals(
             array('http' => array('method' => $method, 'timeout' => $timeout, 'content' => $data, 'header' => 'Content-Type: text/xml; charset=UTF-8')),

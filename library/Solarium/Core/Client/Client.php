@@ -114,6 +114,9 @@ class Client extends Configurable
      */
     protected $options = array(
         'adapter' => 'Solarium\Core\Client\Adapter\Http',
+        'endpoint' => array(
+            'localhost' => array()
+        )
     );
 
     /**
@@ -154,6 +157,20 @@ class Client extends Configurable
     protected $pluginInstances = array();
 
     /**
+     * Registered endpoints
+     *
+     * @var array
+     */
+    protected $endpoints = array();
+
+    /**
+     * Default endpoint key
+     *
+     * @var string
+     */
+    protected $defaultEndpoint;
+
+    /**
      * Adapter instance
      *
      * If an adapter instance is set using {@link setAdapter()} this var will
@@ -181,6 +198,9 @@ class Client extends Configurable
     {
         foreach ($this->options AS $name => $value) {
             switch ($name) {
+                case 'endpoint':
+                    $this->addEndpoints($value);
+                    break;
                 case 'querytype':
                     $this->registerQueryTypes($value);
                     break;
@@ -189,6 +209,187 @@ class Client extends Configurable
                     break;
             }
         }
+    }
+
+    /**
+     * Create a endpoint instance
+     *
+     * If you supply a string as the first arguments ($options) it will be used as the key for the endpoint
+     * and it will be registered.
+     * If you supply an options array/object that contains a key the endpoint will also be registered.
+     *
+     * When no key is supplied the endpoint cannot be registered, in that case you will need to do this manually
+     * after setting the key, by using the addEndpoint method.
+     *
+     * @param mixed $options
+     * @return Endpoint
+     */
+    public function createEndpoint($options = null)
+    {
+        if (is_string($options)) {
+            $fq = new Endpoint;
+            $fq->setKey($options);
+        } else {
+            $fq = new Endpoint($options);
+        }
+
+        if ($fq->getKey() !== null) {
+            $this->addEndpoint($fq);
+        }
+
+        return $fq;
+    }
+
+    /**
+     * Add an endpoint
+     *
+     * Supports a endpoint instance or a config array as input.
+     * In case of options a new endpoint instance wil be created based on the options.
+     *
+     * @param Endpoint|array $endpoint
+     * @return self Provides fluent interface
+     */
+    public function addEndpoint($endpoint)
+    {
+        if (is_array($endpoint)) {
+            $endpoint = new Endpoint($endpoint);
+        }
+
+        $key = $endpoint->getKey();
+
+        if (0 === strlen($key)) {
+            throw new Exception('A endpoint must have a key value');
+        }
+
+        //double add calls for the same endpoint are ignored, but non-unique keys cause an exception
+        //@todo add trigger_error with a notice for double add calls?
+        if (array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
+            throw new Exception('A endpoint must have a unique key');
+        } else {
+            $this->endpoints[$key] = $endpoint;
+
+            // if no default endpoint is set do so now
+            if (null == $this->defaultEndpoint) $this->defaultEndpoint = $key;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add multiple endpoints
+     *
+     * @param array $endpoints
+     * @return self Provides fluent interface
+     */
+    public function addEndpoints(array $endpoints)
+    {
+        foreach ($endpoints AS $key => $endpoint) {
+
+            // in case of a config array: add key to config
+            if (is_array($endpoint) && !isset($endpoint['key'])) {
+                $endpoint['key'] = $key;
+            }
+
+            $this->addEndpoint($endpoint);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get an endpoint by key
+     *
+     * @param string $key
+     * @return string
+     */
+    public function getEndpoint($key = null)
+    {
+        if (null == $key) $key = $this->defaultEndpoint;
+
+        if (!isset($this->endpoints[$key])){
+            throw new Exception('Endpoint '.$key.' not available');
+        }
+
+        return $this->endpoints[$key];
+    }
+
+    /**
+     * Get all endpoints
+     *
+     * @return array
+     */
+    public function getEndpoints()
+    {
+        return $this->endpoints;
+    }
+
+    /**
+     * Remove a single endpoint
+     *
+     * You can remove a endpoint by passing it's key, or by passing the endpoint instance
+     *
+     * @param string|Endpoint $endpoint
+     * @return self Provides fluent interface
+     */
+    public function removeEndpoint($endpoint)
+    {
+        if (is_object($endpoint)) {
+            $endpoint = $endpoint->getKey();
+        }
+
+        if (isset($this->endpoints[$endpoint])) {
+            unset($this->endpoints[$endpoint]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all endpoints
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearEndpoints()
+    {
+        $this->endpoints = array();
+        $this->defaultEndpoint = null;
+        return $this;
+    }
+
+    /**
+     * Set multiple endpoints
+     *
+     * This overwrites any existing endpoints
+     *
+     * @param array $endpoints
+     */
+    public function setEndpoints($endpoints)
+    {
+        $this->clearEndpoints();
+        $this->addEndpoints($endpoints);
+    }
+
+    /**
+     * Set a default endpoint
+     *
+     * All queries executed without a specific endpoint will use this default endpoint.
+     *
+     * @param string|Endpoint $endpoint
+     * @return self Provides fluent interface
+     * @throws Exception
+     */
+    public function setDefaultEndpoint($endpoint)
+    {
+        if (is_object($endpoint)) {
+            $endpoint = $endpoint->getKey();
+        }
+
+        if (!isset($this->endpoints[$endpoint])) {
+            throw new Exception('Unknown endpoint '.$endpoint.' cannot be set as default');
+        }
+
+        $this->defaultEndpoint = $endpoint;
+        return $this;
     }
 
     /**
@@ -512,15 +713,16 @@ class Client extends Configurable
      * Execute a query
      *
      * @param Query
+     * @param Endpoint|string|null
      * @return Result
      */
-    public function execute($query)
+    public function execute($query, $endpoint = null)
     {
         $pluginResult = $this->callPlugins('preExecute', array($query), true);
         if($pluginResult !== null) return $pluginResult;
 
         $request = $this->createRequest($query);
-        $response = $this->executeRequest($request);
+        $response = $this->executeRequest($request, $endpoint);
         $result = $this->createResult($query, $response);
 
         $this->callPlugins('postExecute', array($query, $result));
@@ -532,15 +734,21 @@ class Client extends Configurable
      * Execute a request and return the response
      *
      * @param Request
+     * @param Endpoint|string|null
      * @return Response
      */
-    public function executeRequest($request)
+    public function executeRequest($request, $endpoint = null)
     {
+        // load endpoint by string or by using the default one in case of a null value
+        if (!($endpoint instanceof Endpoint)) {
+            $endpoint = $this->getEndpoint($endpoint);
+        }
+
         $pluginResult = $this->callPlugins('preExecuteRequest', array($request), true);
         if ($pluginResult !== null) {
             $response = $pluginResult; //a plugin result overrules the standard execution result
         } else {
-            $response = $this->getAdapter()->execute($request);
+            $response = $this->getAdapter()->execute($request, $endpoint);
         }
 
         $this->callPlugins('postExecuteRequest', array($request, $response));
@@ -564,11 +772,12 @@ class Client extends Configurable
      *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium\Query\Ping\Query $query
+     * @param Endpoint|string|null
      * @return Solarium\Query\Ping\Result
      */
-    public function ping($query)
+    public function ping($query, $endpoint = null)
     {
-        return $this->execute($query);
+        return $this->execute($query, $endpoint);
     }
 
     /**
@@ -589,11 +798,12 @@ class Client extends Configurable
      *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium\Query\Update\Query $query
+     * @param Endpoint|string|null
      * @return Solarium\Query\Update\Result
      */
-    public function update($query)
+    public function update($query, $endpoint = null)
     {
-        return $this->execute($query);
+        return $this->execute($query, $endpoint);
     }
 
     /**
@@ -613,11 +823,12 @@ class Client extends Configurable
      *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium\Query\Query\Select\Query $query
+     * @param Endpoint|string|null
      * @return Solarium\Query\Result\Select\Result
      */
-    public function select($query)
+    public function select($query, $endpoint = null)
     {
-        return $this->execute($query);
+        return $this->execute($query, $endpoint);
     }
 
     /**
@@ -637,11 +848,12 @@ class Client extends Configurable
      *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium\Query\MoreLikeThis\Query $query
+     * @param Endpoint
      * @return Solarium\Query\MoreLikeThis\Result
      */
-    public function moreLikeThis($query)
+    public function moreLikeThis($query, $endpoint = null)
     {
-        return $this->execute($query);
+        return $this->execute($query, $endpoint);
     }
 
     /**
@@ -651,11 +863,12 @@ class Client extends Configurable
      *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium\Query\Analysis\Query\Document|Solarium\Query\Analysis\Query\Field $query
+     * @param Endpoint
      * @return Solarium\Query\Analysis\Result\Document|Solarium\Query\Analysis\Result\Field
      */
-    public function analyze($query)
+    public function analyze($query, $endpoint = null)
     {
-        return $this->execute($query);
+        return $this->execute($query, $endpoint);
     }
 
     /**
@@ -665,11 +878,12 @@ class Client extends Configurable
      *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium\Query\Terms\Query $query
+     * @param Endpoint|string|null
      * @return Solarium\Query\Terms\Result
      */
-    public function terms($query)
+    public function terms($query, $endpoint = null)
     {
-        return $this->execute($query);
+        return $this->execute($query, $endpoint);
     }
 
     /**
@@ -679,11 +893,12 @@ class Client extends Configurable
      *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param Solarium\Query\Suggester\Query $query
+     * @param Endpoint|string|null
      * @return Solarium\Query\Suggester\Result
      */
-    public function suggester($query)
+    public function suggester($query, $endpoint = null)
     {
-        return $this->execute($query);
+        return $this->execute($query, $endpoint);
     }
 
     /**

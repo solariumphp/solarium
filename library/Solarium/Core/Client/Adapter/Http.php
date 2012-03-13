@@ -44,6 +44,7 @@ use Solarium\Core\Exception;
 use Solarium\Core\Client\HttpException;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
+use Solarium\Core\Client\Endpoint;
 
 /**
  * Basic HTTP adapter using a stream
@@ -59,12 +60,13 @@ class Http extends Adapter
      *
      * @throws Exception
      * @param Request $request
+     * @param Endpoint $endpoint
      * @return Response
      */
-    public function execute($request)
+    public function execute($request, $endpoint)
     {
-        $context = $this->createContext($request);
-        $uri = $this->getBaseUri() . $request->getUri();
+        $context = $this->createContext($request, $endpoint);
+        $uri = $endpoint->getBaseUri() . $request->getUri();
 
         list($data, $headers) = $this->getData($uri, $context);
 
@@ -94,15 +96,16 @@ class Http extends Adapter
      * Create a stream context for a request
      *
      * @param Request $request
+     * @param Endpoint $endpoint
      * @return resource
      */
-    public function createContext($request)
+    public function createContext($request, $endpoint)
     {
         $method = $request->getMethod();
         $context = stream_context_create(
             array('http' => array(
                 'method' => $method,
-                'timeout' => $this->getTimeout()
+                'timeout' => $endpoint->getTimeout()
             ))
         );
 

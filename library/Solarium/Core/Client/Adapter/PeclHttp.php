@@ -45,6 +45,7 @@ use Solarium\Core\Exception;
 use Solarium\Core\Client\HttpException;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
+use Solarium\Core\Client\Endpoint;
 
 /**
  * Pecl HTTP adapter
@@ -76,11 +77,12 @@ class PeclHttp extends Adapter
      * Execute a Solr request using the Pecl Http
      *
      * @param Request $request
+     * @param Endpoint $endpoint
      * @return Response
      */
-    public function execute($request)
+    public function execute($request, $endpoint)
     {
-        $httpRequest = $this->toHttpRequest($request);
+        $httpRequest = $this->toHttpRequest($request, $endpoint);
 
         try {
             $httpMessage = $httpRequest->send();
@@ -131,11 +133,12 @@ class PeclHttp extends Adapter
      *  HTTP Predefined Constant}
      *
      * @param Request $request
+     * @param Endpoint $endpoint
      * @param HttpRequest
      */
-    public function toHttpRequest($request)
+    public function toHttpRequest($request, $endpoint)
     {
-        $url = $this->getBaseUri() . $request->getUri();
+        $url = $endpoint->getBaseUri() . $request->getUri();
         $httpRequest = new \HttpRequest($url);
 
         $headers = array();
@@ -167,7 +170,7 @@ class PeclHttp extends Adapter
         }
 
         $httpRequest->setMethod($method);
-        $httpRequest->setOptions(array('timeout' => $this->getTimeout()));
+        $httpRequest->setOptions(array('timeout' => $endpoint->getTimeout()));
         $httpRequest->setHeaders($headers);
 
         return $httpRequest;

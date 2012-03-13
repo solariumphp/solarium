@@ -32,6 +32,7 @@
 namespace Solarium\Tests\Core\Client\Adapter;
 use Solarium\Core\Client\Adapter\PeclHttp as PeclHttpAdapter;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Exception;
 use Solarium\Core\Client\HttpException;
 
@@ -56,8 +57,10 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHttpRequestWithMethod($request, $method, $support)
     {
+        $endpoint = new Endpoint();
+
         try {
-            $httpRequest = $this->adapter->toHttpRequest($request);
+            $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
             $this->assertEquals($httpRequest->getMethod(), $method);
         } catch (Exception $e) {
             if ($support) {
@@ -113,7 +116,10 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
             )
         ));
 
-        $httpRequest = $this->adapter->toHttpRequest($request);
+        $endpoint = new Endpoint();
+        $endpoint->setTimeout(10);
+
+        $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
         $this->assertEquals(array(
             'timeout' => 10,
             'headers' => array(
@@ -128,7 +134,10 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
         $request = new Request;
         $request->setMethod(Request::METHOD_POST);
 
-        $httpRequest = $this->adapter->toHttpRequest($request);
+        $endpoint = new Endpoint();
+        $endpoint->setTimeout(10);
+
+        $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
         $this->assertEquals(array(
             'timeout' => 10,
             'headers' => array(
@@ -149,6 +158,7 @@ X-Foo: test
 $body
 EOF;
         $request = new Request();
+        $endpoint = new Endpoint();
 
         $mockHttpRequest = $this->getMock('HttpRequest');
         $mockHttpRequest->expects($this->once())
@@ -157,10 +167,10 @@ EOF;
         $mock = $this->getMock('Solarium\Core\Client\Adapter\PeclHttp', array('toHttpRequest'));
         $mock->expects($this->once())
              ->method('toHttpRequest')
-             ->with($request)
+             ->with($request, $endpoint)
              ->will($this->returnValue($mockHttpRequest));
 
-        $response = $mock->execute($request);
+        $response = $mock->execute($request, $endpoint);
         $this->assertEquals($body, $response->getBody());
         $this->assertEquals($statusCode, $response->getStatusCode());
         $this->assertEquals($statusMessage, $response->getStatusMessage());
@@ -171,9 +181,10 @@ EOF;
      */
     public function testExecuteWithException()
     {
-        $this->adapter->setPort(-1); // this forces an error
+        $endpoint = new Endpoint();
+        $endpoint->setPort(-1); // this forces an error
         $request = new Request();
-        $this->adapter->execute($request);
+        $this->adapter->execute($request, $endpoint);
     }
 
 }
