@@ -50,13 +50,22 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
      */
     protected $client;
 
-    protected $serverOptions = array('host' => 'nonexistinghostname');
-
     public function setUp()
     {
         $this->plugin = new Loadbalancer();
 
-        $this->client = new Client();
+        $options = array(
+            'endpoint' => array(
+                'server1' => array(
+                    'host' => 'host1'
+                ),
+                'server2' => array(
+                    'host' => 'host2'
+                ),
+            ),
+        );
+
+        $this->client = new Client($options);
         $adapter = $this->getMock('Solarium\Core\Client\Adapter\Http');
         $adapter->expects($this->any())
             ->method('execute')
@@ -68,19 +77,9 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'server' => array(
-                'server1' => array(
-                    'options' => array(
-                        'host' => 'host1'
-                    ),
-                    'weight' => 10,
-                ),
-                'server2' => array(
-                    'options' => array(
-                        'host' => 'host2'
-                    ),
-                    'weight' => 5,
-                ),
+            'endpoint' => array(
+                'server1' => 10,
+                'server2' => 5,
             ),
             'blockedquerytype' => array(Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS)
         );
@@ -88,17 +87,8 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->plugin->setOptions($options);
 
         $this->assertEquals(
-            array(
-                'server1' => array(
-                    'options' => array('host' => 'host1'),
-                    'weight' => 10,
-                ),
-                'server2' => array(
-                    'options' => array('host' => 'host2'),
-                    'weight' => 5,
-                )
-            ),
-            $this->plugin->getServers()
+            array('server1' => 10, 'server2' => 5),
+            $this->plugin->getEndpoints()
         );
 
         $this->assertEquals(
@@ -119,124 +109,139 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(16, $this->plugin->getFailoverMaxRetries());
     }
 
-    public function testAddServer()
+    public function testAddEndpoint()
     {
-        $this->plugin->addServer('s1', $this->serverOptions, 10);
+        $this->plugin->addEndpoint('s1', 10);
 
         $this->assertEquals(
-            array('s1' =>
-                array(
-                    'options' => $this->serverOptions,
-                    'weight' => 10,
-                )
-            ),
-            $this->plugin->getServers()
+            array('s1' => 10),
+            $this->plugin->getEndpoints()
         );
     }
 
-    public function testAddServerWithDuplicateKey()
+    public function testAddEndpointWithObject()
     {
-        $this->plugin->addServer('s1', $this->serverOptions, 10);
+        $this->plugin->addEndpoint($this->client->getEndpoint('server1'), 10);
+
+        $this->assertEquals(
+            array('server1' => 10),
+            $this->plugin->getEndpoints()
+        );
+    }
+
+    public function testAddEndpoints()
+    {
+        $endpoints = array('s1' => 10, 's2' => 8);
+        $this->plugin->addEndpoints($endpoints);
+
+        $this->assertEquals(
+            $endpoints,
+            $this->plugin->getEndpoints()
+        );
+    }
+
+    public function testAddEndpointWithDuplicateKey()
+    {
+        $this->plugin->addEndpoint('s1', 10);
 
         $this->setExpectedException('Solarium\Core\Exception');
-        $this->plugin->addServer('s1', $this->serverOptions, 20);
+        $this->plugin->addEndpoint('s1', 20);
     }
 
-    public function testGetServer()
+    public function testClearEndpoints()
     {
-        $this->plugin->addServer('s1', $this->serverOptions, 10);
+        $this->plugin->addEndpoint('s1', 10);
+        $this->plugin->clearEndpoints();
+        $this->assertEquals(array(), $this->plugin->getEndpoints());
+    }
+
+    public function testRemoveEndpoint()
+    {
+        $endpoints = array(
+            's1' => 10,
+            's2' => 20,
+        );
+
+        $this->plugin->addEndpoints($endpoints);
+        $this->plugin->removeEndpoint('s1');
 
         $this->assertEquals(
-            array('options' => $this->serverOptions, 'weight' => 10),
-            $this->plugin->getServer('s1')
+            array('s2' => 20),
+            $this->plugin->getEndpoints()
         );
     }
 
-    public function testGetInvalidServer()
+    public function testRemoveEndpointWithObject()
     {
-        $this->plugin->addServer('s1', $this->serverOptions, 10);
+        $endpoints = array(
+            'server1' => 10,
+            'server2' => 20,
+        );
+
+        $this->plugin->addEndpoints($endpoints);
+        $this->plugin->removeEndpoint($this->client->getEndpoint('server1'));
+
+        $this->assertEquals(
+            array('server2' => 20),
+            $this->plugin->getEndpoints()
+        );
+    }
+
+    public function testSetEndpoints()
+    {
+        $endpoints1 = array(
+            's1' => 10,
+            's2' => 20,
+        );
+
+        $endpoints2 = array(
+            's3' => 50,
+            's4' => 30,
+        );
+
+        $this->plugin->addEndpoints($endpoints1);
+        $this->plugin->setEndpoints($endpoints2);
+
+        $this->assertEquals(
+            $endpoints2,
+            $this->plugin->getEndpoints()
+        );
+    }
+
+    public function testSetAndGetForcedEndpointForNextQuery()
+    {
+        $endpoints1 = array(
+            's1' => 10,
+            's2' => 20,
+        );
+        $this->plugin->addEndpoints($endpoints1);
+
+        $this->plugin->setForcedEndpointForNextQuery('s2');
+        $this->assertEquals('s2', $this->plugin->getForcedEndpointForNextQuery());
+    }
+
+    public function testSetAndGetForcedEndpointForNextQueryWithObject()
+    {
+        $endpoints1 = array(
+            'server1' => 10,
+            'server2' => 20,
+        );
+        $this->plugin->addEndpoints($endpoints1);
+
+        $this->plugin->setForcedEndpointForNextQuery($this->client->getEndpoint('server2'));
+        $this->assertEquals('server2', $this->plugin->getForcedEndpointForNextQuery());
+    }
+
+    public function testSetForcedEndpointForNextQueryWithInvalidKey()
+    {
+        $endpoints1 = array(
+            's1' => 10,
+            's2' => 20,
+        );
+        $this->plugin->addEndpoints($endpoints1);
 
         $this->setExpectedException('Solarium\Core\Exception');
-        $this->plugin->getServer('s2');
-    }
-
-    public function testClearServers()
-    {
-        $this->plugin->addServer('s1', $this->serverOptions, 10);
-        $this->plugin->clearServers();
-        $this->assertEquals(array(), $this->plugin->getServers());
-    }
-
-    public function testAddServers()
-    {
-        $servers = array(
-            's1' => array('options' => $this->serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->serverOptions, 'weight' => 20),
-        );
-
-        $this->plugin->addServers($servers);
-        $this->assertEquals($servers, $this->plugin->getServers());
-    }
-
-    public function testRemoveServer()
-    {
-        $servers = array(
-            's1' => array('options' => $this->serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->serverOptions, 'weight' => 20),
-        );
-
-        $this->plugin->addServers($servers);
-        $this->plugin->removeServer('s1');
-
-        $this->assertEquals(
-            array('s2' => array('options' => $this->serverOptions, 'weight' => 20)),
-            $this->plugin->getServers()
-        );
-    }
-
-    public function testSetServers()
-    {
-        $servers1 = array(
-            's1' => array('options' => $this->serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->serverOptions, 'weight' => 20),
-        );
-
-        $servers2 = array(
-            's3' => array('options' => $this->serverOptions, 'weight' => 50),
-            's4' => array('options' => $this->serverOptions, 'weight' => 30),
-        );
-
-        $this->plugin->addServers($servers1);
-        $this->plugin->setServers($servers2);
-
-        $this->assertEquals(
-            $servers2,
-            $this->plugin->getServers()
-        );
-    }
-
-    public function testSetAndGetForcedServerForNextQuery()
-    {
-        $servers1 = array(
-            's1' => array('options' => $this->serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->serverOptions, 'weight' => 20),
-        );
-        $this->plugin->addServers($servers1);
-
-        $this->plugin->setForcedServerForNextQuery('s2');
-        $this->assertEquals('s2', $this->plugin->getForcedServerForNextQuery());
-    }
-
-    public function testSetForcedServerForNextQueryWithInvalidKey()
-    {
-        $servers1 = array(
-            's1' => array('options' => $this->serverOptions, 'weight' => 10),
-            's2' => array('options' => $this->serverOptions, 'weight' => 20),
-        );
-        $this->plugin->addServers($servers1);
-
-        $this->setExpectedException('Solarium\Core\Exception');
-        $this->plugin->setForcedServerForNextQuery('s3');
+        $this->plugin->setForcedEndpointForNextQuery('s3');
     }
 
     public function testAddBlockedQueryType()
@@ -293,45 +298,45 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testPreExecuteRequestWithForcedServer()
+    public function testPreExecuteRequestWithForcedEndpoint()
     {
-        $servers = array(
-           's1' => array('options' => $this->serverOptions, 'weight' => 100),
-           's2' => array('options' => $this->serverOptions, 'weight' => 1),
+        $endpoints = array(
+           'server1' => 100,
+           'server2' => 1,
         );
         $query = new SelectQuery();
         $request = new Request();
 
-        $this->plugin->setServers($servers);
-        $this->plugin->setForcedServerForNextQuery('s2');
+        $this->plugin->setEndpoints($endpoints);
+        $this->plugin->setForcedEndpointForNextQuery('server2');
         $this->plugin->preCreateRequest($query);
         $this->plugin->preExecuteRequest($request);
 
         $this->assertEquals(
-            's2',
-            $this->plugin->getLastServerKey()
+            'server2',
+            $this->plugin->getLastEndpoint()
         );
     }
 
-    public function testAdapterPresetRestore()
+    public function testDefaultEndpointRestore()
     {
-        $originalHost = $this->client->getAdapter()->getHost();
-        $servers = array(
-           's1' => array('options' => $this->serverOptions, 'weight' => 100),
-           's2' => array('options' => $this->serverOptions, 'weight' => 1),
+        $originalHost = $this->client->getEndpoint()->getHost();
+        $endpoints = array(
+           'server1' => 100,
+           'server2' => 1,
         );
         $request = new Request();
 
-        $this->plugin->setServers($servers);
-        $this->plugin->setForcedServerForNextQuery('s2');
+        $this->plugin->setEndpoints($endpoints);
+        $this->plugin->setForcedEndpointForNextQuery('server2');
 
         $query = new SelectQuery();
         $this->plugin->preCreateRequest($query);
         $this->plugin->preExecuteRequest($request);
 
         $this->assertEquals(
-            's2',
-            $this->plugin->getLastServerKey()
+            'server2',
+            $this->plugin->getLastEndpoint()
         );
 
         $query = new SelectQuery(); // this is a blocked querytype that should trigger a restore
@@ -340,18 +345,18 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $originalHost,
-            $this->client->getAdapter()->getHost()
+            $this->client->getEndpoint()->getHost()
         );
     }
 
     public function testBlockedQueryTypeNotLoadbalanced()
     {
-        $originalHost = $this->client->getAdapter()->getHost();
-        $servers = array(
-           's1' => array('options' => $this->serverOptions, 'weight' => 100),
-           's2' => array('options' => $this->serverOptions, 'weight' => 1),
+        $originalHost = $this->client->getEndpoint()->getHost();
+        $endpoints = array(
+           'server1' => 100,
+           'server2' => 1,
         );
-        $this->plugin->setServers($servers);
+        $this->plugin->setEndpoints($endpoints);
         $request = new Request();
 
         $query = new UpdateQuery(); // this is a blocked querytype that should not be loadbalanced
@@ -360,22 +365,22 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $originalHost,
-            $this->client->getAdapter()->getHost()
+            $this->client->getEndpoint()->getHost()
         );
 
         $this->assertEquals(
             null,
-            $this->plugin->getLastServerKey()
+            $this->plugin->getLastEndpoint()
         );
     }
 
     public function testLoadbalancerRandomizing()
     {
-        $servers = array(
-           's1' => array('options' => $this->serverOptions, 'weight' => 1),
-           's2' => array('options' => $this->serverOptions, 'weight' => 1),
+        $endpoints = array(
+           'server1' => 1,
+           'server2' => 1,
         );
-        $this->plugin->setServers($servers);
+        $this->plugin->setEndpoints($endpoints);
         $request = new Request();
 
         $query = new SelectQuery(); //
@@ -383,23 +388,22 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->plugin->preExecuteRequest($request);
 
         $this->assertTrue(
-            in_array($this->plugin->getLastServerKey(), array('s1','s2'))
+            in_array($this->plugin->getLastEndpoint(), array('server1','server2'))
         );
     }
 
     public function testFailover()
     {
-        $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns servers in fixed order
-        $this->client = new Client();
+        $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns endpoints in fixed order
         $this->client->setAdapter(new TestAdapterForFailover()); // set special mock that fails once
         $this->plugin->initPlugin($this->client, array());
 
         $request = new Request();
-        $servers = array(
-           's1' => array('options' => $this->serverOptions, 'weight' => 1),
-           's2' => array('options' => $this->serverOptions, 'weight' => 1),
+        $endpoints = array(
+           'server1' => 1,
+           'server2' => 1,
         );
-        $this->plugin->setServers($servers);
+        $this->plugin->setEndpoints($endpoints);
         $this->plugin->setFailoverEnabled(true);
 
         $query = new SelectQuery();
@@ -407,26 +411,26 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->plugin->preExecuteRequest($request);
 
         $this->assertEquals(
-            's2',
-            $this->plugin->getLastServerKey()
+            'server2',
+            $this->plugin->getLastEndpoint()
         );
     }
 
     public function testFailoverMaxRetries()
     {
-        $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns servers in fixed order
-        $this->client = new Client();
+        $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns endpoints in fixed order
+
         $adapter = new TestAdapterForFailover();
         $adapter->setFailCount(10);
-        $this->client->setAdapter($adapter); // set special mock that fails for all servers
+        $this->client->setAdapter($adapter); // set special mock that fails for all endpoints
         $this->plugin->initPlugin($this->client, array());
 
         $request = new Request();
-        $servers = array(
-           's1' => array('options' => $this->serverOptions, 'weight' => 1),
-           's2' => array('options' => $this->serverOptions, 'weight' => 1),
+        $endpoints = array(
+           'server1' => 1,
+           'server2' => 1,
         );
-        $this->plugin->setServers($servers);
+        $this->plugin->setEndpoints($endpoints);
         $this->plugin->setFailoverEnabled(true);
 
         $query = new SelectQuery();
@@ -446,18 +450,18 @@ class TestLoadbalancer extends Loadbalancer{
     protected $counter = 0;
 
     /**
-     * Get options array for a randomized server
+     * Get options array for a randomized endpoint
      *
      * @return array
      */
-    protected function getRandomServerOptions()
+    protected function getRandomEndpoint()
     {
         $this->counter++;
-        $serverKey = 's'.$this->counter;
+        $endpointKey = 'server'.$this->counter;
 
-        $this->serverExcludes[] = $serverKey;
-        $this->lastServerKey = $serverKey;
-        return $this->servers[$serverKey]['options'];
+        $this->endpointExcludes[] = $endpointKey;
+        $this->lastEndpoint = $endpointKey;
+        return $this->client->getEndpoint($endpointKey);
     }
 
 }
@@ -473,7 +477,7 @@ class TestAdapterForFailover extends HttpAdapter{
         $this->failCount = $count;
     }
 
-    public function execute($request)
+    public function execute($request, $endpoint)
     {
         $this->counter++;
         if($this->counter <= $this->failCount) {
