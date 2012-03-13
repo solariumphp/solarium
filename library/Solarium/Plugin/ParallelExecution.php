@@ -79,20 +79,30 @@ class ParallelExecution extends Plugin
     protected $queries = array();
 
     /**
+     * Set curl adapter (the only type that supports parallelexecution)
+     */
+    protected function initPluginType()
+    {
+        $this->client->setAdapter('Solarium\Client\Adapter\Curl');
+    }
+
+    /**
      * Add a query to execute
      *
      * @param string $key
      * @param Query $query
-     * @param null|Client $client
+     * @param null|string|Endpoint $endpoint
      * @return self Provides fluent interface
      */
-    public function addQuery($key, $query, $client = null)
+    public function addQuery($key, $query, $endpoint = null)
     {
-        if($client == null) $client = $this->client;
+        if (is_object($endpoint)) $endpoint = $endpoint->getKey();
+
+        if($endpoint == null) $endpoint = $this->client->getEndpoint()->getKey();
 
         $this->queries[$key] = array(
             'query' => $query,
-            'client' => $client,
+            'endpoint' => $endpoint,
         );
 
         return $this;
@@ -124,29 +134,18 @@ class ParallelExecution extends Plugin
     /**
      * Execute queries parallel
      *
-     * Use an array of Solarium_Query objects as input. The keys of the array are important, as they are also used in
-     * the result array. You can mix all querytypes in the input array.
-     *
-     * @param array $queries (deprecated, use addQuery instead)
      * @return array
      */
-    public function execute($queries = null)
+    public function execute()
     {
-
-        // this is for backwards compatibility
-        if (is_array($queries)) {
-            foreach ($queries as $key => $query) {
-                $this->addQuery($key, $query);
-            }
-        }
-
         // create handles and add all handles to the multihandle
+        $adapter = $this->client->getAdapter();
         $multiHandle = curl_multi_init();
         $handles = array();
         foreach ($this->queries as $key => $data) {
             $request = $this->client->createRequest($data['query']);
-            $adapter = $data['client']->setAdapter('Solarium\Client\Adapter\Curl')->getAdapter();
-            $handle = $adapter->createHandle($request);
+            $endpoint = $this->client->getEndpoint($data['endpoint']);
+            $handle = $adapter->createHandle($request, $endpoint);
             curl_multi_add_handle($multiHandle, $handle);
             $handles[$key] = $handle;
         }
@@ -175,7 +174,7 @@ class ParallelExecution extends Plugin
             try {
                 curl_multi_remove_handle($multiHandle, $handle);
                 $response = $adapter->getResponse($handle, curl_multi_getcontent($handle));
-                $results[$key] = $this->client->createResult($queries[$key]['query'], $response);
+                $results[$key] = $this->client->createResult($this->queries[$key]['query'], $response);
             } catch(HttpException $e) {
 
                 $results[$key] = $e;

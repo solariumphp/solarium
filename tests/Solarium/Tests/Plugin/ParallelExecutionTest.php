@@ -48,26 +48,23 @@ class ParallelExecutionTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetQueries()
     {
-        $client1 = new Client();
-        $client2 = new Client(array(
-            'adapter' => 'MyAdapter',
-                    'adapteroptions' => array(
-                        'host' => 'myhost',
-                    )
-            )
-        );
-        $this->plugin->initPlugin($client1, array());
+        $client = new Client();
+        $client->clearEndpoints();
+        $client->createEndpoint('local1');
+        $endpoint2 = $client->createEndpoint('local2');
 
-        $query1 = $client1->createSelect()->setQuery('test1');
-        $query2 = $client1->createSelect()->setQuery('test2');
+        $this->plugin->initPlugin($client, array());
+
+        $query1 = $client->createSelect()->setQuery('test1');
+        $query2 = $client->createSelect()->setQuery('test2');
 
         $this->plugin->addQuery(1, $query1);
-        $this->plugin->addQuery(2, $query2, $client2);
+        $this->plugin->addQuery(2, $query2, $endpoint2);
 
         $this->assertEquals(
             array(
-                1 => array('query' => $query1, 'client' => $client1),
-                2 => array('query' => $query2, 'client' => $client2),
+                1 => array('query' => $query1, 'endpoint' => 'local1'),
+                2 => array('query' => $query2, 'endpoint' => 'local2'),
             ),
             $this->plugin->getQueries()
         );
