@@ -43,6 +43,7 @@ namespace Solarium\Plugin\Loadbalancer;
 use Solarium\Core\Plugin;
 use Solarium\Core\Exception;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\HttpException;
 use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
@@ -52,14 +53,14 @@ use Solarium\Core\Client\Response;
  * Loadbalancer plugin
  *
  * Using this plugin you can use software loadbalancing over multiple Solr instances.
- * You can add any number of servers, each with their own weight. The weight influences
- * the probability of a server being used for a query.
+ * You can add any number of endpoints, each with their own weight. The weight influences
+ * the probability of a endpoint being used for a query.
  *
  * By default all queries except updates are loadbalanced. This can be customized by setting blocked querytypes.
- * Any querytype that may not be loadbalanced will be executed by Solarium with the default adapter settings.
- * In a master-slave setup the default adapter should be connecting to the master server.
+ * Any querytype that may not be loadbalanced will be executed by Solarium with the default endpoint.
+ * In a master-slave setup the default endpoint should be connecting to the master endpoint.
  *
- * You can also enable the failover mode. In this case a query will be retried on another server in case of error.
+ * You can also enable the failover mode. In this case a query will be retried on another endpoint in case of error.
  *
  * @package Solarium
  * @subpackage Plugin
@@ -78,11 +79,11 @@ class Loadbalancer extends Plugin
     );
 
     /**
-     * Registered servers
+     * Registered endpoints
      *
      * @var array
      */
-    protected $servers = array();
+    protected $endpoints = array();
 
     /**
      * Query types that are blocked from loadbalancing
@@ -94,33 +95,33 @@ class Loadbalancer extends Plugin
     );
 
     /**
-     * Key of the last used server
+     * Last used endpoint key
      *
      * The value can be null if no queries have been executed, or if the last executed query didn't use loadbalancing.
      *
      * @var null|string
      */
-    protected $lastServerKey;
+    protected $lastEndpoint;
 
     /**
-     * Server to use for next query (overrules randomizer)
+     * Endpoint key to use for next query (overrules randomizer)
      *
      * @var string
      */
-    protected $nextServer;
+    protected $nextEndpoint;
 
     /**
-     * Presets of the client adapter
+     * Default endpoint key
      *
-     * These settings are used to restore the adapter to it's original status for queries
-     * that cannot be loadbalanced (for instance update queries that need to go to the master)
+     * This endpoint is used for queries that cannot be loadbalanced
+     * (for instance update queries that need to go to the master)
      *
-     * @var array
+     * @var string
      */
-    protected $adapterPresets;
+    protected $defaultEndpoint;
 
     /**
-     * Pool of servers to use for requests
+     * Pool of endpoint keys to use for requests
      *
      * @var WeightedRandomChoice
      */
@@ -138,7 +139,7 @@ class Loadbalancer extends Plugin
      *
      * @var array
      */
-    protected $serverExcludes;
+    protected $endpointExcludes;
 
     /**
      * Initialize options
@@ -152,8 +153,8 @@ class Loadbalancer extends Plugin
     {
         foreach ($this->options AS $name => $value) {
             switch ($name) {
-                case 'server':
-                    $this->setServers($value);
+                case 'endpoint':
+                    $this->setEndpoints($value);
                     break;
                 case 'blockedquerytype':
                     $this->setBlockedQueryTypes($value);
@@ -205,138 +206,131 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Add a server to the loadbalacing 'pool'
+     * Add an endpoint to the loadbalacing 'pool'
      *
-     * @param string $key
-     * @param array $options
+     * @param Endpoint|string $endpoint
      * @param int $weight Must be a positive number
      * @return self Provides fluent interface
      */
-    public function addServer($key, $options, $weight = 1)
+    public function addEndpoint($endpoint, $weight = 1)
     {
-        if (array_key_exists($key, $this->servers)) {
-            throw new Exception('A server for the loadbalancer plugin must have a unique key');
-        } else {
-            $this->servers[$key] = array(
-                'options' => $options,
-                'weight' => $weight,
-            );
+        if(!is_string($endpoint)) {
+            $endpoint = $endpoint->getKey();
         }
 
-        // reset the randomizer as soon as a new server is added
+        if (array_key_exists($endpoint, $this->endpoints)) {
+            throw new Exception('An endpoint for the loadbalancer plugin must have a unique key');
+        } else {
+            $this->endpoints[$endpoint] = $weight;
+        }
+
+        // reset the randomizer as soon as a new endpoint is added
         $this->randomizer = null;
 
         return $this;
     }
 
     /**
-     * Get servers in the loadbalancing pool
+     * Add multiple endpoints
+     *
+     * @param array $endpoints
+     * @return self Provides fluent interface
+     */
+    public function addEndpoints(array $endpoints)
+    {
+        foreach ($endpoints AS $endpoint => $weight) {
+            $this->addEndpoint($endpoint, $weight);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the endpoints in the loadbalancing pool
      *
      * @return array
      */
-    public function getServers()
+    public function getEndpoints()
     {
-        return $this->servers;
+        return $this->endpoints;
     }
 
     /**
-     * Get a server entry by key
+     * Clear all endpoint entries
      *
-     * @param string $key
-     * @return array
+     * @return self Provides fluent interface
      */
-    public function getServer($key)
+    public function clearEndpoints()
     {
-        if (!isset($this->servers[$key])) {
-            throw new Exception('Unknown server key');
+        $this->endpoints = array();
+    }
+
+    /**
+     * Remove an endpoint by key
+     *
+     * @param Endpoint|string $endpoint
+     * @return self Provides fluent interface
+     */
+    public function removeEndpoint($endpoint)
+    {
+        if(!is_string($endpoint)) {
+            $endpoint = $endpoint->getKey();
         }
 
-        return $this->servers[$key];
-    }
-
-    /**
-     * Set servers, overwriting any existing servers
-     *
-     * @param array $servers Use server key as array key and 'options' and 'weight' as array entries
-     * @return self Provides fluent interface
-     */
-    public function setServers($servers)
-    {
-        $this->clearServers();
-        $this->addServers($servers);
-        return $this;
-    }
-
-    /**
-     * Add multiple servers
-     *
-     * @param array $servers
-     * @return self Provides fluent interface
-     */
-    public function addServers($servers)
-    {
-        foreach ($servers AS $key => $data) {
-            $this->addServer($key, $data['options'], $data['weight']);
+        if (isset($this->endpoints[$endpoint])) {
+            unset($this->endpoints[$endpoint]);
         }
 
         return $this;
     }
 
     /**
-     * Clear all server entries
+     * Set multiple endpoints
      *
-     * @return self Provides fluent interface
+     * This overwrites any existing endpoints
+     *
+     * @param array $endpoints
      */
-    public function clearServers()
+    public function setEndpoints($endpoints)
     {
-        $this->servers = array();
+        $this->clearEndpoints();
+        $this->addEndpoints($endpoints);
     }
 
     /**
-     * Remove a server by key
+     * Set a forced endpoints (by key) for the next request
      *
-     * @param string $key
-     * @return self Provides fluent interface
-     */
-    public function removeServer($key)
-    {
-        if (isset($this->servers[$key])) {
-            unset($this->servers[$key]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set a forced server (by key) for the next request
-     *
-     * As soon as one query has used the forced server this setting is reset. If you want to remove this setting
+     * As soon as one query has used the forced endpoint this setting is reset. If you want to remove this setting
      * pass NULL as the key value.
      *
      * If the next query cannot be loadbalanced (for instance based on the querytype) this setting is ignored
      * but will still be reset.
      *
-     * @param string|null $key
+     * @param string|null|Endpoint $endpoint
      * @return self Provides fluent interface
      */
-    public function setForcedServerForNextQuery($key)
+    public function setForcedEndpointForNextQuery($endpoint)
     {
-        if ($key !== null && !array_key_exists($key, $this->servers)) {
-            throw new Exception('Unknown server forced for next query');
+        if(!is_string($endpoint)) {
+            $endpoint = $endpoint->getKey();
         }
 
-        $this->nextServer = $key;
+        if ($endpoint !== null && !array_key_exists($endpoint, $this->endpoints)) {
+            throw new Exception('Unknown endpoint forced for next query');
+        }
+
+        $this->nextEndpoint = $endpoint;
         return $this;
     }
 
     /**
-     * Get the ForcedServerForNextQuery value
+     * Get the ForcedEndpointForNextQuery value
      *
      * @return string|null
      */
-    public function getForcedServerForNextQuery()
+    public function getForcedEndpointForNextQuery()
     {
-        return $this->nextServer;
+        return $this->nextEndpoint;
     }
 
     /**
@@ -418,15 +412,15 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Get the key of the server that was used for the last query
+     * Get the key of the endpoint that was used for the last query
      *
      * May return a null value if no query has been executed yet, or the last query could not be loadbalanced.
      *
      * @return null|string
      */
-    public function getLastServerKey()
+    public function getLastEndpoint()
     {
-        return $this->lastServerKey;
+        return $this->lastEndpoint;
     }
 
     /**
@@ -451,28 +445,19 @@ class Loadbalancer extends Plugin
         $adapter = $this->client->getAdapter();
 
         // save adapter presets (once) to allow the settings to be restored later
-        if ($this->adapterPresets == null) {
-            $this->adapterPresets = array(
-                'host'    => $adapter->getHost(),
-                'port'    => $adapter->getPort(),
-                'path'    => $adapter->getPath(),
-                'core'    => $adapter->getCore(),
-                'timeout' => $adapter->getTimeout(),
-            );
+        if ($this->defaultEndpoint == null) {
+            $this->defaultEndpoint = $this->client->getEndpoint()->getKey();
         }
 
         // check querytype: is loadbalancing allowed?
         if (!array_key_exists($this->queryType, $this->blockedQueryTypes)) {
             return  $this->getLoadbalancedResponse($request);
         } else {
-            $options = $this->adapterPresets;
-            $this->lastServerKey = null;
-
-            // apply new settings to adapter
-            $adapter->setOptions($options);
+            $endpoint = $this->client->getEndpoint($this->defaultEndpoint);
+            $this->lastEndpoint = null;
 
             // execute request and return result
-            return $adapter->execute($request);
+            return $adapter->execute($request, $endpoint);
         }
     }
 
@@ -484,21 +469,19 @@ class Loadbalancer extends Plugin
      */
     protected function getLoadbalancedResponse($request)
     {
-        $this->serverExcludes = array(); // reset for each query
+        $this->endpointExcludes = array(); // reset for each query
         $adapter = $this->client->getAdapter();
 
         if ($this->getFailoverEnabled() == true) {
 
             for ($i=0; $i<=$this->getFailoverMaxRetries(); $i++) {
-                $options = $this->getRandomServerOptions();
-                $adapter->setOptions($options);
+                $endpoint = $this->getRandomEndpoint();
                 try {
-                    return $adapter->execute($request);
+                    return $adapter->execute($request, $endpoint);
                 } catch(HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
-                    $e = new Exception('Maximum number of loadbalancer retries reached');
-                    $this->client->triggerEvent('LoadbalancerServerFail', array($options, $e));
+                    $this->client->triggerEvent('LoadbalancerEndpointFail', array($endpoint->getOptions(), $e));
                 }
             }
 
@@ -508,31 +491,30 @@ class Loadbalancer extends Plugin
 
         } else {
             // no failover retries, just execute and let an exception bubble upwards
-            $options = $this->getRandomServerOptions();
-            $adapter->setOptions($options);
-            return $adapter->execute($request);
+            $endpoint = $this->getRandomEndpoint();
+            return $adapter->execute($request, $endpoint);
         }
     }
 
     /**
-     * Get options array for a randomized server
+     * Get a random endpoint
      *
-     * @return array
+     * @return Endpoint
      */
-    protected function getRandomServerOptions()
+    protected function getRandomEndpoint()
     {
-        // determine the server to use
-        if ($this->nextServer !== null) {
-            $serverKey = $this->nextServer;
-            // reset forced server directly after use
-            $this->nextServer = null;
+        // determine the endpoint to use
+        if ($this->nextEndpoint !== null) {
+            $key = $this->nextEndpoint;
+            // reset forced endpoint directly after use
+            $this->nextEndpoint = null;
         } else {
-            $serverKey = $this->getRandomizer()->getRandom($this->serverExcludes);
+            $key = $this->getRandomizer()->getRandom($this->endpointExcludes);
         }
 
-        $this->serverExcludes[] = $serverKey;
-        $this->lastServerKey = $serverKey;
-        return $this->servers[$serverKey]['options'];
+        $this->endpointExcludes[] = $key;
+        $this->lastEndpoint = $key;
+        return $this->client->getEndpoint($key);
     }
 
     /**
@@ -543,11 +525,7 @@ class Loadbalancer extends Plugin
     protected function getRandomizer()
     {
         if ($this->randomizer === null) {
-            $choices = array();
-            foreach ($this->servers AS $key => $settings) {
-                $choices[$key] = $settings['weight'];
-            }
-            $this->randomizer = new WeightedRandomChoice($choices);
+            $this->randomizer = new WeightedRandomChoice($this->endpoints);
         }
 
         return $this->randomizer;

@@ -300,7 +300,7 @@ class Client extends Configurable
      * Get an endpoint by key
      *
      * @param string $key
-     * @return string
+     * @return Endpoint
      */
     public function getEndpoint($key = null)
     {
