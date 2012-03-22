@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\Result\Stats;
+namespace Solarium\Tests\Query\Select\Result\Stats;
 use Solarium\Query\Select\Result\Stats\Stats;
 
 class StatsTest extends \PHPUnit_Framework_TestCase

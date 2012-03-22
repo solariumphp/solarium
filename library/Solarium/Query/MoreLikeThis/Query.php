@@ -62,6 +62,24 @@ class Query extends SelectQuery
 {
 
     /**
+     * Default options
+     *
+     * @var array
+     */
+    protected $options = array(
+        'handler'       => 'mlt',
+        'resultclass'   => 'Solarium\Query\MoreLikeThis\Result',
+        'documentclass' => 'Solarium\Query\Select\Result\Document',
+        'query'         => '*:*',
+        'start'         => 0,
+        'rows'          => 10,
+        'fields'        => '*,score',
+        'interestingTerms' => 'none',
+        'matchinclude'  => false,
+        'stream'        => false
+    );
+
+    /**
      * Get type for this query
      *
      * @return string
@@ -90,24 +108,6 @@ class Query extends SelectQuery
     {
         return new ResponseParser;
     }
-
-    /**
-     * Default options
-     *
-     * @var array
-     */
-    protected $options = array(
-        'handler'       => 'mlt',
-        'resultclass'   => 'Solarium\Query\MoreLikeThis\Result',
-        'documentclass' => 'Solarium\Query\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
-        'interestingTerms' => 'none',
-        'matchinclude'  => false,
-        'stream'        => false
-    );
 
     /**
      * Set query stream option

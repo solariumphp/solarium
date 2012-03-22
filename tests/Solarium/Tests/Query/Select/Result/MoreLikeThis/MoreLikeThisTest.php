@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\Result\MoreLikeThis;
+namespace Solarium\Tests\Query\Select\Result\MoreLikeThis;
 use Solarium\Query\Select\Result\Document;
 use Solarium\Query\Select\Result\MoreLikeThis\Result;
 use Solarium\Query\Select\Result\MoreLikeThis\MoreLikeThis;

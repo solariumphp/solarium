@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\RequestBuilder;
+namespace Solarium\Tests\Query\Select\RequestBuilder;
 use Solarium\Core\Client\Request;
 use Solarium\Query\Select\Query\Query;
 use Solarium\Query\Select\Query\FilterQuery;

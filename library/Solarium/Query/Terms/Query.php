@@ -60,6 +60,16 @@ class Query extends BaseQuery
 {
 
     /**
+     * Default options
+     *
+     * @var array
+     */
+    protected $options = array(
+        'resultclass' => 'Solarium\Query\Terms\Result',
+        'handler' => 'terms',
+    );
+
+    /**
      * Get type for this query
      *
      * @return string
@@ -88,16 +98,6 @@ class Query extends BaseQuery
     {
         return new ResponseParser;
     }
-
-    /**
-     * Default options
-     *
-     * @var array
-     */
-    protected $options = array(
-        'resultclass' => 'Solarium\Query\Terms\Result',
-        'handler' => 'terms',
-    );
 
     /**
      * Set the field name(s) to get the terms from

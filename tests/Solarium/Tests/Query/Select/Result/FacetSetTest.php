@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\Result;
+namespace Solarium\Tests\Query\Select\Result;
 use Solarium\Query\Select\Result\FacetSet;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase

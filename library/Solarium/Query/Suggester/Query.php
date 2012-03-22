@@ -57,6 +57,17 @@ class Query extends BaseQuery
 {
 
     /**
+     * Default options
+     *
+     * @var array
+     */
+    protected $options = array(
+        'handler'       => 'suggest',
+        'resultclass'   => 'Solarium\Query\Suggester\Result\Result',
+        'termclass'     => 'Solarium\Query\Suggester\Result\Term',
+    );
+
+    /**
      * Get type for this query
      *
      * @return string
@@ -85,17 +96,6 @@ class Query extends BaseQuery
     {
         return new ResponseParser;
     }
-
-    /**
-     * Default options
-     *
-     * @var array
-     */
-    protected $options = array(
-        'handler'       => 'suggest',
-        'resultclass'   => 'Solarium\Query\Suggester\Result\Result',
-        'termclass'     => 'Solarium\Query\Suggester\Result\Term',
-    );
 
     /**
      * Set query option

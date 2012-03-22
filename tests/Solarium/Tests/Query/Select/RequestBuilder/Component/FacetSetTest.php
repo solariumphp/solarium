@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\RequestBuilder\Component;
+namespace Solarium\Tests\Query\Select\RequestBuilder\Component;
 use Solarium\Query\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
 use Solarium\Query\Select\Query\Component\FacetSet as Component;
 use Solarium\Core\Client\Request;

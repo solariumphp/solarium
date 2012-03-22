@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\Result\Highlighting;
+namespace Solarium\Tests\Query\Select\Result\Highlighting;
 use Solarium\Query\Select\Result\Highlighting\Highlighting;
 
 class HighlightingTest extends \PHPUnit_Framework_TestCase

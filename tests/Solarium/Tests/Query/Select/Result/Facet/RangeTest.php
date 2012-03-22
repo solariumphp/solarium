@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\Result\Facet;
+namespace Solarium\Tests\Query\Select\Result\Facet;
 use Solarium\Query\Select\Result\Facet\Range;
 
 class RangeTest extends \PHPUnit_Framework_TestCase

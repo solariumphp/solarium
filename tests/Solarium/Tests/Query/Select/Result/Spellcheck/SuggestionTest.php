@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\Result\Spellcheck;
+namespace Solarium\Tests\Query\Select\Result\Spellcheck;
 use Solarium\Query\Select\Result\Spellcheck\Suggestion;
 
 class SuggestionTest extends \PHPUnit_Framework_TestCase

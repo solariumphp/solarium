@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\Result\Debug;
+namespace Solarium\Tests\Query\Select\Result\Debug;
 use Solarium\Query\Select\Result\Debug\Detail;
 
 class DetailTest extends \PHPUnit_Framework_TestCase

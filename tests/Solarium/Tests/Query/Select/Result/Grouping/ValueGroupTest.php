@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\Result\Grouping;
+namespace Solarium\Tests\Query\Select\Result\Grouping;
 use Solarium\Query\Select\Result\Grouping\ValueGroup;
 
 class ValueGroupTest extends \PHPUnit_Framework_TestCase

@@ -47,7 +47,7 @@ use Solarium\Query\Select\Result\Result;
  * Parse select response data
  *
  * @package Solarium
- * @subpackage QueryType
+ * @subpackage Query
  */
 class ResponseParser extends BaseResponseParser
 {

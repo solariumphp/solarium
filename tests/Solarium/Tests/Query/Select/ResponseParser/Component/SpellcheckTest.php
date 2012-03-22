@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\ResponseParser\Component;
+namespace Solarium\Tests\Query\Select\ResponseParser\Component;
 use Solarium\Query\Select\ResponseParser\Component\Spellcheck as Parser;
 
 class SpellcheckTest extends \PHPUnit_Framework_TestCase

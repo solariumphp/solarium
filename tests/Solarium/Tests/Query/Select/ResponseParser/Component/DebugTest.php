@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Query\Select\Query\ResponseParser\Component;
+namespace Solarium\Tests\Query\Select\ResponseParser\Component;
 use Solarium\Query\Select\ResponseParser\Component\Debug as Parser;
 use Solarium\Query\Select\Result\Debug\Detail;
 
