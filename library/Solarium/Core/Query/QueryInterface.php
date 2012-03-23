@@ -33,82 +33,108 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage QueryType
+ * @subpackage Query
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Query\Analysis\RequestBuilder;
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
-use Solarium\Core\Client\Request;
-use Solarium\Core\Query\QueryInterface;
+namespace Solarium\Core\Query;
+use Solarium\Core\Query\Helper;
+use Solarium\Core\ConfigurableInterface;
 
 /**
- * Build a document analysis request
+ * Query interface
  *
  * @package Solarium
- * @subpackage QueryType
+ * @subpackage Core
  */
-class Document extends BaseRequestBuilder
+interface QueryInterface extends ConfigurableInterface
 {
 
-    /**
-     * Build request for an analysis document query
-     *
-     * @param Document $query
-     * @return Request
-     */
-    public function build(QueryInterface $query)
-    {
-        $request = parent::build($query);
-        $request->setRawData($this->getRawData($query));
-        $request->setMethod(Request::METHOD_POST);
-
-        return $request;
-    }
 
     /**
-     * Create the raw post data (xml)
+     * Get type for this query
      *
-     * @param Document $query
      * @return string
      */
-    public function getRawData($query)
-    {
-        $xml = '<docs>';
-
-        foreach ($query->getDocuments() AS $doc) {
-            $xml .= '<doc>';
-
-            foreach ($doc->getFields() AS $name => $value) {
-                if (is_array($value)) {
-                    foreach ($value AS $multival) {
-                        $xml .= $this->buildFieldXml($name, $multival);
-                    }
-                } else {
-                    $xml .= $this->buildFieldXml($name, $value);
-                }
-            }
-
-            $xml .= '</doc>';
-        }
-
-        $xml .= '</docs>';
-
-        return $xml;
-    }
+    function getType();
 
     /**
-     * Build XML for a field
+     * Get the requestbuilder class for this query
+     *
+     * @return object
+     */
+    function getRequestBuilder();
+
+
+    /**
+     * Get the response parser class for this query
+     *
+     * @return ResponseParserInterface
+     */
+    function getResponseParser();
+
+    /**
+     * Set handler option
+     *
+     * @param string $handler
+     * @return self Provides fluent interface
+     */
+    function setHandler($handler);
+
+    /**
+     * Get handler option
+     *
+     * @return string
+     */
+    function getHandler();
+
+    /**
+     * Set resultclass option
+     *
+     * If you set a custom result class it must be available through autoloading
+     * or a manual require before calling this method. This is your
+     * responsibility.
+     *
+     * Also you need to make sure this class implements the ResultInterface
+     *
+     * @param string $classname
+     * @return self Provides fluent interface
+     */
+    function setResultClass($classname);
+
+    /**
+     * Get resultclass option
+     *
+     * @return string
+     */
+    function getResultClass();
+
+    /**
+     * Get a helper instance
+     *
+     * @return Helper
+     */
+    function getHelper();
+
+    /**
+     * Add extra params to the request
+     *
+     * Only intended for internal use, for instance with dereferenced params.
+     * Therefore the params are limited in functionality. Only add and get
      *
      * @param string $name
-     * @param mixed $value
-     * @return string
+     * @param string $value
+     * @return self Provides fluent interface
      */
-    protected function buildFieldXml($name, $value)
-    {
-        return '<field name="' . $name . '">' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8') . '</field>';
-    }
+    function addParam($name, $value);
+
+    /**
+     * Get extra params
+     *
+     * @return array
+     */
+    public function getParams();
 
 }

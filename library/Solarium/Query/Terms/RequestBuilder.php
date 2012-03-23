@@ -45,6 +45,7 @@
 namespace Solarium\Query\Terms;
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\QueryInterface;
 
 /**
  * Build a Terms query request
@@ -61,7 +62,7 @@ class RequestBuilder extends BaseRequestBuilder
      * @param Query $query
      * @return Request
      */
-    public function build($query)
+    public function build(QueryInterface $query)
     {
         $request = parent::build($query);
         $request->setHandler($query->getHandler());

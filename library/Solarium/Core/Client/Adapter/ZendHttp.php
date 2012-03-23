@@ -41,6 +41,7 @@
  */
 
 namespace Solarium\Core\Client\Adapter;
+use Solarium\Core\Configurable;
 use Solarium\Core\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
@@ -58,7 +59,7 @@ use Solarium\Core\Client\Endpoint;
  * @package Solarium
  * @subpackage Core
  */
-class ZendHttp extends Adapter
+class ZendHttp extends Configurable implements AdapterInterface
 {
 
     /**

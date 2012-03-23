@@ -41,6 +41,7 @@
  */
 namespace Solarium\Core\Query\Result;
 use Solarium\Core\Exception;
+use Solarium\Core\Query\ResponseParserInterface;
 
 /**
  * QueryType result
@@ -70,7 +71,7 @@ class QueryType extends Result
         if (!$this->parsed) {
 
             $responseParser = $this->query->getResponseParser();
-            if (!$responseParser) {
+            if (!$responseParser || !($responseParser instanceof ResponseParserInterface)) {
                 throw new Exception('No responseparser returned by querytype: '. $this->query->getType());
             }
 

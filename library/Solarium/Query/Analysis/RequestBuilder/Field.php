@@ -42,6 +42,8 @@
 namespace Solarium\Query\Analysis\RequestBuilder;
 use Solarium\Query\Analysis\Query\Field as QueryField;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\QueryInterface;
+
 /**
  * Build a field analysis request
  *
@@ -57,7 +59,7 @@ class Field extends RequestBuilder
      * @param QueryField $query
      * @return Request
      */
-    public function build($query)
+    public function build(QueryInterface $query)
     {
         $request = parent::build($query);
 

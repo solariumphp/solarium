@@ -49,7 +49,7 @@ use Solarium\Core\Configurable;
  * @package Solarium
  * @subpackage Core
  */
-abstract class Query extends Configurable
+abstract class Query extends Configurable implements QueryInterface
 {
 
     /**
@@ -65,28 +65,6 @@ abstract class Query extends Configurable
      * @var array
      */
     protected $params = array();
-
-    /**
-     * Get type for this query
-     *
-     * @return string
-     */
-    abstract public function getType();
-
-    /**
-     * Get the requestbuilder class for this query
-     *
-     * @return object
-     */
-    abstract public function getRequestBuilder();
-
-
-    /**
-     * Get the response parser class for this query
-     *
-     * @return object
-     */
-    abstract public function getResponseParser();
 
     /**
      * Set handler option

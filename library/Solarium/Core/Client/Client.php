@@ -42,9 +42,11 @@
 namespace Solarium\Core\Client;
 use Solarium\Core\Exception;
 use Solarium\Core\Configurable;
-use Solarium\Core\Plugin;
-use Solarium\Core\Query\Query;
-use Solarium\Core\Query\Result;
+use Solarium\Core\PluginInterface;
+use Solarium\Core\Query\QueryInterface;
+use Solarium\Core\Query\Result\ResultInterface;
+use Solarium\Core\Client\Adapter\AdapterInterface;
+use Solarium\Core\Query\RequestBuilderInterface;
 
 /**
  * Main interface for interaction with Solr
@@ -180,7 +182,7 @@ class Client extends Configurable
      * on first use by {@link getAdapter()} based on the 'adapter' entry in
      * {@link $options}. This option can be set using {@link setAdapter()}
      *
-     * @var Adapter\Adapter
+     * @var AdapterInterface
      */
     protected $adapter;
 
@@ -395,9 +397,7 @@ class Client extends Configurable
     /**
      * Set the adapter
      *
-     * The adapter has to be a class that extends
-     * {@link Solarium\Client\Adapter}.
-     *
+     * The adapter has to be a class that implements the AdapterInterface
      *
      * If a string is passed it is assumed to be the classname and it will be
      * instantiated on first use. This requires the availability of the class
@@ -409,7 +409,7 @@ class Client extends Configurable
      * If an adapter instance is passed it will replace the current adapter
      * immediately, bypassing the lazy loading.
      *
-     * @param string|Adapter\Adapter $adapter
+     * @param string|AdapterInterface $adapter
      * @return self Provides fluent interface
      */
     public function setAdapter($adapter)
@@ -417,12 +417,14 @@ class Client extends Configurable
         if (is_string($adapter)) {
             $this->adapter = null;
             return $this->setOption('adapter', $adapter);
-        } else {
+        } else if($adapter instanceof AdapterInterface){
             // forward options
             $adapter->setOptions($this->options);
             // overwrite existing adapter
             $this->adapter = $adapter;
             return $this;
+        }else{
+            throw new Exception('Invalid adapter input for setAdapter');
         }
     }
 
@@ -442,15 +444,22 @@ class Client extends Configurable
     protected function createAdapter()
     {
         $adapterClass = $this->getOption('adapter');
-        $this->adapter = new $adapterClass;
-        $this->adapter->setOptions($this->getOption('adapteroptions'));
+        $adapter = new $adapterClass;
+
+        // check interface
+        if(!($adapter instanceof AdapterInterface)) {
+            throw new Exception('An adapter must implement the AdapterInterface');
+        }
+
+        $adapter->setOptions($this->getOption('adapteroptions'));
+        $this->adapter = $adapter;
     }
 
     /**
      * Get the adapter instance
      *
      * If {@see $adapter} doesn't hold an instance a new one will be created by
-     * calling {@see _createAdapter()}
+     * calling {@see createAdapter()}
      *
      * @param boolean $autoload
      * @return Adapter\Adapter
@@ -531,8 +540,8 @@ class Client extends Configurable
             $plugin = new $plugin;
         }
 
-        if (!($plugin instanceof Plugin)) {
-           throw new Exception('All plugins must extend Solarium\Core\Plugin');
+        if (!($plugin instanceof PluginInterface)) {
+           throw new Exception('All plugins must implement the PluginInterface');
         }
 
         $plugin->initPlugin($this, $options);
@@ -669,16 +678,16 @@ class Client extends Configurable
     /**
      * Creates a request based on a query instance
      *
-     * @param Query $query
+     * @param QueryInterface $query
      * @return Request
      */
-    public function createRequest($query)
+    public function createRequest(QueryInterface $query)
     {
         $pluginResult = $this->callPlugins('preCreateRequest', array($query), true);
         if($pluginResult !== null) return $pluginResult;
 
         $requestBuilder = $query->getRequestBuilder();
-        if (!$requestBuilder) {
+        if (!$requestBuilder || !($requestBuilder instanceof RequestBuilderInterface)) {
             throw new Exception('No requestbuilder returned by querytype: '. $query->getType());
         }
 
@@ -692,17 +701,21 @@ class Client extends Configurable
     /**
      * Creates a result object
      *
-     * @param Query $query
+     * @param QueryInterface $query
      * @param array Response $response
-     * @return Result
+     * @return ResultInterface
      */
-    public function createResult($query, $response)
+    public function createResult(QueryInterface $query, $response)
     {
         $pluginResult = $this->callPlugins('preCreateResult', array($query, $response), true);
         if($pluginResult !== null) return $pluginResult;
 
         $resultClass = $query->getResultClass();
         $result = new $resultClass($this, $query, $response);
+
+        if (!($result instanceof ResultInterface)) {
+            throw new Exception('Result class must implement the ResultInterface');
+        }
 
         $this->callPlugins('postCreateResult', array($query, $response, $result));
 
@@ -712,11 +725,11 @@ class Client extends Configurable
     /**
      * Execute a query
      *
-     * @param Query
+     * @param QueryInterface
      * @param Endpoint|string|null
-     * @return Result
+     * @return ResultInterface
      */
-    public function execute($query, $endpoint = null)
+    public function execute(QueryInterface $query, $endpoint = null)
     {
         $pluginResult = $this->callPlugins('preExecute', array($query), true);
         if($pluginResult !== null) return $pluginResult;
@@ -775,7 +788,7 @@ class Client extends Configurable
      * @param Endpoint|string|null
      * @return Solarium\Query\Ping\Result
      */
-    public function ping($query, $endpoint = null)
+    public function ping(QueryInterface $query, $endpoint = null)
     {
         return $this->execute($query, $endpoint);
     }
@@ -801,7 +814,7 @@ class Client extends Configurable
      * @param Endpoint|string|null
      * @return Solarium\Query\Update\Result
      */
-    public function update($query, $endpoint = null)
+    public function update(QueryInterface $query, $endpoint = null)
     {
         return $this->execute($query, $endpoint);
     }
@@ -826,7 +839,7 @@ class Client extends Configurable
      * @param Endpoint|string|null
      * @return Solarium\Query\Result\Select\Result
      */
-    public function select($query, $endpoint = null)
+    public function select(QueryInterface $query, $endpoint = null)
     {
         return $this->execute($query, $endpoint);
     }
@@ -851,7 +864,7 @@ class Client extends Configurable
      * @param Endpoint
      * @return Solarium\Query\MoreLikeThis\Result
      */
-    public function moreLikeThis($query, $endpoint = null)
+    public function moreLikeThis(QueryInterface $query, $endpoint = null)
     {
         return $this->execute($query, $endpoint);
     }
@@ -866,7 +879,7 @@ class Client extends Configurable
      * @param Endpoint
      * @return Solarium\Query\Analysis\Result\Document|Solarium\Query\Analysis\Result\Field
      */
-    public function analyze($query, $endpoint = null)
+    public function analyze(QueryInterface $query, $endpoint = null)
     {
         return $this->execute($query, $endpoint);
     }
@@ -881,7 +894,7 @@ class Client extends Configurable
      * @param Endpoint|string|null
      * @return Solarium\Query\Terms\Result
      */
-    public function terms($query, $endpoint = null)
+    public function terms(QueryInterface $query, $endpoint = null)
     {
         return $this->execute($query, $endpoint);
     }
@@ -896,7 +909,7 @@ class Client extends Configurable
      * @param Endpoint|string|null
      * @return Solarium\Query\Suggester\Result
      */
-    public function suggester($query, $endpoint = null)
+    public function suggester(QueryInterface $query, $endpoint = null)
     {
         return $this->execute($query, $endpoint);
     }
@@ -921,6 +934,10 @@ class Client extends Configurable
 
         $class = $this->queryTypes[$type];
         $query = new $class($options);
+
+        if (!($query instanceof QueryInterface)) {
+            throw new Exception('All query classes must implement the QueryInterface');
+        }
 
         $this->callPlugins('postCreateQuery', array($type, $options, $query));
 

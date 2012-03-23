@@ -50,7 +50,7 @@ namespace Solarium\Core;
  * @package Solarium
  * @subpackage Plugin
  */
-class Configurable
+class Configurable implements ConfigurableInterface
 {
 
     /**

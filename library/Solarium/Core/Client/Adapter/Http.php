@@ -40,6 +40,7 @@
  * @namespace
  */
 namespace Solarium\Core\Client\Adapter;
+use Solarium\Core\Configurable;
 use Solarium\Core\Exception;
 use Solarium\Core\Client\HttpException;
 use Solarium\Core\Client\Request;
@@ -52,7 +53,7 @@ use Solarium\Core\Client\Endpoint;
  * @package Solarium
  * @subpackage Core
  */
-class Http extends Adapter
+class Http extends Configurable implements AdapterInterface
 {
 
     /**

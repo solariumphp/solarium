@@ -40,7 +40,7 @@
  * @namespace
  */
 namespace Solarium\Query\Update;
-use Solarium\Core\Query\ResponseParser as BaseResponseParser;
+use Solarium\Core\Query\ResponseParserInterface;
 
 /**
  * Parse update response data
@@ -48,7 +48,7 @@ use Solarium\Core\Query\ResponseParser as BaseResponseParser;
  * @package Solarium
  * @subpackage QueryType
  */
-class ResponseParser extends BaseResponseParser
+class ResponseParser implements ResponseParserInterface
 {
 
     /**

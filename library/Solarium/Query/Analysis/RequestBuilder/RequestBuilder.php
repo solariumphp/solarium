@@ -44,6 +44,7 @@ use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Query\Analysis\Query\Query;
+use Solarium\Core\Query\QueryInterface;
 
 /**
  * Build an analysis request
@@ -60,7 +61,7 @@ class RequestBuilder extends BaseRequestBuilder
      * @param Query $query
      * @return Request
      */
-    public function build($query)
+    public function build(QueryInterface $query)
     {
         $request = parent::build($query);
         $request->addParam('analysis.query', $query->getQuery());

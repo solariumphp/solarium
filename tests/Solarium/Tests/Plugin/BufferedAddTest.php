@@ -152,7 +152,7 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $data = array('id' => '123', 'name' => 'test');
         $doc = new Document($data);
 
-        $mockUpdate = $this->getMock('Solarium\Core\Query\Update\Query\Query', array('addDocuments', 'addCommit'));
+        $mockUpdate = $this->getMock('Solarium\Query\Update\Query\Query', array('addDocuments', 'addCommit'));
         $mockUpdate->expects($this->once())->method('addDocuments')->with($this->equalTo(array($doc)),$this->equalTo(true));
         $mockUpdate->expects($this->once())->method('addCommit')->with($this->equalTo(false),$this->equalTo(true),$this->equalTo(false));
 

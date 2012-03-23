@@ -33,42 +33,48 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Core
+ * @subpackage Result
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Core\Query;
+namespace Solarium\Core\Query\Result;
+use Solarium\Core\Client\Response;
+use Solarium\Core\Query\Query;
+
 
 /**
- * Base class for handling Solr response data
- *
- * Most {@link Solarium\Client\Adapter} implementations will use HTTP for
- * communicating with Solr. While the HTTP part is adapter-specific, the parsing
- * of the response into Solarium\Result classes is not. This abstract class is
- * the base for several response handlers that do just that for the various
- * querytypes.
+ * Query result interface
  *
  * @package Solarium
- * @subpackage Core
+ * @subpackage Result
  */
-abstract class ResponseParser
+interface ResultInterface
 {
 
     /**
-     * Get a Solarium\Result instance for the given data
+     * Get response object
      *
-     * When this method is called the actual response parsing is started.
+     * This is the raw HTTP response object, not the parsed data!
      *
-     * @internal Must be implemented in descendents because this parsing is
-     *  query specific.
-     *
-     * @abstract
-     *
-     * @param Result\Result $result
-     * @return mixed
+     * @return Response
      */
-    abstract function parse($result);
+    function getResponse();
 
+    /**
+     * Get query instance
+     *
+     * @return Query
+     */
+    function getQuery();
+
+    /**
+     * Get Solr response data
+     *
+     * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
+     *
+     * @return array
+     */
+    function getData();
 }

@@ -43,6 +43,7 @@ namespace Solarium\Query\Select\RequestBuilder;
 use Solarium\Query\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\QueryInterface;
 
 /**
  * Build a select request
@@ -59,7 +60,7 @@ class RequestBuilder extends BaseRequestBuilder
      * @param SelectQuery $query
      * @return Request
      */
-    public function build($query)
+    public function build(QueryInterface $query)
     {
         $request = parent::build($query);
 

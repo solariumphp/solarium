@@ -45,7 +45,7 @@ use Solarium\Core\Configurable;
 use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Query\Result;
+use Solarium\Core\Query\Result\Result;
 
 /**
  * Base class for plugins
@@ -53,7 +53,7 @@ use Solarium\Core\Query\Result;
  * @package Solarium
  * @subpackage Core
  */
-abstract class Plugin extends Configurable
+abstract class Plugin extends Configurable implements PluginInterface
 {
 
     /**

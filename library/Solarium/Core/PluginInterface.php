@@ -33,126 +33,125 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage Core
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Core\Query\Result;
-use Solarium\Core\Exception;
+namespace Solarium\Core;
 use Solarium\Core\Client\Client;
-use Solarium\Core\Client\Response;
-use Solarium\Core\Client\HttpException;
 use Solarium\Core\Query\Query;
-
+use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Response;
+use Solarium\Core\Query\Result\Result;
 
 /**
- * Query result
- *
- * This base class provides access to the response and decoded data. If you need more functionality
- * like resultset parsing use one of the subclasses
+ * Interface for plugins
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage Core
  */
-class Result implements ResultInterface
+interface PluginInterface extends ConfigurableInterface
 {
 
     /**
-     * Response object
+     * Initialize
      *
-     * @var Response
-     */
-    protected $response;
-
-    /**
-     * Decode response data
-     *
-     * This is lazy loaded, {@link getData()}
-     *
-     * @var array
-     */
-    protected $data;
-
-    /**
-     * Query used for this request
-     *
-     * @var Query
-     */
-    protected $query;
-
-    /**
-     * Solarium client instance
-     *
-     * @var Client
-     */
-    protected $client;
-
-    /**
-     * Constructor
+     * This method is called when the plugin is registered to a client instance
      *
      * @param Client $client
+     * @param array $options
+     */
+    function initPlugin($client, $options);
+
+    /**
+     * preCreateRequest hook
+     *
      * @param Query $query
+     * @return void|Request
+     */
+    function preCreateRequest($query);
+
+    /**
+     * postCreateRequest hook
+     *
+     * @param Query $query
+     * @param Request $request
+     * @return void
+     */
+    function postCreateRequest($query, $request);
+
+    /**
+     * preExecuteRequest hook
+     *
+     * @param Request $request
+     * @return void|Response
+     */
+    function preExecuteRequest($request);
+
+    /**
+     * postExecuteRequest hook
+     *
+     * @param Request $request
      * @param Response $response
      * @return void
      */
-    public function __construct($client, $query, $response)
-    {
-        $this->client = $client;
-        $this->query = $query;
-        $this->response = $response;
-
-        // check status for error (range of 400 and 500)
-        $statusNum = floor($response->getStatusCode() / 100);
-        if ($statusNum == 4 || $statusNum == 5) {
-            throw new HttpException(
-                $response->getStatusMessage(),
-                $response->getStatusCode()
-            );
-        }
-    }
+    function postExecuteRequest($request, $response);
 
     /**
-     * Get response object
+     * preCreateResult hook
      *
-     * This is the raw HTTP response object, not the parsed data!
-     *
-     * @return Response
+     * @param Query $query
+     * @param Response $response
+     * @return void|Result
      */
-    public function getResponse()
-    {
-        return $this->response;
-    }
+    function preCreateResult($query, $response);
 
     /**
-     * Get query instance
+     * postCreateResult hook
      *
-     * @return Query
+     * @param Query $query
+     * @param Response $response
+     * @param Result $result
+     * @return void
      */
-    public function getQuery()
-    {
-        return $this->query;
-    }
+    function postCreateResult($query, $response, $result);
 
     /**
-     * Get Solr response data
+     * preExecute hook
      *
-     * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
-     *
-     * @return array
+     * @param Query $query
+     * @return void|Result
      */
-    public function getData()
-    {
-        if (null == $this->data) {
-            $this->data = json_decode($this->response->getBody(), true);
-            if (null === $this->data) {
-                throw new Exception(
-                    'Solr JSON response could not be decoded'
-                );
-            }
-        }
+    function preExecute($query);
 
-        return $this->data;
-    }
+    /**
+     * postExecute hook
+     *
+     * @param Query $query
+     * @param Result $result
+     * @return void
+     */
+    function postExecute($query, $result);
+
+    /**
+     * preCreateQuery hook
+     *
+     * @param string $type
+     * @param mixed $options
+     * @return void|Query
+     */
+    function preCreateQuery($type, $options);
+
+    /**
+     * postCreateQuery hook
+     *
+     * @param string $type
+     * @param mixed $options
+     * @param Query
+     * @return void
+     */
+    function postCreateQuery($type, $options, $query);
+
 }

@@ -42,6 +42,7 @@
 namespace Solarium\Core\Query;
 use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\QueryInterface;
 
 /**
  * Class for building Solarium client requests
@@ -49,7 +50,7 @@ use Solarium\Core\Client\Request;
  * @package Solarium
  * @subpackage Core
  */
-abstract class RequestBuilder
+abstract class RequestBuilder implements RequestBuilderInterface
 {
 
     /**
@@ -58,7 +59,7 @@ abstract class RequestBuilder
      * @param Query $query
      * @return Request
      */
-    public function build($query)
+    public function build(QueryInterface $query)
     {
         $request = new Request;
         $request->setHandler($query->getHandler());

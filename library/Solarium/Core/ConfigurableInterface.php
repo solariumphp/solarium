@@ -33,75 +33,71 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage QueryType
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Query\Select\ResponseParser;
-use Solarium\Core\Query\ResponseParserInterface;
-use Solarium\Query\Select\Result\Result;
+namespace Solarium\Core;
 
 /**
- * Parse select response data
+ * Interface for configurable classes
+ *
+ * All classes implementing this interface are  configurable using the constructor or
+ * setOption calls. This is the base for many Solarium classes, providing a
+ * uniform interface for various models.
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Plugin
  */
-class ResponseParser implements ResponseParserInterface
+interface ConfigurableInterface
 {
 
     /**
-     * Get result data for the response
+     * Constructor
      *
-     * @param Result $result
+     * If options are passed they will be merged with {@link $options} using
+     * the {@link setOptions()} method.
+     *
+     * After handling the options the {@link _init()} method is called.
+     *
+     * @throws Exception
+     * @param array|\Zend_Config $options
+     * @return void
+     */
+    function __construct($options = null);
+
+    /**
+     * Set options
+     *
+     * If $options is an object it will be converted into an array by called
+     * it's toArray method. This is compatible with the Zend_Config classes in
+     * Zend Framework, but can also easily be implemented in any other object.
+     *
+     * @throws Exception
+     * @param array|\Zend_Config $options
+     * @param boolean $overwrite True for overwriting existing options, false
+     *  for merging (new values overwrite old ones if needed)
+     *
+     * @return void
+     */
+    function setOptions($options, $overwrite = false);
+
+    /**
+     * Get an option value by name
+     *
+     * If the option is empty or not set a NULL value will be returned.
+     *
+     * @param string $name
+     * @return mixed
+     */
+    function getOption($name);
+
+    /**
+     * Get all options
+     *
      * @return array
      */
-    public function parse($result)
-    {
-        $data = $result->getData();
-        $query = $result->getQuery();
-
-        // create document instances
-        $documentClass = $query->getOption('documentclass');
-        $documents = array();
-        if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
-                $documents[] = new $documentClass($fields);
-            }
-        }
-
-        // component results
-        $components = array();
-        foreach ($query->getComponents() as $component) {
-            $componentParser = $component->getResponseParser();
-            if ($componentParser) {
-                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
-            }
-        }
-
-        if (isset($data['response']['numFound'])) {
-            $numFound = $data['response']['numFound'];
-        } else {
-            $numFound = null;
-        }
-
-        $status = null;
-        $queryTime = null;
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
-        }
-
-        return array(
-            'status' => $status,
-            'queryTime' => $queryTime,
-            'numfound' => $numFound,
-            'documents' => $documents,
-            'components' => $components,
-        );
-    }
+    function getOptions();
 
 }

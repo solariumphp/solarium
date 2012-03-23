@@ -33,75 +33,31 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage QueryType
+ * @subpackage Core
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Query\Select\ResponseParser;
-use Solarium\Core\Query\ResponseParserInterface;
-use Solarium\Query\Select\Result\Result;
+namespace Solarium\Core\Query;
+use Solarium\Core\Query\QueryInterface;
+use Solarium\Core\Client\Request;
 
 /**
- * Parse select response data
+ * Interface for requestbuilders
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Core
  */
-class ResponseParser implements ResponseParserInterface
+interface RequestBuilderInterface
 {
 
     /**
-     * Get result data for the response
+     * Build request for a select query
      *
-     * @param Result $result
-     * @return array
+     * @param QueryInterface $query
+     * @return Request
      */
-    public function parse($result)
-    {
-        $data = $result->getData();
-        $query = $result->getQuery();
-
-        // create document instances
-        $documentClass = $query->getOption('documentclass');
-        $documents = array();
-        if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
-                $documents[] = new $documentClass($fields);
-            }
-        }
-
-        // component results
-        $components = array();
-        foreach ($query->getComponents() as $component) {
-            $componentParser = $component->getResponseParser();
-            if ($componentParser) {
-                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
-            }
-        }
-
-        if (isset($data['response']['numFound'])) {
-            $numFound = $data['response']['numFound'];
-        } else {
-            $numFound = null;
-        }
-
-        $status = null;
-        $queryTime = null;
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
-        }
-
-        return array(
-            'status' => $status,
-            'queryTime' => $queryTime,
-            'numfound' => $numFound,
-            'documents' => $documents,
-            'components' => $components,
-        );
-    }
+    function build(QueryInterface $query);
 
 }

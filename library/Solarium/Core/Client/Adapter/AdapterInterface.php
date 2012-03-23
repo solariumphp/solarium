@@ -33,75 +33,46 @@
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage QueryType
+ * @subpackage Core
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Query\Select\ResponseParser;
-use Solarium\Core\Query\ResponseParserInterface;
-use Solarium\Query\Select\Result\Result;
+namespace Solarium\Core\Client\Adapter;
+use Solarium\Core\ConfigurableInterface;
+use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Response;
+use Solarium\Core\Client\Endpoint;
 
 /**
- * Parse select response data
+ * Interface for client adapters
+ *
+ * The goal of an adapter is to accept a query, execute it and return the right
+ * result object. This is actually quite a complex task as it involves the
+ * handling of all Solr communication.
+ *
+ * The adapter structure allows for varying implementations of this task.
+ *
+ * Most adapters will use some sort of HTTP client. In that case the
+ * query request builders and query response parsers can be used to simplify
+ * HTTP communication.
+ *
+ * However an adapter may also implement all logic by itself if needed.
  *
  * @package Solarium
- * @subpackage Query
+ * @subpackage Core
  */
-class ResponseParser implements ResponseParserInterface
+interface AdapterInterface extends ConfigurableInterface
 {
 
     /**
-     * Get result data for the response
+     * Execute a request
      *
-     * @param Result $result
-     * @return array
+     * @param Request $request
+     * @param Endpoint $endpoint
+     * @return Response
      */
-    public function parse($result)
-    {
-        $data = $result->getData();
-        $query = $result->getQuery();
-
-        // create document instances
-        $documentClass = $query->getOption('documentclass');
-        $documents = array();
-        if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
-                $documents[] = new $documentClass($fields);
-            }
-        }
-
-        // component results
-        $components = array();
-        foreach ($query->getComponents() as $component) {
-            $componentParser = $component->getResponseParser();
-            if ($componentParser) {
-                $components[$component->getType()] = $componentParser->parse($query, $component, $data);
-            }
-        }
-
-        if (isset($data['response']['numFound'])) {
-            $numFound = $data['response']['numFound'];
-        } else {
-            $numFound = null;
-        }
-
-        $status = null;
-        $queryTime = null;
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
-        }
-
-        return array(
-            'status' => $status,
-            'queryTime' => $queryTime,
-            'numfound' => $numFound,
-            'documents' => $documents,
-            'components' => $components,
-        );
-    }
+    function execute($request, $endpoint);
 
 }

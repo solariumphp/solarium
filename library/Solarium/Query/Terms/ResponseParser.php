@@ -41,7 +41,7 @@
  * @namespace
  */
 namespace Solarium\Query\Terms;
-use Solarium\Core\Query\ResponseParser as BaseResponseParser;
+use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Client\Request;
 
 /**
@@ -50,7 +50,7 @@ use Solarium\Core\Client\Request;
  * @package Solarium
  * @subpackage QueryType
  */
-class ResponseParser extends BaseResponseParser
+class ResponseParser implements ResponseParserInterface
 {
 
     /**

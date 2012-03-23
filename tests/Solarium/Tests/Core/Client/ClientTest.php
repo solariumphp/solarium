@@ -466,7 +466,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $queryStub = $this->getMock('Solarium\Query\Select\Query\Query');
 
-        $observer = $this->getMock('Solarium\Core\Client\RequestBuilder', array('build'));
+        $observer = $this->getMock('Solarium\Core\Query\RequestBuilder', array('build'));
         $observer->expects($this->once())
                  ->method('build')
                  ->with($this->equalTo($queryStub));
@@ -706,7 +706,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $dummyResponse = 'dummyresponse';
 
-        $observer = $this->getMock('Solarium\Core\Client\Adapter\Adapter', array('execute'));
+        $observer = $this->getMock('Solarium\Core\Client\Adapter\Http', array('execute'));
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($request))
@@ -726,7 +726,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $dummyResponse = 'dummyresponse';
 
-        $mockAdapter = $this->getMock('Solarium\Core\Client\Adapter\Adapter', array('execute'));
+        $mockAdapter = $this->getMock('Solarium\Core\Client\Adapter\Http', array('execute'));
         $mockAdapter->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($request))
@@ -747,7 +747,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $dummyResponse = 'dummyresponse';
 
-        $mockAdapter = $this->getMock('Solarium\Core\Client\Adapter\Adapter', array('execute'));
+        $mockAdapter = $this->getMock('Solarium\Core\Client\Adapter\Http', array('execute'));
         $mockAdapter->expects($this->any())
                  ->method('execute')
                  ->with($this->equalTo($request))

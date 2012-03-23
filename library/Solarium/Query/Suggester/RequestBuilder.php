@@ -42,6 +42,7 @@
 namespace Solarium\Query\Suggester;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\QueryInterface;
 
 /**
  * Build a Suggester query request
@@ -58,7 +59,7 @@ class RequestBuilder extends BaseRequestBuilder
      * @param Query $query
      * @return Request
      */
-    public function build($query)
+    public function build(QueryInterface $query)
     {
         $request = parent::build($query);
         $request->addParam('spellcheck', 'true');

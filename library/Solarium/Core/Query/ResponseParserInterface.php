@@ -39,44 +39,31 @@
 /**
  * @namespace
  */
-namespace Solarium\Core\Client\Adapter;
-use Solarium\Core\Configurable;
-use Solarium\Core\Client\Request;
-use Solarium\Core\Client\Response;
-use Solarium\Core\Client\Endpoint;
+namespace Solarium\Core\Query;
 
 /**
- * Base class for all adapters
+ * Interface for response parsers
  *
- * The goal of an adapter is to accept a query, execute it and return the right
- * result object. This is actually quite a complex task as it involves the
- * handling of all Solr communication.
- *
- * The adapter structure allows for varying implementations of this task.
- *
- * Most adapters will use some sort of HTTP client. In that case the
- * Solarium\Client\Request request builders and Solarium\Client\Response
- * response parsers can be used to simplify HTTP communication.
- * See {@link Solarium\Client\Adapter\Http} as an example.
- *
- * However an adapter may also implement all logic by itself if needed.
+ * Most {@link Solarium\Client\Adapter} implementations will use HTTP for
+ * communicating with Solr. While the HTTP part is adapter-specific, the parsing
+ * of the response into Solarium\Result classes is not. This abstract class is
+ * the base for several response handlers that do just that for the various
+ * querytypes.
  *
  * @package Solarium
  * @subpackage Core
  */
-abstract class Adapter extends Configurable
+interface ResponseParserInterface
 {
 
     /**
-     * Execute a request
+     * Get a Result object for the given data
      *
-     * Abstract method to require an implementation inside all adapters.
+     * When this method is called the actual response parsing is started.
      *
-     * @abstract
-     * @param Request $request
-     * @param Endpoint $endpoint
-     * @return Response
+     * @param Result\Result $result
+     * @return mixed
      */
-    abstract public function execute($request, $endpoint);
+    function parse($result);
 
 }

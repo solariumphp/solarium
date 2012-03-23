@@ -42,15 +42,15 @@
 namespace Solarium\Query\Analysis\ResponseParser;
 use Solarium\Core\Query\Result\Result;
 use Solarium\Query\Analysis\Result as AnalysisResult;
-use Solarium\Core\Query\ResponseParser as BaseResponseParser;
+use Solarium\Core\Query\ResponseParserInterface;
 
 /**
  * Parse document analysis response data
  *
  * @package Solarium
- * @subpackage QueryType
+ * @subpackage Query
  */
-class Field extends BaseResponseParser
+class Field implements ResponseParserInterface
 {
 
     /**
