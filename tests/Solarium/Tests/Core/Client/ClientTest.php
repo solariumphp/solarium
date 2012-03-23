@@ -357,6 +357,20 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertThat($this->client->getAdapter(), $this->isInstanceOf($adapterClass));
     }
 
+    public function testSetAndGetAdapterWithInvalidObject()
+    {
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->client->setAdapter(new \stdClass());
+    }
+
+    public function testSetAndGetAdapterWithInvalidString()
+    {
+        $adapterClass = '\\stdClass';
+        $this->client->setAdapter($adapterClass);
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->client->getAdapter();
+    }
+
     public function testRegisterQueryTypeAndGetQueryTypes()
     {
         $queryTypes = $this->client->getQueryTypes();
@@ -603,6 +617,20 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $overrideValue,
             $result
         );
+    }
+
+    public function testCreateResultWithInvalidResult()
+    {
+        $overrideValue =  '\\stdClass';
+        $response = new Response('',array('HTTP 1.0 200 OK'));
+
+        $mockQuery = $this->getMock('Solarium\Query\Select\Query\Query', array('getResultClass'));
+        $mockQuery->expects($this->once())
+                 ->method('getResultClass')
+                 ->will($this->returnValue($overrideValue));
+
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->client->createResult($mockQuery, $response);
     }
 
     public function testExecute()
@@ -889,6 +917,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Solarium\Core\Exception');
         $this->client->createQuery('invalidtype');
+    }
+
+    public function testCreateQueryWithInvalidClass()
+    {
+        $this->client->registerQueryType('invalidquery', '\\StdClass');
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->client->createQuery('invalidquery');
     }
 
     public function testCreateQueryPrePlugin()
