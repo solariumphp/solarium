@@ -10,9 +10,9 @@ htmlHeader();
 // This makes it possible to create 'query inheritance' like in this example
 class ProductQuery extends Select{
 
-    protected function _init()
+    protected function init()
     {
-        parent::_init();
+        parent::init();
 
         // basic params
         $this->setQuery('*:*');

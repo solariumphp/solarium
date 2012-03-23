@@ -2,8 +2,9 @@
 require('init.php');
 
 // this very simple plugin is used to show some events
-class simpleDebug extends \Solarium\Plugin\AbstractPlugin
+class simpleDebug extends Solarium\Core\Plugin
 {
+
     protected $_output = array();
 
     public function display()

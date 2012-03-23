@@ -1,7 +1,7 @@
 <?php
 require('init.php');
 use Solarium\Client;
-use Solarium\Plugin\AbstractPlugin;
+use Solarium\Core\Plugin;
 use Solarium\Query\Select\Query\Query as Select;
 
 // This is a custom query class that could have some customized logic
@@ -11,12 +11,12 @@ class MyQuery extends Select
 }
 
 // this very simple plugin that modifies the default querytype mapping
-class queryCustomizer extends AbstractPlugin
+class queryCustomizer extends Plugin
 {
 
-    protected function _initPlugin()
+    public function initPlugin($client, $options)
     {
-        $this->_client->registerQueryType(
+        $client->registerQueryType(
             Client::QUERY_SELECT,
             'MyQuery',
             'Solarium\Query\Select\RequestBuilder\RequestBuilder',

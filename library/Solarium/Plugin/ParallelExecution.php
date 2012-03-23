@@ -83,7 +83,7 @@ class ParallelExecution extends Plugin
      */
     protected function initPluginType()
     {
-        $this->client->setAdapter('Solarium\Client\Adapter\Curl');
+        $this->client->setAdapter('Solarium\Core\Client\Adapter\Curl');
     }
 
     /**

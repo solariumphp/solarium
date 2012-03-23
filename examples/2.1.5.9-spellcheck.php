@@ -22,7 +22,6 @@ $spellcheck->setCollateExtendedResults(true);
 $resultset = $client->select($query);
 $spellcheckResult = $resultset->getSpellcheck();
 
-
 echo '<h1>Correctly spelled?</h1>';
 if ($spellcheckResult->getCorrectlySpelled()) {
     echo 'yes';

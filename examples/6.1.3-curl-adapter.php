@@ -10,7 +10,7 @@ htmlHeader();
 $client = new Solarium\Client($config);
 
 // set the adapter to curl
-$client->setAdapter('Solarium\Client\Adapter\Curl');
+$client->setAdapter('Solarium\Core\Client\Adapter\Curl');
 
 // get a select query instance
 $query = $client->createSelect();

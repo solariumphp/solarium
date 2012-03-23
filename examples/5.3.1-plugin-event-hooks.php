@@ -9,7 +9,7 @@ class basicDebug extends Solarium\Core\Plugin
     protected $start;
     protected $output = array();
 
-    public function initPlugin()
+    public function initPlugin($client, $options)
     {
         $this->start = microtime(true);
     }
@@ -26,12 +26,12 @@ class basicDebug extends Solarium\Core\Plugin
         echo implode('<br/>', $this->output);
     }
 
-    public function preCreateRequest()
+    public function preCreateRequest($query)
     {
         $this->timer('preCreateRequest');
     }
 
-    public function postCreateRequest()
+    public function postCreateRequest($query, $request)
     {
         $this->timer('postCreateRequest');
     }
@@ -48,37 +48,37 @@ class basicDebug extends Solarium\Core\Plugin
         $this->output[] = 'Request URI: ' . $request->getUri();
     }
 
-    public function postExecuteRequest()
+    public function postExecuteRequest($request, $response)
     {
         $this->timer('postExecuteRequest');
     }
 
-    public function preCreateResult()
+    public function preCreateResult($query, $response)
     {
         $this->timer('preCreateResult');
     }
 
-    public function postCreateResult()
+    public function postCreateResult($query, $response, $result)
     {
         $this->timer('postCreateResult');
     }
 
-    public function preExecute()
+    public function preExecute($query)
     {
         $this->timer('preExecute');
     }
 
-    public function postExecute()
+    public function postExecute($query, $result)
     {
         $this->timer('postExecute');
     }
 
-    public function preCreateQuery()
+    public function preCreateQuery($type, $options)
     {
         $this->timer('preCreateResult');
     }
 
-    public function postCreateQuery()
+    public function postCreateQuery($type, $options, $query)
     {
         $this->timer('postCreateResult');
     }

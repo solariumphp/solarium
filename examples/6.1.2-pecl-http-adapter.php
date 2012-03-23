@@ -10,7 +10,7 @@ htmlHeader();
 $client = new Solarium\Client($config);
 
 // set the adapter to peclhttp
-$client->setAdapter('Solarium\Client\Adapter\PeclHttp');
+$client->setAdapter('Solarium\Core\Client\Adapter\PeclHttp');
 
 // get a select query instance
 $query = $client->createSelect();

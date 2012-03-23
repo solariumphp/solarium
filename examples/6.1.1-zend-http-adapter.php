@@ -10,7 +10,7 @@ htmlHeader();
 $client = new Solarium\Client($config);
 
 // set the adapter to zendhttp and get a zendhttp client instance reference
-$client->setAdapter('Solarium\Client\Adapter\ZendHttp');
+$client->setAdapter('Solarium\Core\Client\Adapter\ZendHttp');
 $zendHttp = $client->getAdapter()->getZendHttp();
 
 // you can use any of the zend_http features, like http-authentication
