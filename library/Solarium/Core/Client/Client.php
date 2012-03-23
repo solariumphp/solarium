@@ -227,17 +227,17 @@ class Client extends Configurable
     public function createEndpoint($options = null)
     {
         if (is_string($options)) {
-            $fq = new Endpoint;
-            $fq->setKey($options);
+            $endpoint = new Endpoint;
+            $endpoint->setKey($options);
         } else {
-            $fq = new Endpoint($options);
+            $endpoint = new Endpoint($options);
         }
 
-        if ($fq->getKey() !== null) {
-            $this->addEndpoint($fq);
+        if ($endpoint->getKey() !== null) {
+            $this->addEndpoint($endpoint);
         }
 
-        return $fq;
+        return $endpoint;
     }
 
     /**

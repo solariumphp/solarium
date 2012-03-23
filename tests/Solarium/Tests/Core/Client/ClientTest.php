@@ -149,6 +149,193 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['plugin'][0]['options'], $plugin->getOptions());
     }
 
+    public function testCreateEndpoint()
+    {
+        $endpoint = $this->client->createEndpoint();
+        $this->assertEquals(null, $endpoint->getKey());
+        $this->assertThat($endpoint, $this->isInstanceOf('Solarium\Core\Client\Endpoint'));
+    }
+
+    public function testCreateEndpointWithKey()
+    {
+        $endpoint = $this->client->createEndpoint('key1');
+        $this->assertEquals('key1', $endpoint->getKey());
+        $this->assertThat($endpoint, $this->isInstanceOf('Solarium\Core\Client\Endpoint'));
+    }
+
+    public function testCreateEndpointWithArray()
+    {
+        $options = array(
+            'key' => 'server2',
+            'host' => 's2.local',
+        );
+
+        $endpoint = $this->client->createEndpoint($options);
+        $this->assertEquals('server2', $endpoint->getKey());
+        $this->assertEquals('s2.local', $endpoint->getHost());
+        $this->assertThat($endpoint, $this->isInstanceOf('Solarium\Core\Client\Endpoint'));
+    }
+
+    public function testAddAndGetEndpoint()
+    {
+        $endpoint = $this->client->createEndpoint();
+        $endpoint->setKey('s3');
+        $endpoint->setHost('s3.local');
+        $this->client->clearEndpoints();
+        $this->client->addEndpoint($endpoint);
+
+        $this->assertEquals(
+            array('s3' => $endpoint),
+            $this->client->getEndpoints()
+        );
+
+        // check default endpoint
+        $this->assertEquals(
+            $endpoint,
+            $this->client->getEndpoint()
+        );
+    }
+
+    public function testAddEndpointWithArray()
+    {
+        $options = array(
+            'key' => 'server2',
+            'host' => 's2.local',
+        );
+
+        $endpoint = $this->client->createEndpoint($options);
+        $this->client->addEndpoint($endpoint);
+
+        $this->assertEquals(
+            $endpoint,
+            $this->client->getEndpoint('server2')
+        );
+    }
+
+    public function testAddEndpointWithoutKey()
+    {
+        $endpoint = $this->client->createEndpoint();
+
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->client->addEndpoint($endpoint);
+    }
+
+    public function testAddEndpointWithDuplicateKey()
+    {
+        $this->client->createEndpoint('s1');
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->client->createEndpoint('s1');
+    }
+
+    public function testAddAndGetEndpoints()
+    {
+        $options = array(
+            's1' => array('host' => 's1.local'),        //use array key
+            array('key' => 's2', 'host' => 's2.local'), //use key array entry
+        );
+
+        $this->client->addEndpoints($options);
+        $endpoints = $this->client->getEndpoints();
+
+        $this->assertEquals('s1.local', $endpoints['s1']->getHost());
+        $this->assertEquals('s2.local', $endpoints['s2']->getHost());
+    }
+
+    public function testGetEndpointWithInvalidKey()
+    {
+        $this->client->createEndpoint('s1');
+
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->client->getEndpoint('s2');
+    }
+
+    public function testSetAndGetEndpoints()
+    {
+        $endpoint1 = $this->client->createEndpoint('s1');
+        $this->client->addEndpoint($endpoint1);
+
+        $endpoint2 = $this->client->createEndpoint('s2');
+        $endpoint3 = $this->client->createEndpoint('s3');
+        $this->client->setEndpoints(array($endpoint2, $endpoint3));
+
+        $this->assertEquals(
+            array('s2' => $endpoint2, 's3' => $endpoint3),
+            $this->client->getEndpoints()
+        );
+    }
+
+    public function testRemoveEndpointWithKey()
+    {
+        $endpoint1 = $this->client->createEndpoint('s1');
+        $endpoint2 = $this->client->createEndpoint('s2');
+        $endpoint3 = $this->client->createEndpoint('s3');
+        $this->client->setEndpoints(array($endpoint1, $endpoint2, $endpoint3));
+        $this->client->removeEndpoint('s1');
+
+        $this->assertEquals(
+            array('s2' => $endpoint2, 's3' => $endpoint3),
+            $this->client->getEndpoints()
+        );
+    }
+
+    public function testRemoveEndpointWithObject()
+    {
+        $endpoint1 = $this->client->createEndpoint('s1');
+        $endpoint2 = $this->client->createEndpoint('s2');
+        $endpoint3 = $this->client->createEndpoint('s3');
+        $this->client->setEndpoints(array($endpoint1, $endpoint2, $endpoint3));
+        $this->client->removeEndpoint($endpoint1);
+
+        $this->assertEquals(
+            array('s2' => $endpoint2, 's3' => $endpoint3),
+            $this->client->getEndpoints()
+        );
+    }
+
+    public function testClearEndpoints()
+    {
+        $endpoint1 = $this->client->createEndpoint('s1');
+        $endpoint2 = $this->client->createEndpoint('s2');
+
+        $this->client->setEndpoints(array($endpoint1, $endpoint2));
+        $this->client->clearEndpoints();
+
+        $this->assertEquals(
+            array(),
+            $this->client->getEndpoints()
+        );
+    }
+
+    public function testSetDefaultEndpointWithKey()
+    {
+        $endpoint1 = $this->client->createEndpoint('s1');
+        $endpoint2 = $this->client->createEndpoint('s2');
+
+        $this->client->setEndpoints(array($endpoint1, $endpoint2));
+
+        $this->assertEquals($endpoint1, $this->client->getEndpoint());
+        $this->client->setDefaultEndpoint('s2');
+        $this->assertEquals($endpoint2, $this->client->getEndpoint());
+    }
+
+    public function testSetDefaultEndpointWithObject()
+    {
+        $endpoint1 = $this->client->createEndpoint('s1');
+        $endpoint2 = $this->client->createEndpoint('s2');
+
+        $this->client->setEndpoints(array($endpoint1, $endpoint2));
+
+        $this->assertEquals($endpoint1, $this->client->getEndpoint());
+        $this->client->setDefaultEndpoint($endpoint2);
+        $this->assertEquals($endpoint2, $this->client->getEndpoint());
+    }
+
+    public function testSetDefaultEndpointWithInvalidKey()
+    {
+        $this->setExpectedException('Solarium\Core\Exception');
+        $this->client->setDefaultEndpoint('invalidkey');
+    }
+
     public function testSetAndGetAdapterWithDefaultAdapter()
     {
         $defaultAdapter = $this->client->getOption('adapter');
