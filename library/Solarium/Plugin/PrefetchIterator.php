@@ -146,7 +146,9 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     public function count()
     {
         // if no results are available yet, get them now
-        if (null == $this->result) $this->fetchNext();
+        if (null == $this->result) {
+            $this->fetchNext();
+        }
 
         return $this->result->getNumFound();
     }
@@ -154,7 +156,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     /**
      * Iterator implementation
      */
-    function rewind()
+    public function rewind()
     {
         $this->position = 0;
 
@@ -167,7 +169,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     /**
      * Iterator implementation
      */
-    function current()
+    public function current()
     {
         $adjustedIndex = $this->position % $this->options['prefetch'];
         return $this->documents[$adjustedIndex];
@@ -186,7 +188,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     /**
      * Iterator implementation
      */
-    function next()
+    public function next()
     {
         ++$this->position;
     }
@@ -196,7 +198,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
      *
      * @return boolean
      */
-    function valid()
+    public function valid()
     {
         $adjustedIndex = $this->position % $this->options['prefetch'];
 

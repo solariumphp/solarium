@@ -229,7 +229,9 @@ class Grouping extends Component
      */
     public function addQueries($queries)
     {
-        if(!is_array($queries)) $queries = array($queries);
+        if (!is_array($queries)) {
+            $queries = array($queries);
+        }
 
         $this->queries = array_merge($this->queries, $queries);
 

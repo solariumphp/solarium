@@ -74,7 +74,7 @@ class ResponseParser extends SelectResponseParser
             $matchData = $data['match']['docs'][0];
 
             $documentClass = $query->getOption('documentclass');
-            $fields = (array)$matchData;
+            $fields = (array) $matchData;
             $parseResult['match'] = new $documentClass($fields);
         }
 

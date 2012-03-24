@@ -77,7 +77,9 @@ abstract class RequestBuilder implements RequestBuilderInterface
     {
         $params = '';
         foreach ($localParams AS $paramName => $paramValue) {
-            if (empty($paramValue)) continue;
+            if (empty($paramValue)) {
+                continue;
+            }
 
             if (is_array($paramValue)) {
                 $paramValue = implode($paramValue, ',');

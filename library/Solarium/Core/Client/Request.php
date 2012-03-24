@@ -219,8 +219,11 @@ class Request extends Configurable
                 $this->params[$key][] = $value;
             } else {
                 // not all solr handlers support 0/1 as boolean values...
-                if($value === true) $value = 'true';
-                if($value === false) $value = 'false';
+                if ($value === true) {
+                    $value = 'true';
+                } elseif ($value === false) {
+                    $value = 'false';
+                }
 
                 $this->params[$key] = $value;
             }

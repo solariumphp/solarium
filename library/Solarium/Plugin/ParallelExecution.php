@@ -90,9 +90,13 @@ class ParallelExecution extends Plugin
      */
     public function addQuery($key, $query, $endpoint = null)
     {
-        if (is_object($endpoint)) $endpoint = $endpoint->getKey();
+        if (is_object($endpoint)) {
+            $endpoint = $endpoint->getKey();
+        }
 
-        if($endpoint == null) $endpoint = $this->client->getEndpoint()->getKey();
+        if ($endpoint == null) {
+            $endpoint = $this->client->getEndpoint()->getKey();
+        }
 
         $this->queries[$key] = array(
             'query' => $query,

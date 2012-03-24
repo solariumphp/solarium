@@ -151,7 +151,9 @@ class Endpoint extends Configurable
      */
     public function setPath($path)
     {
-        if (substr($path, -1) == '/') $path = substr($path, 0, -1);
+        if (substr($path, -1) == '/') {
+            $path = substr($path, 0, -1);
+        }
 
         return $this->setOption('path', $path);
     }

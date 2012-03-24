@@ -71,7 +71,9 @@ class MultiQuery extends Facet
         foreach ($this->options AS $name => $value) {
             switch ($name) {
                 case 'query':
-                    if(!is_array($value)) $value = array($value);
+                    if (!is_array($value)) {
+                        $value = array($value);
+                    }
                     $this->addQueries($value);
                     break;
             }

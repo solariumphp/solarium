@@ -154,7 +154,9 @@ class Helper
             case is_string($input) || is_numeric($input):
 
                 // if date/time string: convert to timestamp first
-                if (is_string($input)) $input = strtotime($input);
+                if (is_string($input)) {
+                    $input = strtotime($input);
+                }
 
                 // now try converting the timestamp to a datetime instance, on failure return false
                 try {

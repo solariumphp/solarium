@@ -233,10 +233,10 @@ class Query extends BaseQuery
                     $this->addFields($value);
                     break;
                 case 'rows':
-                    $this->setRows((int)$value);
+                    $this->setRows((int) $value);
                     break;
                 case 'start':
-                    $this->setStart((int)$value);
+                    $this->setStart((int) $value);
                     break;
                 case 'component':
                     $this->createComponents($value);

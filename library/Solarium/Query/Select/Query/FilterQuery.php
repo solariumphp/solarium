@@ -72,7 +72,9 @@ class FilterQuery extends Configurable
         foreach ($this->options AS $name => $value) {
             switch ($name) {
                 case 'tag':
-                    if(!is_array($value)) $value = array($value);
+                    if (!is_array($value)) {
+                        $value = array($value);
+                    }
                     $this->addTags($value);
                     break;
                 case 'key':

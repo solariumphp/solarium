@@ -75,7 +75,9 @@ abstract class Facet extends Configurable
                     $this->setKey($value);
                     break;
                 case 'exclude':
-                    if(!is_array($value)) $value = array($value);
+                    if (!is_array($value)) {
+                        $value = array($value);
+                    }
                     $this->setExcludes($value);
                     unset($this->options['exclude']);
                     break;

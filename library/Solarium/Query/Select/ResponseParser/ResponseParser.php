@@ -62,7 +62,7 @@ class ResponseParser implements ResponseParserInterface
         $documents = array();
         if (isset($data['response']['docs'])) {
             foreach ($data['response']['docs'] AS $doc) {
-                $fields = (array)$doc;
+                $fields = (array) $doc;
                 $documents[] = new $documentClass($fields);
             }
         }

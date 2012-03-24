@@ -79,7 +79,9 @@ class FacetSet
                     throw new Exception('Unknown facet type');
             }
 
-            if($result !== null) $facets[$key] = $result;
+            if ($result !== null) {
+                $facets[$key] = $result;
+            }
         }
 
         return $this->createFacetSet($facets);

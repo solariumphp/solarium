@@ -359,8 +359,14 @@ class Query extends BaseQuery
                                  $commitWithin = null)
     {
         $add = new Command\Add;
-        if (null !== $overwrite) $add->setOverwrite($overwrite);
-        if (null !== $commitWithin) $add->setCommitWithin($commitWithin);
+
+        if (null !== $overwrite) {
+            $add->setOverwrite($overwrite);
+        }
+
+        if (null !== $commitWithin) {
+            $add->setCommitWithin($commitWithin);
+        }
 
         $add->addDocuments($documents);
         return $this->add(null, $add);
@@ -381,10 +387,18 @@ class Query extends BaseQuery
                               $expungeDeletes = null)
     {
         $commit = new Command\Commit();
-        if (null !== $waitFlush) $commit->setWaitFlush($waitFlush);
-        if (null !== $waitSearcher) $commit->setWaitSearcher($waitSearcher);
-        if (null !== $expungeDeletes)
+
+        if (null !== $waitFlush) {
+            $commit->setWaitFlush($waitFlush);
+        }
+
+        if (null !== $waitSearcher) {
+            $commit->setWaitSearcher($waitSearcher);
+        }
+
+        if (null !== $expungeDeletes) {
             $commit->setExpungeDeletes($expungeDeletes);
+        }
 
         return $this->add(null, $commit);
     }
@@ -404,9 +418,18 @@ class Query extends BaseQuery
                                $maxSegments = null)
    {
        $optimize = new Command\Optimize();
-       if (null !== $waitFlush) $optimize->setWaitFlush($waitFlush);
-       if (null !== $waitSearcher) $optimize->setWaitSearcher($waitSearcher);
-       if (null !== $maxSegments) $optimize->setMaxSegments($maxSegments);
+
+       if (null !== $waitFlush) {
+           $optimize->setWaitFlush($waitFlush);
+       }
+
+       if (null !== $waitSearcher) {
+           $optimize->setWaitSearcher($waitSearcher);
+       }
+
+       if (null !== $maxSegments) {
+           $optimize->setMaxSegments($maxSegments);
+       }
 
        return $this->add(null, $optimize);
    }

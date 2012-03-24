@@ -77,7 +77,9 @@ class WeightedRandomChoice
     {
         $i = 0;
         foreach ($choices AS $key => $weight) {
-            if ($weight <=0) throw new Exception('Weight must be greater than zero');
+            if ($weight <=0) {
+                throw new Exception('Weight must be greater than zero');
+            }
 
             $this->totalWeight += $weight;
             $this->lookup[$i] = $this->totalWeight;
@@ -104,7 +106,9 @@ class WeightedRandomChoice
         $result = null;
         while (1) {
             $result = $this->values[$this->getKey()];
-            if(!in_array($result, $excludes)) break;
+            if (!in_array($result, $excludes)) {
+                break;
+            }
         }
 
         return $result;
@@ -122,7 +126,7 @@ class WeightedRandomChoice
         $low = 0;
 
         while ( $low < $high ) {
-            $probe = (int)(($high + $low) / 2);
+            $probe = (int) (($high + $low) / 2);
             if ($this->lookup[$probe] < $random) {
                 $low = $probe + 1;
             } else if ($this->lookup[$probe] > $random) {

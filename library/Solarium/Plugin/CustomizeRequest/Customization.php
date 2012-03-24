@@ -209,9 +209,13 @@ class Customization extends Configurable
     public function isValid()
     {
         $type = $this->getType();
-        if ($type !== self::TYPE_PARAM && $type !== self::TYPE_HEADER) return false;
+        if ($type !== self::TYPE_PARAM && $type !== self::TYPE_HEADER) {
+            return false;
+        }
 
-        if (null == $this->getKey() || null == $this->getName() || null == $this->getValue()) return false;
+        if (null == $this->getKey() || null == $this->getName() || null == $this->getValue()) {
+            return false;
+        }
 
         return true;
     }

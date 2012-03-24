@@ -265,7 +265,9 @@ class Client extends Configurable
             $this->endpoints[$key] = $endpoint;
 
             // if no default endpoint is set do so now
-            if (null == $this->defaultEndpoint) $this->defaultEndpoint = $key;
+            if (null == $this->defaultEndpoint) {
+                $this->defaultEndpoint = $key;
+            }
         }
 
         return $this;
@@ -300,9 +302,11 @@ class Client extends Configurable
      */
     public function getEndpoint($key = null)
     {
-        if (null == $key) $key = $this->defaultEndpoint;
+        if (null == $key) {
+            $key = $this->defaultEndpoint;
+        }
 
-        if (!isset($this->endpoints[$key])){
+        if (!isset($this->endpoints[$key])) {
             throw new Exception('Endpoint '.$key.' not available');
         }
 
@@ -497,7 +501,9 @@ class Client extends Configurable
 
             // support both "key=>value" and "(no-key) => array(key=>x,query=>y)" formats
             if (is_array($class)) {
-                if (isset($class['type'])) $type = $class['type'];
+                if (isset($class['type'])) {
+                    $type = $class['type'];
+                }
                 $class = $class['query'];
             }
 
@@ -555,7 +561,9 @@ class Client extends Configurable
     {
         foreach ($plugins as $key => $plugin) {
 
-            if (!isset($plugin['key'])) $plugin['key'] = $key;
+            if (!isset($plugin['key'])) {
+                $plugin['key'] = $key;
+            }
 
             $this->registerPlugin(
                 $plugin['key'],
@@ -678,7 +686,9 @@ class Client extends Configurable
     public function createRequest(QueryInterface $query)
     {
         $pluginResult = $this->callPlugins('preCreateRequest', array($query), true);
-        if($pluginResult !== null) return $pluginResult;
+        if($pluginResult !== null) {
+            return $pluginResult;
+        }
 
         $requestBuilder = $query->getRequestBuilder();
         if (!$requestBuilder || !($requestBuilder instanceof RequestBuilderInterface)) {
@@ -702,7 +712,9 @@ class Client extends Configurable
     public function createResult(QueryInterface $query, $response)
     {
         $pluginResult = $this->callPlugins('preCreateResult', array($query, $response), true);
-        if($pluginResult !== null) return $pluginResult;
+        if ($pluginResult !== null) {
+            return $pluginResult;
+        }
 
         $resultClass = $query->getResultClass();
         $result = new $resultClass($this, $query, $response);
@@ -726,7 +738,9 @@ class Client extends Configurable
     public function execute(QueryInterface $query, $endpoint = null)
     {
         $pluginResult = $this->callPlugins('preExecute', array($query), true);
-        if($pluginResult !== null) return $pluginResult;
+        if ($pluginResult !== null) {
+            return $pluginResult;
+        }
 
         $request = $this->createRequest($query);
         $response = $this->executeRequest($request, $endpoint);
@@ -920,7 +934,9 @@ class Client extends Configurable
         $type = strtolower($type);
 
         $pluginResult = $this->callPlugins('preCreateQuery', array($type, $options), true);
-        if($pluginResult !== null) return $pluginResult;
+        if($pluginResult !== null) {
+            return $pluginResult;
+        }
 
         if (!isset($this->queryTypes[$type])) {
             throw new Exception('Unknown querytype: '. $type);
