@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Plugin
  */
 
 /**
@@ -51,9 +48,6 @@ use Solarium\Query\Select\Result\Document as ReadOnlyDocument;
  *
  * If you need to add (or update) a big number of documents to Solr it's much more efficient to do so in batches.
  * This plugin makes this as easy as possible.
- *
- * @package Solarium
- * @subpackage Plugin
  */
 class BufferedAdd extends Plugin
 {

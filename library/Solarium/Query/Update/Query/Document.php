@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Document
  */
 
 /**
@@ -54,9 +51,6 @@ use Solarium\Query\Select\Result\Document as ReadOnlyDocument;
  * is not recommended. Most Solr indexes have fields that are indexed and not
  * stored. You will loose that data because it is impossible to retrieve it from
  * Solr. Always update from the original data source.
- *
- * @package Solarium
- * @subpackage QueryType
  */
 class Document extends ReadOnlyDocument
 {

@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -50,9 +47,6 @@ use Solarium\Core\Query\Result\QueryType as BaseResult;
  *
  * @internal For now this class only exists to distinguish the different result
  *  types. It might get some extra behaviour in the future.
- *
- * @package Solarium
- * @subpackage Result
  */
 class Result extends BaseResult
 {

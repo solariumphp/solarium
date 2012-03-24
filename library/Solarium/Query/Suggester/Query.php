@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -49,9 +46,6 @@ use Solarium\Query\Suggester\ResponseParser;
  * Suggester Query
  *
  * Can be used for an autocomplete feature. See http://wiki.apache.org/solr/Suggester for more info.
- *
- * @package Solarium
- * @subpackage Query
  */
 class Query extends BaseQuery
 {

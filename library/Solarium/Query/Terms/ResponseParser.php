@@ -32,9 +32,6 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -46,9 +43,6 @@ use Solarium\Core\Client\Request;
 
 /**
  * Parse MoreLikeThis response data
- *
- * @package Solarium
- * @subpackage QueryType
  */
 class ResponseParser implements ResponseParserInterface
 {

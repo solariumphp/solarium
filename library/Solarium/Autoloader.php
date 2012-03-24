@@ -31,8 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
  */
 
 /**
@@ -47,8 +45,6 @@ namespace Solarium;
  *
  * Please note that Solarium is also PSR-0 compliant, so you can
  * use any compatible autoloader (most modern frameworks include one)
- *
- * @package Solarium
  */
 class Autoloader
 {

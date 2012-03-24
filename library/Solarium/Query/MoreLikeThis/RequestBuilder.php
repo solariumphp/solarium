@@ -34,9 +34,6 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -49,9 +46,6 @@ use Solarium\Core\Query\QueryInterface;
 
 /**
  * Build a MoreLikeThis request
- *
- * @package Solarium
- * @subpackage QueryType
  */
 class RequestBuilder extends SelectRequestBuilder
 {

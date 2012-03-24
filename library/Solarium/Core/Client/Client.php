@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -62,9 +59,6 @@ use Solarium\Core\Query\RequestBuilderInterface;
  * $query = $client->createSelect();
  * $result = $client->select($query);
  * </code>
- *
- * @package Solarium
- * @subpackage Core
  */
 class Client extends Configurable
 {

@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -44,9 +41,6 @@ use Solarium\Core\Configurable;
 
 /**
  * Query component base class
- *
- * @package Solarium
- * @subpackage Query
  */
 abstract class Component extends Configurable
 {

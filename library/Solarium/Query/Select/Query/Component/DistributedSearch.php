@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -47,9 +44,6 @@ use Solarium\Query\Select\RequestBuilder\Component\DistributedSearch as RequestB
  * Distributed Search (sharding) component
  *
  * @link http://wiki.apache.org/solr/DistributedSearch
- *
- * @package Solarium
- * @subpackage Query
  */
 class DistributedSearch extends Component
 {

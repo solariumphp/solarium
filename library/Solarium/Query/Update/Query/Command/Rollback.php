@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -47,9 +44,6 @@ use Solarium\Query\Update\Query\Query as UpdateQuery;
  *
  * For details see:
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22rollback.22
- *
- * @package Solarium
- * @subpackage Query
  */
 class Rollback extends Command
 {

@@ -31,8 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
  */
 
 /**
@@ -42,11 +40,8 @@ namespace Solarium;
 use Solarium\Core\Client\Client as CoreClient;
 
 /**
- *
  * This class makes the client easier to use (shorter class name) and adds
  * a library version check.
- *
- * @package Solarium
  */
 class Client extends CoreClient
 {

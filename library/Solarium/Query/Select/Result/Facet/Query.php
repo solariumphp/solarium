@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -46,9 +43,6 @@ namespace Solarium\Query\Select\Result\Facet;
  *
  * Since a query facet has only a single result, the count for the query, this
  * is a very simple object.
- *
- * @package Solarium
- * @subpackage Result
  */
 class Query
 {

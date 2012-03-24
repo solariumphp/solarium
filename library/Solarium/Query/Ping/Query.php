@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -50,9 +47,6 @@ use Solarium\Query\Ping\RequestBuilder as RequestBuilder;
  * Use a ping query to test Solr communication.
  * A ping query has only two options, the path to use and the resultclass. See
  * {@link Solarium\Query} for the methods to set these options.
- *
- * @package Solarium
- * @subpackage Query
  */
 class Query extends BaseQuery
 {

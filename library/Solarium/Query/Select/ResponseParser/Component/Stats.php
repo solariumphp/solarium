@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -48,9 +45,6 @@ use Solarium\Query\Select\Result\Stats\FacetValue as ResultStatsFacetValue;
 
 /**
  * Parse select component Stats result from the data
- *
- * @package Solarium
- * @subpackage QueryType
  */
 class Stats
 {

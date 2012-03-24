@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -52,9 +49,6 @@ use Solarium\Query\Select\ResponseParser\ResponseParser;
  * Can be used to select documents and/or facets from Solr. This querytype has
  * lots of options and there are many Solarium subclasses for it.
  * See the Solr documentation and the relevant Solarium classes for more info.
- *
- * @package Solarium
- * @subpackage Query
  */
 class Query extends BaseQuery
 {

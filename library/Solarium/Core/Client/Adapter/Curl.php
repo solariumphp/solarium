@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -51,8 +48,6 @@ use Solarium\Core\Client\Endpoint;
  * cURL HTTP adapter
  *
  * @author Intervals <info@myintervals.com>
- * @package Solarium
- * @subpackage Core
  */
 class Curl extends Configurable implements AdapterInterface
 {

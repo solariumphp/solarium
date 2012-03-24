@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Plugin
  */
 
 /**
@@ -53,9 +50,6 @@ use Solarium\Core\Query\Query;
  *
  * While query execution is parallel, the results only become available as soon as all requests have finished. So the
  * time of the slowest query will be the effective execution time for all queries.
- *
- * @package Solarium
- * @subpackage Plugin
  */
 
 // @codeCoverageIgnoreStart

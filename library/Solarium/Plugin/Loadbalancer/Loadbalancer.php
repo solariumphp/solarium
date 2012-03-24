@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Plugin
  */
 
 /**
@@ -61,9 +58,6 @@ use Solarium\Core\Client\Response;
  * In a master-slave setup the default endpoint should be connecting to the master endpoint.
  *
  * You can also enable the failover mode. In this case a query will be retried on another endpoint in case of error.
- *
- * @package Solarium
- * @subpackage Plugin
  */
 class Loadbalancer extends Plugin
 {

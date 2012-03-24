@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Plugin
  */
 
 /**
@@ -50,9 +47,6 @@ use Solarium\Query\Select\Result\Result as SelectResult;
  *
  * This plugin can be used to create an 'endless' iterator over a complete resultset. The iterator will take care of
  * fetching the data in sets (sequential prefetching).
- *
- * @package Solarium
- * @subpackage Plugin
  */
 class PrefetchIterator extends Plugin implements \Iterator, \Countable
 {

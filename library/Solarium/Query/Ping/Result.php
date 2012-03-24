@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -47,9 +44,6 @@ use Solarium\Core\Query\Result\Result as BaseResult;
  *
  * A ping query has no useful result so only a dummy status var is available.
  * If you don't get an exception for a ping query it was succesful.
- *
- * @package Solarium
- * @subpackage Result
  */
 class Result extends BaseResult
 {

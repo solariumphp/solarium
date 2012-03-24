@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -46,9 +43,6 @@ use Solarium\Core\Query\QueryInterface;
 
 /**
  * Build a field analysis request
- *
- * @package Solarium
- * @subpackage Client
  */
 class Field extends RequestBuilder
 {

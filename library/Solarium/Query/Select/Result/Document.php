@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -47,9 +44,6 @@ use Solarium\Core\Exception;
  *
  * This is the default Solr document type returned by a select query. You can
  * access the fields as object properties or iterate over all fields.
- *
- * @package Solarium
- * @subpackage Document
  */
 class Document implements \IteratorAggregate, \Countable, \ArrayAccess
 {

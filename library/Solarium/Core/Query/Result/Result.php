@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Result
  */
 
 /**
@@ -52,9 +49,6 @@ use Solarium\Core\Query\Query;
  *
  * This base class provides access to the response and decoded data. If you need more functionality
  * like resultset parsing use one of the subclasses
- *
- * @package Solarium
- * @subpackage Result
  */
 class Result implements ResultInterface
 {

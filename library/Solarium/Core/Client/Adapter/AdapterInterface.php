@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -59,9 +56,6 @@ use Solarium\Core\Client\Endpoint;
  * HTTP communication.
  *
  * However an adapter may also implement all logic by itself if needed.
- *
- * @package Solarium
- * @subpackage Core
  */
 interface AdapterInterface extends ConfigurableInterface
 {

@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -49,9 +46,6 @@ use Solarium\Core\Query\Result\Result;
 
 /**
  * Base class for plugins
- *
- * @package Solarium
- * @subpackage Core
  */
 abstract class Plugin extends Configurable implements PluginInterface
 {

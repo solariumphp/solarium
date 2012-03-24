@@ -31,8 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
  */
 
 /**
@@ -46,9 +44,6 @@ namespace Solarium\Core;
  * All classes implementing this interface are  configurable using the constructor or
  * setOption calls. This is the base for many Solarium classes, providing a
  * uniform interface for various models.
- *
- * @package Solarium
- * @subpackage Plugin
  */
 interface ConfigurableInterface
 {

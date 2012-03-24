@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Plugin
  */
 
 /**
@@ -54,9 +51,6 @@ use Solarium\Core\Client\Request;
  *
  * The default maximum querystring length is 1024. This doesn't include the base url or headers.
  * For most servlet setups this limit leaves enough room for that extra data. Adjust the limit if needed.
- *
- * @package Solarium
- * @subpackage Plugin
  */
 class PostBigRequest extends Plugin
 {

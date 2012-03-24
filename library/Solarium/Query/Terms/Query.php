@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -52,9 +49,6 @@ use Solarium\Query\Terms\ResponseParser;
  * This can be useful for doing auto-suggest or other things that operate at the term level instead of the search
  * or document level. Retrieving terms in index order is very fast since the implementation directly uses Lucene's
  * TermEnum to iterate over the term dictionary.
- *
- * @package Solarium
- * @subpackage Query
  */
 class Query extends BaseQuery
 {

@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Plugin
  */
 
 /**
@@ -50,9 +47,6 @@ use Solarium\Core\Client\Request;
  *
  * You can use this plugin to customize the requests generated for Solarium queries by adding or overwriting
  * params and/or headers.
- *
- * @package Solarium
- * @subpackage Plugin
  */
 class CustomizeRequest extends Plugin
 {

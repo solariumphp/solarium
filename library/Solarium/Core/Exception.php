@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -46,8 +43,6 @@ namespace Solarium\Core;
  *
  * All exceptions thrown by Solarium are of this type. This way you can easily
  * catch Solarium exceptions and keep them separate from your own exceptions.
- *
- * @package Solarium
  */
 class Exception extends \Exception
 {

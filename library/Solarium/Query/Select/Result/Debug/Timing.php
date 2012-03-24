@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -43,9 +40,6 @@ namespace Solarium\Query\Select\Result\Debug;
 
 /**
  * Select component debug timing result
- *
- * @package Solarium
- * @subpackage Result
  */
 class Timing implements \IteratorAggregate, \Countable
 {

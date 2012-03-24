@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -52,9 +49,6 @@ use Solarium\Query\Select\Query\Component\Facet\Range as FacetRange;
 
 /**
  * Add select component FacetSet to the request
- *
- * @package Solarium
- * @subpackage QueryType
  */
 class FacetSet extends RequestBuilder
 {

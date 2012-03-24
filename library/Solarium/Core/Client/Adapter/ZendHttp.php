@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -55,9 +52,6 @@ use Solarium\Core\Client\Endpoint;
  * {@link http://framework.zend.com/manual/en/zend.http.html}
  *
  * To use this adapter you need to have the Zend Framework available (autoloading)
- *
- * @package Solarium
- * @subpackage Core
  */
 class ZendHttp extends Configurable implements AdapterInterface
 {

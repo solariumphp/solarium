@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -47,9 +44,6 @@ namespace Solarium\Query\Select\Result\Facet;
  * A field facet will usually return a dataset of multiple rows, in each row a
  * value and it's count. You can access the values as an array using
  * {@link getValues()} or iterate this object.
- *
- * @package Solarium
- * @subpackage Result
  */
 class Field implements \IteratorAggregate, \Countable
 {

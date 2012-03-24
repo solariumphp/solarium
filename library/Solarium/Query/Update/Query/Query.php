@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -52,9 +49,6 @@ use Solarium\Query\Update\ResponseParser;
  * Can be used to send multiple update commands to solr, e.g. add, delete,
  * rollback, commit, optimize.
  * Multiple commands of any type can be combined into a single update query.
- *
- * @package Solarium
- * @subpackage Query
  */
 class Query extends BaseQuery
 {

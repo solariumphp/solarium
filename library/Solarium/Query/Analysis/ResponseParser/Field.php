@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -46,9 +43,6 @@ use Solarium\Core\Query\ResponseParserInterface;
 
 /**
  * Parse document analysis response data
- *
- * @package Solarium
- * @subpackage Query
  */
 class Field implements ResponseParserInterface
 {

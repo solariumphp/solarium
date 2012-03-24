@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -46,9 +43,6 @@ use Solarium\Query\Select\Query\Component\FacetSet;
  * Facet query
  *
  * @link http://wiki.apache.org/solr/SimpleFacetParameters#Field_Value_Faceting_Parameters
- *
- * @package Solarium
- * @subpackage Query
  */
 class Field extends Facet
 {

@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -47,9 +44,6 @@ use Solarium\Core\Query\Helper;
  * Filterquery
  *
  * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
- *
- * @package Solarium
- * @subpackage Query
  */
 class FilterQuery extends Configurable
 {

@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -48,9 +45,6 @@ use Solarium\Query\Select\Query\Component\FacetSet;
  *
  * This is a 'virtual' querytype that combines multiple facet queries into a
  * single resultset
- *
- * @package Solarium
- * @subpackage Query
  */
 class MultiQuery extends Facet
 {

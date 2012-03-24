@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -49,9 +46,6 @@ namespace Solarium\Core\Query;
  * of the response into Solarium\Result classes is not. This abstract class is
  * the base for several response handlers that do just that for the various
  * querytypes.
- *
- * @package Solarium
- * @subpackage Core
  */
 interface ResponseParserInterface
 {

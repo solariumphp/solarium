@@ -32,9 +32,6 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -52,8 +49,6 @@ use Solarium\Core\Client\Endpoint;
  * Pecl HTTP adapter
  *
  * @author Gasol Wu <gasol.wu@gmail.com>
- * @package Solarium
- * @subpackage Core
  */
 class PeclHttp extends Configurable implements AdapterInterface
 {

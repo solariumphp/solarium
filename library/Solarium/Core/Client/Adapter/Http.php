@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -49,9 +46,6 @@ use Solarium\Core\Client\Endpoint;
 
 /**
  * Basic HTTP adapter using a stream
- *
- * @package Solarium
- * @subpackage Core
  */
 class Http extends Configurable implements AdapterInterface
 {

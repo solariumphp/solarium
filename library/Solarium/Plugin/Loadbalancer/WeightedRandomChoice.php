@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Plugin
  */
 
 /**
@@ -46,9 +43,6 @@ use Solarium\Core\Exception;
  * Weighted random choice class
  *
  * For use in the loadbalancer plugin
- *
- * @package Solarium
- * @subpackage Plugin
  */
 class WeightedRandomChoice
 {

@@ -34,9 +34,6 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -54,9 +51,6 @@ use Solarium\Query\MoreLikeThis\RequestBuilder as RequestBuilder;
  * Can be used to select documents and/or facets from Solr. This querytype has
  * lots of options and there are many Solarium subclasses for it.
  * See the Solr documentation and the relevant Solarium classes for more info.
- *
- * @package Solarium
- * @subpackage Query
  */
 class Query extends SelectQuery
 {

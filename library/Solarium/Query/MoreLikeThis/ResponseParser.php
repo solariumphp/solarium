@@ -32,9 +32,6 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -45,9 +42,6 @@ use Solarium\Query\Select\ResponseParser\ResponseParser as SelectResponseParser;
 
 /**
  * Parse MoreLikeThis response data
- *
- * @package Solarium
- * @subpackage QueryType
  */
 class ResponseParser extends SelectResponseParser
 {

@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -56,9 +53,6 @@ use Solarium\Core\Exception;
  * (if available).
  *
  * The getStatusMessage method will return the HTTP status message.
- *
- * @package Solarium
- * @subpackage Core
  */
 class HttpException extends Exception
 {

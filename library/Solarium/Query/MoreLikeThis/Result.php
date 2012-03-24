@@ -32,9 +32,6 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage QueryType
  */
 
 /**
@@ -61,9 +58,6 @@ use Solarium\Query\Select\Result\Result as SelectResult;
  *    ....
  * }
  * </code>
- *
- * @package Solarium
- * @subpackage Result
  */
 class Result extends SelectResult
 {

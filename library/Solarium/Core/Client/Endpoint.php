@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Core
  */
 
 /**
@@ -44,9 +41,6 @@ use Solarium\Core\Configurable;
 
 /**
  * Class for describing an endpoint
- *
- * @package Solarium
- * @subpackage Core
  */
 class Endpoint extends Configurable
 {

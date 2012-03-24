@@ -31,9 +31,6 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Plugin
  */
 
 /**
@@ -44,9 +41,6 @@ use Solarium\Core\Configurable;
 
 /**
  * Customization value object
- *
- * @package Solarium
- * @subpackage Plugin
  */
 class Customization extends Configurable
 {
