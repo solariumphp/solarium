@@ -105,7 +105,7 @@ class Stats extends Component
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'field':
                     $this->setFields($value);
@@ -186,7 +186,7 @@ class Stats extends Component
      */
     public function addFields(array $fields)
     {
-        foreach ($fields AS $key => $field) {
+        foreach ($fields as $key => $field) {
 
             // in case of a config array: add key to config
             if (is_array($field) && !isset($field['key'])) {
@@ -296,7 +296,7 @@ class Stats extends Component
             $facets = array_map('trim', $facets);
         }
 
-        foreach ($facets AS $facet) {
+        foreach ($facets as $facet) {
             $this->addFacet($facet);
         }
 

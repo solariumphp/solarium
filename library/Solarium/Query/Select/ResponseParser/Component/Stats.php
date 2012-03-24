@@ -63,7 +63,7 @@ class Stats
         if (isset($data['stats']['stats_fields'])) {
 
             $statResults = $data['stats']['stats_fields'];
-            foreach ($statResults AS $field => $stats) {
+            foreach ($statResults as $field => $stats) {
                 if (isset($stats['facets'])) {
                     foreach ($stats['facets'] as $facetField => $values) {
                         foreach ($values as $value => $valueStats) {

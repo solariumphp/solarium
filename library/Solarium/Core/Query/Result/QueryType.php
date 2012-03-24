@@ -83,7 +83,7 @@ class QueryType extends Result
      */
     protected function mapData($mapData)
     {
-        foreach ($mapData AS $key => $data) {
+        foreach ($mapData as $key => $data) {
             $this->$key = $data;
         }
     }

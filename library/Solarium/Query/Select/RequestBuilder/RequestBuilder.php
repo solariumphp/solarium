@@ -68,7 +68,7 @@ class RequestBuilder extends BaseRequestBuilder
 
         // add sort fields to request
         $sort = array();
-        foreach ($query->getSorts() AS $field => $order) {
+        foreach ($query->getSorts() as $field => $order) {
             $sort[] = $field . ' ' . $order;
         }
         if (count($sort) !== 0) {
@@ -78,7 +78,7 @@ class RequestBuilder extends BaseRequestBuilder
         // add filterqueries to request
         $filterQueries = $query->getFilterQueries();
         if (count($filterQueries) !== 0) {
-            foreach ($filterQueries AS $filterQuery) {
+            foreach ($filterQueries as $filterQuery) {
                 $fq = $this->renderLocalParams(
                     $filterQuery->getQuery(),
                     array('tag' => $filterQuery->getTags())

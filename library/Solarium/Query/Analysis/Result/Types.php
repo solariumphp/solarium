@@ -51,7 +51,7 @@ class Types extends ResultList
      */
     public function getIndexAnalysis()
     {
-        foreach ($this->items AS $item) {
+        foreach ($this->items as $item) {
             if ($item->getName() == 'index') {
                 return $item;
             }
@@ -67,7 +67,7 @@ class Types extends ResultList
      */
     public function getQueryAnalysis()
     {
-        foreach ($this->items AS $item) {
+        foreach ($this->items as $item) {
             if ($item->getName() == 'query') {
                 return $item;
             }

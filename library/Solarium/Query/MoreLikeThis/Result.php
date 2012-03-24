@@ -54,7 +54,7 @@ use Solarium\Query\Select\Result\Result as SelectResult;
  * count($result);
  *
  * // iterate over fetched mlt docs
- * foreach ($result AS $doc) {
+ * foreach ($result as $doc) {
  *    ....
  * }
  * </code>

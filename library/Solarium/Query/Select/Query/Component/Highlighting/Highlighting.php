@@ -106,7 +106,7 @@ class Highlighting extends Component
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'field':
                     $this->addFields($value);
@@ -173,7 +173,7 @@ class Highlighting extends Component
             $fields = array_map('trim', $fields);
         }
 
-        foreach ($fields AS $key => $field) {
+        foreach ($fields as $key => $field) {
 
             // in case of a config array without key: add key to config
             if (is_array($field) && !isset($field['name'])) {

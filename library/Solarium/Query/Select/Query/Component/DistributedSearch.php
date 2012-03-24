@@ -95,7 +95,7 @@ class DistributedSearch extends Component
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'shards':
                     $this->setShards($value);

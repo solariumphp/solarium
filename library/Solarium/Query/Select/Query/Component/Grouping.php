@@ -47,8 +47,7 @@ use Solarium\Query\Select\ResponseParser\Component\Grouping as ResponseParser;
  * Also known as Result Grouping or Field Collapsing.
  * See the Solr wiki for more info about this functionality
  *
- * @link http://wiki.apache.org/solr/FieldCollapsing
- *
+ * @link  http://wiki.apache.org/solr/FieldCollapsing
  * @since 2.1.0
  */
 class Grouping extends Component
@@ -125,7 +124,7 @@ class Grouping extends Component
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'queries':
                     $this->setQueries($value);

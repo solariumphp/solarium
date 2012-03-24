@@ -96,7 +96,7 @@ class Request extends Configurable
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'rawdata':
                     $this->setRawData($value);

@@ -61,7 +61,7 @@ class Highlighting
         if (isset($data['highlighting'])) {
 
             $highlightResults = $data['highlighting'];
-            foreach ($highlightResults AS $key => $result) {
+            foreach ($highlightResults as $key => $result) {
                 $results[$key] = new HighlightingResult\Result(
                     $result
                 );

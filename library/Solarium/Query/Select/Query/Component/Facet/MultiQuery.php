@@ -68,7 +68,7 @@ class MultiQuery extends Facet
     {
         parent::init();
 
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'query':
                     if (!is_array($value)) {
@@ -154,7 +154,7 @@ class MultiQuery extends Facet
      */
     public function addQueries(array $facetQueries)
     {
-        foreach ($facetQueries AS $key => $facetQuery) {
+        foreach ($facetQueries as $key => $facetQuery) {
 
             // in case of a config array: add key to config
             if (is_array($facetQuery) && !isset($facetQuery['key'])) {
@@ -252,7 +252,7 @@ class MultiQuery extends Facet
      */
     public function addExclude($tag)
     {
-        foreach ($this->facetQueries AS $facetQuery) {
+        foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->addExclude($tag);
         }
 
@@ -273,7 +273,7 @@ class MultiQuery extends Facet
      */
     public function removeExclude($exclude)
     {
-        foreach ($this->facetQueries AS $facetQuery) {
+        foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->removeExclude($exclude);
         }
 
@@ -293,7 +293,7 @@ class MultiQuery extends Facet
      */
     public function clearExcludes()
     {
-        foreach ($this->facetQueries AS $facetQuery) {
+        foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->clearExcludes();
         }
 

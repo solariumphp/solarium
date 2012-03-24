@@ -42,7 +42,6 @@ use Solarium\Query\Update\Query\Query as UpdateQuery;
 /**
  * Update query commit command
  *
- * For details about the Solr options see:
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22
  */
 class Commit extends Command

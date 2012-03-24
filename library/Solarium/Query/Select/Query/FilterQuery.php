@@ -69,7 +69,7 @@ class FilterQuery extends Configurable
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'tag':
                     if (!is_array($value)) {
@@ -158,7 +158,7 @@ class FilterQuery extends Configurable
      */
     public function addTags($tags)
     {
-        foreach ($tags AS $tag) {
+        foreach ($tags as $tag) {
             $this->addTag($tag);
         }
         return $this;

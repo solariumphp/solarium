@@ -218,7 +218,7 @@ class Query extends BaseQuery
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'query':
                     $this->setQuery($value);
@@ -433,7 +433,7 @@ class Query extends BaseQuery
             $fields = array_map('trim', $fields);
         }
 
-        foreach ($fields AS $field) {
+        foreach ($fields as $field) {
             $this->addField($field);
         }
 
@@ -516,7 +516,7 @@ class Query extends BaseQuery
      */
     public function addSorts(array $sorts)
     {
-        foreach ($sorts AS $sort => $order) {
+        foreach ($sorts as $sort => $order) {
             $this->addSort($sort, $order);
         }
 
@@ -644,7 +644,7 @@ class Query extends BaseQuery
      */
     public function addFilterQueries(array $filterQueries)
     {
-        foreach ($filterQueries AS $key => $filterQuery) {
+        foreach ($filterQueries as $key => $filterQuery) {
 
             // in case of a config array: add key to config
             if (is_array($filterQuery) && !isset($filterQuery['key'])) {
@@ -841,7 +841,7 @@ class Query extends BaseQuery
      */
     protected function createComponents($configs)
     {
-        foreach ($configs AS $type => $config) {
+        foreach ($configs as $type => $config) {
             $this->getComponent($type, true, $config);
         }
     }

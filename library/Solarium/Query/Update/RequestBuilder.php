@@ -77,7 +77,7 @@ class RequestBuilder extends BaseRequestBuilder
     public function getRawData($query)
     {
         $xml = '<update>';
-        foreach ($query->getCommands() AS $command) {
+        foreach ($query->getCommands() as $command) {
             switch ($command->getType()) {
                 case UpdateQuery::COMMAND_ADD:
                     $xml .= $this->buildAddXml($command);
@@ -117,15 +117,15 @@ class RequestBuilder extends BaseRequestBuilder
         $xml .= $this->attrib('commitWithin', $command->getCommitWithin());
         $xml .= '>';
 
-        foreach ($command->getDocuments() AS $doc) {
+        foreach ($command->getDocuments() as $doc) {
             $xml .= '<doc';
             $xml .= $this->attrib('boost', $doc->getBoost());
             $xml .= '>';
 
-            foreach ($doc->getFields() AS $name => $value) {
+            foreach ($doc->getFields() as $name => $value) {
                 $boost = $doc->getFieldBoost($name);
                 if (is_array($value)) {
-                    foreach ($value AS $multival) {
+                    foreach ($value as $multival) {
                         $xml .= $this->buildFieldXml($name, $boost, $multival);
                     }
                 } else {
@@ -170,11 +170,11 @@ class RequestBuilder extends BaseRequestBuilder
     public function buildDeleteXml($command)
     {
         $xml = '<delete>';
-        foreach ($command->getIds() AS $id) {
+        foreach ($command->getIds() as $id) {
             $xml .= '<id>' . htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8')
                     . '</id>';
         }
-        foreach ($command->getQueries() AS $query) {
+        foreach ($command->getQueries() as $query) {
             $xml .= '<query>' . htmlspecialchars($query, ENT_NOQUOTES, 'UTF-8')
                     . '</query>';
         }

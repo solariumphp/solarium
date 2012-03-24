@@ -61,7 +61,7 @@ class FacetSet
     public function parse($query, $facetSet, $data)
     {
         $facets = array();
-        foreach ($facetSet->getFacets() AS $key => $facet) {
+        foreach ($facetSet->getFacets() as $key => $facet) {
             switch ($facet->getType()) {
                 case QueryFacetSet::FACET_FIELD:
                     $result = $this->facetField($facet, $data);
@@ -116,7 +116,7 @@ class FacetSet
             );
 
             $facetValues = array();
-            foreach ($values AS $value) {
+            foreach ($values as $value) {
                 $facetValues[$value[0]] = $value[1];
             }
 
@@ -151,7 +151,7 @@ class FacetSet
     protected function facetMultiQuery($facet, $data)
     {
         $values = array();
-        foreach ($facet->getQueries() AS $query) {
+        foreach ($facet->getQueries() as $query) {
             $key = $query->getKey();
             if (isset($data['facet_counts']['facet_queries'][$key])) {
                 $count = $data['facet_counts']['facet_queries'][$key];

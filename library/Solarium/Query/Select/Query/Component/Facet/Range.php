@@ -109,7 +109,7 @@ class Range extends Facet
     {
         parent::init();
 
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'include':
                     $this->setInclude($value);

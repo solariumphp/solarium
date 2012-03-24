@@ -180,7 +180,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
      *
      * @return int
      */
-    function key()
+    public function key()
     {
         return $this->position;
     }

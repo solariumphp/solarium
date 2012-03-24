@@ -42,7 +42,6 @@ use Solarium\Query\Update\Query\Query as UpdateQuery;
 /**
  * Update query delete command
  *
- * For details about the Solr options see:
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22delete.22_by_ID_and_by_Query
  */
 class Delete extends Command

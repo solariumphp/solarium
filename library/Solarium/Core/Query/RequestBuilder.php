@@ -76,7 +76,7 @@ abstract class RequestBuilder implements RequestBuilderInterface
     public function renderLocalParams($value, $localParams = array())
     {
         $params = '';
-        foreach ($localParams AS $paramName => $paramValue) {
+        foreach ($localParams as $paramName => $paramValue) {
             if (empty($paramValue)) {
                 continue;
             }

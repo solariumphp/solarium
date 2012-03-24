@@ -61,7 +61,7 @@ class ResponseParser implements ResponseParserInterface
         $documentClass = $query->getOption('documentclass');
         $documents = array();
         if (isset($data['response']['docs'])) {
-            foreach ($data['response']['docs'] AS $doc) {
+            foreach ($data['response']['docs'] as $doc) {
                 $fields = (array) $doc;
                 $documents[] = new $documentClass($fields);
             }

@@ -137,7 +137,7 @@ class FacetSet extends Component
     protected function init()
     {
         if (isset($this->options['facet'])) {
-            foreach ($this->options['facet'] AS $key => $config) {
+            foreach ($this->options['facet'] as $key => $config) {
                 if (!isset($config['key'])) {
                     $config['key'] = $key;
                 }
@@ -311,7 +311,7 @@ class FacetSet extends Component
      */
     public function addFacets(array $facets)
     {
-        foreach ($facets AS $key => $facet) {
+        foreach ($facets as $key => $facet) {
 
             // in case of a config array: add key to config
             if (is_array($facet) && !isset($facet['key'])) {

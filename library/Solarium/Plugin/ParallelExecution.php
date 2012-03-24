@@ -50,9 +50,9 @@ use Solarium\Core\Query\Query;
  *
  * While query execution is parallel, the results only become available as soon as all requests have finished. So the
  * time of the slowest query will be the effective execution time for all queries.
+ *
+ * @codeCoverageIgnoreStart
  */
-
-// @codeCoverageIgnoreStart
 class ParallelExecution extends Plugin
 {
 
@@ -173,7 +173,7 @@ class ParallelExecution extends Plugin
                 curl_multi_remove_handle($multiHandle, $handle);
                 $response = $adapter->getResponse($handle, curl_multi_getcontent($handle));
                 $results[$key] = $this->client->createResult($this->queries[$key]['query'], $response);
-            } catch(HttpException $e) {
+            } catch (HttpException $e) {
 
                 $results[$key] = $e;
             }
@@ -184,5 +184,7 @@ class ParallelExecution extends Plugin
         return $results;
     }
 
-    // @codeCoverageIgnoreEnd
+    /**
+     * @codeCoverageIgnoreEnd
+     */
 }

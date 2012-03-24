@@ -62,7 +62,7 @@ class Field extends Configurable
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'facet':
                     $this->setFacets($value);
@@ -119,7 +119,7 @@ class Field extends Configurable
             $facets = array_map('trim', $facets);
         }
 
-        foreach ($facets AS $facet) {
+        foreach ($facets as $facet) {
             $this->addFacet($facet);
         }
 

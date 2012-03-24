@@ -63,11 +63,11 @@ class MoreLikeThis
             $documentClass = $query->getOption('documentclass');
 
             $searchResults = $data['moreLikeThis'];
-            foreach ($searchResults AS $key => $result) {
+            foreach ($searchResults as $key => $result) {
 
                 // create document instances
                 $docs = array();
-                foreach ($result['docs'] AS $fields) {
+                foreach ($result['docs'] as $fields) {
                     $docs[] = new $documentClass($fields);
                 }
 

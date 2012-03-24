@@ -75,7 +75,7 @@ class FacetSet extends RequestBuilder
             $request->addParam('facet.mincount', $component->getMinCount());
             $request->addParam('facet.limit', $component->getLimit());
 
-            foreach ($facets AS $facet) {
+            foreach ($facets as $facet) {
                 switch ($facet->getType())
                 {
                     case FacetsetComponent::FACET_FIELD:
@@ -154,7 +154,7 @@ class FacetSet extends RequestBuilder
      */
     public function addFacetMultiQuery($request, $facet)
     {
-        foreach ($facet->getQueries() AS $facetQuery) {
+        foreach ($facet->getQueries() as $facetQuery) {
             $this->addFacetQuery($request, $facetQuery);
         }
     }
@@ -185,14 +185,14 @@ class FacetSet extends RequestBuilder
 
         if ($facet->getInclude() !== null) {
             $other = explode(',', $facet->getOther());
-            foreach ($other AS $otherValue) {
+            foreach ($other as $otherValue) {
                 $request->addParam("f.$field.facet.range.other", trim($otherValue));
             }
         }
 
         if ($facet->getInclude() !== null) {
             $include = explode(',', $facet->getInclude());
-            foreach ($include AS $includeValue) {
+            foreach ($include as $includeValue) {
                 $request->addParam("f.$field.facet.range.include", trim($includeValue));
             }
         }

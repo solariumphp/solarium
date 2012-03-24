@@ -145,7 +145,7 @@ class Loadbalancer extends Plugin
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'endpoint':
                     $this->setEndpoints($value);
@@ -208,7 +208,7 @@ class Loadbalancer extends Plugin
      */
     public function addEndpoint($endpoint, $weight = 1)
     {
-        if(!is_string($endpoint)) {
+        if (!is_string($endpoint)) {
             $endpoint = $endpoint->getKey();
         }
 
@@ -232,7 +232,7 @@ class Loadbalancer extends Plugin
      */
     public function addEndpoints(array $endpoints)
     {
-        foreach ($endpoints AS $endpoint => $weight) {
+        foreach ($endpoints as $endpoint => $weight) {
             $this->addEndpoint($endpoint, $weight);
         }
 
@@ -267,7 +267,7 @@ class Loadbalancer extends Plugin
      */
     public function removeEndpoint($endpoint)
     {
-        if(!is_string($endpoint)) {
+        if (!is_string($endpoint)) {
             $endpoint = $endpoint->getKey();
         }
 
@@ -305,7 +305,7 @@ class Loadbalancer extends Plugin
      */
     public function setForcedEndpointForNextQuery($endpoint)
     {
-        if(!is_string($endpoint)) {
+        if (!is_string($endpoint)) {
             $endpoint = $endpoint->getKey();
         }
 
@@ -377,7 +377,7 @@ class Loadbalancer extends Plugin
      */
     public function addBlockedQueryTypes($types)
     {
-        foreach ($types AS $type) {
+        foreach ($types as $type) {
             $this->addBlockedQueryType($type);
         }
     }
@@ -472,7 +472,7 @@ class Loadbalancer extends Plugin
                 $endpoint = $this->getRandomEndpoint();
                 try {
                     return $adapter->execute($request, $endpoint);
-                } catch(HttpException $e) {
+                } catch (HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
                     $this->client->triggerEvent('LoadbalancerEndpointFail', array($endpoint->getOptions(), $e));

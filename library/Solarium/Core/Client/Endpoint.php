@@ -69,7 +69,7 @@ class Endpoint extends Configurable
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'path':
                     $this->setPath($value);

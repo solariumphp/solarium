@@ -42,7 +42,6 @@ use Solarium\Query\Update\Query\Query as UpdateQuery;
 /**
  * Update query add command
  *
- * For details about the Solr options see:
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#add.2BAC8-update
  */
 class Add extends Command

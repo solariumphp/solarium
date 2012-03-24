@@ -138,7 +138,7 @@ class Response
 
         // get the status header
         $statusHeader = null;
-        foreach ($headers AS $header) {
+        foreach ($headers as $header) {
             if (substr($header, 0, 4) == 'HTTP') {
                 $statusHeader = $header;
                 break;

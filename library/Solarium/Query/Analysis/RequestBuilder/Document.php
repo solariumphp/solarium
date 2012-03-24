@@ -72,12 +72,12 @@ class Document extends BaseRequestBuilder
     {
         $xml = '<docs>';
 
-        foreach ($query->getDocuments() AS $doc) {
+        foreach ($query->getDocuments() as $doc) {
             $xml .= '<doc>';
 
-            foreach ($doc->getFields() AS $name => $value) {
+            foreach ($doc->getFields() as $name => $value) {
                 if (is_array($value)) {
-                    foreach ($value AS $multival) {
+                    foreach ($value as $multival) {
                         $xml .= $this->buildFieldXml($name, $multival);
                     }
                 } else {

@@ -76,7 +76,7 @@ class WeightedRandomChoice
     public function __construct($choices)
     {
         $i = 0;
-        foreach ($choices AS $key => $weight) {
+        foreach ($choices as $key => $weight) {
             if ($weight <=0) {
                 throw new Exception('Weight must be greater than zero');
             }

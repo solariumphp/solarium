@@ -65,7 +65,7 @@ class CustomizeRequest extends Plugin
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'customization':
                     $this->addCustomizations($value);
@@ -146,7 +146,7 @@ class CustomizeRequest extends Plugin
      */
     public function addCustomizations(array $customizations)
     {
-        foreach ($customizations AS $key => $customization) {
+        foreach ($customizations as $key => $customization) {
 
             // in case of a config array: add key to config
             if (is_array($customization) && !isset($customization['key'])) {

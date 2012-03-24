@@ -41,7 +41,8 @@ namespace Solarium\Query\Select\Result\Debug;
 /**
  * Select component debug document result
  */
-class Document extends Detail implements \IteratorAggregate, \Countable{
+class Document extends Detail implements \IteratorAggregate, \Countable
+{
 
     /**
      * Key

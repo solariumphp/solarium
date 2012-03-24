@@ -55,7 +55,7 @@ use Solarium\Core\Query\Result\QueryType as BaseResult;
  * $result->getFacet('category');
  *
  * // iterate over fetched docs
- * foreach ($result AS $doc) {
+ * foreach ($result as $doc) {
  *    ....
  * }
  * </code>

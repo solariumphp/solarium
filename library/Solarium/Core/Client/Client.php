@@ -192,7 +192,7 @@ class Client extends Configurable
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'endpoint':
                     $this->addEndpoints($value);
@@ -281,7 +281,7 @@ class Client extends Configurable
      */
     public function addEndpoints(array $endpoints)
     {
-        foreach ($endpoints AS $key => $endpoint) {
+        foreach ($endpoints as $key => $endpoint) {
 
             // in case of a config array: add key to config
             if (is_array($endpoint) && !isset($endpoint['key'])) {
@@ -415,13 +415,13 @@ class Client extends Configurable
         if (is_string($adapter)) {
             $this->adapter = null;
             return $this->setOption('adapter', $adapter);
-        } else if($adapter instanceof AdapterInterface){
+        } else if($adapter instanceof AdapterInterface) {
             // forward options
             $adapter->setOptions($this->options);
             // overwrite existing adapter
             $this->adapter = $adapter;
             return $this;
-        }else{
+        } else {
             throw new Exception('Invalid adapter input for setAdapter');
         }
     }
@@ -445,7 +445,7 @@ class Client extends Configurable
         $adapter = new $adapterClass;
 
         // check interface
-        if(!($adapter instanceof AdapterInterface)) {
+        if (!($adapter instanceof AdapterInterface)) {
             throw new Exception('An adapter must implement the AdapterInterface');
         }
 
@@ -666,7 +666,7 @@ class Client extends Configurable
      */
     protected function callPlugins($event, $params, $resultOverride = false)
     {
-        foreach ($this->pluginInstances AS $plugin) {
+        foreach ($this->pluginInstances as $plugin) {
             if (method_exists($plugin, $event)) {
                 $result = call_user_func_array(array($plugin, $event), $params);
 
@@ -686,7 +686,7 @@ class Client extends Configurable
     public function createRequest(QueryInterface $query)
     {
         $pluginResult = $this->callPlugins('preCreateRequest', array($query), true);
-        if($pluginResult !== null) {
+        if ($pluginResult !== null) {
             return $pluginResult;
         }
 
@@ -934,7 +934,7 @@ class Client extends Configurable
         $type = strtolower($type);
 
         $pluginResult = $this->callPlugins('preCreateQuery', array($type, $options), true);
-        if($pluginResult !== null) {
+        if ($pluginResult !== null) {
             return $pluginResult;
         }
 

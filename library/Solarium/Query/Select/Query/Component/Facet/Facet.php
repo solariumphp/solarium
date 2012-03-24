@@ -69,7 +69,7 @@ abstract class Facet extends Configurable
      */
     protected function init()
     {
-        foreach ($this->options AS $name => $value) {
+        foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'key':
                     $this->setKey($value);
@@ -126,7 +126,7 @@ abstract class Facet extends Configurable
      */
     public function addExcludes(array $excludes)
     {
-        foreach ($excludes AS $exclude) {
+        foreach ($excludes as $exclude) {
             $this->addExclude($exclude);
         }
 

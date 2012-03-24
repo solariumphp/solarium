@@ -42,7 +42,6 @@ use Solarium\Query\Update\Query\Query as UpdateQuery;
 /**
  * Update query rollback command
  *
- * For details see:
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22rollback.22
  */
 class Rollback extends Command
