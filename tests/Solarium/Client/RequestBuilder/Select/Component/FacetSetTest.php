@@ -111,6 +111,31 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSetTest extends PHPUn
         );
     }
 
+    public function testBuildWithRangeFacetExcludingOptionalParams()
+    {
+        $this->_component->addFacet(new Solarium_Query_Select_Component_Facet_Range(
+            array(
+                'key' => 'f1',
+                'field' => 'price',
+                'start' => '1',
+                'end' => 100,
+                'gap' => 10,
+            )
+        ));
+
+        $request = $this->_builder->buildComponent($this->_component, $this->_request);
+
+        $this->assertEquals(
+            null,
+            $request->getRawData()
+        );
+
+        $this->assertEquals(
+            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithFacetsAndGlobalFacetSettings()
     {
         $this->_component->setMissing(true);
