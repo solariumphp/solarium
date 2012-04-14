@@ -407,7 +407,7 @@ class Client extends Configurable
      * If an adapter instance is passed it will replace the current adapter
      * immediately, bypassing the lazy loading.
      *
-     * @param string|AdapterInterface $adapter
+     * @param string|Adapter\AdapterInterface $adapter
      * @return self Provides fluent interface
      */
     public function setAdapter($adapter)
@@ -415,7 +415,7 @@ class Client extends Configurable
         if (is_string($adapter)) {
             $this->adapter = null;
             return $this->setOption('adapter', $adapter);
-        } else if($adapter instanceof AdapterInterface) {
+        } else if ($adapter instanceof AdapterInterface) {
             // forward options
             $adapter->setOptions($this->options);
             // overwrite existing adapter
@@ -460,7 +460,7 @@ class Client extends Configurable
      * calling {@see createAdapter()}
      *
      * @param boolean $autoload
-     * @return Adapter\Adapter
+     * @return Adapter\AdapterInterface
      */
     public function getAdapter($autoload = true)
     {
@@ -529,7 +529,7 @@ class Client extends Configurable
      * or a manual require.
      *
      * @param string $key
-     * @param string|Plugin $plugin
+     * @param string|\Solarium\Core\Plugin $plugin
      * @param array $options
      * @return self Provides fluent interface
      */
@@ -590,7 +590,7 @@ class Client extends Configurable
      *
      * @param string $key
      * @param boolean $autocreate
-     * @return Plugin|null
+     * @return \Solarium\Core\Plugin|null
      */
     public function getPlugin($key, $autocreate = true)
     {
@@ -613,7 +613,7 @@ class Client extends Configurable
      *
      * You can remove a plugin by passing the plugin key, or the plugin instance
      *
-     * @param string|Plugin $plugin
+     * @param string|\Solarium\Core\Plugin $plugin
      * @return self Provides fluent interface
      */
     public function removePlugin($plugin)
@@ -792,9 +792,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Ping\Query $query
+     * @param \Solarium\Query\Ping\Query $query
      * @param Endpoint|string|null
-     * @return Solarium\Query\Ping\Result
+     * @return \Solarium\Query\Ping\Result
      */
     public function ping(QueryInterface $query, $endpoint = null)
     {
@@ -818,9 +818,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Update\Query $query
+     * @param \Solarium\Query\Update\Query\Query $query
      * @param Endpoint|string|null
-     * @return Solarium\Query\Update\Result
+     * @return \Solarium\Query\Update\Result
      */
     public function update(QueryInterface $query, $endpoint = null)
     {
@@ -843,9 +843,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Query\Select\Query $query
+     * @param \Solarium\Query\Select\Query\Query $query
      * @param Endpoint|string|null
-     * @return Solarium\Query\Result\Select\Result
+     * @return \Solarium\Query\Select\Result\Result
      */
     public function select(QueryInterface $query, $endpoint = null)
     {
@@ -868,9 +868,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\MoreLikeThis\Query $query
+     * @param \Solarium\Query\MoreLikeThis\Query $query
      * @param Endpoint
-     * @return Solarium\Query\MoreLikeThis\Result
+     * @return \Solarium\Query\MoreLikeThis\Result
      */
     public function moreLikeThis(QueryInterface $query, $endpoint = null)
     {
@@ -883,9 +883,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Analysis\Query\Document|Solarium\Query\Analysis\Query\Field $query
+     * @param \Solarium\Query\Analysis\Query\Document|\Solarium\Query\Analysis\Query\Field $query
      * @param Endpoint
-     * @return Solarium\Query\Analysis\Result\Document|Solarium\Query\Analysis\Result\Field
+     * @return \Solarium\Query\Analysis\Result\Document|\Solarium\Query\Analysis\Result\Field
      */
     public function analyze(QueryInterface $query, $endpoint = null)
     {
@@ -898,9 +898,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Terms\Query $query
+     * @param \Solarium\Query\Terms\Query $query
      * @param Endpoint|string|null
-     * @return Solarium\Query\Terms\Result
+     * @return \Solarium\Query\Terms\Result
      */
     public function terms(QueryInterface $query, $endpoint = null)
     {
@@ -913,9 +913,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param Solarium\Query\Suggester\Query $query
+     * @param \Solarium\Query\Suggester\Query $query
      * @param Endpoint|string|null
-     * @return Solarium\Query\Suggester\Result
+     * @return \Solarium\Query\Suggester\Result\Result
      */
     public function suggester(QueryInterface $query, $endpoint = null)
     {
@@ -927,7 +927,7 @@ class Client extends Configurable
      *
      * @param string $type
      * @param array $options
-     * @return Solarium\Query
+     * @return \Solarium\Core\Query\Query
      */
     public function createQuery($type, $options = null)
     {
@@ -958,7 +958,7 @@ class Client extends Configurable
      * Create a select query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Select\Query\Query
+     * @return \Solarium\Query\Select\Query\Query
      */
     public function createSelect($options = null)
     {
@@ -969,7 +969,7 @@ class Client extends Configurable
      * Create a MoreLikeThis query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\MorelikeThis\Query
+     * @return \Solarium\Query\MorelikeThis\Query
      */
     public function createMoreLikeThis($options = null)
     {
@@ -980,7 +980,7 @@ class Client extends Configurable
      * Create an update query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Update\Query
+     * @return \Solarium\Query\Update\Query\Query
      */
     public function createUpdate($options = null)
     {
@@ -991,7 +991,7 @@ class Client extends Configurable
      * Create a ping query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Ping\Query
+     * @return \Solarium\Query\Ping\Query
      */
     public function createPing($options = null)
     {
@@ -1002,7 +1002,7 @@ class Client extends Configurable
      * Create an analysis field query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Analysis\Query\Field
+     * @return \Solarium\Query\Analysis\Query\Field
      */
     public function createAnalysisField($options = null)
     {
@@ -1013,7 +1013,7 @@ class Client extends Configurable
      * Create an analysis document query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Analysis\Query\Document
+     * @return \Solarium\Query\Analysis\Query\Document
      */
     public function createAnalysisDocument($options = null)
     {
@@ -1024,7 +1024,7 @@ class Client extends Configurable
      * Create a terms query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Terms\Query
+     * @return \Solarium\Query\Terms\Query
      */
     public function createTerms($options = null)
     {
@@ -1035,7 +1035,7 @@ class Client extends Configurable
      * Create a suggester query instance
      *
      * @param mixed $options
-     * @return Solarium\Query\Suggester\Query
+     * @return \Solarium\Query\Suggester\Query
      */
     public function createSuggester($options = null)
     {

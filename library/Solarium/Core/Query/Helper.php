@@ -314,7 +314,7 @@ class Helper
         }
 
         $output = '{!'.$name;
-        foreach ($params as $key=>$value) {
+        foreach ($params as $key => $value) {
             $output .= ' ' . $key . '=' . $value;
         }
         $output .= '}';
