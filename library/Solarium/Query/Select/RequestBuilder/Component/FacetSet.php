@@ -183,16 +183,16 @@ class FacetSet extends RequestBuilder
         $request->addParam("f.$field.facet.range.gap", $facet->getGap());
         $request->addParam("f.$field.facet.range.hardend", $facet->getHardend());
 
-        if ($facet->getInclude() !== null) {
+        if (null !== $facet->getOther()) {
             $other = explode(',', $facet->getOther());
-            foreach ($other as $otherValue) {
+            foreach ($other AS $otherValue) {
                 $request->addParam("f.$field.facet.range.other", trim($otherValue));
             }
         }
 
-        if ($facet->getInclude() !== null) {
+        if (null !== $facet->getOther()) {
             $include = explode(',', $facet->getInclude());
-            foreach ($include as $includeValue) {
+            foreach ($include AS $includeValue) {
                 $request->addParam("f.$field.facet.range.include", trim($includeValue));
             }
         }

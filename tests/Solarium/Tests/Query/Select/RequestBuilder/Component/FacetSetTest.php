@@ -121,7 +121,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testBuildWithRangeFacetNoIncludeNoOther()
+    public function testBuildWithRangeFacetExcludingOptionalParams()
     {
         $this->component->addFacet(new FacetRange(
             array(
