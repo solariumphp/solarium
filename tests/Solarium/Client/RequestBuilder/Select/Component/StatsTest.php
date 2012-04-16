@@ -32,7 +32,7 @@
 class Solarium_Client_RequestBuilder_Select_Component_StatsTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testBuildComponent()
     {
         $builder = new Solarium_Client_RequestBuilder_Select_Component_Stats();
         $request = new Solarium_Client_Request();
@@ -42,7 +42,7 @@ class Solarium_Client_RequestBuilder_Select_Component_StatsTest extends PHPUnit_
         $component->createField('fieldB');
         $component->addFacets(array('facetA', 'facetB'));
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(

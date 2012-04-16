@@ -62,6 +62,31 @@ class Solarium_Query_Helper
     protected $_assembleParts;
 
     /**
+     * Counter to keep dereferenced params unique (within a single query instance)
+     *
+     * @var int
+     */
+    protected $_derefencedParamsLastKey = 0;
+
+    /**
+     * Solarium_Query instance, optional.
+     * Used for dereferenced params.
+     *
+     * @var Solarium_Query
+     */
+    protected $_query;
+
+    /**
+     * Constructor
+     *
+     * @param Solarium_Query $query
+     */
+    public function __construct($query = null)
+    {
+        $this->_query = $query;
+    }
+
+    /**
      * Escape a term
      *
      * A term is a single word.
@@ -103,6 +128,68 @@ class Solarium_Query_Helper
     }
 
     /**
+     * Format a date to the expected formatting used in SOLR
+     *
+     * This format was derived to be standards compliant (ISO 8601)
+     * A date field shall be of the form 1995-12-31T23:59:59Z The trailing "Z" designates UTC time and is mandatory
+     *
+     * @see http://lucene.apache.org/solr/api/org/apache/solr/schema/DateField.html
+     *
+     * @param int|string|DateTime $input accepted formats: timestamp, date string or DateTime
+     * @return string|false false is returned in case of invalid input
+     */
+    public function formatDate($input)
+    {
+        switch(true){
+
+
+            // input of datetime object
+            case $input instanceof DateTime:
+                // no work needed
+                break;
+
+
+            // input of timestamp or date/time string
+            case is_string($input) || is_numeric($input):
+
+                // if date/time string: convert to timestamp first
+                if (is_string($input)) $input = strtotime($input);
+
+                // now try converting the timestamp to a datetime instance, on failure return false
+                try {
+                    $input = new DateTime('@' . $input);
+                } catch (Exception $e) {
+                    $input = false;
+                }
+                break;
+
+
+            // any other input formats can be added in additional cases here...
+            // case $input instanceof Zend_Date:
+
+
+            // unsupported input format
+            default:
+                $input = false;
+                break;
+        }
+
+
+        // handle the filtered input
+        if ($input) {
+            // when we get here the input is always a datetime object
+            $input->setTimezone(new DateTimeZone('UTC'));
+            $iso8601 = $input->format(DateTime::ISO8601);
+            $iso8601 = strstr($iso8601, '+', true); //strip timezone
+            $iso8601 .= 'Z';
+            return $iso8601;
+        } else {
+            // unsupported input
+            return false;
+        }
+    }
+
+    /**
      * Render a range query
      *
      * From and to can be any type of data. For instance int, string or point.
@@ -110,7 +197,6 @@ class Solarium_Query_Helper
      * Example: rangeQuery('store', '45,-94', '46,-93')
      * Returns: store:[45,-94 TO 46,-93]
      *
-     * @static
      * @param string $field
      * @param string $from
      * @param string $to
@@ -131,7 +217,6 @@ class Solarium_Query_Helper
      *
      * Find all entries within the distance of a certain point.
      *
-     * @static
      * @param  $pointX
      * @param  $pointY
      * @param  $field
@@ -158,7 +243,6 @@ class Solarium_Query_Helper
      * guaranteed to encompass all of the points of interest, but it may also
      * include other points that are slightly outside of the required distance.
      *
-     * @static
      * @param string $pointX
      * @param string $pointY
      * @param string $field
@@ -186,7 +270,6 @@ class Solarium_Query_Helper
      * or combining the distance with the relevancy score,
      * such as boosting by the inverse of the distance.
      *
-     * @static
      * @param  $pointX
      * @param  $pointY
      * @param  $field
@@ -203,26 +286,42 @@ class Solarium_Query_Helper
     /**
      * Render a qparser plugin call
      *
-     * @static
      * @param string $name
      * @param array $params
+     * @param boolean $dereferenced
      * @return string
      */
-    public function qparser($name, $params = array())
+    public function qparser($name, $params = array(), $dereferenced = false)
     {
+        if ($dereferenced) {
+
+            if (!$this->_query) {
+                throw new Solarium_Exception(
+                    'Dereferenced params can only be used in a Solarium_Query_Helper instance retrieved from the query '
+                    . 'by using the getHelper() method, this instance was manually created'
+                );
+            }
+
+            foreach ($params as $paramKey => $paramValue) {
+                $this->_derefencedParamsLastKey++;
+                $derefKey = 'deref_' . $this->_derefencedParamsLastKey;
+                $this->_query->addParam($derefKey, $paramValue);
+                $params[$paramKey] = '$'.$derefKey;
+            }
+        }
+
         $output = '{!'.$name;
-        foreach ($params AS $key=>$value) {
+        foreach ($params as $key=>$value) {
             $output .= ' ' . $key . '=' . $value;
         }
         $output .= '}';
-        
+
         return $output;
     }
 
     /**
      * Render a functionCall
      *
-     * @static
      * @param string $name
      * @param array $params
      * @return string
@@ -250,7 +349,7 @@ class Solarium_Query_Helper
      * value of $this->_placeHolderPattern
      *
      * @since 2.1.0
-     * 
+     *
      * @param string $query
      * @param array $parts Array of strings
      * @return string
@@ -258,7 +357,7 @@ class Solarium_Query_Helper
     public function assemble($query, $parts)
     {
         $this->_assembleParts = $parts;
-        
+
         return preg_replace_callback(
             $this->_placeHolderPattern,
             array($this, '_renderPlaceHolder'),
@@ -295,6 +394,22 @@ class Solarium_Query_Helper
         }
 
         return $value;
+    }
+
+    /**
+     * Render join localparams syntax
+     *
+     * @see http://wiki.apache.org/solr/Join
+     * @since 2.4.0
+     *
+     * @param string $from
+     * @param string $to
+     * @param boolean $dereferenced
+     * @return string
+     */
+    public function join($from, $to, $dereferenced = false)
+    {
+        return $this->qparser('join', array('from' => $from, 'to' => $to), $dereferenced);
     }
 
 }

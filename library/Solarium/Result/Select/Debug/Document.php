@@ -47,11 +47,15 @@ class Solarium_Result_Select_Debug_Document extends Solarium_Result_Select_Debug
 {
 
     /**
+     * Key
+     *
      * @var string
      */
     protected $_key;
 
     /**
+     * Details
+     *
      * @var array
      */
     protected $_details;
@@ -63,6 +67,7 @@ class Solarium_Result_Select_Debug_Document extends Solarium_Result_Select_Debug
      * @param boolean $match
      * @param float $value
      * @param string $description
+     * @param array $details
      */
     public function __construct($key, $match, $value, $description, $details)
     {

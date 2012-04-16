@@ -32,7 +32,7 @@
 class Solarium_Client_RequestBuilder_Select_Component_DistributedSearchTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testBuildComponent()
     {
         $builder = new Solarium_Client_RequestBuilder_Select_Component_DistributedSearch;
         $request = new Solarium_Client_Request();
@@ -45,7 +45,7 @@ class Solarium_Client_RequestBuilder_Select_Component_DistributedSearchTest exte
         ));
         $component->setShardRequestHandler('dummy');
 
-        $request = $builder->build($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(

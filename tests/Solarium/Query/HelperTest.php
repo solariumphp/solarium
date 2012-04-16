@@ -31,11 +31,20 @@
 
 class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Solarium_Query_Helper
+     */
     protected $_helper;
+
+    /**
+     * @var Solarium_Query_Select
+     */
+    protected $_query;
 
     public function setUp()
     {
-        $this->_helper = new Solarium_Query_Helper;
+        $this->_query = new Solarium_Query_Select;
+        $this->_helper = new Solarium_Query_Helper($this->_query);
     }
 
     public function testRangeQueryInclusive()
@@ -104,6 +113,38 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testQparserDereferencedNoQuery()
+    {
+        $helper = new Solarium_Query_Helper();
+        $this->setExpectedException('Solarium_Exception');
+        $helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true);
+    }
+
+    public function testQparserDereferenced()
+    {
+        $this->assertEquals(
+            '{!join from=$deref_1 to=$deref_2}',
+            $this->_helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true)
+        );
+
+        $this->assertEquals(
+            array('deref_1' => 'manu_id', 'deref_2' => 'id'),
+            $this->_query->getParams()
+        );
+
+        // second call, params should have updated counts
+        $this->assertEquals(
+            '{!join from=$deref_3 to=$deref_4}',
+            $this->_helper->qparser('join', array('from' => 'cat_id', 'to' => 'prod_id'), true)
+        );
+
+        // previous params should also still be there
+        $this->assertEquals(
+            array('deref_1' => 'manu_id', 'deref_2' => 'id', 'deref_3' => 'cat_id', 'deref_4' => 'prod_id'),
+            $this->_query->getParams()
+        );
+    }
+
     public function testFunctionCallNoParams()
     {
         $this->assertEquals(
@@ -152,6 +193,83 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testFormatDateInputTimestamp()
+    {
+        $this->assertFalse(
+            $this->_helper->formatDate(strtotime('2011---')),
+            'Expects invalid strtotime/timestamp input (false) not to be accepted'
+        );
+
+        //allow negative dates.
+        $this->assertNotEquals(
+            false,
+            $this->_helper->formatDate(strtotime('2011-10-01')),
+            'Expects negative timestamp input to be accepted'
+        );
+
+        //@todo find out if we need to any test for php versions / platforms which do not support negative timestamp
+
+        $this->assertFalse(
+            $this->_helper->formatDate(strtotime('2010-31-02')),
+            'Expects invalid timestamp input (not in calendar) not to be accepted'
+        );
+
+        $this->assertEquals(
+            $this->_mockFormatDateOutput(strtotime('2011-10-01')),
+            $this->_helper->formatDate(strtotime('2011-10-01')),
+            'Expects formatDate with Timstamp input to output ISO8601 with stripped timezone'
+        );
+    }
+
+    public function testFormatDateInputString()
+    {
+        $this->assertFalse(
+            $this->_helper->formatDate('2011-13-31'),
+            'Expects an invalid date string input not to be accepted'
+        );
+
+        $this->assertEquals(
+            $this->_mockFormatDateOutput(strtotime('2011-10-01')),
+            $this->_helper->formatDate('2011-10-01'),
+            'Expects formatDate with String input to output ISO8601 with stripped timezone'
+        );
+    }
+
+    public function testFormatDateInputDateTime()
+    {
+        date_default_timezone_set("UTC"); // prevent timezone differences
+
+        $this->assertFalse(
+            $this->_helper->formatDate(new stdClass()),
+            'Expect any other object not to be accepted'
+        );
+
+        $this->assertEquals(
+            $this->_mockFormatDateOutput(strtotime('2011-10-01')),
+            $this->_helper->formatDate(new DateTime('2011-10-01')),
+            'Expects formatDate with DateTime input to output ISO8601 with stripped timezone'
+        );
+    }
+
+    public function testFormatDate()
+    {
+        //check if timezone is stripped
+        $expected = strtoupper('Z');
+        $actual = substr($this->_helper->formatDate(time()), 19, 20);
+        $this->assertEquals($expected, $actual, 'Expects last charachter to be uppercased Z');
+
+        $this->assertEquals(
+            $this->_mockFormatDateOutput(time()),
+            $this->_helper->formatDate(time())
+        );
+    }
+
+    protected function _mockFormatDateOutput($timestamp)
+    {
+        $date = new DateTime('@'.$timestamp);
+        return strstr($date->format(DateTime::ISO8601), '+', true) . 'Z';
+    }
+
     public function testAssemble()
     {
         // test single basic placeholder
@@ -195,6 +313,27 @@ class Solarium_Query_HelperTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Solarium_Exception');
         $this->_helper->assemble('cat:%1% AND content:%2%',array('value1'));
+    }
+
+    public function testJoin()
+    {
+        $this->assertEquals(
+            '{!join from=manu_id to=id}',
+            $this->_helper->join('manu_id', 'id')
+        );
+    }
+
+    public function testJoinDereferenced()
+    {
+        $this->assertEquals(
+            '{!join from=$deref_1 to=$deref_2}',
+            $this->_helper->join('manu_id', 'id', true)
+        );
+
+        $this->assertEquals(
+            array('deref_1' => 'manu_id', 'deref_2' => 'id'),
+            $this->_query->getParams()
+        );
     }
 
 }

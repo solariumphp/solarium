@@ -70,7 +70,7 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     /**
      * Plugin init function
      *
-     * This is an extension point for plugin implemenations.
+     * This is an extension point for plugin implementations.
      * Will be called as soon as $this->_client and options have been set.
      *
      * @return void
@@ -157,7 +157,7 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
 
     /**
      * postExecute hook
-     * 
+     *
      * @param Solarium_Query $query
      * @param Solarium_Result $result
      * @return void
@@ -165,7 +165,7 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
     public function postExecute($query, $result)
     {
     }
-    
+
     /**
      * preCreateQuery hook
      *
@@ -179,7 +179,7 @@ abstract class Solarium_Plugin_Abstract extends Solarium_Configurable
 
     /**
      * postCreateQuery hook
-     * 
+     *
      * @param string $type
      * @param mixed $options
      * @param Solarium_Query

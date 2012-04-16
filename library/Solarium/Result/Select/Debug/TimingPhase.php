@@ -47,11 +47,15 @@ class Solarium_Result_Select_Debug_TimingPhase
 {
 
     /**
+     * Phase name
+     *
      * @var string
      */
     protected $_name;
 
     /**
+     * Phase time
+     *
      * @var float
      */
     protected $_time;

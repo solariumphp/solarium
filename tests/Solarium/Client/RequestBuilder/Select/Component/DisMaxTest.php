@@ -32,7 +32,7 @@
 class Solarium_Client_RequestBuilder_Select_Component_DisMaxTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testBuildComponent()
     {
         $builder = new Solarium_Client_RequestBuilder_Select_Component_DisMax;
         $request = new Solarium_Client_Request();
@@ -48,9 +48,9 @@ class Solarium_Client_RequestBuilder_Select_Component_DisMaxTest extends PHPUnit
         $component->setTie(0.5);
         $component->setBoostQuery('cat:1');
         $component->setBoostFunctions('functionX(price)');
-        
-        $request = $builder->build($component, $request);
-            
+
+        $request = $builder->buildComponent($component, $request);
+
         $this->assertEquals(
             array(
                 'defType' => 'dummyparser',

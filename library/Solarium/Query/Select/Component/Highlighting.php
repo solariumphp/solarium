@@ -628,4 +628,48 @@ class Solarium_Query_Select_Component_Highlighting extends Solarium_Query_Select
         return $this->getOption('regexmaxanalyzedchars');
     }
 
+    /**
+     * Set highlight query option
+     *
+     * Overrides the q parameter for highlighting
+     *
+     * @param string $query
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     */
+    public function setQuery($query)
+    {
+        return $this->_setOption('query', $query);
+    }
+
+    /**
+     * Get query option
+     *
+     * @return string|null
+     */
+    public function getQuery()
+    {
+        return $this->getOption('query');
+    }
+
+    /**
+     * Set phraselimit option
+     *
+     * @param int $maximum
+     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     */
+    public function setPhraseLimit($maximum)
+    {
+        return $this->_setOption('phraselimit', $maximum);
+    }
+
+    /**
+     * Get phraselimit option
+     *
+     * @return int|null
+     */
+    public function getPhraseLimit()
+    {
+        return $this->getOption('phraselimit');
+    }
+
 }

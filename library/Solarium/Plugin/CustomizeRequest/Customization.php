@@ -45,9 +45,13 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
 {
 
     /**
-     * Type definitions
+     * Type definition for params
      */
     const TYPE_PARAM = 'param';
+
+    /**
+     * Type definition for headers
+     */
     const TYPE_HEADER = 'header';
 
     /**

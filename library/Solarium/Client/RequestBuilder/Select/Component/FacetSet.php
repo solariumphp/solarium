@@ -44,7 +44,7 @@
  */
 class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_Client_RequestBuilder
 {
-    
+
     /**
      * Add request settings for FacetSet
      *
@@ -52,7 +52,7 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
      * @param Solarium_Client_Request $request
      * @return Solarium_Client_Request
      */
-    public function build($component, $request)
+    public function buildComponent($component, $request)
     {
         $facets = $component->getFacets();
         if (count($facets) !== 0) {
@@ -175,14 +175,18 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
         $request->addParam("f.$field.facet.range.gap", $facet->getGap());
         $request->addParam("f.$field.facet.range.hardend", $facet->getHardend());
 
-        $other = explode(',', $facet->getOther());
-        foreach ($other AS $otherValue) {
-            $request->addParam("f.$field.facet.range.other", trim($otherValue));
+        if (null !== $facet->getOther()) {
+            $other = explode(',', $facet->getOther());
+            foreach ($other AS $otherValue) {
+                $request->addParam("f.$field.facet.range.other", trim($otherValue));
+            }
         }
 
-        $include = explode(',', $facet->getInclude());
-        foreach ($include AS $includeValue) {
-            $request->addParam("f.$field.facet.range.include", trim($includeValue));
+        if (null !== $facet->getOther()) {
+            $include = explode(',', $facet->getInclude());
+            foreach ($include AS $includeValue) {
+                $request->addParam("f.$field.facet.range.include", trim($includeValue));
+            }
         }
     }
 }
