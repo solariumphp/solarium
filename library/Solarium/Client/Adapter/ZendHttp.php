@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2012 Alexander Brausewetter. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -29,6 +30,7 @@
  * policies, either expressed or implied, of the copyright holder.
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2012 Alexander Brausewetter <alex@helpdeskhq.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  *
@@ -151,15 +153,54 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
     public function execute($request)
     {
         $client = $this->getZendHttp();
+        $client->resetParameters();
 
-        $client->setMethod($request->getMethod());
+        switch ($request->getMethod()) {
+            case Solarium_Client_Request::METHOD_GET:
+                $client->setMethod(Zend_Http_Client::GET);
+                $client->setParameterGet($request->getQueryAsArray());
+                break;
+            case Solarium_Client_Request::METHOD_POST:
+                $client->setMethod(Zend_Http_Client::POST);
+
+                if ($request->getFileUpload()) {
+                    $this->_prepareFileUpload($client, $request);
+                } else {
+                    $client->setParameterGet($request->getQueryAsArray());
+                    $client->setRawData($request->getRawData());
+                    $request->addHeader('Content-Type: text/xml; charset=UTF-8');
+                }
+                break;
+            case Solarium_Client_Request::METHOD_HEAD:
+                $client->setMethod(Zend_Http_Client::HEAD);
+                $client->setParameterGet($request->getQueryAsArray());
+                break;
+            default:
+                throw new Solarium_Exception('Unsupported method: ' . $request->getMethod());
+                break;
+        }
+
         $client->setUri($this->getBaseUri() . $request->getUri());
         $client->setHeaders($request->getHeaders());
-        $client->setRawData($request->getRawData());
 
         $response = $client->request();
 
-        // throw an exception in case of a HTTP error
+        return $this->_prepareResponse(
+            $request,
+            $response
+        );
+    }
+
+    /**
+     * Prepare a solarium response from the given request and client 
+     * response
+     * 
+     * @param Solarium_Client_Request $request
+     * @param Zend_Http_Response $response
+     * @return Solarium_Client_Response
+     */
+    protected function _prepareResponse($request, $response)
+    {
         if ($response->isError()) {
             throw new Solarium_Client_HttpException(
                 $response->getMessage(),
@@ -179,4 +220,26 @@ class Solarium_Client_Adapter_ZendHttp extends Solarium_Client_Adapter
         return new Solarium_Client_Response($data, $headers);
     }
 
+    /**
+     * Prepare the client to send the file and params in request
+     * 
+     * @param Zend_Http_Client $client 
+     * @param Solarium_Client_Request $request 
+     * @return void
+     */
+    protected function _prepareFileUpload($client, $request)
+    {
+        $filename = $request->getFileUpload();
+
+        if (($content = @file_get_contents($filename)) === false) {
+            throw new Solarium_Exception("Unable to read file '{$filename}' for upload");
+        }
+
+        $client->setFileUpload('content', 'content', $content, 'application/octet-stream; charset=binary');
+
+        // set query params as "multipart/form-data" fields
+        foreach ($request->getQueryAsArray() as $name => $value) {
+            $client->setFileUpload(null, $name, $value, 'text/plain; charset=utf-8');
+        }
+    }
 }

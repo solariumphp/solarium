@@ -183,6 +183,16 @@ class Solarium_Document_ReadWrite extends Solarium_Document_ReadOnly
     }
 
     /**
+     * Get boost values for all fields
+     *
+     * @return array
+     */
+    public function getFieldBoosts()
+    {
+        return $this->_fieldBoosts;
+    }
+
+    /**
      * Set the document boost value
      *
      * @param float $boost
