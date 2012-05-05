@@ -68,6 +68,11 @@ class Solarium_Client extends Solarium_Configurable
     const QUERYTYPE_UPDATE = 'update';
 
     /**
+     * Querytype extract
+     */
+    const QUERYTYPE_EXTRACT = 'extract';
+
+    /**
      * Querytype ping
      */
     const QUERYTYPE_PING = 'ping';
@@ -120,6 +125,11 @@ class Solarium_Client extends Solarium_Configurable
         self::QUERYTYPE_UPDATE => array(
             'query'          => 'Solarium_Query_Update',
             'requestbuilder' => 'Solarium_Client_RequestBuilder_Update',
+            'responseparser' => 'Solarium_Client_ResponseParser_Update'
+        ),
+        self::QUERYTYPE_EXTRACT => array(
+            'query'          => 'Solarium_Query_Extract',
+            'requestbuilder' => 'Solarium_Client_RequestBuilder_Extract',
             'responseparser' => 'Solarium_Client_ResponseParser_Update'
         ),
         self::QUERYTYPE_PING => array(
@@ -774,6 +784,17 @@ class Solarium_Client extends Solarium_Configurable
     public function createUpdate($options = null)
     {
         return $this->createQuery(self::QUERYTYPE_UPDATE, $options);
+    }
+
+    /**
+     * Create an extract query instance
+     *
+     * @param mixed $options
+     * @return Solarium_Query_Extract
+     */
+    public function createExtract($options = null)
+    {
+        return $this->createQuery(self::QUERYTYPE_EXTRACT, $options);
     }
 
     /**
