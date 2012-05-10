@@ -48,6 +48,7 @@ class Solarium_Client_RequestBuilder_Select_Component_DisMaxTest extends PHPUnit
         $component->setTie(0.5);
         $component->setBoostQuery('cat:1');
         $component->setBoostFunctions('functionX(price)');
+        $component->setBoostFunctionsMult('functionY(price)');
 
         $request = $builder->buildComponent($component, $request);
 
@@ -63,6 +64,7 @@ class Solarium_Client_RequestBuilder_Select_Component_DisMaxTest extends PHPUnit
                 'tie' => 0.5,
                 'bq' => 'cat:1',
                 'bf' => 'functionX(price)',
+                'boost' => 'functionY(price)',
             ),
             $request->getParams()
         );

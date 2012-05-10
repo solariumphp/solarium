@@ -66,6 +66,7 @@ class Solarium_Client_RequestBuilder_Select_Component_DisMax
         $request->addParam('tie', $component->getTie());
         $request->addParam('bq', $component->getBoostQuery());
         $request->addParam('bf', $component->getBoostFunctions());
+        $request->addParam('boost', $component->getBoostFunctionsMult());
 
         return $request;
     }

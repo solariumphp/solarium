@@ -40,7 +40,7 @@
  * DisMax component
  *
  * @link http://wiki.apache.org/solr/DisMaxQParserPlugin
- * 
+ *
  * @package Solarium
  * @subpackage Query
  */
@@ -49,7 +49,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
 
     /**
      * Component type
-     * 
+     *
      * @var string
      */
     protected $_type = Solarium_Query_Select::COMPONENT_DISMAX;
@@ -286,6 +286,32 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
     }
 
     /**
+     * Set BoostFunctionsMult option
+     *
+     * Functions (with optional boosts) that will be included in the
+     * user's query to influence the score by multiplying get value.
+     *
+     * Format is: "funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2"
+     *
+     * @param string $boostFunctions
+     * @return Solarium_Query_Select_Component_DisMax Provides fluent interface
+     */
+    public function setBoostFunctionsMult($boostFunctionsMult)
+    {
+        return $this->_setOption('boostfunctionsmult', $boostFunctionsMult);
+    }
+
+    /**
+     * Get BoostFunctionsMult option
+     *
+     * @return string|null
+     */
+    public function getBoostFunctionsMult()
+    {
+        return $this->getOption('boostfunctionsmult');
+    }
+
+    /**
      * Set QueryParser option
      *
      * Can be used to enable edismax
@@ -304,7 +330,7 @@ class Solarium_Query_Select_Component_DisMax extends Solarium_Query_Select_Compo
      * Get QueryParser option
      *
      * @since 2.1.0
-     * 
+     *
      * @return string
      */
     public function getQueryParser()
