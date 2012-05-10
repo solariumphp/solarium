@@ -55,6 +55,7 @@ class Solarium_Query_Select_Component_DisMaxTest extends PHPUnit_Framework_TestC
             'tie' => 2.1,
             'boostquery' => 'cat:1^3',
             'boostfunctions' => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
+            'boostfunctionsmult' => 'funcC(arg5,arg6)^1.7 funcD(arg8,arg9)^8.5',
         );
 
         $this->_disMax->setOptions($options);
@@ -69,6 +70,7 @@ class Solarium_Query_Select_Component_DisMaxTest extends PHPUnit_Framework_TestC
         $this->assertEquals($options['tie'], $this->_disMax->getTie());
         $this->assertEquals($options['boostquery'], $this->_disMax->getBoostQuery());
         $this->assertEquals($options['boostfunctions'], $this->_disMax->getBoostFunctions());
+        $this->assertEquals($options['boostfunctionsmult'], $this->_disMax->getBoostFunctionsMult());
     }
 
     public function testGetType()
@@ -188,5 +190,16 @@ class Solarium_Query_Select_Component_DisMaxTest extends PHPUnit_Framework_TestC
             $this->_disMax->getBoostFunctions()
         );
     }
-    
+
+    public function testSetAndGetBoostFunctionsMult()
+    {
+        $value = 'funcC(arg5,arg6)^1.7 funcD(arg8,arg9)^8.5';
+        $this->_disMax->setBoostFunctionsMult($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_disMax->getBoostFunctionsMult()
+        );
+    }
+
 }
