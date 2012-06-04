@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Debug;
-use Solarium\Query\Select\Result\Debug\Detail;
+use Solarium\QueryType\Select\Result\Debug\Detail;
 
 class DetailTest extends \PHPUnit_Framework_TestCase
 {

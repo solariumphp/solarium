@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Select\RequestBuilder\Component;
-use Solarium\Query\Select\RequestBuilder\Component\EdisMax as RequestBuilder;
-use Solarium\Query\Select\Query\Component\EdisMax as Component;
+use Solarium\QueryType\Select\RequestBuilder\Component\EdisMax as RequestBuilder;
+use Solarium\QueryType\Select\Query\Component\EdisMax as Component;
 use Solarium\Core\Client\Request;
 
 class EdisMaxTest extends \PHPUnit_Framework_TestCase

@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\ResponseParser\Component;
-use Solarium\Query\Select\ResponseParser\Component\Spellcheck as Parser;
+use Solarium\QueryType\Select\ResponseParser\Component\Spellcheck as Parser;
 
 class SpellcheckTest extends \PHPUnit_Framework_TestCase
 {

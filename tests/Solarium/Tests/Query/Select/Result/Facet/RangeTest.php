@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Facet;
-use Solarium\Query\Select\Result\Facet\Range;
+use Solarium\QueryType\Select\Result\Facet\Range;
 
 class RangeTest extends \PHPUnit_Framework_TestCase
 {

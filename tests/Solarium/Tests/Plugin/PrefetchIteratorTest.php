@@ -30,9 +30,9 @@
  */
 
 namespace Solarium\Tests\Plugin;
-use Solarium\Query\Select\Result\Document;
-use Solarium\Query\Select\Query\Query;
-use Solarium\Query\Select\Result\Result;
+use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Result\Result;
 use Solarium\Core\Client\Client;
 use Solarium\Plugin\PrefetchIterator;
 

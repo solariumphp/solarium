@@ -30,15 +30,15 @@
  */
 
 namespace Solarium\Tests\Query\Update;
-use Solarium\Query\Update\Query\Query;
-use Solarium\Query\Update\RequestBuilder;
+use Solarium\QueryType\Update\Query\Query;
+use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\Core\Client\Request;
-use Solarium\Query\Update\Query\Command\Add as AddCommand;
-use Solarium\Query\Update\Query\Command\Delete as DeleteCommand;
-use Solarium\Query\Update\Query\Command\Optimize as OptimizeCommand;
-use Solarium\Query\Update\Query\Command\Commit as CommitCommand;
-use Solarium\Query\Update\Query\Command\Rollback as RollbackCommand;
-use Solarium\Query\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
+use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
+use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
+use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
+use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
+use Solarium\QueryType\Update\Query\Document;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {

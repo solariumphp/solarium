@@ -30,10 +30,10 @@
  */
 
 namespace Solarium\Tests\Query\Select\ResponseParser;
-use Solarium\Query\Select\Query\Query;
-use Solarium\Query\Select\Result\FacetSet;
-use Solarium\Query\Select\ResponseParser\ResponseParser;
-use Solarium\Query\Update\Query\Document;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Result\FacetSet;
+use Solarium\QueryType\Select\ResponseParser\ResponseParser;
+use Solarium\QueryType\Update\Query\Document;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -54,10 +54,10 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $query = new Query(array('documentclass' => 'Solarium\Query\Update\Query\Document'));
+        $query = new Query(array('documentclass' => 'Solarium\QueryType\Update\Query\Document'));
         $query->getFacetSet();
 
-        $resultStub = $this->getMock('Solarium\Query\Select\Result\Result', array(), array(), '', false);
+        $resultStub = $this->getMock('Solarium\QueryType\Select\Result\Result', array(), array(), '', false);
         $resultStub->expects($this->once())
              ->method('getData')
              ->will($this->returnValue($data));
@@ -103,7 +103,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $query = new Query(array('documentclass' => 'StdClass'));
         $query->getFacetSet();
 
-        $resultStub = $this->getMock('Solarium\Query\Select\Result\Result', array(), array(), '', false);
+        $resultStub = $this->getMock('Solarium\QueryType\Select\Result\Result', array(), array(), '', false);
         $resultStub->expects($this->once())
              ->method('getData')
              ->will($this->returnValue($data));
@@ -132,10 +132,10 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $query = new Query(array('documentclass' => 'Solarium\Query\Update\Query\Document'));
+        $query = new Query(array('documentclass' => 'Solarium\QueryType\Update\Query\Document'));
         $query->getFacetSet();
 
-        $resultStub = $this->getMock('Solarium\Query\Select\Result\Result', array(), array(), '', false);
+        $resultStub = $this->getMock('Solarium\QueryType\Select\Result\Result', array(), array(), '', false);
         $resultStub->expects($this->once())
              ->method('getData')
              ->will($this->returnValue($data));

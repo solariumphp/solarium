@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Plugin;
-use Solarium\Query\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Document;
 use Solarium\Plugin\BufferedAdd;
 use Solarium\Core\Client\Client;
 
@@ -132,7 +132,7 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $data = array('id' => '123', 'name' => 'test');
         $doc = new Document($data);
 
-        $mockUpdate = $this->getMock('Solarium\Query\Update\Query\Query', array('addDocuments'));
+        $mockUpdate = $this->getMock('Solarium\QueryType\Update\Query\Query', array('addDocuments'));
         $mockUpdate->expects($this->once())->method('addDocuments')->with($this->equalTo(array($doc)),$this->equalTo(true),$this->equalTo(12));
 
         $mockClient = $this->getMock('Solarium\Core\Client\Client', array('createUpdate', 'update', 'triggerEvent'));
@@ -152,7 +152,7 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $data = array('id' => '123', 'name' => 'test');
         $doc = new Document($data);
 
-        $mockUpdate = $this->getMock('Solarium\Query\Update\Query\Query', array('addDocuments', 'addCommit'));
+        $mockUpdate = $this->getMock('Solarium\QueryType\Update\Query\Query', array('addDocuments', 'addCommit'));
         $mockUpdate->expects($this->once())->method('addDocuments')->with($this->equalTo(array($doc)),$this->equalTo(true));
         $mockUpdate->expects($this->once())->method('addCommit')->with($this->equalTo(false),$this->equalTo(true),$this->equalTo(false));
 

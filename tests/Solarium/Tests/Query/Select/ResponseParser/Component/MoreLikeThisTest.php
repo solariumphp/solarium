@@ -30,10 +30,10 @@
  */
 
 namespace Solarium\Tests\Query\Select\ResponseParser\Component;
-use Solarium\Query\Select\ResponseParser\Component\MoreLikeThis as Parser;
-use Solarium\Query\Select\Query\Query;
-use Solarium\Query\Select\Result\Document;
-use Solarium\Query\Select\Result\MoreLikeThis\Result;
+use Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis as Parser;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
 
 class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 {

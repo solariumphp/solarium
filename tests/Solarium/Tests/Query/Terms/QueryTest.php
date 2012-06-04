@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Terms;
-use Solarium\Query\Terms\Query;
+use Solarium\QueryType\Terms\Query;
 use Solarium\Core\Client\Client;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
@@ -53,12 +53,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\Query\Terms\ResponseParser', $this->query->getResponseParser());
+        $this->assertInstanceOf('Solarium\QueryType\Terms\ResponseParser', $this->query->getResponseParser());
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\Query\Terms\RequestBuilder', $this->query->getRequestBuilder());
+        $this->assertInstanceOf('Solarium\QueryType\Terms\RequestBuilder', $this->query->getRequestBuilder());
     }
 
     public function testSetAndGetFields()

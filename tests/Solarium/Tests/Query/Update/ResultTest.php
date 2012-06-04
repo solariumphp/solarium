@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Update;
-use Solarium\Query\Update\Result as UpdateResult;
+use Solarium\QueryType\Update\Result as UpdateResult;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {

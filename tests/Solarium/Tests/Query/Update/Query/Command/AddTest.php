@@ -30,9 +30,9 @@
  */
 
 namespace Solarium\Tests\Query\Update\Query\Command;
-use Solarium\Query\Update\Query\Command\Add;
-use Solarium\Query\Update\Query\Query;
-use Solarium\Query\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Command\Add;
+use Solarium\QueryType\Update\Query\Query;
+use Solarium\QueryType\Update\Query\Document;
 
 class AddTest extends \PHPUnit_Framework_TestCase
 {

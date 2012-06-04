@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Client\RequestBuilder\Select\Component;
-use Solarium\Query\Select\RequestBuilder\Component\Debug as RequestBuilder;
-use Solarium\Query\Select\Query\Component\Debug as Component;
+use Solarium\QueryType\Select\RequestBuilder\Component\Debug as RequestBuilder;
+use Solarium\QueryType\Select\Query\Component\Debug as Component;
 use Solarium\Core\Client\Request;
 
 class DebugTest extends \PHPUnit_Framework_TestCase

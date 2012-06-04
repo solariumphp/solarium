@@ -30,9 +30,9 @@
  */
 
 namespace Solarium\Tests\Query\Ping;
-use Solarium\Query\Ping\RequestBuilder;
+use Solarium\QueryType\Ping\RequestBuilder;
 use Solarium\Core\Client\Request;
-use Solarium\Query\Ping\Query;
+use Solarium\QueryType\Ping\Query;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {

@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Select\RequestBuilder\Component;
-use Solarium\Query\Select\RequestBuilder\Component\Grouping as RequestBuilder;
-use Solarium\Query\Select\Query\Component\Grouping as Component;
+use Solarium\QueryType\Select\RequestBuilder\Component\Grouping as RequestBuilder;
+use Solarium\QueryType\Select\Query\Component\Grouping as Component;
 use Solarium\Core\Client\Request;
 
 class GroupingTest extends \PHPUnit_Framework_TestCase

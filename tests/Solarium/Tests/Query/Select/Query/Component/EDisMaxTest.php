@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Select\Query\Component;
-use Solarium\Query\Select\Query\Component\EdisMax;
-use Solarium\Query\Select\Query\Query;
+use Solarium\QueryType\Select\Query\Component\EdisMax;
+use Solarium\QueryType\Select\Query\Query;
 
 class EdisMaxTest extends \PHPUnit_Framework_TestCase
 {

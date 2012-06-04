@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Query;
-use Solarium\Query\Select\Query\FilterQuery;
+use Solarium\QueryType\Select\Query\FilterQuery;
 
 class FilterQueryTest extends \PHPUnit_Framework_TestCase
 {

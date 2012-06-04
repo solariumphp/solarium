@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Update\Query\Command;
-use Solarium\Query\Update\Query\Command\Rollback;
-use Solarium\Query\Update\Query\Query;
+use Solarium\QueryType\Update\Query\Command\Rollback;
+use Solarium\QueryType\Update\Query\Query;
 
 class RollbackTest extends \PHPUnit_Framework_TestCase
 {

@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result;
-use Solarium\Query\Select\Result\Document;
+use Solarium\QueryType\Select\Result\Document;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {

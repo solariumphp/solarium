@@ -34,13 +34,13 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
-use Solarium\Query\Select\Query\Query as SelectQuery;
-use Solarium\Query\Ping\Query as PingQuery;
-use Solarium\Query\MoreLikeThis\Query as MoreLikeThisQuery;
-use Solarium\Query\Update\Query\Query as UpdateQuery;
-use Solarium\Query\Analysis\Query\Field as AnalysisQueryField;
-use Solarium\Query\Terms\Query as TermsQuery;
-use Solarium\Query\Suggester\Query as SuggesterQuery;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Ping\Query as PingQuery;
+use Solarium\QueryType\MoreLikeThis\Query as MoreLikeThisQuery;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
+use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
+use Solarium\QueryType\Terms\Query as TermsQuery;
+use Solarium\QueryType\Suggester\Query as SuggesterQuery;
 use Solarium\Core\Client\Adapter\Http as ClientAdapterHttp;
 use Solarium\Core\Plugin;
 
@@ -476,7 +476,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateRequest()
     {
-        $queryStub = $this->getMock('Solarium\Query\Select\Query\Query');
+        $queryStub = $this->getMock('Solarium\QueryType\Select\Query\Query');
 
         $observer = $this->getMock('Solarium\Core\Query\RequestBuilder', array('build'));
         $observer->expects($this->once())
@@ -493,13 +493,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
              ->method('getRequestBuilder')
              ->will($this->returnValue($observer));
 
-        $this->client->registerQueryType('testquerytype', 'Solarium\Query\Select\Query\Query', $observer, '');
+        $this->client->registerQueryType('testquerytype', 'Solarium\QueryType\Select\Query\Query', $observer, '');
         $this->client->createRequest($queryStub);
     }
 
     public function testCreateRequestInvalidQueryType()
     {
-        $queryStub = $this->getMock('Solarium\Query\Select\Query\Query');
+        $queryStub = $this->getMock('Solarium\QueryType\Select\Query\Query');
         $queryStub->expects($this->any())
              ->method('getType')
              ->will($this->returnValue('testquerytype'));
@@ -622,7 +622,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $overrideValue =  '\\stdClass';
         $response = new Response('',array('HTTP 1.0 200 OK'));
 
-        $mockQuery = $this->getMock('Solarium\Query\Select\Query\Query', array('getResultClass'));
+        $mockQuery = $this->getMock('Solarium\QueryType\Select\Query\Query', array('getResultClass'));
         $mockQuery->expects($this->once())
                  ->method('getResultClass')
                  ->will($this->returnValue($overrideValue));
@@ -901,7 +901,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $query = $this->client->createQuery(Client::QUERY_SELECT, $options);
 
         // check class mapping
-        $this->assertThat($query, $this->isInstanceOf('Solarium\Query\Select\Query\Query'));
+        $this->assertThat($query, $this->isInstanceOf('Solarium\QueryType\Select\Query\Query'));
 
         // check option forwarding
         $queryOptions = $query->getOptions();

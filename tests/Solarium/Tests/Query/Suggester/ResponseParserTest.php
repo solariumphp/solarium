@@ -30,9 +30,9 @@
  */
 
 namespace Solarium\Tests\Query\Suggester;
-use Solarium\Query\Suggester\Query;
-use Solarium\Query\Suggester\ResponseParser;
-use Solarium\Query\Suggester\Result\Term;
+use Solarium\QueryType\Suggester\Query;
+use Solarium\QueryType\Suggester\ResponseParser;
+use Solarium\QueryType\Suggester\Result\Term;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -73,7 +73,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
 
         $query = new Query();
 
-        $resultStub = $this->getMock('Solarium\Query\Suggester\Result\Result', array(), array(), '', false);
+        $resultStub = $this->getMock('Solarium\QueryType\Suggester\Result\Result', array(), array(), '', false);
         $resultStub->expects($this->any())
              ->method('getData')
              ->will($this->returnValue($data));

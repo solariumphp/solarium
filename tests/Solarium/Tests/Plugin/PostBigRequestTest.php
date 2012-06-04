@@ -32,7 +32,7 @@
 namespace Solarium\Tests\Plugin;
 use Solarium\Plugin\PostBigRequest;
 use Solarium\Core\Client\Client;
-use Solarium\Query\Select\Query\Query;
+use Solarium\QueryType\Select\Query\Query;
 use Solarium\Core\Client\Request;
 
 class PostBigRequestTest extends \PHPUnit_Framework_TestCase

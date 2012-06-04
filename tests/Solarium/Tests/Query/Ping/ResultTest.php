@@ -31,9 +31,9 @@
 
 namespace Solarium\Tests\Query\Ping;
 use Solarium\Core\Client\Client;
-use Solarium\Query\Ping\Query;
+use Solarium\QueryType\Ping\Query;
 use Solarium\Core\Client\Response;
-use Solarium\Query\Ping\Result;
+use Solarium\QueryType\Ping\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {

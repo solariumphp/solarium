@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Analysis\Result;
-use Solarium\Query\Analysis\Result\Item;
+use Solarium\QueryType\Analysis\Result\Item;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
 {

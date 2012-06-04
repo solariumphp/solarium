@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\MoreLikeThis;
-use Solarium\Query\Select\Result\Document;
-use Solarium\Query\Select\Result\MoreLikeThis\Result;
+use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {

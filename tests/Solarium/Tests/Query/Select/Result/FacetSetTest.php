@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result;
-use Solarium\Query\Select\Result\FacetSet;
+use Solarium\QueryType\Select\Result\FacetSet;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase
 {

@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\Query\Update;
 use Solarium\Core\Client\Response;
-use Solarium\Query\Update\Result;
-use Solarium\Query\Update\ResponseParser;
+use Solarium\QueryType\Update\Result;
+use Solarium\QueryType\Update\ResponseParser;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {

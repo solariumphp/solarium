@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Ping;
-use Solarium\Query\Ping\Query;
+use Solarium\QueryType\Ping\Query;
 use Solarium\Core\Client\Client;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
@@ -55,7 +55,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\Query\Ping\RequestBuilder', $this->query->getRequestBuilder());
+        $this->assertInstanceOf('Solarium\QueryType\Ping\RequestBuilder', $this->query->getRequestBuilder());
     }
 
     public function testConfigMode()

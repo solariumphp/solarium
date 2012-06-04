@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Analysis\Query;
-use Solarium\Query\Analysis\Query\Document;
+use Solarium\QueryType\Analysis\Query\Document;
 use Solarium\Core\Client\Client;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
@@ -53,12 +53,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\Query\Analysis\ResponseParser\Document', $this->query->getResponseParser());
+        $this->assertInstanceOf('Solarium\QueryType\Analysis\ResponseParser\Document', $this->query->getResponseParser());
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\Query\Analysis\RequestBuilder\Document', $this->query->getRequestBuilder());
+        $this->assertInstanceOf('Solarium\QueryType\Analysis\RequestBuilder\Document', $this->query->getRequestBuilder());
     }
 
     public function testAddAndGetDocument()

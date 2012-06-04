@@ -33,7 +33,7 @@ namespace Solarium\Tests\Core\Query\Result;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
-use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {

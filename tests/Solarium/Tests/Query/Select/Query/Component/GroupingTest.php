@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Select\Query\Component;
-use Solarium\Query\Select\Query\Component\Grouping;
-use Solarium\Query\Select\Query\Query;
+use Solarium\QueryType\Select\Query\Component\Grouping;
+use Solarium\QueryType\Select\Query\Query;
 
 class GroupingTest extends \PHPUnit_Framework_TestCase
 {
@@ -80,12 +80,12 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\Grouping', $this->grouping->getResponseParser());
+        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\Component\Grouping', $this->grouping->getResponseParser());
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\Grouping', $this->grouping->getRequestBuilder());
+        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\Grouping', $this->grouping->getRequestBuilder());
     }
 
     public function testSetAndGetFieldsSingle()

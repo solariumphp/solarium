@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Select\Query\Component;
-use Solarium\Query\Select\Query\Component\DistributedSearch;
-use Solarium\Query\Select\Query\Query;
+use Solarium\QueryType\Select\Query\Component\DistributedSearch;
+use Solarium\QueryType\Select\Query\Query;
 
 class DistributedSearchTest extends \PHPUnit_Framework_TestCase
 {
@@ -77,7 +77,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\DistributedSearch', $this->distributedSearch->getRequestBuilder());
+        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch', $this->distributedSearch->getRequestBuilder());
     }
 
     public function testAddShard()

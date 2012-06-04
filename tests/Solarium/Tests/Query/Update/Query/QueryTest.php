@@ -31,10 +31,10 @@
 
 namespace Solarium\Tests\Query\Update\Query;
 use Solarium\Core\Client\Client;
-use Solarium\Query\Update\Query\Query;
-use Solarium\Query\Update\Query\Command\Rollback;
-use Solarium\Query\Update\Query\Command\Commit;
-use Solarium\Query\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Query;
+use Solarium\QueryType\Update\Query\Command\Rollback;
+use Solarium\QueryType\Update\Query\Command\Commit;
+use Solarium\QueryType\Update\Query\Document;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -53,12 +53,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\Query\Update\ResponseParser', $this->query->getResponseParser());
+        $this->assertInstanceOf('Solarium\QueryType\Update\ResponseParser', $this->query->getResponseParser());
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\Query\Update\RequestBuilder', $this->query->getRequestBuilder());
+        $this->assertInstanceOf('Solarium\QueryType\Update\RequestBuilder', $this->query->getRequestBuilder());
     }
 
     public function testConfigMode()
@@ -142,7 +142,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $rollback = $commands['key4'];
         $this->assertEquals(
-            'Solarium\Query\Update\Query\Command\Rollback',
+            'Solarium\QueryType\Update\Query\Command\Rollback',
             get_class($rollback)
         );
     }

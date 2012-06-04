@@ -30,9 +30,9 @@
  */
 
 namespace Solarium\Tests\Query\Select\Query\Component\Highlighting;
-use Solarium\Query\Select\Query\Component\Highlighting\Highlighting;
-use Solarium\Query\Select\Query\Component\Highlighting\Field;
-use Solarium\Query\Select\Query\Query;
+use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting;
+use Solarium\QueryType\Select\Query\Component\Highlighting\Field;
+use Solarium\QueryType\Select\Query\Query;
 
 class HighlightingTest extends \PHPUnit_Framework_TestCase
 {
@@ -116,12 +116,12 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\Highlighting', $this->hlt->getResponseParser());
+        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\Component\Highlighting', $this->hlt->getResponseParser());
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\Highlighting', $this->hlt->getRequestBuilder());
+        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\Highlighting', $this->hlt->getRequestBuilder());
     }
 
     public function testGetFieldAutocreate()

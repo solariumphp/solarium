@@ -31,10 +31,10 @@
 
 namespace Solarium\Tests\Query\Select\RequestBuilder;
 use Solarium\Core\Client\Request;
-use Solarium\Query\Select\Query\Query;
-use Solarium\Query\Select\Query\FilterQuery;
-use Solarium\Query\Select\RequestBuilder\RequestBuilder as RequestBuilder;
-use Solarium\Query\Select\Query\Component\Component;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Query\FilterQuery;
+use Solarium\QueryType\Select\RequestBuilder\RequestBuilder as RequestBuilder;
+use Solarium\QueryType\Select\Query\Component\Component;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {

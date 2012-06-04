@@ -30,10 +30,10 @@
  */
 
 namespace Solarium\Tests\Query\Analysis\RequestBuilder;
-use Solarium\Query\Analysis\Query\Document;
-use Solarium\Query\Analysis\RequestBuilder\Document as DocumentBuilder;
+use Solarium\QueryType\Analysis\Query\Document;
+use Solarium\QueryType\Analysis\RequestBuilder\Document as DocumentBuilder;
 use Solarium\Core\Client\Request;
-use Solarium\Query\Update\Query\Document as InputDocument;
+use Solarium\QueryType\Update\Query\Document as InputDocument;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {

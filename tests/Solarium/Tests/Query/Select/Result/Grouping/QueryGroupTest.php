@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Grouping;
-use Solarium\Query\Select\Result\Grouping\QueryGroup;
+use Solarium\QueryType\Select\Result\Grouping\QueryGroup;
 
 class QueryGroupTest extends \PHPUnit_Framework_TestCase
 {

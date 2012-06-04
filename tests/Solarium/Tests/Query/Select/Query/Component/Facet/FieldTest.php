@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Select\Query\Component\Facet;
-use Solarium\Query\Select\Query\Component\Facet\Field;
-use Solarium\Query\Select\Query\Component\FacetSet;
+use Solarium\QueryType\Select\Query\Component\Facet\Field;
+use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {

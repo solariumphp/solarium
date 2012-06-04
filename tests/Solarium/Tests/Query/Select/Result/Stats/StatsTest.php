@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Stats;
-use Solarium\Query\Select\Result\Stats\Stats;
+use Solarium\QueryType\Select\Result\Stats\Stats;
 
 class StatsTest extends \PHPUnit_Framework_TestCase
 {

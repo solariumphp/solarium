@@ -32,8 +32,8 @@
 namespace Solarium\Tests\Plugin\Loadbalancer;
 use Solarium\Core\Client\Client;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
-use Solarium\Query\Select\Query\Query as SelectQuery;
-use Solarium\Query\Update\Query\Query as UpdateQuery;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Adapter\Http as HttpAdapter;
 use Solarium\Core\Client\HttpException;

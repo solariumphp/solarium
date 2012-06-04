@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\Core\Query;
 use Solarium\Core\Query\Helper;
-use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class HelperTest extends \PHPUnit_Framework_TestCase
 {

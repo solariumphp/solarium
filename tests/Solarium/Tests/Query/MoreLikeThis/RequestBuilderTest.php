@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\MoreLikeThis;
-use Solarium\Query\MoreLikeThis\Query;
-use Solarium\Query\MoreLikeThis\RequestBuilder;
+use Solarium\QueryType\MoreLikeThis\Query;
+use Solarium\QueryType\MoreLikeThis\RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase

@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Analysis\Result;
-use Solarium\Query\Analysis\Result\ResultList;
+use Solarium\QueryType\Analysis\Result\ResultList;
 
 class ResultListTest extends \PHPUnit_Framework_TestCase
 {

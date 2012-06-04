@@ -30,9 +30,9 @@
  */
 
 namespace Solarium\Tests\Query\Select\Query\Component\Stats;
-use Solarium\Query\Select\Query\Component\Stats\Stats;
-use Solarium\Query\Select\Query\Component\Stats\Field;
-use Solarium\Query\Select\Query\Query;
+use Solarium\QueryType\Select\Query\Component\Stats\Stats;
+use Solarium\QueryType\Select\Query\Component\Stats\Field;
+use Solarium\QueryType\Select\Query\Query;
 
 class StatsTest extends \PHPUnit_Framework_TestCase
 {
@@ -54,12 +54,12 @@ class StatsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\Query\Select\ResponseParser\Component\Stats', $this->stats->getResponseParser());
+        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\Component\Stats', $this->stats->getResponseParser());
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\Query\Select\RequestBuilder\Component\Stats', $this->stats->getRequestBuilder());
+        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\Stats', $this->stats->getRequestBuilder());
     }
 
     public function testConfigMode()
@@ -83,7 +83,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $field = $this->stats->createField('mykey');
 
         // check class
-        $this->assertThat($field, $this->isInstanceOf('Solarium\Query\Select\Query\Component\Stats\Field'));
+        $this->assertThat($field, $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\Stats\Field'));
 
         $this->assertEquals(
             'mykey',
@@ -97,7 +97,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $field = $this->stats->createField($options);
 
         // check class
-       $this->assertThat($field, $this->isInstanceOf('Solarium\Query\Select\Query\Component\Stats\Field'));
+       $this->assertThat($field, $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\Stats\Field'));
 
         // check option forwarding
         $fieldOptions = $field->getOptions();

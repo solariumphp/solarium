@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\MoreLikeThis;
-use Solarium\Query\MoreLikeThis\Query;
+use Solarium\QueryType\MoreLikeThis\Query;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,7 +40,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $query = new Query();
         $query->setInterestingTerms('list');
 
-        $mock = $this->getMock('Solarium\Query\MoreLikeThis\Result', array('getQuery','parseResponse'), array(), '', false);
+        $mock = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array('getQuery','parseResponse'), array(), '', false);
         $mock->expects($this->once())
              ->method('getQuery')
              ->will($this->returnValue($query));
@@ -55,7 +55,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $query = new Query();
         $query->setInterestingTerms('none');
 
-        $mock = $this->getMock('Solarium\Query\MoreLikeThis\Result', array('getQuery'), array(), '', false);
+        $mock = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array('getQuery'), array(), '', false);
         $mock->expects($this->once())
              ->method('getQuery')
              ->will($this->returnValue($query));
@@ -69,7 +69,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $query = new Query();
         $query->setMatchInclude(true);
 
-        $mock = $this->getMock('Solarium\Query\MoreLikeThis\Result', array('getQuery','parseResponse'), array(), '', false);
+        $mock = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array('getQuery','parseResponse'), array(), '', false);
         $mock->expects($this->once())
              ->method('getQuery')
              ->will($this->returnValue($query));
@@ -84,7 +84,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $query = new Query();
         $query->setMatchInclude(false);
 
-        $mock = $this->getMock('Solarium\Query\MoreLikeThis\Result', array('getQuery'), array(), '', false);
+        $mock = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array('getQuery'), array(), '', false);
         $mock->expects($this->once())
              ->method('getQuery')
              ->will($this->returnValue($query));

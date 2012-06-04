@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Spellcheck;
-use Solarium\Query\Select\Result\Spellcheck\Collation;
+use Solarium\QueryType\Select\Result\Spellcheck\Collation;
 
 class CollationTest extends \PHPUnit_Framework_TestCase
 {

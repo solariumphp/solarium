@@ -39,8 +39,8 @@
 namespace Solarium\Plugin;
 use Solarium\Client;
 use Solarium\Core\Plugin;
-use Solarium\Query\Select\Query\Query as SelectQuery;
-use Solarium\Query\Select\Result\Result as SelectResult;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Select\Result\Result as SelectResult;
 
 /**
  * Prefetch plugin

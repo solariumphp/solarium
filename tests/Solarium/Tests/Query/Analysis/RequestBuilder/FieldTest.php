@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Analysis\RequestBuilder;
-use Solarium\Query\Analysis\Query\Field as FieldQuery;
-use Solarium\Query\Analysis\RequestBuilder\Field as FieldBuilder;
+use Solarium\QueryType\Analysis\Query\Field as FieldQuery;
+use Solarium\QueryType\Analysis\RequestBuilder\Field as FieldBuilder;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {

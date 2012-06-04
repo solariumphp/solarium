@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Analysis\Result;
-use Solarium\Query\Analysis\Result\Types;
+use Solarium\QueryType\Analysis\Result\Types;
 
 class TypesTest extends \PHPUnit_Framework_TestCase
 {

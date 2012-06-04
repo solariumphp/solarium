@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Spellcheck;
-use Solarium\Query\Select\Result\Spellcheck\Result;
+use Solarium\QueryType\Select\Result\Spellcheck\Result;
 
 class SpellcheckTest extends \PHPUnit_Framework_TestCase
 {

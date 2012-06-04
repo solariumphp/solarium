@@ -121,14 +121,14 @@ class Client extends Configurable
      * These can be customized using {@link registerQueryType()}
      */
     protected $queryTypes = array(
-        self::QUERY_SELECT => 'Solarium\Query\Select\Query\Query',
-        self::QUERY_UPDATE => 'Solarium\Query\Update\Query\Query',
-        self::QUERY_PING => 'Solarium\Query\Ping\Query',
-        self::QUERY_MORELIKETHIS => 'Solarium\Query\MoreLikeThis\Query',
-        self::QUERY_ANALYSIS_DOCUMENT => 'Solarium\Query\Analysis\Query\Document',
-        self::QUERY_ANALYSIS_FIELD => 'Solarium\Query\Analysis\Query\Field',
-        self::QUERY_TERMS => 'Solarium\Query\Terms\Query',
-        self::QUERY_SUGGESTER => 'Solarium\Query\Suggester\Query',
+        self::QUERY_SELECT => 'Solarium\QueryType\Select\Query\Query',
+        self::QUERY_UPDATE => 'Solarium\QueryType\Update\Query\Query',
+        self::QUERY_PING => 'Solarium\QueryType\Ping\Query',
+        self::QUERY_MORELIKETHIS => 'Solarium\QueryType\MoreLikeThis\Query',
+        self::QUERY_ANALYSIS_DOCUMENT => 'Solarium\QueryType\Analysis\Query\Document',
+        self::QUERY_ANALYSIS_FIELD => 'Solarium\QueryType\Analysis\Query\Field',
+        self::QUERY_TERMS => 'Solarium\QueryType\Terms\Query',
+        self::QUERY_SUGGESTER => 'Solarium\QueryType\Suggester\Query',
     );
 
     /**
@@ -793,14 +793,14 @@ class Client extends Configurable
      * $result = $client->ping($query);
      * </code>
      *
-     * @see Solarium\Query\Ping
+     * @see Solarium\QueryType\Ping
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\Query\Ping\Query $query
+     * @param \Solarium\QueryType\Ping\Query $query
      * @param Endpoint|string|null
-     * @return \Solarium\Query\Ping\Result
+     * @return \Solarium\QueryType\Ping\Result
      */
     public function ping(QueryInterface $query, $endpoint = null)
     {
@@ -818,15 +818,15 @@ class Client extends Configurable
      * $result = $client->update($update);
      * </code>
      *
-     * @see Solarium\Query\Update
+     * @see Solarium\QueryType\Update
      * @see Solarium\Result\Update
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\Query\Update\Query\Query $query
+     * @param \Solarium\QueryType\Update\Query\Query $query
      * @param Endpoint|string|null
-     * @return \Solarium\Query\Update\Result
+     * @return \Solarium\QueryType\Update\Result
      */
     public function update(QueryInterface $query, $endpoint = null)
     {
@@ -843,15 +843,15 @@ class Client extends Configurable
      * $result = $client->select($query);
      * </code>
      *
-     * @see Solarium\Query\Select
+     * @see Solarium\QueryType\Select
      * @see Solarium\Result\Select
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\Query\Select\Query\Query $query
+     * @param \Solarium\QueryType\Select\Query\Query $query
      * @param Endpoint|string|null
-     * @return \Solarium\Query\Select\Result\Result
+     * @return \Solarium\QueryType\Select\Result\Result
      */
     public function select(QueryInterface $query, $endpoint = null)
     {
@@ -868,15 +868,15 @@ class Client extends Configurable
      * $result = $client->moreLikeThis($query);
      * </code>
      *
-     * @see Solarium\Query\MoreLikeThis
+     * @see Solarium\QueryType\MoreLikeThis
      * @see Solarium\Result\MoreLikeThis
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\Query\MoreLikeThis\Query $query
+     * @param \Solarium\QueryType\MoreLikeThis\Query $query
      * @param Endpoint
-     * @return \Solarium\Query\MoreLikeThis\Result
+     * @return \Solarium\QueryType\MoreLikeThis\Result
      */
     public function moreLikeThis(QueryInterface $query, $endpoint = null)
     {
@@ -889,9 +889,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\Query\Analysis\Query\Document|\Solarium\Query\Analysis\Query\Field $query
+     * @param \Solarium\QueryType\Analysis\Query\Document|\Solarium\QueryType\Analysis\Query\Field $query
      * @param Endpoint
-     * @return \Solarium\Query\Analysis\Result\Document|\Solarium\Query\Analysis\Result\Field
+     * @return \Solarium\QueryType\Analysis\Result\Document|\Solarium\QueryType\Analysis\Result\Field
      */
     public function analyze(QueryInterface $query, $endpoint = null)
     {
@@ -904,9 +904,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\Query\Terms\Query $query
+     * @param \Solarium\QueryType\Terms\Query $query
      * @param Endpoint|string|null
-     * @return \Solarium\Query\Terms\Result
+     * @return \Solarium\QueryType\Terms\Result
      */
     public function terms(QueryInterface $query, $endpoint = null)
     {
@@ -919,9 +919,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\Query\Suggester\Query $query
+     * @param \Solarium\QueryType\Suggester\Query $query
      * @param Endpoint|string|null
-     * @return \Solarium\Query\Suggester\Result\Result
+     * @return \Solarium\QueryType\Suggester\Result\Result
      */
     public function suggester(QueryInterface $query, $endpoint = null)
     {
@@ -963,8 +963,8 @@ class Client extends Configurable
     /**
      * Create a select query instance
      *
-     * @param  mixed                              $options
-     * @return \Solarium\Query\Select\Query\Query
+     * @param  mixed                                  $options
+     * @return \Solarium\QueryType\Select\Query\Query
      */
     public function createSelect($options = null)
     {
@@ -974,8 +974,8 @@ class Client extends Configurable
     /**
      * Create a MoreLikeThis query instance
      *
-     * @param  mixed                              $options
-     * @return \Solarium\Query\MorelikeThis\Query
+     * @param  mixed                                  $options
+     * @return \Solarium\QueryType\MorelikeThis\Query
      */
     public function createMoreLikeThis($options = null)
     {
@@ -985,8 +985,8 @@ class Client extends Configurable
     /**
      * Create an update query instance
      *
-     * @param  mixed                              $options
-     * @return \Solarium\Query\Update\Query\Query
+     * @param  mixed                                  $options
+     * @return \Solarium\QueryType\Update\Query\Query
      */
     public function createUpdate($options = null)
     {
@@ -996,8 +996,8 @@ class Client extends Configurable
     /**
      * Create a ping query instance
      *
-     * @param  mixed                      $options
-     * @return \Solarium\Query\Ping\Query
+     * @param  mixed                          $options
+     * @return \Solarium\QueryType\Ping\Query
      */
     public function createPing($options = null)
     {
@@ -1007,8 +1007,8 @@ class Client extends Configurable
     /**
      * Create an analysis field query instance
      *
-     * @param  mixed                                $options
-     * @return \Solarium\Query\Analysis\Query\Field
+     * @param  mixed                                    $options
+     * @return \Solarium\QueryType\Analysis\Query\Field
      */
     public function createAnalysisField($options = null)
     {
@@ -1018,8 +1018,8 @@ class Client extends Configurable
     /**
      * Create an analysis document query instance
      *
-     * @param  mixed                                   $options
-     * @return \Solarium\Query\Analysis\Query\Document
+     * @param  mixed                                       $options
+     * @return \Solarium\QueryType\Analysis\Query\Document
      */
     public function createAnalysisDocument($options = null)
     {
@@ -1029,8 +1029,8 @@ class Client extends Configurable
     /**
      * Create a terms query instance
      *
-     * @param  mixed                       $options
-     * @return \Solarium\Query\Terms\Query
+     * @param  mixed                           $options
+     * @return \Solarium\QueryType\Terms\Query
      */
     public function createTerms($options = null)
     {
@@ -1040,8 +1040,8 @@ class Client extends Configurable
     /**
      * Create a suggester query instance
      *
-     * @param  mixed                           $options
-     * @return \Solarium\Query\Suggester\Query
+     * @param  mixed                               $options
+     * @return \Solarium\QueryType\Suggester\Query
      */
     public function createSuggester($options = null)
     {

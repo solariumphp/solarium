@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Grouping;
-use Solarium\Query\Select\Result\Grouping\FieldGroup;
+use Solarium\QueryType\Select\Result\Grouping\FieldGroup;
 
 class FieldGroupTest extends \PHPUnit_Framework_TestCase
 {

@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\Query\Select\RequestBuilder\Component;
-use Solarium\Query\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
-use Solarium\Query\Select\Query\Component\FacetSet as Component;
+use Solarium\QueryType\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
+use Solarium\QueryType\Select\Query\Component\FacetSet as Component;
 use Solarium\Core\Client\Request;
-use Solarium\Query\Select\Query\Component\Facet\Field as FacetField;
-use Solarium\Query\Select\Query\Component\Facet\Query as FacetQuery;
-use Solarium\Query\Select\Query\Component\Facet\MultiQuery as FacetMultiQuery;
-use Solarium\Query\Select\Query\Component\Facet\Range as FacetRange;
+use Solarium\QueryType\Select\Query\Component\Facet\Field as FacetField;
+use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
+use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as FacetMultiQuery;
+use Solarium\QueryType\Select\Query\Component\Facet\Range as FacetRange;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase
 {

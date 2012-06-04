@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Select\Query\Component;
-use Solarium\Query\Select\Query\Component\Component;
-use Solarium\Query\Select\Query\Query;
+use Solarium\QueryType\Select\Query\Component\Component;
+use Solarium\QueryType\Select\Query\Query;
 
 class ComponentTest extends \PHPUnit_Framework_TestCase
 {

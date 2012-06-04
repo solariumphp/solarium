@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Analysis\ResponseParser;
-use Solarium\Query\Analysis\ResponseParser\Field as FieldParser;
+use Solarium\QueryType\Analysis\ResponseParser\Field as FieldParser;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {

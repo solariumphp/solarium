@@ -52,7 +52,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
              ->method('getData')
              ->will($this->returnValue($data));
 
-        $parserStub = $this->getMock('Solarium\Query\Analysis\ResponseParser\Document',array('parseTypes'));
+        $parserStub = $this->getMock('Solarium\QueryType\Analysis\ResponseParser\Document',array('parseTypes'));
         $parserStub->expects($this->exactly(2))
              ->method('parseTypes')
              ->will($this->returnValue('dummy'));

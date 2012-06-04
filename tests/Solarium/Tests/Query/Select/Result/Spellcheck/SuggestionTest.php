@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Spellcheck;
-use Solarium\Query\Select\Result\Spellcheck\Suggestion;
+use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
 
 class SuggestionTest extends \PHPUnit_Framework_TestCase
 {

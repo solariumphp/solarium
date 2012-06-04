@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Debug;
-use Solarium\Query\Select\Result\Debug\TimingPhase;
+use Solarium\QueryType\Select\Result\Debug\TimingPhase;
 
 class TimingPhaseTest extends \PHPUnit_Framework_TestCase
 {

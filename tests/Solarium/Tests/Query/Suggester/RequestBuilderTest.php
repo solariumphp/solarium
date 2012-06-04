@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Suggester;
-use Solarium\Query\Suggester\Query;
-use Solarium\Query\Suggester\RequestBuilder;
+use Solarium\QueryType\Suggester\Query;
+use Solarium\QueryType\Suggester\RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase

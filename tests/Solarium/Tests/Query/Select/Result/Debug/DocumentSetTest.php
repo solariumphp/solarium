@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Query\Select\Result\Debug;
-use Solarium\Query\Select\Result\Debug\DocumentSet;
+use Solarium\QueryType\Select\Result\Debug\DocumentSet;
 
 class DocumentSetTest extends \PHPUnit_Framework_TestCase
 {

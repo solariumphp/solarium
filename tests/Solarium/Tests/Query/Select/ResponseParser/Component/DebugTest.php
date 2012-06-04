@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Select\ResponseParser\Component;
-use Solarium\Query\Select\ResponseParser\Component\Debug as Parser;
-use Solarium\Query\Select\Result\Debug\Detail;
+use Solarium\QueryType\Select\ResponseParser\Component\Debug as Parser;
+use Solarium\QueryType\Select\Result\Debug\Detail;
 
 class DebugTest extends \PHPUnit_Framework_TestCase
 {

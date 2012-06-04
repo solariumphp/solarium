@@ -30,8 +30,8 @@
  */
 
 namespace Solarium\Tests\Query\Terms;
-use Solarium\Query\Terms\Query;
-use Solarium\Query\Terms\ResponseParser;
+use Solarium\QueryType\Terms\Query;
+use Solarium\QueryType\Terms\ResponseParser;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,7 +62,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $query = new Query();
         $query->setFields('fieldA, fieldB');
 
-        $resultStub = $this->getMock('Solarium\Query\Terms\Result', array(), array(), '', false);
+        $resultStub = $this->getMock('Solarium\QueryType\Terms\Result', array(), array(), '', false);
         $resultStub->expects($this->any())
              ->method('getData')
              ->will($this->returnValue($data));
