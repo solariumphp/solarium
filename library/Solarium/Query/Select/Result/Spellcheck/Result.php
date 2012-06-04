@@ -69,7 +69,7 @@ class Result implements \IteratorAggregate, \Countable
      * Constructor
      *
      * @param array $suggestions
-     * @param Collation $collation
+     * @param array $collations
      * @param boolean $correctlySpelled
      * @return void
      */

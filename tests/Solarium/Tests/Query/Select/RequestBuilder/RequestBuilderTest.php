@@ -160,8 +160,8 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testWithEdismaxComponent()
     {
-        $this->_query->getEDisMax();
-        $request = $this->_builder->build($this->_query);
+        $this->query->getEdisMax();
+        $request = $this->builder->build($this->query);
 
         $this->assertEquals(
             'edismax',

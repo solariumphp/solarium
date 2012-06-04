@@ -49,20 +49,23 @@ class EdisMax extends DisMax
 {
 
     /**
-     * Component type
-     *
-     * @var string
-     */
-    protected $type = SelectQuery::COMPONENT_EDISMAX;
-
-    /**
      * Default options
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'queryparser' => 'edismax',
     );
+
+    /**
+     * Get component type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return SelectQuery::COMPONENT_EDISMAX;
+    }
 
     /**
      * Set BoostFunctionsMult option

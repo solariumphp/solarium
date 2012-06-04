@@ -48,15 +48,25 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
             'key1' => 'content1',
             'key2' => 'content2',
         );
-        $this->collation = 'dummy1';
+        $this->collations = array('dummy1', 'dummy2');
         $this->correctlySpelled = false;
 
-        $this->result = new Result($this->suggestions, $this->collation, $this->correctlySpelled);
+        $this->result = new Result($this->suggestions, $this->collations, $this->correctlySpelled);
     }
 
     public function testGetCollation()
     {
-        $this->assertEquals($this->collation, $this->result->getCollation());
+        $this->assertEquals($this->collations[1], $this->result->getCollation());
+    }
+
+    public function testGetCollationWithKey()
+    {
+        $this->assertEquals($this->collations[0], $this->result->getCollation(0));
+    }
+
+    public function testGetCollations()
+    {
+        $this->assertEquals($this->collations, $this->result->getCollations());
     }
 
     public function testGetCorrectlySpelled()
