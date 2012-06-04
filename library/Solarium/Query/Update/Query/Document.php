@@ -37,7 +37,7 @@
  * @namespace
  */
 namespace Solarium\Query\Update\Query;
-use Solarium\Query\Select\Result\Document as ReadOnlyDocument;
+use Solarium\Query\Select\Result\AbstractDocument;
 
 /**
  * Read/Write Solr document
@@ -52,7 +52,7 @@ use Solarium\Query\Select\Result\Document as ReadOnlyDocument;
  * stored. You will loose that data because it is impossible to retrieve it from
  * Solr. Always update from the original data source.
  */
-class Document extends ReadOnlyDocument
+class Document extends AbstractDocument implements DocumentInterface
 {
 
     /**
@@ -77,7 +77,7 @@ class Document extends ReadOnlyDocument
      * @param array $fields
      * @param array $boosts
      */
-    public function __construct($fields = array(), $boosts = array())
+    public function __construct(array $fields = array(), array $boosts = array())
     {
         $this->fields = $fields;
         $this->fieldBoosts = $boosts;

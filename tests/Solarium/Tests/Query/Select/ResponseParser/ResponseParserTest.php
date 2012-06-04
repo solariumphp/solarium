@@ -84,6 +84,39 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($components, $result['components']);
     }
 
+    public function testParseWithInvalidDocumentClass()
+    {
+        $data = array(
+            'response' => array(
+                'docs' => array(
+                    array('fieldA' => 1, 'fieldB' => 'Test'),
+                    array('fieldA' => 2, 'fieldB' => 'Test2')
+                ),
+                'numFound' => 503
+            ),
+            'responseHeader' => array(
+                'status' => 1,
+                'QTime' => 13,
+            )
+        );
+
+        $query = new Query(array('documentclass' => 'StdClass'));
+        $query->getFacetSet();
+
+        $resultStub = $this->getMock('Solarium\Query\Select\Result\Result', array(), array(), '', false);
+        $resultStub->expects($this->once())
+             ->method('getData')
+             ->will($this->returnValue($data));
+        $resultStub->expects($this->once())
+             ->method('getQuery')
+             ->will($this->returnValue($query));
+
+        $parser = new ResponseParser();
+
+        $this->setExpectedException('Solarium\Core\Exception');
+        $parser->parse($resultStub);
+    }
+
     public function testParseWithoutNumFound()
     {
         $data = array(

@@ -40,12 +40,9 @@ namespace Solarium\Query\Select\Result;
 use Solarium\Core\Exception;
 
 /**
- * Read-only Solr document
- *
- * This is the default Solr document type returned by a select query. You can
- * access the fields as object properties or iterate over all fields.
+ * Document base functionality, used by readonly and readwrite documents
  */
-class Document extends AbstractDocument implements DocumentInterface
+abstract class AbstractDocument implements \IteratorAggregate, \Countable, \ArrayAccess
 {
 
     /**
@@ -56,28 +53,96 @@ class Document extends AbstractDocument implements DocumentInterface
     protected $fields;
 
     /**
-     * Constructor
+     * Get all fields
      *
-     * @param array $fields
+     * @return array
      */
-    public function __construct(array $fields)
+    public function getFields()
     {
-        $this->fields = $fields;
+        return $this->fields;
     }
 
     /**
-     * Set field value
+     * Get field value by name
      *
-     * Magic method for setting a field as property of this object. Since this
-     * is a readonly document an exception will be thrown to prevent this.
+     * Magic access method for accessing fields as properties of this document
+     * object, by field name.
      *
      * @param  string $name
-     * @param  string $value
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        if (!isset($this->fields[$name])) {
+            return null;
+        }
+
+        return $this->fields[$name];
+    }
+
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->fields);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->fields);
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * @param  mixed $offset
+     * @param  mixed $value
      * @return void
      */
-    public function __set($name, $value)
+    public function offsetSet($offset, $value)
     {
-        throw new Exception('A readonly document cannot be altered');
+        $this->__set($offset, $value);
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * @param  mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return ($this->__get($offset) !== null);
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * @param  mixed $offset
+     * @return void
+     */
+    public function offsetUnset($offset)
+    {
+        $this->__set($offset, null);
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * @param  mixed      $offset
+     * @return mixed|null
+     */
+    public function offsetGet($offset)
+    {
+        return $this->__get($offset);
     }
 
 }

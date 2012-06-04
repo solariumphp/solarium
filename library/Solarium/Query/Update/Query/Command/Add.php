@@ -38,7 +38,7 @@
  */
 namespace Solarium\Query\Update\Query\Command;
 use Solarium\Query\Update\Query\Query as UpdateQuery;
-
+use Solarium\Query\Update\Query\DocumentInterface;
 /**
  * Update query add command
  *
@@ -67,11 +67,15 @@ class Add extends Command
     /**
      * Add a single document
      *
-     * @param  object $document
+     * @param  DocumentInterface $document
      * @return self   Provides fluent interface
      */
     public function addDocument($document)
     {
+        if (!($document instanceof DocumentInterface)) {
+            throw new \Solarium\Core\Exception('Documents must implement the document interface');
+        }
+
         $this->documents[] = $document;
 
         return $this;
