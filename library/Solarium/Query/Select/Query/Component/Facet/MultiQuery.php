@@ -72,7 +72,7 @@ class MultiQuery extends Facet
             switch ($name) {
                 case 'query':
                     if (!is_array($value)) {
-                        $value = array($value);
+                        $value = array(array('query' => $value));
                     }
                     $this->addQueries($value);
                     break;

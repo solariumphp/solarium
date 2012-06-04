@@ -79,6 +79,17 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('category:2', $query2->getQuery());
     }
 
+    public function testConfigModeSingleQuery()
+    {
+        $options = array(
+            'query' => 'category:2'
+        );
+
+        $this->facet->setOptions($options);
+        $this->assertEquals('category:2', $this->facet->getQuery(0)->getQuery());
+
+    }
+
     public function testGetType()
     {
         $this->assertEquals(
