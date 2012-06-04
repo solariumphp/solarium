@@ -70,7 +70,7 @@ class Helper
     protected $derefencedParamsLastKey = 0;
 
     /**
-     * Solarium_Query instance, optional.
+     * Solarium Query instance, optional.
      * Used for dereferenced params.
      *
      * @var Query
@@ -300,7 +300,7 @@ class Helper
 
             if (!$this->query) {
                 throw new Exception(
-                    'Dereferenced params can only be used in a Solarium_Query_Helper instance retrieved from the query '
+                    'Dereferenced params can only be used in a Solarium query helper instance retrieved from the query '
                     . 'by using the getHelper() method, this instance was manually created'
                 );
             }

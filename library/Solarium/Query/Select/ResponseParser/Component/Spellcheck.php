@@ -80,7 +80,7 @@ class Spellcheck
                         $correctlySpelled = $value;
                         break;
                     case 'collation':
-                        $collations[] = $this->_parseCollation($value);
+                        $collations[] = $this->parseCollation($value);
                         break;
                     default:
                         $suggestions[] = $this->parseSuggestion($key, $value);
