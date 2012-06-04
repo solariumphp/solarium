@@ -31,20 +31,21 @@
  * @copyright Copyright 2012 Marc Morera <yuhu@mmoreram.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Query
  */
 
 /**
- * EDisMax component
+ * @namespace
+ */
+namespace Solarium\Query\Select\Query\Component;
+use Solarium\Query\Select\Query\Query as SelectQuery;
+use Solarium\Query\Select\RequestBuilder\Component\DisMax as RequestBuilder;
+
+/**
+ * EdisMax component
  *
  * @link http://wiki.apache.org/solr/ExtendedDisMax
- *
- * @package Solarium
- * @subpackage Query
  */
-class Solarium_Query_Select_Component_EDisMax extends Solarium_Query_Select_Component_DisMax
+class EdisMax extends DisMax
 {
 
     /**
@@ -52,7 +53,7 @@ class Solarium_Query_Select_Component_EDisMax extends Solarium_Query_Select_Comp
      *
      * @var string
      */
-    protected $_type = Solarium_Query_Select::COMPONENT_EDISMAX;
+    protected $_type = SelectQuery::COMPONENT_EDISMAX;
 
     /**
      * Default options
@@ -72,11 +73,11 @@ class Solarium_Query_Select_Component_EDisMax extends Solarium_Query_Select_Comp
      * Format is: "funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2"
      *
      * @param string $boostFunctionsMult
-     * @return Solarium_Query_Select_Component_EDisMax Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setBoostFunctionsMult($boostFunctionsMult)
     {
-        return $this->_setOption('boostfunctionsmult', $boostFunctionsMult);
+        return $this->setOption('boostfunctionsmult', $boostFunctionsMult);
     }
 
     /**
@@ -98,11 +99,11 @@ class Solarium_Query_Select_Component_EDisMax extends Solarium_Query_Select_Comp
      * Format is: "fieldA^1.0 fieldB^2.2 fieldC^3.5"
      *
      * @param string $phraseBigramFields
-     * @return Solarium_Query_Select_Component_EDisMax Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setPhraseBigramFields($phraseBigramFields)
     {
-        return $this->_setOption('phrasebigramfields', $phraseBigramFields);
+        return $this->setOption('phrasebigramfields', $phraseBigramFields);
     }
 
     /**
@@ -122,11 +123,11 @@ class Solarium_Query_Select_Component_EDisMax extends Solarium_Query_Select_Comp
      * If not specified, 'ps' will be used.
      *
      * @param string $phraseBigramSlop
-     * @return Solarium_Query_Select_Component_EDisMax Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setPhraseBigramSlop($phraseBigramSlop)
     {
-        return $this->_setOption('phrasebigramslop', $phraseBigramSlop);
+        return $this->setOption('phrasebigramslop', $phraseBigramSlop);
     }
 
     /**
@@ -148,11 +149,11 @@ class Solarium_Query_Select_Component_EDisMax extends Solarium_Query_Select_Comp
      * Format is: "fieldA^1.0 fieldB^2.2 fieldC^3.5"
      *
      * @param string $phraseTrigramFields
-     * @return Solarium_Query_Select_Component_EDisMax Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setPhraseTrigramFields($phraseTrigramFields)
     {
-        return $this->_setOption('phrasetrigramfields', $phraseTrigramFields);
+        return $this->setOption('phrasetrigramfields', $phraseTrigramFields);
     }
 
     /**
@@ -172,11 +173,11 @@ class Solarium_Query_Select_Component_EDisMax extends Solarium_Query_Select_Comp
      * If not specified, 'ps' will be used.
      *
      * @param string $phraseTrigramSlop
-     * @return Solarium_Query_Select_Component_EDisMax Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setPhraseTrigramSlop($phraseTrigramSlop)
     {
-        return $this->_setOption('phrasetrigramslop', $phraseTrigramSlop);
+        return $this->setOption('phrasetrigramslop', $phraseTrigramSlop);
     }
 
     /**
@@ -201,13 +202,12 @@ class Solarium_Query_Select_Component_EDisMax extends Solarium_Query_Select_Comp
      * The uf parameter was introduced in Solr3.6
      *
      * @param string $userFields
-     * @return Solarium_Query_Select_Component_EDisMax Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setUserFields($userFields)
     {
-        return $this->_setOption('userfields', $userFields);
+        return $this->setOption('userfields', $userFields);
     }
-
 
     /**
      * Get UserFields option

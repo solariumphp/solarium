@@ -29,17 +29,21 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-class Solarium_Query_Select_Component_EDisMaxTest extends PHPUnit_Framework_TestCase
+namespace Solarium\Tests\Query\Select\Query\Component;
+use Solarium\Query\Select\Query\Component\EdisMax;
+use Solarium\Query\Select\Query\Query;
+
+class EDisMaxTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Solarium_Query_Select_Component_EDisMax
+     * @var EdisMax
      */
-    protected $_eDisMax;
+    protected $eDisMax;
 
     public function setUp()
     {
-        $this->_eDisMax = new Solarium_Query_Select_Component_EDisMax;
+        $this->eDisMax = new EdisMax;
     }
 
     public function testConfigMode()
@@ -63,206 +67,206 @@ class Solarium_Query_Select_Component_EDisMaxTest extends PHPUnit_Framework_Test
             'userfields' => 'date *_ul',
         );
 
-        $this->_eDisMax->setOptions($options);
+        $this->eDisMax->setOptions($options);
 
-        $this->assertEquals($options['queryparser'], $this->_eDisMax->getQueryParser());
-        $this->assertEquals($options['queryalternative'], $this->_eDisMax->getQueryAlternative());
-        $this->assertEquals($options['queryfields'], $this->_eDisMax->getQueryFields());
-        $this->assertEquals($options['minimummatch'], $this->_eDisMax->getMinimumMatch());
-        $this->assertEquals($options['phrasefields'], $this->_eDisMax->getPhraseFields());
-        $this->assertEquals($options['phraseslop'], $this->_eDisMax->getPhraseSlop());
-        $this->assertEquals($options['phrasebigramfields'], $this->_eDisMax->getPhraseBigramFields());
-        $this->assertEquals($options['phrasebigramslop'], $this->_eDisMax->getPhraseBigramSlop());
-        $this->assertEquals($options['phrasetrigramfields'], $this->_eDisMax->getPhraseTrigramFields());
-        $this->assertEquals($options['phrasetrigramslop'], $this->_eDisMax->getPhraseTrigramSlop());
-        $this->assertEquals($options['queryphraseslop'], $this->_eDisMax->getQueryPhraseSlop());
-        $this->assertEquals($options['tie'], $this->_eDisMax->getTie());
-        $this->assertEquals($options['boostquery'], $this->_eDisMax->getBoostQuery());
-        $this->assertEquals($options['boostfunctionsmult'], $this->_eDisMax->getBoostFunctionsMult());
-        $this->assertEquals($options['userfields'], $this->_eDisMax->getUserFields());
+        $this->assertEquals($options['queryparser'], $this->eDisMax->getQueryParser());
+        $this->assertEquals($options['queryalternative'], $this->eDisMax->getQueryAlternative());
+        $this->assertEquals($options['queryfields'], $this->eDisMax->getQueryFields());
+        $this->assertEquals($options['minimummatch'], $this->eDisMax->getMinimumMatch());
+        $this->assertEquals($options['phrasefields'], $this->eDisMax->getPhraseFields());
+        $this->assertEquals($options['phraseslop'], $this->eDisMax->getPhraseSlop());
+        $this->assertEquals($options['phrasebigramfields'], $this->eDisMax->getPhraseBigramFields());
+        $this->assertEquals($options['phrasebigramslop'], $this->eDisMax->getPhraseBigramSlop());
+        $this->assertEquals($options['phrasetrigramfields'], $this->eDisMax->getPhraseTrigramFields());
+        $this->assertEquals($options['phrasetrigramslop'], $this->eDisMax->getPhraseTrigramSlop());
+        $this->assertEquals($options['queryphraseslop'], $this->eDisMax->getQueryPhraseSlop());
+        $this->assertEquals($options['tie'], $this->eDisMax->getTie());
+        $this->assertEquals($options['boostquery'], $this->eDisMax->getBoostQuery());
+        $this->assertEquals($options['boostfunctionsmult'], $this->eDisMax->getBoostFunctionsMult());
+        $this->assertEquals($options['userfields'], $this->eDisMax->getUserFields());
     }
 
     public function testGetType()
     {
         $this->assertEquals(
-            Solarium_Query_Select::COMPONENT_EDISMAX,
-            $this->_eDisMax->getType()
+            Query::COMPONENT_EDISMAX,
+            $this->eDisMax->getType()
         );
     }
 
     public function testSetAndGetQueryParser()
     {
         $value = 'dummyparser';
-        $this->_eDisMax->setQueryParser($value);
+        $this->eDisMax->setQueryParser($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getQueryParser()
+            $this->eDisMax->getQueryParser()
         );
     }
 
     public function testSetAndGetQueryAlternative()
     {
         $value = '*:*';
-        $this->_eDisMax->setQueryAlternative($value);
+        $this->eDisMax->setQueryAlternative($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getQueryAlternative()
+            $this->eDisMax->getQueryAlternative()
         );
     }
 
     public function testSetAndGetQueryFields()
     {
         $value = 'title^2.0 description';
-        $this->_eDisMax->setQueryFields($value);
+        $this->eDisMax->setQueryFields($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getQueryFields()
+            $this->eDisMax->getQueryFields()
         );
     }
 
     public function testSetAndGetMinimumMatch()
     {
         $value = '2.0';
-        $this->_eDisMax->setMinimumMatch($value);
+        $this->eDisMax->setMinimumMatch($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getMinimumMatch()
+            $this->eDisMax->getMinimumMatch()
         );
     }
 
     public function testSetAndGetPhraseFields()
     {
         $value = 'title^2.0 description^3.5';
-        $this->_eDisMax->setPhraseFields($value);
+        $this->eDisMax->setPhraseFields($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getPhraseFields()
+            $this->eDisMax->getPhraseFields()
         );
     }
 
     public function testSetAndGetPhraseSlop()
     {
         $value = '2';
-        $this->_eDisMax->setPhraseSlop($value);
+        $this->eDisMax->setPhraseSlop($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getPhraseSlop()
+            $this->eDisMax->getPhraseSlop()
         );
     }
 
     public function testSetAndGetPhraseBigramFields()
     {
         $value = 'description^1.3 date^4.3 field_text2^1.3';
-        $this->_eDisMax->setPhraseBigramFields($value);
+        $this->eDisMax->setPhraseBigramFields($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getPhraseBigramFields()
+            $this->eDisMax->getPhraseBigramFields()
         );
     }
 
     public function testSetAndGetPhraseBigramSlop()
     {
         $value = 3;
-        $this->_eDisMax->setPhraseBigramSlop($value);
+        $this->eDisMax->setPhraseBigramSlop($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getPhraseBigramSlop()
+            $this->eDisMax->getPhraseBigramSlop()
         );
     }
 
     public function testSetAndGetPhraseTrigramFields()
     {
         $value = 'datetime^4 field1^5 myotherfield^9';
-        $this->_eDisMax->setPhraseTrigramFields($value);
+        $this->eDisMax->setPhraseTrigramFields($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getPhraseTrigramFields()
+            $this->eDisMax->getPhraseTrigramFields()
         );
     }
 
     public function testSetAndGetPhraseTrigramSlop()
     {
         $value = 5;
-        $this->_eDisMax->setPhraseTrigramSlop($value);
+        $this->eDisMax->setPhraseTrigramSlop($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getPhraseTrigramSlop()
+            $this->eDisMax->getPhraseTrigramSlop()
         );
     }
 
     public function testSetAndGetQueryPhraseSlop()
     {
         $value = '3';
-        $this->_eDisMax->setQueryPhraseSlop($value);
+        $this->eDisMax->setQueryPhraseSlop($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getQueryPhraseSlop()
+            $this->eDisMax->getQueryPhraseSlop()
         );
     }
 
     public function testSetAndGetTie()
     {
         $value = 2.1;
-        $this->_eDisMax->setTie($value);
+        $this->eDisMax->setTie($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getTie()
+            $this->eDisMax->getTie()
         );
     }
 
     public function testSetAndGetBoostQuery()
     {
         $value = 'cat:1^3';
-        $this->_eDisMax->setBoostQuery($value);
+        $this->eDisMax->setBoostQuery($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getBoostQuery()
+            $this->eDisMax->getBoostQuery()
         );
     }
 
     public function testSetAndGetBoostFunctions()
     {
         $value = 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2';
-        $this->_eDisMax->setBoostFunctions($value);
+        $this->eDisMax->setBoostFunctions($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getBoostFunctions()
+            $this->eDisMax->getBoostFunctions()
         );
     }
 
     public function testSetAndGetBoostFunctionsMult()
     {
         $value = 'funcC(arg5,arg6)^4.3 funcD(arg7,arg8)^3.4';
-        $this->_eDisMax->setBoostFunctionsMult($value);
+        $this->eDisMax->setBoostFunctionsMult($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getBoostFunctionsMult()
+            $this->eDisMax->getBoostFunctionsMult()
         );
     }
 
     public function testSetAndGetUserFields()
     {
         $value = 'date *_ul';
-        $this->_eDisMax->setUserFields($value);
+        $this->eDisMax->setUserFields($value);
 
         $this->assertEquals(
             $value,
-            $this->_eDisMax->getUserFields()
+            $this->eDisMax->getUserFields()
         );
     }
 }

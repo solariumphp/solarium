@@ -31,33 +31,28 @@
  * @copyright Copyright 2012 Marc Morera <yuhu@mmoreram.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
- * @subpackage Client
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Query\Select\Query\Component;
-use Solarium\Query\Select\Query\Query as SelectQuery;
-use Solarium\Query\Select\RequestBuilder\Component\DisMax as RequestBuilder;
+namespace Solarium\Query\Select\RequestBuilder\Component;
+use Solarium\Query\Select\Query\Component\Edismax;
+use Solarium\Core\Client\Request;
 
 /**
  * Add select component edismax to the request
  *
- * @package Solarium
- * @subpackage Client
  */
 class EdisMax
 {
 
     /**
-     * Add request settings for EDismax
+     * Add request settings for EdismaxComponent
      *
-     * @param Solarium_Query_Select_Component_EDismax $component
-     * @param Solarium_Client_Request $request
-     * @return Solarium_Client_Request
+     * @param Edismax $component
+     * @param Request $request
+     * @return Request
      */
     public function buildComponent($component, $request)
     {
@@ -79,7 +74,6 @@ class EdisMax
         $request->addParam('bf', $component->getBoostFunctions());
         $request->addParam('boost', $component->getBoostFunctionsMult());
         $request->addParam('uf', $component->getUserFields());
-
 
         return $request;
     }
