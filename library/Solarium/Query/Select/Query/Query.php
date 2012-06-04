@@ -84,6 +84,11 @@ class Query extends BaseQuery
     const COMPONENT_DISMAX = 'dismax';
 
     /**
+     * Query component dismax
+     */
+    const COMPONENT_EDISMAX = 'edismax';
+
+    /**
      * Query component morelikethis
      */
     const COMPONENT_MORELIKETHIS = 'morelikethis';
@@ -141,6 +146,7 @@ class Query extends BaseQuery
     protected $componentTypes = array(
         self::COMPONENT_FACETSET          => 'Solarium\Query\Select\Query\Component\FacetSet',
         self::COMPONENT_DISMAX            => 'Solarium\Query\Select\Query\Component\DisMax',
+        self::COMPONENT_EDISMAX            => 'Solarium\Query\Select\Query\Component\EdisMax',
         self::COMPONENT_MORELIKETHIS      => 'Solarium\Query\Select\Query\Component\MoreLikeThis',
         self::COMPONENT_HIGHLIGHTING      => 'Solarium\Query\Select\Query\Component\Highlighting\Highlighting',
         self::COMPONENT_GROUPING          => 'Solarium\Query\Select\Query\Component\Grouping',
@@ -880,6 +886,18 @@ class Query extends BaseQuery
     public function getDisMax()
     {
         return $this->getComponent(self::COMPONENT_DISMAX, true);
+    }
+
+    /**
+     * Get a EdisMax component instance
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return Component\EdisMax
+     */
+    public function getEDisMax()
+    {
+        return $this->getComponent(self::COMPONENT_EDISMAX, true);
     }
 
     /**

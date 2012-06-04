@@ -68,7 +68,7 @@ class Spellcheck
 
             $suggestions = array();
             $correctlySpelled = null;
-            $collation = null;
+            $collations = array();
 
             $index = 0;
             while (isset($spellcheckResults[$index]) && isset($spellcheckResults[$index+1])) {
@@ -80,7 +80,7 @@ class Spellcheck
                         $correctlySpelled = $value;
                         break;
                     case 'collation':
-                        $collation = $this->parseCollation($value);
+                        $collations[] = $this->_parseCollation($value);
                         break;
                     default:
                         $suggestions[] = $this->parseSuggestion($key, $value);
@@ -89,7 +89,7 @@ class Spellcheck
                 $index +=2;
             }
 
-            return new SpellcheckResult\Result($suggestions, $collation, $correctlySpelled);
+            return new SpellcheckResult\Result($suggestions, $collations, $correctlySpelled);
         } else {
             return null;
         }

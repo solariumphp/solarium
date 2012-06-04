@@ -52,11 +52,11 @@ class Result implements \IteratorAggregate, \Countable
     protected $suggestions;
 
     /**
-     * Collation object
+     * Collation object array
      *
-     * @var Collation
+     * @var array
      */
-    protected $collation;
+    protected $collations;
 
     /**
      * Correctly spelled?
@@ -73,21 +73,42 @@ class Result implements \IteratorAggregate, \Countable
      * @param boolean $correctlySpelled
      * @return void
      */
-    public function __construct($suggestions, $collation, $correctlySpelled)
+    public function __construct($suggestions, $collations, $correctlySpelled)
     {
         $this->suggestions = $suggestions;
-        $this->collation = $collation;
+        $this->collations = $collations;
         $this->correctlySpelled = $correctlySpelled;
     }
 
     /**
      * Get the collation result
      *
+     * @param int $key
      * @return Collation
      */
-    public function getCollation()
+    public function getCollation($key = null)
     {
-        return $this->collation;
+        $nrOfCollations = count($this->collations);
+        if ($nrOfCollations == 0) {
+            return null;
+        } else {
+
+            if ($key === null) {
+                $key = $nrOfCollations - 1; // for backwards compatibility
+            }
+
+            return $this->collations[$key];
+        }
+    }
+
+    /**
+     * Get all collations
+     *
+     * @return array
+     */
+    public function getCollations()
+    {
+        return $this->collations;
     }
 
     /**

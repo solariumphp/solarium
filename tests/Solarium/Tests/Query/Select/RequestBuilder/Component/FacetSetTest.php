@@ -135,6 +135,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
+
         $this->assertEquals(
             null,
             $request->getRawData()

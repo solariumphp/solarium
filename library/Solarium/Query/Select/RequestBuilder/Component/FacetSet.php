@@ -190,7 +190,7 @@ class FacetSet extends RequestBuilder
             }
         }
 
-        if (null !== $facet->getOther()) {
+        if (null !== $facet->getInclude()) {
             $include = explode(',', $facet->getInclude());
             foreach ($include AS $includeValue) {
                 $request->addParam("f.$field.facet.range.include", trim($includeValue));
