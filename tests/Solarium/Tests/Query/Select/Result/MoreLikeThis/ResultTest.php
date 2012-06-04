@@ -69,8 +69,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $docs = array();
-        foreach($this->mltResult AS $key => $doc)
-        {
+        foreach ($this->mltResult AS $key => $doc) {
             $docs[$key] = $doc;
         }
 

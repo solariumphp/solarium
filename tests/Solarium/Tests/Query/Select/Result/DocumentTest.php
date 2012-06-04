@@ -78,8 +78,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $fields = array();
-        foreach($this->doc AS $key => $field)
-        {
+        foreach ($this->doc AS $key => $field) {
             $fields[$key] = $field;
         }
 

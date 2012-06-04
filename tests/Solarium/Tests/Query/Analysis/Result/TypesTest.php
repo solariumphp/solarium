@@ -65,8 +65,7 @@ class TypesTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $lists = array();
-        foreach($this->result AS $key => $list)
-        {
+        foreach ($this->result AS $key => $list) {
             $lists[$key] = $list;
         }
 
@@ -127,20 +126,26 @@ class TypesTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class testAnalysisTypeIndexDummy{
-    public function getName(){
+class testAnalysisTypeIndexDummy
+{
+    public function getName()
+    {
         return 'index';
     }
 }
 
-class testAnalysisTypeQueryDummy{
-    public function getName(){
+class testAnalysisTypeQueryDummy
+{
+    public function getName()
+    {
         return 'query';
     }
 }
 
-class testAnalysisTypeInvalidDummy{
-    public function getName(){
+class testAnalysisTypeInvalidDummy
+{
+    public function getName()
+    {
         return 'invalid';
     }
 }

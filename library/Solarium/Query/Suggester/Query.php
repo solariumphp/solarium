@@ -96,8 +96,8 @@ class Query extends BaseQuery
      *
      * Query to spellcheck
      *
-     * @param string $query
-     * @return self Provides fluent interface
+     * @param  string $query
+     * @return self   Provides fluent interface
      */
     public function setQuery($query)
     {
@@ -119,8 +119,8 @@ class Query extends BaseQuery
      *
      * The name of the dictionary to use
      *
-     * @param string $dictionary
-     * @return self Provides fluent interface
+     * @param  string $dictionary
+     * @return self   Provides fluent interface
      */
     public function setDictionary($dictionary)
     {
@@ -142,7 +142,7 @@ class Query extends BaseQuery
      *
      * The maximum number of suggestions to return
      *
-     * @param int $count
+     * @param  int  $count
      * @return self Provides fluent interface
      */
     public function setCount($count)
@@ -165,8 +165,8 @@ class Query extends BaseQuery
      *
      * Only return suggestions that result in more hits for the query than the existing query
      *
-     * @param boolean $onlyMorePopular
-     * @return self Provides fluent interface
+     * @param  boolean $onlyMorePopular
+     * @return self    Provides fluent interface
      */
     public function setOnlyMorePopular($onlyMorePopular)
     {
@@ -186,8 +186,8 @@ class Query extends BaseQuery
     /**
      * Set collate option
      *
-     * @param boolean $collate
-     * @return self Provides fluent interface
+     * @param  boolean $collate
+     * @return self    Provides fluent interface
      */
     public function setCollate($collate)
     {
@@ -203,6 +203,5 @@ class Query extends BaseQuery
     {
         return $this->getOption('collate');
     }
-
 
 }

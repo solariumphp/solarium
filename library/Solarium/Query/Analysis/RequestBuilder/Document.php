@@ -50,7 +50,7 @@ class Document extends BaseRequestBuilder
     /**
      * Build request for an analysis document query
      *
-     * @param Document $query
+     * @param  Document $query
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -65,7 +65,7 @@ class Document extends BaseRequestBuilder
     /**
      * Create the raw post data (xml)
      *
-     * @param Document $query
+     * @param  Document $query
      * @return string
      */
     public function getRawData($query)
@@ -96,8 +96,8 @@ class Document extends BaseRequestBuilder
     /**
      * Build XML for a field
      *
-     * @param string $name
-     * @param mixed $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return string
      */
     protected function buildFieldXml($name, $value)

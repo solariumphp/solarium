@@ -49,8 +49,8 @@ class Debug
     /**
      * Add request settings for the debug component
      *
-     * @param DebugComponent $component
-     * @param Request $request
+     * @param  DebugComponent $component
+     * @param  Request        $request
      * @return Request
      */
     public function buildComponent($component, $request)

@@ -91,7 +91,7 @@ class BufferedAdd extends Plugin
     /**
      * Set buffer size option
      *
-     * @param int $size
+     * @param  int  $size
      * @return self
      */
     public function setBufferSize($size)
@@ -112,9 +112,9 @@ class BufferedAdd extends Plugin
     /**
      * Create a document object instance and add it to the buffer
      *
-     * @param array $fields
-     * @param array $boosts
-     * @return self Provides fluent interface
+     * @param  array $fields
+     * @param  array $boosts
+     * @return self  Provides fluent interface
      */
     public function createDocument($fields, $boosts = array())
     {
@@ -127,8 +127,8 @@ class BufferedAdd extends Plugin
     /**
      * Add a document
      *
-     * @param ReadOnlyDocument $document
-     * @return self Provides fluent interface
+     * @param  ReadOnlyDocument $document
+     * @return self             Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -176,14 +176,15 @@ class BufferedAdd extends Plugin
     {
         $this->updateQuery = $this->client->createUpdate();
         $this->buffer = array();
+
         return $this;
     }
 
     /**
      * Flush any buffered documents to Solr
      *
-     * @param boolean $overwrite
-     * @param int $commitWithin
+     * @param  boolean              $overwrite
+     * @param  int                  $commitWithin
      * @return boolean|UpdateResult
      */
     public function flush($overwrite = null, $commitWithin = null)
@@ -209,10 +210,10 @@ class BufferedAdd extends Plugin
      *
      * Any remaining documents in the buffer will also be flushed
      *
-     * @param boolean $overwrite
-     * @param boolean $waitFlush
-     * @param boolean $waitSearcher
-     * @param boolean $expungeDeletes
+     * @param  boolean      $overwrite
+     * @param  boolean      $waitFlush
+     * @param  boolean      $waitSearcher
+     * @param  boolean      $expungeDeletes
      * @return UpdateResult
      */
     public function commit($overwrite = null, $waitFlush = null, $waitSearcher = null, $expungeDeletes = null)

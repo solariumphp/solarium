@@ -182,7 +182,6 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     public function testRemoveInvalidField()
     {
         $this->doc->removeField('invalidname'); //should silently continue...

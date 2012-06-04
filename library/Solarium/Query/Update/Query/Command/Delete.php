@@ -100,8 +100,8 @@ class Delete extends Command
     /**
      * Add a single ID to the delete command
      *
-     * @param int|string $id
-     * @return self Provides fluent interface
+     * @param  int|string $id
+     * @return self       Provides fluent interface
      */
     public function addId($id)
     {
@@ -113,8 +113,8 @@ class Delete extends Command
     /**
      * Add multiple IDs to the delete command
      *
-     * @param array $ids
-     * @return self Provides fluent interface
+     * @param  array $ids
+     * @return self  Provides fluent interface
      */
     public function addIds($ids)
     {
@@ -126,8 +126,8 @@ class Delete extends Command
     /**
      * Add a single query to the delete command
      *
-     * @param string $query
-     * @return self Provides fluent interface
+     * @param  string $query
+     * @return self   Provides fluent interface
      */
     public function addQuery($query)
     {
@@ -139,8 +139,8 @@ class Delete extends Command
     /**
      * Add multiple queries to the delete command
      *
-     * @param array $queries
-     * @return self Provides fluent interface
+     * @param  array $queries
+     * @return self  Provides fluent interface
      */
     public function addQueries($queries)
     {

@@ -63,10 +63,10 @@ interface AdapterInterface extends ConfigurableInterface
     /**
      * Execute a request
      *
-     * @param Request $request
-     * @param Endpoint $endpoint
+     * @param  Request  $request
+     * @param  Endpoint $endpoint
      * @return Response
      */
-    function execute($request, $endpoint);
+    public function execute($request, $endpoint);
 
 }

@@ -50,9 +50,9 @@ class Spellcheck
     /**
      * Parse result data into result objects
      *
-     * @param Query $query
-     * @param SpellcheckComponent $spellcheck
-     * @param array $data
+     * @param  Query                        $query
+     * @param  SpellcheckComponent          $spellcheck
+     * @param  array                        $data
      * @return SpellcheckResult\Result|null
      */
     public function parse($query, $spellcheck, $data)
@@ -98,7 +98,7 @@ class Spellcheck
     /**
      * Parse collation data into a result object
      *
-     * @param array $values
+     * @param  array                      $values
      * @return SpellcheckResult\Collation
      */
     protected function parseCollation($values)
@@ -152,8 +152,8 @@ class Spellcheck
     /**
      * Parse suggestion data into a result object
      *
-     * @param string $key
-     * @param array $value
+     * @param  string                      $key
+     * @param  array                       $value
      * @return SpellcheckResult\Suggestion
      */
     protected function parseSuggestion($key, $value)

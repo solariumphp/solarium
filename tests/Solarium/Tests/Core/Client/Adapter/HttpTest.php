@@ -33,7 +33,6 @@ namespace Solarium\Tests\Core\Client\Adapter;
 use Solarium\Core\Client\Adapter\Http as HttpAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
-use Solarium\Core\Exception;
 use Solarium\Core\Client\HttpException;
 
 class HttpTest extends \PHPUnit_Framework_TestCase

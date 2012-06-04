@@ -96,13 +96,13 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param string $queryString
-     * @param string $parsedQuery
-     * @param string $queryParser
-     * @param string $otherQuery
+     * @param string      $queryString
+     * @param string      $parsedQuery
+     * @param string      $queryParser
+     * @param string      $otherQuery
      * @param DocumentSet $explain
      * @param DocumentSet $explainOther
-     * @param Timing $timing
+     * @param Timing      $timing
      */
     public function __construct($queryString, $parsedQuery, $queryParser, $otherQuery, $explain, $explainOther, $timing)
     {

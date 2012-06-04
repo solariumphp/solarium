@@ -50,8 +50,8 @@ class EdisMax
     /**
      * Add request settings for EdismaxComponent
      *
-     * @param EdismaxComponent $component
-     * @param Request $request
+     * @param  EdismaxComponent $component
+     * @param  Request          $request
      * @return Request
      */
     public function buildComponent($component, $request)

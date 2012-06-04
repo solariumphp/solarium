@@ -69,8 +69,8 @@ class Optimize extends Command
     /**
      * Set waitFlush option
      *
-     * @param boolean $waitFlush
-     * @return self Provides fluent interface
+     * @param  boolean $waitFlush
+     * @return self    Provides fluent interface
      */
     public function setWaitFlush($waitFlush)
     {
@@ -90,8 +90,8 @@ class Optimize extends Command
     /**
      * Set waitSearcher option
      *
-     * @param boolean $waitSearcher
-     * @return self Provides fluent interface
+     * @param  boolean $waitSearcher
+     * @return self    Provides fluent interface
      */
     public function setWaitSearcher($waitSearcher)
     {
@@ -111,8 +111,8 @@ class Optimize extends Command
     /**
      * Set maxSegments option
      *
-     * @param boolean $maxSegments
-     * @return self Provides fluent interface
+     * @param  boolean $maxSegments
+     * @return self    Provides fluent interface
      */
     public function setMaxSegments($maxSegments)
     {

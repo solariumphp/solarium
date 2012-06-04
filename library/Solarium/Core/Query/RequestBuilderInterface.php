@@ -49,9 +49,9 @@ interface RequestBuilderInterface
     /**
      * Build request for a select query
      *
-     * @param QueryInterface $query
+     * @param  QueryInterface $query
      * @return Request
      */
-    function build(QueryInterface $query);
+    public function build(QueryInterface $query);
 
 }

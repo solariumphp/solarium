@@ -61,11 +61,11 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param string $key
+     * @param string  $key
      * @param boolean $match
-     * @param float $value
-     * @param string $description
-     * @param array $details
+     * @param float   $value
+     * @param string  $description
+     * @param array   $details
      */
     public function __construct($key, $match, $value, $description, $details)
     {

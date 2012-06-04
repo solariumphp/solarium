@@ -32,7 +32,6 @@
 namespace Solarium\Tests;
 use Solarium\Client;
 
-
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
 

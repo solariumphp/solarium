@@ -50,9 +50,9 @@ class Grouping
     /**
      * Parse result data into result objects
      *
-     * @param Query $query
-     * @param GroupingComponent $grouping
-     * @param array $data
+     * @param  Query                 $query
+     * @param  GroupingComponent     $grouping
+     * @param  array                 $data
      * @return GroupingResult\Result
      */
     public function parse($query, $grouping, $data)

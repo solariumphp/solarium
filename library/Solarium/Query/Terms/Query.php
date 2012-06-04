@@ -98,8 +98,8 @@ class Query extends BaseQuery
      *
      * For multiple fields use a comma-separated string
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setFields($value)
     {
@@ -119,8 +119,8 @@ class Query extends BaseQuery
     /**
      * Set the lowerbound term to start at
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setLowerbound($value)
     {
@@ -140,8 +140,8 @@ class Query extends BaseQuery
     /**
      * Set lowerboundinclude
      *
-     * @param boolean $value
-     * @return self Provides fluent interface
+     * @param  boolean $value
+     * @return self    Provides fluent interface
      */
     public function setLowerboundInclude($value)
     {
@@ -161,8 +161,8 @@ class Query extends BaseQuery
     /**
      * Set mincount (the minimum doc frequency for terms in order to be included)
      *
-     * @param integer $value
-     * @return self Provides fluent interface
+     * @param  integer $value
+     * @return self    Provides fluent interface
      */
     public function setMinCount($value)
     {
@@ -182,8 +182,8 @@ class Query extends BaseQuery
     /**
      * Set maxcount (the maximum doc frequency for terms in order to be included)
      *
-     * @param integer $value
-     * @return self Provides fluent interface
+     * @param  integer $value
+     * @return self    Provides fluent interface
      */
     public function setMaxCount($value)
     {
@@ -203,8 +203,8 @@ class Query extends BaseQuery
     /**
      * Set prefix for terms
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setPrefix($value)
     {
@@ -224,8 +224,8 @@ class Query extends BaseQuery
     /**
      * Set regex to restrict terms
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setRegex($value)
     {
@@ -247,8 +247,8 @@ class Query extends BaseQuery
      *
      * Use a comma-separated string for multiple entries
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setRegexFlags($value)
     {
@@ -270,8 +270,8 @@ class Query extends BaseQuery
      *
      * If < 0 all terms are included
      *
-     * @param integer $value
-     * @return self Provides fluent interface
+     * @param  integer $value
+     * @return self    Provides fluent interface
      */
     public function setLimit($value)
     {
@@ -291,8 +291,8 @@ class Query extends BaseQuery
     /**
      * Set the upperbound term to start at
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setUpperbound($value)
     {
@@ -312,8 +312,8 @@ class Query extends BaseQuery
     /**
      * Set upperboundinclude
      *
-     * @param boolean $value
-     * @return self Provides fluent interface
+     * @param  boolean $value
+     * @return self    Provides fluent interface
      */
     public function setUpperboundInclude($value)
     {
@@ -333,8 +333,8 @@ class Query extends BaseQuery
     /**
      * Set raw option
      *
-     * @param boolean $value
-     * @return self Provides fluent interface
+     * @param  boolean $value
+     * @return self    Provides fluent interface
      */
     public function setRaw($value)
     {
@@ -354,8 +354,8 @@ class Query extends BaseQuery
     /**
      * Set sort option
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setSort($value)
     {

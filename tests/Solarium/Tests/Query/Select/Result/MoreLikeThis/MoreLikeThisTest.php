@@ -83,8 +83,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach($this->mlt AS $key => $item)
-        {
+        foreach ($this->mlt AS $key => $item) {
             $items[$key] = $item;
         }
 

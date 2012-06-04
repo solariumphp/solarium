@@ -49,8 +49,8 @@ class DisMax
     /**
      * Add request settings for Dismax
      *
-     * @param DismaxComponent $component
-     * @param Request $request
+     * @param  DismaxComponent $component
+     * @param  Request         $request
      * @return Request
      */
     public function buildComponent($component, $request)

@@ -43,7 +43,6 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Client\HttpException;
 use Solarium\Core\Query\Query;
 
-
 /**
  * Query result
  *
@@ -86,9 +85,9 @@ class Result implements ResultInterface
     /**
      * Constructor
      *
-     * @param Client $client
-     * @param Query $query
-     * @param Response $response
+     * @param  Client   $client
+     * @param  Query    $query
+     * @param  Response $response
      * @return void
      */
     public function __construct($client, $query, $response)

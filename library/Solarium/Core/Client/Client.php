@@ -217,7 +217,7 @@ class Client extends Configurable
      * When no key is supplied the endpoint cannot be registered, in that case you will need to do this manually
      * after setting the key, by using the addEndpoint method.
      *
-     * @param mixed $options
+     * @param  mixed    $options
      * @return Endpoint
      */
     public function createEndpoint($options = null)
@@ -242,8 +242,8 @@ class Client extends Configurable
      * Supports a endpoint instance or a config array as input.
      * In case of options a new endpoint instance wil be created based on the options.
      *
-     * @param Endpoint|array $endpoint
-     * @return self Provides fluent interface
+     * @param  Endpoint|array $endpoint
+     * @return self           Provides fluent interface
      */
     public function addEndpoint($endpoint)
     {
@@ -276,8 +276,8 @@ class Client extends Configurable
     /**
      * Add multiple endpoints
      *
-     * @param array $endpoints
-     * @return self Provides fluent interface
+     * @param  array $endpoints
+     * @return self  Provides fluent interface
      */
     public function addEndpoints(array $endpoints)
     {
@@ -297,7 +297,7 @@ class Client extends Configurable
     /**
      * Get an endpoint by key
      *
-     * @param string $key
+     * @param  string   $key
      * @return Endpoint
      */
     public function getEndpoint($key = null)
@@ -328,8 +328,8 @@ class Client extends Configurable
      *
      * You can remove a endpoint by passing it's key, or by passing the endpoint instance
      *
-     * @param string|Endpoint $endpoint
-     * @return self Provides fluent interface
+     * @param  string|Endpoint $endpoint
+     * @return self            Provides fluent interface
      */
     public function removeEndpoint($endpoint)
     {
@@ -353,6 +353,7 @@ class Client extends Configurable
     {
         $this->endpoints = array();
         $this->defaultEndpoint = null;
+
         return $this;
     }
 
@@ -374,8 +375,8 @@ class Client extends Configurable
      *
      * All queries executed without a specific endpoint will use this default endpoint.
      *
-     * @param string|Endpoint $endpoint
-     * @return self Provides fluent interface
+     * @param  string|Endpoint $endpoint
+     * @return self            Provides fluent interface
      * @throws Exception
      */
     public function setDefaultEndpoint($endpoint)
@@ -389,6 +390,7 @@ class Client extends Configurable
         }
 
         $this->defaultEndpoint = $endpoint;
+
         return $this;
     }
 
@@ -407,19 +409,21 @@ class Client extends Configurable
      * If an adapter instance is passed it will replace the current adapter
      * immediately, bypassing the lazy loading.
      *
-     * @param string|Adapter\AdapterInterface $adapter
-     * @return self Provides fluent interface
+     * @param  string|Adapter\AdapterInterface $adapter
+     * @return self                            Provides fluent interface
      */
     public function setAdapter($adapter)
     {
         if (is_string($adapter)) {
             $this->adapter = null;
+
             return $this->setOption('adapter', $adapter);
-        } else if ($adapter instanceof AdapterInterface) {
+        } elseif ($adapter instanceof AdapterInterface) {
             // forward options
             $adapter->setOptions($this->options);
             // overwrite existing adapter
             $this->adapter = $adapter;
+
             return $this;
         } else {
             throw new Exception('Invalid adapter input for setAdapter');
@@ -459,7 +463,7 @@ class Client extends Configurable
      * If {@see $adapter} doesn't hold an instance a new one will be created by
      * calling {@see createAdapter()}
      *
-     * @param boolean $autoload
+     * @param  boolean                  $autoload
      * @return Adapter\AdapterInterface
      */
     public function getAdapter($autoload = true)
@@ -478,9 +482,9 @@ class Client extends Configurable
      * This requires the availability of the classes through autoloading or a manual
      * require before calling this method.
      *
-     * @param string $type
-     * @param string $queryClass
-     * @return self Provides fluent interface
+     * @param  string $type
+     * @param  string $queryClass
+     * @return self   Provides fluent interface
      */
     public function registerQueryType($type, $queryClass)
     {
@@ -492,8 +496,8 @@ class Client extends Configurable
     /**
      * Register multiple querytypes
      *
-     * @param array $queryTypes
-     * @return self Provides fluent interface
+     * @param  array $queryTypes
+     * @return self  Provides fluent interface
      */
     public function registerQueryTypes($queryTypes)
     {
@@ -528,10 +532,10 @@ class Client extends Configurable
      * This requires the availability of the class through autoloading
      * or a manual require.
      *
-     * @param string $key
-     * @param string|\Solarium\Core\Plugin $plugin
-     * @param array $options
-     * @return self Provides fluent interface
+     * @param  string                       $key
+     * @param  string|\Solarium\Core\Plugin $plugin
+     * @param  array                        $options
+     * @return self                         Provides fluent interface
      */
     public function registerPlugin($key, $plugin, $options = array())
     {
@@ -554,8 +558,8 @@ class Client extends Configurable
     /**
      * Register multiple plugins
      *
-     * @param array $plugins
-     * @return self Provides fluent interface
+     * @param  array $plugins
+     * @return self  Provides fluent interface
      */
     public function registerPlugins($plugins)
     {
@@ -588,8 +592,8 @@ class Client extends Configurable
     /**
      * Get a plugin instance
      *
-     * @param string $key
-     * @param boolean $autocreate
+     * @param  string                     $key
+     * @param  boolean                    $autocreate
      * @return \Solarium\Core\Plugin|null
      */
     public function getPlugin($key, $autocreate = true)
@@ -599,6 +603,7 @@ class Client extends Configurable
         } elseif ($autocreate) {
             if (array_key_exists($key, $this->pluginTypes)) {
                 $this->registerPlugin($key, $this->pluginTypes[$key]);
+
                 return $this->pluginInstances[$key];
             } else {
                 throw new Exception('Cannot autoload plugin of unknown type: ' . $key);
@@ -613,8 +618,8 @@ class Client extends Configurable
      *
      * You can remove a plugin by passing the plugin key, or the plugin instance
      *
-     * @param string|\Solarium\Core\Plugin $plugin
-     * @return self Provides fluent interface
+     * @param  string|\Solarium\Core\Plugin $plugin
+     * @return self                         Provides fluent interface
      */
     public function removePlugin($plugin)
     {
@@ -630,6 +635,7 @@ class Client extends Configurable
                 unset($this->pluginInstances[$plugin]);
             }
         }
+
         return $this;
     }
 
@@ -643,9 +649,9 @@ class Client extends Configurable
      *
      * External events always have the 'event' prefix in the event name.
      *
-     * @param string $event
-     * @param array $params
-     * @param bool $resultOverride
+     * @param  string     $event
+     * @param  array      $params
+     * @param  bool       $resultOverride
      * @return void|mixed
      */
     public function triggerEvent($event, $params = array(), $resultOverride = false)
@@ -659,9 +665,9 @@ class Client extends Configurable
     /**
      * Forward events to plugins
      *
-     * @param string $event
-     * @param array $params
-     * @param bool $resultOverride
+     * @param  string     $event
+     * @param  array      $params
+     * @param  bool       $resultOverride
      * @return void|mixed
      */
     protected function callPlugins($event, $params, $resultOverride = false)
@@ -680,7 +686,7 @@ class Client extends Configurable
     /**
      * Creates a request based on a query instance
      *
-     * @param QueryInterface $query
+     * @param  QueryInterface $query
      * @return Request
      */
     public function createRequest(QueryInterface $query)
@@ -705,8 +711,8 @@ class Client extends Configurable
     /**
      * Creates a result object
      *
-     * @param QueryInterface $query
-     * @param array Response $response
+     * @param  QueryInterface  $query
+     * @param  array Response  $response
      * @return ResultInterface
      */
     public function createResult(QueryInterface $query, $response)
@@ -925,8 +931,8 @@ class Client extends Configurable
     /**
      * Create a query instance
      *
-     * @param string $type
-     * @param array $options
+     * @param  string                     $type
+     * @param  array                      $options
      * @return \Solarium\Core\Query\Query
      */
     public function createQuery($type, $options = null)
@@ -957,7 +963,7 @@ class Client extends Configurable
     /**
      * Create a select query instance
      *
-     * @param mixed $options
+     * @param  mixed                              $options
      * @return \Solarium\Query\Select\Query\Query
      */
     public function createSelect($options = null)
@@ -968,7 +974,7 @@ class Client extends Configurable
     /**
      * Create a MoreLikeThis query instance
      *
-     * @param mixed $options
+     * @param  mixed                              $options
      * @return \Solarium\Query\MorelikeThis\Query
      */
     public function createMoreLikeThis($options = null)
@@ -979,7 +985,7 @@ class Client extends Configurable
     /**
      * Create an update query instance
      *
-     * @param mixed $options
+     * @param  mixed                              $options
      * @return \Solarium\Query\Update\Query\Query
      */
     public function createUpdate($options = null)
@@ -990,7 +996,7 @@ class Client extends Configurable
     /**
      * Create a ping query instance
      *
-     * @param mixed $options
+     * @param  mixed                      $options
      * @return \Solarium\Query\Ping\Query
      */
     public function createPing($options = null)
@@ -1001,7 +1007,7 @@ class Client extends Configurable
     /**
      * Create an analysis field query instance
      *
-     * @param mixed $options
+     * @param  mixed                                $options
      * @return \Solarium\Query\Analysis\Query\Field
      */
     public function createAnalysisField($options = null)
@@ -1012,7 +1018,7 @@ class Client extends Configurable
     /**
      * Create an analysis document query instance
      *
-     * @param mixed $options
+     * @param  mixed                                   $options
      * @return \Solarium\Query\Analysis\Query\Document
      */
     public function createAnalysisDocument($options = null)
@@ -1023,7 +1029,7 @@ class Client extends Configurable
     /**
      * Create a terms query instance
      *
-     * @param mixed $options
+     * @param  mixed                       $options
      * @return \Solarium\Query\Terms\Query
      */
     public function createTerms($options = null)
@@ -1034,7 +1040,7 @@ class Client extends Configurable
     /**
      * Create a suggester query instance
      *
-     * @param mixed $options
+     * @param  mixed                           $options
      * @return \Solarium\Query\Suggester\Query
      */
     public function createSuggester($options = null)

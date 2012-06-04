@@ -49,8 +49,8 @@ class MoreLikeThis
     /**
      * Add request settings for morelikethis
      *
-     * @param MoreLikeThisComponent $component
-     * @param Request $request
+     * @param  MoreLikeThisComponent $component
+     * @param  Request               $request
      * @return Request
      */
     public function buildComponent($component, $request)

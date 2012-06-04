@@ -98,7 +98,7 @@ class Helper
      *
      * @link http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
      *
-     * @param string $input
+     * @param  string $input
      * @return string
      */
     public function escapeTerm($input)
@@ -120,7 +120,7 @@ class Helper
      * this method, the whole query will be escaped. You need to escape only the
      * 'content' of your query.
      *
-     * @param string $input
+     * @param  string $input
      * @return string
      */
     public function escapePhrase($input)
@@ -136,19 +136,17 @@ class Helper
      *
      * @see http://lucene.apache.org/solr/api/org/apache/solr/schema/DateField.html
      *
-     * @param int|string|\DateTime $input accepted formats: timestamp, date string or DateTime
-     * @return string|boolean false is returned in case of invalid input
+     * @param  int|string|\DateTime $input accepted formats: timestamp, date string or DateTime
+     * @return string|boolean       false is returned in case of invalid input
      */
     public function formatDate($input)
     {
-        switch(true){
-
+        switch (true) {
 
             // input of datetime object
             case $input instanceof \DateTime:
                 // no work needed
                 break;
-
 
             // input of timestamp or date/time string
             case is_string($input) || is_numeric($input):
@@ -166,17 +164,14 @@ class Helper
                 }
                 break;
 
-
             // any other input formats can be added in additional cases here...
             // case $input instanceof Zend_Date:
-
 
             // unsupported input format
             default:
                 $input = false;
                 break;
         }
-
 
         // handle the filtered input
         if ($input) {
@@ -185,6 +180,7 @@ class Helper
             $iso8601 = $input->format(\DateTime::ISO8601);
             $iso8601 = strstr($iso8601, '+', true); //strip timezone
             $iso8601 .= 'Z';
+
             return $iso8601;
         } else {
             // unsupported input
@@ -200,10 +196,10 @@ class Helper
      * Example: rangeQuery('store', '45,-94', '46,-93')
      * Returns: store:[45,-94 TO 46,-93]
      *
-     * @param string $field
-     * @param string $from
-     * @param string $to
-     * @param boolean $inclusive
+     * @param  string  $field
+     * @param  string  $from
+     * @param  string  $to
+     * @param  boolean $inclusive
      * @return string
      */
     public function rangeQuery($field, $from, $to, $inclusive = true)
@@ -246,10 +242,10 @@ class Helper
      * guaranteed to encompass all of the points of interest, but it may also
      * include other points that are slightly outside of the required distance.
      *
-     * @param string $pointX
-     * @param string $pointY
-     * @param string $field
-     * @param string $distance
+     * @param  string $pointX
+     * @param  string $pointY
+     * @param  string $field
+     * @param  string $distance
      * @return string
      */
     public function bbox($pointX, $pointY, $field, $distance)
@@ -289,9 +285,9 @@ class Helper
     /**
      * Render a qparser plugin call
      *
-     * @param string $name
-     * @param array $params
-     * @param boolean $dereferenced
+     * @param  string  $name
+     * @param  array   $params
+     * @param  boolean $dereferenced
      * @return string
      */
     public function qparser($name, $params = array(), $dereferenced = false)
@@ -325,8 +321,8 @@ class Helper
     /**
      * Render a functionCall
      *
-     * @param string $name
-     * @param array $params
+     * @param  string $name
+     * @param  array  $params
      * @return string
      */
     public function functionCall($name, $params = array())
@@ -353,8 +349,8 @@ class Helper
      *
      * @since 2.1.0
      *
-     * @param string $query
-     * @param array $parts Array of strings
+     * @param  string $query
+     * @param  array  $parts Array of strings
      * @return string
      */
     public function assemble($query, $parts)
@@ -372,7 +368,7 @@ class Helper
      * Render placeholders in a querystring
      *
      * @throws Exception
-     * @param array $matches
+     * @param  array     $matches
      * @return string
      */
     protected function renderPlaceHolder($matches)
@@ -386,8 +382,7 @@ class Helper
             throw new Exception('No value supplied for part #' . $partNumber . ' in query assembler');
         }
 
-        switch($partMode)
-        {
+        switch ($partMode) {
             case 'P':
                 $value = $this->escapePhrase($value);
                 break;
@@ -405,9 +400,9 @@ class Helper
      * @see http://wiki.apache.org/solr/Join
      * @since 2.4.0
      *
-     * @param string $from
-     * @param string $to
-     * @param boolean $dereferenced
+     * @param  string  $from
+     * @param  string  $to
+     * @param  boolean $dereferenced
      * @return string
      */
     public function join($from, $to, $dereferenced = false)

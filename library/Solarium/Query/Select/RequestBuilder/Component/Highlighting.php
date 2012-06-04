@@ -50,8 +50,8 @@ class Highlighting
     /**
      * Add request settings for Highlighting
      *
-     * @param HighlightingComponent $component
-     * @param Request $request
+     * @param  HighlightingComponent $component
+     * @param  Request               $request
      * @return Request
      */
     public function buildComponent(HighlightingComponent $component, Request $request)
@@ -94,8 +94,8 @@ class Highlighting
     /**
      * Add per-field override options to the request
      *
-     * @param HighlightingField $field
-     * @param Request $request
+     * @param  HighlightingField $field
+     * @param  Request           $request
      * @return void
      */
     protected function addFieldParams($field, $request)

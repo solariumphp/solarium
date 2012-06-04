@@ -49,8 +49,8 @@ class Spellcheck
     /**
      * Add request settings for Spellcheck
      *
-     * @param SpellcheckComponent $component
-     * @param Request $request
+     * @param  SpellcheckComponent $component
+     * @param  Request             $request
      * @return Request
      */
     public function buildComponent($component, $request)

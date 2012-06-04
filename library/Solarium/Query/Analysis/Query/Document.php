@@ -97,8 +97,8 @@ class Document extends Query
     /**
      * Add a single document
      *
-     * @param object $document
-     * @return self Provides fluent interface
+     * @param  object $document
+     * @return self   Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -110,12 +110,13 @@ class Document extends Query
     /**
      * Add multiple documents
      *
-     * @param array $documents
-     * @return self fluent interface
+     * @param  array $documents
+     * @return self  fluent interface
      */
     public function addDocuments($documents)
     {
         $this->documents = array_merge($this->documents, $documents);
+
         return $this;
     }
 

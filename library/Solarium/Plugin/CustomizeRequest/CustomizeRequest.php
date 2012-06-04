@@ -84,7 +84,7 @@ class CustomizeRequest extends Plugin
      * When no key is supplied the Customization cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addCustomization method.
      *
-     * @param mixed $options
+     * @param  mixed         $options
      * @return Customization
      */
     public function createCustomization($options = null)
@@ -109,8 +109,8 @@ class CustomizeRequest extends Plugin
      * Supports a Customization instance or a config array, in that case a new
      * Customization instance wil be created based on the options.
      *
-     * @param Customization|array $customization
-     * @return self Provides fluent interface
+     * @param  Customization|array $customization
+     * @return self                Provides fluent interface
      */
     public function addCustomization($customization)
     {
@@ -141,7 +141,7 @@ class CustomizeRequest extends Plugin
     /**
      * Add multiple Customizations
      *
-     * @param array $customizations
+     * @param  array            $customizations
      * @return CustomizeRequest Provides fluent interface
      */
     public function addCustomizations(array $customizations)
@@ -162,7 +162,7 @@ class CustomizeRequest extends Plugin
     /**
      * Get a Customization
      *
-     * @param string $key
+     * @param  string $key
      * @return string
      */
     public function getCustomization($key)
@@ -189,8 +189,8 @@ class CustomizeRequest extends Plugin
      *
      * You can remove a Customization by passing it's key, or by passing the Customization instance
      *
-     * @param string|Customization $customization
-     * @return CustomizeRequest Provides fluent interface
+     * @param  string|Customization $customization
+     * @return CustomizeRequest     Provides fluent interface
      */
     public function removeCustomization($customization)
     {
@@ -213,6 +213,7 @@ class CustomizeRequest extends Plugin
     public function clearCustomizations()
     {
         $this->customizations = array();
+
         return $this;
     }
 
@@ -232,8 +233,8 @@ class CustomizeRequest extends Plugin
     /**
      * Event hook to customize the request object
      *
-     * @param Query $query
-     * @param Request $request
+     * @param  Query   $query
+     * @param  Request $request
      * @return void
      */
     public function postCreateRequest($query, $request)

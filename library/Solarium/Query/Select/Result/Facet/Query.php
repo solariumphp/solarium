@@ -57,7 +57,7 @@ class Query
     /**
      * Constructor
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return void
      */
     public function __construct($value)

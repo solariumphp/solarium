@@ -72,12 +72,13 @@ class Customization extends Configurable
     /**
      * Set key value
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setKey($value)
     {
         $this->setOption('key', $value);
+
         return $this;
     }
 
@@ -94,12 +95,13 @@ class Customization extends Configurable
     /**
      * Set type value
      *
-     * @param string $value
+     * @param  string        $value
      * @return Customization
      */
     public function setType($value)
     {
         $this->setOption('type', $value);
+
         return $this;
     }
 
@@ -116,12 +118,13 @@ class Customization extends Configurable
     /**
      * Set name value
      *
-     * @param string $value
+     * @param  string        $value
      * @return Customization
      */
     public function setName($value)
     {
         $this->setOption('name', $value);
+
         return $this;
     }
 
@@ -138,12 +141,13 @@ class Customization extends Configurable
     /**
      * Set value
      *
-     * @param string $value
+     * @param  string        $value
      * @return Customization
      */
     public function setValue($value)
     {
         $this->setOption('value', $value);
+
         return $this;
     }
 
@@ -160,12 +164,13 @@ class Customization extends Configurable
     /**
      * Set persistent on/off
      *
-     * @param boolean $value
+     * @param  boolean       $value
      * @return Customization
      */
     public function setPersistent($value)
     {
         $this->setOption('persistent', $value);
+
         return $this;
     }
 
@@ -182,12 +187,13 @@ class Customization extends Configurable
     /**
      * Set overwrite option on/off
      *
-     * @param boolean $value
+     * @param  boolean       $value
      * @return Customization
      */
     public function setOverwrite($value)
     {
         $this->setOption('overwrite', $value);
+
         return $this;
     }
 

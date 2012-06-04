@@ -257,7 +257,6 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('test3','test4'), array_keys($this->hlt->getFields()));
     }
 
-
     public function testSetAndGetSnippets()
     {
         $value = 2;

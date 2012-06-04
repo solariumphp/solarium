@@ -53,7 +53,6 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
      */
     protected $query;
 
-
     public function setUp()
     {
         $this->plugin = new PrefetchIterator();
@@ -96,13 +95,13 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
         $this->plugin->setQuery($this->query);
 
         $results1 = array();
-        foreach($this->plugin as $doc) {
+        foreach ($this->plugin as $doc) {
             $results1[] = $doc;
         }
 
         // the second foreach will trigger a rewind, this time include keys
         $results2 = array();
-        foreach($this->plugin as $key => $doc) {
+        foreach ($this->plugin as $key => $doc) {
             $results2[$key] = $doc;
         }
 
@@ -125,7 +124,6 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
         return new SelectDummy(1, 12, $numFound, $docs, array());
     }
 }
-
 
 class SelectDummy extends Result
 {

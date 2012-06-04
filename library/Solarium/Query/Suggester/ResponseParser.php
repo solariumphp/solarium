@@ -38,7 +38,6 @@
  * @namespace
  */
 namespace Solarium\Query\Suggester;
-use Solarium\Client;
 use Solarium\Core\Query\ResponseParserInterface;
 
 /**
@@ -50,7 +49,7 @@ class ResponseParser implements ResponseParserInterface
     /**
      * Get result data for the response
      *
-     * @param Result/Result $result
+     * @param  Result/Result $result
      * @return array
      */
     public function parse($result)

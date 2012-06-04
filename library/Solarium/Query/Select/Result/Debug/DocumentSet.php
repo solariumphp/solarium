@@ -54,7 +54,7 @@ class DocumentSet implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param array $docs
+     * @param  array $docs
      * @return void
      */
     public function __construct($docs)
@@ -65,7 +65,7 @@ class DocumentSet implements \IteratorAggregate, \Countable
     /**
      * Get a document by key
      *
-     * @param mixed $key
+     * @param  mixed         $key
      * @return Document|null
      */
     public function getDocument($key)

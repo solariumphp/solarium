@@ -94,8 +94,8 @@ class DisMax extends Component
      * standard query parsing syntax) when the main query string is not
      * specified or blank.
      *
-     * @param string $queryAlternative
-     * @return self Provides fluent interface
+     * @param  string $queryAlternative
+     * @return self   Provides fluent interface
      */
     public function setQueryAlternative($queryAlternative)
     {
@@ -120,8 +120,8 @@ class DisMax extends Component
      *
      * The format supported is "fieldOne^2.3 fieldTwo fieldThree^0.4"
      *
-     * @param string $queryFields
-     * @return self Provides fluent interface
+     * @param  string $queryFields
+     * @return self   Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -144,8 +144,8 @@ class DisMax extends Component
      * This option makes it possible to say that a certain minimum number of
      * clauses must match. See Solr manual for details.
      *
-     * @param string $minimumMatch
-     * @return self Provides fluent interface
+     * @param  string $minimumMatch
+     * @return self   Provides fluent interface
      */
     public function setMinimumMatch($minimumMatch)
     {
@@ -170,8 +170,8 @@ class DisMax extends Component
      *
      * Format is: "fieldA^1.0 fieldB^2.2"
      *
-     * @param string $phraseFields
-     * @return self Provides fluent interface
+     * @param  string $phraseFields
+     * @return self   Provides fluent interface
      */
     public function setPhraseFields($phraseFields)
     {
@@ -194,8 +194,8 @@ class DisMax extends Component
      * Amount of slop on phrase queries built for "pf" fields
      * (affects boosting)
      *
-     * @param string $phraseSlop
-     * @return self Provides fluent interface
+     * @param  string $phraseSlop
+     * @return self   Provides fluent interface
      */
     public function setPhraseSlop($phraseSlop)
     {
@@ -218,8 +218,8 @@ class DisMax extends Component
      * Amount of slop on phrase queries explicitly included in the user's
      * query string (in qf fields; affects matching)
      *
-     * @param string $queryPhraseSlop
-     * @return self Provides fluent interface
+     * @param  string $queryPhraseSlop
+     * @return self   Provides fluent interface
      */
     public function setQueryPhraseSlop($queryPhraseSlop)
     {
@@ -241,8 +241,8 @@ class DisMax extends Component
      *
      * Float value to use as tiebreaker in DisjunctionMaxQueries
      *
-     * @param float $tie
-     * @return self Provides fluent interface
+     * @param  float $tie
+     * @return self  Provides fluent interface
      */
     public function setTie($tie)
     {
@@ -265,8 +265,8 @@ class DisMax extends Component
      * A raw query string (in the SolrQuerySyntax) that will be included
      * with the user's query to influence the score.
      *
-     * @param string $boostQuery
-     * @return self Provides fluent interface
+     * @param  string $boostQuery
+     * @return self   Provides fluent interface
      */
     public function setBoostQuery($boostQuery)
     {
@@ -291,8 +291,8 @@ class DisMax extends Component
      *
      * Format is: "funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2"
      *
-     * @param string $boostFunctions
-     * @return self Provides fluent interface
+     * @param  string $boostFunctions
+     * @return self   Provides fluent interface
      */
     public function setBoostFunctions($boostFunctions)
     {
@@ -316,8 +316,8 @@ class DisMax extends Component
      *
      * @since 2.1.0
      *
-     * @param string $parser
-     * @return self Provides fluent interface
+     * @param  string $parser
+     * @return self   Provides fluent interface
      */
     public function setQueryParser($parser)
     {

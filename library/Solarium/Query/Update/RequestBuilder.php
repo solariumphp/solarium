@@ -53,7 +53,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for an update query
      *
-     * @param UpdateQuery $query
+     * @param  UpdateQuery $query
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -70,7 +70,7 @@ class RequestBuilder extends BaseRequestBuilder
      *
      * Each commandtype is delegated to a separate builder method.
      *
-     * @param UpdateQuery $query
+     * @param  UpdateQuery $query
      * @throws Exception
      * @return string
      */
@@ -107,7 +107,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for an add command
      *
-     * @param Query\Command\Add $command
+     * @param  Query\Command\Add $command
      * @return string
      */
     public function buildAddXml($command)
@@ -146,9 +146,9 @@ class RequestBuilder extends BaseRequestBuilder
      *
      * Used in the add command
      *
-     * @param string $name
-     * @param float $boost
-     * @param mixed $value
+     * @param  string $name
+     * @param  float  $boost
+     * @param  mixed  $value
      * @return string
      */
     protected function buildFieldXml($name, $boost, $value)
@@ -164,7 +164,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for a delete command
      *
-     * @param Query\Command\Delete $command
+     * @param  Query\Command\Delete $command
      * @return string
      */
     public function buildDeleteXml($command)
@@ -186,7 +186,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for an update command
      *
-     * @param Query\Command\Optimize $command
+     * @param  Query\Command\Optimize $command
      * @return string
      */
     public function buildOptimizeXml($command)
@@ -203,7 +203,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for a commit command
      *
-     * @param Query\Command\Commit $command
+     * @param  Query\Command\Commit $command
      * @return string
      */
     public function buildCommitXml($command)

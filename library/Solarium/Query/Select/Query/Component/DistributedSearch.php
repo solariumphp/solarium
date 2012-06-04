@@ -107,14 +107,15 @@ class DistributedSearch extends Component
     /**
      * Add a shard
      *
-     * @param string $key unique string
-     * @param string $shard  The syntax is host:port/base_url
-     * @return self Provides fluent interface
+     * @param  string $key   unique string
+     * @param  string $shard The syntax is host:port/base_url
+     * @return self   Provides fluent interface
      * @link http://wiki.apache.org/solr/DistributedSearch
      */
     public function addShard($key, $shard)
     {
         $this->shards[$key] = $shard;
+
         return $this;
     }
 
@@ -132,8 +133,8 @@ class DistributedSearch extends Component
      * ));
      * $result = $client->select($query);
      * </code>
-     * @param array $shards
-     * @return self Provides fluent interface
+     * @param  array $shards
+     * @return self  Provides fluent interface
      */
     public function addShards(array $shards)
     {
@@ -147,8 +148,8 @@ class DistributedSearch extends Component
     /**
      * Remove a shard
      *
-     * @param string $key
-     * @return self Provides fluent interface
+     * @param  string $key
+     * @return self   Provides fluent interface
      */
     public function removeShard($key)
     {
@@ -167,6 +168,7 @@ class DistributedSearch extends Component
     public function clearShards()
     {
         $this->shards = array();
+
         return $this;
     }
 
@@ -187,8 +189,8 @@ class DistributedSearch extends Component
      * $result = $client->select($query);
      * </code>
      *
-     * @param array $shards Associative array of shards
-     * @return self Provides fluent interface
+     * @param  array $shards Associative array of shards
+     * @return self  Provides fluent interface
      */
     public function setShards(array $shards)
     {
@@ -218,6 +220,7 @@ class DistributedSearch extends Component
     public function setShardRequestHandler($handler)
     {
         $this->setOption('shardhandler', $handler);
+
         return $this;
     }
 

@@ -98,8 +98,8 @@ class FacetTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestFacet extends Facet{
-
+class TestFacet extends Facet
+{
     public function getType()
     {
         return 'test';

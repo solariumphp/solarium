@@ -92,8 +92,8 @@ class Field extends Query
      *
      * The text that will be analyzed. The analysis will mimic the index-time analysis.
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setFieldValue($value)
     {
@@ -115,8 +115,8 @@ class Field extends Query
      *
      * When present, the text will be analyzed based on the specified type
      *
-     * @param string $type
-     * @return self Provides fluent interface
+     * @param  string $type
+     * @return self   Provides fluent interface
      */
     public function setFieldType($type)
     {
@@ -138,8 +138,8 @@ class Field extends Query
      *
      * When present, the text will be analyzed based on the type of this field name
      *
-     * @param string $name
-     * @return self Provides fluent interface
+     * @param  string $name
+     * @return self   Provides fluent interface
      */
     public function setFieldName($name)
     {

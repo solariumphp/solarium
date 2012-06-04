@@ -38,7 +38,6 @@
  */
 namespace Solarium\Query\Update\Query\Command;
 use Solarium\Core\Configurable;
-use Solarium\Query\Update\Query\Query as UpdateQuery;
 
 /**
  * Update query command base class

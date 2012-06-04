@@ -257,9 +257,9 @@ class Query extends BaseQuery
      * Overwrites the current value. You are responsible for the correct
      * escaping of user input.
      *
-     * @param string $query
-     * @param array $bind Bind values for placeholders in the query string
-     * @return self Provides fluent interface
+     * @param  string $query
+     * @param  array  $bind  Bind values for placeholders in the query string
+     * @return self   Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
@@ -285,8 +285,8 @@ class Query extends BaseQuery
      *
      * Use one of the constants as value
      *
-     * @param string $operator
-     * @return self Provides fluent interface
+     * @param  string $operator
+     * @return self   Provides fluent interface
      */
     public function setQueryDefaultOperator($operator)
     {
@@ -306,8 +306,8 @@ class Query extends BaseQuery
     /**
      * Set default query field
      *
-     * @param string $field
-     * @return self Provides fluent interface
+     * @param  string $field
+     * @return self   Provides fluent interface
      */
     public function setQueryDefaultField($field)
     {
@@ -327,8 +327,8 @@ class Query extends BaseQuery
     /**
      * Set the start offset
      *
-     * @param integer $start
-     * @return self Provides fluent interface
+     * @param  integer $start
+     * @return self    Provides fluent interface
      */
     public function setStart($start)
     {
@@ -348,8 +348,8 @@ class Query extends BaseQuery
     /**
      * Set a custom resultclass
      *
-     * @param string $value classname
-     * @return self Provides fluent interface
+     * @param  string $value classname
+     * @return self   Provides fluent interface
      */
     public function setResultClass($value)
     {
@@ -371,8 +371,8 @@ class Query extends BaseQuery
     /**
      * Set a custom document class
      *
-     * @param string $value classname
-     * @return self Provides fluent interface
+     * @param  string $value classname
+     * @return self   Provides fluent interface
      */
     public function setDocumentClass($value)
     {
@@ -394,8 +394,8 @@ class Query extends BaseQuery
     /**
      * Set the number of rows to fetch
      *
-     * @param integer $rows
-     * @return self Provides fluent interface
+     * @param  integer $rows
+     * @return self    Provides fluent interface
      */
     public function setRows($rows)
     {
@@ -415,12 +415,13 @@ class Query extends BaseQuery
     /**
      * Specify a field to return in the resultset
      *
-     * @param string $field
-     * @return self Provides fluent interface
+     * @param  string $field
+     * @return self   Provides fluent interface
      */
     public function addField($field)
     {
        $this->fields[$field] = true;
+
        return $this;
     }
 
@@ -449,8 +450,8 @@ class Query extends BaseQuery
     /**
      * Remove a field from the field list
      *
-     * @param string $field
-     * @return self Provides fluent interface
+     * @param  string $field
+     * @return self   Provides fluent interface
      */
     public function removeField($field)
     {
@@ -469,6 +470,7 @@ class Query extends BaseQuery
     public function clearFields()
     {
         $this->fields = array();
+
         return $this;
     }
 
@@ -487,8 +489,8 @@ class Query extends BaseQuery
      *
      * This overwrites any existing fields
      *
-     * @param array $fields
-     * @return self Provides fluent interface
+     * @param  array $fields
+     * @return self  Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -501,9 +503,9 @@ class Query extends BaseQuery
     /**
      * Add a sort
      *
-     * @param string $sort
-     * @param string $order
-     * @return self Provides fluent interface
+     * @param  string $sort
+     * @param  string $order
+     * @return self   Provides fluent interface
      */
     public function addSort($sort, $order)
     {
@@ -517,8 +519,8 @@ class Query extends BaseQuery
      *
      * The input array must contain sort items as keys and the order as values.
      *
-     * @param array $sorts
-     * @return self Provides fluent interface
+     * @param  array $sorts
+     * @return self  Provides fluent interface
      */
     public function addSorts(array $sorts)
     {
@@ -532,8 +534,8 @@ class Query extends BaseQuery
     /**
      * Remove a sort
      *
-     * @param string $sort
-     * @return self Provides fluent interface
+     * @param  string $sort
+     * @return self   Provides fluent interface
      */
     public function removeSort($sort)
     {
@@ -552,6 +554,7 @@ class Query extends BaseQuery
     public function clearSorts()
     {
         $this->sorts = array();
+
         return $this;
     }
 
@@ -570,8 +573,8 @@ class Query extends BaseQuery
      *
      * This overwrites any existing sorts
      *
-     * @param array $sorts
-     * @return self Provides fluent interface
+     * @param  array $sorts
+     * @return self  Provides fluent interface
      */
     public function setSorts($sorts)
     {
@@ -591,7 +594,7 @@ class Query extends BaseQuery
      * When no key is supplied the filterquery cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addFilterQuery method.
      *
-     * @param mixed $options
+     * @param  mixed       $options
      * @return FilterQuery
      */
     public function createFilterQuery($options = null)
@@ -616,8 +619,8 @@ class Query extends BaseQuery
      * Supports a filterquery instance or a config array, in that case a new
      * filterquery instance wil be created based on the options.
      *
-     * @param FilterQuery|array $filterQuery
-     * @return self Provides fluent interface
+     * @param  FilterQuery|array $filterQuery
+     * @return self              Provides fluent interface
      */
     public function addFilterQuery($filterQuery)
     {
@@ -645,8 +648,8 @@ class Query extends BaseQuery
     /**
      * Add multiple filterqueries
      *
-     * @param array $filterQueries
-     * @return self Provides fluent interface
+     * @param  array $filterQueries
+     * @return self  Provides fluent interface
      */
     public function addFilterQueries(array $filterQueries)
     {
@@ -666,7 +669,7 @@ class Query extends BaseQuery
     /**
      * Get a filterquery
      *
-     * @param string $key
+     * @param  string $key
      * @return string
      */
     public function getFilterQuery($key)
@@ -693,8 +696,8 @@ class Query extends BaseQuery
      *
      * You can remove a filterquery by passing it's key, or by passing the filterquery instance
      *
-     * @param string|FilterQuery $filterQuery
-     * @return self Provides fluent interface
+     * @param  string|FilterQuery $filterQuery
+     * @return self               Provides fluent interface
      */
     public function removeFilterQuery($filterQuery)
     {
@@ -717,6 +720,7 @@ class Query extends BaseQuery
     public function clearFilterQueries()
     {
         $this->filterQueries = array();
+
         return $this;
     }
 
@@ -746,13 +750,14 @@ class Query extends BaseQuery
     /**
      * Register a component type
      *
-     * @param string $key
-     * @param string $component
-     * @return self Provides fluent interface
+     * @param  string $key
+     * @param  string $component
+     * @return self   Provides fluent interface
      */
     public function registerComponentType($key, $component)
     {
         $this->componentTypes[$key] = $component;
+
         return $this;
     }
 
@@ -772,9 +777,9 @@ class Query extends BaseQuery
      * You can optionally supply an autoload class to create a new component
      * instance if there is no registered component for the given key yet.
      *
-     * @param string $key Use one of the constants
-     * @param string $autoload Class to autoload if component needs to be created
-     * @param array $config Configuration to use for autoload
+     * @param  string      $key      Use one of the constants
+     * @param  string      $autoload Class to autoload if component needs to be created
+     * @param  array       $config   Configuration to use for autoload
      * @return object|null
      */
     public function getComponent($key, $autoload = false, $config = null)
@@ -792,8 +797,10 @@ class Query extends BaseQuery
                 $className = class_exists($className) ? $className : $className.strrchr($className, '\\');
                 $component = new $className($config);
                 $this->setComponent($key, $component);
+
                 return $component;
             }
+
             return null;
         }
     }
@@ -803,13 +810,14 @@ class Query extends BaseQuery
      *
      * This overwrites any existing component registered with the same key.
      *
-     * @param string $key
-     * @param object|null $value
-     * @return self Provides fluent interface
+     * @param  string      $key
+     * @param  object|null $value
+     * @return self        Provides fluent interface
      */
     public function setComponent($key, $value)
     {
         $this->components[$key] = $value;
+
         return $this;
     }
 
@@ -818,8 +826,8 @@ class Query extends BaseQuery
      *
      * You can remove a component by passing it's key or the component instance
      *
-     * @param string|Component\Component $component
-     * @return self Provides fluent interface
+     * @param  string|Component\Component $component
+     * @return self                       Provides fluent interface
      */
     public function removeComponent($component)
     {
@@ -835,14 +843,14 @@ class Query extends BaseQuery
                 unset($this->components[$component]);
             }
         }
+
         return $this;
     }
-
 
     /**
      * Build component instances based on config
      *
-     * @param array $configs
+     * @param  array $configs
      * @return void
      */
     protected function createComponents($configs)

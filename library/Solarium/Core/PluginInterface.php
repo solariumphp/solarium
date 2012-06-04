@@ -55,97 +55,97 @@ interface PluginInterface extends ConfigurableInterface
      * This method is called when the plugin is registered to a client instance
      *
      * @param Client $client
-     * @param array $options
+     * @param array  $options
      */
-    function initPlugin($client, $options);
+    public function initPlugin($client, $options);
 
     /**
      * preCreateRequest hook
      *
-     * @param Query $query
+     * @param  Query        $query
      * @return void|Request
      */
-    function preCreateRequest($query);
+    public function preCreateRequest($query);
 
     /**
      * postCreateRequest hook
      *
-     * @param Query $query
-     * @param Request $request
+     * @param  Query   $query
+     * @param  Request $request
      * @return void
      */
-    function postCreateRequest($query, $request);
+    public function postCreateRequest($query, $request);
 
     /**
      * preExecuteRequest hook
      *
-     * @param Request $request
+     * @param  Request       $request
      * @return void|Response
      */
-    function preExecuteRequest($request);
+    public function preExecuteRequest($request);
 
     /**
      * postExecuteRequest hook
      *
-     * @param Request $request
-     * @param Response $response
+     * @param  Request  $request
+     * @param  Response $response
      * @return void
      */
-    function postExecuteRequest($request, $response);
+    public function postExecuteRequest($request, $response);
 
     /**
      * preCreateResult hook
      *
-     * @param Query $query
-     * @param Response $response
+     * @param  Query       $query
+     * @param  Response    $response
      * @return void|Result
      */
-    function preCreateResult($query, $response);
+    public function preCreateResult($query, $response);
 
     /**
      * postCreateResult hook
      *
-     * @param Query $query
-     * @param Response $response
-     * @param Result $result
+     * @param  Query    $query
+     * @param  Response $response
+     * @param  Result   $result
      * @return void
      */
-    function postCreateResult($query, $response, $result);
+    public function postCreateResult($query, $response, $result);
 
     /**
      * preExecute hook
      *
-     * @param Query $query
+     * @param  Query       $query
      * @return void|Result
      */
-    function preExecute($query);
+    public function preExecute($query);
 
     /**
      * postExecute hook
      *
-     * @param Query $query
-     * @param Result $result
+     * @param  Query  $query
+     * @param  Result $result
      * @return void
      */
-    function postExecute($query, $result);
+    public function postExecute($query, $result);
 
     /**
      * preCreateQuery hook
      *
-     * @param string $type
-     * @param mixed $options
+     * @param  string     $type
+     * @param  mixed      $options
      * @return void|Query
      */
-    function preCreateQuery($type, $options);
+    public function preCreateQuery($type, $options);
 
     /**
      * postCreateQuery hook
      *
      * @param string $type
-     * @param mixed $options
+     * @param mixed  $options
      * @param Query
      * @return void
      */
-    function postCreateQuery($type, $options, $query);
+    public function postCreateQuery($type, $options, $query);
 
 }

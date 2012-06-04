@@ -34,7 +34,6 @@ use Solarium\Core\Client\Adapter\Curl as CurlAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Exception;
-use Solarium\Core\Client\HttpException;
 
 class CurlTest extends \PHPUnit_Framework_TestCase
 {

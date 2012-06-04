@@ -72,7 +72,6 @@ class Client extends CoreClient
      */
     const VERSION = '3.0.0';
 
-
     /**
      * Check for an exact version
      *
@@ -97,14 +96,13 @@ class Client extends CoreClient
      * @internal a string compare is used instead of version_compare because
      *  version_compare returns false for a compare of 1.0.0 with 1.0
      *
-     * @param string $version
+     * @param  string  $version
      * @return boolean
      */
-    static public function checkExact($version)
+    public static function checkExact($version)
     {
         return (substr(self::VERSION, 0, strlen($version)) == $version);
     }
-
 
     /**
      * Check for a minimal version
@@ -125,10 +123,10 @@ class Client extends CoreClient
      * - 2 (the actual version is lower)
      * - 1.3 (the actual version is lower)
      *
-     * @param string $version
+     * @param  string  $version
      * @return boolean
      */
-    static public function checkMinimal($version)
+    public static function checkMinimal($version)
     {
         return version_compare(self::VERSION, $version, '>=');
     }

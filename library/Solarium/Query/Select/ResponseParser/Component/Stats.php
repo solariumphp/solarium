@@ -52,9 +52,9 @@ class Stats
     /**
      * Parse result data into result objects
      *
-     * @param Query $query
-     * @param StatsComponent $stats
-     * @param array $data
+     * @param  Query          $query
+     * @param  StatsComponent $stats
+     * @param  array          $data
      * @return ResultStats;
      */
     public function parse($query, $stats, $data)

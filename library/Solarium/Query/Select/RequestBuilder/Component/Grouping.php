@@ -49,8 +49,8 @@ class Grouping
     /**
      * Add request settings for Grouping
      *
-     * @param GroupingComponent $component
-     * @param Request $request
+     * @param  GroupingComponent $component
+     * @param  Request           $request
      * @return Request
      */
     public function buildComponent($component, $request)

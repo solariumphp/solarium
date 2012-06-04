@@ -69,8 +69,8 @@ class Field extends Configurable
     /**
      * Set name option
      *
-     * @param string $name
-     * @return self Provides fluent interface
+     * @param  string $name
+     * @return self   Provides fluent interface
      */
     public function setName($name)
     {
@@ -82,7 +82,7 @@ class Field extends Configurable
      *
      * Maximum number of snippets per field
      *
-     * @param int $maximum
+     * @param  int  $maximum
      * @return self Provides fluent interface
      */
     public function setSnippets($maximum)
@@ -105,7 +105,7 @@ class Field extends Configurable
      *
      * The size, in characters, of fragments to consider for highlighting
      *
-     * @param int $size
+     * @param  int  $size
      * @return self Provides fluent interface
      */
     public function setFragSize($size)
@@ -128,8 +128,8 @@ class Field extends Configurable
      *
      * Collapse contiguous fragments into a single fragment
      *
-     * @param boolean $merge
-     * @return self Provides fluent interface
+     * @param  boolean $merge
+     * @return self    Provides fluent interface
      */
     public function setMergeContiguous($merge)
     {
@@ -149,8 +149,8 @@ class Field extends Configurable
     /**
      * Set alternatefield option
      *
-     * @param string $field
-     * @return self Provides fluent interface
+     * @param  string $field
+     * @return self   Provides fluent interface
      */
     public function setAlternateField($field)
     {
@@ -170,8 +170,8 @@ class Field extends Configurable
     /**
      * Set formatter option
      *
-     * @param string $formatter
-     * @return self Provides fluent interface
+     * @param  string $formatter
+     * @return self   Provides fluent interface
      */
     public function setFormatter($formatter = 'simple')
     {
@@ -193,8 +193,8 @@ class Field extends Configurable
      *
      * Solr option h1.simple.pre
      *
-     * @param string $prefix
-     * @return self Provides fluent interface
+     * @param  string $prefix
+     * @return self   Provides fluent interface
      */
     public function setSimplePrefix($prefix)
     {
@@ -218,8 +218,8 @@ class Field extends Configurable
      *
      * Solr option h1.simple.post
      *
-     * @param string $postfix
-     * @return self Provides fluent interface
+     * @param  string $postfix
+     * @return self   Provides fluent interface
      */
     public function setSimplePostfix($postfix)
     {
@@ -243,8 +243,8 @@ class Field extends Configurable
      *
      * Use one of the constants as value.
      *
-     * @param string $fragmenter
-     * @return self Provides fluent interface
+     * @param  string $fragmenter
+     * @return self   Provides fluent interface
      */
     public function setFragmenter($fragmenter)
     {
@@ -264,8 +264,8 @@ class Field extends Configurable
     /**
      * Set useFastVectorHighlighter option
      *
-     * @param boolean $use
-     * @return self Provides fluent interface
+     * @param  boolean $use
+     * @return self    Provides fluent interface
      */
     public function setUseFastVectorHighlighter($use)
     {

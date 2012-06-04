@@ -78,7 +78,7 @@ class QueryType extends Result
     /**
      * Map parser data into properties
      *
-     * @param array $mapData
+     * @param  array $mapData
      * @return void
      */
     protected function mapData($mapData)

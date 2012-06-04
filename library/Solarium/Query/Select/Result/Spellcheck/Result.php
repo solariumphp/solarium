@@ -68,9 +68,9 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param array $suggestions
-     * @param array $collations
-     * @param boolean $correctlySpelled
+     * @param  array   $suggestions
+     * @param  array   $collations
+     * @param  boolean $correctlySpelled
      * @return void
      */
     public function __construct($suggestions, $collations, $correctlySpelled)
@@ -83,7 +83,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get the collation result
      *
-     * @param int $key
+     * @param  int       $key
      * @return Collation
      */
     public function getCollation($key = null)
@@ -126,7 +126,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get a result by key
      *
-     * @param mixed $key
+     * @param  mixed           $key
      * @return Suggestion|null
      */
     public function getSuggestion($key)

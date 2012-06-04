@@ -98,8 +98,8 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     /**
      * Set prefetch option
      *
-     * @param integer $value
-     * @return self Provides fluent interface
+     * @param  integer $value
+     * @return self    Provides fluent interface
      */
     public function setPrefetch($value)
     {
@@ -119,12 +119,13 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     /**
      * Set query to use for prefetching
      *
-     * @param SelectQuery $query
-     * @return self Provides fluent interface
+     * @param  SelectQuery $query
+     * @return self        Provides fluent interface
      */
     public function setQuery($query)
     {
         $this->query = $query;
+
         return $this;
     }
 
@@ -172,6 +173,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     public function current()
     {
         $adjustedIndex = $this->position % $this->options['prefetch'];
+
         return $this->documents[$adjustedIndex];
     }
 

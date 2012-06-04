@@ -54,8 +54,8 @@ class Http extends Configurable implements AdapterInterface
      * Handle Solr communication
      *
      * @throws Exception
-     * @param Request $request
-     * @param Endpoint $endpoint
+     * @param  Request   $request
+     * @param  Endpoint  $endpoint
      * @return Response
      */
     public function execute($request, $endpoint)
@@ -74,8 +74,8 @@ class Http extends Configurable implements AdapterInterface
      * Check result of a request
      *
      * @throws HttpException
-     * @param string $data
-     * @param array $headers
+     * @param  string        $data
+     * @param  array         $headers
      * @return void
      */
     public function check($data, $headers)
@@ -90,8 +90,8 @@ class Http extends Configurable implements AdapterInterface
     /**
      * Create a stream context for a request
      *
-     * @param Request $request
-     * @param Endpoint $endpoint
+     * @param  Request  $request
+     * @param  Endpoint $endpoint
      * @return resource
      */
     public function createContext($request, $endpoint)
@@ -134,8 +134,8 @@ class Http extends Configurable implements AdapterInterface
     /**
      * Execute request
      *
-     * @param string $uri
-     * @param resource $context
+     * @param  string   $uri
+     * @param  resource $context
      * @return array
      */
     protected function getData($uri, $context)

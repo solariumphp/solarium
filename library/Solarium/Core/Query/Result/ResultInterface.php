@@ -40,7 +40,6 @@ namespace Solarium\Core\Query\Result;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Query;
 
-
 /**
  * Query result interface
  */
@@ -54,14 +53,14 @@ interface ResultInterface
      *
      * @return Response
      */
-    function getResponse();
+    public function getResponse();
 
     /**
      * Get query instance
      *
      * @return Query
      */
-    function getQuery();
+    public function getQuery();
 
     /**
      * Get Solr response data
@@ -70,5 +69,5 @@ interface ResultInterface
      *
      * @return array
      */
-    function getData();
+    public function getData();
 }

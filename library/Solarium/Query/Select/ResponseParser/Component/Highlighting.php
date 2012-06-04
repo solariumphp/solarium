@@ -50,9 +50,9 @@ class Highlighting
     /**
      * Parse result data into result objects
      *
-     * @param Query $query
-     * @param HighlightingComponent $highlighting
-     * @param array $data
+     * @param  Query                           $query
+     * @param  HighlightingComponent           $highlighting
+     * @param  array                           $data
      * @return HighlightingResult\Highlighting
      */
     public function parse($query, $highlighting, $data)

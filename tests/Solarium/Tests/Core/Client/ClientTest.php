@@ -39,7 +39,6 @@ use Solarium\Query\Ping\Query as PingQuery;
 use Solarium\Query\MoreLikeThis\Query as MoreLikeThisQuery;
 use Solarium\Query\Update\Query\Query as UpdateQuery;
 use Solarium\Query\Analysis\Query\Field as AnalysisQueryField;
-use Solarium\Query\Analysis\Query\Document as AnalysisQueryDocument;
 use Solarium\Query\Terms\Query as TermsQuery;
 use Solarium\Query\Suggester\Query as SuggesterQuery;
 use Solarium\Core\Client\Adapter\Http as ClientAdapterHttp;
@@ -88,7 +87,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertThat($adapter, $this->isInstanceOf(__NAMESPACE__.'\\MyAdapter'));
         $this->assertEquals(8080, $this->client->getEndpoint('myhost')->getPort());
-
 
         $queryTypes = $this->client->getQueryTypes();
         $this->assertEquals(
@@ -1088,15 +1086,16 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class MyAdapter extends ClientAdapterHttp {
-
+class MyAdapter extends ClientAdapterHttp
+{
     public function execute($request, $endpoint)
     {
         $response = new Response('{}', array('HTTP/1.1 200 OK'));
+
         return $response;
     }
 }
 
-class MyClientPlugin extends Plugin{
-
+class MyClientPlugin extends Plugin
+{
 }

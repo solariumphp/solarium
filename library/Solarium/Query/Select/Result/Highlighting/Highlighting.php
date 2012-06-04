@@ -54,7 +54,7 @@ class Highlighting implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param array $results
+     * @param  array $results
      * @return void
      */
     public function __construct($results)
@@ -65,7 +65,7 @@ class Highlighting implements \IteratorAggregate, \Countable
     /**
      * Get a result by key
      *
-     * @param mixed $key
+     * @param  mixed       $key
      * @return Result|null
      */
     public function getResult($key)

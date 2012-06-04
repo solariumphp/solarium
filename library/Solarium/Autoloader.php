@@ -61,7 +61,7 @@ class Autoloader
      * @static
      * @return void
      */
-    static public function register()
+    public static function register()
     {
         spl_autoload_register(array(new self, 'load'));
     }
@@ -73,10 +73,10 @@ class Autoloader
      * The autoloader only acts for classnames that start with 'Solarium'.
      *
      * @static
-     * @param string $class
+     * @param  string $class
      * @return void
      */
-    static public function load($class)
+    public static function load($class)
     {
         if (substr($class, 0, 8) == 'Solarium') {
 

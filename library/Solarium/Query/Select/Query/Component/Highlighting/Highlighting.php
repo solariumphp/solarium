@@ -118,16 +118,17 @@ class Highlighting extends Component
     /**
      * Get a field options object
      *
-     * @param string $name
-     * @param boolean $autocreate
+     * @param  string  $name
+     * @param  boolean $autocreate
      * @return Field
      */
     public function getField($name, $autocreate = true)
     {
         if (isset($this->fields[$name])) {
             return $this->fields[$name];
-        } else if ($autocreate) {
+        } elseif ($autocreate) {
             $this->addField($name);
+
             return $this->fields[$name];
         } else {
             return null;
@@ -137,15 +138,15 @@ class Highlighting extends Component
     /**
      * Add a field for highlighting
      *
-     * @param string|array|Field $field
-     * @return self Provides fluent interface
+     * @param  string|array|Field $field
+     * @return self               Provides fluent interface
      */
     public function addField($field)
     {
         // autocreate object for string input
         if (is_string($field)) {
             $field = new Field(array('name' => $field));
-        } else if (is_array($field)) {
+        } elseif (is_array($field)) {
             $field = new Field($field);
         }
 
@@ -155,6 +156,7 @@ class Highlighting extends Component
         }
 
         $this->fields[$field->getName()] = $field;
+
         return $this;
     }
 
@@ -189,8 +191,8 @@ class Highlighting extends Component
     /**
      * Remove a highlighting field
      *
-     * @param string $field
-     * @return self Provides fluent interface
+     * @param  string $field
+     * @return self   Provides fluent interface
      */
     public function removeField($field)
     {
@@ -209,6 +211,7 @@ class Highlighting extends Component
     public function clearFields()
     {
         $this->fields = array();
+
         return $this;
     }
 
@@ -227,8 +230,8 @@ class Highlighting extends Component
      *
      * This overwrites any existing fields
      *
-     * @param array $fields
-     * @return self Provides fluent interface
+     * @param  array $fields
+     * @return self  Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -243,7 +246,7 @@ class Highlighting extends Component
      *
      * Maximum number of snippets per field
      *
-     * @param int $maximum
+     * @param  int  $maximum
      * @return self Provides fluent interface
      */
     public function setSnippets($maximum)
@@ -266,7 +269,7 @@ class Highlighting extends Component
      *
      * The size, in characters, of fragments to consider for highlighting
      *
-     * @param int $size
+     * @param  int  $size
      * @return self Provides fluent interface
      */
     public function setFragSize($size)
@@ -289,8 +292,8 @@ class Highlighting extends Component
      *
      * Collapse contiguous fragments into a single fragment
      *
-     * @param boolean $merge
-     * @return self Provides fluent interface
+     * @param  boolean $merge
+     * @return self    Provides fluent interface
      */
     public function setMergeContiguous($merge)
     {
@@ -310,8 +313,8 @@ class Highlighting extends Component
     /**
      * Set requireFieldMatch option
      *
-     * @param boolean $require
-     * @return self Provides fluent interface
+     * @param  boolean $require
+     * @return self    Provides fluent interface
      */
     public function setRequireFieldMatch($require)
     {
@@ -333,7 +336,7 @@ class Highlighting extends Component
      *
      * How many characters into a document to look for suitable snippets
      *
-     * @param int $chars
+     * @param  int  $chars
      * @return self Provides fluent interface
      */
     public function setMaxAnalyzedChars($chars)
@@ -354,8 +357,8 @@ class Highlighting extends Component
     /**
      * Set alternatefield option
      *
-     * @param string $field
-     * @return self Provides fluent interface
+     * @param  string $field
+     * @return self   Provides fluent interface
      */
     public function setAlternateField($field)
     {
@@ -375,7 +378,7 @@ class Highlighting extends Component
     /**
      * Set maxAlternateFieldLength option
      *
-     * @param int $length
+     * @param  int  $length
      * @return self Provides fluent interface
      */
     public function setMaxAlternateFieldLength($length)
@@ -396,8 +399,8 @@ class Highlighting extends Component
     /**
      * Set formatter option
      *
-     * @param string $formatter
-     * @return self Provides fluent interface
+     * @param  string $formatter
+     * @return self   Provides fluent interface
      */
     public function setFormatter($formatter = 'simple')
     {
@@ -419,8 +422,8 @@ class Highlighting extends Component
      *
      * Solr option h1.simple.pre
      *
-     * @param string $prefix
-     * @return self Provides fluent interface
+     * @param  string $prefix
+     * @return self   Provides fluent interface
      */
     public function setSimplePrefix($prefix)
     {
@@ -444,8 +447,8 @@ class Highlighting extends Component
      *
      * Solr option h1.simple.post
      *
-     * @param string $postfix
-     * @return self Provides fluent interface
+     * @param  string $postfix
+     * @return self   Provides fluent interface
      */
     public function setSimplePostfix($postfix)
     {
@@ -469,8 +472,8 @@ class Highlighting extends Component
      *
      * Use one of the constants as value.
      *
-     * @param string $fragmenter
-     * @return self Provides fluent interface
+     * @param  string $fragmenter
+     * @return self   Provides fluent interface
      */
     public function setFragmenter($fragmenter)
     {
@@ -490,8 +493,8 @@ class Highlighting extends Component
     /**
      * Set fraglistbuilder option
      *
-     * @param string $builder
-     * @return self Provides fluent interface
+     * @param  string $builder
+     * @return self   Provides fluent interface
      */
     public function setFragListBuilder($builder)
     {
@@ -511,8 +514,8 @@ class Highlighting extends Component
     /**
      * Set fragmentsbuilder option
      *
-     * @param string $builder
-     * @return self Provides fluent interface
+     * @param  string $builder
+     * @return self   Provides fluent interface
      */
     public function setFragmentsBuilder($builder)
     {
@@ -532,8 +535,8 @@ class Highlighting extends Component
     /**
      * Set useFastVectorHighlighter option
      *
-     * @param boolean $use
-     * @return self Provides fluent interface
+     * @param  boolean $use
+     * @return self    Provides fluent interface
      */
     public function setUseFastVectorHighlighter($use)
     {
@@ -553,8 +556,8 @@ class Highlighting extends Component
     /**
      * Set usePhraseHighlighter option
      *
-     * @param boolean $use
-     * @return self Provides fluent interface
+     * @param  boolean $use
+     * @return self    Provides fluent interface
      */
     public function setUsePhraseHighlighter($use)
     {
@@ -574,8 +577,8 @@ class Highlighting extends Component
     /**
      * Set HighlightMultiTerm option
      *
-     * @param boolean $highlight
-     * @return self Provides fluent interface
+     * @param  boolean $highlight
+     * @return self    Provides fluent interface
      */
     public function setHighlightMultiTerm($highlight)
     {
@@ -595,8 +598,8 @@ class Highlighting extends Component
     /**
      * Set RegexSlop option
      *
-     * @param float $slop
-     * @return self Provides fluent interface
+     * @param  float $slop
+     * @return self  Provides fluent interface
      */
     public function setRegexSlop($slop)
     {
@@ -616,8 +619,8 @@ class Highlighting extends Component
     /**
      * Set RegexPattern option
      *
-     * @param string $pattern
-     * @return self Provides fluent interface
+     * @param  string $pattern
+     * @return self   Provides fluent interface
      */
     public function setRegexPattern($pattern)
     {
@@ -637,7 +640,7 @@ class Highlighting extends Component
     /**
      * Set RegexMaxAnalyzedChars option
      *
-     * @param int $chars
+     * @param  int  $chars
      * @return self Provides fluent interface
      */
     public function setRegexMaxAnalyzedChars($chars)
@@ -660,8 +663,8 @@ class Highlighting extends Component
      *
      * Overrides the q parameter for highlighting
      *
-     * @param string $query
-     * @return self Provides fluent interface
+     * @param  string $query
+     * @return self   Provides fluent interface
      */
     public function setQuery($query)
     {
@@ -681,7 +684,7 @@ class Highlighting extends Component
     /**
      * Set phraselimit option
      *
-     * @param int $maximum
+     * @param  int  $maximum
      * @return self Provides fluent interface
      */
     public function setPhraseLimit($maximum)

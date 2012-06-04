@@ -127,7 +127,7 @@ class Stats extends Component
      * When no key is supplied the field cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addField method.
      *
-     * @param mixed $options
+     * @param  mixed $options
      * @return Field
      */
     public function createField($options = null)
@@ -152,8 +152,8 @@ class Stats extends Component
      * Supports a field instance or a config array, in that case a new
      * field instance wil be created based on the options.
      *
-     * @param Field|array $field
-     * @return self Provides fluent interface
+     * @param  Field|array $field
+     * @return self        Provides fluent interface
      */
     public function addField($field)
     {
@@ -181,8 +181,8 @@ class Stats extends Component
     /**
      * Add multiple fields
      *
-     * @param array $fields
-     * @return self Provides fluent interface
+     * @param  array $fields
+     * @return self  Provides fluent interface
      */
     public function addFields(array $fields)
     {
@@ -202,7 +202,7 @@ class Stats extends Component
     /**
      * Get a field
      *
-     * @param string $key
+     * @param  string $key
      * @return string
      */
     public function getField($key)
@@ -229,8 +229,8 @@ class Stats extends Component
      *
      * You can remove a field by passing it's key, or by passing the field instance
      *
-     * @param string|Field $field
-     * @return self Provides fluent interface
+     * @param  string|Field $field
+     * @return self         Provides fluent interface
      */
     public function removeField($field)
     {
@@ -253,6 +253,7 @@ class Stats extends Component
     public function clearFields()
     {
         $this->fields = array();
+
         return $this;
     }
 
@@ -272,12 +273,13 @@ class Stats extends Component
     /**
      * Specify a facet to return in the resultset
      *
-     * @param string $facet
-     * @return self Provides fluent interface
+     * @param  string $facet
+     * @return self   Provides fluent interface
      */
     public function addFacet($facet)
     {
        $this->facets[$facet] = true;
+
        return $this;
     }
 
@@ -306,8 +308,8 @@ class Stats extends Component
     /**
      * Remove a facet from the facet list
      *
-     * @param string $facet
-     * @return self Provides fluent interface
+     * @param  string $facet
+     * @return self   Provides fluent interface
      */
     public function removeFacet($facet)
     {
@@ -326,6 +328,7 @@ class Stats extends Component
     public function clearFacets()
     {
         $this->facets = array();
+
         return $this;
     }
 
@@ -344,8 +347,8 @@ class Stats extends Component
      *
      * This overwrites any existing facets
      *
-     * @param array $facets
-     * @return self Provides fluent interface
+     * @param  array $facets
+     * @return self  Provides fluent interface
      */
     public function setFacets($facets)
     {
@@ -354,6 +357,5 @@ class Stats extends Component
 
         return $this;
     }
-
 
 }

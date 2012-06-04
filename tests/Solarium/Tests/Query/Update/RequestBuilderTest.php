@@ -322,7 +322,6 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-
 class InvalidCommand extends \stdClass
 {
     public function getType()

@@ -56,7 +56,6 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
      */
     protected $component;
 
-
     public function setUp()
     {
         $this->builder = new RequestBuilder();
@@ -135,7 +134,6 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-
         $this->assertEquals(
             null,
             $request->getRawData()
@@ -178,8 +176,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class UnknownFacet extends FacetField{
-
+class UnknownFacet extends FacetField
+{
     public function getType()
     {
         return 'unknown';

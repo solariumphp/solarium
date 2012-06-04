@@ -71,7 +71,7 @@ class PostBigRequestTest extends \PHPUnit_Framework_TestCase
     {
         // create a very long query
         $fq = '';
-        for($i=1; $i<=1000; $i++) {
+        for ($i=1; $i<=1000; $i++) {
            $fq .= ' OR price:'.$i;
         }
         $fq = substr($fq, 4);

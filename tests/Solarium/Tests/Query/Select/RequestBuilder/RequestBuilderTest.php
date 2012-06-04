@@ -171,8 +171,8 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class TestDummyComponent extends Component{
-
+class TestDummyComponent extends Component
+{
     public function getType()
     {
         return 'testcomponent';

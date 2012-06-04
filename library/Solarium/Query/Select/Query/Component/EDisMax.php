@@ -38,7 +38,6 @@
  */
 namespace Solarium\Query\Select\Query\Component;
 use Solarium\Query\Select\Query\Query as SelectQuery;
-use Solarium\Query\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 
 /**
  * EdisMax component
@@ -75,8 +74,8 @@ class EdisMax extends DisMax
      *
      * Format is: "funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2"
      *
-     * @param string $boostFunctionsMult
-     * @return self Provides fluent interface
+     * @param  string $boostFunctionsMult
+     * @return self   Provides fluent interface
      */
     public function setBoostFunctionsMult($boostFunctionsMult)
     {
@@ -101,8 +100,8 @@ class EdisMax extends DisMax
      *
      * Format is: "fieldA^1.0 fieldB^2.2 fieldC^3.5"
      *
-     * @param string $phraseBigramFields
-     * @return self Provides fluent interface
+     * @param  string $phraseBigramFields
+     * @return self   Provides fluent interface
      */
     public function setPhraseBigramFields($phraseBigramFields)
     {
@@ -125,8 +124,8 @@ class EdisMax extends DisMax
      * As with 'ps' but sets default slop factor for 'pf2'.
      * If not specified, 'ps' will be used.
      *
-     * @param string $phraseBigramSlop
-     * @return self Provides fluent interface
+     * @param  string $phraseBigramSlop
+     * @return self   Provides fluent interface
      */
     public function setPhraseBigramSlop($phraseBigramSlop)
     {
@@ -151,8 +150,8 @@ class EdisMax extends DisMax
      *
      * Format is: "fieldA^1.0 fieldB^2.2 fieldC^3.5"
      *
-     * @param string $phraseTrigramFields
-     * @return self Provides fluent interface
+     * @param  string $phraseTrigramFields
+     * @return self   Provides fluent interface
      */
     public function setPhraseTrigramFields($phraseTrigramFields)
     {
@@ -175,8 +174,8 @@ class EdisMax extends DisMax
      * As with 'ps' but sets default slop factor for 'pf3'.
      * If not specified, 'ps' will be used.
      *
-     * @param string $phraseTrigramSlop
-     * @return self Provides fluent interface
+     * @param  string $phraseTrigramSlop
+     * @return self   Provides fluent interface
      */
     public function setPhraseTrigramSlop($phraseTrigramSlop)
     {
@@ -204,8 +203,8 @@ class EdisMax extends DisMax
      * To allow all fields except title, use &uf=* -title. To disallow all fielded searches, use &uf=-*.
      * The uf parameter was introduced in Solr3.6
      *
-     * @param string $userFields
-     * @return self Provides fluent interface
+     * @param  string $userFields
+     * @return self   Provides fluent interface
      */
     public function setUserFields($userFields)
     {

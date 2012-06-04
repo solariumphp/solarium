@@ -160,7 +160,7 @@ class Loadbalancer extends Plugin
     /**
      * Set failover enabled option
      *
-     * @param bool $value
+     * @param  bool $value
      * @return self Provides fluent interface
      */
     public function setFailoverEnabled($value)
@@ -181,7 +181,7 @@ class Loadbalancer extends Plugin
     /**
      * Set failover max retries
      *
-     * @param int $value
+     * @param  int  $value
      * @return self Provides fluent interface
      */
     public function setFailoverMaxRetries($value)
@@ -202,9 +202,9 @@ class Loadbalancer extends Plugin
     /**
      * Add an endpoint to the loadbalacing 'pool'
      *
-     * @param Endpoint|string $endpoint
-     * @param int $weight Must be a positive number
-     * @return self Provides fluent interface
+     * @param  Endpoint|string $endpoint
+     * @param  int             $weight   Must be a positive number
+     * @return self            Provides fluent interface
      */
     public function addEndpoint($endpoint, $weight = 1)
     {
@@ -227,8 +227,8 @@ class Loadbalancer extends Plugin
     /**
      * Add multiple endpoints
      *
-     * @param array $endpoints
-     * @return self Provides fluent interface
+     * @param  array $endpoints
+     * @return self  Provides fluent interface
      */
     public function addEndpoints(array $endpoints)
     {
@@ -262,8 +262,8 @@ class Loadbalancer extends Plugin
     /**
      * Remove an endpoint by key
      *
-     * @param Endpoint|string $endpoint
-     * @return self Provides fluent interface
+     * @param  Endpoint|string $endpoint
+     * @return self            Provides fluent interface
      */
     public function removeEndpoint($endpoint)
     {
@@ -300,8 +300,8 @@ class Loadbalancer extends Plugin
      * If the next query cannot be loadbalanced (for instance based on the querytype) this setting is ignored
      * but will still be reset.
      *
-     * @param string|null|Endpoint $endpoint
-     * @return self Provides fluent interface
+     * @param  string|null|Endpoint $endpoint
+     * @return self                 Provides fluent interface
      */
     public function setForcedEndpointForNextQuery($endpoint)
     {
@@ -314,6 +314,7 @@ class Loadbalancer extends Plugin
         }
 
         $this->nextEndpoint = $endpoint;
+
         return $this;
     }
 
@@ -342,21 +343,22 @@ class Loadbalancer extends Plugin
      *
      * Overwrites any existing types
      *
-     * @param array $types Use an array with the constants defined in Solarium\Client as values
-     * @return self Provides fluent interface
+     * @param  array $types Use an array with the constants defined in Solarium\Client as values
+     * @return self  Provides fluent interface
      */
     public function setBlockedQueryTypes($types)
     {
         $this->clearBlockedQueryTypes();
         $this->addBlockedQueryTypes($types);
+
         return $this;
     }
 
     /**
      * Add a querytype to block from loadbalancing
      *
-     * @param string $type Use one of the constants defined in Solarium\Client
-     * @return self Provides fluent interface
+     * @param  string $type Use one of the constants defined in Solarium\Client
+     * @return self   Provides fluent interface
      */
     public function addBlockedQueryType($type)
     {
@@ -372,8 +374,8 @@ class Loadbalancer extends Plugin
      *
      * Appended to any existing types
      *
-     * @param array $types Use an array with the constants defined in Solarium\Client as values
-     * @return self Provides fluent interface
+     * @param  array $types Use an array with the constants defined in Solarium\Client as values
+     * @return self  Provides fluent interface
      */
     public function addBlockedQueryTypes($types)
     {
@@ -385,7 +387,7 @@ class Loadbalancer extends Plugin
     /**
      * Remove a single querytype from the block list
      *
-     * @param string $type
+     * @param  string $type
      * @return void
      */
     public function removeBlockedQueryType($type)
@@ -420,7 +422,7 @@ class Loadbalancer extends Plugin
     /**
      * Event hook to capture querytype
      *
-     * @param Query $query
+     * @param  Query $query
      * @return void
      */
     public function preCreateRequest($query)
@@ -431,7 +433,7 @@ class Loadbalancer extends Plugin
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function preExecuteRequest($request)
@@ -458,7 +460,7 @@ class Loadbalancer extends Plugin
     /**
      * Execute a request using the adapter
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response $response
      */
     protected function getLoadbalancedResponse($request)
@@ -486,6 +488,7 @@ class Loadbalancer extends Plugin
         } else {
             // no failover retries, just execute and let an exception bubble upwards
             $endpoint = $this->getRandomEndpoint();
+
             return $adapter->execute($request, $endpoint);
         }
     }
@@ -508,6 +511,7 @@ class Loadbalancer extends Plugin
 
         $this->endpointExcludes[] = $key;
         $this->lastEndpoint = $key;
+
         return $this->client->getEndpoint($key);
     }
 

@@ -72,9 +72,9 @@ class Query extends Facet
      *
      * This overwrites the current value
      *
-     * @param string $query
-     * @param array $bind Bind values for placeholders in the query string
-     * @return self Provides fluent interface
+     * @param  string $query
+     * @param  array  $bind  Bind values for placeholders in the query string
+     * @return self   Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {

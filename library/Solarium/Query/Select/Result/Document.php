@@ -55,7 +55,6 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      */
     protected $fields;
 
-
     /**
      * Constructor
      *
@@ -65,7 +64,6 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     {
         $this->fields = $fields;
     }
-
 
     /**
      * Get all fields
@@ -83,7 +81,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      * Magic access method for accessing fields as properties of this document
      * object, by field name.
      *
-     * @param string $name
+     * @param  string $name
      * @return mixed
      */
     public function __get($name)
@@ -101,8 +99,8 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      * Magic method for setting a field as property of this object. Since this
      * is a readonly document an exception will be thrown to prevent this.
      *
-     * @param string $name
-     * @param string $value
+     * @param  string $name
+     * @param  string $value
      * @return void
      */
     public function __set($name, $value)
@@ -133,8 +131,8 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * ArrayAccess implementation
      *
-     * @param mixed $offset
-     * @param mixed $value
+     * @param  mixed $offset
+     * @param  mixed $value
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -145,7 +143,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * ArrayAccess implementation
      *
-     * @param mixed $offset
+     * @param  mixed $offset
      * @return bool
      */
     public function offsetExists($offset)
@@ -156,7 +154,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * ArrayAccess implementation
      *
-     * @param mixed $offset
+     * @param  mixed $offset
      * @return void
      */
     public function offsetUnset($offset)
@@ -167,7 +165,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * ArrayAccess implementation
      *
-     * @param mixed $offset
+     * @param  mixed      $offset
      * @return mixed|null
      */
     public function offsetGet($offset)

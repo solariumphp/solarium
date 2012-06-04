@@ -80,9 +80,9 @@ class ZendHttp extends Configurable implements AdapterInterface
      * The $options param should be an array or an object that has a toArray
      * method, like Zend_Config
      *
-     * @param array|object $options
-     * @param boolean $overwrite
-     * @return self Provides fluent interface
+     * @param  array|object $options
+     * @param  boolean      $overwrite
+     * @return self         Provides fluent interface
      */
     public function setOptions($options, $overwrite = false)
     {
@@ -112,12 +112,13 @@ class ZendHttp extends Configurable implements AdapterInterface
      * upon first use, using default and/or custom options (the most common use
      * case)
      *
-     * @param \Zend_Http_Client $zendHttp
-     * @return self Provides fluent interface
+     * @param  \Zend_Http_Client $zendHttp
+     * @return self              Provides fluent interface
      */
     public function setZendHttp($zendHttp)
     {
         $this->zendHttp = $zendHttp;
+
         return $this;
     }
 
@@ -155,8 +156,8 @@ class ZendHttp extends Configurable implements AdapterInterface
     /**
      * Execute a Solr request using the Zend_Http_Client instance
      *
-     * @param Request $request
-     * @param Endpoint $endpoint
+     * @param  Request  $request
+     * @param  Endpoint $endpoint
      * @return Response
      */
     public function execute($request, $endpoint)

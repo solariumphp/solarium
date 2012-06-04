@@ -89,10 +89,10 @@ class Document extends ReadOnlyDocument
      * If a field already has a value it will be converted
      * to a multivalue field.
      *
-     * @param string $key
-     * @param mixed $value
-     * @param float $boost
-     * @return self Provides fluent interface
+     * @param  string $key
+     * @param  mixed  $value
+     * @param  float  $boost
+     * @return self   Provides fluent interface
      */
     public function addField($key, $value, $boost = null)
     {
@@ -118,10 +118,10 @@ class Document extends ReadOnlyDocument
      * this method for a multivalue field.
      * If you supply NULL as the value the field will be removed
      *
-     * @param string $key
-     * @param mixed $value
-     * @param float $boost
-     * @return self Provides fluent interface
+     * @param  string $key
+     * @param  mixed  $value
+     * @param  float  $boost
+     * @return self   Provides fluent interface
      */
     public function setField($key, $value, $boost = null)
     {
@@ -138,8 +138,8 @@ class Document extends ReadOnlyDocument
     /**
      * Remove a field
      *
-     * @param string $key
-     * @return self Provides fluent interface
+     * @param  string $key
+     * @return self   Provides fluent interface
      */
     public function removeField($key)
     {
@@ -157,7 +157,7 @@ class Document extends ReadOnlyDocument
     /**
      * Get the boost value for a field
      *
-     * @param string $key
+     * @param  string $key
      * @return float
      */
     public function getFieldBoost($key)
@@ -172,25 +172,27 @@ class Document extends ReadOnlyDocument
     /**
      * Set the boost value for a field
      *
-     * @param string $key
-     * @param float $boost
-     * @return self Provides fluent interface
+     * @param  string $key
+     * @param  float  $boost
+     * @return self   Provides fluent interface
      */
     public function setFieldBoost($key, $boost)
     {
         $this->fieldBoosts[$key] = $boost;
+
         return $this;
     }
 
     /**
      * Set the document boost value
      *
-     * @param float $boost
-     * @return self Provides fluent interface
+     * @param  float $boost
+     * @return self  Provides fluent interface
      */
     public function setBoost($boost)
     {
         $this->boost = $boost;
+
         return $this;
     }
 
@@ -227,8 +229,8 @@ class Document extends ReadOnlyDocument
      * If you supply an array a multivalue field will be created.
      * In all cases any existing (multi)value will be overwritten.
      *
-     * @param string $name
-     * @param string|null $value
+     * @param  string      $name
+     * @param  string|null $value
      * @return void
      */
     public function __set($name, $value)
@@ -241,7 +243,7 @@ class Document extends ReadOnlyDocument
      *
      * Magic method for removing fields by unsetting object properties
      *
-     * @param string $name
+     * @param  string $name
      * @return void
      */
     public function __unset($name)

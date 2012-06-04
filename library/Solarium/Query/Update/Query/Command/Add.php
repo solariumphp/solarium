@@ -67,8 +67,8 @@ class Add extends Command
     /**
      * Add a single document
      *
-     * @param object $document
-     * @return self Provides fluent interface
+     * @param  object $document
+     * @return self   Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -80,14 +80,15 @@ class Add extends Command
     /**
      * Add multiple documents
      *
-     * @param array|\Traversable $documents
-     * @return self Provides fluent interface
+     * @param  array|\Traversable $documents
+     * @return self               Provides fluent interface
      */
     public function addDocuments($documents)
     {
         //if we don't have documents so far, accept arrays or Traversable objects as-is
         if (empty($this->documents)) {
             $this->documents = $documents;
+
             return $this;
         }
 
@@ -117,8 +118,8 @@ class Add extends Command
     /**
      * Set overwrite option
      *
-     * @param boolean $overwrite
-     * @return self Provides fluent interface
+     * @param  boolean $overwrite
+     * @return self    Provides fluent interface
      */
     public function setOverwrite($overwrite)
     {
@@ -138,8 +139,8 @@ class Add extends Command
     /**
      * Get commitWithin option
      *
-     * @param boolean $commitWithin
-     * @return self Provides fluent interface
+     * @param  boolean $commitWithin
+     * @return self    Provides fluent interface
      */
     public function setCommitWithin($commitWithin)
     {

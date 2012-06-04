@@ -69,8 +69,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $values = array();
-        foreach($this->facet AS $key => $value)
-        {
+        foreach ($this->facet AS $key => $value) {
             $values[$key] = $value;
         }
 

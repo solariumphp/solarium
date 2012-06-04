@@ -54,7 +54,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param array $fields
+     * @param  array $fields
      * @return void
      */
     public function __construct($fields)
@@ -75,7 +75,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get highlights for a single field
      *
-     * @param string $key
+     * @param  string $key
      * @return array
      */
     public function getField($key)

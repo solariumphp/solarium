@@ -71,8 +71,8 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Execute a Solr request using the cURL Http
      *
-     * @param Request $request
-     * @param Endpoint $endpoint
+     * @param  Request  $request
+     * @param  Endpoint $endpoint
      * @return Response
      */
     public function execute($request, $endpoint)
@@ -83,8 +83,8 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Execute request
      *
-     * @param Request $request
-     * @param Endpoint $endpoint
+     * @param  Request  $request
+     * @param  Endpoint $endpoint
      * @return array
      */
     protected function getData($request, $endpoint)
@@ -100,8 +100,8 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Get the response for a curl handle
      *
-     * @param resource $handle
-     * @param string $httpResponse
+     * @param  resource $handle
+     * @param  string   $httpResponse
      * @return Response
      */
     public function getResponse($handle, $httpResponse)
@@ -119,6 +119,7 @@ class Curl extends Configurable implements AdapterInterface
 
         curl_close($handle);
         $this->check($data, $headers);
+
         return new Response($data, $headers);
         // @codeCoverageIgnoreEnd
     }
@@ -126,8 +127,8 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Create curl handle for a request
      *
-     * @param Request $request
-     * @param Endpoint $endpoint
+     * @param  Request  $request
+     * @param  Endpoint $endpoint
      * @return resource
      */
     public function createHandle($request, $endpoint)
@@ -159,10 +160,10 @@ class Curl extends Configurable implements AdapterInterface
             curl_setopt($handler, CURLOPT_POST, true);
             curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
             $httpResponse  = curl_exec($handler);
-        } else if ($method == Request::METHOD_GET) {
+        } elseif ($method == Request::METHOD_GET) {
             curl_setopt($handler, CURLOPT_HTTPGET, true);
             $httpResponse  = curl_exec($handler);
-        } else if ($method == Request::METHOD_HEAD) {
+        } elseif ($method == Request::METHOD_HEAD) {
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'HEAD');
             $httpResponse  = curl_exec($handler);
 
@@ -177,8 +178,8 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Create http request options from request.
      *
-     * @param Request $request
-     * @param Endpoint $endpoint
+     * @param  Request  $request
+     * @param  Endpoint $endpoint
      * @return array
      */
     protected function createOptions($request, $endpoint)
@@ -193,6 +194,7 @@ class Curl extends Configurable implements AdapterInterface
                 $options['headers'][$header] = trim($value);
             }
         }
+
         return $options;
         // @codeCoverageIgnoreEnd
     }
@@ -201,8 +203,8 @@ class Curl extends Configurable implements AdapterInterface
      * Check result of a request
      *
      * @throws HttpException
-     * @param string $data
-     * @param array $headers
+     * @param  string        $data
+     * @param  array         $headers
      * @return void
      */
     public function check($data, $headers)

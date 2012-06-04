@@ -83,10 +83,10 @@ class ParallelExecution extends Plugin
     /**
      * Add a query to execute
      *
-     * @param string $key
-     * @param Query $query
-     * @param null|string|Endpoint $endpoint
-     * @return self Provides fluent interface
+     * @param  string               $key
+     * @param  Query                $query
+     * @param  null|string|Endpoint $endpoint
+     * @return self                 Provides fluent interface
      */
     public function addQuery($key, $query, $endpoint = null)
     {
@@ -124,6 +124,7 @@ class ParallelExecution extends Plugin
     public function clearQueries()
     {
         $this->queries = array();
+
         return $this;
     }
 

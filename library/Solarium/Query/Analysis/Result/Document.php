@@ -137,7 +137,7 @@ class Document extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get a document by uniquekey value
      *
-     * @param string $key
+     * @param  string          $key
      * @return ResultList|null
      */
     public function getDocument($key)

@@ -87,8 +87,8 @@ class MoreLikeThis extends Component
      *
      * Separate multiple fields with commas.
      *
-     * @param string $fields
-     * @return self Provides fluent interface
+     * @param  string $fields
+     * @return self   Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -111,7 +111,7 @@ class MoreLikeThis extends Component
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
-     * @param int $minimum
+     * @param  int  $minimum
      * @return self Provides fluent interface
      */
     public function setMinimumTermFrequency($minimum)
@@ -135,7 +135,7 @@ class MoreLikeThis extends Component
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
-     * @param int $minimum
+     * @param  int  $minimum
      * @return self Provides fluent interface
      */
     public function setMinimumDocumentFrequency($minimum)
@@ -158,7 +158,7 @@ class MoreLikeThis extends Component
      *
      * Minimum word length below which words will be ignored.
      *
-     * @param int $minimum
+     * @param  int  $minimum
      * @return self Provides fluent interface
      */
     public function setMinimumWordLength($minimum)
@@ -181,7 +181,7 @@ class MoreLikeThis extends Component
      *
      * Maximum word length above which words will be ignored.
      *
-     * @param int $maximum
+     * @param  int  $maximum
      * @return self Provides fluent interface
      */
     public function setMaximumWordLength($maximum)
@@ -205,7 +205,7 @@ class MoreLikeThis extends Component
      * Maximum number of query terms that will be included in any generated
      * query.
      *
-     * @param int $maximum
+     * @param  int  $maximum
      * @return self Provides fluent interface
      */
     public function setMaximumQueryTerms($maximum)
@@ -229,7 +229,7 @@ class MoreLikeThis extends Component
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
-     * @param int $maximum
+     * @param  int  $maximum
      * @return self Provides fluent interface
      */
     public function setMaximumNumberOfTokens($maximum)
@@ -252,8 +252,8 @@ class MoreLikeThis extends Component
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @param boolean $boost
-     * @return self Provides fluent interface
+     * @param  boolean $boost
+     * @return self    Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -278,8 +278,8 @@ class MoreLikeThis extends Component
      *
      * Separate multiple fields with commas.
      *
-     * @param string $queryFields
-     * @return self Provides fluent interface
+     * @param  string $queryFields
+     * @return self   Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -301,7 +301,7 @@ class MoreLikeThis extends Component
      *
      * The number of similar documents to return for each result
      *
-     * @param int $count
+     * @param  int  $count
      * @return self Provides fluent interface
      */
     public function setCount($count)

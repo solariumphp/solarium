@@ -54,7 +54,7 @@ class FacetSet implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param array $facets
+     * @param  array $facets
      * @return void
      */
     public function __construct($facets)
@@ -65,7 +65,7 @@ class FacetSet implements \IteratorAggregate, \Countable
     /**
      * Get a facet by key
      *
-     * @param mixed $key
+     * @param  mixed $key
      * @return mixed
      */
     public function getFacet($key)

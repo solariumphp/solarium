@@ -50,9 +50,9 @@ class Debug
     /**
      * Parse result data into result objects
      *
-     * @param Query $query
-     * @param DebugComponent $component
-     * @param array $data
+     * @param  Query                   $query
+     * @param  DebugComponent          $component
+     * @param  array                   $data
      * @return DebugResult\Result|null
      */
     public function parse($query, $component, $data)
@@ -88,7 +88,7 @@ class Debug
                 $time = null;
                 $timingPhases = array();
                 foreach ($debug['timing'] as $key => $timingData) {
-                    switch($key) {
+                    switch ($key) {
                         case 'time':
                             $time = $timingData;
                             break;
@@ -119,7 +119,7 @@ class Debug
      *
      * Used for explain and explainOther
      *
-     * @param array $data
+     * @param  array                   $data
      * @return DebugResult\DocumentSet
      */
     protected function parseDocumentSet($data)
@@ -153,8 +153,8 @@ class Debug
     /**
      * Parse raw timing phase data into a result class
      *
-     * @param string $name
-     * @param array $data
+     * @param  string                  $name
+     * @param  array                   $data
      * @return DebugResult\TimingPhase
      */
     protected function parseTimingPhase($name, $data)
@@ -162,7 +162,7 @@ class Debug
         $time = 0.0;
         $classes = array();
         foreach ($data as $key => $timingData) {
-            switch($key) {
+            switch ($key) {
                 case 'time':
                     $time = $timingData;
                     break;

@@ -67,8 +67,8 @@ class PostBigRequest extends Plugin
     /**
      * Set maxquerystringlength enabled option
      *
-     * @param integer $value
-     * @return self Provides fluent interface
+     * @param  integer $value
+     * @return self    Provides fluent interface
      */
     public function setMaxQueryStringLength($value)
     {
@@ -88,8 +88,8 @@ class PostBigRequest extends Plugin
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param Query $query
-     * @param Request $request
+     * @param  Query   $query
+     * @param  Request $request
      * @return void
      */
     public function postCreateRequest($query, $request)

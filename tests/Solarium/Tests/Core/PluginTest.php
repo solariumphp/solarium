@@ -63,7 +63,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     public function testEventHooksEmpty()
     {
         $this->assertEquals(null, $this->plugin->preCreateRequest(null));
@@ -80,8 +79,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class MyPlugin extends Plugin{
-
+class MyPlugin extends Plugin
+{
     public function getClient()
     {
         return $this->client;

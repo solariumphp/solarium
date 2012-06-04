@@ -72,8 +72,8 @@ class PeclHttp extends Configurable implements AdapterInterface
     /**
      * Execute a Solr request using the Pecl Http
      *
-     * @param Request $request
-     * @param Endpoint $endpoint
+     * @param  Request  $request
+     * @param  Endpoint $endpoint
      * @return Response
      */
     public function execute($request, $endpoint)
@@ -128,7 +128,7 @@ class PeclHttp extends Configurable implements AdapterInterface
      * {@link http://us.php.net/manual/en/http.constants.php
      *  HTTP Predefined Constant}
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Endpoint $endpoint
      * @param HttpRequest
      */
@@ -145,7 +145,7 @@ class PeclHttp extends Configurable implements AdapterInterface
             }
         }
 
-        switch($request->getMethod()) {
+        switch ($request->getMethod()) {
         case Request::METHOD_GET:
             $method = HTTP_METH_GET;
             break;

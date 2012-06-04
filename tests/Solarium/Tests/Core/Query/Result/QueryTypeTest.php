@@ -36,7 +36,6 @@ use Solarium\Core\Query\Result\QueryType as QueryTypeResult;
 use Solarium\Query\Select\Query\Query as SelectQuery;
 use Solarium\Query\Update\Query\Query as UpdateQuery;
 
-
 class QueryTypeTest extends \PHPUnit_Framework_TestCase
 {
     /**

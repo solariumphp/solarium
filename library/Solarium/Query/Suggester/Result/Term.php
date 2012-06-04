@@ -72,13 +72,12 @@ class Term implements \IteratorAggregate, \Countable
      */
     protected $suggestions;
 
-
     /**
      * Constructor
      *
-     * @param int $numFound
-     * @param int $startOffset
-     * @param int $endOffset
+     * @param int   $numFound
+     * @param int   $startOffset
+     * @param int   $endOffset
      * @param array $suggestions
      */
     public function __construct($numFound, $startOffset, $endOffset, $suggestions)
@@ -128,7 +127,6 @@ class Term implements \IteratorAggregate, \Countable
     {
         return $this->suggestions;
     }
-
 
     /**
      * IteratorAggregate implementation

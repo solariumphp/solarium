@@ -114,12 +114,13 @@ class Request extends Configurable
     /**
      * Set request handler
      *
-     * @param string $handler
-     * @return self Provides fluent interface
+     * @param  string $handler
+     * @return self   Provides fluent interface
      */
     public function setHandler($handler)
     {
         $this->setOption('handler', $handler);
+
         return $this;
     }
 
@@ -138,12 +139,13 @@ class Request extends Configurable
      *
      * Use one of the constants as value
      *
-     * @param string $method
-     * @return self Provides fluent interface
+     * @param  string $method
+     * @return self   Provides fluent interface
      */
     public function setMethod($method)
     {
         $this->setOption('method', $method);
+
         return $this;
     }
 
@@ -160,7 +162,7 @@ class Request extends Configurable
     /**
      * Get a param value
      *
-     * @param string $key
+     * @param  string       $key
      * @return string|array
      */
     public function getParam($key)
@@ -185,13 +187,14 @@ class Request extends Configurable
     /**
      * Set request params
      *
-     * @param array $params
-     * @return self Provides fluent interface
+     * @param  array $params
+     * @return self  Provides fluent interface
      */
     public function setParams($params)
     {
         $this->clearParams();
         $this->addParams($params);
+
         return $this;
     }
 
@@ -204,10 +207,10 @@ class Request extends Configurable
      * Empty params are not added to the request. If you want to empty a param disable it you should use
      * remove param instead.
      *
-     * @param string $key
-     * @param string|array $value
-     * @param boolean $overwrite
-     * @return self Provides fluent interface
+     * @param  string       $key
+     * @param  string|array $value
+     * @param  boolean      $overwrite
+     * @return self         Provides fluent interface
      */
     public function addParam($key, $value, $overwrite = false)
     {
@@ -235,9 +238,9 @@ class Request extends Configurable
     /**
      * Add multiple params to the request
      *
-     * @param array $params
-     * @param boolean $overwrite
-     * @return self Provides fluent interface
+     * @param  array   $params
+     * @param  boolean $overwrite
+     * @return self    Provides fluent interface
      */
     public function addParams($params, $overwrite = false)
     {
@@ -251,14 +254,15 @@ class Request extends Configurable
     /**
      * Remove a param by key
      *
-     * @param string $key
-     * @return self Provides fluent interface
+     * @param  string $key
+     * @return self   Provides fluent interface
      */
     public function removeParam($key)
     {
         if (isset($this->params[$key])) {
             unset($this->params[$key]);
         }
+
         return $this;
     }
 
@@ -270,6 +274,7 @@ class Request extends Configurable
     public function clearParams()
     {
         $this->params = array();
+
         return $this;
     }
 
@@ -288,12 +293,13 @@ class Request extends Configurable
      *
      * This string must be safely encoded.
      *
-     * @param string $data
-     * @return self Provides fluent interface
+     * @param  string $data
+     * @return self   Provides fluent interface
      */
     public function setRawData($data)
     {
         $this->rawData = $data;
+
         return $this;
     }
 
@@ -310,21 +316,22 @@ class Request extends Configurable
     /**
      * Set request headers
      *
-     * @param array $headers
-     * @return self Provides fluent interface
+     * @param  array $headers
+     * @return self  Provides fluent interface
      */
     public function setHeaders($headers)
     {
         $this->clearHeaders();
         $this->addHeaders($headers);
+
         return $this;
     }
 
     /**
      * Add a request header
      *
-     * @param string|array $value
-     * @return self Provides fluent interface
+     * @param  string|array $value
+     * @return self         Provides fluent interface
      */
     public function addHeader($value)
     {
@@ -336,8 +343,8 @@ class Request extends Configurable
     /**
      * Add multiple headers to the request
      *
-     * @param array $headers
-     * @return self Provides fluent interface
+     * @param  array $headers
+     * @return self  Provides fluent interface
      */
     public function addHeaders($headers)
     {
@@ -356,6 +363,7 @@ class Request extends Configurable
     public function clearHeaders()
     {
         $this->headers = array();
+
         return $this;
     }
 

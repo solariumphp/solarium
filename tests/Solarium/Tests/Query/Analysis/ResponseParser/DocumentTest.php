@@ -59,7 +59,6 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $result = $parserStub->parse($resultStub);
 
-
         $this->assertEquals(count($data['analysis']), count($result['items']));
         $this->assertEquals('key2', $result['items'][1]->getName());
     }

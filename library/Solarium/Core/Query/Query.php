@@ -63,8 +63,8 @@ abstract class Query extends Configurable implements QueryInterface
     /**
      * Set handler option
      *
-     * @param string $handler
-     * @return self Provides fluent interface
+     * @param  string $handler
+     * @return self   Provides fluent interface
      */
     public function setHandler($handler)
     {
@@ -91,8 +91,8 @@ abstract class Query extends Configurable implements QueryInterface
      * Also you need to make sure it extends the orginal result class of the
      * query or has an identical API.
      *
-     * @param string $classname
-     * @return self Provides fluent interface
+     * @param  string $classname
+     * @return self   Provides fluent interface
      */
     public function setResultClass($classname)
     {
@@ -131,13 +131,14 @@ abstract class Query extends Configurable implements QueryInterface
      * Only intended for internal use, for instance with dereferenced params.
      * Therefore the params are limited in functionality. Only add and get
      *
-     * @param string $name
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $name
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function addParam($name, $value)
     {
         $this->params[$name] = $value;
+
         return $this;
     }
 

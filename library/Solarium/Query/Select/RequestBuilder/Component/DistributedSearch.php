@@ -49,8 +49,8 @@ class DistributedSearch
     /**
      * Add request settings for DistributedSearch
      *
-     * @param DistributedSearchComponent $component
-     * @param Request $request
+     * @param  DistributedSearchComponent $component
+     * @param  Request                    $request
      * @return Request
      */
     public function buildComponent($component, $request)

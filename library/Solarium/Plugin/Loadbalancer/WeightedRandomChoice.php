@@ -92,7 +92,7 @@ class WeightedRandomChoice
     /**
      * Get a (weighted) random entry
      *
-     * @param array $excludes Keys to exclude
+     * @param  array  $excludes Keys to exclude
      * @return string
      */
     public function getRandom($excludes = array())
@@ -129,7 +129,7 @@ class WeightedRandomChoice
             $probe = (int) (($high + $low) / 2);
             if ($this->lookup[$probe] < $random) {
                 $low = $probe + 1;
-            } else if ($this->lookup[$probe] > $random) {
+            } elseif ($this->lookup[$probe] > $random) {
                 $high = $probe - 1;
             } else {
                 return $probe;

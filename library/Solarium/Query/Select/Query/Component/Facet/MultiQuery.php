@@ -96,10 +96,10 @@ class MultiQuery extends Facet
      * Convenience method so you don't need to manually create facetquery
      * objects.
      *
-     * @param string $key
-     * @param string $query
-     * @param array $excludes
-     * @return self Provides fluent interface
+     * @param  string $key
+     * @param  string $query
+     * @param  array  $excludes
+     * @return self   Provides fluent interface
      */
     public function createQuery($key, $query, $excludes = array())
     {
@@ -120,8 +120,8 @@ class MultiQuery extends Facet
      * Supports a facetquery instance or a config array, in that case a new
      * facetquery instance wil be created based on the options.
      *
-     * @param Query|array $facetQuery
-     * @return self Provides fluent interface
+     * @param  Query|array $facetQuery
+     * @return self        Provides fluent interface
      */
     public function addQuery($facetQuery)
     {
@@ -143,14 +143,15 @@ class MultiQuery extends Facet
         $facetQuery->addExcludes($this->getExcludes());
 
         $this->facetQueries[$key] = $facetQuery;
+
         return $this;
     }
 
     /**
      * Add multiple facetqueries
      *
-     * @param array $facetQueries Instances or config array
-     * @return self Provides fluent interface
+     * @param  array $facetQueries Instances or config array
+     * @return self  Provides fluent interface
      */
     public function addQueries(array $facetQueries)
     {
@@ -170,7 +171,7 @@ class MultiQuery extends Facet
     /**
      * Get a facetquery
      *
-     * @param string $key
+     * @param  string $key
      * @return string
      */
     public function getQuery($key)
@@ -197,8 +198,8 @@ class MultiQuery extends Facet
      *
      * You can remove a facetquery by passing it's key or the facetquery instance
      *
-     * @param string|Query $query
-     * @return self Provides fluent interface
+     * @param  string|Query $query
+     * @return self         Provides fluent interface
      */
     public function removeQuery($query)
     {
@@ -221,6 +222,7 @@ class MultiQuery extends Facet
     public function clearQueries()
     {
         $this->facetQueries = array();
+
         return $this;
     }
 
@@ -229,12 +231,13 @@ class MultiQuery extends Facet
      *
      * This overwrites any existing facetqueries
      *
-     * @param array $facetQueries
-     * @return self Provides fluent interface
+     * @param  array $facetQueries
+     * @return self  Provides fluent interface
      */
     public function setQueries($facetQueries)
     {
         $this->clearQueries();
+
         return $this->addQueries($facetQueries);
     }
 
@@ -247,8 +250,8 @@ class MultiQuery extends Facet
      * If you don't want to share an exclude use the addExclude method of a
      * specific FacetQuery instance instead.
      *
-     * @param string $tag
-     * @return self Provides fluent interface
+     * @param  string $tag
+     * @return self   Provides fluent interface
      */
     public function addExclude($tag)
     {
@@ -268,8 +271,8 @@ class MultiQuery extends Facet
      * If you don't want this use the removeExclude method of a
      * specific FacetQuery instance instead.
      *
-     * @param string $exclude
-     * @return self Provides fluent interface
+     * @param  string $exclude
+     * @return self   Provides fluent interface
      */
     public function removeExclude($exclude)
     {

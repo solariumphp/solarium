@@ -100,8 +100,7 @@ class QueryGroupTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach($this->group AS $key => $item)
-        {
+        foreach ($this->group AS $key => $item) {
             $items[$key] = $item;
         }
 

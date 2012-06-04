@@ -55,9 +55,9 @@ interface ResponseParserInterface
      *
      * When this method is called the actual response parsing is started.
      *
-     * @param Result\Result $result
+     * @param  Result\Result $result
      * @return mixed
      */
-    function parse($result);
+    public function parse($result);
 
 }

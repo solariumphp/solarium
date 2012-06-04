@@ -84,8 +84,8 @@ class Field extends Configurable
     /**
      * Set key value
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setKey($value)
     {
@@ -95,12 +95,13 @@ class Field extends Configurable
     /**
      * Specify a facet to return in the resultset
      *
-     * @param string $facet
-     * @return self Provides fluent interface
+     * @param  string $facet
+     * @return self   Provides fluent interface
      */
     public function addFacet($facet)
     {
        $this->facets[$facet] = true;
+
        return $this;
     }
 
@@ -129,8 +130,8 @@ class Field extends Configurable
     /**
      * Remove a facet from the facet list
      *
-     * @param string $facet
-     * @return self Provides fluent interface
+     * @param  string $facet
+     * @return self   Provides fluent interface
      */
     public function removeFacet($facet)
     {
@@ -149,6 +150,7 @@ class Field extends Configurable
     public function clearFacets()
     {
         $this->facets = array();
+
         return $this;
     }
 
@@ -167,8 +169,8 @@ class Field extends Configurable
      *
      * This overwrites any existing facets
      *
-     * @param array $facets
-     * @return self Provides fluent interface
+     * @param  array $facets
+     * @return self  Provides fluent interface
      */
     public function setFacets($facets)
     {

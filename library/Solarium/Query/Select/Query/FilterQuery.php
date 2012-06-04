@@ -100,8 +100,8 @@ class FilterQuery extends Configurable
     /**
      * Set key value
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setKey($value)
     {
@@ -113,9 +113,9 @@ class FilterQuery extends Configurable
      *
      * This overwrites the current value
      *
-     * @param string $query
-     * @param array $bind Bind values for placeholders in the query string
-     * @return self Provides fluent interface
+     * @param  string $query
+     * @param  array  $bind  Bind values for placeholders in the query string
+     * @return self   Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
@@ -125,6 +125,7 @@ class FilterQuery extends Configurable
         }
 
         $this->query = trim($query);
+
         return $this;
     }
 
@@ -141,26 +142,28 @@ class FilterQuery extends Configurable
     /**
      * Add a tag
      *
-     * @param string $tag
-     * @return self Provides fluent interface
+     * @param  string $tag
+     * @return self   Provides fluent interface
      */
     public function addTag($tag)
     {
         $this->tags[$tag] = true;
+
         return $this;
     }
 
     /**
      * Add tags
      *
-     * @param array $tags
-     * @return self Provides fluent interface
+     * @param  array $tags
+     * @return self  Provides fluent interface
      */
     public function addTags($tags)
     {
         foreach ($tags as $tag) {
             $this->addTag($tag);
         }
+
         return $this;
     }
 
@@ -177,8 +180,8 @@ class FilterQuery extends Configurable
     /**
      * Remove a tag
      *
-     * @param string $tag
-     * @return self Provides fluent interface
+     * @param  string $tag
+     * @return self   Provides fluent interface
      */
     public function removeTag($tag)
     {
@@ -197,6 +200,7 @@ class FilterQuery extends Configurable
     public function clearTags()
     {
         $this->tags = array();
+
         return $this;
     }
 
@@ -205,12 +209,13 @@ class FilterQuery extends Configurable
      *
      * This overwrites any existing tags
      *
-     * @param array $filterQueries
-     * @return self Provides fluent interface
+     * @param  array $filterQueries
+     * @return self  Provides fluent interface
      */
     public function setTags($filterQueries)
     {
         $this->clearTags();
+
         return $this->addTags($filterQueries);
     }
 

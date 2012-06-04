@@ -77,10 +77,10 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param string $value
-     * @param int $numFound
-     * @param int $start
-     * @param array $documents
+     * @param  string $value
+     * @param  int    $numFound
+     * @param  int    $start
+     * @param  array  $documents
      * @return void
      */
     public function __construct($value, $numFound, $start, $documents)

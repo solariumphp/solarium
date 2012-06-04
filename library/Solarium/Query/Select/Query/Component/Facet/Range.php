@@ -134,8 +134,8 @@ class Range extends Facet
     /**
      * Set the field name
      *
-     * @param string $field
-     * @return self Provides fluent interface
+     * @param  string $field
+     * @return self   Provides fluent interface
      */
     public function setField($field)
     {
@@ -155,8 +155,8 @@ class Range extends Facet
     /**
      * Set the lower bound of the range
      *
-     * @param string $start
-     * @return self Provides fluent interface
+     * @param  string $start
+     * @return self   Provides fluent interface
      */
     public function setStart($start)
     {
@@ -176,8 +176,8 @@ class Range extends Facet
     /**
      * Set the upper bound of the range
      *
-     * @param string $end
-     * @return self Provides fluent interface
+     * @param  string $end
+     * @return self   Provides fluent interface
      */
     public function setEnd($end)
     {
@@ -199,8 +199,8 @@ class Range extends Facet
      *
      * The size of each range expressed as a value to be added to the lower bound
      *
-     * @param string $gap
-     * @return self Provides fluent interface
+     * @param  string $gap
+     * @return self   Provides fluent interface
      */
     public function setGap($gap)
     {
@@ -225,8 +225,8 @@ class Range extends Facet
      * A Boolean parameter instructing Solr what to do in the event that facet.range.gap
      * does not divide evenly between facet.range.start and facet.range.end
      *
-     * @param boolean $hardend
-     * @return self Provides fluent interface
+     * @param  boolean $hardend
+     * @return self    Provides fluent interface
      */
     public function setHardend($hardend)
     {
@@ -249,8 +249,8 @@ class Range extends Facet
      * Use one of the constants as value.
      * If you want to use multiple values supply an array or comma separated string
      *
-     * @param string|array $other
-     * @return self Provides fluent interface
+     * @param  string|array $other
+     * @return self         Provides fluent interface
      */
     public function setOther($other)
     {
@@ -279,8 +279,8 @@ class Range extends Facet
      * Use one of the constants as value.
      * If you want to use multiple values supply an array or comma separated string
      *
-     * @param string|array $include
-     * @return self Provides fluent interface
+     * @param  string|array $include
+     * @return self         Provides fluent interface
      */
     public function setInclude($include)
     {

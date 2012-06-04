@@ -477,6 +477,6 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class MyCustomDoc extends Document{
-
+class MyCustomDoc extends Document
+{
 }

@@ -46,43 +46,41 @@ use Solarium\Core\ConfigurableInterface;
 interface QueryInterface extends ConfigurableInterface
 {
 
-
     /**
      * Get type for this query
      *
      * @return string
      */
-    function getType();
+    public function getType();
 
     /**
      * Get the requestbuilder class for this query
      *
      * @return object
      */
-    function getRequestBuilder();
-
+    public function getRequestBuilder();
 
     /**
      * Get the response parser class for this query
      *
      * @return ResponseParserInterface
      */
-    function getResponseParser();
+    public function getResponseParser();
 
     /**
      * Set handler option
      *
-     * @param string $handler
-     * @return self Provides fluent interface
+     * @param  string $handler
+     * @return self   Provides fluent interface
      */
-    function setHandler($handler);
+    public function setHandler($handler);
 
     /**
      * Get handler option
      *
      * @return string
      */
-    function getHandler();
+    public function getHandler();
 
     /**
      * Set resultclass option
@@ -93,24 +91,24 @@ interface QueryInterface extends ConfigurableInterface
      *
      * Also you need to make sure this class implements the ResultInterface
      *
-     * @param string $classname
-     * @return self Provides fluent interface
+     * @param  string $classname
+     * @return self   Provides fluent interface
      */
-    function setResultClass($classname);
+    public function setResultClass($classname);
 
     /**
      * Get resultclass option
      *
      * @return string
      */
-    function getResultClass();
+    public function getResultClass();
 
     /**
      * Get a helper instance
      *
      * @return Helper
      */
-    function getHelper();
+    public function getHelper();
 
     /**
      * Add extra params to the request
@@ -118,11 +116,11 @@ interface QueryInterface extends ConfigurableInterface
      * Only intended for internal use, for instance with dereferenced params.
      * Therefore the params are limited in functionality. Only add and get
      *
-     * @param string $name
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $name
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
-    function addParam($name, $value);
+    public function addParam($name, $value);
 
     /**
      * Get extra params

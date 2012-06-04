@@ -245,7 +245,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->request->setParams($params);
         $this->request->addParam('param1', 2, true);
 
-
         $this->assertEquals(
             array('param1' => 2),
             $this->request->getParams()
@@ -265,7 +264,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->request->setParams($params);
         $this->request->addParams($extraParams);
-
 
         $this->assertEquals(
             array(
@@ -289,7 +287,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->request->setParams($params);
         $this->request->addParams($extraParams, true);
-
 
         $this->assertEquals(
             array(
@@ -471,7 +468,7 @@ resource: /myHandler?param1=1&param2=test+content
 resource urldecoded: /myHandler?param1=1&param2=test content
 raw data: post data
 ',
-            (string)$this->request
+            (string) $this->request
         );
     }
 

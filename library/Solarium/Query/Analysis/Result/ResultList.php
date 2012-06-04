@@ -58,12 +58,11 @@ class ResultList implements \IteratorAggregate, \Countable
      */
     protected $items;
 
-
     /**
      * Constructor
      *
      * @param string $name
-     * @param array $items
+     * @param array  $items
      */
     public function __construct($name, $items)
     {

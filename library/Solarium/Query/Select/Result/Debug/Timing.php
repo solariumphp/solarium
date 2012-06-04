@@ -61,8 +61,8 @@ class Timing implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param float $time
-     * @param array $phases
+     * @param  float $time
+     * @param  array $phases
      * @return void
      */
     public function __construct($time, $phases)
@@ -84,7 +84,7 @@ class Timing implements \IteratorAggregate, \Countable
     /**
      * Get a timing phase by key
      *
-     * @param mixed $key
+     * @param  mixed            $key
      * @return TimingPhase|null
      */
     public function getPhase($key)

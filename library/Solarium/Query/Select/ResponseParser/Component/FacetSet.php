@@ -53,9 +53,9 @@ class FacetSet
     /**
      * Parse result data into result objects
      *
-     * @param Query $query
-     * @param QueryFacetSet $facetSet
-     * @param array $data
+     * @param  Query          $query
+     * @param  QueryFacetSet  $facetSet
+     * @param  array          $data
      * @return ResultFacetSet
      */
     public function parse($query, $facetSet, $data)
@@ -90,7 +90,7 @@ class FacetSet
     /**
      * Create a facetset result object
      *
-     * @param array $facets
+     * @param  array          $facets
      * @return ResultFacetSet
      */
     protected function createFacetSet($facets)
@@ -101,8 +101,8 @@ class FacetSet
     /**
      * Add a facet result for a field facet
      *
-     * @param QueryFacet\Field $facet
-     * @param array $data
+     * @param  QueryFacet\Field  $facet
+     * @param  array             $data
      * @return ResultFacet\Field
      */
     protected function facetField($facet, $data)
@@ -127,8 +127,8 @@ class FacetSet
     /**
      * Add a facet result for a facet query
      *
-     * @param QueryFacet\Query $facet
-     * @param array $data
+     * @param  QueryFacet\Query  $facet
+     * @param  array             $data
      * @return ResultFacet\Query
      */
     protected function facetQuery($facet, $data)
@@ -137,6 +137,7 @@ class FacetSet
         if (isset($data['facet_counts']['facet_queries'][$key])) {
 
             $value = $data['facet_counts']['facet_queries'][$key];
+
             return new ResultFacet\Query($value);
         }
     }
@@ -144,8 +145,8 @@ class FacetSet
     /**
      * Add a facet result for a multiquery facet
      *
-     * @param QueryFacet\MultiQuery $facet
-     * @param array $data
+     * @param  QueryFacet\MultiQuery  $facet
+     * @param  array                  $data
      * @return ResultFacet\MultiQuery
      */
     protected function facetMultiQuery($facet, $data)
@@ -164,12 +165,11 @@ class FacetSet
         }
     }
 
-
     /**
      * Add a facet result for a range facet
      *
-     * @param QueryFacet\Range $facet
-     * @param array $data
+     * @param  QueryFacet\Range  $facet
+     * @param  array             $data
      * @return ResultFacet\Range
      */
     protected function facetRange($facet, $data)

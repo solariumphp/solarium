@@ -112,7 +112,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get term results for a specific field
      *
-     * @param string $field
+     * @param  string $field
      * @return array
      */
     public function getTerms($field)

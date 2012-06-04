@@ -441,12 +441,10 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->plugin->preExecuteRequest($request);
     }
 
-
-
 }
 
-class TestLoadbalancer extends Loadbalancer{
-
+class TestLoadbalancer extends Loadbalancer
+{
     protected $counter = 0;
 
     /**
@@ -461,13 +459,14 @@ class TestLoadbalancer extends Loadbalancer{
 
         $this->endpointExcludes[] = $endpointKey;
         $this->lastEndpoint = $endpointKey;
+
         return $this->client->getEndpoint($endpointKey);
     }
 
 }
 
-class TestAdapterForFailover extends HttpAdapter{
-
+class TestAdapterForFailover extends HttpAdapter
+{
     protected $counter = 0;
 
     protected $failCount = 1;
@@ -480,7 +479,7 @@ class TestAdapterForFailover extends HttpAdapter{
     public function execute($request, $endpoint)
     {
         $this->counter++;
-        if($this->counter <= $this->failCount) {
+        if ($this->counter <= $this->failCount) {
             throw new HttpException('failover exception');
         }
 

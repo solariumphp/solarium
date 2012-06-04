@@ -110,8 +110,8 @@ class Query extends SelectQuery
      *
      * @link http://wiki.apache.org/solr/ContentStream ContentStream
      *
-     * @param boolean $stream
-     * @return self Provides fluent interface
+     * @param  boolean $stream
+     * @return self    Provides fluent interface
      */
     public function setQueryStream($stream)
     {
@@ -132,8 +132,8 @@ class Query extends SelectQuery
      * Set the interestingTerms parameter.  Must be one of: none, list, details.
      *
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
-     * @param string $term
-     * @return self Provides fluent interface
+     * @param  string $term
+     * @return self   Provides fluent interface
      */
     public function setInterestingTerms($term)
     {
@@ -155,8 +155,8 @@ class Query extends SelectQuery
      *
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
      *
-     * @param boolean $include
-     * @return self Provides fluent interface
+     * @param  boolean $include
+     * @return self    Provides fluent interface
      */
     public function setMatchInclude($include)
     {
@@ -181,8 +181,8 @@ class Query extends SelectQuery
      *
      * Separate multiple fields with commas.
      *
-     * @param string $fields
-     * @return self Provides fluent interface
+     * @param  string $fields
+     * @return self   Provides fluent interface
      */
     public function setMltFields($fields)
     {
@@ -205,7 +205,7 @@ class Query extends SelectQuery
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
-     * @param int $minimum
+     * @param  int  $minimum
      * @return self Provides fluent interface
      */
     public function setMinimumTermFrequency($minimum)
@@ -229,7 +229,7 @@ class Query extends SelectQuery
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
-     * @param int $minimum
+     * @param  int  $minimum
      * @return self Provides fluent interface
      */
     public function setMinimumDocumentFrequency($minimum)
@@ -252,7 +252,7 @@ class Query extends SelectQuery
      *
      * Minimum word length below which words will be ignored.
      *
-     * @param int $minimum
+     * @param  int  $minimum
      * @return self Provides fluent interface
      */
     public function setMinimumWordLength($minimum)
@@ -275,7 +275,7 @@ class Query extends SelectQuery
      *
      * Maximum word length above which words will be ignored.
      *
-     * @param int $maximum
+     * @param  int  $maximum
      * @return self Provides fluent interface
      */
     public function setMaximumWordLength($maximum)
@@ -299,7 +299,7 @@ class Query extends SelectQuery
      * Maximum number of query terms that will be included in any generated
      * query.
      *
-     * @param int $maximum
+     * @param  int  $maximum
      * @return self Provides fluent interface
      */
     public function setMaximumQueryTerms($maximum)
@@ -323,7 +323,7 @@ class Query extends SelectQuery
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
-     * @param int $maximum
+     * @param  int  $maximum
      * @return self Provides fluent interface
      */
     public function setMaximumNumberOfTokens($maximum)
@@ -346,8 +346,8 @@ class Query extends SelectQuery
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @param boolean $boost
-     * @return self Provides fluent interface
+     * @param  boolean $boost
+     * @return self    Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -372,8 +372,8 @@ class Query extends SelectQuery
      *
      * Separate multiple fields with commas.
      *
-     * @param string $queryFields
-     * @return self Provides fluent interface
+     * @param  string $queryFields
+     * @return self   Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {

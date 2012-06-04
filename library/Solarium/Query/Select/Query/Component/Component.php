@@ -59,7 +59,6 @@ abstract class Component extends Configurable
      */
     abstract public function getRequestBuilder();
 
-
     /**
      * Get the response parser class for this query
      *

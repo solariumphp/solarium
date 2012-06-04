@@ -44,8 +44,8 @@ class ComponentTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class TestComponent extends Component{
-
+class TestComponent extends Component
+{
     public function getType()
     {
         return 'testtype';

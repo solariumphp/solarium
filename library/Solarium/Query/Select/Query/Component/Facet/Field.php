@@ -89,8 +89,8 @@ class Field extends Facet
     /**
      * Set the field name
      *
-     * @param string $field
-     * @return self Provides fluent interface
+     * @param  string $field
+     * @return self   Provides fluent interface
      */
     public function setField($field)
     {
@@ -112,8 +112,8 @@ class Field extends Facet
      *
      * Use one of the SORT_* constants as the value
      *
-     * @param string $sort
-     * @return self Provides fluent interface
+     * @param  string $sort
+     * @return self   Provides fluent interface
      */
     public function setSort($sort)
     {
@@ -133,8 +133,8 @@ class Field extends Facet
     /**
      * Limit the terms for faceting by a prefix
      *
-     * @param string $prefix
-     * @return self Provides fluent interface
+     * @param  string $prefix
+     * @return self   Provides fluent interface
      */
     public function setPrefix($prefix)
     {
@@ -154,7 +154,7 @@ class Field extends Facet
     /**
      * Set the facet limit
      *
-     * @param int $limit
+     * @param  int  $limit
      * @return self Provides fluent interface
      */
     public function setLimit($limit)
@@ -175,7 +175,7 @@ class Field extends Facet
     /**
      * Set the facet offset
      *
-     * @param int $offset
+     * @param  int  $offset
      * @return self Provides fluent interface
      */
     public function setOffset($offset)
@@ -196,7 +196,7 @@ class Field extends Facet
     /**
      * Set the facet mincount
      *
-     * @param int $minCount
+     * @param  int  $minCount
      * @return self Provides fluent interface
      */
     public function setMinCount($minCount)
@@ -217,8 +217,8 @@ class Field extends Facet
     /**
      * Set the missing count option
      *
-     * @param boolean $missing
-     * @return self Provides fluent interface
+     * @param  boolean $missing
+     * @return self    Provides fluent interface
      */
     public function setMissing($missing)
     {
@@ -240,8 +240,8 @@ class Field extends Facet
      *
      * Use one of the METHOD_* constants as value
      *
-     * @param string $method
-     * @return self Provides fluent interface
+     * @param  string $method
+     * @return self   Provides fluent interface
      */
     public function setMethod($method)
     {

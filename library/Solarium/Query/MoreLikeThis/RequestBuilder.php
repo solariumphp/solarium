@@ -53,7 +53,7 @@ class RequestBuilder extends SelectRequestBuilder
     /**
      * Build request for a MoreLikeThis query
      *
-     * @param Query $query
+     * @param  Query   $query
      * @return Request
      */
     public function build(QueryInterface $query)

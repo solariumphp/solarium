@@ -75,5 +75,4 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($handler, $request->getHandler());
     }
 
-
 }

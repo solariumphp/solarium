@@ -48,7 +48,7 @@ class ResponseParser implements ResponseParserInterface
     /**
      * Parse response data
      *
-     * @param Result $result
+     * @param  Result $result
      * @return array
      */
     public function parse($result)

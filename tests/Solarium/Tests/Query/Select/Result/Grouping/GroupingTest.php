@@ -79,8 +79,7 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach($this->grouping AS $key => $item)
-        {
+        foreach ($this->grouping AS $key => $item) {
             $items[$key] = $item;
         }
 

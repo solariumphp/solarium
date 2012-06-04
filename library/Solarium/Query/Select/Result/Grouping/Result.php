@@ -56,7 +56,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param array $groups
+     * @param  array $groups
      * @return void
      */
     public function __construct($groups)
@@ -77,7 +77,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get a group
      *
-     * @param string $key
+     * @param  string                $key
      * @return FieldGroup|QueryGroup
      */
     public function getGroup($key)

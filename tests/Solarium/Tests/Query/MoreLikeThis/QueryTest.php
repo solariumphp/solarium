@@ -30,7 +30,6 @@
  */
 
 namespace Solarium\Tests\Query\MoreLikeThis;
-use Solarium\Tests\Query\Select\Query\QueryTest as SelectQueryTest;
 use Solarium\Query\MoreLikeThis\Query;
 use Solarium\Core\Client\Client;
 use Solarium\Query\Select\Query\FilterQuery;
@@ -782,6 +781,5 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             $this->query->getQueryFields()
         );
     }
-
 
 }

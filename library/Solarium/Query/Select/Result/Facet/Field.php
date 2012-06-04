@@ -58,7 +58,7 @@ class Field implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param array $values
+     * @param  array $values
      * @return void
      */
     public function __construct($values)

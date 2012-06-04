@@ -50,7 +50,7 @@ class Field implements ResponseParserInterface
     /**
      * Parse response data
      *
-     * @param Result $result
+     * @param  Result $result
      * @return array
      */
     public function parse($result)
@@ -73,7 +73,7 @@ class Field implements ResponseParserInterface
     /**
      * Parser
      *
-     * @param array $data
+     * @param  array $data
      * @return array
      */
     protected function parseAnalysis($data)
@@ -90,7 +90,7 @@ class Field implements ResponseParserInterface
     /**
      * Parse analysis types and items
      *
-     * @param array $typeData
+     * @param  array $typeData
      * @return array
      */
     protected function parseTypes($typeData)

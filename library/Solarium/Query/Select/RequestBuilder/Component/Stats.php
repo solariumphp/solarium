@@ -49,8 +49,8 @@ class Stats
     /**
      * Add request settings for the stats component
      *
-     * @param StatsComponent $component
-     * @param Request $request
+     * @param  StatsComponent $component
+     * @param  Request        $request
      * @return Request
      */
     public function buildComponent($component, $request)

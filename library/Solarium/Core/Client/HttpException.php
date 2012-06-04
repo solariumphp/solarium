@@ -72,7 +72,7 @@ class HttpException extends Exception
      * more descriptive text. The original message is available using the
      * {@link getStatusMessage} method.
      *
-     * @param string $statusMessage
+     * @param string   $statusMessage
      * @param int|null $code
      */
     public function __construct($statusMessage, $code = null)

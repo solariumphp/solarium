@@ -50,9 +50,9 @@ class MoreLikeThis
     /**
      * Parse result data into result objects
      *
-     * @param Query $query
-     * @param MoreLikeThisComponent $moreLikeThis
-     * @param array $data
+     * @param  Query                           $query
+     * @param  MoreLikeThisComponent           $moreLikeThis
+     * @param  array                           $data
      * @return MoreLikeThisResult\MoreLikeThis
      */
     public function parse($query, $moreLikeThis, $data)

@@ -152,8 +152,8 @@ class FacetSet extends Component
      *
      * This is a global value for all facets in this facetset
      *
-     * @param string $prefix
-     * @return self Provides fluent interface
+     * @param  string $prefix
+     * @return self   Provides fluent interface
      */
     public function setPrefix($prefix)
     {
@@ -179,8 +179,8 @@ class FacetSet extends Component
      *
      * This is a global value for all facets in this facetset
      *
-     * @param string $sort
-     * @return self Provides fluent interface
+     * @param  string $sort
+     * @return self   Provides fluent interface
      */
     public function setSort($sort)
     {
@@ -204,7 +204,7 @@ class FacetSet extends Component
      *
      *  This is a global value for all facets in this facetset
      *
-     * @param int $limit
+     * @param  int  $limit
      * @return self Provides fluent interface
      */
     public function setLimit($limit)
@@ -229,7 +229,7 @@ class FacetSet extends Component
      *
      * This is a global value for all facets in this facetset
      *
-     * @param int $minCount
+     * @param  int  $minCount
      * @return self Provides fluent interface
      */
     public function setMinCount($minCount)
@@ -254,8 +254,8 @@ class FacetSet extends Component
      *
      * This is a global value for all facets in this facetset
      *
-     * @param boolean $missing
-     * @return self Provides fluent interface
+     * @param  boolean $missing
+     * @return self    Provides fluent interface
      */
     public function setMissing($missing)
     {
@@ -277,8 +277,8 @@ class FacetSet extends Component
     /**
      * Add a facet
      *
-     * @param Facet\Facet|array $facet
-     * @return self Provides fluent interface
+     * @param  Facet\Facet|array $facet
+     * @return self              Provides fluent interface
      */
     public function addFacet($facet)
     {
@@ -306,8 +306,8 @@ class FacetSet extends Component
     /**
      * Add multiple facets
      *
-     * @param array $facets
-     * @return self Provides fluent interface
+     * @param  array $facets
+     * @return self  Provides fluent interface
      */
     public function addFacets(array $facets)
     {
@@ -327,7 +327,7 @@ class FacetSet extends Component
     /**
      * Get a facet
      *
-     * @param string $key
+     * @param  string $key
      * @return string
      */
     public function getFacet($key)
@@ -354,8 +354,8 @@ class FacetSet extends Component
      *
      * You can remove a facet by passing it's key or the facet instance
      *
-     * @param string|Facet\Facet $facet
-     * @return self Provides fluent interface
+     * @param  string|Facet\Facet $facet
+     * @return self               Provides fluent interface
      */
     public function removeFacet($facet)
     {
@@ -378,6 +378,7 @@ class FacetSet extends Component
     public function clearFacets()
     {
         $this->facets = array();
+
         return $this;
     }
 
@@ -404,9 +405,9 @@ class FacetSet extends Component
      * When no key is supplied the facet cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addFacet method.
      *
-     * @param string $type
-     * @param array|object|null $options
-     * @param boolean $add
+     * @param  string            $type
+     * @param  array|object|null $options
+     * @param  boolean           $add
      * @return Facet\Facet
      */
     public function createFacet($type, $options = null, $add = true)
@@ -436,7 +437,7 @@ class FacetSet extends Component
     /**
      * Get a facet field instance
      *
-     * @param mixed $options
+     * @param  mixed       $options
      * @return Facet\Field
      */
     public function createFacetField($options = null)
@@ -447,7 +448,7 @@ class FacetSet extends Component
     /**
      * Get a facet query instance
      *
-     * @param mixed $options
+     * @param  mixed       $options
      * @return Facet\Query
      */
     public function createFacetQuery($options = null)
@@ -458,7 +459,7 @@ class FacetSet extends Component
     /**
      * Get a facet multiquery instance
      *
-     * @param mixed $options
+     * @param  mixed            $options
      * @return Facet\MultiQuery
      */
     public function createFacetMultiQuery($options = null)
@@ -469,7 +470,7 @@ class FacetSet extends Component
     /**
      * Get a facet range instance
      *
-     * @param mixed $options
+     * @param  mixed       $options
      * @return Facet\Range
      */
     public function createFacetRange($options = null)

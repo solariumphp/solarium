@@ -92,8 +92,8 @@ class Debug extends Component
     /**
      * Set the explainOther query
      *
-     * @param string $query
-     * @return self Provides fluent interface
+     * @param  string $query
+     * @return self   Provides fluent interface
      */
     public function setExplainOther($query)
     {

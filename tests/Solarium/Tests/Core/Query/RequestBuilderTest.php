@@ -118,6 +118,6 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class TestRequestBuilder extends RequestBuilder{
-
+class TestRequestBuilder extends RequestBuilder
+{
 }

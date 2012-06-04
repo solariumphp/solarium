@@ -61,8 +61,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $lists = array();
-        foreach($this->result AS $key => $list)
-        {
+        foreach ($this->result AS $key => $list) {
             $lists[$key] = $list;
         }
 

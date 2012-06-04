@@ -48,7 +48,7 @@ class Document extends Field
     /**
      * Parse implementation
      *
-     * @param array $data
+     * @param  array $data
      * @return array
      */
     protected function parseAnalysis($data)

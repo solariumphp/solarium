@@ -69,5 +69,4 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($fieldType, $request->getParam('analysis.fieldtype'));
     }
 
-
 }

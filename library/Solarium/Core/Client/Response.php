@@ -76,7 +76,7 @@ class Response
      * Constructor
      *
      * @param string $body
-     * @param array $headers
+     * @param array  $headers
      */
     public function __construct($body, $headers = array())
     {
@@ -129,7 +129,7 @@ class Response
     /**
      * Set headers
      *
-     * @param array $headers
+     * @param  array $headers
      * @return void
      */
     public function setHeaders($headers)

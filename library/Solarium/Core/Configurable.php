@@ -65,7 +65,7 @@ class Configurable implements ConfigurableInterface
      * After handling the options the {@link _init()} method is called.
      *
      * @throws Exception
-     * @param array|\Zend_Config $options
+     * @param  array|\Zend_Config $options
      * @return void
      */
     public function __construct($options = null)
@@ -85,8 +85,8 @@ class Configurable implements ConfigurableInterface
      * Zend Framework, but can also easily be implemented in any other object.
      *
      * @throws Exception
-     * @param array|\Zend_Config $options
-     * @param boolean $overwrite True for overwriting existing options, false
+     * @param  array|\Zend_Config $options
+     * @param  boolean            $overwrite True for overwriting existing options, false
      *  for merging (new values overwrite old ones if needed)
      *
      * @return void
@@ -138,9 +138,9 @@ class Configurable implements ConfigurableInterface
     /**
      * Set an option
      *
-     * @param string $name
-     * @param mixed $value
-     * @return self Provides fluent interface
+     * @param  string $name
+     * @param  mixed  $value
+     * @return self   Provides fluent interface
      */
     protected function setOption($name, $value)
     {
@@ -154,7 +154,7 @@ class Configurable implements ConfigurableInterface
      *
      * If the option is empty or not set a NULL value will be returned.
      *
-     * @param string $name
+     * @param  string $name
      * @return mixed
      */
     public function getOption($name)

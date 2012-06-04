@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-error_reporting(E_ALL | E_STRICT); 
+error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', true);
 
 // set up an autoloader for PSR-0 class loading

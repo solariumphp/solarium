@@ -50,9 +50,9 @@ abstract class Query extends BaseQuery
      *
      * When present, the text that will be analyzed. The analysis will mimic the query-time analysis.
      *
-     * @param string $query
-     * @param array $bind Optional bind values for placeholders in the query string
-     * @return self Provides fluent interface
+     * @param  string $query
+     * @param  array  $bind  Optional bind values for placeholders in the query string
+     * @return self   Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
@@ -76,8 +76,8 @@ abstract class Query extends BaseQuery
     /**
      * Set the showmatch option
      *
-     * @param boolean $show
-     * @return self Provides fluent interface
+     * @param  boolean $show
+     * @return self    Provides fluent interface
      */
     public function setShowMatch($show)
     {

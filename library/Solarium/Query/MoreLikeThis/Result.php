@@ -88,6 +88,7 @@ class Result extends SelectResult
             throw new Exception('interestingterms is none');
         }
         $this->parseResponse();
+
         return $this->interestingTerms;
     }
 
@@ -106,6 +107,7 @@ class Result extends SelectResult
             throw new Exception('matchinclude was disabled in the MLT query');
         }
         $this->parseResponse();
+
         return $this->match;
     }
 }

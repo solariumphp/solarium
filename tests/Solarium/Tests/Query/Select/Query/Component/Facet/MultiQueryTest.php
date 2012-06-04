@@ -183,7 +183,6 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
         $this->facet->addQuery($facetQuery2);
     }
 
-
     public function testAddQueryExcludeForwarding()
     {
         $this->facet->addExclude('fq1');
@@ -411,6 +410,5 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
             $facetQuery->getExcludes()
         );
     }
-
 
 }

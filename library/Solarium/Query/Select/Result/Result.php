@@ -196,7 +196,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get a component result by key
      *
-     * @param string $key
+     * @param  string $key
      * @return mixed
      */
     public function getComponent($key)

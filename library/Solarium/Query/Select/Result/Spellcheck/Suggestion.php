@@ -47,12 +47,12 @@ class Suggestion
     /**
      * Constructor
      *
-     * @param int $numFound
-     * @param int $startOffset
-     * @param int $endOffset
-     * @param int $originalFrequency
+     * @param int    $numFound
+     * @param int    $startOffset
+     * @param int    $endOffset
+     * @param int    $originalFrequency
      * @param string $word
-     * @param int $frequency
+     * @param int    $frequency
      */
     public function __construct($numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency)
     {

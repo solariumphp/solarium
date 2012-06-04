@@ -63,7 +63,7 @@ abstract class Plugin extends Configurable implements PluginInterface
      * This method is called when the plugin is registered to a client instance
      *
      * @param Client $client
-     * @param array $options
+     * @param array  $options
      */
     public function initPlugin($client, $options)
     {
@@ -89,7 +89,7 @@ abstract class Plugin extends Configurable implements PluginInterface
     /**
      * preCreateRequest hook
      *
-     * @param Query $query
+     * @param  Query        $query
      * @return void|Request
      */
     public function preCreateRequest($query)
@@ -99,8 +99,8 @@ abstract class Plugin extends Configurable implements PluginInterface
     /**
      * postCreateRequest hook
      *
-     * @param Query $query
-     * @param Request $request
+     * @param  Query   $query
+     * @param  Request $request
      * @return void
      */
     public function postCreateRequest($query, $request)
@@ -110,7 +110,7 @@ abstract class Plugin extends Configurable implements PluginInterface
     /**
      * preExecuteRequest hook
      *
-     * @param Request $request
+     * @param  Request       $request
      * @return void|Response
      */
     public function preExecuteRequest($request)
@@ -120,8 +120,8 @@ abstract class Plugin extends Configurable implements PluginInterface
     /**
      * postExecuteRequest hook
      *
-     * @param Request $request
-     * @param Response $response
+     * @param  Request  $request
+     * @param  Response $response
      * @return void
      */
     public function postExecuteRequest($request, $response)
@@ -131,8 +131,8 @@ abstract class Plugin extends Configurable implements PluginInterface
     /**
      * preCreateResult hook
      *
-     * @param Query $query
-     * @param Response $response
+     * @param  Query       $query
+     * @param  Response    $response
      * @return void|Result
      */
     public function preCreateResult($query, $response)
@@ -142,9 +142,9 @@ abstract class Plugin extends Configurable implements PluginInterface
     /**
      * postCreateResult hook
      *
-     * @param Query $query
-     * @param Response $response
-     * @param Result $result
+     * @param  Query    $query
+     * @param  Response $response
+     * @param  Result   $result
      * @return void
      */
     public function postCreateResult($query, $response, $result)
@@ -154,7 +154,7 @@ abstract class Plugin extends Configurable implements PluginInterface
     /**
      * preExecute hook
      *
-     * @param Query $query
+     * @param  Query       $query
      * @return void|Result
      */
     public function preExecute($query)
@@ -164,8 +164,8 @@ abstract class Plugin extends Configurable implements PluginInterface
     /**
      * postExecute hook
      *
-     * @param Query $query
-     * @param Result $result
+     * @param  Query  $query
+     * @param  Result $result
      * @return void
      */
     public function postExecute($query, $result)
@@ -175,8 +175,8 @@ abstract class Plugin extends Configurable implements PluginInterface
     /**
      * preCreateQuery hook
      *
-     * @param string $type
-     * @param mixed $options
+     * @param  string     $type
+     * @param  mixed      $options
      * @return void|Query
      */
     public function preCreateQuery($type, $options)
@@ -187,7 +187,7 @@ abstract class Plugin extends Configurable implements PluginInterface
      * postCreateQuery hook
      *
      * @param string $type
-     * @param mixed $options
+     * @param mixed  $options
      * @param Query
      * @return void
      */

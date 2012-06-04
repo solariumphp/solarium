@@ -271,6 +271,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     protected function mockFormatDateOutput($timestamp)
     {
         $date = new \DateTime('@'.$timestamp);
+
         return strstr($date->format(\DateTime::ISO8601), '+', true) . 'Z';
     }
 

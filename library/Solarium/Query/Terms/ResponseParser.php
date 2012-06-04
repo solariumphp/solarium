@@ -39,7 +39,6 @@
  */
 namespace Solarium\Query\Terms;
 use Solarium\Core\Query\ResponseParserInterface;
-use Solarium\Core\Client\Request;
 
 /**
  * Parse MoreLikeThis response data
@@ -50,7 +49,7 @@ class ResponseParser implements ResponseParserInterface
     /**
      * Get result data for the response
      *
-     * @param Result $result
+     * @param  Result $result
      * @return array
      */
     public function parse($result)

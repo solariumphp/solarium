@@ -98,8 +98,8 @@ abstract class Facet extends Configurable
     /**
      * Set key value
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setKey($value)
     {
@@ -109,20 +109,21 @@ abstract class Facet extends Configurable
     /**
      * Add an exclude tag
      *
-     * @param string $tag
-     * @return self Provides fluent interface
+     * @param  string $tag
+     * @return self   Provides fluent interface
      */
     public function addExclude($tag)
     {
         $this->excludes[$tag] = true;
+
         return $this;
     }
 
     /**
      * Add multiple exclude tags
      *
-     * @param array $excludes
-     * @return self Provides fluent interface
+     * @param  array $excludes
+     * @return self  Provides fluent interface
      */
     public function addExcludes(array $excludes)
     {
@@ -146,8 +147,8 @@ abstract class Facet extends Configurable
     /**
      * Remove a single exclude tag
      *
-     * @param string $exclude
-     * @return self Provides fluent interface
+     * @param  string $exclude
+     * @return self   Provides fluent interface
      */
     public function removeExclude($exclude)
     {
@@ -166,6 +167,7 @@ abstract class Facet extends Configurable
     public function clearExcludes()
     {
         $this->excludes = array();
+
         return $this;
     }
 

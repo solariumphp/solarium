@@ -84,8 +84,7 @@ class TimingTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach($this->result AS $key => $item)
-        {
+        foreach ($this->result AS $key => $item) {
             $items[$key] = $item;
         }
 

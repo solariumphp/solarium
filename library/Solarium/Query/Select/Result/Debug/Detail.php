@@ -69,8 +69,8 @@ class Detail
      * Constructor
      *
      * @param boolean $match
-     * @param float $value
-     * @param string $description
+     * @param float   $value
+     * @param string  $description
      */
     public function __construct($match, $value, $description)
     {

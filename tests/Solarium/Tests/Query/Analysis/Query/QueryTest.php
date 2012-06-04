@@ -65,8 +65,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestAnalysisQuery extends Query{
-
+class TestAnalysisQuery extends Query
+{
     public function getType()
     {
         return null;

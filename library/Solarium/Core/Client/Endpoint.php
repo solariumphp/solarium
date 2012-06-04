@@ -91,8 +91,8 @@ class Endpoint extends Configurable
     /**
      * Set key value
      *
-     * @param string $value
-     * @return self Provides fluent interface
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setKey($value)
     {
@@ -102,8 +102,8 @@ class Endpoint extends Configurable
     /**
      * Set host option
      *
-     * @param string $host This can be a hostname or an IP address
-     * @return self Provides fluent interface
+     * @param  string $host This can be a hostname or an IP address
+     * @return self   Provides fluent interface
      */
     public function setHost($host)
     {
@@ -123,7 +123,7 @@ class Endpoint extends Configurable
     /**
      * Set port option
      *
-     * @param int $port Common values are 80, 8080 and 8983
+     * @param  int  $port Common values are 80, 8080 and 8983
      * @return self Provides fluent interface
      */
     public function setPort($port)
@@ -146,8 +146,8 @@ class Endpoint extends Configurable
      *
      * If the path has a trailing slash it will be removed.
      *
-     * @param string $path
-     * @return self Provides fluent interface
+     * @param  string $path
+     * @return self   Provides fluent interface
      */
     public function setPath($path)
     {
@@ -171,8 +171,8 @@ class Endpoint extends Configurable
     /**
      * Set core option
      *
-     * @param string $core
-     * @return self Provides fluent interface
+     * @param  string $core
+     * @return self   Provides fluent interface
      */
     public function setCore($core)
     {
@@ -192,7 +192,7 @@ class Endpoint extends Configurable
     /**
      * Set timeout option
      *
-     * @param int $timeout
+     * @param  int  $timeout
      * @return self Provides fluent interface
      */
     public function setTimeout($timeout)

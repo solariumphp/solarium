@@ -46,7 +46,6 @@ use Solarium\Query\Select\Query\Component\Facet\MultiQuery as FacetMultiQuery;
 use Solarium\Query\Select\Query\Component\Facet\Query as FacetQuery;
 use Solarium\Query\Select\Query\Component\Facet\Range as FacetRange;
 
-
 /**
  * Add select component FacetSet to the request
  */
@@ -56,8 +55,8 @@ class FacetSet extends RequestBuilder
     /**
      * Add request settings for FacetSet
      *
-     * @param FacetsetComponent $component
-     * @param Request $request
+     * @param  FacetsetComponent $component
+     * @param  Request           $request
      * @return Request
      */
     public function buildComponent($component, $request)
@@ -76,8 +75,7 @@ class FacetSet extends RequestBuilder
             $request->addParam('facet.limit', $component->getLimit());
 
             foreach ($facets as $facet) {
-                switch ($facet->getType())
-                {
+                switch ($facet->getType()) {
                     case FacetsetComponent::FACET_FIELD:
                         $this->addFacetField($request, $facet);
                         break;
@@ -102,8 +100,8 @@ class FacetSet extends RequestBuilder
     /**
      * Add params for a field facet to request
      *
-     * @param Request $request
-     * @param FacetField $facet
+     * @param  Request    $request
+     * @param  FacetField $facet
      * @return void
      */
     public function addFacetField($request, $facet)
@@ -130,8 +128,8 @@ class FacetSet extends RequestBuilder
     /**
      * Add params for a facet query to request
      *
-     * @param Request $request
-     * @param FacetQuery $facet
+     * @param  Request    $request
+     * @param  FacetQuery $facet
      * @return void
      */
     public function addFacetQuery($request, $facet)
@@ -148,8 +146,8 @@ class FacetSet extends RequestBuilder
     /**
      * Add params for a multiquery facet to request
      *
-     * @param Request $request
-     * @param FacetMultiQuery $facet
+     * @param  Request         $request
+     * @param  FacetMultiQuery $facet
      * @return void
      */
     public function addFacetMultiQuery($request, $facet)
@@ -162,8 +160,8 @@ class FacetSet extends RequestBuilder
     /**
      * Add params for a range facet to request
      *
-     * @param Request $request
-     * @param FacetRange $facet
+     * @param  Request    $request
+     * @param  FacetRange $facet
      * @return void
      */
     public function addFacetRange($request, $facet)

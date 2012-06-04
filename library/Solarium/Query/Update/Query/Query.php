@@ -173,8 +173,8 @@ class Query extends BaseQuery
      * Create a command instance
      *
      * @throws Solarium\Core\Exception
-     * @param string $type
-     * @param mixed $options
+     * @param  string                  $type
+     * @param  mixed                   $options
      * @return Command\Command
      */
     public function createCommand($type, $options = null)
@@ -186,6 +186,7 @@ class Query extends BaseQuery
         }
 
         $class = $this->commandTypes[$type];
+
         return new $class($options);
     }
 
@@ -205,9 +206,9 @@ class Query extends BaseQuery
      * The command must be an instance of one of the Solarium\Query\Update_*
      * classes.
      *
-     * @param string $key
-     * @param object $command
-     * @return self Provides fluent interface
+     * @param  string $key
+     * @param  object $command
+     * @return self   Provides fluent interface
      */
     public function add($key, $command)
     {
@@ -225,8 +226,8 @@ class Query extends BaseQuery
      *
      * You can remove a command by passing it's key or by passing the command instance
      *
-     * @param string|Command\Command $command
-     * @return self Provides fluent interface
+     * @param  string|Command\Command $command
+     * @return self                   Provides fluent interface
      */
     public function remove($command)
     {
@@ -265,8 +266,8 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param string $query
-     * @return self Provides fluent interface
+     * @param  string $query
+     * @return self   Provides fluent interface
      */
     public function addDeleteQuery($query)
     {
@@ -282,8 +283,8 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param array $queries
-     * @return self Provides fluent interface
+     * @param  array $queries
+     * @return self  Provides fluent interface
      */
     public function addDeleteQueries($queries)
     {
@@ -299,8 +300,8 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param int|string $id
-     * @return self Provides fluent interface
+     * @param  int|string $id
+     * @return self       Provides fluent interface
      */
     public function addDeleteById($id)
     {
@@ -316,8 +317,8 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param array $ids
-     * @return self Provides fluent interface
+     * @param  array $ids
+     * @return self  Provides fluent interface
      */
     public function addDeleteByIds($ids)
     {
@@ -333,10 +334,10 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param Document $document
-     * @param boolean $overwrite
-     * @param int $commitWithin
-     * @return self Provides fluent interface
+     * @param  Document $document
+     * @param  boolean  $overwrite
+     * @param  int      $commitWithin
+     * @return self     Provides fluent interface
      */
     public function addDocument($document, $overwrite = null,
                                 $commitWithin = null)
@@ -350,10 +351,10 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param array $documents
-     * @param boolean $overwrite
-     * @param int $commitWithin
-     * @return self Provides fluent interface
+     * @param  array   $documents
+     * @param  boolean $overwrite
+     * @param  int     $commitWithin
+     * @return self    Provides fluent interface
      */
     public function addDocuments($documents, $overwrite = null,
                                  $commitWithin = null)
@@ -369,6 +370,7 @@ class Query extends BaseQuery
         }
 
         $add->addDocuments($documents);
+
         return $this->add(null, $add);
     }
 
@@ -378,10 +380,10 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param boolean $waitFlush
-     * @param boolean $waitSearcher
-     * @param boolean $expungeDeletes
-     * @return self Provides fluent interface
+     * @param  boolean $waitFlush
+     * @param  boolean $waitSearcher
+     * @param  boolean $expungeDeletes
+     * @return self    Provides fluent interface
      */
     public function addCommit($waitFlush = null, $waitSearcher = null,
                               $expungeDeletes = null)
@@ -409,10 +411,10 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param boolean $waitFlush
-     * @param boolean $waitSearcher
-     * @param int $maxSegments
-     * @return self Provides fluent interface
+     * @param  boolean $waitFlush
+     * @param  boolean $waitSearcher
+     * @param  int     $maxSegments
+     * @return self    Provides fluent interface
      */
    public function addOptimize($waitFlush = null, $waitSearcher = null,
                                $maxSegments = null)
@@ -468,8 +470,8 @@ class Query extends BaseQuery
      *
      * @since 2.1.0
      *
-     * @param array $fields
-     * @param array $boosts
+     * @param  array    $fields
+     * @param  array    $boosts
      * @return Document
      */
     public function createDocument($fields = array(), $boosts = array())
