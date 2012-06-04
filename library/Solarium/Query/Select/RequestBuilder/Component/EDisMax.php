@@ -37,7 +37,7 @@
  * @namespace
  */
 namespace Solarium\Query\Select\RequestBuilder\Component;
-use Solarium\Query\Select\Query\Component\Edismax;
+use Solarium\Query\Select\Query\Component\Edismax as EdismaxComponent;
 use Solarium\Core\Client\Request;
 
 /**
@@ -50,7 +50,7 @@ class EdisMax
     /**
      * Add request settings for EdismaxComponent
      *
-     * @param Edismax $component
+     * @param EdismaxComponent $component
      * @param Request $request
      * @return Request
      */

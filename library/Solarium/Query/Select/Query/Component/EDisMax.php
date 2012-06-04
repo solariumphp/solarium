@@ -53,7 +53,7 @@ class EdisMax extends DisMax
      *
      * @var string
      */
-    protected $_type = SelectQuery::COMPONENT_EDISMAX;
+    protected $type = SelectQuery::COMPONENT_EDISMAX;
 
     /**
      * Default options
