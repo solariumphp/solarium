@@ -183,7 +183,7 @@ class Solarium_Plugin_CustomizeRequest extends Solarium_Plugin_Abstract
     /**
      * Remove a single Customization
      *
-     * You can remove a Customization by passing it's key, or by passing the Customization instance
+     * You can remove a Customization by passing its key, or by passing the Customization instance.
      *
      * @param string|Solarium_Plugin_CustomizeRequest_Customization $customization
      * @return Solarium_Plugin_CustomizeRequest Provides fluent interface
