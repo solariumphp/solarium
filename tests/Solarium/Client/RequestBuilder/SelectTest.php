@@ -151,6 +151,17 @@ class Solarium_Client_RequestBuilder_SelectTest extends PHPUnit_Framework_TestCa
         );
     }
 
+    public function testWithEdismaxComponent()
+    {
+        $this->_query->getEDisMax();
+        $request = $this->_builder->build($this->_query);
+
+        $this->assertEquals(
+            'edismax',
+            $request->getParam('defType')
+        );
+    }
+
 }
 
 class TestDummyComponent extends Solarium_Query_Select_Component{

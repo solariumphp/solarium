@@ -199,7 +199,7 @@ class Solarium_Query_Update extends Solarium_Query
     /**
      * Remove a command
      *
-     * You can remove a command by passing it's key or by passing the command instance
+     * You can remove a command by passing its key or by passing the command instance.
      *
      * @param string|Solarium_Query_Update_Command $command
      * @return Solarium_Query_Update Provides fluent interface
@@ -391,7 +391,7 @@ class Solarium_Query_Update extends Solarium_Query
     * Set a custom document class for use in the createDocument method
     *
     * This class should extend Solarium_Document_ReadWrite or
-    * at least be compatible with it's interface
+    * at least be compatible with its interface.
     *
     * @param string $value classname
     * @return Solarium_Query

@@ -326,7 +326,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     /**
      * Remove a single facet
      *
-     * You can remove a facet by passing it's key or the facet instance
+     * You can remove a facet by passing its key or the facet instance
      *
      * @param string|Solarium_Query_Select_Component_Facet $facet
      * @return Solarium_Query Provides fluent interface
