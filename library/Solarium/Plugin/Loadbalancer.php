@@ -99,7 +99,7 @@ class Solarium_Plugin_Loadbalancer extends Solarium_Plugin_Abstract
     /**
      * Presets of the client adapter
      *
-     * These settings are used to restore the adapter to it's original status for queries
+     * These settings are used to restore the adapter to its original status for queries
      * that cannot be loadbalanced (for instance update queries that need to go to the master)
      *
      * @var array
