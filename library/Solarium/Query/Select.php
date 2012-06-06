@@ -697,7 +697,7 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Remove a single filterquery
      *
-     * You can remove a filterquery by passing it's key, or by passing the filterquery instance
+     * You can remove a filterquery by passing its key, or by passing the filterquery instance
      *
      * @param string|Solarium_Query_Select_FilterQuery $filterQuery
      * @return Solarium_Query_Select Provides fluent interface
@@ -828,7 +828,7 @@ class Solarium_Query_Select extends Solarium_Query
     /**
      * Remove a component instance
      *
-     * You can remove a component by passing it's key or the component instance
+     * You can remove a component by passing its key or the component instance
      *
      * @param string|Solarium_Query_Select_Component $component
      * @return Solarium_Query_Select Provides fluent interface

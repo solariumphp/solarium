@@ -40,7 +40,7 @@
  * Select range facet result
  *
  * A multiquery facet will usually return a dataset of multiple count, in each
- * row a range as key and it's count. You can access the values as an array using
+ * row a range as key and its count. You can access the values as an array using
  * {@link getValues()} or iterate this object.
  *
  * The extra counts 'before', 'between' and 'after' are only available if the
