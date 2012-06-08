@@ -200,7 +200,7 @@ class Solarium_Query_Select_Component_Stats extends Solarium_Query_Select_Compon
     /**
      * Remove a single field
      *
-     * You can remove a field by passing it's key, or by passing the field instance
+     * You can remove a field by passing its key, or by passing the field instance
      *
      * @param string|Solarium_Query_Select_Component_Stats_Field $field
      * @return Solarium_Query_Select_Component_Stats Provides fluent interface
