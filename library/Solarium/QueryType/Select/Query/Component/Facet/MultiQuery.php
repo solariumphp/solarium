@@ -196,7 +196,7 @@ class MultiQuery extends Facet
     /**
      * Remove a single facetquery
      *
-     * You can remove a facetquery by passing it's key or the facetquery instance
+     * You can remove a facetquery by passing its key or the facetquery instance.
      *
      * @param  string|Query $query
      * @return self         Provides fluent interface

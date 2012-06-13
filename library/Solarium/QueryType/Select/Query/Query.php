@@ -371,6 +371,8 @@ class Query extends BaseQuery
     /**
      * Set a custom document class
      *
+     * This class should implement the document interface
+     *
      * @param  string $value classname
      * @return self   Provides fluent interface
      */
@@ -694,7 +696,7 @@ class Query extends BaseQuery
     /**
      * Remove a single filterquery
      *
-     * You can remove a filterquery by passing it's key, or by passing the filterquery instance
+     * You can remove a filterquery by passing its key, or by passing the filterquery instance
      *
      * @param  string|FilterQuery $filterQuery
      * @return self               Provides fluent interface
@@ -824,7 +826,7 @@ class Query extends BaseQuery
     /**
      * Remove a component instance
      *
-     * You can remove a component by passing it's key or the component instance
+     * You can remove a component by passing its key or the component instance.
      *
      * @param  string|Component\Component $component
      * @return self                       Provides fluent interface

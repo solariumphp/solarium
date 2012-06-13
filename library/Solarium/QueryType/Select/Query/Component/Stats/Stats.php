@@ -227,7 +227,7 @@ class Stats extends Component
     /**
      * Remove a single field
      *
-     * You can remove a field by passing it's key, or by passing the field instance
+     * You can remove a field by passing its key, or by passing the field instance
      *
      * @param  string|Field $field
      * @return self         Provides fluent interface

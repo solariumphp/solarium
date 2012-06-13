@@ -27,7 +27,7 @@ class ProductQuery extends Select{
 
 }
 
-// This query inherits all of the query params of it's parent (using parent::_init) and adds some more
+// This query inherits all of the query params of its parent (using parent::_init) and adds some more
 // Ofcourse it could also alter or remove settings
 class ProductPriceLimitedQuery extends ProductQuery{
 

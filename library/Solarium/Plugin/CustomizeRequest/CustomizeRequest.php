@@ -187,7 +187,7 @@ class CustomizeRequest extends Plugin
     /**
      * Remove a single Customization
      *
-     * You can remove a Customization by passing it's key, or by passing the Customization instance
+     * You can remove a Customization by passing its key, or by passing the Customization instance.
      *
      * @param  string|Customization $customization
      * @return CustomizeRequest     Provides fluent interface

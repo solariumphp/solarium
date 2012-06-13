@@ -224,7 +224,7 @@ class Query extends BaseQuery
     /**
      * Remove a command
      *
-     * You can remove a command by passing it's key or by passing the command instance
+     * You can remove a command by passing its key or by passing the command instance.
      *
      * @param  string|Command\Command $command
      * @return self                   Provides fluent interface
@@ -439,8 +439,7 @@ class Query extends BaseQuery
    /**
     * Set a custom document class for use in the createDocument method
     *
-    * This class should extend the Document class or
-    * at least be compatible with it's interface
+    * This class should implement the document interface
     *
     * @param string $value classname
     * @return self Provides fluent interface

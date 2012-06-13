@@ -352,7 +352,7 @@ class FacetSet extends Component
     /**
      * Remove a single facet
      *
-     * You can remove a facet by passing it's key or the facet instance
+     * You can remove a facet by passing its key or the facet instance
      *
      * @param  string|Facet\Facet $facet
      * @return self               Provides fluent interface
