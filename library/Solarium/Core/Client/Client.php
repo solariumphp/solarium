@@ -109,7 +109,7 @@ class Client extends Configurable
      * @var array
      */
     protected $options = array(
-        'adapter' => 'Solarium\Core\Client\Adapter\Http',
+        'adapter' => 'Solarium\Core\Client\Adapter\Curl',
         'endpoint' => array(
             'localhost' => array()
         )
