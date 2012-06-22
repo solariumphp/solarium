@@ -94,6 +94,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'terms.upper' => 'x',
                 'terms.upper.incl' => 'false',
                 'wt' => 'json',
+                'omitHeader' => 'true',
             ),
             $request->getParams()
         );

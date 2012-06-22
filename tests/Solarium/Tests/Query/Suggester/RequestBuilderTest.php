@@ -72,6 +72,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'spellcheck.onlyMorePopular' => 'true',
                 'spellcheck.collate' => 'true',
                 'wt' => 'json',
+                'omitHeader' => 'true',
             ),
             $request->getParams()
         );

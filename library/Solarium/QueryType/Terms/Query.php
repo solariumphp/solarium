@@ -60,7 +60,8 @@ class Query extends BaseQuery
      */
     protected $options = array(
         'resultclass' => 'Solarium\QueryType\Terms\Result',
-        'handler' => 'terms',
+        'handler'     => 'terms',
+        'omitheader'  => true,
     );
 
     /**

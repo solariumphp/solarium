@@ -52,6 +52,17 @@ class Query extends BaseQuery
 {
 
     /**
+     * Default options
+     *
+     * @var array
+     */
+    protected $options = array(
+        'resultclass' => 'Solarium\QueryType\Ping\Result',
+        'handler' => 'admin/ping',
+        'omitheader'    => true,
+    );
+
+    /**
      * Get type for this query
      *
      * @return string
@@ -80,15 +91,5 @@ class Query extends BaseQuery
     {
         return null;
     }
-
-    /**
-     * Default options
-     *
-     * @var array
-     */
-    protected $options = array(
-        'resultclass' => 'Solarium\QueryType\Ping\Result',
-        'handler' => 'admin/ping',
-    );
 
 }

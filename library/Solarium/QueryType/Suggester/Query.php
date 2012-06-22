@@ -59,6 +59,7 @@ class Query extends BaseQuery
         'handler'       => 'suggest',
         'resultclass'   => 'Solarium\QueryType\Suggester\Result\Result',
         'termclass'     => 'Solarium\QueryType\Suggester\Result\Term',
+        'omitheader'    => true,
     );
 
     /**

@@ -72,7 +72,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->builder->build($this->query);
         $this->assertEquals(
-            'update?wt=json',
+            'update?omitHeader=true&wt=json',
             $request->getUri()
         );
     }

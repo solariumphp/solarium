@@ -57,6 +57,7 @@ abstract class RequestBuilder implements RequestBuilderInterface
     {
         $request = new Request;
         $request->setHandler($query->getHandler());
+        $request->addParam('omitHeader', $query->getOmitHeader());
         $request->addParams($query->getParams());
         $request->addParam('wt', 'json');
 

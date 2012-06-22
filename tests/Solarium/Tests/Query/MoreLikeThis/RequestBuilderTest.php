@@ -88,7 +88,8 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'fl' => '*,score',
                 'rows' => 10,
                 'start' => 12,
-                'wt' => 'json'
+                'wt' => 'json',
+                'omitHeader' => 'true',
             ),
             $request->getParams()
         );

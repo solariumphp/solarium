@@ -70,7 +70,8 @@ class Query extends SelectQuery
         'fields'        => '*,score',
         'interestingTerms' => 'none',
         'matchinclude'  => false,
-        'stream'        => false
+        'stream'        => false,
+        'omitheader'    => true,
     );
 
     /**

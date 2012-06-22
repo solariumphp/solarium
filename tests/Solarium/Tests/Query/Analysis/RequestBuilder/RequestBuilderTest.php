@@ -68,6 +68,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'wt' => 'json',
                 'analysis.query' => $query,
                 'analysis.showmatch' => 'true',
+                'omitHeader' => 'true',
             ),
             $request->getParams()
         );

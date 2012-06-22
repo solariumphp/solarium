@@ -136,6 +136,7 @@ class Query extends BaseQuery
         'start'         => 0,
         'rows'          => 10,
         'fields'        => '*,score',
+        'omitheader'    => true,
     );
 
     /**

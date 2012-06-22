@@ -53,7 +53,21 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $request = $this->builder->build($query);
 
         $this->assertEquals(
-            'select?p1=v1&p2=v2&wt=json',
+            'select?omitHeader=true&p1=v1&p2=v2&wt=json',
+             urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithHeader()
+    {
+        $query = new SelectQuery;
+        $query->addParam('p1','v1');
+        $query->addParam('p2','v2');
+        $query->setOmitHeader(false);
+        $request = $this->builder->build($query);
+
+        $this->assertEquals(
+            'select?omitHeader=false&p1=v1&p2=v2&wt=json',
              urldecode($request->getUri())
         );
     }

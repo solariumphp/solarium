@@ -110,6 +110,27 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
+     * Set omitHeader option
+     *
+     * @param  boolean $value
+     * @return self    Provides fluent interface
+     */
+    public function setOmitHeader($value)
+    {
+        return $this->setOption('omitheader', $value);
+    }
+
+    /**
+     * Get omitHeader option
+     *
+     * @return boolean
+     */
+    public function getOmitHeader()
+    {
+        return $this->getOption('omitheader');
+    }
+
+    /**
      * Get a helper instance
      *
      * Uses lazy loading: the helper is instantiated on first use

@@ -55,6 +55,7 @@ class Field extends Query
     protected $options = array(
         'handler'       => 'analysis/field',
         'resultclass'   => 'Solarium\QueryType\Analysis\Result\Field',
+        'omitheader'    => true,
     );
 
     /**
