@@ -1,5 +1,5 @@
 <?php
-require('init.php');
+require(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\Core\Plugin;
 use Solarium\Query\Select\Query\Query as Select;

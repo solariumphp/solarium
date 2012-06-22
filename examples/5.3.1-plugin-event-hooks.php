@@ -1,5 +1,5 @@
 <?php
-require('init.php');
+require(__DIR__.'/init.php');
 
 
 // this very simple plugin shows a timing for each event and display some request debug info

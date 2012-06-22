@@ -1,6 +1,6 @@
 <?php
 
-require('init.php');
+require(__DIR__.'/init.php');
 htmlHeader();
 
 // check solarium version available

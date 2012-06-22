@@ -3,7 +3,7 @@
 require_once 'Zend/Loader/Autoloader.php';
 $loader = Zend_Loader_Autoloader::getInstance();
 
-require('init.php');
+require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
