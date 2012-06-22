@@ -2,7 +2,7 @@
 
 require(__DIR__.'/init.php');
 use Solarium\Client;
-use Solarium\Query\Select\Query\Query as Select;
+use Solarium\QueryType\Select\Query\Query as Select;
 
 htmlHeader();
 
@@ -23,8 +23,8 @@ class MyClient extends Client
     protected $_queryTypes = array(
         self::QUERY_SELECT => array(
             'query'          => 'MyQuery',
-            'requestbuilder' => 'Solarium\Query\Select\RequestBuilder\RequestBuilder',
-            'responseparser' => 'Solarium\Query\Select\ResponseParser\ResponseParser'
+            'requestbuilder' => 'Solarium\QueryType\Select\RequestBuilder\RequestBuilder',
+            'responseparser' => 'Solarium\QueryType\Select\ResponseParser\ResponseParser'
         ),
     );
 }

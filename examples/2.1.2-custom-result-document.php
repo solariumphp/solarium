@@ -5,7 +5,7 @@ htmlHeader();
 
 
 // this is the custom result document class
-class myDoc extends Solarium\Query\Select\Result\Document{
+class myDoc extends Solarium\QueryType\Select\Result\Document{
 
     public function getSpecialPrice()
     {

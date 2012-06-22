@@ -2,7 +2,7 @@
 
 require(__DIR__.'/init.php');
 use Solarium\Client;
-use Solarium\Query\Select\Query\Query as Select;
+use Solarium\QueryType\Select\Query\Query as Select;
 
 htmlHeader();
 
