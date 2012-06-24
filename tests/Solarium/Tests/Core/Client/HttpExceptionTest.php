@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Client;
-use Solarium\Core\Client\HttpException;
+use Solarium\Exception\HttpException;
 
 class HttpExceptionTest extends \PHPUnit_Framework_TestCase
 {

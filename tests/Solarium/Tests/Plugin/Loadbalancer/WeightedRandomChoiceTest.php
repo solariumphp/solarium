@@ -75,14 +75,14 @@ class WeightedRandomChoiceTest extends \PHPUnit_Framework_TestCase
 
         $randomizer = new WeightedRandomChoice($choices);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
         $randomizer->getRandom($excludes);
     }
 
     public function testInvalidWeigth()
     {
         $choices = array('key1' => -1, 'key2' => 2);
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         new WeightedRandomChoice($choices);
     }
 

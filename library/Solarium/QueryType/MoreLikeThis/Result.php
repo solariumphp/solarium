@@ -38,9 +38,9 @@
  * @namespace
  */
 namespace Solarium\QueryType\MoreLikeThis;
-use Solarium\Core\Exception;
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * MoreLikeThis query result
@@ -79,13 +79,14 @@ class Result extends SelectResult
      * this shows you the term and boost used for each term. Unless
      * mlt.boost=true all terms will have boost=1.0
      *
+     * @throws UnexpectedValueException
      * @return array
      */
     public function getInterestingTerms()
     {
         $query = $this->getQuery();
         if ('none' == $query->getInterestingTerms()) {
-            throw new Exception('interestingterms is none');
+            throw new UnexpectedValueException('interestingterms is none');
         }
         $this->parseResponse();
 
@@ -97,14 +98,14 @@ class Result extends SelectResult
      *
      * Only available if matchinclude was set to true in the query.
      *
-     * @throws Solarium\Core\Exception
+     * @throws UnexpectedValueException
      * @return ReadOnlyDocument
      */
     public function getMatch()
     {
         $query = $this->getQuery();
         if (true != $query->getMatchInclude()) {
-            throw new Exception('matchinclude was disabled in the MLT query');
+            throw new UnexpectedValueException('matchinclude was disabled in the MLT query');
         }
         $this->parseResponse();
 

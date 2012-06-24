@@ -37,11 +37,12 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query;
-use Solarium\Core\Exception;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
 
 /**
  * Select Query
@@ -622,6 +623,7 @@ class Query extends BaseQuery
      * Supports a filterquery instance or a config array, in that case a new
      * filterquery instance wil be created based on the options.
      *
+     * @throws InvalidArgumentException
      * @param  FilterQuery|array $filterQuery
      * @return self              Provides fluent interface
      */
@@ -634,13 +636,13 @@ class Query extends BaseQuery
         $key = $filterQuery->getKey();
 
         if (0 === strlen($key)) {
-            throw new Exception('A filterquery must have a key value');
+            throw new InvalidArgumentException('A filterquery must have a key value');
         }
 
         //double add calls for the same FQ are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->filterQueries) && $this->filterQueries[$key] !== $filterQuery) {
-            throw new Exception('A filterquery must have a unique key value within a query');
+            throw new InvalidArgumentException('A filterquery must have a unique key value within a query');
         } else {
             $this->filterQueries[$key] = $filterQuery;
         }
@@ -780,6 +782,7 @@ class Query extends BaseQuery
      * You can optionally supply an autoload class to create a new component
      * instance if there is no registered component for the given key yet.
      *
+     * @throws OutOfBoundsException
      * @param  string      $key      Use one of the constants
      * @param  string      $autoload Class to autoload if component needs to be created
      * @param  array       $config   Configuration to use for autoload
@@ -793,7 +796,7 @@ class Query extends BaseQuery
             if ($autoload == true) {
 
                 if (!isset($this->componentTypes[$key])) {
-                    throw new Exception('Cannot autoload unknown component: ' . $key);
+                    throw new OutOfBoundsException('Cannot autoload unknown component: ' . $key);
                 }
 
                 $className = $this->componentTypes[$key];

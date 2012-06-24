@@ -39,11 +39,12 @@
  */
 namespace Solarium\Core\Client\Adapter;
 use Solarium\Core\Configurable;
-use Solarium\Core\Exception;
-use Solarium\Core\Client\HttpException;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Exception\RuntimeException;
+use Solarium\Exception\HttpException;
+use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Pecl HTTP adapter
@@ -57,12 +58,14 @@ class PeclHttp extends Configurable implements AdapterInterface
      * Initialization hook
      *
      * Checks the availability of pecl_http
+     *
+     * @throws RuntimeException
      */
     protected function init()
     {
         // @codeCoverageIgnoreStart
         if (!class_exists('HttpRequest', false)) {
-           throw new Exception('Pecl_http is not available, install it to use the PeclHttp adapter');
+           throw new RuntimeException('Pecl_http is not available, install it to use the PeclHttp adapter');
         }
 
         parent::init();
@@ -72,6 +75,7 @@ class PeclHttp extends Configurable implements AdapterInterface
     /**
      * Execute a Solr request using the Pecl Http
      *
+     * @throws HttpException
      * @param  Request  $request
      * @param  Endpoint $endpoint
      * @return Response
@@ -128,6 +132,7 @@ class PeclHttp extends Configurable implements AdapterInterface
      * {@link http://us.php.net/manual/en/http.constants.php
      *  HTTP Predefined Constant}
      *
+     * @throws InvalidArgumentException
      * @param Request  $request
      * @param Endpoint $endpoint
      * @param HttpRequest
@@ -160,7 +165,7 @@ class PeclHttp extends Configurable implements AdapterInterface
             $method = HTTP_METH_HEAD;
             break;
         default:
-            throw new Exception(
+            throw new InvalidArgumentException(
                 'Unsupported method: ' . $request->getMethod()
             );
         }

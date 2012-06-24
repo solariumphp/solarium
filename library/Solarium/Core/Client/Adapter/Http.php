@@ -38,11 +38,11 @@
  */
 namespace Solarium\Core\Client\Adapter;
 use Solarium\Core\Configurable;
-use Solarium\Core\Exception;
-use Solarium\Core\Client\HttpException;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Exception\HttpException;
+
 
 /**
  * Basic HTTP adapter using a stream
@@ -53,7 +53,7 @@ class Http extends Configurable implements AdapterInterface
     /**
      * Handle Solr communication
      *
-     * @throws Exception
+     * @throws HttpException
      * @param  Request   $request
      * @param  Endpoint  $endpoint
      * @return Response

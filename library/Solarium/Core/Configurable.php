@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core;
+use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Base class for configurable classes
@@ -64,7 +65,7 @@ class Configurable implements ConfigurableInterface
      *
      * After handling the options the {@link _init()} method is called.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      * @param  array|\Zend_Config $options
      * @return void
      */
@@ -84,7 +85,7 @@ class Configurable implements ConfigurableInterface
      * its toArray method. This is compatible with the Zend_Config classes in
      * Zend Framework, but can also easily be implemented in any other object.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      * @param  array|\Zend_Config $options
      * @param  boolean            $overwrite True for overwriting existing options, false
      *  for merging (new values overwrite old ones if needed)
@@ -99,7 +100,9 @@ class Configurable implements ConfigurableInterface
                 if (is_object($options)) {
                     $options = $options->toArray();
                 } else {
-                    throw new Exception('Options must be an array or a Zend_Config object');
+                    throw new InvalidArgumentException(
+                        'Options value given to the setOptions() method must be an array or a Zend_Config object'
+                    );
                 }
             }
 

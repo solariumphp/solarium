@@ -61,7 +61,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $headers = array('HTTP/1.0 404 Not Found');
         $response = new Response('', $headers);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\HttpException');
         new Result($this->client, $this->query, $response);
     }
 
@@ -91,7 +91,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->response = new Response($data, $this->headers);
         $this->result = new Result($this->client, $this->query, $this->response);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $this->result->getData();
     }
 

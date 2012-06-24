@@ -38,7 +38,7 @@
  */
 namespace Solarium\Core\Query;
 use Solarium\Core\Query\Query;
-use Solarium\Core\Exception;
+use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Query helper
@@ -285,6 +285,7 @@ class Helper
     /**
      * Render a qparser plugin call
      *
+     * @throws InvalidArgumentException
      * @param  string  $name
      * @param  array   $params
      * @param  boolean $dereferenced
@@ -295,7 +296,7 @@ class Helper
         if ($dereferenced) {
 
             if (!$this->query) {
-                throw new Exception(
+                throw new InvalidArgumentException(
                     'Dereferenced params can only be used in a Solarium query helper instance retrieved from the query '
                     . 'by using the getHelper() method, this instance was manually created'
                 );
@@ -367,7 +368,7 @@ class Helper
     /**
      * Render placeholders in a querystring
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      * @param  array     $matches
      * @return string
      */
@@ -379,7 +380,7 @@ class Helper
         if (isset($this->assembleParts[$partNumber-1])) {
             $value = $this->assembleParts[$partNumber-1];
         } else {
-            throw new Exception('No value supplied for part #' . $partNumber . ' in query assembler');
+            throw new InvalidArgumentException('No value supplied for part #' . $partNumber . ' in query assembler');
         }
 
         switch ($partMode) {

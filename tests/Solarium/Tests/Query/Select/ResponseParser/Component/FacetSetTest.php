@@ -143,7 +143,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
         $this->facetSet->addFacet($facetStub);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->parser->parse(null, $this->facetSet, array());
     }
 

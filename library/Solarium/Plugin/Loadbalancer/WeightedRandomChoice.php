@@ -37,7 +37,8 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer;
-use Solarium\Core\Exception;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\RuntimeException;
 
 /**
  * Weighted random choice class
@@ -71,6 +72,7 @@ class WeightedRandomChoice
     /**
      * Constructor
      *
+     * @throws InvalidArgumentException
      * @param array $choices
      */
     public function __construct($choices)
@@ -78,7 +80,7 @@ class WeightedRandomChoice
         $i = 0;
         foreach ($choices as $key => $weight) {
             if ($weight <=0) {
-                throw new Exception('Weight must be greater than zero');
+                throw new InvalidArgumentException('Weight must be greater than zero');
             }
 
             $this->totalWeight += $weight;
@@ -92,13 +94,14 @@ class WeightedRandomChoice
     /**
      * Get a (weighted) random entry
      *
+     * @throws RuntimeException
      * @param  array  $excludes Keys to exclude
      * @return string
      */
     public function getRandom($excludes = array())
     {
         if (count($excludes) == count($this->values)) {
-            throw new Exception('No more server entries available');
+            throw new RuntimeException('No more server entries available');
         }
 
         // continue until a non-excluded value is found

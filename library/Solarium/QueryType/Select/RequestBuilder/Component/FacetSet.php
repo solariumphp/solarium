@@ -37,7 +37,6 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
-use Solarium\Core\Exception;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\FacetSet as FacetsetComponent;
@@ -45,6 +44,7 @@ use Solarium\QueryType\Select\Query\Component\Facet\Field as FacetField;
 use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as FacetMultiQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\Range as FacetRange;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Add select component FacetSet to the request
@@ -55,6 +55,7 @@ class FacetSet extends RequestBuilder
     /**
      * Add request settings for FacetSet
      *
+     * @throws UnexpectedValueException
      * @param  FacetsetComponent $component
      * @param  Request           $request
      * @return Request
@@ -89,7 +90,7 @@ class FacetSet extends RequestBuilder
                         $this->addFacetRange($request, $facet);
                         break;
                     default:
-                        throw new Exception('Unknown facet type');
+                        throw new UnexpectedValueException('Unknown facet type');
                 }
             }
         }

@@ -280,7 +280,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $fq = new FilterQuery;
         $fq->setQuery('category:1');
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->query->addFilterQuery($fq);
     }
 
@@ -293,7 +293,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $fq2->setKey('fq1')->setQuery('category:2');
 
         $this->query->addFilterQuery($fq1);
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->query->addFilterQuery($fq2);
     }
 
@@ -504,7 +504,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInvalidComponentAutoload()
     {
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
         $this->query->getComponent('invalid', true);
     }
 

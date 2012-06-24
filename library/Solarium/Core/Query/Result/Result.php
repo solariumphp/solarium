@@ -37,11 +37,11 @@
  * @namespace
  */
 namespace Solarium\Core\Query\Result;
-use Solarium\Core\Exception;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Client\HttpException;
+use Solarium\Exception\HttpException;
 use Solarium\Core\Query\Query;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Query result
@@ -85,6 +85,7 @@ class Result implements ResultInterface
     /**
      * Constructor
      *
+     * @throws HttpException
      * @param  Client   $client
      * @param  Query    $query
      * @param  Response $response
@@ -133,6 +134,7 @@ class Result implements ResultInterface
      *
      * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
      *
+     * @throws UnexpectedValueException
      * @return array
      */
     public function getData()
@@ -140,7 +142,7 @@ class Result implements ResultInterface
         if (null == $this->data) {
             $this->data = json_decode($this->response->getBody(), true);
             if (null === $this->data) {
-                throw new Exception(
+                throw new UnexpectedValueException(
                     'Solr JSON response could not be decoded'
                 );
             }

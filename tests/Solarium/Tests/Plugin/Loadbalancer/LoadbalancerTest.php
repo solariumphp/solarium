@@ -36,7 +36,7 @@ use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Adapter\Http as HttpAdapter;
-use Solarium\Core\Client\HttpException;
+use Solarium\Exception\HttpException;
 
 class LoadbalancerTest extends \PHPUnit_Framework_TestCase
 {
@@ -144,7 +144,7 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
     {
         $this->plugin->addEndpoint('s1', 10);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->plugin->addEndpoint('s1', 20);
     }
 
@@ -240,7 +240,7 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         );
         $this->plugin->addEndpoints($endpoints1);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
         $this->plugin->setForcedEndpointForNextQuery('s3');
     }
 
@@ -436,7 +436,7 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery();
         $this->plugin->preCreateRequest($query);
 
-        $this->setExpectedException('Solarium\Core\Exception', 'Maximum number of loadbalancer retries reached');
+        $this->setExpectedException('Solarium\Exception\RuntimeException', 'Maximum number of loadbalancer retries reached');
 
         $this->plugin->preExecuteRequest($request);
     }

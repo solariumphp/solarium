@@ -37,12 +37,12 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
-use Solarium\Core\Exception;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\FacetSet as QueryFacetSet;
 use Solarium\QueryType\Select\Query\Component\Facet as QueryFacet;
 use Solarium\QueryType\Select\Result\FacetSet as ResultFacetSet;
 use Solarium\QueryType\Select\Result\Facet as ResultFacet;
+use Solarium\Exception\RuntimeException;
 
 /**
  * Parse select component FacetSet result from the data
@@ -53,6 +53,7 @@ class FacetSet
     /**
      * Parse result data into result objects
      *
+     * @throws RuntimeException
      * @param  Query          $query
      * @param  QueryFacetSet  $facetSet
      * @param  array          $data
@@ -76,7 +77,7 @@ class FacetSet
                     $result = $this->facetRange($facet, $data);
                     break;
                 default:
-                    throw new Exception('Unknown facet type');
+                    throw new RuntimeException('Unknown facet type');
             }
 
             if ($result !== null) {

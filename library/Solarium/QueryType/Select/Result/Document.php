@@ -37,7 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result;
-use Solarium\Core\Exception;
+use Solarium\Exception\RuntimeException;
 
 /**
  * Read-only Solr document
@@ -71,13 +71,14 @@ class Document extends AbstractDocument implements DocumentInterface
      * Magic method for setting a field as property of this object. Since this
      * is a readonly document an exception will be thrown to prevent this.
      *
+     * @throws RuntimeException
      * @param  string $name
      * @param  string $value
      * @return void
      */
     public function __set($name, $value)
     {
-        throw new Exception('A readonly document cannot be altered');
+        throw new RuntimeException('A readonly document cannot be altered');
     }
 
 }

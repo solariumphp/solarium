@@ -37,11 +37,11 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Stats;
-use Solarium\Core\Exception;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\QueryType\Select\RequestBuilder\Component\Stats as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Stats as ResponseParser;
+use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Stats component
@@ -152,6 +152,7 @@ class Stats extends Component
      * Supports a field instance or a config array, in that case a new
      * field instance wil be created based on the options.
      *
+     * @throws InvalidArgumentException
      * @param  Field|array $field
      * @return self        Provides fluent interface
      */
@@ -164,13 +165,13 @@ class Stats extends Component
         $key = $field->getKey();
 
         if (0 === strlen($key)) {
-            throw new Exception('A field must have a key value');
+            throw new InvalidArgumentException('A field must have a key value');
         }
 
         //double add calls for the same field are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->fields) && $this->fields[$key] !== $field) {
-            throw new Exception('A field must have a unique key value');
+            throw new InvalidArgumentException('A field must have a unique key value');
         } else {
             $this->fields[$key] = $field;
         }

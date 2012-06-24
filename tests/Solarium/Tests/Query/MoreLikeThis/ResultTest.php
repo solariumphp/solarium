@@ -60,7 +60,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
              ->method('getQuery')
              ->will($this->returnValue($query));
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $mock->getInterestingTerms();
     }
 
@@ -89,7 +89,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
              ->method('getQuery')
              ->will($this->returnValue($query));
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $mock->getMatch();
     }
 

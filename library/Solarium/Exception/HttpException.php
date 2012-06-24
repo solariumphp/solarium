@@ -36,8 +36,7 @@
 /**
  * @namespace
  */
-namespace Solarium\Core\Client;
-use Solarium\Core\Exception;
+namespace Solarium\Exception;
 
 /**
  * Solarium client HTTP exception
@@ -54,7 +53,7 @@ use Solarium\Core\Exception;
  *
  * The getStatusMessage method will return the HTTP status message.
  */
-class HttpException extends Exception
+class HttpException extends \RuntimeException implements ExceptionInterface
 {
 
     /**

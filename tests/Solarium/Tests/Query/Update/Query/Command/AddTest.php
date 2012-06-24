@@ -64,7 +64,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testAddDocumentWithInvalidDocument()
     {
         $doc = new \StdClass();
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->command->addDocument($doc);
     }
 

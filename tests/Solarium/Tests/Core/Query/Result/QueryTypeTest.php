@@ -58,7 +58,7 @@ class QueryTypeTest extends \PHPUnit_Framework_TestCase
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
         $result = new QueryTypeDummy($client, $query, $response);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $result->parse();
     }
 

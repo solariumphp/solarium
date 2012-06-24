@@ -33,8 +33,7 @@ namespace Solarium\Tests\Core\Client\Adapter;
 use Solarium\Core\Client\Adapter\PeclHttp as PeclHttpAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
-use Solarium\Core\Exception;
-use Solarium\Core\Client\HttpException;
+use Solarium\Exception\ExceptionInterface;
 
 class PeclHttpTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,7 +61,7 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
         try {
             $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
             $this->assertEquals($httpRequest->getMethod(), $method);
-        } catch (Exception $e) {
+        } catch (ExceptionInterface $e) {
             if ($support) {
                 $this->fail("Unsupport method: {$request->getMethod()}");
             }
@@ -177,7 +176,7 @@ EOF;
     }
 
     /**
-     * @expectedException Solarium\Core\Client\HttpException
+     * @expectedException Solarium\Exception\HttpException
      */
     public function testExecuteWithException()
     {

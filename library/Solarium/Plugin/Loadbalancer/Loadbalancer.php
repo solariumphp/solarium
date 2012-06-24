@@ -38,13 +38,15 @@
  */
 namespace Solarium\Plugin\Loadbalancer;
 use Solarium\Core\Plugin;
-use Solarium\Core\Exception;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
-use Solarium\Core\Client\HttpException;
 use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
+use Solarium\Exception\RuntimeException;
+use Solarium\Exception\HttpException;
 
 /**
  * Loadbalancer plugin
@@ -202,6 +204,7 @@ class Loadbalancer extends Plugin
     /**
      * Add an endpoint to the loadbalacing 'pool'
      *
+     * @throws InvalidArgumentException
      * @param  Endpoint|string $endpoint
      * @param  int             $weight   Must be a positive number
      * @return self            Provides fluent interface
@@ -213,7 +216,7 @@ class Loadbalancer extends Plugin
         }
 
         if (array_key_exists($endpoint, $this->endpoints)) {
-            throw new Exception('An endpoint for the loadbalancer plugin must have a unique key');
+            throw new InvalidArgumentException('An endpoint for the loadbalancer plugin must have a unique key');
         } else {
             $this->endpoints[$endpoint] = $weight;
         }
@@ -300,6 +303,7 @@ class Loadbalancer extends Plugin
      * If the next query cannot be loadbalanced (for instance based on the querytype) this setting is ignored
      * but will still be reset.
      *
+     * @throws OutOfBoundsException
      * @param  string|null|Endpoint $endpoint
      * @return self                 Provides fluent interface
      */
@@ -310,7 +314,7 @@ class Loadbalancer extends Plugin
         }
 
         if ($endpoint !== null && !array_key_exists($endpoint, $this->endpoints)) {
-            throw new Exception('Unknown endpoint forced for next query');
+            throw new OutOfBoundsException('Unknown endpoint forced for next query');
         }
 
         $this->nextEndpoint = $endpoint;
@@ -482,8 +486,7 @@ class Loadbalancer extends Plugin
             }
 
             // if we get here no more retries available, throw exception
-            $e = new Exception('Maximum number of loadbalancer retries reached');
-            throw $e;
+            throw new RuntimeException('Maximum number of loadbalancer retries reached');
 
         } else {
             // no failover retries, just execute and let an exception bubble upwards

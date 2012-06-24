@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core;
+use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Interface for configurable classes
@@ -56,7 +57,7 @@ interface ConfigurableInterface
      *
      * After handling the options the {@link _init()} method is called.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      * @param  array|\Zend_Config $options
      * @return void
      */
@@ -69,7 +70,7 @@ interface ConfigurableInterface
      * it's toArray method. This is compatible with the Zend_Config classes in
      * Zend Framework, but can also easily be implemented in any other object.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      * @param  array|\Zend_Config $options
      * @param  boolean            $overwrite True for overwriting existing options, false
      *  for merging (new values overwrite old ones if needed)

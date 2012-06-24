@@ -172,7 +172,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
     public function testAddFieldWithObjectWithoutName()
     {
         $field = new Field;
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->hlt->addField($field);
     }
 

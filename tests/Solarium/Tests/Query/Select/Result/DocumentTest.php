@@ -71,7 +71,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testSetField()
     {
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->doc->newField = 'new value';
     }
 
@@ -117,13 +117,13 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testArraySet()
     {
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->doc['newField'] = 'new value';
     }
 
     public function testArrayUnset()
     {
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
         unset($this->doc['newField']);
     }
 

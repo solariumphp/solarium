@@ -150,7 +150,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
     {
         $fld = new Field;
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->stats->addField($fld);
     }
 
@@ -163,7 +163,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $f2->setKey('f1');
 
         $this->stats->addField($f1);
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->stats->addField($f2);
     }
 

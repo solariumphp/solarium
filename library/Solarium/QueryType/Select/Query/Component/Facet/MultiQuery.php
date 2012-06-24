@@ -37,8 +37,8 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Facet;
-use Solarium\Core\Exception;
 use Solarium\QueryType\Select\Query\Component\FacetSet;
+use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Facet MultiQuery
@@ -120,6 +120,7 @@ class MultiQuery extends Facet
      * Supports a facetquery instance or a config array, in that case a new
      * facetquery instance wil be created based on the options.
      *
+     * @throws InvalidArgumentException
      * @param  Query|array $facetQuery
      * @return self        Provides fluent interface
      */
@@ -132,11 +133,11 @@ class MultiQuery extends Facet
         $key = $facetQuery->getKey();
 
         if (0 === strlen($key)) {
-            throw new Exception('A facetquery must have a key value');
+            throw new InvalidArgumentException('A facetquery must have a key value');
         }
 
         if (array_key_exists($key, $this->facetQueries)) {
-            throw new Exception('A query must have a unique key value within a multiquery facet');
+            throw new InvalidArgumentException('A query must have a unique key value within a multiquery facet');
         }
 
         // forward shared excludes

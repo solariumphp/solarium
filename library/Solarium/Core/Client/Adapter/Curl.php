@@ -38,11 +38,12 @@
  */
 namespace Solarium\Core\Client\Adapter;
 use Solarium\Core\Configurable;
-use Solarium\Core\Exception;
-use Solarium\Core\Client\HttpException;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\RuntimeException;
+use Solarium\Exception\HttpException;
 
 /**
  * cURL HTTP adapter
@@ -56,12 +57,14 @@ class Curl extends Configurable implements AdapterInterface
      * Initialization hook
      *
      * Checks the availability of Curl_http
+     *
+     * @throws RuntimeException
      */
     protected function init()
     {
         // @codeCoverageIgnoreStart
         if (!function_exists('curl_init')) {
-           throw new Exception('cURL is not available, install it to use the CurlHttp adapter');
+           throw new RuntimeException('cURL is not available, install it to use the CurlHttp adapter');
         }
 
         parent::init();
@@ -127,6 +130,7 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Create curl handle for a request
      *
+     * @throws InvalidArgumentException
      * @param  Request  $request
      * @param  Endpoint $endpoint
      * @return resource
@@ -168,7 +172,7 @@ class Curl extends Configurable implements AdapterInterface
             $httpResponse  = curl_exec($handler);
 
         } else {
-            throw new Exception("unsupported method: $method");
+            throw new InvalidArgumentException("unsupported method: $method");
         }
 
         return $handler;

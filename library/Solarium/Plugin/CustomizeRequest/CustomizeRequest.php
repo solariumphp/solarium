@@ -37,10 +37,11 @@
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
-use Solarium\Core\Exception;
 use Solarium\Core\Plugin;
 use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\RuntimeException;
 
 /**
  * CustomizeRequest plugin
@@ -109,6 +110,7 @@ class CustomizeRequest extends Plugin
      * Supports a Customization instance or a config array, in that case a new
      * Customization instance wil be created based on the options.
      *
+     * @throws InvalidArgumentException
      * @param  Customization|array $customization
      * @return self                Provides fluent interface
      */
@@ -122,14 +124,14 @@ class CustomizeRequest extends Plugin
 
         // check for non-empty key
         if (0 === strlen($key)) {
-            throw new Exception('A Customization must have a key value');
+            throw new InvalidArgumentException('A Customization must have a key value');
         }
 
         // check for a unique key
         if (array_key_exists($key, $this->customizations)) {
             //double add calls for the same customization are ignored, others cause an exception
             if ($this->customizations[$key] !== $customization) {
-                throw new Exception('A Customization must have a unique key value');
+                throw new InvalidArgumentException('A Customization must have a unique key value');
             }
         }
 
@@ -233,6 +235,7 @@ class CustomizeRequest extends Plugin
     /**
      * Event hook to customize the request object
      *
+     * @throws RuntimeException
      * @param  Query   $query
      * @param  Request $request
      * @return void
@@ -243,7 +246,7 @@ class CustomizeRequest extends Plugin
 
             // first validate
             if (!$customization->isValid()) {
-                throw new Exception('Request customization with key "' . $key . '" is invalid');
+                throw new RuntimeException('Request customization with key "' . $key . '" is invalid');
             }
 
             // apply to request, depending on type

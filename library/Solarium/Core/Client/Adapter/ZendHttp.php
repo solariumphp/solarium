@@ -43,6 +43,7 @@ use Solarium\Core\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Exception\HttpException;
 
 /**
  * Adapter that uses a Zend_Http_Client
@@ -156,6 +157,7 @@ class ZendHttp extends Configurable implements AdapterInterface
     /**
      * Execute a Solr request using the Zend_Http_Client instance
      *
+     * @throws HttpException
      * @param  Request  $request
      * @param  Endpoint $endpoint
      * @return Response
@@ -174,7 +176,7 @@ class ZendHttp extends Configurable implements AdapterInterface
 
         // throw an exception in case of a HTTP error
         if ($response->isError()) {
-            throw new Client\HttpException(
+            throw new HttpException(
                 $response->getMessage(),
                 $response->getStatus()
             );

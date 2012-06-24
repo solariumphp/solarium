@@ -157,7 +157,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
         new Query($config);
     }
 
@@ -431,7 +431,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateCommandWithInvalidQueryType()
     {
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->query->createCommand('invalidtype');
     }
 

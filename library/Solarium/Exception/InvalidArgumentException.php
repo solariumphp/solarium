@@ -27,54 +27,21 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
+ *
+ * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  */
 
-namespace Solarium\Tests\Core\Client;
-use Solarium\Core\Client\Response;
+/**
+ * @namespace
+ */
+namespace Solarium\Exception;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+/**
+ * InvalidArgument exception for Solarium classes
+ */
+class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
-
-    protected $headers, $data;
-
-    /**
-     * @var Response
-     */
-    protected $response;
-
-    public function setUp()
-    {
-        $this->headers = array('HTTP/1.0 304 Not Modified');
-        $this->data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"mdsfgdsfgdf"}},"response":{"numFound":0,"start":0,"docs":[]}}';
-        $this->response = new Response($this->data, $this->headers);
-    }
-
-    public function testGetStatusCode()
-    {
-        $this->assertEquals(304, $this->response->getStatusCode());
-    }
-
-    public function testGetStatusMessage()
-    {
-        $this->assertEquals('Not Modified', $this->response->getStatusMessage());
-    }
-
-    public function testGetHeaders()
-    {
-        $this->assertEquals($this->headers, $this->response->getHeaders());
-    }
-
-    public function testGetBody()
-    {
-        $this->assertEquals($this->data, $this->response->getBody());
-    }
-
-    public function testMissingHeader()
-    {
-        $headers = array();
-
-        $this->setExpectedException('Solarium\Exception\HttpException');
-        new Response($this->data, $headers);
-    }
 
 }

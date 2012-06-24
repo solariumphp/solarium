@@ -37,10 +37,11 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
-use Solarium\Core\Exception;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\FacetSet as ResponseParser;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
 
 /**
  * MoreLikeThis component
@@ -277,6 +278,7 @@ class FacetSet extends Component
     /**
      * Add a facet
      *
+     * @throws InvalidArgumentException
      * @param  Facet\Facet|array $facet
      * @return self              Provides fluent interface
      */
@@ -289,13 +291,13 @@ class FacetSet extends Component
         $key = $facet->getKey();
 
         if (0 === strlen($key)) {
-            throw new Exception('A facet must have a key value');
+            throw new InvalidArgumentException('A facet must have a key value');
         }
 
         //double add calls for the same facet are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->facets) && $this->facets[$key] !== $facet) {
-            throw new Exception('A facet must have a unique key value within a query');
+            throw new InvalidArgumentException('A facet must have a unique key value within a query');
         } else {
              $this->facets[$key] = $facet;
         }
@@ -405,6 +407,7 @@ class FacetSet extends Component
      * When no key is supplied the facet cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addFacet method.
      *
+     * @throws OutOfBoundsException
      * @param  string            $type
      * @param  array|object|null $options
      * @param  boolean           $add
@@ -415,7 +418,7 @@ class FacetSet extends Component
         $type = strtolower($type);
 
         if (!isset($this->facetTypes[$type])) {
-            throw new Exception("Facettype unknown: " . $type);
+            throw new OutOfBoundsException("Facettype unknown: " . $type);
         }
 
         $class = $this->facetTypes[$type];

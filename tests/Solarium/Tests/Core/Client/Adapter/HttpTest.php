@@ -33,7 +33,7 @@ namespace Solarium\Tests\Core\Client\Adapter;
 use Solarium\Core\Client\Adapter\Http as HttpAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
-use Solarium\Core\Client\HttpException;
+use Solarium\Exception\HttpException;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
@@ -81,13 +81,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
              ->method('check')
              ->will($this->throwException(new HttpException("HTTP request failed")));
 
-        $this->setExpectedException('Solarium\Core\Client\HttpException');
+        $this->setExpectedException('Solarium\Exception\HttpException');
         $mock->execute($request, $endpoint);
     }
 
     public function testCheckError()
     {
-        $this->setExpectedException('Solarium\Core\Client\HttpException');
+        $this->setExpectedException('Solarium\Exception\HttpException');
         $this->adapter->check(false, array());
 
     }

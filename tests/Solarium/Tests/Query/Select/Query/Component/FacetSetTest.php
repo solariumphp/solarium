@@ -132,7 +132,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $fq = new FacetQuery;
         $fq->setQuery('category:1');
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->facetSet->addFacet($fq);
     }
 
@@ -145,7 +145,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $fq2->setKey('f1')->setQuery('category:2');
 
         $this->facetSet->addFacet($fq1);
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->facetSet->addFacet($fq2);
     }
 
@@ -329,7 +329,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateFacetWithInvalidType()
     {
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
         $this->facetSet->createFacet('invalidtype');
     }
 

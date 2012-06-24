@@ -37,11 +37,12 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query;
-use Solarium\Core\Exception;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
+use Solarium\Exception\RuntimeException;
+use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Update query
@@ -149,6 +150,7 @@ class Query extends BaseQuery
      * Several options need some extra checks or setup work, for these options
      * the setters are called.
      *
+     * @throws RuntimeException
      * @return void
      */
     protected function init()
@@ -159,7 +161,7 @@ class Query extends BaseQuery
                 $type = $value['type'];
 
                 if ($type == self::COMMAND_ADD) {
-                    throw new Exception(
+                    throw new RuntimeException(
                         "Adding documents is not supported in configuration, use the API for this"
                     );
                 }
@@ -173,7 +175,7 @@ class Query extends BaseQuery
     /**
      * Create a command instance
      *
-     * @throws Solarium\Core\Exception
+     * @throws InvalidArgumentException
      * @param  string                  $type
      * @param  mixed                   $options
      * @return Command\Command
@@ -183,7 +185,7 @@ class Query extends BaseQuery
         $type = strtolower($type);
 
         if (!isset($this->commandTypes[$type])) {
-            throw new Exception("Update commandtype unknown: " . $type);
+            throw new InvalidArgumentException("Update commandtype unknown: " . $type);
         }
 
         $class = $this->commandTypes[$type];

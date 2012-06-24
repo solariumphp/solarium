@@ -317,7 +317,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->query->add('invalidcommand',new InvalidCommand);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->builder->build($this->query);
     }
 }

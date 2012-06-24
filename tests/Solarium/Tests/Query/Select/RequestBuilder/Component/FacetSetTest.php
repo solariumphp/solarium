@@ -169,7 +169,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     public function testBuildUnknownFacetType()
     {
         $this->component->addFacet(new UnknownFacet(array('key' => 'f1', 'field' => 'owner')));
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $request = $this->builder->buildComponent($this->component, $this->request);
         $request->getUri();
     }

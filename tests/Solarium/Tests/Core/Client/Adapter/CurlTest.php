@@ -62,7 +62,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $data = '';
         $headers = array();
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\HttpException');
         $this->adapter->check($data, $headers);
     }
 

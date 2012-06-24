@@ -113,7 +113,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
 
         $parser = new ResponseParser();
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
         $parser->parse($resultStub);
     }
 

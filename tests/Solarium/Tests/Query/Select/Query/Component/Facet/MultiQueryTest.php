@@ -163,7 +163,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
         $facetQuery->setQuery($query);
         $facetQuery->setExcludes($excludes);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->facet->addQuery($facetQuery);
     }
 
@@ -179,7 +179,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
 
         $this->facet->addQuery($facetQuery1);
 
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->facet->addQuery($facetQuery2);
     }
 

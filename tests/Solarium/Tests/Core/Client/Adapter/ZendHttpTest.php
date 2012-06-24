@@ -146,7 +146,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
         $this->adapter->setZendHttp($mock);
 
-        $this->setExpectedException('Solarium\Core\Client\HttpException');
+        $this->setExpectedException('Solarium\Exception\HttpException');
         $this->adapter->execute($request, $endpoint);
 
     }

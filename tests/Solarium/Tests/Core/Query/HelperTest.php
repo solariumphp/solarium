@@ -120,7 +120,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testQparserDereferencedNoQuery()
     {
         $helper = new Helper();
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true);
     }
 
@@ -316,7 +316,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testAssembleInvalidPartNumber()
     {
-        $this->setExpectedException('Solarium\Core\Exception');
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->helper->assemble('cat:%1% AND content:%2%',array('value1'));
     }
 

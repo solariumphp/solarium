@@ -37,13 +37,15 @@
  * @namespace
  */
 namespace Solarium\Core\Client;
-use Solarium\Core\Exception;
 use Solarium\Core\Configurable;
 use Solarium\Core\PluginInterface;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Main interface for interaction with Solr
@@ -242,6 +244,7 @@ class Client extends Configurable
      * Supports a endpoint instance or a config array as input.
      * In case of options a new endpoint instance wil be created based on the options.
      *
+     * @throws InvalidArgumentException
      * @param  Endpoint|array $endpoint
      * @return self           Provides fluent interface
      */
@@ -254,13 +257,13 @@ class Client extends Configurable
         $key = $endpoint->getKey();
 
         if (0 === strlen($key)) {
-            throw new Exception('A endpoint must have a key value');
+            throw new InvalidArgumentException('An endpoint must have a key value');
         }
 
         //double add calls for the same endpoint are ignored, but non-unique keys cause an exception
         //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
-            throw new Exception('A endpoint must have a unique key');
+            throw new InvalidArgumentException('An endpoint must have a unique key');
         } else {
             $this->endpoints[$key] = $endpoint;
 
@@ -297,6 +300,7 @@ class Client extends Configurable
     /**
      * Get an endpoint by key
      *
+     * @throws OutOfBoundsException
      * @param  string   $key
      * @return Endpoint
      */
@@ -307,7 +311,7 @@ class Client extends Configurable
         }
 
         if (!isset($this->endpoints[$key])) {
-            throw new Exception('Endpoint '.$key.' not available');
+            throw new OutOfBoundsException('Endpoint '.$key.' not available');
         }
 
         return $this->endpoints[$key];
@@ -377,7 +381,7 @@ class Client extends Configurable
      *
      * @param  string|Endpoint $endpoint
      * @return self            Provides fluent interface
-     * @throws Exception
+     * @throws OutOfBoundsException
      */
     public function setDefaultEndpoint($endpoint)
     {
@@ -386,7 +390,7 @@ class Client extends Configurable
         }
 
         if (!isset($this->endpoints[$endpoint])) {
-            throw new Exception('Unknown endpoint '.$endpoint.' cannot be set as default');
+            throw new OutOfBoundsException('Unknown endpoint '.$endpoint.' cannot be set as default');
         }
 
         $this->defaultEndpoint = $endpoint;
@@ -409,6 +413,7 @@ class Client extends Configurable
      * If an adapter instance is passed it will replace the current adapter
      * immediately, bypassing the lazy loading.
      *
+     * @throws InvalidArgumentException
      * @param  string|Adapter\AdapterInterface $adapter
      * @return self                            Provides fluent interface
      */
@@ -426,7 +431,7 @@ class Client extends Configurable
 
             return $this;
         } else {
-            throw new Exception('Invalid adapter input for setAdapter');
+            throw new InvalidArgumentException('Invalid adapter input for setAdapter');
         }
     }
 
@@ -441,6 +446,7 @@ class Client extends Configurable
      * This method is used for lazy-loading the adapter upon first use in
      * {@link getAdapter()}
      *
+     * @throws InvalidArgumentException
      * @return void
      */
     protected function createAdapter()
@@ -450,7 +456,7 @@ class Client extends Configurable
 
         // check interface
         if (!($adapter instanceof AdapterInterface)) {
-            throw new Exception('An adapter must implement the AdapterInterface');
+            throw new InvalidArgumentException('An adapter must implement the AdapterInterface');
         }
 
         $adapter->setOptions($this->getOption('adapteroptions'));
@@ -532,6 +538,7 @@ class Client extends Configurable
      * This requires the availability of the class through autoloading
      * or a manual require.
      *
+     * @throws InvalidArgumentException
      * @param  string                       $key
      * @param  string|\Solarium\Core\Plugin $plugin
      * @param  array                        $options
@@ -545,7 +552,7 @@ class Client extends Configurable
         }
 
         if (!($plugin instanceof PluginInterface)) {
-           throw new Exception('All plugins must implement the PluginInterface');
+           throw new InvalidArgumentException('All plugins must implement the PluginInterface');
         }
 
         $plugin->initPlugin($this, $options);
@@ -592,6 +599,7 @@ class Client extends Configurable
     /**
      * Get a plugin instance
      *
+     * @throws OutOfBoundsException
      * @param  string                     $key
      * @param  boolean                    $autocreate
      * @return \Solarium\Core\Plugin|null
@@ -606,7 +614,7 @@ class Client extends Configurable
 
                 return $this->pluginInstances[$key];
             } else {
-                throw new Exception('Cannot autoload plugin of unknown type: ' . $key);
+                throw new OutOfBoundsException('Cannot autoload plugin of unknown type: ' . $key);
             }
         } else {
             return null;
@@ -686,6 +694,7 @@ class Client extends Configurable
     /**
      * Creates a request based on a query instance
      *
+     * @throws UnexpectedValueException
      * @param  QueryInterface $query
      * @return Request
      */
@@ -698,7 +707,7 @@ class Client extends Configurable
 
         $requestBuilder = $query->getRequestBuilder();
         if (!$requestBuilder || !($requestBuilder instanceof RequestBuilderInterface)) {
-            throw new Exception('No requestbuilder returned by querytype: '. $query->getType());
+            throw new UnexpectedValueException('No requestbuilder returned by querytype: '. $query->getType());
         }
 
         $request = $requestBuilder->build($query);
@@ -711,6 +720,7 @@ class Client extends Configurable
     /**
      * Creates a result object
      *
+     * @throws UnexpectedValueException;
      * @param  QueryInterface  $query
      * @param  array Response  $response
      * @return ResultInterface
@@ -726,7 +736,7 @@ class Client extends Configurable
         $result = new $resultClass($this, $query, $response);
 
         if (!($result instanceof ResultInterface)) {
-            throw new Exception('Result class must implement the ResultInterface');
+            throw new UnexpectedValueException('Result class must implement the ResultInterface');
         }
 
         $this->callPlugins('postCreateResult', array($query, $response, $result));
@@ -931,6 +941,7 @@ class Client extends Configurable
     /**
      * Create a query instance
      *
+     * @throws InvalidArgumentException|UnexpectedValueException
      * @param  string                     $type
      * @param  array                      $options
      * @return \Solarium\Core\Query\Query
@@ -945,14 +956,14 @@ class Client extends Configurable
         }
 
         if (!isset($this->queryTypes[$type])) {
-            throw new Exception('Unknown querytype: '. $type);
+            throw new InvalidArgumentException('Unknown querytype: '. $type);
         }
 
         $class = $this->queryTypes[$type];
         $query = new $class($options);
 
         if (!($query instanceof QueryInterface)) {
-            throw new Exception('All query classes must implement the QueryInterface');
+            throw new UnexpectedValueException('All query classes must implement the QueryInterface');
         }
 
         $this->callPlugins('postCreateQuery', array($type, $options, $query));

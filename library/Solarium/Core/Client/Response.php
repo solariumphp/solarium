@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Client;
+use Solarium\Exception\HttpException;
 
 /**
  * Class for describing a response
@@ -129,6 +130,7 @@ class Response
     /**
      * Set headers
      *
+     * @throws HttpException
      * @param  array $headers
      * @return void
      */
