@@ -71,6 +71,8 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
         $request->addParam('hl.formatter', $component->getFormatter());
         $request->addParam('hl.simple.pre', $component->getSimplePrefix());
         $request->addParam('hl.simple.post', $component->getSimplePostfix());
+        $request->addParam('hl.tag.pre', $component->getTagPrefix());
+        $request->addParam('hl.tag.post', $component->getTagPostfix());
         $request->addParam('hl.fragmenter', $component->getFragmenter());
         $request->addParam('hl.fragListBuilder', $component->getFragListBuilder());
         $request->addParam('hl.fragmentsBuilder', $component->getFragmentsBuilder());
@@ -108,6 +110,8 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
         $request->addParam($prefix.'formatter', $field->getFormatter());
         $request->addParam($prefix.'simple.pre', $field->getSimplePrefix());
         $request->addParam($prefix.'simple.post', $field->getSimplePostfix());
+        $request->addParam($prefix.'tag.pre', $field->getTagPrefix());
+        $request->addParam($prefix.'tag.post', $field->getTagPostfix());
         $request->addParam($prefix.'fragmenter', $field->getFragmenter());
         $request->addParam($prefix.'useFastVectorHighlighter', $field->getUseFastVectorHighlighter());
     }
