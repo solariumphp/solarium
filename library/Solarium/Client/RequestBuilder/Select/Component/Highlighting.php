@@ -71,6 +71,8 @@ class Solarium_Client_RequestBuilder_Select_Component_Highlighting
         $request->addParam('hl.formatter', $component->getFormatter());
         $request->addParam('hl.simple.pre', $component->getSimplePrefix());
         $request->addParam('hl.simple.post', $component->getSimplePostfix());
+        $request->addParam('hl.tag.pre', $component->getTagPrefix());
+        $request->addParam('hl.tag.post', $component->getTagPostfix());
         $request->addParam('hl.fragmenter', $component->getFragmenter());
         $request->addParam('hl.fragListBuilder', $component->getFragListBuilder());
         $request->addParam('hl.fragmentsBuilder', $component->getFragmentsBuilder());
