@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2012 Marc Morera. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,72 +28,52 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
  *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2012 Marc Morera <yuhu@mmoreram.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage Client
  */
 
 /**
- * Select field facet result
- *
- * A field facet will usually return a dataset of multiple rows, in each row a
- * value and its count. You can access the values as an array using
- * {@link getValues()} or iterate this object.
+ * Add select component edismax to the request
  *
  * @package Solarium
- * @subpackage Result
+ * @subpackage Client
  */
-class Solarium_Result_Select_Facet_Field implements IteratorAggregate, Countable
+class Solarium_Client_RequestBuilder_Select_Component_EDisMax
 {
 
     /**
-     * Value array
+     * Add request settings for EDismax
      *
-     * @var array
+     * @param Solarium_Query_Select_Component_EDismax $component
+     * @param Solarium_Client_Request $request
+     * @return Solarium_Client_Request
      */
-    protected $_values;
-    
-    /**
-     * Constructor
-     *
-     * @param array $values
-     * @return void
-     */
-    public function __construct($values)
+    public function buildComponent($component, $request)
     {
-        $this->_values = $values;
-    }
+        // enable edismax
+        $request->addParam('defType', $component->getQueryParser());
 
-    /**
-     * Get all values
-     *
-     * @return array
-     */
-    public function getValues()
-    {
-        return $this->_values;
-    }
-    
-    /**
-     * IteratorAggregate implementation
-     *
-     * @return ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->_values);
-    }
+        $request->addParam('q.alt', $component->getQueryAlternative());
+        $request->addParam('qf', $component->getQueryFields());
+        $request->addParam('mm', $component->getMinimumMatch());
+        $request->addParam('pf', $component->getPhraseFields());
+        $request->addParam('ps', $component->getPhraseSlop());
+        $request->addParam('pf2', $component->getPhraseBigramFields());
+        $request->addParam('ps2', $component->getPhraseBigramSlop());
+        $request->addParam('pf3', $component->getPhraseTrigramFields());
+        $request->addParam('ps3', $component->getPhraseTrigramSlop());
+        $request->addParam('qs', $component->getQueryPhraseSlop());
+        $request->addParam('tie', $component->getTie());
+        $request->addParam('bq', $component->getBoostQuery());
+        $request->addParam('bf', $component->getBoostFunctions());
+        $request->addParam('boost', $component->getBoostFunctionsMult());
+        $request->addParam('uf', $component->getUserFields());
 
-    /**
-     * Countable implementation
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->_values);
+
+        return $request;
     }
 }
