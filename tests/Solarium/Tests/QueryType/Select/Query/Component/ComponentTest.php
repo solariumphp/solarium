@@ -42,6 +42,14 @@ class ComponentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('testtype', $component->getType());
     }
 
+    public function testSetAndGetQueryInstance()
+    {
+        $query = new Query;
+        $component = new TestComponent();
+        $component->setQueryInstance($query);
+        $this->assertEquals($query, $component->getQueryInstance());
+    }
+
 }
 
 class TestComponent extends Component

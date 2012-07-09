@@ -38,12 +38,18 @@
  */
 namespace Solarium\QueryType\Select\Query\Component;
 use Solarium\Core\Configurable;
+use Solarium\Core\Query\Query;
 
 /**
  * Query component base class
  */
 abstract class Component extends Configurable
 {
+
+    /**
+     * @var Query
+     */
+    protected $queryInstance;
 
     /**
      * Get component type
@@ -65,5 +71,26 @@ abstract class Component extends Configurable
      * @return object
      */
     abstract public function getResponseParser();
+
+    /**
+     * Set parent query instance
+     *
+     * @return self Provides fluent interface
+     */
+    public function setQueryInstance(Query $instance)
+    {
+        $this->queryInstance = $instance;
+        return $this;
+    }
+
+    /**
+     * Get parent query instance
+     *
+     * @return Query
+     */
+    public function getQueryInstance()
+    {
+        return $this->queryInstance;
+    }
 
 }

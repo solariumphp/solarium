@@ -44,6 +44,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->spellCheck = new Spellcheck;
+        $this->spellCheck->setQueryInstance(new Query);
     }
 
     public function testGetType()
@@ -70,6 +71,12 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
             $value,
             $this->spellCheck->getQuery()
         );
+    }
+
+    public function testSetAndGetQueryWithBind()
+    {
+        $this->spellCheck->setQuery('id:%1%', array(678));
+        $this->assertEquals('id:678', $this->spellCheck->getQuery());
     }
 
     public function testSetAndGetBuild()

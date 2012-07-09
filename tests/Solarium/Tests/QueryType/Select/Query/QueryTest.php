@@ -494,6 +494,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetAndGetComponentQueryInstance()
+    {
+        $mlt = new MoreLikeThis;
+        $this->query->setComponent('mlt',$mlt);
+
+        $this->assertEquals(
+            $this->query,
+            $this->query->getComponent('mlt')->getQueryInstance()
+        );
+    }
+
     public function testGetInvalidComponent()
     {
         $this->assertEquals(

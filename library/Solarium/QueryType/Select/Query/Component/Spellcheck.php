@@ -79,16 +79,19 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set query option
-     *
-     * Query to spellcheck
+     * Set spellcheck query option
      *
      * @param  string $query
+     * @param  array  $bind  Bind values for placeholders in the query string
      * @return self   Provides fluent interface
      */
-    public function setQuery($query)
+    public function setQuery($query, $bind = null)
     {
-        return $this->setOption('query', $query);
+        if (!is_null($bind)) {
+            $query = $this->getQueryInstance()->getHelper()->assemble($query, $bind);
+        }
+
+        return $this->setOption('query', trim($query));
     }
 
     /**

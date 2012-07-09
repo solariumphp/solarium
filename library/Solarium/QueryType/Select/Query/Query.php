@@ -817,11 +817,12 @@ class Query extends BaseQuery
      * This overwrites any existing component registered with the same key.
      *
      * @param  string      $key
-     * @param  object|null $value
+     * @param  object|null $component
      * @return self        Provides fluent interface
      */
     public function setComponent($key, $value)
     {
+        $value->setQueryInstance($this);
         $this->components[$key] = $value;
 
         return $this;
