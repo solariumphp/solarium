@@ -53,11 +53,11 @@ class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
     protected $_suggestions;
 
     /**
-     * Collation object
+     * Collations array
      *
-     * @var Solarium_Result_Select_Spellcheck_Collation
+     * @var array
      */
-    protected $_collation;
+    protected $_collations;
 
     /**
      * Correctly spelled?
@@ -70,25 +70,35 @@ class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
      * Constructor
      *
      * @param array $suggestions
-     * @param Solarium_Result_Select_Spellcheck_Collation $collation
+     * @param array $collations
      * @param boolean $correctlySpelled
      * @return void
      */
-    public function __construct($suggestions, $collation, $correctlySpelled)
+    public function __construct($suggestions, $collations, $correctlySpelled)
     {
         $this->_suggestions = $suggestions;
-        $this->_collation = $collation;
+        $this->_collations = $collations;
         $this->_correctlySpelled = $correctlySpelled;
     }
 
     /**
-     * Get the collation result
+     * Get the first collation result
      *
      * @return Solarium_Result_Select_Spellcheck_Collation
      */
     public function getCollation()
     {
-        return $this->_collation;
+        return empty($this->_collations) ? null : reset($this->_collations);
+    }
+
+    /**
+     * Get all collations
+     *
+     * @return array
+     */
+    public function getCollations()
+    {
+        return $this->_collations;
     }
 
     /**
