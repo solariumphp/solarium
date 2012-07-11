@@ -66,7 +66,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
 
             $suggestions = array();
             $correctlySpelled = null;
-            $collation = null;
+            $collations = array();
 
             $index = 0;
             while (isset($spellcheckResults[$index]) && isset($spellcheckResults[$index+1])) {
@@ -78,7 +78,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
                         $correctlySpelled = $value;
                         break;
                     case 'collation':
-                        $collation = $this->_parseCollation($value);
+                        $collations[] = $this->_parseCollation($value);
                         break;
                     default:
                         $suggestions[] = $this->_parseSuggestion($key, $value);
@@ -87,7 +87,7 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
                 $index +=2;
             }
 
-            return new Solarium_Result_Select_Spellcheck($suggestions, $collation, $correctlySpelled);
+            return new Solarium_Result_Select_Spellcheck($suggestions, $collations, $correctlySpelled);
         } else {
             return null;
         }

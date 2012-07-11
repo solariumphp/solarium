@@ -37,7 +37,7 @@ class Solarium_Result_Select_SpellcheckTest extends PHPUnit_Framework_TestCase
      */
     protected $_result;
 
-    protected $_suggestions, $_collation, $_correctlySpelled;
+    protected $_suggestions, $_collations, $_correctlySpelled;
 
     public function setUp()
     {
@@ -45,15 +45,19 @@ class Solarium_Result_Select_SpellcheckTest extends PHPUnit_Framework_TestCase
             'key1' => 'content1',
             'key2' => 'content2',
         );
-        $this->_collation = 'dummy1';
+        $this->_collations = array(
+             'dummy1',
+             'dummy2',
+        );
         $this->_correctlySpelled = false;
 
-        $this->_result = new Solarium_Result_Select_Spellcheck($this->_suggestions, $this->_collation, $this->_correctlySpelled);
+        $this->_result = new Solarium_Result_Select_Spellcheck($this->_suggestions, $this->_collations, $this->_correctlySpelled);
     }
 
     public function testGetCollation()
     {
-        $this->assertEquals($this->_collation, $this->_result->getCollation());
+        $this->assertEquals($this->_collations, $this->_result->getCollations());
+        $this->assertEquals(reset($this->_collations), $this->_result->getCollation());
     }
 
     public function testGetCorrectlySpelled()
