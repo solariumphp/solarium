@@ -182,7 +182,7 @@ class Solarium_Client_RequestBuilder_Select_Component_FacetSet extends Solarium_
             }
         }
 
-        if (null !== $facet->getOther()) {
+        if (null !== $facet->getInclude()) {
             $include = explode(',', $facet->getInclude());
             foreach ($include AS $includeValue) {
                 $request->addParam("f.$field.facet.range.include", trim($includeValue));
