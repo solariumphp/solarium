@@ -333,52 +333,72 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->facetSet->createFacet('invalidtype');
     }
 
-    public function testCreateFacetField()
+    public function createFacetAddProvider()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
-
-        $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_FIELD), $this->equalTo($options));
-
-        $observer->createFacetField($options);
+        return array(
+            array(true),
+            array(false),
+        );
     }
 
-    public function testCreateFacetQuery()
+    /**
+     * @dataProvider createFacetAddProvider
+     */
+    public function testCreateFacetField($add)
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
         $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_QUERY), $this->equalTo($options));
+                 ->with($this->equalTo(FacetSet::FACET_FIELD), $this->equalTo($options), $add);
 
-        $observer->createFacetQuery($options);
+        $observer->createFacetField($options, $add);
     }
 
-    public function testCreateFacetMultiQuery()
+    /**
+     * @dataProvider createFacetAddProvider
+     */
+    public function testCreateFacetQuery($add)
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
         $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_MULTIQUERY), $this->equalTo($options));
+                 ->with($this->equalTo(FacetSet::FACET_QUERY), $this->equalTo($options), $add);
 
-        $observer->createFacetMultiQuery($options);
+        $observer->createFacetQuery($options, $add);
     }
 
-    public function testCreateFacetRange()
+    /**
+     * @dataProvider createFacetAddProvider
+     */
+    public function testCreateFacetMultiQuery($add)
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
         $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_RANGE), $this->equalTo($options));
+                 ->with($this->equalTo(FacetSet::FACET_MULTIQUERY), $this->equalTo($options), $add);
 
-        $observer->createFacetRange($options);
+        $observer->createFacetMultiQuery($options, $add);
+    }
+
+    /**
+     * @dataProvider createFacetAddProvider
+     */
+    public function testCreateFacetRange($add)
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
+        $observer->expects($this->once())
+                 ->method('createFacet')
+                 ->with($this->equalTo(FacetSet::FACET_RANGE), $this->equalTo($options), $add);
+
+        $observer->createFacetRange($options, $add);
     }
 
 }

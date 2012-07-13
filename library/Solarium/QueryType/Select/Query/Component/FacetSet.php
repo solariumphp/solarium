@@ -440,45 +440,49 @@ class FacetSet extends Component
     /**
      * Get a facet field instance
      *
-     * @param  mixed       $options
+     * @param mixed $options
+     * @param bool $add
      * @return Facet\Field
      */
-    public function createFacetField($options = null)
+    public function createFacetField($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_FIELD, $options);
+        return $this->createFacet(self::FACET_FIELD, $options, $add);
     }
 
     /**
      * Get a facet query instance
      *
-     * @param  mixed       $options
+     * @param mixed $options
+     * @param bool $add
      * @return Facet\Query
      */
-    public function createFacetQuery($options = null)
+    public function createFacetQuery($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_QUERY, $options);
+        return $this->createFacet(self::FACET_QUERY, $options, $add);
     }
 
     /**
      * Get a facet multiquery instance
      *
-     * @param  mixed            $options
+     * @param mixed $options
+     * @param bool $add
      * @return Facet\MultiQuery
      */
-    public function createFacetMultiQuery($options = null)
+    public function createFacetMultiQuery($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_MULTIQUERY, $options);
+        return $this->createFacet(self::FACET_MULTIQUERY, $options, $add);
     }
 
     /**
      * Get a facet range instance
      *
-     * @param  mixed       $options
+     * @param mixed $options
+     * @param bool $add
      * @return Facet\Range
      */
-    public function createFacetRange($options = null)
+    public function createFacetRange($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_RANGE, $options);
+        return $this->createFacet(self::FACET_RANGE, $options, $add);
     }
 
 }
