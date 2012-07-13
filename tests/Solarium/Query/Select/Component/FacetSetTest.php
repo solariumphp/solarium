@@ -318,52 +318,72 @@ class Solarium_Query_Select_Component_FacetSetTest extends PHPUnit_Framework_Tes
         $this->_facetSet->createFacet('invalidtype');
     }
 
-    public function testCreateFacetField()
+    public function createFacetAddProvider()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
-
-        $observer = $this->getMock('Solarium_Query_Select_Component_FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_FIELD), $this->equalTo($options));
-
-        $observer->createFacetField($options);
+        return array(
+            array(true),
+            array(false),
+        );
     }
 
-    public function testCreateFacetQuery()
+    /**
+     * @dataProvider createFacetAddProvider
+     */
+    public function testCreateFacetField($add)
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
         $observer = $this->getMock('Solarium_Query_Select_Component_FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
-                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_QUERY), $this->equalTo($options));
+                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_FIELD), $this->equalTo($options), $add);
 
-        $observer->createFacetQuery($options);
+        $observer->createFacetField($options, $add);
     }
 
-    public function testCreateFacetMultiQuery()
+    /**
+     * @dataProvider createFacetAddProvider
+     */
+    public function testCreateFacetQuery($add)
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
         $observer = $this->getMock('Solarium_Query_Select_Component_FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
-                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY), $this->equalTo($options));
+                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_QUERY), $this->equalTo($options), $add);
 
-        $observer->createFacetMultiQuery($options);
+        $observer->createFacetQuery($options, $add);
     }
 
-    public function testCreateFacetRange()
+    /**
+     * @dataProvider createFacetAddProvider
+     */
+    public function testCreateFacetMultiQuery($add)
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
         $observer = $this->getMock('Solarium_Query_Select_Component_FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
-                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_RANGE), $this->equalTo($options));
+                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_MULTIQUERY), $this->equalTo($options), $add);
 
-        $observer->createFacetRange($options);
+        $observer->createFacetMultiQuery($options, $add);
+    }
+
+    /**
+     * @dataProvider createFacetAddProvider
+     */
+    public function testCreateFacetRange($add)
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium_Query_Select_Component_FacetSet', array('createFacet'));
+        $observer->expects($this->once())
+                 ->method('createFacet')
+                 ->with($this->equalTo(Solarium_Query_Select_Component_FacetSet::FACET_RANGE), $this->equalTo($options), $add);
+
+        $observer->createFacetRange($options, $add);
     }
     
 }
