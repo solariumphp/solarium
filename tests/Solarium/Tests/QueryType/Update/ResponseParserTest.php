@@ -33,6 +33,7 @@ namespace Solarium\Tests\QueryType\Update;
 use Solarium\Core\Client\Response;
 use Solarium\QueryType\Update\Result;
 use Solarium\QueryType\Update\ResponseParser;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,7 +43,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $data = '{"responseHeader" : {"status":1,"QTime":15}}';
 
         $response = new Response($data, array('HTTP 1.1 200 OK'));
-        $result = new Result(null,null,$response);
+        $result = new Result(null, new SelectQuery, $response);
         $parser = new ResponseParser;
         $parsed = $parser->parse($result);
 

@@ -94,7 +94,7 @@ class Result implements \IteratorAggregate, \Countable
         } else {
 
             if ($key === null) {
-                $key = $nrOfCollations - 1; // for backwards compatibility
+                return reset($this->collations);
             }
 
             return $this->collations[$key];

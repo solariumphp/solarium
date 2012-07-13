@@ -42,6 +42,7 @@ use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
 use Solarium\Core\Query\Query;
 use Solarium\Exception\UnexpectedValueException;
+use Solarium\Exception\RuntimeException;
 
 /**
  * Query result
@@ -134,13 +135,24 @@ class Result implements ResultInterface
      *
      * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
      *
-     * @throws UnexpectedValueException
+     * @throws UnexpectedValueException, RuntimeException
      * @return array
      */
     public function getData()
     {
         if (null == $this->data) {
-            $this->data = json_decode($this->response->getBody(), true);
+
+            switch ($this->query->getResponseWriter()) {
+                case 'phps':
+                    $this->data = unserialize($this->response->getBody());
+                    break;
+                case 'json':
+                    $this->data = json_decode($this->response->getBody(), true);
+                    break;
+                default:
+                    throw new RuntimeException('Responseparser cannot handle ' . $this->query->getResponseWriter());
+            }
+
             if (null === $this->data) {
                 throw new UnexpectedValueException(
                     'Solr JSON response could not be decoded'

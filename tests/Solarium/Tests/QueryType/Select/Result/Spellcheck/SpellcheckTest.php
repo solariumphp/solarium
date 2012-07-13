@@ -40,7 +40,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
      */
     protected $result;
 
-    protected $suggestions, $collation, $correctlySpelled;
+    protected $suggestions, $collations, $correctlySpelled;
 
     public function setUp()
     {
@@ -48,7 +48,11 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
             'key1' => 'content1',
             'key2' => 'content2',
         );
-        $this->collations = array('dummy1', 'dummy2');
+
+        $this->collations = array(
+            'dummy1',
+            'dummy2'
+        );
         $this->correctlySpelled = false;
 
         $this->result = new Result($this->suggestions, $this->collations, $this->correctlySpelled);
@@ -56,7 +60,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCollation()
     {
-        $this->assertEquals($this->collations[1], $this->result->getCollation());
+        $this->assertEquals(reset($this->collations), $this->result->getCollation());
     }
 
     public function testGetCollationWithoutData()

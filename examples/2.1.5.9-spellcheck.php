@@ -40,10 +40,13 @@ foreach($spellcheckResult as $suggestion) {
     echo '<hr/>';
 }
 
-$collation = $spellcheckResult->getCollation();
-echo '<h1>Collation</h1>';
-echo 'Query: '.$collation->getQuery().'<br/>';
-echo 'Hits: '.$collation->getHits().'<br/>';
+$collations = $spellcheckResult->getCollations();
+echo '<h1>Collations</h1>';
+foreach($collations as $collation) {
+    echo 'Query: '.$collation->getQuery().'<br/>';
+    echo 'Hits: '.$collation->getHits().'<br/>';
+    echo '<hr/>';
+}
 echo 'Corrections:<br/>';
 foreach($collation->getCorrections() as $input => $correction) {
     echo $input . ' => ' . $correction .'<br/>';

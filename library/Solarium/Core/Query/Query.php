@@ -173,4 +173,37 @@ abstract class Query extends Configurable implements QueryInterface
         return $this->params;
     }
 
+    /**
+     * Set responsewriter option
+     *
+     * @param  string $value
+     * @return self    Provides fluent interface
+     */
+    public function setResponseWriter($value)
+    {
+        return $this->setOption('responsewriter', $value);
+    }
+
+    /**
+     * Get responsewriter option
+     *
+     * Defaults to json for BC and full query support.
+     *
+     * If you can fully trust the Solr responses (phps has a security risk from untrusted sources) you might consider
+     * setting the responsewriter to 'phps' (serialized php). This can give a performance advantage,
+     * especially with big resultsets. Phps response parsing has not been extensively tested for all querytypes, so it's
+     * still experimental. It works for standard updates and select queries, but be sure to test your queries.
+     *
+     * @return string
+     */
+    public function getResponseWriter()
+    {
+        $responseWriter = $this->getOption('responsewriter');
+        if ($responseWriter === null ) {
+            $responseWriter = 'json';
+        }
+
+        return $responseWriter;
+    }
+
 }

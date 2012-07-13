@@ -88,6 +88,21 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                             3 => 'ultrasharp'
                         ),
                     ),
+                    8 => 'collation',
+                    9 => array (
+                        0 => 'collationQuery',
+                        1 => 'dell ultrasharp new',
+                        2 => 'hits',
+                        3 => 0,
+                        4 => 'misspellingsAndCorrections',
+                        5 => array (
+                            0 => 'delll',
+                            1 => 'dell',
+                            2 => 'ultrashar',
+                            3 => 'ultrasharp'
+                        ),
+                    ),
+
                 )
             )
         );
@@ -98,6 +113,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $result->getCorrectlySpelled());
         $this->assertEquals('dell', $suggestions[0]->getWord());
         $this->assertEquals('dell ultrasharp', $result->getCollation()->getQuery());
+        $collations = $result->getCollations();
+        $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
+        $this->assertEquals('dell ultrasharp new', $collations[1]->getQuery());
     }
 
     public function testParse()
@@ -132,6 +150,8 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                     5 => false,
                     6 => 'collation',
                     7 => 'dell ultrasharp',
+                    8 => 'collation',
+                    9 => 'dell ultrasharp new',
                 )
             )
         );
@@ -142,6 +162,10 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $result->getCorrectlySpelled());
         $this->assertEquals('dell', $suggestions[0]->getWord());
         $this->assertEquals('dell ultrasharp', $result->getCollation()->getQuery());
+        $collations = $result->getCollations();
+        $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
+        $this->assertEquals('dell ultrasharp new', $collations[1]->getQuery());
+
     }
 
     public function testParseNoData()
