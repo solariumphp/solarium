@@ -48,7 +48,7 @@ class Solarium_Result_Select_SpellcheckTest extends PHPUnit_Framework_TestCase
         $this->_collation = 'dummy1';
         $this->_correctlySpelled = false;
 
-        $this->_result = new Solarium_Result_Select_Spellcheck($this->_suggestions, $this->_collation, $this->_correctlySpelled);
+        $this->_result = new Solarium_Result_Select_Spellcheck($this->_suggestions, array($this->_collation), $this->_correctlySpelled);
     }
 
     public function testGetCollation()
