@@ -73,6 +73,19 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetDefaultResponseWriter()
+    {
+        $query = new TestQuery;
+        $this->assertEquals('json', $query->getResponseWriter());
+    }
+
+    public function testSetAndGetResponseWriter()
+    {
+        $query = new TestQuery;
+        $query->setResponseWriter('phps');
+        $this->assertEquals('phps', $query->getResponseWriter());
+    }
+
 }
 
 class TestQuery extends Query

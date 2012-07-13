@@ -85,6 +85,31 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $this->result->getData());
     }
 
+    public function testGetDataWithPhps()
+    {
+        $phpsData = 'a:2:{s:14:"responseHeader";a:3:{s:6:"status";i:0;s:5:"QTime";i:0;s:6:"params";a:6:{s:6:"indent";s:2:"on";s:5:"start";s:1:"0";s:1:"q";s:3:"*:*";s:2:"wt";s:4:"phps";s:7:"version";s:3:"2.2";s:4:"rows";s:1:"0";}}s:8:"response";a:3:{s:8:"numFound";i:57;s:5:"start";i:0;s:4:"docs";a:0:{}}}';
+        $this->query->setResponseWriter('phps');
+        $resultData = array(
+            'responseHeader' => array('status' => 0, 'QTime' => 0, 'params' => array('indent' => 'on', 'start' => 0, 'q' => '*:*', 'wt' => 'phps', 'version' => '2.2', 'rows' => 0)),
+            'response' => array('numFound' => 57, 'start' => 0, 'docs' => array())
+        );
+
+        $response = new Response($phpsData, $this->headers);
+        $result = new Result($this->client, $this->query, $response);
+
+        $this->assertEquals($resultData, $result->getData());
+    }
+
+    public function testGetDataWithUnkownResponseWriter()
+    {
+        $this->query->setResponseWriter('asdf');
+        $result = new Result($this->client, $this->query, $this->response);
+
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $result->getData();
+    }
+
+
     public function testGetInvalidData()
     {
         $data = 'invalid';

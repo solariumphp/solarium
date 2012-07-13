@@ -50,10 +50,11 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery;
         $query->addParam('p1','v1');
         $query->addParam('p2','v2');
+        $query->setResponseWriter('xyz');
         $request = $this->builder->build($query);
 
         $this->assertEquals(
-            'select?omitHeader=true&p1=v1&p2=v2&wt=json',
+            'select?omitHeader=true&p1=v1&p2=v2&wt=xyz',
              urldecode($request->getUri())
         );
     }
