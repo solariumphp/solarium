@@ -72,6 +72,8 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
         $component->setMaxAnalyzedChars(100);
         $component->setQuery('text:myvalue');
         $component->setPhraseLimit(40);
+        $component->setTagPrefix('<i>');
+        $component->setTagPostfix('</i>');
 
         $request = $builder->buildComponent($component, $request);
 
@@ -89,6 +91,8 @@ class Solarium_Client_RequestBuilder_Select_Component_HighlightingTest extends P
                 'hl.formatter' => 'simple',
                 'hl.simple.pre' => '<b>',
                 'hl.simple.post' => '</b>',
+                'hl.tag.pre' => '<i>',
+                'hl.tag.post' => '</i>',
                 'hl.fragmenter' => 'myFragmenter',
                 'hl.fragListBuilder' => 'myFragListBuilder',
                 'hl.fragmentsBuilder' => 'myFragmentsBuilder',

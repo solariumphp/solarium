@@ -473,4 +473,26 @@ class Solarium_Query_Select_Component_HighlightingTest extends PHPUnit_Framework
         );
     }
 
+    public function testSetAndGetTagPrefix()
+    {
+        $value = '<i>';
+        $this->_hlt->setTagPrefix($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_hlt->getTagPrefix()
+        );
+    }
+
+    public function testSetAndGetTagPostfix()
+    {
+        $value = '</i>';
+        $this->_hlt->setTagPostfix($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_hlt->getTagPostfix()
+        );
+    }
+
 }
