@@ -411,44 +411,48 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      * Get a facet field instance
      *
      * @param mixed $options
+     * @param bool $add
      * @return Solarium_Query_Select_Component_Facet_Field
      */
-    public function createFacetField($options = null)
+    public function createFacetField($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_FIELD, $options);
+        return $this->createFacet(self::FACET_FIELD, $options, $add);
     }
 
     /**
      * Get a facet query instance
      *
      * @param mixed $options
+     * @param bool $add
      * @return Solarium_Query_Select_Component_Facet_Query
      */
-    public function createFacetQuery($options = null)
+    public function createFacetQuery($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_QUERY, $options);
+        return $this->createFacet(self::FACET_QUERY, $options, $add);
     }
 
     /**
      * Get a facet multiquery instance
      *
      * @param mixed $options
+     * @param bool $add
      * @return Solarium_Query_Select_Component_Facet_MultiQuery
      */
-    public function createFacetMultiQuery($options = null)
+    public function createFacetMultiQuery($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_MULTIQUERY, $options);
+        return $this->createFacet(self::FACET_MULTIQUERY, $options, $add);
     }
 
     /**
      * Get a facet range instance
      *
      * @param mixed $options
+     * @param bool $add
      * @return Solarium_Query_Select_Component_Facet_Range
      */
-    public function createFacetRange($options = null)
+    public function createFacetRange($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_RANGE, $options);
+        return $this->createFacet(self::FACET_RANGE, $options, $add);
     }
 
 }
