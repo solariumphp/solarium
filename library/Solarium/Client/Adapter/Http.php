@@ -111,6 +111,10 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
             }
         }
 
+        if ( isset( $this->_options['username']) && isset( $this->_options['password'])) {
+            $request->addHeader('Authorization: Basic ' . base64_encode($this->_options['username']. ':' . $this->_options['password'] ));
+        }
+
         $headers = $request->getHeaders();
         if (count($headers) > 0) {
             stream_context_set_option(
@@ -120,12 +124,6 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
                 implode("\r\n", $headers)
             );
         }
-
-
-        if ( isset( $this->_options['username']) && isset( $this->_options['password'])) {
-            $request->addHeader('Authorization: Basic ' . base64_encode($this->_options['username']. ':' . $this->_options['password'] ));
-        } 
-
 
         return $context;
     }

@@ -150,4 +150,26 @@ class Solarium_Client_Adapter_HttpTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testCreateContextWithAuthorization()
+    {
+        $timeout = 13;
+        $method = Solarium_Client_Request::METHOD_HEAD;
+
+        $request = new Solarium_Client_Request();
+        $request->setMethod($method);
+
+        $this->_adapter->setOptions(array(
+            'username' => 'someone',
+            'password' => 'S0M3p455'
+        ));
+        $this->_adapter->setTimeout($timeout);
+
+        $context = $this->_adapter->createContext($request);
+
+        $this->assertEquals(
+            array('http' => array('method' => $method, 'timeout' => $timeout, 'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==')),
+            stream_context_get_options($context)
+        );
+    }
+
 }
