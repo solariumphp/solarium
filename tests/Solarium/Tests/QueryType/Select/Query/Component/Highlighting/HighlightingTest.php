@@ -487,4 +487,26 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetAndGetTagPrefix()
+    {
+        $value = '<i>';
+        $this->_hlt->setTagPrefix($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_hlt->getTagPrefix()
+        );
+    }
+
+    public function testSetAndGetTagPostfix()
+    {
+        $value = '</i>';
+        $this->_hlt->setTagPostfix($value);
+
+        $this->assertEquals(
+            $value,
+            $this->_hlt->getTagPostfix()
+        );
+    }
+
 }
