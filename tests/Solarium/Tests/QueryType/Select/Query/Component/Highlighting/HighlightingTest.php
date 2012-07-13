@@ -67,6 +67,8 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
             'formatter' => 'myFormatter',
             'simpleprefix' => '<b>',
             'simplepostfix' => '</b>',
+            'tagprefix' => '<i>',
+            'tagpostfix' => '<\i>',
             'fragmenter' => 'myFragmenter',
             'fraglistbuilder' => 'regex',
             'fragmentsbuilder' => 'myBuilder',
@@ -96,6 +98,8 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['formatter'], $this->hlt->getFormatter());
         $this->assertEquals($options['simpleprefix'], $this->hlt->getSimplePrefix());
         $this->assertEquals($options['simplepostfix'], $this->hlt->getSimplePostfix());
+        $this->assertEquals($options['tagprefix'], $this->hlt->getTagPrefix());
+        $this->assertEquals($options['tagpostfix'], $this->hlt->getTagPostfix());
         $this->assertEquals($options['fragmenter'], $this->hlt->getFragmenter());
         $this->assertEquals($options['fraglistbuilder'], $this->hlt->getFragListBuilder());
         $this->assertEquals($options['fragmentsbuilder'], $this->hlt->getFragmentsBuilder());
@@ -490,22 +494,22 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetTagPrefix()
     {
         $value = '<i>';
-        $this->_hlt->setTagPrefix($value);
+        $this->hlt->setTagPrefix($value);
 
         $this->assertEquals(
             $value,
-            $this->_hlt->getTagPrefix()
+            $this->hlt->getTagPrefix()
         );
     }
 
     public function testSetAndGetTagPostfix()
     {
         $value = '</i>';
-        $this->_hlt->setTagPostfix($value);
+        $this->hlt->setTagPostfix($value);
 
         $this->assertEquals(
             $value,
-            $this->_hlt->getTagPostfix()
+            $this->hlt->getTagPostfix()
         );
     }
 

@@ -467,18 +467,18 @@ class Highlighting extends Component
     {
         return $this->getOption('simplepostfix');
     }
-    
+
     /**
      * Set tag prefix option
      *
      * Solr option h1.tag.post
      *
      * @param string $prefix
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setTagPrefix($prefix)
     {
-        return $this->_setOption('tagprefix', $prefix);
+        return $this->setOption('tagprefix', $prefix);
     }
 
     /**
@@ -492,18 +492,18 @@ class Highlighting extends Component
     {
         return $this->getOption('tagprefix');
     }
-    
+
     /**
      * Set tag postfix option
      *
      * Solr option h1.tag.post
      *
      * @param string $postfix
-     * @return Solarium_Query_Select_Component_Highlighting Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setTagPostfix($postfix)
     {
-        return $this->_setOption('tagpostfix', $postfix);
+        return $this->setOption('tagpostfix', $postfix);
     }
 
     /**
