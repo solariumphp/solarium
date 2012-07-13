@@ -107,6 +107,10 @@ class Request extends Configurable
                 case 'header':
                     $this->setHeaders($value);
                     break;
+                case 'authentication':
+                    if (isset($value['username']) && isset($value['password'])) {
+                        $this->setAuthentication($value['username'], $value['password']);
+                    }
             }
         }
     }
@@ -410,11 +414,41 @@ class Request extends Configurable
         $output = __CLASS__ . '::__toString' . "\n"
                 . 'method: ' . $this->getMethod() . "\n"
                 . 'header: ' . print_r($this->getHeaders(), 1) //don't add newline when using print_r
+                . 'authentication: ' . print_r($this->getAuthentication(), 1)
                 . 'resource: ' . $this->getUri() . "\n"
                 . 'resource urldecoded: ' . urldecode($this->getUri()) . "\n"
                 . 'raw data: ' . $this->getRawData() . "\n";
 
         return $output;
+    }
+
+
+    /**
+     * Set HTTP basic auth settings
+     *
+     * If one or both values are NULL authentication will be disabled
+     *
+     * @param string $username
+     * @param string $password
+     * @return self Provides fluent interface
+     */
+    public function setAuthentication($username, $password) {
+        $this->setOption('username', $username);
+        $this->setOption('password', $password);
+        return $this;
+    }
+
+    /**
+     * Get HTTP basis auth settings
+     *
+     * @return array
+     */
+    public function getAuthentication()
+    {
+        return array(
+            'username' => $this->getOption('username'),
+            'password' => $this->getOption('password'),
+        );
     }
 
 }

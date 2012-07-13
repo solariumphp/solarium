@@ -152,6 +152,12 @@ class Curl extends Configurable implements AdapterInterface
             $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
         }
 
+        $authData = $request->getAuthentication();
+        if ( !empty($authData['username']) && !empty($authData['password'])) {
+            curl_setopt($handler, CURLOPT_USERPWD, $authData['username']. ':' . $authData['password'] );
+            curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        }
+
         if (count($options['headers'])) {
             $headers = array();
             foreach ($options['headers'] as $key => $value) {

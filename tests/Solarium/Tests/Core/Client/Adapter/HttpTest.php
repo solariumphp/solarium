@@ -162,4 +162,24 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testCreateContextWithAuthorization()
+    {
+        $timeout = 13;
+        $method = Request::METHOD_HEAD;
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setAuthentication('someone', 'S0M3p455');
+
+        $endpoint = new Endpoint();
+        $endpoint->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertEquals(
+            array('http' => array('method' => $method, 'timeout' => $timeout, 'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==')),
+            stream_context_get_options($context)
+        );
+    }
+
 }

@@ -59,6 +59,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 'myHeader1' => 'X-myHeader1: value1',
                 'myHeader2' => 'X-myHeader2: value2',
             ),
+            'authentication' => array(
+                'username' => 'testuser',
+                'password' => 'testpass',
+            ),
         );
         $this->request->setOptions($options);
 
@@ -88,6 +92,14 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 $options['header']['myHeader2']
             ),
             $this->request->getHeaders()
+        );
+
+        $this->assertEquals(
+            array(
+                'username' => $options['authentication']['username'],
+                'password' => $options['authentication']['password']
+            ),
+            $this->request->getAuthentication()
         );
     }
 
@@ -453,6 +465,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 'myHeader1' => 'X-myHeader1: value1',
                 'myHeader2' => 'X-myHeader2: value2',
             ),
+            'authentication' => array(
+                'username' => 'testuser',
+                'password' => 'testpass',
+            ),
         );
         $this->request->setOptions($options);
 
@@ -464,11 +480,32 @@ header: Array
     [0] => X-myHeader1: value1
     [1] => X-myHeader2: value2
 )
+authentication: Array
+(
+    [username] => testuser
+    [password] => testpass
+)
 resource: /myHandler?param1=1&param2=test+content
 resource urldecoded: /myHandler?param1=1&param2=test content
 raw data: post data
 ',
             (string) $this->request
+        );
+    }
+
+    public function testGetAndSetAuthentication()
+    {
+        $user = 'someone';
+        $pass = 'S0M3p455';
+
+        $this->request->setAuthentication($user, $pass);
+
+        $this->assertEquals(
+            array(
+                'username' => $user,
+                'password' => $pass,
+            ),
+            $this->request->getAuthentication()
         );
     }
 

@@ -118,6 +118,11 @@ class Http extends Configurable implements AdapterInterface
             }
         }
 
+        $authData = $request->getAuthentication();
+        if ( !empty($authData['username']) && !empty($authData['password'])) {
+            $request->addHeader('Authorization: Basic ' . base64_encode($authData['username']. ':' . $authData['password'] ));
+        }
+
         $headers = $request->getHeaders();
         if (count($headers) > 0) {
             stream_context_set_option(

@@ -150,24 +150,29 @@ class PeclHttp extends Configurable implements AdapterInterface
             }
         }
 
+        $authData = $request->getAuthentication();
+        if ( !empty($authData['username']) && !empty($authData['password'])) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($authData['username']. ':' . $authData['password'] );
+        }
+
         switch ($request->getMethod()) {
-        case Request::METHOD_GET:
-            $method = HTTP_METH_GET;
-            break;
-        case Request::METHOD_POST:
-            $method = HTTP_METH_POST;
-            $httpRequest->setBody($request->getRawData());
-            if (!isset($headers['Content-Type'])) {
-                $headers['Content-Type'] = 'text/xml; charset=utf-8';
-            }
-            break;
-        case Request::METHOD_HEAD:
-            $method = HTTP_METH_HEAD;
-            break;
-        default:
-            throw new InvalidArgumentException(
-                'Unsupported method: ' . $request->getMethod()
-            );
+            case Request::METHOD_GET:
+                $method = HTTP_METH_GET;
+                break;
+            case Request::METHOD_POST:
+                $method = HTTP_METH_POST;
+                $httpRequest->setBody($request->getRawData());
+                if (!isset($headers['Content-Type'])) {
+                    $headers['Content-Type'] = 'text/xml; charset=utf-8';
+                }
+                break;
+            case Request::METHOD_HEAD:
+                $method = HTTP_METH_HEAD;
+                break;
+            default:
+                throw new InvalidArgumentException(
+                    'Unsupported method: ' . $request->getMethod()
+                );
         }
 
         $httpRequest->setMethod($method);
