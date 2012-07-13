@@ -112,6 +112,10 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
             'header' => array(
                 'Content-Type: application/json',
                 'User-Agent: Foo'
+            ),
+            'authentication' => array(
+                'username' => 'someone',
+                'password' => 'S0M3p455',
             )
         ));
 
@@ -123,7 +127,8 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
             'timeout' => 10,
             'headers' => array(
                 'Content-Type' => 'application/json',
-                'User-Agent' => 'Foo'
+                'User-Agent' => 'Foo',
+                'Authorization' => 'Basic c29tZW9uZTpTME0zcDQ1NQ==',
             )
         ), $httpRequest->getOptions());
     }
