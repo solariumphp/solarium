@@ -70,7 +70,7 @@ class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
      * Constructor
      *
      * @param array $suggestions
-     * @param Solarium_Result_Select_Spellcheck_Collation $collation
+     * @param array $collations
      * @param boolean $correctlySpelled
      * @return void
      */
@@ -83,7 +83,7 @@ class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
 
     /**
      * Get the collation result
-     * 
+     *
      * @param int $key
      * @return Solarium_Result_Select_Spellcheck_Collation
      */
@@ -95,7 +95,7 @@ class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
         } else {
 
             if ($key === null) {
-                $key = $nrOfCollations - 1; // for backwards compatibility
+                return reset($this->_collations);
             }
 
             return $this->_collations[$key];
@@ -128,7 +128,7 @@ class Solarium_Result_Select_Spellcheck implements IteratorAggregate, Countable
      * Get a result by key
      *
      * @param mixed $key
-     * @return Solarium_Result_Select_Highlighting_Suggestion|null
+     * @return Solarium_Result_Select_Spellcheck_Suggestion|null
      */
     public function getSuggestion($key)
     {
