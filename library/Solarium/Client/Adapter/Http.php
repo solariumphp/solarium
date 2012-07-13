@@ -121,6 +121,12 @@ class Solarium_Client_Adapter_Http extends Solarium_Client_Adapter
             );
         }
 
+
+        if ( isset( $this->_options['username']) && isset( $this->_options['password'])) {
+            $request->addHeader('Authorization: Basic ' . base64_encode($this->_options['username']. ':' . $this->_options['password'] ));
+        } 
+
+
         return $context;
     }
 
