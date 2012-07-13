@@ -157,11 +157,8 @@ class Solarium_Client_Adapter_HttpTest extends PHPUnit_Framework_TestCase
 
         $request = new Solarium_Client_Request();
         $request->setMethod($method);
+        $request->setAuthentication('someone', 'S0M3p455');
 
-        $this->_adapter->setOptions(array(
-            'username' => 'someone',
-            'password' => 'S0M3p455'
-        ));
         $this->_adapter->setTimeout($timeout);
 
         $context = $this->_adapter->createContext($request);

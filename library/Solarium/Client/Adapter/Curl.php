@@ -138,11 +138,12 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
             $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
         }
 
-        if ( isset( $this->_options['username']) && isset( $this->_options['password'])) {
-            curl_setopt($handler, CURLOPT_USERPWD, $this->_options['username']. ':' . $this->_options['password'] );
+        $authData = $request->getAuthentication();
+        if ( !empty($authData['username']) && !empty($authData['password'])) {
+            curl_setopt($handler, CURLOPT_USERPWD, $authData['username']. ':' . $authData['password'] );
             curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        } 
-        
+        }
+
         if (count($options['headers'])) {
             $headers = array();
             foreach ($options['headers'] as $key => $value) {

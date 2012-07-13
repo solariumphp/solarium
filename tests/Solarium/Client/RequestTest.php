@@ -472,4 +472,20 @@ raw data: post data
         );
     }
 
+    public function testGetAndSetAuthentication()
+    {
+        $user = 'someone';
+        $pass = 'S0M3p455';
+
+        $this->_request->setAuthentication($user, $pass);
+
+        $this->assertEquals(
+            array(
+                'username' => $user,
+                'password' => $pass,
+            ),
+            $this->_request->getAuthentication()
+        );
+    }
+
 }

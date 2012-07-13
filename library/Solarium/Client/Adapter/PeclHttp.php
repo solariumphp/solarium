@@ -137,6 +137,11 @@ class Solarium_Client_Adapter_PeclHttp extends Solarium_Client_Adapter
             }
         }
 
+        $authData = $request->getAuthentication();
+        if ( !empty($authData['username']) && !empty($authData['password'])) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($authData['username']. ':' . $authData['password'] );
+        }
+
         switch($request->getMethod()) {
         case Solarium_Client_Request::METHOD_GET:
             $method = HTTP_METH_GET;
