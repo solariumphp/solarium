@@ -182,7 +182,11 @@ class Item
      */
     public function getPositionHistory()
     {
-        return $this->positionHistory;
+        if (is_array($this->positionHistory)) {
+            return $this->positionHistory;
+        } else {
+            return array();
+        }
     }
 
     /**

@@ -36,31 +36,30 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Analysis\ResponseParser;
-use Solarium\QueryType\Analysis\Result as AnalysisResult;
+namespace Solarium\Core\Query;
 
 /**
- * Parse document analysis response data
+ * Abstract class for response parsers
+ *
+ * Base class with shared functionality for querytype responseparser implementations
  */
-class Document extends Field
+abstract class ResponseParser
 {
 
     /**
-     * Parse implementation
+     * Converts a flat key-value array (alternating rows) as used in Solr JSON results to a real key value array
      *
-     * @param  Result $result
-     * @param  array $data
+     * @param $data
      * @return array
      */
-    protected function parseAnalysis($result, $data)
+    public function convertToKeyValueArray($data)
     {
-        $documents = array();
-        foreach ($data as $documentKey => $documentData) {
-            $fields = $this->parseTypes($result, $documentData);
-            $documents[] = new AnalysisResult\ResultList($documentKey, $fields);
+        $result = array();
+        for ($i = 0; $i < count($data); $i += 2) {
+            $result[$data[$i]] = $data[$i+1];
         }
 
-        return $documents;
+        return $result;
     }
 
 }

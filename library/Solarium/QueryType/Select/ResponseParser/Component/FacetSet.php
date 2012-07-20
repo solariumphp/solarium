@@ -43,11 +43,12 @@ use Solarium\QueryType\Select\Query\Component\Facet as QueryFacet;
 use Solarium\QueryType\Select\Result\FacetSet as ResultFacetSet;
 use Solarium\QueryType\Select\Result\Facet as ResultFacet;
 use Solarium\Exception\RuntimeException;
+use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 
 /**
  * Parse select component FacetSet result from the data
  */
-class FacetSet
+class FacetSet extends ResponseParserAbstract
 {
 
     /**
@@ -65,7 +66,7 @@ class FacetSet
         foreach ($facetSet->getFacets() as $key => $facet) {
             switch ($facet->getType()) {
                 case QueryFacetSet::FACET_FIELD:
-                    $result = $this->facetField($facet, $data);
+                    $result = $this->facetField($query, $facet, $data);
                     break;
                 case QueryFacetSet::FACET_QUERY:
                     $result = $this->facetQuery($facet, $data);
@@ -74,7 +75,7 @@ class FacetSet
                     $result = $this->facetMultiQuery($facet, $data);
                     break;
                 case QueryFacetSet::FACET_RANGE:
-                    $result = $this->facetRange($facet, $data);
+                    $result = $this->facetRange($query, $facet, $data);
                     break;
                 default:
                     throw new RuntimeException('Unknown facet type');
@@ -102,26 +103,21 @@ class FacetSet
     /**
      * Add a facet result for a field facet
      *
+     * @param  Query             $query
      * @param  QueryFacet\Field  $facet
      * @param  array             $data
      * @return ResultFacet\Field
      */
-    protected function facetField($facet, $data)
+    protected function facetField($query, $facet, $data)
     {
         $key = $facet->getKey();
         if (isset($data['facet_counts']['facet_fields'][$key])) {
 
-            $values = array_chunk(
-                $data['facet_counts']['facet_fields'][$key],
-                2
-            );
-
-            $facetValues = array();
-            foreach ($values as $value) {
-                $facetValues[$value[0]] = $value[1];
+            if ($query->getResponseWriter() == $query::WT_JSON) {
+                $data['facet_counts']['facet_fields'][$key] = $this->convertToKeyValueArray($data['facet_counts']['facet_fields'][$key]);
             }
 
-            return new ResultFacet\Field($facetValues);
+            return new ResultFacet\Field($data['facet_counts']['facet_fields'][$key]);
         }
     }
 
@@ -169,11 +165,12 @@ class FacetSet
     /**
      * Add a facet result for a range facet
      *
+     * @param  Query             $query
      * @param  QueryFacet\Range  $facet
      * @param  array             $data
      * @return ResultFacet\Range
      */
-    protected function facetRange($facet, $data)
+    protected function facetRange($query, $facet, $data)
     {
         $key = $facet->getKey();
         if (isset($data['facet_counts']['facet_ranges'][$key])) {
@@ -183,14 +180,11 @@ class FacetSet
             $after = (isset($data['after'])) ? $data['after'] : null;
             $between = (isset($data['between'])) ? $data['between'] : null;
 
-            $offset = 0;
-            $counts = array();
-            while (isset($data['counts'][$offset]) && isset($data['counts'][$offset+1])) {
-                $counts[$data['counts'][$offset]] = $data['counts'][$offset+1];
-                $offset += 2;
+            if ($query->getResponseWriter() == $query::WT_JSON) {
+                $data['counts'] = $this->convertToKeyValueArray($data['counts']);
             }
 
-            return new ResultFacet\Range($counts, $before, $after, $between);
+            return new ResultFacet\Range($data['counts'], $before, $after, $between);
         }
     }
 

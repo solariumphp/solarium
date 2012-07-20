@@ -61,11 +61,9 @@ class ResponseParser extends SelectResponseParser
         if (isset($data['interestingTerms']) && 'none' != $query->getInterestingTerms()) {
             $terms = $data['interestingTerms'];
             if ('details' == $query->getInterestingTerms()) {
-                $tempTerms = array();
-                for ($i = 0; $i < count($terms); $i += 2) {
-                    $tempTerms[$terms[$i]] = $terms[$i + 1];
+                if ($query->getResponseWriter() == $query::WT_JSON) {
+                    $terms = $this->convertToKeyValueArray($terms);
                 }
-                $terms = $tempTerms;
             }
             $parseResult['interestingTerms'] = $terms;
         }

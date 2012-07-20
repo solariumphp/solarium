@@ -38,12 +38,13 @@
  * @namespace
  */
 namespace Solarium\QueryType\Terms;
-use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 
 /**
  * Parse MoreLikeThis response data
  */
-class ResponseParser implements ResponseParserInterface
+class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
 
     /**
@@ -57,15 +58,17 @@ class ResponseParser implements ResponseParserInterface
         $termResults = array();
 
         $data = $result->getData();
-        $field = $result->getQuery()->getFields();
+        $query = $result->getQuery();
+        $field = $query->getFields();
         $fields = explode(',', $field);
         foreach ($fields as $field) {
             $field = trim($field);
             if (isset($data['terms'][$field])) {
                 $terms = $data['terms'][$field];
-                for ($i = 0; $i < count($terms); $i += 2) {
-                    $termResults[$field][$terms[$i]] = $terms[$i + 1];
+                if ($query->getResponseWriter() == $query::WT_JSON) {
+                    $terms = $this->convertToKeyValueArray($terms);
                 }
+                $termResults[$field] = $terms;
             }
         }
 

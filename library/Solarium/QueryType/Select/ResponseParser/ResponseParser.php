@@ -37,14 +37,15 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser;
-use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 use Solarium\QueryType\Select\Result\Result;
 use Solarium\Exception\RuntimeException;
 
 /**
  * Parse select response data
  */
-class ResponseParser implements ResponseParserInterface
+class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
 
     /**

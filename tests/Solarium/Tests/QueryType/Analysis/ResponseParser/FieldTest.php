@@ -31,6 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Analysis\ResponseParser;
 use Solarium\QueryType\Analysis\ResponseParser\Field as FieldParser;
+use Solarium\QueryType\Analysis\Query\Field as Query;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -79,6 +80,9 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $resultStub->expects($this->once())
              ->method('getData')
              ->will($this->returnValue($data));
+        $resultStub->expects($this->once())
+                     ->method('getQuery')
+                     ->will($this->returnValue(new Query));
 
         $parser = new FieldParser();
         $result = $parser->parse($resultStub);

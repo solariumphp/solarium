@@ -38,12 +38,13 @@
  * @namespace
  */
 namespace Solarium\QueryType\Suggester;
-use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 
 /**
  * Parse Suggester response data
  */
-class ResponseParser implements ResponseParserInterface
+class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
 
     /**
@@ -70,11 +71,13 @@ class ResponseParser implements ResponseParserInterface
         if (isset($data['spellcheck']['suggestions']) && is_array($data['spellcheck']['suggestions'])) {
             $suggestResults = $data['spellcheck']['suggestions'];
             $termClass = $query->getOption('termclass');
-            for ($i = 0; $i < count($suggestResults); $i += 2) {
-                $term = $suggestResults[$i];
-                $termData = $suggestResults[$i+1];
 
-                if ($term == 'collation'&& $i == count($suggestResults)-2) {
+            if ($query->getResponseWriter() == $query::WT_JSON) {
+                $suggestResults = $this->convertToKeyValueArray($suggestResults);
+            }
+
+            foreach ($suggestResults as $term => $termData) {
+                if ($term == 'collation') {
                     $collation = $termData;
                 } else {
                     $suggestions[$term] = new $termClass(
@@ -94,5 +97,7 @@ class ResponseParser implements ResponseParserInterface
             'collation' => $collation,
         );
     }
+
+
 
 }

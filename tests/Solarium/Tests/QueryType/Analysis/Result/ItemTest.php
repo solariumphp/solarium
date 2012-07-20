@@ -82,6 +82,14 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->data['positionHistory'], $this->item->getPositionHistory());
     }
 
+    public function testGetPositionHistoryFallbackValue()
+    {
+        $data = $this->data;
+        $data['positionHistory'] = '';
+        $item = new Item($data);
+        $this->assertEquals(array(), $item->getPositionHistory());
+    }
+
     public function testGetRawText()
     {
         $this->assertEquals($this->data['raw_text'], $this->item->getRawText());

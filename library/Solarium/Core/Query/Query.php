@@ -46,6 +46,9 @@ use Solarium\Core\Configurable;
 abstract class Query extends Configurable implements QueryInterface
 {
 
+    const WT_JSON = 'json';
+    const WT_PHPS = 'phps';
+
     /**
      * Helper instance
      *
@@ -187,12 +190,11 @@ abstract class Query extends Configurable implements QueryInterface
     /**
      * Get responsewriter option
      *
-     * Defaults to json for BC and full query support.
+     * Defaults to json for backwards compatibility and security.
      *
      * If you can fully trust the Solr responses (phps has a security risk from untrusted sources) you might consider
      * setting the responsewriter to 'phps' (serialized php). This can give a performance advantage,
-     * especially with big resultsets. Phps response parsing has not been extensively tested for all querytypes, so it's
-     * still experimental. It works for standard updates and select queries, but be sure to test your queries.
+     * especially with big resultsets.
      *
      * @return string
      */
@@ -200,7 +202,7 @@ abstract class Query extends Configurable implements QueryInterface
     {
         $responseWriter = $this->getOption('responsewriter');
         if ($responseWriter === null ) {
-            $responseWriter = 'json';
+            $responseWriter = self::WT_JSON;
         }
 
         return $responseWriter;

@@ -32,11 +32,12 @@
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
 use Solarium\QueryType\Select\ResponseParser\Component\FacetSet as Parser;
 use Solarium\QueryType\Select\Query\Component\FacetSet;
+use Solarium\QueryType\Select\Query\Query;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase
 {
 
-    protected $parser, $facetSet;
+    protected $parser, $facetSet, $query;
 
     public function setUp()
     {
@@ -47,6 +48,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->facetSet->createFacet('query', array('key' => 'keyB'));
         $this->facetSet->createFacet('multiquery', array('key' => 'keyC', 'query' => array('keyC_A' => array('query' => 'id:1'), 'keyC_B' => array('query' => 'id:2'))));
         $this->facetSet->createFacet('range', array('key' => 'keyD'));
+
+        $this->query = new Query;
     }
 
     public function testParse()
@@ -84,7 +87,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $result = $this->parser->parse(null, $this->facetSet, $data);
+        $result = $this->parser->parse($this->query, $this->facetSet, $data);
         $facets = $result->getFacets();
 
         $this->assertEquals(array('keyA','keyB','keyC','keyD'), array_keys($facets));
@@ -123,11 +126,13 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             5,
             $facets['keyD']->getAfter()
         );
+
+        $this->query = new Query;
     }
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse(null, $this->facetSet, array());
+        $result = $this->parser->parse($this->query, $this->facetSet, array());
         $this->assertEquals(array(), $result->getFacets());
     }
 
@@ -144,7 +149,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->facetSet->addFacet($facetStub);
 
         $this->setExpectedException('Solarium\Exception\RuntimeException');
-        $this->parser->parse(null, $this->facetSet, array());
+        $this->parser->parse($this->query, $this->facetSet, array());
     }
 
 }

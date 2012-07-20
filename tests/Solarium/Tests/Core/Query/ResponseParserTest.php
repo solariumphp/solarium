@@ -27,40 +27,54 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\Analysis\ResponseParser;
-use Solarium\QueryType\Analysis\Result as AnalysisResult;
+namespace Solarium\Tests\Core\Query;
+use Solarium\Core\Query\ResponseParser;
 
-/**
- * Parse document analysis response data
- */
-class Document extends Field
+class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
-     * Parse implementation
-     *
-     * @param  Result $result
-     * @param  array $data
-     * @return array
+     * @var TestResponseParser
      */
-    protected function parseAnalysis($result, $data)
-    {
-        $documents = array();
-        foreach ($data as $documentKey => $documentData) {
-            $fields = $this->parseTypes($result, $documentData);
-            $documents[] = new AnalysisResult\ResultList($documentKey, $fields);
-        }
+    protected $parser;
 
-        return $documents;
+    public function setup()
+    {
+        $this->parser = new TestResponseParser();
     }
 
+    public function testBuild()
+    {
+        $input = array(
+            'key1',
+            'value1',
+            'key2',
+            'value2',
+            'key3',
+            'value3'
+        );
+
+        $expected = array(
+            'key1' => 'value1',
+            'key2' => 'value2',
+            'key3' => 'value3',
+        );
+
+        $this->assertEquals(
+            $expected,
+            $this->parser->convertToKeyValueArray($input)
+        );
+    }
+
+}
+
+/**
+ * Dummy implementation to test code in abstract class
+ */
+class TestResponseParser extends ResponseParser
+{
+    public function parse($result)
+    {
+    }
 }
