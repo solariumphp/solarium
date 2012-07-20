@@ -38,11 +38,12 @@
  */
 namespace Solarium\QueryType\Update;
 use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 
 /**
  * Parse update response data
  */
-class ResponseParser implements ResponseParserInterface
+class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
 
     /**
@@ -54,18 +55,7 @@ class ResponseParser implements ResponseParserInterface
     public function parse($result)
     {
         $data = $result->getData();
-
-        $status = null;
-        $queryTime = null;
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
-        }
-
-        return array(
-            'status' => $status,
-            'queryTime' => $queryTime,
-        );
+        return $this->addHeaderInfo($data, array());
     }
 
 }

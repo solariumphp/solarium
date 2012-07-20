@@ -67,6 +67,37 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAddHeaderInfo()
+    {
+        $data = array(
+            'responseHeader' => array(
+                'status' => 0,
+                'QTime' => 5,
+            )
+        );
+        $result = array('key' => 'value');
+        $expected = array(
+            'key' => 'value',
+            'status' => 0,
+            'queryTime' => 5,
+        );
+
+        $this->assertEquals($expected, $this->parser->addHeaderInfo($data, $result));
+    }
+
+    public function testAddHeaderInfoEmpty()
+    {
+        $data = array();
+        $result = array('key' => 'value');
+        $expected = array(
+            'key' => 'value',
+            'status' => null,
+            'queryTime' => null,
+        );
+
+        $this->assertEquals($expected, $this->parser->addHeaderInfo($data, $result));
+    }
+
 }
 
 /**

@@ -62,4 +62,27 @@ abstract class ResponseParser
         return $result;
     }
 
+    /**
+     * Parses header data (if available) and adds it to result data
+     *
+     * @param array $data
+     * @param array $result
+     * @return mixed
+     */
+    public function addHeaderInfo($data, $result)
+    {
+        $status = null;
+        $queryTime = null;
+
+        if (isset($data['responseHeader'])) {
+            $status = $data['responseHeader']['status'];
+            $queryTime = $data['responseHeader']['QTime'];
+        }
+
+        $result['status'] = $status;
+        $result['queryTime'] = $queryTime;
+
+        return $result;
+    }
+
 }

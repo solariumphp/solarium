@@ -58,13 +58,6 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $data = $result->getData();
         $query = $result->getQuery();
 
-        $status = null;
-        $queryTime = null;
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
-        }
-
         $suggestions = array();
         $collation = null;
 
@@ -90,14 +83,13 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             }
         }
 
-        return array(
-            'status' => $status,
-            'queryTime' => $queryTime,
-            'results' => $suggestions,
-            'collation' => $collation,
+        return $this->addHeaderInfo(
+            $data,
+            array(
+                'results' => $suggestions,
+                'collation' => $collation,
+            )
         );
     }
-
-
 
 }

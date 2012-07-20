@@ -90,19 +90,13 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             $numFound = null;
         }
 
-        $status = null;
-        $queryTime = null;
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
-        }
-
-        return array(
-            'status' => $status,
-            'queryTime' => $queryTime,
-            'numfound' => $numFound,
-            'documents' => $documents,
-            'components' => $components,
+        return $this->addHeaderInfo(
+            $data,
+            array(
+                'numfound' => $numFound,
+                'documents' => $documents,
+                'components' => $components
+            )
         );
     }
 

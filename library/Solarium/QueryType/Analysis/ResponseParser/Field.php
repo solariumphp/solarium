@@ -64,18 +64,7 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
             $items = array();
         }
 
-        $status = null;
-        $queryTime = null;
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
-        }
-
-        return array(
-            'status' => $status,
-            'queryTime' => $queryTime,
-            'items' => $items
-        );
+        return $this->addHeaderInfo($data, array('items' => $items));
     }
 
     /**
