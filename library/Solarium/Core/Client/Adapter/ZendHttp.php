@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2012 Alexander Brausewetter. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -29,6 +30,7 @@
  * policies, either expressed or implied, of the copyright holder.
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2012 Alexander Brausewetter <alex@helpdeskhq.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
@@ -44,6 +46,8 @@ use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\HttpException;
+use Solarium\Exception\RuntimeException;
+use Solarium\Exception\OutOfBoundsException;
 
 /**
  * Adapter that uses a Zend_Http_Client
@@ -165,6 +169,32 @@ class ZendHttp extends Configurable implements AdapterInterface
     public function execute($request, $endpoint)
     {
         $client = $this->getZendHttp();
+        $client->resetParameters();
+
+        switch ($request->getMethod()) {
+            case Request::METHOD_GET:
+                $client->setMethod(\Zend_Http_Client::GET);
+                $client->setParameterGet($request->getQueryAsArray());
+                break;
+            case Request::METHOD_POST:
+                $client->setMethod(\Zend_Http_Client::POST);
+
+                if ($request->getFileUpload()) {
+                    $this->prepareFileUpload($client, $request);
+                } else {
+                    $client->setParameterGet($request->getQueryAsArray());
+                    $client->setRawData($request->getRawData());
+                    $request->addHeader('Content-Type: text/xml; charset=UTF-8');
+                }
+                break;
+            case Request::METHOD_HEAD:
+                $client->setMethod(\Zend_Http_Client::HEAD);
+                $client->setParameterGet($request->getQueryAsArray());
+                break;
+            default:
+                throw new OutOfBoundsException('Unsupported method: ' . $request->getMethod());
+                break;
+        }
 
         $client->setMethod($request->getMethod());
         $client->setUri($endpoint->getBaseUri() . $request->getUri());
@@ -194,4 +224,55 @@ class ZendHttp extends Configurable implements AdapterInterface
         return new Response($data, $headers);
     }
 
+    /**
+     * Prepare a solarium response from the given request and client
+     * response
+     *
+     * @param Request $request
+     * @param \Zend_Http_Response $response
+     * @return Response
+     */
+    protected function prepareResponse($request, $response)
+    {
+        if ($response->isError()) {
+            throw new HttpException(
+                $response->getMessage(),
+                $response->getStatus()
+            );
+        }
+
+        if ($request->getMethod() == Request::METHOD_HEAD) {
+            $data = '';
+        } else {
+            $data = $response->getBody();
+        }
+
+        // this is used because getHeaders doesn't return the HTTP header...
+        $headers = explode("\n", $response->getHeadersAsString());
+
+        return new Response($data, $headers);
+    }
+
+    /**
+     * Prepare the client to send the file and params in request
+     *
+     * @param \Zend_Http_Client $client
+     * @param Request $request
+     * @return void
+     */
+    protected function prepareFileUpload($client, $request)
+    {
+        $filename = $request->getFileUpload();
+
+        if (($content = @file_get_contents($filename)) === false) {
+            throw new RuntimeException("Unable to read file '{$filename}' for upload");
+        }
+
+        $client->setFileUpload('content', 'content', $content, 'application/octet-stream; charset=binary');
+
+        // set query params as "multipart/form-data" fields
+        foreach ($request->getQueryAsArray() as $name => $value) {
+            $client->setFileUpload(null, $name, $value, 'text/plain; charset=utf-8');
+        }
+    }
 }

@@ -106,6 +106,11 @@ class Client extends Configurable
     const QUERY_SUGGESTER = 'suggester';
 
     /**
+     * Querytype extract
+     */
+    const QUERY_EXTRACT = 'extract';
+
+    /**
      * Default options
      *
      * @var array
@@ -131,6 +136,7 @@ class Client extends Configurable
         self::QUERY_ANALYSIS_FIELD => 'Solarium\QueryType\Analysis\Query\Field',
         self::QUERY_TERMS => 'Solarium\QueryType\Terms\Query',
         self::QUERY_SUGGESTER => 'Solarium\QueryType\Suggester\Query',
+        self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
     );
 
     /**
@@ -939,6 +945,21 @@ class Client extends Configurable
     }
 
     /**
+     * Execute an extract query
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param \Solarium\QueryType\Extract\Query $query
+     * @param Endpoint|string|null
+     * @return \Solarium\QueryType\Extract\Result\Result
+     */
+    public function extract(QueryInterface $query, $endpoint = null)
+    {
+        return $this->execute($query, $endpoint);
+    }
+
+    /**
      * Create a query instance
      *
      * @throws InvalidArgumentException|UnexpectedValueException
@@ -1057,5 +1078,16 @@ class Client extends Configurable
     public function createSuggester($options = null)
     {
         return $this->createQuery(self::QUERY_SUGGESTER, $options);
+    }
+
+    /**
+     * Create an extract query instance
+     *
+     * @param  mixed $options
+     * @return \Solarium\QueryType\Extract\Query
+     */
+    public function createExtract($options = null)
+    {
+        return $this->createExtract(self::QUERY_EXTRACT, $options);
     }
 }

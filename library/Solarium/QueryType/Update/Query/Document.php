@@ -184,6 +184,16 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
+     * Get boost values for all fields
+     *
+     * @return array
+     */
+    public function getFieldBoosts()
+    {
+        return $this->fieldBoosts;
+    }
+
+    /**
      * Set the document boost value
      *
      * @param  float $boost

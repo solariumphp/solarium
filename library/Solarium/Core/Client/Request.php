@@ -38,6 +38,7 @@
  */
 namespace Solarium\Core\Client;
 use Solarium\Core\Configurable;
+use Solarium\Exception\RuntimeException;
 
 /**
  * Class for describing a request
@@ -100,6 +101,9 @@ class Request extends Configurable
             switch ($name) {
                 case 'rawdata':
                     $this->setRawData($value);
+                    break;
+                case 'file':
+                    $this->setFileUpload($value);
                     break;
                 case 'param':
                     $this->setParams($value);
@@ -308,6 +312,32 @@ class Request extends Configurable
     }
 
     /**
+     * Get the file to upload via "multipart/form-data" POST request
+     *
+     * @return string|null
+     */
+    public function getFileUpload()
+    {
+        return $this->getOption('file');
+    }
+
+    /**
+     * Set the file to upload via "multipart/form-data" POST request
+     *
+     * @param string $filename Name of file to upload
+     * @return self
+     */
+    public function setFileUpload($filename)
+    {
+        if (!is_file($filename) || !is_readable($filename)) {
+            throw new RuntimeException("Unable to read file '{$filename}' for upload");
+        }
+
+        $this->setOption('file', $filename);
+        return $this;
+    }
+
+    /**
      * Get all request headers
      *
      * @return array
@@ -417,7 +447,8 @@ class Request extends Configurable
                 . 'authentication: ' . print_r($this->getAuthentication(), 1)
                 . 'resource: ' . $this->getUri() . "\n"
                 . 'resource urldecoded: ' . urldecode($this->getUri()) . "\n"
-                . 'raw data: ' . $this->getRawData() . "\n";
+                . 'raw data: ' . $this->getRawData() . "\n"
+                . 'file upload: ' . $this->getFileUpload() . "\n";
 
         return $output;
     }
