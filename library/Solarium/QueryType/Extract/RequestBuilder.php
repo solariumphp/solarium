@@ -39,26 +39,34 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\QueryType\Extract;
+use Solarium\Core\Query\QueryInterface;
+use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Client\Request;
+use Solarium\Exception\RuntimeException;
+
+/**
  * Build an extract request
  *
  * @package Solarium
  * @subpackage Client
  */
-class Solarium_Client_RequestBuilder_Extract extends Solarium_Client_RequestBuilder
+class RequestBuilder extends BaseRequestBuilder
 {
     /**
      * Build the request
      *
-     * @param Solarium_Query_Extract $query
-     * @return Solarium_Client_Request
+     * @param Query $query
+     * @return Request
      */
-    public function build($query)
+    public function build(QueryInterface $query)
     {
         $request = parent::build($query);
-        $request->setMethod(Solarium_Client_Request::METHOD_POST);
+        $request->setMethod(Request::METHOD_POST);
 
-        // common options
-
+        // add common options to request
         $request->addParam('commit',       $query->getCommit());
         $request->addParam('commitWithin', $query->getCommitWithin());
 
@@ -70,11 +78,10 @@ class Solarium_Client_RequestBuilder_Extract extends Solarium_Client_RequestBuil
             $request->addParam('fmap.' . $fromField, $toField);
         }
 
-        // document
-
+        // add document settings to request
         if (($doc = $query->getDocument()) != null) {
             if ($doc->getBoost() !== null) {
-                throw new Solarium_Exception('Extract does not support document-level boosts, use field boosts instead.');
+                throw new RuntimeException('Extract does not support document-level boosts, use field boosts instead.');
             }
 
             // literal.*
@@ -91,8 +98,7 @@ class Solarium_Client_RequestBuilder_Extract extends Solarium_Client_RequestBuil
             }
         }
 
-        // file
-
+        // add file to request
         $request->setFileUpload($query->getFile());
         $request->addParam('resource.name', basename($query->getFile()));
 

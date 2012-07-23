@@ -488,6 +488,7 @@ authentication: Array
 resource: /myHandler?param1=1&param2=test+content
 resource urldecoded: /myHandler?param1=1&param2=test content
 raw data: post data
+file upload:
 ',
             (string) $this->request
         );

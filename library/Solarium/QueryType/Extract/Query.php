@@ -39,18 +39,27 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Solarium\QueryType\Extract;
+use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
+use Solarium\QueryType\Update\Query\Document;
+
+/**
  * Extract query
  *
- * Sends a document extract request to Solr, i.e. upload rich document content 
- * such as PDF, Word or HTML, parse the file contents and add it to the index. 
+ * Sends a document extract request to Solr, i.e. upload rich document content
+ * such as PDF, Word or HTML, parse the file contents and add it to the index.
  *
- * The Solr server must have the {@link http://wiki.apache.org/solr/ExtractingRequestHandler 
+ * The Solr server must have the {@link http://wiki.apache.org/solr/ExtractingRequestHandler
  * ExtractingRequestHandler} enabled.
  *
  * @package Solarium
  * @subpackage Query
  */
-class Solarium_Query_Extract extends Solarium_Query
+class Query extends BaseQuery
 {
     /**
      * Default options
@@ -59,7 +68,8 @@ class Solarium_Query_Extract extends Solarium_Query
      */
     protected $_options = array(
         'handler'     => 'update/extract',
-        'resultclass' => 'Solarium_Result_Update',
+        'resultclass' => 'Solarium\QueryType\Extract\Result',
+        'omitheader'  => true,
     );
 
     /**
@@ -67,7 +77,7 @@ class Solarium_Query_Extract extends Solarium_Query
      *
      * @var array
      */
-    protected $_fieldMappings = array();
+    protected $fieldMappings = array();
 
     /**
      * Get type for this query
@@ -76,9 +86,29 @@ class Solarium_Query_Extract extends Solarium_Query
      */
     public function getType()
     {
-        return Solarium_Client::QUERYTYPE_EXTRACT;
+        return Client::QUERY_EXTRACT;
     }
-    
+
+    /**
+     * Get a requestbuilder for this query
+     *
+     * @return RequestBuilder
+     */
+    public function getRequestBuilder()
+    {
+        return new RequestBuilder;
+    }
+
+    /**
+     * Get a response parser for this query
+     *
+     * @return UpdateResponseParser
+     */
+    public function getResponseParser()
+    {
+        return new UpdateResponseParser;
+    }
+
     /**
      * Initialize options
      *
@@ -94,26 +124,24 @@ class Solarium_Query_Extract extends Solarium_Query
         }
     }
 
-    // {{{ Options
-
     /**
      * Set the document with literal fields and boost settings
      *
-     * The fields in the document are indexed together with the generated 
+     * The fields in the document are indexed together with the generated
      * fields that Solr extracts from the file.
-     * 
-     * @param Solarium_Document_ReadWrite $document
-     * @return Solarium_Query_Extract
+     *
+     * @param Document $document
+     * @return self
      */
     public function setDocument($document)
     {
-        return $this->_setOption('document', $document);
+        return $this->setOption('document', $document);
     }
 
     /**
      * Get the document with literal fields and boost settings
-     * 
-     * @return Solarium_Document_ReadWrite|null
+     *
+     * @return Document|null
      */
     public function getDocument()
     {
@@ -122,18 +150,18 @@ class Solarium_Query_Extract extends Solarium_Query
 
     /**
      * Set the file to upload and index
-     * 
+     *
      * @param string $filename
-     * @return Solarium_Query_Extract
+     * @return self
      */
     public function setFile($filename)
     {
-        return $this->_setOption('file', $filename);
+        return $this->setOption('file', $filename);
     }
 
     /**
      * Get the file to upload and index
-     * 
+     *
      * @return string|null
      */
     public function getFile()
@@ -145,16 +173,16 @@ class Solarium_Query_Extract extends Solarium_Query
      * Set the prefix for fields that are not defined in the schema
      *
      * @param string $uprefix
-     * @return Solarium_Query_Extract
+     * @return self
      */
     public function setUprefix($uprefix)
     {
-        return $this->_setOption('uprefix', $uprefix);
+        return $this->setOption('uprefix', $uprefix);
     }
 
     /**
      * Get the prefix for fields that are not defined in the schema
-     * 
+     *
      * @return string|null
      */
     public function getUprefix()
@@ -163,21 +191,21 @@ class Solarium_Query_Extract extends Solarium_Query
     }
 
     /**
-     * Set the field to use if uprefix is not specified and a field cannot be 
+     * Set the field to use if uprefix is not specified and a field cannot be
      * determined
      *
      * @param string $defaultField
-     * @return Solarium_Query_Extract
+     * @return self
      */
     public function setDefaultField($defaultField)
     {
-        return $this->_setOption('defaultField', $defaultField);
+        return $this->setOption('defaultField', $defaultField);
     }
 
     /**
-     * Get the field to use if uprefix is not specified and a field cannot be 
+     * Get the field to use if uprefix is not specified and a field cannot be
      * determined
-     * 
+     *
      * @return string|null
      */
     public function getDefaultField()
@@ -186,20 +214,20 @@ class Solarium_Query_Extract extends Solarium_Query
     }
 
     /**
-     * Set if all field names should be mapped to lowercase with underscores. 
+     * Set if all field names should be mapped to lowercase with underscores.
      * For example, Content-Type would be mapped to content_type.
      *
      * @param bool $lowerNames
-     * @return Solarium_Query_Extract
+     * @return self
      */
     public function setLowernames($lowerNames)
     {
-        return $this->_setOption('lowernames', (bool) $lowerNames);
+        return $this->setOption('lowernames', (bool) $lowerNames);
     }
 
     /**
      * Get if all field names should be mapped to lowercase with underscores
-     * 
+     *
      * @return bool
      */
     public function getLowernames()
@@ -211,16 +239,16 @@ class Solarium_Query_Extract extends Solarium_Query
      * Set if the extract should be committed immediately
      *
      * @param bool $commit
-     * @return Solarium_Query_Extract Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setCommit($commit)
     {
-        return $this->_setOption('commit', (bool) $commit);
+        return $this->setOption('commit', (bool) $commit);
     }
 
     /**
      * Get if the extract should be committed immediately
-     * 
+     *
      * @return bool
      */
     public function getCommit()
@@ -232,16 +260,16 @@ class Solarium_Query_Extract extends Solarium_Query
      * Set milliseconds until extract update is committed. Since Solr 3.4
      *
      * @param int $commitWithin
-     * @return Solarium_Query_Extract Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setCommitWithin($commitWithin)
     {
-        return $this->_setOption('commitWithin', $commitWithin);
+        return $this->setOption('commitWithin', $commitWithin);
     }
 
     /**
      * Get milliseconds until extract update is committed. Since Solr 3.4
-     * 
+     *
      * @return int
      */
     public function getCommitWithin()
@@ -249,23 +277,19 @@ class Solarium_Query_Extract extends Solarium_Query
         return $this->getOption('commitWithin');
     }
 
-    // }}}
-
-    // {{{ Field Mappings
-
     /**
      * Add a name mapping from one field to another
      *
-     * Example: fmap.content=text will cause the content field normally 
+     * Example: fmap.content=text will cause the content field normally
      * generated by Tika to be moved to the "text" field.
      *
      * @param string      $fromField Original field name
      * @param mixed|array $toField   New field name
-     * @return Solarium_Query_Extract Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function addFieldMapping($fromField, $toField)
     {
-        $this->_fieldMappings[$fromField] = $toField;
+        $this->fieldMappings[$fromField] = $toField;
 
         return $this;
     }
@@ -274,7 +298,7 @@ class Solarium_Query_Extract extends Solarium_Query
      * Add multiple field name mappings
      *
      * @param array $mappings Name mapping in the form [$fromField => $toField, ...]
-     * @return Solarium_Query_Extract Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function addFieldMappings($mappings)
     {
@@ -289,12 +313,12 @@ class Solarium_Query_Extract extends Solarium_Query
      * Remove a field name mapping
      *
      * @param string $fromField
-     * @return Solarium_Query_Extract Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function removeFieldMapping($fromField)
     {
-        if (isset($this->_fieldMappings[$fromField])) {
-            unset($this->_fieldMappings[$fromField]);
+        if (isset($this->fieldMappings[$fromField])) {
+            unset($this->fieldMappings[$fromField]);
         }
 
         return $this;
@@ -303,11 +327,11 @@ class Solarium_Query_Extract extends Solarium_Query
     /**
      * Remove all field name mappings
      *
-     * @return Solarium_Query_Extract Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function clearFieldMappings()
     {
-        $this->_fieldMappings = array();
+        $this->fieldMappings = array();
         return $this;
     }
 
@@ -318,14 +342,14 @@ class Solarium_Query_Extract extends Solarium_Query
      */
     public function getFieldMappings()
     {
-        return $this->_fieldMappings;
+        return $this->fieldMappings;
     }
 
     /**
      * Set many field name mappings. This overwrites any existing fields.
      *
      * @param array $mappings Name mapping in the form [$fromField => $toField, ...]
-     * @return Solarium_Query_Extract Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setFieldMappings($mappings)
     {
@@ -334,6 +358,4 @@ class Solarium_Query_Extract extends Solarium_Query
 
         return $this;
     }
-
-    // }}}
 }

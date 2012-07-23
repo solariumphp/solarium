@@ -89,12 +89,12 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $method = Request::METHOD_GET;
+        $method = Request::METHOD_POST;
         $rawData = 'xyz';
         $responseData = 'abc';
         $handler = 'myhandler';
         $headers = array(
-            'Content-Type: application/x-www-form-urlencoded'
+            'X-test: 123'
         );
 
         $request = new Request();
@@ -116,7 +116,10 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
                  ->with($this->equalTo('http://127.0.0.1:8983/solr/myhandler?'));
         $mock->expects($this->once())
                  ->method('setHeaders')
-                 ->with($this->equalTo($headers));
+                 ->with($this->equalTo(array(
+                     'X-test: 123',
+                     'Content-Type: text/xml; charset=UTF-8',
+                 )));
         $mock->expects($this->once())
                  ->method('setRawData')
                  ->with($this->equalTo($rawData));

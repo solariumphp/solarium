@@ -174,7 +174,7 @@ class ZendHttp extends Configurable implements AdapterInterface
         switch ($request->getMethod()) {
             case Request::METHOD_GET:
                 $client->setMethod(\Zend_Http_Client::GET);
-                $client->setParameterGet($request->getQueryAsArray());
+                $client->setParameterGet($request->getParams());
                 break;
             case Request::METHOD_POST:
                 $client->setMethod(\Zend_Http_Client::POST);
@@ -182,24 +182,22 @@ class ZendHttp extends Configurable implements AdapterInterface
                 if ($request->getFileUpload()) {
                     $this->prepareFileUpload($client, $request);
                 } else {
-                    $client->setParameterGet($request->getQueryAsArray());
+                    $client->setParameterGet($request->getParams());
                     $client->setRawData($request->getRawData());
                     $request->addHeader('Content-Type: text/xml; charset=UTF-8');
                 }
                 break;
             case Request::METHOD_HEAD:
                 $client->setMethod(\Zend_Http_Client::HEAD);
-                $client->setParameterGet($request->getQueryAsArray());
+                $client->setParameterGet($request->getParams());
                 break;
             default:
                 throw new OutOfBoundsException('Unsupported method: ' . $request->getMethod());
                 break;
         }
 
-        $client->setMethod($request->getMethod());
         $client->setUri($endpoint->getBaseUri() . $request->getUri());
         $client->setHeaders($request->getHeaders());
-        $client->setRawData($request->getRawData());
         $this->timeout = $endpoint->getTimeout();
 
         $response = $client->request();
@@ -271,7 +269,7 @@ class ZendHttp extends Configurable implements AdapterInterface
         $client->setFileUpload('content', 'content', $content, 'application/octet-stream; charset=binary');
 
         // set query params as "multipart/form-data" fields
-        foreach ($request->getQueryAsArray() as $name => $value) {
+        foreach ($request->getParams() as $name => $value) {
             $client->setFileUpload(null, $name, $value, 'text/plain; charset=utf-8');
         }
     }
