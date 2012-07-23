@@ -178,7 +178,6 @@ class ZendHttp extends Configurable implements AdapterInterface
                 break;
             case Request::METHOD_POST:
                 $client->setMethod(\Zend_Http_Client::POST);
-
                 if ($request->getFileUpload()) {
                     $this->prepareFileUpload($client, $request);
                 } else {

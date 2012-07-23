@@ -66,9 +66,10 @@ class Query extends BaseQuery
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'handler'     => 'update/extract',
         'resultclass' => 'Solarium\QueryType\Extract\Result',
+        'documentclass' => 'Solarium\QueryType\Update\Query\Document',
         'omitheader'  => true,
     );
 
@@ -117,10 +118,10 @@ class Query extends BaseQuery
      *
      * @return void
      */
-    protected function _init()
+    protected function init()
     {
-        if (isset($this->_options['fmap'])) {
-            $this->setFieldMappings($this->_options['fmap']);
+        if (isset($this->options['fmap'])) {
+            $this->setFieldMappings($this->options['fmap']);
         }
     }
 
@@ -358,4 +359,46 @@ class Query extends BaseQuery
 
         return $this;
     }
+
+    /**
+    * Set a custom document class for use in the createDocument method
+    *
+    * This class should implement the document interface
+    *
+    * @param string $value classname
+    * @return self Provides fluent interface
+    */
+    public function setDocumentClass($value)
+    {
+        return $this->setOption('documentclass', $value);
+    }
+
+    /**
+     * Get the current documentclass option
+     *
+     * The value is a classname, not an instance
+     *
+     * @return string
+     */
+    public function getDocumentClass()
+    {
+        return $this->getOption('documentclass');
+    }
+
+    /**
+     * Create a document object instance
+     *
+     * You can optionally directly supply the fields and boosts
+     * to get a ready-made document instance for direct use in an add command
+     *
+     * @param  array    $fields
+     * @param  array    $boosts
+     * @return Document
+     */
+    public function createDocument($fields = array(), $boosts = array())
+    {
+        $class = $this->getDocumentClass();
+        return new $class($fields, $boosts);
+    }
+
 }

@@ -1088,6 +1088,6 @@ class Client extends Configurable
      */
     public function createExtract($options = null)
     {
-        return $this->createExtract(self::QUERY_EXTRACT, $options);
+        return $this->createQuery(self::QUERY_EXTRACT, $options);
     }
 }
