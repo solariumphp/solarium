@@ -101,6 +101,9 @@ class Solarium_Client_Request extends Solarium_Configurable
                 case 'rawdata':
                     $this->setRawData($value);
                     break;
+                case 'file':
+                    $this->setFileUpload($value);
+                    break;
                 case 'param':
                     $this->setParams($value);
                     break;
@@ -295,6 +298,32 @@ class Solarium_Client_Request extends Solarium_Configurable
     }
 
     /**
+     * Get the file to upload via "multipart/form-data" POST request
+     *
+     * @return string|null
+     */
+    public function getFileUpload()
+    {
+        return $this->getOption('file');
+    }
+
+    /**
+     * Set the file to upload via "multipart/form-data" POST request
+     *
+     * @param string $filename Name of file to upload
+     * @return Solarium_Client_Request
+     */
+    public function setFileUpload($filename)
+    {
+        if (!is_file($filename) || !is_readable($filename)) {
+            throw new Solarium_Exception("Unable to read file '{$filename}' for upload");
+        }
+
+        $this->_setOption('file', $filename);
+        return $this;
+    }
+
+    /**
      * Get all request headers
      *
      * @return array
@@ -357,23 +386,24 @@ class Solarium_Client_Request extends Solarium_Configurable
     }
 
     /**
-     * Get an URI for this request
+     * Get the request URI
      *
      * @return string
      */
     public function getUri()
     {
-        return $this->getHandler() . '?' . $this->getQueryString();
+        return $this->getHandler();
     }
 
     /**
-     * Get the query string for this request
+     * Get the request URI query
      *
      * @return string
      */
-    public function getQueryString()
+    public function getQuery()
     {
         $queryString = '';
+
         if (count($this->_params) > 0) {
             $queryString = http_build_query($this->_params, null, '&');
             $queryString = preg_replace(
@@ -384,6 +414,16 @@ class Solarium_Client_Request extends Solarium_Configurable
         }
 
         return $queryString;
+    }
+
+    /**
+     * Get the request URI query as an associative array of key => value pairs
+     *
+     * @return array
+     */
+    public function getQueryAsArray()
+    {
+        return $this->getParams();
     }
 
     /**
@@ -401,7 +441,8 @@ class Solarium_Client_Request extends Solarium_Configurable
                 . 'header: ' . print_r($this->getHeaders(), 1) //don't add newline when using print_r
                 . 'resource: ' . $this->getUri() . "\n"
                 . 'resource urldecoded: ' . urldecode($this->getUri()) . "\n"
-                . 'raw data: ' . $this->getRawData() . "\n";
+                . 'raw data: ' . $this->getRawData() . "\n"
+                . 'file upload: ' . $this->getFileUpload() . "\n";
 
         return $output;
     }
