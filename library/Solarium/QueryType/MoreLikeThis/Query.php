@@ -180,24 +180,31 @@ class Query extends SelectQuery
      * The fields to use for similarity. NOTE: if possible, these should have a
      * stored TermVector
      *
-     * Separate multiple fields with commas.
+     * Separate multiple fields with commas if you use string input.
      *
-     * @param  string $fields
+     * @param  string|array $fields
      * @return self   Provides fluent interface
      */
     public function setMltFields($fields)
     {
+        if (is_string($fields)) {
+            $fields = explode(',', $fields);
+            $fields = array_map('trim', $fields);
+        }
+
         return $this->setOption('mltfields', $fields);
     }
 
     /**
      * Get MLT fields option
      *
-     * @return string|null
+     * @return array
      */
     public function getMltFields()
     {
-        return $this->getOption('mltfields');
+        $value = $this->getOption('mltfields');
+        if ($value === null) $value = array();
+        return $value;
     }
 
     /**
@@ -371,24 +378,31 @@ class Query extends SelectQuery
      * Query fields and their boosts using the same format as that used in
      * DisMaxQParserPlugin. These fields must also be specified in fields.
      *
-     * Separate multiple fields with commas.
+     * Separate multiple fields with commas if you use string input.
      *
-     * @param  string $queryFields
+     * @param  string|array $queryFields
      * @return self   Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
+        if (is_string($queryFields)) {
+            $queryFields = explode(',', $queryFields);
+            $queryFields = array_map('trim', $queryFields);
+        }
+
         return $this->setOption('queryfields', $queryFields);
     }
 
     /**
      * Get queryfields option
      *
-     * @return string|null
+     * @return array
      */
     public function getQueryFields()
     {
-        return $this->getOption('queryfields');
+        $value = $this->getOption('queryfields');
+        if ($value === null) $value = array();
+        return $value;
     }
 
 }

@@ -59,9 +59,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
         $data = $result->getData();
         $query = $result->getQuery();
-        $field = $query->getFields();
-        $fields = explode(',', $field);
-        foreach ($fields as $field) {
+        foreach ($query->getFields() as $field) {
             $field = trim($field);
             if (isset($data['terms'][$field])) {
                 $terms = $data['terms'][$field];

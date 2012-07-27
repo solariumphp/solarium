@@ -64,7 +64,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetFields()
     {
         $this->query->setFields('fieldA,fieldB');
-        $this->assertEquals('fieldA,fieldB', $this->query->getFields());
+        $this->assertEquals(array('fieldA','fieldB'), $this->query->getFields());
+    }
+
+    public function testSetAndGetFieldsWithArray()
+    {
+        $this->query->setFields(array('fieldA','fieldB'));
+        $this->assertEquals(array('fieldA','fieldB'), $this->query->getFields());
     }
 
     public function testSetAndGetLowerbound()
@@ -106,7 +112,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetRegexFlags()
     {
         $this->query->setRegexFlags('case_insensitive,comments');
-        $this->assertEquals('case_insensitive,comments', $this->query->getRegexFlags());
+        $this->assertEquals(array('case_insensitive','comments'), $this->query->getRegexFlags());
+    }
+
+    public function testSetAndGetRegexFlagsWithArray()
+    {
+        $this->query->setRegexFlags(array('case_insensitive','comments'));
+        $this->assertEquals(array('case_insensitive','comments'), $this->query->getRegexFlags());
     }
 
     public function testSetAndGetLimit()

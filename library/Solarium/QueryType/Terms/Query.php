@@ -97,24 +97,32 @@ class Query extends BaseQuery
     /**
      * Set the field name(s) to get the terms from
      *
-     * For multiple fields use a comma-separated string
+     * For multiple fields use a comma-separated string or array
      *
-     * @param  string $value
+     * @param  string|array $value
      * @return self   Provides fluent interface
      */
     public function setFields($value)
     {
+        if (is_string($value)) {
+            $value = explode(',', $value);
+            $value = array_map('trim', $value);
+        }
+
         return $this->setOption('fields', $value);
     }
 
     /**
      * Get the field name(s) to get the terms from
      *
-     * @return string
+     * @return array
      */
     public function getFields()
     {
-        return $this->getOption('fields');
+        $value = $this->getOption('fields');
+        if ($value === null) $value = array();
+
+        return $value;
     }
 
     /**
@@ -246,24 +254,32 @@ class Query extends BaseQuery
     /**
      * Set regex flags
      *
-     * Use a comma-separated string for multiple entries
+     * Use a comma-separated string or array for multiple entries
      *
-     * @param  string $value
+     * @param  string|array $value
      * @return self   Provides fluent interface
      */
     public function setRegexFlags($value)
     {
+        if (is_string($value)) {
+            $value = explode(',', $value);
+            $value = array_map('trim', $value);
+        }
+
         return $this->setOption('regexflags', $value);
     }
 
     /**
      * Get regex flags
      *
-     * @return string
+     * @return array
      */
     public function getRegexFlags()
     {
-        return $this->getOption('regexflags');
+        $value = $this->getOption('regexflags');
+        if ($value === null) $value = array();
+
+        return $value;
     }
 
     /**

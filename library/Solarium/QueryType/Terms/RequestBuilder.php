@@ -73,16 +73,12 @@ class RequestBuilder extends BaseRequestBuilder
         $request->addParam('terms.raw', $query->getRaw());
         $request->addParam('terms.sort', $query->getSort());
 
-        $fields = explode(',', $query->getFields());
-        foreach ($fields as $field) {
+        foreach ($query->getFields() as $field) {
             $request->addParam('terms.fl', trim($field));
         }
 
-        if ($query->getRegexFlags() !== null) {
-            $flags = explode(',', $query->getRegexFlags());
-            foreach ($flags as $flag) {
-                $request->addParam('terms.regex.flag', trim($flag));
-            }
+        foreach ($query->getRegexFlags() as $flag) {
+            $request->addParam('terms.regex.flag', trim($flag));
         }
 
         return $request;

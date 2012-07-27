@@ -70,8 +70,8 @@ class RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['end'], $this->facet->getEnd());
         $this->assertEquals($options['gap'], $this->facet->getGap());
         $this->assertEquals($options['hardend'], $this->facet->getHardend());
-        $this->assertEquals($options['other'], $this->facet->getOther());
-        $this->assertEquals($options['include'], $this->facet->getInclude());
+        $this->assertEquals(array($options['other']), $this->facet->getOther());
+        $this->assertEquals(array($options['include']), $this->facet->getInclude());
     }
 
     public function testGetType()
@@ -115,25 +115,25 @@ class RangeTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetOther()
     {
         $this->facet->setOther('all');
-        $this->assertEquals('all', $this->facet->getOther());
+        $this->assertEquals(array('all'), $this->facet->getOther());
     }
 
     public function testSetAndGetOtherArray()
     {
         $this->facet->setOther(array('before','after'));
-        $this->assertEquals('before,after', $this->facet->getOther());
+        $this->assertEquals(array('before','after'), $this->facet->getOther());
     }
 
     public function testSetAndGetInclude()
     {
         $this->facet->setInclude('all');
-        $this->assertEquals('all', $this->facet->getInclude());
+        $this->assertEquals(array('all'), $this->facet->getInclude());
     }
 
     public function testSetAndGetIncludeArray()
     {
         $this->facet->setInclude(array('lower','upper'));
-        $this->assertEquals('lower,upper', $this->facet->getInclude());
+        $this->assertEquals(array('lower','upper'), $this->facet->getInclude());
     }
 
 }

@@ -58,7 +58,7 @@ class MoreLikeThis
         // enable morelikethis
         $request->addParam('mlt', 'true');
 
-        $request->addParam('mlt.fl', $component->getFields());
+        $request->addParam('mlt.fl', implode(',', $component->getFields()));
         $request->addParam('mlt.mintf', $component->getMinimumTermFrequency());
         $request->addParam('mlt.mindf', $component->getMinimumDocumentFrequency());
         $request->addParam('mlt.minwl', $component->getMinimumWordLength());
@@ -66,7 +66,7 @@ class MoreLikeThis
         $request->addParam('mlt.maxqt', $component->getMaximumQueryTerms());
         $request->addParam('mlt.maxntp', $component->getMaximumNumberOfTokens());
         $request->addParam('mlt.boost', $component->getBoost());
-        $request->addParam('mlt.qf', $component->getQueryFields());
+        $request->addParam('mlt.qf', implode(',', $component->getQueryFields()));
         $request->addParam('mlt.count', $component->getCount());
 
         return $request;

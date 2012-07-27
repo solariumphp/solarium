@@ -667,6 +667,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->setMltFields($value);
 
         $this->assertEquals(
+            array('name','description'),
+            $this->query->getMltFields()
+        );
+    }
+
+    public function testSetAndGetMltFieldsWithArray()
+    {
+        $value = array('name','description');
+        $this->query->setMltFields($value);
+
+        $this->assertEquals(
             $value,
             $this->query->getMltFields()
         );
@@ -774,6 +785,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetQueryFields()
     {
         $value = 'content,name';
+        $this->query->setQueryFields($value);
+
+        $this->assertEquals(
+            array('content','name'),
+            $this->query->getQueryFields()
+        );
+    }
+
+    public function testSetAndGetQueryFieldsWithArray()
+    {
+        $value = array('content','name');
         $this->query->setQueryFields($value);
 
         $this->assertEquals(

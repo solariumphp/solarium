@@ -64,7 +64,7 @@ class RequestBuilder extends SelectRequestBuilder
         $request->addParam('mlt.interestingTerms', $query->getInterestingTerms());
         $request->addParam('mlt.match.include', $query->getMatchInclude());
         $request->addParam('mlt.match.offset', $query->getStart());
-        $request->addParam('mlt.fl', $query->getMltFields());
+        $request->addParam('mlt.fl', implode(',', $query->getMltFields()));
         $request->addParam('mlt.mintf', $query->getMinimumTermFrequency());
         $request->addParam('mlt.mindf', $query->getMinimumDocumentFrequency());
         $request->addParam('mlt.minwl', $query->getMinimumWordLength());
@@ -72,7 +72,7 @@ class RequestBuilder extends SelectRequestBuilder
         $request->addParam('mlt.maxqt', $query->getMaximumQueryTerms());
         $request->addParam('mlt.maxntp', $query->getMaximumNumberOfTokens());
         $request->addParam('mlt.boost', $query->getBoost());
-        $request->addParam('mlt.qf', $query->getQueryFields());
+        $request->addParam('mlt.qf', implode(',', $query->getQueryFields()));
 
         // convert query to stream if necessary
         if (true === $query->getQueryStream()) {

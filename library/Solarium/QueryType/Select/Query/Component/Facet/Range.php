@@ -254,8 +254,9 @@ class Range extends Facet
      */
     public function setOther($other)
     {
-        if (is_array($other)) {
-            $other = implode(',', $other);
+        if (is_string($other)) {
+            $other = explode(',', $other);
+            $other = array_map('trim', $other);
         }
 
         return $this->setOption('other', $other);
@@ -264,13 +265,14 @@ class Range extends Facet
     /**
      * Get other counts
      *
-     * In case of multiple values a comma separated string will be returned
-     *
-     * @return string
+     * @return array
      */
     public function getOther()
     {
-        return $this->getOption('other');
+        $other = $this->getOption('other');
+        if ($other === null) $other = array();
+
+        return $other;
     }
 
     /**
@@ -284,8 +286,9 @@ class Range extends Facet
      */
     public function setInclude($include)
     {
-        if (is_array($include)) {
-            $include = implode(',', $include);
+        if (is_string($include)) {
+            $include = explode(',', $include);
+            $include = array_map('trim', $include);
         }
 
         return $this->setOption('include', $include);
@@ -294,12 +297,13 @@ class Range extends Facet
     /**
      * Get include option
      *
-     * In case of multiple values a comma separated string will be returned
-     *
-     * @return string
+     * @return array
      */
     public function getInclude()
     {
-        return $this->getOption('include');
+        $include = $this->getOption('include');
+        if ($include === null) $include = array();
+
+        return $include;
     }
 }

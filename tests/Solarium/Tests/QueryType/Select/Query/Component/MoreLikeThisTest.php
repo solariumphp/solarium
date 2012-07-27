@@ -95,6 +95,17 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
         $this->mlt->setFields($value);
 
         $this->assertEquals(
+            array('name','description'),
+            $this->mlt->getFields()
+        );
+    }
+
+    public function testSetAndGetFieldsWithArray()
+    {
+        $value = array('name','description');
+        $this->mlt->setFields($value);
+
+        $this->assertEquals(
             $value,
             $this->mlt->getFields()
         );
@@ -180,6 +191,17 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetQueryFields()
     {
         $value = 'content,name';
+        $this->mlt->setQueryFields($value);
+
+        $this->assertEquals(
+            array('content','name'),
+            $this->mlt->getQueryFields()
+        );
+    }
+
+    public function testSetAndGetQueryFieldsWithArray()
+    {
+        $value = array('content','name');
         $this->mlt->setQueryFields($value);
 
         $this->assertEquals(

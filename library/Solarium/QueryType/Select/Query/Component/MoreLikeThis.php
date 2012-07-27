@@ -85,24 +85,32 @@ class MoreLikeThis extends Component
      * The fields to use for similarity. NOTE: if possible, these should have a
      * stored TermVector
      *
-     * Separate multiple fields with commas.
+     * When using string input you can separate multiple fields with commas.
      *
-     * @param  string $fields
+     * @param  string|array $fields
      * @return self   Provides fluent interface
      */
     public function setFields($fields)
     {
+        if (is_string($fields)) {
+            $fields = explode(',', $fields);
+            $fields = array_map('trim', $fields);
+        }
+
         return $this->setOption('fields', $fields);
     }
 
     /**
      * Get fields option
      *
-     * @return string|null
+     * @return array
      */
     public function getFields()
     {
-        return $this->getOption('fields');
+        $fields = $this->getOption('fields');
+        if($fields == null) $fields = array();
+
+        return $fields;
     }
 
     /**
@@ -276,24 +284,32 @@ class MoreLikeThis extends Component
      * Query fields and their boosts using the same format as that used in
      * DisMaxQParserPlugin. These fields must also be specified in fields.
      *
-     * Separate multiple fields with commas.
+     * When using string input you can separate multiple fields with commas.
      *
      * @param  string $queryFields
      * @return self   Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
+        if (is_string($queryFields)) {
+            $queryFields = explode(',', $queryFields);
+            $queryFields = array_map('trim', $queryFields);
+        }
+
         return $this->setOption('queryfields', $queryFields);
     }
 
     /**
      * Get queryfields option
      *
-     * @return string|null
+     * @return array
      */
     public function getQueryFields()
     {
-        return $this->getOption('queryfields');
+        $queryfields = $this->getOption('queryfields');
+        if($queryfields == null) $queryfields = array();
+
+        return $queryfields;
     }
 
     /**
