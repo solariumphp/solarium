@@ -133,6 +133,28 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
         ), $httpRequest->getOptions());
     }
 
+    public function testToHttpRequestWithFile()
+    {
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        $request->setFileUpload(__FILE__);
+
+        $endpoint = new Endpoint();
+        $endpoint->setTimeout(10);
+
+        $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
+        $this->assertEquals(
+            array(
+                array(
+                    'name' => 'content',
+                    'type' => 'application/octet-stream; charset=binary',
+                    'file' => __FILE__,
+                )
+            ),
+            $httpRequest->getPostFiles()
+        );
+    }
+
     public function testToHttpRequestWithDefaultContentType()
     {
         $request = new Request;

@@ -201,24 +201,10 @@ class ZendHttp extends Configurable implements AdapterInterface
 
         $response = $client->request();
 
-        // throw an exception in case of a HTTP error
-        if ($response->isError()) {
-            throw new HttpException(
-                $response->getMessage(),
-                $response->getStatus()
-            );
-        }
-
-        if ($request->getMethod() == Request::METHOD_HEAD) {
-            $data = '';
-        } else {
-            $data = $response->getBody();
-        }
-
-        // this is used because getHeaders doesn't return the HTTP header...
-        $headers = explode("\n", $response->getHeadersAsString());
-
-        return new Response($data, $headers);
+        return $this->prepareResponse(
+            $request,
+            $response
+        );
     }
 
     /**
@@ -266,10 +252,5 @@ class ZendHttp extends Configurable implements AdapterInterface
             file_get_contents($filename),
             'application/octet-stream; charset=binary'
         );
-
-        // set query params as "multipart/form-data" fields
-        foreach ($request->getParams() as $name => $value) {
-            $client->setFileUpload(null, $name, $value, 'text/plain; charset=utf-8');
-        }
     }
 }

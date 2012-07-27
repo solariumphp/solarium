@@ -475,6 +475,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 'username' => 'testuser',
                 'password' => 'testpass',
             ),
+            'file' => __FILE__,
         );
         $this->request->setOptions($options);
 
@@ -494,7 +495,7 @@ authentication: Array
 resource: /myHandler?param1=1&param2=test+content
 resource urldecoded: /myHandler?param1=1&param2=test content
 raw data: post data
-file upload:
+file upload: ' . __FILE__ . '
 ',
             (string) $this->request
         );

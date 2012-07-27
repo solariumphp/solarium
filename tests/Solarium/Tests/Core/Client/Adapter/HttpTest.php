@@ -162,6 +162,26 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testCreateContextPostFileRequest()
+    {
+        $timeout = 13;
+        $method = Request::METHOD_POST;
+        $data = 'test123';
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setFileUpload(__FILE__);
+        $endpoint = new Endpoint();
+        $endpoint->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertEquals(
+            array('http' => array('method' => $method, 'timeout' => $timeout, 'content' => file_get_contents(__FILE__), 'header' => 'Content-Type: multipart/form-data')),
+            stream_context_get_options($context)
+        );
+    }
+
     public function testCreateContextWithAuthorization()
     {
         $timeout = 13;

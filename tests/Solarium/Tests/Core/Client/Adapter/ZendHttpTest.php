@@ -175,4 +175,39 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testExecuteWithInvalidMethod()
+    {
+        $request = new Request();
+        $request->setMethod('invalid');
+        $endpoint = new Endpoint();
+
+        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->adapter->execute($request, $endpoint);
+    }
+
+    public function testExecuteWithFileUpload()
+    {
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        $request->setFileUpload(__FILE__);
+        $endpoint = new Endpoint();
+        $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'dummy');
+
+        $mock = $this->getMock('Zend_Http_Client');
+        $mock->expects($this->once())
+             ->method('setFileUpload')
+             ->with(
+                $this->equalTo('content'),
+                $this->equalTo('content'),
+                $this->equalTo(file_get_contents(__FILE__)),
+                $this->equalTo('application/octet-stream; charset=binary')
+             );
+        $mock->expects($this->once())
+             ->method('request')
+             ->will($this->returnValue($response));
+
+        $this->adapter->setZendHttp($mock);
+        $this->adapter->execute($request, $endpoint);
+    }
+
 }
