@@ -161,9 +161,17 @@ class PeclHttp extends Configurable implements AdapterInterface
                 break;
             case Request::METHOD_POST:
                 $method = HTTP_METH_POST;
-                $httpRequest->setBody($request->getRawData());
-                if (!isset($headers['Content-Type'])) {
-                    $headers['Content-Type'] = 'text/xml; charset=utf-8';
+                if ($request->getFileUpload()) {
+                    $httpRequest->addPostFile(
+                        'content',
+                        $request->getFileUpload(),
+                        'application/octet-stream; charset=binary'
+                    );
+                } else {
+                    $httpRequest->setBody($request->getRawData());
+                    if (!isset($headers['Content-Type'])) {
+                        $headers['Content-Type'] = 'text/xml; charset=utf-8';
+                    }
                 }
                 break;
             case Request::METHOD_HEAD:

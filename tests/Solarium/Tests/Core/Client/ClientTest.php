@@ -41,6 +41,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Terms\Query as TermsQuery;
 use Solarium\QueryType\Suggester\Query as SuggesterQuery;
+use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\Core\Client\Adapter\Http as ClientAdapterHttp;
 use Solarium\Core\Plugin;
 
@@ -895,6 +896,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $observer->suggester($query);
     }
 
+    public function testExtract()
+    {
+        $query = new ExtractQuery();
+
+        $observer = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query));
+
+        $observer->extract($query);
+    }
+
     public function testCreateQuery()
     {
         $options = array('optionA' => 1, 'optionB' => 2);
@@ -1068,6 +1081,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                  ->with($this->equalTo(Client::QUERY_SUGGESTER), $this->equalTo($options));
 
         $observer->createSuggester($options);
+    }
+
+    public function testCreateExtract()
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium\Core\Client\Client', array('createQuery'));
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_EXTRACT), $this->equalTo($options));
+
+        $observer->createExtract($options);
     }
 
     public function testTriggerEvent()

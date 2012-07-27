@@ -63,6 +63,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 'username' => 'testuser',
                 'password' => 'testpass',
             ),
+            'file' => __FILE__,
         );
         $this->request->setOptions($options);
 
@@ -100,6 +101,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 'password' => $options['authentication']['password']
             ),
             $this->request->getAuthentication()
+        );
+
+        $this->assertEquals(
+            $options['file'],
+            $this->request->getFileUpload()
         );
     }
 
@@ -508,6 +514,21 @@ file upload:
             ),
             $this->request->getAuthentication()
         );
+    }
+
+    public function testSetAndGetFileUpload()
+    {
+        $this->request->setFileUpload(__FILE__);
+        $this->assertEquals(
+            __FILE__,
+            $this->request->getFileUpload()
+        );
+    }
+
+    public function testSetAndGetFileUploadWithInvalidFile()
+    {
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->request->setFileUpload('invalid-filename.dummy');
     }
 
 }

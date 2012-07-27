@@ -201,6 +201,19 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetAndGetFieldBoosts()
+    {
+        $this->doc->setFieldBoost('name',2.5);
+        $this->doc->setFieldBoost('category',1.5);
+        $this->assertEquals(
+           array(
+               'name' => 2.5,
+               'category' => 1.5,
+           ),
+            $this->doc->getFieldBoosts()
+        );
+    }
+
     public function testGetInvalidFieldBoost()
     {
         $this->assertEquals(

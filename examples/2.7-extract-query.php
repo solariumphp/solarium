@@ -5,7 +5,6 @@ htmlHeader();
 
 // create a client instance
 $client = new Solarium\Client($config);
-$client->setAdapter('Solarium\Core\Client\Adapter\ZendHttp');
 
 // get an extract query instance and add settings
 $query = $client->createExtract();
@@ -17,7 +16,7 @@ $query->setOmitHeader(false);
 
 // add document
 $doc = $query->createDocument();
-$doc->id = time();
+$doc->id = 'extract-test';
 $doc->some = 'more fields';
 $query->setDocument($doc);
 

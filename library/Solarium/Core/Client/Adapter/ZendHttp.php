@@ -260,12 +260,12 @@ class ZendHttp extends Configurable implements AdapterInterface
     protected function prepareFileUpload($client, $request)
     {
         $filename = $request->getFileUpload();
-
-        if (($content = @file_get_contents($filename)) === false) {
-            throw new RuntimeException("Unable to read file '{$filename}' for upload");
-        }
-
-        $client->setFileUpload('content', 'content', $content, 'application/octet-stream; charset=binary');
+        $client->setFileUpload(
+            'content',
+            'content',
+            file_get_contents($filename),
+            'application/octet-stream; charset=binary'
+        );
 
         // set query params as "multipart/form-data" fields
         foreach ($request->getParams() as $name => $value) {
