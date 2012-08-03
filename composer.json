@@ -4,7 +4,6 @@
     "description": "PHP Solr client",
     "keywords": ["solr", "search", "php"],
     "homepage": "http://www.solarium-project.org",
-    "version": "3.0.0",
     "license": "NewBSD",
     "authors": [
         {
@@ -18,5 +17,11 @@
     },
     "autoload": {
         "psr-0": { "Solarium": "library/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "2.4-dev",
+            "dev-feature-nextgen": "3.0-dev"
+        }
     }
 }
