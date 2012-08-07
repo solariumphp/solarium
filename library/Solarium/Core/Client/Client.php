@@ -224,7 +224,7 @@ class Client extends Configurable
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'endpoint':
-                    $this->addEndpoints($value);
+                    $this->setEndpoints($value);
                     break;
                 case 'querytype':
                     $this->registerQueryTypes($value);
@@ -452,7 +452,7 @@ class Client extends Configurable
             return $this->setOption('adapter', $adapter);
         } elseif ($adapter instanceof AdapterInterface) {
             // forward options
-            $adapter->setOptions($this->options);
+            $adapter->setOptions($this->getOption('adapteroptions'));
             // overwrite existing adapter
             $this->adapter = $adapter;
 

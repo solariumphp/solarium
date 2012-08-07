@@ -381,6 +381,23 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->client->getAdapter();
     }
 
+    public function testSetAdapterWithOptions()
+    {
+        $adapterOptions = array(
+            'host' => 'myhost',
+            'port' => 8080,
+            'customOption' => 'foobar'
+        );
+
+        $observer = $this->getMock('Solarium\Core\Client\Adapter\Http', array('setOptions', 'execute'));
+        $observer->expects($this->once())
+                 ->method('setOptions')
+                 ->with($this->equalTo($adapterOptions));
+
+        $this->client->setOptions(array('adapteroptions' => $adapterOptions));
+        $this->client->setAdapter($observer);
+    }
+
     public function testRegisterQueryTypeAndGetQueryTypes()
     {
         $queryTypes = $this->client->getQueryTypes();
