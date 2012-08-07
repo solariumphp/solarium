@@ -36,7 +36,8 @@
 /**
  * @namespace
  */
-namespace Solarium\Core;
+namespace Solarium\Core\Plugin;
+use Solarium\Core\ConfigurableInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
@@ -58,94 +59,5 @@ interface PluginInterface extends ConfigurableInterface
      * @param array  $options
      */
     public function initPlugin($client, $options);
-
-    /**
-     * preCreateRequest hook
-     *
-     * @param  Query        $query
-     * @return void|Request
-     */
-    public function preCreateRequest($query);
-
-    /**
-     * postCreateRequest hook
-     *
-     * @param  Query   $query
-     * @param  Request $request
-     * @return void
-     */
-    public function postCreateRequest($query, $request);
-
-    /**
-     * preExecuteRequest hook
-     *
-     * @param  Request       $request
-     * @return void|Response
-     */
-    public function preExecuteRequest($request);
-
-    /**
-     * postExecuteRequest hook
-     *
-     * @param  Request  $request
-     * @param  Response $response
-     * @return void
-     */
-    public function postExecuteRequest($request, $response);
-
-    /**
-     * preCreateResult hook
-     *
-     * @param  Query       $query
-     * @param  Response    $response
-     * @return void|Result
-     */
-    public function preCreateResult($query, $response);
-
-    /**
-     * postCreateResult hook
-     *
-     * @param  Query    $query
-     * @param  Response $response
-     * @param  Result   $result
-     * @return void
-     */
-    public function postCreateResult($query, $response, $result);
-
-    /**
-     * preExecute hook
-     *
-     * @param  Query       $query
-     * @return void|Result
-     */
-    public function preExecute($query);
-
-    /**
-     * postExecute hook
-     *
-     * @param  Query  $query
-     * @param  Result $result
-     * @return void
-     */
-    public function postExecute($query, $result);
-
-    /**
-     * preCreateQuery hook
-     *
-     * @param  string     $type
-     * @param  mixed      $options
-     * @return void|Query
-     */
-    public function preCreateQuery($type, $options);
-
-    /**
-     * postCreateQuery hook
-     *
-     * @param string $type
-     * @param mixed  $options
-     * @param Query
-     * @return void
-     */
-    public function postCreateQuery($type, $options, $query);
 
 }
