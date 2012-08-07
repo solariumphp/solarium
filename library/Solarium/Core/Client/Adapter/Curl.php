@@ -173,14 +173,10 @@ class Curl extends Configurable implements AdapterInterface
             } else {
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
             }
-            $httpResponse  = curl_exec($handler);
         } elseif ($method == Request::METHOD_GET) {
             curl_setopt($handler, CURLOPT_HTTPGET, true);
-            $httpResponse  = curl_exec($handler);
         } elseif ($method == Request::METHOD_HEAD) {
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'HEAD');
-            $httpResponse  = curl_exec($handler);
-
         } else {
             throw new InvalidArgumentException("unsupported method: $method");
         }
