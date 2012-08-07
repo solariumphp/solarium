@@ -159,6 +159,23 @@ class Solarium_ClientTest extends PHPUnit_Framework_TestCase
         $this->assertThat($this->_client->getAdapter(), $this->isInstanceOf($adapterClass));
     }
 
+    public function testSetAdapterWithOptions()
+    {
+        $adapterOptions = array(
+            'host' => 'myhost',
+            'port' => 8080,
+            'customOption' => 'foobar'
+        );
+
+        $observer = $this->getMock('Solarium_Client_Adapter', array('setOptions', 'execute'));
+        $observer->expects($this->once())
+                 ->method('setOptions')
+                 ->with($this->equalTo($adapterOptions));
+
+        $this->_client->setOptions(array('adapteroptions' => $adapterOptions));
+        $this->_client->setAdapter($observer);
+    }
+
     public function testRegisterQueryTypeAndGetQueryTypes()
     {
         $queryTypes = $this->_client->getQueryTypes();
