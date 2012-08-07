@@ -56,7 +56,7 @@ interface QueryInterface extends ConfigurableInterface
     /**
      * Get the requestbuilder class for this query
      *
-     * @return object
+     * @return RequestBuilderInterface
      */
     public function getRequestBuilder();
 

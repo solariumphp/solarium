@@ -38,7 +38,7 @@
  */
 namespace Solarium\Core\Client;
 use Solarium\Core\Configurable;
-use Solarium\Core\PluginInterface;
+use Solarium\Core\Plugin\PluginInterface;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Core\Client\Adapter\AdapterInterface;
@@ -46,6 +46,19 @@ use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\UnexpectedValueException;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Solarium\Core\Event\Events;
+use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
+use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
+use Solarium\Core\Event\PreCreateQuery as PreCreateQueryEvent;
+use Solarium\Core\Event\PostCreateQuery as PostCreateQueryEvent;
+use Solarium\Core\Event\PreCreateResult as PreCreateResultEvent;
+use Solarium\Core\Event\PostCreateResult as PostCreateResultEvent;
+use Solarium\Core\Event\PreExecute as PreExecuteEvent;
+use Solarium\Core\Event\PostExecute as PostExecuteEvent;
+use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
+use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
+
 
 /**
  * Main interface for interaction with Solr
@@ -148,10 +161,17 @@ class Client extends Configurable
         'loadbalancer' => 'Solarium\Plugin\Loadbalancer\Loadbalancer',
         'postbigrequest' => 'Solarium\Plugin\PostBigRequest',
         'customizerequest' => 'Solarium\Plugin\CustomizeRequest\CustomizeRequest',
-        'parallelexecution' => 'Solarium\Plugin\ParallelExecution',
-        'bufferedadd' => 'Solarium\Plugin\BufferedAdd',
+        'parallelexecution' => 'Solarium\Plugin\ParallelExecution\ParallelExecution',
+        'bufferedadd' => 'Solarium\Plugin\BufferedAdd\BufferedAdd',
         'prefetchiterator' => 'Solarium\Plugin\PrefetchIterator',
     );
+
+    /**
+     * EventDispatcher
+     *
+     * @var EventDispatcher
+     */
+    protected $eventDispatcher;
 
     /**
      * Registered plugin instances
@@ -200,6 +220,7 @@ class Client extends Configurable
      */
     protected function init()
     {
+        $this->eventDispatcher = new EventDispatcher();
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'endpoint':
@@ -476,7 +497,7 @@ class Client extends Configurable
      * calling {@see createAdapter()}
      *
      * @param  boolean                  $autoload
-     * @return Adapter\AdapterInterface
+     * @return AdapterInterface
      */
     public function getAdapter($autoload = true)
     {
@@ -538,6 +559,16 @@ class Client extends Configurable
     }
 
     /**
+     * Get the EventDispatcherInstance
+     *
+     * @return EventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
+
+    /**
      * Register a plugin
      *
      * You can supply a plugin instance or a plugin classname as string.
@@ -546,7 +577,7 @@ class Client extends Configurable
      *
      * @throws InvalidArgumentException
      * @param  string                       $key
-     * @param  string|\Solarium\Core\Plugin $plugin
+     * @param  string|PluginInterface       $plugin
      * @param  array                        $options
      * @return self                         Provides fluent interface
      */
@@ -608,7 +639,7 @@ class Client extends Configurable
      * @throws OutOfBoundsException
      * @param  string                     $key
      * @param  boolean                    $autocreate
-     * @return \Solarium\Core\Plugin|null
+     * @return PluginInterface|null
      */
     public function getPlugin($key, $autocreate = true)
     {
@@ -632,7 +663,7 @@ class Client extends Configurable
      *
      * You can remove a plugin by passing the plugin key, or the plugin instance
      *
-     * @param  string|\Solarium\Core\Plugin $plugin
+     * @param  string|PluginInterface $plugin
      * @return self                         Provides fluent interface
      */
     public function removePlugin($plugin)
@@ -654,50 +685,6 @@ class Client extends Configurable
     }
 
     /**
-     * Trigger external events for plugins
-     *
-     * This methods adds 'namespacing' to the event name to prevent conflicts with Solariums internal event keys.
-     *
-     * Based on the event name you can always tell if an event was internal (Solarium base classes)
-     * or external (plugins, even if it's a plugin included with Solarium).
-     *
-     * External events always have the 'event' prefix in the event name.
-     *
-     * @param  string     $event
-     * @param  array      $params
-     * @param  bool       $resultOverride
-     * @return void|mixed
-     */
-    public function triggerEvent($event, $params = array(), $resultOverride = false)
-    {
-        // Add namespacing
-        $event = 'event'.$event;
-
-        return $this->callPlugins($event, $params, $resultOverride);
-    }
-
-    /**
-     * Forward events to plugins
-     *
-     * @param  string     $event
-     * @param  array      $params
-     * @param  bool       $resultOverride
-     * @return void|mixed
-     */
-    protected function callPlugins($event, $params, $resultOverride = false)
-    {
-        foreach ($this->pluginInstances as $plugin) {
-            if (method_exists($plugin, $event)) {
-                $result = call_user_func_array(array($plugin, $event), $params);
-
-                if ($result !== null && $resultOverride) {
-                    return $result;
-                }
-            }
-        }
-    }
-
-    /**
      * Creates a request based on a query instance
      *
      * @throws UnexpectedValueException
@@ -706,9 +693,10 @@ class Client extends Configurable
      */
     public function createRequest(QueryInterface $query)
     {
-        $pluginResult = $this->callPlugins('preCreateRequest', array($query), true);
-        if ($pluginResult !== null) {
-            return $pluginResult;
+        $event = new PreCreateRequestEvent($query);
+        $this->eventDispatcher->dispatch(Events::PRE_CREATE_REQUEST, $event);
+        if ($event->getRequest() !== null) {
+            return $event->getRequest();
         }
 
         $requestBuilder = $query->getRequestBuilder();
@@ -718,7 +706,10 @@ class Client extends Configurable
 
         $request = $requestBuilder->build($query);
 
-        $this->callPlugins('postCreateRequest', array($query, $request));
+        $this->eventDispatcher->dispatch(
+            Events::POST_CREATE_REQUEST,
+            new PostCreateRequestEvent($query, $request)
+        );
 
         return $request;
     }
@@ -733,9 +724,10 @@ class Client extends Configurable
      */
     public function createResult(QueryInterface $query, $response)
     {
-        $pluginResult = $this->callPlugins('preCreateResult', array($query, $response), true);
-        if ($pluginResult !== null) {
-            return $pluginResult;
+        $event = new PreCreateResultEvent($query, $response);
+        $this->eventDispatcher->dispatch(Events::PRE_CREATE_RESULT, $event);
+        if ($event->getResult() !== null) {
+            return $event->getResult();
         }
 
         $resultClass = $query->getResultClass();
@@ -745,7 +737,10 @@ class Client extends Configurable
             throw new UnexpectedValueException('Result class must implement the ResultInterface');
         }
 
-        $this->callPlugins('postCreateResult', array($query, $response, $result));
+        $this->eventDispatcher->dispatch(
+            Events::POST_CREATE_RESULT,
+            new PostCreateResultEvent($query, $response, $result)
+        );
 
         return $result;
     }
@@ -759,16 +754,20 @@ class Client extends Configurable
      */
     public function execute(QueryInterface $query, $endpoint = null)
     {
-        $pluginResult = $this->callPlugins('preExecute', array($query), true);
-        if ($pluginResult !== null) {
-            return $pluginResult;
+        $event = new PreExecuteEvent($query);
+        $this->eventDispatcher->dispatch(Events::PRE_EXECUTE, $event);
+        if ($event->getResult() !== null) {
+            return $event->getResult();
         }
 
         $request = $this->createRequest($query);
         $response = $this->executeRequest($request, $endpoint);
         $result = $this->createResult($query, $response);
 
-        $this->callPlugins('postExecute', array($query, $result));
+        $this->eventDispatcher->dispatch(
+            Events::POST_EXECUTE,
+            new PostExecuteEvent($query, $result)
+        );
 
         return $result;
     }
@@ -787,14 +786,18 @@ class Client extends Configurable
             $endpoint = $this->getEndpoint($endpoint);
         }
 
-        $pluginResult = $this->callPlugins('preExecuteRequest', array($request), true);
-        if ($pluginResult !== null) {
-            $response = $pluginResult; //a plugin result overrules the standard execution result
+        $event = new PreExecuteRequestEvent($request, $endpoint);
+        $this->eventDispatcher->dispatch(Events::PRE_EXECUTE_REQUEST, $event);
+        if ($event->getResponse() !== null) {
+            $response = $event->getResponse(); //a plugin result overrules the standard execution result
         } else {
             $response = $this->getAdapter()->execute($request, $endpoint);
         }
 
-        $this->callPlugins('postExecuteRequest', array($request, $response));
+        $this->eventDispatcher->dispatch(
+            Events::POST_EXECUTE_REQUEST,
+            new PostExecuteRequestEvent($request, $endpoint, $response)
+        );
 
         return $response;
     }
@@ -971,9 +974,10 @@ class Client extends Configurable
     {
         $type = strtolower($type);
 
-        $pluginResult = $this->callPlugins('preCreateQuery', array($type, $options), true);
-        if ($pluginResult !== null) {
-            return $pluginResult;
+        $event = new PreCreateQueryEvent($type, $options);
+        $this->eventDispatcher->dispatch(Events::PRE_CREATE_QUERY, $event);
+        if ($event->getQuery() !== null) {
+            return $event->getQuery();
         }
 
         if (!isset($this->queryTypes[$type])) {
@@ -987,7 +991,10 @@ class Client extends Configurable
             throw new UnexpectedValueException('All query classes must implement the QueryInterface');
         }
 
-        $this->callPlugins('postCreateQuery', array($type, $options, $query));
+        $this->eventDispatcher->dispatch(
+            Events::POST_CREATE_QUERY,
+            new PostCreateQueryEvent($type, $options, $query)
+        );
 
         return $query;
     }
