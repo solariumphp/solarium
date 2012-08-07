@@ -33,6 +33,8 @@ namespace Solarium\Tests\Plugin\CustomizeRequest;
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 use Solarium\Plugin\CustomizeRequest\Customization;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 
 class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -326,7 +328,8 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         $this->plugin->addCustomization($input);
 
         $request = new Request();
-        $this->plugin->postCreateRequest(null, $request);
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals(
             123,
@@ -339,7 +342,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testPostCreateRequestWithInvalidCustomization()
+    public function testPreExecuteRequestWithInvalidCustomization()
     {
         $input = array(
             'key' => 'xid',
@@ -350,17 +353,19 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         $this->plugin->addCustomization($input);
 
         $request = new Request();
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
 
         $this->setExpectedException('Solarium\Exception\RuntimeException');
-        $this->plugin->postCreateRequest(null, $request);
+        $this->plugin->preExecuteRequest($event);
     }
 
-    public function testPostCreateRequestWithoutCustomizations()
+    public function testPreExecuteRequestWithoutCustomizations()
     {
         $request = new Request();
         $originalRequest = clone $request;
 
-        $this->plugin->postCreateRequest(null, $request);
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals(
             $originalRequest,
@@ -368,7 +373,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testPostCreateRequestWithPersistentAndNonPersistentCustomizations()
+    public function testPreExecuteRequestWithPersistentAndNonPersistentCustomizations()
     {
         $input = array(
                     'key' => 'xid',
@@ -388,7 +393,8 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         $this->plugin->addCustomization($input);
 
         $request = new Request();
-        $this->plugin->postCreateRequest(null, $request);
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals(
             123,
@@ -402,7 +408,8 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
 
         // second use, only the header should be persistent
         $request = new Request();
-        $this->plugin->postCreateRequest(null, $request);
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals(
             null,

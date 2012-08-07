@@ -29,9 +29,9 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Plugin;
+namespace Solarium\Tests\Plugin\BufferedAdd;
 use Solarium\QueryType\Update\Query\Document;
-use Solarium\Plugin\BufferedAdd;
+use Solarium\Plugin\BufferedAdd\BufferedAdd;
 use Solarium\Core\Client\Client;
 
 class BufferedAddTest extends \PHPUnit_Framework_TestCase
@@ -93,7 +93,7 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocumentAutoFlush()
     {
-        $observer = $this->getMock('Solarium\Plugin\BufferedAdd', array('flush'));
+        $observer = $this->getMock('Solarium\Plugin\BufferedAdd\BufferedAdd', array('flush'));
         $observer->expects($this->once())->method('flush');
         $observer->setBufferSize(1);
 
@@ -138,7 +138,6 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMock('Solarium\Core\Client\Client', array('createUpdate', 'update', 'triggerEvent'));
         $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
         $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
-        $mockClient->expects($this->exactly(2))->method('triggerEvent');
 
         $plugin = new BufferedAdd();
         $plugin->initPlugin($mockClient, array());
@@ -159,7 +158,6 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMock('Solarium\Core\Client\Client', array('createUpdate', 'update', 'triggerEvent'));
         $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
         $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
-        $mockClient->expects($this->exactly(2))->method('triggerEvent');
 
         $plugin = new BufferedAdd();
         $plugin->initPlugin($mockClient, array());

@@ -34,6 +34,7 @@ use Solarium\Plugin\PostBigRequest;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 
 class PostBigRequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -79,7 +80,8 @@ class PostBigRequestTest extends \PHPUnit_Framework_TestCase
 
         $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
-        $this->plugin->postCreateRequest($this->query, $requestOutput);
+        $event = new PostCreateRequestEvent($this->query, $requestOutput);
+        $this->plugin->postCreateRequest($event);
 
         $this->assertEquals(Request::METHOD_GET, $requestInput->getMethod());
         $this->assertEquals(Request::METHOD_POST, $requestOutput->getMethod());
@@ -91,7 +93,8 @@ class PostBigRequestTest extends \PHPUnit_Framework_TestCase
     {
         $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
-        $this->plugin->postCreateRequest($this->query, $requestOutput);
+        $event = new PostCreateRequestEvent($this->query, $requestOutput);
+        $this->plugin->postCreateRequest($event);
 
         $this->assertEquals($requestInput, $requestOutput);
     }
@@ -103,7 +106,8 @@ class PostBigRequestTest extends \PHPUnit_Framework_TestCase
 
         $requestOutput = $this->client->createRequest($query);
         $requestInput = clone $requestOutput;
-        $this->plugin->postCreateRequest($query, $requestOutput);
+        $event = new PostCreateRequestEvent($this->query, $requestOutput);
+        $this->plugin->postCreateRequest($event);
 
         $this->assertEquals($requestInput, $requestOutput);
     }

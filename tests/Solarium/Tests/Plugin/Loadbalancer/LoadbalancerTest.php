@@ -35,8 +35,11 @@ use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Adapter\Http as HttpAdapter;
 use Solarium\Exception\HttpException;
+use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
+use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 
 class LoadbalancerTest extends \PHPUnit_Framework_TestCase
 {
@@ -309,8 +312,12 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
 
         $this->plugin->setEndpoints($endpoints);
         $this->plugin->setForcedEndpointForNextQuery('server2');
-        $this->plugin->preCreateRequest($query);
-        $this->plugin->preExecuteRequest($request);
+
+        $event = new PreCreateRequestEvent($query);
+        $this->plugin->preCreateRequest($event);
+
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals(
             'server2',
@@ -331,8 +338,11 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->plugin->setForcedEndpointForNextQuery('server2');
 
         $query = new SelectQuery();
-        $this->plugin->preCreateRequest($query);
-        $this->plugin->preExecuteRequest($request);
+        $event = new PreCreateRequestEvent($query);
+        $this->plugin->preCreateRequest($event);
+
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals(
             'server2',
@@ -340,8 +350,11 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         );
 
         $query = new SelectQuery(); // this is a blocked querytype that should trigger a restore
-        $this->plugin->preCreateRequest($query);
-        $this->plugin->preExecuteRequest($request);
+        $event = new PreCreateRequestEvent($query);
+        $this->plugin->preCreateRequest($event);
+
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals(
             $originalHost,
@@ -360,8 +373,11 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
 
         $query = new UpdateQuery(); // this is a blocked querytype that should not be loadbalanced
-        $this->plugin->preCreateRequest($query);
-        $this->plugin->preExecuteRequest($request);
+        $event = new PreCreateRequestEvent($query);
+        $this->plugin->preCreateRequest($event);
+
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals(
             $originalHost,
@@ -383,9 +399,12 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->plugin->setEndpoints($endpoints);
         $request = new Request();
 
-        $query = new SelectQuery(); //
-        $this->plugin->preCreateRequest($query);
-        $this->plugin->preExecuteRequest($request);
+        $query = new SelectQuery();
+        $event = new PreCreateRequestEvent($query);
+        $this->plugin->preCreateRequest($event);
+
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertTrue(
             in_array($this->plugin->getLastEndpoint(), array('server1','server2'))
@@ -407,8 +426,11 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->plugin->setFailoverEnabled(true);
 
         $query = new SelectQuery();
-        $this->plugin->preCreateRequest($query);
-        $this->plugin->preExecuteRequest($request);
+        $event = new PreCreateRequestEvent($query);
+        $this->plugin->preCreateRequest($event);
+
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals(
             'server2',
@@ -434,11 +456,13 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->plugin->setFailoverEnabled(true);
 
         $query = new SelectQuery();
-        $this->plugin->preCreateRequest($query);
+        $event = new PreCreateRequestEvent($query);
+        $this->plugin->preCreateRequest($event);
 
         $this->setExpectedException('Solarium\Exception\RuntimeException', 'Maximum number of loadbalancer retries reached');
 
-        $this->plugin->preExecuteRequest($request);
+        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $this->plugin->preExecuteRequest($event);
     }
 
 }

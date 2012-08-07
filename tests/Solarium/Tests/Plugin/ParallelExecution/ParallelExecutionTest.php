@@ -29,8 +29,8 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Plugin;
-use Solarium\Plugin\ParallelExecution;
+namespace Solarium\Tests\Plugin\ParallelExecution;
+use Solarium\Plugin\ParallelExecution\ParallelExecution;
 use Solarium\Core\Client\Client;
 
 class ParallelExecutionTest extends \PHPUnit_Framework_TestCase
