@@ -38,9 +38,10 @@
  */
 namespace Solarium\Plugin;
 use Solarium\Client;
-use Solarium\Core\Plugin;
-use Solarium\Core\Query\Query;
+use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Event\Events;
+use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 
 /**
  * PostBigRequest plugin
@@ -63,6 +64,19 @@ class PostBigRequest extends Plugin
     protected $options = array(
         'maxquerystringlength' => 1024,
     );
+
+    /**
+     * Plugin init function
+     *
+     * Register event listeners
+     *
+     * @return void
+     */
+    protected function initPluginType()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(Events::POST_CREATE_REQUEST, array($this, 'postCreateRequest'));
+    }
 
     /**
      * Set maxquerystringlength enabled option
@@ -88,12 +102,12 @@ class PostBigRequest extends Plugin
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param  Query   $query
-     * @param  Request $request
+     * @param  PostCreateRequestEvent $event
      * @return void
      */
-    public function postCreateRequest($query, $request)
+    public function postCreateRequest($event)
     {
+        $request = $event->getRequest();
         $queryString = $request->getQueryString();
         if ($request->getMethod() == Request::METHOD_GET &&
             strlen($queryString) > $this->getMaxQueryStringLength()) {

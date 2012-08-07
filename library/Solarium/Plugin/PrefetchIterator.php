@@ -38,7 +38,7 @@
  */
 namespace Solarium\Plugin;
 use Solarium\Client;
-use Solarium\Core\Plugin;
+use Solarium\Core\Plugin\Plugin;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 

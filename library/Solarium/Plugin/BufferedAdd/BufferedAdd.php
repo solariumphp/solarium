@@ -36,12 +36,17 @@
 /**
  * @namespace
  */
-namespace Solarium\Plugin;
+namespace Solarium\Plugin\BufferedAdd;
 use Solarium\Client;
-use Solarium\Core\Plugin;
+use Solarium\Core\Plugin\Plugin;
 use Solarium\QueryType\Update\Result as UpdateResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
+use Solarium\Plugin\BufferedAdd\Event\Events;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
+use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
+use Solarium\Plugin\BufferedAdd\Event\PreCommit as PreCommitEvent;
+use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
 
 /**
  * Buffered add plugin
@@ -194,13 +199,15 @@ class BufferedAdd extends Plugin
             return false;
         }
 
-        $this->client->triggerEvent('BufferedAddFlushStart', array($this->buffer));
+        $event = new PreFlushEvent($this->buffer, $overwrite, $commitWithin);
+        $this->client->getEventDispatcher()->dispatch(Events::PRE_FLUSH, $event);
 
-        $this->updateQuery->addDocuments($this->buffer, $overwrite, $commitWithin);
+        $this->updateQuery->addDocuments($event->getBuffer(), $event->getOverwrite(), $event->getCommitWithin());
         $result = $this->client->update($this->updateQuery);
         $this->clear();
 
-        $this->client->triggerEvent('BufferedAddFlushEnd', array($result));
+        $event = new PostFlushEvent($this->buffer);
+        $this->client->getEventDispatcher()->dispatch(Events::POST_FLUSH, $event);
 
         return $result;
     }
@@ -218,14 +225,16 @@ class BufferedAdd extends Plugin
      */
     public function commit($overwrite = null, $waitFlush = null, $waitSearcher = null, $expungeDeletes = null)
     {
-        $this->client->triggerEvent('BufferedAddCommitStart', array($this->buffer));
+        $event = new PreCommitEvent($this->buffer, $overwrite, $waitFlush, $waitSearcher, $expungeDeletes);
+        $this->client->getEventDispatcher()->dispatch(Events::PRE_COMMIT, $event);
 
-        $this->updateQuery->addDocuments($this->buffer, $overwrite);
-        $this->updateQuery->addCommit($waitFlush, $waitSearcher, $expungeDeletes);
+        $this->updateQuery->addDocuments($this->buffer, $event->getOverwrite());
+        $this->updateQuery->addCommit($event->getWaitFlush(), $event->getWaitSearcher(), $event->getExpungeDeletes());
         $result = $this->client->update($this->updateQuery);
         $this->clear();
 
-        $this->client->triggerEvent('BufferedAddCommitEnd', array($result));
+        $event = new PostCommitEvent($this->buffer);
+        $this->client->getEventDispatcher()->dispatch(Events::POST_COMMIT, $event);
 
         return $result;
     }

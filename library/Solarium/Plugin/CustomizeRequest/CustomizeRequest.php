@@ -37,11 +37,13 @@
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
-use Solarium\Core\Plugin;
+use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
+use Solarium\Core\Event\Events;
+use Solarium\Core\Event\preExecuteRequest as preExecuteRequestEvent;
 
 /**
  * CustomizeRequest plugin
@@ -73,6 +75,19 @@ class CustomizeRequest extends Plugin
                     break;
             }
         }
+    }
+
+    /**
+     * Plugin init function
+     *
+     * Register event listeners
+     *
+     * @return void
+     */
+    protected function initPluginType()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
     }
 
     /**
@@ -236,12 +251,12 @@ class CustomizeRequest extends Plugin
      * Event hook to customize the request object
      *
      * @throws RuntimeException
-     * @param  Query   $query
-     * @param  Request $request
+     * @param  preExecuteRequestEvent $event
      * @return void
      */
-    public function postCreateRequest($query, $request)
+    public function preExecuteRequest(preExecuteRequestEvent $event)
     {
+        $request = $event->getRequest();
         foreach ($this->getCustomizations() as $key => $customization) {
 
             // first validate
@@ -268,6 +283,8 @@ class CustomizeRequest extends Plugin
                 $this->removeCustomization($key);
             }
         }
+
+        $event->setRequest($request);
     }
 
 }

@@ -37,7 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer;
-use Solarium\Core\Plugin;
+use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Query\Query;
@@ -47,6 +47,11 @@ use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\HttpException;
+use Solarium\Plugin\Loadbalancer\Event\Events;
+use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as EndpointFailureEvent;
+use Solarium\Core\Event\Events as CoreEvents;
+use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
+use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 
 /**
  * Loadbalancer plugin
@@ -157,6 +162,20 @@ class Loadbalancer extends Plugin
                     break;
             }
         }
+    }
+
+    /**
+     * Plugin init function
+     *
+     * Register event listeners
+     *
+     * @return void
+     */
+    protected function initPluginType()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(CoreEvents::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
+        $dispatcher->addListener(CoreEvents::PRE_CREATE_REQUEST, array($this, 'preCreateRequest'));
     }
 
     /**
@@ -426,21 +445,20 @@ class Loadbalancer extends Plugin
     /**
      * Event hook to capture querytype
      *
-     * @param  Query $query
+     * @param  PreCreateRequestEvent $event
      * @return void
      */
-    public function preCreateRequest($query)
+    public function preCreateRequest(PreCreateRequestEvent $event)
     {
-        $this->queryType = $query->getType();
+        $this->queryType = $event->getQuery()->getType();
     }
 
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param  Request  $request
-     * @return Response
+     * @param PreExecuteRequestEvent  $event
      */
-    public function preExecuteRequest($request)
+    public function preExecuteRequest(PreExecuteRequestEvent $event)
     {
         $adapter = $this->client->getAdapter();
 
@@ -451,14 +469,16 @@ class Loadbalancer extends Plugin
 
         // check querytype: is loadbalancing allowed?
         if (!array_key_exists($this->queryType, $this->blockedQueryTypes)) {
-            return  $this->getLoadbalancedResponse($request);
+            $response = $this->getLoadbalancedResponse($event->getRequest());
         } else {
             $endpoint = $this->client->getEndpoint($this->defaultEndpoint);
             $this->lastEndpoint = null;
 
             // execute request and return result
-            return $adapter->execute($request, $endpoint);
+            $response = $adapter->execute($event->getRequest(), $endpoint);
         }
+
+        $event->setResponse($response);
     }
 
     /**
@@ -481,7 +501,10 @@ class Loadbalancer extends Plugin
                 } catch (HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
-                    $this->client->triggerEvent('LoadbalancerEndpointFail', array($endpoint->getOptions(), $e));
+                    $this->client->getEventDispatcher()->dispatch(
+                        Events::ENDPOINT_FAILURE,
+                        new EndpointFailureEvent($endpoint, $e)
+                    );
                 }
             }
 

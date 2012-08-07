@@ -36,11 +36,15 @@
 /**
  * @namespace
  */
-namespace Solarium\Plugin;
-use Solarium\Core\Plugin;
-use Solarium\Core\Client\HttpException;
+namespace Solarium\Plugin\ParallelExecution;
+use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Client\Endpoint;
+use Solarium\Exception\HttpException;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query;
+use Solarium\Plugin\ParallelExecution\Event\Events;
+use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
+use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
 
 /**
  * ParallelExecution plugin
@@ -150,7 +154,7 @@ class ParallelExecution extends Plugin
         }
 
         // executing multihandle (all requests)
-        $this->client->triggerEvent('ParallelExecutionStart');
+        $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_START, new ExecuteStartEvent());
 
         do {
             $mrc = curl_multi_exec($multiHandle, $active);
@@ -165,7 +169,7 @@ class ParallelExecution extends Plugin
             }
         }
 
-        $this->client->triggerEvent('ParallelExecutionEnd');
+        $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_END, new ExecuteEndEvent());
 
         // get the results
         $results = array();
