@@ -112,4 +112,16 @@ class PostBigRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($requestInput, $requestOutput);
     }
 
+    public function testPluginIntegration()
+    {
+        $client = new Client;
+        $client->registerPlugin('testplugin', $this->plugin);
+        $this->plugin->setMaxQueryStringLength(1); // this forces POST for even the smallest queries
+
+        $query = $client->createSelect();
+        $request = $client->createRequest($query);
+
+        // default method is GET, the plugin should have changed this to POST
+        $this->assertEquals(Request::METHOD_POST, $request->getMethod());
+    }
 }

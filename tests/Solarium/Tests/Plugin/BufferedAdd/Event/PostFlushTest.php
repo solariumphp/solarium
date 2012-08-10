@@ -27,25 +27,29 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\Plugin\ParallelExecution\Event;
-use Symfony\Component\EventDispatcher\Event;
-use Solarium\QueryType\Update\Result;
+namespace Solarium\Tests\Plugin\BufferedAdd\Event;
+use Solarium\Plugin\BufferedAdd\Event\PostFlush;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\Core\Client\Client;
+use Solarium\Core\Client\Response;
+use Solarium\Core\Query\Result\Result;
 
-/**
- * ExecuteStart event, see Events for details
- *
- * @codeCoverageIgnore
- */
-class ExecuteStart extends Event
+class PostFlushTest extends \PHPUnit_Framework_TestCase
 {
+
+    public function testConstructorAndGetter()
+    {
+        $client = new Client;
+        $query = $client->createSelect();
+        $query->setQuery('test123');
+        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $result = new Result($client, $query, $response);
+
+        $event = new PostFlush($result);
+
+        $this->assertEquals($result, $event->getResult());
+    }
 
 }

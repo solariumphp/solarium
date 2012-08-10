@@ -27,25 +27,62 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\Plugin\ParallelExecution\Event;
-use Symfony\Component\EventDispatcher\Event;
-use Solarium\QueryType\Update\Result;
+namespace Solarium\Tests\Plugin\BufferedAdd\Event;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush;
 
-/**
- * ExecuteStart event, see Events for details
- *
- * @codeCoverageIgnore
- */
-class ExecuteStart extends Event
+class PreFlushTest extends \PHPUnit_Framework_TestCase
 {
 
+    public function testConstructorAndGetters()
+    {
+        $buffer = array(1,2,3);
+        $overwrite = true;
+        $commitWithin = 567;
+
+        $event = new PreFlush($buffer, $overwrite, $commitWithin);
+
+        $this->assertEquals($buffer, $event->getBuffer());
+        $this->assertEquals($overwrite, $event->getOverwrite());
+        $this->assertEquals($commitWithin, $event->getCommitWithin());
+
+        return $event;
+    }
+
+    /**
+     * @depends testConstructorAndGetters
+     *
+     * @param PreFlush $event
+     */
+    public function testSetAndGetBuffer($event)
+    {
+        $buffer = array(4,5,6);
+        $event->setBuffer($buffer);
+        $this->assertEquals($buffer, $event->getBuffer());
+    }
+
+    /**
+     * @depends testConstructorAndGetters
+     *
+     * @param PreFlush $event
+     */
+    public function testSetAndGetCommitWithin($event)
+    {
+        $commitWithin = 321;
+        $event->setCommitWithin($commitWithin);
+        $this->assertEquals($commitWithin, $event->getCommitWithin());
+    }
+
+    /**
+     * @depends testConstructorAndGetters
+     *
+     * @param PreFlush $event
+     */
+    public function testSetAndGetOverwrite($event)
+    {
+        $overwrite = false;
+        $event->setOverwrite($overwrite);
+        $this->assertEquals($overwrite, $event->getOverwrite());
+    }
 }

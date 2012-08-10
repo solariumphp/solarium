@@ -43,7 +43,6 @@ class ParallelExecutionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->plugin = new ParallelExecution();
-
     }
 
     public function testAddAndGetQueries()

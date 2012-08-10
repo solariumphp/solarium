@@ -27,25 +27,26 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\Plugin\ParallelExecution\Event;
-use Symfony\Component\EventDispatcher\Event;
-use Solarium\QueryType\Update\Result;
+namespace Solarium\Tests\Plugin\Loadbalancer\Event;
+use Solarium\Plugin\Loadbalancer\Event\EndpointFailure;
+use Solarium\Core\Client\Client;
+use Solarium\Exception\HttpException;
 
-/**
- * ExecuteStart event, see Events for details
- *
- * @codeCoverageIgnore
- */
-class ExecuteStart extends Event
+class EndpointFailureTest extends \PHPUnit_Framework_TestCase
 {
+
+    public function testConstructorAndGetters()
+    {
+        $client = new Client;
+        $endpoint = $client->getEndpoint();
+        $httpException = new HttpException('test exception');
+
+        $event = new EndpointFailure($endpoint, $httpException);
+
+        $this->assertEquals($endpoint, $event->getEndpoint());
+        $this->assertEquals($httpException, $event->getException());
+    }
 
 }

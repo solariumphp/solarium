@@ -40,6 +40,8 @@ namespace Solarium\Plugin\ParallelExecution\Event;
 
 /**
  * Event definitions
+ *
+ * @codeCoverageIgnore
  */
 class Events
 {

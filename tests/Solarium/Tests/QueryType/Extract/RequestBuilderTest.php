@@ -84,5 +84,39 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDocumentFieldAndBoostParams()
+    {
+        $fields = array('field1' => 'value1', 'field2' => 'value2');
+        $boosts = array('field1' => 1, 'field2' => 5);
+        $document = $this->query->createDocument($fields, $boosts);
+        $this->query->setDocument($document);
+
+        $request = $this->builder->build($this->query);
+        $this->assertEquals(
+            array(
+                'boost.field1' => 1,
+                'boost.field2' => 5,
+                'fmap.from-field' => 'to-field',
+                'literal.field1' => 'value1',
+                'literal.field2' => 'value2',
+                'omitHeader' => true,
+                'param1' => 'value1',
+                'resource.name' => 'RequestBuilderTest.php',
+                'wt' => 'json',
+            ),
+            $request->getParams()
+        );
+    }
+
+    public function testDocumentWithBoostThrowsException()
+    {
+        $document = $this->query->createDocument();
+        $document->setBoost(4);
+        $this->query->setDocument($document);
+
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->builder->build($this->query);
+    }
+
 
 }

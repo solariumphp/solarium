@@ -32,7 +32,9 @@
 namespace Solarium\Tests\Plugin\CustomizeRequest;
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 use Solarium\Plugin\CustomizeRequest\Customization;
+use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 
@@ -88,6 +90,33 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('1234', $id->getValue());
         $this->assertEquals(false, $id->getPersistent());
         $this->assertEquals(false, $id->getOverwrite());
+    }
+
+    public function testPluginIntegration()
+    {
+        $client = new Client;
+        $client->registerPlugin('testplugin', $this->plugin);
+
+        $input = array(
+                    'key' => 'xid',
+                    'type' => 'param',
+                    'name' => 'xid',
+                    'value' => 123,
+                );
+        $this->plugin->addCustomization($input);
+
+        $originalRequest = new Request();
+        $expectedRequest = new Request();
+        $expectedRequest->addParam('xid', 123); // this should be the effect of the customization
+
+        $observer = $this->getMock('Solarium\Core\Client\Adapter\Http', array('execute'));
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($expectedRequest))
+                 ->will($this->returnValue(new Response('',array('HTTP 1.0 200 OK'))));
+        $client->setAdapter($observer);
+
+        $client->executeRequest($originalRequest);
     }
 
     public function testCreateCustomization()
