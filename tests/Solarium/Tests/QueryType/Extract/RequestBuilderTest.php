@@ -99,7 +99,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'fmap.from-field' => 'to-field',
                 'literal.field1' => 'value1',
                 'literal.field2' => 'value2',
-                'omitHeader' => true,
+                'omitHeader' => 'true',
                 'param1' => 'value1',
                 'resource.name' => 'RequestBuilderTest.php',
                 'wt' => 'json',
