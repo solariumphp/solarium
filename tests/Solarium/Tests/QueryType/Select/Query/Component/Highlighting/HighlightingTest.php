@@ -80,7 +80,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
             'regexmaxanalyzedchars' => 500,
             'query' => 'text:myvalue',
             'phraselimit' => 35,
-
+            'multivaluedseparatorchar' => '|',
         );
 
         $this->hlt->setOptions($options);
@@ -111,6 +111,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['regexmaxanalyzedchars'], $this->hlt->getRegexMaxAnalyzedChars());
         $this->assertEquals($options['query'], $this->hlt->getQuery());
         $this->assertEquals($options['phraselimit'], $this->hlt->getPhraseLimit());
+        $this->assertEquals($options['multivaluedseparatorchar'], $this->hlt->getMultiValuedSeparatorChar());
     }
 
     public function testGetType()
@@ -510,6 +511,17 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $value,
             $this->hlt->getTagPostfix()
+        );
+    }
+
+    public function testSetAndGetMultiValuedSeparatorChar()
+    {
+        $value = '|';
+        $this->hlt->setMultiValuedSeparatorChar($value);
+
+        $this->assertEquals(
+            $value,
+            $this->hlt->getMultiValuedSeparatorChar()
         );
     }
 

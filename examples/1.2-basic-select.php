@@ -7,7 +7,7 @@ htmlHeader();
 $client = new Solarium\Client($config);
 
 // get a select query instance
-$query = $client->createQuery($client::QUERY_SELECT);
+$query = $client->createQuery($client::QUERY_SELECT, array('responsewriter' => 'phps'));
 
 // this executes the query and returns the result
 $resultset = $client->execute($query);

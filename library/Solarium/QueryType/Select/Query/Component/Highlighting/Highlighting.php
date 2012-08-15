@@ -754,4 +754,25 @@ class Highlighting extends Component
         return $this->getOption('phraselimit');
     }
 
+    /**
+     * Set MultiValuedSeparatorChar option
+     *
+     * @param  string  $separator
+     * @return self Provides fluent interface
+     */
+    public function setMultiValuedSeparatorChar($separator)
+    {
+        return $this->setOption('multivaluedseparatorchar', $separator);
+    }
+
+    /**
+     * Get MultiValuedSeparatorChar option
+     *
+     * @return $separator
+     */
+    public function getMultiValuedSeparatorChar()
+    {
+        return $this->getOption('multivaluedseparatorchar');
+    }
+
 }

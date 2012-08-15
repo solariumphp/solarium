@@ -84,6 +84,7 @@ class Highlighting
         $request->addParam('hl.regex.maxAnalyzedChars', $component->getRegexMaxAnalyzedChars());
         $request->addParam('hl.q', $component->getQuery());
         $request->addParam('hl.phraseLimit', $component->getPhraseLimit());
+        $request->addParam('hl.multiValuedSeparatorChar', $component->getMultiValuedSeparatorChar());
 
         // set per-field highlighting params
         foreach ($component->getFields() as $field) {

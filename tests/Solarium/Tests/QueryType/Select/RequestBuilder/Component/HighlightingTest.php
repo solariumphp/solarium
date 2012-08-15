@@ -79,6 +79,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $component->setPhraseLimit(40);
         $component->setTagPrefix('<i>');
         $component->setTagPostfix('</i>');
+        $component->setMultiValuedSeparatorChar('|');
 
         $request = $builder->buildComponent($component, $request);
 
@@ -108,6 +109,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
                 'hl.regex.pattern' => 'mypattern',
                 'hl.q' => 'text:myvalue',
                 'hl.phraseLimit' => 40,
+                'hl.multiValuedSeparatorChar' => '|',
                 'f.fieldB.hl.snippets' => 3,
                 'f.fieldB.hl.fragsize' => 25,
                 'f.fieldB.hl.mergeContiguous' => 'true',
