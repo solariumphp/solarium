@@ -444,6 +444,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             ),
             'resultclass' => 'MyResultClass',
             'documentclass' => 'MyDocumentClass',
+            'tag' => array('t1','t2'),
         );
         $query = new Query($config);
 
@@ -470,6 +471,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $components = $query->getComponents();
         $this->assertEquals(1, count($components));
         $this->assertThat(array_pop($components), $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\FacetSet'));
+        $this->assertEquals(array('t1','t2'), $query->getTags());
+    }
+
+    public function testConfigModeWithSingleValueTag()
+    {
+        $query = $query = new Query(array('tag' => 't1'));
+        $this->assertEquals(array('t1'), $query->getTags());
     }
 
     public function testSetAndGetComponents()
@@ -663,4 +671,38 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             get_class($stats)
         );
     }
+
+    public function testAddTag()
+    {
+        $this->query->addTag('testtag');
+        $this->assertEquals(array('testtag'), $this->query->getTags());
+    }
+
+    public function testAddTags()
+    {
+        $this->query->addTags(array('t1','t2'));
+        $this->assertEquals(array('t1','t2'), $this->query->getTags());
+    }
+
+    public function testRemoveTag()
+    {
+        $this->query->addTags(array('t1','t2'));
+        $this->query->removeTag('t1');
+        $this->assertEquals(array('t2'), $this->query->getTags());
+    }
+
+    public function testClearTags()
+    {
+        $this->query->addTags(array('t1','t2'));
+        $this->query->clearTags();
+        $this->assertEquals(array(), $this->query->getTags());
+    }
+
+    public function testSetTags()
+    {
+        $this->query->addTags(array('t1','t2'));
+        $this->query->setTags(array('t3','t4'));
+        $this->assertEquals(array('t3','t4'), $this->query->getTags());
+    }
+
 }

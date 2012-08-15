@@ -200,7 +200,6 @@ class FilterQuery extends Configurable
     public function clearTags()
     {
         $this->tags = array();
-
         return $this;
     }
 
@@ -212,11 +211,10 @@ class FilterQuery extends Configurable
      * @param  array $filterQueries
      * @return self  Provides fluent interface
      */
-    public function setTags($filterQueries)
+    public function setTags($tags)
     {
         $this->clearTags();
-
-        return $this->addTags($filterQueries);
+        return $this->addTags($tags);
     }
 
 }

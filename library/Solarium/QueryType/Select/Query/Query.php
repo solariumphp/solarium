@@ -141,6 +141,13 @@ class Query extends BaseQuery
     );
 
     /**
+     * Tags for this query
+     *
+     * @var array
+     */
+    protected $tags = array();
+
+    /**
      * Default select query component types
      *
      * @var array
@@ -248,6 +255,12 @@ class Query extends BaseQuery
                     break;
                 case 'component':
                     $this->createComponents($value);
+                    break;
+                case 'tag':
+                    if (!is_array($value)) {
+                        $value = array($value);
+                    }
+                    $this->addTags($value);
                     break;
             }
         }
@@ -985,6 +998,85 @@ class Query extends BaseQuery
     public function getDebug()
     {
         return $this->getComponent(self::COMPONENT_DEBUG, true);
+    }
+
+    /**
+     * Add a tag
+     *
+     * @param  string $tag
+     * @return self   Provides fluent interface
+     */
+    public function addTag($tag)
+    {
+        $this->tags[$tag] = true;
+
+        return $this;
+    }
+
+    /**
+     * Add tags
+     *
+     * @param  array $tags
+     * @return self  Provides fluent interface
+     */
+    public function addTags($tags)
+    {
+        foreach ($tags as $tag) {
+            $this->addTag($tag);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get all tagss
+     *
+     * @return array
+     */
+    public function getTags()
+    {
+        return array_keys($this->tags);
+    }
+
+    /**
+     * Remove a tag
+     *
+     * @param  string $tag
+     * @return self   Provides fluent interface
+     */
+    public function removeTag($tag)
+    {
+        if (isset($this->tags[$tag])) {
+            unset($this->tags[$tag]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all tags
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearTags()
+    {
+        $this->tags = array();
+
+        return $this;
+    }
+
+    /**
+     * Set multiple tags
+     *
+     * This overwrites any existing tags
+     *
+     * @param  array $tags
+     * @return self  Provides fluent interface
+     */
+    public function setTags($tags)
+    {
+        $this->clearTags();
+        return $this->addTags($tags);
     }
 
 }

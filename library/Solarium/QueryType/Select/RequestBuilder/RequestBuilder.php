@@ -59,7 +59,10 @@ class RequestBuilder extends BaseRequestBuilder
         $request = parent::build($query);
 
         // add basic params to request
-        $request->addParam('q', $query->getQuery());
+        $request->addParam('q', $this->renderLocalParams(
+            $query->getQuery(),
+            array('tag' => $query->getTags())
+        ));
         $request->addParam('start', $query->getStart());
         $request->addParam('rows', $query->getRows());
         $request->addParam('fl', implode(',', $query->getFields()));

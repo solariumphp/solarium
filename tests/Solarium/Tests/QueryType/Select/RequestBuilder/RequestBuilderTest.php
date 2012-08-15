@@ -169,6 +169,18 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testWithTags()
+    {
+        $this->query->setTags(array('t1','t2'));
+        $this->query->setQuery('cat:1');
+        $request = $this->builder->build($this->query);
+
+        $this->assertEquals(
+            '{!tag=t1,t2}cat:1',
+            $request->getParam('query')
+        );
+    }
+
 }
 
 class TestDummyComponent extends Component
