@@ -177,7 +177,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '{!tag=t1,t2}cat:1',
-            $request->getParam('query')
+            $request->getParam('q')
         );
     }
 

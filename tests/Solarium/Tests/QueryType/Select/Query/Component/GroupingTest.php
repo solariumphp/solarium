@@ -58,6 +58,9 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
             'numberofgroups' => true,
             'cachepercentage' => 45,
             'truncate' => true,
+            'function' => 'log(foo)',
+            'format' => 'grouped',
+            'facet' => 'true',
         );
 
         $this->grouping->setOptions($options);
@@ -71,6 +74,9 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['numberofgroups'], $this->grouping->getNumberOfGroups());
         $this->assertEquals($options['cachepercentage'], $this->grouping->getCachePercentage());
         $this->assertEquals($options['truncate'], $this->grouping->getTruncate());
+        $this->assertEquals($options['function'], $this->grouping->getFunction());
+        $this->assertEquals($options['format'], $this->grouping->getFormat());
+        $this->assertEquals($options['facet'], $this->grouping->getFacet());
     }
 
     public function testGetType()
@@ -220,6 +226,39 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $value,
             $this->grouping->getTruncate()
+        );
+    }
+
+    public function testSetAndGetFunction()
+    {
+        $value = 'log(foo)';
+        $this->grouping->setFunction($value);
+
+        $this->assertEquals(
+            $value,
+            $this->grouping->getFunction()
+        );
+    }
+
+    public function testSetAndGetFormat()
+    {
+        $value = 'grouped';
+        $this->grouping->setFormat($value);
+
+        $this->assertEquals(
+            $value,
+            $this->grouping->getFormat()
+        );
+    }
+
+    public function testSetAndGetFacet()
+    {
+        $value = true;
+        $this->grouping->setFacet($value);
+
+        $this->assertEquals(
+            $value,
+            $this->grouping->getFacet()
         );
     }
 

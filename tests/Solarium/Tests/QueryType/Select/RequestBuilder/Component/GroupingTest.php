@@ -52,6 +52,9 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $component->setNumberOfGroups(false);
         $component->setCachePercentage(50);
         $component->setTruncate(true);
+        $component->setFunction('log(foo)');
+        $component->setFacet(true);
+        $component->setFormat('grouped');
 
         $request = $builder->buildComponent($component, $request);
 
@@ -67,6 +70,9 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
                 'group.ngroups' => 'false',
                 'group.cache.percent' => 50,
                 'group.truncate' => 'true',
+                'group.func' => 'log(foo)',
+                'group.facet' => true,
+                'group.format' => 'grouped',
             ),
             $request->getParams()
         );

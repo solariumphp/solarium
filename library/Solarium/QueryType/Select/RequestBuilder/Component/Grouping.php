@@ -67,6 +67,9 @@ class Grouping
         $request->addParam('group.ngroups', $component->getNumberOfGroups());
         $request->addParam('group.cache.percent', $component->getCachePercentage());
         $request->addParam('group.truncate', $component->getTruncate());
+        $request->addParam('group.func', $component->getFunction());
+        $request->addParam('group.facet', $component->getFacet());
+        $request->addParam('group.format', $component->getFormat());
 
         return $request;
     }

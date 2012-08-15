@@ -441,4 +441,75 @@ class Grouping extends Component
         return $this->getOption('truncate');
     }
 
+    /**
+     * Set function option
+     *
+     * Group based on the unique values of a function query. Only available in Solr 4.0+
+     *
+     * @param  string $value
+     * @return self    Provides fluent interface
+     */
+    public function setFunction($value)
+    {
+        return $this->setOption('function', $value);
+    }
+
+    /**
+     * Get truncate option
+     *
+     * @return string|null
+     */
+    public function getFunction()
+    {
+        return $this->getOption('function');
+    }
+
+    /**
+     * Set facet option
+     *
+     * Group based on the unique values of a function query.
+     * This parameter only is supported on Solr 4.0+
+     *
+     * @param  string $value
+     * @return self    Provides fluent interface
+     */
+    public function setFacet($value)
+    {
+        return $this->setOption('facet', $value);
+    }
+
+    /**
+     * Get facet option
+     *
+     * @return string|null
+     */
+    public function getFacet()
+    {
+        return $this->getOption('facet');
+    }
+
+    /**
+     * Set format option
+     *
+     * If simple, the grouped documents are presented in a single flat list.
+     * The start and rows parameters refer to numbers of documents instead of numbers of groups.
+     *
+     * @param  string $value
+     * @return self    Provides fluent interface
+     */
+    public function setFormat($value)
+    {
+        return $this->setOption('format', $value);
+    }
+
+    /**
+     * Get format option
+     *
+     * @return string|null
+     */
+    public function getFormat()
+    {
+        return $this->getOption('format');
+    }
+
 }
