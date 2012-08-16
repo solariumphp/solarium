@@ -74,13 +74,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
                 ),
                 'key2' => array(
                     'type' => 'commit',
-                    'waitflush' => true,
+                    'softcommit' => true,
                     'waitsearcher' => false,
                     'expungedeletes' => true,
                 ),
                 'key3' => array(
                     'type' => 'optimize',
-                    'waitflush' => true,
+                    'softcommit' => true,
                     'waitsearcher' => false,
                     'maxsegments' => 5,
                 ),
@@ -115,7 +115,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $commit = $commands['key2'];
         $this->assertEquals(
             true,
-            $commit->getWaitFlush()
+            $commit->getSoftCommit()
         );
         $this->assertEquals(
             false,
@@ -129,7 +129,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $optimize = $commands['key3'];
         $this->assertEquals(
             true,
-            $optimize->getWaitFlush()
+            $optimize->getSoftCommit()
         );
         $this->assertEquals(
             false,
@@ -368,7 +368,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             true,
-            $commands[0]->getWaitFlush()
+            $commands[0]->getSoftCommit()
         );
 
         $this->assertEquals(
@@ -395,7 +395,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             true,
-            $commands[0]->getWaitFlush()
+            $commands[0]->getSoftCommit()
         );
 
         $this->assertEquals(

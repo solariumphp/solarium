@@ -218,18 +218,18 @@ class BufferedAdd extends Plugin
      * Any remaining documents in the buffer will also be flushed
      *
      * @param  boolean      $overwrite
-     * @param  boolean      $waitFlush
+     * @param  boolean      $softCommit
      * @param  boolean      $waitSearcher
      * @param  boolean      $expungeDeletes
      * @return UpdateResult
      */
-    public function commit($overwrite = null, $waitFlush = null, $waitSearcher = null, $expungeDeletes = null)
+    public function commit($overwrite = null, $softCommit = null, $waitSearcher = null, $expungeDeletes = null)
     {
-        $event = new PreCommitEvent($this->buffer, $overwrite, $waitFlush, $waitSearcher, $expungeDeletes);
+        $event = new PreCommitEvent($this->buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
         $this->client->getEventDispatcher()->dispatch(Events::PRE_COMMIT, $event);
 
         $this->updateQuery->addDocuments($this->buffer, $event->getOverwrite());
-        $this->updateQuery->addCommit($event->getWaitFlush(), $event->getWaitSearcher(), $event->getExpungeDeletes());
+        $this->updateQuery->addCommit($event->getSoftCommit(), $event->getWaitSearcher(), $event->getExpungeDeletes());
         $result = $this->client->update($this->updateQuery);
         $this->clear();
 

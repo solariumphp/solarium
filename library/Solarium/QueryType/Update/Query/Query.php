@@ -383,19 +383,19 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  boolean $waitFlush
+     * @param  boolean $softCommit
      * @param  boolean $waitSearcher
      * @param  boolean $expungeDeletes
      * @return self    Provides fluent interface
      */
-    public function addCommit($waitFlush = null, $waitSearcher = null,
+    public function addCommit($softCommit = null, $waitSearcher = null,
                               $expungeDeletes = null)
     {
         $commit = new Command\Commit();
 
-        if (null !== $waitFlush) {
-            $commit->setWaitFlush($waitFlush);
-        }
+        if (null !== $softCommit) {
+            $commit->setSoftCommit($softCommit);
+       }
 
         if (null !== $waitSearcher) {
             $commit->setWaitSearcher($waitSearcher);
@@ -414,18 +414,18 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  boolean $waitFlush
+     * @param  boolean $softCommit
      * @param  boolean $waitSearcher
      * @param  int     $maxSegments
      * @return self    Provides fluent interface
      */
-   public function addOptimize($waitFlush = null, $waitSearcher = null,
+   public function addOptimize($softCommit = null, $waitSearcher = null,
                                $maxSegments = null)
    {
        $optimize = new Command\Optimize();
 
-       if (null !== $waitFlush) {
-           $optimize->setWaitFlush($waitFlush);
+       if (null !== $softCommit) {
+           $optimize->setSoftCommit($softCommit);
        }
 
        if (null !== $waitSearcher) {

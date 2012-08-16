@@ -53,7 +53,7 @@ class CommitTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'waitflush' => true,
+            'softcommit' => true,
             'waitsearcher' => false,
             'expungedeletes' => true,
         );
@@ -62,7 +62,7 @@ class CommitTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             true,
-            $command->getWaitFlush()
+            $command->getSoftCommit()
         );
 
         $this->assertEquals(
@@ -76,12 +76,12 @@ class CommitTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetAndSetWaitFlush()
+    public function testGetAndSetSoftCommit()
     {
-        $this->command->setWaitFlush(false);
+        $this->command->setSoftCommit(false);
         $this->assertEquals(
             false,
-            $this->command->getWaitFlush()
+            $this->command->getSoftCommit()
         );
     }
 

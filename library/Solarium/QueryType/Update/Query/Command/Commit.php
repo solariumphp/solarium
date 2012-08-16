@@ -58,24 +58,24 @@ class Commit extends Command
     }
 
     /**
-     * Get waitFlush option
+     * Get softCommit option
      *
      * @return boolean
      */
-    public function getWaitFlush()
+    public function getSoftCommit()
     {
-        return $this->getOption('waitflush');
+        return $this->getOption('softcommit');
     }
 
     /**
-     * Set waitFlush option
+     * Set softCommit option
      *
-     * @param  boolean $waitFlush
+     * @param  boolean $softCommit
      * @return self    Provides fluent interface
      */
-    public function setWaitFlush($waitFlush)
+    public function setSoftCommit($softCommit)
     {
-        return $this->setOption('waitflush', $waitFlush);
+        return $this->setOption('softcommit', $softCommit);
     }
 
     /**

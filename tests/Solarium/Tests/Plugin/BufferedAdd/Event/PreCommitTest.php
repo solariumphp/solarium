@@ -39,15 +39,15 @@ class PreCommitTest extends \PHPUnit_Framework_TestCase
     {
         $buffer = array(1,2,3);
         $overwrite = true;
-        $waitFlush = false;
+        $softCommit = false;
         $waitSearcher = true;
         $expungeDeletes = false;
 
-        $event = new PreCommit($buffer, $overwrite, $waitFlush, $waitSearcher, $expungeDeletes);
+        $event = new PreCommit($buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
 
         $this->assertEquals($buffer, $event->getBuffer());
         $this->assertEquals($overwrite, $event->getOverwrite());
-        $this->assertEquals($waitFlush, $event->getWaitFlush());
+        $this->assertEquals($softCommit, $event->getSoftCommit());
         $this->assertEquals($waitSearcher, $event->getWaitSearcher());
         $this->assertEquals($expungeDeletes, $event->getExpungeDeletes());
 
@@ -95,11 +95,11 @@ class PreCommitTest extends \PHPUnit_Framework_TestCase
      *
      * @param PreCommit $event
      */
-    public function testSetAndGetWaitFlush($event)
+    public function testSetAndGetSoftCommit($event)
     {
-        $waitFlush = true;
-        $event->setWaitFlush($waitFlush);
-        $this->assertEquals($waitFlush, $event->getWaitFlush());
+        $softCommit = true;
+        $event->setSoftCommit($softCommit);
+        $this->assertEquals($softCommit, $event->getSoftCommit());
     }
 
     /**

@@ -58,7 +58,7 @@ class PreCommit extends Event
     /**
      * @var boolean
      */
-    protected $waitFlush;
+    protected $softCommit;
 
     /**
      * @var boolean
@@ -75,11 +75,11 @@ class PreCommit extends Event
      *
      * @param array $buffer
      */
-    public function __construct($buffer, $overwrite, $waitFlush, $waitSearcher, $expungeDeletes)
+    public function __construct($buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes)
     {
         $this->buffer = $buffer;
         $this->overwrite = $overwrite;
-        $this->waitFlush = $waitFlush;
+        $this->softCommit = $softCommit;
         $this->waitSearcher = $waitSearcher;
         $this->expungeDeletes = $expungeDeletes;
     }
@@ -144,19 +144,19 @@ class PreCommit extends Event
     /**
      * Optionally override the value
      *
-     * @param boolean $waitFlush
+     * @param boolean $softCommit
      */
-    public function setWaitFlush($waitFlush)
+    public function setSoftCommit($softCommit)
     {
-        $this->waitFlush = $waitFlush;
+        $this->softCommit = $softCommit;
     }
 
     /**
      * @return boolean
      */
-    public function getWaitFlush()
+    public function getSoftCommit()
     {
-        return $this->waitFlush;
+        return $this->softCommit;
     }
 
     /**

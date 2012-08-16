@@ -253,10 +253,10 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildOptimizeXmlWithParams()
     {
-        $command = new OptimizeCommand(array('waitflush'=>true,'waitsearcher'=>false,'maxsegments'=>10));
+        $command = new OptimizeCommand(array('softcommit'=>true,'waitsearcher'=>false,'maxsegments'=>10));
 
         $this->assertEquals(
-            '<optimize waitFlush="true" waitSearcher="false" maxSegments="10"/>',
+            '<optimize softCommit="true" waitSearcher="false" maxSegments="10"/>',
             $this->builder->buildOptimizeXml($command)
         );
     }
@@ -273,10 +273,10 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildCommitXmlWithParams()
     {
-        $command = new CommitCommand(array('waitflush'=>true,'waitsearcher'=>false,'expungedeletes'=>true));
+        $command = new CommitCommand(array('softcommit'=>true,'waitsearcher'=>false,'expungedeletes'=>true));
 
         $this->assertEquals(
-            '<commit waitFlush="true" waitSearcher="false" expungeDeletes="true"/>',
+            '<commit softCommit="true" waitSearcher="false" expungeDeletes="true"/>',
             $this->builder->buildCommitXml($command)
         );
     }

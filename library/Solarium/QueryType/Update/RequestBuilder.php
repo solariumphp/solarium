@@ -171,12 +171,10 @@ class RequestBuilder extends BaseRequestBuilder
     {
         $xml = '<delete>';
         foreach ($command->getIds() as $id) {
-            $xml .= '<id>' . htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8')
-                    . '</id>';
+            $xml .= '<id>' . htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8') . '</id>';
         }
         foreach ($command->getQueries() as $query) {
-            $xml .= '<query>' . htmlspecialchars($query, ENT_NOQUOTES, 'UTF-8')
-                    . '</query>';
+            $xml .= '<query>' . htmlspecialchars($query, ENT_NOQUOTES, 'UTF-8') . '</query>';
         }
         $xml .= '</delete>';
 
@@ -192,7 +190,7 @@ class RequestBuilder extends BaseRequestBuilder
     public function buildOptimizeXml($command)
     {
         $xml = '<optimize';
-        $xml .= $this->boolAttrib('waitFlush', $command->getWaitFlush());
+        $xml .= $this->boolAttrib('softCommit', $command->getSoftCommit());
         $xml .= $this->boolAttrib('waitSearcher', $command->getWaitSearcher());
         $xml .= $this->attrib('maxSegments', $command->getMaxSegments());
         $xml .= '/>';
@@ -209,12 +207,9 @@ class RequestBuilder extends BaseRequestBuilder
     public function buildCommitXml($command)
     {
         $xml = '<commit';
-        $xml .= $this->boolAttrib('waitFlush', $command->getWaitFlush());
+        $xml .= $this->boolAttrib('softCommit', $command->getSoftCommit());
         $xml .= $this->boolAttrib('waitSearcher', $command->getWaitSearcher());
-        $xml .= $this->boolAttrib(
-            'expungeDeletes',
-            $command->getExpungeDeletes()
-        );
+        $xml .= $this->boolAttrib('expungeDeletes',$command->getExpungeDeletes());
         $xml .= '/>';
 
         return $xml;

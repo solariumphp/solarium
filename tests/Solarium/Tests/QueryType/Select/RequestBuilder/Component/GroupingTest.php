@@ -71,7 +71,7 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
                 'group.cache.percent' => 50,
                 'group.truncate' => 'true',
                 'group.func' => 'log(foo)',
-                'group.facet' => true,
+                'group.facet' => 'true',
                 'group.format' => 'grouped',
             ),
             $request->getParams()
