@@ -74,6 +74,27 @@ class Solarium_Result_Select_Facet_Range extends Solarium_Result_Select_Facet_Fi
     protected $_between;
 
     /**
+     * The lower bound of the ranges
+     *
+     * @var string
+     */
+    protected $_start;
+
+    /**
+     * The upper bound of all ranges
+     *
+     * @var string
+     */
+    protected $_end;
+
+    /**
+     * The gap between each range
+     *
+     * @var string
+     */
+    protected $_gap;
+
+    /**
      * Constructor
      *
      * @param array $values
@@ -82,12 +103,15 @@ class Solarium_Result_Select_Facet_Range extends Solarium_Result_Select_Facet_Fi
      * @param int $between
      * @return void
      */
-    public function __construct($values, $before, $after, $between)
+    public function __construct($values, $before, $after, $between, $start, $end, $gap)
     {
         $this->_values = $values;
         $this->_before = $before;
         $this->_after = $after;
         $this->_between = $between;
+		$this->_start = $start;
+		$this->_end = $end;
+		$this->_gap = $gap;
     }
 
     /**
@@ -127,6 +151,42 @@ class Solarium_Result_Select_Facet_Range extends Solarium_Result_Select_Facet_Fi
     public function getBetween()
     {
         return $this->_between;
+    }
+
+    /**
+     * Get 'start' value of the ranges
+     *
+     * The start value specified in the query facet.
+     *
+     * @return string
+     */
+    public function getStart()
+    {
+        return $this->_start;
+    }
+
+    /**
+     * Get 'end' value of the ranges
+     *
+     * The end value specified in the query facet
+     *
+     * @return string
+     */
+    public function getEnd()
+    {
+        return $this->_end;
+    }
+
+    /**
+     * Get 'gap' between the start and end of each range
+     *
+     * Get the gap specified in the query facet
+     *
+     * @return string
+     */
+    public function getGap()
+    {
+        return $this->_gap;
     }
 
 }

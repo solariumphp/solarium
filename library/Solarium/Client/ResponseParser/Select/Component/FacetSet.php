@@ -174,6 +174,9 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
             $before = (isset($data['before'])) ? $data['before'] : null;
             $after = (isset($data['after'])) ? $data['after'] : null;
             $between = (isset($data['between'])) ? $data['between'] : null;
+            $start = (isset($data['start'])) ? $data['start'] : null;
+            $end = (isset($data['end'])) ? $data['end'] : null;
+            $gap = (isset($data['gap'])) ? $data['gap'] : null;
 
             $offset = 0;
             $counts = array();
@@ -182,7 +185,7 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
                 $offset += 2;
             }
 
-            return new Solarium_Result_Select_Facet_Range($counts, $before, $after, $between);
+            return new Solarium_Result_Select_Facet_Range($counts, $before, $after, $between, $start, $end, $gap);
         }
     }
 
