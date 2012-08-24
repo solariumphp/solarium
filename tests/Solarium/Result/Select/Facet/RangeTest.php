@@ -37,7 +37,7 @@ class Solarium_Result_Select_Facet_RangeTest extends PHPUnit_Framework_TestCase
      */
     protected $_facet;
 
-    protected $_values, $_before, $_after, $_between;
+    protected $_values, $_before, $_after, $_between, $_start, $_end, $_gap;
 
     public function setUp()
     {
@@ -49,8 +49,11 @@ class Solarium_Result_Select_Facet_RangeTest extends PHPUnit_Framework_TestCase
         $this->_before = 2;
         $this->_after = 4;
         $this->_between = 3;
+        $this->_start = '10.0';
+        $this->_end = '40.0';
+        $this->_gap = '10.0';
 
-        $this->_facet = new Solarium_Result_Select_Facet_Range($this->_values, $this->_before, $this->_after, $this->_between);
+        $this->_facet = new Solarium_Result_Select_Facet_Range($this->_values, $this->_before, $this->_after, $this->_between, $this->_start, $this->_end, $this->_gap);
     }
 
     public function testGetValues()
@@ -89,4 +92,18 @@ class Solarium_Result_Select_Facet_RangeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_between, $this->_facet->getBetween());
     }
     
+    public function testGetStart()
+    {
+        $this->assertEquals($this->_start, $this->_facet->getStart());
+    }
+
+    public function testGetEnd()
+    {
+        $this->assertEquals($this->_end, $this->_facet->getEnd());
+    }
+
+    public function testGetGap()
+    {
+        $this->assertEquals($this->_gap, $this->_facet->getGap());
+    }
 }
