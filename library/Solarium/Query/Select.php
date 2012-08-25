@@ -272,8 +272,12 @@ class Solarium_Query_Select extends Solarium_Query
         if (!is_null($bind)) {
             $query = $this->getHelper()->assemble($query, $bind);
         }
+        
+        if (!is_null($query)) {
+            $query = trim($query);
+        }
 
-        return $this->_setOption('query', trim($query));
+        return $this->_setOption('query', $query);
     }
 
     /**
