@@ -41,10 +41,13 @@ namespace Solarium;
 /**
  * Autoloader
  *
- * This class is included to allow for easy usage of Solarium.
+ * This class is included to allow for easy usage of Solarium in environments missing a PSR-O autoloader.
  *
- * Please note that Solarium is also PSR-0 compliant, so you can
- * use any compatible autoloader (most modern frameworks include one)
+ * It's recommended to install Solarium using composer, which will also provide autoloading for you. In that
+ * case you don't need to use this autoloader.
+ *
+ * Solarium is PSR-0 compliant, so you can also use any other compatible autoloader
+ * (most modern frameworks include one)
  */
 class Autoloader
 {
