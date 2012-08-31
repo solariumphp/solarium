@@ -73,20 +73,47 @@ class Range extends Field
     protected $between;
 
     /**
+     * The lower bound of the ranges
+     *
+     * @var string
+     */
+    protected $start;
+
+    /**
+     * The upper bound of all ranges
+     *
+     * @var string
+     */
+    protected $end;
+
+    /**
+     * The gap between each range
+     *
+     * @var string
+     */
+    protected $gap;
+
+    /**
      * Constructor
      *
      * @param  array $values
      * @param  int   $before
      * @param  int   $after
      * @param  int   $between
+     * @param  int   $start
+     * @param  int   $end
+     * @param  int   $gap
      * @return void
      */
-    public function __construct($values, $before, $after, $between)
+    public function __construct($values, $before, $after, $between, $start, $end, $gap)
     {
         $this->values = $values;
         $this->before = $before;
         $this->after = $after;
         $this->between = $between;
+        $this->start = $start;
+        $this->end = $end;
+        $this->gap = $gap;
     }
 
     /**
@@ -126,6 +153,42 @@ class Range extends Field
     public function getBetween()
     {
         return $this->between;
+    }
+
+    /**
+     * Get 'start' value of the ranges
+     *
+     * The start value specified in the query facet.
+     *
+     * @return string
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * Get 'end' value of the ranges
+     *
+     * The end value specified in the query facet
+     *
+     * @return string
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
+
+    /**
+     * Get 'gap' between the start and end of each range
+     *
+     * Get the gap specified in the query facet
+     *
+     * @return string
+     */
+    public function getGap()
+    {
+        return $this->gap;
     }
 
 }

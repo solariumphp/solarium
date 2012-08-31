@@ -40,7 +40,8 @@ class RangeTest extends \PHPUnit_Framework_TestCase
      */
     protected $facet;
 
-    protected $values, $before, $after, $between;
+    protected $values, $before, $after, $between, $start, $end, $gap;
+
 
     public function setUp()
     {
@@ -49,11 +50,15 @@ class RangeTest extends \PHPUnit_Framework_TestCase
             '20.0' => 5,
             '30.0' => 3,
         );
+
         $this->before = 2;
         $this->after = 4;
         $this->between = 3;
+        $this->start = '10.0';
+        $this->end = '40.0';
+        $this->gap = '10.0';
 
-        $this->facet = new Range($this->values, $this->before, $this->after, $this->between);
+        $this->facet = new Range($this->values, $this->before, $this->after, $this->between, $this->start, $this->end, $this->gap);
     }
 
     public function testGetValues()
@@ -91,4 +96,18 @@ class RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->between, $this->facet->getBetween());
     }
 
+    public function testGetStart()
+    {
+        $this->assertEquals($this->start, $this->facet->getStart());
+    }
+
+    public function testGetEnd()
+    {
+        $this->assertEquals($this->end, $this->facet->getEnd());
+    }
+
+    public function testGetGap()
+    {
+        $this->assertEquals($this->gap, $this->facet->getGap());
+    }
 }

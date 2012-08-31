@@ -179,12 +179,15 @@ class FacetSet extends ResponseParserAbstract
             $before = (isset($data['before'])) ? $data['before'] : null;
             $after = (isset($data['after'])) ? $data['after'] : null;
             $between = (isset($data['between'])) ? $data['between'] : null;
+            $start = (isset($data['start'])) ? $data['start'] : null;
+            $end = (isset($data['end'])) ? $data['end'] : null;
+            $gap = (isset($data['gap'])) ? $data['gap'] : null;
 
             if ($query->getResponseWriter() == $query::WT_JSON) {
                 $data['counts'] = $this->convertToKeyValueArray($data['counts']);
             }
 
-            return new ResultFacet\Range($data['counts'], $before, $after, $between);
+            return new ResultFacet\Range($data['counts'], $before, $after, $between, $start, $end, $gap);
         }
     }
 
