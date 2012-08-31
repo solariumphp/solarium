@@ -282,7 +282,11 @@ class Query extends BaseQuery
             $query = $this->getHelper()->assemble($query, $bind);
         }
 
-        return $this->setOption('query', trim($query));
+        if (!is_null($query)) {
+            $query = trim($query);
+        }
+
+        return $this->setOption('query', $query);
     }
 
     /**
