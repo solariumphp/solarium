@@ -110,15 +110,44 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
      */
     protected function _init()
     {
-        if (isset($this->_options['facet'])) {
-            foreach ($this->_options['facet'] AS $key => $config) {
-                if (!isset($config['key'])) {
-                    $config['key'] = $key;
-                }
+        foreach ($this->_options AS $name => $value) {
+            switch ($name) {
+                case 'facet':
+                    foreach ($this->_options['facet'] AS $key => $config) {
+                        if (!isset($config['key'])) {
+                            $config['key'] = $key;
+                        }
 
-                $this->addFacet($config);
+                        $this->addFacet($config);
+                    }
+                    break;
+                case 'extractfromresponse':
+                    $this->setExtractFromResponse($value);
+                    break;
             }
         }
+    }
+
+    /**
+     * Allow extraction of facets without having to define
+     * them on the query
+     *
+     * @param boolean $extract
+     * @return Solarium_Query_Select_Component_FacetSet Provides fluent interface
+     */
+    public function setExtractFromResponse($extract)
+    {
+        return $this->_setOption('extractfromresponse', $extract);
+    }
+
+    /**
+     * Get the extractfromresponse option value
+     *
+     * @return boolean
+     */
+    public function getExtractFromResponse()
+    {
+        return $this->getOption('extractfromresponse');
     }
 
     /**
@@ -271,7 +300,7 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
         if (array_key_exists($key, $this->_facets) && $this->_facets[$key] !== $facet) {
             throw new Solarium_Exception('A facet must have a unique key value within a query');
         } else {
-             $this->_facets[$key] = $facet;
+            $this->_facets[$key] = $facet;
         }
 
         return $this;
@@ -452,3 +481,4 @@ class Solarium_Query_Select_Component_FacetSet extends Solarium_Query_Select_Com
     }
 
 }
+
