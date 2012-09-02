@@ -55,6 +55,29 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
      */
     public function parse($query, $facetSet, $data)
     {
+        if ($facetSet->getExtractFromResponse() === true) {
+            if (empty($data['facet_counts']) === false) {
+                foreach ($data['facet_counts'] as $key => $facets) {
+                    switch ($key) {
+                        case 'facet_fields':
+                            $method = 'createFacetField';
+                            break;
+                        case 'facet_queries':
+                            $method = 'createFacetQuery';
+                            break;
+                        case 'facet_ranges':
+                            $method = 'createFacetRange';
+                            break;
+                        default:
+                            continue;
+                    }
+                    foreach ($facets as $k => $facet) {
+                        $facetSet->$method($k);
+                    }
+                }
+            }
+        }
+
         $facets = array();
         foreach ($facetSet->getFacets() AS $key => $facet) {
             switch ($facet->getType()) {
@@ -187,3 +210,4 @@ class Solarium_Client_ResponseParser_Select_Component_FacetSet
     }
 
 }
+
