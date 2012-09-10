@@ -39,12 +39,15 @@
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Grouping as GroupingComponent;
-use Solarium\QueryType\Select\Result\Grouping as GroupingResult;
+use Solarium\QueryType\Select\Result\Grouping\Result;
+use Solarium\QueryType\Select\Result\Grouping\ValueGroup;
+use Solarium\QueryType\Select\Result\Grouping\QueryGroup;
+use Solarium\QueryType\Select\Result\Grouping\FieldGroup;
 
 /**
  * Parse select component Grouping result from the data
  */
-class Grouping
+class Grouping implements ComponentParserInterface
 {
 
     /**
@@ -53,7 +56,7 @@ class Grouping
      * @param  Query                 $query
      * @param  GroupingComponent     $grouping
      * @param  array                 $data
-     * @return GroupingResult\Result
+     * @return Result
      */
     public function parse($query, $grouping, $data)
     {
@@ -91,12 +94,12 @@ class Grouping
                             }
                         }
 
-                        $valueGroups[] = new GroupingResult\ValueGroup(
+                        $valueGroups[] = new ValueGroup(
                             $value, $numFound, $start, $documents
                         );
                     }
 
-                    $groups[$field] = new GroupingResult\FieldGroup(
+                    $groups[$field] = new FieldGroup(
                         $matches, $groupCount, $valueGroups
                     );
                 }
@@ -123,7 +126,7 @@ class Grouping
                     }
 
                     // create a group result object
-                    $group = new GroupingResult\QueryGroup(
+                    $group = new QueryGroup(
                         $matches, $numFound, $start, $maxScore, $documents
                     );
                     $groups[$groupQuery] = $group;
@@ -131,6 +134,6 @@ class Grouping
             }
         }
 
-        return new GroupingResult\Result($groups);
+        return new Result($groups);
     }
 }

@@ -43,7 +43,7 @@ use Solarium\Core\Client\Request;
 /**
  * Add select component distributedsearch to the request
  */
-class DistributedSearch
+class DistributedSearch implements ComponentRequestBuilderInterface
 {
 
     /**

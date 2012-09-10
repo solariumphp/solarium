@@ -43,7 +43,7 @@ use Solarium\Core\Client\Request;
 /**
  * Add select component stats to the request
  */
-class Stats
+class Stats implements ComponentRequestBuilderInterface
 {
 
     /**

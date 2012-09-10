@@ -43,7 +43,7 @@ use Solarium\Core\Client\Request;
 /**
  * Add select component debug to the request
  */
-class Debug
+class Debug implements ComponentRequestBuilderInterface
 {
 
     /**

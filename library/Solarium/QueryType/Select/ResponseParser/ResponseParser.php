@@ -41,6 +41,7 @@ use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 use Solarium\QueryType\Select\Result\Result;
 use Solarium\Exception\RuntimeException;
+use Solarium\QueryType\Select\Query\Query;
 
 /**
  * Parse select response data
@@ -58,6 +59,10 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     public function parse($result)
     {
         $data = $result->getData();
+
+        /**
+         * @var $query Query
+         */
         $query = $result->getQuery();
 
         // create document instances

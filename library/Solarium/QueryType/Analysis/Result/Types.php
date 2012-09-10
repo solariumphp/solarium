@@ -45,6 +45,13 @@ class Types extends ResultList
 {
 
     /**
+     * List items
+     *
+     * @var ResultList[]
+     */
+    protected $items;
+
+    /**
      * Get index analysis list
      *
      * @return ResultList|null

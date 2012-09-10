@@ -43,7 +43,7 @@ use Solarium\Core\Client\Request;
 /**
  * Add select component Grouping to the request
  */
-class Grouping
+class Grouping implements ComponentRequestBuilderInterface
 {
 
     /**

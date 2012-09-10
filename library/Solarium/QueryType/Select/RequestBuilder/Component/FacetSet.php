@@ -49,7 +49,7 @@ use Solarium\Exception\UnexpectedValueException;
 /**
  * Add select component FacetSet to the request
  */
-class FacetSet extends RequestBuilder
+class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterface
 {
 
     /**

@@ -41,6 +41,7 @@ namespace Solarium\QueryType\MoreLikeThis;
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\Exception\UnexpectedValueException;
+use Solarium\QueryType\MoreLikeThis\Query;
 
 /**
  * MoreLikeThis query result
@@ -70,6 +71,16 @@ class Result extends SelectResult
      * MLT match document
      */
     protected $match;
+
+    /**
+    * Get query instance
+    *
+    * @return Query
+    */
+   public function getQuery()
+   {
+       return $this->query;
+   }
 
     /**
      * Get MLT interesting terms

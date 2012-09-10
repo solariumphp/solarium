@@ -39,6 +39,8 @@
 namespace Solarium\QueryType\Select\Query\Component;
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Query;
+use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;
+use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderInterface;
 
 /**
  * Query component base class
@@ -61,14 +63,14 @@ abstract class Component extends Configurable
     /**
      * Get the requestbuilder class for this query
      *
-     * @return object
+     * @return ComponentRequestBuilderInterface
      */
     abstract public function getRequestBuilder();
 
     /**
      * Get the response parser class for this query
      *
-     * @return object
+     * @return ComponentParserInterface
      */
     abstract public function getResponseParser();
 

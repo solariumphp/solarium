@@ -38,13 +38,14 @@
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Query\Component\Highlighting as HighlightingComponent;
-use Solarium\QueryType\Select\Result\Highlighting as HighlightingResult;
+use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting as HighlightingComponent;
+use Solarium\QueryType\Select\Result\Highlighting\Highlighting as HighlightingResult;
+use Solarium\QueryType\Select\Result\Highlighting\Result;
 
 /**
  * Parse select component Highlighting result from the data
  */
-class Highlighting
+class Highlighting implements ComponentParserInterface
 {
 
     /**
@@ -53,7 +54,7 @@ class Highlighting
      * @param  Query                           $query
      * @param  HighlightingComponent           $highlighting
      * @param  array                           $data
-     * @return HighlightingResult\Highlighting
+     * @return HighlightingResult
      */
     public function parse($query, $highlighting, $data)
     {
@@ -62,12 +63,12 @@ class Highlighting
 
             $highlightResults = $data['highlighting'];
             foreach ($highlightResults as $key => $result) {
-                $results[$key] = new HighlightingResult\Result(
+                $results[$key] = new Result(
                     $result
                 );
             }
         }
 
-        return new HighlightingResult\Highlighting($results);
+        return new HighlightingResult($results);
     }
 }

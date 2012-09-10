@@ -948,7 +948,7 @@ class Client extends Configurable
      *
      * @param \Solarium\QueryType\Extract\Query $query
      * @param Endpoint|string|null
-     * @return \Solarium\QueryType\Extract\Result\Result
+     * @return \Solarium\QueryType\Extract\Result
      */
     public function extract(QueryInterface $query, $endpoint = null)
     {

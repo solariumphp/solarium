@@ -43,7 +43,7 @@ use Solarium\Core\Client\Request;
 /**
  * Add select component Spellcheck to the request
  */
-class Spellcheck
+class Spellcheck implements ComponentRequestBuilderInterface
 {
 
     /**

@@ -39,12 +39,13 @@
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
-use Solarium\QueryType\Select\Result\MoreLikeThis as MoreLikeThisResult;
+use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
+use Solarium\QueryType\Select\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisResult;
 
 /**
  * Parse select component MoreLikeThis result from the data
  */
-class MoreLikeThis
+class MoreLikeThis implements ComponentParserInterface
 {
 
     /**
@@ -53,7 +54,7 @@ class MoreLikeThis
      * @param  Query                           $query
      * @param  MoreLikeThisComponent           $moreLikeThis
      * @param  array                           $data
-     * @return MoreLikeThisResult\MoreLikeThis
+     * @return MoreLikeThis
      */
     public function parse($query, $moreLikeThis, $data)
     {
@@ -71,7 +72,7 @@ class MoreLikeThis
                     $docs[] = new $documentClass($fields);
                 }
 
-                $results[$key] = new MoreLikeThisResult\Result(
+                $results[$key] = new Result(
                     $result['numFound'],
                     $result['maxScore'],
                     $docs
@@ -79,6 +80,6 @@ class MoreLikeThis
             }
         }
 
-        return new MoreLikeThisResult\MoreLikeThis($results);
+        return new MoreLikeThisResult($results);
     }
 }

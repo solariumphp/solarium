@@ -39,6 +39,7 @@
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Analysis\Query\Document as QueryDocument;
 use Solarium\Core\Query\QueryInterface;
 
 /**
@@ -50,7 +51,7 @@ class Document extends BaseRequestBuilder
     /**
      * Build request for an analysis document query
      *
-     * @param  Document $query
+     * @param  QueryDocument $query
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -65,7 +66,7 @@ class Document extends BaseRequestBuilder
     /**
      * Create the raw post data (xml)
      *
-     * @param  Document $query
+     * @param  QueryDocument $query
      * @return string
      */
     public function getRawData($query)

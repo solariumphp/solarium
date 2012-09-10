@@ -38,6 +38,7 @@
  */
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 use Solarium\QueryType\Select\Query\Component\FacetSet;
+use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
 use Solarium\Exception\InvalidArgumentException;
 
 /**
@@ -52,7 +53,7 @@ class MultiQuery extends Facet
     /**
      * Facet query objects
      *
-     * @var array
+     * @var FacetQuery[]
      */
     protected $facetQueries = array();
 

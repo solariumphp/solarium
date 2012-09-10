@@ -38,11 +38,12 @@
  * @namespace
  */
 namespace Solarium\QueryType\Terms;
+use Solarium\QueryType\Terms\Query;
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 
 /**
- * Parse MoreLikeThis response data
+ * Parse Terms response data
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
@@ -50,7 +51,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     /**
      * Get result data for the response
      *
-     * @param  Result $result
+     * @param Result $result
      * @return array
      */
     public function parse($result)
@@ -58,7 +59,12 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $termResults = array();
 
         $data = $result->getData();
+
+        /**
+         * @var $query Query
+         */
         $query = $result->getQuery();
+
         foreach ($query->getFields() as $field) {
             $field = trim($field);
             if (isset($data['terms'][$field])) {

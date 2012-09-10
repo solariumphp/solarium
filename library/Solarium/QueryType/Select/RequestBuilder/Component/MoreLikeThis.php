@@ -43,7 +43,7 @@ use Solarium\Core\Client\Request;
 /**
  * Add select component morelikethis to the request
  */
-class MoreLikeThis
+class MoreLikeThis implements ComponentRequestBuilderInterface
 {
 
     /**

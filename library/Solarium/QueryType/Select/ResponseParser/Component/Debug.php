@@ -39,12 +39,17 @@
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Debug as DebugComponent;
-use Solarium\QueryType\Select\Result\Debug as DebugResult;
+use Solarium\QueryType\Select\Result\Debug\Result;
+use Solarium\QueryType\Select\Result\Debug\DocumentSet;
+use Solarium\QueryType\Select\Result\Debug\Timing;
+use Solarium\QueryType\Select\Result\Debug\Detail;
+use Solarium\QueryType\Select\Result\Debug\Document;
+use Solarium\QueryType\Select\Result\Debug\TimingPhase;
 
 /**
  * Parse select component Debug result from the data
  */
-class Debug
+class Debug implements ComponentParserInterface
 {
 
     /**
@@ -53,7 +58,7 @@ class Debug
      * @param  Query                   $query
      * @param  DebugComponent          $component
      * @param  array                   $data
-     * @return DebugResult\Result|null
+     * @return Result|null
      */
     public function parse($query, $component, $data)
     {
@@ -72,14 +77,14 @@ class Debug
             if (isset($debug['explain']) && is_array($debug['explain'])) {
                 $explain = $this->parseDocumentSet($debug['explain']);
             } else {
-                $explain = new DebugResult\DocumentSet(array());
+                $explain = new DocumentSet(array());
             }
 
             // parse explainOther data
             if (isset($debug['explainOther']) && is_array($debug['explainOther'])) {
                 $explainOther = $this->parseDocumentSet($debug['explainOther']);
             } else {
-                $explainOther = new DebugResult\DocumentSet(array());
+                $explainOther = new DocumentSet(array());
             }
 
             // parse timing data
@@ -96,11 +101,11 @@ class Debug
                             $timingPhases[$key] = $this->parseTimingPhase($key, $timingData);
                     }
                 }
-                $timing = new DebugResult\Timing($time, $timingPhases);
+                $timing = new Timing($time, $timingPhases);
             }
 
             // create result object
-            $result = new DebugResult\Result(
+            $result = new Result(
                 $queryString,
                 $parsedQuery,
                 $queryParser,
@@ -120,7 +125,7 @@ class Debug
      * Used for explain and explainOther
      *
      * @param  array                   $data
-     * @return DebugResult\DocumentSet
+     * @return DocumentSet
      */
     protected function parseDocumentSet($data)
     {
@@ -130,7 +135,7 @@ class Debug
             $details = array();
             if (isset($documentData['details']) && is_array($documentData['details'])) {
                 foreach ($documentData['details'] as $detailData) {
-                    $details[] = new DebugResult\Detail(
+                    $details[] = new Detail(
                         $detailData['match'],
                         $detailData['value'],
                         $detailData['description']
@@ -138,7 +143,7 @@ class Debug
                 }
             }
 
-            $docs[$key] = new DebugResult\Document(
+            $docs[$key] = new Document(
                 $key,
                 $documentData['match'],
                 $documentData['value'],
@@ -147,7 +152,7 @@ class Debug
             );
         }
 
-        return new DebugResult\DocumentSet($docs);
+        return new DocumentSet($docs);
     }
 
     /**
@@ -155,7 +160,7 @@ class Debug
      *
      * @param  string                  $name
      * @param  array                   $data
-     * @return DebugResult\TimingPhase
+     * @return TimingPhase
      */
     protected function parseTimingPhase($name, $data)
     {
@@ -171,7 +176,7 @@ class Debug
             }
         }
 
-        return new DebugResult\TimingPhase($name, $time, $classes);
+        return new TimingPhase($name, $time, $classes);
     }
 
 }

@@ -40,12 +40,16 @@ namespace Solarium\QueryType\Select\ResponseParser\Component;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Spellcheck as SpellcheckComponent;
 use Solarium\QueryType\Select\Result\Spellcheck as SpellcheckResult;
+use Solarium\QueryType\Select\Result\Spellcheck\Result;
+use Solarium\QueryType\Select\Result\Spellcheck\Collation;
+use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
+
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 
 /**
  * Parse select component Highlighting result from the data
  */
-class Spellcheck extends ResponseParserAbstract
+class Spellcheck extends ResponseParserAbstract implements ComponentParserInterface
 {
 
     /**
@@ -54,7 +58,7 @@ class Spellcheck extends ResponseParserAbstract
      * @param  Query                        $query
      * @param  SpellcheckComponent          $spellcheck
      * @param  array                        $data
-     * @return SpellcheckResult\Result|null
+     * @return Result|null
      */
     public function parse($query, $spellcheck, $data)
     {
@@ -104,13 +108,13 @@ class Spellcheck extends ResponseParserAbstract
      *
      * @param  Query                      $queryObject
      * @param  array                      $values
-     * @return SpellcheckResult\Collation
+     * @return Collation
      */
     protected function parseCollation($queryObject, $values)
     {
         if (is_string($values)) {
 
-            return new SpellcheckResult\Collation($values, null, array());
+            return new Collation($values, null, array());
 
         } else {
 
@@ -148,7 +152,7 @@ class Spellcheck extends ResponseParserAbstract
                 }
             }
 
-            return new SpellcheckResult\Collation($query, $hits, $corrections);
+            return new Collation($query, $hits, $corrections);
         }
     }
 
@@ -157,7 +161,7 @@ class Spellcheck extends ResponseParserAbstract
      *
      * @param  string                      $key
      * @param  array                       $value
-     * @return SpellcheckResult\Suggestion
+     * @return Suggestion
      */
     protected function parseSuggestion($key, $value)
     {
@@ -174,7 +178,7 @@ class Spellcheck extends ResponseParserAbstract
             $frequency = $value['suggestion'][0]['freq'];
         }
 
-        return new SpellcheckResult\Suggestion(
+        return new Suggestion(
             $numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency
         );
     }

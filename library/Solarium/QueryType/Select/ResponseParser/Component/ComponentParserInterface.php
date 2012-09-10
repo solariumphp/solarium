@@ -36,32 +36,20 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Analysis\ResponseParser;
-use Solarium\QueryType\Analysis\Result as AnalysisResult;
-use Solarium\QueryType\Analysis\Result\ResultList;
+namespace Solarium\QueryType\Select\ResponseParser\Component;
+use Solarium\QueryType\Select\Query\Query;
 
-/**
- * Parse document analysis response data
- */
-class Document extends Field
+interface ComponentParserInterface
 {
 
     /**
-     * Parse implementation
+     * Parse result data into result objects
      *
-     * @param  array $result
-     * @param  array $data
-     * @return ResultList[]
+     * @param  Query                   $query
+     * @param  object                  $component
+     * @param  array                   $data
+     * @return object|null
      */
-    protected function parseAnalysis($result, $data)
-    {
-        $documents = array();
-        foreach ($data as $documentKey => $documentData) {
-            $fields = $this->parseTypes($result, $documentData);
-            $documents[] = new ResultList($documentKey, $fields);
-        }
-
-        return $documents;
-    }
+    public function parse($query, $component, $data);
 
 }

@@ -40,7 +40,7 @@ namespace Solarium\QueryType\Analysis\Query;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as RequestBuilder;
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Select\Result\Document as ResultDocument;
 
 /**
  * Analysis document query
@@ -51,7 +51,7 @@ class Document extends Query
     /**
      * Documents to analyze
      *
-     * @var DocumentInterface[]
+     * @var ResultDocument[]
      */
     protected $documents = array();
 
@@ -125,7 +125,7 @@ class Document extends Query
     /**
      * Get all documents
      *
-     * @return DocumentInterface[]
+     * @return ResultDocument[]
      */
     public function getDocuments()
     {

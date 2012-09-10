@@ -43,7 +43,7 @@ use Solarium\Core\Client\Request;
 /**
  * Add select component dismax to the request
  */
-class DisMax
+class DisMax implements ComponentRequestBuilderInterface
 {
 
     /**

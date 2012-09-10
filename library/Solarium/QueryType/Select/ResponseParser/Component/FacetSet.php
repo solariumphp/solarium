@@ -39,16 +39,22 @@
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\FacetSet as QueryFacetSet;
-use Solarium\QueryType\Select\Query\Component\Facet as QueryFacet;
+use Solarium\QueryType\Select\Query\Component\Facet\Field as QueryFacetField;
+use Solarium\QueryType\Select\Query\Component\Facet\Query as QueryFacetQuery;
+use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as QueryFacetMultiQuery;
+use Solarium\QueryType\Select\Query\Component\Facet\Range as QueryFacetRange;
 use Solarium\QueryType\Select\Result\FacetSet as ResultFacetSet;
-use Solarium\QueryType\Select\Result\Facet as ResultFacet;
+use Solarium\QueryType\Select\Result\Facet\Field as ResultFacetField;
+use Solarium\QueryType\Select\Result\Facet\Query as ResultFacetQuery;
+use Solarium\QueryType\Select\Result\Facet\MultiQuery as ResultFacetMultiQuery;
+use Solarium\QueryType\Select\Result\Facet\Range as ResultFacetRange;
 use Solarium\Exception\RuntimeException;
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 
 /**
  * Parse select component FacetSet result from the data
  */
-class FacetSet extends ResponseParserAbstract
+class FacetSet extends ResponseParserAbstract implements ComponentParserInterface
 {
 
     /**
@@ -104,9 +110,9 @@ class FacetSet extends ResponseParserAbstract
      * Add a facet result for a field facet
      *
      * @param  Query             $query
-     * @param  QueryFacet\Field  $facet
+     * @param  QueryFacetField  $facet
      * @param  array             $data
-     * @return ResultFacet\Field
+     * @return ResultFacetField
      */
     protected function facetField($query, $facet, $data)
     {
@@ -117,16 +123,16 @@ class FacetSet extends ResponseParserAbstract
                 $data['facet_counts']['facet_fields'][$key] = $this->convertToKeyValueArray($data['facet_counts']['facet_fields'][$key]);
             }
 
-            return new ResultFacet\Field($data['facet_counts']['facet_fields'][$key]);
+            return new ResultFacetField($data['facet_counts']['facet_fields'][$key]);
         }
     }
 
     /**
      * Add a facet result for a facet query
      *
-     * @param  QueryFacet\Query  $facet
+     * @param  QueryFacetQuery  $facet
      * @param  array             $data
-     * @return ResultFacet\Query
+     * @return ResultFacetQuery
      */
     protected function facetQuery($facet, $data)
     {
@@ -135,16 +141,16 @@ class FacetSet extends ResponseParserAbstract
 
             $value = $data['facet_counts']['facet_queries'][$key];
 
-            return new ResultFacet\Query($value);
+            return new ResultFacetQuery($value);
         }
     }
 
     /**
      * Add a facet result for a multiquery facet
      *
-     * @param  QueryFacet\MultiQuery  $facet
+     * @param  QueryFacetMultiQuery  $facet
      * @param  array                  $data
-     * @return ResultFacet\MultiQuery
+     * @return ResultFacetMultiQuery
      */
     protected function facetMultiQuery($facet, $data)
     {
@@ -158,7 +164,7 @@ class FacetSet extends ResponseParserAbstract
         }
 
         if (count($values) > 0) {
-            return new ResultFacet\MultiQuery($values);
+            return new ResultFacetMultiQuery($values);
         }
     }
 
@@ -166,9 +172,9 @@ class FacetSet extends ResponseParserAbstract
      * Add a facet result for a range facet
      *
      * @param  Query             $query
-     * @param  QueryFacet\Range  $facet
+     * @param  QueryFacetRange  $facet
      * @param  array             $data
-     * @return ResultFacet\Range
+     * @return ResultFacetRange
      */
     protected function facetRange($query, $facet, $data)
     {
@@ -187,7 +193,7 @@ class FacetSet extends ResponseParserAbstract
                 $data['counts'] = $this->convertToKeyValueArray($data['counts']);
             }
 
-            return new ResultFacet\Range($data['counts'], $before, $after, $between, $start, $end, $gap);
+            return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap);
         }
     }
 

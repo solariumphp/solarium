@@ -46,7 +46,7 @@ use Solarium\QueryType\Select\Result\Stats\FacetValue as ResultStatsFacetValue;
 /**
  * Parse select component Stats result from the data
  */
-class Stats
+class Stats implements ComponentParserInterface
 {
 
     /**

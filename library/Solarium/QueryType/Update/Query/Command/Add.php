@@ -38,7 +38,7 @@
  */
 namespace Solarium\QueryType\Update\Query\Command;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\QueryType\Update\Query\DocumentInterface;
+use Solarium\QueryType\Update\Query\Document;
 use Solarium\Exception\RuntimeException;
 
 /**
@@ -70,12 +70,12 @@ class Add extends Command
      * Add a single document
      *
      * @throws RuntimeException
-     * @param  DocumentInterface $document
+     * @param  Document $document
      * @return self              Provides fluent interface
      */
     public function addDocument($document)
     {
-        if (!($document instanceof DocumentInterface)) {
+        if (!($document instanceof Document)) {
             throw new RuntimeException('Documents must implement the document interface');
         }
 
@@ -115,7 +115,7 @@ class Add extends Command
     /**
      * Get all documents
      *
-     * @return DocumentInterface[]
+     * @return Document[]
      */
     public function getDocuments()
     {

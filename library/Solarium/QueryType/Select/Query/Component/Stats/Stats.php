@@ -218,7 +218,7 @@ class Stats extends Component
     /**
      * Get all fields
      *
-     * @return array
+     * @return Field[]
      */
     public function getFields()
     {

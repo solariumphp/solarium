@@ -44,7 +44,7 @@ use Solarium\Core\Client\Request;
 /**
  * Add select component Highlighting to the request
  */
-class Highlighting
+class Highlighting implements ComponentRequestBuilderInterface
 {
 
     /**
@@ -54,7 +54,7 @@ class Highlighting
      * @param  Request               $request
      * @return Request
      */
-    public function buildComponent(HighlightingComponent $component, Request $request)
+    public function buildComponent($component, $request)
     {
         // enable highlighting
         $request->addParam('hl', 'true');
