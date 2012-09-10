@@ -43,6 +43,12 @@ use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\QueryType\Update\Query\Command\Command;
+use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
+use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
+use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
+use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
+use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
 
 /**
  * Update query
@@ -178,7 +184,7 @@ class Query extends BaseQuery
      * @throws InvalidArgumentException
      * @param  string                  $type
      * @param  mixed                   $options
-     * @return Command\Command
+     * @return Command
      */
     public function createCommand($type, $options = null)
     {
@@ -196,7 +202,7 @@ class Query extends BaseQuery
     /**
      * Get all commands for this update query
      *
-     * @return array
+     * @return Command[]
      */
     public function getCommands()
     {
@@ -260,7 +266,7 @@ class Query extends BaseQuery
      */
     public function addRollback()
     {
-        return $this->add(null, new Command\Rollback);
+        return $this->add(null, new RollbackCommand);
     }
 
     /**
@@ -274,7 +280,7 @@ class Query extends BaseQuery
      */
     public function addDeleteQuery($query)
     {
-        $delete = new Command\Delete;
+        $delete = new DeleteCommand;
         $delete->addQuery($query);
 
         return $this->add(null, $delete);
@@ -291,7 +297,7 @@ class Query extends BaseQuery
      */
     public function addDeleteQueries($queries)
     {
-        $delete = new Command\Delete;
+        $delete = new DeleteCommand;
         $delete->addQueries($queries);
 
         return $this->add(null, $delete);
@@ -308,7 +314,7 @@ class Query extends BaseQuery
      */
     public function addDeleteById($id)
     {
-        $delete = new Command\Delete;
+        $delete = new DeleteCommand;
         $delete->addId($id);
 
         return $this->add(null, $delete);
@@ -325,7 +331,7 @@ class Query extends BaseQuery
      */
     public function addDeleteByIds($ids)
     {
-        $delete = new Command\Delete;
+        $delete = new DeleteCommand;
         $delete->addIds($ids);
 
         return $this->add(null, $delete);
@@ -362,7 +368,7 @@ class Query extends BaseQuery
     public function addDocuments($documents, $overwrite = null,
                                  $commitWithin = null)
     {
-        $add = new Command\Add;
+        $add = new AddCommand;
 
         if (null !== $overwrite) {
             $add->setOverwrite($overwrite);
@@ -391,7 +397,7 @@ class Query extends BaseQuery
     public function addCommit($softCommit = null, $waitSearcher = null,
                               $expungeDeletes = null)
     {
-        $commit = new Command\Commit();
+        $commit = new CommitCommand();
 
         if (null !== $softCommit) {
             $commit->setSoftCommit($softCommit);
@@ -422,7 +428,7 @@ class Query extends BaseQuery
    public function addOptimize($softCommit = null, $waitSearcher = null,
                                $maxSegments = null)
    {
-       $optimize = new Command\Optimize();
+       $optimize = new OptimizeCommand();
 
        if (null !== $softCommit) {
            $optimize->setSoftCommit($softCommit);

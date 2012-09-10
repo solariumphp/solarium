@@ -39,6 +39,7 @@
 namespace Solarium\Plugin\BufferedAdd\Event;
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Update\Result;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * PostCommit event, see Events for details
@@ -64,7 +65,7 @@ class PostCommit extends Event
     /**
      * Get the result for this event
      *
-     * @return array
+     * @return DocumentInterface[]
      */
     public function getResult()
     {

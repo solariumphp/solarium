@@ -74,14 +74,19 @@ class Spellcheck extends ResponseParserAbstract
             $correctlySpelled = null;
             $collations = array();
 
-
             foreach ($spellcheckResults as $key => $value) {
                 switch ($key) {
                     case 'correctlySpelled':
                         $correctlySpelled = $value;
                         break;
                     case 'collation':
-                        $collations[] = $this->parseCollation($query, $value);
+                        if(!array_key_exists('collation', $value)){
+                            foreach($value as $collationValue) {
+                                $collations[] = $this->parseCollation($query, $collationValue);
+                            }
+                        }else{
+                            $collations[] = $this->parseCollation($query, $value);
+                        }
                         break;
                     default:
                         $suggestions[] = $this->parseSuggestion($key, $value);

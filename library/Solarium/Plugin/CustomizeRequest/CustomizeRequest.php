@@ -194,7 +194,7 @@ class CustomizeRequest extends Plugin
     /**
      * Get all Customizations
      *
-     * @return array
+     * @return Customization[]
      */
     public function getCustomizations()
     {

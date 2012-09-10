@@ -43,6 +43,7 @@ use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
+use Solarium\QueryType\Select\Query\Component\Component;
 
 /**
  * Select Query
@@ -706,7 +707,7 @@ class Query extends BaseQuery
     /**
      * Get all filterqueries
      *
-     * @return array
+     * @return FilterQuery[]
      */
     public function getFilterQueries()
     {
@@ -786,7 +787,7 @@ class Query extends BaseQuery
     /**
      * Get all registered components
      *
-     * @return array
+     * @return Component[]
      */
     public function getComponents()
     {

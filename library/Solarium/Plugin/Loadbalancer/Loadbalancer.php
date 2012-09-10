@@ -264,7 +264,7 @@ class Loadbalancer extends Plugin
     /**
      * Get the endpoints in the loadbalancing pool
      *
-     * @return array
+     * @return Endpoint[]
      */
     public function getEndpoints()
     {

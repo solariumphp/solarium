@@ -38,6 +38,7 @@
  */
 namespace Solarium\Plugin\BufferedAdd\Event;
 use Symfony\Component\EventDispatcher\Event;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * PreFlush event, see Events for details
@@ -77,7 +78,7 @@ class PreFlush extends Event
     /**
      * Get the buffer for this event
      *
-     * @return array
+     * @return DocumentInterface[]
      */
     public function getBuffer()
     {

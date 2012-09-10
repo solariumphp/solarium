@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\Highlighting;
+use Solarium\QueryType\Select\Result\Highlighting\Result;
 
 /**
  * Select component highlighting result
@@ -80,7 +81,7 @@ class Highlighting implements \IteratorAggregate, \Countable
     /**
      * Get all results
      *
-     * @return array
+     * @return Result[]
      */
     public function getResults()
     {

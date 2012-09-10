@@ -31,14 +31,16 @@
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
 use Solarium\QueryType\Select\ResponseParser\Component\Spellcheck as Parser;
+use Solarium\QueryType\Select\Query\Query;
 
 class SpellcheckTest extends \PHPUnit_Framework_TestCase
 {
 
-    protected $parser;
+    protected $parser, $query;
 
     public function setUp()
     {
+        $this->query = new Query();
         $this->parser = new Parser();
     }
 
@@ -107,7 +109,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $result = $this->parser->parse(null, null, $data);
+        $result = $this->parser->parse($this->query, null, $data);
 
         $suggestions = $result->getSuggestions();
         $this->assertEquals(false, $result->getCorrectlySpelled());
@@ -156,7 +158,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $result = $this->parser->parse(null, null, $data);
+        $result = $this->parser->parse($this->query, null, $data);
 
         $suggestions = $result->getSuggestions();
         $this->assertEquals(false, $result->getCorrectlySpelled());
@@ -170,7 +172,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse(null, null, array());
+        $result = $this->parser->parse($this->query, null, array());
 
         $this->assertEquals(null, $result);
     }

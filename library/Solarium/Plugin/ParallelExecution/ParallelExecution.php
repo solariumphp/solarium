@@ -42,6 +42,7 @@ use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\HttpException;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query;
+use Solarium\Core\Query\Result;
 use Solarium\Plugin\ParallelExecution\Event\Events;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
@@ -113,7 +114,7 @@ class ParallelExecution extends Plugin
     /**
      * Get queries (and coupled client instances)
      *
-     * @return array
+     * @return Query[]
      */
     public function getQueries()
     {
@@ -137,7 +138,7 @@ class ParallelExecution extends Plugin
     /**
      * Execute queries parallel
      *
-     * @return array
+     * @return Result[]
      */
     public function execute()
     {

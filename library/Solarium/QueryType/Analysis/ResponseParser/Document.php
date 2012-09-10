@@ -38,6 +38,7 @@
  */
 namespace Solarium\QueryType\Analysis\ResponseParser;
 use Solarium\QueryType\Analysis\Result as AnalysisResult;
+use Solarium\QueryType\Analysis\Result\ResultList;
 
 /**
  * Parse document analysis response data
@@ -50,14 +51,14 @@ class Document extends Field
      *
      * @param  Result $result
      * @param  array $data
-     * @return array
+     * @return ResultList[]
      */
     protected function parseAnalysis($result, $data)
     {
         $documents = array();
         foreach ($data as $documentKey => $documentData) {
             $fields = $this->parseTypes($result, $documentData);
-            $documents[] = new AnalysisResult\ResultList($documentKey, $fields);
+            $documents[] = new ResultList($documentKey, $fields);
         }
 
         return $documents;

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\Stats;
+use Solarium\QueryType\Select\Result\Stats\Result;
 
 /**
  * Select component stats result
@@ -80,7 +81,7 @@ class Stats implements \IteratorAggregate, \Countable
     /**
      * Get all results
      *
-     * @return array
+     * @return Result[]
      */
     public function getResults()
     {

@@ -39,6 +39,7 @@
 namespace Solarium\QueryType\Select\Result;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * Select query result
@@ -148,7 +149,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get all documents
      *
-     * @return array
+     * @return DocumentInterface[]
      */
     public function getDocuments()
     {

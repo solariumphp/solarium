@@ -115,7 +115,7 @@ class Add extends Command
     /**
      * Get all documents
      *
-     * @return array
+     * @return DocumentInterface[]
      */
     public function getDocuments()
     {

@@ -347,7 +347,7 @@ class Client extends Configurable
     /**
      * Get all endpoints
      *
-     * @return array
+     * @return Endpoint[]
      */
     public function getEndpoints()
     {
@@ -626,7 +626,7 @@ class Client extends Configurable
     /**
      * Get all registered plugins
      *
-     * @return array
+     * @return PluginInterface[]
      */
     public function getPlugins()
     {

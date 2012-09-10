@@ -40,6 +40,7 @@ namespace Solarium\QueryType\Analysis\Query;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as RequestBuilder;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * Analysis document query
@@ -111,7 +112,7 @@ class Document extends Query
     /**
      * Add multiple documents
      *
-     * @param  array $documents
+     * @param  DocumentInterface[] $documents
      * @return self  fluent interface
      */
     public function addDocuments($documents)
@@ -124,7 +125,7 @@ class Document extends Query
     /**
      * Get all documents
      *
-     * @return array
+     * @return DocumentInterface[]
      */
     public function getDocuments()
     {

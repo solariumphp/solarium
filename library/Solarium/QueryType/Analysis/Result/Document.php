@@ -38,6 +38,7 @@
  */
 namespace Solarium\QueryType\Analysis\Result;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\QueryType\Analysis\Result\ResultList;
 
 /**
  * Analysis document query result
@@ -101,7 +102,7 @@ class Document extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get all documents
      *
-     * @return array
+     * @return ResultList[]
      */
     public function getDocuments()
     {

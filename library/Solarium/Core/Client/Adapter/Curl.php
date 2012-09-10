@@ -88,7 +88,7 @@ class Curl extends Configurable implements AdapterInterface
      *
      * @param  Request  $request
      * @param  Endpoint $endpoint
-     * @return array
+     * @return Response
      */
     protected function getData($request, $endpoint)
     {

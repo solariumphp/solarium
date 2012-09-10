@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\MoreLikeThis;
+use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
 
 /**
  * Select component morelikethis result
@@ -80,7 +81,7 @@ class MoreLikeThis implements \IteratorAggregate, \Countable
     /**
      * Get all results
      *
-     * @return array
+     * @return Result[]
      */
     public function getResults()
     {

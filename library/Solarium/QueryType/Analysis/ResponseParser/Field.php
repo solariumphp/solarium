@@ -39,6 +39,9 @@
 namespace Solarium\QueryType\Analysis\ResponseParser;
 use Solarium\Core\Query\Result\Result;
 use Solarium\QueryType\Analysis\Result as AnalysisResult;
+use Solarium\QueryType\Analysis\Result\ResultList;
+use Solarium\QueryType\Analysis\Result\Item;
+use Solarium\QueryType\Analysis\Result\Types;
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 
@@ -72,7 +75,7 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
      *
      * @param  Result $result
      * @param  array $data
-     * @return array
+     * @return Types[]
      */
     protected function parseAnalysis($result, $data)
     {
@@ -90,7 +93,7 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
      *
      * @param  Result $result
      * @param  array $typeData
-     * @return array
+     * @return Types[]
      */
     protected function parseTypes($result, $typeData)
     {
@@ -116,7 +119,7 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
                 foreach ($typeData as $class => $analysis) {
                     if (is_string($analysis)) {
 
-                        $item = new AnalysisResult\Item(
+                        $item = new Item(
                             array(
                                 'text' => $analysis,
                                 'start' => null,
@@ -127,23 +130,23 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
                             )
                         );
 
-                        $classes[] = new AnalysisResult\ResultList($class, array($item));
+                        $classes[] = new ResultList($class, array($item));
 
                     } else {
 
                         $items = array();
                         foreach ($analysis as $itemData) {
-                            $items[] = new AnalysisResult\Item($itemData);
+                            $items[] = new Item($itemData);
                         }
 
-                        $classes[] = new AnalysisResult\ResultList($class, $items);
+                        $classes[] = new ResultList($class, $items);
                     }
                 }
 
-                $types[] = new AnalysisResult\ResultList($typeKey, $classes);
+                $types[] = new ResultList($typeKey, $classes);
             }
 
-            $results[] = new AnalysisResult\Types($fieldKey, $types);
+            $results[] = new Types($fieldKey, $types);
         }
 
         return $results;

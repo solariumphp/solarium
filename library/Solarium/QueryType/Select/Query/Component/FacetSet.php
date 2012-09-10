@@ -42,6 +42,7 @@ use Solarium\QueryType\Select\RequestBuilder\Component\FacetSet as RequestBuilde
 use Solarium\QueryType\Select\ResponseParser\Component\FacetSet as ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
+use Solarium\QueryType\Select\Query\Component\Facet\Facet;
 
 /**
  * MoreLikeThis component
@@ -344,7 +345,7 @@ class FacetSet extends Component
     /**
      * Get all facets
      *
-     * @return array
+     * @return Facet[]
      */
     public function getFacets()
     {

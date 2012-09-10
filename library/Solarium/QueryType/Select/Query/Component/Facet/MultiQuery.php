@@ -187,7 +187,7 @@ class MultiQuery extends Facet
     /**
      * Get all facetqueries
      *
-     * @return array
+     * @return Query[]
      */
     public function getQueries()
     {

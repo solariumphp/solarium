@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\MoreLikeThis;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * Select component morelikethis result item
@@ -108,7 +109,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get all documents
      *
-     * @return array
+     * @return DocumentInterface[]
      */
     public function getDocuments()
     {

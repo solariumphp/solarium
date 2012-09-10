@@ -37,6 +37,8 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\Spellcheck;
+use Solarium\QueryType\Select\Result\Spellcheck\Collation;
+use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
 
 /**
  * Select component spellcheck result
@@ -104,7 +106,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get all collations
      *
-     * @return array
+     * @return Collation[]
      */
     public function getCollations()
     {
@@ -141,7 +143,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get all suggestions
      *
-     * @return array
+     * @return Suggestion[]
      */
     public function getSuggestions()
     {
