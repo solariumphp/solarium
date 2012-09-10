@@ -40,11 +40,12 @@ namespace Solarium\QueryType\Select\ResponseParser\Component;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Spellcheck as SpellcheckComponent;
 use Solarium\QueryType\Select\Result\Spellcheck as SpellcheckResult;
+use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 
 /**
  * Parse select component Highlighting result from the data
  */
-class Spellcheck
+class Spellcheck extends ResponseParserAbstract
 {
 
     /**
@@ -65,28 +66,26 @@ class Spellcheck
         ) {
 
             $spellcheckResults = $data['spellcheck']['suggestions'];
+            if ($query->getResponseWriter() == $query::WT_JSON) {
+                $spellcheckResults = $this->convertToKeyValueArray($spellcheckResults);
+            }
 
             $suggestions = array();
             $correctlySpelled = null;
             $collations = array();
 
-            $index = 0;
-            while (isset($spellcheckResults[$index]) && isset($spellcheckResults[$index+1])) {
-                $key = $spellcheckResults[$index];
-                $value = $spellcheckResults[$index+1];
 
+            foreach ($spellcheckResults as $key => $value) {
                 switch ($key) {
                     case 'correctlySpelled':
                         $correctlySpelled = $value;
                         break;
                     case 'collation':
-                        $collations[] = $this->parseCollation($value);
+                        $collations[] = $this->parseCollation($query, $value);
                         break;
                     default:
                         $suggestions[] = $this->parseSuggestion($key, $value);
                 }
-
-                $index +=2;
             }
 
             return new SpellcheckResult\Result($suggestions, $collations, $correctlySpelled);
@@ -98,10 +97,11 @@ class Spellcheck
     /**
      * Parse collation data into a result object
      *
+     * @param  Query                      $queryObject
      * @param  array                      $values
      * @return SpellcheckResult\Collation
      */
-    protected function parseCollation($values)
+    protected function parseCollation($queryObject, $values)
     {
         if (is_string($values)) {
 
@@ -113,11 +113,11 @@ class Spellcheck
             $hits = null;
             $correctionResult = null;
 
-            $index = 0;
-            while (isset($values[$index]) && isset($values[$index+1])) {
-                $key = $values[$index];
-                $value = $values[$index+1];
+            if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
+                $values = $this->convertToKeyValueArray($values);
+            }
 
+            foreach($values as $key => $value) {
                 switch ($key) {
                     case 'collationQuery':
                         $query = $value;
@@ -129,19 +129,17 @@ class Spellcheck
                         $correctionResult = $value;
                         break;
                 }
-
-                $index +=2;
             }
 
             $corrections = array();
             if ($correctionResult !== null) {
-                $index = 0;
-                while (isset($correctionResult[$index]) && isset($correctionResult[$index+1])) {
-                    $input = $correctionResult[$index];
-                    $correction = $correctionResult[$index+1];
 
+                if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
+                    $correctionResult = $this->convertToKeyValueArray($correctionResult);
+                }
+
+                foreach ($correctionResult as $input => $correction) {
                     $corrections[$input] = $correction;
-                    $index += 2;
                 }
             }
 
