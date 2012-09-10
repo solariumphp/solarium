@@ -79,18 +79,13 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
             $collations = array();
 
             foreach ($spellcheckResults as $key => $value) {
+
                 switch ($key) {
                     case 'correctlySpelled':
                         $correctlySpelled = $value;
                         break;
                     case 'collation':
-                        if (!array_key_exists('collation', $value)) {
-                            foreach ($value as $collationValue) {
-                                $collations[] = $this->parseCollation($query, $collationValue);
-                            }
-                        } else {
-                            $collations[] = $this->parseCollation($query, $value);
-                        }
+                        $collations = $this->parseCollation($query, $value);
                         break;
                     default:
                         $suggestions[] = $this->parseSuggestion($key, $value);
@@ -108,51 +103,69 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      *
      * @param  Query     $queryObject
      * @param  array     $values
-     * @return Collation
+     * @return Collation[]
      */
     protected function parseCollation($queryObject, $values)
     {
+        $collations = array();
         if (is_string($values)) {
-            return new Collation($values, null, array());
+
+            $collations[] = new Collation($values, null, array());
+
+        } else if (is_array($values) && isset($values[0]) && is_string($values[0]) && $values[0] !== 'collationQuery') {
+
+            foreach ($values as $value) {
+                $collations[] = new Collation($value, null, array());
+            }
 
         } else {
 
-            $query = null;
-            $hits = null;
-            $correctionResult = null;
-
             if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
-                $values = $this->convertToKeyValueArray($values);
-            }
-
-            foreach ($values as $key => $value) {
-                switch ($key) {
-                    case 'collationQuery':
-                        $query = $value;
-                        break;
-                    case 'hits':
-                        $hits = $value;
-                        break;
-                    case 'misspellingsAndCorrections':
-                        $correctionResult = $value;
-                        break;
+                if(is_array(current($values))){
+                    foreach($values as $key => $value) {
+                        $values[$key] = $this->convertToKeyValueArray($value);
+                    }
+                } else {
+                    $values = array($this->convertToKeyValueArray($values));
                 }
             }
 
-            $corrections = array();
-            if ($correctionResult !== null) {
+            foreach($values as $collationValue) {
+                $query = null;
+                $hits = null;
+                $correctionResult = null;
 
-                if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
-                    $correctionResult = $this->convertToKeyValueArray($correctionResult);
+                foreach ($collationValue as $key => $value) {
+                    switch ($key) {
+                        case 'collationQuery':
+                            $query = $value;
+                            break;
+                        case 'hits':
+                            $hits = $value;
+                            break;
+                        case 'misspellingsAndCorrections':
+                            $correctionResult = $value;
+                            break;
+                    }
                 }
 
-                foreach ($correctionResult as $input => $correction) {
-                    $corrections[$input] = $correction;
+                $corrections = array();
+                if ($correctionResult !== null) {
+
+                    if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
+                        $correctionResult = $this->convertToKeyValueArray($correctionResult);
+                    }
+
+                    foreach ($correctionResult as $input => $correction) {
+                        $corrections[$input] = $correction;
+                    }
                 }
+
+                $collations[] = new Collation($query, $hits, $corrections);
             }
-
-            return new Collation($query, $hits, $corrections);
         }
+
+        return $collations;
     }
 
     /**

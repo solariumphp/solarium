@@ -1,7 +1,7 @@
 <?php
 require(__DIR__.'/init.php');
 use Solarium\Client;
-use Solarium\Core\Plugin;
+use Solarium\Core\Plugin\Plugin;
 use Solarium\QueryType\Select\Query\Query as Select;
 
 // This is a custom query class that could have some customized logic

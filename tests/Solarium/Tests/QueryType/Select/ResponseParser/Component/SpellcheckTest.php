@@ -170,6 +170,47 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testParseSingleCollation()
+    {
+        $data = array(
+            'spellcheck' => array(
+                'suggestions' => array(
+                    0 => 'delll',
+                    1 => array (
+                        'numFound' => 1,
+                        'startOffset' => 0,
+                        'endOffset' => 5,
+                        'origFreq' => 0,
+                        'suggestion' => array (
+                            0 => 'dell',
+                        ),
+                    ),
+                    2 => 'ultrashar',
+                    3 => array (
+                        'numFound' => 1,
+                        'startOffset' => 6,
+                        'endOffset' => 15,
+                        'origFreq' => 0,
+                        'suggestion' => array (
+                            0 => array (
+                                'word' => 'ultrasharp',
+                                'freq' => 1
+                            ),
+                        ),
+                    ),
+                    4 => 'correctlySpelled',
+                    5 => false,
+                    6 => 'collation',
+                    7 => 'dell ultrasharp',
+                )
+            )
+        );
+
+        $result = $this->parser->parse($this->query, null, $data);
+        $collations = $result->getCollations();
+        $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
+    }
+
     public function testParseNoData()
     {
         $result = $this->parser->parse($this->query, null, array());
