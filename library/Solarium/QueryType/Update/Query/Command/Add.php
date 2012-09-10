@@ -70,8 +70,8 @@ class Add extends Command
      * Add a single document
      *
      * @throws RuntimeException
-     * @param  Document $document
-     * @return self              Provides fluent interface
+     * @param  Document         $document
+     * @return self             Provides fluent interface
      */
     public function addDocument($document)
     {

@@ -73,8 +73,8 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
     /**
      * Parser
      *
-     * @param  Result $result
-     * @param  array $data
+     * @param  Result  $result
+     * @param  array   $data
      * @return Types[]
      */
     protected function parseAnalysis($result, $data)
@@ -91,8 +91,8 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
     /**
      * Parse analysis types and items
      *
-     * @param  Result $result
-     * @param  array $typeData
+     * @param  Result  $result
+     * @param  array   $typeData
      * @return Types[]
      */
     protected function parseTypes($result, $typeData)
@@ -101,8 +101,6 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
 
         $results = array();
         foreach ($typeData as $fieldKey => $fieldData) {
-
-
 
             $types = array();
             foreach ($fieldData as $typeKey => $typeData) {

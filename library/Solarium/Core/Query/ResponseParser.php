@@ -63,7 +63,7 @@ abstract class ResponseParser
             $key  = $data[$i];
             $value = $data[$i+1];
             if (array_key_exists($key, $keys)) {
-                if($keys[$key] == 1) {
+                if ($keys[$key] == 1) {
                     $result[$key] = array($result[$key]);
                 }
                 $result[$key][] = $value;
@@ -80,8 +80,8 @@ abstract class ResponseParser
     /**
      * Parses header data (if available) and adds it to result data
      *
-     * @param array $data
-     * @param array $result
+     * @param  array $data
+     * @param  array $result
      * @return mixed
      */
     public function addHeaderInfo($data, $result)

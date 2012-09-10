@@ -642,8 +642,8 @@ class Query extends BaseQuery
      * filterquery instance wil be created based on the options.
      *
      * @throws InvalidArgumentException
-     * @param  FilterQuery|array $filterQuery
-     * @return self              Provides fluent interface
+     * @param  FilterQuery|array        $filterQuery
+     * @return self                     Provides fluent interface
      */
     public function addFilterQuery($filterQuery)
     {
@@ -801,9 +801,9 @@ class Query extends BaseQuery
      * instance if there is no registered component for the given key yet.
      *
      * @throws OutOfBoundsException
-     * @param  string      $key      Use one of the constants
-     * @param  string      $autoload Class to autoload if component needs to be created
-     * @param  array       $config   Configuration to use for autoload
+     * @param  string               $key      Use one of the constants
+     * @param  string               $autoload Class to autoload if component needs to be created
+     * @param  array                $config   Configuration to use for autoload
      * @return object|null
      */
     public function getComponent($key, $autoload = false, $config = null)
@@ -834,9 +834,9 @@ class Query extends BaseQuery
      *
      * This overwrites any existing component registered with the same key.
      *
-     * @param  string      $key
+     * @param  string    $key
      * @param  Component $component
-     * @return self        Provides fluent interface
+     * @return self      Provides fluent interface
      */
     public function setComponent($key, $component)
     {
@@ -1081,6 +1081,7 @@ class Query extends BaseQuery
     public function setTags($tags)
     {
         $this->clearTags();
+
         return $this->addTags($tags);
     }
 

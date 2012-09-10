@@ -55,9 +55,9 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     /**
      * Parse result data into result objects
      *
-     * @param  Query                        $query
-     * @param  SpellcheckComponent          $spellcheck
-     * @param  array                        $data
+     * @param  Query               $query
+     * @param  SpellcheckComponent $spellcheck
+     * @param  array               $data
      * @return Result|null
      */
     public function parse($query, $spellcheck, $data)
@@ -84,11 +84,11 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                         $correctlySpelled = $value;
                         break;
                     case 'collation':
-                        if(!array_key_exists('collation', $value)){
-                            foreach($value as $collationValue) {
+                        if (!array_key_exists('collation', $value)) {
+                            foreach ($value as $collationValue) {
                                 $collations[] = $this->parseCollation($query, $collationValue);
                             }
-                        }else{
+                        } else {
                             $collations[] = $this->parseCollation($query, $value);
                         }
                         break;
@@ -106,14 +106,13 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     /**
      * Parse collation data into a result object
      *
-     * @param  Query                      $queryObject
-     * @param  array                      $values
+     * @param  Query     $queryObject
+     * @param  array     $values
      * @return Collation
      */
     protected function parseCollation($queryObject, $values)
     {
         if (is_string($values)) {
-
             return new Collation($values, null, array());
 
         } else {
@@ -126,7 +125,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                 $values = $this->convertToKeyValueArray($values);
             }
 
-            foreach($values as $key => $value) {
+            foreach ($values as $key => $value) {
                 switch ($key) {
                     case 'collationQuery':
                         $query = $value;
@@ -159,8 +158,8 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     /**
      * Parse suggestion data into a result object
      *
-     * @param  string                      $key
-     * @param  array                       $value
+     * @param  string     $key
+     * @param  array      $value
      * @return Suggestion
      */
     protected function parseSuggestion($key, $value)

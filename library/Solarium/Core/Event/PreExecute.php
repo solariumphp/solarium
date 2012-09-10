@@ -90,7 +90,7 @@ class PreExecute extends Event
     /**
      * Set the result object for this event, overrides default execution
      *
-     * @param ResultInterface $result
+     * @param  ResultInterface $result
      * @return void
      */
     public function setResult($result)

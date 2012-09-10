@@ -324,7 +324,7 @@ class Request extends Configurable
     /**
      * Set the file to upload via "multipart/form-data" POST request
      *
-     * @param string $filename Name of file to upload
+     * @param  string $filename Name of file to upload
      * @return self
      */
     public function setFileUpload($filename)
@@ -334,6 +334,7 @@ class Request extends Configurable
         }
 
         $this->setOption('file', $filename);
+
         return $this;
     }
 
@@ -459,13 +460,15 @@ class Request extends Configurable
      *
      * If one or both values are NULL authentication will be disabled
      *
-     * @param string $username
-     * @param string $password
-     * @return self Provides fluent interface
+     * @param  string $username
+     * @param  string $password
+     * @return self   Provides fluent interface
      */
-    public function setAuthentication($username, $password) {
+    public function setAuthentication($username, $password)
+    {
         $this->setOption('username', $username);
         $this->setOption('password', $password);
+
         return $this;
     }
 

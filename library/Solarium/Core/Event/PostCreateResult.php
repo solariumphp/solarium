@@ -66,8 +66,8 @@ class PostCreateResult extends Event
     /**
      * Event constructor
      *
-     * @param QueryInterface $query
-     * @param Response $response
+     * @param QueryInterface  $query
+     * @param Response        $response
      * @param ResultInterface $result
      */
     public function __construct(QueryInterface $query, Response $response, ResultInterface $result)

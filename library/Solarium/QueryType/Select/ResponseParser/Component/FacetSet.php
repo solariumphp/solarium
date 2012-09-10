@@ -61,9 +61,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      * Parse result data into result objects
      *
      * @throws RuntimeException
-     * @param  Query          $query
-     * @param  QueryFacetSet  $facetSet
-     * @param  array          $data
+     * @param  Query            $query
+     * @param  QueryFacetSet    $facetSet
+     * @param  array            $data
      * @return ResultFacetSet
      */
     public function parse($query, $facetSet, $data)
@@ -109,9 +109,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Add a facet result for a field facet
      *
-     * @param  Query             $query
+     * @param  Query            $query
      * @param  QueryFacetField  $facet
-     * @param  array             $data
+     * @param  array            $data
      * @return ResultFacetField
      */
     protected function facetField($query, $facet, $data)
@@ -131,7 +131,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      * Add a facet result for a facet query
      *
      * @param  QueryFacetQuery  $facet
-     * @param  array             $data
+     * @param  array            $data
      * @return ResultFacetQuery
      */
     protected function facetQuery($facet, $data)
@@ -149,7 +149,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      * Add a facet result for a multiquery facet
      *
      * @param  QueryFacetMultiQuery  $facet
-     * @param  array                  $data
+     * @param  array                 $data
      * @return ResultFacetMultiQuery
      */
     protected function facetMultiQuery($facet, $data)
@@ -171,9 +171,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Add a facet result for a range facet
      *
-     * @param  Query             $query
+     * @param  Query            $query
      * @param  QueryFacetRange  $facet
-     * @param  array             $data
+     * @param  array            $data
      * @return ResultFacetRange
      */
     protected function facetRange($query, $facet, $data)

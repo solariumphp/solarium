@@ -66,7 +66,7 @@ class PostExecuteRequest extends Event
     /**
      * Event constructor
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Endpoint $endpoint
      * @param Response $response
      */

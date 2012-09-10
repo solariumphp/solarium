@@ -70,7 +70,7 @@ class RequestBuilder extends BaseRequestBuilder
      *
      * Each commandtype is delegated to a separate builder method.
      *
-     * @param  UpdateQuery $query
+     * @param  UpdateQuery      $query
      * @throws RuntimeException
      * @return string
      */

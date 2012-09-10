@@ -55,9 +55,9 @@ class Debug implements ComponentParserInterface
     /**
      * Parse result data into result objects
      *
-     * @param  Query                   $query
-     * @param  DebugComponent          $component
-     * @param  array                   $data
+     * @param  Query          $query
+     * @param  DebugComponent $component
+     * @param  array          $data
      * @return Result|null
      */
     public function parse($query, $component, $data)
@@ -124,7 +124,7 @@ class Debug implements ComponentParserInterface
      *
      * Used for explain and explainOther
      *
-     * @param  array                   $data
+     * @param  array       $data
      * @return DocumentSet
      */
     protected function parseDocumentSet($data)
@@ -158,8 +158,8 @@ class Debug implements ComponentParserInterface
     /**
      * Parse raw timing phase data into a result class
      *
-     * @param  string                  $name
-     * @param  array                   $data
+     * @param  string      $name
+     * @param  array       $data
      * @return TimingPhase
      */
     protected function parseTimingPhase($name, $data)

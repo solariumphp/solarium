@@ -122,8 +122,8 @@ class MultiQuery extends Facet
      * facetquery instance wil be created based on the options.
      *
      * @throws InvalidArgumentException
-     * @param  Query|array $facetQuery
-     * @return self        Provides fluent interface
+     * @param  Query|array              $facetQuery
+     * @return self                     Provides fluent interface
      */
     public function addQuery($facetQuery)
     {

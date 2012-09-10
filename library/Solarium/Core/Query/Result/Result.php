@@ -87,9 +87,9 @@ class Result implements ResultInterface
      * Constructor
      *
      * @throws HttpException
-     * @param  Client   $client
-     * @param  Query    $query
-     * @param  Response $response
+     * @param  Client        $client
+     * @param  Query         $query
+     * @param  Response      $response
      * @return void
      */
     public function __construct($client, $query, $response)

@@ -73,7 +73,7 @@ class WeightedRandomChoice
      * Constructor
      *
      * @throws InvalidArgumentException
-     * @param array $choices
+     * @param  array                    $choices
      */
     public function __construct($choices)
     {
@@ -95,7 +95,7 @@ class WeightedRandomChoice
      * Get a (weighted) random entry
      *
      * @throws RuntimeException
-     * @param  array  $excludes Keys to exclude
+     * @param  array            $excludes Keys to exclude
      * @return string
      */
     public function getRandom($excludes = array())
@@ -128,7 +128,7 @@ class WeightedRandomChoice
         $high = count($this->lookup)-1;
         $low = 0;
 
-        while ( $low < $high ) {
+        while ($low < $high) {
             $probe = (int) (($high + $low) / 2);
             if ($this->lookup[$probe] < $random) {
                 $low = $probe + 1;

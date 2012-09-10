@@ -66,7 +66,7 @@ class PreExecuteRequest extends Event
     /**
      * Event constructor
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Endpoint $endpoint
      */
     public function __construct(Request $request, Endpoint $endpoint)
@@ -98,7 +98,7 @@ class PreExecuteRequest extends Event
     /**
      * Get the request object for this event
      *
-     * @param Request $request
+     * @param  Request $request
      * @return void
      */
     public function setRequest($request)
@@ -119,7 +119,7 @@ class PreExecuteRequest extends Event
     /**
      * Set the response object for this event, overrides default execution
      *
-     * @param Response $response
+     * @param  Response $response
      * @return void
      */
     public function setResponse($response)

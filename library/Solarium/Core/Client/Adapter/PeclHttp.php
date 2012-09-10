@@ -76,8 +76,8 @@ class PeclHttp extends Configurable implements AdapterInterface
      * Execute a Solr request using the Pecl Http
      *
      * @throws HttpException
-     * @param  Request  $request
-     * @param  Endpoint $endpoint
+     * @param  Request       $request
+     * @param  Endpoint      $endpoint
      * @return Response
      */
     public function execute($request, $endpoint)
@@ -133,8 +133,8 @@ class PeclHttp extends Configurable implements AdapterInterface
      *  HTTP Predefined Constant}
      *
      * @throws InvalidArgumentException
-     * @param Request  $request
-     * @param Endpoint $endpoint
+     * @param  Request                  $request
+     * @param  Endpoint                 $endpoint
      * @param HttpRequest
      */
     public function toHttpRequest($request, $endpoint)

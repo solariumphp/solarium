@@ -280,8 +280,8 @@ class FacetSet extends Component
      * Add a facet
      *
      * @throws InvalidArgumentException
-     * @param  Facet\Facet|array $facet
-     * @return self              Provides fluent interface
+     * @param  Facet\Facet|array        $facet
+     * @return self                     Provides fluent interface
      */
     public function addFacet($facet)
     {
@@ -409,9 +409,9 @@ class FacetSet extends Component
      * after setting the key, by using the addFacet method.
      *
      * @throws OutOfBoundsException
-     * @param  string            $type
-     * @param  array|object|null $options
-     * @param  boolean           $add
+     * @param  string               $type
+     * @param  array|object|null    $options
+     * @param  boolean              $add
      * @return Facet\Facet
      */
     public function createFacet($type, $options = null, $add = true)
@@ -441,8 +441,8 @@ class FacetSet extends Component
     /**
      * Get a facet field instance
      *
-     * @param mixed $options
-     * @param bool $add
+     * @param  mixed       $options
+     * @param  bool        $add
      * @return Facet\Field
      */
     public function createFacetField($options = null, $add = true)
@@ -453,8 +453,8 @@ class FacetSet extends Component
     /**
      * Get a facet query instance
      *
-     * @param mixed $options
-     * @param bool $add
+     * @param  mixed       $options
+     * @param  bool        $add
      * @return Facet\Query
      */
     public function createFacetQuery($options = null, $add = true)
@@ -465,8 +465,8 @@ class FacetSet extends Component
     /**
      * Get a facet multiquery instance
      *
-     * @param mixed $options
-     * @param bool $add
+     * @param  mixed            $options
+     * @param  bool             $add
      * @return Facet\MultiQuery
      */
     public function createFacetMultiQuery($options = null, $add = true)
@@ -477,8 +477,8 @@ class FacetSet extends Component
     /**
      * Get a facet range instance
      *
-     * @param mixed $options
-     * @param bool $add
+     * @param  mixed       $options
+     * @param  bool        $add
      * @return Facet\Range
      */
     public function createFacetRange($options = null, $add = true)

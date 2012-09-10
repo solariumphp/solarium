@@ -286,9 +286,9 @@ class Helper
      * Render a qparser plugin call
      *
      * @throws InvalidArgumentException
-     * @param  string  $name
-     * @param  array   $params
-     * @param  boolean $dereferenced
+     * @param  string                   $name
+     * @param  array                    $params
+     * @param  boolean                  $dereferenced
      * @return string
      */
     public function qparser($name, $params = array(), $dereferenced = false)
@@ -369,7 +369,7 @@ class Helper
      * Render placeholders in a querystring
      *
      * @throws InvalidArgumentException
-     * @param  array     $matches
+     * @param  array                    $matches
      * @return string
      */
     protected function renderPlaceHolder($matches)

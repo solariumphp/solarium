@@ -180,7 +180,7 @@ abstract class Query extends Configurable implements QueryInterface
      * Set responsewriter option
      *
      * @param  string $value
-     * @return self    Provides fluent interface
+     * @return self   Provides fluent interface
      */
     public function setResponseWriter($value)
     {
@@ -201,7 +201,7 @@ abstract class Query extends Configurable implements QueryInterface
     public function getResponseWriter()
     {
         $responseWriter = $this->getOption('responsewriter');
-        if ($responseWriter === null ) {
+        if ($responseWriter === null) {
             $responseWriter = self::WT_JSON;
         }
 

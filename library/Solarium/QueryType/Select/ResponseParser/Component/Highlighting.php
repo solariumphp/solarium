@@ -51,9 +51,9 @@ class Highlighting implements ComponentParserInterface
     /**
      * Parse result data into result objects
      *
-     * @param  Query                           $query
-     * @param  HighlightingComponent           $highlighting
-     * @param  array                           $data
+     * @param  Query                 $query
+     * @param  HighlightingComponent $highlighting
+     * @param  array                 $data
      * @return HighlightingResult
      */
     public function parse($query, $highlighting, $data)

@@ -139,8 +139,8 @@ class Highlighting extends Component
      * Add a field for highlighting
      *
      * @throws InvalidArgumentException
-     * @param  string|array|Field $field
-     * @return self               Provides fluent interface
+     * @param  string|array|Field       $field
+     * @return self                     Provides fluent interface
      */
     public function addField($field)
     {
@@ -473,8 +473,8 @@ class Highlighting extends Component
      *
      * Solr option h1.tag.post
      *
-     * @param string $prefix
-     * @return self Provides fluent interface
+     * @param  string $prefix
+     * @return self   Provides fluent interface
      */
     public function setTagPrefix($prefix)
     {
@@ -498,8 +498,8 @@ class Highlighting extends Component
      *
      * Solr option h1.tag.post
      *
-     * @param string $postfix
-     * @return self Provides fluent interface
+     * @param  string $postfix
+     * @return self   Provides fluent interface
      */
     public function setTagPostfix($postfix)
     {
@@ -517,7 +517,6 @@ class Highlighting extends Component
     {
         return $this->getOption('tagpostfix');
     }
-
 
     /**
      * Set fragmenter option
@@ -757,8 +756,8 @@ class Highlighting extends Component
     /**
      * Set MultiValuedSeparatorChar option
      *
-     * @param  string  $separator
-     * @return self Provides fluent interface
+     * @param  string $separator
+     * @return self   Provides fluent interface
      */
     public function setMultiValuedSeparatorChar($separator)
     {

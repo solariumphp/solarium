@@ -153,8 +153,8 @@ class Stats extends Component
      * field instance wil be created based on the options.
      *
      * @throws InvalidArgumentException
-     * @param  Field|array $field
-     * @return self        Provides fluent interface
+     * @param  Field|array              $field
+     * @return self                     Provides fluent interface
      */
     public function addField($field)
     {

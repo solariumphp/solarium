@@ -72,8 +72,8 @@ class Document extends AbstractDocument implements DocumentInterface
      * is a readonly document an exception will be thrown to prevent this.
      *
      * @throws RuntimeException
-     * @param  string $name
-     * @param  string $value
+     * @param  string           $name
+     * @param  string           $value
      * @return void
      */
     public function __set($name, $value)

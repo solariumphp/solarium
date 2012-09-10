@@ -47,7 +47,7 @@ interface ComponentRequestBuilderInterface
      * Add request settings for the debug component
      *
      * @param  Component $component
-     * @param  Request        $request
+     * @param  Request   $request
      * @return Request
      */
     public function buildComponent($component, $request);

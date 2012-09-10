@@ -131,8 +131,8 @@ class Curl extends Configurable implements AdapterInterface
      * Create curl handle for a request
      *
      * @throws InvalidArgumentException
-     * @param  Request  $request
-     * @param  Endpoint $endpoint
+     * @param  Request                  $request
+     * @param  Endpoint                 $endpoint
      * @return resource
      */
     public function createHandle($request, $endpoint)

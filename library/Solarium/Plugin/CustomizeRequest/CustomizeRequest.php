@@ -38,7 +38,6 @@
  */
 namespace Solarium\Plugin\CustomizeRequest;
 use Solarium\Core\Plugin\Plugin;
-use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
@@ -126,8 +125,8 @@ class CustomizeRequest extends Plugin
      * Customization instance wil be created based on the options.
      *
      * @throws InvalidArgumentException
-     * @param  Customization|array $customization
-     * @return self                Provides fluent interface
+     * @param  Customization|array      $customization
+     * @return self                     Provides fluent interface
      */
     public function addCustomization($customization)
     {

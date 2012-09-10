@@ -113,7 +113,7 @@ class Document extends Query
      * Add multiple documents
      *
      * @param  DocumentInterface[] $documents
-     * @return self  fluent interface
+     * @return self                fluent interface
      */
     public function addDocuments($documents)
     {

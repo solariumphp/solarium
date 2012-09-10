@@ -58,7 +58,7 @@ interface ConfigurableInterface
      * After handling the options the {@link _init()} method is called.
      *
      * @throws InvalidArgumentException
-     * @param  array|\Zend_Config $options
+     * @param  array|\Zend_Config       $options
      * @return void
      */
     public function __construct($options = null);
@@ -71,8 +71,8 @@ interface ConfigurableInterface
      * Zend Framework, but can also easily be implemented in any other object.
      *
      * @throws InvalidArgumentException
-     * @param  array|\Zend_Config $options
-     * @param  boolean            $overwrite True for overwriting existing options, false
+     * @param  array|\Zend_Config       $options
+     * @param  boolean                  $overwrite True for overwriting existing options, false
      *  for merging (new values overwrite old ones if needed)
      *
      * @return void

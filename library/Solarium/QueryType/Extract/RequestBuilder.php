@@ -58,7 +58,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build the request
      *
-     * @param Query $query
+     * @param  Query   $query
      * @return Request
      */
     public function build(QueryInterface $query)

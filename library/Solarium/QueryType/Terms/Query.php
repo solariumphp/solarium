@@ -100,7 +100,7 @@ class Query extends BaseQuery
      * For multiple fields use a comma-separated string or array
      *
      * @param  string|array $value
-     * @return self   Provides fluent interface
+     * @return self         Provides fluent interface
      */
     public function setFields($value)
     {
@@ -121,7 +121,6 @@ class Query extends BaseQuery
     {
         $value = $this->getOption('fields');
         if ($value === null) $value = array();
-
         return $value;
     }
 
@@ -257,7 +256,7 @@ class Query extends BaseQuery
      * Use a comma-separated string or array for multiple entries
      *
      * @param  string|array $value
-     * @return self   Provides fluent interface
+     * @return self         Provides fluent interface
      */
     public function setRegexFlags($value)
     {
@@ -278,7 +277,6 @@ class Query extends BaseQuery
     {
         $value = $this->getOption('regexflags');
         if ($value === null) $value = array();
-
         return $value;
     }
 

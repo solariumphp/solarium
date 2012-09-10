@@ -271,7 +271,6 @@ class Range extends Facet
     {
         $other = $this->getOption('other');
         if ($other === null) $other = array();
-
         return $other;
     }
 
@@ -303,7 +302,6 @@ class Range extends Facet
     {
         $include = $this->getOption('include');
         if ($include === null) $include = array();
-
         return $include;
     }
 }

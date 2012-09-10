@@ -64,7 +64,7 @@ class PreCreateQuery extends Event
     /**
      * Event constructor
      *
-     * @param string $type
+     * @param string     $type
      * @param array|null $query
      */
     public function __construct($type, $options)
@@ -86,7 +86,7 @@ class PreCreateQuery extends Event
     /**
      * Set the query object for this event, this overrides default execution
      *
-     * @param QueryInterface $query
+     * @param  QueryInterface $query
      * @return void
      */
     public function setQuery($query)

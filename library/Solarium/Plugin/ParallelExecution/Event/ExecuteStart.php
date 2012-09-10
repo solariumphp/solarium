@@ -38,7 +38,6 @@
  */
 namespace Solarium\Plugin\ParallelExecution\Event;
 use Symfony\Component\EventDispatcher\Event;
-use Solarium\QueryType\Update\Result;
 
 /**
  * ExecuteStart event, see Events for details

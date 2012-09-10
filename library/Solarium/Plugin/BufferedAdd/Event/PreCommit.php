@@ -98,7 +98,7 @@ class PreCommit extends Event
     /**
      * Set the buffer for this event, this way you can alter the buffer before it is committed to Solr
      *
-     * @param array $buffer
+     * @param  array $buffer
      * @return void
      */
     public function setBuffer($buffer)

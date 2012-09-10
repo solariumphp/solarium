@@ -447,7 +447,7 @@ class Grouping extends Component
      * Group based on the unique values of a function query. Only available in Solr 4.0+
      *
      * @param  string $value
-     * @return self    Provides fluent interface
+     * @return self   Provides fluent interface
      */
     public function setFunction($value)
     {
@@ -471,7 +471,7 @@ class Grouping extends Component
      * This parameter only is supported on Solr 4.0+
      *
      * @param  string $value
-     * @return self    Provides fluent interface
+     * @return self   Provides fluent interface
      */
     public function setFacet($value)
     {
@@ -495,7 +495,7 @@ class Grouping extends Component
      * The start and rows parameters refer to numbers of documents instead of numbers of groups.
      *
      * @param  string $value
-     * @return self    Provides fluent interface
+     * @return self   Provides fluent interface
      */
     public function setFormat($value)
     {

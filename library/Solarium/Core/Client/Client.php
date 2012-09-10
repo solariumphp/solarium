@@ -59,7 +59,6 @@ use Solarium\Core\Event\PostExecute as PostExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
 
-
 /**
  * Main interface for interaction with Solr
  *
@@ -265,8 +264,8 @@ class Client extends Configurable
      * In case of options a new endpoint instance wil be created based on the options.
      *
      * @throws InvalidArgumentException
-     * @param  Endpoint|array $endpoint
-     * @return self           Provides fluent interface
+     * @param  Endpoint|array           $endpoint
+     * @return self                     Provides fluent interface
      */
     public function addEndpoint($endpoint)
     {
@@ -321,7 +320,7 @@ class Client extends Configurable
      * Get an endpoint by key
      *
      * @throws OutOfBoundsException
-     * @param  string   $key
+     * @param  string               $key
      * @return Endpoint
      */
     public function getEndpoint($key = null)
@@ -399,8 +398,8 @@ class Client extends Configurable
      *
      * All queries executed without a specific endpoint will use this default endpoint.
      *
-     * @param  string|Endpoint $endpoint
-     * @return self            Provides fluent interface
+     * @param  string|Endpoint      $endpoint
+     * @return self                 Provides fluent interface
      * @throws OutOfBoundsException
      */
     public function setDefaultEndpoint($endpoint)
@@ -489,7 +488,7 @@ class Client extends Configurable
      * If {@see $adapter} doesn't hold an instance a new one will be created by
      * calling {@see createAdapter()}
      *
-     * @param  boolean                  $autoload
+     * @param  boolean          $autoload
      * @return AdapterInterface
      */
     public function getAdapter($autoload = true)
@@ -569,10 +568,10 @@ class Client extends Configurable
      * or a manual require.
      *
      * @throws InvalidArgumentException
-     * @param  string                       $key
-     * @param  string|PluginInterface       $plugin
-     * @param  array                        $options
-     * @return self                         Provides fluent interface
+     * @param  string                   $key
+     * @param  string|PluginInterface   $plugin
+     * @param  array                    $options
+     * @return self                     Provides fluent interface
      */
     public function registerPlugin($key, $plugin, $options = array())
     {
@@ -630,8 +629,8 @@ class Client extends Configurable
      * Get a plugin instance
      *
      * @throws OutOfBoundsException
-     * @param  string                     $key
-     * @param  boolean                    $autocreate
+     * @param  string               $key
+     * @param  boolean              $autocreate
      * @return PluginInterface|null
      */
     public function getPlugin($key, $autocreate = true)
@@ -657,7 +656,7 @@ class Client extends Configurable
      * You can remove a plugin by passing the plugin key, or the plugin instance
      *
      * @param  string|PluginInterface $plugin
-     * @return self                         Provides fluent interface
+     * @return self                   Provides fluent interface
      */
     public function removePlugin($plugin)
     {
@@ -681,7 +680,7 @@ class Client extends Configurable
      * Creates a request based on a query instance
      *
      * @throws UnexpectedValueException
-     * @param  QueryInterface $query
+     * @param  QueryInterface           $query
      * @return Request
      */
     public function createRequest(QueryInterface $query)
@@ -711,8 +710,8 @@ class Client extends Configurable
      * Creates a result object
      *
      * @throws UnexpectedValueException;
-     * @param  QueryInterface  $query
-     * @param  array Response  $response
+     * @param  QueryInterface            $query
+     * @param  array Response            $response
      * @return ResultInterface
      */
     public function createResult(QueryInterface $query, $response)
@@ -959,8 +958,8 @@ class Client extends Configurable
      * Create a query instance
      *
      * @throws InvalidArgumentException|UnexpectedValueException
-     * @param  string                     $type
-     * @param  array                      $options
+     * @param  string                                            $type
+     * @param  array                                             $options
      * @return \Solarium\Core\Query\Query
      */
     public function createQuery($type, $options = null)
@@ -1083,7 +1082,7 @@ class Client extends Configurable
     /**
      * Create an extract query instance
      *
-     * @param  mixed $options
+     * @param  mixed                             $options
      * @return \Solarium\QueryType\Extract\Query
      */
     public function createExtract($options = null)

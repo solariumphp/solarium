@@ -88,7 +88,7 @@ class MoreLikeThis extends Component
      * When using string input you can separate multiple fields with commas.
      *
      * @param  string|array $fields
-     * @return self   Provides fluent interface
+     * @return self         Provides fluent interface
      */
     public function setFields($fields)
     {

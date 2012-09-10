@@ -183,7 +183,7 @@ class Query extends SelectQuery
      * Separate multiple fields with commas if you use string input.
      *
      * @param  string|array $fields
-     * @return self   Provides fluent interface
+     * @return self         Provides fluent interface
      */
     public function setMltFields($fields)
     {
@@ -381,7 +381,7 @@ class Query extends SelectQuery
      * Separate multiple fields with commas if you use string input.
      *
      * @param  string|array $queryFields
-     * @return self   Provides fluent interface
+     * @return self         Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {

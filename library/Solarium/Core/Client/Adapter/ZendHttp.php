@@ -46,7 +46,6 @@ use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\HttpException;
-use Solarium\Exception\RuntimeException;
 use Solarium\Exception\OutOfBoundsException;
 
 /**
@@ -162,8 +161,8 @@ class ZendHttp extends Configurable implements AdapterInterface
      * Execute a Solr request using the Zend_Http_Client instance
      *
      * @throws HttpException
-     * @param  Request  $request
-     * @param  Endpoint $endpoint
+     * @param  Request       $request
+     * @param  Endpoint      $endpoint
      * @return Response
      */
     public function execute($request, $endpoint)
@@ -211,8 +210,8 @@ class ZendHttp extends Configurable implements AdapterInterface
      * Prepare a solarium response from the given request and client
      * response
      *
-     * @param Request $request
-     * @param \Zend_Http_Response $response
+     * @param  Request             $request
+     * @param  \Zend_Http_Response $response
      * @return Response
      */
     protected function prepareResponse($request, $response)
@@ -239,8 +238,8 @@ class ZendHttp extends Configurable implements AdapterInterface
     /**
      * Prepare the client to send the file and params in request
      *
-     * @param \Zend_Http_Client $client
-     * @param Request $request
+     * @param  \Zend_Http_Client $client
+     * @param  Request           $request
      * @return void
      */
     protected function prepareFileUpload($client, $request)

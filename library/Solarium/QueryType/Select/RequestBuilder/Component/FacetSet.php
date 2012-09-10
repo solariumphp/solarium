@@ -56,8 +56,8 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      * Add request settings for FacetSet
      *
      * @throws UnexpectedValueException
-     * @param  FacetsetComponent $component
-     * @param  Request           $request
+     * @param  FacetsetComponent        $component
+     * @param  Request                  $request
      * @return Request
      */
     public function buildComponent($component, $request)

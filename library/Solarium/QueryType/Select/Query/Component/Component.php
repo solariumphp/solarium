@@ -82,6 +82,7 @@ abstract class Component extends Configurable
     public function setQueryInstance(Query $instance)
     {
         $this->queryInstance = $instance;
+
         return $this;
     }
 

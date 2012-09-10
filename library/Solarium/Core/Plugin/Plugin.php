@@ -40,9 +40,6 @@ namespace Solarium\Core\Plugin;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Query;
-use Solarium\Core\Client\Request;
-use Solarium\Core\Client\Response;
-use Solarium\Core\Query\Result\Result;
 
 /**
  * Base class for plugins

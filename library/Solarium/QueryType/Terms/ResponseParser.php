@@ -51,7 +51,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     /**
      * Get result data for the response
      *
-     * @param Result $result
+     * @param  Result $result
      * @return array
      */
     public function parse($result)

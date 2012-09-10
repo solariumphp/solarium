@@ -60,7 +60,7 @@ class EndpointFailure extends Event
     /**
      * Constructor
      *
-     * @param Endpoint $endpoint
+     * @param Endpoint      $endpoint
      * @param HttpException $exception
      */
     public function __construct(Endpoint $endpoint, HttpException $exception)
@@ -84,6 +84,5 @@ class EndpointFailure extends Event
     {
         return $this->exception;
     }
-
 
 }

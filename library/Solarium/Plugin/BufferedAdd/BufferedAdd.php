@@ -42,7 +42,6 @@ use Solarium\Core\Plugin\Plugin;
 use Solarium\QueryType\Update\Result as UpdateResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Select\Result\DocumentInterface;
-use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 use Solarium\Plugin\BufferedAdd\Event\Events;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
@@ -134,7 +133,7 @@ class BufferedAdd extends Plugin
      * Add a document
      *
      * @param  DocumentInterface $document
-     * @return self             Provides fluent interface
+     * @return self              Provides fluent interface
      */
     public function addDocument($document)
     {

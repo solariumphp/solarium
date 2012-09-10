@@ -45,9 +45,9 @@ interface ComponentParserInterface
     /**
      * Parse result data into result objects
      *
-     * @param  Query                   $query
-     * @param  object                  $component
-     * @param  array                   $data
+     * @param  Query       $query
+     * @param  object      $component
+     * @param  array       $data
      * @return object|null
      */
     public function parse($query, $component, $data);

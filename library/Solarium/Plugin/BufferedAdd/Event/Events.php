@@ -47,7 +47,7 @@ class Events
     /**
      * This event is called before a buffer flush
      *
-     * The event listener receives the buffer (array).
+     * The event listener receives the buffer (array) .
      *
      * @var string
      */
@@ -62,11 +62,10 @@ class Events
      */
     const POST_FLUSH = 'solarium.bufferedAdd.postFlush';
 
-
     /**
      * This event is called before a buffer commit
      *
-     * The event listener receives the buffer (array).
+     * The event listener receives the buffer (array) .
      *
      * @var string
      */

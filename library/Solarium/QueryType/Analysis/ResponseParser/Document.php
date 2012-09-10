@@ -37,7 +37,6 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\ResponseParser;
-use Solarium\QueryType\Analysis\Result as AnalysisResult;
 use Solarium\QueryType\Analysis\Result\ResultList;
 
 /**
@@ -49,8 +48,8 @@ class Document extends Field
     /**
      * Parse implementation
      *
-     * @param  array $result
-     * @param  array $data
+     * @param  array        $result
+     * @param  array        $data
      * @return ResultList[]
      */
     protected function parseAnalysis($result, $data)

@@ -53,9 +53,9 @@ class Grouping implements ComponentParserInterface
     /**
      * Parse result data into result objects
      *
-     * @param  Query                 $query
-     * @param  GroupingComponent     $grouping
-     * @param  array                 $data
+     * @param  Query             $query
+     * @param  GroupingComponent $grouping
+     * @param  array             $data
      * @return Result
      */
     public function parse($query, $grouping, $data)

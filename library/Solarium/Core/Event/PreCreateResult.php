@@ -67,7 +67,7 @@ class PreCreateResult extends Event
      * Event constructor
      *
      * @param QueryInterface $query
-     * @param Response $response
+     * @param Response       $response
      */
     public function __construct(QueryInterface $query, Response $response)
     {
@@ -108,7 +108,7 @@ class PreCreateResult extends Event
     /**
      * Set the result object for this event, overrides default execution
      *
-     * @param ResultInterface $result
+     * @param  ResultInterface $result
      * @return void
      */
     public function setResult($result)

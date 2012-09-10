@@ -224,9 +224,9 @@ class Loadbalancer extends Plugin
      * Add an endpoint to the loadbalacing 'pool'
      *
      * @throws InvalidArgumentException
-     * @param  Endpoint|string $endpoint
-     * @param  int             $weight   Must be a positive number
-     * @return self            Provides fluent interface
+     * @param  Endpoint|string          $endpoint
+     * @param  int                      $weight   Must be a positive number
+     * @return self                     Provides fluent interface
      */
     public function addEndpoint($endpoint, $weight = 1)
     {
@@ -456,7 +456,7 @@ class Loadbalancer extends Plugin
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param PreExecuteRequestEvent  $event
+     * @param PreExecuteRequestEvent $event
      */
     public function preExecuteRequest(PreExecuteRequestEvent $event)
     {

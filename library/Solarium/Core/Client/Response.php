@@ -131,7 +131,7 @@ class Response
      * Set headers
      *
      * @throws HttpException
-     * @param  array $headers
+     * @param  array         $headers
      * @return void
      */
     public function setHeaders($headers)

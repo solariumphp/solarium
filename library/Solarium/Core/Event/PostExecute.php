@@ -60,7 +60,7 @@ class PostExecute extends Event
     /**
      * Event constructor
      *
-     * @param QueryInterface $query
+     * @param QueryInterface  $query
      * @param ResultInterface $result
      */
     public function __construct(QueryInterface $query, ResultInterface $result)

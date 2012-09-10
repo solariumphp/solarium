@@ -182,8 +182,8 @@ class Query extends BaseQuery
      * Create a command instance
      *
      * @throws InvalidArgumentException
-     * @param  string                  $type
-     * @param  mixed                   $options
+     * @param  string                   $type
+     * @param  mixed                    $options
      * @return Command
      */
     public function createCommand($type, $options = null)
