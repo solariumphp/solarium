@@ -49,7 +49,7 @@ class Document extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Document instances array
      *
-     * @var array
+     * @var ResultList[]
      */
     protected $items;
 

@@ -51,7 +51,7 @@ class Document extends Query
     /**
      * Documents to analyze
      *
-     * @var array
+     * @var DocumentInterface[]
      */
     protected $documents = array();
 

@@ -61,7 +61,7 @@ class Result implements ResultInterface
     protected $response;
 
     /**
-     * Decode response data
+     * Decoded response data
      *
      * This is lazy loaded, {@link getData()}
      *

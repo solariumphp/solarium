@@ -47,7 +47,7 @@ class PreCommit extends Event
 {
 
     /**
-     * @var array
+     * @var DocumentInterface[]
      */
     protected $buffer;
 

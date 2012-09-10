@@ -183,14 +183,14 @@ class Query extends BaseQuery
     /**
      * Filterqueries
      *
-     * @var array
+     * @var FilterQuery[]
      */
     protected $filterQueries = array();
 
     /**
      * Search components
      *
-     * @var array
+     * @var Component[]
      */
     protected $components = array();
 

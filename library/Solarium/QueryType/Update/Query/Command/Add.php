@@ -52,7 +52,7 @@ class Add extends Command
     /**
      * Documents to add
      *
-     * @var array
+     * @var DocumentInterface[]
      */
     protected $documents = array();
 

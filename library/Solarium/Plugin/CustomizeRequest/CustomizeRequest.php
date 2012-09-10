@@ -57,7 +57,7 @@ class CustomizeRequest extends Plugin
     /**
      * Holds customizations added to this plugin
      *
-     * @var array
+     * @var Customization[]
      */
     protected $customizations = array();
 

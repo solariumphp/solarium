@@ -47,7 +47,7 @@ class PreFlush extends Event
 {
 
     /**
-     * @var array
+     * @var DocumentInterface[]
      */
     protected $buffer;
 

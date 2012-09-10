@@ -116,7 +116,7 @@ class Query extends BaseQuery
      * The commands will be executed in the order of this array, this can be
      * important in some cases. For instance a rollback.
      *
-     * @var array
+     * @var Command[]
      */
     protected $commands = array();
 

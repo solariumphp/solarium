@@ -94,7 +94,7 @@ class FacetSet extends Component
     /**
      * Facets
      *
-     * @var array
+     * @var Facet[]
      */
     protected $facets = array();
 

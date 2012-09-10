@@ -82,7 +82,7 @@ class Loadbalancer extends Plugin
     /**
      * Registered endpoints
      *
-     * @var array
+     * @var Endpoint[]
      */
     protected $endpoints = array();
 

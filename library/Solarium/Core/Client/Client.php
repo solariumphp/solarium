@@ -176,14 +176,14 @@ class Client extends Configurable
     /**
      * Registered plugin instances
      *
-     * @var array
+     * @var PluginInterface[]
      */
     protected $pluginInstances = array();
 
     /**
      * Registered endpoints
      *
-     * @var array
+     * @var Endpoint[]
      */
     protected $endpoints = array();
 
@@ -207,13 +207,6 @@ class Client extends Configurable
      * @var AdapterInterface
      */
     protected $adapter;
-
-    /**
-     * Request builder instances
-     *
-     * @var array
-     */
-    protected $requestBuilders;
 
     /**
      * Initialization hook

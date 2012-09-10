@@ -73,7 +73,7 @@ class ParallelExecution extends Plugin
     /**
      * Queries (and optionally clients) to execute
      *
-     * @var array
+     * @var Query[]
      */
     protected $queries = array();
 
