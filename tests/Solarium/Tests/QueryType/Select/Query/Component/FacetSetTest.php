@@ -58,6 +58,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             'sort' => 'index',
             'mincount' => 10,
             'missing' => 5,
+            'extractfromresponse' => true,
         );
 
         $this->facetSet->setOptions($options);
@@ -68,6 +69,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['sort'], $this->facetSet->getSort());
         $this->assertEquals($options['mincount'], $this->facetSet->getMincount());
         $this->assertEquals($options['missing'], $this->facetSet->getMissing());
+        $this->assertEquals($options['extractfromresponse'], $this->facetSet->getExtractFromResponse());
     }
 
     public function testGetType()
@@ -399,6 +401,12 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                  ->with($this->equalTo(FacetSet::FACET_RANGE), $this->equalTo($options), $add);
 
         $observer->createFacetRange($options, $add);
+    }
+
+    public function testSetAndGetExtractFromResponse()
+    {
+        $this->facetSet->setExtractFromResponse(true);
+        $this->assertEquals(true, $this->facetSet->getExtractFromResponse());
     }
 
 }

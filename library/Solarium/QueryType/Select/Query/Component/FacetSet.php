@@ -139,7 +139,7 @@ class FacetSet extends Component
     protected function init()
     {
         if (isset($this->options['facet'])) {
-            foreach ($this->options['facet'] as $key => $config) {
+            foreach ($this->options['facet'] AS $key => $config) {
                 if (!isset($config['key'])) {
                     $config['key'] = $key;
                 }
@@ -147,6 +147,28 @@ class FacetSet extends Component
                 $this->addFacet($config);
             }
         }
+    }
+
+    /**
+     * Allow extraction of facets without having to define
+     * them on the query
+     *
+     * @param boolean $extract
+     * @return self Provides fluent interface
+     */
+    public function setExtractFromResponse($extract)
+    {
+        return $this->setOption('extractfromresponse', $extract);
+    }
+
+    /**
+     * Get the extractfromresponse option value
+     *
+     * @return boolean
+     */
+    public function getExtractFromResponse()
+    {
+        return $this->getOption('extractfromresponse');
     }
 
     /**
@@ -300,7 +322,7 @@ class FacetSet extends Component
         if (array_key_exists($key, $this->facets) && $this->facets[$key] !== $facet) {
             throw new InvalidArgumentException('A facet must have a unique key value within a query');
         } else {
-             $this->facets[$key] = $facet;
+            $this->facets[$key] = $facet;
         }
 
         return $this;

@@ -68,6 +68,27 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      */
     public function parse($query, $facetSet, $data)
     {
+        if ($facetSet->getExtractFromResponse() === true) {
+            if (empty($data['facet_counts']) === false) {
+                foreach ($data['facet_counts'] as $key => $facets) {
+                    switch ($key) {
+                        case 'facet_fields':
+                            $method = 'createFacetField';
+                            break;
+                        case 'facet_queries':
+                            $method = 'createFacetQuery';
+                            break;
+                        case 'facet_ranges':
+                            $method = 'createFacetRange';
+                            break;
+                    }
+                    foreach ($facets as $k => $facet) {
+                        $facetSet->$method($k);
+                    }
+                }
+            }
+        }
+
         $facets = array();
         foreach ($facetSet->getFacets() as $key => $facet) {
             switch ($facet->getType()) {

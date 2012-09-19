@@ -130,6 +130,93 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->query = new Query;
     }
 
+    public function testParseExtractFromResponse()
+    {
+        $data = array(
+            'facet_counts' =>  array(
+                'facet_fields' => array(
+                    'keyA' => array(
+                        'value1',
+                        12,
+                        'value2',
+                        3,
+                    ),
+                ),
+                'facet_queries' => array(
+                    'keyB' => 23,
+                    'keyC_A' => 25,
+                    'keyC_B' => 16,
+                ),
+                'facet_ranges' => array(
+                    'keyD' => array(
+                        'before' => 3,
+                        'after' => 5,
+                        'between' => 4,
+                        'counts' => array(
+                            '1.0',
+                            1,
+                            '101.0',
+                            2,
+                            '201.0',
+                            1,
+                        )
+                    )
+                )
+            )
+        );
+
+        $facetSet = new FacetSet();
+        $facetSet->setExtractFromResponse(true);
+
+        $result = $this->parser->parse($this->query, $facetSet, $data);
+        $facets = $result->getFacets();
+
+        $this->assertEquals(array('keyA','keyB','keyC_A','keyC_B','keyD'), array_keys($facets));
+
+        $this->assertEquals(
+            array('value1' => 12, 'value2' => 3),
+            $facets['keyA']->getValues()
+        );
+
+        $this->assertEquals(
+            23,
+            $facets['keyB']->getValue()
+        );
+
+        // As the multiquery facet is a Solarium virtual facet type, it cannot be detected based on Solr response data
+        $this->assertEquals(
+            25,
+            $facets['keyC_A']->getValue()
+        );
+
+        $this->assertEquals(
+            16,
+            $facets['keyC_B']->getValue()
+        );
+
+        $this->assertEquals(
+            array('1.0' => 1, '101.0' => 2, '201.0' => 1),
+            $facets['keyD']->getValues()
+        );
+
+        $this->assertEquals(
+            3,
+            $facets['keyD']->getBefore()
+        );
+
+        $this->assertEquals(
+            4,
+            $facets['keyD']->getBetween()
+        );
+
+        $this->assertEquals(
+            5,
+            $facets['keyD']->getAfter()
+        );
+
+        $this->query = new Query;
+    }
+
     public function testParseNoData()
     {
         $result = $this->parser->parse($this->query, $this->facetSet, array());
