@@ -81,7 +81,20 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '{!geofilt pt=45.15,-93.85 sfield=store d=5}',
-            $this->helper->geofilt(45.15, -93.85, 'store', 5)
+            $this->helper->geofilt('store', 45.15, -93.85, 5)
+        );
+    }
+
+    public function testGeofiltDereferenced()
+    {
+        $this->assertEquals(
+            '{!geofilt}',
+            $this->helper->geofilt('store', 45.15, -93.85, 5, true)
+        );
+
+        $this->assertEquals(
+            array('sfield' => 'store', 'pt' => '45.15,-93.85', 'd' => 5),
+            $this->query->getParams()
         );
     }
 
@@ -89,15 +102,41 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '{!bbox pt=45.15,-93.85 sfield=store d=5}',
-            $this->helper->bbox(45.15, -93.85, 'store', 5)
+            $this->helper->bbox('store', 45.15, -93.85, 5)
+        );
+    }
+
+    public function testBboxDereferenced()
+    {
+        $this->assertEquals(
+            '{!bbox}',
+            $this->helper->bbox('store', 45.15, -93.85, 5, true)
+        );
+
+        $this->assertEquals(
+            array('sfield' => 'store', 'pt' => '45.15,-93.85', 'd' => 5),
+            $this->query->getParams()
         );
     }
 
     public function testGeodist()
     {
         $this->assertEquals(
-            'geodist(45.15,-93.85,store)',
-            $this->helper->geodist(45.15, -93.85, 'store')
+            'geodist(store,45.15,-93.85)',
+            $this->helper->geodist('store', 45.15, -93.85)
+        );
+    }
+
+    public function testGeodistDereferenced()
+    {
+        $this->assertEquals(
+            'geodist()',
+            $this->helper->geodist('store', 45.15, -93.85, true)
+        );
+
+        $this->assertEquals(
+            array('sfield' => 'store', 'pt' => '45.15,-93.85'),
+            $this->query->getParams()
         );
     }
 
@@ -128,7 +167,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '{!join from=$deref_1 to=$deref_2}',
-            $this->helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true)
+            $this->helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true, true)
         );
 
         $this->assertEquals(
@@ -139,7 +178,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         // second call, params should have updated counts
         $this->assertEquals(
             '{!join from=$deref_3 to=$deref_4}',
-            $this->helper->qparser('join', array('from' => 'cat_id', 'to' => 'prod_id'), true)
+            $this->helper->qparser('join', array('from' => 'cat_id', 'to' => 'prod_id'), true, true)
         );
 
         // previous params should also still be there

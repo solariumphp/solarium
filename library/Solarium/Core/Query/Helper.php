@@ -216,13 +216,14 @@ class Helper
      *
      * Find all entries within the distance of a certain point.
      *
+     * @param  $field
      * @param  $pointX
      * @param  $pointY
-     * @param  $field
      * @param  $distance
+     * @param  boolean $dereferenced
      * @return string
      */
-    public function geofilt($pointX, $pointY, $field, $distance)
+    public function geofilt($field, $pointX, $pointY, $distance, $dereferenced = false)
     {
         return $this->qparser(
             'geofilt',
@@ -230,7 +231,8 @@ class Helper
                 'pt' => $pointX.','.$pointY,
                 'sfield' => $field,
                 'd' => $distance
-            )
+            ),
+            $dereferenced
         );
     }
 
@@ -242,13 +244,14 @@ class Helper
      * guaranteed to encompass all of the points of interest, but it may also
      * include other points that are slightly outside of the required distance.
      *
-     * @param  string $pointX
-     * @param  string $pointY
-     * @param  string $field
-     * @param  string $distance
+     * @param  string  $field
+     * @param  string  $pointX
+     * @param  string  $pointY
+     * @param  string  $distance
+     * @param  boolean $dereferenced
      * @return string
      */
-    public function bbox($pointX, $pointY, $field, $distance)
+    public function bbox($field, $pointX, $pointY, $distance, $dereferenced = false)
     {
         return $this->qparser(
             'bbox',
@@ -256,7 +259,8 @@ class Helper
                 'pt' => $pointX.','.$pointY,
                 'sfield' => $field,
                 'd' => $distance
-            )
+            ),
+            $dereferenced
         );
     }
 
@@ -269,16 +273,18 @@ class Helper
      * or combining the distance with the relevancy score,
      * such as boosting by the inverse of the distance.
      *
+     * @param  $field
      * @param  $pointX
      * @param  $pointY
-     * @param  $field
+     * @param  boolean $dereferenced
      * @return string
      */
-    public function geodist($pointX, $pointY, $field)
+    public function geodist($field, $pointX, $pointY, $dereferenced = false)
     {
         return $this->functionCall(
             'geodist',
-            array($pointX, $pointY, $field)
+            array('sfield' => $field, 'pt' => $pointX.','.$pointY),
+            $dereferenced
         );
     }
 
@@ -289,9 +295,10 @@ class Helper
      * @param  string                   $name
      * @param  array                    $params
      * @param  boolean                  $dereferenced
+     * @param  boolean                  $forceKeys
      * @return string
      */
-    public function qparser($name, $params = array(), $dereferenced = false)
+    public function qparser($name, $params = array(), $dereferenced = false, $forceKeys = false)
     {
         if ($dereferenced) {
 
@@ -303,8 +310,12 @@ class Helper
             }
 
             foreach ($params as $paramKey => $paramValue) {
-                $this->derefencedParamsLastKey++;
-                $derefKey = 'deref_' . $this->derefencedParamsLastKey;
+                if (is_int($paramKey) || $forceKeys) {
+                    $this->derefencedParamsLastKey++;
+                    $derefKey = 'deref_' . $this->derefencedParamsLastKey;
+                } else {
+                    $derefKey = $paramKey;
+                }
                 $this->query->addParam($derefKey, $paramValue);
                 $params[$paramKey] = '$'.$derefKey;
             }
@@ -312,7 +323,9 @@ class Helper
 
         $output = '{!'.$name;
         foreach ($params as $key => $value) {
-            $output .= ' ' . $key . '=' . $value;
+            if (!$dereferenced || $forceKeys || is_int($key)) {
+                $output .= ' ' . $key . '=' . $value;
+            }
         }
         $output .= '}';
 
@@ -322,13 +335,21 @@ class Helper
     /**
      * Render a functionCall
      *
-     * @param  string $name
-     * @param  array  $params
+     * @param  string  $name
+     * @param  array   $params
+     * @param  boolean $dereferenced
      * @return string
      */
-    public function functionCall($name, $params = array())
+    public function functionCall($name, $params = array(), $dereferenced = false)
     {
-        return $name . '(' . implode($params, ',') . ')';
+        if ($dereferenced) {
+            foreach($params as $key => $value) {
+                $this->query->addParam($key, $value);
+            }
+            return $name . '()';
+        } else {
+            return $name . '(' . implode($params, ',') . ')';
+        }
     }
 
     /**
@@ -408,7 +429,7 @@ class Helper
      */
     public function join($from, $to, $dereferenced = false)
     {
-        return $this->qparser('join', array('from' => $from, 'to' => $to), $dereferenced);
+        return $this->qparser('join', array('from' => $from, 'to' => $to), $dereferenced, $dereferenced);
     }
 
 }
