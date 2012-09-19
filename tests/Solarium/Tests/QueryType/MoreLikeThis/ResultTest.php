@@ -31,6 +31,9 @@
 
 namespace Solarium\Tests\QueryType\MoreLikeThis;
 use Solarium\QueryType\MoreLikeThis\Query;
+use Solarium\QueryType\MoreLikeThis\Result;
+use Solarium\Core\Client\Client;
+use Solarium\Core\Client\Response;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
@@ -91,6 +94,19 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $mock->getMatch();
+    }
+
+    public function testGetQuery()
+    {
+        $client = new Client;
+        $query = new Query;
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
+
+        $ping = new Result($client, $query, $response);
+        $this->assertEquals(
+            $query,
+            $ping->getQuery()
+        );
     }
 
 }
