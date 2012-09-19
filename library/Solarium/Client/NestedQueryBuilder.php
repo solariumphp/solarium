@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -34,32 +34,25 @@
  *
  * @package Solarium
  * @subpackage Client
+ * @author Robert Elwell <robert@wikia-inc.com>
  */
 
-/**
- * Class for building Solarium client requests
- *
- * @package Solarium
- * @subpackage Client
- */
-abstract class Solarium_Client_RequestBuilder extends Solarium_Client_Builder
+class Solarium_Client_NestedQueryBuilder extends Solarium_Client_Builder
 {
-
     /**
-     * Build request for a select query
-     *
+     * Build nested query string 
      * @see Solarium_Client_Builder::build()
-     *
-     * @param Solarium_Query $query
-     * @return Solarium_Client_Request
      */
     public function build($query)
     {
-        $request = new Solarium_Client_Request;
-        $request->setHandler($query->getHandler());
-        $request->addParams($query->getParams());
-        $request->addParam('wt', 'json');
-
-        return $request;
+        $params = $query->getParams();
+        
+        
     }
-}
+    
+    protected function constructParamString($query)
+    {
+        
+    } 
+    
+} 
