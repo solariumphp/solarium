@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -34,32 +34,74 @@
  *
  * @package Solarium
  * @subpackage Client
+ * @author Robert Elwell <robert@wikia-inc.com>
  */
 
-/**
- * Class for building Solarium client requests
- *
- * @package Solarium
- * @subpackage Client
- */
-abstract class Solarium_Client_RequestBuilder extends Solarium_Client_Builder
+class Solarium_Client_NestedQueryBuilder extends Solarium_Client_Builder
 {
-
+    protected $subQueryParams = array();
+    
     /**
-     * Build request for a select query
-     *
+     * Build nested query string 
      * @see Solarium_Client_Builder::build()
-     *
-     * @param Solarium_Query $query
-     * @return Solarium_Client_Request
+     * @param Solarium_Query_Select $query
+     * @return string
      */
-    public function build($query)
+    public function build( $query )
     {
-        $request = new Solarium_Client_Request;
-        $request->setHandler($query->getHandler());
-        $request->addParams($query->getParams());
-        $request->addParam('wt', 'json');
-
-        return $request;
+        return sprintf('_query_:"{!%s %s}%s"', $this->getDefType($query), 
+                                               $this->constructParamString($this->getSubQueryParams($this->getParamsFromQuery($query))),
+                                               $query->getQuery()
+                      );       
+        
     }
-}
+    
+    /**
+     * Filters out non-subquery params 
+     * @param array $params
+     * @return array
+     */
+    protected function getSubQueryParams( array $params )
+    {
+        return array_intersect_key($params, array_flip($this->subQueryParams));
+    }
+    
+    /**
+     * Provides def type for subquery
+     * 
+     * @param Solarium_Query_Select $query
+     * @return string
+     */
+    public function getDefType( Solarium_Query_Select $query )
+    {
+        return 'lucene';
+    }
+    
+    /**
+     * Iterate over specified parameters to include nested query params
+     * @param array $params
+     * @return string
+     */
+    protected function constructParamString(array $params)
+    {
+        $paramString = '';
+        foreach ( $params as $name => $value )
+        {
+            if ( $value !== null ) {
+                $paramString .= sprintf("%s=\\'%s\\' ", $name, $value);
+            }
+        }
+        return $paramString;
+    } 
+    
+    /**
+     * OO way of grabbing params from query so "components" can add theirs
+     * 
+     * @param Solarium_Query_Select $query
+     * @return array
+     */
+    protected function getParamsFromQuery( Solarium_Query_Select $query )
+    {
+        return $query->getParams();
+    }
+} 

@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -34,32 +34,83 @@
  *
  * @package Solarium
  * @subpackage Client
+ * @author Robert Elwell <robert@wikia-inc.com>
  */
-
-/**
- * Class for building Solarium client requests
- *
- * @package Solarium
- * @subpackage Client
- */
-abstract class Solarium_Client_RequestBuilder extends Solarium_Client_Builder
+abstract class Solarium_Client_Builder
 {
-
+    
     /**
-     * Build request for a select query
-     *
-     * @see Solarium_Client_Builder::build()
+     * Build expected output for a select query
      *
      * @param Solarium_Query $query
-     * @return Solarium_Client_Request
      */
-    public function build($query)
+    abstract public function build( $query );
+    
+    /**
+     * Render a param with localParams
+     *
+     * LocalParams can be use in various Solr GET params.
+     * @link http://wiki.apache.org/solr/LocalParams
+     *
+     * @param string $value
+     * @param array $localParams in key => value format
+     * @return string with Solr localparams syntax
+     */
+    public function renderLocalParams($value, $localParams = array())
     {
-        $request = new Solarium_Client_Request;
-        $request->setHandler($query->getHandler());
-        $request->addParams($query->getParams());
-        $request->addParam('wt', 'json');
-
-        return $request;
+        $params = '';
+        foreach ($localParams AS $paramName => $paramValue) {
+            if (empty($paramValue)) continue;
+    
+            if (is_array($paramValue)) {
+                $paramValue = implode($paramValue, ',');
+            }
+    
+            $params .= $paramName . '=' . $paramValue . ' ';
+        }
+    
+        if ($params !== '') {
+            $value = '{!' . trim($params) . '}' . $value;
+        }
+    
+        return $value;
     }
+    
+    /**
+     * Render a boolean attribute
+     *
+     * For use in building XML messages
+     *
+     * @param string $name
+     * @param boolean $value
+     * @return string
+     */
+    public function boolAttrib($name, $value)
+    {
+        if (null !== $value) {
+            $value = (true == $value) ? 'true' : 'false';
+            return $this->attrib($name, $value);
+        } else {
+            return '';
+        }
+    }
+    
+    /**
+     * Render an attribute
+     *
+     * For use in building XML messages
+     *
+     * @param string $name
+     * @param striung $value
+     * @return string
+     */
+    public function attrib($name, $value)
+    {
+        if (null !== $value) {
+            return ' ' . $name . '="' . $value . '"';
+        } else {
+            return '';
+        }
+    }
+    
 }

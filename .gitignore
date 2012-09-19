@@ -1,3 +1,7 @@
+*~
 .idea
 build
 phpunit.xml
+.buildpath
+.project
+.settings

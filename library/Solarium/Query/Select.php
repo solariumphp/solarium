@@ -971,5 +971,24 @@ class Solarium_Query_Select extends Solarium_Query
     {
         return $this->getComponent(Solarium_Query_Select::COMPONENT_DEBUG, true);
     }
+    
+    /**
+     * Turn this query into a nested query
+     * 
+     * @return string
+     */
+    public function toNestedQuery()
+    {
+        $builder = ($dismax = $this->getComponent(self::COMPONENT_DISMAX))
+                 ? new Solarium_Client_NestedQueryBuilder_Select_Component_Dismax()
+                 : new Solarium_Client_NestedQueryBuilder();
+        
+        return $builder->build($this);
+    }
 
+    public function __toString()
+    {
+        return $this->toNestedQuery();
+    }
+    
 }
