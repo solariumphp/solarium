@@ -39,20 +39,69 @@
 
 class Solarium_Client_NestedQueryBuilder extends Solarium_Client_Builder
 {
+    protected $subQueryParams = array();
+    
     /**
      * Build nested query string 
      * @see Solarium_Client_Builder::build()
+     * @param Solarium_Query_Select $query
+     * @return string
      */
-    public function build($query)
+    public function build( $query )
     {
-        $params = $query->getParams();
-        
+        return sprintf('_query_:"{!%s %s}%s"', $this->getDefType($query), 
+                                               $this->constructParamString($this->getSubQueryParams($this->getParamsFromQuery($query))),
+                                               $query->getQuery()
+                      );       
         
     }
     
-    protected function constructParamString($query)
+    /**
+     * Filters out non-subquery params 
+     * @param array $params
+     * @return array
+     */
+    protected function getSubQueryParams( array $params )
     {
-        
+        return array_intersect_key($params, array_flip($this->subQueryParams));
+    }
+    
+    /**
+     * Provides def type for subquery
+     * 
+     * @param Solarium_Query_Select $query
+     * @return string
+     */
+    public function getDefType( Solarium_Query_Select $query )
+    {
+        return 'lucene';
+    }
+    
+    /**
+     * Iterate over specified parameters to include nested query params
+     * @param array $params
+     * @return string
+     */
+    protected function constructParamString(array $params)
+    {
+        $paramString = '';
+        foreach ( $params as $name => $value )
+        {
+            if ( $value !== null ) {
+                $paramString .= sprintf("%s=\\'%s\\' ", $name, $value);
+            }
+        }
+        return $paramString;
     } 
     
+    /**
+     * OO way of grabbing params from query so "components" can add theirs
+     * 
+     * @param Solarium_Query_Select $query
+     * @return array
+     */
+    protected function getParamsFromQuery( Solarium_Query_Select $query )
+    {
+        return $query->getParams();
+    }
 } 

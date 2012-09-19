@@ -37,12 +37,55 @@
  * @author Robert Elwell <robert@wikia-inc.com>
  */
 
-/**
- * @package Solarium
- * @subpackage Client
- * @author relwell
- */
-class Solarium_Client_NestedQueryBuilder_Select_Component_DisMax
+class Solarium_Client_NestedQueryBuilder_Select_Component_DisMax extends Solarium_Client_NestedQueryBuilder
 {
+    /**
+     * The components apparently overwrite the parent Solarium_Configurable functionality in a less usable way. Boo.
+     */
+    protected $subQueryMethods = array(  'qf'        =>    'getQueryFields',
+                                         'q.alt'     =>    'getQueryAlternative',
+                                         'mm'        =>    'getMinimumMatch',
+                                         'pf'        =>    'getPhraseFields',
+                                         'ps'        =>    'getPhraseSlop',
+                                         'qs'        =>    'getQueryPhraseSlop',
+                                         'tie'       =>    'getTie',
+                                         'bq'        =>    'getBoostQuery',
+                                         'bf'        =>    'getBoostFunctions'
+                                      );
     
+    protected $subQueryParams = array(  'qf',
+                                        'q.alt',
+                                        'qf',
+                                        'mm',
+                                        'pf',
+                                        'ps',
+                                        'qs',
+                                        'tie',
+                                        'bq',
+                                        'bf'
+                                    );
+    
+    /**
+     * @see Solarium_Client_NestedQueryBuilder::getDefType()
+     */
+    public function getDefType($query)
+    {
+        return $query->getComponent(Solarium_Query_Select::COMPONENT_DISMAX)->getQueryParser();
+    }
+    
+    protected function getParamsFromQuery( Solarium_Query_Select $query )
+    {
+        $params = $query->getParams();
+
+        $dismaxComponent = $query->getComponent(Solarium_Query_Select::COMPONENT_DISMAX);
+        var_dump($params); 
+        foreach ($this->subQueryMethods as $paramKey => $componentMethod) 
+        {
+            $params[$paramKey] = $dismaxComponent->{$componentMethod}();
+        }
+        var_dump($dismaxComponent);
+        var_dump($params);
+        return $params;
+        
+    }
 }

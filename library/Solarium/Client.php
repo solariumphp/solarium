@@ -830,25 +830,4 @@ class Solarium_Client extends Solarium_Configurable
     {
         return $this->createQuery(self::QUERYTYPE_SUGGESTER, $options);
     }
-    
-    /**
-     * Transform a query into a sub-query 
-     * 
-     * @param Solarium_Query
-     * @return string the subquery
-     */
-    public function createSubQuery( Solarium_Query $query )
-    {
-        // mock request to expose all params
-        $request = $this->createRequest( $query );
-        var_dump($request);
-        
-        $defType = $request->getParam('defType') ?: 'lucene';
-        
-        $queryParams = '';
-        $queryValue = $request->getParam('q');
-        
-        $subQuery = sprintf('_query_:"{!%s%s}%s"', $defType, $queryParams, $queryValue);
-        return $subQuery;
-    } 
 }

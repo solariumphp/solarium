@@ -43,9 +43,8 @@ abstract class Solarium_Client_Builder
      * Build expected output for a select query
      *
      * @param Solarium_Query $query
-     * @return Solarium_Client_Request
      */
-    abstract public function build($query);
+    abstract public function build( $query );
     
     /**
      * Render a param with localParams
