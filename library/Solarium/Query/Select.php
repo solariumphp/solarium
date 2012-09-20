@@ -980,7 +980,7 @@ class Solarium_Query_Select extends Solarium_Query
     public function toNestedQuery()
     {
         $builder = ($dismax = $this->getComponent(self::COMPONENT_DISMAX))
-                 ? new Solarium_Client_NestedQueryBuilder_Select_Component_Dismax()
+                 ? new Solarium_Client_NestedQueryBuilder_Select_Component_DisMax()
                  : new Solarium_Client_NestedQueryBuilder();
         
         return $builder->build($this);
