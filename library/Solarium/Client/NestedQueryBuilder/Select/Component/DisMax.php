@@ -78,13 +78,12 @@ class Solarium_Client_NestedQueryBuilder_Select_Component_DisMax extends Solariu
         $params = $query->getParams();
 
         $dismaxComponent = $query->getComponent(Solarium_Query_Select::COMPONENT_DISMAX);
-        var_dump($params); 
+ 
         foreach ($this->subQueryMethods as $paramKey => $componentMethod) 
         {
             $params[$paramKey] = $dismaxComponent->{$componentMethod}();
         }
-        var_dump($dismaxComponent);
-        var_dump($params);
+ 
         return $params;
         
     }
