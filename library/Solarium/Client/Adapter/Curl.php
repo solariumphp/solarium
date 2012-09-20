@@ -134,6 +134,10 @@ class Solarium_Client_Adapter_Curl extends Solarium_Client_Adapter
         curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($handler, CURLOPT_TIMEOUT, $options['timeout']);
 
+        if ( $proxy = $this->getOption('proxy') ) {
+           curl_setopt($handler, CURLOPT_PROXY, $proxy);
+        }
+
         if (!isset($options['headers']['Content-Type'])) {
             $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
         }
