@@ -75,13 +75,16 @@ class Solarium_Client_HttpException extends Solarium_Exception
      * @param string $statusMessage
      * @param int|null $code
      */
-    public function __construct($statusMessage, $code = null)
+    public function __construct($statusMessage, $code = null, $body = null)
     {
         $this->_statusMessage = $statusMessage;
 
         $message = 'Solr HTTP error: ' . $statusMessage;
         if (null !== $code) {
              $message .= ' (' . $code . ')';
+        }
+        if ($body) {
+            $message .= "\n" . $body;
         }
 
         parent::__construct($message, $code);
@@ -95,6 +98,11 @@ class Solarium_Client_HttpException extends Solarium_Exception
     public function getStatusMessage()
     {
         return $this->_statusMessage;
+    }
+
+    public function getBody()
+    {
+        return $this->_body;
     }
 
 }
