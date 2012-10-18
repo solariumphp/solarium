@@ -97,7 +97,8 @@ class Solarium_Result
         if ($statusNum == 4 || $statusNum == 5) {
             throw new Solarium_Client_HttpException(
                 $response->getStatusMessage(),
-                $response->getStatusCode()
+                $response->getStatusCode(),
+                $response->getBody()
             );
         }
     }
