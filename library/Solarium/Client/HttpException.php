@@ -78,6 +78,7 @@ class Solarium_Client_HttpException extends Solarium_Exception
     public function __construct($statusMessage, $code = null, $body = null)
     {
         $this->_statusMessage = $statusMessage;
+        $this->_body = $body;
 
         $message = 'Solr HTTP error: ' . $statusMessage;
         if (null !== $code) {
