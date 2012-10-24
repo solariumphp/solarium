@@ -64,6 +64,15 @@ class HttpException extends \RuntimeException implements ExceptionInterface
     protected $statusMessage;
 
     /**
+     * HTTP response body
+     *
+     * Usually contains a description of the error (if Solr returned one)
+     *
+     * @var string
+     */
+    protected $body;
+
+    /**
      * Exception constructor
      *
      * The input message is a HTTP status message. Because an exception with the
@@ -71,16 +80,22 @@ class HttpException extends \RuntimeException implements ExceptionInterface
      * more descriptive text. The original message is available using the
      * {@link getStatusMessage} method.
      *
-     * @param string   $statusMessage
-     * @param int|null $code
+     * @param string      $statusMessage
+     * @param int|null    $code
+     * @param string|null $body
      */
-    public function __construct($statusMessage, $code = null)
+    public function __construct($statusMessage, $code = null, $body = null)
     {
+
         $this->statusMessage = $statusMessage;
+        $this->body = $body;
 
         $message = 'Solr HTTP error: ' . $statusMessage;
         if (null !== $code) {
              $message .= ' (' . $code . ')';
+        }
+        if ($body) {
+            $message .= "\n" . $body;
         }
 
         parent::__construct($message, $code);
@@ -94,6 +109,11 @@ class HttpException extends \RuntimeException implements ExceptionInterface
     public function getStatusMessage()
     {
         return $this->statusMessage;
+    }
+
+    public function getBody()
+    {
+        return $this->body;
     }
 
 }

@@ -103,7 +103,8 @@ class Result implements ResultInterface
         if ($statusNum == 4 || $statusNum == 5) {
             throw new HttpException(
                 $response->getStatusMessage(),
-                $response->getStatusCode()
+                $response->getStatusCode(),
+                $response->getBody()
             );
         }
     }

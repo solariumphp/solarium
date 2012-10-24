@@ -55,7 +55,17 @@ class HttpExceptionTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testConstructorNoCode()
+    public function testGetBody()
+    {
+        $exception = new HttpException('message text', 123, 'body text');
+
+        $this->assertEquals(
+            'body text',
+            $exception->getBody()
+        );
+    }
+
+    public function testConstructorNoCodeOrBody()
     {
         $exception = new HttpException('message text');
 
