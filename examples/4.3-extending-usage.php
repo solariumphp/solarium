@@ -27,13 +27,13 @@ class ProductQuery extends Select{
 
 }
 
-// This query inherits all of the query params of its parent (using parent::_init) and adds some more
+// This query inherits all of the query params of its parent (using parent::init) and adds some more
 // Ofcourse it could also alter or remove settings
 class ProductPriceLimitedQuery extends ProductQuery{
 
-    protected function _init()
+    protected function init()
     {
-        parent::_init();
+        parent::init();
 
         // create a filterquery
         $this->createFilterQuery('maxprice')->setQuery('price:[1 TO 300]');

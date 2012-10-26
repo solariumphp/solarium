@@ -13,8 +13,10 @@ $client = new Client($config);
 // first create a base query as a query class
 class PriceQuery extends Select
 {
-    protected function _init()
+    protected function init()
     {
+        parent::init();
+
         // set a query (all prices starting from 12)
         $this->setQuery('price:[12 TO *]');
 
@@ -40,10 +42,10 @@ if(isset($_GET['start']) && is_numeric($_GET['start'])){
 // in this example this class isn't actually used, but you can simple replace
 // the var $query with an instance of this class...
 class LowerPriceQuery extends PriceQuery{
-    protected function _init()
+    protected function init()
     {
         // this call makes sure we get all the settings of the parent class
-        parent::_init();
+        parent::init();
 
         $this->setQuery('price:[5 TO *]');
     }

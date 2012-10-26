@@ -10,6 +10,8 @@ htmlHeader();
 $client = new Solarium\Client($config);
 
 // set the adapter to curl
+// note that this is only shown for documentation purposes, normally you don't need
+// to do this as curl is the default adapter
 $client->setAdapter('Solarium\Core\Client\Adapter\Curl');
 
 // get a select query instance

@@ -1,7 +1,6 @@
 <?php
 
 require(__DIR__.'/init.php');
-use Solarium\QueryType\Select\Query\Query as Select;
 
 htmlHeader();
 
@@ -21,7 +20,7 @@ $query->setStart(2)->setRows(20);
 $query->setFields(array('id','name','price'));
 
 // sort the results by price ascending
-$query->addSort('price', Select::SORT_ASC);
+$query->addSort('price', $query::SORT_ASC);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

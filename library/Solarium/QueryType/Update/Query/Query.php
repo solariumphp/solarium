@@ -107,7 +107,7 @@ class Query extends BaseQuery
         'handler'       => 'update',
         'resultclass'   => 'Solarium\QueryType\Update\Result',
         'documentclass' => 'Solarium\QueryType\Update\Query\Document',
-        'omitheader'    => true,
+        'omitheader'    => false,
     );
 
     /**

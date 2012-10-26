@@ -1,16 +1,22 @@
 <?php
 
+require_once 'Zend/Loader/Autoloader.php';
+$loader = Zend_Loader_Autoloader::getInstance();
+
 require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
 $client = new Solarium\Client($config);
 
+// set the adapter to curl
+$client->setAdapter('Solarium\Core\Client\Adapter\Http');
+
 // get a select query instance
-$query = $client->createQuery($client::QUERY_SELECT);
+$query = $client->createSelect();
 
 // this executes the query and returns the result
-$resultset = $client->execute($query);
+$resultset = $client->select($query);
 
 // display the total number of documents found by solr
 echo 'NumFound: '.$resultset->getNumFound();

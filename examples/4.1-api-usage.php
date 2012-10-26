@@ -1,7 +1,6 @@
 <?php
 
 require(__DIR__.'/init.php');
-use Solarium\QueryType\Select\Query\Query as Select;
 
 htmlHeader();
 
@@ -15,7 +14,7 @@ $query = $client->createSelect();
 $query->setQuery('*:*');
 $query->setStart(2)->setRows(20);
 $query->setFields(array('id','name','price'));
-$query->addSort('price', Select::SORT_ASC);
+$query->addSort('price', $query::SORT_ASC);
 
 // create a filterquery using the API
 $fq = $query->createFilterQuery('maxprice')->setQuery('price:[1 TO 300]');
