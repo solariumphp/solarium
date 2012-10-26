@@ -20,8 +20,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "2.4-dev",
-            "dev-feature-nextgen": "3.0-dev"
+            "dev-develop": "3.0-dev"
         }
     }
 }
