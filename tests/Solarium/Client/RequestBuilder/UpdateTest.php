@@ -309,6 +309,264 @@ class Solarium_Client_RequestBuilder_UpdateTest extends PHPUnit_Framework_TestCa
         $this->setExpectedException('Solarium_Exception');
         $this->_builder->build($this->_query);
     }
+
+/**
+	 * @covers Solarium_Client_RequestBuilder_Update::buildAddXml
+	 */
+	public function testUpdateRequestBuilderAccommodatesAtomicUpdatesSingleValue() {
+		
+		$mockUpdate = $this->getMockBuilder( 'Solarium_Client_RequestBuilder_Update' )
+							->disableOriginalConstructor()
+							->setMethods( array( 'attrib', '_buildFieldXml', 'boolAttrib' ) )
+							->getMock();
+		
+		$mockDocument = $this->getMock( 'Solarium_Document_AtomicUpdate', array( 'getBoost', 'getFieldBoost', 'getFields', 'getFieldModifier' ) );
+		
+		$mockCommand = $this->getMockBuilder( 'Solarium_Query_Update_Command_Add' )
+							->disableOriginalConstructor()
+							->setMethods( array( 'getOverwrite', 'getCommitWithin', 'getDocuments' ) )
+							->getMock();
+		
+		$mockCommand
+			->expects	( $this->at( 0 ) )
+			->method	( 'getOverwrite' )
+			->will		( $this->returnValue( true ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 0 ) )
+			->method	( 'boolAttrib' )
+			->with		( 'overwrite', true )
+			->will		( $this->returnValue( ' overwrite="true"' ) )
+		;
+		$mockCommand
+			->expects	( $this->at( 1 ) )
+			->method	( 'getCommitWithin' )
+			->will		( $this->returnValue( 100) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 1 ) )
+			->method	( 'attrib' )
+			->with		( 'commitWithin', 100 )
+			->will		( $this->returnValue( ' commitWithin="100"' ) )
+		;
+		$mockCommand
+			->expects	( $this->at( 2 ) )
+			->method	( 'getDocuments' )
+			->will		( $this->returnValue( array( $mockDocument ) ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 0 ) )
+			->method	( 'getBoost' )
+			->will		( $this->returnValue( null ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 2 ) )
+			->method	( 'attrib' )
+			->with		( 'boost', null )
+			->will		( $this->returnValue( '' ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 1 ) )
+			->method	( 'getFields' )
+			->will		( $this->returnValue( array( 'id' => '123_456', 'views' => 100 ) ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 2 ) )
+			->method	( 'getFieldBoost' )
+			->with		( 'id' )
+			->will		( $this->returnValue( null ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 3 ) )
+			->method	( 'getFieldModifier' )
+			->with		( 'id' )
+			->will		( $this->returnValue( null ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 3 ) )
+			->method	( '_buildFieldXml' )
+			->with		( 'id', null, '123_456', null )
+			->will		( $this->returnValue( '<field name="id">123_456</field>' ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 4 ) )
+			->method	( 'getFieldBoost' )
+			->with		( 'views' )
+			->will		( $this->returnValue( null ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 5 ) )
+			->method	( 'getFieldModifier' )
+			->with		( 'views' )
+			->will		( $this->returnValue( Solarium_Document_AtomicUpdate::MODIFIER_SET ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 4 ) )
+			->method	( '_buildFieldXml' )
+			->with		( 'views', null, '100', 'set' )
+			->will		( $this->returnValue( '<field name="views" update="set">100</field>' ) )
+		;
+		
+		$expected = <<<END
+<add overwrite="true" commitWithin="100"><doc><field name="id">123_456</field><field name="views" update="set">100</field></doc></add>
+END;
+		
+		$this->assertEquals(
+				$expected,
+				$mockUpdate->buildAddXml( $mockCommand ),
+				'Solarium_Client_RequestBuilder_Update::buildAddXml should pass the appropriate values to _buildFieldXml to accommodate atomic updates'
+		);
+	}
+	
+	/**
+	 * @covers Solarium_Client_RequestBuilder_Update::buildAddXml
+	 */
+	public function testUpdateRequestBuilderAccommodatesAtomicUpdatesMultiValue() {
+		
+		$mockUpdate = $this->getMockBuilder( 'Solarium_Client_RequestBuilder_Update' )
+							->disableOriginalConstructor()
+							->setMethods( array( 'attrib', '_buildFieldXml', 'boolAttrib' ) )
+							->getMock();
+		
+		$mockDocument = $this->getMock( 'Solarium_Document_AtomicUpdate', array( 'getBoost', 'getFieldBoost', 'getFields', 'getFieldModifier' ) );
+		
+		$mockCommand = $this->getMockBuilder( 'Solarium_Query_Update_Command_Add' )
+							->disableOriginalConstructor()
+							->setMethods( array( 'getOverwrite', 'getCommitWithin', 'getDocuments' ) )
+							->getMock();
+		
+		$mockCommand
+			->expects	( $this->at( 0 ) )
+			->method	( 'getOverwrite' )
+			->will		( $this->returnValue( true ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 0 ) )
+			->method	( 'boolAttrib' )
+			->with		( 'overwrite', true )
+			->will		( $this->returnValue( ' overwrite="true"' ) )
+		;
+		$mockCommand
+			->expects	( $this->at( 1 ) )
+			->method	( 'getCommitWithin' )
+			->will		( $this->returnValue( 100) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 1 ) )
+			->method	( 'attrib' )
+			->with		( 'commitWithin', 100 )
+			->will		( $this->returnValue( ' commitWithin="100"' ) )
+		;
+		$mockCommand
+			->expects	( $this->at( 2 ) )
+			->method	( 'getDocuments' )
+			->will		( $this->returnValue( array( $mockDocument ) ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 0 ) )
+			->method	( 'getBoost' )
+			->will		( $this->returnValue( null ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 2 ) )
+			->method	( 'attrib' )
+			->with		( 'boost', null )
+			->will		( $this->returnValue( '' ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 1 ) )
+			->method	( 'getFields' )
+			->will		( $this->returnValue( array( 'id' => '123_456', 'redirect_titles' => array( 'stuff', 'things' ) ) ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 2 ) )
+			->method	( 'getFieldBoost' )
+			->with		( 'id' )
+			->will		( $this->returnValue( null ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 3 ) )
+			->method	( 'getFieldModifier' )
+			->with		( 'id' )
+			->will		( $this->returnValue( null ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 3 ) )
+			->method	( '_buildFieldXml' )
+			->with		( 'id', null, '123_456', null )
+			->will		( $this->returnValue( '<field name="id">123_456</field>' ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 4 ) )
+			->method	( 'getFieldBoost' )
+			->with		( 'redirect_titles' )
+			->will		( $this->returnValue( null ) )
+		;
+		$mockDocument
+			->expects	( $this->at( 5 ) )
+			->method	( 'getFieldModifier' )
+			->with		( 'redirect_titles' )
+			->will		( $this->returnValue( Solarium_Document_AtomicUpdate::MODIFIER_ADD ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 4 ) )
+			->method	( '_buildFieldXml' )
+			->with		( 'redirect_titles', null, 'stuff', 'add' )
+			->will		( $this->returnValue( '<field name="redirect_titles" update="add">stuff</field>' ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 5 ) )
+			->method	( '_buildFieldXml' )
+			->with		( 'redirect_titles', null, 'things', 'add' )
+			->will		( $this->returnValue( '<field name="redirect_titles" update="add">things</field>' ) )
+		;
+		
+		$expected = <<<END
+<add overwrite="true" commitWithin="100"><doc><field name="id">123_456</field><field name="redirect_titles" update="add">stuff</field><field name="redirect_titles" update="add">things</field></doc></add>
+END;
+		
+		$this->assertEquals(
+				$expected,
+				$mockUpdate->buildAddXml( $mockCommand ),
+				'Solarium_Client_RequestBuilder_Update::buildAddXml should pass the appropriate values to _buildFieldXml to accommodate atomic updates'
+		);
+	}
+	
+	/**
+	 * @covers Solarium_Client_RequestBuilder_Update::_buildFieldXml
+	 */
+	public function testBuildFieldXmlWithModifier() {
+		$mockUpdate = $this->getMockBuilder( 'Solarium_Client_RequestBuilder_Update' )
+							->disableOriginalConstructor()
+							->setMethods( array( 'attrib' ) )
+							->getMock();
+		
+		$mockUpdate
+			->expects	( $this->at( 0 ) )
+			->method	( 'attrib' )
+			->with		( 'boost', null )
+			->will		( $this->returnValue( '' ) )
+		;
+		$mockUpdate
+			->expects	( $this->at( 1 ) )
+			->method	( 'attrib' )
+			->with		( 'update', 'set' )
+			->will		( $this->returnValue( ' update="set"' ) )
+		;
+		
+		$buildFieldXml = new ReflectionMethod( 'Solarium_Client_RequestBuilder_Update', '_buildFieldXml' );
+		$buildFieldXml->setAccessible( true );
+		
+		$expected = <<<END
+<field name="foo" update="set">bar</field>
+END;
+		
+		$this->assertEquals(
+				$expected,
+				$buildFieldXml->invoke( $mockUpdate, 'foo', null, 'bar', 'set' )
+		);
+	}
+
 }
 
 
