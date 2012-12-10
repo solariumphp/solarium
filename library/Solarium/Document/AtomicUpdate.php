@@ -106,7 +106,7 @@ class Solarium_Document_AtomicUpdate extends Solarium_Document_ReadWrite
     public function getFields()
     {
     	if ($this->key == null || !isset($this->_fields[$this->key])) {
-    		throw new Exception('Solarium_Document_ReadOnly must have a unique-ID\'d key registered before it can be used to build update commands');
+    		throw new Exception('Solarium_Document_AtomicUpdate must have a unique-ID\'d key registered before it can be used to build update commands');
     	}
     	return parent::getFields();
     }
