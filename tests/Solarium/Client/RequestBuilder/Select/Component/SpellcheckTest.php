@@ -51,6 +51,7 @@ class Solarium_Client_RequestBuilder_Select_Component_SpellcheckTest extends PHP
         $component->setMaxCollationEvaluations(4);
         $component->setCollateExtendedResults(true);
         $component->setAccuracy(.2);
+        $component->setCollateParam('mm', '100%');
 
         $request = $builder->buildComponent($component, $request);
 
@@ -70,6 +71,7 @@ class Solarium_Client_RequestBuilder_Select_Component_SpellcheckTest extends PHP
                 'spellcheck.maxCollationEvaluations' => 4,
                 'spellcheck.collateExtendedResults' => 'true',
                 'spellcheck.accuracy' => .2,
+                'spellcheck.collateParam.mm' => '100%',
             ),
             $request->getParams()
         );
