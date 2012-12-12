@@ -47,6 +47,12 @@
 class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_Component
 {
     /**
+     * Used to further customize collation parameters
+     * @var array
+     */
+    protected $_collateParams = array();
+   
+    /**
      * Component type
      *
      * @var string
@@ -338,4 +344,24 @@ class Solarium_Query_Select_Component_Spellcheck extends Solarium_Query_Select_C
         return $this->getOption('accuracy');
     }
 
+    /**
+     * Set a collation param
+     * @param string $param
+     * @param mixed $value
+     * @return Solarium_Query_Select_Component_Spellcheck Provides fluent interface 
+     */
+    public function setCollateParam($param, $value)
+    {
+       $this->_collateParams[$param] = $value;
+       return $this;
+    }
+    
+    /**
+     * Returns the array of collate params
+     * @return array
+     */
+    public function getCollateParams()
+    {
+       return $this->_collateParams;
+    }
 }
