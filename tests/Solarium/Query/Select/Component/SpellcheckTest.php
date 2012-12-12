@@ -189,4 +189,21 @@ class Solarium_Query_Select_Component_SpellcheckTest extends PHPUnit_Framework_T
             $this->_spellCheck->getAccuracy()
         );
     }
+
+    public function testSetAndGetCollateParams()
+    {
+        $this->assertEquals(
+             $this->_spellCheck,
+             $this->_spellCheck->setCollateParam('mm', '100%')
+        );
+        $params = $this->_spellCheck->getCollateParams();
+        $this->assertArrayHasKey(
+             'mm',
+             $params
+        );
+        $this->assertEquals(
+             '100%',
+             $params['mm']
+        );
+    }
 }
