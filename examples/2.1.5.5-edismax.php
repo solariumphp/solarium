@@ -10,10 +10,7 @@ $client = new Solarium\Client($config);
 $query = $client->createSelect();
 
 // get the dismax component and set a boost query
-$dismax = $query->getDisMax();
-
-// override the default setting of 'dismax' to enable 'edismax'
-$dismax->setQueryParser('edismax');
+$edismax = $query->getEDisMax();
 
 // this query is now a dismax query
 $query->setQuery('memory -printer');
