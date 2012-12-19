@@ -1,10 +1,10 @@
 <?php
-require('init.php');
+require(__DIR__.'/init.php');
 
 htmlHeader();
 
 // create a client instance and autoload the customize request plugin
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 $customizer = $client->getPlugin('customizerequest');
 
 // add a persistent HTTP header (using array input values)

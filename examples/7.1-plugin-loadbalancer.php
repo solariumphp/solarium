@@ -1,18 +1,19 @@
 <?php
-require('init.php');
+require(__DIR__.'/init.php');
 
 htmlHeader();
 
-// create a client instance and get loadbalancer plugin instance
-$client = new Solarium_Client($config);
-$loadbalancer = $client->getPlugin('loadbalancer');
+// create a client instance and create endpoints
+$client = new Solarium\Client($config);
+$endpoint1 = $client->createEndpoint('local1'); //normally you would add endpoint specific settings...
+$endpoint2 = $client->createEndpoint('local2');
+$endpoint3 = $client->createEndpoint('local3');
 
-// apply loadbalancer settings
-$optionsSolrOne = array('host' => '127.0.0.1', 'port' => 8983);
-$optionsSolrTwo = array('host' => '127.0.0.1', 'port' => 7574);
-$loadbalancer->addServer('solr1', $optionsSolrOne, 100);
-$loadbalancer->addServer('solr2', $optionsSolrTwo, 200);
-$loadbalancer->addServer('solr3', $optionsSolrTwo, 1);
+// get loadbalancer plugin instance and add endpoints
+$loadbalancer = $client->getPlugin('loadbalancer');
+$loadbalancer->addEndpoint($endpoint1, 100);
+$loadbalancer->addEndpoint($endpoint2, 100);
+$loadbalancer->addEndpoint($endpoint3, 1);
 
 // create a basic query to execute
 $query = $client->createSelect();
@@ -22,26 +23,27 @@ for($i=1; $i<=8; $i++) {
     $resultset = $client->select($query);
     echo 'Query execution #' . $i . '<br/>';
     echo 'NumFound: ' . $resultset->getNumFound(). '<br/>';
-    echo 'Server: ' . $loadbalancer->getLastServerKey() .'<hr/>';
+    echo 'Server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
 }
 
-// force a server for a query (normally solr 3 is extremely unlikely based on it's weight)
-$loadbalancer->setForcedServerForNextQuery('solr3');
+// force a server for a query (normally solr 3 is extremely unlikely based on its weight)
+$loadbalancer->setForcedEndpointForNextQuery('local3');
+
 $resultset = $client->select($query);
-echo 'Query execution with server forced to solr3<br/>';
+echo 'Query execution with server forced to local3<br/>';
 echo 'NumFound: ' . $resultset->getNumFound(). '<br/>';
-echo 'Server: ' . $loadbalancer->getLastServerKey() .'<hr/>';
+echo 'Server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
 
 // test a ping query
 $query = $client->createPing();
 $client->ping($query);
 echo 'Loadbalanced ping query, should display a loadbalancing server:<br/>';
-echo 'Ping server: ' . $loadbalancer->getLastServerKey() .'<hr/>';
+echo 'Ping server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
 
 // exclude ping query from loadbalancing
-$loadbalancer->addBlockedQueryType(Solarium_Client::QUERYTYPE_PING);
+$loadbalancer->addBlockedQueryType(Solarium\Client::QUERY_PING);
 $client->ping($query);
 echo 'Non-loadbalanced ping query, should not display a loadbalancing server:<br/>';
-echo 'Ping server: ' . $loadbalancer->getLastServerKey() .'<hr/>';
+echo 'Ping server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
 
 htmlFooter();

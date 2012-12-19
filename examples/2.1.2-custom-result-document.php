@@ -1,11 +1,11 @@
 <?php
 
-require('init.php');
+require(__DIR__.'/init.php');
 htmlHeader();
 
 
 // this is the custom result document class
-class myDoc extends Solarium_Document_ReadOnly{
+class myDoc extends Solarium\QueryType\Select\Result\Document{
 
     public function getSpecialPrice()
     {
@@ -16,7 +16,7 @@ class myDoc extends Solarium_Document_ReadOnly{
 
 
 // create a client instance
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 
 // get a select query instance
 $query = $client->createSelect();

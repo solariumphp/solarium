@@ -29,24 +29,18 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-error_reporting(E_ALL | E_STRICT); 
-ini_set('display_errors',true);
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', true);
 
-// Define path to application directory
-$basePath = realpath(dirname(__FILE__) . '/../');
+// set up an autoloader for PSR-0 class loading
+spl_autoload_register(function ($class) {
+    $paths = array(__DIR__.'/../library', __DIR__);
+    foreach ($paths as $path) {
+        $filename = $path.'/'.str_replace("\\", DIRECTORY_SEPARATOR, $class) . ".php";
+        if (file_exists($filename)) {
+            include $filename;
+        }
+    }
+});
 
-// Ensure library/ is on include_path
-set_include_path(implode(PATH_SEPARATOR, array(
-    realpath($basePath . '/library'),
-    realpath($basePath . '/tests/library'),
-    get_include_path(),
-)));
-
-function solariumUnittestAutoload($class)
-{
-    @include(str_replace("_", DIRECTORY_SEPARATOR, $class) . ".php");
-}
-
-// set up an autoload for Zend / Pear style class loading
-spl_autoload_register('solariumUnittestAutoload');
-
+require __DIR__.'/../vendor/autoload.php';

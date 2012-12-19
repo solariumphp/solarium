@@ -1,31 +1,23 @@
 <?php
-require('init.php');
+require(__DIR__.'/init.php');
 
-// this very simple plugin is used to show some events
-class simpleDebug extends Solarium_Plugin_Abstract
-{
-    protected $_output = array();
-
-    public function display()
-    {
-        echo implode('<br/>', $this->_output);
-    }
-
-    public function eventBufferedAddFlushStart($buffer) {
-        $this->_output[] = 'Flushing buffer (' . count($buffer) . 'docs)';
-    }
-}
+use Solarium\Plugin\BufferedAdd\Event\Events;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
 
 htmlHeader();
 
 // create a client instance and autoload the buffered add plugin
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 $buffer = $client->getPlugin('bufferedadd');
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
-// also register a plugin for outputting events
-$debug = new simpleDebug();
-$client->registerPlugin('debugger', $debug);
+// also register an event hook to display what is happening
+$client->getEventDispatcher()->addListener(
+    Events::PRE_FLUSH,
+    function(PreFlushEvent $event){
+        echo 'Flushing buffer (' . count($event->getBuffer()) . 'docs)<br/>';
+    }
+);
 
 // let's insert 25 docs
 for ($i=1; $i<=25; $i++) {
@@ -45,7 +37,6 @@ for ($i=1; $i<=25; $i++) {
 // manually flush the remainder. Alternatively you can use the commit method if you want to include a commit command.
 $buffer->flush();
 
-// In total 3 flushes (requests) have been sent to Solr. This should be visible in this output:
-$debug->display();
+// In total 3 flushes (requests) have been sent to Solr. This should be visible in the output of the event hook.
 
 htmlFooter();

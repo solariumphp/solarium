@@ -31,20 +31,25 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
  */
+
+/**
+ * @namespace
+ */
+namespace Solarium;
 
 /**
  * Autoloader
  *
- * This class is included to allow for easy usage of Solarium. If you already
- * have your own autoloader that follows the Zend Framework class/file naming
- * you can use that to autoload Solarium (for instance Zend_Loader).
+ * This class is included to allow for easy usage of Solarium in environments missing a PSR-O autoloader.
  *
- * @package Solarium
+ * It's recommended to install Solarium using composer, which will also provide autoloading for you. In that
+ * case you don't need to use this autoloader.
+ *
+ * Solarium is PSR-0 compliant, so you can also use any other compatible autoloader
+ * (most modern frameworks include one)
  */
-class Solarium_Autoloader
+class Autoloader
 {
 
     /**
@@ -59,7 +64,7 @@ class Solarium_Autoloader
      * @static
      * @return void
      */
-    static public function register()
+    public static function register()
     {
         spl_autoload_register(array(new self, 'load'));
     }
@@ -71,20 +76,20 @@ class Solarium_Autoloader
      * The autoloader only acts for classnames that start with 'Solarium'.
      *
      * @static
-     * @param string $class
+     * @param  string $class
      * @return void
      */
-    static public function load($class)
+    public static function load($class)
     {
         if (substr($class, 0, 8) == 'Solarium') {
 
             $class = str_replace(
-                array('Solarium', '_'),
+                array('Solarium', '\\'),
                 array('', '/'),
                 $class
             );
-            
-            $file = dirname(__FILE__) . '/' . $class . '.php';
+
+            $file = dirname(__FILE__) . $class . '.php';
 
             require($file);
         }

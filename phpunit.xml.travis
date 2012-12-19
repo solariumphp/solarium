@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false" backupStaticAttributes="false" syntaxCheck="false" bootstrap="tests/bootstrap.php">
+
+    <testsuites>
+       <testsuite name="Solarium">
+         <directory suffix="Test.php">tests</directory>
+       </testsuite>
+    </testsuites>
+
+    <filter>
+      <whitelist>
+        <directory suffix=".php">library</directory>
+        <exclude>
+            <file>library/Solarium/Autoloader.php</file>
+        </exclude>
+      </whitelist>
+    </filter>
+
+</phpunit>

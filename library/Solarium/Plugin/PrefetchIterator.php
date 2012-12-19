@@ -31,20 +31,25 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
  */
+
+/**
+ * @namespace
+ */
+namespace Solarium\Plugin;
+use Solarium\Client;
+use Solarium\Core\Plugin\Plugin;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Select\Result\Result as SelectResult;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * Prefetch plugin
  *
  * This plugin can be used to create an 'endless' iterator over a complete resultset. The iterator will take care of
  * fetching the data in sets (sequential prefetching).
- *
- * @package Solarium
- * @subpackage Plugin
  */
-class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implements Iterator, Countable
+class PrefetchIterator extends Plugin implements \Iterator, \Countable
 {
 
     /**
@@ -52,54 +57,54 @@ class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implemen
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'prefetch' => 100,
     );
 
     /**
      * Query instance to execute
      *
-     * @var Solarium_Query_Select
+     * @var SelectQuery
      */
-    protected $_query;
+    protected $query;
 
     /**
      * Start position (offset)
      *
      * @var int
      */
-    protected $_start = 0;
+    protected $start = 0;
 
     /**
      * Last resultset from the query instance
      *
-     * @var Solarium_Result_Select
+     * @var SelectResult
      */
-    protected $_result;
+    protected $result;
 
     /**
      * Iterator position
      *
      * @var int
      */
-    protected $_position;
+    protected $position;
 
     /**
      * Documents from the last resultset
      *
-     * @var array
+     * @var DocumentInterface[]
      */
-    protected $_documents;
+    protected $documents;
 
     /**
      * Set prefetch option
      *
-     * @param integer $value
-     * @return self Provides fluent interface
+     * @param  integer $value
+     * @return self    Provides fluent interface
      */
     public function setPrefetch($value)
     {
-        return $this->_setOption('prefetch', $value);
+        return $this->setOption('prefetch', $value);
     }
 
     /**
@@ -115,23 +120,24 @@ class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implemen
     /**
      * Set query to use for prefetching
      *
-     * @param Solarium_Query_Select $query
-     * @return self Provides fluent interface
+     * @param  SelectQuery $query
+     * @return self        Provides fluent interface
      */
     public function setQuery($query)
     {
-        $this->_query = $query;
+        $this->query = $query;
+
         return $this;
     }
 
     /**
      * Get the query object used
      *
-     * @return Solarium_Query_Select
+     * @return SelectQuery
      */
     public function getQuery()
     {
-        return $this->_query;
+        return $this->query;
     }
 
     /**
@@ -142,31 +148,34 @@ class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implemen
     public function count()
     {
         // if no results are available yet, get them now
-        if (null == $this->_result) $this->_fetchNext();
+        if (null == $this->result) {
+            $this->fetchNext();
+        }
 
-        return $this->_result->getNumFound();
+        return $this->result->getNumFound();
     }
 
     /**
      * Iterator implementation
      */
-    function rewind()
+    public function rewind()
     {
-        $this->_position = 0;
+        $this->position = 0;
 
         // this condition prevent useless re-fetching of data if a count is done before the iterator is used
-        if ($this->_start !== $this->_options['prefetch']) {
-            $this->_start = 0;
+        if ($this->start !== $this->options['prefetch']) {
+            $this->start = 0;
         }
     }
 
     /**
      * Iterator implementation
      */
-    function current()
+    public function current()
     {
-        $adjustedIndex = $this->_position % $this->_options['prefetch'];
-        return $this->_documents[$adjustedIndex];
+        $adjustedIndex = $this->position % $this->options['prefetch'];
+
+        return $this->documents[$adjustedIndex];
     }
 
     /**
@@ -174,17 +183,17 @@ class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implemen
      *
      * @return int
      */
-    function key()
+    public function key()
     {
-        return $this->_position;
+        return $this->position;
     }
 
     /**
      * Iterator implementation
      */
-    function next()
+    public function next()
     {
-        ++$this->_position;
+        ++$this->position;
     }
 
     /**
@@ -192,16 +201,16 @@ class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implemen
      *
      * @return boolean
      */
-    function valid()
+    public function valid()
     {
-        $adjustedIndex = $this->_position % $this->_options['prefetch'];
+        $adjustedIndex = $this->position % $this->options['prefetch'];
 
         // this condition prevent useless re-fetching of data if a count is done before the iterator is used
-        if ($adjustedIndex == 0 && ($this->_position !== 0 || null == $this->_result)) {
-            $this->_fetchNext();
+        if ($adjustedIndex == 0 && ($this->position !== 0 || null == $this->result)) {
+            $this->fetchNext();
         }
 
-        return isset($this->_documents[$adjustedIndex]);
+        return isset($this->documents[$adjustedIndex]);
     }
 
     /**
@@ -209,11 +218,11 @@ class Solarium_Plugin_PrefetchIterator extends Solarium_Plugin_Abstract implemen
      *
      * @return void
      */
-    protected function _fetchNext()
+    protected function fetchNext()
     {
-        $this->_query->setStart($this->_start)->setRows($this->getPrefetch());
-        $this->_result = $this->_client->execute($this->_query);
-        $this->_documents = $this->_result->getDocuments();
-        $this->_start += $this->getPrefetch();
+        $this->query->setStart($this->start)->setRows($this->getPrefetch());
+        $this->result = $this->client->execute($this->query);
+        $this->documents = $this->result->getDocuments();
+        $this->start += $this->getPrefetch();
     }
 }

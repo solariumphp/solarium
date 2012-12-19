@@ -1,10 +1,10 @@
 <?php
 
-require('init.php');
+require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 
 // get a select query instance
 $query = $client->createSelect();
@@ -33,7 +33,7 @@ foreach($groups AS $groupKey => $fieldGroup) {
         echo '<h2>'.(int)$valueGroup->getValue().'</h2>';
 
         foreach($valueGroup AS $document) {
-            
+
             echo '<hr/><table>';
 
             // the documents are also iterable, to get all fields

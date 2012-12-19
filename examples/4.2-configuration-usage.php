@@ -1,6 +1,6 @@
 <?php
 
-require('init.php');
+require(__DIR__.'/init.php');
 htmlHeader();
 
 
@@ -29,7 +29,7 @@ $select = array(
 );
 
 // create a client instance
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 
 // get a select query instance based on the config
 $query = $client->createSelect($select);

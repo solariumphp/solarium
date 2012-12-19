@@ -1,21 +1,24 @@
 <?php
 
-require('init.php');
+require(__DIR__.'/init.php');
+use Solarium\Client;
+use Solarium\QueryType\Select\Query\Query as Select;
+
 htmlHeader();
 
 // In most cases using the API or config is advisable, however in some cases it can make sense to extend classes.
 // This makes it possible to create 'query inheritance' like in this example
-class ProductQuery extends Solarium_Query_Select{
+class ProductQuery extends Select{
 
-    protected function _init()
+    protected function init()
     {
-        parent::_init();
+        parent::init();
 
         // basic params
         $this->setQuery('*:*');
         $this->setStart(2)->setRows(20);
         $this->setFields(array('id','name','price'));
-        $this->addSort('price', Solarium_Query_Select::SORT_ASC);
+        $this->addSort('price', self::SORT_ASC);
 
         // create a facet field instance and set options
         $facetSet = $this->getFacetSet();
@@ -24,13 +27,13 @@ class ProductQuery extends Solarium_Query_Select{
 
 }
 
-// This query inherits all of the query params of it's parent (using parent::_init) and adds some more
+// This query inherits all of the query params of its parent (using parent::init) and adds some more
 // Ofcourse it could also alter or remove settings
 class ProductPriceLimitedQuery extends ProductQuery{
 
-    protected function _init()
+    protected function init()
     {
-        parent::_init();
+        parent::init();
 
         // create a filterquery
         $this->createFilterQuery('maxprice')->setQuery('price:[1 TO 300]');
@@ -39,7 +42,7 @@ class ProductPriceLimitedQuery extends ProductQuery{
 }
 
 // create a client instance
-$client = new Solarium_Client($config);
+$client = new Client($config);
 
 // create a query instance
 $query = new ProductPriceLimitedQuery;

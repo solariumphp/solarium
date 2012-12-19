@@ -57,7 +57,7 @@ you could also write the switches here)
 <!-- Generate checkstyle.xml -->
 <target name="phpcs">
 <exec executable="phpcs" output="/dev/null">
-<arg line="--report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml --standard=Zend library" />
+<arg line="--report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml --standard=Symfony2 library" />
 </exec>
 </target>
 

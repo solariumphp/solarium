@@ -31,17 +31,18 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
  */
 
 /**
- * Customization value object
- *
- * @package Solarium
- * @subpackage Plugin
+ * @namespace
  */
-class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurable
+namespace Solarium\Plugin\CustomizeRequest;
+use Solarium\Core\Configurable;
+
+/**
+ * Customization value object
+ */
+class Customization extends Configurable
 {
 
     /**
@@ -59,7 +60,7 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'key' => null,
         'type' => null,
         'name' => null,
@@ -71,12 +72,13 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
     /**
      * Set key value
      *
-     * @param string $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @param  string $value
+     * @return self   Provides fluent interface
      */
     public function setKey($value)
     {
-        $this->_setOption('key', $value);
+        $this->setOption('key', $value);
+
         return $this;
     }
 
@@ -93,12 +95,13 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
     /**
      * Set type value
      *
-     * @param string $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @param  string        $value
+     * @return Customization
      */
     public function setType($value)
     {
-        $this->_setOption('type', $value);
+        $this->setOption('type', $value);
+
         return $this;
     }
 
@@ -115,12 +118,13 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
     /**
      * Set name value
      *
-     * @param string $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @param  string        $value
+     * @return Customization
      */
     public function setName($value)
     {
-        $this->_setOption('name', $value);
+        $this->setOption('name', $value);
+
         return $this;
     }
 
@@ -137,12 +141,13 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
     /**
      * Set value
      *
-     * @param string $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @param  string        $value
+     * @return Customization
      */
     public function setValue($value)
     {
-        $this->_setOption('value', $value);
+        $this->setOption('value', $value);
+
         return $this;
     }
 
@@ -159,12 +164,13 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
     /**
      * Set persistent on/off
      *
-     * @param boolean $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @param  boolean       $value
+     * @return Customization
      */
     public function setPersistent($value)
     {
-        $this->_setOption('persistent', $value);
+        $this->setOption('persistent', $value);
+
         return $this;
     }
 
@@ -181,12 +187,13 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
     /**
      * Set overwrite option on/off
      *
-     * @param boolean $value
-     * @return Solarium_Plugin_CustomizeRequest_Customization
+     * @param  boolean       $value
+     * @return Customization
      */
     public function setOverwrite($value)
     {
-        $this->_setOption('overwrite', $value);
+        $this->setOption('overwrite', $value);
+
         return $this;
     }
 
@@ -208,9 +215,13 @@ class Solarium_Plugin_CustomizeRequest_Customization extends Solarium_Configurab
     public function isValid()
     {
         $type = $this->getType();
-        if ($type !== self::TYPE_PARAM && $type !== self::TYPE_HEADER) return false;
+        if ($type !== self::TYPE_PARAM && $type !== self::TYPE_HEADER) {
+            return false;
+        }
 
-        if (null == $this->getKey() || null == $this->getName() || null == $this->getValue()) return false;
+        if (null == $this->getKey() || null == $this->getName() || null == $this->getValue()) {
+            return false;
+        }
 
         return true;
     }

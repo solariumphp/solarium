@@ -3,14 +3,14 @@
 require_once 'Zend/Loader/Autoloader.php';
 $loader = Zend_Loader_Autoloader::getInstance();
 
-require('init.php');
+require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium_Client($config);
+$client = new Solarium\Client($config);
 
 // set the adapter to peclhttp
-$client->setAdapter('Solarium_Client_Adapter_PeclHttp');
+$client->setAdapter('Solarium\Core\Client\Adapter\PeclHttp');
 
 // get a select query instance
 $query = $client->createSelect();
@@ -31,7 +31,7 @@ foreach ($resultset as $document) {
     {
         // this converts multivalue fields to a comma-separated string
         if(is_array($value)) $value = implode(', ', $value);
-        
+
         echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
     }
 

@@ -31,9 +31,17 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
- *
- * @package Solarium
  */
+
+/**
+ * @namespace
+ */
+namespace Solarium\Plugin;
+use Solarium\Client;
+use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Client\Request;
+use Solarium\Core\Event\Events;
+use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 
 /**
  * PostBigRequest plugin
@@ -44,11 +52,8 @@
  *
  * The default maximum querystring length is 1024. This doesn't include the base url or headers.
  * For most servlet setups this limit leaves enough room for that extra data. Adjust the limit if needed.
- *
- * @package Solarium
- * @subpackage Plugin
  */
-class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
+class PostBigRequest extends Plugin
 {
 
     /**
@@ -56,19 +61,32 @@ class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
      *
      * @var array
      */
-    protected $_options = array(
+    protected $options = array(
         'maxquerystringlength' => 1024,
     );
 
     /**
+     * Plugin init function
+     *
+     * Register event listeners
+     *
+     * @return void
+     */
+    protected function initPluginType()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(Events::POST_CREATE_REQUEST, array($this, 'postCreateRequest'));
+    }
+
+    /**
      * Set maxquerystringlength enabled option
      *
-     * @param integer $value
-     * @return self Provides fluent interface
+     * @param  integer $value
+     * @return self    Provides fluent interface
      */
     public function setMaxQueryStringLength($value)
     {
-        return $this->_setOption('maxquerystringlength', $value);
+        return $this->setOption('maxquerystringlength', $value);
     }
 
     /**
@@ -84,17 +102,17 @@ class Solarium_Plugin_PostBigRequest extends Solarium_Plugin_Abstract
     /**
      * Event hook to adjust client settings just before query execution
      *
-     * @param Solarium_Query $query
-     * @param Solarium_Client_Request $request
+     * @param  PostCreateRequestEvent $event
      * @return void
      */
-    public function postCreateRequest($query, $request)
+    public function postCreateRequest($event)
     {
+        $request = $event->getRequest();
         $queryString = $request->getQueryString();
-        if ($request->getMethod() == Solarium_Client_Request::METHOD_GET &&
+        if ($request->getMethod() == Request::METHOD_GET &&
             strlen($queryString) > $this->getMaxQueryStringLength()) {
 
-            $request->setMethod(Solarium_Client_Request::METHOD_POST);
+            $request->setMethod(Request::METHOD_POST);
             $request->setRawData($queryString);
             $request->clearParams();
             $request->addHeader('Content-Type: application/x-www-form-urlencoded');
