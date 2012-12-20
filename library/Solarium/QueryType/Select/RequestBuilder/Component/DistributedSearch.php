@@ -55,12 +55,19 @@ class DistributedSearch implements ComponentRequestBuilderInterface
      */
     public function buildComponent($component, $request)
     {
-        // add shard fields to request
+        // add shards to request
         $shards = array_values($component->getShards());
         if (count($shards)) {
             $request->addParam('shards', implode(',', $shards));
         }
+
         $request->addParam('shards.qt', $component->getShardRequestHandler());
+
+        // add collections to request
+        $collections = array_values($component->getCollections());
+        if (count($collections)) {
+            $request->addParam('collection', implode(',', $collections));
+        }
 
         return $request;
     }

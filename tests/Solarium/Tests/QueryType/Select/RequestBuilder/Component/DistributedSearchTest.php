@@ -37,7 +37,7 @@ use Solarium\Core\Client\Request;
 class DistributedSearchTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testBuildComponent()
+    public function testBuildComponentWithShards()
     {
         $builder = new RequestBuilder;
         $request = new Request();
@@ -56,6 +56,28 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             array(
                 'shards.qt' => 'dummy',
                 'shards' => 'localhost:8983/solr/shard1,localhost:8983/solr/shard2,localhost:8983/solr/shard3',
+            ),
+            $request->getParams()
+        );
+    }
+
+    public function testBuildComponentWithCollections()
+    {
+        $builder = new RequestBuilder;
+        $request = new Request();
+
+        $component = new Component();
+        $component->addCollection('collection1', 'localhost:8983/solr/collection1');
+        $component->addCollections(array(
+            'collection2' => 'localhost:8983/solr/collection2',
+            'collection3' => 'localhost:8983/solr/collection3'
+        ));
+
+        $request = $builder->buildComponent($component, $request);
+
+        $this->assertEquals(
+            array(
+                'collection' => 'localhost:8983/solr/collection1,localhost:8983/solr/collection2,localhost:8983/solr/collection3',
             ),
             $request->getParams()
         );

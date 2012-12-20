@@ -46,7 +46,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         $this->distributedSearch = new DistributedSearch;
     }
 
-    public function testConfigMode()
+    public function testConfigModeForShards()
     {
         $options = array(
             'shardhandler' => 'dummyhandler',
@@ -60,6 +60,19 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($options['shardhandler'], $this->distributedSearch->getShardRequestHandler());
         $this->assertEquals($options['shards'], $this->distributedSearch->getShards());
+    }
+
+    public function testConfigModeForCollections()
+    {
+        $options = array(
+            'collections' => array(
+                'collection1' => 'localhost:8983/solr/collection1',
+                'collection2' => 'localhost:8983/solr/collection2',
+            )
+        );
+
+        $this->distributedSearch->setOptions($options);
+        $this->assertEquals($options['collections'], $this->distributedSearch->getCollections());
     }
 
     public function testGetType()
@@ -147,6 +160,70 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             'dummy',
             $this->distributedSearch->getShardRequestHandler()
         );
+    }
+
+
+
+
+
+    public function testAddCollection()
+    {
+        $this->distributedSearch->addCollection('collection1', 'localhost:8983/solr/collection1');
+        $collections = $this->distributedSearch->getCollections();
+        $this->assertEquals(
+            'localhost:8983/solr/collection1',
+            $collections['collection1']
+        );
+    }
+
+    public function testRemoveCollection()
+    {
+        $this->distributedSearch->addCollection('collection1', 'localhost:8983/solr/collection1');
+        $this->distributedSearch->removeCollection('collection1');
+        $collections = $this->distributedSearch->getCollections();
+        $this->assertFalse(isset($collections['collection1']));
+    }
+
+    public function testClearCollections()
+    {
+        $this->distributedSearch->addCollections(array(
+            'collection1' => 'localhost:8983/solr/collection1',
+            'collection2' => 'localhost:8983/solr/collection2',
+        ));
+        $this->distributedSearch->clearCollections();
+        $collections = $this->distributedSearch->getCollections();
+        $this->assertTrue(is_array($collections));
+        $this->assertEquals(0, count($collections));
+    }
+
+    public function testAddCollections()
+    {
+        $collections = array(
+            'collection1' => 'localhost:8983/solr/collection1',
+            'collection2' => 'localhost:8983/solr/collection2',
+        );
+        $this->distributedSearch->addCollections($collections);
+        $this->assertEquals($collections, $this->distributedSearch->getCollections());
+    }
+
+    public function testSetCollections()
+    {
+        $this->distributedSearch->addCollections(array(
+            'collection1' => 'localhost:8983/solr/collection1',
+            'collection2' => 'localhost:8983/solr/collection2',
+        ));
+        $this->distributedSearch->setCollections(array(
+            'collection3' => 'localhost:8983/solr/collection3',
+            'collection4' => 'localhost:8983/solr/collection4',
+            'collection5' => 'localhost:8983/solr/collection5',
+        ));
+        $collections = $this->distributedSearch->getCollections();
+        $this->assertEquals(3, count($collections));
+        $this->assertEquals(array(
+            'collection3' => 'localhost:8983/solr/collection3',
+            'collection4' => 'localhost:8983/solr/collection4',
+            'collection5' => 'localhost:8983/solr/collection5',
+        ), $collections);
     }
 
 }
