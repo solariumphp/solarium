@@ -424,4 +424,24 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc->getFields();
     }
 
+    public function testSetAndGetVersion()
+    {
+        $this->assertEquals(
+            null,
+            $this->doc->getVersion()
+        );
+
+        $this->doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
+        $this->assertEquals(
+            Document::VERSION_MUST_NOT_EXIST,
+            $this->doc->getVersion()
+        );
+
+        $this->doc->setVersion(234);
+        $this->assertEquals(
+            234,
+            $this->doc->getVersion()
+        );
+    }
+
 }

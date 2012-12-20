@@ -194,6 +194,20 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testBuildAddXmlWithVersionedDocument()
+    {
+        $doc = new Document(array('id' => 1));
+        $doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
+
+        $command = new AddCommand;
+        $command->addDocument($doc);
+
+        $this->assertEquals(
+            '<add><doc><field name="id">1</field><field name="_version_">-1</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildDeleteXml()
     {
         $command = new DeleteCommand;

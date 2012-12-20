@@ -79,6 +79,27 @@ class Document extends AbstractDocument implements DocumentInterface
     const MODIFIER_ADD = 'add';
 
     /**
+     * This value has the same effect as not setting a version
+     *
+     * @var int
+     */
+    const VERSION_DONT_CARE = 0;
+
+    /**
+     * This value requires an existing document with the same key, but no specific version
+     *
+     * @var int
+     */
+    const VERSION_MUST_EXIST = 1;
+
+    /**
+     * This value requires that no document with the same key exists (so no automatic overwrite like default)
+     *
+     * @var int
+     */
+    const VERSION_MUST_NOT_EXIST = -1;
+
+    /**
      * Document boost value
      *
      * @var float
@@ -107,6 +128,15 @@ class Document extends AbstractDocument implements DocumentInterface
      * @var array
      */
     protected $fieldBoosts;
+
+    /**
+     * Version value
+     *
+     * Can be used for updating using Solr's optimistic concurrency control
+     *
+     * @var int
+     */
+    protected $version;
 
     /**
      * Constructor
@@ -372,5 +402,27 @@ class Document extends AbstractDocument implements DocumentInterface
         }
 
         return parent::getFields();
+    }
+
+    /**
+     * Set version
+     *
+     * @param int $version
+     * @return self
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+    /**
+     * Get version
+     *
+     * @return int
+     */
+    public function getVersion()
+    {
+        return $this->version;
     }
 }

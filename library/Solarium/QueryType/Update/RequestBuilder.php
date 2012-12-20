@@ -134,6 +134,11 @@ class RequestBuilder extends BaseRequestBuilder
                 }
             }
 
+            $version = $doc->getVersion();
+            if ($version !== null) {
+                $xml .= $this->buildFieldXml('_version_', null, $version);
+            }
+
             $xml .= '</doc>';
         }
 
