@@ -207,8 +207,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testEscapeTerm()
     {
         $this->assertEquals(
-            'a\\+b',
-            $this->helper->escapeTerm('a+b')
+            'a\\+b\/c',
+            $this->helper->escapeTerm('a+b/c')
         );
     }
 
