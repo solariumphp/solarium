@@ -124,12 +124,13 @@ class RequestBuilder extends BaseRequestBuilder
 
             foreach ($doc->getFields() as $name => $value) {
                 $boost = $doc->getFieldBoost($name);
+                $modifier = $doc->getFieldModifier($name);
                 if (is_array($value)) {
                     foreach ($value as $multival) {
-                        $xml .= $this->buildFieldXml($name, $boost, $multival);
+                        $xml .= $this->buildFieldXml($name, $boost, $multival, $modifier);
                     }
                 } else {
-                    $xml .= $this->buildFieldXml($name, $boost, $value);
+                    $xml .= $this->buildFieldXml($name, $boost, $value, $modifier);
                 }
             }
 
@@ -149,12 +150,14 @@ class RequestBuilder extends BaseRequestBuilder
      * @param  string $name
      * @param  float  $boost
      * @param  mixed  $value
+     * @param  string $modifier
      * @return string
      */
-    protected function buildFieldXml($name, $boost, $value)
+    protected function buildFieldXml($name, $boost, $value, $modifier = null)
     {
         $xml = '<field name="' . $name . '"';
         $xml .= $this->attrib('boost', $boost);
+        $xml .= $this->attrib('update', $modifier);
         $xml .= '>' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
         $xml .= '</field>';
 

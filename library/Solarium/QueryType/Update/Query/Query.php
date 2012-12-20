@@ -106,7 +106,7 @@ class Query extends BaseQuery
     protected $options = array(
         'handler'       => 'update',
         'resultclass'   => 'Solarium\QueryType\Update\Result',
-        'documentclass' => 'Solarium\QueryType\Update\Query\Document',
+        'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
         'omitheader'    => false,
     );
 

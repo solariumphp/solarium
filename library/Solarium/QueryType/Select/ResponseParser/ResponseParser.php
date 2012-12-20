@@ -68,7 +68,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         // create document instances
         $documentClass = $query->getOption('documentclass');
         $classes = class_implements($documentClass);
-        if (!in_array('Solarium\QueryType\Select\Result\DocumentInterface',$classes) && !in_array('Solarium\QueryType\Update\Query\DocumentInterface',$classes)) {
+        if (!in_array('Solarium\QueryType\Select\Result\DocumentInterface',$classes) && !in_array('Solarium\QueryType\Update\Query\Document\DocumentInterface',$classes)) {
             throw new RuntimeException('The result document class must implement a document interface');
         }
 

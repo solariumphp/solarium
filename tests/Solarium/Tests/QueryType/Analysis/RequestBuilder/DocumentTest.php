@@ -33,7 +33,7 @@ namespace Solarium\Tests\QueryType\Analysis\RequestBuilder;
 use Solarium\QueryType\Analysis\Query\Document;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as DocumentBuilder;
 use Solarium\Core\Client\Request;
-use Solarium\QueryType\Update\Query\Document as InputDocument;
+use Solarium\QueryType\Update\Query\Document\Document as InputDocument;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {

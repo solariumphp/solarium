@@ -38,7 +38,7 @@
  */
 namespace Solarium\QueryType\Update\Query\Command;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\QueryType\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\Exception\RuntimeException;
 
 /**

@@ -36,7 +36,7 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Update\Query;
+namespace Solarium\QueryType\Update\Query\Document;
 
 /**
  * Solr update document interface
@@ -48,7 +48,9 @@ interface DocumentInterface
      * Constructor
      *
      * @param array $fields
+     * @param array $boosts
+     * @param array $modifiers
      */
-    public function __construct(array $fields = array(), array $boosts = array());
+    public function __construct(array $fields = array(), array $boosts = array(), array $modifiers = array());
 
 }

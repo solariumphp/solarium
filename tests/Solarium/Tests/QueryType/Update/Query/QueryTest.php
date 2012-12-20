@@ -34,7 +34,7 @@ use Solarium\Core\Client\Client;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\Query\Command\Rollback;
 use Solarium\QueryType\Update\Query\Command\Commit;
-use Solarium\QueryType\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Document\Document;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
