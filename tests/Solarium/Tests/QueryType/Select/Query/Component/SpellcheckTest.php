@@ -210,4 +210,23 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
             $this->spellCheck->getAccuracy()
         );
     }
+
+    public function testSetAndGetCollateParams()
+    {
+        $this->assertEquals(
+             $this->spellCheck,
+             $this->spellCheck->setCollateParam('mm', '100%')
+        );
+
+        $params = $this->spellCheck->getCollateParams();
+
+        $this->assertArrayHasKey(
+             'mm',
+             $params
+        );
+        $this->assertEquals(
+             '100%',
+             $params['mm']
+        );
+    }
 }

@@ -56,6 +56,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
         $component->setMaxCollationEvaluations(4);
         $component->setCollateExtendedResults(true);
         $component->setAccuracy(.2);
+        $component->setCollateParam('mm', '100%');
 
         $request = $builder->buildComponent($component, $request);
 
@@ -75,6 +76,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                 'spellcheck.maxCollationEvaluations' => 4,
                 'spellcheck.collateExtendedResults' => 'true',
                 'spellcheck.accuracy' => .2,
+                'spellcheck.collateParam.mm' => '100%',
             ),
             $request->getParams()
         );
