@@ -123,6 +123,11 @@ class Client extends Configurable
     const QUERY_EXTRACT = 'extract';
 
     /**
+     * Querytype get
+     */
+    const QUERY_REALTIME_GET = 'get';
+
+    /**
      * Default options
      *
      * @var array
@@ -149,6 +154,7 @@ class Client extends Configurable
         self::QUERY_TERMS => 'Solarium\QueryType\Terms\Query',
         self::QUERY_SUGGESTER => 'Solarium\QueryType\Suggester\Query',
         self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
+        self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
     );
 
     /**
@@ -955,6 +961,21 @@ class Client extends Configurable
     }
 
     /**
+     * Execute a RealtimeGet query
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param \Solarium\QueryType\RealtimeGet\Query $query
+     * @param Endpoint|string|null
+     * @return \Solarium\QueryType\RealtimeGet\Result
+     */
+    public function realtimeGet(QueryInterface $query, $endpoint = null)
+    {
+        return $this->execute($query, $endpoint);
+    }
+
+    /**
      * Create a query instance
      *
      * @throws InvalidArgumentException|UnexpectedValueException
@@ -1088,5 +1109,16 @@ class Client extends Configurable
     public function createExtract($options = null)
     {
         return $this->createQuery(self::QUERY_EXTRACT, $options);
+    }
+
+    /**
+     * Create a RealtimeGet query instance
+     *
+     * @param  mixed                             $options
+     * @return \Solarium\QueryType\RealtimeGet\Query
+     */
+    public function createRealtimeGet($options = null)
+    {
+        return $this->createQuery(self::QUERY_REALTIME_GET, $options);
     }
 }
