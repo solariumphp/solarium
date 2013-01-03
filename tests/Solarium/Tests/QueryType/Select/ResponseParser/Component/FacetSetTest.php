@@ -48,6 +48,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->facetSet->createFacet('query', array('key' => 'keyB'));
         $this->facetSet->createFacet('multiquery', array('key' => 'keyC', 'query' => array('keyC_A' => array('query' => 'id:1'), 'keyC_B' => array('query' => 'id:2'))));
         $this->facetSet->createFacet('range', array('key' => 'keyD'));
+        $this->facetSet->createFacet('pivot', array('key' => 'keyE', 'fields' => 'cat,price'));
 
         $this->query = new Query;
     }
@@ -83,14 +84,27 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                             1,
                         )
                     )
-                )
+                ),
+                'facet_pivot' => array(
+                    'cat,price' => array(
+                        array(
+                            'field' => 'cat',
+                            'value' => 'abc',
+                            'count' => '123',
+                            'pivot' => array(
+                                array('field' => 'price', 'value' => 1, 'count' => 12),
+                                array('field' => 'price', 'value' => 2, 'count' => 8),
+                            )
+                        )
+                    ),
+                ),
             )
         );
 
         $result = $this->parser->parse($this->query, $this->facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(array('keyA','keyB','keyC','keyD'), array_keys($facets));
+        $this->assertEquals(array('keyA','keyB','keyC','keyD', 'keyE'), array_keys($facets));
 
         $this->assertEquals(
             array('value1' => 12, 'value2' => 3),
@@ -127,6 +141,11 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             $facets['keyD']->getAfter()
         );
 
+        $this->assertEquals(
+            1,
+            count($facets['keyE'])
+        );
+
         $this->query = new Query;
     }
 
@@ -161,7 +180,20 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                             1,
                         )
                     )
-                )
+                ),
+                'facet_pivot' => array(
+                    'cat,price' => array(
+                        array(
+                            'field' => 'cat',
+                            'value' => 'abc',
+                            'count' => '123',
+                            'pivot' => array(
+                                array('field' => 'price', 'value' => 1, 'count' => 12),
+                                array('field' => 'price', 'value' => 2, 'count' => 8),
+                            )
+                        )
+                    ),
+                ),
             )
         );
 
@@ -171,7 +203,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $result = $this->parser->parse($this->query, $facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(array('keyA','keyB','keyC_A','keyC_B','keyD'), array_keys($facets));
+        $this->assertEquals(array('keyA','keyB','keyC_A','keyC_B','keyD', 'cat,price'), array_keys($facets));
 
         $this->assertEquals(
             array('value1' => 12, 'value2' => 3),
@@ -212,6 +244,11 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             5,
             $facets['keyD']->getAfter()
+        );
+
+        $this->assertEquals(
+            1,
+            count($facets['cat,price'])
         );
 
         $this->query = new Query;

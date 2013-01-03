@@ -44,6 +44,7 @@ use Solarium\QueryType\Select\Query\Component\Facet\Field as FacetField;
 use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as FacetMultiQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\Range as FacetRange;
+use Solarium\QueryType\Select\Query\Component\Facet\Pivot as FacetPivot;
 use Solarium\Exception\UnexpectedValueException;
 
 /**
@@ -88,6 +89,9 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                         break;
                     case FacetsetComponent::FACET_RANGE:
                         $this->addFacetRange($request, $facet);
+                        break;
+                    case FacetsetComponent::FACET_PIVOT:
+                        $this->addFacetPivot($request, $facet);
                         break;
                     default:
                         throw new UnexpectedValueException('Unknown facet type');
@@ -189,5 +193,18 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         foreach ($facet->getInclude() as $includeValue) {
             $request->addParam("f.$field.facet.range.include", $includeValue);
         }
+    }
+
+    /**
+     * Add params for a range facet to request
+     *
+     * @param  Request    $request
+     * @param  FacetPivot $facet
+     * @return void
+     */
+    public function addFacetPivot($request, $facet)
+    {
+        $request->addParam('facet.pivot', implode(',', $facet->getFields()));
+        $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
     }
 }

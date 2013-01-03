@@ -43,11 +43,13 @@ use Solarium\QueryType\Select\Query\Component\Facet\Field as QueryFacetField;
 use Solarium\QueryType\Select\Query\Component\Facet\Query as QueryFacetQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as QueryFacetMultiQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\Range as QueryFacetRange;
+use Solarium\QueryType\Select\Query\Component\Facet\Pivot as QueryFacetPivot;
 use Solarium\QueryType\Select\Result\FacetSet as ResultFacetSet;
 use Solarium\QueryType\Select\Result\Facet\Field as ResultFacetField;
 use Solarium\QueryType\Select\Result\Facet\Query as ResultFacetQuery;
 use Solarium\QueryType\Select\Result\Facet\MultiQuery as ResultFacetMultiQuery;
 use Solarium\QueryType\Select\Result\Facet\Range as ResultFacetRange;
+use Solarium\QueryType\Select\Result\Facet\Pivot\Pivot as ResultFacetPivot;
 use Solarium\Exception\RuntimeException;
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 
@@ -81,9 +83,15 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                         case 'facet_ranges':
                             $method = 'createFacetRange';
                             break;
+                        case 'facet_pivot':
+                            $method = 'createFacetPivot';
+                            break;
                     }
                     foreach ($facets as $k => $facet) {
-                        $facetSet->$method($k);
+                        $facetObject = $facetSet->$method($k);
+                        if ($key == 'facet_pivot') {
+                            $facetObject->setFields($k);
+                        }
                     }
                 }
             }
@@ -103,6 +111,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     break;
                 case QueryFacetSet::FACET_RANGE:
                     $result = $this->facetRange($query, $facet, $data);
+                    break;
+                case QueryFacetSet::FACET_PIVOT:
+                    $result = $this->facetPivot($query, $facet, $data);
                     break;
                 default:
                     throw new RuntimeException('Unknown facet type');
@@ -215,6 +226,23 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             }
 
             return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap);
+        }
+    }
+
+    /**
+     * Add a facet result for a range facet
+     *
+     * @param  Query            $query
+     * @param  QueryFacetPivot  $facet
+     * @param  array            $data
+     * @return ResultFacetPivot
+     */
+    protected function facetPivot($query, $facet, $data)
+    {
+        $key = implode(',', $facet->getFields());
+        if (isset($data['facet_counts']['facet_pivot'][$key])) {
+            $data = $data['facet_counts']['facet_pivot'][$key];
+            return new ResultFacetPivot($data);
         }
     }
 

@@ -403,6 +403,21 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $observer->createFacetRange($options, $add);
     }
 
+    /**
+     * @dataProvider createFacetAddProvider
+     */
+    public function testCreateFacetPivot($add)
+    {
+        $options = array('optionA' => 1, 'optionB' => 2);
+
+        $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
+        $observer->expects($this->once())
+                 ->method('createFacet')
+                 ->with($this->equalTo(FacetSet::FACET_PIVOT), $this->equalTo($options), $add);
+
+        $observer->createFacetPivot($options, $add);
+    }
+
     public function testSetAndGetExtractFromResponse()
     {
         $this->facetSet->setExtractFromResponse(true);
