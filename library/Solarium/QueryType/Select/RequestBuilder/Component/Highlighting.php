@@ -85,6 +85,11 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam('hl.q', $component->getQuery());
         $request->addParam('hl.phraseLimit', $component->getPhraseLimit());
         $request->addParam('hl.multiValuedSeparatorChar', $component->getMultiValuedSeparatorChar());
+        $request->addParam('hl.bs.maxScan', $component->getBoundaryScannerMaxScan());
+        $request->addParam('hl.bs.chars', $component->getBoundaryScannerChars());
+        $request->addParam('hl.bs.type', $component->getBoundaryScannerType());
+        $request->addParam('hl.bs.language', $component->getBoundaryScannerLanguage());
+        $request->addParam('hl.bs.country', $component->getBoundaryScannerCountry());
 
         // set per-field highlighting params
         foreach ($component->getFields() as $field) {

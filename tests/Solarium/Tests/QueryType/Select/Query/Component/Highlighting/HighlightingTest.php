@@ -81,6 +81,11 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
             'query' => 'text:myvalue',
             'phraselimit' => 35,
             'multivaluedseparatorchar' => '|',
+            'boundaryscannermaxscan' => 12,
+            'boundaryscannerchars' => "\t\n",
+            'boundaryscannertype' => 'LINE',
+            'boundaryscannerlanguage' => 'nl',
+            'boundaryscannercountry' => 'NL',
         );
 
         $this->hlt->setOptions($options);
@@ -112,6 +117,11 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['query'], $this->hlt->getQuery());
         $this->assertEquals($options['phraselimit'], $this->hlt->getPhraseLimit());
         $this->assertEquals($options['multivaluedseparatorchar'], $this->hlt->getMultiValuedSeparatorChar());
+        $this->assertEquals($options['boundaryscannermaxscan'], $this->hlt->getBoundaryScannerMaxScan());
+        $this->assertEquals($options['boundaryscannerchars'], $this->hlt->getBoundaryScannerChars());
+        $this->assertEquals($options['boundaryscannertype'], $this->hlt->getBoundaryScannerType());
+        $this->assertEquals($options['boundaryscannerlanguage'], $this->hlt->getBoundaryScannerLanguage());
+        $this->assertEquals($options['boundaryscannercountry'], $this->hlt->getBoundaryScannerCountry());
     }
 
     public function testGetType()
@@ -522,6 +532,61 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $value,
             $this->hlt->getMultiValuedSeparatorChar()
+        );
+    }
+
+    public function testSetAndGetBoundaryScannerChars()
+    {
+        $value = "\n";
+        $this->hlt->setBoundaryScannerChars($value);
+
+        $this->assertEquals(
+            $value,
+            $this->hlt->getBoundaryScannerChars()
+        );
+    }
+
+    public function testSetAndGetBoundaryScannerMaxScan()
+    {
+        $value = 15;
+        $this->hlt->setBoundaryScannerMaxScan($value);
+
+        $this->assertEquals(
+            $value,
+            $this->hlt->getBoundaryScannerMaxScan()
+        );
+    }
+
+    public function testSetAndGetBoundaryScannerType()
+    {
+        $value = 'SENTENCE';
+        $this->hlt->setBoundaryScannerType($value);
+
+        $this->assertEquals(
+            $value,
+            $this->hlt->getBoundaryScannerType()
+        );
+    }
+
+    public function testSetAndGetBoundaryScannerCountry()
+    {
+        $value = 'DE';
+        $this->hlt->setBoundaryScannerCountry($value);
+
+        $this->assertEquals(
+            $value,
+            $this->hlt->getBoundaryScannerCountry()
+        );
+    }
+
+    public function testSetAndGetBoundaryScannerLanguage()
+    {
+        $value = 'fr';
+        $this->hlt->setBoundaryScannerLanguage($value);
+
+        $this->assertEquals(
+            $value,
+            $this->hlt->getBoundaryScannerLanguage()
         );
     }
 
