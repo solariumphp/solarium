@@ -380,4 +380,28 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testQparserTerm()
+    {
+        $this->assertEquals(
+            '{!term f=weight}1.5',
+            $this->helper->qparserTerm('weight', 1.5)
+        );
+    }
+
+    public function testCacheControlWithCost()
+    {
+        $this->assertEquals(
+            '{!cache=false cost=6}',
+            $this->helper->cacheControl(false,6)
+        );
+    }
+
+    public function testCacheControlWithoutCost()
+    {
+        $this->assertEquals(
+            '{!cache=true}',
+            $this->helper->cacheControl(true)
+        );
+    }
+
 }
