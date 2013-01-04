@@ -61,12 +61,8 @@ class Pivot extends Facet
      */
     protected function init()
     {
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'fields':
-                    $this->addFields($value);
-                    break;
-            }
+        if (isset($this->options['fields'])) {
+            $this->addFields($this->options['fields']);
         }
     }
 
@@ -110,9 +106,10 @@ class Pivot extends Facet
      */
     public function addField($field)
     {
-       $this->fields[$field] = true;
+        $field = trim($field);
+        $this->fields[$field] = true;
 
-       return $this;
+        return $this;
     }
 
     /**
@@ -127,7 +124,6 @@ class Pivot extends Facet
     {
         if (is_string($fields)) {
             $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
         }
 
         foreach ($fields as $field) {
