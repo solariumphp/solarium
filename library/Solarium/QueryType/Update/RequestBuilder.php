@@ -80,7 +80,7 @@ class RequestBuilder extends BaseRequestBuilder
         foreach ($query->getCommands() as $command) {
             switch ($command->getType()) {
                 case UpdateQuery::COMMAND_ADD:
-                    $xml .= $this->buildAddXml($command);
+                    $xml .= $this->buildAddXml($command, $query);
                     break;
                 case UpdateQuery::COMMAND_DELETE:
                     $xml .= $this->buildDeleteXml($command);
@@ -108,9 +108,10 @@ class RequestBuilder extends BaseRequestBuilder
      * Build XML for an add command
      *
      * @param  Query\Command\Add $command
+     * @param  UpdateQuery $query
      * @return string
      */
-    public function buildAddXml($command)
+    public function buildAddXml($command, $query = null)
     {
         $xml = '<add';
         $xml .= $this->boolAttrib('overwrite', $command->getOverwrite());
@@ -127,10 +128,10 @@ class RequestBuilder extends BaseRequestBuilder
                 $modifier = $doc->getFieldModifier($name);
                 if (is_array($value)) {
                     foreach ($value as $multival) {
-                        $xml .= $this->buildFieldXml($name, $boost, $multival, $modifier);
+                        $xml .= $this->buildFieldXml($name, $boost, $multival, $modifier, $query);
                     }
                 } else {
-                    $xml .= $this->buildFieldXml($name, $boost, $value, $modifier);
+                    $xml .= $this->buildFieldXml($name, $boost, $value, $modifier, $query);
                 }
             }
 
@@ -156,10 +157,15 @@ class RequestBuilder extends BaseRequestBuilder
      * @param  float  $boost
      * @param  mixed  $value
      * @param  string $modifier
+     * @param  UpdateQuery $query
      * @return string
      */
-    protected function buildFieldXml($name, $boost, $value, $modifier = null)
+    protected function buildFieldXml($name, $boost, $value, $modifier = null, $query = null)
     {
+        if ($value instanceof \DateTime) {
+            $value = $query->getHelper()->formatDate($value);
+        }
+
         $xml = '<field name="' . $name . '"';
         $xml .= $this->attrib('boost', $boost);
         $xml .= $this->attrib('update', $modifier);
