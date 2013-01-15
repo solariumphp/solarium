@@ -173,6 +173,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertThat($endpoint, $this->isInstanceOf('Solarium\Core\Client\Endpoint'));
     }
 
+    public function testCreateEndpointWithSetAsDefault()
+    {
+        $this->client->createEndpoint('key3', true);
+        $endpoint = $this->client->getEndpoint();
+        $this->assertEquals('key3', $endpoint->getKey());
+    }
+
     public function testCreateEndpointWithArray()
     {
         $options = array(

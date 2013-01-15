@@ -245,9 +245,10 @@ class Client extends Configurable
      * after setting the key, by using the addEndpoint method.
      *
      * @param  mixed    $options
+     * @param  boolean  $setAsDefault
      * @return Endpoint
      */
-    public function createEndpoint($options = null)
+    public function createEndpoint($options = null, $setAsDefault = false)
     {
         if (is_string($options)) {
             $endpoint = new Endpoint;
@@ -258,6 +259,9 @@ class Client extends Configurable
 
         if ($endpoint->getKey() !== null) {
             $this->addEndpoint($endpoint);
+            if ($setAsDefault == true) {
+                $this->setDefaultEndpoint($endpoint);
+            }
         }
 
         return $endpoint;
