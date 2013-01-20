@@ -261,6 +261,22 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAddDeleteQueryWithBind()
+    {
+        $this->query->addDeleteQuery('id:%1%', array(678));
+        $commands = $this->query->getCommands();
+
+        $this->assertEquals(
+            Query::COMMAND_DELETE,
+            $commands[0]->getType()
+        );
+
+        $this->assertEquals(
+            array('id:678'),
+            $commands[0]->getQueries()
+        );
+    }
+
     public function testAddDeleteQueries()
     {
         $this->query->addDeleteQueries(array('id:1','id:2'));
