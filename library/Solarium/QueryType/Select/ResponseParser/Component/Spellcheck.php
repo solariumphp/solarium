@@ -112,7 +112,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
 
             $collations[] = new Collation($values, null, array());
 
-        } else if (is_array($values) && isset($values[0]) && is_string($values[0]) && $values[0] !== 'collationQuery') {
+        } elseif (is_array($values) && isset($values[0]) && is_string($values[0]) && $values[0] !== 'collationQuery') {
 
             foreach ($values as $value) {
                 $collations[] = new Collation($value, null, array());

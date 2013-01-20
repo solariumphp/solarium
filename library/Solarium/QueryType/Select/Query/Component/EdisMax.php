@@ -67,7 +67,7 @@ class EdisMax extends DisMax
         return SelectQuery::COMPONENT_EDISMAX;
     }
 
-	  /**
+    /**
      * Get a requestbuilder for this query
      *
      * @return RequestBuilder
