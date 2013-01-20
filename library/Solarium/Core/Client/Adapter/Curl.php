@@ -120,8 +120,8 @@ class Curl extends Configurable implements AdapterInterface
             $data = '';
         }
 
+        $this->check($data, $headers, $handle);
         curl_close($handle);
-        $this->check($data, $headers);
 
         return new Response($data, $headers);
         // @codeCoverageIgnoreEnd
@@ -219,14 +219,15 @@ class Curl extends Configurable implements AdapterInterface
      * @throws HttpException
      * @param  string        $data
      * @param  array         $headers
+     * @param  Curl handle   $handle
      * @return void
      */
-    public function check($data, $headers)
+    public function check($data, $headers, $handle)
     {
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
         if (empty($data) && count($headers) == 0) {
-            throw new HttpException("HTTP request failed");
+            throw new HttpException('HTTP request failed, '.curl_error($handle));
         }
     }
 }
