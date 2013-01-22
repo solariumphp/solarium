@@ -228,4 +228,34 @@ class Endpoint extends Configurable
 
         return $uri;
     }
+
+    /**
+     * Set HTTP basic auth settings
+     *
+     * If one or both values are NULL authentication will be disabled
+     *
+     * @param  string $username
+     * @param  string $password
+     * @return self   Provides fluent interface
+     */
+    public function setAuthentication($username, $password)
+    {
+        $this->setOption('username', $username);
+        $this->setOption('password', $password);
+
+        return $this;
+    }
+
+    /**
+     * Get HTTP basis auth settings
+     *
+     * @return array
+     */
+    public function getAuthentication()
+    {
+        return array(
+            'username' => $this->getOption('username'),
+            'password' => $this->getOption('password'),
+        );
+    }
 }
