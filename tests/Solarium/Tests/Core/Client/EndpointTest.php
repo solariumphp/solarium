@@ -47,11 +47,13 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'host'    => '192.168.0.1',
-            'port'    => 123,
-            'path'    => '/mysolr/',
-            'core'    => 'mycore',
-            'timeout' => 3,
+            'host'     => '192.168.0.1',
+            'port'     => 123,
+            'path'     => '/mysolr/',
+            'core'     => 'mycore',
+            'timeout'  => 3,
+            'username' => 'x',
+            'password' => 'y'
         );
         $this->endpoint->setOptions($options);
 
@@ -110,4 +112,50 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://myserver:123/mypath/mycore/', $this->endpoint->getBaseUri());
     }
 
+    public function testGetAndSetAuthentication()
+    {
+        $user = 'someone';
+        $pass = 'S0M3p455';
+
+        $this->endpoint->setAuthentication($user, $pass);
+
+        $this->assertEquals(
+            array(
+                'username' => $user,
+                'password' => $pass,
+            ),
+            $this->endpoint->getAuthentication()
+        );
+    }
+
+    public function testToString()
+    {
+        $options = array(
+            'host'     => '192.168.0.1',
+            'port'     => 123,
+            'path'     => '/mysolr/',
+            'core'     => 'mycore',
+            'timeout'  => 3,
+            'username' => 'x',
+            'password' => 'y'
+        );
+        $this->endpoint->setOptions($options);
+
+        $this->assertEquals(
+'Solarium\Core\Client\Endpoint::__toString
+base uri: http://192.168.0.1:123/mysolr/mycore/
+host: 192.168.0.1
+port: 123
+path: /mysolr
+core: mycore
+timeout: 3
+authentication: Array
+(
+    [username] => x
+    [password] => y
+)
+',
+            (string) $this->endpoint
+        );
+    }
 }
