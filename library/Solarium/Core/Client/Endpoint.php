@@ -247,7 +247,7 @@ class Endpoint extends Configurable
     }
 
     /**
-     * Get HTTP basis auth settings
+     * Get HTTP basic auth settings
      *
      * @return array
      */
