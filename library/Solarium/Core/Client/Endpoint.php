@@ -258,4 +258,26 @@ class Endpoint extends Configurable
             'password' => $this->getOption('password'),
         );
     }
+
+    /**
+     * Magic method enables a object to be transformed to a string
+     *
+     * Get a summary showing significant variables in the object
+     * note: uri resource is decoded for readability
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $output = __CLASS__ . '::__toString' . "\n"
+                . 'base uri: ' . $this->getBaseUri() . "\n"
+                . 'host: ' . $this->getHost() . "\n"
+                . 'port: ' . $this->getPort() ."\n"
+                . 'path: ' . $this->getPath() ."\n"
+                . 'core: ' . $this->getCore() . "\n"
+                . 'timeout: ' . $this->getTimeout() . "\n"
+                . 'authentication: ' . print_r($this->getAuthentication(), 1);
+
+        return $output;
+    }
 }

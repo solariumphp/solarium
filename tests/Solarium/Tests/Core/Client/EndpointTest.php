@@ -127,4 +127,35 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             $this->endpoint->getAuthentication()
         );
     }
+
+    public function testToString()
+    {
+        $options = array(
+            'host'     => '192.168.0.1',
+            'port'     => 123,
+            'path'     => '/mysolr/',
+            'core'     => 'mycore',
+            'timeout'  => 3,
+            'username' => 'x',
+            'password' => 'y'
+        );
+        $this->endpoint->setOptions($options);
+
+        $this->assertEquals(
+'Solarium\Core\Client\Endpoint::__toString
+base uri: http://192.168.0.1:123/mysolr/mycore/
+host: 192.168.0.1
+port: 123
+path: /mysolr
+core: mycore
+timeout: 3
+authentication: Array
+(
+    [username] => x
+    [password] => y
+)
+',
+            (string) $this->endpoint
+        );
+    }
 }
