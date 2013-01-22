@@ -150,7 +150,10 @@ class PeclHttp extends Configurable implements AdapterInterface
             }
         }
 
-        $authData = $request->getAuthentication();
+        // Try endpoint authentication first, fallback to request for backwards compatibility
+        $authData = $endpoint->getAuthentication();
+        if(empty($authData['username'])) $authData = $request->getAuthentication();
+
         if ( !empty($authData['username']) && !empty($authData['password'])) {
             $headers['Authorization'] = 'Basic ' . base64_encode($authData['username']. ':' . $authData['password'] );
         }
