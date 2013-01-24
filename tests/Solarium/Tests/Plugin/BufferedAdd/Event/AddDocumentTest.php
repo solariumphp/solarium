@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 
 class AddDocumentTest extends \PHPUnit_Framework_TestCase
 {
