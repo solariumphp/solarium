@@ -27,65 +27,23 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\Plugin\BufferedAdd\Event;
+namespace Solarium\Tests\Plugin\BufferedAdd\Event;
+use Solarium\Plugin\BufferedAdd\Event\AddDocument;
+use Solarium\QueryType\Update\Query\Document\Document;
 
-/**
- * Event definitions
- */
-class Events
+class AddDocumentTest extends \PHPUnit_Framework_TestCase
 {
 
-    /**
-     * This event is called before a buffer flush
-     *
-     * The event listener receives the buffer (array) .
-     *
-     * @var string
-     */
-    const PRE_FLUSH = 'solarium.bufferedAdd.preFlush';
+    public function testConstructorAndGetters()
+    {
+        $document = new Document();
 
-    /**
-     * This event is called after a buffer flush
-     *
-     * The event listener receives the Result
-     *
-     * @var string
-     */
-    const POST_FLUSH = 'solarium.bufferedAdd.postFlush';
+        $event = new AddDocument($document);
 
-    /**
-     * This event is called before a buffer commit
-     *
-     * The event listener receives the buffer (array) .
-     *
-     * @var string
-     */
-    const PRE_COMMIT = 'solarium.bufferedAdd.preCommit';
+        $this->assertEquals($document, $event->getDocument());
 
-    /**
-     * This event is called after a buffer commit
-     *
-     * The event listener receives the Result
-     *
-     * @var string
-     */
-    const POST_COMMIT = 'solarium.bufferedAdd.postCommit';
-
-    /**
-     * This event is called when a new document is added
-     *
-     * The event listener receives the Document
-     *
-     * @var string
-     */
-    const ADD_DOCUMENT = 'solarium.bufferedAdd.addDocument';
+        return $event;
+    }
 }
