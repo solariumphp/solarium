@@ -30,7 +30,7 @@
  */
 
 namespace Solarium\Tests\Plugin\BufferedAdd;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument;
 use Solarium\Plugin\BufferedAdd\BufferedAdd;
 use Solarium\Core\Client\Client;
