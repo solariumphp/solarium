@@ -37,55 +37,39 @@
  * @namespace
  */
 namespace Solarium\Plugin\BufferedAdd\Event;
+use Symfony\Component\EventDispatcher\Event;
+use Solarium\QueryType\Update\Result;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
- * Event definitions
+ * AddDocument event, see Events for details
  */
-class Events
+class AddDocument extends Event
 {
 
     /**
-     * This event is called before a buffer flush
-     *
-     * The event listener receives the buffer (array) .
-     *
-     * @var string
+     * @var DocumentInterface
      */
-    const PRE_FLUSH = 'solarium.bufferedAdd.preFlush';
+    protected $document;
 
     /**
-     * This event is called after a buffer flush
+     * Event constructor
      *
-     * The event listener receives the Result
-     *
-     * @var string
+     * @param DocumentInterface $document
      */
-    const POST_FLUSH = 'solarium.bufferedAdd.postFlush';
+    public function __construct($document)
+    {
+        $this->document = $document;
+    }
 
     /**
-     * This event is called before a buffer commit
+     * Get the result for this event
      *
-     * The event listener receives the buffer (array) .
-     *
-     * @var string
+     * @return DocumentInterface
      */
-    const PRE_COMMIT = 'solarium.bufferedAdd.preCommit';
+    public function getDocument()
+    {
+        return $this->document;
+    }
 
-    /**
-     * This event is called after a buffer commit
-     *
-     * The event listener receives the Result
-     *
-     * @var string
-     */
-    const POST_COMMIT = 'solarium.bufferedAdd.postCommit';
-
-    /**
-     * This event is called when a new document is added
-     *
-     * The event listener receives the Document
-     *
-     * @var string
-     */
-    const ADD_DOCUMENT = 'solarium.bufferedAdd.addDocument';
 }
