@@ -12,7 +12,8 @@ $query->setRows(0);
 
 // add spellcheck settings
 $spellcheck = $query->getSpellcheck();
-$spellcheck->setQuery('delll ultrashar');
+$spellcheck->setQuery('tes');
+$spellcheck->setCount(10);
 $spellcheck->setBuild(true);
 $spellcheck->setCollate(true);
 $spellcheck->setExtendedResults(true);
@@ -35,8 +36,12 @@ foreach($spellcheckResult as $suggestion) {
     echo 'StartOffset: '.$suggestion->getStartOffset().'<br/>';
     echo 'EndOffset: '.$suggestion->getEndOffset().'<br/>';
     echo 'OriginalFrequency: '.$suggestion->getOriginalFrequency().'<br/>';
-    echo 'Frequency: '.$suggestion->getFrequency().'<br/>';
-    echo 'Word: '.$suggestion->getWord().'<br/>';
+    foreach ($suggestion->getWords() as $word) {
+        echo '-----<br/>';
+        echo 'Frequency: '.$word['freq'].'<br/>';
+        echo 'Word: '.$word['word'].'<br/>';
+    }
+
     echo '<hr/>';
 }
 

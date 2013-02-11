@@ -194,6 +194,10 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                         'suggestion' => array (
                             0 => array (
                                 'word' => 'ultrasharp',
+                                'freq' => 2
+                            ),
+                            1 => array (
+                                'word' => 'ultrasharpy',
                                 'freq' => 1
                             ),
                         ),
@@ -209,6 +213,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
         $result = $this->parser->parse($this->query, null, $data);
         $collations = $result->getCollations();
         $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
+
+        $words = $result->getSuggestion(1)->getWords();
+        $this->assertEquals(array('word' => 'ultrasharpy', 'freq' => 1), $words[1]);
     }
 
     public function testParseNoData()
