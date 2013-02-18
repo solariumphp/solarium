@@ -16,7 +16,7 @@
         "symfony/event-dispatcher": ">=2.1.0,<2.3-dev"
     },
     "autoload": {
-        "psr-0": { "Solarium": "library/" }
+        "psr-0": { "Solarium\\": "library/" }
     },
     "extra": {
         "branch-alias": {
