@@ -128,6 +128,11 @@ class Client extends Configurable
     const QUERY_REALTIME_GET = 'get';
 
     /**
+     * Querytype system
+     */
+    const QUERY_SYSTEM = 'system';
+
+    /**
      * Default options
      *
      * @var array
@@ -155,6 +160,7 @@ class Client extends Configurable
         self::QUERY_SUGGESTER => 'Solarium\QueryType\Suggester\Query',
         self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
         self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
+        self::QUERY_SYSTEM => 'Solarium\QueryType\System\Query',
     );
 
     /**
@@ -980,6 +986,27 @@ class Client extends Configurable
     }
 
     /**
+     * Execute a system query
+     *
+     * Example usage:
+     * <code>
+     * $client = new Solarium\Client;
+     * $query = $client->createSystem();
+     * $result = $client->system($query);
+     * </code>
+     *
+     * @see Solarium\QueryType\System
+     *
+     * @param \Solarium\QueryType\System\Query   $query
+     * @param Endpoint|string|null
+     * @return \Solarium\QueryType\System\Result
+     */
+    public function system(QueryInterface $query, $endpoint = null)
+    {
+        return $this->execute($query, $endpoint);
+    }
+
+    /**
      * Create a query instance
      *
      * @throws InvalidArgumentException|UnexpectedValueException
@@ -1124,5 +1151,16 @@ class Client extends Configurable
     public function createRealtimeGet($options = null)
     {
         return $this->createQuery(self::QUERY_REALTIME_GET, $options);
+    }
+
+    /**
+     * Create a system query instance
+     *
+     * @param  mixed                             $options
+     * @return \Solarium\QueryType\System\Query
+     */
+    public function createSystem($options = null)
+    {
+        return $this->createQuery(self::QUERY_SYSTEM, $options);
     }
 }
