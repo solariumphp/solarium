@@ -211,7 +211,7 @@ class BufferedAdd extends Plugin
         $result = $this->client->update($this->updateQuery);
         $this->clear();
 
-        $event = new PostFlushEvent($this->buffer);
+        $event = new PostFlushEvent($result);
         $this->client->getEventDispatcher()->dispatch(Events::POST_FLUSH, $event);
 
         return $result;
@@ -238,7 +238,7 @@ class BufferedAdd extends Plugin
         $result = $this->client->update($this->updateQuery);
         $this->clear();
 
-        $event = new PostCommitEvent($this->buffer);
+        $event = new PostCommitEvent($result);
         $this->client->getEventDispatcher()->dispatch(Events::POST_COMMIT, $event);
 
         return $result;
