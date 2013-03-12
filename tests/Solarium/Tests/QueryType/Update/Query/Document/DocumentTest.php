@@ -30,11 +30,14 @@
  */
 
 namespace Solarium\Tests\QueryType\Update\Query;
-use Solarium\QueryType\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Document\Document;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var Document
+     */
     protected $doc;
 
     protected $fields = array(
@@ -48,11 +51,13 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc = new Document($this->fields);
     }
 
-    public function testConstructorWithFieldsAndBoosts()
+    public function testConstructorWithFieldsAndBoostsAndModifiers()
     {
         $fields = array('id' => 1, 'name' => 'testname');
         $boosts = array('name' => 2.7);
-        $doc = new Document($fields, $boosts);
+        $modifiers = array('name' => Document::MODIFIER_SET);
+        $doc = new Document($fields, $boosts, $modifiers);
+        $doc->setKey('id');
 
         $this->assertEquals(
             $fields,
@@ -62,6 +67,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             2.7,
             $doc->getFieldBoost('name')
+        );
+
+        $this->assertEquals(
+            Document::MODIFIER_SET,
+            $doc->getFieldModifier('name')
         );
     }
 
@@ -118,6 +128,24 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAddFieldWithModifier()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 1);
+        $this->doc->addField('myfield', 'myvalue', null, Document::MODIFIER_ADD);
+        $this->doc->addField('myfield', 'myvalue2', null, Document::MODIFIER_ADD);
+
+        $this->assertEquals(
+            array('id' => 1, 'myfield' => array('myvalue', 'myvalue2')),
+            $this->doc->getFields()
+        );
+
+        $this->assertEquals(
+            Document::MODIFIER_ADD,
+            $this->doc->getFieldModifier('myfield')
+        );
+    }
+
     public function testSetField()
     {
         $this->doc->setField('name', 'newname');
@@ -128,6 +156,23 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $expectedFields,
             $this->doc->getFields()
+        );
+    }
+
+    public function testSetFieldWithModifier()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 1);
+        $this->doc->setField('myfield', 'myvalue', null, Document::MODIFIER_ADD);
+
+        $this->assertEquals(
+            array('id' => 1, 'myfield' => 'myvalue'),
+            $this->doc->getFields()
+        );
+
+        $this->assertEquals(
+            Document::MODIFIER_ADD,
+            $this->doc->getFieldModifier('myfield')
         );
     }
 
@@ -322,6 +367,80 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             null,
             $this->doc->getFieldBoost('name')
+        );
+    }
+
+    public function testSetAndGetFieldModifier()
+    {
+        $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
+
+        $this->assertEquals(
+            Document::MODIFIER_ADD,
+            $this->doc->getFieldModifier('name')
+        );
+
+        $this->assertEquals(
+            null,
+            $this->doc->getFieldModifier('non-existing-field')
+        );
+    }
+
+    public function testClearFieldsModifierRemoval()
+    {
+        $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
+        $this->doc->clear();
+
+        $this->assertEquals(
+            null,
+            $this->doc->getFieldBoost('name')
+        );
+    }
+
+    public function testSetFieldModifierWithInvalidValue()
+    {
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->doc->setFieldModifier('name', 'invalid_modifier_value');
+    }
+
+    public function testSetAndGetFieldsUsingModifiers()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 1);
+        $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
+
+        $this->assertEquals(
+            array('id' => 1, 'name' => 'newname'),
+            $this->doc->getFields()
+        );
+    }
+
+    public function testSetAndGetFieldsUsingModifiersWithoutKey()
+    {
+        $this->doc->clear();
+        $this->doc->setField('id', 1);
+        $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
+
+        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->doc->getFields();
+    }
+
+    public function testSetAndGetVersion()
+    {
+        $this->assertEquals(
+            null,
+            $this->doc->getVersion()
+        );
+
+        $this->doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
+        $this->assertEquals(
+            Document::VERSION_MUST_NOT_EXIST,
+            $this->doc->getVersion()
+        );
+
+        $this->doc->setVersion(234);
+        $this->assertEquals(
+            234,
+            $this->doc->getVersion()
         );
     }
 

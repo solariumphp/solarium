@@ -40,7 +40,7 @@ class SuggestionTest extends \PHPUnit_Framework_TestCase
      */
     protected $result;
 
-    protected $numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency;
+    protected $numFound, $startOffset, $endOffset, $originalFrequency, $words, $frequency;
 
     public function setUp()
     {
@@ -48,11 +48,19 @@ class SuggestionTest extends \PHPUnit_Framework_TestCase
         $this->startOffset = 2;
         $this->endOffset = 3;
         $this->originalFrequency = 4;
-        $this->word = 'dummyword';
-        $this->frequency = 5;
+        $this->words = array(
+            array(
+                'word' => 'dummyword',
+                'freq' => 5
+            ),
+            array(
+                'word' => 'secondword',
+                'freq' => 1
+            )
+        );
 
         $this->result = new Suggestion(
-            $this->numFound, $this->startOffset, $this->endOffset, $this->originalFrequency, $this->word, $this->frequency
+            $this->numFound, $this->startOffset, $this->endOffset, $this->originalFrequency, $this->words
         );
     }
 
@@ -78,12 +86,17 @@ class SuggestionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetWord()
     {
-         $this->assertEquals($this->word, $this->result->getWord());
+         $this->assertEquals($this->words[0]['word'], $this->result->getWord());
     }
 
     public function testGetFrequency()
     {
-         $this->assertEquals($this->frequency, $this->result->getFrequency());
+         $this->assertEquals($this->words[0]['freq'], $this->result->getFrequency());
+    }
+
+    public function testGetWords()
+    {
+         $this->assertEquals($this->words, $this->result->getWords());
     }
 
 }

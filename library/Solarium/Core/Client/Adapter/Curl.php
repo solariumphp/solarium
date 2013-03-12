@@ -120,8 +120,8 @@ class Curl extends Configurable implements AdapterInterface
             $data = '';
         }
 
+        $this->check($data, $headers, $handle);
         curl_close($handle);
-        $this->check($data, $headers);
 
         return new Response($data, $headers);
         // @codeCoverageIgnoreEnd
@@ -156,7 +156,10 @@ class Curl extends Configurable implements AdapterInterface
             $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
         }
 
-        $authData = $request->getAuthentication();
+        // Try endpoint authentication first, fallback to request for backwards compatibility
+        $authData = $endpoint->getAuthentication();
+        if(empty($authData['username'])) $authData = $request->getAuthentication();
+
         if ( !empty($authData['username']) && !empty($authData['password'])) {
             curl_setopt($handler, CURLOPT_USERPWD, $authData['username']. ':' . $authData['password'] );
             curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -219,14 +222,15 @@ class Curl extends Configurable implements AdapterInterface
      * @throws HttpException
      * @param  string        $data
      * @param  array         $headers
+     * @param  Curl handle   $handle
      * @return void
      */
-    public function check($data, $headers)
+    public function check($data, $headers, $handle)
     {
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
         if (empty($data) && count($headers) == 0) {
-            throw new HttpException("HTTP request failed");
+            throw new HttpException('HTTP request failed, '.curl_error($handle));
         }
     }
 }

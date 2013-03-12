@@ -80,6 +80,11 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $component->setTagPrefix('<i>');
         $component->setTagPostfix('</i>');
         $component->setMultiValuedSeparatorChar('|');
+        $component->setBoundaryScannerChars('.,');
+        $component->setBoundaryScannerMaxScan(16);
+        $component->setBoundaryScannerType($component::BOUNDARYSCANNER_TYPE_WORD);
+        $component->setBoundaryScannerCountry('be');
+        $component->setBoundaryScannerLanguage('en');
 
         $request = $builder->buildComponent($component, $request);
 
@@ -119,6 +124,11 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
                 'f.fieldB.hl.simple.post' => '</b>',
                 'f.fieldB.hl.fragmenter' => 'myFragmenter',
                 'f.fieldB.hl.useFastVectorHighlighter' => 'true',
+                'hl.bs.maxScan' => 16,
+                'hl.bs.chars' => '.,',
+                'hl.bs.type' => 'WORD',
+                'hl.bs.country' => 'be',
+                'hl.bs.language' => 'en',
             ),
             $request->getParams()
         );

@@ -79,4 +79,13 @@ class Events
      * @var string
      */
     const POST_COMMIT = 'solarium.bufferedAdd.postCommit';
+
+    /**
+     * This event is called when a new document is added
+     *
+     * The event listener receives the Document
+     *
+     * @var string
+     */
+    const ADD_DOCUMENT = 'solarium.bufferedAdd.addDocument';
 }

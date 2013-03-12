@@ -45,7 +45,7 @@ namespace Solarium\QueryType\Extract;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
-use Solarium\QueryType\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Document\Document;
 
 /**
  * Extract query
@@ -69,7 +69,7 @@ class Query extends BaseQuery
     protected $options = array(
         'handler'     => 'update/extract',
         'resultclass' => 'Solarium\QueryType\Extract\Result',
-        'documentclass' => 'Solarium\QueryType\Update\Query\Document',
+        'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
         'omitheader'  => true,
     );
 

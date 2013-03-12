@@ -73,6 +73,11 @@ class FacetSet extends Component
     const FACET_RANGE = 'range';
 
     /**
+     * Facet type pivot
+     */
+    const FACET_PIVOT = 'pivot';
+
+    /**
      * Facet type mapping
      *
      * @var array
@@ -82,6 +87,7 @@ class FacetSet extends Component
         self::FACET_QUERY => 'Solarium\QueryType\Select\Query\Component\Facet\Query',
         self::FACET_MULTIQUERY => 'Solarium\QueryType\Select\Query\Component\Facet\MultiQuery',
         self::FACET_RANGE => 'Solarium\QueryType\Select\Query\Component\Facet\Range',
+        self::FACET_PIVOT => 'Solarium\QueryType\Select\Query\Component\Facet\Pivot',
     );
 
     /**
@@ -506,6 +512,18 @@ class FacetSet extends Component
     public function createFacetRange($options = null, $add = true)
     {
         return $this->createFacet(self::FACET_RANGE, $options, $add);
+    }
+
+    /**
+     * Get a facet pivot instance
+     *
+     * @param  mixed       $options
+     * @param  bool        $add
+     * @return Facet\Pivot
+     */
+    public function createFacetPivot($options = null, $add = true)
+    {
+        return $this->createFacet(self::FACET_PIVOT, $options, $add);
     }
 
 }

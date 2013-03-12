@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Extract;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\QueryType\Extract\Query;
 
 class QueryTest extends \PHPUnit_Framework_TestCase

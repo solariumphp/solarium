@@ -48,6 +48,13 @@ use Solarium\QueryType\Select\ResponseParser\Component\Spellcheck as ResponsePar
  */
 class Spellcheck extends Component
 {
+
+    /**
+     * Used to further customize collation parameters
+     * @var array
+     */
+    protected $collateParams = array();
+
     /**
      * Get component type
      *
@@ -366,4 +373,25 @@ class Spellcheck extends Component
         return $this->getOption('accuracy');
     }
 
+
+    /**
+     * Set a collation param
+     * @param string $param
+     * @param mixed $value
+     * @return self Provides fluent interface
+     */
+    public function setCollateParam($param, $value)
+    {
+       $this->collateParams[$param] = $value;
+       return $this;
+    }
+
+    /**
+     * Returns the array of collate params
+     * @return array
+     */
+    public function getCollateParams()
+    {
+       return $this->collateParams;
+    }
 }

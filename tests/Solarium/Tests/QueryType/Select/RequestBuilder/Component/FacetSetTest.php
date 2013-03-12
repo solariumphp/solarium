@@ -37,6 +37,7 @@ use Solarium\QueryType\Select\Query\Component\Facet\Field as FacetField;
 use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as FacetMultiQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\Range as FacetRange;
+use Solarium\QueryType\Select\Query\Component\Facet\Pivot as FacetPivot;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase
 {
@@ -172,6 +173,29 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $request = $this->builder->buildComponent($this->component, $this->request);
         $request->getUri();
+    }
+
+    public function testBuildWithPivotFacet()
+    {
+        $this->component->addFacet(new FacetPivot(
+            array(
+                'key' => 'f1',
+                'fields' => 'cat,inStock',
+                'mincount' => 123
+            )
+        ));
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertEquals(
+            null,
+            $request->getRawData()
+        );
+
+        $this->assertEquals(
+            '?facet=true&facet.pivot=cat,inStock&facet.pivot.mincount=123',
+            urldecode($request->getUri())
+        );
     }
 
 }

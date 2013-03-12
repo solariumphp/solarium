@@ -36,19 +36,27 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Update\Query;
+namespace Solarium\QueryType\RealtimeGet;
+use Solarium\QueryType\Select\Result\Result as BaseResult;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
- * Solr update document interface
+ * RealtimeGet query results
+ *
+ * Extends the standard select result with a accessor method for the first document
  */
-interface DocumentInterface
+class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
 
     /**
-     * Constructor
+     * Get first document in set
      *
-     * @param array $fields
+     * @return DocumentInterface
      */
-    public function __construct(array $fields = array(), array $boosts = array());
+    public function getDocument()
+    {
+        $docs = $this->getDocuments();
+        return reset($docs);
+    }
 
 }

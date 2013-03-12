@@ -47,6 +47,7 @@ use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as PreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
+use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
 
 /**
  * Buffered add plugin
@@ -138,6 +139,10 @@ class BufferedAdd extends Plugin
     public function addDocument($document)
     {
         $this->buffer[] = $document;
+
+        $event = new AddDocumentEvent($document);
+        $this->client->getEventDispatcher()->dispatch(Events::ADD_DOCUMENT, $event);
+
         if (count($this->buffer) == $this->options['buffersize']) {
             $this->flush();
         }
@@ -206,7 +211,7 @@ class BufferedAdd extends Plugin
         $result = $this->client->update($this->updateQuery);
         $this->clear();
 
-        $event = new PostFlushEvent($this->buffer);
+        $event = new PostFlushEvent($result);
         $this->client->getEventDispatcher()->dispatch(Events::POST_FLUSH, $event);
 
         return $result;
@@ -233,7 +238,7 @@ class BufferedAdd extends Plugin
         $result = $this->client->update($this->updateQuery);
         $this->clear();
 
-        $event = new PostCommitEvent($this->buffer);
+        $event = new PostCommitEvent($result);
         $this->client->getEventDispatcher()->dispatch(Events::POST_COMMIT, $event);
 
         return $result;

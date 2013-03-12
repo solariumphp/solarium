@@ -207,8 +207,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testEscapeTerm()
     {
         $this->assertEquals(
-            'a\\+b',
-            $this->helper->escapeTerm('a+b')
+            'a\\+b\/c',
+            $this->helper->escapeTerm('a+b/c')
         );
     }
 
@@ -377,6 +377,30 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             array('deref_1' => 'manu_id', 'deref_2' => 'id'),
             $this->query->getParams()
+        );
+    }
+
+    public function testQparserTerm()
+    {
+        $this->assertEquals(
+            '{!term f=weight}1.5',
+            $this->helper->qparserTerm('weight', 1.5)
+        );
+    }
+
+    public function testCacheControlWithCost()
+    {
+        $this->assertEquals(
+            '{!cache=false cost=6}',
+            $this->helper->cacheControl(false,6)
+        );
+    }
+
+    public function testCacheControlWithoutCost()
+    {
+        $this->assertEquals(
+            '{!cache=true}',
+            $this->helper->cacheControl(true)
         );
     }
 

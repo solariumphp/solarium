@@ -33,7 +33,7 @@ namespace Solarium\Tests\QueryType\Select\ResponseParser;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\FacetSet;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
-use Solarium\QueryType\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Document\Document;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -54,7 +54,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $query = new Query(array('documentclass' => 'Solarium\QueryType\Update\Query\Document'));
+        $query = new Query(array('documentclass' => 'Solarium\QueryType\Update\Query\Document\Document'));
         $query->getFacetSet();
 
         $resultStub = $this->getMock('Solarium\QueryType\Select\Result\Result', array(), array(), '', false);
@@ -132,7 +132,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $query = new Query(array('documentclass' => 'Solarium\QueryType\Update\Query\Document'));
+        $query = new Query(array('documentclass' => 'Solarium\QueryType\Update\Query\Document\Document'));
         $query->getFacetSet();
 
         $resultStub = $this->getMock('Solarium\QueryType\Select\Result\Result', array(), array(), '', false);

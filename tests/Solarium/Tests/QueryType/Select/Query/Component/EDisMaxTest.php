@@ -94,6 +94,11 @@ class EdisMaxTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\EdisMax', $this->eDisMax->getRequestBuilder());
+    }
+
     public function testSetAndGetQueryParser()
     {
         $value = 'dummyparser';

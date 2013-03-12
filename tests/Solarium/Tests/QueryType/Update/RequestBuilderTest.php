@@ -38,7 +38,7 @@ use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
-use Solarium\QueryType\Update\Query\Document;
+use Solarium\QueryType\Update\Query\Document\Document;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -156,6 +156,66 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             '<add><doc><field name="id">1</field></doc><doc><field name="id">2</field></doc></add>',
             $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlWithFieldModifiers()
+    {
+        $doc = new Document();
+        $doc->setKey('id',1);
+        $doc->addField('category', 123, null, Document::MODIFIER_ADD);
+        $doc->addField('name', 'test', 2.5,  Document::MODIFIER_SET);
+        $doc->setField('stock', 2, null,  Document::MODIFIER_INC);
+
+        $command = new AddCommand();
+        $command->addDocument($doc);
+
+        $this->assertEquals(
+            '<add><doc><field name="id">1</field><field name="category" update="add">123</field><field name="name" boost="2.5" update="set">test</field><field name="stock" update="inc">2</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlWithFieldModifiersAndMultivalueFields()
+    {
+        $doc = new Document();
+        $doc->setKey('id',1);
+        $doc->addField('category', 123, null,  Document::MODIFIER_ADD);
+        $doc->addField('category', 234, null,  Document::MODIFIER_ADD);
+        $doc->addField('name', 'test', 2.3,  Document::MODIFIER_SET);
+        $doc->setField('stock', 2, null,  Document::MODIFIER_INC);
+
+        $command = new AddCommand();
+        $command->addDocument($doc);
+
+        $this->assertEquals(
+            '<add><doc><field name="id">1</field><field name="category" update="add">123</field><field name="category" update="add">234</field><field name="name" boost="2.3" update="set">test</field><field name="stock" update="inc">2</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlWithVersionedDocument()
+    {
+        $doc = new Document(array('id' => 1));
+        $doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
+
+        $command = new AddCommand;
+        $command->addDocument($doc);
+
+        $this->assertEquals(
+            '<add><doc><field name="id">1</field><field name="_version_">-1</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlWithDateTime()
+    {
+        $command = new AddCommand;
+        $command->addDocument(new Document(array('id' => 1, 'datetime' => new \DateTime('2013-01-15 14:41:58'))));
+
+        $this->assertEquals(
+            '<add><doc><field name="id">1</field><field name="datetime">2013-01-15T14:41:58Z</field></doc></add>',
+            $this->builder->buildAddXml($command, $this->query)
         );
     }
 

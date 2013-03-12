@@ -112,7 +112,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
 
             $collations[] = new Collation($values, null, array());
 
-        } else if (is_array($values) && isset($values[0]) && is_string($values[0]) && $values[0] !== 'collationQuery') {
+        } elseif (is_array($values) && isset($values[0]) && is_string($values[0]) && $values[0] !== 'collationQuery') {
 
             foreach ($values as $value) {
                 $collations[] = new Collation($value, null, array());
@@ -182,16 +182,19 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
         $endOffset = (isset($value['endOffset'])) ? $value['endOffset'] : null;
         $originalFrequency = (isset($value['origFreq'])) ? $value['origFreq'] : null;
 
-        if (is_string($value['suggestion'][0])) {
-            $word = $value['suggestion'][0];
-            $frequency = null;
-        } else {
-            $word = $value['suggestion'][0]['word'];
-            $frequency = $value['suggestion'][0]['freq'];
+        $words = array();
+        foreach($value['suggestion'] as $suggestion) {
+            if (is_string($suggestion)) {
+                $suggestion = array(
+                    'word' => $suggestion,
+                    'freq' => null,
+                );
+            }
+            $words[] = $suggestion;
         }
 
         return new Suggestion(
-            $numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency
+            $numFound, $startOffset, $endOffset, $originalFrequency, $words
         );
     }
 }

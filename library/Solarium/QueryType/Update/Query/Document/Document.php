@@ -36,8 +36,9 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Update\Query;
+namespace Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Select\Result\AbstractDocument;
+use Solarium\Exception\RuntimeException;
 
 /**
  * Read/Write Solr document
@@ -51,9 +52,52 @@ use Solarium\QueryType\Select\Result\AbstractDocument;
  * is not recommended. Most Solr indexes have fields that are indexed and not
  * stored. You will loose that data because it is impossible to retrieve it from
  * Solr. Always update from the original data source.
+ *
+ * Atomic updates are also support, using the field modifiers
  */
 class Document extends AbstractDocument implements DocumentInterface
 {
+    /**
+     * Directive to set a value using atomic updates
+     *
+     * @var string
+     */
+    const MODIFIER_SET = 'set';
+
+    /**
+     * Directive to increment an integer value using atomic updates
+     *
+     * @var string
+     */
+    const MODIFIER_INC = 'inc';
+
+    /**
+     * Directive to append a value (e.g. multivalued fields) using atomic updates
+     *
+     * @var string
+     */
+    const MODIFIER_ADD = 'add';
+
+    /**
+     * This value has the same effect as not setting a version
+     *
+     * @var int
+     */
+    const VERSION_DONT_CARE = 0;
+
+    /**
+     * This value requires an existing document with the same key, but no specific version
+     *
+     * @var int
+     */
+    const VERSION_MUST_EXIST = 1;
+
+    /**
+     * This value requires that no document with the same key exists (so no automatic overwrite like default)
+     *
+     * @var int
+     */
+    const VERSION_MUST_NOT_EXIST = -1;
 
     /**
      * Document boost value
@@ -61,6 +105,20 @@ class Document extends AbstractDocument implements DocumentInterface
      * @var float
      */
     protected $boost = null;
+
+    /**
+     * Allows us to determine what kind of atomic update we want to set
+     *
+     * @var array
+     */
+    protected $modifiers = array();
+
+    /**
+     * This field needs to be explicitly set to observe the rules of atomic updates
+     *
+     * @var string
+     */
+    protected $key;
 
     /**
      * Field boosts
@@ -72,15 +130,26 @@ class Document extends AbstractDocument implements DocumentInterface
     protected $fieldBoosts;
 
     /**
+     * Version value
+     *
+     * Can be used for updating using Solr's optimistic concurrency control
+     *
+     * @var int
+     */
+    protected $version;
+
+    /**
      * Constructor
      *
      * @param array $fields
      * @param array $boosts
+     * @param array $modifiers
      */
-    public function __construct(array $fields = array(), array $boosts = array())
+    public function __construct(array $fields = array(), array $boosts = array(), array $modifiers = array())
     {
         $this->fields = $fields;
         $this->fieldBoosts = $boosts;
+        $this->modifiers = $modifiers;
     }
 
     /**
@@ -92,12 +161,13 @@ class Document extends AbstractDocument implements DocumentInterface
      * @param  string $key
      * @param  mixed  $value
      * @param  float  $boost
+     * @param  string $modifier
      * @return self   Provides fluent interface
      */
-    public function addField($key, $value, $boost = null)
+    public function addField($key, $value, $boost = null, $modifier = null)
     {
         if (!isset($this->fields[$key])) {
-            $this->setField($key, $value, $boost);
+            $this->setField($key, $value, $boost, $modifier);
         } else {
             // convert single value to array if needed
             if (!is_array($this->fields[$key])) {
@@ -106,6 +176,9 @@ class Document extends AbstractDocument implements DocumentInterface
 
             $this->fields[$key][] = $value;
             $this->setFieldBoost($key, $boost);
+            if ($modifier !== null) {
+                $this->setFieldModifier($key, $modifier);
+            }
         }
 
         return $this;
@@ -121,15 +194,19 @@ class Document extends AbstractDocument implements DocumentInterface
      * @param  string $key
      * @param  mixed  $value
      * @param  float  $boost
+     * @param  string $modifier
      * @return self   Provides fluent interface
      */
-    public function setField($key, $value, $boost = null)
+    public function setField($key, $value, $boost = null, $modifier = null)
     {
         if ($value === null) {
             $this->removeField($key);
         } else {
             $this->fields[$key] = $value;
             $this->setFieldBoost($key, $boost);
+            if ($modifier !== null) {
+                $this->setFieldModifier($key, $modifier);
+            }
         }
 
         return $this;
@@ -225,6 +302,7 @@ class Document extends AbstractDocument implements DocumentInterface
     {
         $this->fields = array();
         $this->fieldBoosts = array();
+        $this->modifiers = array();
 
         return $this;
     }
@@ -261,4 +339,90 @@ class Document extends AbstractDocument implements DocumentInterface
         $this->removeField($name);
     }
 
+    /**
+     * Sets the uniquely identifying key for use in atomic updating
+     *
+     * You can set an existing field as key by supplying that field name as key, or add a new field by also supplying a
+     * value.
+     *
+     * @param  string $key
+     * @param  mixed  $value
+     * @return self   Provides fluent interface
+     */
+    public function setKey($key, $value = null)
+    {
+        $this->key = $key;
+        if ($value !== null) {
+            $this->addField($key, $value);
+        }
+        return $this;
+    }
+
+    /**
+     * Sets the modifier type for the provided field
+     *
+     * @param string $key
+     * @param string $modifier
+     * @throws RuntimeException
+     * @return self
+     */
+    public function setFieldModifier($key, $modifier = null)
+    {
+        if (! in_array($modifier, array(self::MODIFIER_ADD, self::MODIFIER_INC, self::MODIFIER_SET)) ) {
+            throw new RuntimeException('Attempt to set an atomic update modifier that is not supported');
+        }
+        $this->modifiers[$key] = $modifier;
+        return $this;
+    }
+
+    /**
+     * Returns the appropriate modifier for atomic updates.
+     *
+     * @param string $key
+     * @return null|string
+     */
+    public function getFieldModifier($key)
+    {
+        return isset($this->modifiers[$key]) ? $this->modifiers[$key] : null;
+    }
+
+    /**
+     * Get fields
+     *
+     * Adds validation for atomicUpdates
+     *
+     * @return array
+     */
+    public function getFields()
+    {
+        if (count($this->modifiers) > 0 && ($this->key == null || !isset($this->fields[$this->key]))) {
+            throw new RuntimeException(
+                'A document that uses modifiers (atomic updates) must have a key defined before it is used'
+            );
+        }
+
+        return parent::getFields();
+    }
+
+    /**
+     * Set version
+     *
+     * @param int $version
+     * @return self
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+    /**
+     * Get version
+     *
+     * @return int
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
 }

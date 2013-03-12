@@ -103,7 +103,7 @@ class Helper
      */
     public function escapeTerm($input)
     {
-        $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\\\)/';
+        $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\/|\\\)/';
 
         return preg_replace($pattern, '\\\$1', $input);
     }
@@ -430,6 +430,53 @@ class Helper
     public function join($from, $to, $dereferenced = false)
     {
         return $this->qparser('join', array('from' => $from, 'to' => $to), $dereferenced, $dereferenced);
+    }
+
+    /**
+     * Render term query
+     *
+     * Useful for avoiding query parser escaping madness when drilling into facets via fq parameters, example:
+     * {!term f=weight}1.5
+     *
+     * This is a Solr 3.2+ feature.
+     *
+     * @see http://wiki.apache.org/solr/SolrQuerySyntax#Other_built-in_useful_query_parsers
+     *
+     * @param string $field
+     * @param float $weight
+     * @return string
+     */
+    public function qparserTerm($field, $weight)
+    {
+        return $this->qparser('term',array('f' => $field)) . $weight;
+    }
+
+    /**
+     * Render cache control param for use in filterquery
+     *
+     * This is a Solr 3.4+ feature.
+     *
+     * @see http://wiki.apache.org/solr/CommonQueryParameters#Caching_of_filters
+     *
+     * @param boolean $useCache
+     * @param float|null $weight
+     * @return string
+     */
+    public function cacheControl($useCache, $cost = null)
+    {
+        if($useCache === true) {
+            $cache = 'true';
+        } else {
+            $cache = 'false';
+        }
+
+        $result = '{!cache='.$cache;
+        if (null !== $cost) {
+            $result .= ' cost='.$cost;
+        }
+        $result .= '}';
+
+        return $result;
     }
 
 }

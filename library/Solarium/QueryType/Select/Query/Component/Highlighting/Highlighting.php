@@ -61,6 +61,26 @@ class Highlighting extends Component
     const FRAGMENTER_REGEX = 'regex';
 
     /**
+     * Value for BoundaryScanner type
+     */
+    const BOUNDARYSCANNER_TYPE_CHARACTER = 'CHARACTER';
+
+    /**
+     * Value for BoundaryScanner type
+     */
+    const BOUNDARYSCANNER_TYPE_WORD = 'WORD';
+
+    /**
+     * Value for BoundaryScanner type
+     */
+    const BOUNDARYSCANNER_TYPE_SENTENCE = 'SENTENCE';
+
+    /**
+     * Value for BoundaryScanner type
+     */
+    const BOUNDARYSCANNER_TYPE_LINE = 'LINE';
+
+    /**
      * Array of fields for highlighting
      *
      * @var array
@@ -773,5 +793,111 @@ class Highlighting extends Component
     {
         return $this->getOption('multivaluedseparatorchar');
     }
+
+    /**
+     * Set boundaryscannermaxscan option
+     *
+     * @param  int  $maximum
+     * @return self Provides fluent interface
+     */
+    public function setBoundaryScannerMaxScan($maximum)
+    {
+        return $this->setOption('boundaryscannermaxscan', $maximum);
+    }
+
+    /**
+     * Get boundaryscannermaxscan option
+     *
+     * @return int|null
+     */
+    public function getBoundaryScannerMaxScan()
+    {
+        return $this->getOption('boundaryscannermaxscan');
+    }
+
+    /**
+     * Set boundaryscannerchars option
+     *
+     * @param  string  $chars
+     * @return self Provides fluent interface
+     */
+    public function setBoundaryScannerChars($chars)
+    {
+        return $this->setOption('boundaryscannerchars', $chars);
+    }
+
+    /**
+     * Get boundaryscannerchars option
+     *
+     * @return string|null
+     */
+    public function getBoundaryScannerChars()
+    {
+        return $this->getOption('boundaryscannerchars');
+    }
+
+    /**
+     * Set boundaryscannertype option
+     *
+     * @param  string  $type
+     * @return self Provides fluent interface
+     */
+    public function setBoundaryScannerType($type)
+    {
+        return $this->setOption('boundaryscannertype', $type);
+    }
+
+    /**
+     * Get boundaryscannertype option
+     *
+     * @return string|null
+     */
+    public function getBoundaryScannerType()
+    {
+        return $this->getOption('boundaryscannertype');
+    }
+
+    /**
+     * Set boundaryscannerlanguage option
+     *
+     * @param  string  $language
+     * @return self Provides fluent interface
+     */
+    public function setBoundaryScannerLanguage($language)
+    {
+        return $this->setOption('boundaryscannerlanguage', $language);
+    }
+
+    /**
+     * Get boundaryscannerlanguage option
+     *
+     * @return string|null
+     */
+    public function getBoundaryScannerLanguage()
+    {
+        return $this->getOption('boundaryscannerlanguage');
+    }
+
+    /**
+     * Set boundaryscannercountry option
+     *
+     * @param  string  $country
+     * @return self Provides fluent interface
+     */
+    public function setBoundaryScannerCountry($country)
+    {
+        return $this->setOption('boundaryscannercountry', $country);
+    }
+
+    /**
+     * Get boundaryscannercountry option
+     *
+     * @return string|null
+     */
+    public function getBoundaryScannerCountry()
+    {
+        return $this->getOption('boundaryscannercountry');
+    }
+
 
 }
