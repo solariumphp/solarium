@@ -80,6 +80,13 @@ class BufferedAdd extends Plugin
      * @var DocumentInterface[]
      */
     protected $buffer = array();
+    
+    /**
+     * End point to execute updates against.
+     * 
+     * @var string
+     */
+    protected $endpoint;
 
     /**
      * Plugin init function
@@ -92,6 +99,29 @@ class BufferedAdd extends Plugin
     protected function initPluginType()
     {
         $this->updateQuery = $this->client->createUpdate();
+    }
+    
+    /**
+     * Set the endpoint for the documents
+     * 
+     * @param string $endpoint The endpoint to set
+     * 
+     * @return self
+     */
+    public function setEndpoint($endpoint)
+    {
+        $this->endpoint = $endpoint;
+        return $this;
+    }
+    
+    /**
+     * Return the endpoint
+     * 
+     * @return string
+     */
+    public function getEndPoint()
+    {
+        return $this->endpoint;
     }
 
     /**
@@ -208,7 +238,7 @@ class BufferedAdd extends Plugin
         $this->client->getEventDispatcher()->dispatch(Events::PRE_FLUSH, $event);
 
         $this->updateQuery->addDocuments($event->getBuffer(), $event->getOverwrite(), $event->getCommitWithin());
-        $result = $this->client->update($this->updateQuery);
+        $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 
         $event = new PostFlushEvent($result);
@@ -235,7 +265,7 @@ class BufferedAdd extends Plugin
 
         $this->updateQuery->addDocuments($this->buffer, $event->getOverwrite());
         $this->updateQuery->addCommit($event->getSoftCommit(), $event->getWaitSearcher(), $event->getExpungeDeletes());
-        $result = $this->client->update($this->updateQuery);
+        $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 
         $event = new PostCommitEvent($result);
