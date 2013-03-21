@@ -471,12 +471,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertThat($doc, $this->isInstanceOf(__NAMESPACE__.'\\MyCustomDoc'));
     }
 
-    public function testCreateDocumentWithFieldsAndBoosts()
+    public function testCreateDocumentWithFieldsAndBoostsAndModifiers()
     {
         $fields = array('id' => 1, 'name' => 'testname');
         $boosts = array('name' => 2.7);
+        $modifiers = array('name' => 'set');
 
-        $doc = $this->query->createDocument($fields, $boosts);
+        $doc = $this->query->createDocument($fields, $boosts, $modifiers);
+        $doc->setKey('id');
 
         $this->assertThat($doc, $this->isInstanceOf($this->query->getDocumentClass()));
 
@@ -488,6 +490,11 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             2.7,
             $doc->getFieldBoost('name')
+        );
+
+        $this->assertEquals(
+            $modifiers['name'],
+            $doc->getFieldModifier('name')
         );
     }
 

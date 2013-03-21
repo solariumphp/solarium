@@ -49,6 +49,7 @@ use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
+use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 
 /**
  * Update query
@@ -485,13 +486,13 @@ class Query extends BaseQuery
      *
      * @param  array    $fields
      * @param  array    $boosts
-     * @return Document
+     * @param  array    $modifiers
+     * @return DocumentInterface
      */
-    public function createDocument($fields = array(), $boosts = array())
+    public function createDocument($fields = array(), $boosts = array(), $modifiers = array())
     {
         $class = $this->getDocumentClass();
-
-        return new $class($fields, $boosts);
+        return new $class($fields, $boosts, $modifiers);
     }
 
 }
