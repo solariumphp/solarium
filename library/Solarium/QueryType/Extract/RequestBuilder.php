@@ -101,6 +101,7 @@ class RequestBuilder extends BaseRequestBuilder
         // add file to request
         $request->setFileUpload($query->getFile());
         $request->addParam('resource.name', basename($query->getFile()));
+        $request->addHeader('Content-Type: multipart/form-data');
 
         return $request;
     }
