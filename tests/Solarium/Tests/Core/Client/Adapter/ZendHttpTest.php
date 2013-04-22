@@ -87,21 +87,23 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $this->assertThat($zendHttp, $this->isInstanceOf('Zend_Http_Client'));
     }
 
-    public function testExecute()
+    public function testExecuteGet()
     {
-        $method = Request::METHOD_POST;
+        $method = Request::METHOD_GET;
         $rawData = 'xyz';
         $responseData = 'abc';
         $handler = 'myhandler';
         $headers = array(
             'X-test: 123'
         );
+        $params = array('a' => 1, 'b' => 2);
 
         $request = new Request();
         $request->setMethod($method);
         $request->setHandler($handler);
         $request->setHeaders($headers);
         $request->setRawData($rawData);
+        $request->setParams($params);
 
         $endpoint = new Endpoint();
 
@@ -113,7 +115,57 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
                  ->with($this->equalTo($method));
         $mock->expects($this->once())
                  ->method('setUri')
-                 ->with($this->equalTo('http://127.0.0.1:8983/solr/myhandler?'));
+                 ->with($this->equalTo('http://127.0.0.1:8983/solr/myhandler'));
+        $mock->expects($this->once())
+                 ->method('setHeaders')
+                 ->with($this->equalTo(array(
+                     'X-test: 123',
+                 )));
+        $mock->expects($this->once())
+                 ->method('setParameterGet')
+                 ->with($this->equalTo($params));
+        $mock->expects($this->once())
+                 ->method('request')
+                 ->will($this->returnValue($response));
+
+        $this->adapter->setZendHttp($mock);
+        $adapterResponse = $this->adapter->execute($request, $endpoint);
+
+        $this->assertEquals(
+            $responseData,
+            $adapterResponse->getBody()
+        );
+    }
+
+    public function testExecutePost()
+    {
+        $method = Request::METHOD_POST;
+        $rawData = 'xyz';
+        $responseData = 'abc';
+        $handler = 'myhandler';
+        $headers = array(
+            'X-test: 123'
+        );
+        $params = array('a' => 1, 'b' => 2);
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setHandler($handler);
+        $request->setHeaders($headers);
+        $request->setRawData($rawData);
+        $request->setParams($params);
+
+        $endpoint = new Endpoint();
+
+        $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
+
+        $mock = $this->getMock('Zend_Http_Client');
+        $mock->expects($this->once())
+                 ->method('setMethod')
+                 ->with($this->equalTo($method));
+        $mock->expects($this->once())
+                 ->method('setUri')
+                 ->with($this->equalTo('http://127.0.0.1:8983/solr/myhandler'));
         $mock->expects($this->once())
                  ->method('setHeaders')
                  ->with($this->equalTo(array(
@@ -123,6 +175,9 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->once())
                  ->method('setRawData')
                  ->with($this->equalTo($rawData));
+        $mock->expects($this->once())
+                 ->method('setParameterGet')
+                 ->with($this->equalTo($params));
         $mock->expects($this->once())
                  ->method('request')
                  ->will($this->returnValue($response));
