@@ -43,7 +43,7 @@ use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
-use Solarium\QueryType\Select\Query\Component\Component;
+use Solarium\QueryType\Select\Query\Component\Component as AbstractComponent;
 
 /**
  * Select Query
@@ -787,7 +787,7 @@ class Query extends BaseQuery
     /**
      * Get all registered components
      *
-     * @return Component[]
+     * @return AbstractComponent[]
      */
     public function getComponents()
     {
@@ -834,9 +834,9 @@ class Query extends BaseQuery
      *
      * This overwrites any existing component registered with the same key.
      *
-     * @param  string    $key
-     * @param  Component $component
-     * @return self      Provides fluent interface
+     * @param  string            $key
+     * @param  AbstractComponent $component
+     * @return self              Provides fluent interface
      */
     public function setComponent($key, $component)
     {
@@ -851,7 +851,7 @@ class Query extends BaseQuery
      *
      * You can remove a component by passing its key or the component instance.
      *
-     * @param  string|Component\Component $component
+     * @param  string|AbstractComponent   $component
      * @return self                       Provides fluent interface
      */
     public function removeComponent($component)
