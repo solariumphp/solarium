@@ -45,11 +45,19 @@ class Solarium_Result_Select_Spellcheck_SuggestionTest extends PHPUnit_Framework
         $this->_startOffset = 2;
         $this->_endOffset = 3;
         $this->_originalFrequency = 4;
-        $this->_word = 'dummyword';
-        $this->_frequency = 5;
+        $this->_words = array(
+            array(
+                'word' => 'dummyword',
+                'freq' => 5
+            ),
+            array(
+                'word' => 'secondword',
+                'freq' => 1
+            )
+        );
 
         $this->_result = new Solarium_Result_Select_Spellcheck_Suggestion(
-            $this->_numFound, $this->_startOffset, $this->_endOffset, $this->_originalFrequency, $this->_word, $this->_frequency
+            $this->_numFound, $this->_startOffset, $this->_endOffset, $this->_originalFrequency, $this->_words
         );
     }
 
@@ -75,12 +83,17 @@ class Solarium_Result_Select_Spellcheck_SuggestionTest extends PHPUnit_Framework
 
     public function testGetWord()
     {
-         $this->assertEquals($this->_word, $this->_result->getWord());
+         $this->assertEquals($this->_words[0]['word'], $this->_result->getWord());
     }
 
     public function testGetFrequency()
     {
-         $this->assertEquals($this->_frequency, $this->_result->getFrequency());
+         $this->assertEquals($this->_words[0]['freq'], $this->_result->getFrequency());
+    }
+
+    public function testGetWords()
+    {
+         $this->assertEquals($this->_words, $this->_result->getWords());
     }
 
 }

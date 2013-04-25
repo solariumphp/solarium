@@ -52,17 +52,15 @@ class Solarium_Result_Select_Spellcheck_Suggestion
      * @param int $startOffset
      * @param int $endOffset
      * @param int $originalFrequency
-     * @param string $word
-     * @param int $frequency
+     * @param array $words
      */
-    public function __construct($numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency)
+    public function __construct($numFound, $startOffset, $endOffset, $originalFrequency, $words)
     {
         $this->_numFound = $numFound;
         $this->_startOffset = $startOffset;
         $this->_endOffset = $endOffset;
         $this->_originalFrequency = $originalFrequency;
-        $this->_word = $word;
-        $this->_frequency = $frequency;
+        $this->_words = $words;
     }
 
     /**
@@ -108,13 +106,28 @@ class Solarium_Result_Select_Spellcheck_Suggestion
     }
 
     /**
-     * Get word
+     * Get first word
      *
-     * @return string
+     * @return string|null
      */
     public function getWord()
     {
-        return $this->_word;
+        $word = reset($this->_words);
+        if (isset($word['word'])) {
+            return $word['word'];
+        } else {
+            return $word;
+        }
+    }
+
+    /**
+     * Get all words (and frequencies)
+     *
+     * @return array
+     */
+    public function getWords()
+    {
+        return $this->_words;
     }
 
     /**
@@ -126,7 +139,11 @@ class Solarium_Result_Select_Spellcheck_Suggestion
      */
     public function getFrequency()
     {
-        return $this->_frequency;
+        $word = reset($this->_words);
+        if (isset($word['freq'])) {
+            return $word['freq'];
+        } else {
+            return null;
+        }
     }
-
 }

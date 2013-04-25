@@ -161,16 +161,19 @@ class Solarium_Client_ResponseParser_Select_Component_Spellcheck
         $endOffset = (isset($value['endOffset'])) ? $value['endOffset'] : null;
         $originalFrequency = (isset($value['origFreq'])) ? $value['origFreq'] : null;
 
-        if (is_string($value['suggestion'][0])) {
-            $word = $value['suggestion'][0];
-            $frequency = null;
-        } else {
-            $word = $value['suggestion'][0]['word'];
-            $frequency = $value['suggestion'][0]['freq'];
+        $words = array();
+        foreach($value['suggestion'] as $suggestion) {
+            if (is_string($suggestion)) {
+                $suggestion = array(
+                    'word' => $suggestion,
+                    'freq' => null,
+                );
+            }
+            $words[] = $suggestion;
         }
 
         return new Solarium_Result_Select_Spellcheck_Suggestion(
-            $numFound, $startOffset, $endOffset, $originalFrequency, $word, $frequency
+            $numFound, $startOffset, $endOffset, $originalFrequency, $words
         );
     }
 }
