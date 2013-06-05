@@ -34,6 +34,7 @@ use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument;
 use Solarium\Plugin\BufferedAdd\BufferedAdd;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Plugin\BufferedAdd\Event\Events;
 
 class BufferedAddTest extends \PHPUnit_Framework_TestCase
@@ -193,6 +194,14 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $plugin = new BufferedAdd();
         $plugin->initPlugin($mockClient, array());
         $plugin->addDocument($doc);
+    }
+
+    public function testSetAndGetEndpoint()
+    {
+        $endpoint = new Endpoint();
+        $endpoint->setKey('master');
+        $this->assertEquals($this->plugin, $this->plugin->setEndpoint($endpoint));
+        $this->assertEquals($endpoint, $this->plugin->getEndPoint());
     }
 
 }

@@ -194,7 +194,7 @@ class ZendHttp extends Configurable implements AdapterInterface
                 break;
         }
 
-        $client->setUri($endpoint->getBaseUri() . $request->getUri());
+        $client->setUri($endpoint->getBaseUri() . $request->getHandler());
         $client->setHeaders($request->getHeaders());
         $this->timeout = $endpoint->getTimeout();
 
