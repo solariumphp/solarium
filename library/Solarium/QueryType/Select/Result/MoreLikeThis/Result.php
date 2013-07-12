@@ -72,7 +72,7 @@ class Result implements \IteratorAggregate, \Countable
      * Constructor
      *
      * @param  int   $numFound
-     * @param  float $maxScore
+     * @param  float|null $maxScore
      * @param  array $documents
      * @return void
      */

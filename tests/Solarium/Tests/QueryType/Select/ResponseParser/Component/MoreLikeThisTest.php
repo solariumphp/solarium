@@ -77,4 +77,28 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $result->getResults());
     }
 
+    public function testParseWithoutMaxScore()
+    {
+        $query = new Query();
+        $data = array(
+            'moreLikeThis' => array(
+                'id1' => array(
+                    'numFound' => 12,
+                    'docs' => array(
+                        array('field1' => 'value1')
+                    )
+                )
+            )
+        );
+
+        $docs = array(new Document(array('field1' => 'value1')));
+        $expected = array(
+            'id1' => new Result(12, null, $docs)
+        );
+
+        $result = $this->parser->parse($query, null, $data);
+
+        $this->assertEquals($expected, $result->getResults());
+    }
+
 }
