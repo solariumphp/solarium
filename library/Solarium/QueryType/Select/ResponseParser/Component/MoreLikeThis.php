@@ -74,7 +74,7 @@ class MoreLikeThis implements ComponentParserInterface
 
                 $results[$key] = new Result(
                     $result['numFound'],
-                    $result['maxScore'],
+                    isset($result['maxScore']) ? $result['maxScore'] : null,
                     $docs
                 );
             }
