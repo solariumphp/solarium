@@ -59,7 +59,12 @@ abstract class RequestBuilder implements RequestBuilderInterface
         $request->setHandler($query->getHandler());
         $request->addParam('omitHeader', $query->getOmitHeader());
         $request->addParams($query->getParams());
+
         $request->addParam('wt', $query->getResponseWriter());
+        if ($query->getResponseWriter() == $query::WT_JSON) {
+            // only one JSON format is supported
+            $request->addParam('json.nl', 'flat');
+        }
 
         return $request;
     }

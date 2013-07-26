@@ -74,7 +74,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'select?omitHeader=true&wt=json&q=*:*&start=0&rows=10&fl=*,score',
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score',
             urldecode($request->getUri())
         );
     }
@@ -91,7 +91,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'select?omitHeader=true&wt=json&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc',
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc',
             urldecode($request->getUri())
         );
     }
@@ -108,7 +108,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'select?omitHeader=true&wt=json&q=*:*&start=0&rows=10&fl=*,score&q.op=AND&df=mydefault',
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&q.op=AND&df=mydefault',
             urldecode($request->getUri())
         );
     }
@@ -127,7 +127,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'select?omitHeader=true&wt=json&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc&fq=published:true&fq={!tag=t1,t2}category:23',
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc&fq=published:true&fq={!tag=t1,t2}category:23',
             urldecode($request->getUri())
         );
     }
