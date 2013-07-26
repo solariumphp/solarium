@@ -113,6 +113,27 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
+     * Set timeAllowed option
+     *
+     * @param  int  $value
+     * @return self Provides fluent interface
+     */
+    public function setTimeAllowed($value)
+    {
+        return $this->setOption('timeallowed', $value);
+    }
+
+    /**
+     * Get timeAllowed option
+     *
+     * @return int|null
+     */
+    public function getTimeAllowed()
+    {
+        return $this->getOption('timeallowed');
+    }
+
+    /**
      * Set omitHeader option
      *
      * @param  boolean $value
