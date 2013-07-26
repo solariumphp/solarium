@@ -110,7 +110,7 @@ class Curl extends Configurable implements AdapterInterface
     public function getResponse($handle, $httpResponse)
     {
         // @codeCoverageIgnoreStart
-        if ($httpResponse !== false) {
+        if ($httpResponse !== false && $httpResponse !== null) {
             $data = $httpResponse;
             $info = curl_getinfo($handle);
             $headers = array();
