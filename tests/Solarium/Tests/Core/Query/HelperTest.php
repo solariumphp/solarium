@@ -404,4 +404,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testFilterControlCharacters()
+    {
+        $this->assertEquals(
+            'my string',
+            $this->helper->filterControlCharacters("my\x08string")
+        );
+    }
+
 }
