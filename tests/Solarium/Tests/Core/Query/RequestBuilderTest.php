@@ -73,6 +73,20 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testBuildWithTimeAllowed()
+    {
+        $query = new SelectQuery;
+        $query->addParam('p1','v1');
+        $query->addParam('p2','v2');
+        $query->setTimeAllowed(1400);
+        $request = $this->builder->build($query);
+
+        $this->assertEquals(
+            'select?omitHeader=true&timeAllowed=1400&p1=v1&p2=v2&wt=json&json.nl=flat',
+             urldecode($request->getUri())
+        );
+    }
+
     public function testRenderLocalParams()
     {
         $myParams = array('tag' => 'mytag', 'ex' => array('exclude1','exclude2'));

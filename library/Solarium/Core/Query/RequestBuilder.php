@@ -58,6 +58,7 @@ abstract class RequestBuilder implements RequestBuilderInterface
         $request = new Request;
         $request->setHandler($query->getHandler());
         $request->addParam('omitHeader', $query->getOmitHeader());
+        $request->addParam('timeAllowed', $query->getTimeAllowed());
         $request->addParams($query->getParams());
 
         $request->addParam('wt', $query->getResponseWriter());
