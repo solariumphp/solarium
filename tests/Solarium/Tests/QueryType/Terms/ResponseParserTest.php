@@ -88,4 +88,58 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($result['results']));
     }
 
+    public function testParseSolr14Format()
+    {
+        $data = array(
+            'responseHeader' => array(
+                'status' => 1,
+                'QTime' => 13,
+            ),
+            'terms' => array(
+                'fieldA',
+                 array(
+                    'term1',
+                    5,
+                    'term2',
+                    3
+                ),
+                'fieldB',
+                array(
+                    'term3',
+                    6,
+                    'term4',
+                    2
+                )
+            ),
+        );
+
+        $query = new Query();
+        $query->setFields('fieldA, fieldB');
+
+        $resultStub = $this->getMock('Solarium\QueryType\Terms\Result', array(), array(), '', false);
+        $resultStub->expects($this->any())
+             ->method('getData')
+             ->will($this->returnValue($data));
+        $resultStub->expects($this->any())
+             ->method('getQuery')
+             ->will($this->returnValue($query));
+
+        $parser = new ResponseParser;
+        $result = $parser->parse($resultStub);
+
+        $expected = array(
+            'fieldA' => array(
+                'term1' => 5,
+                'term2' => 3,
+            ),
+            'fieldB' => array(
+                'term3' => 6,
+                'term4' => 2,
+            )
+        );
+
+        $this->assertEquals($expected, $result['results']);
+        $this->assertEquals(2, count($result['results']));
+    }
+
 }
