@@ -43,7 +43,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $request = $builder->build(new Query);
 
         $this->assertEquals(
-            'admin/ping?omitHeader=true&wt=json',
+            'admin/ping?omitHeader=true&wt=json&json.nl=flat',
             $request->getUri()
         );
 
