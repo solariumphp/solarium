@@ -219,6 +219,21 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testBuildAddXmlWithFieldModifierAndNullValue()
+    {
+        $doc = new Document();
+        $doc->setKey('employeeId','05991');
+        $doc->addField('skills', null, null,  Document::MODIFIER_SET);
+
+        $command = new AddCommand();
+        $command->addDocument($doc);
+
+        $this->assertEquals(
+            '<add><doc><field name="employeeId">05991</field><field name="skills" update="set" null="true"></field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildDeleteXml()
     {
         $command = new DeleteCommand;
