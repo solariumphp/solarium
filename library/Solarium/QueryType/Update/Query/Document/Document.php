@@ -199,7 +199,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function setField($key, $value, $boost = null, $modifier = null)
     {
-        if ($value === null) {
+        if ($value === null && $modifier == null) {
             $this->removeField($key);
         } else {
             $this->fields[$key] = $value;
