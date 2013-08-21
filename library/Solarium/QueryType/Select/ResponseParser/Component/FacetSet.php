@@ -86,10 +86,13 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                         case 'facet_pivot':
                             $method = 'createFacetPivot';
                             break;
+                        default:
+                            throw new RuntimeException('Unknown facet class identifier');
                     }
                     foreach ($facets as $k => $facet) {
                         $facetObject = $facetSet->$method($k);
                         if ($key == 'facet_pivot') {
+                            /** @var \Solarium\QueryType\Select\Query\Component\Facet\Pivot $facetObject */
                             $facetObject->setFields($k);
                         }
                     }
@@ -144,19 +147,20 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      * @param  Query            $query
      * @param  QueryFacetField  $facet
      * @param  array            $data
-     * @return ResultFacetField
+     * @return ResultFacetField|null
      */
     protected function facetField($query, $facet, $data)
     {
         $key = $facet->getKey();
-        if (isset($data['facet_counts']['facet_fields'][$key])) {
-
-            if ($query->getResponseWriter() == $query::WT_JSON) {
-                $data['facet_counts']['facet_fields'][$key] = $this->convertToKeyValueArray($data['facet_counts']['facet_fields'][$key]);
-            }
-
-            return new ResultFacetField($data['facet_counts']['facet_fields'][$key]);
+        if (!isset($data['facet_counts']['facet_fields'][$key])) {
+            return null;
         }
+
+        if ($query->getResponseWriter() == $query::WT_JSON) {
+            $data['facet_counts']['facet_fields'][$key] = $this->convertToKeyValueArray($data['facet_counts']['facet_fields'][$key]);
+        }
+
+        return new ResultFacetField($data['facet_counts']['facet_fields'][$key]);
     }
 
     /**
@@ -164,17 +168,16 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      *
      * @param  QueryFacetQuery  $facet
      * @param  array            $data
-     * @return ResultFacetQuery
+     * @return ResultFacetQuery|null
      */
     protected function facetQuery($facet, $data)
     {
         $key = $facet->getKey();
-        if (isset($data['facet_counts']['facet_queries'][$key])) {
-
-            $value = $data['facet_counts']['facet_queries'][$key];
-
-            return new ResultFacetQuery($value);
+        if (!isset($data['facet_counts']['facet_queries'][$key])) {
+            return null;
         }
+
+        return new ResultFacetQuery($data['facet_counts']['facet_queries'][$key]);
     }
 
     /**
@@ -182,7 +185,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      *
      * @param  QueryFacetMultiQuery  $facet
      * @param  array                 $data
-     * @return ResultFacetMultiQuery
+     * @return ResultFacetMultiQuery|null
      */
     protected function facetMultiQuery($facet, $data)
     {
@@ -195,9 +198,11 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             }
         }
 
-        if (count($values) > 0) {
-            return new ResultFacetMultiQuery($values);
+        if (count($values) <= 0) {
+            return null;
         }
+
+        return new ResultFacetMultiQuery($values);
     }
 
     /**
@@ -206,27 +211,28 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      * @param  Query            $query
      * @param  QueryFacetRange  $facet
      * @param  array            $data
-     * @return ResultFacetRange
+     * @return ResultFacetRange|null
      */
     protected function facetRange($query, $facet, $data)
     {
         $key = $facet->getKey();
-        if (isset($data['facet_counts']['facet_ranges'][$key])) {
-
-            $data = $data['facet_counts']['facet_ranges'][$key];
-            $before = (isset($data['before'])) ? $data['before'] : null;
-            $after = (isset($data['after'])) ? $data['after'] : null;
-            $between = (isset($data['between'])) ? $data['between'] : null;
-            $start = (isset($data['start'])) ? $data['start'] : null;
-            $end = (isset($data['end'])) ? $data['end'] : null;
-            $gap = (isset($data['gap'])) ? $data['gap'] : null;
-
-            if ($query->getResponseWriter() == $query::WT_JSON) {
-                $data['counts'] = $this->convertToKeyValueArray($data['counts']);
-            }
-
-            return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap);
+        if (!isset($data['facet_counts']['facet_ranges'][$key])) {
+            return null;
         }
+
+        $data = $data['facet_counts']['facet_ranges'][$key];
+        $before = (isset($data['before'])) ? $data['before'] : null;
+        $after = (isset($data['after'])) ? $data['after'] : null;
+        $between = (isset($data['between'])) ? $data['between'] : null;
+        $start = (isset($data['start'])) ? $data['start'] : null;
+        $end = (isset($data['end'])) ? $data['end'] : null;
+        $gap = (isset($data['gap'])) ? $data['gap'] : null;
+
+        if ($query->getResponseWriter() == $query::WT_JSON) {
+            $data['counts'] = $this->convertToKeyValueArray($data['counts']);
+        }
+
+        return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap);
     }
 
     /**
@@ -235,15 +241,16 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      * @param  Query            $query
      * @param  QueryFacetPivot  $facet
      * @param  array            $data
-     * @return ResultFacetPivot
+     * @return ResultFacetPivot|null
      */
     protected function facetPivot($query, $facet, $data)
     {
         $key = implode(',', $facet->getFields());
-        if (isset($data['facet_counts']['facet_pivot'][$key])) {
-            $data = $data['facet_counts']['facet_pivot'][$key];
-            return new ResultFacetPivot($data);
+        if (!isset($data['facet_counts']['facet_pivot'][$key])) {
+            return null;
         }
+
+        return new ResultFacetPivot($data['facet_counts']['facet_pivot'][$key]);
     }
 
 }

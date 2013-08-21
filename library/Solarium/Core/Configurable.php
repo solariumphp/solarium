@@ -67,7 +67,6 @@ class Configurable implements ConfigurableInterface
      *
      * @throws InvalidArgumentException
      * @param  array|\Zend_Config       $options
-     * @return void
      */
     public function __construct($options = null)
     {

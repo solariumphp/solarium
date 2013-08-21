@@ -236,8 +236,8 @@ class Query extends BaseQuery
      *
      * You can remove a command by passing its key or by passing the command instance.
      *
-     * @param  string|Command\Command $command
-     * @return self                   Provides fluent interface
+     * @param  string|\Solarium\QueryType\Update\Query\Command\Command $command
+     * @return self                                                    Provides fluent interface
      */
     public function remove($command)
     {
@@ -349,10 +349,10 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  Document $document
-     * @param  boolean  $overwrite
-     * @param  int      $commitWithin
-     * @return self     Provides fluent interface
+     * @param  DocumentInterface $document
+     * @param  boolean           $overwrite
+     * @param  int               $commitWithin
+     * @return self              Provides fluent interface
      */
     public function addDocument($document, $overwrite = null,
                                 $commitWithin = null)

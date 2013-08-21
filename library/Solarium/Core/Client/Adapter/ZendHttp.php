@@ -161,6 +161,7 @@ class ZendHttp extends Configurable implements AdapterInterface
      * Execute a Solr request using the Zend_Http_Client instance
      *
      * @throws HttpException
+     * @throws OutOfBoundsException
      * @param  Request       $request
      * @param  Endpoint      $endpoint
      * @return Response
@@ -210,6 +211,7 @@ class ZendHttp extends Configurable implements AdapterInterface
      * Prepare a solarium response from the given request and client
      * response
      *
+     * @throws HttpException
      * @param  Request             $request
      * @param  \Zend_Http_Response $response
      * @return Response

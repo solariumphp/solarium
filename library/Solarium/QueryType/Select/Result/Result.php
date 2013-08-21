@@ -216,7 +216,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return MoreLikeThis\Result
+     * @return \Solarium\QueryType\Select\Result\MoreLikeThis\Result
      */
     public function getMoreLikeThis()
     {
@@ -228,7 +228,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Highlighting\Result
+     * @return \Solarium\QueryType\Select\Result\Highlighting\Result
      */
     public function getHighlighting()
     {
@@ -240,7 +240,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Grouping\Result
+     * @return \Solarium\QueryType\Select\Result\Grouping\Result
      */
     public function getGrouping()
     {
@@ -264,7 +264,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Spellcheck\Result
+     * @return \Solarium\QueryType\Select\Result\Spellcheck\Result
      */
     public function getSpellcheck()
     {
@@ -276,7 +276,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Stats\Result
+     * @return \Solarium\QueryType\Select\Result\Stats\Result
      */
     public function getStats()
     {
@@ -288,7 +288,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Debug\Result
+     * @return \Solarium\QueryType\Select\Result\Debug\Result
      */
     public function getDebug()
     {

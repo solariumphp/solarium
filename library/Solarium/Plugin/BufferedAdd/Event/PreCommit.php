@@ -74,7 +74,11 @@ class PreCommit extends Event
     /**
      * Event constructor
      *
-     * @param array $buffer
+     * @param array   $buffer
+     * @param boolean $overwrite
+     * @param boolean $softCommit
+     * @param boolean $waitSearcher
+     * @param boolean $expungeDeletes
      */
     public function __construct($buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes)
     {

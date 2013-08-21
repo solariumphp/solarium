@@ -99,8 +99,8 @@ class Document extends Query
     /**
      * Add a single document
      *
-     * @param  object $document
-     * @return self   Provides fluent interface
+     * @param  \Solarium\QueryType\Update\Query\Document\Document $document
+     * @return self                                               Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -112,8 +112,8 @@ class Document extends Query
     /**
      * Add multiple documents
      *
-     * @param  DocumentInterface[] $documents
-     * @return self                fluent interface
+     * @param  \Solarium\QueryType\Update\Query\Document\DocumentInterface[] $documents
+     * @return self                                                          Provides fluent interface
      */
     public function addDocuments($documents)
     {

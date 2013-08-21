@@ -787,7 +787,7 @@ class Highlighting extends Component
     /**
      * Get MultiValuedSeparatorChar option
      *
-     * @return $separator
+     * @return string
      */
     public function getMultiValuedSeparatorChar()
     {

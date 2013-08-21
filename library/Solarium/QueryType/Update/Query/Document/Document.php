@@ -391,6 +391,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * Adds validation for atomicUpdates
      *
+     * @throws RuntimeException
      * @return array
      */
     public function getFields()

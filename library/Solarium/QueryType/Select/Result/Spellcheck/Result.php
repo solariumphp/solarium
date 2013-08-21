@@ -70,10 +70,9 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  array   $suggestions
-     * @param  array   $collations
-     * @param  boolean $correctlySpelled
-     * @return void
+     * @param array   $suggestions
+     * @param array   $collations
+     * @param boolean $correctlySpelled
      */
     public function __construct($suggestions, $collations, $correctlySpelled)
     {
