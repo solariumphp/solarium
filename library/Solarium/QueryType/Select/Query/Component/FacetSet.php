@@ -385,8 +385,8 @@ class FacetSet extends Component
      *
      * You can remove a facet by passing its key or the facet instance
      *
-     * @param  string|Facet\Facet $facet
-     * @return self               Provides fluent interface
+     * @param  string|\Solarium\QueryType\Select\Query\Component\Facet\Facet $facet
+     * @return self                                                          Provides fluent interface
      */
     public function removeFacet($facet)
     {

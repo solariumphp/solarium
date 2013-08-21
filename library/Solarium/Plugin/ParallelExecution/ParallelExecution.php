@@ -138,7 +138,7 @@ class ParallelExecution extends Plugin
     /**
      * Execute queries parallel
      *
-     * @return Result[]
+     * @return \Solarium\Core\Query\Result\Result[]
      */
     public function execute()
     {

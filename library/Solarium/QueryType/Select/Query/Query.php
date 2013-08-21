@@ -190,7 +190,7 @@ class Query extends BaseQuery
     /**
      * Search components
      *
-     * @var Component[]
+     * @var AbstractComponent[]
      */
     protected $components = array();
 
