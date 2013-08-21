@@ -890,7 +890,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\MoreLikeThis
+     * @return \Solarium\QueryType\Select\Query\Component\MoreLikeThis
      */
     public function getMoreLikeThis()
     {
@@ -902,7 +902,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\FacetSet
+     * @return \Solarium\QueryType\Select\Query\Component\FacetSet
      */
     public function getFacetSet()
     {
@@ -914,7 +914,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\DisMax
+     * @return \Solarium\QueryType\Select\Query\Component\DisMax
      */
     public function getDisMax()
     {
@@ -926,7 +926,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\EdisMax
+     * @return \Solarium\QueryType\Select\Query\Component\EdisMax
      */
     public function getEDisMax()
     {
@@ -938,7 +938,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\Highlighting\Highlighting
+     * @return \Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting
      */
     public function getHighlighting()
     {
@@ -950,7 +950,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\Grouping
+     * @return \Solarium\QueryType\Select\Query\Component\Grouping
      */
     public function getGrouping()
     {
@@ -962,7 +962,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\Spellcheck
+     * @return \Solarium\QueryType\Select\Query\Component\Spellcheck
      */
     public function getSpellcheck()
     {
@@ -974,7 +974,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\DistributedSearch
+     * @return \Solarium\QueryType\Select\Query\Component\DistributedSearch
      */
     public function getDistributedSearch()
     {
@@ -986,7 +986,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\Stats\Stats
+     * @return \Solarium\QueryType\Select\Query\Component\Stats\Stats
      */
     public function getStats()
     {
@@ -998,7 +998,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Component\Debug
+     * @return \Solarium\QueryType\Select\Query\Component\Debug
      */
     public function getDebug()
     {
