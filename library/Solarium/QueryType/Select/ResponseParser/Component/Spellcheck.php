@@ -62,7 +62,6 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      */
     public function parse($query, $spellcheck, $data)
     {
-        $results = array();
         if (
             isset($data['spellcheck']['suggestions']) &&
             is_array($data['spellcheck']['suggestions']) &&
