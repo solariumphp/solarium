@@ -136,7 +136,8 @@ class Result implements ResultInterface
      *
      * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
      *
-     * @throws UnexpectedValueException, RuntimeException
+     * @throws UnexpectedValueException
+     * @throws RuntimeException
      * @return array
      */
     public function getData()
