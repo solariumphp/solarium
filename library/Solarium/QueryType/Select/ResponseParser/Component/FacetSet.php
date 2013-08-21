@@ -92,6 +92,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     foreach ($facets as $k => $facet) {
                         $facetObject = $facetSet->$method($k);
                         if ($key == 'facet_pivot') {
+                            /** @var \Solarium\QueryType\Select\Query\Component\Facet\Pivot $facetObject */
                             $facetObject->setFields($k);
                         }
                     }

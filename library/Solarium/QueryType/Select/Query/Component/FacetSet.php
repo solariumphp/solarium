@@ -453,6 +453,7 @@ class FacetSet extends Component
         $class = $this->facetTypes[$type];
 
         if (is_string($options)) {
+            /** @var \Solarium\QueryType\Select\Query\Component\Facet\Facet $facet */
             $facet = new $class;
             $facet->setKey($options);
         } else {
