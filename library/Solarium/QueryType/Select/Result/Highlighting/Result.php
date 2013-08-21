@@ -54,8 +54,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  array $fields
-     * @return void
+     * @param array $fields
      */
     public function __construct($fields)
     {

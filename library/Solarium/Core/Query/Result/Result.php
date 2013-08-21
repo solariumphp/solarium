@@ -90,7 +90,6 @@ class Result implements ResultInterface
      * @param  Client        $client
      * @param  Query         $query
      * @param  Response      $response
-     * @return void
      */
     public function __construct($client, $query, $response)
     {

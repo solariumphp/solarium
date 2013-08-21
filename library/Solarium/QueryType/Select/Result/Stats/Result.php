@@ -61,9 +61,8 @@ class Result
     /**
      * Constructor
      *
-     * @param  string $field
-     * @param  array  $stats
-     * @return void
+     * @param string $field
+     * @param array  $stats
      */
     public function __construct($field, $stats)
     {

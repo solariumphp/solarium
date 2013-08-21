@@ -71,10 +71,9 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  int   $numFound
-     * @param  float $maxScore
-     * @param  array $documents
-     * @return void
+     * @param int   $numFound
+     * @param float $maxScore
+     * @param array $documents
      */
     public function __construct($numFound, $maxScore, $documents)
     {

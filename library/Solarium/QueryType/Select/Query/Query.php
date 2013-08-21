@@ -802,8 +802,8 @@ class Query extends BaseQuery
      *
      * @throws OutOfBoundsException
      * @param  string               $key      Use one of the constants
-     * @param  string               $autoload Class to autoload if component needs to be created
-     * @param  array                $config   Configuration to use for autoload
+     * @param  string|boolean       $autoload Class to autoload if component needs to be created
+     * @param  array|null           $config   Configuration to use for autoload
      * @return object|null
      */
     public function getComponent($key, $autoload = false, $config = null)
