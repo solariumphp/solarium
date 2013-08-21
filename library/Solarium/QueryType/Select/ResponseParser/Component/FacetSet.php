@@ -86,6 +86,8 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                         case 'facet_pivot':
                             $method = 'createFacetPivot';
                             break;
+                        default:
+                            throw new RuntimeException('Unknown facet class identifier');
                     }
                     foreach ($facets as $k => $facet) {
                         $facetObject = $facetSet->$method($k);
