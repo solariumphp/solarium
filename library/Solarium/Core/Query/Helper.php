@@ -103,7 +103,7 @@ class Helper
      */
     public function escapeTerm($input)
     {
-        $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\/|\\\|AND|OR|NO)/';
+        $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\/|\\\|\bAND\b|\bOR\b|\bNO\b)/';
 
         return preg_replace($pattern, '\\\$1', $input);
     }
