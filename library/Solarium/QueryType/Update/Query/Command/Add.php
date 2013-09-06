@@ -52,7 +52,7 @@ class Add extends Command
     /**
      * Documents to add
      *
-     * @var DocumentInterface[]
+     * @var \Solarium\QueryType\Update\Query\Document\DocumentInterface[]
      */
     protected $documents = array();
 

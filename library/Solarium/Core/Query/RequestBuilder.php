@@ -50,7 +50,7 @@ abstract class RequestBuilder implements RequestBuilderInterface
     /**
      * Build request for a select query
      *
-     * @param  Query   $query
+     * @param  QueryInterface|Query $query
      * @return Request
      */
     public function build(QueryInterface $query)

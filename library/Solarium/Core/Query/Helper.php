@@ -458,8 +458,8 @@ class Helper
      *
      * @see http://wiki.apache.org/solr/CommonQueryParameters#Caching_of_filters
      *
-     * @param boolean $useCache
-     * @param float|null $weight
+     * @param boolean    $useCache
+     * @param float|null $cost
      * @return string
      */
     public function cacheControl($useCache, $cost = null)

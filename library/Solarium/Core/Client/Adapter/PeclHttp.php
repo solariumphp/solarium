@@ -135,7 +135,8 @@ class PeclHttp extends Configurable implements AdapterInterface
      * @throws InvalidArgumentException
      * @param  Request                  $request
      * @param  Endpoint                 $endpoint
-     * @param HttpRequest
+     * @param  HttpRequest
+     * @return \HttpRequest
      */
     public function toHttpRequest($request, $endpoint)
     {

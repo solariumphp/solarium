@@ -61,9 +61,8 @@ class FacetValue
     /**
      * Constructor
      *
-     * @param  string $value
-     * @param  array  $stats
-     * @return void
+     * @param string $value
+     * @param array  $stats
      */
     public function __construct($value, $stats)
     {
