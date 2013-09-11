@@ -38,9 +38,10 @@
  */
 namespace Solarium\QueryType\Analysis\Query;
 use Solarium\Core\Client\Client;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as RequestBuilder;
-use Solarium\QueryType\Select\Result\Document as ResultDocument;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * Analysis document query
@@ -51,7 +52,7 @@ class Document extends Query
     /**
      * Documents to analyze
      *
-     * @var ResultDocument[]
+     * @var DocumentInterface[]
      */
     protected $documents = array();
 
@@ -99,10 +100,10 @@ class Document extends Query
     /**
      * Add a single document
      *
-     * @param  object $document
-     * @return self   Provides fluent interface
+     * @param  DocumentInterface $document
+     * @return self              Provides fluent interface
      */
-    public function addDocument($document)
+    public function addDocument(DocumentInterface $document)
     {
         $this->documents[] = $document;
 
@@ -113,10 +114,17 @@ class Document extends Query
      * Add multiple documents
      *
      * @param  DocumentInterface[] $documents
-     * @return self                fluent interface
+     * @return self                Provides fluent interface
+     * @throws RuntimeException   If any of the given documents does not implement DocumentInterface
      */
     public function addDocuments($documents)
     {
+        foreach ($documents as $document) {
+            if (!($document instanceof DocumentInterface)) {
+                throw new RuntimeException('Documents must implement DocumentInterface.');
+            }
+        }
+
         $this->documents = array_merge($this->documents, $documents);
 
         return $this;
@@ -125,7 +133,7 @@ class Document extends Query
     /**
      * Get all documents
      *
-     * @return ResultDocument[]
+     * @return DocumentInterface[]
      */
     public function getDocuments()
     {

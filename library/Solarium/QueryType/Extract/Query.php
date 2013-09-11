@@ -134,7 +134,7 @@ class Query extends BaseQuery
      * @param  DocumentInterface $document
      * @return self
      */
-    public function setDocument($document)
+    public function setDocument(DocumentInterface $document)
     {
         return $this->setOption('document', $document);
     }

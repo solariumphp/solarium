@@ -73,12 +73,8 @@ class Add extends Command
      * @param  DocumentInterface $document
      * @return self              Provides fluent interface
      */
-    public function addDocument($document)
+    public function addDocument(DocumentInterface $document)
     {
-        if (!($document instanceof DocumentInterface)) {
-            throw new RuntimeException('Documents must implement the document interface');
-        }
-
         $this->documents[] = $document;
 
         return $this;
@@ -89,9 +85,16 @@ class Add extends Command
      *
      * @param  array|\Traversable $documents
      * @return self               Provides fluent interface
+     * @throws RuntimeException   If any of the given documents does not implement DocumentInterface
      */
     public function addDocuments($documents)
     {
+        foreach ($documents as $document) {
+            if (!($document instanceof DocumentInterface)) {
+                throw new RuntimeException('Documents must implement DocumentInterface.');
+            }
+        }
+
         //if we don't have documents so far, accept arrays or Traversable objects as-is
         if (empty($this->documents)) {
             $this->documents = $documents;

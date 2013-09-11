@@ -354,7 +354,7 @@ class Query extends BaseQuery
      * @param  int               $commitWithin
      * @return self              Provides fluent interface
      */
-    public function addDocument($document, $overwrite = null,
+    public function addDocument(DocumentInterface $document, $overwrite = null,
                                 $commitWithin = null)
     {
         return $this->addDocuments(array($document), $overwrite, $commitWithin);
