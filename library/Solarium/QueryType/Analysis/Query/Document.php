@@ -42,17 +42,18 @@ use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as RequestBuilder;
 use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Update\Query\Document\DocumentInterface as UpdateDocumentInterface;
 
 /**
  * Analysis document query
  */
-class Document extends Query implements DocumentInterface
+class Document extends Query
 {
 
     /**
      * Documents to analyze
      *
-     * @var DocumentInterface[]
+     * @var self[]|DocumentInterface[]
      */
     protected $documents = array();
 
@@ -100,10 +101,11 @@ class Document extends Query implements DocumentInterface
     /**
      * Add a single document
      *
-     * @param  DocumentInterface $document
-     * @return self              Provides fluent interface
+     *
+     * @param  self|DocumentInterface $document
+     * @return self                   Provides fluent interface
      */
-    public function addDocument(DocumentInterface $document)
+    public function addDocument($document)
     {
         $this->documents[] = $document;
 
@@ -113,15 +115,21 @@ class Document extends Query implements DocumentInterface
     /**
      * Add multiple documents
      *
-     * @param  DocumentInterface[] $documents
-     * @return self                Provides fluent interface
-     * @throws RuntimeException   If any of the given documents does not implement DocumentInterface
+     * @param  self|DocumentInterface[] $documents
+     * @return self                     Provides fluent interface
+     * @throws RuntimeException         If any of the given documents does not implement DocumentInterface
      */
     public function addDocuments($documents)
     {
         foreach ($documents as $document) {
-            if (!($document instanceof DocumentInterface)) {
-                throw new RuntimeException('Documents must implement DocumentInterface.');
+            if (!($document instanceof $this) &&
+                !($document instanceof DocumentInterface) &&
+                !($document instanceof UpdateDocumentInterface)
+            ) {
+                throw new RuntimeException(
+                    'Documents must either implement one of the DocumentInterface or be an instance of '.
+                    get_called_class()
+                );
             }
         }
 
@@ -133,7 +141,7 @@ class Document extends Query implements DocumentInterface
     /**
      * Get all documents
      *
-     * @return DocumentInterface[]
+     * @return self[]|DocumentInterface[]
      */
     public function getDocuments()
     {
