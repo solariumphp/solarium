@@ -46,7 +46,7 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
 /**
  * Analysis document query
  */
-class Document extends Query
+class Document extends Query implements DocumentInterface
 {
 
     /**
