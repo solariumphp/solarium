@@ -50,5 +50,4 @@ interface ComponentParserInterface
      * @return object|null
      */
     public function parse($query, $component, $data);
-
 }

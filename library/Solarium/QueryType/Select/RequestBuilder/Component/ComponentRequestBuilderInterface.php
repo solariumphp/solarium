@@ -50,5 +50,4 @@ interface ComponentRequestBuilderInterface
      * @return Request
      */
     public function buildComponent($component, $request);
-
 }

@@ -128,5 +128,4 @@ interface QueryInterface extends ConfigurableInterface
      * @return array
      */
     public function getParams();
-
 }

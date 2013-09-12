@@ -56,5 +56,4 @@ interface PluginInterface extends ConfigurableInterface
      * @param array  $options
      */
     public function initPlugin($client, $options);
-
 }

@@ -51,5 +51,4 @@ abstract class Command extends Configurable
      * @return string
      */
     abstract public function getType();
-
 }

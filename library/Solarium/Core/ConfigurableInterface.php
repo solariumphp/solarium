@@ -94,5 +94,4 @@ interface ConfigurableInterface
      * @return array
      */
     public function getOptions();
-
 }

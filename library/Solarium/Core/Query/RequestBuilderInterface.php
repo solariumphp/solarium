@@ -53,5 +53,4 @@ interface RequestBuilderInterface
      * @return Request
      */
     public function build(QueryInterface $query);
-
 }

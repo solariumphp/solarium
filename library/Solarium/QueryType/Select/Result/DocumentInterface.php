@@ -49,5 +49,4 @@ interface DocumentInterface
      * @param array $fields
      */
     public function __construct(array $fields);
-
 }

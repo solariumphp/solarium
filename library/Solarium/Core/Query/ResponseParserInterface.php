@@ -58,5 +58,4 @@ interface ResponseParserInterface
      * @return mixed
      */
     public function parse($result);
-
 }
