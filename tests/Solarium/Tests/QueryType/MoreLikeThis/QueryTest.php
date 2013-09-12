@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\MoreLikeThis;
+
 use Solarium\QueryType\MoreLikeThis\Query;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Select\Query\FilterQuery;
@@ -37,7 +38,6 @@ use Solarium\QueryType\Select\Query\Component\MoreLikeThis;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $query;
 
     public function setUp()
@@ -129,7 +129,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFields()
     {
-        $fields = array('field1','field2');
+        $fields = array('field1', 'field2');
 
         $this->query->clearFields();
         $this->query->addFields($fields);
@@ -140,13 +140,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
-        $this->assertEquals(array('field1','field2'), $this->query->getFields());
+        $this->assertEquals(array('field1', 'field2'), $this->query->getFields());
     }
 
     public function testRemoveField()
     {
         $this->query->clearFields();
-        $this->query->addFields(array('field1','field2'));
+        $this->query->addFields(array('field1', 'field2'));
         $this->query->removeField('field1');
         $this->assertEquals(array('field2'), $this->query->getFields());
     }
@@ -154,9 +154,9 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetFields()
     {
         $this->query->clearFields();
-        $this->query->addFields(array('field1','field2'));
-        $this->query->setFields(array('field3','field4'));
-        $this->assertEquals(array('field3','field4'), $this->query->getFields());
+        $this->query->addFields(array('field1', 'field2'));
+        $this->query->setFields(array('field3', 'field4'));
+        $this->assertEquals(array('field3', 'field4'), $this->query->getFields());
     }
 
     public function testAddSort()
@@ -424,12 +424,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $config = array(
             'query'  => 'text:mykeyword',
             'sort'   => array('score' => 'asc'),
-            'fields' => array('id','title','category'),
+            'fields' => array('id', 'title', 'category'),
             'rows'   => 100,
             'start'  => 200,
             'filterquery' => array(
-                array('key' => 'pub', 'tag' => array('pub'),'query' => 'published:true'),
-                'online' => array('tag' => 'onl','query' => 'online:true')
+                array('key' => 'pub', 'tag' => array('pub'), 'query' => 'published:true'),
+                'online' => array('tag' => 'onl', 'query' => 'online:true')
             ),
             'component' => array(
                 'facetset' => array(
@@ -466,13 +466,16 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $components = $query->getComponents();
         $this->assertEquals(1, count($components));
-        $this->assertThat(array_pop($components), $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\FacetSet'));
+        $this->assertThat(
+            array_pop($components),
+            $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\FacetSet')
+        );
     }
 
     public function testSetAndGetComponents()
     {
         $mlt = new MoreLikeThis;
-        $this->query->setComponent('mlt',$mlt);
+        $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
             array('mlt' => $mlt),
@@ -483,7 +486,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetComponent()
     {
         $mlt = new MoreLikeThis;
-        $this->query->setComponent('mlt',$mlt);
+        $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
             $mlt,
@@ -508,7 +511,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testRemoveComponent()
     {
         $mlt = new MoreLikeThis;
-        $this->query->setComponent('mlt',$mlt);
+        $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
             array('mlt' => $mlt),
@@ -526,7 +529,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testRemoveComponentWithObjectInput()
     {
         $mlt = new MoreLikeThis;
-        $this->query->setComponent('mlt',$mlt);
+        $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
             array('mlt' => $mlt),
@@ -586,7 +589,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $components = $this->query->getComponentTypes();
         $components['mykey'] = 'mycomponent';
 
-        $this->query->registerComponentType('mykey','mycomponent','mybuilder','myparser');
+        $this->query->registerComponentType('mykey', 'mycomponent', 'mybuilder', 'myparser');
 
         $this->assertEquals(
             $components,
@@ -600,7 +603,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $fq = $this->query->createFilterQuery($options);
 
         // check class
-       $this->assertThat($fq, $this->isInstanceOf('Solarium\QueryType\Select\Query\FilterQuery'));
+        $this->assertThat($fq, $this->isInstanceOf('Solarium\QueryType\Select\Query\FilterQuery'));
 
         // check option forwarding
         $fqOptions = $fq->getOptions();
@@ -663,18 +666,18 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetMltFields()
     {
-        $value = 'name,description';
+        $value = 'name, description';
         $this->query->setMltFields($value);
 
         $this->assertEquals(
-            array('name','description'),
+            array('name', 'description'),
             $this->query->getMltFields()
         );
     }
 
     public function testSetAndGetMltFieldsWithArray()
     {
-        $value = array('name','description');
+        $value = array('name', 'description');
         $this->query->setMltFields($value);
 
         $this->assertEquals(
@@ -784,18 +787,18 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetQueryFields()
     {
-        $value = 'content,name';
+        $value = 'content, name';
         $this->query->setQueryFields($value);
 
         $this->assertEquals(
-            array('content','name'),
+            array('content', 'name'),
             $this->query->getQueryFields()
         );
     }
 
     public function testSetAndGetQueryFieldsWithArray()
     {
-        $value = array('content','name');
+        $value = array('content', 'name');
         $this->query->setQueryFields($value);
 
         $this->assertEquals(
@@ -803,5 +806,4 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             $this->query->getQueryFields()
         );
     }
-
 }

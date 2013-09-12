@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Suggester\Result;
+
 use Solarium\QueryType\Suggester\Result\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var SuggesterDummy
      */
@@ -99,7 +99,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $results = array();
-        foreach ($this->result AS $key => $doc) {
+        foreach ($this->result as $key => $doc) {
             $results[$key] = $doc;
         }
 
@@ -110,7 +110,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->collation, $this->result->getCollation());
     }
-
 }
 
 class SuggesterDummy extends Result
@@ -124,5 +123,4 @@ class SuggesterDummy extends Result
         $this->status = 1;
         $this->queryTime = 12;
     }
-
 }

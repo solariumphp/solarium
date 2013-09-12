@@ -30,17 +30,16 @@
  */
 
 namespace Solarium\Tests\QueryType\Extract;
+
 use Solarium\Tests\QueryType\Update\ResultTest as UpdateResultTest;
 use Solarium\QueryType\Extract\Result as ExtractResult;
 
 class ResultTest extends UpdateResultTest
 {
-
     public function setUp()
     {
         $this->result = new ExtractResultDummy();
     }
-
 }
 
 class ExtractResultDummy extends ExtractResult
@@ -52,5 +51,4 @@ class ExtractResultDummy extends ExtractResult
         $this->status = 1;
         $this->queryTime = 12;
     }
-
 }

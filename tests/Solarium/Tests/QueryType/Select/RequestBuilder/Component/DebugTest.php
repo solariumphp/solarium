@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\Client\RequestBuilder\Select\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\Debug as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\Debug as Component;
 use Solarium\Core\Client\Request;
 
 class DebugTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildComponent()
     {
         $builder = new RequestBuilder();
@@ -57,5 +57,4 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         );
 
     }
-
 }

@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Highlighting;
+
 use Solarium\QueryType\Select\Result\Highlighting\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Result
      */
@@ -76,7 +76,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->result AS $key => $item) {
+        foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -87,5 +87,4 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->fields), count($this->result));
     }
-
 }

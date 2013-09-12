@@ -30,24 +30,25 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\Result;
+
 use Solarium\QueryType\Analysis\Result\Types;
 
 class TypesTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Types
      */
     protected $result;
 
-    protected $items, $name;
+    protected $items;
+    protected $name;
 
     public function setUp()
     {
         $this->name = 'testname';
         $this->items = array(
-            'index' => new testAnalysisTypeIndexDummy(),
-            'query' => new testAnalysisTypeQueryDummy()
+            'index' => new TestAnalysisTypeIndexDummy(),
+            'query' => new TestAnalysisTypeQueryDummy()
         );
         $this->result = new Types($this->name, $this->items);
     }
@@ -65,7 +66,7 @@ class TypesTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $lists = array();
-        foreach ($this->result AS $key => $list) {
+        foreach ($this->result as $key => $list) {
             $lists[$key] = $list;
         }
 
@@ -91,8 +92,8 @@ class TypesTest extends \PHPUnit_Framework_TestCase
     public function testGetIndexAnalysisNoData()
     {
         $items = array(
-            'index' => new testAnalysisTypeInvalidDummy(),
-            'query' => new testAnalysisTypeQueryDummy()
+            'index' => new TestAnalysisTypeInvalidDummy(),
+            'query' => new TestAnalysisTypeQueryDummy()
         );
 
         $result = new Types($this->name, $items);
@@ -113,8 +114,8 @@ class TypesTest extends \PHPUnit_Framework_TestCase
     public function testGetQueryAnalysisNoData()
     {
         $items = array(
-            'index' => new testAnalysisTypeIndexDummy(),
-            'query' => new testAnalysisTypeInvalidDummy()
+            'index' => new TestAnalysisTypeIndexDummy(),
+            'query' => new TestAnalysisTypeInvalidDummy()
         );
 
         $result = new Types($this->name, $items);
@@ -123,10 +124,9 @@ class TypesTest extends \PHPUnit_Framework_TestCase
             $result->getQueryAnalysis()
         );
     }
-
 }
 
-class testAnalysisTypeIndexDummy
+class TestAnalysisTypeIndexDummy
 {
     public function getName()
     {
@@ -134,7 +134,7 @@ class testAnalysisTypeIndexDummy
     }
 }
 
-class testAnalysisTypeQueryDummy
+class TestAnalysisTypeQueryDummy
 {
     public function getName()
     {
@@ -142,7 +142,7 @@ class testAnalysisTypeQueryDummy
     }
 }
 
-class testAnalysisTypeInvalidDummy
+class TestAnalysisTypeInvalidDummy
 {
     public function getName()
     {

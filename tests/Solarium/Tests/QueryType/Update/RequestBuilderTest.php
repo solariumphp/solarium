@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Update;
+
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\Core\Client\Request;
@@ -42,7 +43,6 @@ use Solarium\QueryType\Update\Query\Document\Document;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -90,7 +90,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildAddXmlWithParams()
     {
-        $command = new AddCommand(array('overwrite' => true,'commitwithin' => 100));
+        $command = new AddCommand(array('overwrite' => true, 'commitwithin' => 100));
         $command->addDocument(new Document(array('id' => 1)));
 
         $this->assertEquals(
@@ -113,10 +113,17 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlMultivalueField()
     {
         $command = new AddCommand;
-        $command->addDocument(new Document(array('id' => array(1,2,3), 'text' => 'test < 123 > test')));
+        $command->addDocument(new Document(array('id' => array(1, 2, 3), 'text' => 'test < 123 > test')));
 
         $this->assertEquals(
-            '<add><doc><field name="id">1</field><field name="id">2</field><field name="id">3</field><field name="text">test &lt; 123 &gt; test</field></doc></add>',
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1</field>'.
+            '<field name="id">2</field>'.
+            '<field name="id">3</field>'.
+            '<field name="text">test &lt; 123 &gt; test</field>'.
+            '</doc>'.
+            '</add>',
             $this->builder->buildAddXml($command)
         );
     }
@@ -137,7 +144,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlSingleDocumentWithFieldBoost()
     {
         $doc = new Document(array('id' => 1));
-        $doc->setFieldBoost('id',2.1);
+        $doc->setFieldBoost('id', 2.1);
         $command = new AddCommand;
         $command->addDocument($doc);
 
@@ -162,16 +169,23 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlWithFieldModifiers()
     {
         $doc = new Document();
-        $doc->setKey('id',1);
+        $doc->setKey('id', 1);
         $doc->addField('category', 123, null, Document::MODIFIER_ADD);
-        $doc->addField('name', 'test', 2.5,  Document::MODIFIER_SET);
-        $doc->setField('stock', 2, null,  Document::MODIFIER_INC);
+        $doc->addField('name', 'test', 2.5, Document::MODIFIER_SET);
+        $doc->setField('stock', 2, null, Document::MODIFIER_INC);
 
         $command = new AddCommand();
         $command->addDocument($doc);
 
         $this->assertEquals(
-            '<add><doc><field name="id">1</field><field name="category" update="add">123</field><field name="name" boost="2.5" update="set">test</field><field name="stock" update="inc">2</field></doc></add>',
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1</field>'.
+            '<field name="category" update="add">123</field>'.
+            '<field name="name" boost="2.5" update="set">test</field>'.
+            '<field name="stock" update="inc">2</field>'.
+            '</doc>'.
+            '</add>',
             $this->builder->buildAddXml($command)
         );
     }
@@ -179,17 +193,25 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlWithFieldModifiersAndMultivalueFields()
     {
         $doc = new Document();
-        $doc->setKey('id',1);
-        $doc->addField('category', 123, null,  Document::MODIFIER_ADD);
-        $doc->addField('category', 234, null,  Document::MODIFIER_ADD);
-        $doc->addField('name', 'test', 2.3,  Document::MODIFIER_SET);
-        $doc->setField('stock', 2, null,  Document::MODIFIER_INC);
+        $doc->setKey('id', 1);
+        $doc->addField('category', 123, null, Document::MODIFIER_ADD);
+        $doc->addField('category', 234, null, Document::MODIFIER_ADD);
+        $doc->addField('name', 'test', 2.3, Document::MODIFIER_SET);
+        $doc->setField('stock', 2, null, Document::MODIFIER_INC);
 
         $command = new AddCommand();
         $command->addDocument($doc);
 
         $this->assertEquals(
-            '<add><doc><field name="id">1</field><field name="category" update="add">123</field><field name="category" update="add">234</field><field name="name" boost="2.3" update="set">test</field><field name="stock" update="inc">2</field></doc></add>',
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1</field>'.
+            '<field name="category" update="add">123</field>'.
+            '<field name="category" update="add">234</field>'.
+            '<field name="name" boost="2.3" update="set">test</field>'.
+            '<field name="stock" update="inc">2</field>'.
+            '</doc>'.
+            '</add>',
             $this->builder->buildAddXml($command)
         );
     }
@@ -222,14 +244,19 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildAddXmlWithFieldModifierAndNullValue()
     {
         $doc = new Document();
-        $doc->setKey('employeeId','05991');
-        $doc->addField('skills', null, null,  Document::MODIFIER_SET);
+        $doc->setKey('employeeId', '05991');
+        $doc->addField('skills', null, null, Document::MODIFIER_SET);
 
         $command = new AddCommand();
         $command->addDocument($doc);
 
         $this->assertEquals(
-            '<add><doc><field name="employeeId">05991</field><field name="skills" update="set" null="true"></field></doc></add>',
+            '<add>'.
+            '<doc>'.
+            '<field name="employeeId">05991</field>'.
+            '<field name="skills" update="set" null="true"></field>'.
+            '</doc>'.
+            '</add>',
             $this->builder->buildAddXml($command)
         );
     }
@@ -328,7 +355,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildOptimizeXmlWithParams()
     {
-        $command = new OptimizeCommand(array('softcommit'=>true,'waitsearcher'=>false,'maxsegments'=>10));
+        $command = new OptimizeCommand(array('softcommit'=>true, 'waitsearcher'=>false, 'maxsegments'=>10));
 
         $this->assertEquals(
             '<optimize softCommit="true" waitSearcher="false" maxSegments="10"/>',
@@ -348,7 +375,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildCommitXmlWithParams()
     {
-        $command = new CommitCommand(array('softcommit'=>true,'waitsearcher'=>false,'expungedeletes'=>true));
+        $command = new CommitCommand(array('softcommit'=>true, 'waitsearcher'=>false, 'expungedeletes'=>true));
 
         $this->assertEquals(
             '<commit softCommit="true" waitSearcher="false" expungeDeletes="true"/>',
@@ -390,7 +417,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidCommandInRequest()
     {
-        $this->query->add('invalidcommand',new InvalidCommand);
+        $this->query->add('invalidcommand', new InvalidCommand);
 
         $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->builder->build($this->query);

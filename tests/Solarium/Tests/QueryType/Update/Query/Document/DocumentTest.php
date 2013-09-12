@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Update\Query;
+
 use Solarium\QueryType\Update\Query\Document\Document;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Document
      */
@@ -43,7 +43,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     protected $fields = array(
         'id' => 123,
         'name' => 'Test document',
-        'categories' => array(1,2,3)
+        'categories' => array(1, 2, 3)
     );
 
     protected function setUp()
@@ -120,7 +120,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $this->doc->addField('myfield', 'mysecondvalue');
 
-        $expectedFields['myfield'] = array('myvalue','mysecondvalue');
+        $expectedFields['myfield'] = array('myvalue', 'mysecondvalue');
 
         $this->assertEquals(
             $expectedFields,
@@ -220,7 +220,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFieldBySettingToNull()
     {
-        $this->doc->setField('name', NULL);
+        $this->doc->setField('name', null);
 
         $expectedFields = $this->fields;
         unset($expectedFields['name']);
@@ -233,7 +233,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFieldBoostRemoval()
     {
-        $this->doc->setFieldBoost('name',3.2);
+        $this->doc->setFieldBoost('name', 3.2);
         $this->doc->removeField('name');
 
         $this->assertEquals(
@@ -254,7 +254,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetFieldBoost()
     {
-        $this->doc->setFieldBoost('name',2.5);
+        $this->doc->setFieldBoost('name', 2.5);
         $this->assertEquals(
             2.5,
             $this->doc->getFieldBoost('name')
@@ -263,13 +263,13 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetFieldBoosts()
     {
-        $this->doc->setFieldBoost('name',2.5);
-        $this->doc->setFieldBoost('category',1.5);
+        $this->doc->setFieldBoost('name', 2.5);
+        $this->doc->setFieldBoost('category', 1.5);
         $this->assertEquals(
-           array(
-               'name' => 2.5,
-               'category' => 1.5,
-           ),
+            array(
+                'name' => 2.5,
+                'category' => 1.5,
+            ),
             $this->doc->getFieldBoosts()
         );
     }
@@ -458,5 +458,4 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             $this->doc->getVersion()
         );
     }
-
 }

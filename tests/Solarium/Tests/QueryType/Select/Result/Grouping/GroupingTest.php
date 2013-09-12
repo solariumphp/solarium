@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
+
 use Solarium\QueryType\Select\Result\Grouping\Result;
 
 class GroupingTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Result
      */
@@ -79,7 +79,7 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->grouping AS $key => $item) {
+        foreach ($this->grouping as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -90,5 +90,4 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->items), count($this->grouping));
     }
-
 }

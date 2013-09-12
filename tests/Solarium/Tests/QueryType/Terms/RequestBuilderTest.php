@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Terms;
+
 use Solarium\QueryType\Terms\Query;
 use Solarium\QueryType\Terms\RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -62,7 +62,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->setMaxCount(100);
         $this->query->setPrefix('de');
         $this->query->setRegex('det.*');
-        $this->query->setRegexFlags('case_insensitive,comments');
+        $this->query->setRegexFlags('case_insensitive, comments');
         $this->query->setLimit(50);
         $this->query->setUpperbound('x');
         $this->query->setUpperboundInclude(false);
@@ -105,5 +105,4 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             $request->getMethod()
         );
     }
-
 }

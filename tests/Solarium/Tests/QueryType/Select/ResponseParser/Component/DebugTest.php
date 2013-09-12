@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\ResponseParser\Component\Debug as Parser;
 use Solarium\QueryType\Select\Result\Debug\Detail;
 
 class DebugTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Parser
      */
@@ -168,5 +168,4 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         $result = $this->parser->parse(null, null, array());
         $this->assertEquals(null, $result);
     }
-
 }

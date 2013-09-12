@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Suggester\Result;
+
 use Solarium\QueryType\Suggester\Result\Term;
 
 class TermTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Term
      */
@@ -70,9 +70,7 @@ class TermTest extends \PHPUnit_Framework_TestCase
             'suggestion2',
         );
 
-        $this->result = new Term(
-            $this->numFound, $this->startOffset, $this->endOffset, $this->suggestions
-        );
+        $this->result = new Term($this->numFound, $this->startOffset, $this->endOffset, $this->suggestions);
     }
 
     public function testGetNumFound()
@@ -115,11 +113,10 @@ class TermTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $results = array();
-        foreach ($this->result AS $key => $doc) {
+        foreach ($this->result as $key => $doc) {
             $results[$key] = $doc;
         }
 
         $this->assertEquals($this->suggestions, $results);
     }
-
 }

@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Ping;
+
 use Solarium\QueryType\Ping\Query;
 use Solarium\Core\Client\Client;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $query;
 
     public function setUp()

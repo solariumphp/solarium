@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Client\Adapter;
+
 use Solarium\Core\Client\Adapter\Http as HttpAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
@@ -56,7 +57,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Solarium\Core\Client\Adapter\Http', array('getData','check'));
+        $mock = $this->getMock('Solarium\Core\Client\Adapter\Http', array('getData', 'check'));
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
@@ -72,7 +73,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Solarium\Core\Client\Adapter\Http', array('getData','check'));
+        $mock = $this->getMock('Solarium\Core\Client\Adapter\Http', array('getData', 'check'));
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
@@ -94,7 +95,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckOk()
     {
-        $value = $this->adapter->check('dummydata',array('HTTP 1.1 200 OK'));
+        $value = $this->adapter->check('dummydata', array('HTTP 1.1 200 OK'));
 
         $this->assertEquals(
             null,
@@ -157,7 +158,14 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertEquals(
-            array('http' => array('method' => $method, 'timeout' => $timeout, 'content' => $data, 'header' => 'Content-Type: text/xml; charset=UTF-8')),
+            array(
+                'http' => array(
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'content' => $data,
+                    'header' => 'Content-Type: text/xml; charset=UTF-8',
+                )
+            ),
             stream_context_get_options($context)
         );
     }
@@ -177,7 +185,14 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertEquals(
-            array('http' => array('method' => $method, 'timeout' => $timeout, 'content' => file_get_contents(__FILE__), 'header' => 'Content-Type: multipart/form-data')),
+            array(
+                'http' => array(
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'content' => file_get_contents(__FILE__),
+                    'header' => 'Content-Type: multipart/form-data',
+                )
+            ),
             stream_context_get_options($context)
         );
     }
@@ -197,9 +212,14 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertEquals(
-            array('http' => array('method' => $method, 'timeout' => $timeout, 'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==')),
+            array(
+                'http' => array(
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==',
+                )
+            ),
             stream_context_get_options($context)
         );
     }
-
 }

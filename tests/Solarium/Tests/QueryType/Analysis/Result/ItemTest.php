@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\Result;
+
 use Solarium\QueryType\Analysis\Result\Item;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Item
      */
@@ -49,7 +49,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             'start' => 10,
             'end' => 22,
             'position' => 2,
-            'positionHistory' => array(2,1),
+            'positionHistory' => array(2, 1),
             'type' => '<dummytype>',
             'raw_text' => 'dummy raw text',
             'match' => true
@@ -107,7 +107,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             'start' => 10,
             'end' => 22,
             'position' => 2,
-            'positionHistory' => array(2,1),
+            'positionHistory' => array(2, 1),
             'type' => '<dummytype>',
         );
         $item = new Item($data);

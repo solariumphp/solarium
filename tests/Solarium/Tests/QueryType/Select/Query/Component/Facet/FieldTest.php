@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
+
 use Solarium\QueryType\Select\Query\Component\Facet\Field;
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Field
      */
@@ -50,7 +50,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'key' => 'myKey',
-            'exclude' => array('e1','e2'),
+            'exclude' => array('e1', 'e2'),
             'field' => 'text',
             'sort' => 'index',
             'limit' => 10,

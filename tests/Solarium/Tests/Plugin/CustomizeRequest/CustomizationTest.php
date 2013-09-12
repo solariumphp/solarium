@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\Plugin\CustomizeRequest;
+
 use Solarium\Plugin\CustomizeRequest\Customization;
 
 class CustomizationTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Customization
      */
@@ -114,5 +114,4 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($this->instance->isValid());
     }
-
 }

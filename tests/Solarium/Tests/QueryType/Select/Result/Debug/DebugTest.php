@@ -30,17 +30,21 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Debug;
+
 use Solarium\QueryType\Select\Result\Debug\Result;
 
 class DebugTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Result
      */
     protected $result;
 
-    protected $queryString, $queryParser, $otherQuery, $explain, $explainOther, $timing;
+    protected $queryParser;
+    protected $otherQuery;
+    protected $explain;
+    protected $explainOther;
+    protected $timing;
 
     public function setUp()
     {
@@ -102,7 +106,7 @@ class DebugTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->result AS $key => $item) {
+        foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -113,5 +117,4 @@ class DebugTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->explain), count($this->result));
     }
-
 }

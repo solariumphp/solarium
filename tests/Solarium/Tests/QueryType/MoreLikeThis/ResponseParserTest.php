@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\MoreLikeThis;
+
 use Solarium\QueryType\MoreLikeThis\Query;
 use Solarium\QueryType\MoreLikeThis\ResponseParser;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParse()
     {
         $data = array(
@@ -78,5 +78,4 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('key1' => 'value1', 'key2' => 'value2'), $result['interestingTerms']);
         $this->assertEquals(5, $result['match']->fieldA);
     }
-
 }

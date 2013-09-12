@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\Core\Event;
+
 use Solarium\Core\Event\PreCreateQuery;
 use Solarium\QueryType\Select\Query\Query;
 
 class PreCreateQueryTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetters()
     {
         $type = 'testtype';
@@ -65,5 +65,4 @@ class PreCreateQueryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($query, $event->getQuery());
     }
-
 }

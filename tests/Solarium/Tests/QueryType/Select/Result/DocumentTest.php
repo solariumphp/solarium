@@ -30,17 +30,17 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result;
+
 use Solarium\QueryType\Select\Result\Document;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $doc;
 
     protected $fields = array(
         'id' => 123,
         'name' => 'Test document',
-        'categories' => array(1,2,3)
+        'categories' => array(1, 2, 3)
     );
 
     protected function setUp()
@@ -50,7 +50,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFields()
     {
-        $this->assertEquals($this->fields,$this->doc->getFields());
+        $this->assertEquals($this->fields, $this->doc->getFields());
     }
 
     public function testGetFieldAsProperty()
@@ -78,7 +78,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $fields = array();
-        foreach ($this->doc AS $key => $field) {
+        foreach ($this->doc as $key => $field) {
             $fields[$key] = $field;
         }
 
@@ -131,5 +131,4 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->fields), count($this->doc));
     }
-
 }

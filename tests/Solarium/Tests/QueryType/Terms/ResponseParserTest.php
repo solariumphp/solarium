@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Terms;
+
 use Solarium\QueryType\Terms\Query;
 use Solarium\QueryType\Terms\ResponseParser;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParse()
     {
         $data = array(
@@ -141,5 +141,4 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result['results']);
         $this->assertEquals(2, count($result['results']));
     }
-
 }

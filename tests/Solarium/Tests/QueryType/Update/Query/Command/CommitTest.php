@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Update\Query\Command;
+
 use Solarium\QueryType\Update\Query\Command\Commit;
 use Solarium\QueryType\Update\Query\Query;
 

@@ -30,17 +30,19 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Spellcheck;
+
 use Solarium\QueryType\Select\Result\Spellcheck\Result;
 
 class SpellcheckTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Result
      */
     protected $result;
 
-    protected $suggestions, $collations, $correctlySpelled;
+    protected $suggestions;
+    protected $collations;
+    protected $correctlySpelled;
 
     public function setUp()
     {
@@ -102,7 +104,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->result AS $key => $item) {
+        foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -113,5 +115,4 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->suggestions), count($this->result));
     }
-
 }

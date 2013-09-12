@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\FacetSet as Component;
 use Solarium\Core\Client\Request;
@@ -41,7 +42,6 @@ use Solarium\QueryType\Select\Query\Component\Facet\Pivot as FacetPivot;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var RequestBuilder
      */
@@ -79,7 +79,9 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     {
         $this->component->addFacet(new FacetField(array('key' => 'f1', 'field' => 'owner')));
         $this->component->addFacet(new FacetQuery(array('key' => 'f2', 'query' => 'category:23')));
-        $this->component->addFacet(new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' => array('query' => 'category:40')))));
+        $this->component->addFacet(
+            new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' => array('query' => 'category:40'))))
+        );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -96,17 +98,19 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildWithRangeFacet()
     {
-        $this->component->addFacet(new FacetRange(
-            array(
-                'key' => 'f1',
-                'field' => 'price',
-                'start' => '1',
-                'end' => 100,
-                'gap' => 10,
-                'other' => 'all',
-                'include' => 'outer'
+        $this->component->addFacet(
+            new FacetRange(
+                array(
+                    'key' => 'f1',
+                    'field' => 'price',
+                    'start' => '1',
+                    'end' => 100,
+                    'gap' => 10,
+                    'other' => 'all',
+                    'include' => 'outer'
+                )
             )
-        ));
+        );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -116,22 +120,25 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.range.other=all&f.price.facet.range.include=outer',
+            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100'.
+            '&f.price.facet.range.gap=10&f.price.facet.range.other=all&f.price.facet.range.include=outer',
             urldecode($request->getUri())
         );
     }
 
     public function testBuildWithRangeFacetExcludingOptionalParams()
     {
-        $this->component->addFacet(new FacetRange(
-            array(
-                'key' => 'f1',
-                'field' => 'price',
-                'start' => '1',
-                'end' => 100,
-                'gap' => 10
+        $this->component->addFacet(
+            new FacetRange(
+                array(
+                    'key' => 'f1',
+                    'field' => 'price',
+                    'start' => '1',
+                    'end' => 100,
+                    'gap' => 10
+                )
             )
-        ));
+        );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -141,7 +148,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10',
+            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100'.
+            '&f.price.facet.range.gap=10',
             urldecode($request->getUri())
         );
     }
@@ -152,7 +160,9 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->component->setLimit(10);
         $this->component->addFacet(new FacetField(array('key' => 'f1', 'field' => 'owner')));
         $this->component->addFacet(new FacetQuery(array('key' => 'f2', 'query' => 'category:23')));
-        $this->component->addFacet(new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' =>array('query' => 'category:40')))));
+        $this->component->addFacet(
+            new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' =>array('query' => 'category:40'))))
+        );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -162,7 +172,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            '?facet=true&facet.missing=true&facet.limit=10&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
+            '?facet=true&facet.missing=true&facet.limit=10&facet.field={!key=f1}owner&facet.query={!key=f2}category:23'.
+            '&facet.query={!key=f4}category:40',
             urldecode($request->getUri())
         );
     }
@@ -177,13 +188,15 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildWithPivotFacet()
     {
-        $this->component->addFacet(new FacetPivot(
-            array(
-                'key' => 'f1',
-                'fields' => 'cat,inStock',
-                'mincount' => 123
+        $this->component->addFacet(
+            new FacetPivot(
+                array(
+                    'key' => 'f1',
+                    'fields' => 'cat, inStock',
+                    'mincount' => 123
+                )
             )
-        ));
+        );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -197,7 +210,6 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             urldecode($request->getUri())
         );
     }
-
 }
 
 class UnknownFacet extends FacetField
@@ -206,5 +218,4 @@ class UnknownFacet extends FacetField
     {
         return 'unknown';
     }
-
 }

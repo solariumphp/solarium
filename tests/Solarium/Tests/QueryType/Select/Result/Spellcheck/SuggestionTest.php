@@ -30,17 +30,22 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Spellcheck;
+
 use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
 
 class SuggestionTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Suggestion
      */
     protected $result;
 
-    protected $numFound, $startOffset, $endOffset, $originalFrequency, $words, $frequency;
+    protected $numFound;
+    protected $startOffset;
+    protected $endOffset;
+    protected $originalFrequency;
+    protected $words;
+    protected $frequency;
 
     public function setUp()
     {
@@ -60,7 +65,11 @@ class SuggestionTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->result = new Suggestion(
-            $this->numFound, $this->startOffset, $this->endOffset, $this->originalFrequency, $this->words
+            $this->numFound,
+            $this->startOffset,
+            $this->endOffset,
+            $this->originalFrequency,
+            $this->words
         );
     }
 
@@ -98,5 +107,4 @@ class SuggestionTest extends \PHPUnit_Framework_TestCase
     {
          $this->assertEquals($this->words, $this->result->getWords());
     }
-
 }

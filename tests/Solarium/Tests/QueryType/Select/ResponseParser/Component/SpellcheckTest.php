@@ -30,13 +30,14 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\ResponseParser\Component\Spellcheck as Parser;
 use Solarium\QueryType\Select\Query\Query;
 
 class SpellcheckTest extends \PHPUnit_Framework_TestCase
 {
-
-    protected $parser, $query;
+    protected $parser;
+    protected $query;
 
     public function setUp()
     {
@@ -224,5 +225,4 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(null, $result);
     }
-
 }

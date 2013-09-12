@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\Core;
+
 use Solarium\Core\Client\Client;
 use Solarium\Exception\RuntimeException;
 use Solarium\Core\Configurable;
 
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorNoConfig()
     {
         $configTest = new ConfigTest;
@@ -50,7 +50,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorWithObject()
     {
-        $configTest = new ConfigTest(new myConfigObject);
+        $configTest = new ConfigTest(new MyConfigObject);
 
         // the default options should be merged with the constructor values,
         // overwriting any default values.
@@ -129,25 +129,21 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
 class ConfigTest extends Configurable
 {
-
     protected $options = array(
         'option1' => 1,
         'option2' => 'value 2',
     );
-
 }
 
 class ConfigTestInit extends ConfigTest
 {
-
     protected function init()
     {
         throw new RuntimeException('test init');
     }
-
 }
 
-class myConfigObject
+class MyConfigObject
 {
     public function toArray()
     {

@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\Stats as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\Stats\Stats as Component;
 use Solarium\Core\Client\Request;
 
 class StatsTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildComponent()
     {
         $builder = new RequestBuilder();
@@ -66,5 +66,4 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         );
 
     }
-
 }

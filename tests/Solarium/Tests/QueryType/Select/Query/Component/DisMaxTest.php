@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Component\DisMax;
 use Solarium\QueryType\Select\Query\Query;
 
 class DisMaxTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var DisMax
      */
@@ -58,7 +58,7 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
             'queryphraseslop' => 4,
             'tie' => 2.1,
             'boostquery' => 'cat:1^3',
-            'boostfunctions' => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
+            'boostfunctions' => 'funcA(arg1, arg2)^1.2 funcB(arg3, arg4)^2.2',
         );
 
         $this->disMax->setOptions($options);
@@ -90,7 +90,10 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\Dismax', $this->disMax->getRequestBuilder());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\RequestBuilder\Component\Dismax',
+            $this->disMax->getRequestBuilder()
+        );
     }
 
     public function testSetAndGetQueryParser()
@@ -194,7 +197,7 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetBoostFunctions()
     {
-        $value = 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2';
+        $value = 'funcA(arg1, arg2)^1.2 funcB(arg3, arg4)^2.2';
         $this->disMax->setBoostFunctions($value);
 
         $this->assertEquals(
@@ -202,5 +205,4 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
             $this->disMax->getBoostFunctions()
         );
     }
-
 }

@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\DisMax as Component;
 use Solarium\Core\Client\Request;
 
 class DisMaxTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildComponent()
     {
         $builder = new RequestBuilder;
@@ -45,9 +45,9 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
         $component = new Component();
         $component->setQueryParser('dummyparser');
         $component->setQueryAlternative('test');
-        $component->setQueryFields('content,name');
+        $component->setQueryFields('content, name');
         $component->setMinimumMatch('75%');
-        $component->setPhraseFields('content,description');
+        $component->setPhraseFields('content, description');
         $component->setPhraseSlop(1);
         $component->setQueryPhraseSlop(2);
         $component->setTie(0.5);
@@ -60,9 +60,9 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
             array(
                 'defType' => 'dummyparser',
                 'q.alt' => 'test',
-                'qf' => 'content,name',
+                'qf' => 'content, name',
                 'mm' => '75%',
-                'pf' => 'content,description',
+                'pf' => 'content, description',
                 'ps' => 1,
                 'qs' => 2,
                 'tie' => 0.5,
@@ -73,5 +73,4 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
         );
 
     }
-
 }

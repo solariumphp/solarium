@@ -30,12 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
+
 use Solarium\QueryType\Select\Result\Facet\Field;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-
-    protected $values, $facet;
+    protected $values;
+    protected $facet;
 
     public function setUp()
     {
@@ -60,11 +61,10 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $values = array();
-        foreach ($this->facet AS $key => $value) {
+        foreach ($this->facet as $key => $value) {
             $values[$key] = $value;
         }
 
         $this->assertEquals($this->values, $values);
     }
-
 }

@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\FacetSet;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
@@ -37,7 +38,6 @@ use Solarium\QueryType\Update\Query\Document\Document;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParse()
     {
         $data = array(
@@ -150,5 +150,4 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(13, $result['queryTime']);
         $this->assertEquals(null, $result['numfound']);
     }
-
 }

@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\Highlighting as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting as Component;
 use Solarium\Core\Client\Request;
 
 class HighlightingTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildComponent()
     {
         $builder = new RequestBuilder;
@@ -80,7 +80,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $component->setTagPrefix('<i>');
         $component->setTagPostfix('</i>');
         $component->setMultiValuedSeparatorChar('|');
-        $component->setBoundaryScannerChars('.,');
+        $component->setBoundaryScannerChars('., ');
         $component->setBoundaryScannerMaxScan(16);
         $component->setBoundaryScannerType($component::BOUNDARYSCANNER_TYPE_WORD);
         $component->setBoundaryScannerCountry('be');
@@ -125,7 +125,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
                 'f.fieldB.hl.fragmenter' => 'myFragmenter',
                 'f.fieldB.hl.useFastVectorHighlighter' => 'true',
                 'hl.bs.maxScan' => 16,
-                'hl.bs.chars' => '.,',
+                'hl.bs.chars' => '., ',
                 'hl.bs.type' => 'WORD',
                 'hl.bs.country' => 'be',
                 'hl.bs.language' => 'en',
@@ -134,5 +134,4 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         );
 
     }
-
 }

@@ -30,17 +30,18 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Debug;
+
 use Solarium\QueryType\Select\Result\Debug\Detail;
 
 class DetailTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Detail
      */
     protected $result;
 
-    protected $value, $match, $description;
+    protected $match;
+    protected $description;
 
     public function setUp()
     {
@@ -69,5 +70,4 @@ class DetailTest extends \PHPUnit_Framework_TestCase
     {
          $this->assertEquals($this->description, $this->result->getDescription());
     }
-
 }

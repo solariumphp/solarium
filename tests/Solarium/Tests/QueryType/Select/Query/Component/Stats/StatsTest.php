@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Stats;
+
 use Solarium\QueryType\Select\Query\Component\Stats\Stats;
 use Solarium\QueryType\Select\Query\Component\Stats\Field;
 use Solarium\QueryType\Select\Query\Query;
 
 class StatsTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Stats
      */
@@ -54,12 +54,18 @@ class StatsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\Component\Stats', $this->stats->getResponseParser());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\ResponseParser\Component\Stats',
+            $this->stats->getResponseParser()
+        );
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\Stats', $this->stats->getRequestBuilder());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\RequestBuilder\Component\Stats',
+            $this->stats->getRequestBuilder()
+        );
     }
 
     public function testConfigMode()
@@ -74,8 +80,8 @@ class StatsTest extends \PHPUnit_Framework_TestCase
 
         $this->stats->setOptions($options);
 
-        $this->assertEquals(array('field1','field2'), $this->stats->getFacets());
-        $this->assertEquals(array('f1','f2'), array_keys($this->stats->getFields()));
+        $this->assertEquals(array('field1', 'field2'), $this->stats->getFacets());
+        $this->assertEquals(array('f1', 'f2'), array_keys($this->stats->getFields()));
     }
 
     public function testCreateFieldWithKey()
@@ -97,7 +103,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $field = $this->stats->createField($options);
 
         // check class
-       $this->assertThat($field, $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\Stats\Field'));
+        $this->assertThat($field, $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\Stats\Field'));
 
         // check option forwarding
         $fieldOptions = $field->getOptions();
@@ -202,7 +208,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $this->stats->addFields($fields);
         $fields = $this->stats->getFields();
 
-        $this->assertEquals( array('f1', 'f2'), array_keys($fields));
+        $this->assertEquals(array('f1', 'f2'), array_keys($fields));
     }
 
     public function testRemoveField()
@@ -322,7 +328,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFacets()
     {
-        $facets = array('facet1','facet2');
+        $facets = array('facet1', 'facet2');
 
         $this->stats->clearFacets();
         $this->stats->addFacets($facets);
@@ -333,13 +339,13 @@ class StatsTest extends \PHPUnit_Framework_TestCase
     {
         $this->stats->clearFacets();
         $this->stats->addFacets('facet1, facet2');
-        $this->assertEquals(array('facet1','facet2'), $this->stats->getFacets());
+        $this->assertEquals(array('facet1', 'facet2'), $this->stats->getFacets());
     }
 
     public function testRemoveFacet()
     {
         $this->stats->clearFacets();
-        $this->stats->addFacets(array('facet1','facet2'));
+        $this->stats->addFacets(array('facet1', 'facet2'));
         $this->stats->removeFacet('facet1');
         $this->assertEquals(array('facet2'), $this->stats->getFacets());
     }
@@ -347,9 +353,8 @@ class StatsTest extends \PHPUnit_Framework_TestCase
     public function testSetFacets()
     {
         $this->stats->clearFacets();
-        $this->stats->addFacets(array('facet1','facet2'));
-        $this->stats->setFacets(array('facet3','facet4'));
-        $this->assertEquals(array('facet3','facet4'), $this->stats->getFacets());
+        $this->stats->addFacets(array('facet1', 'facet2'));
+        $this->stats->setFacets(array('facet3', 'facet4'));
+        $this->assertEquals(array('facet3', 'facet4'), $this->stats->getFacets());
     }
-
 }
