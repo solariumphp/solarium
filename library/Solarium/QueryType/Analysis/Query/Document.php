@@ -105,8 +105,8 @@ class Document extends Query
      * Add a single document
      *
      * @param  ReadOnlyDocumentInterface|DocumentInterface $document
-     * @return self                                            Provides fluent interface
-     * @throws RuntimeException                                If the given document doesn't have the right interface
+     * @return self                                        Provides fluent interface
+     * @throws RuntimeException                            If the given document doesn't have the right interface
      */
     public function addDocument($document)
     {
@@ -123,9 +123,8 @@ class Document extends Query
      * Add multiple documents
      *
      * @param  ReadOnlyDocumentInterface[]|DocumentInterface[] $documents
-     * @return self                                                Provides fluent interface
-     * @throws RuntimeException                                    If any of the given documents does not implement
-     *                                                             any DocumentInterface
+     * @return self                                            Provides fluent interface
+     * @throws RuntimeException                                If the given documents does not implement the interfaces
      */
     public function addDocuments($documents)
     {
