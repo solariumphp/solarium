@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Query;
 use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;

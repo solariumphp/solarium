@@ -108,7 +108,9 @@ class MoreLikeThis extends Component
     public function getFields()
     {
         $fields = $this->getOption('fields');
-        if ($fields == null) $fields = array();
+        if ($fields == null) {
+            $fields = array();
+        }
 
         return $fields;
     }
@@ -307,7 +309,9 @@ class MoreLikeThis extends Component
     public function getQueryFields()
     {
         $queryfields = $this->getOption('queryfields');
-        if ($queryfields == null) $queryfields = array();
+        if ($queryfields == null) {
+            $queryfields = array();
+        }
 
         return $queryfields;
     }

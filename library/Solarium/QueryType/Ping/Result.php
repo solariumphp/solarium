@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Ping;
+
 use Solarium\Core\Query\Result\Result as BaseResult;
 
 /**

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\Core\Client\Request;
 

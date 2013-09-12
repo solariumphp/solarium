@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\Result;
+
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 use Solarium\QueryType\Analysis\Result\ResultList;
 

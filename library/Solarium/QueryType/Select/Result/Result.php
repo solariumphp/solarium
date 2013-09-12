@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 use Solarium\QueryType\Select\Result\DocumentInterface;

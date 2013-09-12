@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\QueryType\Select\RequestBuilder\Component\Highlighting as RequestBuilder;
@@ -173,7 +174,9 @@ class Highlighting extends Component
 
         // validate field
         if ($field->getName() === null) {
-            throw new InvalidArgumentException('To add a highlighting field it needs to have at least a "name" setting');
+            throw new InvalidArgumentException(
+                'To add a highlighting field it needs to have at least a "name" setting'
+            );
         }
 
         $this->fields[$field->getName()] = $field;
@@ -898,6 +901,4 @@ class Highlighting extends Component
     {
         return $this->getOption('boundaryscannercountry');
     }
-
-
 }

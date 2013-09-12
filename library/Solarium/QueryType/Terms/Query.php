@@ -120,7 +120,10 @@ class Query extends BaseQuery
     public function getFields()
     {
         $value = $this->getOption('fields');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
 
@@ -276,7 +279,10 @@ class Query extends BaseQuery
     public function getRegexFlags()
     {
         $value = $this->getOption('regexflags');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
 

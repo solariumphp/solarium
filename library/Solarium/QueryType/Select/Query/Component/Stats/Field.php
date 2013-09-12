@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Stats;
+
 use Solarium\Core\Configurable;
 
 /**

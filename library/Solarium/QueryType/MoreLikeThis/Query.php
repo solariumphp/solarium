@@ -203,7 +203,10 @@ class Query extends SelectQuery
     public function getMltFields()
     {
         $value = $this->getOption('mltfields');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
 
@@ -401,7 +404,10 @@ class Query extends SelectQuery
     public function getQueryFields()
     {
         $value = $this->getOption('queryfields');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
 }

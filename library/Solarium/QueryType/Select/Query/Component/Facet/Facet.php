@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Facet;
+
 use Solarium\Core\Configurable;
 
 /**

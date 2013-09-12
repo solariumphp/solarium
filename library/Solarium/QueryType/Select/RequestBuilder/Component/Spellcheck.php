@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\Query\Component\Spellcheck as SpellcheckComponent;
 use Solarium\Core\Client\Request;
 
@@ -71,7 +72,7 @@ class Spellcheck implements ComponentRequestBuilderInterface
         $request->addParam('spellcheck.collateExtendedResults', $component->getCollateExtendedResults());
         $request->addParam('spellcheck.accuracy', $component->getAccuracy());
 
-        foreach ( $component->getCollateParams() as $param => $value ) {
+        foreach ($component->getCollateParams() as $param => $value) {
             $request->addParam('spellcheck.collateParam.'.$param, $value);
         }
 

@@ -354,8 +354,7 @@ class Query extends BaseQuery
      * @param  int               $commitWithin
      * @return self              Provides fluent interface
      */
-    public function addDocument(DocumentInterface $document, $overwrite = null,
-                                $commitWithin = null)
+    public function addDocument(DocumentInterface $document, $overwrite = null, $commitWithin = null)
     {
         return $this->addDocuments(array($document), $overwrite, $commitWithin);
     }
@@ -371,8 +370,7 @@ class Query extends BaseQuery
      * @param  int     $commitWithin
      * @return self    Provides fluent interface
      */
-    public function addDocuments($documents, $overwrite = null,
-                                 $commitWithin = null)
+    public function addDocuments($documents, $overwrite = null, $commitWithin = null)
     {
         $add = new AddCommand;
 
@@ -400,8 +398,7 @@ class Query extends BaseQuery
      * @param  boolean $expungeDeletes
      * @return self    Provides fluent interface
      */
-    public function addCommit($softCommit = null, $waitSearcher = null,
-                              $expungeDeletes = null)
+    public function addCommit($softCommit = null, $waitSearcher = null, $expungeDeletes = null)
     {
         $commit = new CommitCommand();
 
@@ -431,8 +428,7 @@ class Query extends BaseQuery
      * @param  int     $maxSegments
      * @return self    Provides fluent interface
      */
-    public function addOptimize($softCommit = null, $waitSearcher = null,
-                               $maxSegments = null)
+    public function addOptimize($softCommit = null, $waitSearcher = null, $maxSegments = null)
     {
         $optimize = new OptimizeCommand();
 
@@ -451,14 +447,14 @@ class Query extends BaseQuery
         return $this->add(null, $optimize);
     }
 
-   /**
-    * Set a custom document class for use in the createDocument method
-    *
-    * This class should implement the document interface
-    *
-    * @param string $value classname
-    * @return self Provides fluent interface
-    */
+    /**
+     * Set a custom document class for use in the createDocument method
+     *
+     * This class should implement the document interface
+     *
+     * @param string $value classname
+     * @return self Provides fluent interface
+     */
     public function setDocumentClass($value)
     {
         return $this->setOption('documentclass', $value);

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch as RequestBuilder;
 
@@ -327,6 +328,4 @@ class DistributedSearch extends Component
     {
         return $this->collections;
     }
-
-
 }

@@ -343,7 +343,7 @@ class Helper
     public function functionCall($name, $params = array(), $dereferenced = false)
     {
         if ($dereferenced) {
-            foreach($params as $key => $value) {
+            foreach ($params as $key => $value) {
                 $this->query->addParam($key, $value);
             }
             return $name . '()';
@@ -448,7 +448,7 @@ class Helper
      */
     public function qparserTerm($field, $weight)
     {
-        return $this->qparser('term',array('f' => $field)) . $weight;
+        return $this->qparser('term', array('f' => $field)) . $weight;
     }
 
     /**

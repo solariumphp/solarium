@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\FacetSet as QueryFacetSet;
 use Solarium\QueryType\Select\Query\Component\Facet\Field as QueryFacetField;
@@ -156,7 +157,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         }
 
         if ($query->getResponseWriter() == $query::WT_JSON) {
-            $data['facet_counts']['facet_fields'][$key] = $this->convertToKeyValueArray($data['facet_counts']['facet_fields'][$key]);
+            $data['facet_counts']['facet_fields'][$key] = $this->convertToKeyValueArray(
+                $data['facet_counts']['facet_fields'][$key]
+            );
         }
 
         return new ResultFacetField($data['facet_counts']['facet_fields'][$key]);

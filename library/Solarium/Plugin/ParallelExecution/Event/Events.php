@@ -60,5 +60,4 @@ class Events
      * @var string
      */
     const EXECUTE_END = 'solarium.parallelExecution.executeEnd';
-
 }

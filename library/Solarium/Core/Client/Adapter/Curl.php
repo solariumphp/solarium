@@ -163,7 +163,7 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         if (!empty($authData['username']) && !empty($authData['password'])) {
-            curl_setopt($handler, CURLOPT_USERPWD, $authData['username']. ':' . $authData['password'] );
+            curl_setopt($handler, CURLOPT_USERPWD, $authData['username']. ':' . $authData['password']);
             curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
 

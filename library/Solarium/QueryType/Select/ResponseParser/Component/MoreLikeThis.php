@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
 use Solarium\QueryType\Select\Result\MoreLikeThis\Result;

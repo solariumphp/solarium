@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\RequestBuilder;
+
 use Solarium\QueryType\Analysis\Query\Field as QueryField;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\QueryInterface;

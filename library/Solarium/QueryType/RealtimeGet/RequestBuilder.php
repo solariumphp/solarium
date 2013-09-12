@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\RealtimeGet;
+
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;

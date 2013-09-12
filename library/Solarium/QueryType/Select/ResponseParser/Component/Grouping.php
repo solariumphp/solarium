@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Grouping as GroupingComponent;
 use Solarium\QueryType\Select\Result\Grouping\Result;
@@ -93,14 +94,10 @@ class Grouping implements ComponentParserInterface
                             }
                         }
 
-                        $valueGroups[] = new ValueGroup(
-                            $value, $numFound, $start, $documents
-                        );
+                        $valueGroups[] = new ValueGroup($value, $numFound, $start, $documents);
                     }
 
-                    $groups[$field] = new FieldGroup(
-                        $matches, $groupCount, $valueGroups
-                    );
+                    $groups[$field] = new FieldGroup($matches, $groupCount, $valueGroups);
                 }
             }
 
@@ -125,9 +122,7 @@ class Grouping implements ComponentParserInterface
                     }
 
                     // create a group result object
-                    $group = new QueryGroup(
-                        $matches, $numFound, $start, $maxScore, $documents
-                    );
+                    $group = new QueryGroup($matches, $numFound, $start, $maxScore, $documents);
                     $groups[$groupQuery] = $group;
                 }
             }

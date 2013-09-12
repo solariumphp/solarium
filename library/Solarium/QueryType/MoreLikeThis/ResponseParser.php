@@ -38,6 +38,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\MoreLikeThis;
+
 use Solarium\QueryType\Select\ResponseParser\ResponseParser as SelectResponseParser;
 
 /**

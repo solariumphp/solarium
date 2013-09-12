@@ -40,6 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\MoreLikeThis;
+
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder as SelectRequestBuilder;
 use Solarium\Core\Query\QueryInterface;

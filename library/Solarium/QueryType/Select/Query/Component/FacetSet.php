@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\FacetSet as ResponseParser;
@@ -144,7 +145,7 @@ class FacetSet extends Component
     protected function init()
     {
         if (isset($this->options['facet'])) {
-            foreach ($this->options['facet'] AS $key => $config) {
+            foreach ($this->options['facet'] as $key => $config) {
                 if (!isset($config['key'])) {
                     $config['key'] = $key;
                 }
