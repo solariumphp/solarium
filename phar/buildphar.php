@@ -58,10 +58,14 @@ $phar->setSignatureAlgorithm(Phar::SHA1);
 // Add files to the phar
 $basePath = realpath(__DIR__."/../library/Solarium");
 if ($strip) {
-    $directoryIterator = new RecursiveIteratorIterator (new RecursiveDirectoryIterator ($basePath), RecursiveIteratorIterator::SELF_FIRST);
+    $directoryIterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($basePath),
+        RecursiveIteratorIterator::SELF_FIRST
+    );
+
     foreach ($directoryIterator as $file) {
-        if ( preg_match ('/\\.php$/i', $file) ) {
-            $phar->addFromString (substr ($file, strlen ($basePath) + 1), php_strip_whitespace ($file));
+        if (preg_match('/\\.php$/i', $file)) {
+            $phar->addFromString(substr($file, strlen($basePath) + 1), php_strip_whitespace($file));
         }
     }
 } else {
@@ -74,5 +78,5 @@ if ($compress) {
     $phar->compress(Phar::GZ);
 }
 
-$time = round(microtime(true)-$start,5);
+$time = round(microtime(true)-$start, 5);
 echo "\nDONE ($time seconds)\n\n";
