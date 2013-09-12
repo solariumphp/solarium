@@ -42,7 +42,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     {
         $client = new Client;
         $query = new Query;
-        $response = new Response('{"responseHeader":{"status":1, "QTime":12}}', array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
 
         $ping = new Result($client, $query, $response);
         $this->assertEquals(

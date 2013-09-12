@@ -62,8 +62,8 @@ class EdisMaxTest extends \PHPUnit_Framework_TestCase
             'queryphraseslop' => 4,
             'tie' => 2.1,
             'boostquery' => 'cat:1^3',
-            'boostfunctions' => 'funcA(arg1, arg2)^1.2 funcB(arg3, arg4)^2.2',
-            'boostfunctionsmult' => 'funcC(arg5, arg6)^4.3 funcD(arg7, arg8)^3.4',
+            'boostfunctions' => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
+            'boostfunctionsmult' => 'funcC(arg5,arg6)^4.3 funcD(arg7,arg8)^3.4',
             'userfields' => 'date *_ul',
         );
 
@@ -247,7 +247,7 @@ class EdisMaxTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetBoostFunctions()
     {
-        $value = 'funcA(arg1, arg2)^1.2 funcB(arg3, arg4)^2.2';
+        $value = 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2';
         $this->eDisMax->setBoostFunctions($value);
 
         $this->assertEquals(
@@ -258,7 +258,7 @@ class EdisMaxTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetBoostFunctionsMult()
     {
-        $value = 'funcC(arg5, arg6)^4.3 funcD(arg7, arg8)^3.4';
+        $value = 'funcC(arg5,arg6)^4.3 funcD(arg7,arg8)^3.4';
         $this->eDisMax->setBoostFunctionsMult($value);
 
         $this->assertEquals(

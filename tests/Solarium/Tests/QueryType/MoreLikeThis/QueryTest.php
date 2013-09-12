@@ -666,7 +666,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetMltFields()
     {
-        $value = 'name, description';
+        $value = 'name,description';
         $this->query->setMltFields($value);
 
         $this->assertEquals(
@@ -787,7 +787,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetQueryFields()
     {
-        $value = 'content, name';
+        $value = 'content,name';
         $this->query->setQueryFields($value);
 
         $this->assertEquals(

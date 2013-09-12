@@ -199,7 +199,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
 
     public function testAddsFieldsWithString()
     {
-        $fields = 'test1, test2';
+        $fields = 'test1,test2';
         $this->hlt->addFields($fields);
 
         $this->assertEquals(array('test1', 'test2'), array_keys($this->hlt->getFields()));

@@ -58,7 +58,7 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
             'queryphraseslop' => 4,
             'tie' => 2.1,
             'boostquery' => 'cat:1^3',
-            'boostfunctions' => 'funcA(arg1, arg2)^1.2 funcB(arg3, arg4)^2.2',
+            'boostfunctions' => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
         );
 
         $this->disMax->setOptions($options);
@@ -197,7 +197,7 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetBoostFunctions()
     {
-        $value = 'funcA(arg1, arg2)^1.2 funcB(arg3, arg4)^2.2';
+        $value = 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2';
         $this->disMax->setBoostFunctions($value);
 
         $this->assertEquals(

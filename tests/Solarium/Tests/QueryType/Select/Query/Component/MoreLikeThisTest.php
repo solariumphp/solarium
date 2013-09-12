@@ -49,7 +49,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'fields' => 'fieldA, fieldB',
+            'fields' => 'fieldA,fieldB',
             'minimumtermfrequency' => 10,
             'minimumdocumentfrequency' => 2,
             'minimumwordlength' => 3,
@@ -57,7 +57,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
             'maximumqueryterms' => 4,
             'maximumnumberoftokens' => 20,
             'boost' => 1.5,
-            'queryfields' => 'fieldC, fieldD',
+            'queryfields' => 'fieldC,fieldD',
             'count' => 5,
         );
 
@@ -97,7 +97,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetFields()
     {
-        $value = 'name, description';
+        $value = 'name,description';
         $this->mlt->setFields($value);
 
         $this->assertEquals(
@@ -196,7 +196,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetQueryFields()
     {
-        $value = 'content, name';
+        $value = 'content,name';
         $this->mlt->setQueryFields($value);
 
         $this->assertEquals(

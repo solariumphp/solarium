@@ -45,13 +45,13 @@ class EdisMaxTest extends \PHPUnit_Framework_TestCase
         $component = new Component();
         $component->setQueryParser('dummyparser');
         $component->setQueryAlternative('test');
-        $component->setQueryFields('content, name');
+        $component->setQueryFields('content,name');
         $component->setMinimumMatch('75%');
-        $component->setPhraseFields('content, description');
+        $component->setPhraseFields('content,description');
         $component->setPhraseSlop(1);
-        $component->setPhraseBigramFields('content, description, category');
+        $component->setPhraseBigramFields('content,description,category');
         $component->setPhraseBigramSlop(4);
-        $component->setPhraseTrigramFields('content2, date, subcategory');
+        $component->setPhraseTrigramFields('content2,date,subcategory');
         $component->setPhraseTrigramSlop(3);
         $component->setQueryPhraseSlop(2);
         $component->setTie(0.5);
@@ -66,13 +66,13 @@ class EdisMaxTest extends \PHPUnit_Framework_TestCase
             array(
                 'defType' => 'dummyparser',
                 'q.alt' => 'test',
-                'qf' => 'content, name',
+                'qf' => 'content,name',
                 'mm' => '75%',
-                'pf' => 'content, description',
+                'pf' => 'content,description',
                 'ps' => 1,
-                'pf2' => 'content, description, category',
+                'pf2' => 'content,description,category',
                 'ps2' => 4,
-                'pf3' => 'content2, date, subcategory',
+                'pf3' => 'content2,date,subcategory',
                 'ps3' => 3,
                 'qs' => 2,
                 'tie' => 0.5,
