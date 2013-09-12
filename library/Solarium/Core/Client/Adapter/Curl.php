@@ -222,7 +222,7 @@ class Curl extends Configurable implements AdapterInterface
      * @throws HttpException
      * @param  string        $data
      * @param  array         $headers
-     * @param  Curl handle   $handle
+     * @param  resource      $handle
      * @return void
      */
     public function check($data, $headers, $handle)

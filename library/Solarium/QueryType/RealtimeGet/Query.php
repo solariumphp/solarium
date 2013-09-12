@@ -40,6 +40,7 @@ namespace Solarium\QueryType\RealtimeGet;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\RealtimeGet\RequestBuilder as RequestBuilder;
+use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 
 /**
  * Get query
@@ -97,7 +98,7 @@ class Query extends BaseQuery
      */
     public function getResponseParser()
     {
-        return new \Solarium\QueryType\Select\ResponseParser\ResponseParser;
+        return new ResponseParser;
     }
 
     /**

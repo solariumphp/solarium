@@ -50,7 +50,7 @@ class Field extends RequestBuilder
     /**
      * Build request for an analysis field query
      *
-     * @param  QueryField $query
+     * @param  QueryInterface|QueryField $query
      * @return Request
      */
     public function build(QueryInterface $query)

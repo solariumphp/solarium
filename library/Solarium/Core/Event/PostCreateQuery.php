@@ -65,7 +65,7 @@ class PostCreateQuery extends Event
      * Event constructor
      *
      * @param string         $type
-     * @param array          $query
+     * @param array          $options
      * @param QueryInterface $query
      */
     public function __construct($type, $options, QueryInterface $query)

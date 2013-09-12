@@ -236,8 +236,8 @@ class Query extends BaseQuery
      *
      * You can remove a command by passing its key or by passing the command instance.
      *
-     * @param  string|Command\Command $command
-     * @return self                   Provides fluent interface
+     * @param  string|\Solarium\QueryType\Update\Query\Command\Command $command
+     * @return self                                                    Provides fluent interface
      */
     public function remove($command)
     {

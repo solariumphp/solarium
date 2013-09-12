@@ -104,10 +104,9 @@ class Document extends Query
     /**
      * Add a single document
      *
-     *
      * @param  SelectDocumentInterface|UpdateDocumentInterface $document
      * @return self                                            Provides fluent interface
-     * @throws RuntimeException
+     * @throws RuntimeException                                If the given document doesn't have the right interface
      */
     public function addDocument($document)
     {

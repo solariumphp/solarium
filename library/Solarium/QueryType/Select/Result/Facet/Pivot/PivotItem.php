@@ -69,8 +69,7 @@ class PivotItem extends Pivot
     /**
      * Constructor
      *
-     * @param  array $data
-     * @return void
+     * @param array $data
      */
     public function __construct($data)
     {
