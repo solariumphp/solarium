@@ -192,7 +192,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             new FacetPivot(
                 array(
                     'key' => 'f1',
-                    'fields' => 'cat, inStock',
+                    'fields' => 'cat,inStock',
                     'mincount' => 123,
                 )
             )

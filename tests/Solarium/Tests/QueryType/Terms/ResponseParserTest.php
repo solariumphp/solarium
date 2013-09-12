@@ -60,7 +60,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         );
 
         $query = new Query();
-        $query->setFields('fieldA, fieldB');
+        $query->setFields('fieldA,fieldB');
 
         $resultStub = $this->getMock('Solarium\QueryType\Terms\Result', array(), array(), '', false);
         $resultStub->expects($this->any())
@@ -114,7 +114,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         );
 
         $query = new Query();
-        $query->setFields('fieldA, fieldB');
+        $query->setFields('fieldA,fieldB');
 
         $resultStub = $this->getMock('Solarium\QueryType\Terms\Result', array(), array(), '', false);
         $resultStub->expects($this->any())

@@ -63,7 +63,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetFields()
     {
-        $this->query->setFields('fieldA, fieldB');
+        $this->query->setFields('fieldA,fieldB');
         $this->assertEquals(array('fieldA', 'fieldB'), $this->query->getFields());
     }
 
@@ -111,7 +111,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetRegexFlags()
     {
-        $this->query->setRegexFlags('case_insensitive, comments');
+        $this->query->setRegexFlags('case_insensitive,comments');
         $this->assertEquals(array('case_insensitive', 'comments'), $this->query->getRegexFlags());
     }
 

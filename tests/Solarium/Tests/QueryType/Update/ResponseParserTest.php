@@ -40,7 +40,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testParse()
     {
-        $data = '{"responseHeader" : {"status":1, "QTime":15}}';
+        $data = '{"responseHeader" : {"status":1,"QTime":15}}';
 
         $response = new Response($data, array('HTTP 1.1 200 OK'));
         $result = new Result(null, new SelectQuery, $response);

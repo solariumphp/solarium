@@ -55,14 +55,14 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildParams()
     {
-        $this->query->setFields('fieldA, fieldB');
+        $this->query->setFields('fieldA,fieldB');
         $this->query->setLowerbound('d');
         $this->query->setLowerboundInclude(true);
         $this->query->setMinCount(3);
         $this->query->setMaxCount(100);
         $this->query->setPrefix('de');
         $this->query->setRegex('det.*');
-        $this->query->setRegexFlags('case_insensitive, comments');
+        $this->query->setRegexFlags('case_insensitive,comments');
         $this->query->setLimit(50);
         $this->query->setUpperbound('x');
         $this->query->setUpperboundInclude(false);
