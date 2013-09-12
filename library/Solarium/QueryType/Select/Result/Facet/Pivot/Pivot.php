@@ -44,7 +44,6 @@ namespace Solarium\QueryType\Select\Result\Facet\Pivot;
  */
 class Pivot implements \IteratorAggregate, \Countable
 {
-
     /**
      * Value array
      *

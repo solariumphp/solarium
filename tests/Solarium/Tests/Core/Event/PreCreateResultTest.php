@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Event;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Event\PreCreateResult;
 use Solarium\QueryType\Select\Query\Query;
@@ -38,13 +39,12 @@ use Solarium\Core\Query\Result\Result;
 
 class PreCreateResultTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetters()
     {
         $client = new Client;
         $query = $client->createSelect();
         $query->setQuery('test123');
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
 
         $event = new PreCreateResult($query, $response);
 
@@ -64,12 +64,11 @@ class PreCreateResultTest extends \PHPUnit_Framework_TestCase
         $client = new Client;
         $query = $client->createSelect();
         $query->setQuery('test123');
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
 
         $result = new Result($client, $query, $response);
         $event->setResult($result);
 
         $this->assertEquals($result, $event->getResult());
     }
-
 }

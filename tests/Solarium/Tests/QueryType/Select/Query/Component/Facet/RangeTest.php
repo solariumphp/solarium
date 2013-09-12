@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
+
 use Solarium\QueryType\Select\Query\Component\Facet\Range;
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 class RangeTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Range
      */
@@ -50,7 +50,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'key' => 'myKey',
-            'exclude' => array('e1','e2'),
+            'exclude' => array('e1', 'e2'),
             'field' => 'content',
             'start' => 1,
             'end' => 100,
@@ -120,8 +120,8 @@ class RangeTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetOtherArray()
     {
-        $this->facet->setOther(array('before','after'));
-        $this->assertEquals(array('before','after'), $this->facet->getOther());
+        $this->facet->setOther(array('before', 'after'));
+        $this->assertEquals(array('before', 'after'), $this->facet->getOther());
     }
 
     public function testSetAndGetInclude()
@@ -132,8 +132,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetIncludeArray()
     {
-        $this->facet->setInclude(array('lower','upper'));
-        $this->assertEquals(array('lower','upper'), $this->facet->getInclude());
+        $this->facet->setInclude(array('lower', 'upper'));
+        $this->assertEquals(array('lower', 'upper'), $this->facet->getInclude());
     }
-
 }

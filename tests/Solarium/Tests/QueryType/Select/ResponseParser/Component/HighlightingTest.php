@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\ResponseParser\Component\Highlighting as Parser;
 use Solarium\QueryType\Select\Result\Highlighting\Result;
 
 class HighlightingTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $parser;
 
     public function setUp()
@@ -63,5 +63,4 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array(), $result->getResults());
     }
-
 }

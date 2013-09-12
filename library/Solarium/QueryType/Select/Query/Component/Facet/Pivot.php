@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Facet;
+
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 /**
@@ -46,7 +47,6 @@ use Solarium\QueryType\Select\Query\Component\FacetSet;
  */
 class Pivot extends Facet
 {
-
     /**
      * Fields to use
      *

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query\Result;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
@@ -52,7 +53,6 @@ use Solarium\Exception\RuntimeException;
  */
 class Result implements ResultInterface
 {
-
     /**
      * Response object
      *

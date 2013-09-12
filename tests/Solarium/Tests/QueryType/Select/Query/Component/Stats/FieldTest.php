@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Stats;
+
 use Solarium\QueryType\Select\Query\Component\Stats\Field;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Field
      */
@@ -52,7 +52,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->field->setOptions($options);
-        $this->assertEquals(array('field1','field2'), $this->field->getFacets());
+        $this->assertEquals(array('field1', 'field2'), $this->field->getFacets());
     }
 
     public function testSetAndGetKey()
@@ -78,7 +78,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFacets()
     {
-        $facets = array('facet1','facet2');
+        $facets = array('facet1', 'facet2');
 
         $this->field->clearFacets();
         $this->field->addFacets($facets);
@@ -89,13 +89,13 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $this->field->clearFacets();
         $this->field->addFacets('facet1, facet2');
-        $this->assertEquals(array('facet1','facet2'), $this->field->getFacets());
+        $this->assertEquals(array('facet1', 'facet2'), $this->field->getFacets());
     }
 
     public function testRemoveFacet()
     {
         $this->field->clearFacets();
-        $this->field->addFacets(array('facet1','facet2'));
+        $this->field->addFacets(array('facet1', 'facet2'));
         $this->field->removeFacet('facet1');
         $this->assertEquals(array('facet2'), $this->field->getFacets());
     }
@@ -103,8 +103,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testSetFacets()
     {
         $this->field->clearFacets();
-        $this->field->addFacets(array('facet1','facet2'));
-        $this->field->setFacets(array('facet3','facet4'));
-        $this->assertEquals(array('facet3','facet4'), $this->field->getFacets());
+        $this->field->addFacets(array('facet1', 'facet2'));
+        $this->field->setFacets(array('facet3', 'facet4'));
+        $this->assertEquals(array('facet3', 'facet4'), $this->field->getFacets());
     }
 }

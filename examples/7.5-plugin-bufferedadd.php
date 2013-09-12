@@ -14,7 +14,7 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 // also register an event hook to display what is happening
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
-    function(PreFlushEvent $event){
+    function (PreFlushEvent $event) {
         echo 'Flushing buffer (' . count($event->getBuffer()) . 'docs)<br/>';
     }
 );

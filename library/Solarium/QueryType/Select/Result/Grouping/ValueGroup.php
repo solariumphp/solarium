@@ -45,7 +45,6 @@ namespace Solarium\QueryType\Select\Result\Grouping;
  */
 class ValueGroup implements \IteratorAggregate, \Countable
 {
-
     /**
      * Field value
      *

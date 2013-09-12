@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\DisMax as Component;
 use Solarium\Core\Client\Request;
 
 class DisMaxTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildComponent()
     {
         $builder = new RequestBuilder;
@@ -73,5 +73,4 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
         );
 
     }
-
 }

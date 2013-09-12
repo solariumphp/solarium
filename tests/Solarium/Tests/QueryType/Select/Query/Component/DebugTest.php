@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Component\Debug;
 use Solarium\QueryType\Select\Query\Query;
 
 class DebugTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Debug
      */
@@ -67,12 +67,18 @@ class DebugTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\Component\Debug', $this->debug->getResponseParser());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\ResponseParser\Component\Debug',
+            $this->debug->getResponseParser()
+        );
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\Debug', $this->debug->getRequestBuilder());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\RequestBuilder\Component\Debug',
+            $this->debug->getRequestBuilder()
+        );
     }
 
     public function testSetAndGetExplainOther()
@@ -85,5 +91,4 @@ class DebugTest extends \PHPUnit_Framework_TestCase
             $this->debug->getExplainOther()
         );
     }
-
 }

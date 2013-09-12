@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query\Result;
+
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Query;
 
@@ -45,7 +46,6 @@ use Solarium\Core\Query\Query;
  */
 interface ResultInterface
 {
-
     /**
      * Get response object
      *

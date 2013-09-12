@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\RequestBuilder;
+
 use Solarium\QueryType\Analysis\Query\Field as FieldQuery;
 use Solarium\QueryType\Analysis\RequestBuilder\Field as FieldBuilder;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var FieldQuery
      */
@@ -68,5 +68,4 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($fieldName, $request->getParam('analysis.fieldname'));
         $this->assertEquals($fieldType, $request->getParam('analysis.fieldtype'));
     }
-
 }

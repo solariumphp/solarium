@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Query\Result;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\QueryType as QueryTypeResult;
@@ -47,7 +48,7 @@ class QueryTypeTest extends \PHPUnit_Framework_TestCase
     {
         $client = new Client;
         $query = new UpdateQuery;
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
         $this->result = new QueryTypeDummy($client, $query, $response);
     }
 
@@ -55,7 +56,7 @@ class QueryTypeTest extends \PHPUnit_Framework_TestCase
     {
         $client = new Client;
         $query = new QueryDummyTest;
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
         $result = new QueryTypeDummy($client, $query, $response);
 
         $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
@@ -69,22 +70,21 @@ class QueryTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testParseLazyLoading()
     {
-        $this->assertEquals(0,$this->result->parseCount);
+        $this->assertEquals(0, $this->result->parseCount);
 
         $this->result->parse();
-        $this->assertEquals(1,$this->result->parseCount);
+        $this->assertEquals(1, $this->result->parseCount);
 
         $this->result->parse();
-        $this->assertEquals(1,$this->result->parseCount);
+        $this->assertEquals(1, $this->result->parseCount);
     }
 
     public function testMapData()
     {
         $this->result->mapData(array('dummyvar' => 'dummyvalue'));
 
-        $this->assertEquals('dummyvalue',$this->result->getVar('dummyvar'));
+        $this->assertEquals('dummyvalue', $this->result->getVar('dummyvar'));
     }
-
 }
 
 class QueryDummyTest extends SelectQuery
@@ -102,7 +102,6 @@ class QueryDummyTest extends SelectQuery
 
 class QueryTypeDummy extends QueryTypeResult
 {
-
     public $parseCount = 0;
 
     public function parse()
@@ -120,5 +119,4 @@ class QueryTypeDummy extends QueryTypeResult
     {
         return $this->$name;
     }
-
 }

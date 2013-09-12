@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\MoreLikeThis;
+
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
@@ -44,7 +45,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class Result implements \IteratorAggregate, \Countable
 {
-
     /**
      * Document instances array
      *

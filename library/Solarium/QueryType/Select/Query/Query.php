@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
@@ -54,7 +55,6 @@ use Solarium\QueryType\Select\Query\Component\Component as AbstractComponent;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Solr sort mode descending
      */
@@ -442,9 +442,9 @@ class Query extends BaseQuery
      */
     public function addField($field)
     {
-       $this->fields[$field] = true;
+        $this->fields[$field] = true;
 
-       return $this;
+        return $this;
     }
 
     /**
@@ -478,7 +478,7 @@ class Query extends BaseQuery
     public function removeField($field)
     {
         if (isset($this->fields[$field])) {
-           unset($this->fields[$field]);
+            unset($this->fields[$field]);
         }
 
         return $this;
@@ -1084,5 +1084,4 @@ class Query extends BaseQuery
 
         return $this->addTags($tags);
     }
-
 }

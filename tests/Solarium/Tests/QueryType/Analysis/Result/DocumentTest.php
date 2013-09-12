@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\Result;
+
 use Solarium\QueryType\Analysis\Result\Document;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var DocumentDummy
      */
@@ -61,7 +61,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $docs = array();
-        foreach ($this->result AS $key => $doc) {
+        foreach ($this->result as $key => $doc) {
             $docs[$key] = $doc;
         }
 
@@ -99,7 +99,6 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             $this->result->getDocument('invalidkey')
         );
     }
-
 }
 
 class DocumentDummy extends Document
@@ -112,5 +111,4 @@ class DocumentDummy extends Document
         $this->queryTime = $queryTime;
         $this->status = $status;
     }
-
 }

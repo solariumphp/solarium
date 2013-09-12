@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Plugin\Loadbalancer;
+
 use Solarium\Core\Client\Client;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -60,10 +61,10 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $options = array(
             'endpoint' => array(
                 'server1' => array(
-                    'host' => 'host1'
+                    'host' => 'host1',
                 ),
                 'server2' => array(
-                    'host' => 'host2'
+                    'host' => 'host2',
                 ),
             ),
         );
@@ -407,7 +408,7 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $this->plugin->preExecuteRequest($event);
 
         $this->assertTrue(
-            in_array($this->plugin->getLastEndpoint(), array('server1','server2'))
+            in_array($this->plugin->getLastEndpoint(), array('server1', 'server2'))
         );
     }
 
@@ -459,12 +460,14 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException', 'Maximum number of loadbalancer retries reached');
+        $this->setExpectedException(
+            'Solarium\Exception\RuntimeException',
+            'Maximum number of loadbalancer retries reached'
+        );
 
         $event = new PreExecuteRequestEvent($request, new Endpoint);
         $this->plugin->preExecuteRequest($event);
     }
-
 }
 
 class TestLoadbalancer extends Loadbalancer
@@ -486,7 +489,6 @@ class TestLoadbalancer extends Loadbalancer
 
         return $this->client->getEndpoint($endpointKey);
     }
-
 }
 
 class TestAdapterForFailover extends HttpAdapter
@@ -509,5 +511,4 @@ class TestAdapterForFailover extends HttpAdapter
 
         return 'dummyvalue';
     }
-
 }

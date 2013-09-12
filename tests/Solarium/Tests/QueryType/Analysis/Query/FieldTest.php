@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\Query;
+
 use Solarium\QueryType\Analysis\Query\Field;
 use Solarium\Core\Client\Client;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Field
      */
@@ -81,5 +81,4 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->query->setFieldName($data);
         $this->assertEquals($data, $this->query->getFieldName());
     }
-
 }

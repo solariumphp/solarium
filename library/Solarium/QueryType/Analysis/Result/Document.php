@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\Result;
+
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 use Solarium\QueryType\Analysis\Result\ResultList;
 
@@ -45,7 +46,6 @@ use Solarium\QueryType\Analysis\Result\ResultList;
  */
 class Document extends BaseResult implements \IteratorAggregate, \Countable
 {
-
     /**
      * Document instances array
      *
@@ -151,5 +151,4 @@ class Document extends BaseResult implements \IteratorAggregate, \Countable
             return null;
         }
     }
-
 }

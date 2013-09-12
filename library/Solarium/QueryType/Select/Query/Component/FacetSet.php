@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\FacetSet as ResponseParser;
@@ -51,7 +52,6 @@ use Solarium\QueryType\Select\Query\Component\Facet\Facet;
  */
 class FacetSet extends Component
 {
-
     /**
      * Facet type field
      */
@@ -145,7 +145,7 @@ class FacetSet extends Component
     protected function init()
     {
         if (isset($this->options['facet'])) {
-            foreach ($this->options['facet'] AS $key => $config) {
+            foreach ($this->options['facet'] as $key => $config) {
                 if (!isset($config['key'])) {
                     $config['key'] = $key;
                 }
@@ -526,5 +526,4 @@ class FacetSet extends Component
     {
         return $this->createFacet(self::FACET_PIVOT, $options, $add);
     }
-
 }

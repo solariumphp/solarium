@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting as HighlightingComponent;
 use Solarium\QueryType\Select\Result\Highlighting\Highlighting as HighlightingResult;
@@ -47,7 +48,6 @@ use Solarium\QueryType\Select\Result\Highlighting\Result;
  */
 class Highlighting implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *

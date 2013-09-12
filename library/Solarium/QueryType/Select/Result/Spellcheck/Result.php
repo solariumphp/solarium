@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\Spellcheck;
+
 use Solarium\QueryType\Select\Result\Spellcheck\Collation;
 use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
 
@@ -45,7 +46,6 @@ use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
  */
 class Result implements \IteratorAggregate, \Countable
 {
-
     /**
      * Suggestions array
      *

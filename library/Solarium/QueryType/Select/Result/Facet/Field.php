@@ -47,7 +47,6 @@ namespace Solarium\QueryType\Select\Result\Facet;
  */
 class Field implements \IteratorAggregate, \Countable
 {
-
     /**
      * Value array
      *

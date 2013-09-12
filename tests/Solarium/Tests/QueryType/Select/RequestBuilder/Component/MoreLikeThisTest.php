@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\MoreLikeThis as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\MoreLikeThis as Component;
 use Solarium\Core\Client\Request;
 
 class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildComponent()
     {
         $builder = new RequestBuilder;
@@ -108,5 +108,4 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
         );
 
     }
-
 }

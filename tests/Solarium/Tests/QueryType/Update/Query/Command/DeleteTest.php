@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Update\Query\Command;
+
 use Solarium\QueryType\Update\Query\Command\Delete;
 use Solarium\QueryType\Update\Query\Query;
 
@@ -73,19 +74,19 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     public function testConfigModeMultiValue()
     {
         $options = array(
-            'id' => array(1,2),
-            'query' => array('id:1','id:2'),
+            'id' => array(1, 2),
+            'query' => array('id:1', 'id:2'),
         );
 
         $command = new Delete($options);
 
         $this->assertEquals(
-            array(1,2),
+            array(1, 2),
             $command->getIds()
         );
 
         $this->assertEquals(
-            array('id:1','id:2'),
+            array('id:1', 'id:2'),
             $command->getQueries()
         );
     }
@@ -102,9 +103,9 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     public function testAddIds()
     {
         $this->command->addId(1);
-        $this->command->addIds(array(2,3));
+        $this->command->addIds(array(2, 3));
         $this->assertEquals(
-            array(1,2,3),
+            array(1, 2, 3),
             $this->command->getIds()
         );
     }
@@ -121,11 +122,10 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     public function testAddQueries()
     {
         $this->command->addQuery('*:*');
-        $this->command->addQueries(array('id:1','id:2'));
+        $this->command->addQueries(array('id:1', 'id:2'));
         $this->assertEquals(
-            array('*:*','id:1','id:2'),
+            array('*:*', 'id:1', 'id:2'),
             $this->command->getQueries()
         );
     }
-
 }

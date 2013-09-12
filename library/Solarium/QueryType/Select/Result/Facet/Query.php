@@ -46,7 +46,6 @@ namespace Solarium\QueryType\Select\Result\Facet;
  */
 class Query
 {
-
     /**
      * Value (count)
      *

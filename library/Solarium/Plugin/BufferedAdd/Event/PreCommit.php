@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\BufferedAdd\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
@@ -45,7 +46,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class PreCommit extends Event
 {
-
     /**
      * @var DocumentInterface[]
      */
@@ -181,5 +181,4 @@ class PreCommit extends Event
     {
         return $this->waitSearcher;
     }
-
 }

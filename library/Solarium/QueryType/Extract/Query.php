@@ -42,6 +42,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Extract;
+
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
@@ -303,7 +304,7 @@ class Query extends BaseQuery
      */
     public function addFieldMappings($mappings)
     {
-        foreach ($mappings AS $fromField => $toField) {
+        foreach ($mappings as $fromField => $toField) {
             $this->addFieldMapping($fromField, $toField);
         }
 
@@ -402,5 +403,4 @@ class Query extends BaseQuery
 
         return new $class($fields, $boosts);
     }
-
 }

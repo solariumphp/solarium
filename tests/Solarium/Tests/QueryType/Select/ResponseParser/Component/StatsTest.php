@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\ResponseParser\Component\Stats as Parser;
 
 class StatsTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $parser;
 
     public function setUp()
@@ -78,5 +78,4 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $result = $this->parser->parse(null, null, array());
         $this->assertEquals(0, count($result));
     }
-
 }

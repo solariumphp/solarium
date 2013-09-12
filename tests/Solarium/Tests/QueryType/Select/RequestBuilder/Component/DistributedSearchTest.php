@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\DistributedSearch as Component;
 use Solarium\Core\Client\Request;
 
 class DistributedSearchTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildComponentWithShards()
     {
         $builder = new RequestBuilder;
@@ -44,10 +44,12 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
 
         $component = new Component();
         $component->addShard('shard1', 'localhost:8983/solr/shard1');
-        $component->addShards(array(
-            'shard2' => 'localhost:8983/solr/shard2',
-            'shard3' => 'localhost:8983/solr/shard3'
-        ));
+        $component->addShards(
+            array(
+                'shard2' => 'localhost:8983/solr/shard2',
+                'shard3' => 'localhost:8983/solr/shard3',
+            )
+        );
         $component->setShardRequestHandler('dummy');
 
         $request = $builder->buildComponent($component, $request);
@@ -66,21 +68,18 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         $builder = new RequestBuilder;
         $request = new Request();
 
+        $url = 'localhost:8983/solr/collection';
         $component = new Component();
-        $component->addCollection('collection1', 'localhost:8983/solr/collection1');
-        $component->addCollections(array(
-            'collection2' => 'localhost:8983/solr/collection2',
-            'collection3' => 'localhost:8983/solr/collection3'
-        ));
+        $component->addCollection('collection1', $url.'1');
+        $component->addCollections(
+            array(
+                'collection2' => $url.'2',
+                'collection3' => $url.'3',
+            )
+        );
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
-            array(
-                'collection' => 'localhost:8983/solr/collection1,localhost:8983/solr/collection2,localhost:8983/solr/collection3',
-            ),
-            $request->getParams()
-        );
+        $this->assertEquals(array('collection' => $url.'1,'.$url.'2,'.$url.'3'), $request->getParams());
     }
-
 }

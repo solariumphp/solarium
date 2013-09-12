@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query\Command;
+
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
@@ -46,7 +47,6 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
  */
 class Commit extends Command
 {
-
     /**
      * Get command type
      *
@@ -119,5 +119,4 @@ class Commit extends Command
     {
         return $this->setOption('expungedeletes', $expungeDeletes);
     }
-
 }

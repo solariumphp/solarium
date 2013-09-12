@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Terms;
+
 use Solarium\QueryType\Terms\Query;
 use Solarium\QueryType\Terms\ResponseParser;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParse()
     {
         $data = array(
@@ -60,7 +60,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         );
 
         $query = new Query();
-        $query->setFields('fieldA, fieldB');
+        $query->setFields('fieldA,fieldB');
 
         $resultStub = $this->getMock('Solarium\QueryType\Terms\Result', array(), array(), '', false);
         $resultStub->expects($this->any())
@@ -114,7 +114,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         );
 
         $query = new Query();
-        $query->setFields('fieldA, fieldB');
+        $query->setFields('fieldA,fieldB');
 
         $resultStub = $this->getMock('Solarium\QueryType\Terms\Result', array(), array(), '', false);
         $resultStub->expects($this->any())
@@ -141,5 +141,4 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result['results']);
         $this->assertEquals(2, count($result['results']));
     }
-
 }

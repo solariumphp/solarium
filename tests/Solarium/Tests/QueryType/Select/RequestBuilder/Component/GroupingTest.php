@@ -30,21 +30,21 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\Grouping as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\Grouping as Component;
 use Solarium\Core\Client\Request;
 
 class GroupingTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildComponent()
     {
         $builder = new RequestBuilder;
         $request = new Request();
 
         $component = new Component();
-        $component->setFields(array('fieldA','fieldB'));
-        $component->setQueries(array('cat:1','cat:2'));
+        $component->setFields(array('fieldA', 'fieldB'));
+        $component->setQueries(array('cat:1', 'cat:2'));
         $component->setLimit(12);
         $component->setOffset(2);
         $component->setSort('score desc');
@@ -61,8 +61,8 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             array(
                 'group' => 'true',
-                'group.field' => array('fieldA','fieldB'),
-                'group.query' => array('cat:1','cat:2'),
+                'group.field' => array('fieldA', 'fieldB'),
+                'group.query' => array('cat:1', 'cat:2'),
                 'group.limit' => 12,
                 'group.offset' => 2,
                 'group.sort' => 'score desc',
@@ -78,5 +78,4 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         );
 
     }
-
 }

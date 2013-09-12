@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Spellcheck;
  */
 class Suggestion
 {
-
     /**
      * Constructor
      *
@@ -145,5 +144,4 @@ class Suggestion
             return null;
         }
     }
-
 }

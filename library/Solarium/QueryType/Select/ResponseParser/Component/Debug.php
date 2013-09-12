@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Debug as DebugComponent;
 use Solarium\QueryType\Select\Result\Debug\Result;
@@ -51,7 +52,6 @@ use Solarium\QueryType\Select\Result\Debug\TimingPhase;
  */
 class Debug implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *
@@ -178,5 +178,4 @@ class Debug implements ComponentParserInterface
 
         return new TimingPhase($name, $time, $classes);
     }
-
 }

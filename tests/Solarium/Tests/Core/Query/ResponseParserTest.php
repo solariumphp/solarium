@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Query;
+
 use Solarium\Core\Query\ResponseParser;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
@@ -97,7 +98,6 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->parser->addHeaderInfo($data, $result));
     }
-
 }
 
 /**

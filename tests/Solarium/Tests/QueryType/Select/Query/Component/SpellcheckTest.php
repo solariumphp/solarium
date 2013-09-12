@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Component\Spellcheck;
 use Solarium\QueryType\Select\Query\Query;
 
 class SpellcheckTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Spellcheck
      */
@@ -54,12 +54,18 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\Component\Spellcheck', $this->spellCheck->getResponseParser());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\ResponseParser\Component\Spellcheck',
+            $this->spellCheck->getResponseParser()
+        );
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\Spellcheck', $this->spellCheck->getRequestBuilder());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\RequestBuilder\Component\Spellcheck',
+            $this->spellCheck->getRequestBuilder()
+        );
     }
 
     public function testSetAndGetQuery()
@@ -214,19 +220,13 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetCollateParams()
     {
         $this->assertEquals(
-             $this->spellCheck,
-             $this->spellCheck->setCollateParam('mm', '100%')
+            $this->spellCheck,
+            $this->spellCheck->setCollateParam('mm', '100%')
         );
 
         $params = $this->spellCheck->getCollateParams();
 
-        $this->assertArrayHasKey(
-             'mm',
-             $params
-        );
-        $this->assertEquals(
-             '100%',
-             $params['mm']
-        );
+        $this->assertArrayHasKey('mm', $params);
+        $this->assertEquals('100%', $params['mm']);
     }
 }

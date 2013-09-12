@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Suggester;
+
 use Solarium\QueryType\Suggester\Query;
 use Solarium\Core\Client\Client;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -115,5 +115,4 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             $this->query->getCollate()
         );
     }
-
 }

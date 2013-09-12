@@ -30,28 +30,36 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result;
+
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var SelectDummy
      */
     protected $result;
 
-    protected $numFound, $docs, $components, $facetSet, $moreLikeThis,
-              $highlighting, $grouping, $stats, $debug;
+    protected $numFound;
+    protected $docs;
+    protected $components;
+    protected $facetSet;
+    protected $moreLikeThis;
+    protected $highlighting;
+    protected $grouping;
+    protected $stats;
+    protected $debug;
+    protected $spellcheck;
 
     public function setUp()
     {
         $this->numFound = 11;
 
         $this->docs = array(
-            new Document(array('id'=>1,'title'=>'doc1')),
-            new Document(array('id'=>1,'title'=>'doc1')),
+            new Document(array('id'=>1, 'title'=>'doc1')),
+            new Document(array('id'=>1, 'title'=>'doc1')),
         );
 
         $this->facetSet = 'dummy-facetset-value';
@@ -167,7 +175,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $docs = array();
-        foreach ($this->result AS $key => $doc) {
+        foreach ($this->result as $key => $doc) {
             $docs[$key] = $doc;
         }
 
@@ -189,7 +197,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             $this->result->getQueryTime()
         );
     }
-
 }
 
 class SelectDummy extends Result
@@ -204,5 +211,4 @@ class SelectDummy extends Result
         $this->queryTime = $queryTime;
         $this->status = $status;
     }
-
 }

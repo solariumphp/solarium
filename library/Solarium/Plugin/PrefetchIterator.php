@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin;
+
 use Solarium\Client;
 use Solarium\Core\Plugin\Plugin;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -51,7 +52,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class PrefetchIterator extends Plugin implements \Iterator, \Countable
 {
-
     /**
      * Default options
      *

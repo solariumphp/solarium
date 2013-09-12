@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
+
 use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\Query;
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 class MultiQueryTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var MultiQuery
      */
@@ -51,15 +51,15 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'key' => 'myKey',
-            'exclude' => array('e1','e2'),
+            'exclude' => array('e1', 'e2'),
             'query' => array(
                 array(
                     'key' => 'k1',
                     'query' => 'category:1',
-                    'exclude' => array('fq1','fq2')
+                    'exclude' => array('fq1', 'fq2')
                 ),
                 'k2' => array(
-                    'query' => 'category:2'
+                    'query' => 'category:2',
                 ),
             )
         );
@@ -72,7 +72,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
         $query1 = $this->facet->getQuery('k1');
         $this->assertEquals('k1', $query1->getKey());
         $this->assertEquals('category:1', $query1->getQuery());
-        $this->assertEquals(array('fq1','fq2', 'e1', 'e2'), $query1->getExcludes());
+        $this->assertEquals(array('fq1', 'fq2', 'e1', 'e2'), $query1->getExcludes());
 
         $query2 = $this->facet->getQuery('k2');
         $this->assertEquals('k2', $query2->getKey());
@@ -82,7 +82,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
     public function testConfigModeSingleQuery()
     {
         $options = array(
-            'query' => 'category:2'
+            'query' => 'category:2',
         );
 
         $this->facet->setOptions($options);
@@ -102,7 +102,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
     {
         $key = 'k1';
         $query = 'category:1';
-        $excludes = array('fq1','fq2');
+        $excludes = array('fq1', 'fq2');
 
         $facetQuery = new Query;
         $facetQuery->setKey($key);
@@ -121,7 +121,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
     {
         $key = 'k1';
         $query = 'category:1';
-        $excludes = array('fq1','fq2');
+        $excludes = array('fq1', 'fq2');
 
         $facetQuery = new Query;
         $facetQuery->setKey($key);
@@ -141,7 +141,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
         $config = array(
             'key' => 'k1',
             'query' => 'category:1',
-            'excludes' => array('fq1','fq2')
+            'excludes' => array('fq1', 'fq2')
         );
 
         $facetQuery = new Query($config);
@@ -157,7 +157,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
     public function testAddQueryNoKey()
     {
         $query = 'category:1';
-        $excludes = array('fq1','fq2');
+        $excludes = array('fq1', 'fq2');
 
         $facetQuery = new Query;
         $facetQuery->setQuery($query);
@@ -222,7 +222,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
         $facetQuery1 = new Query;
         $facetQuery1->setKey('k1');
         $facetQuery1->setQuery('category:1');
-        $facetQuery1->addExcludes(array('fq1','fq2'));
+        $facetQuery1->addExcludes(array('fq1', 'fq2'));
 
         $facetQuery2 = new Query;
         $facetQuery2->setKey('k2');
@@ -234,10 +234,10 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
             array(
                 'key' => 'k1',
                 'query' => 'category:1',
-                'exclude' => array('fq1','fq2')
+                'exclude' => array('fq1', 'fq2')
             ),
             'k2' => array(
-                'query' => 'category:2'
+                'query' => 'category:2',
             ),
         );
         $this->facet->addQueries($config);
@@ -399,7 +399,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
         $this->facet->addQuery($facetQuery);
 
         $this->assertEquals(
-            array('fq1','fq2'),
+            array('fq1', 'fq2'),
             $facetQuery->getExcludes()
         );
 
@@ -410,5 +410,4 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
             $facetQuery->getExcludes()
         );
     }
-
 }

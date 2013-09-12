@@ -24,7 +24,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 // display facet counts
 echo '<hr/>Facet counts for field "inStock":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('stock');
-foreach($facet as $value => $count) {
+foreach ($facet as $value => $count) {
     echo $value . ' [' . $count . ']<br/>';
 }
 

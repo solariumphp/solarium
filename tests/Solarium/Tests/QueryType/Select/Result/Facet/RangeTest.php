@@ -30,18 +30,23 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
+
 use Solarium\QueryType\Select\Result\Facet\Range;
 
 class RangeTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Range
      */
     protected $facet;
 
-    protected $values, $before, $after, $between, $start, $end, $gap;
-
+    protected $values;
+    protected $before;
+    protected $after;
+    protected $between;
+    protected $start;
+    protected $end;
+    protected $gap;
 
     public function setUp()
     {
@@ -58,7 +63,15 @@ class RangeTest extends \PHPUnit_Framework_TestCase
         $this->end = '40.0';
         $this->gap = '10.0';
 
-        $this->facet = new Range($this->values, $this->before, $this->after, $this->between, $this->start, $this->end, $this->gap);
+        $this->facet = new Range(
+            $this->values,
+            $this->before,
+            $this->after,
+            $this->between,
+            $this->start,
+            $this->end,
+            $this->gap
+        );
     }
 
     public function testGetValues()
@@ -74,7 +87,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $values = array();
-        foreach ($this->facet AS $key => $value) {
+        foreach ($this->facet as $key => $value) {
             $values[$key] = $value;
         }
 

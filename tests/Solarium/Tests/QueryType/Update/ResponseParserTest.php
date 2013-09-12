@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Update;
+
 use Solarium\Core\Client\Response;
 use Solarium\QueryType\Update\Result;
 use Solarium\QueryType\Update\ResponseParser;
@@ -37,7 +38,6 @@ use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParse()
     {
         $data = '{"responseHeader" : {"status":1,"QTime":15}}';
@@ -50,5 +50,4 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $parsed['status']);
         $this->assertEquals(15, $parsed['queryTime']);
     }
-
 }

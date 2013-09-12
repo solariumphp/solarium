@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests;
+
 use Solarium\Client;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testVersion()
     {
         $version = Client::VERSION;
@@ -51,7 +51,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCheckExactPartial()
     {
         $this->assertTrue(
-            Client::checkExact(substr(Client::VERSION,0,1))
+            Client::checkExact(substr(Client::VERSION, 0, 1))
         );
     }
 
@@ -78,7 +78,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckMinimalPartial()
     {
-        $version = substr(Client::VERSION,0,1);
+        $version = substr(Client::VERSION, 0, 1);
 
         $this->assertTrue(
             Client::checkMinimal($version)
@@ -98,5 +98,4 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             Client::checkMinimal('99.0')
         );
     }
-
 }

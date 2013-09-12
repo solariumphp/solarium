@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Update\Query\Document;
  */
 interface DocumentInterface
 {
-
     /**
      * Constructor
      *
@@ -52,5 +51,4 @@ interface DocumentInterface
      * @param array $modifiers
      */
     public function __construct(array $fields = array(), array $boosts = array(), array $modifiers = array());
-
 }

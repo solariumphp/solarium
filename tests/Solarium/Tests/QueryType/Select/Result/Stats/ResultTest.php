@@ -30,17 +30,18 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Stats;
+
 use Solarium\QueryType\Select\Result\Stats\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Result
      */
     protected $result;
 
-    protected $field, $stats;
+    protected $field;
+    protected $stats;
 
     public function setUp()
     {
@@ -109,5 +110,4 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->stats['facets'], $this->result->getFacets());
     }
-
 }

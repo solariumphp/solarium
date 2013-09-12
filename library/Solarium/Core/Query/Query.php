@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query;
+
 use Solarium\Core\Query\Helper;
 use Solarium\Core\Configurable;
 
@@ -228,5 +229,4 @@ abstract class Query extends Configurable implements QueryInterface
 
         return $responseWriter;
     }
-
 }

@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\QueryType\Select\Query\Query;
 
 class ComponentTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testGetType()
     {
         $component = new TestComponent();
@@ -49,7 +49,6 @@ class ComponentTest extends \PHPUnit_Framework_TestCase
         $component->setQueryInstance($query);
         $this->assertEquals($query, $component->getQueryInstance());
     }
-
 }
 
 class TestComponent extends Component

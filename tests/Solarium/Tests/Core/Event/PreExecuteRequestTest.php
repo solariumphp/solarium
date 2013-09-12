@@ -30,16 +30,15 @@
  */
 
 namespace Solarium\Tests\Core\Event;
+
 use Solarium\Core\Event\PreExecuteRequest;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
 
-
 class PreExecuteRequestTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetters()
     {
         $client = new Client;
@@ -62,9 +61,8 @@ class PreExecuteRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAndGetQuery($event)
     {
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $event->setResponse($response);
         $this->assertEquals($response, $event->getResponse());
     }
-
 }

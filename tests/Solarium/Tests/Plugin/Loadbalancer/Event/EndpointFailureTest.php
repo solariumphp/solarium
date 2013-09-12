@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\Plugin\Loadbalancer\Event;
+
 use Solarium\Plugin\Loadbalancer\Event\EndpointFailure;
 use Solarium\Core\Client\Client;
 use Solarium\Exception\HttpException;
 
 class EndpointFailureTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetters()
     {
         $client = new Client;
@@ -48,5 +48,4 @@ class EndpointFailureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($endpoint, $event->getEndpoint());
         $this->assertEquals($httpException, $event->getException());
     }
-
 }

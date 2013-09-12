@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query\Result;
+
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\UnexpectedValueException;
 
@@ -45,7 +46,6 @@ use Solarium\Exception\UnexpectedValueException;
  */
 class QueryType extends Result
 {
-
     /**
      * Lazy load parsing indicator
      *
@@ -67,7 +67,9 @@ class QueryType extends Result
 
             $responseParser = $this->query->getResponseParser();
             if (!$responseParser || !($responseParser instanceof ResponseParserInterface)) {
-                throw new UnexpectedValueException('No responseparser returned by querytype: '. $this->query->getType());
+                throw new UnexpectedValueException(
+                    'No responseparser returned by querytype: '. $this->query->getType()
+                );
             }
 
             $this->mapData($responseParser->parse($this));
@@ -88,5 +90,4 @@ class QueryType extends Result
             $this->$key = $data;
         }
     }
-
 }

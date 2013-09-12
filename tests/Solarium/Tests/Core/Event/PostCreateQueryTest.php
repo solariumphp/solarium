@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\Core\Event;
+
 use Solarium\Core\Event\PostCreateQuery;
 use Solarium\QueryType\Select\Query\Query;
 
 class PostCreateQueryTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetters()
     {
         $type = 'testtype';
@@ -49,5 +49,4 @@ class PostCreateQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options, $event->getOptions());
         $this->assertEquals($query, $event->getQuery());
     }
-
 }

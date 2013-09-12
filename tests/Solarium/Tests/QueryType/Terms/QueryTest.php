@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Terms;
+
 use Solarium\QueryType\Terms\Query;
 use Solarium\Core\Client\Client;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -64,13 +64,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetFields()
     {
         $this->query->setFields('fieldA,fieldB');
-        $this->assertEquals(array('fieldA','fieldB'), $this->query->getFields());
+        $this->assertEquals(array('fieldA', 'fieldB'), $this->query->getFields());
     }
 
     public function testSetAndGetFieldsWithArray()
     {
-        $this->query->setFields(array('fieldA','fieldB'));
-        $this->assertEquals(array('fieldA','fieldB'), $this->query->getFields());
+        $this->query->setFields(array('fieldA', 'fieldB'));
+        $this->assertEquals(array('fieldA', 'fieldB'), $this->query->getFields());
     }
 
     public function testSetAndGetLowerbound()
@@ -112,13 +112,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetRegexFlags()
     {
         $this->query->setRegexFlags('case_insensitive,comments');
-        $this->assertEquals(array('case_insensitive','comments'), $this->query->getRegexFlags());
+        $this->assertEquals(array('case_insensitive', 'comments'), $this->query->getRegexFlags());
     }
 
     public function testSetAndGetRegexFlagsWithArray()
     {
-        $this->query->setRegexFlags(array('case_insensitive','comments'));
-        $this->assertEquals(array('case_insensitive','comments'), $this->query->getRegexFlags());
+        $this->query->setRegexFlags(array('case_insensitive', 'comments'));
+        $this->assertEquals(array('case_insensitive', 'comments'), $this->query->getRegexFlags());
     }
 
     public function testSetAndGetLimit()
@@ -150,5 +150,4 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->setSort('index');
         $this->assertEquals('index', $this->query->getSort());
     }
-
 }

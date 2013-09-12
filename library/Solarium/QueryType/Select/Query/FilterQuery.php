@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query;
+
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Helper;
 
@@ -47,7 +48,6 @@ use Solarium\Core\Query\Helper;
  */
 class FilterQuery extends Configurable
 {
-
     /**
      * Tags for this filterquery
      *
@@ -218,5 +218,4 @@ class FilterQuery extends Configurable
 
         return $this->addTags($tags);
     }
-
 }

@@ -24,7 +24,9 @@ $doc = new Solarium\QueryType\Update\Query\Document(
         'features' => '2.5-inch, 320x240 color TFT LCD display with LED backlight',
         'features' => 'Up to 20 hours of battery life',
         'features' => 'Plays AAC, MP3, WAV, AIFF, Audible, Apple Lossless, H.264 video',
-        'features' => 'Notes, Calendar, Phone book, Hold button, Date display, Photo wallet, Built-in games, JPEG photo playback, Upgradeable firmware, USB 2.0 compatibility, Playback speed control, Rechargeable capability, Battery level indication',
+        'features' => 'Notes, Calendar, Phone book, Hold button, Date display, Photo wallet, Built-in games, '.
+            'JPEG photo playback, Upgradeable firmware, USB 2.0 compatibility, Playback speed control, '.
+            'Rechargeable capability, Battery level indication',
         'includes' => 'earbud headphones, USB cable',
         'weight' => 5.5,
         'price' => 399.00,
@@ -54,15 +56,15 @@ foreach ($result as $document) {
 
                 echo '<h5>'.$classes->getName().'</h5>';
 
-                foreach($classes as $result) {
+                foreach ($classes as $result) {
                     echo 'Text: ' . $result->getText() . '<br/>';
                     echo 'Raw text: ' . $result->getRawText() . '<br/>';
                     echo 'Start: ' . $result->getStart() . '<br/>';
                     echo 'End: ' . $result->getEnd() . '<br/>';
                     echo 'Position: ' . $result->getPosition() . '<br/>';
-                    echo 'Position history: ' . implode(', ',$result->getPositionHistory()) . '<br/>';
+                    echo 'Position history: ' . implode(', ', $result->getPositionHistory()) . '<br/>';
                     echo 'Type: ' . htmlspecialchars($result->getType()) . '<br/>';
-                    echo 'Match: ' . var_export($result->getMatch(),true) . '<br/>';
+                    echo 'Match: ' . var_export($result->getMatch(), true) . '<br/>';
                     echo '-----------<br/>';
                 }
             }
@@ -75,15 +77,15 @@ foreach ($result as $document) {
 
                 echo '<h5>'.$classes->getName().'</h5>';
 
-                foreach($classes as $result) {
+                foreach ($classes as $result) {
                     echo 'Text: ' . $result->getText() . '<br/>';
                     echo 'Raw text: ' . $result->getRawText() . '<br/>';
                     echo 'Start: ' . $result->getStart() . '<br/>';
                     echo 'End: ' . $result->getEnd() . '<br/>';
                     echo 'Position: ' . $result->getPosition() . '<br/>';
-                    echo 'Position history: ' . implode(', ',$result->getPositionHistory()) . '<br/>';
+                    echo 'Position history: ' . implode(', ', $result->getPositionHistory()) . '<br/>';
                     echo 'Type: ' . htmlspecialchars($result->getType()) . '<br/>';
-                    echo 'Match: ' . var_export($result->getMatch(),true) . '<br/>';
+                    echo 'Match: ' . var_export($result->getMatch(), true) . '<br/>';
                     echo '-----------<br/>';
                 }
             }

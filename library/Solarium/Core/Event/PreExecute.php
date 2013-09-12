@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\Result\ResultInterface;
@@ -46,7 +47,6 @@ use Solarium\Core\Query\Result\ResultInterface;
  */
 class PreExecute extends Event
 {
-
     /**
      * @var QueryInterface
      */
@@ -97,5 +97,4 @@ class PreExecute extends Event
     {
         $this->result = $result;
     }
-
 }

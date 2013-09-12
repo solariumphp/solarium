@@ -42,6 +42,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Extract;
+
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
@@ -68,14 +69,14 @@ class RequestBuilder extends BaseRequestBuilder
         $request->setMethod(Request::METHOD_POST);
 
         // add common options to request
-        $request->addParam('commit',       $query->getCommit());
+        $request->addParam('commit', $query->getCommit());
         $request->addParam('commitWithin', $query->getCommitWithin());
 
-        $request->addParam('uprefix',      $query->getUprefix());
-        $request->addParam('lowernames',   $query->getLowernames());
+        $request->addParam('uprefix', $query->getUprefix());
+        $request->addParam('lowernames', $query->getLowernames());
         $request->addParam('defaultField', $query->getDefaultField());
 
-        foreach ($query->getFieldMappings() AS $fromField => $toField) {
+        foreach ($query->getFieldMappings() as $fromField => $toField) {
             $request->addParam('fmap.' . $fromField, $toField);
         }
 
@@ -86,15 +87,15 @@ class RequestBuilder extends BaseRequestBuilder
             }
 
             // literal.*
-            foreach ($doc->getFields() AS $name => $value) {
+            foreach ($doc->getFields() as $name => $value) {
                 $value = (array) $value;
-                foreach ($value AS $multival) {
+                foreach ($value as $multival) {
                     $request->addParam('literal.' . $name, $multival);
                 }
             }
 
             // boost.*
-            foreach ($doc->getFieldBoosts() AS $name => $value) {
+            foreach ($doc->getFieldBoosts() as $name => $value) {
                 $request->addParam('boost.' . $name, $value);
             }
         }

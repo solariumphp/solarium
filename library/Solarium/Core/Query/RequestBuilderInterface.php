@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query;
+
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Client\Request;
 
@@ -45,7 +46,6 @@ use Solarium\Core\Client\Request;
  */
 interface RequestBuilderInterface
 {
-
     /**
      * Build request for a select query
      *
@@ -53,5 +53,4 @@ interface RequestBuilderInterface
      * @return Request
      */
     public function build(QueryInterface $query);
-
 }

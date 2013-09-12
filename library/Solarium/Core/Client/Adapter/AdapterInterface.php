@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Client\Adapter;
+
 use Solarium\Core\ConfigurableInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
@@ -59,7 +60,6 @@ use Solarium\Core\Client\Endpoint;
  */
 interface AdapterInterface extends ConfigurableInterface
 {
-
     /**
      * Execute a request
      *
@@ -68,5 +68,4 @@ interface AdapterInterface extends ConfigurableInterface
      * @return Response
      */
     public function execute($request, $endpoint);
-
 }

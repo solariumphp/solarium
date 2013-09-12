@@ -40,6 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\MoreLikeThis;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\MoreLikeThis\ResponseParser as ResponseParser;
@@ -54,7 +55,6 @@ use Solarium\QueryType\MoreLikeThis\RequestBuilder as RequestBuilder;
  */
 class Query extends SelectQuery
 {
-
     /**
      * Default options
      *
@@ -203,7 +203,10 @@ class Query extends SelectQuery
     public function getMltFields()
     {
         $value = $this->getOption('mltfields');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
 
@@ -401,8 +404,10 @@ class Query extends SelectQuery
     public function getQueryFields()
     {
         $value = $this->getOption('queryfields');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
-
 }

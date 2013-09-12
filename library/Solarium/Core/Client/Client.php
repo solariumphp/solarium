@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Client;
+
 use Solarium\Core\Configurable;
 use Solarium\Core\Plugin\PluginInterface;
 use Solarium\Core\Query\QueryInterface;
@@ -76,7 +77,6 @@ use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
  */
 class Client extends Configurable
 {
-
     /**
      * Querytype select
      */
@@ -591,7 +591,7 @@ class Client extends Configurable
         }
 
         if (!($plugin instanceof PluginInterface)) {
-           throw new InvalidArgumentException('All plugins must implement the PluginInterface');
+            throw new InvalidArgumentException('All plugins must implement the PluginInterface');
         }
 
         $plugin->initPlugin($this, $options);
@@ -911,7 +911,7 @@ class Client extends Configurable
      *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\Analysis\Query\Document|\Solarium\QueryType\Analysis\Query\Field $query
-     * @param Endpoint|string|null                                                                                $endpoint
+     * @param Endpoint|string|null                                                                    $endpoint
      * @return \Solarium\QueryType\Analysis\Result\Document|\Solarium\QueryType\Analysis\Result\Field
      */
     public function analyze(QueryInterface $query, $endpoint = null)

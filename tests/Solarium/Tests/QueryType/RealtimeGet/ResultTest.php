@@ -30,17 +30,18 @@
  */
 
 namespace Solarium\Tests\QueryType\RealtimeGet;
+
 use Solarium\QueryType\RealtimeGet\Result;
 use Solarium\QueryType\Select\Result\Document;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
-    protected $doc, $result;
+    protected $doc;
+    protected $result;
 
     public function setUp()
     {
-        $this->doc = new Document(array('id'=>1,'title'=>'doc1'));
+        $this->doc = new Document(array('id'=>1, 'title'=>'doc1'));
         $this->result = new ResultDummy(array($this->doc));
     }
 
@@ -48,8 +49,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->doc, $this->result->getDocument());
     }
-
-
 }
 
 class ResultDummy extends Result
@@ -60,5 +59,4 @@ class ResultDummy extends Result
     {
         $this->documents = $docs;
     }
-
 }

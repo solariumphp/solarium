@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\Core\Event;
+
 use Solarium\Core\Event\PostCreateRequest;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\Core\Client\Request;
 
 class PostCreateRequestTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetters()
     {
         $query = new Query;
@@ -49,5 +49,4 @@ class PostCreateRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($query, $event->getQuery());
         $this->assertEquals($request, $event->getRequest());
     }
-
 }

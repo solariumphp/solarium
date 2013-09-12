@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\Query;
+
 use Solarium\QueryType\Analysis\Query\Query;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $query;
 
     public function setUp()
@@ -81,5 +81,4 @@ class TestAnalysisQuery extends Query
     {
         return null;
     }
-
 }
