@@ -51,7 +51,7 @@ class Document extends Query
 {
     const DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE = 'The document argument must either implement
         \Solarium\QueryType\Select\Result\DocumentInterface or
-        \Solarium\QueryType\Update\Query\Document\DocumentInterface.';
+        \Solarium\QueryType\Update\Query\Document\DocumentInterface, instance of %s given.';
 
     /**
      * Documents to analyze
@@ -112,7 +112,7 @@ class Document extends Query
     public function addDocument($document)
     {
         if (!($document instanceof SelectDocumentInterface) && !($document instanceof UpdateDocumentInterface)) {
-            throw new RuntimeException(static::DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE);
+            throw new RuntimeException(sprintf(static::DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE, get_class($document)));
         }
 
         $this->documents[] = $document;
@@ -132,7 +132,7 @@ class Document extends Query
     {
         foreach ($documents as $document) {
             if (!($document instanceof SelectDocumentInterface) && !($document instanceof UpdateDocumentInterface)) {
-                throw new RuntimeException(static::DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE);
+                throw new RuntimeException(sprintf(static::DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE, get_class($document)));
             }
         }
 
