@@ -381,8 +381,8 @@ class Spellcheck extends Component
      */
     public function setCollateParam($param, $value)
     {
-       $this->collateParams[$param] = $value;
-       return $this;
+        $this->collateParams[$param] = $value;
+        return $this;
     }
 
     /**
@@ -391,6 +391,6 @@ class Spellcheck extends Component
      */
     public function getCollateParams()
     {
-       return $this->collateParams;
+        return $this->collateParams;
     }
 }

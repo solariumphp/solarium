@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Spellcheck as SpellcheckComponent;
 use Solarium\QueryType\Select\Result\Spellcheck as SpellcheckResult;
@@ -119,7 +120,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
         } else {
 
             if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
-                if (is_array(current($values))){
+                if (is_array(current($values))) {
                     foreach($values as $key => $value) {
                         $values[$key] = $this->convertToKeyValueArray($value);
                     }

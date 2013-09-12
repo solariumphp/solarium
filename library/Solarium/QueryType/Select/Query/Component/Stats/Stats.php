@@ -279,9 +279,9 @@ class Stats extends Component
      */
     public function addFacet($facet)
     {
-       $this->facets[$facet] = true;
+        $this->facets[$facet] = true;
 
-       return $this;
+        return $this;
     }
 
     /**
@@ -315,7 +315,7 @@ class Stats extends Component
     public function removeFacet($facet)
     {
         if (isset($this->facets[$facet])) {
-           unset($this->facets[$facet]);
+            unset($this->facets[$facet]);
         }
 
         return $this;

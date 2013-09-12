@@ -77,10 +77,10 @@ class Result extends SelectResult
     *
     * @return Query
     */
-   public function getQuery()
-   {
-       return $this->query;
-   }
+    public function getQuery()
+    {
+        return $this->query;
+    }
 
     /**
      * Get MLT interesting terms

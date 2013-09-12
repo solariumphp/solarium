@@ -108,9 +108,9 @@ class Query extends BaseQuery
      */
     public function addId($id)
     {
-       $this->ids[$id] = true;
+        $this->ids[$id] = true;
 
-       return $this;
+        return $this;
     }
 
     /**
@@ -143,7 +143,7 @@ class Query extends BaseQuery
     public function removeId($id)
     {
         if (isset($this->ids[$id])) {
-           unset($this->ids[$id]);
+            unset($this->ids[$id]);
         }
 
         return $this;

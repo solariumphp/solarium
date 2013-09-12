@@ -65,7 +65,7 @@ class PeclHttp extends Configurable implements AdapterInterface
     {
         // @codeCoverageIgnoreStart
         if (!class_exists('HttpRequest', false)) {
-           throw new RuntimeException('Pecl_http is not available, install it to use the PeclHttp adapter');
+            throw new RuntimeException('Pecl_http is not available, install it to use the PeclHttp adapter');
         }
 
         parent::init();
@@ -153,9 +153,11 @@ class PeclHttp extends Configurable implements AdapterInterface
 
         // Try endpoint authentication first, fallback to request for backwards compatibility
         $authData = $endpoint->getAuthentication();
-        if (empty($authData['username'])) $authData = $request->getAuthentication();
+        if (empty($authData['username'])) {
+            $authData = $request->getAuthentication();
+        }
 
-        if ( !empty($authData['username']) && !empty($authData['password'])) {
+        if (!empty($authData['username']) && !empty($authData['password'])) {
             $headers['Authorization'] = 'Basic ' . base64_encode($authData['username']. ':' . $authData['password'] );
         }
 

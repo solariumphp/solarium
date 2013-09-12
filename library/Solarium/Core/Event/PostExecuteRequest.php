@@ -56,12 +56,12 @@ class PostExecuteRequest extends Event
     /**
     * @var Endpoint
     */
-   protected $endpoint;
+    protected $endpoint;
 
     /**
     * @var Response
     */
-   protected $response;
+    protected $response;
 
     /**
      * Event constructor

@@ -369,7 +369,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function setFieldModifier($key, $modifier = null)
     {
-        if (! in_array($modifier, array(self::MODIFIER_ADD, self::MODIFIER_INC, self::MODIFIER_SET)) ) {
+        if (!in_array($modifier, array(self::MODIFIER_ADD, self::MODIFIER_INC, self::MODIFIER_SET))) {
             throw new RuntimeException('Attempt to set an atomic update modifier that is not supported');
         }
         $this->modifiers[$key] = $modifier;

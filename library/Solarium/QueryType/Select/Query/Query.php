@@ -441,9 +441,9 @@ class Query extends BaseQuery
      */
     public function addField($field)
     {
-       $this->fields[$field] = true;
+        $this->fields[$field] = true;
 
-       return $this;
+        return $this;
     }
 
     /**
@@ -477,7 +477,7 @@ class Query extends BaseQuery
     public function removeField($field)
     {
         if (isset($this->fields[$field])) {
-           unset($this->fields[$field]);
+            unset($this->fields[$field]);
         }
 
         return $this;

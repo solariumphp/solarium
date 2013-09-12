@@ -64,7 +64,7 @@ class Curl extends Configurable implements AdapterInterface
     {
         // @codeCoverageIgnoreStart
         if (!function_exists('curl_init')) {
-           throw new RuntimeException('cURL is not available, install it to use the CurlHttp adapter');
+            throw new RuntimeException('cURL is not available, install it to use the CurlHttp adapter');
         }
 
         parent::init();
@@ -148,8 +148,8 @@ class Curl extends Configurable implements AdapterInterface
         curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($handler, CURLOPT_TIMEOUT, $options['timeout']);
 
-        if ( $proxy = $this->getOption('proxy') ) {
-           curl_setopt($handler, CURLOPT_PROXY, $proxy);
+        if ($proxy = $this->getOption('proxy')) {
+            curl_setopt($handler, CURLOPT_PROXY, $proxy);
         }
 
         if (!isset($options['headers']['Content-Type'])) {
@@ -158,9 +158,11 @@ class Curl extends Configurable implements AdapterInterface
 
         // Try endpoint authentication first, fallback to request for backwards compatibility
         $authData = $endpoint->getAuthentication();
-        if (empty($authData['username'])) $authData = $request->getAuthentication();
+        if (empty($authData['username'])) {
+            $authData = $request->getAuthentication();
+        }
 
-        if ( !empty($authData['username']) && !empty($authData['password'])) {
+        if (!empty($authData['username']) && !empty($authData['password'])) {
             curl_setopt($handler, CURLOPT_USERPWD, $authData['username']. ':' . $authData['password'] );
             curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }

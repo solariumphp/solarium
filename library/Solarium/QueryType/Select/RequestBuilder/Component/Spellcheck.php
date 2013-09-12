@@ -72,7 +72,7 @@ class Spellcheck implements ComponentRequestBuilderInterface
         $request->addParam('spellcheck.accuracy', $component->getAccuracy());
 
         foreach ( $component->getCollateParams() as $param => $value ) {
-           $request->addParam('spellcheck.collateParam.'.$param, $value);
+            $request->addParam('spellcheck.collateParam.'.$param, $value);
         }
 
         return $request;

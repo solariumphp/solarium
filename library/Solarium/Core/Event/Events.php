@@ -138,5 +138,4 @@ class Events
      * @var string
      */
     const POST_CREATE_QUERY = 'solarium.core.postCreateQuery';
-
 }

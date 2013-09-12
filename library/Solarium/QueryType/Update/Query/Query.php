@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\QueryType\Update\RequestBuilder;
@@ -406,7 +407,7 @@ class Query extends BaseQuery
 
         if (null !== $softCommit) {
             $commit->setSoftCommit($softCommit);
-       }
+        }
 
         if (null !== $waitSearcher) {
             $commit->setWaitSearcher($waitSearcher);
@@ -430,25 +431,25 @@ class Query extends BaseQuery
      * @param  int     $maxSegments
      * @return self    Provides fluent interface
      */
-   public function addOptimize($softCommit = null, $waitSearcher = null,
+    public function addOptimize($softCommit = null, $waitSearcher = null,
                                $maxSegments = null)
-   {
-       $optimize = new OptimizeCommand();
+    {
+        $optimize = new OptimizeCommand();
 
-       if (null !== $softCommit) {
-           $optimize->setSoftCommit($softCommit);
-       }
+        if (null !== $softCommit) {
+            $optimize->setSoftCommit($softCommit);
+        }
 
-       if (null !== $waitSearcher) {
-           $optimize->setWaitSearcher($waitSearcher);
-       }
+        if (null !== $waitSearcher) {
+            $optimize->setWaitSearcher($waitSearcher);
+        }
 
-       if (null !== $maxSegments) {
-           $optimize->setMaxSegments($maxSegments);
-       }
+        if (null !== $maxSegments) {
+            $optimize->setMaxSegments($maxSegments);
+        }
 
-       return $this->add(null, $optimize);
-   }
+        return $this->add(null, $optimize);
+    }
 
    /**
     * Set a custom document class for use in the createDocument method

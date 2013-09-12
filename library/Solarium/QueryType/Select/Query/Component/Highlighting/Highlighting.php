@@ -218,7 +218,7 @@ class Highlighting extends Component
     public function removeField($field)
     {
         if (isset($this->fields[$field])) {
-           unset($this->fields[$field]);
+            unset($this->fields[$field]);
         }
 
         return $this;
