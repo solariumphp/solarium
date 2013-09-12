@@ -44,7 +44,6 @@ namespace Solarium\QueryType\Select\Result\Facet\Pivot;
  */
 class PivotItem extends Pivot
 {
-
     /**
      * Field name
      *
@@ -69,8 +68,7 @@ class PivotItem extends Pivot
     /**
      * Constructor
      *
-     * @param  array $data
-     * @return void
+     * @param array $data
      */
     public function __construct($data)
     {

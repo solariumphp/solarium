@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
@@ -47,7 +48,6 @@ use Solarium\Core\Client\Endpoint;
  */
 class PreExecuteRequest extends Event
 {
-
     /**
      * @var Request
      */

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
@@ -47,7 +48,6 @@ use Solarium\Core\Client\Endpoint;
  */
 class PostExecuteRequest extends Event
 {
-
     /**
      * @var Request
      */
@@ -56,12 +56,12 @@ class PostExecuteRequest extends Event
     /**
     * @var Endpoint
     */
-   protected $endpoint;
+    protected $endpoint;
 
     /**
     * @var Response
     */
-   protected $response;
+    protected $response;
 
     /**
      * Event constructor
@@ -106,5 +106,4 @@ class PostExecuteRequest extends Event
     {
         return $this->request;
     }
-
 }

@@ -86,6 +86,19 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('phps', $query->getResponseWriter());
     }
 
+    public function testGetDefaultTimeAllowed()
+    {
+        $query = new TestQuery;
+        $this->assertEquals(null, $query->getTimeAllowed());
+    }
+
+    public function testSetAndGetTimeAllowed()
+    {
+        $query = new TestQuery;
+        $query->setTimeAllowed(1200);
+        $this->assertEquals(1200, $query->getTimeAllowed());
+    }
+
 }
 
 class TestQuery extends Query

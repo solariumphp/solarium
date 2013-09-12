@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query;
+
 use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\QueryInterface;
@@ -46,11 +47,10 @@ use Solarium\Core\Query\QueryInterface;
  */
 abstract class RequestBuilder implements RequestBuilderInterface
 {
-
     /**
      * Build request for a select query
      *
-     * @param  Query   $query
+     * @param  QueryInterface|Query $query
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -58,8 +58,14 @@ abstract class RequestBuilder implements RequestBuilderInterface
         $request = new Request;
         $request->setHandler($query->getHandler());
         $request->addParam('omitHeader', $query->getOmitHeader());
+        $request->addParam('timeAllowed', $query->getTimeAllowed());
         $request->addParams($query->getParams());
+
         $request->addParam('wt', $query->getResponseWriter());
+        if ($query->getResponseWriter() == $query::WT_JSON) {
+            // only one JSON format is supported
+            $request->addParam('json.nl', 'flat');
+        }
 
         return $request;
     }

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\RequestBuilder;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
@@ -47,11 +48,10 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
-
     /**
      * Build request for a select query
      *
-     * @param  SelectQuery $query
+     * @param  QueryInterface|SelectQuery $query
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -59,10 +59,13 @@ class RequestBuilder extends BaseRequestBuilder
         $request = parent::build($query);
 
         // add basic params to request
-        $request->addParam('q', $this->renderLocalParams(
-            $query->getQuery(),
-            array('tag' => $query->getTags())
-        ));
+        $request->addParam(
+            'q',
+            $this->renderLocalParams(
+                $query->getQuery(),
+                array('tag' => $query->getTags())
+            )
+        );
         $request->addParam('start', $query->getStart());
         $request->addParam('rows', $query->getRows());
         $request->addParam('fl', implode(',', $query->getFields()));
@@ -100,5 +103,4 @@ class RequestBuilder extends BaseRequestBuilder
 
         return $request;
     }
-
 }

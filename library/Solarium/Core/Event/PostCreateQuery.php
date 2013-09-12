@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Query\QueryInterface;
 
@@ -45,7 +46,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 class PostCreateQuery extends Event
 {
-
     /**
      * @var QueryInterface
      */
@@ -65,7 +65,7 @@ class PostCreateQuery extends Event
      * Event constructor
      *
      * @param string         $type
-     * @param array          $query
+     * @param array          $options
      * @param QueryInterface $query
      */
     public function __construct($type, $options, QueryInterface $query)
@@ -104,5 +104,4 @@ class PostCreateQuery extends Event
     {
         return $this->options;
     }
-
 }

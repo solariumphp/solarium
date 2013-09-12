@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Stats;
+
 use Solarium\Core\Configurable;
 
 /**
@@ -44,7 +45,6 @@ use Solarium\Core\Configurable;
  */
 class Field extends Configurable
 {
-
     /**
      * Field facets (for stats)
      *
@@ -100,9 +100,9 @@ class Field extends Configurable
      */
     public function addFacet($facet)
     {
-       $this->facets[$facet] = true;
+        $this->facets[$facet] = true;
 
-       return $this;
+        return $this;
     }
 
     /**
@@ -136,7 +136,7 @@ class Field extends Configurable
     public function removeFacet($facet)
     {
         if (isset($this->facets[$facet])) {
-           unset($this->facets[$facet]);
+            unset($this->facets[$facet]);
         }
 
         return $this;
@@ -179,5 +179,4 @@ class Field extends Configurable
 
         return $this;
     }
-
 }

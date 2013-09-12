@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\Grouping as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Grouping as ResponseParser;
@@ -52,7 +53,6 @@ use Solarium\QueryType\Select\ResponseParser\Component\Grouping as ResponseParse
  */
 class Grouping extends Component
 {
-
     /**
      * Value for format grouped
      */
@@ -511,5 +511,4 @@ class Grouping extends Component
     {
         return $this->getOption('format');
     }
-
 }

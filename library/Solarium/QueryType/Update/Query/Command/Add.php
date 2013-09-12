@@ -37,8 +37,9 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query\Command;
+
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 use Solarium\Exception\RuntimeException;
 
 /**
@@ -48,11 +49,10 @@ use Solarium\Exception\RuntimeException;
  */
 class Add extends Command
 {
-
     /**
      * Documents to add
      *
-     * @var DocumentInterface[]
+     * @var \Solarium\QueryType\Update\Query\Document\DocumentInterface[]
      */
     protected $documents = array();
 
@@ -70,15 +70,11 @@ class Add extends Command
      * Add a single document
      *
      * @throws RuntimeException
-     * @param  Document         $document
-     * @return self             Provides fluent interface
+     * @param  DocumentInterface $document
+     * @return self              Provides fluent interface
      */
-    public function addDocument($document)
+    public function addDocument(DocumentInterface $document)
     {
-        if (!($document instanceof Document)) {
-            throw new RuntimeException('Documents must implement the document interface');
-        }
-
         $this->documents[] = $document;
 
         return $this;
@@ -89,9 +85,16 @@ class Add extends Command
      *
      * @param  array|\Traversable $documents
      * @return self               Provides fluent interface
+     * @throws RuntimeException   If any of the given documents does not implement DocumentInterface
      */
     public function addDocuments($documents)
     {
+        foreach ($documents as $document) {
+            if (!($document instanceof DocumentInterface)) {
+                throw new RuntimeException('Documents must implement DocumentInterface.');
+            }
+        }
+
         //if we don't have documents so far, accept arrays or Traversable objects as-is
         if (empty($this->documents)) {
             $this->documents = $documents;
@@ -115,7 +118,7 @@ class Add extends Command
     /**
      * Get all documents
      *
-     * @return Document[]
+     * @return DocumentInterface[]
      */
     public function getDocuments()
     {

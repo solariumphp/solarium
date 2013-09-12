@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Terms;
+
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**

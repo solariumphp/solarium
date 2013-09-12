@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Debug;
  */
 class Result implements \IteratorAggregate, \Countable
 {
-
     /**
      * QueryString
      *
@@ -206,5 +205,4 @@ class Result implements \IteratorAggregate, \Countable
     {
         return count($this->explain);
     }
-
 }

@@ -50,11 +50,11 @@ echo '<h1>Collations</h1>';
 foreach($collations as $collation) {
     echo 'Query: '.$collation->getQuery().'<br/>';
     echo 'Hits: '.$collation->getHits().'<br/>';
+    echo 'Corrections:<br/>';
+    foreach($collation->getCorrections() as $input => $correction) {
+        echo $input . ' => ' . $correction .'<br/>';
+    }
     echo '<hr/>';
-}
-echo 'Corrections:<br/>';
-foreach($collation->getCorrections() as $input => $correction) {
-    echo $input . ' => ' . $correction .'<br/>';
 }
 
 htmlFooter();

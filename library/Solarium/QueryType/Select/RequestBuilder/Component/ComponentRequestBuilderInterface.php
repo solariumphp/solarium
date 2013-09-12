@@ -37,12 +37,12 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\Core\Client\Request;
 
 interface ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for the debug component
      *
@@ -51,5 +51,4 @@ interface ComponentRequestBuilderInterface
      * @return Request
      */
     public function buildComponent($component, $request);
-
 }

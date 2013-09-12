@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Debug;
  */
 class Detail
 {
-
     /**
      * Value
      *
@@ -108,5 +107,4 @@ class Detail
     {
         return $this->description;
     }
-
 }

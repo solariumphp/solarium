@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Debug;
  */
 class Timing implements \IteratorAggregate, \Countable
 {
-
     /**
      * Time
      *
@@ -61,9 +60,8 @@ class Timing implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  float $time
-     * @param  array $phases
-     * @return void
+     * @param float $time
+     * @param array $phases
      */
     public function __construct($time, $phases)
     {

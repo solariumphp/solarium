@@ -43,7 +43,6 @@ namespace Solarium\Plugin\Loadbalancer\Event;
  */
 class Events
 {
-
     /**
      * This event is called after and endpoint has failed.
      *
@@ -52,5 +51,4 @@ class Events
      * @var string
      */
     const ENDPOINT_FAILURE = 'solarium.loadbalancer.endpointFailure';
-
 }

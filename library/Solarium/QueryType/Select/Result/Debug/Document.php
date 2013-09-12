@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Debug;
  */
 class Document extends Detail implements \IteratorAggregate, \Countable
 {
-
     /**
      * Key
      *

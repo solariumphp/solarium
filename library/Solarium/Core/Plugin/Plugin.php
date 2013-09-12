@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Plugin;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Query;
@@ -46,7 +47,6 @@ use Solarium\Core\Query\Query;
  */
 abstract class Plugin extends Configurable implements PluginInterface
 {
-
     /**
      * Client instance
      *
@@ -82,5 +82,4 @@ abstract class Plugin extends Configurable implements PluginInterface
     {
 
     }
-
 }

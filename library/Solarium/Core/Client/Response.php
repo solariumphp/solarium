@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Client;
+
 use Solarium\Exception\HttpException;
 
 /**
@@ -44,7 +45,6 @@ use Solarium\Exception\HttpException;
  */
 class Response
 {
-
     /**
      * Headers
      *

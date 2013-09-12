@@ -38,6 +38,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Terms;
+
 use Solarium\QueryType\Terms\Query;
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
@@ -47,7 +48,6 @@ use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Get result data for the response
      *
@@ -65,8 +65,14 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
          */
         $query = $result->getQuery();
 
+        // Special case to handle Solr 1.4 data
+        if (isset($data['terms']) && count($data['terms']) == count($query->getFields()) * 2) {
+            $data['terms'] = $this->convertToKeyValueArray($data['terms']);
+        }
+
         foreach ($query->getFields() as $field) {
             $field = trim($field);
+
             if (isset($data['terms'][$field])) {
                 $terms = $data['terms'][$field];
                 if ($query->getResponseWriter() == $query::WT_JSON) {
@@ -78,5 +84,4 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
         return $this->addHeaderInfo($data, array('results' => $termResults));
     }
-
 }

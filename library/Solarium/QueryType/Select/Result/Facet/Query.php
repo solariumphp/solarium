@@ -46,7 +46,6 @@ namespace Solarium\QueryType\Select\Result\Facet;
  */
 class Query
 {
-
     /**
      * Value (count)
      *
@@ -57,8 +56,7 @@ class Query
     /**
      * Constructor
      *
-     * @param  mixed $value
-     * @return void
+     * @param mixed $value
      */
     public function __construct($value)
     {

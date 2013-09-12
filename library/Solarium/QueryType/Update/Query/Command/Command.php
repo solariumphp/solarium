@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query\Command;
+
 use Solarium\Core\Configurable;
 
 /**
@@ -44,12 +45,10 @@ use Solarium\Core\Configurable;
  */
 abstract class Command extends Configurable
 {
-
     /**
      * Returns command type, for use in adapters
      *
      * @return string
      */
     abstract public function getType();
-
 }

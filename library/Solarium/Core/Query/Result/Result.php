@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query\Result;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
@@ -52,7 +53,6 @@ use Solarium\Exception\RuntimeException;
  */
 class Result implements ResultInterface
 {
-
     /**
      * Response object
      *
@@ -90,7 +90,6 @@ class Result implements ResultInterface
      * @param  Client        $client
      * @param  Query         $query
      * @param  Response      $response
-     * @return void
      */
     public function __construct($client, $query, $response)
     {
@@ -136,7 +135,8 @@ class Result implements ResultInterface
      *
      * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
      *
-     * @throws UnexpectedValueException, RuntimeException
+     * @throws UnexpectedValueException
+     * @throws RuntimeException
      * @return array
      */
     public function getData()

@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Stats;
  */
 class FacetValue
 {
-
     /**
      * Facet value
      *
@@ -61,9 +60,8 @@ class FacetValue
     /**
      * Constructor
      *
-     * @param  string $value
-     * @param  array  $stats
-     * @return void
+     * @param string $value
+     * @param array  $stats
      */
     public function __construct($value, $stats)
     {

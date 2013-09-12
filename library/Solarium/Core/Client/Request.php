@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Client;
+
 use Solarium\Core\Configurable;
 use Solarium\Exception\RuntimeException;
 
@@ -45,7 +46,6 @@ use Solarium\Exception\RuntimeException;
  */
 class Request extends Configurable
 {
-
     /**
      * Request GET method
      */
@@ -324,6 +324,7 @@ class Request extends Configurable
     /**
      * Set the file to upload via "multipart/form-data" POST request
      *
+     * @throws RuntimeException
      * @param  string $filename Name of file to upload
      * @return self
      */
@@ -484,5 +485,4 @@ class Request extends Configurable
             'password' => $this->getOption('password'),
         );
     }
-
 }

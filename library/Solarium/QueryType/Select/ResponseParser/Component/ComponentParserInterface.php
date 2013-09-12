@@ -37,11 +37,11 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 
 interface ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *
@@ -51,5 +51,4 @@ interface ComponentParserInterface
      * @return object|null
      */
     public function parse($query, $component, $data);
-
 }

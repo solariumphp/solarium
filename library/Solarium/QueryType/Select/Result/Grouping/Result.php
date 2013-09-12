@@ -45,7 +45,6 @@ namespace Solarium\QueryType\Select\Result\Grouping;
  */
 class Result implements \IteratorAggregate, \Countable
 {
-
     /**
      * Group results array
      *
@@ -56,8 +55,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  array $groups
-     * @return void
+     * @param array $groups
      */
     public function __construct($groups)
     {

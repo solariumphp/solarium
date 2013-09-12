@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
+
 use Solarium\Core\Configurable;
 
 /**
@@ -281,5 +282,4 @@ class Field extends Configurable
     {
         return $this->getOption('usefastvectorhighlighter');
     }
-
 }

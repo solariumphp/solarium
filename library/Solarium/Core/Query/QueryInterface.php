@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query;
+
 use Solarium\Core\Query\Helper;
 use Solarium\Core\ConfigurableInterface;
 
@@ -45,7 +46,6 @@ use Solarium\Core\ConfigurableInterface;
  */
 interface QueryInterface extends ConfigurableInterface
 {
-
     /**
      * Get type for this query
      *
@@ -128,5 +128,4 @@ interface QueryInterface extends ConfigurableInterface
      * @return array
      */
     public function getParams();
-
 }

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Ping;
+
 use Solarium\Core\Query\Result\Result as BaseResult;
 
 /**
@@ -47,7 +48,6 @@ use Solarium\Core\Query\Result\Result as BaseResult;
  */
 class Result extends BaseResult
 {
-
     /**
      * Get Solr status code
      *
@@ -60,5 +60,4 @@ class Result extends BaseResult
     {
         return 0;
     }
-
 }

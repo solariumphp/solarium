@@ -203,6 +203,21 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRemoveFieldBySettingNullValueWithModifier()
+    {
+        $this->doc->setKey('key', 123);
+        $this->doc->setField('name', null, null, Document::MODIFIER_SET);
+
+        $expectedFields = $this->fields;
+        $expectedFields['key'] = 123;
+        $expectedFields['name'] = null;
+
+        $this->assertEquals(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
     public function testRemoveFieldBySettingToNull()
     {
         $this->doc->setField('name', NULL);

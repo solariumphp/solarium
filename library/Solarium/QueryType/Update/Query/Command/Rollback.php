@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query\Command;
+
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
@@ -55,5 +56,4 @@ class Rollback extends Command
     {
         return UpdateQuery::COMMAND_ROLLBACK;
     }
-
 }

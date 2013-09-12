@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Suggester\Result;
+
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**

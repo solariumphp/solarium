@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\Debug as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Debug as ResponseParser;
@@ -48,7 +49,6 @@ use Solarium\QueryType\Select\ResponseParser\Component\Debug as ResponseParser;
  */
 class Debug extends Component
 {
-
     /**
      * Get component type
      *
@@ -99,5 +99,4 @@ class Debug extends Component
     {
         return $this->setOption('explainother', $query);
     }
-
 }

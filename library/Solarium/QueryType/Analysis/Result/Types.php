@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Analysis\Result;
  */
 class Types extends ResultList
 {
-
     /**
      * List items
      *
@@ -82,5 +81,4 @@ class Types extends ResultList
 
         return null;
     }
-
 }

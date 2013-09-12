@@ -50,7 +50,6 @@ namespace Solarium\QueryType\Select\Result\Facet;
  */
 class Range extends Field
 {
-
     /**
      * Count of all records with field values lower then lower bound of the first range
      *
@@ -96,14 +95,13 @@ class Range extends Field
     /**
      * Constructor
      *
-     * @param  array $values
-     * @param  int   $before
-     * @param  int   $after
-     * @param  int   $between
-     * @param  int   $start
-     * @param  int   $end
-     * @param  int   $gap
-     * @return void
+     * @param array $values
+     * @param int   $before
+     * @param int   $after
+     * @param int   $between
+     * @param int   $start
+     * @param int   $end
+     * @param int   $gap
      */
     public function __construct($values, $before, $after, $between, $start, $end, $gap)
     {
@@ -190,5 +188,4 @@ class Range extends Field
     {
         return $this->gap;
     }
-
 }

@@ -45,7 +45,6 @@ namespace Solarium\QueryType\Select\Result\Grouping;
  */
 class QueryGroup implements \IteratorAggregate, \Countable
 {
-
     /**
      * Match count
      *
@@ -84,12 +83,11 @@ class QueryGroup implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  int   $matches
-     * @param  int   $numFound
-     * @param  int   $start
-     * @param  float $maximumScore
-     * @param  array $documents
-     * @return void
+     * @param int   $matches
+     * @param int   $numFound
+     * @param int   $start
+     * @param float $maximumScore
+     * @param array $documents
      */
     public function __construct($matches, $numFound, $start, $maximumScore, $documents)
     {

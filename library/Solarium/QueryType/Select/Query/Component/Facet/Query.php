@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Facet;
+
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 use Solarium\Core\Query\Helper;
 
@@ -47,7 +48,6 @@ use Solarium\Core\Query\Helper;
  */
 class Query extends Facet
 {
-
     /**
      * Default options
      *
@@ -95,5 +95,4 @@ class Query extends Facet
     {
         return $this->getOption('query');
     }
-
 }

@@ -50,7 +50,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'get?omitHeader=true&wt=json&ids=123',
+            'get?omitHeader=true&wt=json&json.nl=flat&ids=123',
             urldecode($request->getUri())
         );
     }
@@ -68,7 +68,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             );
 
             $this->assertEquals(
-                'get?omitHeader=true&wt=json&ids=123,456',
+                'get?omitHeader=true&wt=json&json.nl=flat&ids=123,456',
                 urldecode($request->getUri())
             );
         }

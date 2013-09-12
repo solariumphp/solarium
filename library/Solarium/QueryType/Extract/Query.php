@@ -42,10 +42,11 @@
  * @namespace
  */
 namespace Solarium\QueryType\Extract;
+
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 
 /**
  * Extract query
@@ -131,10 +132,10 @@ class Query extends BaseQuery
      * The fields in the document are indexed together with the generated
      * fields that Solr extracts from the file.
      *
-     * @param  Document $document
+     * @param  DocumentInterface $document
      * @return self
      */
-    public function setDocument($document)
+    public function setDocument(DocumentInterface $document)
     {
         return $this->setOption('document', $document);
     }
@@ -142,7 +143,7 @@ class Query extends BaseQuery
     /**
      * Get the document with literal fields and boost settings
      *
-     * @return Document|null
+     * @return DocumentInterface|null
      */
     public function getDocument()
     {
@@ -303,7 +304,7 @@ class Query extends BaseQuery
      */
     public function addFieldMappings($mappings)
     {
-        foreach ($mappings AS $fromField => $toField) {
+        foreach ($mappings as $fromField => $toField) {
             $this->addFieldMapping($fromField, $toField);
         }
 
@@ -394,7 +395,7 @@ class Query extends BaseQuery
      *
      * @param  array    $fields
      * @param  array    $boosts
-     * @return Document
+     * @return DocumentInterface
      */
     public function createDocument($fields = array(), $boosts = array())
     {
@@ -402,5 +403,4 @@ class Query extends BaseQuery
 
         return new $class($fields, $boosts);
     }
-
 }

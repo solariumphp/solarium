@@ -45,7 +45,6 @@ namespace Solarium\Core\Query;
  */
 abstract class ResponseParser
 {
-
     /**
      * Converts a flat key-value array (alternating rows) as used in Solr JSON results to a real key value array
      *
@@ -99,5 +98,4 @@ abstract class ResponseParser
 
         return $result;
     }
-
 }

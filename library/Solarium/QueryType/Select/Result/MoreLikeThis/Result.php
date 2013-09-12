@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\MoreLikeThis;
+
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
@@ -44,7 +45,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class Result implements \IteratorAggregate, \Countable
 {
-
     /**
      * Document instances array
      *
@@ -71,10 +71,9 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  int   $numFound
-     * @param  float $maxScore
-     * @param  array $documents
-     * @return void
+     * @param  int        $numFound
+     * @param  float|null $maxScore
+     * @param  array      $documents
      */
     public function __construct($numFound, $maxScore, $documents)
     {

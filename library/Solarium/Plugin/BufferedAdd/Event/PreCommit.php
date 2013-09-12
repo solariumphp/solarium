@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\BufferedAdd\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
@@ -45,7 +46,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class PreCommit extends Event
 {
-
     /**
      * @var DocumentInterface[]
      */
@@ -74,7 +74,11 @@ class PreCommit extends Event
     /**
      * Event constructor
      *
-     * @param array $buffer
+     * @param array   $buffer
+     * @param boolean $overwrite
+     * @param boolean $softCommit
+     * @param boolean $waitSearcher
+     * @param boolean $expungeDeletes
      */
     public function __construct($buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes)
     {
@@ -177,5 +181,4 @@ class PreCommit extends Event
     {
         return $this->waitSearcher;
     }
-
 }

@@ -49,15 +49,13 @@ namespace Solarium\Core\Query;
  */
 interface ResponseParserInterface
 {
-
     /**
      * Get a Result object for the given data
      *
      * When this method is called the actual response parsing is started.
      *
-     * @param  Result\Result $result
+     * @param  \Solarium\Core\Query\Result\Result $result
      * @return mixed
      */
     public function parse($result);
-
 }
