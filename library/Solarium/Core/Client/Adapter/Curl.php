@@ -158,7 +158,7 @@ class Curl extends Configurable implements AdapterInterface
 
         // Try endpoint authentication first, fallback to request for backwards compatibility
         $authData = $endpoint->getAuthentication();
-        if(empty($authData['username'])) $authData = $request->getAuthentication();
+        if (empty($authData['username'])) $authData = $request->getAuthentication();
 
         if ( !empty($authData['username']) && !empty($authData['password'])) {
             curl_setopt($handler, CURLOPT_USERPWD, $authData['username']. ':' . $authData['password'] );

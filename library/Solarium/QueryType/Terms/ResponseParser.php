@@ -66,7 +66,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $query = $result->getQuery();
 
         // Special case to handle Solr 1.4 data
-        if(isset($data['terms']) && count($data['terms']) == count($query->getFields()) * 2) {
+        if (isset($data['terms']) && count($data['terms']) == count($query->getFields()) * 2) {
             $data['terms'] = $this->convertToKeyValueArray($data['terms']);
         }
 

@@ -119,7 +119,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
         } else {
 
             if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
-                if(is_array(current($values))){
+                if (is_array(current($values))){
                     foreach($values as $key => $value) {
                         $values[$key] = $this->convertToKeyValueArray($value);
                     }

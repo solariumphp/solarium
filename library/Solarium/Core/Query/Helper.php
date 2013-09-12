@@ -464,7 +464,7 @@ class Helper
      */
     public function cacheControl($useCache, $cost = null)
     {
-        if($useCache === true) {
+        if ($useCache === true) {
             $cache = 'true';
         } else {
             $cache = 'false';
