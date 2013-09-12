@@ -28,10 +28,11 @@ foreach ($resultset as $document) {
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
-    foreach($document AS $field => $value)
-    {
+    foreach ($document as $field => $value) {
         // this converts multivalue fields to a comma-separated string
-        if(is_array($value)) $value = implode(', ', $value);
+        if (is_array($value)) {
+            $value = implode(', ', $value);
+        }
 
         echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
     }
@@ -40,8 +41,8 @@ foreach ($resultset as $document) {
 
     // highlighting results can be fetched by document id (the field defined as uniquekey in this schema)
     $highlightedDoc = $highlighting->getResult($document->id);
-    if($highlightedDoc){
-        foreach($highlightedDoc as $field => $highlight) {
+    if ($highlightedDoc) {
+        foreach ($highlightedDoc as $field => $highlight) {
             echo implode(' (...) ', $highlight) . '<br/>';
         }
     }

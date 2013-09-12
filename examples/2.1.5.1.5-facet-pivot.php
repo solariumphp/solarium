@@ -29,14 +29,14 @@ echo 'NumFound: '.$resultset->getNumFound();
 // display facet results
 $facetResult = $resultset->getFacetSet()->getFacet('cat-popularity-instock');
 echo '<h3>cat &raquo; popularity &raquo; instock</h3>';
-foreach($facetResult as $pivot){
-    display_pivot_facet($pivot);
+foreach ($facetResult as $pivot) {
+    displayPivotFacet($pivot);
 }
 
 $facetResult = $resultset->getFacetSet()->getFacet('popularity-cat');
 echo '<h3>popularity &raquo; cat</h3>';
-foreach($facetResult as $pivot){
-    display_pivot_facet($pivot);
+foreach ($facetResult as $pivot) {
+    displayPivotFacet($pivot);
 }
 
 htmlFooter();
@@ -47,14 +47,14 @@ htmlFooter();
  *
  * @param $pivot
  */
-function display_pivot_facet($pivot)
+function displayPivotFacet($pivot)
 {
     echo '<ul>';
     echo '<li>Field: '.$pivot->getField().'</li>';
     echo '<li>Value: '.$pivot->getValue().'</li>';
     echo '<li>Count: '.$pivot->getCount().'</li>';
     foreach ($pivot->getPivot() as $nextPivot) {
-        display_pivot_facet($nextPivot);
+        displayPivotFacet($nextPivot);
     }
     echo '</ul>';
 }

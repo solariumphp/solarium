@@ -34,15 +34,15 @@ foreach ($results as $result) {
 
                 echo '<h5>'.$classes->getName().'</h5>';
 
-                foreach($classes as $result) {
+                foreach ($classes as $result) {
                     echo 'Text: ' . $result->getText() . '<br/>';
                     echo 'Raw text: ' . $result->getRawText() . '<br/>';
                     echo 'Start: ' . $result->getStart() . '<br/>';
                     echo 'End: ' . $result->getEnd() . '<br/>';
                     echo 'Position: ' . $result->getPosition() . '<br/>';
-                    echo 'Position history: ' . implode(', ',$result->getPositionHistory()) . '<br/>';
+                    echo 'Position history: ' . implode(', ', $result->getPositionHistory()) . '<br/>';
                     echo 'Type: ' . htmlspecialchars($result->getType()) . '<br/>';
-                    echo 'Match: ' . var_export($result->getMatch(),true) . '<br/>';
+                    echo 'Match: ' . var_export($result->getMatch(), true) . '<br/>';
                     echo '-----------<br/>';
                 }
             }
@@ -55,15 +55,15 @@ foreach ($results as $result) {
 
                 echo '<h5>'.$classes->getName().'</h5>';
 
-                foreach($classes as $result) {
+                foreach ($classes as $result) {
                     echo 'Text: ' . $result->getText() . '<br/>';
                     echo 'Raw text: ' . $result->getRawText() . '<br/>';
                     echo 'Start: ' . $result->getStart() . '<br/>';
                     echo 'End: ' . $result->getEnd() . '<br/>';
                     echo 'Position: ' . $result->getPosition() . '<br/>';
-                    echo 'Position history: ' . implode(', ',$result->getPositionHistory()) . '<br/>';
+                    echo 'Position history: ' . implode(', ', $result->getPositionHistory()) . '<br/>';
                     echo 'Type: ' . htmlspecialchars($result->getType()) . '<br/>';
-                    echo 'Match: ' . var_export($result->getMatch(),true) . '<br/>';
+                    echo 'Match: ' . var_export($result->getMatch(), true) . '<br/>';
                     echo '-----------<br/>';
                 }
             }

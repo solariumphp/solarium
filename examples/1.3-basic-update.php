@@ -32,7 +32,7 @@ if ($_POST) {
 
 } else {
     // if no data is posted show a form
-?>
+    ?>
 
     <form method="POST">
         Id: <input type="text" name="id"/> <br/>
@@ -41,7 +41,7 @@ if ($_POST) {
         <input type="submit" value="Add"/>
     </form>
 
-<?php
+    <?php
 }
 
 htmlFooter();
