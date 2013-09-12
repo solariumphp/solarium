@@ -54,7 +54,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class PeclHttp extends Configurable implements AdapterInterface
 {
-
     /**
      * Initialization hook
      *

@@ -41,7 +41,6 @@ use Solarium\QueryType\Select\Query\Query;
 
 interface ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *

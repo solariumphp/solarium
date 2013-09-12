@@ -61,7 +61,6 @@ use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
  */
 class ParallelExecution extends Plugin
 {
-
     /**
      * Default options
      *

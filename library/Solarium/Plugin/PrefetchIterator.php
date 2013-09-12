@@ -52,7 +52,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class PrefetchIterator extends Plugin implements \Iterator, \Countable
 {
-
     /**
      * Default options
      *

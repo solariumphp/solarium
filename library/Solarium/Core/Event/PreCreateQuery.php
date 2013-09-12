@@ -46,7 +46,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 class PreCreateQuery extends Event
 {
-
     /**
      * @var null|QueryInterface
      */
@@ -114,5 +113,4 @@ class PreCreateQuery extends Event
     {
         return $this->options;
     }
-
 }

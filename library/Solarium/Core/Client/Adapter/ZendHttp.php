@@ -59,7 +59,6 @@ use Solarium\Exception\OutOfBoundsException;
  */
 class ZendHttp extends Configurable implements AdapterInterface
 {
-
     /**
      * Zend Http instance for communication with Solr
      *

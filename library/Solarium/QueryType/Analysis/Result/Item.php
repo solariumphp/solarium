@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Analysis\Result;
  */
 class Item
 {
-
     /**
      * Text string
      *
@@ -208,5 +207,4 @@ class Item
     {
         return $this->match;
     }
-
 }

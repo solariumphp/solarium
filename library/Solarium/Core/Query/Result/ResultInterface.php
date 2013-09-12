@@ -46,7 +46,6 @@ use Solarium\Core\Query\Query;
  */
 interface ResultInterface
 {
-
     /**
      * Get response object
      *

@@ -149,5 +149,4 @@ class Document extends Query
     {
         return $this->documents;
     }
-
 }

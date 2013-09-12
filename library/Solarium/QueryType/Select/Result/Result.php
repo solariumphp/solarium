@@ -63,7 +63,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
-
     /**
      * Solr numFound
      *

@@ -49,7 +49,6 @@ use Solarium\QueryType\Select\Result\Grouping\FieldGroup;
  */
 class Grouping implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *

@@ -47,7 +47,6 @@ use Solarium\Core\Query\Query;
  */
 interface PluginInterface extends ConfigurableInterface
 {
-
     /**
      * Initialize
      *

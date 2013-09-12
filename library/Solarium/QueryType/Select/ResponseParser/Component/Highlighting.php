@@ -48,7 +48,6 @@ use Solarium\QueryType\Select\Result\Highlighting\Result;
  */
 class Highlighting implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *

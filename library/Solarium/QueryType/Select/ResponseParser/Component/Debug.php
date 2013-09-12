@@ -52,7 +52,6 @@ use Solarium\QueryType\Select\Result\Debug\TimingPhase;
  */
 class Debug implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *
@@ -179,5 +178,4 @@ class Debug implements ComponentParserInterface
 
         return new TimingPhase($name, $time, $classes);
     }
-
 }

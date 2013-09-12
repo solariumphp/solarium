@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Suggester\Result;
  */
 class Term implements \IteratorAggregate, \Countable
 {
-
     /**
      * NumFound
      *
@@ -147,5 +146,4 @@ class Term implements \IteratorAggregate, \Countable
     {
         return count($this->suggestions);
     }
-
 }

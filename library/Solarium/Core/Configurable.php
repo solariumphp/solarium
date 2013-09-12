@@ -49,7 +49,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Configurable implements ConfigurableInterface
 {
-
     /**
      * Default options
      *
@@ -178,5 +177,4 @@ class Configurable implements ConfigurableInterface
     {
         return $this->options;
     }
-
 }

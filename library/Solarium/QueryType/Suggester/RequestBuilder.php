@@ -46,7 +46,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
-
     /**
      * Build request for a Suggester query
      *
@@ -65,5 +64,4 @@ class RequestBuilder extends BaseRequestBuilder
 
         return $request;
     }
-
 }

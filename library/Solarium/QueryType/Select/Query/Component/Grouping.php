@@ -53,7 +53,6 @@ use Solarium\QueryType\Select\ResponseParser\Component\Grouping as ResponseParse
  */
 class Grouping extends Component
 {
-
     /**
      * Value for format grouped
      */
@@ -512,5 +511,4 @@ class Grouping extends Component
     {
         return $this->getOption('format');
     }
-
 }

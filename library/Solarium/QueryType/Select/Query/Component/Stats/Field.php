@@ -44,7 +44,6 @@ use Solarium\Core\Configurable;
  */
 class Field extends Configurable
 {
-
     /**
      * Field facets (for stats)
      *
@@ -179,5 +178,4 @@ class Field extends Configurable
 
         return $this;
     }
-
 }

@@ -46,7 +46,6 @@ use Solarium\Core\Client\Request;
  */
 class Stats implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for the stats component
      *

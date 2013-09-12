@@ -51,7 +51,6 @@ use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
  */
 class Spellcheck extends ResponseParserAbstract implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *

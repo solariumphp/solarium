@@ -48,7 +48,6 @@ use Solarium\Core\Client\Endpoint;
  */
 class PostExecuteRequest extends Event
 {
-
     /**
      * @var Request
      */
@@ -107,5 +106,4 @@ class PostExecuteRequest extends Event
     {
         return $this->request;
     }
-
 }

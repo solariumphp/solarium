@@ -47,7 +47,6 @@ use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderIn
  */
 abstract class Component extends Configurable
 {
-
     /**
      * @var Query
      */
@@ -96,5 +95,4 @@ abstract class Component extends Configurable
     {
         return $this->queryInstance;
     }
-
 }

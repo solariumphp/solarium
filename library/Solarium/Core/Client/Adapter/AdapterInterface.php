@@ -60,7 +60,6 @@ use Solarium\Core\Client\Endpoint;
  */
 interface AdapterInterface extends ConfigurableInterface
 {
-
     /**
      * Execute a request
      *

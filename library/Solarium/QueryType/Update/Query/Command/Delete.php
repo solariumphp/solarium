@@ -46,7 +46,6 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
  */
 class Delete extends Command
 {
-
     /**
      * Ids to delete
      *
@@ -168,5 +167,4 @@ class Delete extends Command
     {
         return $this->ids;
     }
-
 }

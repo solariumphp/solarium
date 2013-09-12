@@ -45,7 +45,6 @@ use Solarium\Core\Client\Request;
  */
 class MoreLikeThis implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for morelikethis
      *

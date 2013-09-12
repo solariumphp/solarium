@@ -45,7 +45,6 @@ use Solarium\QueryType\Select\ResponseParser\ResponseParser as SelectResponsePar
  */
 class ResponseParser extends SelectResponseParser
 {
-
     /**
      * Get result data for the response
      *
@@ -78,5 +77,4 @@ class ResponseParser extends SelectResponseParser
 
         return $parseResult;
     }
-
 }

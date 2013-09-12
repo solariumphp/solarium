@@ -48,7 +48,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Helper
 {
-
     /**
      * Placeholder pattern for use in the assemble method
      *
@@ -492,5 +491,4 @@ class Helper
     {
         return preg_replace('@[\x00-\x08\x0B\x0C\x0E-\x1F]@', ' ', $data);
     }
-
 }

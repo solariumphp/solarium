@@ -49,7 +49,6 @@ namespace Solarium\Core\Query;
  */
 interface ResponseParserInterface
 {
-
     /**
      * Get a Result object for the given data
      *

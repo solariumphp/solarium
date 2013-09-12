@@ -48,7 +48,6 @@ use Solarium\QueryType\Select\Result\Stats\FacetValue as ResultStatsFacetValue;
  */
 class Stats implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *

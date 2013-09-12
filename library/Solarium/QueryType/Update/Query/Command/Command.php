@@ -45,7 +45,6 @@ use Solarium\Core\Configurable;
  */
 abstract class Command extends Configurable
 {
-
     /**
      * Returns command type, for use in adapters
      *

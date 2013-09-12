@@ -281,5 +281,4 @@ class Field extends Configurable
     {
         return $this->getOption('usefastvectorhighlighter');
     }
-
 }

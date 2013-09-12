@@ -51,7 +51,6 @@ use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
  */
 class Field extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Parse response data
      *
@@ -150,5 +149,4 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
 
         return $results;
     }
-
 }

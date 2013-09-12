@@ -48,7 +48,6 @@ use Solarium\QueryType\Select\ResponseParser\Component\Spellcheck as ResponsePar
  */
 class Spellcheck extends Component
 {
-
     /**
      * Used to further customize collation parameters
      * @var array

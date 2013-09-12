@@ -48,7 +48,6 @@ use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Get result data for the response
      *
@@ -85,5 +84,4 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
         return $this->addHeaderInfo($data, array('results' => $termResults));
     }
-
 }

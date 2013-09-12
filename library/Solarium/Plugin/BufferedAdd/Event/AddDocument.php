@@ -46,7 +46,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class AddDocument extends Event
 {
-
     /**
      * @var DocumentInterface
      */
@@ -71,5 +70,4 @@ class AddDocument extends Event
     {
         return $this->document;
     }
-
 }

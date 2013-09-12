@@ -60,7 +60,6 @@ use Solarium\QueryType\Update\Query\Document\DocumentInterface;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Update command add
      */
@@ -494,5 +493,4 @@ class Query extends BaseQuery
         $class = $this->getDocumentClass();
         return new $class($fields, $boosts, $modifiers);
     }
-
 }

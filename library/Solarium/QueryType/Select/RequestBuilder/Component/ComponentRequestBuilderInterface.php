@@ -42,7 +42,6 @@ use Solarium\Core\Client\Request;
 
 interface ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for the debug component
      *

@@ -47,7 +47,6 @@ use Solarium\Core\Client\Request;
  */
 class Highlighting implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for Highlighting
      *
@@ -120,5 +119,4 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam($prefix.'fragmenter', $field->getFragmenter());
         $request->addParam($prefix.'useFastVectorHighlighter', $field->getUseFastVectorHighlighter());
     }
-
 }

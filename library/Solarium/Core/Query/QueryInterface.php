@@ -46,7 +46,6 @@ use Solarium\Core\ConfigurableInterface;
  */
 interface QueryInterface extends ConfigurableInterface
 {
-
     /**
      * Get type for this query
      *

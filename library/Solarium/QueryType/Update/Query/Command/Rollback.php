@@ -56,5 +56,4 @@ class Rollback extends Command
     {
         return UpdateQuery::COMMAND_ROLLBACK;
     }
-
 }

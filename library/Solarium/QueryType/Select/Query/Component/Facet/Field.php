@@ -47,7 +47,6 @@ use Solarium\QueryType\Select\Query\Component\FacetSet;
  */
 class Field extends Facet
 {
-
     /**
      * Facet sort type index
      */
@@ -258,5 +257,4 @@ class Field extends Facet
     {
         return $this->getOption('method');
     }
-
 }

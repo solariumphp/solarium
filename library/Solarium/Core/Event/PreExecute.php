@@ -47,7 +47,6 @@ use Solarium\Core\Query\Result\ResultInterface;
  */
 class PreExecute extends Event
 {
-
     /**
      * @var QueryInterface
      */
@@ -98,5 +97,4 @@ class PreExecute extends Event
     {
         $this->result = $result;
     }
-
 }

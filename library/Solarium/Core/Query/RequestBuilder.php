@@ -47,7 +47,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 abstract class RequestBuilder implements RequestBuilderInterface
 {
-
     /**
      * Build request for a select query
      *

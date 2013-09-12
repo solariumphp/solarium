@@ -43,7 +43,6 @@ namespace Solarium\Core\Event;
  */
 class Events
 {
-
     /**
      * The preCreateRequest event is thrown just before a request is created based on a query object, using the
      * requestbuilder.

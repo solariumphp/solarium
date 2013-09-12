@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Update\Query\Document;
  */
 interface DocumentInterface
 {
-
     /**
      * Constructor
      *

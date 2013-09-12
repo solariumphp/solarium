@@ -48,7 +48,6 @@ use Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch as Requ
  */
 class DistributedSearch extends Component
 {
-
     /**
      * Request to be distributed across all shards in the list
      *

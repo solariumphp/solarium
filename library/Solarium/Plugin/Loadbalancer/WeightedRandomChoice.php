@@ -48,7 +48,6 @@ use Solarium\Exception\RuntimeException;
  */
 class WeightedRandomChoice
 {
-
     /**
      * Total weight of all choices
      *
@@ -147,5 +146,4 @@ class WeightedRandomChoice
         }
 
     }
-
 }

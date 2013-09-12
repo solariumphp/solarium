@@ -49,7 +49,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
-
     /**
      * Build request for an analysis query
      *
@@ -64,5 +63,4 @@ class RequestBuilder extends BaseRequestBuilder
 
         return $request;
     }
-
 }

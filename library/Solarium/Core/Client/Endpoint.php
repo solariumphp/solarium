@@ -45,7 +45,6 @@ use Solarium\Core\Configurable;
  */
 class Endpoint extends Configurable
 {
-
     /**
      * Default options
      *

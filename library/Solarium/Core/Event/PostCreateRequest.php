@@ -47,7 +47,6 @@ use Solarium\Core\Client\Request;
  */
 class PostCreateRequest extends Event
 {
-
     /**
      * @var QueryInterface
      */
@@ -89,5 +88,4 @@ class PostCreateRequest extends Event
     {
         return $this->request;
     }
-
 }

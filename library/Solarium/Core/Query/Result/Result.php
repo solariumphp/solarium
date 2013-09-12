@@ -53,7 +53,6 @@ use Solarium\Exception\RuntimeException;
  */
 class Result implements ResultInterface
 {
-
     /**
      * Response object
      *

@@ -77,7 +77,6 @@ use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
  */
 class Client extends Configurable
 {
-
     /**
      * Querytype select
      */

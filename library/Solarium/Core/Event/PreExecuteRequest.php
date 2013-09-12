@@ -48,7 +48,6 @@ use Solarium\Core\Client\Endpoint;
  */
 class PreExecuteRequest extends Event
 {
-
     /**
      * @var Request
      */

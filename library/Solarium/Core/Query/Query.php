@@ -229,5 +229,4 @@ abstract class Query extends Configurable implements QueryInterface
 
         return $responseWriter;
     }
-
 }

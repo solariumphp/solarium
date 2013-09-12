@@ -50,7 +50,6 @@ use Solarium\Exception\RuntimeException;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
-
     /**
      * Build request for an update query
      *
@@ -242,5 +241,4 @@ class RequestBuilder extends BaseRequestBuilder
     {
         return '<rollback/>';
     }
-
 }

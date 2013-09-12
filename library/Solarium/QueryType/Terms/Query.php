@@ -53,7 +53,6 @@ use Solarium\QueryType\Terms\ResponseParser;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Default options
      *
@@ -387,5 +386,4 @@ class Query extends BaseQuery
     {
         return $this->getOption('sort');
     }
-
 }

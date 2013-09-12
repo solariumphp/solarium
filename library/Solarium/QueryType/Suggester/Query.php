@@ -49,7 +49,6 @@ use Solarium\QueryType\Suggester\ResponseParser;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Default options
      *
@@ -204,5 +203,4 @@ class Query extends BaseQuery
     {
         return $this->getOption('collate');
     }
-
 }

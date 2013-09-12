@@ -45,7 +45,6 @@ use Solarium\Core\Query\Query as BaseQuery;
  */
 abstract class Query extends BaseQuery
 {
-
     /**
      * Set the query string
      *
@@ -94,5 +93,4 @@ abstract class Query extends BaseQuery
     {
         return $this->getOption('showmatch');
     }
-
 }

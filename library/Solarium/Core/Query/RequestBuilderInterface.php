@@ -46,7 +46,6 @@ use Solarium\Core\Client\Request;
  */
 interface RequestBuilderInterface
 {
-
     /**
      * Build request for a select query
      *

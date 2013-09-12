@@ -48,7 +48,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 class Document extends BaseRequestBuilder
 {
-
     /**
      * Build request for an analysis document query
      *
@@ -106,5 +105,4 @@ class Document extends BaseRequestBuilder
     {
         return '<field name="' . $name . '">' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8') . '</field>';
     }
-
 }

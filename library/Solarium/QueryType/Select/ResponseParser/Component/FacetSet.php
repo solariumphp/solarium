@@ -58,7 +58,6 @@ use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
  */
 class FacetSet extends ResponseParserAbstract implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *
@@ -252,5 +251,4 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
 
         return new ResultFacetPivot($data['facet_counts']['facet_pivot'][$key]);
     }
-
 }

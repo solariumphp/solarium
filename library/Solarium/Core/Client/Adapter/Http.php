@@ -49,7 +49,6 @@ use Solarium\Exception\HttpException;
  */
 class Http extends Configurable implements AdapterInterface
 {
-
     /**
      * Handle Solr communication
      *
@@ -170,5 +169,4 @@ class Http extends Configurable implements AdapterInterface
         return array($data, $headers);
         // @codeCoverageIgnoreEnd
     }
-
 }

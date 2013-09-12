@@ -46,7 +46,6 @@ use Solarium\Exception\UnexpectedValueException;
  */
 class QueryType extends Result
 {
-
     /**
      * Lazy load parsing indicator
      *
@@ -89,5 +88,4 @@ class QueryType extends Result
             $this->$key = $data;
         }
     }
-
 }

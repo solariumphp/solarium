@@ -47,7 +47,6 @@ use Solarium\Core\Query\Query;
  */
 abstract class Plugin extends Configurable implements PluginInterface
 {
-
     /**
      * Client instance
      *
@@ -83,5 +82,4 @@ abstract class Plugin extends Configurable implements PluginInterface
     {
 
     }
-
 }

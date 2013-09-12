@@ -45,7 +45,6 @@ namespace Solarium\Plugin\ParallelExecution\Event;
  */
 class Events
 {
-
     /**
      * This event is called just before parallel HTTP request execution, but after init work.
      * Intented for timing use only, there are no params.

@@ -48,7 +48,6 @@ use Solarium\QueryType\Select\RequestBuilder\Component\EdisMax as RequestBuilder
  */
 class EdisMax extends DisMax
 {
-
     /**
      * Default options
      *
@@ -232,5 +231,4 @@ class EdisMax extends DisMax
     {
         return $this->getOption('userfields');
     }
-
 }

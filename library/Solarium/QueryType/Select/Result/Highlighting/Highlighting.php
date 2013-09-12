@@ -44,7 +44,6 @@ use Solarium\QueryType\Select\Result\Highlighting\Result;
  */
 class Highlighting implements \IteratorAggregate, \Countable
 {
-
     /**
      * Result array
      *

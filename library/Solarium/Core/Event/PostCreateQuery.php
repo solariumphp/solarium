@@ -45,7 +45,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 class PostCreateQuery extends Event
 {
-
     /**
      * @var QueryInterface
      */
@@ -104,5 +103,4 @@ class PostCreateQuery extends Event
     {
         return $this->options;
     }
-
 }

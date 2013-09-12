@@ -47,7 +47,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class PostFlush extends Event
 {
-
     /**
      * @var Result
      */
@@ -72,5 +71,4 @@ class PostFlush extends Event
     {
         return $this->result;
     }
-
 }

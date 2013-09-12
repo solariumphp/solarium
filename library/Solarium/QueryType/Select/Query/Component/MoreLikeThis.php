@@ -48,7 +48,6 @@ use Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis as ResponseP
  */
 class MoreLikeThis extends Component
 {
-
     /**
      * Get component type
      *
@@ -334,5 +333,4 @@ class MoreLikeThis extends Component
     {
         return $this->getOption('count');
     }
-
 }

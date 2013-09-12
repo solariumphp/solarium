@@ -46,7 +46,6 @@ use Solarium\QueryType\Analysis\RequestBuilder\Field as RequestBuilder;
  */
 class Field extends Query
 {
-
     /**
      * Default options
      *
@@ -156,5 +155,4 @@ class Field extends Query
     {
         return $this->getOption('fieldname');
     }
-
 }

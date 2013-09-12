@@ -55,7 +55,6 @@ namespace Solarium\Exception;
  */
 class HttpException extends \RuntimeException implements ExceptionInterface
 {
-
     /**
      * HTTP status message
      *
@@ -115,5 +114,4 @@ class HttpException extends \RuntimeException implements ExceptionInterface
     {
         return $this->body;
     }
-
 }

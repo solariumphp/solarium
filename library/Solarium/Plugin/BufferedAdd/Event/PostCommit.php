@@ -47,7 +47,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class PostCommit extends Event
 {
-
     /**
      * @var Result
      */
@@ -72,5 +71,4 @@ class PostCommit extends Event
     {
         return $this->result;
     }
-
 }

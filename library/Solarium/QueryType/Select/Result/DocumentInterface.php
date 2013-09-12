@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result;
  */
 interface DocumentInterface
 {
-
     /**
      * Constructor
      *

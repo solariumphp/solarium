@@ -48,7 +48,6 @@ use Solarium\QueryType\Select\Query\Query;
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Get result data for the response
      *
@@ -104,5 +103,4 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             )
         );
     }
-
 }

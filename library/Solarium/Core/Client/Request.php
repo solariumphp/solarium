@@ -46,7 +46,6 @@ use Solarium\Exception\RuntimeException;
  */
 class Request extends Configurable
 {
-
     /**
      * Request GET method
      */
@@ -486,5 +485,4 @@ class Request extends Configurable
             'password' => $this->getOption('password'),
         );
     }
-
 }

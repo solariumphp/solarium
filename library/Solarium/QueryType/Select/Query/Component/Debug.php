@@ -48,7 +48,6 @@ use Solarium\QueryType\Select\ResponseParser\Component\Debug as ResponseParser;
  */
 class Debug extends Component
 {
-
     /**
      * Get component type
      *
@@ -99,5 +98,4 @@ class Debug extends Component
     {
         return $this->setOption('explainother', $query);
     }
-
 }

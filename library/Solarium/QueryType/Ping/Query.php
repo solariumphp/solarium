@@ -51,7 +51,6 @@ use Solarium\QueryType\Ping\RequestBuilder as RequestBuilder;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Default options
      *
@@ -92,5 +91,4 @@ class Query extends BaseQuery
     {
         return null;
     }
-
 }

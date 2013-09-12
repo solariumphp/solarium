@@ -47,7 +47,6 @@ use Solarium\Core\Client\Request;
  */
 class EdisMax implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for EdismaxComponent
      *

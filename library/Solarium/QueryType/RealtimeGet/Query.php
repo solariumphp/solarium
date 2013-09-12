@@ -51,7 +51,6 @@ use Solarium\QueryType\Select\ResponseParser\ResponseParser;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Default options
      *

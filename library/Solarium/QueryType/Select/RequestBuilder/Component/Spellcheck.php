@@ -45,7 +45,6 @@ use Solarium\Core\Client\Request;
  */
 class Spellcheck implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for Spellcheck
      *

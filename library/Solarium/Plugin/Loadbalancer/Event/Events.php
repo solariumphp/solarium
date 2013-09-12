@@ -43,7 +43,6 @@ namespace Solarium\Plugin\Loadbalancer\Event;
  */
 class Events
 {
-
     /**
      * This event is called after and endpoint has failed.
      *

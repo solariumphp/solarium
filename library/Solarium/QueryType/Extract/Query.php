@@ -402,5 +402,4 @@ class Query extends BaseQuery
 
         return new $class($fields, $boosts);
     }
-
 }

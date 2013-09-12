@@ -45,7 +45,6 @@ use Solarium\Core\Configurable;
  */
 class Customization extends Configurable
 {
-
     /**
      * Type definition for params
      */
@@ -226,5 +225,4 @@ class Customization extends Configurable
 
         return true;
     }
-
 }

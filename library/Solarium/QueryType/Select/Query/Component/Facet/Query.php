@@ -47,7 +47,6 @@ use Solarium\Core\Query\Helper;
  */
 class Query extends Facet
 {
-
     /**
      * Default options
      *
@@ -95,5 +94,4 @@ class Query extends Facet
     {
         return $this->getOption('query');
     }
-
 }

@@ -48,7 +48,6 @@ use Solarium\Core\Query\Result\ResultInterface;
  */
 class PostCreateResult extends Event
 {
-
     /**
      * @var QueryInterface
      */
@@ -107,5 +106,4 @@ class PostCreateResult extends Event
     {
         return $this->result;
     }
-
 }

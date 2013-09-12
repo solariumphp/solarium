@@ -53,7 +53,6 @@ use Solarium\Exception\UnexpectedValueException;
  */
 class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for FacetSet
      *

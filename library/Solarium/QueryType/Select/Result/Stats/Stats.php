@@ -45,7 +45,6 @@ use Solarium\QueryType\Select\Result\Stats\Result;
  */
 class Stats implements \IteratorAggregate, \Countable
 {
-
     /**
      * Result array
      *

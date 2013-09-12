@@ -50,7 +50,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class MultiQuery extends Facet
 {
-
     /**
      * Facet query objects
      *
@@ -305,5 +304,4 @@ class MultiQuery extends Facet
 
         return parent::clearExcludes();
     }
-
 }

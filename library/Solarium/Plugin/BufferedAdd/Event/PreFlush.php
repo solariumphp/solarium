@@ -46,7 +46,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class PreFlush extends Event
 {
-
     /**
      * @var DocumentInterface[]
      */
@@ -132,5 +131,4 @@ class PreFlush extends Event
     {
         return $this->overwrite;
     }
-
 }

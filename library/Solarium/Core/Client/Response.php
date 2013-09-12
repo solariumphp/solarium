@@ -45,7 +45,6 @@ use Solarium\Exception\HttpException;
  */
 class Response
 {
-
     /**
      * Headers
      *

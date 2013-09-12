@@ -45,7 +45,6 @@ use Solarium\QueryType\Analysis\Result\ResultList;
  */
 class Document extends Field
 {
-
     /**
      * Parse implementation
      *
@@ -63,5 +62,4 @@ class Document extends Field
 
         return $documents;
     }
-
 }

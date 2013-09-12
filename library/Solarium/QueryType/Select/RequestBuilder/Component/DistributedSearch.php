@@ -45,7 +45,6 @@ use Solarium\Core\Client\Request;
  */
 class DistributedSearch implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for DistributedSearch
      *

@@ -49,7 +49,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 interface ConfigurableInterface
 {
-
     /**
      * Constructor
      *

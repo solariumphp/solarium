@@ -51,7 +51,6 @@ use Solarium\QueryType\Select\Query\Component\Facet\Facet;
  */
 class FacetSet extends Component
 {
-
     /**
      * Facet type field
      */
@@ -526,5 +525,4 @@ class FacetSet extends Component
     {
         return $this->createFacet(self::FACET_PIVOT, $options, $add);
     }
-
 }

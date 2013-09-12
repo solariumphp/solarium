@@ -53,7 +53,6 @@ use Solarium\Exception\HttpException;
  */
 class Curl extends Configurable implements AdapterInterface
 {
-
     /**
      * Initialization hook
      *

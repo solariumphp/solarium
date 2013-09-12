@@ -48,7 +48,6 @@ use Solarium\QueryType\Suggester\Result\Result;
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Get result data for the response
      *
@@ -93,5 +92,4 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             )
         );
     }
-
 }

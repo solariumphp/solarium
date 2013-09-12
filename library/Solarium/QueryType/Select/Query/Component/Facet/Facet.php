@@ -46,7 +46,6 @@ use Solarium\Core\Configurable;
  */
 abstract class Facet extends Configurable
 {
-
     /**
      * Exclude tags for this facet
      *

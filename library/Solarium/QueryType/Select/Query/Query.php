@@ -54,7 +54,6 @@ use Solarium\QueryType\Select\Query\Component\Component as AbstractComponent;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Solr sort mode descending
      */
@@ -1084,5 +1083,4 @@ class Query extends BaseQuery
 
         return $this->addTags($tags);
     }
-
 }

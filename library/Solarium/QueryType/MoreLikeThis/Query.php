@@ -55,7 +55,6 @@ use Solarium\QueryType\MoreLikeThis\RequestBuilder as RequestBuilder;
  */
 class Query extends SelectQuery
 {
-
     /**
      * Default options
      *
@@ -405,5 +404,4 @@ class Query extends SelectQuery
         if ($value === null) $value = array();
         return $value;
     }
-
 }

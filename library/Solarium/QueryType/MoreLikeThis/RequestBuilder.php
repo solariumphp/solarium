@@ -49,7 +49,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends SelectRequestBuilder
 {
-
     /**
      * Build request for a MoreLikeThis query
      *
@@ -84,5 +83,4 @@ class RequestBuilder extends SelectRequestBuilder
 
         return $request;
     }
-
 }

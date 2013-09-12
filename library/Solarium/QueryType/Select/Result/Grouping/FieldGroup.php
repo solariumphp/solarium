@@ -45,7 +45,6 @@ namespace Solarium\QueryType\Select\Result\Grouping;
  */
 class FieldGroup implements \IteratorAggregate, \Countable
 {
-
     /**
      * Match count
      *

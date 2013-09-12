@@ -45,7 +45,6 @@ use Solarium\QueryType\Analysis\Result\ResultList;
  */
 class Document extends BaseResult implements \IteratorAggregate, \Countable
 {
-
     /**
      * Document instances array
      *
@@ -151,5 +150,4 @@ class Document extends BaseResult implements \IteratorAggregate, \Countable
             return null;
         }
     }
-
 }

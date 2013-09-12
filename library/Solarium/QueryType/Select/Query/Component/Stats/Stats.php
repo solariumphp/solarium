@@ -51,7 +51,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Stats extends Component
 {
-
     /**
      * Stats facets for all fields
      *
@@ -359,5 +358,4 @@ class Stats extends Component
 
         return $this;
     }
-
 }

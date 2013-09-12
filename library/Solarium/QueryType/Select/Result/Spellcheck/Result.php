@@ -46,7 +46,6 @@ use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
  */
 class Result implements \IteratorAggregate, \Countable
 {
-
     /**
      * Suggestions array
      *

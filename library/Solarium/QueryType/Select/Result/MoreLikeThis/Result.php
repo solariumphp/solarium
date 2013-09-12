@@ -45,7 +45,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class Result implements \IteratorAggregate, \Countable
 {
-
     /**
      * Document instances array
      *

@@ -45,7 +45,6 @@ use Solarium\Core\Client\Request;
  */
 class Grouping implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for Grouping
      *

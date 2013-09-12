@@ -48,7 +48,6 @@ use Solarium\Exception\RuntimeException;
  */
 class Add extends Command
 {
-
     /**
      * Documents to add
      *

@@ -45,7 +45,6 @@ use Solarium\Core\Client\Request;
  */
 class DisMax implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for Dismax
      *

@@ -47,7 +47,6 @@ use Solarium\Core\Query\Result\ResultInterface;
  */
 class PostExecute extends Event
 {
-
     /**
      * @var QueryInterface
      */
@@ -89,5 +88,4 @@ class PostExecute extends Event
     {
         return $this->result;
     }
-
 }

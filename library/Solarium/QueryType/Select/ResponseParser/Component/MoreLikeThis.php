@@ -47,7 +47,6 @@ use Solarium\QueryType\Select\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisRe
  */
 class MoreLikeThis implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *

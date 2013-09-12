@@ -47,7 +47,6 @@ use Solarium\Exception\HttpException;
  */
 class EndpointFailure extends Event
 {
-
     /**
      * @var Endpoint
      */
@@ -85,5 +84,4 @@ class EndpointFailure extends Event
     {
         return $this->exception;
     }
-
 }

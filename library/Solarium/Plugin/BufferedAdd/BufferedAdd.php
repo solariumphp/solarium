@@ -58,7 +58,6 @@ use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
  */
 class BufferedAdd extends Plugin
 {
-
     /**
      * Default options
      *
@@ -274,5 +273,4 @@ class BufferedAdd extends Plugin
 
         return $result;
     }
-
 }

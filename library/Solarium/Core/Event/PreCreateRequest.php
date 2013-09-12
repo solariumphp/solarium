@@ -47,7 +47,6 @@ use Solarium\Core\Client\Request;
  */
 class PreCreateRequest extends Event
 {
-
     /**
      * @var QueryInterface
      */
@@ -100,5 +99,4 @@ class PreCreateRequest extends Event
     {
         return $this->request;
     }
-
 }

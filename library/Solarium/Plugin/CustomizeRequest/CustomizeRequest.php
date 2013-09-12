@@ -53,7 +53,6 @@ use Solarium\Core\Event\preExecuteRequest as preExecuteRequestEvent;
  */
 class CustomizeRequest extends Plugin
 {
-
     /**
      * Holds customizations added to this plugin
      *
@@ -286,5 +285,4 @@ class CustomizeRequest extends Plugin
 
         $event->setRequest($request);
     }
-
 }

@@ -118,5 +118,4 @@ class Optimize extends Command
     {
         return $this->setOption('maxsegments', $maxSegments);
     }
-
 }

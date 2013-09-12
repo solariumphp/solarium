@@ -43,7 +43,6 @@ namespace Solarium\Plugin\BufferedAdd\Event;
  */
 class Events
 {
-
     /**
      * This event is called before a buffer flush
      *

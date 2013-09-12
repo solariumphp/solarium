@@ -46,7 +46,6 @@ use Solarium\QueryType\Select\Query\Component\FacetSet;
  */
 class Range extends Facet
 {
-
     /**
      * Value for the 'other' option
      */
