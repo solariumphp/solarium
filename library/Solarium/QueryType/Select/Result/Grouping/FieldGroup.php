@@ -70,10 +70,9 @@ class FieldGroup implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  int   $matches
-     * @param  int   $numberOfGroups
-     * @param  array $groups
-     * @return void
+     * @param int   $matches
+     * @param int   $numberOfGroups
+     * @param array $groups
      */
     public function __construct($matches, $numberOfGroups, $groups)
     {

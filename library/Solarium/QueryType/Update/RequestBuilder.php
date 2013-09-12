@@ -53,7 +53,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for an update query
      *
-     * @param  UpdateQuery $query
+     * @param  QueryInterface|UpdateQuery $query
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -107,7 +107,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for an add command
      *
-     * @param  Query\Command\Add $command
+     * @param  \Solarium\QueryType\Update\Query\Command\Add $command
      * @param  UpdateQuery $query
      * @return string
      */
@@ -169,6 +169,9 @@ class RequestBuilder extends BaseRequestBuilder
         $xml = '<field name="' . $name . '"';
         $xml .= $this->attrib('boost', $boost);
         $xml .= $this->attrib('update', $modifier);
+        if($value === null){
+            $xml .= $this->attrib('null', 'true');
+        }
         $xml .= '>' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
         $xml .= '</field>';
 
@@ -178,7 +181,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for a delete command
      *
-     * @param  Query\Command\Delete $command
+     * @param  \Solarium\QueryType\Update\Query\Command\Delete $command
      * @return string
      */
     public function buildDeleteXml($command)
@@ -198,7 +201,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for an update command
      *
-     * @param  Query\Command\Optimize $command
+     * @param  \Solarium\QueryType\Update\Query\Command\Optimize $command
      * @return string
      */
     public function buildOptimizeXml($command)
@@ -215,7 +218,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for a commit command
      *
-     * @param  Query\Command\Commit $command
+     * @param  \Solarium\QueryType\Update\Query\Command\Commit $command
      * @return string
      */
     public function buildCommitXml($command)

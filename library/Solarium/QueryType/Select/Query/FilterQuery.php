@@ -209,7 +209,7 @@ class FilterQuery extends Configurable
      *
      * This overwrites any existing tags
      *
-     * @param  array $filterQueries
+     * @param  array $tags
      * @return self  Provides fluent interface
      */
     public function setTags($tags)

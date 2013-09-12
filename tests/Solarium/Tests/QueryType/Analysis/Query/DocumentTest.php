@@ -31,6 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Analysis\Query;
 use Solarium\QueryType\Analysis\Query\Document;
+use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 use Solarium\Core\Client\Client;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
@@ -63,7 +64,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetDocument()
     {
-        $doc = new Document(array('id' => 1));
+        $doc = new ReadOnlyDocument(array('id' => 1));
         $this->query->addDocument($doc);
         $this->assertEquals(
             array($doc),
@@ -73,8 +74,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetDocuments()
     {
-        $doc1 = new Document(array('id' => 1));
-        $doc2 = new Document(array('id' => 2));
+        $doc1 = new ReadOnlyDocument(array('id' => 1));
+        $doc2 = new ReadOnlyDocument(array('id' => 2));
         $this->query->addDocuments(array($doc1, $doc2));
         $this->assertEquals(
             array($doc1, $doc2),

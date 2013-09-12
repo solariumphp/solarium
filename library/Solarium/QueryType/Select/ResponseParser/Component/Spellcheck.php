@@ -62,7 +62,6 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      */
     public function parse($query, $spellcheck, $data)
     {
-        $results = array();
         if (
             isset($data['spellcheck']['suggestions']) &&
             is_array($data['spellcheck']['suggestions']) &&
@@ -183,14 +182,16 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
         $originalFrequency = (isset($value['origFreq'])) ? $value['origFreq'] : null;
 
         $words = array();
-        foreach($value['suggestion'] as $suggestion) {
-            if (is_string($suggestion)) {
-                $suggestion = array(
-                    'word' => $suggestion,
-                    'freq' => null,
-                );
+        if (isset($value['suggestion']) && is_array($value['suggestion'])) {
+            foreach($value['suggestion'] as $suggestion) {
+                if (is_string($suggestion)) {
+                    $suggestion = array(
+                        'word' => $suggestion,
+                        'freq' => null,
+                    );
+                }
+                $words[] = $suggestion;
             }
-            $words[] = $suggestion;
         }
 
         return new Suggestion(

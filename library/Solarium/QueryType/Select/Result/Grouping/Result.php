@@ -56,8 +56,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  array $groups
-     * @return void
+     * @param array $groups
      */
     public function __construct($groups)
     {

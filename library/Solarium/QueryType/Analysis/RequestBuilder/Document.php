@@ -51,7 +51,7 @@ class Document extends BaseRequestBuilder
     /**
      * Build request for an analysis document query
      *
-     * @param  QueryDocument $query
+     * @param  QueryInterface|QueryDocument $query
      * @return Request
      */
     public function build(QueryInterface $query)

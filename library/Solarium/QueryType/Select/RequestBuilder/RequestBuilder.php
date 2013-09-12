@@ -51,7 +51,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for a select query
      *
-     * @param  SelectQuery $query
+     * @param  QueryInterface|SelectQuery $query
      * @return Request
      */
     public function build(QueryInterface $query)

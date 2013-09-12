@@ -79,7 +79,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->builder->build($this->query);
         $this->assertEquals(
-            'update/extract?omitHeader=true&param1=value1&wt=json&fmap.from-field=to-field&resource.name=RequestBuilderTest.php',
+            'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&fmap.from-field=to-field&resource.name=RequestBuilderTest.php',
             $request->getUri()
         );
     }
@@ -103,6 +103,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'param1' => 'value1',
                 'resource.name' => 'RequestBuilderTest.php',
                 'wt' => 'json',
+                'json.nl' => 'flat',
             ),
             $request->getParams()
         );

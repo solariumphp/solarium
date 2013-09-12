@@ -61,6 +61,7 @@ class PostCreateRequest extends Event
      * Event constructor
      *
      * @param QueryInterface $query
+     * @param Request        $request
      */
     public function __construct(QueryInterface $query, Request $request)
     {

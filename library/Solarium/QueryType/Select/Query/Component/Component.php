@@ -77,7 +77,8 @@ abstract class Component extends Configurable
     /**
      * Set parent query instance
      *
-     * @return self Provides fluent interface
+     * @param  Query $instance
+     * @return self  Provides fluent interface
      */
     public function setQueryInstance(Query $instance)
     {

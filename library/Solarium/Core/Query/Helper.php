@@ -458,8 +458,8 @@ class Helper
      *
      * @see http://wiki.apache.org/solr/CommonQueryParameters#Caching_of_filters
      *
-     * @param boolean $useCache
-     * @param float|null $weight
+     * @param boolean    $useCache
+     * @param float|null $cost
      * @return string
      */
     public function cacheControl($useCache, $cost = null)
@@ -477,6 +477,19 @@ class Helper
         $result .= '}';
 
         return $result;
+    }
+
+    /**
+     * Filters control characters that cause issues with servlet containers.
+     *
+     * Mainly useful to filter data before adding it to a document for the update query.
+     *
+     * @param $data
+     * @return mixed
+     */
+    public function filterControlCharacters($data)
+    {
+        return preg_replace('@[\x00-\x08\x0B\x0C\x0E-\x1F]@', ' ', $data);
     }
 
 }
