@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\RequestBuilder;
+
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Analysis\Query\Document as QueryDocument;

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\Spellcheck;
+
 use Solarium\QueryType\Select\Result\Spellcheck\Collation;
 use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
 

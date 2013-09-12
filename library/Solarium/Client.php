@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium;
+
 use Solarium\Core\Client\Client as CoreClient;
 
 /**

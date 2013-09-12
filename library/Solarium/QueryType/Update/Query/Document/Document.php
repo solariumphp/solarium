@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query\Document;
+
 use Solarium\QueryType\Select\Result\AbstractDocument;
 use Solarium\Exception\RuntimeException;
 

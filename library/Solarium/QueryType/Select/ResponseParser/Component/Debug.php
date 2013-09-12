@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Debug as DebugComponent;
 use Solarium\QueryType\Select\Result\Debug\Result;

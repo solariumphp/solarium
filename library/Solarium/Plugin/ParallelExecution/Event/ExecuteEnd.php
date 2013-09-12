@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\ParallelExecution\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 
 /**

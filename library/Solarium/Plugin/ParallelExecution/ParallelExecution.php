@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\ParallelExecution;
+
 use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\HttpException;

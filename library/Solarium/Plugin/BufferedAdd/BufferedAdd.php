@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\BufferedAdd;
+
 use Solarium\Client;
 use Solarium\Core\Plugin\Plugin;
 use Solarium\QueryType\Update\Result as UpdateResult;

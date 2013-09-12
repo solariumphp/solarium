@@ -38,6 +38,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Suggester;
+
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 use Solarium\QueryType\Suggester\Result\Result;

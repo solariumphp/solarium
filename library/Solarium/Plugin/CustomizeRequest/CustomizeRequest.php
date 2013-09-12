@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
+
 use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\InvalidArgumentException;

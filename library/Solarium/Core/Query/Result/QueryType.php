@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query\Result;
+
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\UnexpectedValueException;
 

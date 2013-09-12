@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query\Result;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;

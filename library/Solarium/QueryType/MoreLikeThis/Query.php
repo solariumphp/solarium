@@ -40,6 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\MoreLikeThis;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\MoreLikeThis\ResponseParser as ResponseParser;

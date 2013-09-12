@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result;
+
 use Solarium\Exception\RuntimeException;
 
 /**

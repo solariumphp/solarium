@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;

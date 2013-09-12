@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update;
+
 use Solarium\Client;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;

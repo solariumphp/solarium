@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update;
+
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 

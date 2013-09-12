@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Plugin;
+
 use Solarium\Core\ConfigurableInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query;

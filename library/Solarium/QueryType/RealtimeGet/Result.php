@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\RealtimeGet;
+
 use Solarium\QueryType\Select\Result\Result as BaseResult;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core;
+
 use Solarium\Exception\InvalidArgumentException;
 
 /**

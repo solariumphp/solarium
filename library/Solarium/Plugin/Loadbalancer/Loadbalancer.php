@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer;
+
 use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\Query;
+
 use Solarium\Core\Query\Query as BaseQuery;
 
 /**

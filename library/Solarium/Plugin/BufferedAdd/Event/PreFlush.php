@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\BufferedAdd\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 

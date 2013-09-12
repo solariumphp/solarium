@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\ResponseParser;
+
 use Solarium\QueryType\Analysis\Result\ResultList;
 
 /**

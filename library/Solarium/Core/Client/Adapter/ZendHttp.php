@@ -38,8 +38,8 @@
 /**
  * @namespace
  */
-
 namespace Solarium\Core\Client\Adapter;
+
 use Solarium\Core\Configurable;
 use Solarium\Core\Client;
 use Solarium\Core\Client\Request;

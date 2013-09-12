@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
+
 use Solarium\Core\Configurable;
 
 /**

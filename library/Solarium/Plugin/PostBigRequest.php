@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin;
+
 use Solarium\Client;
 use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Request;

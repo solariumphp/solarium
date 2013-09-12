@@ -42,6 +42,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Extract;
+
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;

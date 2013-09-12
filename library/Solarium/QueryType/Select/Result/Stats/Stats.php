@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\Stats;
+
 use Solarium\QueryType\Select\Result\Stats\Result;
 
 /**

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer;
+
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 
