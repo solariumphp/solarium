@@ -40,6 +40,7 @@ class FieldGroupTest extends \PHPUnit_Framework_TestCase
      */
     protected $group;
 
+    protected $matches;
     protected $numberOfGroups;
     protected $items;
 

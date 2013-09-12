@@ -40,6 +40,7 @@ class TimingPhaseTest extends \PHPUnit_Framework_TestCase
      */
     protected $result;
 
+    protected $name;
     protected $time;
     protected $timings;
 

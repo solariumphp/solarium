@@ -40,6 +40,7 @@ class ValueGroupTest extends \PHPUnit_Framework_TestCase
      */
     protected $group;
 
+    protected $value;
     protected $numFound;
     protected $start;
     protected $items;

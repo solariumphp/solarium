@@ -42,6 +42,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      */
     protected $result;
 
+    protected $numFound;
     protected $docs;
     protected $components;
     protected $facetSet;
@@ -50,6 +51,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     protected $grouping;
     protected $stats;
     protected $debug;
+    protected $spellcheck;
 
     public function setUp()
     {

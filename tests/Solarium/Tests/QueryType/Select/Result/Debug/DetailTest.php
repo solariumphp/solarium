@@ -40,6 +40,7 @@ class DetailTest extends \PHPUnit_Framework_TestCase
      */
     protected $result;
 
+    protected $value;
     protected $match;
     protected $description;
 

@@ -44,6 +44,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      */
     protected $result;
 
+    protected $client;
     protected $query;
     protected $response;
     protected $headers;

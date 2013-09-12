@@ -40,6 +40,7 @@ class QueryGroupTest extends \PHPUnit_Framework_TestCase
      */
     protected $group;
 
+    protected $matches;
     protected $numFound;
     protected $start;
     protected $maximumScore;

@@ -40,6 +40,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase
      */
     protected $facet;
 
+    protected $values;
     protected $before;
     protected $after;
     protected $between;

@@ -37,6 +37,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase
 {
+    protected $parser;
     protected $facetSet;
     protected $query;
 
