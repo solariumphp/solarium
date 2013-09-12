@@ -47,7 +47,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         $component->addShards(
             array(
                 'shard2' => 'localhost:8983/solr/shard2',
-                'shard3' => 'localhost:8983/solr/shard3'
+                'shard3' => 'localhost:8983/solr/shard3',
             )
         );
         $component->setShardRequestHandler('dummy');
@@ -74,7 +74,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         $component->addCollections(
             array(
                 'collection2' => $url.'2',
-                'collection3' => $url.'3'
+                'collection3' => $url.'3',
             )
         );
 

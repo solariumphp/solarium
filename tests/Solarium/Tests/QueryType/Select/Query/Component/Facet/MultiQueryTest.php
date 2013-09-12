@@ -59,7 +59,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
                     'exclude' => array('fq1', 'fq2')
                 ),
                 'k2' => array(
-                    'query' => 'category:2'
+                    'query' => 'category:2',
                 ),
             )
         );
@@ -82,7 +82,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
     public function testConfigModeSingleQuery()
     {
         $options = array(
-            'query' => 'category:2'
+            'query' => 'category:2',
         );
 
         $this->facet->setOptions($options);
@@ -237,7 +237,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
                 'exclude' => array('fq1', 'fq2')
             ),
             'k2' => array(
-                'query' => 'category:2'
+                'query' => 'category:2',
             ),
         );
         $this->facet->addQueries($config);

@@ -48,13 +48,13 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'host'     => '192.168.0.1',
-            'port'     => 123,
-            'path'     => '/mysolr/',
-            'core'     => 'mycore',
-            'timeout'  => 3,
+            'host' => '192.168.0.1',
+            'port' => 123,
+            'path' => '/mysolr/',
+            'core' => 'mycore',
+            'timeout' => 3,
             'username' => 'x',
-            'password' => 'y'
+            'password' => 'y',
         );
         $this->endpoint->setOptions($options);
 
@@ -132,13 +132,13 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
     public function testToString()
     {
         $options = array(
-            'host'     => '192.168.0.1',
-            'port'     => 123,
-            'path'     => '/mysolr/',
-            'core'     => 'mycore',
-            'timeout'  => 3,
+            'host' => '192.168.0.1',
+            'port' => 123,
+            'path' => '/mysolr/',
+            'core' => 'mycore',
+            'timeout' => 3,
             'username' => 'x',
-            'password' => 'y'
+            'password' => 'y',
         );
         $this->endpoint->setOptions($options);
 

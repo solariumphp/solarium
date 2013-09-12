@@ -42,7 +42,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             ),
             'responseHeader' => array(
                 'status' => 1,
-                'QTime' => 5
+                'QTime' => 5,
             )
         );
 

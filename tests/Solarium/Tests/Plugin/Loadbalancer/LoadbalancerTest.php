@@ -61,10 +61,10 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $options = array(
             'endpoint' => array(
                 'server1' => array(
-                    'host' => 'host1'
+                    'host' => 'host1',
                 ),
                 'server2' => array(
-                    'host' => 'host2'
+                    'host' => 'host2',
                 ),
             ),
         );

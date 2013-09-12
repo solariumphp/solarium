@@ -60,7 +60,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'type' => 'header',
                     'name' => 'X-my-auth',
                     'value' => 'mypassword',
-                    'persistent' => true
+                    'persistent' => true,
                 ),
                 'id' => array(
                     'type' => 'param',
@@ -137,7 +137,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
             'type' => 'header',
             'name' => 'X-my-auth',
             'value' => 'mypassword',
-            'persistent' => true
+            'persistent' => true,
         );
         $customization = $this->plugin->createCustomization($input);
 
@@ -353,7 +353,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'type' => 'header',
                     'name' => 'X-my-auth',
                     'value' => 'mypassword',
-                    'persistent' => true
+                    'persistent' => true,
                 );
         $this->plugin->addCustomization($input);
 
@@ -418,7 +418,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'type' => 'header',
                     'name' => 'X-my-auth',
                     'value' => 'mypassword',
-                    'persistent' => true
+                    'persistent' => true,
                 );
         $this->plugin->addCustomization($input);
 

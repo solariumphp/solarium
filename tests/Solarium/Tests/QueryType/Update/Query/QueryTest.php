@@ -64,7 +64,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'handler'  => 'myHandler',
+            'handler' => 'myHandler',
             'resultclass' => 'myResult',
             'command' => array(
                 'key1' => array(

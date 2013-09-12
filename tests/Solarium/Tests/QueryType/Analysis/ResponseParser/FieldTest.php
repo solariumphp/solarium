@@ -72,7 +72,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             ),
             'responseHeader' => array(
                 'status' => 1,
-                'QTime' => 5
+                'QTime' => 5,
             )
         );
 
@@ -102,7 +102,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $data = array(
             'responseHeader' => array(
                 'status' => 1,
-                'QTime' => 5
+                'QTime' => 5,
             )
         );
 

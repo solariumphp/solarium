@@ -181,7 +181,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -195,7 +195,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -210,7 +210,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -225,7 +225,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -240,7 +240,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -431,11 +431,11 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $config = array(
-            'query'  => 'text:mykeyword',
-            'sort'   => array('score' => 'asc'),
+            'query' => 'text:mykeyword',
+            'sort' => array('score' => 'asc'),
             'fields' => array('id', 'title', 'category'),
-            'rows'   => 100,
-            'start'  => 200,
+            'rows' => 100,
+            'start' => 200,
             'filterquery' => array(
                 array('key' => 'pub', 'tag' => array('pub'), 'query' => 'published:true'),
                 'online' => array('tag' => 'onl', 'query' => 'online:true')

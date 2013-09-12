@@ -52,7 +52,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             'positionHistory' => array(2, 1),
             'type' => '<dummytype>',
             'raw_text' => 'dummy raw text',
-            'match' => true
+            'match' => true,
         );
         $this->item = new Item($this->data);
     }

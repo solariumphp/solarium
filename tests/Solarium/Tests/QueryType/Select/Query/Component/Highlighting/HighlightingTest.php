@@ -183,7 +183,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
     {
         $config = array(
             'name' => 'fieldA',
-            'snippets' => 6
+            'snippets' => 6,
         );
         $this->hlt->addField($config);
 

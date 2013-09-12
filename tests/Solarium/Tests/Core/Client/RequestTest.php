@@ -48,14 +48,14 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'method'   => Request::METHOD_POST,
-            'handler'  => 'myHandler',
-            'param'    => array(
+            'method' => Request::METHOD_POST,
+            'handler' => 'myHandler',
+            'param' => array(
                 'param1' => 1,
                 'param2' => 'test',
             ),
-            'rawdata'  => 'raw post data here',
-            'header'   => array(
+            'rawdata' => 'raw post data here',
+            'header' => array(
                 'myHeader1' => 'X-myHeader1: value1',
                 'myHeader2' => 'X-myHeader2: value2',
             ),
@@ -98,7 +98,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             array(
                 'username' => $options['authentication']['username'],
-                'password' => $options['authentication']['password']
+                'password' => $options['authentication']['password'],
             ),
             $this->request->getAuthentication()
         );
@@ -460,14 +460,14 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testToString()
     {
         $options = array(
-            'method'   => Request::METHOD_POST,
-            'handler'  => '/myHandler',
-            'param'    => array(
+            'method' => Request::METHOD_POST,
+            'handler' => '/myHandler',
+            'param' => array(
                 'param1' => 1,
                 'param2' => 'test content',
             ),
-            'rawdata'  => 'post data',
-            'header'   => array(
+            'rawdata' => 'post data',
+            'header' => array(
                 'myHeader1' => 'X-myHeader1: value1',
                 'myHeader2' => 'X-myHeader2: value2',
             ),

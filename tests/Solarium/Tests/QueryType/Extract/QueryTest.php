@@ -70,7 +70,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
 
         $options = array(
-            'fmap' => $mappings
+            'fmap' => $mappings,
         );
 
         $this->query->setOptions($options);

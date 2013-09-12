@@ -125,14 +125,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ),
             'querytype' => array(
                 array(
-                    'type'           => 'myquerytype',
-                    'query'          => 'MyQuery',
+                    'type' => 'myquerytype',
+                    'query' => 'MyQuery',
                 )
             ),
             'plugin' => array(
                  array(
-                    'key'     => 'myplugin',
-                    'plugin'  => __NAMESPACE__.'\\MyClientPlugin',
+                    'key' => 'myplugin',
+                    'plugin' => __NAMESPACE__.'\\MyClientPlugin',
                     'options' => array(
                         'option1' => 'value1',
                         'option2' => 'value2',
@@ -396,7 +396,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $adapterOptions = array(
             'host' => 'myhost',
             'port' => 8080,
-            'customOption' => 'foobar'
+            'customOption' => 'foobar',
         );
 
         $observer = $this->getMock('Solarium\Core\Client\Adapter\Http', array('setOptions', 'execute'));

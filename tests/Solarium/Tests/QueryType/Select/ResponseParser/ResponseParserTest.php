@@ -46,7 +46,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
                     array('fieldA' => 1, 'fieldB' => 'Test'),
                     array('fieldA' => 2, 'fieldB' => 'Test2')
                 ),
-                'numFound' => 503
+                'numFound' => 503,
             ),
             'responseHeader' => array(
                 'status' => 1,
@@ -92,7 +92,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
                     array('fieldA' => 1, 'fieldB' => 'Test'),
                     array('fieldA' => 2, 'fieldB' => 'Test2')
                 ),
-                'numFound' => 503
+                'numFound' => 503,
             ),
             'responseHeader' => array(
                 'status' => 1,

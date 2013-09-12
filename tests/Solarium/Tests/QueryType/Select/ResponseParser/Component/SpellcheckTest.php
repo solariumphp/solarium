@@ -58,7 +58,8 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                         'origFreq' => 0,
                         'suggestion' => array (
                             0 => array (
-                                'word' => 'dell', 'freq' => 1
+                                'word' => 'dell',
+                                'freq' => 1,
                             ),
                         ),
                     ),
@@ -71,7 +72,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                         'suggestion' => array (
                             0 => array (
                                 'word' => 'ultrasharp',
-                                'freq' => 1
+                                'freq' => 1,
                             ),
                         ),
                     ),
@@ -88,7 +89,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                             0 => 'delll',
                             1 => 'dell',
                             2 => 'ultrashar',
-                            3 => 'ultrasharp'
+                            3 => 'ultrasharp',
                         ),
                     ),
                     8 => 'collation',
@@ -102,10 +103,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                             0 => 'delll',
                             1 => 'dell',
                             2 => 'ultrashar',
-                            3 => 'ultrasharp'
+                            3 => 'ultrasharp',
                         ),
                     ),
-
                 )
             )
         );
@@ -145,7 +145,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                         'suggestion' => array (
                             0 => array (
                                 'word' => 'ultrasharp',
-                                'freq' => 1
+                                'freq' => 1,
                             ),
                         ),
                     ),
@@ -195,11 +195,11 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                         'suggestion' => array (
                             0 => array (
                                 'word' => 'ultrasharp',
-                                'freq' => 2
+                                'freq' => 2,
                             ),
                             1 => array (
                                 'word' => 'ultrasharpy',
-                                'freq' => 1
+                                'freq' => 1,
                             ),
                         ),
                     ),

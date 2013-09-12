@@ -74,25 +74,25 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
         // prevents undefined constants errors
         if (function_exists('http_get')) {
             $methods = array(
-                Request::METHOD_GET  => array(
+                Request::METHOD_GET => array(
                     'method' => HTTP_METH_GET,
-                    'support' => true
+                    'support' => true,
                 ),
                 Request::METHOD_POST => array(
                     'method' => HTTP_METH_POST,
-                    'support' => true
+                    'support' => true,
                 ),
                 Request::METHOD_HEAD => array(
                     'method' => HTTP_METH_HEAD,
-                    'support' => true
+                    'support' => true,
                 ),
-                'PUT'                                => array(
+                'PUT' => array(
                     'method' => HTTP_METH_PUT,
-                    'support' => false
+                    'support' => false,
                 ),
-                'DELETE'                             => array(
+                'DELETE' => array(
                     'method' => HTTP_METH_DELETE,
-                    'support' => false
+                    'support' => false,
                 ),
             );
 
@@ -113,7 +113,7 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
             array(
                 'header' => array(
                     'Content-Type: application/json',
-                    'User-Agent: Foo'
+                    'User-Agent: Foo',
                 ),
                 'authentication' => array(
                     'username' => 'someone',

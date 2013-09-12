@@ -56,11 +56,11 @@ class SuggestionTest extends \PHPUnit_Framework_TestCase
         $this->words = array(
             array(
                 'word' => 'dummyword',
-                'freq' => 5
+                'freq' => 5,
             ),
             array(
                 'word' => 'secondword',
-                'freq' => 1
+                'freq' => 1,
             )
         );
 

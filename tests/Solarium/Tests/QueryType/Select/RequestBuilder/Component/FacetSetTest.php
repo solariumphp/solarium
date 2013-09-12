@@ -107,7 +107,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                     'end' => 100,
                     'gap' => 10,
                     'other' => 'all',
-                    'include' => 'outer'
+                    'include' => 'outer',
                 )
             )
         );
@@ -135,7 +135,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                     'field' => 'price',
                     'start' => '1',
                     'end' => 100,
-                    'gap' => 10
+                    'gap' => 10,
                 )
             )
         );
@@ -193,7 +193,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                 array(
                     'key' => 'f1',
                     'fields' => 'cat, inStock',
-                    'mincount' => 123
+                    'mincount' => 123,
                 )
             )
         );
