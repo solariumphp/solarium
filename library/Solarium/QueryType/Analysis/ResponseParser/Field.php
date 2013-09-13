@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\ResponseParser;
+
 use Solarium\Core\Query\Result\Result;
 use Solarium\QueryType\Analysis\Result as AnalysisResult;
 use Solarium\QueryType\Analysis\Result\ResultList;
@@ -50,7 +51,6 @@ use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
  */
 class Field extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Parse response data
      *
@@ -149,5 +149,4 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
 
         return $results;
     }
-
 }

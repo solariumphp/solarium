@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\Stats;
+
 use Solarium\QueryType\Select\Result\Stats\Result;
 
 /**
@@ -44,7 +45,6 @@ use Solarium\QueryType\Select\Result\Stats\Result;
  */
 class Stats implements \IteratorAggregate, \Countable
 {
-
     /**
      * Result array
      *
@@ -55,8 +55,7 @@ class Stats implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  array $results
-     * @return void
+     * @param array $results
      */
     public function __construct($results)
     {

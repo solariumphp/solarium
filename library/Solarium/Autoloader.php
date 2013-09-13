@@ -51,7 +51,6 @@ namespace Solarium;
  */
 class Autoloader
 {
-
     /**
      * Register the Solarium autoloader
      *
@@ -94,5 +93,4 @@ class Autoloader
             require($file);
         }
     }
-
 }

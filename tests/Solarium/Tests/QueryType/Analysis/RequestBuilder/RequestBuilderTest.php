@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\RequestBuilder;
+
 use Solarium\QueryType\Analysis\Query\Field;
 use Solarium\QueryType\Analysis\RequestBuilder\RequestBuilder;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Field
      */
@@ -68,6 +68,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'wt' => 'json',
                 'analysis.query' => $query,
                 'analysis.showmatch' => 'true',
+                'json.nl' => 'flat',
                 'omitHeader' => 'true',
             ),
             $request->getParams()
@@ -75,5 +76,4 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($handler, $request->getHandler());
     }
-
 }

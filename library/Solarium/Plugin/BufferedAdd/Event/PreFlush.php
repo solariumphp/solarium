@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\BufferedAdd\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
@@ -45,7 +46,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class PreFlush extends Event
 {
-
     /**
      * @var DocumentInterface[]
      */
@@ -131,5 +131,4 @@ class PreFlush extends Event
     {
         return $this->overwrite;
     }
-
 }

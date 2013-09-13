@@ -22,25 +22,26 @@ $groupComponent->setNumberOfGroups(true);
 $resultset = $client->select($query);
 
 $groups = $resultset->getGrouping();
-foreach($groups AS $groupKey => $fieldGroup) {
+foreach ($groups as $groupKey => $fieldGroup) {
 
     echo '<h1>'.$groupKey.'</h1>';
     echo 'Matches: '.$fieldGroup->getMatches().'<br/>';
     echo 'Number of groups: '.$fieldGroup->getNumberOfGroups();
 
-    foreach($fieldGroup AS $valueGroup) {
+    foreach ($fieldGroup as $valueGroup) {
 
         echo '<h2>'.(int)$valueGroup->getValue().'</h2>';
 
-        foreach($valueGroup AS $document) {
+        foreach ($valueGroup as $document) {
 
             echo '<hr/><table>';
 
             // the documents are also iterable, to get all fields
-            foreach($document AS $field => $value)
-            {
+            foreach ($document as $field => $value) {
                 // this converts multivalue fields to a comma-separated string
-                if(is_array($value)) $value = implode(', ', $value);
+                if (is_array($value)) {
+                    $value = implode(', ', $value);
+                }
 
                 echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
             }

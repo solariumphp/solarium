@@ -34,14 +34,15 @@ class PriceQuery extends Select
 // the query instance easily be altered based on user input
 // try calling this page with "?start=10" added to the url.
 $query = new PriceQuery();
-if(isset($_GET['start']) && is_numeric($_GET['start'])){
+if (isset($_GET['start']) && is_numeric($_GET['start'])) {
     $query->setStart($_GET['start']);
 }
 
 // alternatively you can use class inheritance to create query inheritance
 // in this example this class isn't actually used, but you can simple replace
 // the var $query with an instance of this class...
-class LowerPriceQuery extends PriceQuery{
+class LowerPriceQuery extends PriceQuery
+{
     protected function init()
     {
         // this call makes sure we get all the settings of the parent class
@@ -63,10 +64,11 @@ foreach ($resultset as $document) {
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
-    foreach($document AS $field => $value)
-    {
+    foreach ($document as $field => $value) {
         // this converts multivalue fields to a comma-separated string
-        if(is_array($value)) $value = implode(', ', $value);
+        if (is_array($value)) {
+            $value = implode(', ', $value);
+        }
 
         echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
     }

@@ -45,7 +45,6 @@ namespace Solarium\QueryType\Select\Result\Grouping;
  */
 class ValueGroup implements \IteratorAggregate, \Countable
 {
-
     /**
      * Field value
      *
@@ -77,11 +76,10 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  string $value
-     * @param  int    $numFound
-     * @param  int    $start
-     * @param  array  $documents
-     * @return void
+     * @param string $value
+     * @param int    $numFound
+     * @param int    $start
+     * @param array  $documents
      */
     public function __construct($value, $numFound, $start, $documents)
     {

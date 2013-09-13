@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
+
 use Solarium\Core\Configurable;
 
 /**
@@ -44,7 +45,6 @@ use Solarium\Core\Configurable;
  */
 class Customization extends Configurable
 {
-
     /**
      * Type definition for params
      */
@@ -225,5 +225,4 @@ class Customization extends Configurable
 
         return true;
     }
-
 }

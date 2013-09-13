@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Stats;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\QueryType\Select\RequestBuilder\Component\Stats as RequestBuilder;
@@ -50,7 +51,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Stats extends Component
 {
-
     /**
      * Stats facets for all fields
      *
@@ -279,9 +279,9 @@ class Stats extends Component
      */
     public function addFacet($facet)
     {
-       $this->facets[$facet] = true;
+        $this->facets[$facet] = true;
 
-       return $this;
+        return $this;
     }
 
     /**
@@ -315,7 +315,7 @@ class Stats extends Component
     public function removeFacet($facet)
     {
         if (isset($this->facets[$facet])) {
-           unset($this->facets[$facet]);
+            unset($this->facets[$facet]);
         }
 
         return $this;
@@ -358,5 +358,4 @@ class Stats extends Component
 
         return $this;
     }
-
 }

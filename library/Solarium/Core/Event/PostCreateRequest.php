@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Client\Request;
@@ -46,7 +47,6 @@ use Solarium\Core\Client\Request;
  */
 class PostCreateRequest extends Event
 {
-
     /**
      * @var QueryInterface
      */
@@ -61,6 +61,7 @@ class PostCreateRequest extends Event
      * Event constructor
      *
      * @param QueryInterface $query
+     * @param Request        $request
      */
     public function __construct(QueryInterface $query, Request $request)
     {
@@ -87,5 +88,4 @@ class PostCreateRequest extends Event
     {
         return $this->request;
     }
-
 }

@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\Result;
+
 use Solarium\QueryType\Analysis\Result\Field;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var FieldDummy
      */
@@ -61,7 +61,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $lists = array();
-        foreach ($this->result AS $key => $list) {
+        foreach ($this->result as $key => $list) {
             $lists[$key] = $list;
         }
 
@@ -83,10 +83,9 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $this->result->getQueryTime()
         );
     }
-
 }
 
-class FieldDummy extends  Field
+class FieldDummy extends Field
 {
     protected $parsed = true;
 
@@ -96,5 +95,4 @@ class FieldDummy extends  Field
         $this->queryTime = $queryTime;
         $this->status = $status;
     }
-
 }

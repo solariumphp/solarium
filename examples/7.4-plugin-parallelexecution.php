@@ -13,13 +13,15 @@ $parallel = $client->getPlugin('parallelexecution');
 // see http://www.raspberry.nl/2012/01/04/solr-delay-component/
 // If you don't have to plugin the example still works, just without the delay.
 $customizer = $client->getPlugin('customizerequest');
-$customizer->createCustomization(array(
-    'key' => 'delay',
-    'type' => 'param',
-    'name' => 'delay',
-    'value' => '500',
-    'persistent' => true
-));
+$customizer->createCustomization(
+    array(
+        'key' => 'delay',
+        'type' => 'param',
+        'name' => 'delay',
+        'value' => '500',
+        'persistent' => true
+    )
+);
 
 // create two queries to execute in an array. Keys are important for fetching the results later!
 $queryInstock = $client->createSelect()->setQuery('inStock:true');

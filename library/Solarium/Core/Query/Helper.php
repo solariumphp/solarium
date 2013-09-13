@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query;
+
 use Solarium\Core\Query\Query;
 use Solarium\Exception\InvalidArgumentException;
 
@@ -47,7 +48,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Helper
 {
-
     /**
      * Placeholder pattern for use in the assemble method
      *
@@ -343,7 +343,7 @@ class Helper
     public function functionCall($name, $params = array(), $dereferenced = false)
     {
         if ($dereferenced) {
-            foreach($params as $key => $value) {
+            foreach ($params as $key => $value) {
                 $this->query->addParam($key, $value);
             }
             return $name . '()';
@@ -448,7 +448,7 @@ class Helper
      */
     public function qparserTerm($field, $weight)
     {
-        return $this->qparser('term',array('f' => $field)) . $weight;
+        return $this->qparser('term', array('f' => $field)) . $weight;
     }
 
     /**
@@ -458,13 +458,13 @@ class Helper
      *
      * @see http://wiki.apache.org/solr/CommonQueryParameters#Caching_of_filters
      *
-     * @param boolean $useCache
-     * @param float|null $weight
+     * @param boolean    $useCache
+     * @param float|null $cost
      * @return string
      */
     public function cacheControl($useCache, $cost = null)
     {
-        if($useCache === true) {
+        if ($useCache === true) {
             $cache = 'true';
         } else {
             $cache = 'false';
@@ -479,4 +479,16 @@ class Helper
         return $result;
     }
 
+    /**
+     * Filters control characters that cause issues with servlet containers.
+     *
+     * Mainly useful to filter data before adding it to a document for the update query.
+     *
+     * @param $data
+     * @return mixed
+     */
+    public function filterControlCharacters($data)
+    {
+        return preg_replace('@[\x00-\x08\x0B\x0C\x0E-\x1F]@', ' ', $data);
+    }
 }

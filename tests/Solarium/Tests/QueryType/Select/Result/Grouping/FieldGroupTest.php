@@ -30,17 +30,19 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
+
 use Solarium\QueryType\Select\Result\Grouping\FieldGroup;
 
 class FieldGroupTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var FieldGroup
      */
     protected $group;
 
-    protected $matches, $numberOfGroups, $items;
+    protected $matches;
+    protected $numberOfGroups;
+    protected $items;
 
     public function setUp()
     {
@@ -74,7 +76,7 @@ class FieldGroupTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->group AS $key => $item) {
+        foreach ($this->group as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -85,5 +87,4 @@ class FieldGroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->items), count($this->group));
     }
-
 }

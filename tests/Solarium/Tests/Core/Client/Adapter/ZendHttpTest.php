@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Client\Adapter;
+
 use Solarium\Core\Client\Adapter\ZendHttp as ZendHttpAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
@@ -118,9 +119,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
                  ->with($this->equalTo('http://127.0.0.1:8983/solr/myhandler'));
         $mock->expects($this->once())
                  ->method('setHeaders')
-                 ->with($this->equalTo(array(
-                     'X-test: 123',
-                 )));
+                 ->with($this->equalTo(array('X-test: 123')));
         $mock->expects($this->once())
                  ->method('setParameterGet')
                  ->with($this->equalTo($params));
@@ -168,10 +167,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
                  ->with($this->equalTo('http://127.0.0.1:8983/solr/myhandler'));
         $mock->expects($this->once())
                  ->method('setHeaders')
-                 ->with($this->equalTo(array(
-                     'X-test: 123',
-                     'Content-Type: text/xml; charset=UTF-8',
-                 )));
+                 ->with($this->equalTo(array('X-test: 123', 'Content-Type: text/xml; charset=UTF-8')));
         $mock->expects($this->once())
                  ->method('setRawData')
                  ->with($this->equalTo($rawData));
@@ -252,10 +248,10 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->once())
              ->method('setFileUpload')
              ->with(
-                $this->equalTo('content'),
-                $this->equalTo('content'),
-                $this->equalTo(file_get_contents(__FILE__)),
-                $this->equalTo('application/octet-stream; charset=binary')
+                 $this->equalTo('content'),
+                 $this->equalTo('content'),
+                 $this->equalTo(file_get_contents(__FILE__)),
+                 $this->equalTo('application/octet-stream; charset=binary')
              );
         $mock->expects($this->once())
              ->method('request')
@@ -264,5 +260,4 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $this->adapter->setZendHttp($mock);
         $this->adapter->execute($request, $endpoint);
     }
-
 }

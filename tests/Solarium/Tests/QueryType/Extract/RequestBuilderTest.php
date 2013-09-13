@@ -30,14 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Extract;
+
 use Solarium\QueryType\Extract\Query;
 use Solarium\QueryType\Extract\RequestBuilder;
 use Solarium\Core\Client\Request;
 
-
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -53,7 +52,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query = new Query;
         $this->query->setFile(__FILE__);
         $this->query->addParam('param1', 'value1');
-        $this->query->addFieldMapping('from-field','to-field');
+        $this->query->addFieldMapping('from-field', 'to-field');
         $this->builder = new RequestBuilder;
     }
 
@@ -79,7 +78,8 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->builder->build($this->query);
         $this->assertEquals(
-            'update/extract?omitHeader=true&param1=value1&wt=json&fmap.from-field=to-field&resource.name=RequestBuilderTest.php',
+            'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&fmap.from-field=to-field'.
+            '&resource.name=RequestBuilderTest.php',
             $request->getUri()
         );
     }
@@ -103,6 +103,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'param1' => 'value1',
                 'resource.name' => 'RequestBuilderTest.php',
                 'wt' => 'json',
+                'json.nl' => 'flat',
             ),
             $request->getParams()
         );
@@ -117,6 +118,4 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->builder->build($this->query);
     }
-
-
 }

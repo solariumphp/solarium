@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch as RequestBuilder;
 
@@ -48,7 +49,6 @@ use Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch as Requ
  */
 class DistributedSearch extends Component
 {
-
     /**
      * Request to be distributed across all shards in the list
      *
@@ -328,6 +328,4 @@ class DistributedSearch extends Component
     {
         return $this->collections;
     }
-
-
 }

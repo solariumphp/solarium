@@ -44,7 +44,6 @@ namespace Solarium\QueryType\Select\Result\Facet\Pivot;
  */
 class Pivot implements \IteratorAggregate, \Countable
 {
-
     /**
      * Value array
      *
@@ -55,8 +54,7 @@ class Pivot implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  array $data
-     * @return void
+     * @param array $data
      */
     public function __construct($data)
     {

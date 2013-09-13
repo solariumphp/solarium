@@ -28,7 +28,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 // display facet counts
 echo '<hr/>Multiquery facet counts:<br/>';
 $facet = $resultset->getFacetSet()->getFacet('stock');
-foreach($facet as $key => $count) {
+foreach ($facet as $key => $count) {
     echo $key . ' [' . $count . ']<br/>';
 }
 

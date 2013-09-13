@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
 use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
@@ -47,7 +48,6 @@ use Solarium\QueryType\Select\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisRe
  */
 class MoreLikeThis implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *
@@ -74,7 +74,7 @@ class MoreLikeThis implements ComponentParserInterface
 
                 $results[$key] = new Result(
                     $result['numFound'],
-                    $result['maxScore'],
+                    isset($result['maxScore']) ? $result['maxScore'] : null,
                     $docs
                 );
             }

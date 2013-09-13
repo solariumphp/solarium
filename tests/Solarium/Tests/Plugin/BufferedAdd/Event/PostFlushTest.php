@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
+
 use Solarium\Plugin\BufferedAdd\Event\PostFlush;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\Core\Client\Client;
@@ -38,18 +39,16 @@ use Solarium\Core\Query\Result\Result;
 
 class PostFlushTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetter()
     {
         $client = new Client;
         $query = $client->createSelect();
         $query->setQuery('test123');
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = new Result($client, $query, $response);
 
         $event = new PostFlush($result);
 
         $this->assertEquals($result, $event->getResult());
     }
-
 }

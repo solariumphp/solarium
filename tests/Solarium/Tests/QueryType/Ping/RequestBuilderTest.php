@@ -30,20 +30,20 @@
  */
 
 namespace Solarium\Tests\QueryType\Ping;
+
 use Solarium\QueryType\Ping\RequestBuilder;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Ping\Query;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuild()
     {
         $builder = new RequestBuilder;
         $request = $builder->build(new Query);
 
         $this->assertEquals(
-            'admin/ping?omitHeader=true&wt=json',
+            'admin/ping?omitHeader=true&wt=json&json.nl=flat',
             $request->getUri()
         );
 
@@ -52,5 +52,4 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             $request->getMethod()
         );
     }
-
 }

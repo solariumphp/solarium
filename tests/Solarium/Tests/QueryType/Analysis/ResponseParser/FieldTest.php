@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\ResponseParser;
+
 use Solarium\QueryType\Analysis\ResponseParser\Field as FieldParser;
 use Solarium\QueryType\Analysis\Query\Field as Query;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParse()
     {
         $data = array(
@@ -72,7 +72,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             ),
             'responseHeader' => array(
                 'status' => 1,
-                'QTime' => 5
+                'QTime' => 5,
             )
         );
 
@@ -102,7 +102,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $data = array(
             'responseHeader' => array(
                 'status' => 1,
-                'QTime' => 5
+                'QTime' => 5,
             )
         );
 
@@ -123,5 +123,4 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $result
         );
     }
-
 }

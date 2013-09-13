@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\MoreLikeThis;
+
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
 use Solarium\QueryType\Select\Result\MoreLikeThis\MoreLikeThis;
 
 class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var MoreLikeThis
      */
@@ -47,8 +47,8 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $docs = array(
-            new Document(array('id'=>1,'name'=>'test1')),
-            new Document(array('id'=>2,'name'=>'test2')),
+            new Document(array('id'=>1, 'name'=>'test1')),
+            new Document(array('id'=>2, 'name'=>'test2')),
         );
 
         $this->results = array(
@@ -83,7 +83,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->mlt AS $key => $item) {
+        foreach ($this->mlt as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -94,5 +94,4 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->results), count($this->mlt));
     }
-
 }

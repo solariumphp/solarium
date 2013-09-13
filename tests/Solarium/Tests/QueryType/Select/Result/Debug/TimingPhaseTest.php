@@ -30,17 +30,19 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Debug;
+
 use Solarium\QueryType\Select\Result\Debug\TimingPhase;
 
 class TimingPhaseTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var TimingPhase
      */
     protected $result;
 
-    protected $name, $time, $timings;
+    protected $name;
+    protected $time;
+    protected $timings;
 
     public function setUp()
     {
@@ -85,7 +87,7 @@ class TimingPhaseTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->result AS $key => $item) {
+        foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -96,5 +98,4 @@ class TimingPhaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->timings), count($this->result));
     }
-
 }

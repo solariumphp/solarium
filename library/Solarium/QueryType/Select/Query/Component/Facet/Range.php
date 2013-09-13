@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component\Facet;
+
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 /**
@@ -46,7 +47,6 @@ use Solarium\QueryType\Select\Query\Component\FacetSet;
  */
 class Range extends Facet
 {
-
     /**
      * Value for the 'other' option
      */
@@ -270,7 +270,10 @@ class Range extends Facet
     public function getOther()
     {
         $other = $this->getOption('other');
-        if ($other === null) $other = array();
+        if ($other === null) {
+            $other = array();
+        }
+
         return $other;
     }
 
@@ -301,7 +304,10 @@ class Range extends Facet
     public function getInclude()
     {
         $include = $this->getOption('include');
-        if ($include === null) $include = array();
+        if ($include === null) {
+            $include = array();
+        }
+
         return $include;
     }
 }

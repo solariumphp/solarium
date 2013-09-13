@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Update;
+
 use Solarium\QueryType\Update\Result as UpdateResult;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var UpdateDummy
      */
@@ -60,7 +60,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             $this->result->getQueryTime()
         );
     }
-
 }
 
 class UpdateDummy extends UpdateResult
@@ -72,5 +71,4 @@ class UpdateDummy extends UpdateResult
         $this->status = 1;
         $this->queryTime = 12;
     }
-
 }

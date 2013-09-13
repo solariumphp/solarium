@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query;
+
 use Solarium\QueryType\Select\Query\FilterQuery;
 
 class FilterQueryTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $filterQuery;
 
     public function setUp()
@@ -44,16 +44,16 @@ class FilterQueryTest extends \PHPUnit_Framework_TestCase
 
     public function testConfigMode()
     {
-        $fq = new FilterQuery(array('tag' => array('t1','t2'),'key' => 'k1','query'=> 'id:[10 TO 20]'));
+        $fq = new FilterQuery(array('tag' => array('t1', 't2'), 'key' => 'k1', 'query'=> 'id:[10 TO 20]'));
 
-        $this->assertEquals(array('t1','t2'), $fq->getTags());
+        $this->assertEquals(array('t1', 't2'), $fq->getTags());
         $this->assertEquals('k1', $fq->getKey());
         $this->assertEquals('id:[10 TO 20]', $fq->getQuery());
     }
 
     public function testConfigModeWithSingleValueTag()
     {
-        $fq = new FilterQuery(array('tag' => 't1','key' => 'k1','query'=> 'id:[10 TO 20]'));
+        $fq = new FilterQuery(array('tag' => 't1', 'key' => 'k1', 'query'=> 'id:[10 TO 20]'));
 
         $this->assertEquals(array('t1'), $fq->getTags());
         $this->assertEquals('k1', $fq->getKey());
@@ -86,29 +86,28 @@ class FilterQueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddTags()
     {
-        $this->filterQuery->addTags(array('t1','t2'));
-        $this->assertEquals(array('t1','t2'), $this->filterQuery->getTags());
+        $this->filterQuery->addTags(array('t1', 't2'));
+        $this->assertEquals(array('t1', 't2'), $this->filterQuery->getTags());
     }
 
     public function testRemoveTag()
     {
-        $this->filterQuery->addTags(array('t1','t2'));
+        $this->filterQuery->addTags(array('t1', 't2'));
         $this->filterQuery->removeTag('t1');
         $this->assertEquals(array('t2'), $this->filterQuery->getTags());
     }
 
     public function testClearTags()
     {
-        $this->filterQuery->addTags(array('t1','t2'));
+        $this->filterQuery->addTags(array('t1', 't2'));
         $this->filterQuery->clearTags();
         $this->assertEquals(array(), $this->filterQuery->getTags());
     }
 
     public function testSetTags()
     {
-        $this->filterQuery->addTags(array('t1','t2'));
-        $this->filterQuery->setTags(array('t3','t4'));
-        $this->assertEquals(array('t3','t4'), $this->filterQuery->getTags());
+        $this->filterQuery->addTags(array('t1', 't2'));
+        $this->filterQuery->setTags(array('t3', 't4'));
+        $this->assertEquals(array('t3', 't4'), $this->filterQuery->getTags());
     }
-
 }

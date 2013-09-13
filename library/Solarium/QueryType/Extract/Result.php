@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Extract;
+
 use Solarium\QueryType\Update\Result as UpdateResult;
 
 /**

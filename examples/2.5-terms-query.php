@@ -18,7 +18,7 @@ $resultset = $client->terms($query);
 foreach ($resultset as $field => $terms) {
     echo '<h3>' . $field . '</h3>';
     foreach ($terms as $term => $count) {
-       echo $term . ' (' . $count . ')<br/>';
+        echo $term . ' (' . $count . ')<br/>';
     }
     echo '<hr/>';
 }

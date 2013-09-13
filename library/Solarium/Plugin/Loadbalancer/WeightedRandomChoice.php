@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer;
+
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 
@@ -47,7 +48,6 @@ use Solarium\Exception\RuntimeException;
  */
 class WeightedRandomChoice
 {
-
     /**
      * Total weight of all choices
      *
@@ -146,5 +146,4 @@ class WeightedRandomChoice
         }
 
     }
-
 }

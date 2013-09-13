@@ -43,12 +43,10 @@ namespace Solarium\QueryType\Select\Result;
  */
 interface DocumentInterface
 {
-
     /**
      * Constructor
      *
      * @param array $fields
      */
     public function __construct(array $fields);
-
 }

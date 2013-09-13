@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\RequestBuilder\Component\MoreLikeThis as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\MoreLikeThis as Component;
 use Solarium\Core\Client\Request;
 
 class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildComponent()
     {
         $builder = new RequestBuilder;
@@ -75,4 +75,37 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testBuildComponentWithoutFieldsAndQueryFields()
+    {
+        $builder = new RequestBuilder;
+        $request = new Request();
+
+        $component = new Component();
+        $component->setMinimumTermFrequency(1);
+        $component->setMinimumDocumentFrequency(3);
+        $component->setMinimumWordLength(2);
+        $component->setMaximumWordLength(15);
+        $component->setMaximumQueryTerms(4);
+        $component->setMaximumNumberOfTokens(5);
+        $component->setBoost(true);
+        $component->setCount(6);
+
+        $request = $builder->buildComponent($component, $request);
+
+        $this->assertEquals(
+            array(
+                'mlt' => 'true',
+                'mlt.mintf' => 1,
+                'mlt.mindf' => 3,
+                'mlt.minwl' => 2,
+                'mlt.maxwl' => 15,
+                'mlt.maxqt' => 4,
+                'mlt.maxntp' => 5,
+                'mlt.boost' => 'true',
+                'mlt.count' => 6,
+            ),
+            $request->getParams()
+        );
+
+    }
 }

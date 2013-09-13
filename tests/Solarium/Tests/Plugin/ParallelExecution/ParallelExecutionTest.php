@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Plugin\ParallelExecution;
+
 use Solarium\Plugin\ParallelExecution\ParallelExecution;
 use Solarium\Core\Client\Client;
 
@@ -70,21 +71,20 @@ class ParallelExecutionTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testClearQueries()
-        {
-            $client = new Client();
-            $this->plugin->initPlugin($client, array());
+    {
+        $client = new Client();
+        $this->plugin->initPlugin($client, array());
 
-            $query1 = $client->createSelect()->setQuery('test1');
-            $query2 = $client->createSelect()->setQuery('test2');
+        $query1 = $client->createSelect()->setQuery('test1');
+        $query2 = $client->createSelect()->setQuery('test2');
 
-            $this->plugin->addQuery(1, $query1);
-            $this->plugin->addQuery(2, $query2);
-            $this->plugin->clearQueries();
+        $this->plugin->addQuery(1, $query1);
+        $this->plugin->addQuery(2, $query2);
+        $this->plugin->clearQueries();
 
-            $this->assertEquals(
-                array(),
-                $this->plugin->getQueries()
-            );
-        }
-
+        $this->assertEquals(
+            array(),
+            $this->plugin->getQueries()
+        );
+    }
 }

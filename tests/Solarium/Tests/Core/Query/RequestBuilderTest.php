@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Query;
+
 use Solarium\Core\Query\RequestBuilder;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
@@ -48,34 +49,48 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $query = new SelectQuery;
-        $query->addParam('p1','v1');
-        $query->addParam('p2','v2');
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
         $query->setResponseWriter('xyz');
         $request = $this->builder->build($query);
 
         $this->assertEquals(
             'select?omitHeader=true&p1=v1&p2=v2&wt=xyz',
-             urldecode($request->getUri())
+            urldecode($request->getUri())
         );
     }
 
     public function testBuildWithHeader()
     {
         $query = new SelectQuery;
-        $query->addParam('p1','v1');
-        $query->addParam('p2','v2');
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
         $query->setOmitHeader(false);
         $request = $this->builder->build($query);
 
         $this->assertEquals(
-            'select?omitHeader=false&p1=v1&p2=v2&wt=json',
-             urldecode($request->getUri())
+            'select?omitHeader=false&p1=v1&p2=v2&wt=json&json.nl=flat',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithTimeAllowed()
+    {
+        $query = new SelectQuery;
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
+        $query->setTimeAllowed(1400);
+        $request = $this->builder->build($query);
+
+        $this->assertEquals(
+            'select?omitHeader=true&timeAllowed=1400&p1=v1&p2=v2&wt=json&json.nl=flat',
+            urldecode($request->getUri())
         );
     }
 
     public function testRenderLocalParams()
     {
-        $myParams = array('tag' => 'mytag', 'ex' => array('exclude1','exclude2'));
+        $myParams = array('tag' => 'mytag', 'ex' => array('exclude1', 'exclude2'));
 
         $this->assertEquals(
             '{!tag=mytag ex=exclude1,exclude2}myValue',
@@ -130,7 +145,6 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             $this->builder->attrib('myattrib', 'myvalue')
         );
     }
-
 }
 
 class TestRequestBuilder extends RequestBuilder

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\ParallelExecution;
+
 use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\HttpException;
@@ -60,7 +61,6 @@ use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
  */
 class ParallelExecution extends Plugin
 {
-
     /**
      * Default options
      *
@@ -138,7 +138,7 @@ class ParallelExecution extends Plugin
     /**
      * Execute queries parallel
      *
-     * @return Result[]
+     * @return \Solarium\Core\Query\Result\Result[]
      */
     public function execute()
     {

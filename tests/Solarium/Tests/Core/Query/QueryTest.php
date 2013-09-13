@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\Core\Query;
+
 use Solarium\Core\Query\Query;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testSetAndGetHandler()
     {
         $query = new TestQuery;
@@ -63,9 +63,9 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testAddAndGetParams()
     {
         $query = new TestQuery;
-        $query->addParam('p1','v1');
-        $query->addParam('p2','v2');
-        $query->addParam('p2','v3'); //should overwrite previous value
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
+        $query->addParam('p2', 'v3'); //should overwrite previous value
 
         $this->assertEquals(
             array('p1' => 'v1', 'p2' => 'v3'),
@@ -86,11 +86,22 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('phps', $query->getResponseWriter());
     }
 
+    public function testGetDefaultTimeAllowed()
+    {
+        $query = new TestQuery;
+        $this->assertEquals(null, $query->getTimeAllowed());
+    }
+
+    public function testSetAndGetTimeAllowed()
+    {
+        $query = new TestQuery;
+        $query->setTimeAllowed(1200);
+        $this->assertEquals(1200, $query->getTimeAllowed());
+    }
 }
 
 class TestQuery extends Query
 {
-
     public function getType()
     {
         return 'testType';

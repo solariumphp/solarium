@@ -43,7 +43,6 @@ namespace Solarium\Core\Event;
  */
 class Events
 {
-
     /**
      * The preCreateRequest event is thrown just before a request is created based on a query object, using the
      * requestbuilder.
@@ -139,5 +138,4 @@ class Events
      * @var string
      */
     const POST_CREATE_QUERY = 'solarium.core.postCreateQuery';
-
 }

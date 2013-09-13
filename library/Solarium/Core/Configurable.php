@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core;
+
 use Solarium\Exception\InvalidArgumentException;
 
 /**
@@ -48,7 +49,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Configurable implements ConfigurableInterface
 {
-
     /**
      * Default options
      *
@@ -67,7 +67,6 @@ class Configurable implements ConfigurableInterface
      *
      * @throws InvalidArgumentException
      * @param  array|\Zend_Config       $options
-     * @return void
      */
     public function __construct($options = null)
     {
@@ -178,5 +177,4 @@ class Configurable implements ConfigurableInterface
     {
         return $this->options;
     }
-
 }

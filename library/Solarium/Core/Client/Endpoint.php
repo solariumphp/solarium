@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Client;
+
 use Solarium\Core\Configurable;
 
 /**
@@ -44,7 +45,6 @@ use Solarium\Core\Configurable;
  */
 class Endpoint extends Configurable
 {
-
     /**
      * Default options
      *

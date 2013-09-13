@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
+
 use Solarium\QueryType\Select\Query\Component\Facet\Facet;
 
 class FacetTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Facet
      */
@@ -47,9 +47,9 @@ class FacetTest extends \PHPUnit_Framework_TestCase
 
     public function testConfigMode()
     {
-        $this->facet->setOptions(array('key' => 'myKey','exclude' => array('e1','e2')));
+        $this->facet->setOptions(array('key' => 'myKey', 'exclude' => array('e1', 'e2')));
         $this->assertEquals('myKey', $this->facet->getKey());
-        $this->assertEquals(array('e1','e2'), $this->facet->getExcludes());
+        $this->assertEquals(array('e1', 'e2'), $this->facet->getExcludes());
     }
 
     public function testConfigModeWithSingleValueExclude()
@@ -72,29 +72,29 @@ class FacetTest extends \PHPUnit_Framework_TestCase
 
     public function testAddExcludes()
     {
-        $this->facet->addExcludes(array('e1','e2'));
-        $this->assertEquals(array('e1','e2'), $this->facet->getExcludes());
+        $this->facet->addExcludes(array('e1', 'e2'));
+        $this->assertEquals(array('e1', 'e2'), $this->facet->getExcludes());
     }
 
     public function testRemoveExclude()
     {
-        $this->facet->addExcludes(array('e1','e2'));
+        $this->facet->addExcludes(array('e1', 'e2'));
         $this->facet->removeExclude('e1');
         $this->assertEquals(array('e2'), $this->facet->getExcludes());
     }
 
     public function testClearExcludes()
     {
-        $this->facet->addExcludes(array('e1','e2'));
+        $this->facet->addExcludes(array('e1', 'e2'));
         $this->facet->clearExcludes();
         $this->assertEquals(array(), $this->facet->getExcludes());
     }
 
     public function testSetExcludes()
     {
-        $this->facet->addExcludes(array('e1','e2'));
-        $this->facet->setExcludes(array('e3','e4'));
-        $this->assertEquals(array('e3','e4'), $this->facet->getExcludes());
+        $this->facet->addExcludes(array('e1', 'e2'));
+        $this->facet->setExcludes(array('e3', 'e4'));
+        $this->assertEquals(array('e3', 'e4'), $this->facet->getExcludes());
     }
 }
 

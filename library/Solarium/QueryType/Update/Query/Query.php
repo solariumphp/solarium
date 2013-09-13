@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\QueryType\Update\RequestBuilder;
@@ -60,7 +61,6 @@ use Solarium\QueryType\Update\Query\Document\DocumentInterface;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Update command add
      */
@@ -236,8 +236,8 @@ class Query extends BaseQuery
      *
      * You can remove a command by passing its key or by passing the command instance.
      *
-     * @param  string|Command\Command $command
-     * @return self                   Provides fluent interface
+     * @param  string|\Solarium\QueryType\Update\Query\Command\Command $command
+     * @return self                                                    Provides fluent interface
      */
     public function remove($command)
     {
@@ -349,13 +349,12 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  Document $document
-     * @param  boolean  $overwrite
-     * @param  int      $commitWithin
-     * @return self     Provides fluent interface
+     * @param  DocumentInterface $document
+     * @param  boolean           $overwrite
+     * @param  int               $commitWithin
+     * @return self              Provides fluent interface
      */
-    public function addDocument($document, $overwrite = null,
-                                $commitWithin = null)
+    public function addDocument(DocumentInterface $document, $overwrite = null, $commitWithin = null)
     {
         return $this->addDocuments(array($document), $overwrite, $commitWithin);
     }
@@ -371,8 +370,7 @@ class Query extends BaseQuery
      * @param  int     $commitWithin
      * @return self    Provides fluent interface
      */
-    public function addDocuments($documents, $overwrite = null,
-                                 $commitWithin = null)
+    public function addDocuments($documents, $overwrite = null, $commitWithin = null)
     {
         $add = new AddCommand;
 
@@ -400,14 +398,13 @@ class Query extends BaseQuery
      * @param  boolean $expungeDeletes
      * @return self    Provides fluent interface
      */
-    public function addCommit($softCommit = null, $waitSearcher = null,
-                              $expungeDeletes = null)
+    public function addCommit($softCommit = null, $waitSearcher = null, $expungeDeletes = null)
     {
         $commit = new CommitCommand();
 
         if (null !== $softCommit) {
             $commit->setSoftCommit($softCommit);
-       }
+        }
 
         if (null !== $waitSearcher) {
             $commit->setWaitSearcher($waitSearcher);
@@ -431,34 +428,33 @@ class Query extends BaseQuery
      * @param  int     $maxSegments
      * @return self    Provides fluent interface
      */
-   public function addOptimize($softCommit = null, $waitSearcher = null,
-                               $maxSegments = null)
-   {
-       $optimize = new OptimizeCommand();
+    public function addOptimize($softCommit = null, $waitSearcher = null, $maxSegments = null)
+    {
+        $optimize = new OptimizeCommand();
 
-       if (null !== $softCommit) {
-           $optimize->setSoftCommit($softCommit);
-       }
+        if (null !== $softCommit) {
+            $optimize->setSoftCommit($softCommit);
+        }
 
-       if (null !== $waitSearcher) {
-           $optimize->setWaitSearcher($waitSearcher);
-       }
+        if (null !== $waitSearcher) {
+            $optimize->setWaitSearcher($waitSearcher);
+        }
 
-       if (null !== $maxSegments) {
-           $optimize->setMaxSegments($maxSegments);
-       }
+        if (null !== $maxSegments) {
+            $optimize->setMaxSegments($maxSegments);
+        }
 
-       return $this->add(null, $optimize);
-   }
+        return $this->add(null, $optimize);
+    }
 
-   /**
-    * Set a custom document class for use in the createDocument method
-    *
-    * This class should implement the document interface
-    *
-    * @param string $value classname
-    * @return self Provides fluent interface
-    */
+    /**
+     * Set a custom document class for use in the createDocument method
+     *
+     * This class should implement the document interface
+     *
+     * @param string $value classname
+     * @return self Provides fluent interface
+     */
     public function setDocumentClass($value)
     {
         return $this->setOption('documentclass', $value);
@@ -494,5 +490,4 @@ class Query extends BaseQuery
         $class = $this->getDocumentClass();
         return new $class($fields, $boosts, $modifiers);
     }
-
 }

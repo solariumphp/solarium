@@ -5,13 +5,12 @@ htmlHeader();
 
 
 // this is the custom result document class
-class myDoc extends Solarium\QueryType\Select\Result\Document{
-
+class MyDoc extends Solarium\QueryType\Select\Result\Document
+{
     public function getSpecialPrice()
     {
         return round(($this->price * .95), 2);
     }
-
 }
 
 
@@ -22,7 +21,7 @@ $client = new Solarium\Client($config);
 $query = $client->createSelect();
 
 // set the custom resultclass
-$query->setDocumentClass('myDoc');
+$query->setDocumentClass('MyDoc');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
+
 use Solarium\QueryType\Select\Query\Component\Facet\Query;
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -50,7 +50,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'key' => 'myKey',
-            'exclude' => array('e1','e2'),
+            'exclude' => array('e1', 'e2'),
             'query' => 'category:1',
         );
 

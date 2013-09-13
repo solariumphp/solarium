@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\QueryType\Select\Query\Component\Grouping as GroupingComponent;
 use Solarium\Core\Client\Request;
 
@@ -45,7 +46,6 @@ use Solarium\Core\Client\Request;
  */
 class Grouping implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for Grouping
      *

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core;
+
 use Solarium\Exception\InvalidArgumentException;
 
 /**
@@ -48,7 +49,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 interface ConfigurableInterface
 {
-
     /**
      * Constructor
      *
@@ -59,7 +59,6 @@ interface ConfigurableInterface
      *
      * @throws InvalidArgumentException
      * @param  array|\Zend_Config       $options
-     * @return void
      */
     public function __construct($options = null);
 
@@ -95,5 +94,4 @@ interface ConfigurableInterface
      * @return array
      */
     public function getOptions();
-
 }

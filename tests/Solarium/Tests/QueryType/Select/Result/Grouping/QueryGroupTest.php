@@ -30,17 +30,21 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
+
 use Solarium\QueryType\Select\Result\Grouping\QueryGroup;
 
 class QueryGroupTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var QueryGroup
      */
     protected $group;
 
-    protected $matches, $numFound, $start, $maximumScore, $items;
+    protected $matches;
+    protected $numFound;
+    protected $start;
+    protected $maximumScore;
+    protected $items;
 
     public function setUp()
     {
@@ -100,7 +104,7 @@ class QueryGroupTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->group AS $key => $item) {
+        foreach ($this->group as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -111,5 +115,4 @@ class QueryGroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->items), count($this->group));
     }
-
 }

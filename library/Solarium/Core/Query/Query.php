@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Query;
+
 use Solarium\Core\Query\Helper;
 use Solarium\Core\Configurable;
 
@@ -110,6 +111,27 @@ abstract class Query extends Configurable implements QueryInterface
     public function getResultClass()
     {
         return $this->getOption('resultclass');
+    }
+
+    /**
+     * Set timeAllowed option
+     *
+     * @param  int  $value
+     * @return self Provides fluent interface
+     */
+    public function setTimeAllowed($value)
+    {
+        return $this->setOption('timeallowed', $value);
+    }
+
+    /**
+     * Get timeAllowed option
+     *
+     * @return int|null
+     */
+    public function getTimeAllowed()
+    {
+        return $this->getOption('timeallowed');
     }
 
     /**
@@ -207,5 +229,4 @@ abstract class Query extends Configurable implements QueryInterface
 
         return $responseWriter;
     }
-
 }

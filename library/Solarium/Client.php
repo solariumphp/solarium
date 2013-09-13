@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium;
+
 use Solarium\Core\Client\Client as CoreClient;
 
 /**
@@ -45,7 +46,6 @@ use Solarium\Core\Client\Client as CoreClient;
  */
 class Client extends CoreClient
 {
-
     /**
      * Version number of the Solarium library
      *
@@ -130,5 +130,4 @@ class Client extends CoreClient
     {
         return version_compare(self::VERSION, $version, '>=');
     }
-
 }

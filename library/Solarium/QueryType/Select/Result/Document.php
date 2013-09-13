@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result;
+
 use Solarium\Exception\RuntimeException;
 
 /**
@@ -47,7 +48,6 @@ use Solarium\Exception\RuntimeException;
  */
 class Document extends AbstractDocument implements DocumentInterface
 {
-
     /**
      * All fields in this document
      *
@@ -80,5 +80,4 @@ class Document extends AbstractDocument implements DocumentInterface
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }
-
 }

@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Update\Query\Command;
+
 use Solarium\QueryType\Update\Query\Command\Add;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\Query\Document\Document;
@@ -63,9 +64,20 @@ class AddTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocumentWithInvalidDocument()
     {
-        $doc = new \StdClass();
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
-        $this->command->addDocument($doc);
+        try {
+            $doc = new \StdClass();
+            $this->command->addDocument($doc);
+
+            $this->fail(
+                'The addDocument() method should not accept anything else than DocumentInterface instances.'
+            );
+        } catch (\PHPUnit_Framework_Error $e) {
+            $this->assertContains(
+                'Argument 1 passed to '.get_class($this->command).'::addDocument() must implement interface '.
+                'Solarium\QueryType\Update\Query\Document\DocumentInterface, instance of stdClass given',
+                $e->getMessage()
+            );
+        }
     }
 
     public function testAddDocuments()

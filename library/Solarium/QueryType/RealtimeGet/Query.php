@@ -37,9 +37,11 @@
  * @namespace
  */
 namespace Solarium\QueryType\RealtimeGet;
+
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\RealtimeGet\RequestBuilder as RequestBuilder;
+use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 
 /**
  * Get query
@@ -50,7 +52,6 @@ use Solarium\QueryType\RealtimeGet\RequestBuilder as RequestBuilder;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Default options
      *
@@ -97,7 +98,7 @@ class Query extends BaseQuery
      */
     public function getResponseParser()
     {
-        return new \Solarium\QueryType\Select\ResponseParser\ResponseParser;
+        return new ResponseParser;
     }
 
     /**
@@ -108,9 +109,9 @@ class Query extends BaseQuery
      */
     public function addId($id)
     {
-       $this->ids[$id] = true;
+        $this->ids[$id] = true;
 
-       return $this;
+        return $this;
     }
 
     /**
@@ -143,7 +144,7 @@ class Query extends BaseQuery
     public function removeId($id)
     {
         if (isset($this->ids[$id])) {
-           unset($this->ids[$id]);
+            unset($this->ids[$id]);
         }
 
         return $this;

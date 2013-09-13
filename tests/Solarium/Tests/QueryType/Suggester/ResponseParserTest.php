@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Suggester;
+
 use Solarium\QueryType\Suggester\Query;
 use Solarium\QueryType\Suggester\ResponseParser;
 use Solarium\QueryType\Suggester\Result\Term;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParse()
     {
         $data = array(
@@ -85,12 +85,11 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $result = $parser->parse($resultStub);
 
         $expected = array(
-            'd' => new Term(2,3,7,array('disk','ddr')),
-            'vid' => new Term(1,2,5,array('video'))
+            'd' => new Term(2, 3, 7, array('disk', 'ddr')),
+            'vid' => new Term(1, 2, 5, array('video'))
         );
 
         $this->assertEquals($expected, $result['results']);
         $this->assertEquals('disk video', $result['collation']);
     }
-
 }

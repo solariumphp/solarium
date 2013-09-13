@@ -47,7 +47,6 @@ namespace Solarium\QueryType\Select\Result\Facet;
  */
 class Field implements \IteratorAggregate, \Countable
 {
-
     /**
      * Value array
      *
@@ -58,8 +57,7 @@ class Field implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  array $values
-     * @return void
+     * @param array $values
      */
     public function __construct($values)
     {

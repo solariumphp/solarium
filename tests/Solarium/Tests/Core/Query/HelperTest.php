@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Query;
+
 use Solarium\Core\Query\Helper;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
@@ -55,7 +56,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             'field:[1 TO 2]',
-            $this->helper->rangeQuery('field',1,2)
+            $this->helper->rangeQuery('field', 1, 2)
         );
 
         $this->assertEquals(
@@ -68,7 +69,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             'field:{1 TO 2}',
-            $this->helper->rangeQuery('field',1,2, false)
+            $this->helper->rangeQuery('field', 1, 2, false)
         );
 
         $this->assertEquals(
@@ -200,7 +201,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             'sum(1,2)',
-            $this->helper->functionCall('sum', array(1,2))
+            $this->helper->functionCall('sum', array(1, 2))
         );
     }
 
@@ -319,44 +320,44 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         // test single basic placeholder
         $this->assertEquals(
             'id:456 AND cat:2',
-            $this->helper->assemble('id:%1% AND cat:2',array(456))
+            $this->helper->assemble('id:%1% AND cat:2', array(456))
         );
 
         // test multiple basic placeholders and placeholder repeat
         $this->assertEquals(
             '(id:456 AND cat:2) OR (id:456 AND cat:1)',
-            $this->helper->assemble('(id:%1% AND cat:%2%) OR (id:%1% AND cat:%3%)',array(456, 2, 1))
+            $this->helper->assemble('(id:%1% AND cat:%2%) OR (id:%1% AND cat:%3%)', array(456, 2, 1))
         );
 
         // test literal placeholder (same as basic)
         $this->assertEquals(
             'id:456 AND cat:2',
-            $this->helper->assemble('id:%L1% AND cat:2',array(456))
+            $this->helper->assemble('id:%L1% AND cat:2', array(456))
         );
 
         // test term placeholder
         $this->assertEquals(
             'cat:2 AND content:a\\+b',
-            $this->helper->assemble('cat:2 AND content:%T1%',array('a+b'))
+            $this->helper->assemble('cat:2 AND content:%T1%', array('a+b'))
         );
 
         // test term placeholder case-insensitive
         $this->assertEquals(
             'cat:2 AND content:a\\+b',
-            $this->helper->assemble('cat:2 AND content:%t1%',array('a+b'))
+            $this->helper->assemble('cat:2 AND content:%t1%', array('a+b'))
         );
 
         // test phrase placeholder
         $this->assertEquals(
             'cat:2 AND content:"a+\\"b"',
-            $this->helper->assemble('cat:2 AND content:%P1%',array('a+"b'))
+            $this->helper->assemble('cat:2 AND content:%P1%', array('a+"b'))
         );
     }
 
     public function testAssembleInvalidPartNumber()
     {
         $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
-        $this->helper->assemble('cat:%1% AND content:%2%',array('value1'));
+        $this->helper->assemble('cat:%1% AND content:%2%', array('value1'));
     }
 
     public function testJoin()
@@ -392,7 +393,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '{!cache=false cost=6}',
-            $this->helper->cacheControl(false,6)
+            $this->helper->cacheControl(false, 6)
         );
     }
 
@@ -404,4 +405,11 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testFilterControlCharacters()
+    {
+        $this->assertEquals(
+            'my string',
+            $this->helper->filterControlCharacters("my\x08string")
+        );
+    }
 }

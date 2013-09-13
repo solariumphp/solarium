@@ -35,7 +35,4 @@ $request = $client->createRequest($query);
 
 echo urldecode($request->getUri());
 
-
-
-
 htmlFooter();

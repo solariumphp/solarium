@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Query\Result;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
@@ -38,20 +39,23 @@ use Solarium\Exception\HttpException;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Result
      */
     protected $result;
 
-    protected $client, $query, $response, $headers;
+    protected $client;
+    protected $query;
+    protected $response;
+    protected $headers;
 
     public function setUp()
     {
         $this->client = new Client();
         $this->query = new SelectQuery();
         $this->headers = array('HTTP/1.0 304 Not Modified');
-        $data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"xyz"}},"response":{"numFound":0,"start":0,"docs":[]}}';
+        $data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"xyz"}},'.
+            '"response":{"numFound":0,"start":0,"docs":[]}}';
         $this->response = new Response($data, $this->headers);
 
         $this->result = new Result($this->client, $this->query, $this->response);
@@ -71,9 +75,9 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $headers = array('HTTP/1.0 404 Not Found');
         $response = new Response('Error message', $headers);
 
-        try{
+        try {
             new Result($this->client, $this->query, $response);
-        }catch(HttpException $e){
+        } catch (HttpException $e) {
             $this->assertEquals('Error message', $e->getBody());
         }
     }
@@ -100,10 +104,24 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDataWithPhps()
     {
-        $phpsData = 'a:2:{s:14:"responseHeader";a:3:{s:6:"status";i:0;s:5:"QTime";i:0;s:6:"params";a:6:{s:6:"indent";s:2:"on";s:5:"start";s:1:"0";s:1:"q";s:3:"*:*";s:2:"wt";s:4:"phps";s:7:"version";s:3:"2.2";s:4:"rows";s:1:"0";}}s:8:"response";a:3:{s:8:"numFound";i:57;s:5:"start";i:0;s:4:"docs";a:0:{}}}';
+        $phpsData = 'a:2:{s:14:"responseHeader";a:3:{s:6:"status";i:0;s:5:"QTime";i:0;s:6:"params";'.
+            'a:6:{s:6:"indent";s:2:"on";s:5:"start";s:1:"0";s:1:"q";s:3:"*:*";s:2:"wt";s:4:"phps";s:7:"version";'.
+            's:3:"2.2";s:4:"rows";s:1:"0";}}s:8:"response";a:3:{s:8:"numFound";i:57;s:5:"start";i:0;s:4:"docs";'.
+            'a:0:{}}}';
         $this->query->setResponseWriter('phps');
         $resultData = array(
-            'responseHeader' => array('status' => 0, 'QTime' => 0, 'params' => array('indent' => 'on', 'start' => 0, 'q' => '*:*', 'wt' => 'phps', 'version' => '2.2', 'rows' => 0)),
+            'responseHeader' => array(
+                'status' => 0,
+                'QTime' => 0,
+                'params' => array(
+                    'indent' => 'on',
+                    'start' => 0,
+                    'q' => '*:*',
+                    'wt' => 'phps',
+                    'version' => '2.2',
+                    'rows' => 0,
+                )
+            ),
             'response' => array('numFound' => 57, 'start' => 0, 'docs' => array())
         );
 
@@ -122,7 +140,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $result->getData();
     }
 
-
     public function testGetInvalidData()
     {
         $data = 'invalid';
@@ -132,5 +149,4 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $this->result->getData();
     }
-
 }

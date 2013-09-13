@@ -30,17 +30,21 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Debug;
+
 use Solarium\QueryType\Select\Result\Debug\Document;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Document
      */
     protected $result;
 
-    protected $value, $match, $description, $key, $details;
+    protected $value;
+    protected $match;
+    protected $description;
+    protected $key;
+    protected $details;
 
     public function setUp()
     {
@@ -72,7 +76,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->result AS $key => $item) {
+        foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -83,5 +87,4 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->details), count($this->result));
     }
-
 }

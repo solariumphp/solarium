@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\FacetSet as ResponseParser;
@@ -51,7 +52,6 @@ use Solarium\QueryType\Select\Query\Component\Facet\Facet;
  */
 class FacetSet extends Component
 {
-
     /**
      * Facet type field
      */
@@ -145,7 +145,7 @@ class FacetSet extends Component
     protected function init()
     {
         if (isset($this->options['facet'])) {
-            foreach ($this->options['facet'] AS $key => $config) {
+            foreach ($this->options['facet'] as $key => $config) {
                 if (!isset($config['key'])) {
                     $config['key'] = $key;
                 }
@@ -308,8 +308,8 @@ class FacetSet extends Component
      * Add a facet
      *
      * @throws InvalidArgumentException
-     * @param  Facet\Facet|array        $facet
-     * @return self                     Provides fluent interface
+     * @param  \Solarium\QueryType\Select\Query\Component\Facet\Facet|array $facet
+     * @return self                                                         Provides fluent interface
      */
     public function addFacet($facet)
     {
@@ -385,8 +385,8 @@ class FacetSet extends Component
      *
      * You can remove a facet by passing its key or the facet instance
      *
-     * @param  string|Facet\Facet $facet
-     * @return self               Provides fluent interface
+     * @param  string|\Solarium\QueryType\Select\Query\Component\Facet\Facet $facet
+     * @return self                                                          Provides fluent interface
      */
     public function removeFacet($facet)
     {
@@ -440,7 +440,7 @@ class FacetSet extends Component
      * @param  string               $type
      * @param  array|object|null    $options
      * @param  boolean              $add
-     * @return Facet\Facet
+     * @return \Solarium\QueryType\Select\Query\Component\Facet\Facet
      */
     public function createFacet($type, $options = null, $add = true)
     {
@@ -453,6 +453,7 @@ class FacetSet extends Component
         $class = $this->facetTypes[$type];
 
         if (is_string($options)) {
+            /** @var \Solarium\QueryType\Select\Query\Component\Facet\Facet $facet */
             $facet = new $class;
             $facet->setKey($options);
         } else {
@@ -471,7 +472,7 @@ class FacetSet extends Component
      *
      * @param  mixed       $options
      * @param  bool        $add
-     * @return Facet\Field
+     * @return \Solarium\QueryType\Select\Query\Component\Facet\Field
      */
     public function createFacetField($options = null, $add = true)
     {
@@ -483,7 +484,7 @@ class FacetSet extends Component
      *
      * @param  mixed       $options
      * @param  bool        $add
-     * @return Facet\Query
+     * @return \Solarium\QueryType\Select\Query\Component\Facet\Query
      */
     public function createFacetQuery($options = null, $add = true)
     {
@@ -495,7 +496,7 @@ class FacetSet extends Component
      *
      * @param  mixed            $options
      * @param  bool             $add
-     * @return Facet\MultiQuery
+     * @return \Solarium\QueryType\Select\Query\Component\Facet\MultiQuery
      */
     public function createFacetMultiQuery($options = null, $add = true)
     {
@@ -507,7 +508,7 @@ class FacetSet extends Component
      *
      * @param  mixed       $options
      * @param  bool        $add
-     * @return Facet\Range
+     * @return \Solarium\QueryType\Select\Query\Component\Facet\Range
      */
     public function createFacetRange($options = null, $add = true)
     {
@@ -519,11 +520,10 @@ class FacetSet extends Component
      *
      * @param  mixed       $options
      * @param  bool        $add
-     * @return Facet\Pivot
+     * @return \Solarium\QueryType\Select\Query\Component\Facet\Pivot
      */
     public function createFacetPivot($options = null, $add = true)
     {
         return $this->createFacet(self::FACET_PIVOT, $options, $add);
     }
-
 }

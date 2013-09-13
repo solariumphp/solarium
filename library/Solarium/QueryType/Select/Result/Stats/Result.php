@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Stats;
  */
 class Result
 {
-
     /**
      * Field name
      *
@@ -61,9 +60,8 @@ class Result
     /**
      * Constructor
      *
-     * @param  string $field
-     * @param  array  $stats
-     * @return void
+     * @param string $field
+     * @param array  $stats
      */
     public function __construct($field, $stats)
     {

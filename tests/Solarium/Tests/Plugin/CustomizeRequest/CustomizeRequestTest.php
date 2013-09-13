@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Plugin\CustomizeRequest;
+
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 use Solarium\Plugin\CustomizeRequest\Customization;
 use Solarium\Core\Client\Client;
@@ -59,7 +60,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'type' => 'header',
                     'name' => 'X-my-auth',
                     'value' => 'mypassword',
-                    'persistent' => true
+                    'persistent' => true,
                 ),
                 'id' => array(
                     'type' => 'param',
@@ -113,7 +114,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($expectedRequest))
-                 ->will($this->returnValue(new Response('',array('HTTP 1.0 200 OK'))));
+                 ->will($this->returnValue(new Response('', array('HTTP 1.0 200 OK'))));
         $client->setAdapter($observer);
 
         $client->executeRequest($originalRequest);
@@ -136,7 +137,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
             'type' => 'header',
             'name' => 'X-my-auth',
             'value' => 'mypassword',
-            'persistent' => true
+            'persistent' => true,
         );
         $customization = $this->plugin->createCustomization($input);
 
@@ -179,7 +180,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
 
     public function testAddCustomizationWithoutKey()
     {
-        $customization = new Customization;;
+        $customization = new Customization;
 
         $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
         $this->plugin->addCustomization($customization);
@@ -352,7 +353,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'type' => 'header',
                     'name' => 'X-my-auth',
                     'value' => 'mypassword',
-                    'persistent' => true
+                    'persistent' => true,
                 );
         $this->plugin->addCustomization($input);
 
@@ -417,7 +418,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
                     'type' => 'header',
                     'name' => 'X-my-auth',
                     'value' => 'mypassword',
-                    'persistent' => true
+                    'persistent' => true,
                 );
         $this->plugin->addCustomization($input);
 
@@ -450,5 +451,4 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
             $request->getHeaders()
         );
     }
-
 }

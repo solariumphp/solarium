@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder;
+
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\FilterQuery;
@@ -38,7 +39,6 @@ use Solarium\QueryType\Select\Query\Component\Component;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -74,7 +74,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'select?omitHeader=true&wt=json&q=*:*&start=0&rows=10&fl=*,score',
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score',
             urldecode($request->getUri())
         );
     }
@@ -91,7 +91,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'select?omitHeader=true&wt=json&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc',
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc',
             urldecode($request->getUri())
         );
     }
@@ -108,7 +108,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'select?omitHeader=true&wt=json&q=*:*&start=0&rows=10&fl=*,score&q.op=AND&df=mydefault',
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&q.op=AND&df=mydefault',
             urldecode($request->getUri())
         );
     }
@@ -118,7 +118,9 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->addSort('id', Query::SORT_ASC);
         $this->query->addSort('name', Query::SORT_DESC);
         $this->query->addFilterQuery(new FilterQuery(array('key' => 'f1', 'query' => 'published:true')));
-        $this->query->addFilterQuery(new FilterQuery(array('key' => 'f2', 'tag' => array('t1','t2'), 'query' => 'category:23')));
+        $this->query->addFilterQuery(
+            new FilterQuery(array('key' => 'f2', 'tag' => array('t1', 't2'), 'query' => 'category:23'))
+        );
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
@@ -127,7 +129,8 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'select?omitHeader=true&wt=json&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc&fq=published:true&fq={!tag=t1,t2}category:23',
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc'.
+            '&fq=published:true&fq={!tag=t1,t2}category:23',
             urldecode($request->getUri())
         );
     }
@@ -136,7 +139,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->builder->build($this->query);
 
-        $this->query->registerComponentType('testcomponent',__NAMESPACE__.'\\TestDummyComponent');
+        $this->query->registerComponentType('testcomponent', __NAMESPACE__.'\\TestDummyComponent');
         $this->query->getComponent('testcomponent', true);
 
         $requestWithNoBuilderComponent = $this->builder->build($this->query);
@@ -171,7 +174,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testWithTags()
     {
-        $this->query->setTags(array('t1','t2'));
+        $this->query->setTags(array('t1', 't2'));
         $this->query->setQuery('cat:1');
         $request = $this->builder->build($this->query);
 
@@ -180,7 +183,6 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             $request->getParam('q')
         );
     }
-
 }
 
 class TestDummyComponent extends Component

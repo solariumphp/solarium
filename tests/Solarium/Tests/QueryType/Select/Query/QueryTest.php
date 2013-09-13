@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\FilterQuery;
 use Solarium\Core\Client\Client;
@@ -37,7 +38,6 @@ use Solarium\QueryType\Select\Query\Component\MoreLikeThis;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -55,12 +55,18 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\ResponseParser', $this->query->getResponseParser());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\ResponseParser\ResponseParser',
+            $this->query->getResponseParser()
+        );
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\RequestBuilder', $this->query->getRequestBuilder());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\RequestBuilder\RequestBuilder',
+            $this->query->getRequestBuilder()
+        );
     }
 
     public function testSetAndGetStart()
@@ -132,7 +138,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFields()
     {
-        $fields = array('field1','field2');
+        $fields = array('field1', 'field2');
 
         $this->query->clearFields();
         $this->query->addFields($fields);
@@ -143,13 +149,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
-        $this->assertEquals(array('field1','field2'), $this->query->getFields());
+        $this->assertEquals(array('field1', 'field2'), $this->query->getFields());
     }
 
     public function testRemoveField()
     {
         $this->query->clearFields();
-        $this->query->addFields(array('field1','field2'));
+        $this->query->addFields(array('field1', 'field2'));
         $this->query->removeField('field1');
         $this->assertEquals(array('field2'), $this->query->getFields());
     }
@@ -157,9 +163,9 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetFields()
     {
         $this->query->clearFields();
-        $this->query->addFields(array('field1','field2'));
-        $this->query->setFields(array('field3','field4'));
-        $this->assertEquals(array('field3','field4'), $this->query->getFields());
+        $this->query->addFields(array('field1', 'field2'));
+        $this->query->setFields(array('field3', 'field4'));
+        $this->assertEquals(array('field3', 'field4'), $this->query->getFields());
     }
 
     public function testAddSort()
@@ -175,7 +181,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -189,7 +195,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -204,7 +210,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -219,7 +225,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -234,7 +240,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $sorts = array(
             'field1' => Query::SORT_DESC,
-            'field2' => Query::SORT_ASC
+            'field2' => Query::SORT_ASC,
         );
 
         $this->query->addSorts($sorts);
@@ -425,14 +431,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $config = array(
-            'query'  => 'text:mykeyword',
-            'sort'   => array('score' => 'asc'),
-            'fields' => array('id','title','category'),
-            'rows'   => 100,
-            'start'  => 200,
+            'query' => 'text:mykeyword',
+            'sort' => array('score' => 'asc'),
+            'fields' => array('id', 'title', 'category'),
+            'rows' => 100,
+            'start' => 200,
             'filterquery' => array(
-                array('key' => 'pub', 'tag' => array('pub'),'query' => 'published:true'),
-                'online' => array('tag' => 'onl','query' => 'online:true')
+                array('key' => 'pub', 'tag' => array('pub'), 'query' => 'published:true'),
+                'online' => array('tag' => 'onl', 'query' => 'online:true')
             ),
             'component' => array(
                 'facetset' => array(
@@ -444,7 +450,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             ),
             'resultclass' => 'MyResultClass',
             'documentclass' => 'MyDocumentClass',
-            'tag' => array('t1','t2'),
+            'tag' => array('t1', 't2'),
         );
         $query = new Query($config);
 
@@ -470,8 +476,11 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $components = $query->getComponents();
         $this->assertEquals(1, count($components));
-        $this->assertThat(array_pop($components), $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\FacetSet'));
-        $this->assertEquals(array('t1','t2'), $query->getTags());
+        $this->assertThat(
+            array_pop($components),
+            $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\FacetSet')
+        );
+        $this->assertEquals(array('t1', 't2'), $query->getTags());
     }
 
     public function testConfigModeWithSingleValueTag()
@@ -483,7 +492,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetComponents()
     {
         $mlt = new MoreLikeThis;
-        $this->query->setComponent('mlt',$mlt);
+        $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
             array('mlt' => $mlt),
@@ -494,7 +503,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetComponent()
     {
         $mlt = new MoreLikeThis;
-        $this->query->setComponent('mlt',$mlt);
+        $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
             $mlt,
@@ -505,7 +514,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetComponentQueryInstance()
     {
         $mlt = new MoreLikeThis;
-        $this->query->setComponent('mlt',$mlt);
+        $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
             $this->query,
@@ -530,7 +539,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testRemoveComponent()
     {
         $mlt = new MoreLikeThis;
-        $this->query->setComponent('mlt',$mlt);
+        $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
             array('mlt' => $mlt),
@@ -548,7 +557,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testRemoveComponentWithObjectInput()
     {
         $mlt = new MoreLikeThis;
-        $this->query->setComponent('mlt',$mlt);
+        $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
             array('mlt' => $mlt),
@@ -608,7 +617,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $components = $this->query->getComponentTypes();
         $components['mykey'] = 'mycomponent';
 
-        $this->query->registerComponentType('mykey','mycomponent','mybuilder','myparser');
+        $this->query->registerComponentType('mykey', 'mycomponent', 'mybuilder', 'myparser');
 
         $this->assertEquals(
             $components,
@@ -622,7 +631,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $fq = $this->query->createFilterQuery($options);
 
         // check class
-       $this->assertThat($fq, $this->isInstanceOf('Solarium\QueryType\Select\Query\FilterQuery'));
+        $this->assertThat($fq, $this->isInstanceOf('Solarium\QueryType\Select\Query\FilterQuery'));
 
         // check option forwarding
         $fqOptions = $fq->getOptions();
@@ -680,29 +689,28 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddTags()
     {
-        $this->query->addTags(array('t1','t2'));
-        $this->assertEquals(array('t1','t2'), $this->query->getTags());
+        $this->query->addTags(array('t1', 't2'));
+        $this->assertEquals(array('t1', 't2'), $this->query->getTags());
     }
 
     public function testRemoveTag()
     {
-        $this->query->addTags(array('t1','t2'));
+        $this->query->addTags(array('t1', 't2'));
         $this->query->removeTag('t1');
         $this->assertEquals(array('t2'), $this->query->getTags());
     }
 
     public function testClearTags()
     {
-        $this->query->addTags(array('t1','t2'));
+        $this->query->addTags(array('t1', 't2'));
         $this->query->clearTags();
         $this->assertEquals(array(), $this->query->getTags());
     }
 
     public function testSetTags()
     {
-        $this->query->addTags(array('t1','t2'));
-        $this->query->setTags(array('t3','t4'));
-        $this->assertEquals(array('t3','t4'), $this->query->getTags());
+        $this->query->addTags(array('t1', 't2'));
+        $this->query->setTags(array('t3', 't4'));
+        $this->assertEquals(array('t3', 't4'), $this->query->getTags());
     }
-
 }

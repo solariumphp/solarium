@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Plugin;
+
 use Solarium\Core\Plugin\Plugin;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
@@ -52,34 +53,25 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-       $this->assertEquals(
-            $this->client,
-            $this->plugin->getClient()
-        );
-
-        $this->assertEquals(
-            $this->options,
-            $this->plugin->getOptions()
-        );
+        $this->assertEquals($this->client, $this->plugin->getClient());
+        $this->assertEquals($this->options, $this->plugin->getOptions());
     }
 
     public function testEventHooksEmpty()
     {
-        /*
-         *
-         $this->assertEquals(null, $this->plugin->preCreateRequest(null));
-        $this->assertEquals(null, $this->plugin->postCreateRequest(null,null));
-        $this->assertEquals(null, $this->plugin->preExecuteRequest(null));
-        $this->assertEquals(null, $this->plugin->postExecuteRequest(null,null));
-        $this->assertEquals(null, $this->plugin->preExecute(null));
-        $this->assertEquals(null, $this->plugin->postExecute(null,null));
-        $this->assertEquals(null, $this->plugin->preCreateResult(null,null));
-        $this->assertEquals(null, $this->plugin->postCreateResult(null,null,null));
-        $this->assertEquals(null, $this->plugin->preCreateQuery(null,null));
-        $this->assertEquals(null, $this->plugin->postCreateQuery(null,null,null));
-        */
-    }
+        $this->markTestSkipped('This test is currently skipped for unknown reasons.');
 
+        $this->assertEquals(null, $this->plugin->preCreateRequest(null));
+        $this->assertEquals(null, $this->plugin->postCreateRequest(null, null));
+        $this->assertEquals(null, $this->plugin->preExecuteRequest(null));
+        $this->assertEquals(null, $this->plugin->postExecuteRequest(null, null));
+        $this->assertEquals(null, $this->plugin->preExecute(null));
+        $this->assertEquals(null, $this->plugin->postExecute(null, null));
+        $this->assertEquals(null, $this->plugin->preCreateResult(null, null));
+        $this->assertEquals(null, $this->plugin->postCreateResult(null, null, null));
+        $this->assertEquals(null, $this->plugin->preCreateQuery(null, null));
+        $this->assertEquals(null, $this->plugin->postCreateQuery(null, null, null));
+    }
 }
 
 class MyPlugin extends Plugin
@@ -88,5 +80,4 @@ class MyPlugin extends Plugin
     {
         return $this->client;
     }
-
 }

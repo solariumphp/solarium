@@ -37,21 +37,27 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\Query;
+
 use Solarium\Core\Client\Client;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as RequestBuilder;
-use Solarium\QueryType\Select\Result\Document as ResultDocument;
+use Solarium\QueryType\Select\Result\DocumentInterface as ReadOnlyDocumentInterface;
+use Solarium\QueryType\Update\Query\Document\DocumentInterface as DocumentInterface;
 
 /**
  * Analysis document query
  */
 class Document extends Query
 {
+    const DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE = 'The document argument must either implement
+        \Solarium\QueryType\Select\Result\DocumentInterface (read-only) or
+        \Solarium\QueryType\Update\Query\Document\DocumentInterface (read-write), instance of %s given.';
 
     /**
      * Documents to analyze
      *
-     * @var ResultDocument[]
+     * @var ReadOnlyDocumentInterface[]|DocumentInterface[]
      */
     protected $documents = array();
 
@@ -99,11 +105,16 @@ class Document extends Query
     /**
      * Add a single document
      *
-     * @param  object $document
-     * @return self   Provides fluent interface
+     * @param  ReadOnlyDocumentInterface|DocumentInterface $document
+     * @return self                                        Provides fluent interface
+     * @throws RuntimeException                            If the given document doesn't have the right interface
      */
     public function addDocument($document)
     {
+        if (!($document instanceof ReadOnlyDocumentInterface) && !($document instanceof DocumentInterface)) {
+            throw new RuntimeException(sprintf(static::DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE, get_class($document)));
+        }
+
         $this->documents[] = $document;
 
         return $this;
@@ -112,11 +123,18 @@ class Document extends Query
     /**
      * Add multiple documents
      *
-     * @param  DocumentInterface[] $documents
-     * @return self                fluent interface
+     * @param  ReadOnlyDocumentInterface[]|DocumentInterface[] $documents
+     * @return self                                            Provides fluent interface
+     * @throws RuntimeException                                If the given documents doesn't have the right interface
      */
     public function addDocuments($documents)
     {
+        foreach ($documents as $document) {
+            if (!($document instanceof ReadOnlyDocumentInterface) && !($document instanceof DocumentInterface)) {
+                throw new RuntimeException(sprintf(static::DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE, get_class($document)));
+            }
+        }
+
         $this->documents = array_merge($this->documents, $documents);
 
         return $this;
@@ -125,11 +143,10 @@ class Document extends Query
     /**
      * Get all documents
      *
-     * @return ResultDocument[]
+     * @return ReadOnlyDocumentInterface[]|DocumentInterface[]
      */
     public function getDocuments()
     {
         return $this->documents;
     }
-
 }

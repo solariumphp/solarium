@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Terms;
+
 use Solarium\QueryType\Terms\Query;
 use Solarium\QueryType\Terms\RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -55,7 +55,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildParams()
     {
-        $this->query->setFields('fieldA, fieldB');
+        $this->query->setFields('fieldA,fieldB');
         $this->query->setLowerbound('d');
         $this->query->setLowerboundInclude(true);
         $this->query->setMinCount(3);
@@ -94,6 +94,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'terms.upper' => 'x',
                 'terms.upper.incl' => 'false',
                 'wt' => 'json',
+                'json.nl' => 'flat',
                 'omitHeader' => 'true',
             ),
             $request->getParams()
@@ -104,5 +105,4 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             $request->getMethod()
         );
     }
-
 }

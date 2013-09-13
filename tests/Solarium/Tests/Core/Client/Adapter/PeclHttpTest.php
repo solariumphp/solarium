@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Client\Adapter;
+
 use Solarium\Core\Client\Adapter\PeclHttp as PeclHttpAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
@@ -73,25 +74,25 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
         // prevents undefined constants errors
         if (function_exists('http_get')) {
             $methods = array(
-                Request::METHOD_GET  => array(
+                Request::METHOD_GET => array(
                     'method' => HTTP_METH_GET,
-                    'support' => true
+                    'support' => true,
                 ),
                 Request::METHOD_POST => array(
                     'method' => HTTP_METH_POST,
-                    'support' => true
+                    'support' => true,
                 ),
                 Request::METHOD_HEAD => array(
                     'method' => HTTP_METH_HEAD,
-                    'support' => true
+                    'support' => true,
                 ),
-                'PUT'                                => array(
+                'PUT' => array(
                     'method' => HTTP_METH_PUT,
-                    'support' => false
+                    'support' => false,
                 ),
-                'DELETE'                             => array(
+                'DELETE' => array(
                     'method' => HTTP_METH_DELETE,
-                    'support' => false
+                    'support' => false,
                 ),
             );
 
@@ -108,29 +109,34 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
 
     public function testToHttpRequestWithHeaders()
     {
-        $request = new Request(array(
-            'header' => array(
-                'Content-Type: application/json',
-                'User-Agent: Foo'
-            ),
-            'authentication' => array(
-                'username' => 'someone',
-                'password' => 'S0M3p455',
+        $request = new Request(
+            array(
+                'header' => array(
+                    'Content-Type: application/json',
+                    'User-Agent: Foo',
+                ),
+                'authentication' => array(
+                    'username' => 'someone',
+                    'password' => 'S0M3p455',
+                )
             )
-        ));
+        );
 
         $endpoint = new Endpoint();
         $endpoint->setTimeout(10);
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-        $this->assertEquals(array(
-            'timeout' => 10,
-            'headers' => array(
-                'Content-Type' => 'application/json',
-                'User-Agent' => 'Foo',
-                'Authorization' => 'Basic c29tZW9uZTpTME0zcDQ1NQ==',
-            )
-        ), $httpRequest->getOptions());
+        $this->assertEquals(
+            array(
+                'timeout' => 10,
+                'headers' => array(
+                    'Content-Type' => 'application/json',
+                    'User-Agent' => 'Foo',
+                    'Authorization' => 'Basic c29tZW9uZTpTME0zcDQ1NQ==',
+                )
+            ),
+            $httpRequest->getOptions()
+        );
     }
 
     public function testToHttpRequestWithFile()
@@ -164,12 +170,15 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
         $endpoint->setTimeout(10);
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-        $this->assertEquals(array(
-            'timeout' => 10,
-            'headers' => array(
-                'Content-Type' => 'text/xml; charset=utf-8',
-            )
-        ), $httpRequest->getOptions());
+        $this->assertEquals(
+            array(
+                'timeout' => 10,
+                'headers' => array(
+                    'Content-Type' => 'text/xml; charset=utf-8',
+                )
+            ),
+            $httpRequest->getOptions()
+        );
     }
 
     public function testExecute()
@@ -203,7 +212,7 @@ EOF;
     }
 
     /**
-     * @expectedException Solarium\Exception\HttpException
+     * @expectedException \Solarium\Exception\HttpException
      */
     public function testExecuteWithException()
     {
@@ -212,5 +221,4 @@ EOF;
         $request = new Request();
         $this->adapter->execute($request, $endpoint);
     }
-
 }

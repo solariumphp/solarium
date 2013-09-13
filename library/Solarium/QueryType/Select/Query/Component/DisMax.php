@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 
@@ -47,7 +48,6 @@ use Solarium\QueryType\Select\RequestBuilder\Component\DisMax as RequestBuilder;
  */
 class DisMax extends Component
 {
-
     /**
      * Default options
      *
@@ -335,5 +335,4 @@ class DisMax extends Component
     {
         return $this->getOption('queryparser');
     }
-
 }

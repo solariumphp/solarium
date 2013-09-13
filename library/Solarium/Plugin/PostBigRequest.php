@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin;
+
 use Solarium\Client;
 use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Request;
@@ -55,7 +56,6 @@ use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
  */
 class PostBigRequest extends Plugin
 {
-
     /**
      * Default options
      *
@@ -118,5 +118,4 @@ class PostBigRequest extends Plugin
             $request->addHeader('Content-Type: application/x-www-form-urlencoded');
         }
     }
-
 }

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\RequestBuilder;
+
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Analysis\Query\Document as QueryDocument;
@@ -47,11 +48,10 @@ use Solarium\Core\Query\QueryInterface;
  */
 class Document extends BaseRequestBuilder
 {
-
     /**
      * Build request for an analysis document query
      *
-     * @param  QueryDocument $query
+     * @param  QueryInterface|QueryDocument $query
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -105,5 +105,4 @@ class Document extends BaseRequestBuilder
     {
         return '<field name="' . $name . '">' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8') . '</field>';
     }
-
 }

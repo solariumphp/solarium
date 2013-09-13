@@ -8,8 +8,8 @@ htmlHeader();
 
 // In most cases using the API or config is advisable, however in some cases it can make sense to extend classes.
 // This makes it possible to create 'query inheritance' like in this example
-class ProductQuery extends Select{
-
+class ProductQuery extends Select
+{
     protected function init()
     {
         parent::init();
@@ -24,13 +24,12 @@ class ProductQuery extends Select{
         $facetSet = $this->getFacetSet();
         $facetSet->createFacetField('stock')->setField('inStock');
     }
-
 }
 
 // This query inherits all of the query params of its parent (using parent::init) and adds some more
 // Ofcourse it could also alter or remove settings
-class ProductPriceLimitedQuery extends ProductQuery{
-
+class ProductPriceLimitedQuery extends ProductQuery
+{
     protected function init()
     {
         parent::init();
@@ -38,7 +37,6 @@ class ProductPriceLimitedQuery extends ProductQuery{
         // create a filterquery
         $this->createFilterQuery('maxprice')->setQuery('price:[1 TO 300]');
     }
-
 }
 
 // create a client instance
@@ -56,7 +54,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 // display facet counts
 echo '<hr/>Facet counts for field "inStock":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('stock');
-foreach($facet as $value => $count) {
+foreach ($facet as $value => $count) {
     echo $value . ' [' . $count . ']<br/>';
 }
 

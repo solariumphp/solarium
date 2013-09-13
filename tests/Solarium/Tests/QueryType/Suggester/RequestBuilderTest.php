@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Suggester;
+
 use Solarium\QueryType\Suggester\Query;
 use Solarium\QueryType\Suggester\RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -72,6 +72,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'spellcheck.onlyMorePopular' => 'true',
                 'spellcheck.collate' => 'true',
                 'wt' => 'json',
+                'json.nl' => 'flat',
                 'omitHeader' => 'true',
             ),
             $request->getParams()
@@ -82,5 +83,4 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             $request->getMethod()
         );
     }
-
 }
