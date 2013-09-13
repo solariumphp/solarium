@@ -26,7 +26,7 @@ foreach ($resultset as $term => $termResult) {
     echo 'StartOffset: '.$termResult->getStartOffset().'<br/>';
     echo 'EndOffset: '.$termResult->getEndOffset().'<br/>';
     echo 'Suggestions:<br/>';
-    foreach($termResult as $result){
+    foreach ($termResult as $result) {
         echo '- '.$result.'<br/>';
     }
 

@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Terms;
+
 use Solarium\QueryType\Terms\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var TermsDummy
      */
@@ -106,13 +106,12 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $results = array();
-        foreach ($this->result AS $key => $doc) {
+        foreach ($this->result as $key => $doc) {
             $results[$key] = $doc;
         }
 
         $this->assertEquals($this->data, $results);
     }
-
 }
 
 class TermsDummy extends Result
@@ -125,5 +124,4 @@ class TermsDummy extends Result
         $this->status = 1;
         $this->queryTime = 12;
     }
-
 }

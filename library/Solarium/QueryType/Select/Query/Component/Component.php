@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Query;
 use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;
@@ -47,7 +48,6 @@ use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderIn
  */
 abstract class Component extends Configurable
 {
-
     /**
      * @var Query
      */
@@ -96,5 +96,4 @@ abstract class Component extends Configurable
     {
         return $this->queryInstance;
     }
-
 }

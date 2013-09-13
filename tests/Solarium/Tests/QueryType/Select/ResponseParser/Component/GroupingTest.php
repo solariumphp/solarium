@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Component\Grouping as Component;
 use Solarium\QueryType\Select\Result\Grouping\Result as Result;
 use Solarium\QueryType\Select\ResponseParser\Component\Grouping as Parser;
@@ -37,7 +38,6 @@ use Solarium\QueryType\Select\Query\Query;
 
 class GroupingTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Parser
      */

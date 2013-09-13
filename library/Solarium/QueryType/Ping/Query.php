@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Ping;
+
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Ping\RequestBuilder as RequestBuilder;
@@ -50,7 +51,6 @@ use Solarium\QueryType\Ping\RequestBuilder as RequestBuilder;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Default options
      *
@@ -91,5 +91,4 @@ class Query extends BaseQuery
     {
         return null;
     }
-
 }

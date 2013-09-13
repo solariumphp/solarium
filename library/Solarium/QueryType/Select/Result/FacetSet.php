@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result;
  */
 class FacetSet implements \IteratorAggregate, \Countable
 {
-
     /**
      * Facet array
      *

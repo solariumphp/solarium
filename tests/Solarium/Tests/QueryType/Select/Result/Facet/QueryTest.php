@@ -30,16 +30,15 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
+
 use Solarium\QueryType\Select\Result\Facet\Query;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testGetValue()
     {
         $facet = new Query(124);
 
         $this->assertEquals(124, $facet->getValue());
     }
-
 }

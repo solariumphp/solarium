@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\CustomizeRequest;
+
 use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\InvalidArgumentException;
@@ -52,7 +53,6 @@ use Solarium\Core\Event\preExecuteRequest as preExecuteRequestEvent;
  */
 class CustomizeRequest extends Plugin
 {
-
     /**
      * Holds customizations added to this plugin
      *
@@ -285,5 +285,4 @@ class CustomizeRequest extends Plugin
 
         $event->setRequest($request);
     }
-
 }

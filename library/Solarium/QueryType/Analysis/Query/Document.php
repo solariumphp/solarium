@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\Query;
+
 use Solarium\Core\Client\Client;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
@@ -148,5 +149,4 @@ class Document extends Query
     {
         return $this->documents;
     }
-
 }

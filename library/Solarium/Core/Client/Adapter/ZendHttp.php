@@ -38,8 +38,8 @@
 /**
  * @namespace
  */
-
 namespace Solarium\Core\Client\Adapter;
+
 use Solarium\Core\Configurable;
 use Solarium\Core\Client;
 use Solarium\Core\Client\Request;
@@ -59,7 +59,6 @@ use Solarium\Exception\OutOfBoundsException;
  */
 class ZendHttp extends Configurable implements AdapterInterface
 {
-
     /**
      * Zend Http instance for communication with Solr
      *

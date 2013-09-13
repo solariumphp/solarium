@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\Core\Client;
+
 use Solarium\Exception\HttpException;
 
 class HttpExceptionTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructor()
     {
         $exception = new HttpException('message text', 123);
@@ -74,5 +74,4 @@ class HttpExceptionTest extends \PHPUnit_Framework_TestCase
             $exception->getMessage()
         );
     }
-
 }

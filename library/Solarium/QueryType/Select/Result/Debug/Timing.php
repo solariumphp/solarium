@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Debug;
  */
 class Timing implements \IteratorAggregate, \Countable
 {
-
     /**
      * Time
      *

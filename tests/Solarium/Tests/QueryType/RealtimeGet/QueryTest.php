@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\RealtimeGet;
+
 use Solarium\QueryType\RealtimeGet\Query;
 use Solarium\Core\Client\Client;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -53,7 +53,10 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\ResponseParser', $this->query->getResponseParser());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\ResponseParser\ResponseParser',
+            $this->query->getResponseParser()
+        );
     }
 
     public function testGetRequestBuilder()
@@ -89,7 +92,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddIds()
     {
-        $ids = array('id1','id2');
+        $ids = array('id1', 'id2');
 
         $this->query->clearIds();
         $this->query->addIds($ids);
@@ -100,13 +103,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $this->query->clearIds();
         $this->query->addIds('id1, id2');
-        $this->assertEquals(array('id1','id2'), $this->query->getIds());
+        $this->assertEquals(array('id1', 'id2'), $this->query->getIds());
     }
 
     public function testRemoveId()
     {
         $this->query->clearIds();
-        $this->query->addIds(array('id1','id2'));
+        $this->query->addIds(array('id1', 'id2'));
         $this->query->removeId('id1');
         $this->assertEquals(array('id2'), $this->query->getIds());
     }
@@ -114,9 +117,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetIds()
     {
         $this->query->clearIds();
-        $this->query->addIds(array('id1','id2'));
-        $this->query->setIds(array('id3','id4'));
-        $this->assertEquals(array('id3','id4'), $this->query->getIds());
+        $this->query->addIds(array('id1', 'id2'));
+        $this->query->setIds(array('id3', 'id4'));
+        $this->assertEquals(array('id3', 'id4'), $this->query->getIds());
     }
-
 }

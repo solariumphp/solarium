@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Analysis\Result;
  */
 class ResultList implements \IteratorAggregate, \Countable
 {
-
     /**
      * List name
      *
@@ -109,5 +108,4 @@ class ResultList implements \IteratorAggregate, \Countable
     {
         return count($this->items);
     }
-
 }

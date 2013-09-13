@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Highlighting;
  */
 class Result implements \IteratorAggregate, \Countable
 {
-
     /**
      * Fields array
      *

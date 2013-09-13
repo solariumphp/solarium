@@ -3,9 +3,8 @@ require(__DIR__.'/init.php');
 use Solarium\Core\Event\Events;
 
 // this very simple plugin shows a timing for each event and display some request debug info
-class basicDebug extends Solarium\Core\Plugin\Plugin
+class BasicDebug extends Solarium\Core\Plugin\Plugin
 {
-
     protected $start;
     protected $output = array();
 
@@ -93,14 +92,13 @@ class basicDebug extends Solarium\Core\Plugin\Plugin
     {
         $this->timer('postCreateResult');
     }
-
 }
 
 
 htmlHeader();
 
 // create a client instance and register the plugin
-$plugin = new basicDebug();
+$plugin = new BasicDebug();
 $client = new Solarium\Client($config);
 $client->registerPlugin('debugger', $plugin);
 
@@ -113,9 +111,10 @@ foreach ($resultset as $document) {
 
     echo '<hr/><table>';
 
-    foreach($document AS $field => $value)
-    {
-        if(is_array($value)) $value = implode(', ', $value);
+    foreach ($document as $field => $value) {
+        if (is_array($value)) {
+            $value = implode(', ', $value);
+        }
 
         echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
     }

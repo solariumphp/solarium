@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Spellcheck;
  */
 class Collation implements \IteratorAggregate, \Countable
 {
-
     /**
      * Query
      *

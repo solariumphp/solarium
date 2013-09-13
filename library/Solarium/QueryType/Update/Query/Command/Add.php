@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query\Command;
+
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 use Solarium\Exception\RuntimeException;
@@ -48,7 +49,6 @@ use Solarium\Exception\RuntimeException;
  */
 class Add extends Command
 {
-
     /**
      * Documents to add
      *

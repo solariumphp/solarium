@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Debug;
  */
 class TimingPhase implements \IteratorAggregate, \Countable
 {
-
     /**
      * Phase name
      *

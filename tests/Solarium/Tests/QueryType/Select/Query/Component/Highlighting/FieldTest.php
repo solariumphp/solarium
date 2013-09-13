@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
+
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting;
 use Solarium\QueryType\Select\Query\Component\Highlighting\Field;
 use Solarium\QueryType\Select\Query\Query;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Field
      */
@@ -182,5 +182,4 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $this->fld->getUseFastVectorHighlighter()
         );
     }
-
 }

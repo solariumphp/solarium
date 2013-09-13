@@ -30,23 +30,22 @@
  */
 
 namespace Solarium\Tests\Core\Event;
+
 use Solarium\Core\Event\PostExecuteRequest;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
 
-
 class PostExecuteRequestTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetters()
     {
         $client = new Client;
         $request = new Request;
         $request->addParam('testparam', 'test value');
         $endpoint = $client->getEndpoint();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
 
         $event = new PostExecuteRequest($request, $endpoint, $response);
 
@@ -54,5 +53,4 @@ class PostExecuteRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($endpoint, $event->getEndpoint());
         $this->assertEquals($response, $event->getResponse());
     }
-
 }

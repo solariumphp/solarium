@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Client\Adapter;
+
 use Solarium\Core\Client\Adapter\Curl as CurlAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
@@ -88,5 +89,4 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($data, $response);
     }
-
 }

@@ -30,14 +30,14 @@
  */
 
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
+
 use Solarium\Plugin\BufferedAdd\Event\PreFlush;
 
 class PreFlushTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetters()
     {
-        $buffer = array(1,2,3);
+        $buffer = array(1, 2, 3);
         $overwrite = true;
         $commitWithin = 567;
 
@@ -57,7 +57,7 @@ class PreFlushTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAndGetBuffer($event)
     {
-        $buffer = array(4,5,6);
+        $buffer = array(4, 5, 6);
         $event->setBuffer($buffer);
         $this->assertEquals($buffer, $event->getBuffer());
     }

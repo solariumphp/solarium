@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Analysis\RequestBuilder;
+
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
@@ -48,7 +49,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
-
     /**
      * Build request for an analysis query
      *
@@ -63,5 +63,4 @@ class RequestBuilder extends BaseRequestBuilder
 
         return $request;
     }
-
 }

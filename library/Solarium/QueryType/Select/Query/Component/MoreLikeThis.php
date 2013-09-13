@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\MoreLikeThis as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis as ResponseParser;
@@ -48,7 +49,6 @@ use Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis as ResponseP
  */
 class MoreLikeThis extends Component
 {
-
     /**
      * Get component type
      *
@@ -108,7 +108,9 @@ class MoreLikeThis extends Component
     public function getFields()
     {
         $fields = $this->getOption('fields');
-        if($fields == null) $fields = array();
+        if ($fields == null) {
+            $fields = array();
+        }
 
         return $fields;
     }
@@ -307,7 +309,9 @@ class MoreLikeThis extends Component
     public function getQueryFields()
     {
         $queryfields = $this->getOption('queryfields');
-        if($queryfields == null) $queryfields = array();
+        if ($queryfields == null) {
+            $queryfields = array();
+        }
 
         return $queryfields;
     }
@@ -334,5 +338,4 @@ class MoreLikeThis extends Component
     {
         return $this->getOption('count');
     }
-
 }

@@ -33,8 +33,7 @@ echo 'NumFound with realtime get: '.$result->getNumFound().'<br/>';
 
 // Display the document
 echo '<hr/><table>';
-foreach($result->getDocument() AS $field => $value)
-{
+foreach ($result->getDocument() as $field => $value) {
     echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
 }
 echo '</table>';

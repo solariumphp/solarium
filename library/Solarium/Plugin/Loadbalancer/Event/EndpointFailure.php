@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer\Event;
+
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\HttpException;
@@ -46,7 +47,6 @@ use Solarium\Exception\HttpException;
  */
 class EndpointFailure extends Event
 {
-
     /**
      * @var Endpoint
      */
@@ -84,5 +84,4 @@ class EndpointFailure extends Event
     {
         return $this->exception;
     }
-
 }

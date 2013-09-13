@@ -19,7 +19,7 @@ $loadbalancer->addEndpoint($endpoint3, 1);
 $query = $client->createSelect();
 
 // execute the query multiple times, displaying the server for each execution
-for($i=1; $i<=8; $i++) {
+for ($i = 1; $i <= 8; $i++) {
     $resultset = $client->select($query);
     echo 'Query execution #' . $i . '<br/>';
     echo 'NumFound: ' . $resultset->getNumFound(). '<br/>';

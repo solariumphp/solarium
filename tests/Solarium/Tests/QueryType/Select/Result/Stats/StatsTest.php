@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Stats;
+
 use Solarium\QueryType\Select\Result\Stats\Stats;
 
 class StatsTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Stats
      */
@@ -67,7 +67,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->result AS $key => $item) {
+        foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -78,5 +78,4 @@ class StatsTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->data), count($this->result));
     }
-
 }

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Plugin;
+
 use Solarium\Core\ConfigurableInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query;
@@ -46,7 +47,6 @@ use Solarium\Core\Query\Query;
  */
 interface PluginInterface extends ConfigurableInterface
 {
-
     /**
      * Initialize
      *
@@ -56,5 +56,4 @@ interface PluginInterface extends ConfigurableInterface
      * @param array  $options
      */
     public function initPlugin($client, $options);
-
 }

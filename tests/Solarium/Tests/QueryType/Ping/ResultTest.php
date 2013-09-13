@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Ping;
+
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Ping\Query;
 use Solarium\Core\Client\Response;
@@ -37,12 +38,11 @@ use Solarium\QueryType\Ping\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testGetStatus()
     {
         $client = new Client;
         $query = new Query;
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
 
         $ping = new Result($client, $query, $response);
         $this->assertEquals(
@@ -50,5 +50,4 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             $ping->getStatus()
         );
     }
-
 }

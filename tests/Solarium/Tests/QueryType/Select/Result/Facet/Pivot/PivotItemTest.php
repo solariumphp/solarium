@@ -30,12 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet\Pivot;
+
 use Solarium\QueryType\Select\Result\Facet\Pivot\PivotItem;
 
 class PivotItemTest extends \PHPUnit_Framework_TestCase
 {
-
-    protected $values, $pivotItem;
+    protected $values;
+    protected $pivotItem;
 
     public function setUp()
     {

@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\RealtimeGet;
+
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\RealtimeGet\Query;
 use Solarium\QueryType\RealtimeGet\RequestBuilder;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildSingleId()
     {
         $query = new Query;
@@ -56,21 +56,20 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testBuildMultiId()
-        {
-            $query = new Query;
-            $query->addId(123)->addId(456);
-            $builder = new RequestBuilder();
-            $request = $builder->build($query);
+    {
+        $query = new Query;
+        $query->addId(123)->addId(456);
+        $builder = new RequestBuilder();
+        $request = $builder->build($query);
 
-            $this->assertEquals(
-                $request::METHOD_GET,
-                $request->getMethod()
-            );
+        $this->assertEquals(
+            $request::METHOD_GET,
+            $request->getMethod()
+        );
 
-            $this->assertEquals(
-                'get?omitHeader=true&wt=json&json.nl=flat&ids=123,456',
-                urldecode($request->getUri())
-            );
-        }
-
+        $this->assertEquals(
+            'get?omitHeader=true&wt=json&json.nl=flat&ids=123,456',
+            urldecode($request->getUri())
+        );
+    }
 }

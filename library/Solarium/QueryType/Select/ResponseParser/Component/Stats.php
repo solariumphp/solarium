@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Stats\Stats as StatsComponent;
 use Solarium\QueryType\Select\Result\Stats\Stats as ResultStats;
@@ -48,7 +49,6 @@ use Solarium\QueryType\Select\Result\Stats\FacetValue as ResultStatsFacetValue;
  */
 class Stats implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *
@@ -67,9 +67,7 @@ class Stats implements ComponentParserInterface
                 if (isset($stats['facets'])) {
                     foreach ($stats['facets'] as $facetField => $values) {
                         foreach ($values as $value => $valueStats) {
-                            $stats['facets'][$facetField][$value] = new ResultStatsFacetValue(
-                                $value, $valueStats
-                            );
+                            $stats['facets'][$facetField][$value] = new ResultStatsFacetValue($value, $valueStats);
                         }
                     }
                 }

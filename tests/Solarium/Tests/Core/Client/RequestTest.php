@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\Core\Client;
+
 use Solarium\Core\Client\Request;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Request
      */
@@ -48,14 +48,14 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'method'   => Request::METHOD_POST,
-            'handler'  => 'myHandler',
-            'param'    => array(
+            'method' => Request::METHOD_POST,
+            'handler' => 'myHandler',
+            'param' => array(
                 'param1' => 1,
                 'param2' => 'test',
             ),
-            'rawdata'  => 'raw post data here',
-            'header'   => array(
+            'rawdata' => 'raw post data here',
+            'header' => array(
                 'myHeader1' => 'X-myHeader1: value1',
                 'myHeader2' => 'X-myHeader2: value2',
             ),
@@ -98,7 +98,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             array(
                 'username' => $options['authentication']['username'],
-                'password' => $options['authentication']['password']
+                'password' => $options['authentication']['password'],
             ),
             $this->request->getAuthentication()
         );
@@ -239,14 +239,14 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->request->setParams($params);
         $this->request->addParam('param2', ''); // this should add an empty value to param2
-        $this->request->addParam('param3', '' , true); // this should overwrite param2 with an empty value
+        $this->request->addParam('param3', '', true); // this should overwrite param2 with an empty value
         $this->request->addParam('param4', ''); // this should add an empty param (for instance "q=" in dismax)
         $this->request->addParam('param5', null); // this param should be ignored
 
         $this->assertEquals(
             array(
                 'param1' => 1,
-                'param2' => array(2,''),
+                'param2' => array(2, ''),
                 'param3' => '',
                 'param4' => '',
             ),
@@ -285,7 +285,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array(
-                'param1' => array(1,2),
+                'param1' => array(1, 2),
                 'param2' => 3,
             ),
             $this->request->getParams()
@@ -445,7 +445,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $params = array(
             'param1' => 1,
-            'param2' => array(2,3),
+            'param2' => array(2, 3),
         );
 
         $this->request->setHandler('myHandler');
@@ -460,14 +460,14 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testToString()
     {
         $options = array(
-            'method'   => Request::METHOD_POST,
-            'handler'  => '/myHandler',
-            'param'    => array(
+            'method' => Request::METHOD_POST,
+            'handler' => '/myHandler',
+            'param' => array(
                 'param1' => 1,
                 'param2' => 'test content',
             ),
-            'rawdata'  => 'post data',
-            'header'   => array(
+            'rawdata' => 'post data',
+            'header' => array(
                 'myHeader1' => 'X-myHeader1: value1',
                 'myHeader2' => 'X-myHeader2: value2',
             ),
@@ -479,8 +479,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         );
         $this->request->setOptions($options);
 
-        $this->assertEquals(
-'Solarium\Core\Client\Request::__toString
+        $request = <<<EOF
+Solarium\Core\Client\Request::__toString
 method: POST
 header: Array
 (
@@ -495,10 +495,10 @@ authentication: Array
 resource: /myHandler?param1=1&param2=test+content
 resource urldecoded: /myHandler?param1=1&param2=test content
 raw data: post data
-file upload: ' . __FILE__ . '
-',
-            (string) $this->request
-        );
+EOF;
+        $request .= PHP_EOL.'file upload: '.__FILE__.PHP_EOL;
+
+        $this->assertEquals($request, (string) $this->request);
     }
 
     public function testGetAndSetAuthentication()
@@ -531,5 +531,4 @@ file upload: ' . __FILE__ . '
         $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->request->setFileUpload('invalid-filename.dummy');
     }
-
 }

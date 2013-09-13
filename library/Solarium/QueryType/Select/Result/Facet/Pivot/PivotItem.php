@@ -44,7 +44,6 @@ namespace Solarium\QueryType\Select\Result\Facet\Pivot;
  */
 class PivotItem extends Pivot
 {
-
     /**
      * Field name
      *

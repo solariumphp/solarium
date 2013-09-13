@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result;
  */
 abstract class AbstractDocument implements \IteratorAggregate, \Countable, \ArrayAccess
 {
-
     /**
      * All fields in this document
      *
@@ -143,5 +142,4 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     {
         return $this->__get($offset);
     }
-
 }

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\FacetSet as FacetsetComponent;
@@ -52,7 +53,6 @@ use Solarium\Exception\UnexpectedValueException;
  */
 class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for FacetSet
      *

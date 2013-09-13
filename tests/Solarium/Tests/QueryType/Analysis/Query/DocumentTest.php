@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\Query;
+
 use Solarium\QueryType\Analysis\Query\Document;
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 use Solarium\Core\Client\Client;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Document
      */
@@ -54,12 +54,18 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Analysis\ResponseParser\Document', $this->query->getResponseParser());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Analysis\ResponseParser\Document',
+            $this->query->getResponseParser()
+        );
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Analysis\RequestBuilder\Document', $this->query->getRequestBuilder());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Analysis\RequestBuilder\Document',
+            $this->query->getRequestBuilder()
+        );
     }
 
     public function testAddAndGetDocument()
@@ -82,5 +88,4 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             $this->query->getDocuments()
         );
     }
-
 }

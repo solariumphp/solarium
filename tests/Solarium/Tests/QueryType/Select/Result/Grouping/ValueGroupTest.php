@@ -30,17 +30,20 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
+
 use Solarium\QueryType\Select\Result\Grouping\ValueGroup;
 
 class ValueGroupTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ValueGroup
      */
     protected $group;
 
-    protected $value, $numFound, $start, $items;
+    protected $value;
+    protected $numFound;
+    protected $start;
+    protected $items;
 
     public function setUp()
     {
@@ -91,7 +94,7 @@ class ValueGroupTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->group AS $key => $item) {
+        foreach ($this->group as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -102,5 +105,4 @@ class ValueGroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->items), count($this->group));
     }
-
 }

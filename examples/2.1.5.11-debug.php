@@ -32,7 +32,7 @@ foreach ($debugResult->getExplain() as $key => $explanation) {
     echo 'Match: ' . (($explanation->getMatch() == true) ? 'true' : 'false')  . '<br/>';
     echo 'Description: ' . $explanation->getDescription() . '<br/>';
     echo '<h4>Details</h4>';
-    foreach ($explanation AS $detail) {
+    foreach ($explanation as $detail) {
         echo 'Value: ' . $detail->getValue() . '<br/>';
         echo 'Match: ' . (($detail->getMatch() == true) ? 'true' : 'false')  . '<br/>';
         echo 'Description: ' . $detail->getDescription() . '<br/>';
@@ -47,7 +47,7 @@ foreach ($debugResult->getExplainOther() as $key => $explanation) {
     echo 'Match: ' . (($explanation->getMatch() == true) ? 'true' : 'false')  . '<br/>';
     echo 'Description: ' . $explanation->getDescription() . '<br/>';
     echo '<h4>Details</h4>';
-    foreach ($explanation AS $detail) {
+    foreach ($explanation as $detail) {
         echo 'Value: ' . $detail->getValue() . '<br/>';
         echo 'Match: ' . (($detail->getMatch() == true) ? 'true' : 'false')  . '<br/>';
         echo 'Description: ' . $detail->getDescription() . '<br/>';

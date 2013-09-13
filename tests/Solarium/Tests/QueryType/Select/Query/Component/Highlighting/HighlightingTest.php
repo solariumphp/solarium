@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
+
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting;
 use Solarium\QueryType\Select\Query\Component\Highlighting\Field;
 use Solarium\QueryType\Select\Query\Query;
 
 class HighlightingTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Highlighting
      */
@@ -90,7 +90,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
 
         $this->hlt->setOptions($options);
 
-        $this->assertEquals(array('fieldA','fieldB'), array_keys($this->hlt->getFields()));
+        $this->assertEquals(array('fieldA', 'fieldB'), array_keys($this->hlt->getFields()));
         $this->assertEquals($options['field']['fieldA']['snippets'], $this->hlt->getField('fieldA')->getSnippets());
         $this->assertEquals($options['field']['fieldA']['fragsize'], $this->hlt->getField('fieldA')->getFragSize());
         $this->assertEquals(null, $this->hlt->getField('FieldB')->getSnippets());
@@ -131,12 +131,18 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\Component\Highlighting', $this->hlt->getResponseParser());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\ResponseParser\Component\Highlighting',
+            $this->hlt->getResponseParser()
+        );
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\Highlighting', $this->hlt->getRequestBuilder());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\RequestBuilder\Component\Highlighting',
+            $this->hlt->getRequestBuilder()
+        );
     }
 
     public function testGetFieldAutocreate()
@@ -177,7 +183,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
     {
         $config = array(
             'name' => 'fieldA',
-            'snippets' => 6
+            'snippets' => 6,
         );
         $this->hlt->addField($config);
 
@@ -196,7 +202,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $fields = 'test1,test2';
         $this->hlt->addFields($fields);
 
-        $this->assertEquals(array('test1','test2'), array_keys($this->hlt->getFields()));
+        $this->assertEquals(array('test1', 'test2'), array_keys($this->hlt->getFields()));
     }
 
     public function testAddsFieldsWithArray()
@@ -219,7 +225,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->hlt->addFields($fields);
-        $this->assertEquals(array('test1','test2'), array_keys($this->hlt->getFields()));
+        $this->assertEquals(array('test1', 'test2'), array_keys($this->hlt->getFields()));
 
         $this->hlt->removeField('test1');
         $this->assertEquals(array('test2'), array_keys($this->hlt->getFields()));
@@ -233,10 +239,10 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->hlt->addFields($fields);
-        $this->assertEquals(array('test1','test2'), array_keys($this->hlt->getFields()));
+        $this->assertEquals(array('test1', 'test2'), array_keys($this->hlt->getFields()));
 
         $this->hlt->removeField('test1=3'); // should fail silently and do nothing
-        $this->assertEquals(array('test1','test2'), array_keys($this->hlt->getFields()));
+        $this->assertEquals(array('test1', 'test2'), array_keys($this->hlt->getFields()));
     }
 
     public function testClearFields()
@@ -247,7 +253,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->hlt->addFields($fields);
-        $this->assertEquals(array('test1','test2'), array_keys($this->hlt->getFields()));
+        $this->assertEquals(array('test1', 'test2'), array_keys($this->hlt->getFields()));
 
         $this->hlt->clearFields();
         $this->assertEquals(array(), array_keys($this->hlt->getFields()));
@@ -261,7 +267,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->hlt->addFields($fields);
-        $this->assertEquals(array('test1','test2'), array_keys($this->hlt->getFields()));
+        $this->assertEquals(array('test1', 'test2'), array_keys($this->hlt->getFields()));
 
         $newFields = array(
             'test3' => array('snippets' => 4),
@@ -269,7 +275,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->hlt->setFields($newFields);
-        $this->assertEquals(array('test3','test4'), array_keys($this->hlt->getFields()));
+        $this->assertEquals(array('test3', 'test4'), array_keys($this->hlt->getFields()));
     }
 
     public function testSetAndGetSnippets()
@@ -589,5 +595,4 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
             $this->hlt->getBoundaryScannerLanguage()
         );
     }
-
 }

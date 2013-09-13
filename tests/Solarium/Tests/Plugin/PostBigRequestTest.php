@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Plugin;
+
 use Solarium\Plugin\PostBigRequest;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Select\Query\Query;
@@ -73,7 +74,7 @@ class PostBigRequestTest extends \PHPUnit_Framework_TestCase
         // create a very long query
         $fq = '';
         for ($i=1; $i<=1000; $i++) {
-           $fq .= ' OR price:'.$i;
+            $fq .= ' OR price:'.$i;
         }
         $fq = substr($fq, 4);
         $this->query->createFilterQuery('fq')->setQuery($fq);

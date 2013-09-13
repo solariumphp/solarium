@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Component\MoreLikeThis;
 use Solarium\QueryType\Select\Query\Query;
 
 class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var MoreLikeThis
      */
@@ -81,12 +81,18 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis', $this->mlt->getResponseParser());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis',
+            $this->mlt->getResponseParser()
+        );
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Select\RequestBuilder\Component\MoreLikeThis', $this->mlt->getRequestBuilder());
+        $this->assertInstanceOf(
+            'Solarium\QueryType\Select\RequestBuilder\Component\MoreLikeThis',
+            $this->mlt->getRequestBuilder()
+        );
     }
 
     public function testSetAndGetFields()
@@ -95,14 +101,14 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
         $this->mlt->setFields($value);
 
         $this->assertEquals(
-            array('name','description'),
+            array('name', 'description'),
             $this->mlt->getFields()
         );
     }
 
     public function testSetAndGetFieldsWithArray()
     {
-        $value = array('name','description');
+        $value = array('name', 'description');
         $this->mlt->setFields($value);
 
         $this->assertEquals(
@@ -194,14 +200,14 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
         $this->mlt->setQueryFields($value);
 
         $this->assertEquals(
-            array('content','name'),
+            array('content', 'name'),
             $this->mlt->getQueryFields()
         );
     }
 
     public function testSetAndGetQueryFieldsWithArray()
     {
-        $value = array('content','name');
+        $value = array('content', 'name');
         $this->mlt->setQueryFields($value);
 
         $this->assertEquals(
@@ -220,5 +226,4 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
             $this->mlt->getCount()
         );
     }
-
 }

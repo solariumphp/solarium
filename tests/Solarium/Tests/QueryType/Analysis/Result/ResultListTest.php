@@ -30,17 +30,18 @@
  */
 
 namespace Solarium\Tests\QueryType\Analysis\Result;
+
 use Solarium\QueryType\Analysis\Result\ResultList;
 
 class ResultListTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ResultList
      */
     protected $result;
 
-    protected $items, $name;
+    protected $items;
+    protected $name;
 
     public function setUp()
     {
@@ -62,7 +63,7 @@ class ResultListTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $lists = array();
-        foreach ($this->result AS $key => $list) {
+        foreach ($this->result as $key => $list) {
             $lists[$key] = $list;
         }
 
@@ -76,5 +77,4 @@ class ResultListTest extends \PHPUnit_Framework_TestCase
             $this->result->getName()
         );
     }
-
 }

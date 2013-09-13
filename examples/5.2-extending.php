@@ -17,7 +17,7 @@ class MyQuery extends Select
 // BTW, the same could also be done using a plugin, see example 5.3.2
 class MyClient extends Client
 {
-     /**
+    /**
      * Querytype mappings
      */
     protected $_queryTypes = array(
@@ -51,10 +51,11 @@ foreach ($result as $document) {
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
-    foreach($document AS $field => $value)
-    {
+    foreach ($document as $field => $value) {
         // this converts multivalue fields to a comma-separated string
-        if(is_array($value)) $value = implode(', ', $value);
+        if (is_array($value)) {
+            $value = implode(', ', $value);
+        }
 
         echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
     }

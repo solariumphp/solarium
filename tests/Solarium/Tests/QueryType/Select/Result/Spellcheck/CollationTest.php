@@ -30,17 +30,19 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Spellcheck;
+
 use Solarium\QueryType\Select\Result\Spellcheck\Collation;
 
 class CollationTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Collation
      */
     protected $result;
 
-    protected $corrections, $hits, $query;
+    protected $corrections;
+    protected $hits;
+    protected $query;
 
     public function setUp()
     {
@@ -72,7 +74,7 @@ class CollationTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $items = array();
-        foreach ($this->result AS $key => $item) {
+        foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -83,5 +85,4 @@ class CollationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(count($this->corrections), count($this->result));
     }
-
 }

@@ -30,14 +30,14 @@
  */
 
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
+
 use Solarium\Plugin\BufferedAdd\Event\PreCommit;
 
 class PreCommitTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructorAndGetters()
     {
-        $buffer = array(1,2,3);
+        $buffer = array(1, 2, 3);
         $overwrite = true;
         $softCommit = false;
         $waitSearcher = true;
@@ -61,7 +61,7 @@ class PreCommitTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAndGetBuffer($event)
     {
-        $buffer = array(4,5,6);
+        $buffer = array(4, 5, 6);
         $event->setBuffer($buffer);
         $this->assertEquals($buffer, $event->getBuffer());
     }
@@ -113,5 +113,4 @@ class PreCommitTest extends \PHPUnit_Framework_TestCase
         $event->setWaitSearcher($waitSearcher);
         $this->assertEquals($waitSearcher, $event->getWaitSearcher());
     }
-
 }

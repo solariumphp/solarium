@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\MoreLikeThis;
+
 use Solarium\QueryType\MoreLikeThis\Query;
 use Solarium\QueryType\MoreLikeThis\Result;
 use Solarium\Core\Client\Client;
@@ -37,13 +38,12 @@ use Solarium\Core\Client\Response;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testGetInterestingTerms()
     {
         $query = new Query();
         $query->setInterestingTerms('list');
 
-        $mock = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array('getQuery','parseResponse'), array(), '', false);
+        $mock = $this->getQueryResultMock();
         $mock->expects($this->once())
              ->method('getQuery')
              ->will($this->returnValue($query));
@@ -72,7 +72,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $query = new Query();
         $query->setMatchInclude(true);
 
-        $mock = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array('getQuery','parseResponse'), array(), '', false);
+        $mock = $this->getQueryResultMock();
         $mock->expects($this->once())
              ->method('getQuery')
              ->will($this->returnValue($query));
@@ -87,7 +87,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $query = new Query();
         $query->setMatchInclude(false);
 
-        $mock = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array('getQuery'), array(), '', false);
+        $mock = $this->getQueryResultMock();
         $mock->expects($this->once())
              ->method('getQuery')
              ->will($this->returnValue($query));
@@ -100,7 +100,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     {
         $client = new Client;
         $query = new Query;
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}',array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
 
         $ping = new Result($client, $query, $response);
         $this->assertEquals(
@@ -109,4 +109,20 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getQueryResultMock()
+    {
+        return $this->getMock(
+            'Solarium\QueryType\MoreLikeThis\Result',
+            array(
+                'getQuery',
+                'parseResponse',
+            ),
+            array(),
+            '',
+            false
+        );
+    }
 }

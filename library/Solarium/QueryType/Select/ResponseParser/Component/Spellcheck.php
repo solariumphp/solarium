@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Spellcheck as SpellcheckComponent;
 use Solarium\QueryType\Select\Result\Spellcheck as SpellcheckResult;
@@ -51,7 +52,6 @@ use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
  */
 class Spellcheck extends ResponseParserAbstract implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *
@@ -62,8 +62,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      */
     public function parse($query, $spellcheck, $data)
     {
-        if (
-            isset($data['spellcheck']['suggestions']) &&
+        if (isset($data['spellcheck']['suggestions']) &&
             is_array($data['spellcheck']['suggestions']) &&
             count($data['spellcheck']['suggestions']) > 0
         ) {
@@ -120,8 +119,8 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
         } else {
 
             if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
-                if(is_array(current($values))){
-                    foreach($values as $key => $value) {
+                if (is_array(current($values))) {
+                    foreach ($values as $key => $value) {
                         $values[$key] = $this->convertToKeyValueArray($value);
                     }
                 } else {
@@ -129,7 +128,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                 }
             }
 
-            foreach($values as $collationValue) {
+            foreach ($values as $collationValue) {
                 $query = null;
                 $hits = null;
                 $correctionResult = null;
@@ -183,7 +182,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
 
         $words = array();
         if (isset($value['suggestion']) && is_array($value['suggestion'])) {
-            foreach($value['suggestion'] as $suggestion) {
+            foreach ($value['suggestion'] as $suggestion) {
                 if (is_string($suggestion)) {
                     $suggestion = array(
                         'word' => $suggestion,
@@ -194,8 +193,6 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
             }
         }
 
-        return new Suggestion(
-            $numFound, $startOffset, $endOffset, $originalFrequency, $words
-        );
+        return new Suggestion($numFound, $startOffset, $endOffset, $originalFrequency, $words);
     }
 }

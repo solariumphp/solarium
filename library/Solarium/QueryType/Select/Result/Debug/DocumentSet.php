@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Debug;
  */
 class DocumentSet implements \IteratorAggregate, \Countable
 {
-
     /**
      * Docs array
      *

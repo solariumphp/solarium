@@ -33,7 +33,6 @@ namespace Solarium\Tests\QueryType\Analysis\ResponseParser;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParse()
     {
         $data = array(
@@ -43,7 +42,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             ),
             'responseHeader' => array(
                 'status' => 1,
-                'QTime' => 5
+                'QTime' => 5,
             )
         );
 
@@ -52,7 +51,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
              ->method('getData')
              ->will($this->returnValue($data));
 
-        $parserStub = $this->getMock('Solarium\QueryType\Analysis\ResponseParser\Document',array('parseTypes'));
+        $parserStub = $this->getMock('Solarium\QueryType\Analysis\ResponseParser\Document', array('parseTypes'));
         $parserStub->expects($this->exactly(2))
              ->method('parseTypes')
              ->will($this->returnValue('dummy'));
@@ -62,5 +61,4 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($data['analysis']), count($result['items']));
         $this->assertEquals('key2', $result['items'][1]->getName());
     }
-
 }

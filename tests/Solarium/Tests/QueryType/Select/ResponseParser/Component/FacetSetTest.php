@@ -30,14 +30,16 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\ResponseParser\Component\FacetSet as Parser;
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 use Solarium\QueryType\Select\Query\Query;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase
 {
-
-    protected $parser, $facetSet, $query;
+    protected $parser;
+    protected $facetSet;
+    protected $query;
 
     public function setUp()
     {
@@ -46,7 +48,16 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->facetSet = new FacetSet();
         $this->facetSet->createFacet('field', array('key' => 'keyA', 'field' => 'fieldA'));
         $this->facetSet->createFacet('query', array('key' => 'keyB'));
-        $this->facetSet->createFacet('multiquery', array('key' => 'keyC', 'query' => array('keyC_A' => array('query' => 'id:1'), 'keyC_B' => array('query' => 'id:2'))));
+        $this->facetSet->createFacet(
+            'multiquery',
+            array(
+                'key' => 'keyC',
+                'query' => array(
+                    'keyC_A' => array('query' => 'id:1'),
+                    'keyC_B' => array('query' => 'id:2'),
+                ),
+            )
+        );
         $this->facetSet->createFacet('range', array('key' => 'keyD'));
         $this->facetSet->createFacet('pivot', array('key' => 'keyE', 'fields' => 'cat,price'));
 
@@ -104,7 +115,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $result = $this->parser->parse($this->query, $this->facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(array('keyA','keyB','keyC','keyD', 'keyE'), array_keys($facets));
+        $this->assertEquals(array('keyA', 'keyB', 'keyC', 'keyD', 'keyE'), array_keys($facets));
 
         $this->assertEquals(
             array('value1' => 12, 'value2' => 3),
@@ -203,7 +214,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $result = $this->parser->parse($this->query, $facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(array('keyA','keyB','keyC_A','keyC_B','keyD', 'cat,price'), array_keys($facets));
+        $this->assertEquals(array('keyA', 'keyB', 'keyC_A', 'keyC_B', 'keyD', 'cat,price'), array_keys($facets));
 
         $this->assertEquals(
             array('value1' => 12, 'value2' => 3),
@@ -275,5 +286,4 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->parser->parse($this->query, $this->facetSet, array());
     }
-
 }

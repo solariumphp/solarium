@@ -12,10 +12,12 @@ if (file_exists('config.php')) {
 }
 
 
-function htmlHeader(){
+function htmlHeader()
+{
     echo '<html><head><title>Solarium examples</title></head><body>';
 }
 
-function htmlFooter(){
+function htmlFooter()
+{
     echo '</body></html>';
 }

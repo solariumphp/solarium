@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Update\Query;
+
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\Query\Command\Rollback;
@@ -38,7 +39,6 @@ use Solarium\QueryType\Update\Query\Document\Document;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $query;
 
     public function setUp()
@@ -64,13 +64,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'handler'  => 'myHandler',
+            'handler' => 'myHandler',
             'resultclass' => 'myResult',
             'command' => array(
                 'key1' => array(
                     'type' => 'delete',
                     'query' => 'population:[* TO 1000]',
-                    'id' => array(1,2),
+                    'id' => array(1, 2),
                 ),
                 'key2' => array(
                     'type' => 'commit',
@@ -104,7 +104,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $delete = $commands['key1'];
         $this->assertEquals(
-            array(1,2),
+            array(1, 2),
             $delete->getIds()
         );
         $this->assertEquals(
@@ -279,7 +279,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDeleteQueries()
     {
-        $this->query->addDeleteQueries(array('id:1','id:2'));
+        $this->query->addDeleteQueries(array('id:1', 'id:2'));
         $commands = $this->query->getCommands();
 
         $this->assertEquals(
@@ -288,7 +288,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array('id:1','id:2'),
+            array('id:1', 'id:2'),
             $commands[0]->getQueries()
         );
     }
@@ -311,7 +311,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDeleteByIds()
     {
-        $this->query->addDeleteByIds(array(1,2));
+        $this->query->addDeleteByIds(array(1, 2));
         $commands = $this->query->getCommands();
 
         $this->assertEquals(
@@ -320,7 +320,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(1,2),
+            array(1, 2),
             $commands[0]->getIds()
         );
     }
@@ -348,7 +348,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $doc1 = new Document(array('id' => 1));
         $doc2 = new Document(array('id' => 1));
 
-        $this->query->addDocuments(array($doc1,$doc2), true, 100);
+        $this->query->addDocuments(array($doc1, $doc2), true, 100);
         $commands = $this->query->getCommands();
 
         $this->assertEquals(
@@ -497,7 +497,6 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             $doc->getFieldModifier('name')
         );
     }
-
 }
 
 class MyCustomDoc extends Document

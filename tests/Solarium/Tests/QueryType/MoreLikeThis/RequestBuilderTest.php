@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\MoreLikeThis;
+
 use Solarium\QueryType\MoreLikeThis\Query;
 use Solarium\QueryType\MoreLikeThis\RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -110,9 +110,9 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(Request::METHOD_POST,$request->getMethod());
-        $this->assertEquals(null,$request->getParam('q'));
-        $this->assertEquals($content,$request->getRawData());
+        $this->assertEquals(Request::METHOD_POST, $request->getMethod());
+        $this->assertEquals(null, $request->getParam('q'));
+        $this->assertEquals($content, $request->getRawData());
         $this->assertTrue(in_array('Content-Type: text/plain; charset=utf-8', $request->getHeaders()));
     }
 }
