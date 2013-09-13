@@ -16,7 +16,7 @@
 you could also write the switches here)
 -->
 <target name="phpunit">
- <exec executable="phpunit" />
+ <exec executable="${basedir}/vendor/bin/phpunit" />
 </target>
 
 <!-- Run pdepend, phpmd, phpcpd, and phpcs in parallel -->
@@ -25,7 +25,7 @@ you could also write the switches here)
 <antcall target="pdepend"/>
 <antcall target="phpmd"/>
 <antcall target="phpcpd"/>
-<antcall target="phpcs"/>
+<antcall target="${basedir}/vendor/bin/phpcs"/>
 <antcall target="docblox"/>
 </parallel>
 </target>
@@ -57,7 +57,7 @@ you could also write the switches here)
 <!-- Generate checkstyle.xml -->
 <target name="phpcs">
 <exec executable="phpcs" output="/dev/null">
-<arg line="--report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml --standard=Symfony2 library" />
+<arg line="--report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml --standard=PSR2" />
 </exec>
 </target>
 
