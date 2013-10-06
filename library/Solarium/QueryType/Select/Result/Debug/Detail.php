@@ -65,6 +65,11 @@ class Detail
     protected $description;
 
     /**
+     * @var array
+     */
+    protected $subDetails;
+
+    /**
      * Constructor
      *
      * @param boolean $match
@@ -107,4 +112,21 @@ class Detail
     {
         return $this->description;
     }
+
+    /**
+     * @param array $subDetails
+     */
+    public function setSubDetails($subDetails)
+    {
+        $this->subDetails = $subDetails;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubDetails()
+    {
+        return $this->subDetails;
+    }
+
 }
