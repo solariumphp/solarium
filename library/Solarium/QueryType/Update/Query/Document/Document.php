@@ -38,6 +38,7 @@
  */
 namespace Solarium\QueryType\Update\Query\Document;
 
+use Solarium\Core\Query\Helper;
 use Solarium\QueryType\Select\Result\AbstractDocument;
 use Solarium\Exception\RuntimeException;
 
@@ -140,6 +141,15 @@ class Document extends AbstractDocument implements DocumentInterface
     protected $version;
 
     /**
+     * Helper instance
+     *
+     * @var Helper
+     */
+    protected $helper;
+
+    protected $filterControlCharacters = true;
+
+    /**
      * Constructor
      *
      * @param array $fields
@@ -175,6 +185,10 @@ class Document extends AbstractDocument implements DocumentInterface
                 $this->fields[$key] = array($this->fields[$key]);
             }
 
+            if ($this->filterControlCharacters && is_string($value)) {
+                $value = $this->getHelper()->filterControlCharacters($value);
+            }
+
             $this->fields[$key][] = $value;
             $this->setFieldBoost($key, $boost);
             if ($modifier !== null) {
@@ -203,6 +217,10 @@ class Document extends AbstractDocument implements DocumentInterface
         if ($value === null && $modifier == null) {
             $this->removeField($key);
         } else {
+            if ($this->filterControlCharacters && is_string($value)) {
+                $value = $this->getHelper()->filterControlCharacters($value);
+            }
+
             $this->fields[$key] = $value;
             $this->setFieldBoost($key, $boost);
             if ($modifier !== null) {
@@ -426,5 +444,41 @@ class Document extends AbstractDocument implements DocumentInterface
     public function getVersion()
     {
         return $this->version;
+    }
+
+    /**
+     * Get a helper instance
+     *
+     * Uses lazy loading: the helper is instantiated on first use
+     *
+     * @return Helper
+     */
+    public function getHelper()
+    {
+        if (null === $this->helper) {
+            $this->helper = new Helper($this);
+        }
+
+        return $this->helper;
+    }
+
+    /**
+     * Whether values should be filtered for control characters automatically
+     *
+     * @param boolean $filterControlCharacters
+     */
+    public function setFilterControlCharacters($filterControlCharacters)
+    {
+        $this->filterControlCharacters = $filterControlCharacters;
+    }
+
+    /**
+     * Returns whether values should be filtered automatically or control characters
+     *
+     * @return boolean
+     */
+    public function getFilterControlCharacters()
+    {
+        return $this->filterControlCharacters;
     }
 }
