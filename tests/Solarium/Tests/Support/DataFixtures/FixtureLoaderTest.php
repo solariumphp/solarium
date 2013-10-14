@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Support\DataFixtures;
 
 use Solarium\Support\DataFixtures\FixtureLoader;
+use Solarium\Tests\Support\DataFixtures\Fixtures\MockFixture1;
 
 class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,8 +15,9 @@ class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $loader = $this->mockLoader();
         $purger = $this->mockPurger(false);
+        $executor = $this->mockExecutor();
 
-        $fixtureLoader = new FixtureLoader($loader, $purger);
+        $fixtureLoader = new FixtureLoader($loader, $purger, $executor);
 
         $fixtureLoader->loadFixturesFromDir($this->fixturePath);
     }
@@ -24,8 +26,9 @@ class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $loader = $this->mockLoader();
         $purger = $this->mockPurger(true);
+        $executor = $this->mockExecutor();
 
-        $fixtureLoader = new FixtureLoader($loader, $purger);
+        $fixtureLoader = new FixtureLoader($loader, $purger, $executor);
 
         $fixtureLoader->loadFixturesFromDir($this->fixturePath, false);
     }
@@ -44,6 +47,16 @@ class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
             ->method('loadFromDirectory')
             ->with($this->fixturePath);
 
+        $loader->expects($this->once())
+            ->method('getFixtures')
+            ->will(
+                $this->returnValue(
+                    array(
+                        $this->getMockFixture()
+                    )
+                )
+            );
+
         return $loader;
     }
 
@@ -55,5 +68,17 @@ class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
             ->method('purge');
 
         return $purger;
+    }
+
+    private function mockExecutor()
+    {
+        $executor = $this->getMock('Solarium\Support\DataFixtures\Executor', array(), array($this->client));
+
+        return $executor;
+    }
+
+    private function getMockFixture()
+    {
+        return new MockFixture1();
     }
 }
