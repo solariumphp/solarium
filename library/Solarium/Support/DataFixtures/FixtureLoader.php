@@ -3,6 +3,8 @@
 namespace Solarium\Support\DataFixtures;
 
 /**
+ * This class is just a convenience wrapper around the fixture loading process.
+ *
  * @author Baldur Rensch <brensch@gmail.com>
  */
 class FixtureLoader 
@@ -18,13 +20,20 @@ class FixtureLoader
     private $purger;
 
     /**
-     * @param Loader $loader
-     * @param Purger $purger
+     * @var Executor
      */
-    public function __construct(Loader $loader, Purger $purger)
+    private $executor;
+
+    /**
+     * @param Loader   $loader
+     * @param Purger   $purger
+     * @param Executor $executor
+     */
+    public function __construct(Loader $loader, Purger $purger, Executor $executor)
     {
         $this->loader = $loader;
         $this->purger = $purger;
+        $this->executor = $executor;
     }
 
     /**
@@ -38,5 +47,7 @@ class FixtureLoader
         }
 
         $this->loader->loadFromDirectory($dir);
+
+        $this->executor->execute($this->loader->getFixtures());
     }
 }
