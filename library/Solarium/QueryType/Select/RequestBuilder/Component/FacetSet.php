@@ -185,6 +185,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $request->addParam("f.$field.facet.range.end", $facet->getEnd());
         $request->addParam("f.$field.facet.range.gap", $facet->getGap());
         $request->addParam("f.$field.facet.range.hardend", $facet->getHardend());
+        $request->addParam("f.$field.facet.mincount", $facet->getMinCount());
 
         foreach ($facet->getOther() as $otherValue) {
             $request->addParam("f.$field.facet.range.other", $otherValue);
