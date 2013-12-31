@@ -177,13 +177,15 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildWithPivotFacet()
     {
-        $this->component->addFacet(new FacetPivot(
+        $facet = new FacetPivot(
             array(
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
                 'mincount' => 123
             )
-        ));
+        );
+        $facet->addExclude('owner');
+        $this->component->addFacet($facet);
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -193,7 +195,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            '?facet=true&facet.pivot=cat,inStock&facet.pivot.mincount=123',
+            '?facet=true&facet.pivot={!key=f1 ex=owner}cat,inStock&facet.pivot.mincount=123',
             urldecode($request->getUri())
         );
     }
