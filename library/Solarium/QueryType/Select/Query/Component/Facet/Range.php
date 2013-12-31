@@ -304,4 +304,26 @@ class Range extends Facet
         if ($include === null) $include = array();
         return $include;
     }
+
+    /**
+     * Set the facet mincount
+     *
+     * @param  int  $minCount
+     * @return self Provides fluent interface
+     */
+    public function setMinCount($minCount)
+    {
+        return $this->setOption('mincount', $minCount);
+    }
+
+    /**
+     * Get the facet mincount
+     *
+     * @return int
+     */
+    public function getMinCount()
+    {
+        return $this->getOption('mincount');
+    }
+
 }

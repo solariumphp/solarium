@@ -104,7 +104,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                 'end' => 100,
                 'gap' => 10,
                 'other' => 'all',
-                'include' => 'outer'
+                'include' => 'outer',
+                'mincount' => 123
             )
         ));
 
@@ -116,7 +117,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.range.other=all&f.price.facet.range.include=outer',
+            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.mincount=123&f.price.facet.range.other=all&f.price.facet.range.include=outer',
             urldecode($request->getUri())
         );
     }
