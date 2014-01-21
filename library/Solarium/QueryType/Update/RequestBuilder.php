@@ -126,12 +126,13 @@ class RequestBuilder extends BaseRequestBuilder
             foreach ($doc->getFields() as $name => $value) {
                 $boost = $doc->getFieldBoost($name);
                 $modifier = $doc->getFieldModifier($name);
+                $null= $doc->getFieldNull($name);
                 if (is_array($value)) {
                     foreach ($value as $multival) {
-                        $xml .= $this->buildFieldXml($name, $boost, $multival, $modifier, $query);
+                        $xml .= $this->buildFieldXml($name, $boost, $multival, $modifier, $null, $query);
                     }
                 } else {
-                    $xml .= $this->buildFieldXml($name, $boost, $value, $modifier, $query);
+                    $xml .= $this->buildFieldXml($name, $boost, $value, $modifier, $null, $query);
                 }
             }
 
@@ -160,7 +161,7 @@ class RequestBuilder extends BaseRequestBuilder
      * @param  UpdateQuery $query
      * @return string
      */
-    protected function buildFieldXml($name, $boost, $value, $modifier = null, $query = null)
+    protected function buildFieldXml($name, $boost, $value, $modifier = null, $null = null, $query = null)
     {
         if ($value instanceof \DateTime) {
             $value = $query->getHelper()->formatDate($value);
@@ -169,6 +170,9 @@ class RequestBuilder extends BaseRequestBuilder
         $xml = '<field name="' . $name . '"';
         $xml .= $this->attrib('boost', $boost);
         $xml .= $this->attrib('update', $modifier);
+        if( !is_null( $null ) ) {
+            $xml .= $this->attrib('null', $null ? 'true' : 'false');
+        }
         $xml .= '>' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
         $xml .= '</field>';
 

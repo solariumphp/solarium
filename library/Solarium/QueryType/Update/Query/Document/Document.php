@@ -114,6 +114,14 @@ class Document extends AbstractDocument implements DocumentInterface
     protected $modifiers = array();
 
     /**
+     * Allows to mark fields as "null".
+     *
+     * @var array
+     */
+    protected $nullFields = array();
+
+
+    /**
      * This field needs to be explicitly set to observe the rules of atomic updates
      *
      * @var string
@@ -303,6 +311,7 @@ class Document extends AbstractDocument implements DocumentInterface
         $this->fields = array();
         $this->fieldBoosts = array();
         $this->modifiers = array();
+        $this->nullFields = array();
 
         return $this;
     }
@@ -384,6 +393,34 @@ class Document extends AbstractDocument implements DocumentInterface
     public function getFieldModifier($key)
     {
         return isset($this->modifiers[$key]) ? $this->modifiers[$key] : null;
+    }
+
+    /**
+     * Sets the null attribute for the provided field
+     *
+     * @param string $key
+     * @param bool $null
+     * @throws RuntimeException
+     * @return self
+     */
+    public function setFieldNull($key, $null = null)
+    {
+        if (! is_bool($null) ) {
+            throw new RuntimeException('Null atribute must be true or false');
+        }
+        $this->nullFields[$key] = $null;
+        return $this;
+    }
+
+    /**
+     * Returns the null attribute for a field.
+     *
+     * @param string $key
+     * @return null|string
+     */
+    public function getFieldNull($key)
+    {
+        return isset($this->nullFields[$key]) ? $this->nullFields[$key] : null;
     }
 
     /**
