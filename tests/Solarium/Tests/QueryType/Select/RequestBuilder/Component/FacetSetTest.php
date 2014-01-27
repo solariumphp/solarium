@@ -109,7 +109,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                 'include' => 'outer',
                 'mincount' => 123
             )
-        );
+        ));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
