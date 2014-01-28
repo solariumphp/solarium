@@ -86,7 +86,13 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                         $collations = $this->parseCollation($query, $value);
                         break;
                     default:
-                        $suggestions[] = $this->parseSuggestion($key, $value);
+                        if (array_key_exists(0, $value)) {
+                            foreach ($value as $currentValue) {
+                                $suggestions[] = $this->parseSuggestion($key, $currentValue);
+                            }
+                        } else {
+                            $suggestions[] = $this->parseSuggestion($key, $value);
+                        }
                 }
             }
 
