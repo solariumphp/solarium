@@ -134,4 +134,79 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         );
 
     }
+
+    public function testBuildComponentWithoutFields()
+        {
+            $builder = new RequestBuilder;
+            $request = new Request();
+
+            $component = new Component();
+            $component->setSnippets(2);
+            $component->setFragSize(3);
+            $component->setMergeContiguous(true);
+            $component->setRequireFieldMatch(false);
+            $component->setMaxAnalyzedChars(4);
+            $component->setAlternateField('fieldC');
+            $component->setMaxAlternateFieldLength(5);
+            $component->setFormatter('simple');
+            $component->setSimplePrefix('<b>');
+            $component->setSimplePostfix('</b>');
+            $component->setFragmenter('myFragmenter');
+            $component->setFragListBuilder('myFragListBuilder');
+            $component->setFragmentsBuilder('myFragmentsBuilder');
+            $component->setUsePhraseHighlighter(true);
+            $component->setUseFastVectorHighlighter(false);
+            $component->setHighlightMultiTerm(true);
+            $component->setRegexSlop(1.3);
+            $component->setRegexPattern('mypattern');
+            $component->setMaxAnalyzedChars(100);
+            $component->setQuery('text:myvalue');
+            $component->setPhraseLimit(40);
+            $component->setTagPrefix('<i>');
+            $component->setTagPostfix('</i>');
+            $component->setMultiValuedSeparatorChar('|');
+            $component->setBoundaryScannerChars('.,');
+            $component->setBoundaryScannerMaxScan(16);
+            $component->setBoundaryScannerType($component::BOUNDARYSCANNER_TYPE_WORD);
+            $component->setBoundaryScannerCountry('be');
+            $component->setBoundaryScannerLanguage('en');
+
+            $request = $builder->buildComponent($component, $request);
+
+            $this->assertEquals(
+                array(
+                    'hl' => 'true',
+                    'hl.snippets' => 2,
+                    'hl.fragsize' => 3,
+                    'hl.mergeContiguous' => 'true',
+                    'hl.requireFieldMatch' => 'false',
+                    'hl.maxAnalyzedChars' => 100,
+                    'hl.alternateField' => 'fieldC',
+                    'hl.maxAlternateFieldLength' => 5,
+                    'hl.formatter' => 'simple',
+                    'hl.simple.pre' => '<b>',
+                    'hl.simple.post' => '</b>',
+                    'hl.tag.pre' => '<i>',
+                    'hl.tag.post' => '</i>',
+                    'hl.fragmenter' => 'myFragmenter',
+                    'hl.fragListBuilder' => 'myFragListBuilder',
+                    'hl.fragmentsBuilder' => 'myFragmentsBuilder',
+                    'hl.useFastVectorHighlighter' => 'false',
+                    'hl.usePhraseHighlighter' => 'true',
+                    'hl.highlightMultiTerm' => 'true',
+                    'hl.regex.slop' => 1.3,
+                    'hl.regex.pattern' => 'mypattern',
+                    'hl.q' => 'text:myvalue',
+                    'hl.phraseLimit' => 40,
+                    'hl.multiValuedSeparatorChar' => '|',
+                    'hl.bs.maxScan' => 16,
+                    'hl.bs.chars' => '.,',
+                    'hl.bs.type' => 'WORD',
+                    'hl.bs.country' => 'be',
+                    'hl.bs.language' => 'en',
+                ),
+                $request->getParams()
+            );
+
+        }
 }
