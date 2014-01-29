@@ -70,6 +70,7 @@ class Query extends SelectQuery
         'fields'        => '*,score',
         'interestingTerms' => 'none',
         'matchinclude'  => false,
+        'matchoffset'   => 0,
         'stream'        => false,
         'omitheader'    => true,
     );
@@ -172,6 +173,30 @@ class Query extends SelectQuery
     public function getMatchInclude()
     {
         return $this->getOption('matchinclude');
+    }
+
+    /**
+     * Set the mlt.match.offset parameter, which determines the which result from the query should be used for MLT
+     * For paging of MLT use setStart / setRows
+     *
+     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     *
+     * @param  int  $offset
+     * @return self Provides fluent interface
+     */
+    public function setMatchOffset($offset)
+    {
+        return $this->setOption('matchoffset', $offset);
+    }
+
+    /**
+     * Get the mlt.match.offset parameter.
+     *
+     * @return int
+     */
+    public function getMatchOffset()
+    {
+        return $this->getOption('matchoffset');
     }
 
     /**

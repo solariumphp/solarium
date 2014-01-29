@@ -58,6 +58,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->setInterestingTerms('test');
         $this->query->setMatchInclude(true);
         $this->query->setStart(12);
+        $this->query->setMatchOffset(15);
         $this->query->setMltFields('description,name');
         $this->query->setMinimumTermFrequency(1);
         $this->query->setMinimumDocumentFrequency(3);
@@ -74,7 +75,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             array(
                 'mlt.interestingTerms' => 'test',
                 'mlt.match.include' => 'true',
-                'mlt.match.offset' => 12,
+                'mlt.match.offset' => 15,
                 'mlt.fl' => 'description,name',
                 'mlt.mintf' => 1,
                 'mlt.mindf' => 3,

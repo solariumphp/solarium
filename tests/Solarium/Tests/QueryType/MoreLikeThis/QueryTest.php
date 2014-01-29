@@ -439,6 +439,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
                     )
                 ),
             ),
+            'matchoffset' => 15,
             'resultclass' => 'MyResultClass',
             'documentclass' => 'MyDocumentClass',
         );
@@ -451,6 +452,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($config['start'], $query->getStart());
         $this->assertEquals($config['documentclass'], $query->getDocumentClass());
         $this->assertEquals($config['resultclass'], $query->getResultClass());
+        $this->assertEquals($config['matchoffset'], $query->getMatchOffset());
         $this->assertEquals('published:true', $query->getFilterQuery('pub')->getQuery());
         $this->assertEquals('online:true', $query->getFilterQuery('online')->getQuery());
 
@@ -661,6 +663,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $value,
             $this->query->getMatchInclude()
+        );
+    }
+
+    public function testSetAndGetMatchOffset()
+    {
+        $value = 20;
+        $this->query->setMatchOffset($value);
+
+        $this->assertEquals(
+            $value,
+            $this->query->getMatchOffset()
         );
     }
 

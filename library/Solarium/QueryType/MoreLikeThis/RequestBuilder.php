@@ -63,7 +63,7 @@ class RequestBuilder extends SelectRequestBuilder
         // add mlt params to request
         $request->addParam('mlt.interestingTerms', $query->getInterestingTerms());
         $request->addParam('mlt.match.include', $query->getMatchInclude());
-        $request->addParam('mlt.match.offset', $query->getStart());
+        $request->addParam('mlt.match.offset', $query->getMatchOffset());
         $request->addParam('mlt.fl', implode(',', $query->getMltFields()));
         $request->addParam('mlt.mintf', $query->getMinimumTermFrequency());
         $request->addParam('mlt.mindf', $query->getMinimumDocumentFrequency());
