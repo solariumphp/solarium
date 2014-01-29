@@ -90,6 +90,8 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->getResult();
         $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+
+        // Important: if prefetch or query settings are not changed, the query should be executed only once!
         $mockClient->expects($this->exactly(1))->method('execute')->will($this->returnValue($result));
 
         $this->plugin->initPlugin($mockClient, array());
@@ -104,6 +106,58 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
         $results2 = array();
         foreach ($this->plugin as $key => $doc) {
             $results2[$key] = $doc;
+        }
+
+        $this->assertEquals($result->getDocuments(), $results1);
+        $this->assertEquals($result->getDocuments(), $results2);
+    }
+
+    public function testIteratorResetOnSetPrefetch()
+    {
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient->expects($this->exactly(2))->method('execute')->will($this->returnValue($result));
+
+        $this->plugin->initPlugin($mockClient, array());
+        $this->plugin->setQuery($this->query);
+
+        $results1 = array();
+        foreach ($this->plugin as $doc) {
+            $results1[] = $doc;
+        }
+
+        $this->plugin->setPrefetch(1000);
+
+        // the second foreach should trigger a reset and a second query execution (checked by mock)
+        $results2 = array();
+        foreach ($this->plugin as $doc) {
+            $results2[] = $doc;
+        }
+
+        $this->assertEquals($result->getDocuments(), $results1);
+        $this->assertEquals($result->getDocuments(), $results2);
+    }
+
+    public function testIteratorResetOnSetQuery()
+    {
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient->expects($this->exactly(2))->method('execute')->will($this->returnValue($result));
+
+        $this->plugin->initPlugin($mockClient, array());
+        $this->plugin->setQuery($this->query);
+
+        $results1 = array();
+        foreach ($this->plugin as $doc) {
+            $results1[] = $doc;
+        }
+
+        $this->plugin->setQuery($this->query);
+
+        // the second foreach should trigger a reset and a second query execution (checked by mock)
+        $results2 = array();
+        foreach ($this->plugin as $doc) {
+            $results2[] = $doc;
         }
 
         $this->assertEquals($result->getDocuments(), $results1);

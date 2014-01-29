@@ -104,6 +104,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
      */
     public function setPrefetch($value)
     {
+        $this->resetData();
         return $this->setOption('prefetch', $value);
     }
 
@@ -126,6 +127,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     public function setQuery($query)
     {
         $this->query = $query;
+        $this->resetData();
 
         return $this;
     }
@@ -224,5 +226,16 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
         $this->result = $this->client->execute($this->query);
         $this->documents = $this->result->getDocuments();
         $this->start += $this->getPrefetch();
+    }
+
+    /**
+     * Reset any cached data / position
+     */
+    protected function resetData()
+    {
+        $this->position = null;
+        $this->result = null;
+        $this->documents = null;
+        $this->start = 0;
     }
 }
