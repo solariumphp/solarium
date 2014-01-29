@@ -49,18 +49,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 interface ConfigurableInterface
 {
-    /**
-     * Constructor
-     *
-     * If options are passed they will be merged with {@link $options} using
-     * the {@link setOptions()} method.
-     *
-     * After handling the options the {@link _init()} method is called.
-     *
-     * @throws InvalidArgumentException
-     * @param  array|\Zend_Config       $options
-     */
-    public function __construct($options = null);
 
     /**
      * Set options
