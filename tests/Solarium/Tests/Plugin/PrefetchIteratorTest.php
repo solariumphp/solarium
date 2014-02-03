@@ -79,7 +79,10 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->getResult();
         $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
-        $mockClient->expects($this->exactly(1))->method('execute')->will($this->returnValue($result));
+        $mockClient->expects($this->exactly(1))
+                   ->method('execute')
+                   ->with($this->equalTo($this->query), $this->equalTo(null))
+                   ->will($this->returnValue($result));
 
         $this->plugin->initPlugin($mockClient, array());
         $this->plugin->setQuery($this->query);
@@ -177,6 +180,41 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
         );
 
         return new SelectDummy(1, 12, $numFound, $docs, array());
+    }
+
+    public function testSetAndGetEndpointAsString()
+    {
+        $this->assertEquals(null, $this->plugin->getEndpoint());
+        $this->plugin->setEndpoint('s1');
+        $this->assertEquals('s1', $this->plugin->getEndpoint());
+    }
+
+    public function testWithSpecificEndpoint()
+    {
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient->expects($this->exactly(1))
+                   ->method('execute')
+                   ->with($this->equalTo($this->query), $this->equalTo('s2'))
+                   ->will($this->returnValue($result));
+
+        $this->plugin->initPlugin($mockClient, array());
+        $this->plugin->setQuery($this->query)->setEndpoint('s2');
+        $this->assertEquals(5, count($this->plugin));
+    }
+
+    public function testWithSpecificEndpointOption()
+    {
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient->expects($this->exactly(1))
+                   ->method('execute')
+                   ->with($this->equalTo($this->query), $this->equalTo('s3'))
+                   ->will($this->returnValue($result));
+
+        $this->plugin->initPlugin($mockClient, array('endpoint' => 's3'));
+        $this->plugin->setQuery($this->query);
+        $this->assertEquals(5, count($this->plugin));
     }
 }
 

@@ -43,6 +43,7 @@ use Solarium\Core\Plugin\Plugin;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\Core\Client\Endpoint;
 
 /**
  * Prefetch plugin
@@ -143,6 +144,29 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
+     * Set endpoint to use
+     *
+     * This overwrites any existing endpoint
+     *
+     * @param string|Endpoint $endpoint
+     */
+    public function setEndpoint($endpoint)
+    {
+        return $this->setOption('endpoint', $endpoint);
+    }
+
+    /**
+     * Get endpoint setting
+     *
+     * @return string|Endpoint|null
+     */
+    public function getEndpoint()
+    {
+        return $this->getOption('endpoint');
+    }
+
+
+    /**
      * Countable implementation
      *
      * @return int
@@ -223,7 +247,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     protected function fetchNext()
     {
         $this->query->setStart($this->start)->setRows($this->getPrefetch());
-        $this->result = $this->client->execute($this->query);
+        $this->result = $this->client->execute($this->query, $this->getOption('endpoint'));
         $this->documents = $this->result->getDocuments();
         $this->start += $this->getPrefetch();
     }
