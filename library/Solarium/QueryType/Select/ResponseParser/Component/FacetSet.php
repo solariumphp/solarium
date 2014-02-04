@@ -247,7 +247,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      */
     protected function facetPivot($query, $facet, $data)
     {
-        $key = implode(',', $facet->getFields());
+        $key = $facet->getKey();
         if (!isset($data['facet_counts']['facet_pivot'][$key])) {
             return null;
         }

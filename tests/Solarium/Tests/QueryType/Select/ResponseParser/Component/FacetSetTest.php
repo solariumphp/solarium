@@ -97,7 +97,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                     )
                 ),
                 'facet_pivot' => array(
-                    'cat,price' => array(
+                    'keyE' => array(
                         array(
                             'field' => 'cat',
                             'value' => 'abc',
