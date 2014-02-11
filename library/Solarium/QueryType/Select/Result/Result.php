@@ -74,6 +74,15 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     protected $numfound;
 
     /**
+     * Solr maxscore
+     *
+     * Will only be available if 'score' was one of the requested fields in your query
+     *
+     * @var float
+     */
+    protected $maxscore;
+
+    /**
      * Document instances array
      *
      * @var array
@@ -144,6 +153,21 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
         $this->parseResponse();
 
         return $this->numfound;
+    }
+
+    /**
+     * get Solr maxscore
+     *
+     * Returns the highest score of the documents in the total result for your current query (ignoring paging)
+     * Will only be available if 'score' was one of the requested fields in your query
+     *
+     * @return float
+     */
+    public function getMaxScore()
+    {
+        $this->parseResponse();
+
+        return $this->maxscore;
     }
 
     /**

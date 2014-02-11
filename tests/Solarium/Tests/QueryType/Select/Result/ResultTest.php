@@ -43,6 +43,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     protected $result;
 
     protected $numFound;
+    protected $maxScore;
     protected $docs;
     protected $components;
     protected $facetSet;
@@ -56,6 +57,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->numFound = 11;
+        $this->maxScore = 0.91;
 
         $this->docs = array(
             new Document(array('id'=>1, 'title'=>'doc1')),
@@ -80,12 +82,17 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             Query::COMPONENT_DEBUG => $this->debug,
         );
 
-        $this->result = new SelectDummy(1, 12, $this->numFound, $this->docs, $this->components);
+        $this->result = new SelectDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components);
     }
 
     public function testGetNumFound()
     {
         $this->assertEquals($this->numFound, $this->result->getNumFound());
+    }
+
+    public function testGetMaxScore()
+    {
+        $this->assertEquals($this->maxScore, $this->result->getMaxScore());
     }
 
     public function testGetDocuments()
@@ -203,9 +210,10 @@ class SelectDummy extends Result
 {
     protected $parsed = true;
 
-    public function __construct($status, $queryTime, $numfound, $docs, $components)
+    public function __construct($status, $queryTime, $numfound, $maxscore, $docs, $components)
     {
         $this->numfound = $numfound;
+        $this->maxscore = $maxscore;
         $this->documents = $docs;
         $this->components = $components;
         $this->queryTime = $queryTime;
