@@ -169,6 +169,7 @@ class Client extends Configurable
         'parallelexecution' => 'Solarium\Plugin\ParallelExecution\ParallelExecution',
         'bufferedadd' => 'Solarium\Plugin\BufferedAdd\BufferedAdd',
         'prefetchiterator' => 'Solarium\Plugin\PrefetchIterator',
+        'minimumscorefilter' => 'Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter',
     );
 
     /**
