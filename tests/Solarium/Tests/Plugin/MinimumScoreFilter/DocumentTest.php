@@ -27,41 +27,28 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2014 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\Plugin\MinimumScoreFilter;
+namespace Solarium\Tests\Plugin\MinimumScoreFilter;
 
-use Solarium\Core\Plugin\Plugin;
+use Solarium\QueryType\Select\Result\Document;
+use Solarium\Plugin\MinimumScoreFilter\Document as FilterDocument;
+use Solarium\Tests\QueryType\Select\Result\DocumentTest as SelectDocumentTest;
 
-/**
- * MinimumScoreFilter plugin
- *
- * Filters results based on score relative to the maxScore
- *
- */
-class MinimumScoreFilter extends Plugin
+class DocumentTest extends SelectDocumentTest
 {
-    /**
-     * Custom query type name
-     */
-    const QUERY_TYPE = 'minimum-score-select';
-
-    /**
-     * Plugin init function
-     *
-     * Register event listeners
-     *
-     * @return void
-     */
-    protected function initPluginType()
+    protected function setUp()
     {
-        $this->client->registerQueryType(self::QUERY_TYPE, 'Solarium\Plugin\MinimumScoreFilter\Query');
+        $doc = new Document($this->fields);
+        $this->doc = new FilterDocument($doc, true);
+    }
+
+    public function testMarkedAsLowScore()
+    {
+        $this->assertEquals(true, $this->doc->markedAsLowScore());
+
+        $doc2 = new Document($this->fields);
+        $filterDoc2 = new FilterDocument($doc2, false);
+        $this->assertEquals(false, $filterDoc2->markedAsLowScore());
     }
 }

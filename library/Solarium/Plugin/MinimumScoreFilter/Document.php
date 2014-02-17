@@ -39,6 +39,7 @@
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\Exception\RuntimeException;
 
 /**
  * Minimum score filter query result document
@@ -100,7 +101,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      * @return mixed
      */
     public function __get($name) {
-        return parent::__get($name);
+        return $this->document->__get($name);
     }
 
     /**
@@ -121,18 +122,6 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     public function count()
     {
         return $this->document->count();
-    }
-
-    /**
-     * ArrayAccess implementation
-     *
-     * @param  mixed $offset
-     * @param  mixed $value
-     * @return void
-     */
-    public function offsetSet($offset, $value)
-    {
-        return $this->document->offsetGet($offset, $value);
     }
 
     /**
@@ -166,6 +155,34 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     public function offsetGet($offset)
     {
         return $this->document->offsetGet($offset);
+    }
+
+    /**
+     * Set field value
+     *
+     * Magic method for setting a field as property of this object. Since this
+     * is a readonly document an exception will be thrown to prevent this.
+     *
+     * @throws RuntimeException
+     * @param  string           $name
+     * @param  string           $value
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        throw new RuntimeException('A readonly document cannot be altered');
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * @param  mixed $offset
+     * @param  mixed $value
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->__set($offset, $value);
     }
 
 }

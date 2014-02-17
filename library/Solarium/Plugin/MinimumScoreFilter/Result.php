@@ -39,6 +39,7 @@
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\QueryType\Select\Result\Result as SelectResult;
+use Solarium\Exception\OutOfBoundsException;
 
 /**
  * Minimumscore filter query result
@@ -91,7 +92,7 @@ class Result extends SelectResult
                 }
                 break;
             default:
-                throw new \OutOfBoundsException('Unknown filter mode in query: ' . $mode);
+                throw new OutOfBoundsException('Unknown filter mode in query: ' . $mode);
                 break;
         }
 
