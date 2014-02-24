@@ -46,6 +46,11 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     protected $data;
 
     /**
+     * @var array
+     */
+    protected $allData;
+
+    /**
      * @var string
      */
     protected $collation;
@@ -56,8 +61,9 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             'term1' => 'data1',
             'term2' => 'data2',
         );
+        $this->allData = array_values($this->data);
         $this->collation = 'collation result';
-        $this->result = new SuggesterDummy($this->data, $this->collation);
+        $this->result = new SuggesterDummy($this->data, $this->allData, $this->collation);
     }
 
     public function testGetStatus()
@@ -79,6 +85,11 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testGetResults()
     {
         $this->assertEquals($this->data, $this->result->getResults());
+    }
+
+    public function testGetAll()
+    {
+        $this->assertEquals($this->allData, $this->result->getAll());
     }
 
     public function testGetTerm()
@@ -116,9 +127,10 @@ class SuggesterDummy extends Result
 {
     protected $parsed = true;
 
-    public function __construct($results, $collation)
+    public function __construct($results, $all, $collation)
     {
         $this->results = $results;
+        $this->all = $all;
         $this->collation = $collation;
         $this->status = 1;
         $this->queryTime = 12;
