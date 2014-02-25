@@ -68,7 +68,7 @@ class MoreLikeThis implements ComponentRequestBuilderInterface
         $request->addParam('mlt.boost', $component->getBoost());
         $request->addParam(
             'mlt.qf',
-            count($component->getQueryFields()) ? implode(',', $component->getQueryFields()) : null
+            count($component->getQueryFields()) ? $component->getQueryFields() : null
         );
         $request->addParam('mlt.count', $component->getCount());
 

@@ -72,7 +72,7 @@ class RequestBuilder extends SelectRequestBuilder
         $request->addParam('mlt.maxqt', $query->getMaximumQueryTerms());
         $request->addParam('mlt.maxntp', $query->getMaximumNumberOfTokens());
         $request->addParam('mlt.boost', $query->getBoost());
-        $request->addParam('mlt.qf', implode(',', $query->getQueryFields()));
+        $request->addParam('mlt.qf', $query->getQueryFields());
 
         // convert query to stream if necessary
         if (true === $query->getQueryStream()) {
