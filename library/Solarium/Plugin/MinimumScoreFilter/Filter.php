@@ -38,33 +38,45 @@
  */
 namespace Solarium\Plugin\MinimumScoreFilter;
 
-use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\Exception\OutOfBoundsException;
 
 /**
- * Minimumscore filter query result
- *
- * Extends select query result, adds filtering / marking
- *
+ * Minimumscore filter
  */
-class Result extends SelectResult
+class Filter
 {
+
     /**
-     * Map parser data into properties
+     * Apply filter to document array
      *
-     * @param  array $mapData
-     * @return void
+     * @param array $documents
+     * @param float $maxScore
+     * @param float $ratio
+     * @param string $mode
+     * @return array
      */
-    protected function mapData($mapData)
+    public function filterDocuments($documents, $maxScore, $ratio, $mode)
     {
-        foreach ($mapData as $key => $data) {
-            if ($key == 'documents') {
-                $filter = new Filter;
-                $mode = $this->getQuery()->getFilterMode();
-                $ratio = $this->getQuery()->getFilterRatio();
-                $data = $filter->filterDocuments($data, $mapData['maxscore'], $ratio, $mode);
-            }
-            $this->$key = $data;
+        $threshold = $maxScore * $ratio;
+
+        switch ($mode) {
+            case Query::FILTER_MODE_REMOVE:
+                foreach ($documents as $key => $document) {
+                    if ($document->score < $threshold) {
+                        unset($documents[$key]);
+                    }
+                }
+                break;
+            case Query::FILTER_MODE_MARK:
+                foreach ($documents as $key => $document) {
+                    $documents[$key] = new Document($document, $threshold);
+                }
+                break;
+            default:
+                throw new OutOfBoundsException('Unknown filter mode in query: ' . $mode);
+                break;
         }
+
+        return $documents;
     }
 }

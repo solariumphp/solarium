@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2014 Bas de Nooijer. All rights reserved.
+ * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
  *
- * @copyright Copyright 2014 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
@@ -38,33 +38,29 @@
  */
 namespace Solarium\Plugin\MinimumScoreFilter;
 
-use Solarium\QueryType\Select\Result\Result as SelectResult;
-use Solarium\Exception\OutOfBoundsException;
+use Solarium\QueryType\Select\Result\Grouping\ValueGroup as StandardValueGroup;
 
-/**
- * Minimumscore filter query result
- *
- * Extends select query result, adds filtering / marking
- *
- */
-class Result extends SelectResult
+class ValueGroupResult extends StandardValueGroup
 {
+
     /**
-     * Map parser data into properties
+     * Constructor
      *
-     * @param  array $mapData
-     * @return void
+     * @param string $value
+     * @param int    $numFound
+     * @param int    $start
+     * @param array  $documents
+     * @param Query  $query
      */
-    protected function mapData($mapData)
+    public function __construct($value, $numFound, $start, $documents, $maximumScore, $query)
     {
-        foreach ($mapData as $key => $data) {
-            if ($key == 'documents') {
-                $filter = new Filter;
-                $mode = $this->getQuery()->getFilterMode();
-                $ratio = $this->getQuery()->getFilterRatio();
-                $data = $filter->filterDocuments($data, $mapData['maxscore'], $ratio, $mode);
-            }
-            $this->$key = $data;
-        }
+        $filter = new Filter;
+        $mode = $query->getFilterMode();
+        $ratio = $query->getFilterRatio();
+        $documents = $filter->filterDocuments($documents, $maximumScore, $ratio, $mode);
+
+        parent::__construct($value, $numFound, $start, $documents);
     }
+
+
 }

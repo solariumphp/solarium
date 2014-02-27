@@ -100,6 +100,28 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetAndGetResultQueryGroupClass()
+    {
+        $value = 'classX';
+        $this->grouping->setResultQueryGroupClass($value);
+
+        $this->assertEquals(
+            $value,
+            $this->grouping->getResultQueryGroupClass()
+        );
+    }
+
+    public function testSetAndGetResultValueGroupClass()
+    {
+        $value = 'classY';
+        $this->grouping->setResultValueGroupClass($value);
+
+        $this->assertEquals(
+            $value,
+            $this->grouping->getResultValueGroupClass()
+        );
+    }
+
     public function testSetAndGetFieldsSingle()
     {
         $value = 'fieldC';

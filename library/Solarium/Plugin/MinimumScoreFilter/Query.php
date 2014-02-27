@@ -146,4 +146,19 @@ class Query extends SelectQuery
         return 'Solarium\Plugin\MinimumScoreFilter\Result';
     }
 
+    /**
+     * Get all registered components
+     *
+     * @return AbstractComponent[]
+     */
+    public function getComponents()
+    {
+        if (isset($this->components[self::COMPONENT_GROUPING])) {
+            $this->components[self::COMPONENT_GROUPING]->setOption('resultquerygroupclass', 'Solarium\Plugin\MinimumScoreFilter\QueryGroupResult');
+            $this->components[self::COMPONENT_GROUPING]->setOption('resultvaluegroupclass', 'Solarium\Plugin\MinimumScoreFilter\ValueGroupResult');
+        }
+
+        return parent::getComponents();
+    }
+
 }
