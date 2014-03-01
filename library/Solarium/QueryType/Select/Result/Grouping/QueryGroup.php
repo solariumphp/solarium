@@ -166,7 +166,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->documents);
+        return new \ArrayIterator($this->getDocuments());
     }
 
     /**
@@ -176,6 +176,6 @@ class QueryGroup implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->documents);
+        return count($this->getDocuments());
     }
 }

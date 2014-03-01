@@ -49,6 +49,21 @@ class ValueGroupResult extends StandardValueGroup
     static protected $overallMaximumScore;
 
     /**
+     * @var string
+     */
+    protected $filterMode;
+
+    /**
+     * @var float
+     */
+    protected $filterRatio;
+
+    /**
+     * @var boolean
+     */
+    protected $filtered = false;
+
+    /**
      * Constructor
      *
      * @param string $value
@@ -59,18 +74,31 @@ class ValueGroupResult extends StandardValueGroup
      */
     public function __construct($value, $numFound, $start, $documents, $maximumScore, $query)
     {
+        $this->filterMode = $query->getFilterMode();
+        $this->filterRatio = $query->getFilterRatio();
+
         // Use the maximumScore of the first group as maximum for all groups
-        if (self::$overallMaximumScore == null) {
+        if ($maximumScore > self::$overallMaximumScore) {
             self::$overallMaximumScore = $maximumScore;
         }
-
-        $filter = new Filter;
-        $mode = $query->getFilterMode();
-        $ratio = $query->getFilterRatio();
-        $documents = $filter->filterDocuments($documents, self::$overallMaximumScore, $ratio, $mode);
 
         parent::__construct($value, $numFound, $start, $documents);
     }
 
+    /**
+     * Get all documents, apply filter at first use
+     *
+     * @return array
+     */
+    public function getDocuments()
+    {
+        if (!$this->filtered) {
+            $filter = new Filter;
+            $this->documents = $filter->filterDocuments($this->documents, self::$overallMaximumScore, $this->filterRatio, $this->filterMode);
+            $this->filtered = true;
+        }
+
+        return $this->documents;
+    }
 
 }
