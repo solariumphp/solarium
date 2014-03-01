@@ -44,6 +44,11 @@ class ValueGroupResult extends StandardValueGroup
 {
 
     /**
+     * @var float
+     */
+    static protected $overallMaximumScore;
+
+    /**
      * Constructor
      *
      * @param string $value
@@ -54,10 +59,15 @@ class ValueGroupResult extends StandardValueGroup
      */
     public function __construct($value, $numFound, $start, $documents, $maximumScore, $query)
     {
+        // Use the maximumScore of the first group as maximum for all groups
+        if (self::$overallMaximumScore == null) {
+            self::$overallMaximumScore = $maximumScore;
+        }
+
         $filter = new Filter;
         $mode = $query->getFilterMode();
         $ratio = $query->getFilterRatio();
-        $documents = $filter->filterDocuments($documents, $maximumScore, $ratio, $mode);
+        $documents = $filter->filterDocuments($documents, self::$overallMaximumScore, $ratio, $mode);
 
         parent::__construct($value, $numFound, $start, $documents);
     }

@@ -44,6 +44,11 @@ class QueryGroupResult extends StandardQueryGroupResult
 {
 
     /**
+     * @var float
+     */
+    static protected $overallMaximumScore;
+
+    /**
      * Constructor
      *
      * @param int   $matches
@@ -55,10 +60,15 @@ class QueryGroupResult extends StandardQueryGroupResult
      */
     public function __construct($matches, $numFound, $start, $maximumScore, $documents, $query)
     {
+        // Use the maximumScore of the first group as maximum for all groups
+        if (self::$overallMaximumScore == null) {
+            self::$overallMaximumScore = $maximumScore;
+        }
+
         $filter = new Filter;
         $mode = $query->getFilterMode();
         $ratio = $query->getFilterRatio();
-        $documents = $filter->filterDocuments($documents, $maximumScore, $ratio, $mode);
+        $documents = $filter->filterDocuments($documents, self::$overallMaximumScore, $ratio, $mode);
 
         parent::__construct($matches, $numFound, $start, $maximumScore, $documents, $query);
     }
