@@ -65,6 +65,15 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
                             'video',
                         )
                     ),
+                    'vid',
+                    array(
+                        'numFound' => 1,
+                        'startOffset' => 6,
+                        'endOffset' => 9,
+                        'suggestion' => array(
+                            'video',
+                        )
+                    ),
                     'collation',
                     'disk video'
                 ),
@@ -88,8 +97,14 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
             'd' => new Term(2, 3, 7, array('disk', 'ddr')),
             'vid' => new Term(1, 2, 5, array('video'))
         );
+        $allExpected = array(
+            new Term(2, 3, 7, array('disk', 'ddr')),
+            new Term(1, 2, 5, array('video')),
+            new Term(1, 6, 9, array('video')),
+        );
 
         $this->assertEquals($expected, $result['results']);
+        $this->assertEquals($allExpected, $result['all']);
         $this->assertEquals('disk video', $result['collation']);
     }
 }
