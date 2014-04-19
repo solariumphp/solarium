@@ -19,6 +19,11 @@
         "phpunit/phpunit": "~3.7",
         "squizlabs/php_codesniffer": "~1.4"
     },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "3.3.x-dev"
+        }
+    },
     "autoload": {
         "psr-0": { "Solarium\\": "library/" }
     }
