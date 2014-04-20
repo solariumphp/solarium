@@ -17,9 +17,7 @@ class QueryCustomizer extends Plugin
     {
         $client->registerQueryType(
             Client::QUERY_SELECT,
-            'MyQuery',
-            'Solarium\QueryType\Select\RequestBuilder\RequestBuilder',
-            'Solarium\QueryType\Select\ResponseParser\ResponseParser'
+            'MyQuery'
         );
     }
 }
