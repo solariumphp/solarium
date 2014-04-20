@@ -67,7 +67,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
                 'mlt.maxqt' => 4,
                 'mlt.maxntp' => 5,
                 'mlt.boost' => 'true',
-                'mlt.qf' => 'description',
+                'mlt.qf' => array('description'),
                 'mlt.count' => 6,
             ),
             $request->getParams()
