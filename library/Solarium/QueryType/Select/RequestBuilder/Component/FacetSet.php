@@ -204,7 +204,13 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      */
     public function addFacetPivot($request, $facet)
     {
-        $request->addParam('facet.pivot', implode(',', $facet->getFields()));
+        $request->addParam(
+            'facet.pivot',
+            $this->renderLocalParams(
+                implode(',', $facet->getFields()),
+                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+            )
+        );
         $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
     }
 }

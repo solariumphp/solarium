@@ -61,8 +61,25 @@ class Pivot extends Facet
      */
     protected function init()
     {
-        if (isset($this->options['fields'])) {
-            $this->addFields($this->options['fields']);
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+            case 'key':
+                $this->setKey($value);
+                break;
+            case 'fields':
+                $this->addFields($this->options['fields']);
+                break;
+            case 'mincount':
+                $this->setMinCount($value);
+                break;
+            case 'exclude':
+                if (!is_array($value)) {
+                    $value = array($value);
+                }
+                $this->setExcludes($value);
+                unset($this->options['exclude']);
+                break;
+            }
         }
     }
 
