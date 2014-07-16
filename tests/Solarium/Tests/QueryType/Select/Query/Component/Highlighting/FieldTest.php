@@ -54,6 +54,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             'fragsize' => 25,
             'mergecontiguous' => true,
             'alternatefield' => 'text',
+            'preservemulti' => true,
             'formatter' => 'myFormatter',
             'simpleprefix' => '<b>',
             'simplepostfix' => '</b>',
@@ -67,6 +68,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(25, $this->fld->getFragSize());
         $this->assertEquals(true, $this->fld->getMergeContiguous());
         $this->assertEquals('text', $this->fld->getAlternateField());
+        $this->assertEquals(true, $this->fld->getPreserveMulti());
         $this->assertEquals('myFormatter', $this->fld->getFormatter());
         $this->assertEquals('<b>', $this->fld->getSimplePrefix());
         $this->assertEquals('</b>', $this->fld->getSimplePostfix());
@@ -126,6 +128,17 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $value,
             $this->fld->getAlternateField()
+        );
+    }
+    
+    public function testSetAndGetPreserveMulti()
+    {
+        $value = true;
+        $this->fld->setPreserveMulti($value);
+
+        $this->assertEquals(
+            $value,
+            $this->fld->getPreserveMulti()
         );
     }
 
