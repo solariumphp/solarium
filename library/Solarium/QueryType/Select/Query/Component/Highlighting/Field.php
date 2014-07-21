@@ -167,6 +167,27 @@ class Field extends Configurable
     {
         return $this->getOption('alternatefield');
     }
+    
+    /**
+     * Set preserveMulti option
+     *
+     * @param  boolean $preservemulti
+     * @return self    Provides fluent interface
+     */
+    public function setPreserveMulti($preservemulti)
+    {
+        return $this->setOption('preservemulti', $preservemulti);
+    }
+    
+    /**
+     * Get preserveMulti option
+     *
+     * @return boolean|null
+     */
+    public function getPreserveMulti()
+    {
+        return $this->getOption('preservemulti');
+    }
 
     /**
      * Set formatter option

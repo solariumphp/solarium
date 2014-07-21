@@ -64,6 +64,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
             'maxanalyzedchars' => 40,
             'alternatefield' => 'text',
             'maxalternatefieldlength' => 50,
+            'preservemulti' => true,
             'formatter' => 'myFormatter',
             'simpleprefix' => '<b>',
             'simplepostfix' => '</b>',
@@ -100,6 +101,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['maxanalyzedchars'], $this->hlt->getMaxAnalyzedChars());
         $this->assertEquals($options['alternatefield'], $this->hlt->getAlternateField());
         $this->assertEquals($options['maxalternatefieldlength'], $this->hlt->getMaxAlternateFieldLength());
+        $this->assertEquals($options['preservemulti'], $this->hlt->getPreserveMulti());
         $this->assertEquals($options['formatter'], $this->hlt->getFormatter());
         $this->assertEquals($options['simpleprefix'], $this->hlt->getSimplePrefix());
         $this->assertEquals($options['simplepostfix'], $this->hlt->getSimplePostfix());
@@ -352,6 +354,17 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $value,
             $this->hlt->getMaxAlternateFieldLength()
+        );
+    }
+    
+    public function testSetAndGetPreserveMulti()
+    {
+        $value = true;
+        $this->hlt->setPreserveMulti($value);
+
+        $this->assertEquals(
+            $value,
+            $this->hlt->getPreserveMulti()
         );
     }
 

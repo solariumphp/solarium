@@ -50,6 +50,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $field->setFragSize(25);
         $field->setMergeContiguous(true);
         $field->setAlternateField('text');
+        $field->setPreserveMulti(true);
         $field->setFormatter('myFormatter');
         $field->setSimplePrefix('<b>');
         $field->setSimplePostfix('</b>');
@@ -63,6 +64,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
         $component->setMaxAnalyzedChars(4);
         $component->setAlternateField('fieldC');
         $component->setMaxAlternateFieldLength(5);
+        $component->setPreserveMulti(true);
         $component->setFormatter('simple');
         $component->setSimplePrefix('<b>');
         $component->setSimplePostfix('</b>');
@@ -99,6 +101,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
                 'hl.maxAnalyzedChars' => 100,
                 'hl.alternateField' => 'fieldC',
                 'hl.maxAlternateFieldLength' => 5,
+                'hl.preserveMulti' => 'true',
                 'hl.formatter' => 'simple',
                 'hl.simple.pre' => '<b>',
                 'hl.simple.post' => '</b>',
@@ -119,6 +122,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
                 'f.fieldB.hl.fragsize' => 25,
                 'f.fieldB.hl.mergeContiguous' => 'true',
                 'f.fieldB.hl.alternateField' => 'text',
+                'f.fieldB.hl.preserveMulti' => 'true',
                 'f.fieldB.hl.formatter' => 'myFormatter',
                 'f.fieldB.hl.simple.pre' => '<b>',
                 'f.fieldB.hl.simple.post' => '</b>',
@@ -148,6 +152,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
             $component->setMaxAnalyzedChars(4);
             $component->setAlternateField('fieldC');
             $component->setMaxAlternateFieldLength(5);
+            $component->setPreserveMulti(true);
             $component->setFormatter('simple');
             $component->setSimplePrefix('<b>');
             $component->setSimplePostfix('</b>');
@@ -183,6 +188,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
                     'hl.maxAnalyzedChars' => 100,
                     'hl.alternateField' => 'fieldC',
                     'hl.maxAlternateFieldLength' => 5,
+                    'hl.preserveMulti' => 'true',
                     'hl.formatter' => 'simple',
                     'hl.simple.pre' => '<b>',
                     'hl.simple.post' => '</b>',
