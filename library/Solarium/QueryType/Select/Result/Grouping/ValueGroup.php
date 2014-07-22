@@ -38,6 +38,8 @@
  */
 namespace Solarium\QueryType\Select\Result\Grouping;
 
+use Solarium\QueryType\Select\Query\Query;
+
 /**
  * Select component grouping field value group result
  *
@@ -74,19 +76,35 @@ class ValueGroup implements \IteratorAggregate, \Countable
     protected $documents;
 
     /**
+     * Maximum score in group
+     *
+     * @var float
+     */
+    protected $maximumScore;
+
+    /**
+     * @var Query
+     */
+    protected $query;
+
+    /**
      * Constructor
      *
      * @param string $value
      * @param int    $numFound
      * @param int    $start
      * @param array  $documents
+     * @param float  $maxScore
+     * @param Query  $query
      */
-    public function __construct($value, $numFound, $start, $documents)
+    public function __construct($value, $numFound, $start, $documents, $maxScore = null, $query = null)
     {
         $this->value = $value;
         $this->numFound = $numFound;
         $this->start = $start;
         $this->documents = $documents;
+        $this->maximumScore = $maxScore;
+        $this->query = $query;
     }
 
     /**
@@ -120,6 +138,16 @@ class ValueGroup implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Get maximumScore value
+     *
+     * @return int
+     */
+    public function getMaximumScore()
+    {
+        return $this->maximumScore;
+    }
+
+    /**
      * Get all documents
      *
      * @return array
@@ -136,7 +164,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->documents);
+        return new \ArrayIterator($this->getDocuments());
     }
 
     /**
@@ -146,6 +174,6 @@ class ValueGroup implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->documents);
+        return count($this->getDocuments());
     }
 }

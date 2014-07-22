@@ -101,9 +101,16 @@ class RequestBuilder extends BaseRequestBuilder
         }
 
         // add file to request
-        $request->setFileUpload($query->getFile());
-        $request->addParam('resource.name', basename($query->getFile()));
-        $request->addHeader('Content-Type: multipart/form-data');
+        $file = $query->getFile();
+        if (preg_match('/^(http|https):\/\/(.+)/i', $file)) {
+            $request->addParam('stream.url', $file);
+        } else if (is_readable($file)) {
+            $request->setFileUpload($file);
+            $request->addParam('resource.name', basename($query->getFile()));
+            $request->addHeader('Content-Type: multipart/form-data');
+        } else {
+            throw new RuntimeException('Extract query file path/url invalid or not available');
+        }
 
         return $request;
     }

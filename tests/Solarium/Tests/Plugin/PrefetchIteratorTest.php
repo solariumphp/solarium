@@ -79,7 +79,10 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->getResult();
         $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
-        $mockClient->expects($this->exactly(1))->method('execute')->will($this->returnValue($result));
+        $mockClient->expects($this->exactly(1))
+                   ->method('execute')
+                   ->with($this->equalTo($this->query), $this->equalTo(null))
+                   ->will($this->returnValue($result));
 
         $this->plugin->initPlugin($mockClient, array());
         $this->plugin->setQuery($this->query);
@@ -90,6 +93,8 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->getResult();
         $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+
+        // Important: if prefetch or query settings are not changed, the query should be executed only once!
         $mockClient->expects($this->exactly(1))->method('execute')->will($this->returnValue($result));
 
         $this->plugin->initPlugin($mockClient, array());
@@ -110,6 +115,58 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getDocuments(), $results2);
     }
 
+    public function testIteratorResetOnSetPrefetch()
+    {
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient->expects($this->exactly(2))->method('execute')->will($this->returnValue($result));
+
+        $this->plugin->initPlugin($mockClient, array());
+        $this->plugin->setQuery($this->query);
+
+        $results1 = array();
+        foreach ($this->plugin as $doc) {
+            $results1[] = $doc;
+        }
+
+        $this->plugin->setPrefetch(1000);
+
+        // the second foreach should trigger a reset and a second query execution (checked by mock)
+        $results2 = array();
+        foreach ($this->plugin as $doc) {
+            $results2[] = $doc;
+        }
+
+        $this->assertEquals($result->getDocuments(), $results1);
+        $this->assertEquals($result->getDocuments(), $results2);
+    }
+
+    public function testIteratorResetOnSetQuery()
+    {
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient->expects($this->exactly(2))->method('execute')->will($this->returnValue($result));
+
+        $this->plugin->initPlugin($mockClient, array());
+        $this->plugin->setQuery($this->query);
+
+        $results1 = array();
+        foreach ($this->plugin as $doc) {
+            $results1[] = $doc;
+        }
+
+        $this->plugin->setQuery($this->query);
+
+        // the second foreach should trigger a reset and a second query execution (checked by mock)
+        $results2 = array();
+        foreach ($this->plugin as $doc) {
+            $results2[] = $doc;
+        }
+
+        $this->assertEquals($result->getDocuments(), $results1);
+        $this->assertEquals($result->getDocuments(), $results2);
+    }
+
     public function getResult()
     {
         $numFound = 5;
@@ -123,6 +180,41 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
         );
 
         return new SelectDummy(1, 12, $numFound, $docs, array());
+    }
+
+    public function testSetAndGetEndpointAsString()
+    {
+        $this->assertEquals(null, $this->plugin->getEndpoint());
+        $this->plugin->setEndpoint('s1');
+        $this->assertEquals('s1', $this->plugin->getEndpoint());
+    }
+
+    public function testWithSpecificEndpoint()
+    {
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient->expects($this->exactly(1))
+                   ->method('execute')
+                   ->with($this->equalTo($this->query), $this->equalTo('s2'))
+                   ->will($this->returnValue($result));
+
+        $this->plugin->initPlugin($mockClient, array());
+        $this->plugin->setQuery($this->query)->setEndpoint('s2');
+        $this->assertEquals(5, count($this->plugin));
+    }
+
+    public function testWithSpecificEndpointOption()
+    {
+        $result = $this->getResult();
+        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient->expects($this->exactly(1))
+                   ->method('execute')
+                   ->with($this->equalTo($this->query), $this->equalTo('s3'))
+                   ->will($this->returnValue($result));
+
+        $this->plugin->initPlugin($mockClient, array('endpoint' => 's3'));
+        $this->plugin->setQuery($this->query);
+        $this->assertEquals(5, count($this->plugin));
     }
 }
 

@@ -145,7 +145,9 @@ class Curl extends Configurable implements AdapterInterface
         $handler = curl_init();
         curl_setopt($handler, CURLOPT_URL, $uri);
         curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
+        if (!ini_get('open_basedir')) {
+            curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
+        }
         curl_setopt($handler, CURLOPT_TIMEOUT, $options['timeout']);
 
         if ($proxy = $this->getOption('proxy')) {
@@ -177,8 +179,14 @@ class Curl extends Configurable implements AdapterInterface
 
         if ($method == Request::METHOD_POST) {
             curl_setopt($handler, CURLOPT_POST, true);
+
             if ($request->getFileUpload()) {
-                curl_setopt($handler, CURLOPT_POSTFIELDS, array('content' => '@'.$request->getFileUpload()));
+                if (version_compare(PHP_VERSION, '5.5.0') >= 0) {
+                    $curlFile = curl_file_create($request->getFileUpload());
+                    curl_setopt($handler, CURLOPT_POSTFIELDS, array('content', $curlFile));
+                } else {
+                    curl_setopt($handler, CURLOPT_POSTFIELDS, array('content' => '@'.$request->getFileUpload()));
+                }
             } else {
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
             }

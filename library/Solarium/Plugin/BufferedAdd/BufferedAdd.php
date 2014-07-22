@@ -82,13 +82,6 @@ class BufferedAdd extends Plugin
     protected $buffer = array();
 
     /**
-     * End point to execute updates against.
-     *
-     * @var string
-     */
-    protected $endpoint;
-
-    /**
      * Plugin init function
      *
      * This is an extension point for plugin implementations.
@@ -110,8 +103,7 @@ class BufferedAdd extends Plugin
      */
     public function setEndpoint($endpoint)
     {
-        $this->endpoint = $endpoint;
-        return $this;
+        return $this->setOption('endpoint', $endpoint);
     }
 
     /**
@@ -121,7 +113,7 @@ class BufferedAdd extends Plugin
      */
     public function getEndPoint()
     {
-        return $this->endpoint;
+        return $this->getOption('endpoint');
     }
 
     /**

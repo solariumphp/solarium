@@ -84,6 +84,18 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetUriWithStreamUrl()
+    {
+        $query = $this->query;
+        $query->setFile('http://solarium-project.org/');
+        $request = $this->builder->build($query);
+        $this->assertEquals(
+            'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&fmap.from-field=to-field'.
+            '&stream.url=http%3A%2F%2Fsolarium-project.org%2F',
+            $request->getUri()
+        );
+    }
+
     public function testDocumentFieldAndBoostParams()
     {
         $fields = array('field1' => 'value1', 'field2' => 'value2');

@@ -60,7 +60,9 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam('hl', 'true');
 
         // set global highlighting params
-        $request->addParam('hl.fl', implode(',', array_keys($component->getFields())));
+        if (count($component->getFields()) > 0) {
+            $request->addParam('hl.fl', implode(',', array_keys($component->getFields())));
+        }
         $request->addParam('hl.snippets', $component->getSnippets());
         $request->addParam('hl.fragsize', $component->getFragSize());
         $request->addParam('hl.mergeContiguous', $component->getMergeContiguous());

@@ -38,6 +38,8 @@
  */
 namespace Solarium\QueryType\Select\Result\Grouping;
 
+use Solarium\QueryType\Select\Query\Query;
+
 /**
  * Select component grouping query group result
  *
@@ -81,6 +83,11 @@ class QueryGroup implements \IteratorAggregate, \Countable
     protected $documents;
 
     /**
+     * @var Query
+     */
+    protected $query;
+
+    /**
      * Constructor
      *
      * @param int   $matches
@@ -88,15 +95,19 @@ class QueryGroup implements \IteratorAggregate, \Countable
      * @param int   $start
      * @param float $maximumScore
      * @param array $documents
+     * @param Query $query
      */
-    public function __construct($matches, $numFound, $start, $maximumScore, $documents)
+    public function __construct($matches, $numFound, $start, $maximumScore, $documents, $query = null)
     {
         $this->matches = $matches;
         $this->numFound = $numFound;
         $this->start = $start;
         $this->maximumScore = $maximumScore;
         $this->documents = $documents;
+        $this->query = $query;
     }
+
+
 
     /**
      * Get matches value
@@ -155,7 +166,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->documents);
+        return new \ArrayIterator($this->getDocuments());
     }
 
     /**
@@ -165,6 +176,6 @@ class QueryGroup implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->documents);
+        return count($this->getDocuments());
     }
 }

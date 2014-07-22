@@ -458,4 +458,36 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             $this->doc->getVersion()
         );
     }
+
+    public function testEscapeByDefaultSetField()
+    {
+        $this->doc->setField('foo', 'bar' . chr(15));
+
+        $this->assertEquals('bar ', $this->doc->foo);
+    }
+
+    public function testEscapeByDefaultAddField()
+    {
+        $this->doc->setField('foo', 'bar' . chr(15));
+        $this->doc->addField('foo', 'bar' . chr(15) . chr(8));
+
+        $this->assertEquals(array('bar ', 'bar  '), $this->doc->foo);
+    }
+
+    public function testNoEscapeSetField()
+    {
+        $this->doc->setFilterControlCharacters(false);
+        $this->doc->setField('foo', $value = 'bar' . chr(15));
+
+        $this->assertEquals($value, $this->doc->foo);
+    }
+
+    public function testNoEscapeAddField()
+    {
+        $this->doc->setFilterControlCharacters(false);
+        $this->doc->setField('foo', $value1 = 'bar' . chr(15));
+        $this->doc->addField('foo', $value2 = 'bar' . chr(15) . chr(8));
+
+        $this->assertEquals(array($value1, $value2), $this->doc->foo);
+    }
 }

@@ -71,4 +71,12 @@ class DetailTest extends \PHPUnit_Framework_TestCase
     {
          $this->assertEquals($this->description, $this->result->getDescription());
     }
+
+    public function testSetSubDetails()
+    {
+        $subDetailsDummy = array('dummy', 'testing');
+        $this->result->setSubDetails($subDetailsDummy);
+        $this->assertEquals($subDetailsDummy, $this->result->getSubDetails());
+    }
+
 }

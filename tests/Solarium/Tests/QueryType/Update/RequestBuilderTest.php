@@ -88,6 +88,17 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testBuildAddXmlWithBooleanValues()
+    {
+        $command = new AddCommand;
+        $command->addDocument(new Document(array('id' => 1, 'visible' => true, 'forsale' => false)));
+
+        $this->assertEquals(
+            '<add><doc><field name="id">1</field><field name="visible">true</field><field name="forsale">false</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildAddXmlWithParams()
     {
         $command = new AddCommand(array('overwrite' => true, 'commitwithin' => 100));

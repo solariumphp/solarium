@@ -171,7 +171,12 @@ class RequestBuilder extends BaseRequestBuilder
         $xml .= $this->attrib('update', $modifier);
         if ($value === null) {
             $xml .= $this->attrib('null', 'true');
+        } else if ($value === false) {
+            $value = 'false';
+        } else if ($value === true) {
+            $value = 'true';
         }
+
         $xml .= '>' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
         $xml .= '</field>';
 

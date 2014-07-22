@@ -70,6 +70,13 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     protected $results;
 
     /**
+     * Suggester flat results
+     *
+     * @var array
+     */
+    protected $all;
+
+    /**
      * Collation result
      *
      * Only available when collate is enabled in the suggester query
@@ -117,6 +124,18 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
         $this->parseResponse();
 
         return $this->results;
+    }
+
+    /**
+     * Get flat results
+     *
+     * @return array
+     */
+    public function getAll()
+    {
+        $this->parseResponse();
+
+        return $this->all;
     }
 
     /**

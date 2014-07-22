@@ -71,6 +71,16 @@ class Grouping extends Component
     protected $type = SelectQuery::COMPONENT_GROUPING;
 
     /**
+     * Default options
+     *
+     * @var array
+     */
+    protected $options = array(
+        'resultquerygroupclass' => 'Solarium\QueryType\Select\Result\Grouping\QueryGroup',
+        'resultvaluegroupclass' => 'Solarium\QueryType\Select\Result\Grouping\ValueGroup',
+    );
+
+    /**
      * Fields for grouping
      *
      * @var array
@@ -510,5 +520,51 @@ class Grouping extends Component
     public function getFormat()
     {
         return $this->getOption('format');
+    }
+
+    /**
+     * Set the query group result class
+     *
+     * @param  string $value classname
+     * @return self   Provides fluent interface
+     */
+    public function setResultQueryGroupClass($value)
+    {
+        return $this->setOption('resultquerygroupclass', $value);
+    }
+
+    /**
+     * Get the current resultquerygroupclass option
+     *
+     * The value is a classname, not an instance
+     *
+     * @return string
+     */
+    public function getResultQueryGroupClass()
+    {
+        return $this->getOption('resultquerygroupclass');
+    }
+
+    /**
+     * Set the value group result class
+     *
+     * @param  string $value classname
+     * @return self   Provides fluent interface
+     */
+    public function setResultValueGroupClass($value)
+    {
+        return $this->setOption('resultvaluegroupclass', $value);
+    }
+
+    /**
+     * Get the current resultvaluegroupclass option
+     *
+     * The value is a classname, not an instance
+     *
+     * @return string
+     */
+    public function getResultValueGroupClass()
+    {
+        return $this->getOption('resultvaluegroupclass');
     }
 }
