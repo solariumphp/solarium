@@ -192,9 +192,13 @@ class Helper
      * Render a range query
      *
      * From and to can be any type of data. For instance int, string or point.
+     * If they are null, then '*' will be used.
      *
      * Example: rangeQuery('store', '45,-94', '46,-93')
      * Returns: store:[45,-94 TO 46,-93]
+     *
+     * Example: rangeQuery('store', '5', '*', false)
+     * Returns: store:{5 TO *}
      *
      * @param  string  $field
      * @param  string  $from
@@ -204,6 +208,14 @@ class Helper
      */
     public function rangeQuery($field, $from, $to, $inclusive = true)
     {
+        if ($from === null) {
+            $from = '*';
+        }
+
+        if ($to === null) {
+            $to = '*';
+        }
+
         if ($inclusive) {
             return $field . ':[' . $from . ' TO ' . $to . ']';
         } else {
