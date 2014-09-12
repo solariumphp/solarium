@@ -216,6 +216,9 @@ class Helper
             $to = '*';
         }
 
+        $from = $this->escapePhrase($from);
+        $to = $this->escapePhrase($to);
+
         if ($inclusive) {
             return $field . ':[' . $from . ' TO ' . $to . ']';
         } else {

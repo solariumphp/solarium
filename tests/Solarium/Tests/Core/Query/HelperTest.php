@@ -55,12 +55,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testRangeQueryInclusive()
     {
         $this->assertEquals(
-            'field:[1 TO 2]',
+            'field:["1" TO "2"]',
             $this->helper->rangeQuery('field', 1, 2)
         );
 
         $this->assertEquals(
-            'store:[45,-94 TO 46,-93]',
+            'store:["45,-94" TO "46,-93"]',
             $this->helper->rangeQuery('store', '45,-94', '46,-93')
         );
     }
@@ -68,12 +68,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testRangeQueryExclusive()
     {
         $this->assertEquals(
-            'field:{1 TO 2}',
+            'field:{"1" TO "2"}',
             $this->helper->rangeQuery('field', 1, 2, false)
         );
 
         $this->assertEquals(
-            'store:{45,-94 TO 46,-93}',
+            'store:{"45,-94" TO "46,-93"}',
             $this->helper->rangeQuery('store', '45,-94', '46,-93', false)
         );
     }
@@ -81,12 +81,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testRangeQueryInclusiveNullValues()
     {
         $this->assertEquals(
-            'field:[1 TO *]',
+            'field:["1" TO "*"]',
             $this->helper->rangeQuery('field', 1, null)
         );
 
         $this->assertEquals(
-            'store:[* TO 46,-93]',
+            'store:["*" TO "46,-93"]',
             $this->helper->rangeQuery('store', null, '46,-93')
         );
     }
@@ -94,12 +94,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testRangeQueryExclusiveNullValues()
     {
         $this->assertEquals(
-            'field:{1 TO *}',
+            'field:{"1" TO "*"}',
             $this->helper->rangeQuery('field', 1, null, false)
         );
 
         $this->assertEquals(
-            'store:{* TO 46,-93}',
+            'store:{"*" TO "46,-93"}',
             $this->helper->rangeQuery('store', null, '46,-93', false)
         );
     }
