@@ -53,13 +53,6 @@ class Field extends Configurable
     protected $facets = array();
 
     /**
-     * Exclude tags for this stat
-     *
-     * @var array
-     */
-    protected $excludes = array();
-
-    /**
      * Initialize options
      *
      * Several options need some extra checks or setup work, for these options
@@ -73,13 +66,6 @@ class Field extends Configurable
             switch ($name) {
                 case 'facet':
                     $this->setFacets($value);
-                    break;
-                case 'exclude':
-                    if (!is_array($value)) {
-                        $value = array($value);
-                    }
-                    $this->setExcludes($value);
-                    unset($this->options['exclude']);
                     break;
             }
         }
@@ -192,84 +178,5 @@ class Field extends Configurable
         $this->addFacets($facets);
 
         return $this;
-    }
-
-
-    /**
-     * Add an exclude tag
-     *
-     * @param  string $tag
-     * @return self   Provides fluent interface
-     */
-    public function addExclude($tag)
-    {
-        $this->excludes[$tag] = true;
-
-        return $this;
-    }
-
-    /**
-     * Add multiple exclude tags
-     *
-     * @param  array $excludes
-     * @return self  Provides fluent interface
-     */
-    public function addExcludes(array $excludes)
-    {
-        foreach ($excludes as $exclude) {
-            $this->addExclude($exclude);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get all excludes
-     *
-     * @return array
-     */
-    public function getExcludes()
-    {
-        return array_keys($this->excludes);
-    }
-
-    /**
-     * Remove a single exclude tag
-     *
-     * @param  string $exclude
-     * @return self   Provides fluent interface
-     */
-    public function removeExclude($exclude)
-    {
-        if (isset($this->excludes[$exclude])) {
-            unset($this->excludes[$exclude]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove all excludes
-     *
-     * @return self Provides fluent interface
-     */
-    public function clearExcludes()
-    {
-        $this->excludes = array();
-
-        return $this;
-    }
-
-    /**
-     * Set multiple excludes
-     *
-     * This overwrites any existing excludes
-     *
-     * @param array $excludes
-     */
-    public function setExcludes($excludes)
-    {
-        $this->clearExcludes();
-        $this->addExcludes($excludes);
     }
 }

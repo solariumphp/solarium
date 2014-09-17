@@ -107,37 +107,4 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->field->setFacets(array('facet3', 'facet4'));
         $this->assertEquals(array('facet3', 'facet4'), $this->field->getFacets());
     }
-
-    public function testAddExclude()
-    {
-        $this->field->addExclude('e1');
-        $this->assertEquals(array('e1'), $this->field->getExcludes());
-    }
-
-    public function testAddExcludes()
-    {
-        $this->field->addExcludes(array('e1', 'e2'));
-        $this->assertEquals(array('e1', 'e2'), $this->field->getExcludes());
-    }
-
-    public function testRemoveExclude()
-    {
-        $this->field->addExcludes(array('e1', 'e2'));
-        $this->field->removeExclude('e1');
-        $this->assertEquals(array('e2'), $this->field->getExcludes());
-    }
-
-    public function testClearExcludes()
-    {
-        $this->field->addExcludes(array('e1', 'e2'));
-        $this->field->clearExcludes();
-        $this->assertEquals(array(), $this->field->getExcludes());
-    }
-
-    public function testSetExcludes()
-    {
-        $this->field->addExcludes(array('e1', 'e2'));
-        $this->field->setExcludes(array('e3', 'e4'));
-        $this->assertEquals(array('e3', 'e4'), $this->field->getExcludes());
-    }
 }
