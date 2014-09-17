@@ -78,6 +78,32 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRangeQueryInclusiveNullValues()
+    {
+        $this->assertEquals(
+            'field:[1 TO *]',
+            $this->helper->rangeQuery('field', 1, null)
+        );
+
+        $this->assertEquals(
+            'store:[* TO 46,-93]',
+            $this->helper->rangeQuery('store', null, '46,-93')
+        );
+    }
+
+    public function testRangeQueryExclusiveNullValues()
+    {
+        $this->assertEquals(
+            'field:{1 TO *}',
+            $this->helper->rangeQuery('field', 1, null, false)
+        );
+
+        $this->assertEquals(
+            'store:{* TO 46,-93}',
+            $this->helper->rangeQuery('store', null, '46,-93', false)
+        );
+    }
+
     public function testGeofilt()
     {
         $this->assertEquals(
