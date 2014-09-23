@@ -48,6 +48,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
+            'schema' => 'http',
             'host' => '192.168.0.1',
             'port' => 123,
             'path' => '/mysolr/',
@@ -99,11 +100,24 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(7, $this->endpoint->getTimeout());
     }
 
+    public function testSetAndGetSchema()
+    {
+        $this->endpoint->setSchema('https');
+        $this->assertEquals('https', $this->endpoint->getSchema());
+    }
+
     public function testGetBaseUri()
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
 
         $this->assertEquals('http://myserver:123/mypath/', $this->endpoint->getBaseUri());
+    }
+
+    public function testGetBaseUriWithHttps()
+    {
+        $this->endpoint->setSchema('https')->setHost('myserver')->setPath('/mypath')->setPort(123);
+
+        $this->assertEquals('https://myserver:123/mypath/', $this->endpoint->getBaseUri());
     }
 
     public function testGetBaseUriWithCore()
