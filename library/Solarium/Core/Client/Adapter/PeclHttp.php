@@ -132,6 +132,9 @@ class PeclHttp extends Configurable implements AdapterInterface
      * {@link http://us.php.net/manual/en/http.constants.php
      *  HTTP Predefined Constant}
      *
+     * {@link http://us.php.net/manual/en/http.request.options.php
+     *  HttpRequest options}
+     *
      * @throws InvalidArgumentException
      * @param  Request                  $request
      * @param  Endpoint                 $endpoint
@@ -190,7 +193,13 @@ class PeclHttp extends Configurable implements AdapterInterface
         }
 
         $httpRequest->setMethod($method);
-        $httpRequest->setOptions(array('timeout' => $endpoint->getTimeout()));
+        $httpRequest->setOptions(
+            array(
+                'timeout' => $endpoint->getTimeout(),
+                'connecttimeout' => $endpoint->getTimeout(),
+                'dns_cache_timeout' => $endpoint->getTimeout(),
+            )
+        );
         $httpRequest->setHeaders($headers);
 
         return $httpRequest;
