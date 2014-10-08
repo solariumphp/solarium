@@ -59,6 +59,7 @@ use Solarium\Core\Event\PreExecute as PreExecuteEvent;
 use Solarium\Core\Event\PostExecute as PostExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Main interface for interaction with Solr
@@ -219,7 +220,6 @@ class Client extends Configurable
      */
     protected function init()
     {
-        $this->eventDispatcher = new EventDispatcher();
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'endpoint':
@@ -561,15 +561,33 @@ class Client extends Configurable
         return $this->queryTypes;
     }
 
-    /**
-     * Get the EventDispatcherInstance
-     *
-     * @return EventDispatcher
-     */
-    public function getEventDispatcher()
-    {
-        return $this->eventDispatcher;
+  /**
+   * Gets the event dispatcher.
+   *
+   * @return EventDispatcherInterface
+   */
+  public function getEventDispatcher()
+  {
+    if (!$this->eventDispatcher) {
+      $this->eventDispatcher = new EventDispatcher();
     }
+
+    return $this->eventDispatcher;
+  }
+
+  /**
+   * Sets the event dispatcher.
+   *
+   * @param EventDispatcherInterface $eventDispatcher
+   *
+   * @return $this
+   */
+  public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+  {
+    $this->eventDispatcher = $eventDispatcher;
+
+    return $this;
+  }
 
     /**
      * Register a plugin
