@@ -81,6 +81,13 @@ class Document extends AbstractDocument implements DocumentInterface
     const MODIFIER_ADD = 'add';
 
     /**
+     * Directive to remove a value (e.g. multivalued fields) using atomic updates
+     *
+     * @var string
+     */
+    const MODIFIER_REMOVE = 'remove';
+
+    /**
      * This value has the same effect as not setting a version
      *
      * @var int
@@ -387,7 +394,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function setFieldModifier($key, $modifier = null)
     {
-        if (!in_array($modifier, array(self::MODIFIER_ADD, self::MODIFIER_INC, self::MODIFIER_SET))) {
+        if (!in_array($modifier, array(self::MODIFIER_ADD, self::MODIFIER_REMOVE, self::MODIFIER_INC, self::MODIFIER_SET))) {
             throw new RuntimeException('Attempt to set an atomic update modifier that is not supported');
         }
         $this->modifiers[$key] = $modifier;
