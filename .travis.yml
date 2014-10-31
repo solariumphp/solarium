@@ -5,6 +5,8 @@ php:
   - 5.5
   - 5.4
   - 5.3
+  - hhvm
+  - hhvm-nightly
 
 before_script:
   - wget http://getcomposer.org/composer.phar
@@ -12,3 +14,7 @@ before_script:
 
 script: phpunit -c phpunit.xml.travis
 
+matrix:
+  allow_failures:
+      - php: hhvm
+      - php: hhvm-nightly
