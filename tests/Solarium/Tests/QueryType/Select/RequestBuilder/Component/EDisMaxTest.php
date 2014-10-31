@@ -35,7 +35,7 @@ use Solarium\QueryType\Select\RequestBuilder\Component\EdisMax as RequestBuilder
 use Solarium\QueryType\Select\Query\Component\EdisMax as Component;
 use Solarium\Core\Client\Request;
 
-class EdisMaxTest extends \PHPUnit_Framework_TestCase
+class EDisMaxTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuildComponent()
     {
