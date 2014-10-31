@@ -35,7 +35,6 @@ use Solarium\Core\Event\PostExecuteRequest;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Query\Result\Result;
 
 class PostExecuteRequestTest extends \PHPUnit_Framework_TestCase
 {

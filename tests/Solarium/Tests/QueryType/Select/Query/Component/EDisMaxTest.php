@@ -34,7 +34,7 @@ namespace Solarium\Tests\QueryType\Select\Query\Component;
 use Solarium\QueryType\Select\Query\Component\EdisMax;
 use Solarium\QueryType\Select\Query\Query;
 
-class EdisMaxTest extends \PHPUnit_Framework_TestCase
+class EDisMaxTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var EdisMax

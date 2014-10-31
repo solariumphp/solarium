@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Update\Query;
+namespace Solarium\Tests\QueryType\Update\Query\Document;
 
 use Solarium\QueryType\Update\Query\Document\Document;
 
