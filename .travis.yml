@@ -7,10 +7,15 @@ php:
   - 5.3
   - hhvm
   - hhvm-nightly
+env:
+  - SYMFONY_VERSION=2.1.*
+  - SYMFONY_VERSION=2.2.*
+  - SYMFONY_VERSION=2.3.*
+  - SYMFONY_VERSION=2.4.*
+  - SYMFONY_VERSION=2.5.*
 
 before_script:
-  - wget http://getcomposer.org/composer.phar
-  - php composer.phar install
+  - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
 
 script: phpunit -c phpunit.xml.travis
 
