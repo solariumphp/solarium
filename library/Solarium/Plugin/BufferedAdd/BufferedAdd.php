@@ -111,6 +111,7 @@ class BufferedAdd extends Plugin
     public function setEndpoint($endpoint)
     {
         $this->endpoint = $endpoint;
+
         return $this;
     }
 

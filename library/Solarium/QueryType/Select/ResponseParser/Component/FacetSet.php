@@ -144,9 +144,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Add a facet result for a field facet
      *
-     * @param  Query            $query
-     * @param  QueryFacetField  $facet
-     * @param  array            $data
+     * @param  Query                 $query
+     * @param  QueryFacetField       $facet
+     * @param  array                 $data
      * @return ResultFacetField|null
      */
     protected function facetField($query, $facet, $data)
@@ -168,8 +168,8 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Add a facet result for a facet query
      *
-     * @param  QueryFacetQuery  $facet
-     * @param  array            $data
+     * @param  QueryFacetQuery       $facet
+     * @param  array                 $data
      * @return ResultFacetQuery|null
      */
     protected function facetQuery($facet, $data)
@@ -185,8 +185,8 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Add a facet result for a multiquery facet
      *
-     * @param  QueryFacetMultiQuery  $facet
-     * @param  array                 $data
+     * @param  QueryFacetMultiQuery       $facet
+     * @param  array                      $data
      * @return ResultFacetMultiQuery|null
      */
     protected function facetMultiQuery($facet, $data)
@@ -210,9 +210,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Add a facet result for a range facet
      *
-     * @param  Query            $query
-     * @param  QueryFacetRange  $facet
-     * @param  array            $data
+     * @param  Query                 $query
+     * @param  QueryFacetRange       $facet
+     * @param  array                 $data
      * @return ResultFacetRange|null
      */
     protected function facetRange($query, $facet, $data)
@@ -240,9 +240,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Add a facet result for a range facet
      *
-     * @param  Query            $query
-     * @param  QueryFacetPivot  $facet
-     * @param  array            $data
+     * @param  Query                 $query
+     * @param  QueryFacetPivot       $facet
+     * @param  array                 $data
      * @return ResultFacetPivot|null
      */
     protected function facetPivot($query, $facet, $data)

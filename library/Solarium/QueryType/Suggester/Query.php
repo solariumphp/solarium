@@ -40,8 +40,6 @@ namespace Solarium\QueryType\Suggester;
 
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Suggester\RequestBuilder;
-use Solarium\QueryType\Suggester\ResponseParser;
 
 /**
  * Suggester Query

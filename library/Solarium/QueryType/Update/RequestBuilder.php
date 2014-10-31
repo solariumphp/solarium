@@ -108,7 +108,7 @@ class RequestBuilder extends BaseRequestBuilder
      * Build XML for an add command
      *
      * @param  \Solarium\QueryType\Update\Query\Command\Add $command
-     * @param  UpdateQuery $query
+     * @param  UpdateQuery                                  $query
      * @return string
      */
     public function buildAddXml($command, $query = null)
@@ -153,10 +153,10 @@ class RequestBuilder extends BaseRequestBuilder
      *
      * Used in the add command
      *
-     * @param  string $name
-     * @param  float  $boost
-     * @param  mixed  $value
-     * @param  string $modifier
+     * @param  string      $name
+     * @param  float       $boost
+     * @param  mixed       $value
+     * @param  string      $modifier
      * @param  UpdateQuery $query
      * @return string
      */

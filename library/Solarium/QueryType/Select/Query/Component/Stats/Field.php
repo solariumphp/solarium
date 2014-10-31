@@ -109,7 +109,7 @@ class Field extends Configurable
      * Specify multiple facets to return in the resultset
      *
      * @param string|array $facets can be an array or string with comma
-     * separated facetnames
+     *                             separated facetnames
      *
      * @return self Provides fluent interface
      */

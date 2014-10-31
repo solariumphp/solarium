@@ -485,8 +485,8 @@ class Loadbalancer extends Plugin
      * Execute a request using the adapter
      *
      * @throws RuntimeException
-     * @param  Request  $request
-     * @return Response $response
+     * @param  Request          $request
+     * @return Response         $response
      */
     protected function getLoadbalancedResponse($request)
     {

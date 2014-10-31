@@ -39,7 +39,6 @@
  */
 namespace Solarium\QueryType\Terms;
 
-use Solarium\QueryType\Terms\Query;
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 

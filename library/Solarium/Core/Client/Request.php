@@ -325,7 +325,7 @@ class Request extends Configurable
      * Set the file to upload via "multipart/form-data" POST request
      *
      * @throws RuntimeException
-     * @param  string $filename Name of file to upload
+     * @param  string           $filename Name of file to upload
      * @return self
      */
     public function setFileUpload($filename)
