@@ -38,8 +38,6 @@
  */
 namespace Solarium\QueryType\Select\Result\MoreLikeThis;
 
-use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
-
 /**
  * Select component morelikethis result
  */

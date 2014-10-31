@@ -373,16 +373,16 @@ class Spellcheck extends Component
         return $this->getOption('accuracy');
     }
 
-
     /**
      * Set a collation param
-     * @param string $param
-     * @param mixed $value
-     * @return self Provides fluent interface
+     * @param  string $param
+     * @param  mixed  $value
+     * @return self   Provides fluent interface
      */
     public function setCollateParam($param, $value)
     {
         $this->collateParams[$param] = $value;
+
         return $this;
     }
 

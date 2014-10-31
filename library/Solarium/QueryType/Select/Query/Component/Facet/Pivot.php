@@ -97,7 +97,6 @@ class Pivot extends Facet
         return $this->getOption('mincount');
     }
 
-
     /**
      * Specify a field to return in the resultset
      *
@@ -116,7 +115,7 @@ class Pivot extends Facet
      * Specify multiple fields to return in the resultset
      *
      * @param string|array $fields can be an array or string with comma
-     * separated fieldnames
+     *                             separated fieldnames
      *
      * @return self Provides fluent interface
      */

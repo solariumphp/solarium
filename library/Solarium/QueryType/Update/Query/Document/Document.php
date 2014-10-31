@@ -356,14 +356,15 @@ class Document extends AbstractDocument implements DocumentInterface
         if ($value !== null) {
             $this->addField($key, $value);
         }
+
         return $this;
     }
 
     /**
      * Sets the modifier type for the provided field
      *
-     * @param string $key
-     * @param string $modifier
+     * @param  string           $key
+     * @param  string           $modifier
      * @throws RuntimeException
      * @return self
      */
@@ -373,13 +374,14 @@ class Document extends AbstractDocument implements DocumentInterface
             throw new RuntimeException('Attempt to set an atomic update modifier that is not supported');
         }
         $this->modifiers[$key] = $modifier;
+
         return $this;
     }
 
     /**
      * Returns the appropriate modifier for atomic updates.
      *
-     * @param string $key
+     * @param  string      $key
      * @return null|string
      */
     public function getFieldModifier($key)
@@ -409,12 +411,13 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Set version
      *
-     * @param int $version
+     * @param  int  $version
      * @return self
      */
     public function setVersion($version)
     {
         $this->version = $version;
+
         return $this;
     }
 

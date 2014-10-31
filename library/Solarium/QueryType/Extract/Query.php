@@ -393,8 +393,8 @@ class Query extends BaseQuery
      * You can optionally directly supply the fields and boosts
      * to get a ready-made document instance for direct use in an add command
      *
-     * @param  array    $fields
-     * @param  array    $boosts
+     * @param  array             $fields
+     * @param  array             $boosts
      * @return DocumentInterface
      */
     public function createDocument($fields = array(), $boosts = array())

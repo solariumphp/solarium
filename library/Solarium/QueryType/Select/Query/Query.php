@@ -451,7 +451,7 @@ class Query extends BaseQuery
      * Specify multiple fields to return in the resultset
      *
      * @param string|array $fields can be an array or string with comma
-     * separated fieldnames
+     *                             separated fieldnames
      *
      * @return self Provides fluent interface
      */
@@ -851,8 +851,8 @@ class Query extends BaseQuery
      *
      * You can remove a component by passing its key or the component instance.
      *
-     * @param  string|AbstractComponent   $component
-     * @return self                       Provides fluent interface
+     * @param  string|AbstractComponent $component
+     * @return self                     Provides fluent interface
      */
     public function removeComponent($component)
     {

@@ -38,9 +38,7 @@
  */
 namespace Solarium\Core\Query;
 
-use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\QueryInterface;
 
 /**
  * Class for building Solarium client requests
