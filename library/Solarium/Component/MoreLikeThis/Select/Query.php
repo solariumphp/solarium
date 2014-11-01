@@ -33,12 +33,8 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
 namespace Solarium\Component\MoreLikeThis\Select;
 
-use Solarium\Component\MoreLikeThis\Select\RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
@@ -47,7 +43,7 @@ use Solarium\QueryType\Select\Query\Query as SelectQuery;
  *
  * @link http://wiki.apache.org/solr/MoreLikeThis
  */
-class SelectQueryComponent extends Component
+class Query extends Component
 {
     /**
      * Get component type

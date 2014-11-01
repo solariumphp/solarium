@@ -36,7 +36,7 @@
 /**
  * @namespace
  */
-namespace Solarium\Component\MoreLikeThis\Select\Result;
+namespace Solarium\Component\MoreLikeThis\Select;
 
 use Solarium\QueryType\Select\Result\DocumentInterface;
 

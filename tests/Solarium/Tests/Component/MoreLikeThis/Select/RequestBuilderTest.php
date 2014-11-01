@@ -29,20 +29,20 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+namespace Solarium\Tests\Component\MoreLikeThis\Select;
 
-use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
-use Solarium\Component\MoreLikeThis\Select\RequestBuilder\SelectRequestBuilderComponent;
+use Solarium\Component\MoreLikeThis\Select\Query;
+use Solarium\Component\MoreLikeThis\Select\RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuildComponent()
     {
-        $builder = new SelectRequestBuilderComponent();
+        $builder = new RequestBuilder();
         $request = new Request();
 
-        $component = new SelectQueryComponent();
+        $component = new Query();
         $component->setFields('description,name');
         $component->setMinimumTermFrequency(1);
         $component->setMinimumDocumentFrequency(3);
@@ -77,10 +77,10 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildComponentWithoutFieldsAndQueryFields()
     {
-        $builder = new SelectRequestBuilderComponent();
+        $builder = new RequestBuilder();
         $request = new Request();
 
-        $component = new SelectQueryComponent();
+        $component = new Query();
         $component->setMinimumTermFrequency(1);
         $component->setMinimumDocumentFrequency(3);
         $component->setMinimumWordLength(2);

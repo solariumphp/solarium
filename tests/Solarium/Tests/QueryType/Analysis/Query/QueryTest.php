@@ -35,11 +35,14 @@ use Solarium\QueryType\Analysis\Query\Query;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var TestAnalysisQuery
+     */
     protected $query;
 
     public function setUp()
     {
-        $this->query = new TestAnalysisQuery;
+        $this->query = new TestAnalysisQuery();
     }
 
     public function testSetAndGetQuery()

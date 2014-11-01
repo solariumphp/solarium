@@ -33,9 +33,6 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
 namespace Solarium\Component\MoreLikeThis\Select;
 
 use Solarium\Core\Client\Request;
@@ -49,7 +46,7 @@ class RequestBuilder implements ComponentRequestBuilderInterface
     /**
      * Add request settings for morelikethis
      *
-     * @param  SelectQueryComponent $component
+     * @param  Query $component
      * @param  Request $request
      * @return Request
      */

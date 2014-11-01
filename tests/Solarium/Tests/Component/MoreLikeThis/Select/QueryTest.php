@@ -31,19 +31,19 @@
 
 namespace Solarium\Tests\Component\MoreLikeThis\Select;
 
-use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
+use Solarium\Component\MoreLikeThis\Select\Query as SelectQuery;
 use Solarium\QueryType\Select\Query\Query;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var SelectQueryComponent
+     * @var SelectQuery
      */
     protected $mlt;
 
     public function setUp()
     {
-        $this->mlt = new SelectQueryComponent();
+        $this->mlt = new SelectQuery();
     }
 
     public function testConfigMode()

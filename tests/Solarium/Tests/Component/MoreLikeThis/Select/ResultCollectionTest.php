@@ -29,11 +29,11 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Component\MoreLikeThis\Select\Result;
+namespace Solarium\Tests\Component\MoreLikeThis\Select;
 
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\Component\MoreLikeThis\Select\Result\Result;
-use Solarium\Component\MoreLikeThis\Select\Result\ResultCollection;
+use Solarium\Component\MoreLikeThis\Select\Result;
+use Solarium\Component\MoreLikeThis\Select\ResultCollection;
 
 class ResultCollectionTest extends \PHPUnit_Framework_TestCase
 {

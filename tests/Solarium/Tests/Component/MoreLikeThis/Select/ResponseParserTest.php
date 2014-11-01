@@ -29,14 +29,14 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Component\MoreLikeThis\ResponseParser;
+namespace Solarium\Tests\Component\MoreLikeThis\Select;
 
-use Solarium\Component\MoreLikeThis\Select\ResponseParser\ResponseParser;
+use Solarium\Component\MoreLikeThis\Select\ResponseParser;
 use Solarium\Component\MoreLikeThis\Select\Result;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Document;
 
-class SelectResponeParserComponentTest extends \PHPUnit_Framework_TestCase
+class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var ResponseParser

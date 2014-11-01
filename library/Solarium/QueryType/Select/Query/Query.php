@@ -38,7 +38,7 @@
  */
 namespace Solarium\QueryType\Select\Query;
 
-use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
+use Solarium\Component\MoreLikeThis\Select\Query as SelectQueryComponent;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
@@ -158,7 +158,7 @@ class Query extends BaseQuery
         self::COMPONENT_FACETSET          => 'Solarium\QueryType\Select\Query\Component\FacetSet',
         self::COMPONENT_DISMAX            => 'Solarium\QueryType\Select\Query\Component\DisMax',
         self::COMPONENT_EDISMAX           => 'Solarium\QueryType\Select\Query\Component\EdisMax',
-        self::COMPONENT_MORELIKETHIS      => 'Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent',
+        self::COMPONENT_MORELIKETHIS      => 'Solarium\Component\MoreLikeThis\Select\Query',
         self::COMPONENT_HIGHLIGHTING      => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
         self::COMPONENT_GROUPING          => 'Solarium\QueryType\Select\Query\Component\Grouping',
         self::COMPONENT_SPELLCHECK        => 'Solarium\QueryType\Select\Query\Component\Spellcheck',

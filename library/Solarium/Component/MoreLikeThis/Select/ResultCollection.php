@@ -33,7 +33,7 @@
  * @link http://www.solarium-project.org/
  */
 
-namespace Solarium\Component\MoreLikeThis\Select\Result;
+namespace Solarium\Component\MoreLikeThis\Select;
 
 /**
  * Select component morelikethis result

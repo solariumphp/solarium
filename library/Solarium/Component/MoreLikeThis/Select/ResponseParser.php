@@ -33,15 +33,9 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\Component\MoreLikeThis\Select\ResponseParser;
+namespace Solarium\Component\MoreLikeThis\Select;
 
-use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
-use Solarium\Component\MoreLikeThis\Select\Result;
-use Solarium\Component\MoreLikeThis\Select\ResultCollection;
-use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;
 
 /**
@@ -52,8 +46,8 @@ class ResponseParser implements ComponentParserInterface
     /**
      * Parse result data into result objects
      *
-     * @param  Query $query
-     * @param  SelectQueryComponent $moreLikeThis
+     * @param  SelectQuery $query
+     * @param  Query $moreLikeThis
      * @param  array $data
      * @return ResponseParser
      */
