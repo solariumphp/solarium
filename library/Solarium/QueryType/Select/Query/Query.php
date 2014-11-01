@@ -38,6 +38,7 @@
  */
 namespace Solarium\QueryType\Select\Query;
 
+use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
@@ -157,7 +158,7 @@ class Query extends BaseQuery
         self::COMPONENT_FACETSET          => 'Solarium\QueryType\Select\Query\Component\FacetSet',
         self::COMPONENT_DISMAX            => 'Solarium\QueryType\Select\Query\Component\DisMax',
         self::COMPONENT_EDISMAX           => 'Solarium\QueryType\Select\Query\Component\EdisMax',
-        self::COMPONENT_MORELIKETHIS      => 'Solarium\QueryType\Select\Query\Component\MoreLikeThis',
+        self::COMPONENT_MORELIKETHIS      => 'Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent',
         self::COMPONENT_HIGHLIGHTING      => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
         self::COMPONENT_GROUPING          => 'Solarium\QueryType\Select\Query\Component\Grouping',
         self::COMPONENT_SPELLCHECK        => 'Solarium\QueryType\Select\Query\Component\Spellcheck',
@@ -838,7 +839,7 @@ class Query extends BaseQuery
      * @param  AbstractComponent $component
      * @return self              Provides fluent interface
      */
-    public function setComponent($key, $component)
+    public function setComponent($key, AbstractComponent $component)
     {
         $component->setQueryInstance($this);
         $this->components[$key] = $component;
@@ -890,7 +891,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\QueryType\Select\Query\Component\MoreLikeThis
+     * @return SelectQueryComponent
      */
     public function getMoreLikeThis()
     {

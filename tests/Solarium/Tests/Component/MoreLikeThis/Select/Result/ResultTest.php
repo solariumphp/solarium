@@ -29,69 +29,60 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\Result\MoreLikeThis;
+namespace Solarium\Tests\Component\MoreLikeThis\Select\Result;
 
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
-use Solarium\QueryType\Select\Result\MoreLikeThis\MoreLikeThis;
+use Solarium\Component\MoreLikeThis\Select\Result\Result;
 
-class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
+class ResultTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var MoreLikeThis
+     * @var Result
      */
-    protected $mlt;
+    protected $mltResult;
 
-    protected $results;
+    /**
+     * @var Document[]
+     */
+    protected $docs;
 
     public function setUp()
     {
-        $docs = array(
+        $this->docs = array(
             new Document(array('id'=>1, 'name'=>'test1')),
             new Document(array('id'=>2, 'name'=>'test2')),
         );
 
-        $this->results = array(
-            'key1' => new Result(2, 5.13, $docs),
-            'key2' => new Result(2, 2.3, $docs),
-        );
-
-        $this->mlt = new MoreLikeThis($this->results);
+        $this->mltResult = new Result(2, 5.13, $this->docs);
     }
 
-    public function testGetResults()
+    public function testGetNumFound()
     {
-         $this->assertEquals($this->results, $this->mlt->getResults());
+        $this->assertEquals(2, $this->mltResult->getNumFound());
     }
 
-    public function testGetResult()
+    public function testGetMaximumScore()
     {
-        $this->assertEquals(
-            $this->results['key1'],
-            $this->mlt->getResult('key1')
-        );
+        $this->assertEquals(5.13, $this->mltResult->getMaximumScore());
     }
 
-    public function testGetInvalidResult()
+    public function testGetDocuments()
     {
-        $this->assertEquals(
-            null,
-            $this->mlt->getResult('invalid')
-        );
+         $this->assertEquals($this->docs, $this->mltResult->getDocuments());
     }
 
     public function testIterator()
     {
-        $items = array();
-        foreach ($this->mlt as $key => $item) {
-            $items[$key] = $item;
+        $docs = array();
+        foreach ($this->mltResult as $key => $doc) {
+            $docs[$key] = $doc;
         }
 
-        $this->assertEquals($this->results, $items);
+        $this->assertEquals($this->docs, $docs);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->results), count($this->mlt));
+        $this->assertEquals(count($this->docs), count($this->mltResult));
     }
 }

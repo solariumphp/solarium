@@ -29,10 +29,10 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\MoreLikeThis;
+namespace Solarium\Tests\Component\MoreLikeThis;
 
-use Solarium\QueryType\MoreLikeThis\Query;
-use Solarium\QueryType\MoreLikeThis\Result;
+use Solarium\Component\MoreLikeThis\Query;
+use Solarium\Component\MoreLikeThis\Result;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 
@@ -58,7 +58,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $query = new Query();
         $query->setInterestingTerms('none');
 
-        $mock = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array('getQuery'), array(), '', false);
+        $mock = $this->getMock('Solarium\Component\MoreLikeThis\Result', array('getQuery'), array(), '', false);
         $mock->expects($this->once())
              ->method('getQuery')
              ->will($this->returnValue($query));
@@ -115,7 +115,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     protected function getQueryResultMock()
     {
         return $this->getMock(
-            'Solarium\QueryType\MoreLikeThis\Result',
+            'Solarium\Component\MoreLikeThis\Result',
             array(
                 'getQuery',
                 'parseResponse',

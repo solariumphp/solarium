@@ -1,6 +1,8 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2011 Bas de Nooijer.
+ * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -29,34 +31,52 @@
  * policies, either expressed or implied, of the copyright holder.
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\Select\Query\Component;
+namespace Solarium\Component\MoreLikeThis;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\RequestBuilder\Component\MoreLikeThis as RequestBuilder;
-use Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis as ResponseParser;
+use Solarium\Core\Client\Client;
 
 /**
- * MoreLikeThis component
+ * MoreLikeThis Query
  *
- * @link http://wiki.apache.org/solr/MoreLikeThis
+ * Can be used to select documents and/or facets from Solr. This querytype has
+ * lots of options and there are many Solarium subclasses for it.
+ * See the Solr documentation and the relevant Solarium classes for more info.
  */
-class MoreLikeThis extends Component
+class Query extends SelectQuery
 {
     /**
-     * Get component type
+     * Default options
+     *
+     * @var array
+     */
+    protected $options = array(
+        'handler'       => 'mlt',
+        'resultclass'   => 'Solarium\QueryType\MoreLikeThis\Result',
+        'documentclass' => 'Solarium\QueryType\Select\Result\Document',
+        'query'         => '*:*',
+        'start'         => 0,
+        'rows'          => 10,
+        'fields'        => '*,score',
+        'interestingTerms' => 'none',
+        'matchinclude'  => false,
+        'stream'        => false,
+        'omitheader'    => true,
+    );
+
+    /**
+     * Get type for this query
      *
      * @return string
      */
     public function getType()
     {
-        return SelectQuery::COMPONENT_MORELIKETHIS;
+        return Client::QUERY_MORELIKETHIS;
     }
 
     /**
@@ -80,39 +100,109 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set fields option
+     * Set query stream option
+     *
+     * Set to true to post query content instead of using the URL param
+     *
+     * @link http://wiki.apache.org/solr/ContentStream ContentStream
+     *
+     * @param  boolean $stream
+     * @return self    Provides fluent interface
+     */
+    public function setQueryStream($stream)
+    {
+        return $this->setOption('stream', $stream);
+    }
+
+    /**
+     * Get stream option
+     *
+     * @return boolean
+     */
+    public function getQueryStream()
+    {
+        return $this->getOption('stream');
+    }
+
+    /**
+     * Set the interestingTerms parameter.  Must be one of: none, list, details.
+     *
+     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @param  string $term
+     * @return self   Provides fluent interface
+     */
+    public function setInterestingTerms($term)
+    {
+        return $this->setOption('interestingTerms', $term);
+    }
+
+    /**
+     * Get the interestingTerm parameter.
+     *
+     * @return string
+     */
+    public function getInterestingTerms()
+    {
+        return $this->getOption('interestingTerms');
+    }
+
+    /**
+     * Set the match.include parameter, which is either 'true' or 'false'.
+     *
+     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     *
+     * @param  boolean $include
+     * @return self    Provides fluent interface
+     */
+    public function setMatchInclude($include)
+    {
+        return $this->setOption('matchinclude', $include);
+    }
+
+    /**
+     * Get the match.include parameter.
+     *
+     * @return string
+     */
+    public function getMatchInclude()
+    {
+        return $this->getOption('matchinclude');
+    }
+
+    /**
+     * Set MLT fields option
      *
      * The fields to use for similarity. NOTE: if possible, these should have a
      * stored TermVector
      *
-     * When using string input you can separate multiple fields with commas.
+     * Separate multiple fields with commas if you use string input.
      *
      * @param  string|array $fields
      * @return self         Provides fluent interface
      */
-    public function setFields($fields)
+    public function setMltFields($fields)
     {
         if (is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
 
-        return $this->setOption('fields', $fields);
+        return $this->setOption('mltfields', $fields);
     }
 
     /**
-     * Get fields option
+     * Get MLT fields option
      *
      * @return array
      */
-    public function getFields()
+    public function getMltFields()
     {
-        $fields = $this->getOption('fields');
-        if ($fields == null) {
-            $fields = array();
+        $value = $this->getOption('mltfields');
+        if ($value === null) {
+            $value = array();
         }
 
-        return $fields;
+        return $value;
     }
 
     /**
@@ -286,10 +376,10 @@ class MoreLikeThis extends Component
      * Query fields and their boosts using the same format as that used in
      * DisMaxQParserPlugin. These fields must also be specified in fields.
      *
-     * When using string input you can separate multiple fields with commas.
+     * Separate multiple fields with commas if you use string input.
      *
-     * @param  string $queryFields
-     * @return self   Provides fluent interface
+     * @param  string|array $queryFields
+     * @return self         Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -308,34 +398,11 @@ class MoreLikeThis extends Component
      */
     public function getQueryFields()
     {
-        $queryfields = $this->getOption('queryfields');
-        if ($queryfields == null) {
-            $queryfields = array();
+        $value = $this->getOption('queryfields');
+        if ($value === null) {
+            $value = array();
         }
 
-        return $queryfields;
-    }
-
-    /**
-     * Set count option
-     *
-     * The number of similar documents to return for each result
-     *
-     * @param  int  $count
-     * @return self Provides fluent interface
-     */
-    public function setCount($count)
-    {
-        return $this->setOption('count', $count);
-    }
-
-    /**
-     * Get count option
-     *
-     * @return int|null
-     */
-    public function getCount()
-    {
-        return $this->getOption('count');
+        return $value;
     }
 }

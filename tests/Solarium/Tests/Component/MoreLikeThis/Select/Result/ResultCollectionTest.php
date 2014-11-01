@@ -29,53 +29,69 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\MoreLikeThis;
+namespace Solarium\Tests\Component\MoreLikeThis\Select\Result;
 
-use Solarium\QueryType\MoreLikeThis\Query;
-use Solarium\QueryType\MoreLikeThis\ResponseParser;
+use Solarium\QueryType\Select\Result\Document;
+use Solarium\Component\MoreLikeThis\Select\Result\Result;
+use Solarium\Component\MoreLikeThis\Select\Result\ResultCollection;
 
-class ResponseParserTest extends \PHPUnit_Framework_TestCase
+class ResultCollectionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testParse()
+    /**
+     * @var ResultCollection
+     */
+    protected $mlt;
+
+    protected $results;
+
+    public function setUp()
     {
-        $data = array(
-            'response' => array(
-                'docs' => array(
-                    array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2')
-                ),
-                'numFound' => 503,
-            ),
-            'responseHeader' => array(
-                'status' => 1,
-                'QTime' => 13,
-            ),
-            'interestingTerms' => array(
-                'key1', 'value1', 'key2', 'value2'
-            ),
-            'match' => array(
-                'docs' => array(
-                    array('fieldA' => 5, 'fieldB' => 'Test5'),
-                ),
-            ),
+        $docs = array(
+            new Document(array('id'=>1, 'name'=>'test1')),
+            new Document(array('id'=>2, 'name'=>'test2')),
         );
 
-        $query = new Query();
-        $query->setInterestingTerms('details');
-        $query->setMatchInclude(true);
+        $this->results = array(
+            'key1' => new Result(2, 5.13, $docs),
+            'key2' => new Result(2, 2.3, $docs),
+        );
 
-        $resultStub = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array(), array(), '', false);
-        $resultStub->expects($this->any())
-             ->method('getData')
-             ->will($this->returnValue($data));
-        $resultStub->expects($this->any())
-             ->method('getQuery')
-             ->will($this->returnValue($query));
+        $this->mlt = new ResultCollection($this->results);
+    }
 
-        $parser = new ResponseParser;
-        $result = $parser->parse($resultStub);
+    public function testGetResults()
+    {
+         $this->assertEquals($this->results, $this->mlt->getResults());
+    }
 
-        $this->assertEquals(array('key1' => 'value1', 'key2' => 'value2'), $result['interestingTerms']);
-        $this->assertEquals(5, $result['match']->fieldA);
+    public function testGetResult()
+    {
+        $this->assertEquals(
+            $this->results['key1'],
+            $this->mlt->getResult('key1')
+        );
+    }
+
+    public function testGetInvalidResult()
+    {
+        $this->assertEquals(
+            null,
+            $this->mlt->getResult('invalid')
+        );
+    }
+
+    public function testIterator()
+    {
+        $items = array();
+        foreach ($this->mlt as $key => $item) {
+            $items[$key] = $item;
+        }
+
+        $this->assertEquals($this->results, $items);
+    }
+
+    public function testCount()
+    {
+        $this->assertEquals(count($this->results), count($this->mlt));
     }
 }

@@ -29,20 +29,23 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\MoreLikeThis;
+namespace Solarium\Tests\Component\MoreLikeThis;
 
-use Solarium\QueryType\MoreLikeThis\Query;
+use Solarium\Component\MoreLikeThis\Query;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Select\Query\FilterQuery;
-use Solarium\QueryType\Select\Query\Component\MoreLikeThis;
+use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Query
+     */
     protected $query;
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()
@@ -52,12 +55,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf('Solarium\QueryType\MoreLikeThis\ResponseParser', $this->query->getResponseParser());
+        $this->assertInstanceOf('Solarium\Component\MoreLikeThis\ResponseParser', $this->query->getResponseParser());
     }
 
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\MoreLikeThis\RequestBuilder', $this->query->getRequestBuilder());
+        $this->assertInstanceOf('Solarium\Component\MoreLikeThis\RequestBuilder', $this->query->getRequestBuilder());
     }
 
     public function testSetAndGetStart()
@@ -474,7 +477,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetComponents()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new SelectQueryComponent();
         $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
@@ -485,7 +488,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetComponent()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new SelectQueryComponent();
         $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
@@ -510,7 +513,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveComponent()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new SelectQueryComponent();
         $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
@@ -528,7 +531,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveComponentWithObjectInput()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new SelectQueryComponent();
         $this->query->setComponent('mlt', $mlt);
 
         $this->assertEquals(
@@ -549,7 +552,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $mlt = $this->query->getMoreLikeThis();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\MoreLikeThis',
+            'Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent',
             get_class($mlt)
         );
     }

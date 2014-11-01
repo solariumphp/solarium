@@ -36,42 +36,102 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Select\RequestBuilder\Component;
+namespace Solarium\Component\MoreLikeThis\Select\Result;
 
-use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
-use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
- * Add select component morelikethis to the request
+ * Select component morelikethis result item
  */
-class MoreLikeThis implements ComponentRequestBuilderInterface
+class Result implements \IteratorAggregate, \Countable
 {
     /**
-     * Add request settings for morelikethis
+     * Document instances array
      *
-     * @param  MoreLikeThisComponent $component
-     * @param  Request               $request
-     * @return Request
+     * @var array
      */
-    public function buildComponent($component, $request)
+    protected $documents;
+
+    /**
+     * Solr numFound
+     *
+     * This is NOT the number of MLT documents fetched from Solr!
+     *
+     * @var int
+     */
+    protected $numFound;
+
+    /**
+     * Maximum score in this MLT set
+     *
+     * @var float
+     */
+    protected $maximumScore;
+
+    /**
+     * Constructor
+     *
+     * @param  int        $numFound
+     * @param  float|null $maxScore
+     * @param  array      $documents
+     */
+    public function __construct($numFound, $maxScore, $documents)
     {
-        // enable morelikethis
-        $request->addParam('mlt', 'true');
+        $this->numFound = $numFound;
+        $this->maximumScore = $maxScore;
+        $this->documents = $documents;
+    }
 
-        $request->addParam('mlt.fl', count($component->getFields()) ? implode(',', $component->getFields()) : null);
-        $request->addParam('mlt.mintf', $component->getMinimumTermFrequency());
-        $request->addParam('mlt.mindf', $component->getMinimumDocumentFrequency());
-        $request->addParam('mlt.minwl', $component->getMinimumWordLength());
-        $request->addParam('mlt.maxwl', $component->getMaximumWordLength());
-        $request->addParam('mlt.maxqt', $component->getMaximumQueryTerms());
-        $request->addParam('mlt.maxntp', $component->getMaximumNumberOfTokens());
-        $request->addParam('mlt.boost', $component->getBoost());
-        $request->addParam(
-            'mlt.qf',
-            count($component->getQueryFields()) ? implode(',', $component->getQueryFields()) : null
-        );
-        $request->addParam('mlt.count', $component->getCount());
+    /**
+     * get Solr numFound
+     *
+     * Returns the number of MLT documents found by Solr (this is NOT the
+     * number of documents fetched from Solr!)
+     *
+     * @return int
+     */
+    public function getNumFound()
+    {
+        return $this->numFound;
+    }
 
-        return $request;
+    /**
+     * Get maximum score in the MLT document set
+     *
+     * @return float
+     */
+    public function getMaximumScore()
+    {
+        return $this->maximumScore;
+    }
+
+    /**
+     * Get all documents
+     *
+     * @return DocumentInterface[]
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
+
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->documents);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->documents);
     }
 }

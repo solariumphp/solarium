@@ -29,38 +29,41 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+namespace Solarium\Tests\Component\MoreLikeThis\ResponseParser;
 
-use Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis as Parser;
+use Solarium\Component\MoreLikeThis\Select\ResponseParser\SelectResponseParserComponent;
+use Solarium\Component\MoreLikeThis\Select\Result\Result;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
 
-class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
+class SelectResponeParserComponentTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var SelectResponseParserComponent
+     */
     protected $parser;
 
     public function setUp()
     {
-        $this->parser = new Parser();
+        $this->parser = new SelectResponseParserComponent();
     }
 
     public function testParse()
     {
         $query = new Query();
-        $data = array(
+        $data  = array(
             'moreLikeThis' => array(
                 'id1' => array(
                     'numFound' => 12,
                     'maxScore' => 1.75,
-                    'docs' => array(
+                    'docs'     => array(
                         array('field1' => 'value1')
                     )
                 )
             )
         );
 
-        $docs = array(new Document(array('field1' => 'value1')));
+        $docs     = array(new Document(array('field1' => 'value1')));
         $expected = array(
             'id1' => new Result(12, 1.75, $docs)
         );
@@ -80,18 +83,18 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     public function testParseWithoutMaxScore()
     {
         $query = new Query();
-        $data = array(
+        $data  = array(
             'moreLikeThis' => array(
                 'id1' => array(
                     'numFound' => 12,
-                    'docs' => array(
+                    'docs'     => array(
                         array('field1' => 'value1')
                     )
                 )
             )
         );
 
-        $docs = array(new Document(array('field1' => 'value1')));
+        $docs     = array(new Document(array('field1' => 'value1')));
         $expected = array(
             'id1' => new Result(12, null, $docs)
         );

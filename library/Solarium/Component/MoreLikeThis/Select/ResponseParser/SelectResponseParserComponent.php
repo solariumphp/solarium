@@ -36,102 +36,51 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Select\Result\MoreLikeThis;
+namespace Solarium\Component\MoreLikeThis\Select\ResponseParser;
 
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
+use Solarium\Component\MoreLikeThis\Select\Result\Result;
+use Solarium\Component\MoreLikeThis\Select\Result\ResultCollection;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;
 
 /**
- * Select component morelikethis result item
+ * Parse select component MoreLikeThis result from the data
  */
-class Result implements \IteratorAggregate, \Countable
+class SelectResponseParserComponent implements ComponentParserInterface
 {
     /**
-     * Document instances array
+     * Parse result data into result objects
      *
-     * @var array
+     * @param  Query $query
+     * @param  SelectQueryComponent $moreLikeThis
+     * @param  array $data
+     * @return SelectResponseParserComponent
      */
-    protected $documents;
-
-    /**
-     * Solr numFound
-     *
-     * This is NOT the number of MLT documents fetched from Solr!
-     *
-     * @var int
-     */
-    protected $numFound;
-
-    /**
-     * Maximum score in this MLT set
-     *
-     * @var float
-     */
-    protected $maximumScore;
-
-    /**
-     * Constructor
-     *
-     * @param  int        $numFound
-     * @param  float|null $maxScore
-     * @param  array      $documents
-     */
-    public function __construct($numFound, $maxScore, $documents)
+    public function parse($query, $moreLikeThis, $data)
     {
-        $this->numFound = $numFound;
-        $this->maximumScore = $maxScore;
-        $this->documents = $documents;
-    }
+        $results = array();
+        if (isset($data['moreLikeThis'])) {
 
-    /**
-     * get Solr numFound
-     *
-     * Returns the number of MLT documents found by Solr (this is NOT the
-     * number of documents fetched from Solr!)
-     *
-     * @return int
-     */
-    public function getNumFound()
-    {
-        return $this->numFound;
-    }
+            $documentClass = $query->getOption('documentclass');
 
-    /**
-     * Get maximum score in the MLT document set
-     *
-     * @return float
-     */
-    public function getMaximumScore()
-    {
-        return $this->maximumScore;
-    }
+            $searchResults = $data['moreLikeThis'];
+            foreach ($searchResults as $key => $result) {
 
-    /**
-     * Get all documents
-     *
-     * @return DocumentInterface[]
-     */
-    public function getDocuments()
-    {
-        return $this->documents;
-    }
+                // create document instances
+                $docs = array();
+                foreach ($result['docs'] as $fields) {
+                    $docs[] = new $documentClass($fields);
+                }
 
-    /**
-     * IteratorAggregate implementation
-     *
-     * @return \ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->documents);
-    }
+                $results[$key] = new Result(
+                    $result['numFound'],
+                    isset($result['maxScore']) ? $result['maxScore'] : null,
+                    $docs
+                );
+            }
+        }
 
-    /**
-     * Countable implementation
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->documents);
+        return new ResultCollection($results);
     }
 }

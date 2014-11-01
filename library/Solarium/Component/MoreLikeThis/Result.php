@@ -34,15 +34,11 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\MoreLikeThis;
+namespace Solarium\Component\MoreLikeThis;
 
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\Exception\UnexpectedValueException;
-use Solarium\QueryType\MoreLikeThis\Query;
 
 /**
  * MoreLikeThis query result

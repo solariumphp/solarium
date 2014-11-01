@@ -1,5 +1,6 @@
 <?php
 /**
+ * Copyright 2011 Bas de Nooijer.
  * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
  * All rights reserved.
  *
@@ -29,53 +30,55 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
  *
+ * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\MoreLikeThis;
+namespace Solarium\Component\MoreLikeThis;
 
-use Solarium\QueryType\Select\ResponseParser\ResponseParser as SelectResponseParser;
+use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\RequestBuilder\RequestBuilder as SelectRequestBuilder;
+use Solarium\Core\Query\QueryInterface;
 
 /**
- * Parse MoreLikeThis response data
+ * Build a MoreLikeThis request
  */
-class ResponseParser extends SelectResponseParser
+class RequestBuilder extends SelectRequestBuilder
 {
     /**
-     * Get result data for the response
+     * Build request for a MoreLikeThis query
      *
-     * @param  Result $result
-     * @return array
+     * @param  QueryInterface|Query $query
+     * @return Request
      */
-    public function parse($result)
+    public function build(QueryInterface $query)
     {
-        $data = $result->getData();
-        $query = $result->getQuery();
+        $request = parent::build($query);
 
-        $parseResult = parent::parse($result);
-        if (isset($data['interestingTerms']) && 'none' != $query->getInterestingTerms()) {
-            $terms = $data['interestingTerms'];
-            if ('details' == $query->getInterestingTerms()) {
-                if ($query->getResponseWriter() == $query::WT_JSON) {
-                    $terms = $this->convertToKeyValueArray($terms);
-                }
-            }
-            $parseResult['interestingTerms'] = $terms;
+        // add mlt params to request
+        $request->addParam('mlt.interestingTerms', $query->getInterestingTerms());
+        $request->addParam('mlt.match.include', $query->getMatchInclude());
+        $request->addParam('mlt.match.offset', $query->getStart());
+        $request->addParam('mlt.fl', implode(',', $query->getMltFields()));
+        $request->addParam('mlt.mintf', $query->getMinimumTermFrequency());
+        $request->addParam('mlt.mindf', $query->getMinimumDocumentFrequency());
+        $request->addParam('mlt.minwl', $query->getMinimumWordLength());
+        $request->addParam('mlt.maxwl', $query->getMaximumWordLength());
+        $request->addParam('mlt.maxqt', $query->getMaximumQueryTerms());
+        $request->addParam('mlt.maxntp', $query->getMaximumNumberOfTokens());
+        $request->addParam('mlt.boost', $query->getBoost());
+        $request->addParam('mlt.qf', implode(',', $query->getQueryFields()));
+
+        // convert query to stream if necessary
+        if (true === $query->getQueryStream()) {
+            $request->removeParam('q');
+            $request->setRawData($query->getQuery());
+            $request->setMethod(Request::METHOD_POST);
+            $request->addHeader('Content-Type: text/plain; charset=utf-8');
         }
 
-        if (isset($data['match']['docs'][0]) && true == $query->getMatchInclude()) {
-            $matchData = $data['match']['docs'][0];
-
-            $documentClass = $query->getOption('documentclass');
-            $fields = (array) $matchData;
-            $parseResult['match'] = new $documentClass($fields);
-        }
-
-        return $parseResult;
+        return $request;
     }
 }

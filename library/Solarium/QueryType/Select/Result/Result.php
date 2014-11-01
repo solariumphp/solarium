@@ -33,14 +33,10 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
-use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * Select query result
@@ -216,7 +212,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\QueryType\Select\Result\MoreLikeThis\Result
+     * @return \Solarium\Component\MoreLikeThis\Select\Result\Result
      */
     public function getMoreLikeThis()
     {

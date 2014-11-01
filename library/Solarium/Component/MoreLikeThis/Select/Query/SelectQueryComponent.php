@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer.
- * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
- * All rights reserved.
+ * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,7 +29,6 @@
  * policies, either expressed or implied, of the copyright holder.
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
@@ -39,175 +36,84 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\MoreLikeThis;
+namespace Solarium\Component\MoreLikeThis\Select\Query;
 
+use Solarium\Component\MoreLikeThis\Select\RequestBuilder\SelectRequestBuilderComponent;
+use Solarium\Component\MoreLikeThis\Select\ResponseParser\SelectResponseParserComponent;
+use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\Core\Client\Client;
-use Solarium\QueryType\MoreLikeThis\ResponseParser as ResponseParser;
-use Solarium\QueryType\MoreLikeThis\RequestBuilder as RequestBuilder;
 
 /**
- * MoreLikeThis Query
+ * MoreLikeThis component
  *
- * Can be used to select documents and/or facets from Solr. This querytype has
- * lots of options and there are many Solarium subclasses for it.
- * See the Solr documentation and the relevant Solarium classes for more info.
+ * @link http://wiki.apache.org/solr/MoreLikeThis
  */
-class Query extends SelectQuery
+class SelectQueryComponent extends Component
 {
     /**
-     * Default options
-     *
-     * @var array
-     */
-    protected $options = array(
-        'handler'       => 'mlt',
-        'resultclass'   => 'Solarium\QueryType\MoreLikeThis\Result',
-        'documentclass' => 'Solarium\QueryType\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
-        'interestingTerms' => 'none',
-        'matchinclude'  => false,
-        'stream'        => false,
-        'omitheader'    => true,
-    );
-
-    /**
-     * Get type for this query
+     * Get component type
      *
      * @return string
      */
     public function getType()
     {
-        return Client::QUERY_MORELIKETHIS;
+        return SelectQuery::COMPONENT_MORELIKETHIS;
     }
 
     /**
      * Get a requestbuilder for this query
      *
-     * @return RequestBuilder
+     * @return SelectRequestBuilderComponent
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new SelectRequestBuilderComponent();
     }
 
     /**
      * Get a response parser for this query
      *
-     * @return ResponseParser
+     * @return SelectResponseParserComponent
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new SelectResponseParserComponent();
     }
 
     /**
-     * Set query stream option
-     *
-     * Set to true to post query content instead of using the URL param
-     *
-     * @link http://wiki.apache.org/solr/ContentStream ContentStream
-     *
-     * @param  boolean $stream
-     * @return self    Provides fluent interface
-     */
-    public function setQueryStream($stream)
-    {
-        return $this->setOption('stream', $stream);
-    }
-
-    /**
-     * Get stream option
-     *
-     * @return boolean
-     */
-    public function getQueryStream()
-    {
-        return $this->getOption('stream');
-    }
-
-    /**
-     * Set the interestingTerms parameter.  Must be one of: none, list, details.
-     *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
-     * @param  string $term
-     * @return self   Provides fluent interface
-     */
-    public function setInterestingTerms($term)
-    {
-        return $this->setOption('interestingTerms', $term);
-    }
-
-    /**
-     * Get the interestingTerm parameter.
-     *
-     * @return string
-     */
-    public function getInterestingTerms()
-    {
-        return $this->getOption('interestingTerms');
-    }
-
-    /**
-     * Set the match.include parameter, which is either 'true' or 'false'.
-     *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
-     *
-     * @param  boolean $include
-     * @return self    Provides fluent interface
-     */
-    public function setMatchInclude($include)
-    {
-        return $this->setOption('matchinclude', $include);
-    }
-
-    /**
-     * Get the match.include parameter.
-     *
-     * @return string
-     */
-    public function getMatchInclude()
-    {
-        return $this->getOption('matchinclude');
-    }
-
-    /**
-     * Set MLT fields option
+     * Set fields option
      *
      * The fields to use for similarity. NOTE: if possible, these should have a
      * stored TermVector
      *
-     * Separate multiple fields with commas if you use string input.
+     * When using string input you can separate multiple fields with commas.
      *
      * @param  string|array $fields
      * @return self         Provides fluent interface
      */
-    public function setMltFields($fields)
+    public function setFields($fields)
     {
         if (is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
 
-        return $this->setOption('mltfields', $fields);
+        return $this->setOption('fields', $fields);
     }
 
     /**
-     * Get MLT fields option
+     * Get fields option
      *
      * @return array
      */
-    public function getMltFields()
+    public function getFields()
     {
-        $value = $this->getOption('mltfields');
-        if ($value === null) {
-            $value = array();
+        $fields = $this->getOption('fields');
+        if ($fields == null) {
+            $fields = array();
         }
 
-        return $value;
+        return $fields;
     }
 
     /**
@@ -216,7 +122,7 @@ class Query extends SelectQuery
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
-     * @param  int  $minimum
+     * @param  int $minimum
      * @return self Provides fluent interface
      */
     public function setMinimumTermFrequency($minimum)
@@ -240,7 +146,7 @@ class Query extends SelectQuery
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
-     * @param  int  $minimum
+     * @param  int $minimum
      * @return self Provides fluent interface
      */
     public function setMinimumDocumentFrequency($minimum)
@@ -263,7 +169,7 @@ class Query extends SelectQuery
      *
      * Minimum word length below which words will be ignored.
      *
-     * @param  int  $minimum
+     * @param  int $minimum
      * @return self Provides fluent interface
      */
     public function setMinimumWordLength($minimum)
@@ -286,7 +192,7 @@ class Query extends SelectQuery
      *
      * Maximum word length above which words will be ignored.
      *
-     * @param  int  $maximum
+     * @param  int $maximum
      * @return self Provides fluent interface
      */
     public function setMaximumWordLength($maximum)
@@ -310,7 +216,7 @@ class Query extends SelectQuery
      * Maximum number of query terms that will be included in any generated
      * query.
      *
-     * @param  int  $maximum
+     * @param  int $maximum
      * @return self Provides fluent interface
      */
     public function setMaximumQueryTerms($maximum)
@@ -334,7 +240,7 @@ class Query extends SelectQuery
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
-     * @param  int  $maximum
+     * @param  int $maximum
      * @return self Provides fluent interface
      */
     public function setMaximumNumberOfTokens($maximum)
@@ -381,10 +287,10 @@ class Query extends SelectQuery
      * Query fields and their boosts using the same format as that used in
      * DisMaxQParserPlugin. These fields must also be specified in fields.
      *
-     * Separate multiple fields with commas if you use string input.
+     * When using string input you can separate multiple fields with commas.
      *
-     * @param  string|array $queryFields
-     * @return self         Provides fluent interface
+     * @param  string $queryFields
+     * @return self   Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -403,11 +309,34 @@ class Query extends SelectQuery
      */
     public function getQueryFields()
     {
-        $value = $this->getOption('queryfields');
-        if ($value === null) {
-            $value = array();
+        $queryfields = $this->getOption('queryfields');
+        if ($queryfields == null) {
+            $queryfields = array();
         }
 
-        return $value;
+        return $queryfields;
+    }
+
+    /**
+     * Set count option
+     *
+     * The number of similar documents to return for each result
+     *
+     * @param  int $count
+     * @return SelectQueryComponent
+     */
+    public function setCount($count)
+    {
+        return $this->setOption('count', $count);
+    }
+
+    /**
+     * Get count option
+     *
+     * @return int|null
+     */
+    public function getCount()
+    {
+        return $this->getOption('count');
     }
 }

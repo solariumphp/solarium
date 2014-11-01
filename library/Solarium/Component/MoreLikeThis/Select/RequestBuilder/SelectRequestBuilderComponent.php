@@ -36,74 +36,43 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Select\Result\MoreLikeThis;
+namespace Solarium\Component\MoreLikeThis\Select\RequestBuilder;
 
-use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
+use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
+use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderInterface;
 
 /**
- * Select component morelikethis result
+ * Add select component morelikethis to the request
  */
-class MoreLikeThis implements \IteratorAggregate, \Countable
+class SelectRequestBuilderComponent implements ComponentRequestBuilderInterface
 {
     /**
-     * Result array
+     * Add request settings for morelikethis
      *
-     * @var array
+     * @param  SelectQueryComponent $component
+     * @param  Request $request
+     * @return Request
      */
-    protected $results;
-
-    /**
-     * Constructor
-     *
-     * @param array $results
-     */
-    public function __construct($results)
+    public function buildComponent($component, $request)
     {
-        $this->results = $results;
-    }
+        // enable morelikethis
+        $request->addParam('mlt', 'true');
 
-    /**
-     * Get a result by key
-     *
-     * @param  mixed       $key
-     * @return Result|null
-     */
-    public function getResult($key)
-    {
-        if (isset($this->results[$key])) {
-            return $this->results[$key];
-        } else {
-            return null;
-        }
-    }
+        $request->addParam('mlt.fl', count($component->getFields()) ? implode(',', $component->getFields()) : null);
+        $request->addParam('mlt.mintf', $component->getMinimumTermFrequency());
+        $request->addParam('mlt.mindf', $component->getMinimumDocumentFrequency());
+        $request->addParam('mlt.minwl', $component->getMinimumWordLength());
+        $request->addParam('mlt.maxwl', $component->getMaximumWordLength());
+        $request->addParam('mlt.maxqt', $component->getMaximumQueryTerms());
+        $request->addParam('mlt.maxntp', $component->getMaximumNumberOfTokens());
+        $request->addParam('mlt.boost', $component->getBoost());
+        $request->addParam(
+            'mlt.qf',
+            count($component->getQueryFields()) ? implode(',', $component->getQueryFields()) : null
+        );
+        $request->addParam('mlt.count', $component->getCount());
 
-    /**
-     * Get all results
-     *
-     * @return Result[]
-     */
-    public function getResults()
-    {
-        return $this->results;
-    }
-
-    /**
-     * IteratorAggregate implementation
-     *
-     * @return \ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->results);
-    }
-
-    /**
-     * Countable implementation
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->results);
+        return $request;
     }
 }

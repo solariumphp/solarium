@@ -33,53 +33,72 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\Select\ResponseParser\Component;
-
-use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
-use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
-use Solarium\QueryType\Select\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisResult;
+namespace Solarium\Component\MoreLikeThis\Select\Result;
 
 /**
- * Parse select component MoreLikeThis result from the data
+ * Select component morelikethis result
  */
-class MoreLikeThis implements ComponentParserInterface
+class ResultCollection implements \IteratorAggregate, \Countable
 {
     /**
-     * Parse result data into result objects
+     * Result array
      *
-     * @param  Query                 $query
-     * @param  MoreLikeThisComponent $moreLikeThis
-     * @param  array                 $data
-     * @return MoreLikeThis
+     * @var array
      */
-    public function parse($query, $moreLikeThis, $data)
+    protected $results;
+
+    /**
+     * Constructor
+     *
+     * @param array $results
+     */
+    public function __construct($results)
     {
-        $results = array();
-        if (isset($data['moreLikeThis'])) {
+        $this->results = $results;
+    }
 
-            $documentClass = $query->getOption('documentclass');
-
-            $searchResults = $data['moreLikeThis'];
-            foreach ($searchResults as $key => $result) {
-
-                // create document instances
-                $docs = array();
-                foreach ($result['docs'] as $fields) {
-                    $docs[] = new $documentClass($fields);
-                }
-
-                $results[$key] = new Result(
-                    $result['numFound'],
-                    isset($result['maxScore']) ? $result['maxScore'] : null,
-                    $docs
-                );
-            }
+    /**
+     * Get a result by key
+     *
+     * @param  mixed       $key
+     * @return Result|null
+     */
+    public function getResult($key)
+    {
+        if (isset($this->results[$key])) {
+            return $this->results[$key];
+        } else {
+            return null;
         }
+    }
 
-        return new MoreLikeThisResult($results);
+    /**
+     * Get all results
+     *
+     * @return Result[]
+     */
+    public function getResults()
+    {
+        return $this->results;
+    }
+
+    /**
+     * IteratorAggregate implementation
+     *
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->results);
+    }
+
+    /**
+     * Countable implementation
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->results);
     }
 }

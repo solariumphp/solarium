@@ -29,55 +29,53 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\Result\MoreLikeThis;
+namespace Solarium\Tests\Component\MoreLikeThis;
 
-use Solarium\QueryType\Select\Result\Document;
-use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
+use Solarium\Component\MoreLikeThis\Query;
+use Solarium\Component\MoreLikeThis\ResponseParser;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Result
-     */
-    protected $mltResult;
-
-    public function setUp()
+    public function testParse()
     {
-        $this->docs = array(
-            new Document(array('id'=>1, 'name'=>'test1')),
-            new Document(array('id'=>2, 'name'=>'test2')),
+        $data = array(
+            'response' => array(
+                'docs' => array(
+                    array('fieldA' => 1, 'fieldB' => 'Test'),
+                    array('fieldA' => 2, 'fieldB' => 'Test2')
+                ),
+                'numFound' => 503,
+            ),
+            'responseHeader' => array(
+                'status' => 1,
+                'QTime' => 13,
+            ),
+            'interestingTerms' => array(
+                'key1', 'value1', 'key2', 'value2'
+            ),
+            'match' => array(
+                'docs' => array(
+                    array('fieldA' => 5, 'fieldB' => 'Test5'),
+                ),
+            ),
         );
 
-        $this->mltResult = new Result(2, 5.13, $this->docs);
-    }
+        $query = new Query();
+        $query->setInterestingTerms('details');
+        $query->setMatchInclude(true);
 
-    public function testGetNumFound()
-    {
-        $this->assertEquals(2, $this->mltResult->getNumFound());
-    }
+        $resultStub = $this->getMock('Solarium\Component\MoreLikeThis\Result', array(), array(), '', false);
+        $resultStub->expects($this->any())
+             ->method('getData')
+             ->will($this->returnValue($data));
+        $resultStub->expects($this->any())
+             ->method('getQuery')
+             ->will($this->returnValue($query));
 
-    public function testGetMaximumScore()
-    {
-        $this->assertEquals(5.13, $this->mltResult->getMaximumScore());
-    }
+        $parser = new ResponseParser;
+        $result = $parser->parse($resultStub);
 
-    public function testGetDocuments()
-    {
-         $this->assertEquals($this->docs, $this->mltResult->getDocuments());
-    }
-
-    public function testIterator()
-    {
-        $docs = array();
-        foreach ($this->mltResult as $key => $doc) {
-            $docs[$key] = $doc;
-        }
-
-        $this->assertEquals($this->docs, $docs);
-    }
-
-    public function testCount()
-    {
-        $this->assertEquals(count($this->docs), count($this->mltResult));
+        $this->assertEquals(array('key1' => 'value1', 'key2' => 'value2'), $result['interestingTerms']);
+        $this->assertEquals(5, $result['match']->fieldA);
     }
 }

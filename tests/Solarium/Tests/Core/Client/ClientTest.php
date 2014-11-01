@@ -37,7 +37,7 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Ping\Query as PingQuery;
-use Solarium\QueryType\MoreLikeThis\Query as MoreLikeThisQuery;
+use Solarium\Component\MoreLikeThis\Query as MoreLikeThisQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Terms\Query as TermsQuery;

@@ -29,10 +29,10 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\MoreLikeThis;
+namespace Solarium\Tests\Component\MoreLikeThis;
 
-use Solarium\QueryType\MoreLikeThis\Query;
-use Solarium\QueryType\MoreLikeThis\RequestBuilder;
+use Solarium\Component\MoreLikeThis\Query;
+use Solarium\Component\MoreLikeThis\RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase

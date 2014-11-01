@@ -31,18 +31,18 @@
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\RequestBuilder\Component\MoreLikeThis as RequestBuilder;
-use Solarium\QueryType\Select\Query\Component\MoreLikeThis as Component;
+use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
+use Solarium\Component\MoreLikeThis\Select\RequestBuilder\SelectRequestBuilderComponent;
 use Solarium\Core\Client\Request;
 
-class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
+class SelectRequestBuilderComponentTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuildComponent()
     {
-        $builder = new RequestBuilder;
+        $builder = new SelectRequestBuilderComponent();
         $request = new Request();
 
-        $component = new Component();
+        $component = new SelectQueryComponent();
         $component->setFields('description,name');
         $component->setMinimumTermFrequency(1);
         $component->setMinimumDocumentFrequency(3);
@@ -58,17 +58,17 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array(
-                'mlt' => 'true',
-                'mlt.fl' => 'description,name',
-                'mlt.mintf' => 1,
-                'mlt.mindf' => 3,
-                'mlt.minwl' => 2,
-                'mlt.maxwl' => 15,
-                'mlt.maxqt' => 4,
+                'mlt'        => 'true',
+                'mlt.fl'     => 'description,name',
+                'mlt.mintf'  => 1,
+                'mlt.mindf'  => 3,
+                'mlt.minwl'  => 2,
+                'mlt.maxwl'  => 15,
+                'mlt.maxqt'  => 4,
                 'mlt.maxntp' => 5,
-                'mlt.boost' => 'true',
-                'mlt.qf' => 'description',
-                'mlt.count' => 6,
+                'mlt.boost'  => 'true',
+                'mlt.qf'     => 'description',
+                'mlt.count'  => 6,
             ),
             $request->getParams()
         );
@@ -77,10 +77,10 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildComponentWithoutFieldsAndQueryFields()
     {
-        $builder = new RequestBuilder;
+        $builder = new SelectRequestBuilderComponent();
         $request = new Request();
 
-        $component = new Component();
+        $component = new SelectQueryComponent();
         $component->setMinimumTermFrequency(1);
         $component->setMinimumDocumentFrequency(3);
         $component->setMinimumWordLength(2);
@@ -94,15 +94,15 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array(
-                'mlt' => 'true',
-                'mlt.mintf' => 1,
-                'mlt.mindf' => 3,
-                'mlt.minwl' => 2,
-                'mlt.maxwl' => 15,
-                'mlt.maxqt' => 4,
+                'mlt'        => 'true',
+                'mlt.mintf'  => 1,
+                'mlt.mindf'  => 3,
+                'mlt.minwl'  => 2,
+                'mlt.maxwl'  => 15,
+                'mlt.maxqt'  => 4,
                 'mlt.maxntp' => 5,
-                'mlt.boost' => 'true',
-                'mlt.count' => 6,
+                'mlt.boost'  => 'true',
+                'mlt.count'  => 6,
             ),
             $request->getParams()
         );
