@@ -36,16 +36,15 @@
 /**
  * @namespace
  */
-namespace Solarium\Component\MoreLikeThis\Select\RequestBuilder;
+namespace Solarium\Component\MoreLikeThis\Select;
 
-use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderInterface;
 
 /**
  * Add select component morelikethis to the request
  */
-class SelectRequestBuilderComponent implements ComponentRequestBuilderInterface
+class RequestBuilder implements ComponentRequestBuilderInterface
 {
     /**
      * Add request settings for morelikethis

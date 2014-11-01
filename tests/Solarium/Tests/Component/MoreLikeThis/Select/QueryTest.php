@@ -29,12 +29,12 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Component\MoreLikeThis\Select\Query;
+namespace Solarium\Tests\Component\MoreLikeThis\Select;
 
 use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
 use Solarium\QueryType\Select\Query\Query;
 
-class SelectQueryComponentTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var SelectQueryComponent
@@ -82,7 +82,7 @@ class SelectQueryComponentTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(
-            'Solarium\Component\MoreLikeThis\Select\ResponseParser\SelectResponseParserComponent',
+            'Solarium\Component\MoreLikeThis\Select\ResponseParser',
             $this->mlt->getResponseParser()
         );
     }
@@ -90,7 +90,7 @@ class SelectQueryComponentTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\Component\MoreLikeThis\Select\RequestBuilder\SelectRequestBuilderComponent',
+            'Solarium\Component\MoreLikeThis\Select\RequestBuilder',
             $this->mlt->getRequestBuilder()
         );
     }

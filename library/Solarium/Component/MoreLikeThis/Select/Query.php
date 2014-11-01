@@ -36,10 +36,9 @@
 /**
  * @namespace
  */
-namespace Solarium\Component\MoreLikeThis\Select\Query;
+namespace Solarium\Component\MoreLikeThis\Select;
 
-use Solarium\Component\MoreLikeThis\Select\RequestBuilder\SelectRequestBuilderComponent;
-use Solarium\Component\MoreLikeThis\Select\ResponseParser\SelectResponseParserComponent;
+use Solarium\Component\MoreLikeThis\Select\RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
@@ -63,21 +62,21 @@ class SelectQueryComponent extends Component
     /**
      * Get a requestbuilder for this query
      *
-     * @return SelectRequestBuilderComponent
+     * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new SelectRequestBuilderComponent();
+        return new RequestBuilder();
     }
 
     /**
      * Get a response parser for this query
      *
-     * @return SelectResponseParserComponent
+     * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new SelectResponseParserComponent();
+        return new ResponseParser();
     }
 
     /**

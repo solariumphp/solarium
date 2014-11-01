@@ -35,7 +35,7 @@ use Solarium\Component\MoreLikeThis\Select\Query\SelectQueryComponent;
 use Solarium\Component\MoreLikeThis\Select\RequestBuilder\SelectRequestBuilderComponent;
 use Solarium\Core\Client\Request;
 
-class SelectRequestBuilderComponentTest extends \PHPUnit_Framework_TestCase
+class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuildComponent()
     {

@@ -31,21 +31,21 @@
 
 namespace Solarium\Tests\Component\MoreLikeThis\ResponseParser;
 
-use Solarium\Component\MoreLikeThis\Select\ResponseParser\SelectResponseParserComponent;
-use Solarium\Component\MoreLikeThis\Select\Result\Result;
+use Solarium\Component\MoreLikeThis\Select\ResponseParser\ResponseParser;
+use Solarium\Component\MoreLikeThis\Select\Result;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Document;
 
 class SelectResponeParserComponentTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var SelectResponseParserComponent
+     * @var ResponseParser
      */
     protected $parser;
 
     public function setUp()
     {
-        $this->parser = new SelectResponseParserComponent();
+        $this->parser = new ResponseParser();
     }
 
     public function testParse()
