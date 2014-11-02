@@ -587,7 +587,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $dismax = $this->query->getDisMax();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\DisMax',
+            'Solarium\Component\DisMax\Select\Query',
             get_class($dismax)
         );
     }

@@ -29,20 +29,20 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+namespace Solarium\Tests\Component\EDisMax\Select;
 
-use Solarium\QueryType\Select\RequestBuilder\Component\EdisMax as RequestBuilder;
-use Solarium\QueryType\Select\Query\Component\EdisMax as Component;
+use Solarium\Component\EDisMax\Select\Query;
+use Solarium\Component\EDisMax\Select\RequestBuilder;
 use Solarium\Core\Client\Request;
 
-class EdisMaxTest extends \PHPUnit_Framework_TestCase
+class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuildComponent()
     {
-        $builder = new RequestBuilder;
+        $builder = new RequestBuilder();
         $request = new Request();
 
-        $component = new Component();
+        $component = new Query();
         $component->setQueryParser('dummyparser');
         $component->setQueryAlternative('test');
         $component->setQueryFields('content,name');

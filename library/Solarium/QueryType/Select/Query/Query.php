@@ -156,8 +156,8 @@ class Query extends BaseQuery
      */
     protected $componentTypes = array(
         self::COMPONENT_FACETSET          => 'Solarium\QueryType\Select\Query\Component\FacetSet',
-        self::COMPONENT_DISMAX            => 'Solarium\QueryType\Select\Query\Component\DisMax',
-        self::COMPONENT_EDISMAX           => 'Solarium\QueryType\Select\Query\Component\EdisMax',
+        self::COMPONENT_DISMAX            => 'Solarium\Component\DisMax\Select\Query',
+        self::COMPONENT_EDISMAX           => 'Solarium\Component\EDisMax\Select\Query',
         self::COMPONENT_MORELIKETHIS      => 'Solarium\Component\MoreLikeThis\Select\Query',
         self::COMPONENT_HIGHLIGHTING      => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
         self::COMPONENT_GROUPING          => 'Solarium\QueryType\Select\Query\Component\Grouping',
@@ -915,7 +915,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\QueryType\Select\Query\Component\DisMax
+     * @return \Solarium\QueryType\Select\Query\Component\Query
      */
     public function getDisMax()
     {
@@ -927,7 +927,7 @@ class Query extends BaseQuery
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\QueryType\Select\Query\Component\EdisMax
+     * @return \Solarium\QueryType\Select\Query\Component\Query
      */
     public function getEDisMax()
     {

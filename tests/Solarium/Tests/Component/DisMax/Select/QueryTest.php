@@ -29,36 +29,36 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\Query\Component;
+namespace Solarium\Tests\Component\DisMax\Select;
 
-use Solarium\QueryType\Select\Query\Component\DisMax;
+use Solarium\Component\DisMax\Select\Query as SelectQuery;
 use Solarium\QueryType\Select\Query\Query;
 
-class DisMaxTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var DisMax
+     * @var SelectQuery
      */
     protected $disMax;
 
     public function setUp()
     {
-        $this->disMax = new DisMax;
+        $this->disMax = new SelectQuery();
     }
 
     public function testConfigMode()
     {
         $options = array(
-            'queryparser' => 'edismax',
+            'queryparser'      => 'edismax',
             'queryalternative' => '*:*',
-            'queryfields' => 'title^2.0 description',
-            'minimummatch' => '2.0',
-            'phrasefields' => 'title^2.0 description^3.5',
-            'phraseslop' => 2,
-            'queryphraseslop' => 4,
-            'tie' => 2.1,
-            'boostquery' => 'cat:1^3',
-            'boostfunctions' => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
+            'queryfields'      => 'title^2.0 description',
+            'minimummatch'     => '2.0',
+            'phrasefields'     => 'title^2.0 description^3.5',
+            'phraseslop'       => 2,
+            'queryphraseslop'  => 4,
+            'tie'              => 2.1,
+            'boostquery'       => 'cat:1^3',
+            'boostfunctions'   => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
         );
 
         $this->disMax->setOptions($options);
@@ -91,7 +91,7 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\Component\Dismax',
+            'Solarium\Component\DisMax\Select\RequestBuilder',
             $this->disMax->getRequestBuilder()
         );
     }

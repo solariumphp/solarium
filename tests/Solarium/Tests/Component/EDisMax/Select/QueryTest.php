@@ -29,42 +29,42 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\Query\Component;
+namespace Solarium\Tests\Component\EDisMax\Select;
 
-use Solarium\QueryType\Select\Query\Component\EdisMax;
+use Solarium\Component\EDisMax\Select\Query as SelectQuery;
 use Solarium\QueryType\Select\Query\Query;
 
-class EdisMaxTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var EdisMax
+     * @var SelectQuery
      */
     protected $eDisMax;
 
     public function setUp()
     {
-        $this->eDisMax = new EdisMax;
+        $this->eDisMax = new SelectQuery();
     }
 
     public function testConfigMode()
     {
         $options = array(
-            'queryparser' => 'edismax',
-            'queryalternative' => '*:*',
-            'queryfields' => 'title^2.0 description',
-            'minimummatch' => '2.0',
-            'phrasefields' => 'title^2.0 description^3.5',
-            'phraseslop' => 2,
-            'phrasebigramfields' => 'description^1.3 date^4.3 field_text2^1.3',
-            'phrasebigramslop' => 3,
+            'queryparser'         => 'edismax',
+            'queryalternative'    => '*:*',
+            'queryfields'         => 'title^2.0 description',
+            'minimummatch'        => '2.0',
+            'phrasefields'        => 'title^2.0 description^3.5',
+            'phraseslop'          => 2,
+            'phrasebigramfields'  => 'description^1.3 date^4.3 field_text2^1.3',
+            'phrasebigramslop'    => 3,
             'phrasetrigramfields' => 'datetime^4 field1^5 myotherfield^9',
-            'phrasetrigramslop' => 5,
-            'queryphraseslop' => 4,
-            'tie' => 2.1,
-            'boostquery' => 'cat:1^3',
-            'boostfunctions' => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
-            'boostfunctionsmult' => 'funcC(arg5,arg6)^4.3 funcD(arg7,arg8)^3.4',
-            'userfields' => 'date *_ul',
+            'phrasetrigramslop'   => 5,
+            'queryphraseslop'     => 4,
+            'tie'                 => 2.1,
+            'boostquery'          => 'cat:1^3',
+            'boostfunctions'      => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
+            'boostfunctionsmult'  => 'funcC(arg5,arg6)^4.3 funcD(arg7,arg8)^3.4',
+            'userfields'          => 'date *_ul',
         );
 
         $this->eDisMax->setOptions($options);
@@ -97,7 +97,7 @@ class EdisMaxTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\Component\EdisMax',
+            'Solarium\Component\EDisMax\Select\RequestBuilder',
             $this->eDisMax->getRequestBuilder()
         );
     }

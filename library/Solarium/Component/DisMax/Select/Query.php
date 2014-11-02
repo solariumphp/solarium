@@ -33,20 +33,17 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\Select\Query\Component;
+namespace Solarium\Component\DisMax\Select;
 
+use Solarium\QueryType\Select\Query\Component\Component;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 
 /**
  * DisMax component
  *
  * @link http://wiki.apache.org/solr/DisMaxQParserPlugin
  */
-class DisMax extends Component
+class Query extends Component
 {
     /**
      * Default options

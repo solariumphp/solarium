@@ -27,47 +27,50 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\Select\RequestBuilder\Component;
+namespace Solarium\Tests\Component\DisMax\Select;
 
-use Solarium\QueryType\Select\Query\Component\Dismax as DismaxComponent;
+use Solarium\Component\DisMax\Select\Query;
+use Solarium\Component\DisMax\Select\RequestBuilder;
 use Solarium\Core\Client\Request;
 
-/**
- * Add select component dismax to the request
- */
-class DisMax implements ComponentRequestBuilderInterface
+class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Add request settings for Dismax
-     *
-     * @param  DismaxComponent $component
-     * @param  Request         $request
-     * @return Request
-     */
-    public function buildComponent($component, $request)
+    public function testBuildComponent()
     {
-        // enable dismax
-        $request->addParam('defType', $component->getQueryParser());
+        $builder = new RequestBuilder;
+        $request = new Request();
 
-        $request->addParam('q.alt', $component->getQueryAlternative());
-        $request->addParam('qf', $component->getQueryFields());
-        $request->addParam('mm', $component->getMinimumMatch());
-        $request->addParam('pf', $component->getPhraseFields());
-        $request->addParam('ps', $component->getPhraseSlop());
-        $request->addParam('qs', $component->getQueryPhraseSlop());
-        $request->addParam('tie', $component->getTie());
-        $request->addParam('bq', $component->getBoostQuery());
-        $request->addParam('bf', $component->getBoostFunctions());
+        $component = new Query();
+        $component->setQueryParser('dummyparser');
+        $component->setQueryAlternative('test');
+        $component->setQueryFields('content,name');
+        $component->setMinimumMatch('75%');
+        $component->setPhraseFields('content,description');
+        $component->setPhraseSlop(1);
+        $component->setQueryPhraseSlop(2);
+        $component->setTie(0.5);
+        $component->setBoostQuery('cat:1');
+        $component->setBoostFunctions('functionX(price)');
 
-        return $request;
+        $request = $builder->buildComponent($component, $request);
+
+        $this->assertEquals(
+            array(
+                'defType' => 'dummyparser',
+                'q.alt'   => 'test',
+                'qf'      => 'content,name',
+                'mm'      => '75%',
+                'pf'      => 'content,description',
+                'ps'      => 1,
+                'qs'      => 2,
+                'tie'     => 0.5,
+                'bq'      => 'cat:1',
+                'bf'      => 'functionX(price)',
+            ),
+            $request->getParams()
+        );
+
     }
 }

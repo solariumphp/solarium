@@ -33,25 +33,22 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\Select\RequestBuilder\Component;
+namespace Solarium\Component\EDisMax\Select;
 
-use Solarium\QueryType\Select\Query\Component\Edismax as EdismaxComponent;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderInterface;
 
 /**
  * Add select component edismax to the request
  *
  */
-class EdisMax implements ComponentRequestBuilderInterface
+class RequestBuilder implements ComponentRequestBuilderInterface
 {
     /**
      * Add request settings for EdismaxComponent
      *
-     * @param  EdismaxComponent $component
-     * @param  Request          $request
+     * @param  Query $component
+     * @param  Request $request
      * @return Request
      */
     public function buildComponent($component, $request)

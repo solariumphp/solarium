@@ -33,20 +33,17 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\Select\Query\Component;
+namespace Solarium\Component\EDisMax\Select;
 
+use Solarium\Component\DisMax\Select\Query as DisMaxQuery;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\RequestBuilder\Component\EdisMax as RequestBuilder;
 
 /**
  * EdisMax component
  *
  * @link http://wiki.apache.org/solr/ExtendedDisMax
  */
-class EdisMax extends DisMax
+class Query extends DisMaxQuery
 {
     /**
      * Default options
@@ -74,7 +71,7 @@ class EdisMax extends DisMax
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
