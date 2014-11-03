@@ -78,7 +78,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->builder->build($this->query);
         $this->assertEquals(
-            'update/extract?omitHeader=true&extractOnly=false&param1=value1&wt=json&json.nl=flat&fmap.from-field=to-field'.
+            'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&extractOnly=false&fmap.from-field=to-field'.
             '&resource.name=RequestBuilderTest.php',
             $request->getUri()
         );
@@ -90,7 +90,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $query->setFile('http://solarium-project.org/');
         $request = $this->builder->build($query);
         $this->assertEquals(
-            'update/extract?omitHeader=true&extractOnly=false&param1=value1&wt=json&json.nl=flat&fmap.from-field=to-field'.
+            'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&extractOnly=false&fmap.from-field=to-field'.
             '&stream.url=http%3A%2F%2Fsolarium-project.org%2F',
             $request->getUri()
         );
