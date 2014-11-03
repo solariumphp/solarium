@@ -72,6 +72,7 @@ class Query extends BaseQuery
         'resultclass' => 'Solarium\QueryType\Extract\Result',
         'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
         'omitheader'  => true,
+        'extractonly' => false,
     );
 
     /**
@@ -385,6 +386,25 @@ class Query extends BaseQuery
     public function getDocumentClass()
     {
         return $this->getOption('documentclass');
+    }
+
+    /**
+     * Set the ExtractOnly parameter of SOLR Extraction Handler
+     *
+     * @param bool $value
+     * @return self Provides fluent interface
+     */
+    public function setExtractOnly($value) {
+        return $this->setOption('extractonly', (bool) $value);
+    }
+
+    /**
+     * Get the ExtractOnly parameter of SOLR Extraction Handler
+     *
+     * @return boolean
+     */
+    public function getExtractOnly() {
+        return $this->getOption('extractonly');
     }
 
     /**
