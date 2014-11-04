@@ -10,5 +10,5 @@ before_script:
   - echo "\n\n\n\n" | pecl install pecl_http-1.7.6
   - composer install
 
-script: phpunit -c phpunit.xml.travis
+script: vendor/bin/phpunit -c phpunit.xml.travis
 
