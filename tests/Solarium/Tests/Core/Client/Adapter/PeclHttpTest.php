@@ -175,6 +175,8 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             array(
                 'timeout' => 10,
+                'connecttimeout' => 10,
+                'dns_cache_timeout' => 10,
                 'headers' => array(
                     'Content-Type' => 'text/xml; charset=utf-8',
                 )
