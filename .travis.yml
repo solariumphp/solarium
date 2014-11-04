@@ -11,3 +11,4 @@ before_script:
 
 script: phpunit -c phpunit.xml.travis
 
+after_script: vendor/bin/coveralls -v
