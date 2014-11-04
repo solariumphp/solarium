@@ -9,6 +9,7 @@ phps:
 before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
+  - echo "\n\n\n\n" | pecl install pecl_http-1.7.6
 
 script: phpunit -c phpunit.xml.travis
 
