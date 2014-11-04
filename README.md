@@ -46,4 +46,7 @@ http://wiki.solarium-project.org/index.php/V3:Installation#Getting_Solarium
 ## Travis Continuous Integration status
 
 * Develop branch [![Develop build status](https://secure.travis-ci.org/basdenooijer/solarium.png?branch=develop)](http://travis-ci.org/basdenooijer/solarium)
+* Develop branch [![Coverage Status](https://coveralls.io/repos/basdenooijer/solarium/badge.png?branch=develop)](https://coveralls.io/r/basdenooijer/solarium?branch=develop)
 * Master branch [![Develop build status](https://secure.travis-ci.org/basdenooijer/solarium.png?branch=master)](http://travis-ci.org/basdenooijer/solarium)
+* Master branch [![Coverage Status](https://coveralls.io/repos/basdenooijer/solarium/badge.png?branch=master)](https://coveralls.io/r/basdenooijer/solarium?branch=master)
+
