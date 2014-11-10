@@ -220,6 +220,9 @@ class Client extends Configurable
      */
     protected function init()
     {
+        //@todo use injection
+        $this->eventDispatcher = new EventDispatcher();
+
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'endpoint':
@@ -561,33 +564,29 @@ class Client extends Configurable
         return $this->queryTypes;
     }
 
-  /**
-   * Gets the event dispatcher.
-   *
-   * @return EventDispatcherInterface
-   */
-  public function getEventDispatcher()
-  {
-    if (!$this->eventDispatcher) {
-      $this->eventDispatcher = new EventDispatcher();
+    /**
+     * Gets the event dispatcher.
+     *
+     * @return EventDispatcherInterface
+     */
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
     }
 
-    return $this->eventDispatcher;
-  }
+    /**
+     * Sets the event dispatcher.
+     *
+     * @param EventDispatcherInterface $eventDispatcher
+     *
+     * @return $this
+     */
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
 
-  /**
-   * Sets the event dispatcher.
-   *
-   * @param EventDispatcherInterface $eventDispatcher
-   *
-   * @return $this
-   */
-  public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
-  {
-    $this->eventDispatcher = $eventDispatcher;
-
-    return $this;
-  }
+        return $this;
+    }
 
     /**
      * Register a plugin
