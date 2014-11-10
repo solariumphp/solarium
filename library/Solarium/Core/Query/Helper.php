@@ -38,7 +38,6 @@
  */
 namespace Solarium\Core\Query;
 
-use Solarium\Core\Query\Query;
 use Solarium\Exception\InvalidArgumentException;
 
 /**
@@ -358,6 +357,7 @@ class Helper
             foreach ($params as $key => $value) {
                 $this->query->addParam($key, $value);
             }
+
             return $name . '()';
         } else {
             return $name . '(' . implode($params, ',') . ')';
@@ -454,8 +454,8 @@ class Helper
      *
      * @see http://wiki.apache.org/solr/SolrQuerySyntax#Other_built-in_useful_query_parsers
      *
-     * @param string $field
-     * @param float $weight
+     * @param  string $field
+     * @param  float  $weight
      * @return string
      */
     public function qparserTerm($field, $weight)
@@ -470,8 +470,8 @@ class Helper
      *
      * @see http://wiki.apache.org/solr/CommonQueryParameters#Caching_of_filters
      *
-     * @param boolean    $useCache
-     * @param float|null $cost
+     * @param  boolean    $useCache
+     * @param  float|null $cost
      * @return string
      */
     public function cacheControl($useCache, $cost = null)

@@ -105,8 +105,8 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     /**
      * Parse collation data into a result object
      *
-     * @param  Query     $queryObject
-     * @param  array     $values
+     * @param  Query       $queryObject
+     * @param  array       $values
      * @return Collation[]
      */
     protected function parseCollation($queryObject, $values)

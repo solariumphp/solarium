@@ -38,7 +38,6 @@
  */
 namespace Solarium\Core\Query;
 
-use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Client\Request;
 
 /**

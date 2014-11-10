@@ -452,8 +452,8 @@ class Query extends BaseQuery
      *
      * This class should implement the document interface
      *
-     * @param string $value classname
-     * @return self Provides fluent interface
+     * @param  string $value classname
+     * @return self   Provides fluent interface
      */
     public function setDocumentClass($value)
     {
@@ -480,14 +480,15 @@ class Query extends BaseQuery
      *
      * @since 2.1.0
      *
-     * @param  array    $fields
-     * @param  array    $boosts
-     * @param  array    $modifiers
+     * @param  array             $fields
+     * @param  array             $boosts
+     * @param  array             $modifiers
      * @return DocumentInterface
      */
     public function createDocument($fields = array(), $boosts = array(), $modifiers = array())
     {
         $class = $this->getDocumentClass();
+
         return new $class($fields, $boosts, $modifiers);
     }
 }

@@ -40,8 +40,6 @@ namespace Solarium\QueryType\Terms;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
-use Solarium\QueryType\Terms\RequestBuilder;
-use Solarium\QueryType\Terms\ResponseParser;
 
 /**
  * Terms query

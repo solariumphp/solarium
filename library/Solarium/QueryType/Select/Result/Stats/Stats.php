@@ -38,8 +38,6 @@
  */
 namespace Solarium\QueryType\Select\Result\Stats;
 
-use Solarium\QueryType\Select\Result\Stats\Result;
-
 /**
  * Select component stats result
  */

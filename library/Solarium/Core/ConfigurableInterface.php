@@ -60,7 +60,7 @@ interface ConfigurableInterface
      * @throws InvalidArgumentException
      * @param  array|\Zend_Config       $options
      * @param  boolean                  $overwrite True for overwriting existing options, false
-     *  for merging (new values overwrite old ones if needed)
+     *                                             for merging (new values overwrite old ones if needed)
      *
      * @return void
      */

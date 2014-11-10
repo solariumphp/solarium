@@ -159,8 +159,8 @@ class FacetSet extends Component
      * Allow extraction of facets without having to define
      * them on the query
      *
-     * @param boolean $extract
-     * @return self Provides fluent interface
+     * @param  boolean $extract
+     * @return self    Provides fluent interface
      */
     public function setExtractFromResponse($extract)
     {
@@ -437,9 +437,9 @@ class FacetSet extends Component
      * after setting the key, by using the addFacet method.
      *
      * @throws OutOfBoundsException
-     * @param  string               $type
-     * @param  array|object|null    $options
-     * @param  boolean              $add
+     * @param  string                                                 $type
+     * @param  array|object|null                                      $options
+     * @param  boolean                                                $add
      * @return \Solarium\QueryType\Select\Query\Component\Facet\Facet
      */
     public function createFacet($type, $options = null, $add = true)
@@ -470,8 +470,8 @@ class FacetSet extends Component
     /**
      * Get a facet field instance
      *
-     * @param  mixed       $options
-     * @param  bool        $add
+     * @param  mixed                                                  $options
+     * @param  bool                                                   $add
      * @return \Solarium\QueryType\Select\Query\Component\Facet\Field
      */
     public function createFacetField($options = null, $add = true)
@@ -482,8 +482,8 @@ class FacetSet extends Component
     /**
      * Get a facet query instance
      *
-     * @param  mixed       $options
-     * @param  bool        $add
+     * @param  mixed                                                  $options
+     * @param  bool                                                   $add
      * @return \Solarium\QueryType\Select\Query\Component\Facet\Query
      */
     public function createFacetQuery($options = null, $add = true)
@@ -494,8 +494,8 @@ class FacetSet extends Component
     /**
      * Get a facet multiquery instance
      *
-     * @param  mixed            $options
-     * @param  bool             $add
+     * @param  mixed                                                       $options
+     * @param  bool                                                        $add
      * @return \Solarium\QueryType\Select\Query\Component\Facet\MultiQuery
      */
     public function createFacetMultiQuery($options = null, $add = true)
@@ -506,8 +506,8 @@ class FacetSet extends Component
     /**
      * Get a facet range instance
      *
-     * @param  mixed       $options
-     * @param  bool        $add
+     * @param  mixed                                                  $options
+     * @param  bool                                                   $add
      * @return \Solarium\QueryType\Select\Query\Component\Facet\Range
      */
     public function createFacetRange($options = null, $add = true)
@@ -518,8 +518,8 @@ class FacetSet extends Component
     /**
      * Get a facet pivot instance
      *
-     * @param  mixed       $options
-     * @param  bool        $add
+     * @param  mixed                                                  $options
+     * @param  bool                                                   $add
      * @return \Solarium\QueryType\Select\Query\Component\Facet\Pivot
      */
     public function createFacetPivot($options = null, $add = true)

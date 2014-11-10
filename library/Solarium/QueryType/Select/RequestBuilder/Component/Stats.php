@@ -40,12 +40,11 @@ namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Stats\Stats as StatsComponent;
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\RequestBuilder;
 
 /**
  * Add select component stats to the request
  */
-class Stats extends RequestBuilder
+class Stats implements ComponentRequestBuilderInterface
 {
     /**
      * Add request settings for the stats component
@@ -62,12 +61,7 @@ class Stats extends RequestBuilder
         // add fields
         foreach ($component->getFields() as $field) {
 
-            $value = $this->renderLocalParams(
-                $field->getKey(),
-                array('ex' => $field->getExcludes())
-            );
-
-            $request->addParam('stats.field', $value);
+            $request->addParam('stats.field', $field->getKey());
 
             // add field specific facet stats
             foreach ($field->getFacets() as $facet) {
