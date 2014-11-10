@@ -1,15 +1,29 @@
 language: php
 
-phps:
+php:
   - 5.6
   - 5.5
   - 5.4
   - 5.3
+  - hhvm
+  - hhvm-nightly
+
+env:
+  - SYMFONY_VERSION=2.1.*
+  - SYMFONY_VERSION=2.2.*
+  - SYMFONY_VERSION=2.3.*
+  - SYMFONY_VERSION=2.4.*
+  - SYMFONY_VERSION=2.5.*
 
 before_script:
   - echo "\n\n\n\n" | pecl install pecl_http-1.7.6
-  - composer install
+  - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
 
 script: vendor/bin/phpunit -c phpunit.xml.travis
 
 after_script: vendor/bin/coveralls -v
+
+matrix:
+  allow_failures:
+      - php: hhvm
+      - php: hhvm-nightly
