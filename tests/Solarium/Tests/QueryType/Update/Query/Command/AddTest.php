@@ -74,7 +74,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
         } catch (\PHPUnit_Framework_Error $e) {
             $this->assertContains(
                 'Argument 1 passed to '.get_class($this->command).'::addDocument() must implement interface '.
-                'Solarium\QueryType\Update\Query\Document\DocumentInterface, instance of stdClass given',
+                'Solarium\QueryType\Update\Query\Document\DocumentInterface',
                 $e->getMessage()
             );
         }
