@@ -79,6 +79,20 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     }
 
     /**
+     * Check if field is set by name
+     *
+     * Magic method for checking if fields are set as properties of this document
+     * object, by field name. Also used by empty().
+     *
+     * @param  string $name
+     * @return boolean
+     */
+    public function __isset($name)
+    {
+        return isset($this->fields[$name]);
+    }
+
+    /**
      * IteratorAggregate implementation
      *
      * @return \ArrayIterator

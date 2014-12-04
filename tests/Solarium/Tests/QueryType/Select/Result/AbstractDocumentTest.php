@@ -60,6 +60,28 @@ abstract class AbstractDocumentTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testPropertyIsset()
+    {
+        $this->assertTrue(
+            isset($this->doc->categories)
+        );
+
+        $this->assertFalse(
+            isset($this->doc->invalidfieldname)
+        );
+    }
+
+    public function testPropertyEmpty()
+    {
+        $this->assertTrue(
+            empty($this->doc->empty_field)
+        );
+
+        $this->assertFalse(
+            empty($this->doc->categories)
+        );
+    }
+
     public function testSetField()
     {
         $this->setExpectedException('Solarium\Exception\RuntimeException');
