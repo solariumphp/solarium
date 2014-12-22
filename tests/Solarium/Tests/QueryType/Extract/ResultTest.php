@@ -31,10 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Extract;
 
-use Solarium\Tests\QueryType\Update\ResultTest as UpdateResultTest;
 use Solarium\QueryType\Extract\Result as ExtractResult;
+use Solarium\Tests\QueryType\Update\AbstractResultTest;
 
-class ResultTest extends UpdateResultTest
+class ResultTest extends AbstractResultTest
 {
     public function setUp()
     {
