@@ -26,6 +26,9 @@
             "dev-develop": "3.3.x-dev"
         }
     },
+    "scripts": {
+        "test": "phpunit -c phpunit.xml.travis -v"
+    },
     "autoload": {
         "psr-0": { "Solarium\\": "library/" }
     }
