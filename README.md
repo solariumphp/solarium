@@ -50,3 +50,4 @@ http://wiki.solarium-project.org/index.php/V3:Installation#Getting_Solarium
 * Master branch [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=master)](http://travis-ci.org/solariumphp/solarium)
 * Master branch [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=master)](https://coveralls.io/r/solariumphp/solarium?branch=master)
 
+
