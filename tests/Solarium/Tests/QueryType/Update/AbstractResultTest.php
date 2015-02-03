@@ -29,14 +29,25 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\Result;
+namespace Solarium\Tests\QueryType\Update;
 
-use Solarium\QueryType\Select\Result\Document;
-
-class DocumentTest extends AbstractDocumentTest
+abstract class AbstractResultTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
+    protected $result;
+
+    public function testGetStatus()
     {
-        $this->doc = new Document($this->fields);
+        $this->assertEquals(
+            1,
+            $this->result->getStatus()
+        );
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertEquals(
+            12,
+            $this->result->getQueryTime()
+        );
     }
 }

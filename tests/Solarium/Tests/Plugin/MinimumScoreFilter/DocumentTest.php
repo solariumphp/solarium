@@ -33,9 +33,9 @@ namespace Solarium\Tests\Plugin\MinimumScoreFilter;
 
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\Plugin\MinimumScoreFilter\Document as FilterDocument;
-use Solarium\Tests\QueryType\Select\Result\DocumentTest as SelectDocumentTest;
+use Solarium\Tests\QueryType\Select\Result\AbstractDocumentTest;
 
-class DocumentTest extends SelectDocumentTest
+class DocumentTest extends AbstractDocumentTest
 {
     protected function setUp()
     {
