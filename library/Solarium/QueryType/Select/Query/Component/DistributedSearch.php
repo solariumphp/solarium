@@ -249,7 +249,7 @@ class DistributedSearch extends Component
     /**
      * Add a collection
      *
-     * @param  string $key   unique string
+     * @param  string $key        unique string
      * @param  string $collection The syntax is host:port/base_url
      * @return self   Provides fluent interface
      * @link http://wiki.apache.org/solr/SolrCloud/

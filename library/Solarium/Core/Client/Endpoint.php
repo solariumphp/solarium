@@ -54,6 +54,7 @@ class Endpoint extends Configurable
      * @var array
      */
     protected $options = array(
+        'scheme'  => 'http',
         'host'    => '127.0.0.1',
         'port'    => 8983,
         'path'    => '/solr',
@@ -211,6 +212,27 @@ class Endpoint extends Configurable
     }
 
     /**
+     * Set scheme option
+     *
+     * @param  string  $scheme
+     * @return self Provides fluent interface
+     */
+    public function setScheme($scheme)
+    {
+        return $this->setOption('scheme', $scheme);
+    }
+
+    /**
+     * Get scheme option
+     *
+     * @return string
+     */
+    public function getScheme()
+    {
+        return $this->getOption('scheme');
+    }
+
+    /**
      * Get the base url for all requests
      *
      * Based on host, path, port and core options.
@@ -219,7 +241,7 @@ class Endpoint extends Configurable
      */
     public function getBaseUri()
     {
-        $uri = 'http://' . $this->getHost() . ':' . $this->getPort() . $this->getPath() . '/';
+        $uri = $this->getScheme() . '://' . $this->getHost() . ':' . $this->getPort() . $this->getPath() . '/';
 
         $core = $this->getCore();
         if (!empty($core)) {

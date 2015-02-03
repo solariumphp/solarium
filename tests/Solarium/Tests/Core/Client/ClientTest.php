@@ -57,6 +57,9 @@ use Solarium\Core\Event\PostExecute as PostExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
 
+/**
+ * @coversDefaultClass \Solarium\Core\Client\Client
+ */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -110,6 +113,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertThat($plugin, $this->isInstanceOf(__NAMESPACE__.'\\MyClientPlugin'));
         $this->assertEquals($options['plugin']['myplugin']['options'], $plugin->getOptions());
 
+    }
+
+    /**
+     * @covers ::getEventDispatcher
+     * @covers ::setEventDispatcher
+     */
+    public function testGetEventDispatcher() {
+      $this->assertInstanceOf('\Symfony\Component\EventDispatcher\EventDispatcherInterface', $this->client->getEventDispatcher());
+      $event_dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+      $this->client->setEventDispatcher($event_dispatcher);
+      $this->assertSame($event_dispatcher, $this->client->getEventDispatcher());
     }
 
     public function testConfigModeWithoutKeys()

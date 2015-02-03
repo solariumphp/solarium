@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\Client\RequestBuilder\Select\Component;
+namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\RequestBuilder\Component\Debug as RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\Debug as Component;

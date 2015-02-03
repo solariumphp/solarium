@@ -83,11 +83,13 @@ class Configurable implements ConfigurableInterface
      * If $options is an object, it will be converted into an array by calling
      * its toArray method. This is compatible with the Zend_Config classes in
      * Zend Framework, but can also easily be implemented in any other object.
+     * If $options does not have the toArray method, the internal method will
+     * be used instead.
      *
      * @throws InvalidArgumentException
      * @param  array|\Zend_Config       $options
      * @param  boolean                  $overwrite True for overwriting existing options, false
-     *  for merging (new values overwrite old ones if needed)
+     *                                             for merging (new values overwrite old ones if needed)
      *
      * @return void
      */
@@ -97,7 +99,7 @@ class Configurable implements ConfigurableInterface
             // first convert to array if needed
             if (!is_array($options)) {
                 if (is_object($options)) {
-                    $options = $options->toArray();
+                    $options = (! method_exists($options, 'toArray') ? $this->toArray($options) : $options->toArray());
                 } else {
                     throw new InvalidArgumentException(
                         'Options value given to the setOptions() method must be an array or a Zend_Config object'
@@ -176,5 +178,30 @@ class Configurable implements ConfigurableInterface
     public function getOptions()
     {
         return $this->options;
+    }
+
+    /**
+     * Turns an object array into an associative multidimensional array.
+     *
+     * @param $object
+     * @return array|object
+     */
+    protected function toArray($object)
+    {
+        if (is_object($object))
+        {
+            // get_object_vars() does not handle recursive objects well,
+            // so use set-type without scope operator instead
+            settype($object, 'array');
+        }
+
+        /*
+        * Return array converted to object
+        * Using __METHOD__ (Magic constant)
+        * for recursive call
+        */
+        if (is_array($object)) return array_map(__METHOD__, $object);
+
+        return $object;
     }
 }

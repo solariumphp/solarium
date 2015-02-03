@@ -106,6 +106,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('defaulttext', $this->query->getDefaultField());
     }
 
+    public function testSetAndGetExtractOnly()
+    {
+        $this->query->setExtractOnly(true);
+        $this->assertEquals(true, $this->query->getExtractOnly());
+    }
+
     public function testSetAndGetLowernames()
     {
         $this->query->setLowernames(true);

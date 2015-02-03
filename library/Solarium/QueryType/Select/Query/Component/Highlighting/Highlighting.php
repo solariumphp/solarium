@@ -188,7 +188,7 @@ class Highlighting extends Component
      * Add multiple fields for highlighting
      *
      * @param string|array $fields can be an array of object instances or a string with comma
-     * separated fieldnames
+     *                             separated fieldnames
      *
      * @return self Provides fluent interface
      */
@@ -418,6 +418,27 @@ class Highlighting extends Component
     public function getMaxAlternateFieldLength()
     {
         return $this->getOption('maxalternatefieldlength');
+    }
+    
+    /**
+     * Set preserveMulti option
+     *
+     * @param  boolean $preservemulti
+     * @return self    Provides fluent interface
+     */
+    public function setPreserveMulti($preservemulti)
+    {
+        return $this->setOption('preservemulti', $preservemulti);
+    }
+    
+    /**
+     * Get preserveMulti option
+     *
+     * @return boolean|null
+     */
+    public function getPreserveMulti()
+    {
+        return $this->getOption('preservemulti');
     }
 
     /**
@@ -821,8 +842,8 @@ class Highlighting extends Component
     /**
      * Set boundaryscannerchars option
      *
-     * @param  string  $chars
-     * @return self Provides fluent interface
+     * @param  string $chars
+     * @return self   Provides fluent interface
      */
     public function setBoundaryScannerChars($chars)
     {
@@ -842,8 +863,8 @@ class Highlighting extends Component
     /**
      * Set boundaryscannertype option
      *
-     * @param  string  $type
-     * @return self Provides fluent interface
+     * @param  string $type
+     * @return self   Provides fluent interface
      */
     public function setBoundaryScannerType($type)
     {
@@ -863,8 +884,8 @@ class Highlighting extends Component
     /**
      * Set boundaryscannerlanguage option
      *
-     * @param  string  $language
-     * @return self Provides fluent interface
+     * @param  string $language
+     * @return self   Provides fluent interface
      */
     public function setBoundaryScannerLanguage($language)
     {
@@ -884,8 +905,8 @@ class Highlighting extends Component
     /**
      * Set boundaryscannercountry option
      *
-     * @param  string  $country
-     * @return self Provides fluent interface
+     * @param  string $country
+     * @return self   Provides fluent interface
      */
     public function setBoundaryScannerCountry($country)
     {

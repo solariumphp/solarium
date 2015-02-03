@@ -161,8 +161,8 @@ class ZendHttp extends Configurable implements AdapterInterface
      *
      * @throws HttpException
      * @throws OutOfBoundsException
-     * @param  Request       $request
-     * @param  Endpoint      $endpoint
+     * @param  Request              $request
+     * @param  Endpoint             $endpoint
      * @return Response
      */
     public function execute($request, $endpoint)

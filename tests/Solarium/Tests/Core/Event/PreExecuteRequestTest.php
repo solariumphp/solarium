@@ -35,7 +35,6 @@ use Solarium\Core\Event\PreExecuteRequest;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Query\Result\Result;
 
 class PreExecuteRequestTest extends \PHPUnit_Framework_TestCase
 {

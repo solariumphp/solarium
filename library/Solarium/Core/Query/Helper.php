@@ -38,7 +38,6 @@
  */
 namespace Solarium\Core\Query;
 
-use Solarium\Core\Query\Query;
 use Solarium\Exception\InvalidArgumentException;
 
 /**
@@ -192,9 +191,13 @@ class Helper
      * Render a range query
      *
      * From and to can be any type of data. For instance int, string or point.
+     * If they are null, then '*' will be used.
      *
      * Example: rangeQuery('store', '45,-94', '46,-93')
      * Returns: store:[45,-94 TO 46,-93]
+     *
+     * Example: rangeQuery('store', '5', '*', false)
+     * Returns: store:{5 TO *}
      *
      * @param  string  $field
      * @param  string  $from
@@ -204,6 +207,14 @@ class Helper
      */
     public function rangeQuery($field, $from, $to, $inclusive = true)
     {
+        if ($from === null) {
+            $from = '*';
+        }
+
+        if ($to === null) {
+            $to = '*';
+        }
+
         if ($inclusive) {
             return $field . ':[' . $from . ' TO ' . $to . ']';
         } else {
@@ -346,6 +357,7 @@ class Helper
             foreach ($params as $key => $value) {
                 $this->query->addParam($key, $value);
             }
+
             return $name . '()';
         } else {
             return $name . '(' . implode($params, ',') . ')';
@@ -442,8 +454,8 @@ class Helper
      *
      * @see http://wiki.apache.org/solr/SolrQuerySyntax#Other_built-in_useful_query_parsers
      *
-     * @param string $field
-     * @param float $weight
+     * @param  string $field
+     * @param  float  $weight
      * @return string
      */
     public function qparserTerm($field, $weight)
@@ -458,8 +470,8 @@ class Helper
      *
      * @see http://wiki.apache.org/solr/CommonQueryParameters#Caching_of_filters
      *
-     * @param boolean    $useCache
-     * @param float|null $cost
+     * @param  boolean    $useCache
+     * @param  float|null $cost
      * @return string
      */
     public function cacheControl($useCache, $cost = null)

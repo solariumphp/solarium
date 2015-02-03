@@ -38,8 +38,6 @@
  */
 namespace Solarium\QueryType\Select\Result\Highlighting;
 
-use Solarium\QueryType\Select\Result\Highlighting\Result;
-
 /**
  * Select component highlighting result
  */

@@ -34,16 +34,20 @@ http://wiki.solarium-project.org/index.php/V3:Installation#Getting_Solarium
   http://api.solarium-project.org/
 
 * Issue tracker   
-  http://github.com/basdenooijer/solarium/issues
+  http://github.com/solariumphp/solarium/issues
 
 * Contributors    
-  https://github.com/basdenooijer/solarium/contributors
+  https://github.com/solariumphp/solarium/contributors
 
 * License   
   See the COPYING file or view online:  
-  https://github.com/basdenooijer/solarium/blob/master/COPYING
+  https://github.com/solariumphp/solarium/blob/master/COPYING
 
 ## Travis Continuous Integration status
 
-* Develop branch [![Develop build status](https://secure.travis-ci.org/basdenooijer/solarium.png?branch=develop)](http://travis-ci.org/basdenooijer/solarium)
-* Master branch [![Develop build status](https://secure.travis-ci.org/basdenooijer/solarium.png?branch=master)](http://travis-ci.org/basdenooijer/solarium)
+* Develop branch [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=develop)](http://travis-ci.org/solariumphp/solarium)
+* Develop branch [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=develop)](https://coveralls.io/r/solariumphp/solarium?branch=develop)
+* Master branch [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=master)](http://travis-ci.org/solariumphp/solarium)
+* Master branch [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=master)](https://coveralls.io/r/solariumphp/solarium?branch=master)
+
+

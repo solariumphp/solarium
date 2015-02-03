@@ -56,6 +56,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     public function getDocument()
     {
         $docs = $this->getDocuments();
+
         return reset($docs);
     }
 }
