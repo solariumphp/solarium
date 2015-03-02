@@ -259,6 +259,13 @@ class DisMax extends Component
         return $this->getOption('tie');
     }
 
+    /** 
+     * Boost queries
+     *
+     * An array with boostqueries
+     */
+    protected $_boostQueries = array();
+
     /**
      * Set BoostQuery option
      *
@@ -268,19 +275,33 @@ class DisMax extends Component
      * @param  string $boostQuery
      * @return self   Provides fluent interface
      */
-    public function setBoostQuery($boostQuery)
+	public function setBoostQuery($boostQuery)
     {
-        return $this->setOption('boostquery', $boostQuery);
+        $this->_boostQueries[] = $boostQuery;
+
+        return $this;
+    }
+
+    /**
+     * Add BoostQuery option
+     *
+     * @param string $boostQuery
+     * @return self Provides fluent interface
+     */
+    public function addBoostQuery($boostQuery)
+    {
+        $this->_boostQueries[] = $boostQuery;
+        return $this;
     }
 
     /**
      * Get BoostQuery option
      *
-     * @return string|null
+     * @return array
      */
     public function getBoostQuery()
     {
-        return $this->getOption('boostquery');
+        return $this->_boostQueries;
     }
 
     /**

@@ -65,7 +65,15 @@ class DisMax implements ComponentRequestBuilderInterface
         $request->addParam('ps', $component->getPhraseSlop());
         $request->addParam('qs', $component->getQueryPhraseSlop());
         $request->addParam('tie', $component->getTie());
-        $request->addParam('bq', $component->getBoostQuery());
+        
+        if (is_array($component->getBoostQuery())) {
+            foreach ($component->getBoostQuery() as $boostQuery) {
+                $request->addParam('bq', $boostQuery);
+            }
+        } else {
+            $request->addParam('bq', $component->getBoostQuery());
+        }
+
         $request->addParam('bf', $component->getBoostFunctions());
 
         return $request;
