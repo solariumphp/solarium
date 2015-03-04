@@ -477,11 +477,12 @@ class Grouping extends Component
     /**
      * Set facet option
      *
-     * Group based on the unique values of a function query.
+     * Whether to compute grouped facets.
+     * Grouped facets are computed based on the first specified group.
      * This parameter only is supported on Solr 4.0+
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param  boolean $value
+     * @return self    Provides fluent interface
      */
     public function setFacet($value)
     {
@@ -491,7 +492,7 @@ class Grouping extends Component
     /**
      * Get facet option
      *
-     * @return string|null
+     * @return boolean|null
      */
     public function getFacet()
     {
