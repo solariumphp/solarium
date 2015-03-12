@@ -241,7 +241,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
 
         foreach ($facet->getSet() as $key => $setValue) {
             if(is_string($key)) {
-                $setValue = '{!key='.$key.'}'.$setValue;
+                $setValue = '{!key="'.$key.'"}'.$setValue;
             }
             $request->addParam("f.$field.facet.interval.set", $setValue);
         }
