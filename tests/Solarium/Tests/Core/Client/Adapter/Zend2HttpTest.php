@@ -58,7 +58,7 @@ class Zend2HttpTest extends \PHPUnit_Framework_TestCase
         $options = array('optionZ' => 123, 'options' => array('optionX' => 'Y'));
         $adapterOptions = array('optionX' => 'Y');
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->getMock('Zend2_Http_Client');
         $mock->expects($this->once())
                  ->method('setConfig')
                  ->with($this->equalTo($adapterOptions));
@@ -85,7 +85,7 @@ class Zend2HttpTest extends \PHPUnit_Framework_TestCase
         $this->adapter->setOptions($options);
 
         $zendHttp = $this->adapter->getZendHttp();
-        $this->assertThat($zendHttp, $this->isInstanceOf('Zend_Http_Client'));
+        $this->assertThat($zendHttp, $this->isInstanceOf('Zend2_Http_Client'));
     }
 
     public function testExecuteGet()
@@ -110,7 +110,7 @@ class Zend2HttpTest extends \PHPUnit_Framework_TestCase
 
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->getMock('Zend2_Http_Client');
         $mock->expects($this->once())
                  ->method('setMethod')
                  ->with($this->equalTo($method));
@@ -158,7 +158,7 @@ class Zend2HttpTest extends \PHPUnit_Framework_TestCase
 
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->getMock('Zend2_Http_Client');
         $mock->expects($this->once())
                  ->method('setMethod')
                  ->with($this->equalTo($method));
@@ -193,7 +193,7 @@ class Zend2HttpTest extends \PHPUnit_Framework_TestCase
         $response = new \Zend_Http_Response(404, array(), '');
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->getMock('Zend2_Http_Client');
         $mock->expects($this->once())
                  ->method('request')
                  ->will($this->returnValue($response));
@@ -212,7 +212,7 @@ class Zend2HttpTest extends \PHPUnit_Framework_TestCase
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'data');
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->getMock('Zend2_Http_Client');
         $mock->expects($this->once())
                  ->method('request')
                  ->will($this->returnValue($response));
@@ -244,7 +244,7 @@ class Zend2HttpTest extends \PHPUnit_Framework_TestCase
         $endpoint = new Endpoint();
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'dummy');
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->getMock('Zend2_Http_Client');
         $mock->expects($this->once())
              ->method('setFileUpload')
              ->with(
