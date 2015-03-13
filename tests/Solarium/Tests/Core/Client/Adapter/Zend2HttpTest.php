@@ -35,7 +35,7 @@ use Solarium\Core\Client\Adapter\Zend2Http as ZendHttpAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
 
-class ZendHttpTest extends \PHPUnit_Framework_TestCase
+class Zend2HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var ZendHttpAdapter
