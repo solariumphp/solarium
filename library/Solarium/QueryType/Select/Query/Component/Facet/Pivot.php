@@ -55,14 +55,28 @@ class Pivot extends Facet
     protected $fields = array();
 
     /**
+     * Optional stats
+     *
+     * @var array
+     */
+    protected $stats = array();
+
+    /**
      * Initialize options
      *
      * @return void
      */
     protected function init()
     {
-        if (isset($this->options['fields'])) {
-            $this->addFields($this->options['fields']);
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'fields':
+                    $this->addFields($value);
+                    break;
+                case 'stats':
+                    $this->setStats($value);
+                    break;
+            }
         }
     }
 
@@ -181,6 +195,94 @@ class Pivot extends Facet
     {
         $this->clearFields();
         $this->addFields($fields);
+
+        return $this;
+    }
+
+    /**
+     * Add stat
+     *
+     * @param string $stat
+     * @return self  Provides fluent interface
+     */
+    public function addStat($stat)
+    {
+        $this->stats[$stat] = true;
+
+        return $this;
+    }
+
+    /**
+     * Specify multiple Stats
+     *
+     * @param string|array $stats can be an array or string with comma
+     *                             separated statnames
+     *
+     * @return self Provides fluent interface
+     */
+    public function addStats($stats)
+    {
+        if (is_string($stats)) {
+            $stats = explode(',', $stats);
+            $stats = array_map('trim', $stats);
+        }
+
+        foreach ($stats as $stat) {
+            $this->addStat($stat);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a stat from the stats list
+     *
+     * @param  string $stat
+     * @return self   Provides fluent interface
+     */
+    public function removeStat($stat)
+    {
+        if (isset($this->stats[$stat])) {
+            unset($this->stats[$stat]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all stats from the stats list.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearStats()
+    {
+        $this->stats = array();
+
+        return $this;
+    }
+
+    /**
+     * Get the list of stats
+     *
+     * @return array
+     */
+    public function getStats()
+    {
+        return array_keys($this->stats);
+    }
+
+    /**
+     * Set multiple stats
+     *
+     * This overwrites any existing stats
+     *
+     * @param  array $stats
+     * @return self  Provides fluent interface
+     */
+    public function setStats($stats)
+    {
+        $this->clearStats();
+        $this->addStats($stats);
 
         return $this;
     }

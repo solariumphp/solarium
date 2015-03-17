@@ -67,6 +67,13 @@ class PivotTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetMinCount()
+    {
+        $this->facet->setMinCount(5);
+
+        $this->assertEquals(5, $this->facet->getMinCount());
+    }
+
     public function testAddField()
     {
         $expectedFields = $this->facet->getFields();
@@ -112,5 +119,52 @@ class PivotTest extends \PHPUnit_Framework_TestCase
         $this->facet->addFields(array('field1', 'field2'));
         $this->facet->setFields(array('field3', 'field4'));
         $this->assertEquals(array('field3', 'field4'), $this->facet->getFields());
+    }
+
+    public function testAddStat()
+    {
+        $expectedStats = $this->facet->getStats();
+        $expectedStats[] = 'newstat';
+        $this->facet->addStat('newstat');
+        $this->assertEquals($expectedStats, $this->facet->getStats());
+    }
+
+    public function testClearStats()
+    {
+        $this->facet->addStat('newstat');
+        $this->facet->clearStats();
+        $this->assertEquals(array(), $this->facet->getStats());
+    }
+
+    public function testAddStats()
+    {
+        $stats = array('stat1', 'stat2');
+
+        $this->facet->clearStats();
+        $this->facet->addStats($stats);
+        $this->assertEquals($stats, $this->facet->getStats());
+    }
+
+    public function testAddStatsAsStringWithTrim()
+    {
+        $this->facet->clearStats();
+        $this->facet->addStats('stat1, stat2');
+        $this->assertEquals(array('stat1', 'stat2'), $this->facet->getStats());
+    }
+
+    public function testRemoveStat()
+    {
+        $this->facet->clearStats();
+        $this->facet->addStats(array('stat1', 'stat2'));
+        $this->facet->removeStat('stat1');
+        $this->assertEquals(array('stat2'), $this->facet->getstats());
+    }
+
+    public function testSetStats()
+    {
+        $this->facet->clearStats();
+        $this->facet->addStats(array('stat1', 'stat2'));
+        $this->facet->setStats(array('stat3', 'stat4'));
+        $this->assertEquals(array('stat3', 'stat4'), $this->facet->getStats());
     }
 }
