@@ -3,7 +3,7 @@ require(__DIR__.'/init.php');
 use Solarium\Core\Event\Events;
 
 // this very simple plugin shows a timing for each event and display some request debug info
-class BasicDebug extends Solarium\Core\Plugin\Plugin
+class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
 {
     protected $start;
     protected $output = array();

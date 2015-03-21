@@ -30,70 +30,72 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Debug;
 
 /**
- * Select component debug result
+ * Select component debug result.
  */
 class Result implements \IteratorAggregate, \Countable
 {
     /**
-     * QueryString
+     * QueryString.
      *
      * @var string
      */
     protected $queryString;
 
     /**
-     * ParsedQuery
+     * ParsedQuery.
      *
      * @var string
      */
     protected $parsedQuery;
 
     /**
-     * QueryParser
+     * QueryParser.
      *
      * @var string
      */
     protected $queryParser;
 
     /**
-     * OtherQuery
+     * OtherQuery.
      *
      * @var string
      */
     protected $otherQuery;
 
     /**
-     * Explain instance
+     * Explain instance.
      *
      * @var DocumentSet
      */
     protected $explain;
 
     /**
-     * ExplainOther instance
+     * ExplainOther instance.
      *
      * @var DocumentSet
      */
     protected $explainOther;
 
     /**
-     * Timing instance
+     * Timing instance.
      *
      * @var Timing
      */
     protected $timing;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string      $queryString
      * @param string      $parsedQuery
@@ -115,7 +117,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get input querystring
+     * Get input querystring.
      *
      * @return string
      */
@@ -125,7 +127,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get the result of the queryparser
+     * Get the result of the queryparser.
      *
      * @return string
      */
@@ -135,7 +137,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get the used queryparser
+     * Get the used queryparser.
      *
      * @return string
      */
@@ -145,7 +147,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get other query (only available if set in query)
+     * Get other query (only available if set in query).
      *
      * @return string
      */
@@ -155,7 +157,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get explain document set
+     * Get explain document set.
      *
      * @return DocumentSet
      */
@@ -165,7 +167,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get explain other document set (only available if otherquery was set in query)
+     * Get explain other document set (only available if otherquery was set in query).
      *
      * @return DocumentSet
      */
@@ -175,7 +177,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get timing object
+     * Get timing object.
      *
      * @return Timing
      */
@@ -185,7 +187,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * Iterates the explain results
      *
@@ -197,7 +199,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

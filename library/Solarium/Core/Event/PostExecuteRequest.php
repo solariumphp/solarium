@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -44,7 +46,7 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
 
 /**
- * PostExecuteRequest event, see Events for details
+ * PostExecuteRequest event, see Events for details.
  */
 class PostExecuteRequest extends Event
 {
@@ -54,17 +56,17 @@ class PostExecuteRequest extends Event
     protected $request;
 
     /**
-    * @var Endpoint
-    */
+     * @var Endpoint
+     */
     protected $endpoint;
 
     /**
-    * @var Response
-    */
+     * @var Response
+     */
     protected $response;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param Request  $request
      * @param Endpoint $endpoint
@@ -78,7 +80,7 @@ class PostExecuteRequest extends Event
     }
 
     /**
-     * Get the endpoint object for this event
+     * Get the endpoint object for this event.
      *
      * @return Endpoint
      */
@@ -88,7 +90,7 @@ class PostExecuteRequest extends Event
     }
 
     /**
-     * Get the response object for this event
+     * Get the response object for this event.
      *
      * @return Response
      */
@@ -98,7 +100,7 @@ class PostExecuteRequest extends Event
     }
 
     /**
-     * Get the request object for this event
+     * Get the request object for this event.
      *
      * @return Request
      */

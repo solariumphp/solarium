@@ -30,24 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\Component;
+use Solarium\QueryType\Select\Query\Component\AbstractComponent;
 use Solarium\Core\Client\Request;
 
+/**
+ * ComponentRequestBuilderInterface.
+ */
 interface ComponentRequestBuilderInterface
 {
     /**
-     * Add request settings for the debug component
+     * Add request settings for the debug component.
      *
-     * @param  Component $component
-     * @param  Request   $request
+     * @param AbstractComponent $component
+     * @param Request           $request
+     *
      * @return Request
      */
     public function buildComponent($component, $request);

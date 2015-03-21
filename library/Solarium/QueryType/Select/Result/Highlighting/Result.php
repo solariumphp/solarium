@@ -30,28 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Highlighting;
 
 /**
- * Select component highlighting result item
+ * Select component highlighting result item.
  */
 class Result implements \IteratorAggregate, \Countable
 {
     /**
-     * Fields array
+     * Fields array.
      *
      * @var array
      */
     protected $fields;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $fields
      */
@@ -61,7 +63,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get highlights for all fields
+     * Get highlights for all fields.
      *
      * @return array
      */
@@ -71,9 +73,10 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get highlights for a single field
+     * Get highlights for a single field.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return array
      */
     public function getField($key)
@@ -86,7 +89,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -96,7 +99,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

@@ -30,23 +30,25 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Stats;
 
 use Solarium\Core\Configurable;
 
 /**
- * Stats component field class
+ * Stats component field class.
  */
 class Field extends Configurable
 {
     /**
-     * Field facets (for stats)
+     * Field facets (for stats).
      *
      * @var array
      */
@@ -60,28 +62,6 @@ class Field extends Configurable
     protected $pivots = array();
 
     /**
-     * Initialize options
-     *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
-     *
-     * @return void
-     */
-    protected function init()
-    {
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'facet':
-                    $this->setFacets($value);
-                    break;
-                case 'pivot':
-                    $this->setPivots($value);
-                    break;
-            }
-        }
-    }
-
-    /**
      * Get key value
      *
      * @return string
@@ -92,10 +72,11 @@ class Field extends Configurable
     }
 
     /**
-     * Set key value
+     * Set key value.
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function setKey($value)
     {
@@ -103,10 +84,11 @@ class Field extends Configurable
     }
 
     /**
-     * Specify a facet to return in the resultset
+     * Specify a facet to return in the resultset.
      *
-     * @param  string $facet
-     * @return self   Provides fluent interface
+     * @param string $facet
+     *
+     * @return self Provides fluent interface
      */
     public function addFacet($facet)
     {
@@ -116,7 +98,7 @@ class Field extends Configurable
     }
 
     /**
-     * Specify multiple facets to return in the resultset
+     * Specify multiple facets to return in the resultset.
      *
      * @param string|array $facets can be an array or string with comma
      *                             separated facetnames
@@ -138,10 +120,11 @@ class Field extends Configurable
     }
 
     /**
-     * Remove a facet from the facet list
+     * Remove a facet from the facet list.
      *
-     * @param  string $facet
-     * @return self   Provides fluent interface
+     * @param string $facet
+     *
+     * @return self Provides fluent interface
      */
     public function removeFacet($facet)
     {
@@ -165,7 +148,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get the list of facets
+     * Get the list of facets.
      *
      * @return array
      */
@@ -175,12 +158,13 @@ class Field extends Configurable
     }
 
     /**
-     * Set multiple facets
+     * Set multiple facets.
      *
      * This overwrites any existing facets
      *
-     * @param  array $facets
-     * @return self  Provides fluent interface
+     * @param array $facets
+     *
+     * @return self Provides fluent interface
      */
     public function setFacets($facets)
     {
@@ -276,5 +260,27 @@ class Field extends Configurable
         $this->addPivots($pivots);
 
         return $this;
+    }
+
+    /**
+     * Initialize options
+     *
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
+     *
+     * @return void
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'facet':
+                    $this->setFacets($value);
+                    break;
+                case 'pivot':
+                    $this->setPivots($value);
+                    break;
+            }
+        }
     }
 }

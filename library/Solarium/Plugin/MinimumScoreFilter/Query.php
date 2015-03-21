@@ -30,37 +30,37 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
-
 /**
- * MinimumScoreFilter Query
+ * MinimumScoreFilter Query.
  *
  * Extends the standard select query and adds functionality for the minimumscore filter
  */
 class Query extends SelectQuery
 {
-
     /**
-     * Filter mode mark documents
+     * Filter mode mark documents.
      */
     const FILTER_MODE_MARK = 'mark';
 
     /**
-     * Filter mode remove documents
+     * Filter mode remove documents.
      */
     const FILTER_MODE_REMOVE = 'remove';
 
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -78,10 +78,11 @@ class Query extends SelectQuery
     );
 
     /**
-     * Set filter mode
+     * Set filter mode.
      *
-     * @param  string $value
-     * @return self  Provides fluent interface
+     * @param string $mode
+     *
+     * @return self Provides fluent interface
      */
     public function setFilterMode($mode)
     {
@@ -89,7 +90,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get filter mode
+     * Get filter mode.
      *
      * @return string
      */
@@ -99,12 +100,13 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set filterratio option
+     * Set filterratio option.
      *
      * This should be a ratio between 0 and 1, the minimum score is calculated by multiplying maxscore with this ratio.
      *
-     * @param  float $value
-     * @return self  Provides fluent interface
+     * @param float $value
+     *
+     * @return self Provides fluent interface
      */
     public function setFilterRatio($value)
     {
@@ -112,7 +114,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get filterratio option
+     * Get filterratio option.
      *
      * @return float
      */
@@ -122,7 +124,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Make sure the score field is always enabled
+     * Make sure the score field is always enabled.
      *
      * @return array
      */
@@ -137,7 +139,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Make sure the filtering result class is always used
+     * Make sure the filtering result class is always used.
      *
      * @return string
      */
@@ -147,7 +149,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get all registered components
+     * Get all registered components.
      *
      * @return AbstractComponent[]
      */
@@ -160,5 +162,4 @@ class Query extends SelectQuery
 
         return parent::getComponents();
     }
-
 }

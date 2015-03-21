@@ -30,26 +30,28 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\RealtimeGet;
 
 use Solarium\QueryType\Select\Result\Result as BaseResult;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
- * RealtimeGet query results
+ * RealtimeGet query results.
  *
  * Extends the standard select result with a accessor method for the first document
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
-     * Get first document in set
+     * Get first document in set.
      *
      * @return DocumentInterface
      */

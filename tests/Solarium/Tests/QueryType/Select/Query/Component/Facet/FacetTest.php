@@ -31,12 +31,12 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
-use Solarium\QueryType\Select\Query\Component\Facet\Facet;
+use Solarium\QueryType\Select\Query\Component\Facet\AbstractFacet;
 
 class FacetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Facet
+     * @var AbstractFacet
      */
     protected $facet;
 
@@ -98,7 +98,7 @@ class FacetTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestFacet extends Facet
+class TestFacet extends AbstractFacet
 {
     public function getType()
     {

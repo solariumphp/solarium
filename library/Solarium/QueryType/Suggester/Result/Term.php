@@ -30,49 +30,51 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Suggester\Result;
 
 /**
- * Suggester query term result
+ * Suggester query term result.
  */
 class Term implements \IteratorAggregate, \Countable
 {
     /**
-     * NumFound
+     * NumFound.
      *
      * @var int
      */
     protected $numFound;
 
     /**
-     * StartOffset
+     * StartOffset.
      *
      * @var int
      */
     protected $startOffset;
 
     /**
-     * EndOffset
+     * EndOffset.
      *
      * @var int
      */
     protected $endOffset;
 
     /**
-     * Suggestions
+     * Suggestions.
      *
      * @var array
      */
     protected $suggestions;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int   $numFound
      * @param int   $startOffset
@@ -88,7 +90,7 @@ class Term implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get NumFound
+     * Get NumFound.
      *
      * @return int
      */
@@ -98,7 +100,7 @@ class Term implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get StartOffset
+     * Get StartOffset.
      *
      * @return int
      */
@@ -108,7 +110,7 @@ class Term implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get EndOffset
+     * Get EndOffset.
      *
      * @return int
      */
@@ -118,7 +120,7 @@ class Term implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get suggestions
+     * Get suggestions.
      *
      * @return array
      */
@@ -128,7 +130,7 @@ class Term implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -138,7 +140,7 @@ class Term implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

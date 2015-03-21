@@ -30,37 +30,39 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Result;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**
- * Analysis field query result
+ * Analysis field query result.
  */
 class Field extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
-     * List instances array
+     * List instances array.
      *
      * @var array
      */
     protected $items;
 
     /**
-     * Status code returned by Solr
+     * Status code returned by Solr.
      *
      * @var int
      */
     protected $status;
 
     /**
-     * Solr index queryTime
+     * Solr index queryTime.
      *
      * This doesn't include things like the HTTP responsetime. Purely the Solr
      * query execution time.
@@ -70,7 +72,7 @@ class Field extends BaseResult implements \IteratorAggregate, \Countable
     protected $queryTime;
 
     /**
-     * Get Solr status code
+     * Get Solr status code.
      *
      * This is not the HTTP status code! The normal value for success is 0.
      *
@@ -84,7 +86,7 @@ class Field extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get Solr query time
+     * Get Solr query time.
      *
      * This doesn't include things like the HTTP responsetime. Purely the Solr
      * query execution time.
@@ -99,7 +101,7 @@ class Field extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all lists
+     * Get all lists.
      *
      * @return array
      */
@@ -111,7 +113,7 @@ class Field extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -123,7 +125,7 @@ class Field extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

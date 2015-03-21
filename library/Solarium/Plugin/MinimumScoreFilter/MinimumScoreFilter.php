@@ -30,35 +30,34 @@
  *
  * @copyright Copyright 2014 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
-use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Plugin\AbstractPlugin;
 
 /**
- * MinimumScoreFilter plugin
+ * MinimumScoreFilter plugin.
  *
  * Filters results based on score relative to the maxScore
- *
  */
-class MinimumScoreFilter extends Plugin
+class MinimumScoreFilter extends AbstractPlugin
 {
     /**
-     * Custom query type name
+     * Custom query type name.
      */
     const QUERY_TYPE = 'minimum-score-select';
 
     /**
-     * Plugin init function
+     * Plugin init function.
      *
      * Register event listeners
-     *
-     * @return void
      */
     protected function initPluginType()
     {

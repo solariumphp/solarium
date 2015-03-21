@@ -31,25 +31,28 @@
  *
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\QueryType\Select\ResponseParser\ResponseParser as SelectResponseParser;
 
 /**
- * Parse MoreLikeThis response data
+ * Parse MoreLikeThis response data.
  */
 class ResponseParser extends SelectResponseParser
 {
     /**
-     * Get result data for the response
+     * Get result data for the response.
      *
-     * @param  Result $result
+     * @param Result $result
+     *
      * @return array
      */
     public function parse($result)

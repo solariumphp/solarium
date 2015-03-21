@@ -30,41 +30,43 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch as RequestBuilder;
 
 /**
- * Distributed Search (sharding) component
+ * Distributed Search (sharding) component.
  *
  * @link http://wiki.apache.org/solr/DistributedSearch
  * @link http://wiki.apache.org/solr/SolrCloud/
  */
-class DistributedSearch extends Component
+class DistributedSearch extends AbstractComponent
 {
     /**
-     * Request to be distributed across all shards in the list
+     * Request to be distributed across all shards in the list.
      *
      * @var array
      */
     protected $shards = array();
 
     /**
-     * Requests will be distributed across collections in this list
+     * Requests will be distributed across collections in this list.
      *
      * @var array
      */
     protected $collections = array();
 
     /**
-     * Get component type
+     * Get component type.
      *
      * @return string
      */
@@ -74,53 +76,31 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
      * This component has no response parser...
-     *
-     * @return null
      */
     public function getResponseParser()
     {
-        return null;
+        return;
     }
 
     /**
-     * Initialize options
+     * Add a shard.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * @param string $key   unique string
+     * @param string $shard The syntax is host:port/base_url
      *
-     * @return void
-     */
-    protected function init()
-    {
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'shards':
-                    $this->setShards($value);
-                    break;
-                case 'collections':
-                    $this->setCollections($value);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Add a shard
+     * @return self Provides fluent interface
      *
-     * @param  string $key   unique string
-     * @param  string $shard The syntax is host:port/base_url
-     * @return self   Provides fluent interface
      * @link http://wiki.apache.org/solr/DistributedSearch
      */
     public function addShard($key, $shard)
@@ -131,7 +111,7 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Add multiple shards
+     * Add multiple shards.
      *
      * Example usage:
      * <code>
@@ -144,8 +124,10 @@ class DistributedSearch extends Component
      * ));
      * $result = $client->select($query);
      * </code>
-     * @param  array $shards
-     * @return self  Provides fluent interface
+     *
+     * @param array $shards
+     *
+     * @return self Provides fluent interface
      */
     public function addShards(array $shards)
     {
@@ -157,10 +139,11 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Remove a shard
+     * Remove a shard.
      *
-     * @param  string $key
-     * @return self   Provides fluent interface
+     * @param string $key
+     *
+     * @return self Provides fluent interface
      */
     public function removeShard($key)
     {
@@ -172,7 +155,7 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Remove all shards
+     * Remove all shards.
      *
      * @return self Provides fluent interface
      */
@@ -184,7 +167,7 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Set multiple shards
+     * Set multiple shards.
      *
      * This overwrites any existing shards
      *
@@ -200,8 +183,9 @@ class DistributedSearch extends Component
      * $result = $client->select($query);
      * </code>
      *
-     * @param  array $shards Associative array of shards
-     * @return self  Provides fluent interface
+     * @param array $shards Associative array of shards
+     *
+     * @return self Provides fluent interface
      */
     public function setShards(array $shards)
     {
@@ -212,7 +196,7 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Get a list of the shards
+     * Get a list of the shards.
      *
      * @return array
      */
@@ -223,9 +207,10 @@ class DistributedSearch extends Component
 
     /**
      *  A sharded request will go to the standard request handler
-     *  (not necessarily the original); this can be overridden via shards.qt
+     *  (not necessarily the original); this can be overridden via shards.qt.
      *
-     * @param string
+     * @param string $handler
+     *
      * @return self Provides fluent interface
      */
     public function setShardRequestHandler($handler)
@@ -236,9 +221,8 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Get a shard request handler (shards.qt)
+     * Get a shard request handler (shards.qt).
      *
-     * @param string
      * @return self Provides fluent interface
      */
     public function getShardRequestHandler()
@@ -247,11 +231,13 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Add a collection
+     * Add a collection.
      *
-     * @param  string $key        unique string
-     * @param  string $collection The syntax is host:port/base_url
-     * @return self   Provides fluent interface
+     * @param string $key        unique string
+     * @param string $collection The syntax is host:port/base_url
+     *
+     * @return self Provides fluent interface
+     *
      * @link http://wiki.apache.org/solr/SolrCloud/
      */
     public function addCollection($key, $collection)
@@ -262,10 +248,11 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Add multiple collections
+     * Add multiple collections.
      *
-     * @param  array $collections
-     * @return self  Provides fluent interface
+     * @param array $collections
+     *
+     * @return self Provides fluent interface
      */
     public function addCollections(array $collections)
     {
@@ -277,10 +264,11 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Remove a collection
+     * Remove a collection.
      *
-     * @param  string $key
-     * @return self   Provides fluent interface
+     * @param string $key
+     *
+     * @return self Provides fluent interface
      */
     public function removeCollection($key)
     {
@@ -292,7 +280,7 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Remove all collections
+     * Remove all collections.
      *
      * @return self Provides fluent interface
      */
@@ -304,12 +292,13 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Set multiple collections
+     * Set multiple collections.
      *
      * This overwrites any existing collections
      *
-     * @param  array $collections Associative array of collections
-     * @return self  Provides fluent interface
+     * @param array $collections Associative array of collections
+     *
+     * @return self Provides fluent interface
      */
     public function setCollections(array $collections)
     {
@@ -320,12 +309,32 @@ class DistributedSearch extends Component
     }
 
     /**
-     * Get a list of the collections
+     * Get a list of the collections.
      *
      * @return array
      */
     public function getCollections()
     {
         return $this->collections;
+    }
+
+    /**
+     * Initialize options.
+     *
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'shards':
+                    $this->setShards($value);
+                    break;
+                case 'collections':
+                    $this->setCollections($value);
+                    break;
+            }
+        }
     }
 }

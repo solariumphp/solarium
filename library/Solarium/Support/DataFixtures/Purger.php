@@ -4,6 +4,9 @@ namespace Solarium\Support\DataFixtures;
 
 use Solarium\Core\Client\Client;
 
+/**
+ * DataFixtures Purger.
+ */
 class Purger
 {
     /**

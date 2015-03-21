@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 /**
- * Event definitions
+ * Event definitions.
  */
 class Events
 {
@@ -64,7 +66,7 @@ class Events
     const POST_CREATE_REQUEST = 'solarium.core.postCreateRequest';
 
     /**
-     * The preExecuteRequest event is thrown just before a request is sent to Solr
+     * The preExecuteRequest event is thrown just before a request is sent to Solr.
      *
      * The event listener receives a Request instance.
      *
@@ -82,7 +84,7 @@ class Events
     const POST_EXECUTE_REQUEST = 'solarium.core.postExecuteRequest';
 
     /**
-     * The preCreateResult event is before the Solr response data is parsed into a result object
+     * The preCreateResult event is before the Solr response data is parsed into a result object.
      *
      * The event listener receives a Query and a Response instance.
      *
@@ -91,7 +93,7 @@ class Events
     const PRE_CREATE_RESULT = 'solarium.core.preCreateResult';
 
     /**
-     * The postCreateResult event is thrown just after the Solr response data was parsed into a result object
+     * The postCreateResult event is thrown just after the Solr response data was parsed into a result object.
      *
      * The event listener receives a Query, Response and Result instance.
      *

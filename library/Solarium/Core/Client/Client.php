@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Core\Configurable;
@@ -62,7 +64,7 @@ use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Main interface for interaction with Solr
+ * Main interface for interaction with Solr.
  *
  * The client is the main interface for usage of the Solarium library.
  * You can use it to get query instances and to execute them.
@@ -79,69 +81,69 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class Client extends Configurable
 {
     /**
-     * Querytype select
+     * Querytype select.
      */
     const QUERY_SELECT = 'select';
 
     /**
-     * Querytype update
+     * Querytype update.
      */
     const QUERY_UPDATE = 'update';
 
     /**
-     * Querytype ping
+     * Querytype ping.
      */
     const QUERY_PING = 'ping';
 
     /**
-     * Querytype morelikethis
+     * Querytype morelikethis.
      */
     const QUERY_MORELIKETHIS = 'mlt';
 
     /**
-     * Querytype analysis field
+     * Querytype analysis field.
      */
     const QUERY_ANALYSIS_FIELD = 'analysis-field';
 
     /**
-     * Querytype analysis document
+     * Querytype analysis document.
      */
     const QUERY_ANALYSIS_DOCUMENT = 'analysis-document';
 
     /**
-     * Querytype terms
+     * Querytype terms.
      */
     const QUERY_TERMS = 'terms';
 
     /**
-     * Querytype suggester
+     * Querytype suggester.
      */
     const QUERY_SUGGESTER = 'suggester';
 
     /**
-     * Querytype extract
+     * Querytype extract.
      */
     const QUERY_EXTRACT = 'extract';
 
     /**
-     * Querytype get
+     * Querytype get.
      */
     const QUERY_REALTIME_GET = 'get';
 
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
     protected $options = array(
         'adapter' => 'Solarium\Core\Client\Adapter\Curl',
         'endpoint' => array(
-            'localhost' => array()
-        )
+            'localhost' => array(),
+        ),
     );
 
     /**
-     * Querytype mappings
+     * Querytype mappings.
      *
      * These can be customized using {@link registerQueryType()}
      */
@@ -159,7 +161,7 @@ class Client extends Configurable
     );
 
     /**
-     * Plugin types
+     * Plugin types.
      *
      * @var array
      */
@@ -174,35 +176,35 @@ class Client extends Configurable
     );
 
     /**
-     * EventDispatcher
+     * EventDispatcher.
      *
      * @var EventDispatcher
      */
     protected $eventDispatcher;
 
     /**
-     * Registered plugin instances
+     * Registered plugin instances.
      *
      * @var PluginInterface[]
      */
     protected $pluginInstances = array();
 
     /**
-     * Registered endpoints
+     * Registered endpoints.
      *
      * @var Endpoint[]
      */
     protected $endpoints = array();
 
     /**
-     * Default endpoint key
+     * Default endpoint key.
      *
      * @var string
      */
     protected $defaultEndpoint;
 
     /**
-     * Adapter instance
+     * Adapter instance.
      *
      * If an adapter instance is set using {@link setAdapter()} this var will
      * contain a reference to that instance.
@@ -216,30 +218,7 @@ class Client extends Configurable
     protected $adapter;
 
     /**
-     * Initialization hook
-     */
-    protected function init()
-    {
-        //@todo use injection
-        $this->eventDispatcher = new EventDispatcher();
-
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'endpoint':
-                    $this->setEndpoints($value);
-                    break;
-                case 'querytype':
-                    $this->registerQueryTypes($value);
-                    break;
-                case 'plugin':
-                    $this->registerPlugins($value);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Create a endpoint instance
+     * Create a endpoint instance.
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the endpoint
      * and it will be registered.
@@ -248,14 +227,15 @@ class Client extends Configurable
      * When no key is supplied the endpoint cannot be registered, in that case you will need to do this manually
      * after setting the key, by using the addEndpoint method.
      *
-     * @param  mixed    $options
-     * @param  boolean  $setAsDefault
+     * @param mixed   $options
+     * @param boolean $setAsDefault
+     *
      * @return Endpoint
      */
     public function createEndpoint($options = null, $setAsDefault = false)
     {
         if (is_string($options)) {
-            $endpoint = new Endpoint;
+            $endpoint = new Endpoint();
             $endpoint->setKey($options);
         } else {
             $endpoint = new Endpoint($options);
@@ -272,14 +252,16 @@ class Client extends Configurable
     }
 
     /**
-     * Add an endpoint
+     * Add an endpoint.
      *
      * Supports a endpoint instance or a config array as input.
      * In case of options a new endpoint instance wil be created based on the options.
      *
      * @throws InvalidArgumentException
-     * @param  Endpoint|array           $endpoint
-     * @return self                     Provides fluent interface
+     *
+     * @param Endpoint|array $endpoint
+     *
+     * @return self Provides fluent interface
      */
     public function addEndpoint($endpoint)
     {
@@ -310,15 +292,15 @@ class Client extends Configurable
     }
 
     /**
-     * Add multiple endpoints
+     * Add multiple endpoints.
      *
-     * @param  array $endpoints
-     * @return self  Provides fluent interface
+     * @param array $endpoints
+     *
+     * @return self Provides fluent interface
      */
     public function addEndpoints(array $endpoints)
     {
         foreach ($endpoints as $key => $endpoint) {
-
             // in case of a config array: add key to config
             if (is_array($endpoint) && !isset($endpoint['key'])) {
                 $endpoint['key'] = $key;
@@ -331,10 +313,12 @@ class Client extends Configurable
     }
 
     /**
-     * Get an endpoint by key
+     * Get an endpoint by key.
      *
      * @throws OutOfBoundsException
-     * @param  string               $key
+     *
+     * @param string $key
+     *
      * @return Endpoint
      */
     public function getEndpoint($key = null)
@@ -351,7 +335,7 @@ class Client extends Configurable
     }
 
     /**
-     * Get all endpoints
+     * Get all endpoints.
      *
      * @return Endpoint[]
      */
@@ -361,12 +345,13 @@ class Client extends Configurable
     }
 
     /**
-     * Remove a single endpoint
+     * Remove a single endpoint.
      *
      * You can remove a endpoint by passing it's key, or by passing the endpoint instance
      *
-     * @param  string|Endpoint $endpoint
-     * @return self            Provides fluent interface
+     * @param string|Endpoint $endpoint
+     *
+     * @return self Provides fluent interface
      */
     public function removeEndpoint($endpoint)
     {
@@ -382,7 +367,7 @@ class Client extends Configurable
     }
 
     /**
-     * Remove all endpoints
+     * Remove all endpoints.
      *
      * @return self Provides fluent interface
      */
@@ -395,7 +380,7 @@ class Client extends Configurable
     }
 
     /**
-     * Set multiple endpoints
+     * Set multiple endpoints.
      *
      * This overwrites any existing endpoints
      *
@@ -408,12 +393,14 @@ class Client extends Configurable
     }
 
     /**
-     * Set a default endpoint
+     * Set a default endpoint.
      *
      * All queries executed without a specific endpoint will use this default endpoint.
      *
-     * @param  string|Endpoint      $endpoint
-     * @return self                 Provides fluent interface
+     * @param string|Endpoint $endpoint
+     *
+     * @return self Provides fluent interface
+     *
      * @throws OutOfBoundsException
      */
     public function setDefaultEndpoint($endpoint)
@@ -432,7 +419,7 @@ class Client extends Configurable
     }
 
     /**
-     * Set the adapter
+     * Set the adapter.
      *
      * The adapter has to be a class that implements the AdapterInterface
      *
@@ -447,8 +434,10 @@ class Client extends Configurable
      * immediately, bypassing the lazy loading.
      *
      * @throws InvalidArgumentException
-     * @param  string|Adapter\AdapterInterface $adapter
-     * @return self                            Provides fluent interface
+     *
+     * @param string|Adapter\AdapterInterface $adapter
+     *
+     * @return self Provides fluent interface
      */
     public function setAdapter($adapter)
     {
@@ -469,40 +458,13 @@ class Client extends Configurable
     }
 
     /**
-     * Create an adapter instance
-     *
-     * The 'adapter' entry in {@link $options} will be used to create an
-     * adapter instance. This entry can be the default value of
-     * {@link $options}, a value passed to the constructor or a value set by
-     * using {@link setAdapter()}
-     *
-     * This method is used for lazy-loading the adapter upon first use in
-     * {@link getAdapter()}
-     *
-     * @throws InvalidArgumentException
-     * @return void
-     */
-    protected function createAdapter()
-    {
-        $adapterClass = $this->getOption('adapter');
-        $adapter = new $adapterClass;
-
-        // check interface
-        if (!($adapter instanceof AdapterInterface)) {
-            throw new InvalidArgumentException('An adapter must implement the AdapterInterface');
-        }
-
-        $adapter->setOptions($this->getOption('adapteroptions'));
-        $this->adapter = $adapter;
-    }
-
-    /**
-     * Get the adapter instance
+     * Get the adapter instance.
      *
      * If {@see $adapter} doesn't hold an instance a new one will be created by
      * calling {@see createAdapter()}
      *
-     * @param  boolean          $autoload
+     * @param boolean $autoload
+     *
      * @return AdapterInterface
      */
     public function getAdapter($autoload = true)
@@ -515,15 +477,16 @@ class Client extends Configurable
     }
 
     /**
-     * Register a querytype
+     * Register a querytype.
      *
      * You can also use this method to override any existing querytype with a new mapping.
      * This requires the availability of the classes through autoloading or a manual
      * require before calling this method.
      *
-     * @param  string $type
-     * @param  string $queryClass
-     * @return self   Provides fluent interface
+     * @param string $type
+     * @param string $queryClass
+     *
+     * @return self Provides fluent interface
      */
     public function registerQueryType($type, $queryClass)
     {
@@ -533,15 +496,15 @@ class Client extends Configurable
     }
 
     /**
-     * Register multiple querytypes
+     * Register multiple querytypes.
      *
-     * @param  array $queryTypes
-     * @return self  Provides fluent interface
+     * @param array $queryTypes
+     *
+     * @return self Provides fluent interface
      */
     public function registerQueryTypes($queryTypes)
     {
         foreach ($queryTypes as $type => $class) {
-
             // support both "key=>value" and "(no-key) => array(key=>x,query=>y)" formats
             if (is_array($class)) {
                 if (isset($class['type'])) {
@@ -555,7 +518,7 @@ class Client extends Configurable
     }
 
     /**
-     * Get all registered querytypes
+     * Get all registered querytypes.
      *
      * @return array
      */
@@ -589,23 +552,25 @@ class Client extends Configurable
     }
 
     /**
-     * Register a plugin
+     * Register a plugin.
      *
      * You can supply a plugin instance or a plugin classname as string.
      * This requires the availability of the class through autoloading
      * or a manual require.
      *
      * @throws InvalidArgumentException
-     * @param  string                   $key
-     * @param  string|PluginInterface   $plugin
-     * @param  array                    $options
-     * @return self                     Provides fluent interface
+     *
+     * @param string                 $key
+     * @param string|PluginInterface $plugin
+     * @param array                  $options
+     *
+     * @return self Provides fluent interface
      */
     public function registerPlugin($key, $plugin, $options = array())
     {
         if (is_string($plugin)) {
             $plugin = class_exists($plugin) ? $plugin : $plugin.strrchr($plugin, '\\');
-            $plugin = new $plugin;
+            $plugin = new $plugin();
         }
 
         if (!($plugin instanceof PluginInterface)) {
@@ -620,15 +585,15 @@ class Client extends Configurable
     }
 
     /**
-     * Register multiple plugins
+     * Register multiple plugins.
      *
-     * @param  array $plugins
-     * @return self  Provides fluent interface
+     * @param array $plugins
+     *
+     * @return self Provides fluent interface
      */
     public function registerPlugins($plugins)
     {
         foreach ($plugins as $key => $plugin) {
-
             if (!isset($plugin['key'])) {
                 $plugin['key'] = $key;
             }
@@ -644,7 +609,7 @@ class Client extends Configurable
     }
 
     /**
-     * Get all registered plugins
+     * Get all registered plugins.
      *
      * @return PluginInterface[]
      */
@@ -654,11 +619,13 @@ class Client extends Configurable
     }
 
     /**
-     * Get a plugin instance
+     * Get a plugin instance.
      *
      * @throws OutOfBoundsException
-     * @param  string               $key
-     * @param  boolean              $autocreate
+     *
+     * @param string  $key
+     * @param boolean $autocreate
+     *
      * @return PluginInterface|null
      */
     public function getPlugin($key, $autocreate = true)
@@ -671,20 +638,21 @@ class Client extends Configurable
 
                 return $this->pluginInstances[$key];
             } else {
-                throw new OutOfBoundsException('Cannot autoload plugin of unknown type: ' . $key);
+                throw new OutOfBoundsException('Cannot autoload plugin of unknown type: '.$key);
             }
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Remove a plugin instance
+     * Remove a plugin instance.
      *
      * You can remove a plugin by passing the plugin key, or the plugin instance
      *
-     * @param  string|PluginInterface $plugin
-     * @return self                   Provides fluent interface
+     * @param string|PluginInterface $plugin
+     *
+     * @return self Provides fluent interface
      */
     public function removePlugin($plugin)
     {
@@ -705,10 +673,12 @@ class Client extends Configurable
     }
 
     /**
-     * Creates a request based on a query instance
+     * Creates a request based on a query instance.
      *
      * @throws UnexpectedValueException
-     * @param  QueryInterface           $query
+     *
+     * @param QueryInterface $query
+     *
      * @return Request
      */
     public function createRequest(QueryInterface $query)
@@ -721,7 +691,7 @@ class Client extends Configurable
 
         $requestBuilder = $query->getRequestBuilder();
         if (!$requestBuilder || !($requestBuilder instanceof RequestBuilderInterface)) {
-            throw new UnexpectedValueException('No requestbuilder returned by querytype: '. $query->getType());
+            throw new UnexpectedValueException('No requestbuilder returned by querytype: '.$query->getType());
         }
 
         $request = $requestBuilder->build($query);
@@ -735,11 +705,13 @@ class Client extends Configurable
     }
 
     /**
-     * Creates a result object
+     * Creates a result object.
      *
      * @throws UnexpectedValueException;
-     * @param  QueryInterface            $query
-     * @param  array Response            $response
+     *
+     * @param QueryInterface $query
+     * @param array Response $response
+     *
      * @return ResultInterface
      */
     public function createResult(QueryInterface $query, $response)
@@ -766,10 +738,11 @@ class Client extends Configurable
     }
 
     /**
-     * Execute a query
+     * Execute a query.
      *
-     * @param  QueryInterface       $query
-     * @param  Endpoint|string|null $endpoint
+     * @param QueryInterface       $query
+     * @param Endpoint|string|null $endpoint
+     *
      * @return ResultInterface
      */
     public function execute(QueryInterface $query, $endpoint = null)
@@ -793,10 +766,11 @@ class Client extends Configurable
     }
 
     /**
-     * Execute a request and return the response
+     * Execute a request and return the response.
      *
-     * @param Request
-     * @param Endpoint|string|null
+     * @param Request              $request
+     * @param Endpoint|string|null $endpoint
+     *
      * @return Response
      */
     public function executeRequest($request, $endpoint = null)
@@ -823,7 +797,7 @@ class Client extends Configurable
     }
 
     /**
-     * Execute a ping query
+     * Execute a ping query.
      *
      * Example usage:
      * <code>
@@ -837,8 +811,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\Ping\Query $query
-     * @param  Endpoint|string|null                          $endpoint
+     * @param QueryInterface|\Solarium\QueryType\Ping\Query $query
+     * @param Endpoint|string|null                          $endpoint
+     *
      * @return \Solarium\QueryType\Ping\Result
      */
     public function ping(QueryInterface $query, $endpoint = null)
@@ -847,7 +822,7 @@ class Client extends Configurable
     }
 
     /**
-     * Execute an update query
+     * Execute an update query.
      *
      * Example usage:
      * <code>
@@ -863,8 +838,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\Update\Query\Query $query
-     * @param  Endpoint|string|null                                  $endpoint
+     * @param QueryInterface|\Solarium\QueryType\Update\Query\Query $query
+     * @param Endpoint|string|null                                  $endpoint
+     *
      * @return \Solarium\QueryType\Update\Result
      */
     public function update(QueryInterface $query, $endpoint = null)
@@ -873,7 +849,7 @@ class Client extends Configurable
     }
 
     /**
-     * Execute a select query
+     * Execute a select query.
      *
      * Example usage:
      * <code>
@@ -888,8 +864,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\Select\Query\Query $query
-     * @param  Endpoint|string|null                                  $endpoint
+     * @param QueryInterface|\Solarium\QueryType\Select\Query\Query $query
+     * @param Endpoint|string|null                                  $endpoint
+     *
      * @return \Solarium\QueryType\Select\Result\Result
      */
     public function select(QueryInterface $query, $endpoint = null)
@@ -898,7 +875,7 @@ class Client extends Configurable
     }
 
     /**
-     * Execute a MoreLikeThis query
+     * Execute a MoreLikeThis query.
      *
      * Example usage:
      * <code>
@@ -913,8 +890,9 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\MoreLikeThis\Query $query
-     * @param  Endpoint|string|null                                  $endpoint
+     * @param QueryInterface|\Solarium\QueryType\MoreLikeThis\Query $query
+     * @param Endpoint|string|null                                  $endpoint
+     *
      * @return \Solarium\QueryType\MoreLikeThis\Result
      */
     public function moreLikeThis(QueryInterface $query, $endpoint = null)
@@ -923,13 +901,14 @@ class Client extends Configurable
     }
 
     /**
-     * Execute an analysis query
+     * Execute an analysis query.
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\Analysis\Query\Document|\Solarium\QueryType\Analysis\Query\Field $query
-     * @param  Endpoint|string|null                                                                                $endpoint
+     * @param QueryInterface|\Solarium\QueryType\Analysis\Query\Document|\Solarium\QueryType\Analysis\Query\Field $query
+     * @param Endpoint|string|null                                                                                $endpoint
+     *
      * @return \Solarium\QueryType\Analysis\Result\Document|\Solarium\QueryType\Analysis\Result\Field
      */
     public function analyze(QueryInterface $query, $endpoint = null)
@@ -938,13 +917,14 @@ class Client extends Configurable
     }
 
     /**
-     * Execute a terms query
+     * Execute a terms query.
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\Terms\Query $query
-     * @param  Endpoint|string|null                           $endpoint
+     * @param QueryInterface|\Solarium\QueryType\Terms\Query $query
+     * @param Endpoint|string|null                           $endpoint
+     *
      * @return \Solarium\QueryType\Terms\Result
      */
     public function terms(QueryInterface $query, $endpoint = null)
@@ -953,13 +933,14 @@ class Client extends Configurable
     }
 
     /**
-     * Execute a suggester query
+     * Execute a suggester query.
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\Suggester\Query $query
-     * @param  Endpoint|string|null                               $endpoint
+     * @param QueryInterface|\Solarium\QueryType\Suggester\Query $query
+     * @param Endpoint|string|null                               $endpoint
+     *
      * @return \Solarium\QueryType\Suggester\Result\Result
      */
     public function suggester(QueryInterface $query, $endpoint = null)
@@ -968,13 +949,14 @@ class Client extends Configurable
     }
 
     /**
-     * Execute an extract query
+     * Execute an extract query.
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\Extract\Query $query
-     * @param  Endpoint|string|null                             $endpoint
+     * @param QueryInterface|\Solarium\QueryType\Extract\Query $query
+     * @param Endpoint|string|null                             $endpoint
+     *
      * @return \Solarium\QueryType\Extract\Result
      */
     public function extract(QueryInterface $query, $endpoint = null)
@@ -983,13 +965,14 @@ class Client extends Configurable
     }
 
     /**
-     * Execute a RealtimeGet query
+     * Execute a RealtimeGet query.
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\RealtimeGet\Query $query
-     * @param  Endpoint|string|null                                 $endpoint
+     * @param QueryInterface|\Solarium\QueryType\RealtimeGet\Query $query
+     * @param Endpoint|string|null                                 $endpoint
+     *
      * @return \Solarium\QueryType\RealtimeGet\Result
      */
     public function realtimeGet(QueryInterface $query, $endpoint = null)
@@ -998,12 +981,14 @@ class Client extends Configurable
     }
 
     /**
-     * Create a query instance
+     * Create a query instance.
      *
      * @throws InvalidArgumentException|UnexpectedValueException
-     * @param  string                                            $type
-     * @param  array                                             $options
-     * @return \Solarium\Core\Query\Query
+     *
+     * @param string $type
+     * @param array  $options
+     *
+     * @return \Solarium\Core\Query\AbstractQuery
      */
     public function createQuery($type, $options = null)
     {
@@ -1016,7 +1001,7 @@ class Client extends Configurable
         }
 
         if (!isset($this->queryTypes[$type])) {
-            throw new InvalidArgumentException('Unknown querytype: '. $type);
+            throw new InvalidArgumentException('Unknown querytype: '.$type);
         }
 
         $class = $this->queryTypes[$type];
@@ -1035,9 +1020,10 @@ class Client extends Configurable
     }
 
     /**
-     * Create a select query instance
+     * Create a select query instance.
      *
-     * @param  mixed                                  $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\Select\Query\Query
      */
     public function createSelect($options = null)
@@ -1046,9 +1032,10 @@ class Client extends Configurable
     }
 
     /**
-     * Create a MoreLikeThis query instance
+     * Create a MoreLikeThis query instance.
      *
-     * @param  mixed                                  $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\MorelikeThis\Query
      */
     public function createMoreLikeThis($options = null)
@@ -1057,9 +1044,10 @@ class Client extends Configurable
     }
 
     /**
-     * Create an update query instance
+     * Create an update query instance.
      *
-     * @param  mixed                                  $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\Update\Query\Query
      */
     public function createUpdate($options = null)
@@ -1068,9 +1056,10 @@ class Client extends Configurable
     }
 
     /**
-     * Create a ping query instance
+     * Create a ping query instance.
      *
-     * @param  mixed                          $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\Ping\Query
      */
     public function createPing($options = null)
@@ -1079,9 +1068,10 @@ class Client extends Configurable
     }
 
     /**
-     * Create an analysis field query instance
+     * Create an analysis field query instance.
      *
-     * @param  mixed                                    $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\Analysis\Query\Field
      */
     public function createAnalysisField($options = null)
@@ -1090,9 +1080,10 @@ class Client extends Configurable
     }
 
     /**
-     * Create an analysis document query instance
+     * Create an analysis document query instance.
      *
-     * @param  mixed                                       $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\Analysis\Query\Document
      */
     public function createAnalysisDocument($options = null)
@@ -1101,9 +1092,10 @@ class Client extends Configurable
     }
 
     /**
-     * Create a terms query instance
+     * Create a terms query instance.
      *
-     * @param  mixed                           $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\Terms\Query
      */
     public function createTerms($options = null)
@@ -1112,9 +1104,10 @@ class Client extends Configurable
     }
 
     /**
-     * Create a suggester query instance
+     * Create a suggester query instance.
      *
-     * @param  mixed                               $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\Suggester\Query
      */
     public function createSuggester($options = null)
@@ -1123,9 +1116,10 @@ class Client extends Configurable
     }
 
     /**
-     * Create an extract query instance
+     * Create an extract query instance.
      *
-     * @param  mixed                             $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\Extract\Query
      */
     public function createExtract($options = null)
@@ -1134,13 +1128,64 @@ class Client extends Configurable
     }
 
     /**
-     * Create a RealtimeGet query instance
+     * Create a RealtimeGet query instance.
      *
-     * @param  mixed                                 $options
+     * @param mixed $options
+     *
      * @return \Solarium\QueryType\RealtimeGet\Query
      */
     public function createRealtimeGet($options = null)
     {
         return $this->createQuery(self::QUERY_REALTIME_GET, $options);
+    }
+
+    /**
+     * Initialization hook.
+     */
+    protected function init()
+    {
+        //@todo use injection
+        $this->eventDispatcher = new EventDispatcher();
+
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'endpoint':
+                    $this->setEndpoints($value);
+                    break;
+                case 'querytype':
+                    $this->registerQueryTypes($value);
+                    break;
+                case 'plugin':
+                    $this->registerPlugins($value);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Create an adapter instance.
+     *
+     * The 'adapter' entry in {@link $options} will be used to create an
+     * adapter instance. This entry can be the default value of
+     * {@link $options}, a value passed to the constructor or a value set by
+     * using {@link setAdapter()}
+     *
+     * This method is used for lazy-loading the adapter upon first use in
+     * {@link getAdapter()}
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function createAdapter()
+    {
+        $adapterClass = $this->getOption('adapter');
+        $adapter = new $adapterClass();
+
+        // check interface
+        if (!($adapter instanceof AdapterInterface)) {
+            throw new InvalidArgumentException('An adapter must implement the AdapterInterface');
+        }
+
+        $adapter->setOptions($this->getOption('adapteroptions'));
+        $this->adapter = $adapter;
     }
 }

@@ -30,22 +30,23 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\ParallelExecution\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * ExecuteStart event, see Events for details
+ * ExecuteStart event, see Events for details.
  *
  * @codeCoverageIgnore
  */
 class ExecuteStart extends Event
 {
-
 }

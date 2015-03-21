@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\Core\Query;
 
-use Solarium\Core\Query\Query;
+use Solarium\Core\Query\AbstractQuery;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -100,7 +100,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestQuery extends Query
+class TestQuery extends AbstractQuery
 {
     public function getType()
     {

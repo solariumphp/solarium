@@ -31,12 +31,12 @@
 
 namespace Solarium\Tests\Core\Plugin;
 
-use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Plugin\AbstractPlugin;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Plugin
+     * @var AbstractPlugin
      */
     protected $plugin;
 
@@ -74,7 +74,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class MyPlugin extends Plugin
+class MyPlugin extends AbstractPlugin
 {
     public function getClient()
     {

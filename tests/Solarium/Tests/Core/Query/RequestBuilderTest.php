@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\Core\Query;
 
-use Solarium\Core\Query\RequestBuilder;
+use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
@@ -147,6 +147,6 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestRequestBuilder extends RequestBuilder
+class TestRequestBuilder extends AbstractRequestBuilder
 {
 }

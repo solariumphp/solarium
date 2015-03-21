@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Facet;
 
 /**
- * Select multiquery facet result
+ * Select multiquery facet result.
  *
  * A multiquery facet will usually return a dataset of multiple rows, in each
  * row a query key and its count. You can access the values as an array using
@@ -47,5 +49,4 @@ namespace Solarium\QueryType\Select\Result\Facet;
  */
 class MultiQuery extends Field
 {
-
 }

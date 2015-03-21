@@ -30,28 +30,31 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Analysis\Query\Document as QueryDocument;
 use Solarium\Core\Query\QueryInterface;
 
 /**
- * Build a document analysis request
+ * Build a document analysis request.
  */
 class Document extends BaseRequestBuilder
 {
     /**
-     * Build request for an analysis document query
+     * Build request for an analysis document query.
      *
-     * @param  QueryInterface|QueryDocument $query
+     * @param QueryInterface|QueryDocument $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -64,9 +67,10 @@ class Document extends BaseRequestBuilder
     }
 
     /**
-     * Create the raw post data (xml)
+     * Create the raw post data (xml).
      *
-     * @param  QueryDocument $query
+     * @param QueryDocument $query
+     *
      * @return string
      */
     public function getRawData($query)
@@ -95,14 +99,15 @@ class Document extends BaseRequestBuilder
     }
 
     /**
-     * Build XML for a field
+     * Build XML for a field.
      *
-     * @param  string $name
-     * @param  mixed  $value
+     * @param string $name
+     * @param mixed  $value
+     *
      * @return string
      */
     protected function buildFieldXml($name, $value)
     {
-        return '<field name="' . $name . '">' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8') . '</field>';
+        return '<field name="'.$name.'">'.htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8').'</field>';
     }
 }
