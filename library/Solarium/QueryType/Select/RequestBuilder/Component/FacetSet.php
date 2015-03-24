@@ -205,11 +205,22 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      */
     public function addFacetPivot($request, $facet)
     {
+        $stats = $facet->getStats();
+
+        if (count($stats) > 0) {
+            $key = array('stats' => implode('', $stats));
+
+            // when specifying stats, solr sets the field as key
+            $facet->setKey(implode(',', $facet->getFields()));
+        } else {
+            $key = array('key' => $facet->getKey());
+        }
+
         $request->addParam(
             'facet.pivot',
             $this->renderLocalParams(
                 implode(',', $facet->getFields()),
-                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                array_merge($key, array('ex' => $facet->getExcludes()))
             )
         );
         $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
