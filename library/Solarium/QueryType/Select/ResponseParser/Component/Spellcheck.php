@@ -102,7 +102,6 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
              * directly under spellcheck.
              */
             if (isset($data['spellcheck']['collations']) &&
-                !isset($collations) &&
                 is_array($data['spellcheck']['collations'])
             ) {
               foreach ($data['spellcheck']['collations'] as $collationResult) {
@@ -116,12 +115,11 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
               }
             }
 
-            if (isset($data['spellcheck']['correctlySpelled']) &&
-                !isset($correctlySpelled)
+            if (isset($data['spellcheck']['correctlySpelled'])
             ) {
               $correctlySpelled = $data['spellcheck']['correctlySpelled'];
             }
-          
+
             return new SpellcheckResult\Result($suggestions, $collations, $correctlySpelled);
         } else {
             return null;
