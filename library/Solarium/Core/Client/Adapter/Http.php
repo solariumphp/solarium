@@ -121,8 +121,6 @@ class Http extends Configurable implements AdapterInterface
                         'content',
                         $data
                     );
-
-                    $request->addHeader('Content-Type: text/xml; charset=UTF-8');
                 }
             }
         }

@@ -155,10 +155,6 @@ class Curl extends Configurable implements AdapterInterface
             curl_setopt($handler, CURLOPT_PROXY, $proxy);
         }
 
-        if (!isset($options['headers']['Content-Type'])) {
-            $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
-        }
-
         // Try endpoint authentication first, fallback to request for backwards compatibility
         $authData = $endpoint->getAuthentication();
         if (empty($authData['username'])) {
