@@ -203,6 +203,57 @@ class FacetSet extends Component
     }
 
     /**
+     * Limit the terms for faceting by a string they must contain
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @param  string $contains
+     * @return self   Provides fluent interface
+     */
+    public function setContains($contains)
+    {
+        return $this->setOption('contains', $contains);
+    }
+
+    /**
+     * Get the facet contains
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @return string
+     */
+    public function getContains()
+    {
+        return $this->getOption('contains');
+    }
+
+
+    /**
+     * Case sensitivity of matching string that facet terms must contain
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @param  boolean $containsIgnoreCase
+     * @return self    Provides fluent interface
+     */
+    public function setContainsIgnoreCase($containsIgnoreCase)
+    {
+        return $this->setOption('contains.ignoreCase', $containsIgnoreCase);
+    }
+
+    /**
+     * Get the case sensitivity of facet contains
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @return boolean
+     */
+    public function getContainsIgnoreCase()
+    {
+        return $this->getOption('contains.ignoreCase');
+    }
+
+    /**
      * Set the facet sort order
      *
      * Use one of the SORT_* constants as the value
