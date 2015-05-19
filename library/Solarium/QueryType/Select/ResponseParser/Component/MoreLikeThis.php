@@ -42,11 +42,12 @@ use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
 use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
 use Solarium\QueryType\Select\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisResult;
+use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 
 /**
  * Parse select component MoreLikeThis result from the data
  */
-class MoreLikeThis implements ComponentParserInterface
+class MoreLikeThis extends ResponseParserAbstract implements ComponentParserInterface
 {
     /**
      * Parse result data into result objects
@@ -64,6 +65,11 @@ class MoreLikeThis implements ComponentParserInterface
             $documentClass = $query->getOption('documentclass');
 
             $searchResults = $data['moreLikeThis'];
+
+            if ($query->getResponseWriter() == $query::WT_JSON) {
+                $searchResults = $this->convertToKeyValueArray($searchResults);
+            }
+
             foreach ($searchResults as $key => $result) {
 
                 // create document instances
