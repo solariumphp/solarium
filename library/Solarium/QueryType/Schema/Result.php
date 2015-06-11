@@ -139,6 +139,14 @@ class Result extends BaseResult
     }
 
     /**
+     * @param $fieldName
+     * @return null|Field
+     */
+    public function getField($fieldName) {
+        return array_key_exists($fieldName, $this->getFields()) ? $this->fields[$fieldName] : null;
+    }
+
+    /**
      * Return errors (if any)
      * @return array
      */
