@@ -40,6 +40,7 @@ namespace Solarium\QueryType\Schema;
 
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
+use Solarium\QueryType\Schema\Query\Field\Field;
 
 /**
  * Parse schema response data
@@ -56,6 +57,25 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     {
         $data = $result->getData();
 
-        return $this->addHeaderInfo($data, array());
+        $errors             =   isset($data['errors']) ? $data['errors'] : null;
+
+        $name               =   isset($data['schema']['name']) ? $data['schema']['name'] : null;
+        $version            =   isset($data['schema']['version']) ? $data['schema']['version'] : null;
+        $uniqueKey          =   isset($data['schema']['uniqueKey']) ? $data['schema']['uniqueKey'] : null;
+        $defaultSearchField =   isset($data['schema']['defaultSearchField']) ? $data['schema']['defaultSearchField'] : null;
+
+        $fields = array();
+        if (isset($data['schema']['fields']))
+            foreach ($data['schema']['fields'] AS $field)
+                $fields[$field['name']] = new Field($field);
+
+        return $this->addHeaderInfo($data, array(
+            'errors' => $errors,
+            'name' => $name,
+            'version' => $version,
+            'uniqueKey' => $uniqueKey,
+            'defaultSearchField' => $defaultSearchField,
+            'fields' => $fields,
+        ));
     }
 }

@@ -39,6 +39,7 @@
 namespace Solarium\QueryType\Schema;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\QueryType\Schema\Query\Field\Field;
 
 /**
  * Schema result
@@ -68,6 +69,21 @@ class Result extends BaseResult
      */
     protected $queryTime;
 
+    protected $errors = array();
+
+    protected $name;
+
+    protected $version;
+
+    protected $uniqueKey;
+
+    protected $defaultSearchField;
+
+    /**
+     * @var Field[]
+     */
+    protected $fields = array();
+
     /**
      * Get Solr status code
      *
@@ -96,4 +112,49 @@ class Result extends BaseResult
 
         return $this->queryTime;
     }
+
+    /**
+     * Get Solr query time
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @return int
+     */
+    public function getName()
+    {
+        $this->parseResponse();
+
+        return $this->name;
+    }
+
+    /**
+     * @return Query\Field\Field[]
+     */
+    public function getFields()
+    {
+        $this->parseResponse();
+
+        return $this->fields;
+    }
+
+    /**
+     * Return errors (if any)
+     * @return array
+     */
+    public function getErrors()
+    {
+        $this->parseResponse();
+
+        return $this->errors;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasErrors()
+    {
+        return (bool) $this->getErrors();
+    }
+
 }
