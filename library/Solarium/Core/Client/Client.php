@@ -91,7 +91,12 @@ class Client extends Configurable
     const QUERY_UPDATE = 'update';
 
     /**
-     * Querytype ping.
+     * Querytype schema
+     */
+    const QUERY_SCHEMA = 'schema';
+
+    /**
+     * Querytype ping
      */
     const QUERY_PING = 'ping';
 
@@ -147,9 +152,10 @@ class Client extends Configurable
      *
      * These can be customized using {@link registerQueryType()}
      */
-    protected $queryTypes = array(
+    protected $queryTypes = [
         self::QUERY_SELECT => 'Solarium\QueryType\Select\Query\Query',
         self::QUERY_UPDATE => 'Solarium\QueryType\Update\Query\Query',
+        self::QUERY_SCHEMA => 'Solarium\QueryType\Schema\Query\Query',
         self::QUERY_PING => 'Solarium\QueryType\Ping\Query',
         self::QUERY_MORELIKETHIS => 'Solarium\QueryType\MoreLikeThis\Query',
         self::QUERY_ANALYSIS_DOCUMENT => 'Solarium\QueryType\Analysis\Query\Document',
@@ -158,14 +164,14 @@ class Client extends Configurable
         self::QUERY_SUGGESTER => 'Solarium\QueryType\Suggester\Query',
         self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
         self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
-    );
+    ];
 
     /**
      * Plugin types.
      *
      * @var array
      */
-    protected $pluginTypes = array(
+    protected $pluginTypes = [
         'loadbalancer' => 'Solarium\Plugin\Loadbalancer\Loadbalancer',
         'postbigrequest' => 'Solarium\Plugin\PostBigRequest',
         'customizerequest' => 'Solarium\Plugin\CustomizeRequest\CustomizeRequest',
@@ -173,7 +179,7 @@ class Client extends Configurable
         'bufferedadd' => 'Solarium\Plugin\BufferedAdd\BufferedAdd',
         'prefetchiterator' => 'Solarium\Plugin\PrefetchIterator',
         'minimumscorefilter' => 'Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter',
-    );
+    ];
 
     /**
      * EventDispatcher.
@@ -187,14 +193,14 @@ class Client extends Configurable
      *
      * @var PluginInterface[]
      */
-    protected $pluginInstances = array();
+    protected $pluginInstances = [];
 
     /**
      * Registered endpoints.
      *
      * @var Endpoint[]
      */
-    protected $endpoints = array();
+    protected $endpoints = [];
 
     /**
      * Default endpoint key.
@@ -389,7 +395,7 @@ class Client extends Configurable
      */
     public function clearEndpoints()
     {
-        $this->endpoints = array();
+        $this->endpoints = [];
         $this->defaultEndpoint = null;
 
         return $this;
@@ -582,7 +588,7 @@ class Client extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function registerPlugin($key, $plugin, $options = array())
+    public function registerPlugin($key, $plugin, $options = [])
     {
         if (is_string($plugin)) {
             $plugin = class_exists($plugin) ? $plugin : $plugin.strrchr($plugin, '\\');
@@ -1069,6 +1075,17 @@ class Client extends Configurable
     public function createUpdate($options = null)
     {
         return $this->createQuery(self::QUERY_UPDATE, $options);
+    }
+
+    /**
+     * Create a schema query instance.
+     *
+     * @param mixed $options
+     * @return \Solarium\QueryType\Schema\Query\Query
+     */
+    public function createSchema($options = null)
+    {
+        return $this->createQuery(self::QUERY_SCHEMA, $options);
     }
 
     /**
