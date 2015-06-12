@@ -19,4 +19,5 @@ interface FieldInterface extends ArrayableInterface, StringableInterface {
      */
     public function __construct(array $attributes = array());
 
+    public function getName();
 }
