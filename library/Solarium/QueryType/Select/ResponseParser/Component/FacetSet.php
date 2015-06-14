@@ -53,6 +53,7 @@ use Solarium\QueryType\Select\Result\Facet\Query as ResultFacetQuery;
 use Solarium\QueryType\Select\Result\Facet\MultiQuery as ResultFacetMultiQuery;
 use Solarium\QueryType\Select\Result\Facet\Range as ResultFacetRange;
 use Solarium\QueryType\Select\Result\Facet\Pivot\Pivot as ResultFacetPivot;
+use Solarium\QueryType\Select\Result\Facet\Interval as ResultFacetInterval;
 use Solarium\Exception\RuntimeException;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 
@@ -90,6 +91,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                         case 'facet_pivot':
                             $method = 'createFacetPivot';
                             break;
+                        case 'facet_interval':
+                            $method = 'createFacetInterval';
+                            break;
                         default:
                             throw new RuntimeException('Unknown facet class identifier');
                     }
@@ -121,6 +125,9 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     break;
                 case QueryFacetSet::FACET_PIVOT:
                     $result = $this->facetPivot($query, $facet, $data);
+                    break;
+                case QueryFacetSet::FACET_INTERVAL:
+                    $result = $this->facetInterval($query, $facet, $data);
                     break;
                 default:
                     throw new RuntimeException('Unknown facet type');
@@ -244,6 +251,24 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         }
 
         return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap);
+    }
+    
+    /**
+     * Add a facet result for a interval facet
+     *
+     * @param  Query                    $query
+     * @param  QueryFacetInterval       $facet
+     * @param  array                    $data
+     * @return ResultFacetInterval|null
+     */
+    protected function facetInterval($query, $facet, $data)
+    {
+        $key = $facet->getKey();
+        if (!isset($data['facet_counts']['facet_intervals'][$key])) {
+            return null;
+        }
+        
+        return new ResultFacetInterval($data['facet_counts']['facet_intervals'][$key]);
     }
 
     /**
