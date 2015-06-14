@@ -13,6 +13,7 @@
 - added: stats for pivot facet
 - bugfix: spellcheck 'collations' and 'correctlyspelled' updated to support Solr 5 format
 - bugfix: curl adapter now uses Solr 5 compatible headers for a GET request
+- improvement: lots of code style fixes, using the SF2 code style
 
 
 ## 3.3.0 - 2014-11-16
