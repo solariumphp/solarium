@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Exception;
 
 /**
- * Marker Interface for Solarium exceptions
+ * Marker Interface for Solarium exceptions.
  *
  * For background info see http://ralphschindler.com/2010/09/15/exception-best-practices-in-php-5-3
  */

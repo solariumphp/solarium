@@ -33,21 +33,21 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\MoreLikeThis\ResponseParser as ResponseParser;
-use Solarium\QueryType\MoreLikeThis\RequestBuilder as RequestBuilder;
 
 /**
- * MoreLikeThis Query
+ * MoreLikeThis Query.
  *
  * Can be used to select documents and/or facets from Solr. This querytype has
  * lots of options and there are many Solarium subclasses for it.
@@ -56,7 +56,7 @@ use Solarium\QueryType\MoreLikeThis\RequestBuilder as RequestBuilder;
 class Query extends SelectQuery
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -76,7 +76,7 @@ class Query extends SelectQuery
     );
 
     /**
-     * Get type for this query
+     * Get type for this query.
      *
      * @return string
      */
@@ -86,34 +86,35 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Set query stream option
+     * Set query stream option.
      *
      * Set to true to post query content instead of using the URL param
      *
      * @link http://wiki.apache.org/solr/ContentStream ContentStream
      *
-     * @param  boolean $stream
-     * @return self    Provides fluent interface
+     * @param boolean $stream
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryStream($stream)
     {
@@ -121,7 +122,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get stream option
+     * Get stream option.
      *
      * @return boolean
      */
@@ -134,8 +135,10 @@ class Query extends SelectQuery
      * Set the interestingTerms parameter.  Must be one of: none, list, details.
      *
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
-     * @param  string $term
-     * @return self   Provides fluent interface
+     *
+     * @param string $term
+     *
+     * @return self Provides fluent interface
      */
     public function setInterestingTerms($term)
     {
@@ -157,8 +160,9 @@ class Query extends SelectQuery
      *
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
      *
-     * @param  boolean $include
-     * @return self    Provides fluent interface
+     * @param boolean $include
+     *
+     * @return self Provides fluent interface
      */
     public function setMatchInclude($include)
     {
@@ -177,11 +181,12 @@ class Query extends SelectQuery
 
     /**
      * Set the mlt.match.offset parameter, which determines the which result from the query should be used for MLT
-     * For paging of MLT use setStart / setRows
+     * For paging of MLT use setStart / setRows.
      *
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
      *
-     * @param  int  $offset
+     * @param int $offset
+     *
      * @return self Provides fluent interface
      */
     public function setMatchOffset($offset)
@@ -200,15 +205,16 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set MLT fields option
+     * Set MLT fields option.
      *
      * The fields to use for similarity. NOTE: if possible, these should have a
      * stored TermVector
      *
      * Separate multiple fields with commas if you use string input.
      *
-     * @param  string|array $fields
-     * @return self         Provides fluent interface
+     * @param string|array $fields
+     *
+     * @return self Provides fluent interface
      */
     public function setMltFields($fields)
     {
@@ -221,7 +227,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get MLT fields option
+     * Get MLT fields option.
      *
      * @return array
      */
@@ -236,12 +242,13 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set minimumtermfrequency option
+     * Set minimumtermfrequency option.
      *
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
-     * @param  int  $minimum
+     * @param int $minimum
+     *
      * @return self Provides fluent interface
      */
     public function setMinimumTermFrequency($minimum)
@@ -250,7 +257,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get minimumtermfrequency option
+     * Get minimumtermfrequency option.
      *
      * @return integer|null
      */
@@ -260,12 +267,13 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set minimumdocumentfrequency option
+     * Set minimumdocumentfrequency option.
      *
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
-     * @param  int  $minimum
+     * @param int $minimum
+     *
      * @return self Provides fluent interface
      */
     public function setMinimumDocumentFrequency($minimum)
@@ -274,7 +282,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get minimumdocumentfrequency option
+     * Get minimumdocumentfrequency option.
      *
      * @return integer|null
      */
@@ -284,11 +292,12 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set minimumwordlength option
+     * Set minimumwordlength option.
      *
      * Minimum word length below which words will be ignored.
      *
-     * @param  int  $minimum
+     * @param int $minimum
+     *
      * @return self Provides fluent interface
      */
     public function setMinimumWordLength($minimum)
@@ -297,7 +306,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get minimumwordlength option
+     * Get minimumwordlength option.
      *
      * @return integer|null
      */
@@ -307,11 +316,12 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set maximumwordlength option
+     * Set maximumwordlength option.
      *
      * Maximum word length above which words will be ignored.
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setMaximumWordLength($maximum)
@@ -320,7 +330,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get maximumwordlength option
+     * Get maximumwordlength option.
      *
      * @return integer|null
      */
@@ -330,12 +340,13 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set maximumqueryterms option
+     * Set maximumqueryterms option.
      *
      * Maximum number of query terms that will be included in any generated
      * query.
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setMaximumQueryTerms($maximum)
@@ -344,7 +355,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get maximumqueryterms option
+     * Get maximumqueryterms option.
      *
      * @return integer|null
      */
@@ -354,12 +365,13 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set maximumnumberoftokens option
+     * Set maximumnumberoftokens option.
      *
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setMaximumNumberOfTokens($maximum)
@@ -368,7 +380,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get maximumnumberoftokens option
+     * Get maximumnumberoftokens option.
      *
      * @return integer|null
      */
@@ -378,12 +390,13 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set boost option
+     * Set boost option.
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @param  boolean $boost
-     * @return self    Provides fluent interface
+     * @param boolean $boost
+     *
+     * @return self Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -391,7 +404,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get boost option
+     * Get boost option.
      *
      * @return boolean|null
      */
@@ -401,15 +414,16 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set queryfields option
+     * Set queryfields option.
      *
      * Query fields and their boosts using the same format as that used in
      * DisMaxQParserPlugin. These fields must also be specified in fields.
      *
      * Separate multiple fields with commas if you use string input.
      *
-     * @param  string|array $queryFields
-     * @return self         Provides fluent interface
+     * @param string|array $queryFields
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -422,7 +436,7 @@ class Query extends SelectQuery
     }
 
     /**
-     * Get queryfields option
+     * Get queryfields option.
      *
      * @return array
      */

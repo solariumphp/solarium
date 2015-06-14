@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
@@ -48,16 +50,17 @@ use Solarium\QueryType\Select\Result\Debug\Document;
 use Solarium\QueryType\Select\Result\Debug\TimingPhase;
 
 /**
- * Parse select component Debug result from the data
+ * Parse select component Debug result from the data.
  */
 class Debug implements ComponentParserInterface
 {
     /**
-     * Parse result data into result objects
+     * Parse result data into result objects.
      *
-     * @param  Query          $query
-     * @param  DebugComponent $component
-     * @param  array          $data
+     * @param Query          $query
+     * @param DebugComponent $component
+     * @param array          $data
+     *
      * @return Result|null
      */
     public function parse($query, $component, $data)
@@ -120,18 +123,18 @@ class Debug implements ComponentParserInterface
     }
 
     /**
-     * Parse data into a documentset
+     * Parse data into a documentset.
      *
      * Used for explain and explainOther
      *
-     * @param  array       $data
+     * @param array $data
+     *
      * @return DocumentSet
      */
     protected function parseDocumentSet($data)
     {
         $docs = array();
         foreach ($data as $key => $documentData) {
-
             $details = array();
             if (isset($documentData['details']) && is_array($documentData['details'])) {
                 foreach ($documentData['details'] as $detailData) {
@@ -140,7 +143,7 @@ class Debug implements ComponentParserInterface
                         $detailData['value'],
                         $detailData['description']
                     );
-                    
+
                     if (isset($detailData['details']) && is_array($detailData['details'])) {
                         $detail->setSubDetails($detailData['details']);
                     }
@@ -161,10 +164,11 @@ class Debug implements ComponentParserInterface
     }
 
     /**
-     * Parse raw timing phase data into a result class
+     * Parse raw timing phase data into a result class.
      *
-     * @param  string      $name
-     * @param  array       $data
+     * @param string $name
+     * @param array  $data
+     *
      * @return TimingPhase
      */
     protected function parseTimingPhase($name, $data)

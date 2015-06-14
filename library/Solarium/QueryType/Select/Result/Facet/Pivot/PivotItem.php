@@ -30,40 +30,50 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Facet\Pivot;
 
+use Solarium\QueryType\Select\Result\Stats\Stats;
+
 /**
- * Select field pivot result
- *
+ * Select field pivot result.
  */
 class PivotItem extends Pivot
 {
     /**
-     * Field name
+     * Field name.
      *
      * @var string
      */
     protected $field;
 
     /**
-     * Field value
+     * Field value.
      *
      * @var mixed
      */
     protected $value;
 
     /**
-     * Count
+     * Count.
      *
      * @var int
      */
     protected $count;
+
+    /**
+     * Field stats
+     *
+     * @var mixed
+     */
+    protected $stats;
 
     /**
      * Constructor
@@ -81,10 +91,14 @@ class PivotItem extends Pivot
                 $this->pivot[] = new PivotItem($pivotData);
             }
         }
+
+        if (isset($data['stats'])) {
+            $this->stats = new Stats($data['stats']);
+        }
     }
 
     /**
-     * Get field name
+     * Get field name.
      *
      * @return string
      */
@@ -94,7 +108,7 @@ class PivotItem extends Pivot
     }
 
     /**
-     * Get field value
+     * Get field value.
      *
      * @return mixed
      */
@@ -104,12 +118,22 @@ class PivotItem extends Pivot
     }
 
     /**
-     * Get count
+     * Get count.
      *
      * @return int
      */
     public function getCount()
     {
         return $this->count;
+    }
+
+    /**
+     * Get stats
+     * 
+     * @return Stats
+     */
+    public function getStats()
+    {
+        return $this->stats;
     }
 }

@@ -30,28 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result;
 
 /**
- * Select component facetset result
+ * Select component facetset result.
  */
 class FacetSet implements \IteratorAggregate, \Countable
 {
     /**
-     * Facet array
+     * Facet array.
      *
      * @var array
      */
     protected $facets;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $facets
      */
@@ -61,9 +63,10 @@ class FacetSet implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get a facet by key
+     * Get a facet by key.
      *
-     * @param  mixed $key
+     * @param mixed $key
+     *
      * @return mixed
      */
     public function getFacet($key)
@@ -71,12 +74,12 @@ class FacetSet implements \IteratorAggregate, \Countable
         if (isset($this->facets[$key])) {
             return $this->facets[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Get all results
+     * Get all results.
      *
      * @return array
      */
@@ -86,7 +89,7 @@ class FacetSet implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -96,7 +99,7 @@ class FacetSet implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

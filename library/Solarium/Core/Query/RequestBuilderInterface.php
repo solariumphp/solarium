@@ -30,25 +30,28 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Client\Request;
 
 /**
- * Interface for requestbuilders
+ * Interface for requestbuilders.
  */
 interface RequestBuilderInterface
 {
     /**
-     * Build request for a select query
+     * Build request for a select query.
      *
-     * @param  QueryInterface $query
+     * @param QueryInterface $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query);

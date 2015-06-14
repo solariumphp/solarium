@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Client\Client;
@@ -46,23 +48,23 @@ use Solarium\QueryType\Select\Result\DocumentInterface as ReadOnlyDocumentInterf
 use Solarium\QueryType\Update\Query\Document\DocumentInterface as DocumentInterface;
 
 /**
- * Analysis document query
+ * Analysis document query.
  */
-class Document extends Query
+class Document extends AbstractQuery
 {
     const DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE = 'The document argument must either implement
         \Solarium\QueryType\Select\Result\DocumentInterface (read-only) or
         \Solarium\QueryType\Update\Query\Document\DocumentInterface (read-write), instance of %s given.';
 
     /**
-     * Documents to analyze
+     * Documents to analyze.
      *
      * @var ReadOnlyDocumentInterface[]|DocumentInterface[]
      */
     protected $documents = array();
 
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -73,7 +75,7 @@ class Document extends Query
     );
 
     /**
-     * Get type for this query
+     * Get type for this query.
      *
      * @return string
      */
@@ -83,31 +85,33 @@ class Document extends Query
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Add a single document
+     * Add a single document.
      *
-     * @param  ReadOnlyDocumentInterface|DocumentInterface $document
-     * @return self                                        Provides fluent interface
-     * @throws RuntimeException                            If the given document doesn't have the right interface
+     * @param ReadOnlyDocumentInterface|DocumentInterface $document
+     *
+     * @return self Provides fluent interface
+     *
+     * @throws RuntimeException If the given document doesn't have the right interface
      */
     public function addDocument($document)
     {
@@ -121,11 +125,13 @@ class Document extends Query
     }
 
     /**
-     * Add multiple documents
+     * Add multiple documents.
      *
-     * @param  ReadOnlyDocumentInterface[]|DocumentInterface[] $documents
-     * @return self                                            Provides fluent interface
-     * @throws RuntimeException                                If the given documents doesn't have the right interface
+     * @param ReadOnlyDocumentInterface[]|DocumentInterface[] $documents
+     *
+     * @return self Provides fluent interface
+     *
+     * @throws RuntimeException If the given documents doesn't have the right interface
      */
     public function addDocuments($documents)
     {
@@ -141,7 +147,7 @@ class Document extends Query
     }
 
     /**
-     * Get all documents
+     * Get all documents.
      *
      * @return ReadOnlyDocumentInterface[]|DocumentInterface[]
      */

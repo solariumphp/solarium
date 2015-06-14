@@ -30,25 +30,27 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
- * Update query optimize command
+ * Update query optimize command.
  *
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22
  */
-class Optimize extends Command
+class Optimize extends AbstractCommand
 {
     /**
-     * Get command type
+     * Get command type.
      *
      * @return string
      */
@@ -58,7 +60,7 @@ class Optimize extends Command
     }
 
     /**
-     * Get softCommit option
+     * Get softCommit option.
      *
      * @return boolean
      */
@@ -68,10 +70,11 @@ class Optimize extends Command
     }
 
     /**
-     * Set softCommit option
+     * Set softCommit option.
      *
-     * @param  boolean $softCommit
-     * @return self    Provides fluent interface
+     * @param boolean $softCommit
+     *
+     * @return self Provides fluent interface
      */
     public function setSoftCommit($softCommit)
     {
@@ -79,7 +82,7 @@ class Optimize extends Command
     }
 
     /**
-     * Get waitSearcher option
+     * Get waitSearcher option.
      *
      * @return boolean
      */
@@ -89,10 +92,11 @@ class Optimize extends Command
     }
 
     /**
-     * Set waitSearcher option
+     * Set waitSearcher option.
      *
-     * @param  boolean $waitSearcher
-     * @return self    Provides fluent interface
+     * @param boolean $waitSearcher
+     *
+     * @return self Provides fluent interface
      */
     public function setWaitSearcher($waitSearcher)
     {
@@ -100,7 +104,7 @@ class Optimize extends Command
     }
 
     /**
-     * Get maxSegments option
+     * Get maxSegments option.
      *
      * @return boolean
      */
@@ -110,10 +114,11 @@ class Optimize extends Command
     }
 
     /**
-     * Set maxSegments option
+     * Set maxSegments option.
      *
-     * @param  boolean $maxSegments
-     * @return self    Provides fluent interface
+     * @param boolean $maxSegments
+     *
+     * @return self Provides fluent interface
      */
     public function setMaxSegments($maxSegments)
     {

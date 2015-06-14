@@ -30,29 +30,31 @@
  *
  * @copyright Copyright 2014 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\Exception\OutOfBoundsException;
 
 /**
- * Minimumscore filter
+ * Minimumscore filter.
  */
 class Filter
 {
-
     /**
-     * Apply filter to document array
+     * Apply filter to document array.
      *
-     * @param array $documents
-     * @param float $maxScore
-     * @param float $ratio
+     * @param array  $documents
+     * @param float  $maxScore
+     * @param float  $ratio
      * @param string $mode
+     *
      * @return array
      */
     public function filterDocuments($documents, $maxScore, $ratio, $mode)
@@ -73,7 +75,7 @@ class Filter
                 }
                 break;
             default:
-                throw new OutOfBoundsException('Unknown filter mode in query: ' . $mode);
+                throw new OutOfBoundsException('Unknown filter mode in query: '.$mode);
                 break;
         }
 

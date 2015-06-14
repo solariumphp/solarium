@@ -82,6 +82,13 @@ class RangeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetMinCount()
+    {
+        $this->facet->setMinCount(5);
+
+        $this->assertEquals(5, $this->facet->getMinCount());
+    }
+
     public function testSetAndGetField()
     {
         $this->facet->setField('price');

@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Client\Client;
@@ -43,12 +45,12 @@ use Solarium\QueryType\Analysis\ResponseParser\Field as ResponseParser;
 use Solarium\QueryType\Analysis\RequestBuilder\Field as RequestBuilder;
 
 /**
- * Analysis document query
+ * Analysis document query.
  */
-class Field extends Query
+class Field extends AbstractQuery
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -59,7 +61,7 @@ class Field extends Query
     );
 
     /**
-     * Get type for this query
+     * Get type for this query.
      *
      * @return string
      */
@@ -69,32 +71,33 @@ class Field extends Query
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Set the field value option
+     * Set the field value option.
      *
      * The text that will be analyzed. The analysis will mimic the index-time analysis.
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function setFieldValue($value)
     {
@@ -102,7 +105,7 @@ class Field extends Query
     }
 
     /**
-     * Get the field value option
+     * Get the field value option.
      *
      * @return string
      */
@@ -112,12 +115,13 @@ class Field extends Query
     }
 
     /**
-     * Set the field type option
+     * Set the field type option.
      *
      * When present, the text will be analyzed based on the specified type
      *
-     * @param  string $type
-     * @return self   Provides fluent interface
+     * @param string $type
+     *
+     * @return self Provides fluent interface
      */
     public function setFieldType($type)
     {
@@ -125,7 +129,7 @@ class Field extends Query
     }
 
     /**
-     * Get the fieldtype option
+     * Get the fieldtype option.
      *
      * @return string
      */
@@ -135,12 +139,13 @@ class Field extends Query
     }
 
     /**
-     * Set the field name option
+     * Set the field name option.
      *
      * When present, the text will be analyzed based on the type of this field name
      *
-     * @param  string $name
-     * @return self   Provides fluent interface
+     * @param string $name
+     *
+     * @return self Provides fluent interface
      */
     public function setFieldName($name)
     {
@@ -148,7 +153,7 @@ class Field extends Query
     }
 
     /**
-     * Get the fieldname option
+     * Get the fieldname option.
      *
      * @return string
      */

@@ -30,54 +30,56 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 /**
- * Facet query
+ * Facet query.
  *
  * @link http://wiki.apache.org/solr/SimpleFacetParameters#Field_Value_Faceting_Parameters
  */
-class Field extends Facet
+class Field extends AbstractFacet
 {
     /**
-     * Facet sort type index
+     * Facet sort type index.
      */
     const SORT_INDEX = 'index';
 
     /**
-     * Facet sort type count
+     * Facet sort type count.
      */
     const SORT_COUNT = 'count';
 
     /**
-     * Facet method enum
+     * Facet method enum.
      */
     const METHOD_ENUM = 'enum';
 
     /**
-     * Facet method fc
+     * Facet method fc.
      */
     const METHOD_FC = 'fc';
 
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
     protected $options = array(
-        'field' => 'id'
+        'field' => 'id',
     );
 
     /**
-     * Get the facet type
+     * Get the facet type.
      *
      * @return string
      */
@@ -87,10 +89,11 @@ class Field extends Facet
     }
 
     /**
-     * Set the field name
+     * Set the field name.
      *
-     * @param  string $field
-     * @return self   Provides fluent interface
+     * @param string $field
+     *
+     * @return self Provides fluent interface
      */
     public function setField($field)
     {
@@ -98,7 +101,7 @@ class Field extends Facet
     }
 
     /**
-     * Get the field name
+     * Get the field name.
      *
      * @return string
      */
@@ -108,12 +111,13 @@ class Field extends Facet
     }
 
     /**
-     * Set the facet sort order
+     * Set the facet sort order.
      *
      * Use one of the SORT_* constants as the value
      *
-     * @param  string $sort
-     * @return self   Provides fluent interface
+     * @param string $sort
+     *
+     * @return self Provides fluent interface
      */
     public function setSort($sort)
     {
@@ -121,7 +125,7 @@ class Field extends Facet
     }
 
     /**
-     * Get the facet sort order
+     * Get the facet sort order.
      *
      * @return string
      */
@@ -131,10 +135,11 @@ class Field extends Facet
     }
 
     /**
-     * Limit the terms for faceting by a prefix
+     * Limit the terms for faceting by a prefix.
      *
-     * @param  string $prefix
-     * @return self   Provides fluent interface
+     * @param string $prefix
+     *
+     * @return self Provides fluent interface
      */
     public function setPrefix($prefix)
     {
@@ -142,7 +147,7 @@ class Field extends Facet
     }
 
     /**
-     * Get the facet prefix
+     * Get the facet prefix.
      *
      * @return string
      */
@@ -152,9 +157,10 @@ class Field extends Facet
     }
 
     /**
-     * Set the facet limit
+     * Set the facet limit.
      *
-     * @param  int  $limit
+     * @param int $limit
+     *
      * @return self Provides fluent interface
      */
     public function setLimit($limit)
@@ -163,7 +169,7 @@ class Field extends Facet
     }
 
     /**
-     * Get the facet limit
+     * Get the facet limit.
      *
      * @return string
      */
@@ -173,9 +179,10 @@ class Field extends Facet
     }
 
     /**
-     * Set the facet offset
+     * Set the facet offset.
      *
-     * @param  int  $offset
+     * @param int $offset
+     *
      * @return self Provides fluent interface
      */
     public function setOffset($offset)
@@ -184,7 +191,7 @@ class Field extends Facet
     }
 
     /**
-     * Get the facet offset
+     * Get the facet offset.
      *
      * @return int
      */
@@ -194,9 +201,10 @@ class Field extends Facet
     }
 
     /**
-     * Set the facet mincount
+     * Set the facet mincount.
      *
-     * @param  int  $minCount
+     * @param int $minCount
+     *
      * @return self Provides fluent interface
      */
     public function setMinCount($minCount)
@@ -205,7 +213,7 @@ class Field extends Facet
     }
 
     /**
-     * Get the facet mincount
+     * Get the facet mincount.
      *
      * @return int
      */
@@ -215,10 +223,11 @@ class Field extends Facet
     }
 
     /**
-     * Set the missing count option
+     * Set the missing count option.
      *
-     * @param  boolean $missing
-     * @return self    Provides fluent interface
+     * @param boolean $missing
+     *
+     * @return self Provides fluent interface
      */
     public function setMissing($missing)
     {
@@ -226,7 +235,7 @@ class Field extends Facet
     }
 
     /**
-     * Get the facet missing option
+     * Get the facet missing option.
      *
      * @return boolean
      */
@@ -236,12 +245,13 @@ class Field extends Facet
     }
 
     /**
-     * Set the facet method
+     * Set the facet method.
      *
      * Use one of the METHOD_* constants as value
      *
-     * @param  string $method
-     * @return self   Provides fluent interface
+     * @param string $method
+     *
+     * @return self Provides fluent interface
      */
     public function setMethod($method)
     {
@@ -249,7 +259,7 @@ class Field extends Facet
     }
 
     /**
-     * Get the facet method
+     * Get the facet method.
      *
      * @return string
      */

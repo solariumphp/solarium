@@ -31,15 +31,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @copyright Copyright 2012 Alexander Brausewetter <alex@helpdeskhq.com>
+ * @copyright Copyright 2014 Marin Purgar <marin.purgar@gmail.com.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
-
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\Configurable;
@@ -51,7 +50,7 @@ use Solarium\Exception\HttpException;
 use Solarium\Exception\OutOfBoundsException;
 
 /**
- * Adapter that uses a Zend_Http_Client.
+ * Adapter that uses a ZF2 Zend\Http\Client
  *
  * The Zend Framework HTTP client has many great features and has lots of
  * configuration options. For more info see the manual at
@@ -59,12 +58,12 @@ use Solarium\Exception\OutOfBoundsException;
  *
  * To use this adapter you need to have the Zend Framework available (autoloading)
  */
-class ZendHttp extends Configurable implements AdapterInterface
+class Zend2Http extends Configurable implements AdapterInterface
 {
     /**
-     * Zend Http instance for communication with Solr.
+     * Zend Http instance for communication with Solr
      *
-     * @var \Zend_Http_Client
+     * @var \Zend\Http\Client
      */
     protected $zendHttp;
 
@@ -74,21 +73,20 @@ class ZendHttp extends Configurable implements AdapterInterface
     protected $timeout;
 
     /**
-     * Set options.
+     * Set options
      *
      * Overrides any existing values.
      *
      * If the options array has an 'options' entry it is forwarded to the
-     * Zend_Http_Client. See the Zend_Http_Clientdocs for the many config
+     * Zend\Http\Client. See the Zend\Http\Client docs for the many config
      * options available.
      *
      * The $options param should be an array or an object that has a toArray
      * method, like Zend_Config
      *
-     * @param array|object $options
-     * @param boolean      $overwrite
-     *
-     * @return self Provides fluent interface
+     * @param  array|object $options
+     * @param  boolean      $overwrite
+     * @return self         Provides fluent interface
      */
     public function setOptions($options, $overwrite = false)
     {
@@ -96,6 +94,7 @@ class ZendHttp extends Configurable implements AdapterInterface
 
         // forward options to zendHttp instance
         if (null !== $this->zendHttp) {
+
             // forward timeout setting
             $adapterOptions = array();
 
@@ -104,22 +103,21 @@ class ZendHttp extends Configurable implements AdapterInterface
                 $adapterOptions = array_merge($adapterOptions, $this->options['options']);
             }
 
-            $this->zendHttp->setConfig($adapterOptions);
+            $this->zendHttp->setOptions($adapterOptions);
         }
 
         return $this;
     }
 
     /**
-     * Set the Zend_Http_Client instance.
+     * Set the Zend\Http\Client instance
      *
      * This method is optional, if you don't set a client it will be created
      * upon first use, using default and/or custom options (the most common use
      * case)
      *
-     * @param \Zend_Http_Client $zendHttp
-     *
-     * @return self Provides fluent interface
+     * @param  \Zend\Http\Client $zendHttp
+     * @return self              Provides fluent interface
      */
     public function setZendHttp($zendHttp)
     {
@@ -129,16 +127,16 @@ class ZendHttp extends Configurable implements AdapterInterface
     }
 
     /**
-     * Get the Zend_Http_Client instance.
+     * Get the Zend\Http\Client instance
      *
      * If no instance is available yet it will be created automatically based on
      * options.
      *
      * You can use this method to get a reference to the client instance to set
      * options, get the last response and use many other features offered by the
-     * Zend_Http_Client API.
+     * Zend\Http\Client API.
      *
-     * @return \Zend_Http_Client
+     * @return \Zend\Http\Client
      */
     public function getZendHttp()
     {
@@ -153,21 +151,19 @@ class ZendHttp extends Configurable implements AdapterInterface
                 );
             }
 
-            $this->zendHttp = new \Zend_Http_Client(null, $options);
+            $this->zendHttp = new \Zend\Http\Client(null, $options);
         }
 
         return $this->zendHttp;
     }
 
     /**
-     * Execute a Solr request using the Zend_Http_Client instance.
+     * Execute a Solr request using the Zend\Http\Client instance
      *
      * @throws HttpException
      * @throws OutOfBoundsException
-     *
-     * @param Request  $request
-     * @param Endpoint $endpoint
-     *
+     * @param  Request              $request
+     * @param  Endpoint             $endpoint
      * @return Response
      */
     public function execute($request, $endpoint)
@@ -177,33 +173,33 @@ class ZendHttp extends Configurable implements AdapterInterface
 
         switch ($request->getMethod()) {
             case Request::METHOD_GET:
-                $client->setMethod(\Zend_Http_Client::GET);
+                $client->setMethod('GET');
                 $client->setParameterGet($request->getParams());
                 break;
             case Request::METHOD_POST:
-                $client->setMethod(\Zend_Http_Client::POST);
+                $client->setMethod('POST');
                 if ($request->getFileUpload()) {
                     $this->prepareFileUpload($client, $request);
                 } else {
                     $client->setParameterGet($request->getParams());
-                    $client->setRawData($request->getRawData());
+                    $client->setRawBody($request->getRawData());
                     $request->addHeader('Content-Type: text/xml; charset=UTF-8');
                 }
                 break;
             case Request::METHOD_HEAD:
-                $client->setMethod(\Zend_Http_Client::HEAD);
+                $client->setMethod('HEAD');
                 $client->setParameterGet($request->getParams());
                 break;
             default:
-                throw new OutOfBoundsException('Unsupported method: '.$request->getMethod());
+                throw new OutOfBoundsException('Unsupported method: ' . $request->getMethod());
                 break;
         }
 
-        $client->setUri($endpoint->getBaseUri().$request->getHandler());
+        $client->setUri($endpoint->getBaseUri() . $request->getHandler());
         $client->setHeaders($request->getHeaders());
         $this->timeout = $endpoint->getTimeout();
 
-        $response = $client->request();
+        $response = $client->send();
 
         return $this->prepareResponse(
             $request,
@@ -213,21 +209,19 @@ class ZendHttp extends Configurable implements AdapterInterface
 
     /**
      * Prepare a solarium response from the given request and client
-     * response.
+     * response
      *
      * @throws HttpException
-     *
-     * @param Request             $request
-     * @param \Zend_Http_Response $response
-     *
+     * @param  Request             $request
+     * @param  \Zend\Http\Response $response
      * @return Response
      */
     protected function prepareResponse($request, $response)
     {
-        if ($response->isError()) {
+        if ($response->isClientError()) {
             throw new HttpException(
-                $response->getMessage(),
-                $response->getStatus()
+                $response->getReasonPhrase(),
+                $response->getStatusCode()
             );
         }
 
@@ -237,17 +231,18 @@ class ZendHttp extends Configurable implements AdapterInterface
             $data = $response->getBody();
         }
 
-        // this is used because getHeaders doesn't return the HTTP header...
-        $headers = explode("\n", $response->getHeadersAsString());
+        // this is used because in ZF2 status line isn't in the headers anymore
+        $headers = array($response->renderStatusLine());
 
         return new Response($data, $headers);
     }
 
     /**
-     * Prepare the client to send the file and params in request.
+     * Prepare the client to send the file and params in request
      *
-     * @param \Zend_Http_Client $client
-     * @param Request           $request
+     * @param  \Zend\Http\Client $client
+     * @param  Request           $request
+     * @return void
      */
     protected function prepareFileUpload($client, $request)
     {

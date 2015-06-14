@@ -30,18 +30,20 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Exception\RuntimeException;
 
 /**
- * Read-only Solr document
+ * Read-only Solr document.
  *
  * This is the default Solr document type returned by a select query. You can
  * access the fields as object properties or iterate over all fields.
@@ -49,14 +51,14 @@ use Solarium\Exception\RuntimeException;
 class Document extends AbstractDocument implements DocumentInterface
 {
     /**
-     * All fields in this document
+     * All fields in this document.
      *
      * @var array
      */
     protected $fields;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $fields
      */
@@ -66,15 +68,15 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Set field value
+     * Set field value.
      *
      * Magic method for setting a field as property of this object. Since this
      * is a readonly document an exception will be thrown to prevent this.
      *
      * @throws RuntimeException
-     * @param  string           $name
-     * @param  string           $value
-     * @return void
+     *
+     * @param string $name
+     * @param string $value
      */
     public function __set($name, $value)
     {

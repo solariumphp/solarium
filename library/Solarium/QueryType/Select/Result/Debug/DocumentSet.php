@@ -30,28 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Debug;
 
 /**
- * Select component debug documentset result
+ * Select component debug documentset result.
  */
 class DocumentSet implements \IteratorAggregate, \Countable
 {
     /**
-     * Docs array
+     * Docs array.
      *
      * @var array
      */
     protected $docs;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $docs
      */
@@ -61,9 +63,10 @@ class DocumentSet implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get a document by key
+     * Get a document by key.
      *
-     * @param  mixed         $key
+     * @param mixed $key
+     *
      * @return Document|null
      */
     public function getDocument($key)
@@ -71,12 +74,12 @@ class DocumentSet implements \IteratorAggregate, \Countable
         if (isset($this->docs[$key])) {
             return $this->docs[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Get all docs
+     * Get all docs.
      *
      * @return array
      */
@@ -86,7 +89,7 @@ class DocumentSet implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -96,7 +99,7 @@ class DocumentSet implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

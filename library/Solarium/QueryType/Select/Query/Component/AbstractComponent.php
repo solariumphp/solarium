@@ -30,72 +30,73 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
-namespace Solarium\Core\Query;
+
+namespace Solarium\QueryType\Select\Query\Component;
+
+use Solarium\Core\Configurable;
+use Solarium\Core\Query\AbstractQuery;
+use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;
+use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderInterface;
 
 /**
- * Abstract class for response parsers
- *
- * Base class with shared functionality for querytype responseparser implementations
+ * Query component base class.
  */
-abstract class ResponseParser
+abstract class AbstractComponent extends Configurable
 {
     /**
-     * Converts a flat key-value array (alternating rows) as used in Solr JSON results to a real key value array
-     *
-     * @param $data
-     * @return array
+     * @var AbstractQuery
      */
-    public function convertToKeyValueArray($data)
+    protected $queryInstance;
+
+    /**
+     * Get component type.
+     *
+     * @return string
+     */
+    abstract public function getType();
+
+    /**
+     * Get the requestbuilder class for this query.
+     *
+     * @return ComponentRequestBuilderInterface
+     */
+    abstract public function getRequestBuilder();
+
+    /**
+     * Get the response parser class for this query.
+     *
+     * @return ComponentParserInterface
+     */
+    abstract public function getResponseParser();
+
+    /**
+     * Set parent query instance.
+     *
+     * @param AbstractQuery $instance
+     *
+     * @return self Provides fluent interface
+     */
+    public function setQueryInstance(AbstractQuery $instance)
     {
-        // key counter to convert values to arrays when keys are re-used
-        $keys = array();
+        $this->queryInstance = $instance;
 
-        $result = array();
-        for ($i = 0; $i < count($data); $i += 2) {
-
-            $key  = $data[$i];
-            $value = $data[$i+1];
-            if (array_key_exists($key, $keys)) {
-                if ($keys[$key] == 1) {
-                    $result[$key] = array($result[$key]);
-                }
-                $result[$key][] = $value;
-                $keys[$key]++;
-            } else {
-                $keys[$key] = 1;
-                $result[$key] = $value;
-            }
-        }
-
-        return $result;
+        return $this;
     }
 
     /**
-     * Parses header data (if available) and adds it to result data
+     * Get parent query instance.
      *
-     * @param  array $data
-     * @param  array $result
-     * @return mixed
+     * @return AbstractQuery
      */
-    public function addHeaderInfo($data, $result)
+    public function getQueryInstance()
     {
-        $status = null;
-        $queryTime = null;
-
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
-        }
-
-        $result['status'] = $status;
-        $result['queryTime'] = $queryTime;
-
-        return $result;
+        return $this->queryInstance;
     }
 }

@@ -30,19 +30,21 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Query\QueryInterface;
 
 /**
- * PostCreateQuery event, see Events for details
+ * PostCreateQuery event, see Events for details.
  */
 class PostCreateQuery extends Event
 {
@@ -62,7 +64,7 @@ class PostCreateQuery extends Event
     protected $options;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param string         $type
      * @param array          $options
@@ -76,7 +78,7 @@ class PostCreateQuery extends Event
     }
 
     /**
-     * Get the query object for this event
+     * Get the query object for this event.
      *
      * @return QueryInterface
      */
@@ -86,7 +88,7 @@ class PostCreateQuery extends Event
     }
 
     /**
-     * Get the querytype for this event
+     * Get the querytype for this event.
      *
      * @return string
      */
@@ -96,7 +98,7 @@ class PostCreateQuery extends Event
     }
 
     /**
-     * Get the options for this event
+     * Get the options for this event.
      *
      * @return string
      */
