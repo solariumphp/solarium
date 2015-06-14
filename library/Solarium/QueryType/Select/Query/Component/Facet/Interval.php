@@ -36,103 +36,102 @@
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Select\Result\Facet\Pivot;
+namespace Solarium\QueryType\Select\Query\Component\Facet;
 
-use Solarium\QueryType\Select\Result\Stats\Stats;
+use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 /**
- * Select field pivot result
+ * Facet interval
  *
+ * @link http://wiki.apache.org/solr/SimpleFacetParameters#Interval_Faceting
  */
-class PivotItem extends Pivot
+class Interval extends Facet
 {
-    /**
-     * Field name
-     *
-     * @var string
-     */
-    protected $field;
 
     /**
-     * Field value
+     * Initialize options
      *
-     * @var mixed
-     */
-    protected $value;
-
-    /**
-     * Count
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
      *
-     * @var int
+     * @return void
      */
-    protected $count;
-
-    /**
-     * Field stats
-     *
-     * @var mixed
-     */
-    protected $stats;
-
-    /**
-     * Constructor
-     *
-     * @param array $data
-     */
-    public function __construct($data)
+    protected function init()
     {
-        $this->field = $data['field'];
-        $this->value = $data['value'];
-        $this->count = $data['count'];
+        parent::init();
 
-        if (isset($data['pivot'])) {
-            foreach ($data['pivot'] as $pivotData) {
-                $this->pivot[] = new PivotItem($pivotData);
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'set':
+                    $this->setSet($value);
+                    break;
             }
-        }
-
-        if (isset($data['stats'])) {
-            $this->stats = new Stats($data['stats']);
         }
     }
 
     /**
-     * Get field name
+     * Get the facet type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return FacetSet::FACET_INTERVAL;
+    }
+
+    /**
+     * Set the field name
+     *
+     * @param  string $field
+     * @return self   Provides fluent interface
+     */
+    public function setField($field)
+    {
+        return $this->setOption('field', $field);
+    }
+
+    /**
+     * Get the field name
      *
      * @return string
      */
     public function getField()
     {
-        return $this->field;
+        return $this->getOption('field');
     }
 
     /**
-     * Get field value
+     * Set set counts
      *
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * Get count
+     * Use one of the constants as value.
+     * If you want to use multiple values supply an array or comma separated string
      *
-     * @return int
+     * @param  string|array $set
+     * @return self         Provides fluent interface
      */
-    public function getCount()
+    public function setSet($set)
     {
-        return $this->count;
+        if (is_string($set)) {
+            $set = explode(',', $set);
+            $set = array_map('trim', $set);
+        }
+
+        return $this->setOption('set', $set);
     }
 
     /**
-     * Get stats
-     * 
-     * @return Stats
+     * Get set counts
+     *
+     * @return array
      */
-    public function getStats()
+    public function getSet()
     {
-        return $this->stats;
+        $set = $this->getOption('set');
+        if ($set === null) {
+            $set = array();
+        }
+
+        return $set;
     }
+
 }

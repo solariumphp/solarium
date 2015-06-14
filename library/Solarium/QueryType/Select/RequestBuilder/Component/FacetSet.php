@@ -46,6 +46,7 @@ use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as FacetMultiQuer
 use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\Range as FacetRange;
 use Solarium\QueryType\Select\Query\Component\Facet\Pivot as FacetPivot;
+use Solarium\QueryType\Select\Query\Component\Facet\Interval as FacetInterval;
 use Solarium\Exception\UnexpectedValueException;
 
 /**
@@ -92,6 +93,9 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                         break;
                     case FacetsetComponent::FACET_PIVOT:
                         $this->addFacetPivot($request, $facet);
+                        break;
+                    case FacetsetComponent::FACET_INTERVAL:
+                        $this->addFacetInterval($request, $facet);
                         break;
                     default:
                         throw new UnexpectedValueException('Unknown facet type');
@@ -205,13 +209,52 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      */
     public function addFacetPivot($request, $facet)
     {
+        $stats = $facet->getStats();
+
+        if (count($stats) > 0) {
+            $key = array('stats' => implode('', $stats));
+
+            // when specifying stats, solr sets the field as key
+            $facet->setKey(implode(',', $facet->getFields()));
+        } else {
+            $key = array('key' => $facet->getKey());
+        }
+
         $request->addParam(
             'facet.pivot',
             $this->renderLocalParams(
                 implode(',', $facet->getFields()),
-                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                array_merge($key, array('ex' => $facet->getExcludes()))
             )
         );
         $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
+    }
+
+    /**
+     * Add params for a interval facet to request
+     *
+     * @param  Request    $request
+     * @param  FacetInterval $facet
+     * @return void
+     */
+    public function addFacetInterval($request, $facet)
+    {
+        $field = $facet->getField();
+
+        $request->addParam(
+            'facet.interval',
+            $this->renderLocalParams(
+                $field
+                // key & ex not supported for interval
+                //,array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+            )
+        );
+
+        foreach ($facet->getSet() as $key => $setValue) {
+            if(is_string($key)) {
+                $setValue = '{!key="'.$key.'"}'.$setValue;
+            }
+            $request->addParam("f.$field.facet.interval.set", $setValue);
+        }
     }
 }

@@ -49,6 +49,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'facet' => 'field1, field2',
+            'pivot' => 'piv1'
         );
 
         $this->field->setOptions($options);
@@ -106,5 +107,52 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->field->addFacets(array('facet1', 'facet2'));
         $this->field->setFacets(array('facet3', 'facet4'));
         $this->assertEquals(array('facet3', 'facet4'), $this->field->getFacets());
+    }
+
+    public function testAddPivot()
+    {
+        $expectedPivots = $this->field->getPivots();
+        $expectedPivots[] = 'newpivot';
+        $this->field->addPivot('newpivot');
+        $this->assertEquals($expectedPivots, $this->field->getPivots());
+    }
+
+    public function testClearPivots()
+    {
+        $this->field->addPivot('newpivot');
+        $this->field->clearPivots();
+        $this->assertEquals(array(), $this->field->getPivots());
+    }
+
+    public function testAddPivots()
+    {
+        $pivots = array('pivot1', 'pivot2');
+
+        $this->field->clearPivots();
+        $this->field->addPivots($pivots);
+        $this->assertEquals($pivots, $this->field->getPivots());
+    }
+
+    public function testAddPivotsAsStringWithTrim()
+    {
+        $this->field->clearPivots();
+        $this->field->addPivots('pivot1, pivot2');
+        $this->assertEquals(array('pivot1', 'pivot2'), $this->field->getPivots());
+    }
+
+    public function testRemovePivot()
+    {
+        $this->field->clearPivots();
+        $this->field->addPivots(array('pivot1', 'pivot2'));
+        $this->field->removePivot('pivot1');
+        $this->assertEquals(array('pivot2'), $this->field->getPivots());
+    }
+
+    public function testSetPivots()
+    {
+        $this->field->clearPivots();
+        $this->field->addPivots(array('pivot1', 'pivot2'));
+        $this->field->setPivots(array('pivot3', 'pivot4'));
+        $this->assertEquals(array('pivot3', 'pivot4'), $this->field->getPivots());
     }
 }

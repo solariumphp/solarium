@@ -27,16 +27,25 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
+ *
+ * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ * @link http://www.solarium-project.org/
  */
 
-namespace Solarium\Tests\QueryType\Select\Result;
+/**
+ * @namespace
+ */
+namespace Solarium\QueryType\Select\Result\Facet;
 
-use Solarium\QueryType\Select\Result\Document;
-
-class DocumentTest extends AbstractDocumentTest
+/**
+ * Select interval facet result
+ *
+ * A interval facet will usually return a dataset of multiple rows, in each row a
+ * value and its count. You can access the values as an array using
+ * {@link getValues()} or iterate this object.
+ */
+class Interval extends Field
 {
-    protected function setUp()
-    {
-        $this->doc = new Document($this->fields);
-    }
+   
 }
