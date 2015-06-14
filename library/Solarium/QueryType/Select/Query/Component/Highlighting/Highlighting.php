@@ -30,66 +30,68 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\Query\Component\Component;
+use Solarium\QueryType\Select\Query\Component\AbstractComponent;
 use Solarium\QueryType\Select\RequestBuilder\Component\Highlighting as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Highlighting as ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
 
 /**
- * Highlighting component
+ * Highlighting component.
  *
  * @link http://wiki.apache.org/solr/HighlightingParameters
  */
-class Highlighting extends Component
+class Highlighting extends AbstractComponent
 {
     /**
-     * Value for fragmenter option gap
+     * Value for fragmenter option gap.
      */
     const FRAGMENTER_GAP = 'gap';
 
     /**
-     * Value for fragmenter option regex
+     * Value for fragmenter option regex.
      */
     const FRAGMENTER_REGEX = 'regex';
 
     /**
-     * Value for BoundaryScanner type
+     * Value for BoundaryScanner type.
      */
     const BOUNDARYSCANNER_TYPE_CHARACTER = 'CHARACTER';
 
     /**
-     * Value for BoundaryScanner type
+     * Value for BoundaryScanner type.
      */
     const BOUNDARYSCANNER_TYPE_WORD = 'WORD';
 
     /**
-     * Value for BoundaryScanner type
+     * Value for BoundaryScanner type.
      */
     const BOUNDARYSCANNER_TYPE_SENTENCE = 'SENTENCE';
 
     /**
-     * Value for BoundaryScanner type
+     * Value for BoundaryScanner type.
      */
     const BOUNDARYSCANNER_TYPE_LINE = 'LINE';
 
     /**
-     * Array of fields for highlighting
+     * Array of fields for highlighting.
      *
      * @var array
      */
     protected $fields = array();
 
     /**
-     * Get component type
+     * Get component type.
      *
      * @return string
      */
@@ -99,48 +101,31 @@ class Highlighting extends Component
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Initialize options
+     * Get a field options object.
      *
-     * The field option needs setup work
+     * @param string  $name
+     * @param boolean $autocreate
      *
-     * @return void
-     */
-    protected function init()
-    {
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'field':
-                    $this->addFields($value);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Get a field options object
-     *
-     * @param  string  $name
-     * @param  boolean $autocreate
      * @return Field
      */
     public function getField($name, $autocreate = true)
@@ -152,16 +137,18 @@ class Highlighting extends Component
 
             return $this->fields[$name];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Add a field for highlighting
+     * Add a field for highlighting.
      *
      * @throws InvalidArgumentException
-     * @param  string|array|Field       $field
-     * @return self                     Provides fluent interface
+     *
+     * @param string|array|Field $field
+     *
+     * @return self Provides fluent interface
      */
     public function addField($field)
     {
@@ -185,7 +172,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Add multiple fields for highlighting
+     * Add multiple fields for highlighting.
      *
      * @param string|array $fields can be an array of object instances or a string with comma
      *                             separated fieldnames
@@ -200,7 +187,6 @@ class Highlighting extends Component
         }
 
         foreach ($fields as $key => $field) {
-
             // in case of a config array without key: add key to config
             if (is_array($field) && !isset($field['name'])) {
                 $field['name'] = $key;
@@ -213,10 +199,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Remove a highlighting field
+     * Remove a highlighting field.
      *
-     * @param  string $field
-     * @return self   Provides fluent interface
+     * @param string $field
+     *
+     * @return self Provides fluent interface
      */
     public function removeField($field)
     {
@@ -228,7 +215,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Remove all fields
+     * Remove all fields.
      *
      * @return self Provides fluent interface
      */
@@ -240,7 +227,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get the list of fields
+     * Get the list of fields.
      *
      * @return array
      */
@@ -250,12 +237,13 @@ class Highlighting extends Component
     }
 
     /**
-     * Set multiple fields
+     * Set multiple fields.
      *
      * This overwrites any existing fields
      *
-     * @param  array $fields
-     * @return self  Provides fluent interface
+     * @param array $fields
+     *
+     * @return self Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -266,11 +254,12 @@ class Highlighting extends Component
     }
 
     /**
-     * Set snippets option
+     * Set snippets option.
      *
      * Maximum number of snippets per field
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setSnippets($maximum)
@@ -279,7 +268,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get snippets option
+     * Get snippets option.
      *
      * @return int|null
      */
@@ -289,11 +278,12 @@ class Highlighting extends Component
     }
 
     /**
-     * Set fragsize option
+     * Set fragsize option.
      *
      * The size, in characters, of fragments to consider for highlighting
      *
-     * @param  int  $size
+     * @param int $size
+     *
      * @return self Provides fluent interface
      */
     public function setFragSize($size)
@@ -302,7 +292,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get fragsize option
+     * Get fragsize option.
      *
      * @return int|null
      */
@@ -312,12 +302,13 @@ class Highlighting extends Component
     }
 
     /**
-     * Set mergeContiguous option
+     * Set mergeContiguous option.
      *
      * Collapse contiguous fragments into a single fragment
      *
-     * @param  boolean $merge
-     * @return self    Provides fluent interface
+     * @param boolean $merge
+     *
+     * @return self Provides fluent interface
      */
     public function setMergeContiguous($merge)
     {
@@ -325,7 +316,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get mergeContiguous option
+     * Get mergeContiguous option.
      *
      * @return boolean|null
      */
@@ -335,10 +326,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set requireFieldMatch option
+     * Set requireFieldMatch option.
      *
-     * @param  boolean $require
-     * @return self    Provides fluent interface
+     * @param boolean $require
+     *
+     * @return self Provides fluent interface
      */
     public function setRequireFieldMatch($require)
     {
@@ -346,7 +338,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get requireFieldMatch option
+     * Get requireFieldMatch option.
      *
      * @return boolean|null
      */
@@ -356,11 +348,12 @@ class Highlighting extends Component
     }
 
     /**
-     * Set maxAnalyzedChars option
+     * Set maxAnalyzedChars option.
      *
      * How many characters into a document to look for suitable snippets
      *
-     * @param  int  $chars
+     * @param int $chars
+     *
      * @return self Provides fluent interface
      */
     public function setMaxAnalyzedChars($chars)
@@ -369,7 +362,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get maxAnalyzedChars option
+     * Get maxAnalyzedChars option.
      *
      * @return int|null
      */
@@ -379,10 +372,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set alternatefield option
+     * Set alternatefield option.
      *
-     * @param  string $field
-     * @return self   Provides fluent interface
+     * @param string $field
+     *
+     * @return self Provides fluent interface
      */
     public function setAlternateField($field)
     {
@@ -390,7 +384,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get alternatefield option
+     * Get alternatefield option.
      *
      * @return string|null
      */
@@ -400,9 +394,10 @@ class Highlighting extends Component
     }
 
     /**
-     * Set maxAlternateFieldLength option
+     * Set maxAlternateFieldLength option.
      *
-     * @param  int  $length
+     * @param int $length
+     *
      * @return self Provides fluent interface
      */
     public function setMaxAlternateFieldLength($length)
@@ -411,7 +406,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get maxAlternateFieldLength option
+     * Get maxAlternateFieldLength option.
      *
      * @return int|null
      */
@@ -419,20 +414,21 @@ class Highlighting extends Component
     {
         return $this->getOption('maxalternatefieldlength');
     }
-    
+
     /**
-     * Set preserveMulti option
+     * Set preserveMulti option.
      *
-     * @param  boolean $preservemulti
-     * @return self    Provides fluent interface
+     * @param boolean $preservemulti
+     *
+     * @return self Provides fluent interface
      */
     public function setPreserveMulti($preservemulti)
     {
         return $this->setOption('preservemulti', $preservemulti);
     }
-    
+
     /**
-     * Get preserveMulti option
+     * Get preserveMulti option.
      *
      * @return boolean|null
      */
@@ -442,10 +438,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set formatter option
+     * Set formatter option.
      *
-     * @param  string $formatter
-     * @return self   Provides fluent interface
+     * @param string $formatter
+     *
+     * @return self Provides fluent interface
      */
     public function setFormatter($formatter = 'simple')
     {
@@ -453,7 +450,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get formatter option
+     * Get formatter option.
      *
      * @return string|null
      */
@@ -463,12 +460,13 @@ class Highlighting extends Component
     }
 
     /**
-     * Set simple prefix option
+     * Set simple prefix option.
      *
      * Solr option h1.simple.pre
      *
-     * @param  string $prefix
-     * @return self   Provides fluent interface
+     * @param string $prefix
+     *
+     * @return self Provides fluent interface
      */
     public function setSimplePrefix($prefix)
     {
@@ -476,7 +474,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get simple prefix option
+     * Get simple prefix option.
      *
      * Solr option hl.simple.pre
      *
@@ -488,12 +486,13 @@ class Highlighting extends Component
     }
 
     /**
-     * Set simple postfix option
+     * Set simple postfix option.
      *
      * Solr option h1.simple.post
      *
-     * @param  string $postfix
-     * @return self   Provides fluent interface
+     * @param string $postfix
+     *
+     * @return self Provides fluent interface
      */
     public function setSimplePostfix($postfix)
     {
@@ -501,7 +500,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get simple postfix option
+     * Get simple postfix option.
      *
      * Solr option hl.simple.post
      *
@@ -513,12 +512,13 @@ class Highlighting extends Component
     }
 
     /**
-     * Set tag prefix option
+     * Set tag prefix option.
      *
      * Solr option h1.tag.post
      *
-     * @param  string $prefix
-     * @return self   Provides fluent interface
+     * @param string $prefix
+     *
+     * @return self Provides fluent interface
      */
     public function setTagPrefix($prefix)
     {
@@ -526,7 +526,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get tag prefix option
+     * Get tag prefix option.
      *
      * Solr option hl.tag.pre
      *
@@ -538,12 +538,13 @@ class Highlighting extends Component
     }
 
     /**
-     * Set tag postfix option
+     * Set tag postfix option.
      *
      * Solr option h1.tag.post
      *
-     * @param  string $postfix
-     * @return self   Provides fluent interface
+     * @param string $postfix
+     *
+     * @return self Provides fluent interface
      */
     public function setTagPostfix($postfix)
     {
@@ -551,7 +552,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get tag postfix option
+     * Get tag postfix option.
      *
      * Solr option hl.tag.post
      *
@@ -563,12 +564,13 @@ class Highlighting extends Component
     }
 
     /**
-     * Set fragmenter option
+     * Set fragmenter option.
      *
      * Use one of the constants as value.
      *
-     * @param  string $fragmenter
-     * @return self   Provides fluent interface
+     * @param string $fragmenter
+     *
+     * @return self Provides fluent interface
      */
     public function setFragmenter($fragmenter)
     {
@@ -576,7 +578,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get fragmenter option
+     * Get fragmenter option.
      *
      * @return string|null
      */
@@ -586,10 +588,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set fraglistbuilder option
+     * Set fraglistbuilder option.
      *
-     * @param  string $builder
-     * @return self   Provides fluent interface
+     * @param string $builder
+     *
+     * @return self Provides fluent interface
      */
     public function setFragListBuilder($builder)
     {
@@ -597,7 +600,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get fraglistbuilder option
+     * Get fraglistbuilder option.
      *
      * @return string|null
      */
@@ -607,10 +610,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set fragmentsbuilder option
+     * Set fragmentsbuilder option.
      *
-     * @param  string $builder
-     * @return self   Provides fluent interface
+     * @param string $builder
+     *
+     * @return self Provides fluent interface
      */
     public function setFragmentsBuilder($builder)
     {
@@ -618,7 +622,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get fragmentsbuilder option
+     * Get fragmentsbuilder option.
      *
      * @return string|null
      */
@@ -628,10 +632,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set useFastVectorHighlighter option
+     * Set useFastVectorHighlighter option.
      *
-     * @param  boolean $use
-     * @return self    Provides fluent interface
+     * @param boolean $use
+     *
+     * @return self Provides fluent interface
      */
     public function setUseFastVectorHighlighter($use)
     {
@@ -639,7 +644,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get useFastVectorHighlighter option
+     * Get useFastVectorHighlighter option.
      *
      * @return boolean|null
      */
@@ -649,10 +654,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set usePhraseHighlighter option
+     * Set usePhraseHighlighter option.
      *
-     * @param  boolean $use
-     * @return self    Provides fluent interface
+     * @param boolean $use
+     *
+     * @return self Provides fluent interface
      */
     public function setUsePhraseHighlighter($use)
     {
@@ -660,7 +666,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get usePhraseHighlighter option
+     * Get usePhraseHighlighter option.
      *
      * @return boolean|null
      */
@@ -670,10 +676,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set HighlightMultiTerm option
+     * Set HighlightMultiTerm option.
      *
-     * @param  boolean $highlight
-     * @return self    Provides fluent interface
+     * @param boolean $highlight
+     *
+     * @return self Provides fluent interface
      */
     public function setHighlightMultiTerm($highlight)
     {
@@ -681,7 +688,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get HighlightMultiTerm option
+     * Get HighlightMultiTerm option.
      *
      * @return boolean|null
      */
@@ -691,10 +698,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set RegexSlop option
+     * Set RegexSlop option.
      *
-     * @param  float $slop
-     * @return self  Provides fluent interface
+     * @param float $slop
+     *
+     * @return self Provides fluent interface
      */
     public function setRegexSlop($slop)
     {
@@ -702,7 +710,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get RegexSlop option
+     * Get RegexSlop option.
      *
      * @return float|null
      */
@@ -712,10 +720,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set RegexPattern option
+     * Set RegexPattern option.
      *
-     * @param  string $pattern
-     * @return self   Provides fluent interface
+     * @param string $pattern
+     *
+     * @return self Provides fluent interface
      */
     public function setRegexPattern($pattern)
     {
@@ -723,7 +732,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get RegexPattern option
+     * Get RegexPattern option.
      *
      * @return string|null
      */
@@ -733,9 +742,10 @@ class Highlighting extends Component
     }
 
     /**
-     * Set RegexMaxAnalyzedChars option
+     * Set RegexMaxAnalyzedChars option.
      *
-     * @param  int  $chars
+     * @param int $chars
+     *
      * @return self Provides fluent interface
      */
     public function setRegexMaxAnalyzedChars($chars)
@@ -744,7 +754,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get RegexMaxAnalyzedChars option
+     * Get RegexMaxAnalyzedChars option.
      *
      * @return int|null
      */
@@ -754,12 +764,13 @@ class Highlighting extends Component
     }
 
     /**
-     * Set highlight query option
+     * Set highlight query option.
      *
      * Overrides the q parameter for highlighting
      *
-     * @param  string $query
-     * @return self   Provides fluent interface
+     * @param string $query
+     *
+     * @return self Provides fluent interface
      */
     public function setQuery($query)
     {
@@ -767,7 +778,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get query option
+     * Get query option.
      *
      * @return string|null
      */
@@ -777,9 +788,10 @@ class Highlighting extends Component
     }
 
     /**
-     * Set phraselimit option
+     * Set phraselimit option.
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setPhraseLimit($maximum)
@@ -788,7 +800,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get phraselimit option
+     * Get phraselimit option.
      *
      * @return int|null
      */
@@ -798,10 +810,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set MultiValuedSeparatorChar option
+     * Set MultiValuedSeparatorChar option.
      *
-     * @param  string $separator
-     * @return self   Provides fluent interface
+     * @param string $separator
+     *
+     * @return self Provides fluent interface
      */
     public function setMultiValuedSeparatorChar($separator)
     {
@@ -809,7 +822,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get MultiValuedSeparatorChar option
+     * Get MultiValuedSeparatorChar option.
      *
      * @return string
      */
@@ -819,9 +832,10 @@ class Highlighting extends Component
     }
 
     /**
-     * Set boundaryscannermaxscan option
+     * Set boundaryscannermaxscan option.
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setBoundaryScannerMaxScan($maximum)
@@ -830,7 +844,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get boundaryscannermaxscan option
+     * Get boundaryscannermaxscan option.
      *
      * @return int|null
      */
@@ -840,10 +854,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set boundaryscannerchars option
+     * Set boundaryscannerchars option.
      *
-     * @param  string $chars
-     * @return self   Provides fluent interface
+     * @param string $chars
+     *
+     * @return self Provides fluent interface
      */
     public function setBoundaryScannerChars($chars)
     {
@@ -851,7 +866,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get boundaryscannerchars option
+     * Get boundaryscannerchars option.
      *
      * @return string|null
      */
@@ -861,10 +876,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set boundaryscannertype option
+     * Set boundaryscannertype option.
      *
-     * @param  string $type
-     * @return self   Provides fluent interface
+     * @param string $type
+     *
+     * @return self Provides fluent interface
      */
     public function setBoundaryScannerType($type)
     {
@@ -872,7 +888,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get boundaryscannertype option
+     * Get boundaryscannertype option.
      *
      * @return string|null
      */
@@ -882,10 +898,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set boundaryscannerlanguage option
+     * Set boundaryscannerlanguage option.
      *
-     * @param  string $language
-     * @return self   Provides fluent interface
+     * @param string $language
+     *
+     * @return self Provides fluent interface
      */
     public function setBoundaryScannerLanguage($language)
     {
@@ -893,7 +910,7 @@ class Highlighting extends Component
     }
 
     /**
-     * Get boundaryscannerlanguage option
+     * Get boundaryscannerlanguage option.
      *
      * @return string|null
      */
@@ -903,10 +920,11 @@ class Highlighting extends Component
     }
 
     /**
-     * Set boundaryscannercountry option
+     * Set boundaryscannercountry option.
      *
-     * @param  string $country
-     * @return self   Provides fluent interface
+     * @param string $country
+     *
+     * @return self Provides fluent interface
      */
     public function setBoundaryScannerCountry($country)
     {
@@ -914,12 +932,28 @@ class Highlighting extends Component
     }
 
     /**
-     * Get boundaryscannercountry option
+     * Get boundaryscannercountry option.
      *
      * @return string|null
      */
     public function getBoundaryScannerCountry()
     {
         return $this->getOption('boundaryscannercountry');
+    }
+
+    /**
+     * Initialize options.
+     *
+     * The field option needs setup work
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'field':
+                    $this->addFields($value);
+                    break;
+            }
+        }
     }
 }

@@ -30,19 +30,21 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Terms;
 
 use Solarium\Core\Client\Client;
-use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 
 /**
- * Terms query
+ * Terms query.
  *
  * A terms query provides access to the indexed terms in a field and the number of documents that match each term.
  * This can be useful for doing auto-suggest or other things that operate at the term level instead of the search
@@ -52,7 +54,7 @@ use Solarium\Core\Query\Query as BaseQuery;
 class Query extends BaseQuery
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -63,7 +65,7 @@ class Query extends BaseQuery
     );
 
     /**
-     * Get type for this query
+     * Get type for this query.
      *
      * @return string
      */
@@ -73,32 +75,33 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Set the field name(s) to get the terms from
+     * Set the field name(s) to get the terms from.
      *
      * For multiple fields use a comma-separated string or array
      *
-     * @param  string|array $value
-     * @return self         Provides fluent interface
+     * @param string|array $value
+     *
+     * @return self Provides fluent interface
      */
     public function setFields($value)
     {
@@ -111,7 +114,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get the field name(s) to get the terms from
+     * Get the field name(s) to get the terms from.
      *
      * @return array
      */
@@ -126,10 +129,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set the lowerbound term to start at
+     * Set the lowerbound term to start at.
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function setLowerbound($value)
     {
@@ -137,7 +141,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get the lowerbound term to start at
+     * Get the lowerbound term to start at.
      *
      * @return string
      */
@@ -147,10 +151,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set lowerboundinclude
+     * Set lowerboundinclude.
      *
-     * @param  boolean $value
-     * @return self    Provides fluent interface
+     * @param boolean $value
+     *
+     * @return self Provides fluent interface
      */
     public function setLowerboundInclude($value)
     {
@@ -158,7 +163,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get lowerboundinclude
+     * Get lowerboundinclude.
      *
      * @return boolean
      */
@@ -168,10 +173,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set mincount (the minimum doc frequency for terms in order to be included)
+     * Set mincount (the minimum doc frequency for terms in order to be included).
      *
-     * @param  integer $value
-     * @return self    Provides fluent interface
+     * @param integer $value
+     *
+     * @return self Provides fluent interface
      */
     public function setMinCount($value)
     {
@@ -179,7 +185,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get mincount
+     * Get mincount.
      *
      * @return integer
      */
@@ -189,10 +195,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set maxcount (the maximum doc frequency for terms in order to be included)
+     * Set maxcount (the maximum doc frequency for terms in order to be included).
      *
-     * @param  integer $value
-     * @return self    Provides fluent interface
+     * @param integer $value
+     *
+     * @return self Provides fluent interface
      */
     public function setMaxCount($value)
     {
@@ -200,7 +207,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get maxcount
+     * Get maxcount.
      *
      * @return integer
      */
@@ -210,10 +217,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set prefix for terms
+     * Set prefix for terms.
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function setPrefix($value)
     {
@@ -221,7 +229,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get maxcount
+     * Get maxcount.
      *
      * @return string
      */
@@ -231,10 +239,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set regex to restrict terms
+     * Set regex to restrict terms.
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function setRegex($value)
     {
@@ -242,7 +251,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get regex
+     * Get regex.
      *
      * @return string
      */
@@ -252,12 +261,13 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set regex flags
+     * Set regex flags.
      *
      * Use a comma-separated string or array for multiple entries
      *
-     * @param  string|array $value
-     * @return self         Provides fluent interface
+     * @param string|array $value
+     *
+     * @return self Provides fluent interface
      */
     public function setRegexFlags($value)
     {
@@ -270,7 +280,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get regex flags
+     * Get regex flags.
      *
      * @return array
      */
@@ -285,12 +295,13 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set limit
+     * Set limit.
      *
      * If < 0 all terms are included
      *
-     * @param  integer $value
-     * @return self    Provides fluent interface
+     * @param integer $value
+     *
+     * @return self Provides fluent interface
      */
     public function setLimit($value)
     {
@@ -298,7 +309,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get limit
+     * Get limit.
      *
      * @return integer
      */
@@ -308,10 +319,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set the upperbound term to start at
+     * Set the upperbound term to start at.
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function setUpperbound($value)
     {
@@ -319,7 +331,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get the upperbound term to start at
+     * Get the upperbound term to start at.
      *
      * @return string
      */
@@ -329,10 +341,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set upperboundinclude
+     * Set upperboundinclude.
      *
-     * @param  boolean $value
-     * @return self    Provides fluent interface
+     * @param boolean $value
+     *
+     * @return self Provides fluent interface
      */
     public function setUpperboundInclude($value)
     {
@@ -340,7 +353,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get upperboundinclude
+     * Get upperboundinclude.
      *
      * @return boolean
      */
@@ -350,10 +363,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set raw option
+     * Set raw option.
      *
-     * @param  boolean $value
-     * @return self    Provides fluent interface
+     * @param boolean $value
+     *
+     * @return self Provides fluent interface
      */
     public function setRaw($value)
     {
@@ -361,7 +375,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get raw option
+     * Get raw option.
      *
      * @return boolean
      */
@@ -371,10 +385,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set sort option
+     * Set sort option.
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function setSort($value)
     {
@@ -382,7 +397,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get sort option
+     * Get sort option.
      *
      * @return string
      */

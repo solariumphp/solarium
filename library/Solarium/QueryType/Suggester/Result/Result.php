@@ -30,30 +30,32 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Suggester\Result;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**
- * Suggester query result
+ * Suggester query result.
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
-     * Status code returned by Solr
+     * Status code returned by Solr.
      *
      * @var int
      */
     protected $status;
 
     /**
-     * Solr index queryTime
+     * Solr index queryTime.
      *
      * This doesn't include things like the HTTP responsetime. Purely the Solr
      * query execution time.
@@ -63,21 +65,21 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     protected $queryTime;
 
     /**
-     * Suggester results
+     * Suggester results.
      *
      * @var array
      */
     protected $results;
 
     /**
-     * Suggester flat results
+     * Suggester flat results.
      *
      * @var array
      */
     protected $all;
 
     /**
-     * Collation result
+     * Collation result.
      *
      * Only available when collate is enabled in the suggester query
      *
@@ -86,7 +88,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     protected $collation;
 
     /**
-     * Get Solr status code
+     * Get Solr status code.
      *
      * This is not the HTTP status code! The normal value for success is 0.
      *
@@ -100,7 +102,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get Solr query time
+     * Get Solr query time.
      *
      * This doesn't include things like the HTTP responsetime. Purely the Solr
      * query execution time.
@@ -115,7 +117,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all results
+     * Get all results.
      *
      * @return array
      */
@@ -127,7 +129,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get flat results
+     * Get flat results.
      *
      * @return array
      */
@@ -139,9 +141,10 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get results for a specific term
+     * Get results for a specific term.
      *
-     * @param  string $term
+     * @param string $term
+     *
      * @return array
      */
     public function getTerm($term)
@@ -156,7 +159,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -168,7 +171,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */
@@ -180,7 +183,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get collation
+     * Get collation.
      *
      * @return null|string
      */

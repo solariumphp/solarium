@@ -30,32 +30,33 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Grouping as GroupingComponent;
 use Solarium\QueryType\Select\Result\Grouping\Result;
-use Solarium\QueryType\Select\Result\Grouping\ValueGroup;
-use Solarium\QueryType\Select\Result\Grouping\QueryGroup;
 use Solarium\QueryType\Select\Result\Grouping\FieldGroup;
 
 /**
- * Parse select component Grouping result from the data
+ * Parse select component Grouping result from the data.
  */
 class Grouping implements ComponentParserInterface
 {
     /**
-     * Parse result data into result objects
+     * Parse result data into result objects.
      *
-     * @param  Query             $query
-     * @param  GroupingComponent $grouping
-     * @param  array             $data
+     * @param Query             $query
+     * @param GroupingComponent $grouping
+     * @param array             $data
+     *
      * @return Result
      */
     public function parse($query, $grouping, $data)
@@ -63,7 +64,6 @@ class Grouping implements ComponentParserInterface
         $groups = array();
 
         if (isset($data['grouped'])) {
-
             // parse field groups
             $valueResultClass = $grouping->getOption('resultvaluegroupclass');
             $documentClass = $query->getOption('documentclass');
@@ -75,7 +75,6 @@ class Grouping implements ComponentParserInterface
                     $groupCount = (isset($result['ngroups'])) ? $result['ngroups'] : null;
                     $valueGroups = array();
                     foreach ($result['groups'] as $valueGroupResult) {
-
                         $value = (isset($valueGroupResult['groupValue'])) ?
                                 $valueGroupResult['groupValue'] : null;
 
@@ -92,7 +91,6 @@ class Grouping implements ComponentParserInterface
                         $documents = array();
                         if (isset($valueGroupResult['doclist']['docs']) &&
                             is_array($valueGroupResult['doclist']['docs'])) {
-
                             foreach ($valueGroupResult['doclist']['docs'] as $doc) {
                                 $documents[] = new $documentClass($doc);
                             }

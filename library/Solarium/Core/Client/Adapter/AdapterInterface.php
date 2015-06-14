@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\ConfigurableInterface;
@@ -44,7 +46,7 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
 
 /**
- * Interface for client adapters
+ * Interface for client adapters.
  *
  * The goal of an adapter is to accept a query, execute it and return the right
  * result object. This is actually quite a complex task as it involves the
@@ -61,10 +63,11 @@ use Solarium\Core\Client\Endpoint;
 interface AdapterInterface extends ConfigurableInterface
 {
     /**
-     * Execute a request
+     * Execute a request.
      *
-     * @param  Request  $request
-     * @param  Endpoint $endpoint
+     * @param Request  $request
+     * @param Endpoint $endpoint
+     *
      * @return Response
      */
     public function execute($request, $endpoint);

@@ -30,29 +30,32 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Query;
 
-use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 
 /**
- * Base class for Analysis queries
+ * Base class for Analysis queries.
  */
-abstract class Query extends BaseQuery
+abstract class AbstractQuery extends BaseQuery
 {
     /**
-     * Set the query string
+     * Set the query string.
      *
      * When present, the text that will be analyzed. The analysis will mimic the query-time analysis.
      *
-     * @param  string $query
-     * @param  array  $bind  Optional bind values for placeholders in the query string
-     * @return self   Provides fluent interface
+     * @param string $query
+     * @param array  $bind  Optional bind values for placeholders in the query string
+     *
+     * @return self Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
@@ -64,7 +67,7 @@ abstract class Query extends BaseQuery
     }
 
     /**
-     * Get the query string
+     * Get the query string.
      *
      * @return string
      */
@@ -74,10 +77,11 @@ abstract class Query extends BaseQuery
     }
 
     /**
-     * Set the showmatch option
+     * Set the showmatch option.
      *
-     * @param  boolean $show
-     * @return self    Provides fluent interface
+     * @param boolean $show
+     *
+     * @return self Provides fluent interface
      */
     public function setShowMatch($show)
     {
@@ -85,7 +89,7 @@ abstract class Query extends BaseQuery
     }
 
     /**
-     * Get the showmatch option
+     * Get the showmatch option.
      *
      * @return mixed
      */

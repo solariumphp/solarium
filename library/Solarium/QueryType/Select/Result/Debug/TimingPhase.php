@@ -30,42 +30,44 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Debug;
 
 /**
- * Select component debug timing phase result
+ * Select component debug timing phase result.
  */
 class TimingPhase implements \IteratorAggregate, \Countable
 {
     /**
-     * Phase name
+     * Phase name.
      *
      * @var string
      */
     protected $name;
 
     /**
-     * Phase time
+     * Phase time.
      *
      * @var float
      */
     protected $time;
 
     /**
-     * Timing array
+     * Timing array.
      *
      * @var array
      */
     protected $timings;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $name
      * @param float  $time
@@ -79,7 +81,7 @@ class TimingPhase implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get total time
+     * Get total time.
      *
      * @return float
      */
@@ -89,9 +91,10 @@ class TimingPhase implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get a timing by key
+     * Get a timing by key.
      *
-     * @param  mixed      $key
+     * @param mixed $key
+     *
      * @return float|null
      */
     public function getTiming($key)
@@ -99,12 +102,12 @@ class TimingPhase implements \IteratorAggregate, \Countable
         if (isset($this->timings[$key])) {
             return $this->timings[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Get timings
+     * Get timings.
      *
      * @return array
      */
@@ -114,7 +117,7 @@ class TimingPhase implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -124,7 +127,7 @@ class TimingPhase implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

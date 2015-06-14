@@ -30,26 +30,28 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 
 /**
- * DisMax component
+ * DisMax component.
  *
  * @link http://wiki.apache.org/solr/DisMaxQParserPlugin
  */
-class DisMax extends Component
+class DisMax extends AbstractComponent
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -58,7 +60,7 @@ class DisMax extends Component
     );
 
     /**
-     * Get component type
+     * Get component type.
      *
      * @return string
      */
@@ -68,34 +70,33 @@ class DisMax extends Component
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
      * This component has no response parser...
-     *
-     * @return null
      */
     public function getResponseParser()
     {
-        return null;
+        return;
     }
 
     /**
-     * Set QueryAlternative option
+     * Set QueryAlternative option.
      *
      * If specified, this query will be used (and parsed by default using
      * standard query parsing syntax) when the main query string is not
      * specified or blank.
      *
-     * @param  string $queryAlternative
-     * @return self   Provides fluent interface
+     * @param string $queryAlternative
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryAlternative($queryAlternative)
     {
@@ -103,7 +104,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get QueryAlternative option
+     * Get QueryAlternative option.
      *
      * @return string|null
      */
@@ -113,15 +114,16 @@ class DisMax extends Component
     }
 
     /**
-     * Set QueryFields option
+     * Set QueryFields option.
      *
      * List of fields and the "boosts" to associate with each of them when
      * building DisjunctionMaxQueries from the user's query.
      *
      * The format supported is "fieldOne^2.3 fieldTwo fieldThree^0.4"
      *
-     * @param  string $queryFields
-     * @return self   Provides fluent interface
+     * @param string $queryFields
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -129,7 +131,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get QueryFields option
+     * Get QueryFields option.
      *
      * @return string|null
      */
@@ -139,13 +141,14 @@ class DisMax extends Component
     }
 
     /**
-     * Set MinimumMatch option
+     * Set MinimumMatch option.
      *
      * This option makes it possible to say that a certain minimum number of
      * clauses must match. See Solr manual for details.
      *
-     * @param  string $minimumMatch
-     * @return self   Provides fluent interface
+     * @param string $minimumMatch
+     *
+     * @return self Provides fluent interface
      */
     public function setMinimumMatch($minimumMatch)
     {
@@ -153,7 +156,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get MinimumMatch option
+     * Get MinimumMatch option.
      *
      * @return string|null
      */
@@ -163,15 +166,16 @@ class DisMax extends Component
     }
 
     /**
-     * Set PhraseFields option
+     * Set PhraseFields option.
      *
      * This param can be used to "boost" the score of documents in cases
      * where all of the terms in the "q" param appear in close proximity.
      *
      * Format is: "fieldA^1.0 fieldB^2.2"
      *
-     * @param  string $phraseFields
-     * @return self   Provides fluent interface
+     * @param string $phraseFields
+     *
+     * @return self Provides fluent interface
      */
     public function setPhraseFields($phraseFields)
     {
@@ -179,7 +183,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get PhraseFields option
+     * Get PhraseFields option.
      *
      * @return string|null
      */
@@ -189,13 +193,14 @@ class DisMax extends Component
     }
 
     /**
-     * Set PhraseSlop option
+     * Set PhraseSlop option.
      *
      * Amount of slop on phrase queries built for "pf" fields
      * (affects boosting)
      *
-     * @param  string $phraseSlop
-     * @return self   Provides fluent interface
+     * @param string $phraseSlop
+     *
+     * @return self Provides fluent interface
      */
     public function setPhraseSlop($phraseSlop)
     {
@@ -203,7 +208,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get PhraseSlop option
+     * Get PhraseSlop option.
      *
      * @return string|null
      */
@@ -213,13 +218,14 @@ class DisMax extends Component
     }
 
     /**
-     * Set QueryPhraseSlop option
+     * Set QueryPhraseSlop option.
      *
      * Amount of slop on phrase queries explicitly included in the user's
      * query string (in qf fields; affects matching)
      *
-     * @param  string $queryPhraseSlop
-     * @return self   Provides fluent interface
+     * @param string $queryPhraseSlop
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryPhraseSlop($queryPhraseSlop)
     {
@@ -227,7 +233,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get QueryPhraseSlop option
+     * Get QueryPhraseSlop option.
      *
      * @return string|null
      */
@@ -237,12 +243,13 @@ class DisMax extends Component
     }
 
     /**
-     * Set Tie option
+     * Set Tie option.
      *
      * Float value to use as tiebreaker in DisjunctionMaxQueries
      *
-     * @param  float $tie
-     * @return self  Provides fluent interface
+     * @param float $tie
+     *
+     * @return self Provides fluent interface
      */
     public function setTie($tie)
     {
@@ -250,7 +257,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get Tie option
+     * Get Tie option.
      *
      * @return float|null
      */
@@ -260,13 +267,14 @@ class DisMax extends Component
     }
 
     /**
-     * Set BoostQuery option
+     * Set BoostQuery option.
      *
      * A raw query string (in the SolrQuerySyntax) that will be included
      * with the user's query to influence the score.
      *
-     * @param  string $boostQuery
-     * @return self   Provides fluent interface
+     * @param string $boostQuery
+     *
+     * @return self Provides fluent interface
      */
     public function setBoostQuery($boostQuery)
     {
@@ -274,7 +282,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get BoostQuery option
+     * Get BoostQuery option.
      *
      * @return string|null
      */
@@ -284,15 +292,16 @@ class DisMax extends Component
     }
 
     /**
-     * Set BoostFunctions option
+     * Set BoostFunctions option.
      *
      * Functions (with optional boosts) that will be included in the
      * user's query to influence the score.
      *
      * Format is: "funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2"
      *
-     * @param  string $boostFunctions
-     * @return self   Provides fluent interface
+     * @param string $boostFunctions
+     *
+     * @return self Provides fluent interface
      */
     public function setBoostFunctions($boostFunctions)
     {
@@ -300,7 +309,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get BoostFunctions option
+     * Get BoostFunctions option.
      *
      * @return string|null
      */
@@ -310,14 +319,15 @@ class DisMax extends Component
     }
 
     /**
-     * Set QueryParser option
+     * Set QueryParser option.
      *
      * Can be used to enable edismax
      *
      * @since 2.1.0
      *
-     * @param  string $parser
-     * @return self   Provides fluent interface
+     * @param string $parser
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryParser($parser)
     {
@@ -325,7 +335,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get QueryParser option
+     * Get QueryParser option.
      *
      * @since 2.1.0
      *

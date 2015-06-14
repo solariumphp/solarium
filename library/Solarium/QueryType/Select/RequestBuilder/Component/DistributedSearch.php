@@ -30,27 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\DistributedSearch as DistributedSearchComponent;
 use Solarium\Core\Client\Request;
 
 /**
- * Add select component distributedsearch to the request
+ * Add select component distributedsearch to the request.
  */
 class DistributedSearch implements ComponentRequestBuilderInterface
 {
     /**
-     * Add request settings for DistributedSearch
+     * Add request settings for DistributedSearch.
      *
-     * @param  DistributedSearchComponent $component
-     * @param  Request                    $request
+     * @param DistributedSearchComponent $component
+     * @param Request                    $request
+     *
      * @return Request
      */
     public function buildComponent($component, $request)

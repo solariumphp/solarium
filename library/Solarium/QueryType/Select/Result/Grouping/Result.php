@@ -30,30 +30,32 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Grouping;
 
 /**
- * Select component grouping result
+ * Select component grouping result.
  *
  * @since 2.1.0
  */
 class Result implements \IteratorAggregate, \Countable
 {
     /**
-     * Group results array
+     * Group results array.
      *
      * @var array
      */
     protected $groups;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $groups
      */
@@ -63,7 +65,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all groups
+     * Get all groups.
      *
      * @return array
      */
@@ -73,9 +75,10 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get a group
+     * Get a group.
      *
-     * @param  string                $key
+     * @param string $key
+     *
      * @return FieldGroup|QueryGroup
      */
     public function getGroup($key)
@@ -83,12 +86,12 @@ class Result implements \IteratorAggregate, \Countable
         if (isset($this->groups[$key])) {
             return $this->groups[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -98,7 +101,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

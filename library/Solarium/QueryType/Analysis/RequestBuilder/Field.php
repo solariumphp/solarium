@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 
 use Solarium\QueryType\Analysis\Query\Field as QueryField;
@@ -43,14 +45,15 @@ use Solarium\Core\Client\Request;
 use Solarium\Core\Query\QueryInterface;
 
 /**
- * Build a field analysis request
+ * Build a field analysis request.
  */
 class Field extends RequestBuilder
 {
     /**
-     * Build request for an analysis field query
+     * Build request for an analysis field query.
      *
-     * @param  QueryInterface|QueryField $query
+     * @param QueryInterface|QueryField $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)

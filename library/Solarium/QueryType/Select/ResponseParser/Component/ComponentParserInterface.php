@@ -30,24 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
 
+/**
+ * ComponentParserInterface.
+ */
 interface ComponentParserInterface
 {
     /**
-     * Parse result data into result objects
+     * Parse result data into result objects.
      *
-     * @param  Query       $query
-     * @param  object      $component
-     * @param  array       $data
+     * @param Query  $query
+     * @param object $component
+     * @param array  $data
+     *
      * @return object|null
      */
     public function parse($query, $component, $data);
