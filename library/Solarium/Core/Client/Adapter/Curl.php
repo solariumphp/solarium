@@ -156,7 +156,7 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         if (!isset($options['headers']['Content-Type'])) {
-            $options['headers']['Content-Type'] = 'text/xml; charset=utf-8';
+            $options['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
         }
 
         // Try endpoint authentication first, fallback to request for backwards compatibility
