@@ -5,6 +5,7 @@ php:
   - 5.5
   - 5.4
   - 5.3
+  - nightly
   - hhvm
   - hhvm-nightly
 
@@ -26,5 +27,6 @@ after_script: vendor/bin/coveralls -v
 matrix:
   allow_failures:
       - php: 5.3
+      - php: nightly
       - php: hhvm
       - php: hhvm-nightly
