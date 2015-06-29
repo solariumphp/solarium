@@ -68,6 +68,7 @@ class Query extends BaseQuery implements ArrayableInterface {
     const   COMMAND_DELETE_DYNAMIC_FIELD    =   'delete-dynamic-field';
     const   COMMAND_REPLACE_DYNAMIC_FIELD   =   'replace-dynamic-field';
     const   COMMAND_ADD_COPY_FIELD          =   'add-copy-field';
+    const   COMMAND_DELETE_COPY_FIELD       =   'delete-copy-field';
 
     /**
      * Default options
@@ -95,6 +96,7 @@ class Query extends BaseQuery implements ArrayableInterface {
         self::COMMAND_DELETE_DYNAMIC_FIELD  => 'Solarium\QueryType\Schema\Query\Command\DeleteDynamicField',
         self::COMMAND_REPLACE_DYNAMIC_FIELD => 'Solarium\QueryType\Schema\Query\Command\ReplaceDynamicField',
         self::COMMAND_ADD_COPY_FIELD        => 'Solarium\QueryType\Schema\Query\Command\AddCopyField',
+        self::COMMAND_DELETE_COPY_FIELD     => 'Solarium\QueryType\Schema\Query\Command\DeleteCopyField',
     );
 
     /**
