@@ -76,7 +76,9 @@ class AddCopyField extends Command implements ArrayableInterface {
             throw new RuntimeException("A copyField must have a source attribute.");
         if (!array_key_exists('dest', $attributes))
             throw new RuntimeException("A copyField must have a dest attribute.");
-        return $this->addField(new CopyField($attributes['source'], $attributes['dest'], isset($attributes['maxChars']) ? $attributes['maxChars'] : null));
+        $copyField = new CopyField($attributes['source'], $attributes['dest'], isset($attributes['maxChars']) ? $attributes['maxChars'] : null);
+        $this->addField($copyField);
+        return $copyField;
     }
 
     /**

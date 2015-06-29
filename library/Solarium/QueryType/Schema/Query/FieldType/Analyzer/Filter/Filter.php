@@ -14,7 +14,7 @@ class Filter implements FilterInterface, \ArrayAccess {
     protected $class = '';
     protected $attributes = array();
 
-    public function __construct($class, $attributes = array()) {
+    public function __construct($class = null, $attributes = array()) {
         $this->class = $class;
         $this->attributes = $attributes;
     }

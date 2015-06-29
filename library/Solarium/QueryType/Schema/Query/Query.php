@@ -47,11 +47,15 @@ use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Schema\Query\Command\AddCopyField;
 use Solarium\QueryType\Schema\Query\Command\AddDynamicField;
 use Solarium\QueryType\Schema\Query\Command\AddField;
+use Solarium\QueryType\Schema\Query\Command\AddFieldType;
 use Solarium\QueryType\Schema\Query\Command\Command;
+use Solarium\QueryType\Schema\Query\Command\DeleteCopyField;
 use Solarium\QueryType\Schema\Query\Command\DeleteDynamicField;
 use Solarium\QueryType\Schema\Query\Command\DeleteField;
+use Solarium\QueryType\Schema\Query\Command\DeleteFieldType;
 use Solarium\QueryType\Schema\Query\Command\ReplaceDynamicField;
 use Solarium\QueryType\Schema\Query\Command\ReplaceField;
+use Solarium\QueryType\Schema\Query\Command\ReplaceFieldType;
 use Solarium\QueryType\Schema\RequestBuilder;
 use Solarium\QueryType\Schema\ResponseParser;
 
@@ -69,6 +73,9 @@ class Query extends BaseQuery implements ArrayableInterface {
     const   COMMAND_REPLACE_DYNAMIC_FIELD   =   'replace-dynamic-field';
     const   COMMAND_ADD_COPY_FIELD          =   'add-copy-field';
     const   COMMAND_DELETE_COPY_FIELD       =   'delete-copy-field';
+    const   COMMAND_ADD_FIELD_TYPE          =   'add-field-type';
+    const   COMMAND_DELETE_FIELD_TYPE       =   'delete-field-type';
+    const   COMMAND_REPLACE_FIELD_TYPE      =   'replace-field-type';
 
     /**
      * Default options
@@ -97,6 +104,9 @@ class Query extends BaseQuery implements ArrayableInterface {
         self::COMMAND_REPLACE_DYNAMIC_FIELD => 'Solarium\QueryType\Schema\Query\Command\ReplaceDynamicField',
         self::COMMAND_ADD_COPY_FIELD        => 'Solarium\QueryType\Schema\Query\Command\AddCopyField',
         self::COMMAND_DELETE_COPY_FIELD     => 'Solarium\QueryType\Schema\Query\Command\DeleteCopyField',
+        self::COMMAND_ADD_FIELD_TYPE        => 'Solarium\QueryType\Schema\Query\Command\AddFieldType',
+        self::COMMAND_DELETE_FIELD_TYPE     => 'Solarium\QueryType\Schema\Query\Command\DeleteFieldType',
+        self::COMMAND_REPLACE_FIELD_TYPE    => 'Solarium\QueryType\Schema\Query\Command\ReplaceFieldType',
     );
 
     /**
@@ -208,52 +218,6 @@ class Query extends BaseQuery implements ArrayableInterface {
      * @param array $fields
      * @return $this
      */
-    public function addDynamicFields(array $fields) {
-
-        if (array_key_exists(static::COMMAND_ADD_DYNAMIC_FIELD, $this->commands))
-            $command    =   $this->commands[static::COMMAND_ADD_DYNAMIC_FIELD];
-        else
-            $command    =   new AddDynamicField;
-
-        $command->addFields($fields);
-        return $this->add(static::COMMAND_ADD_DYNAMIC_FIELD, $command);
-    }
-
-    /**
-     * @param $field
-     * @return $this
-     */
-    public function addDynamicField($field) {
-        return $this->addDynamicFields(array($field));
-    }
-
-    /**
-     * @param array $fields
-     * @return $this
-     */
-    public function addCopyFields(array $fields) {
-
-        if (array_key_exists(static::COMMAND_ADD_DYNAMIC_FIELD, $this->commands))
-            $command    =   $this->commands[static::COMMAND_ADD_DYNAMIC_FIELD];
-        else
-            $command    =   new AddCopyField;
-
-        $command->addFields($fields);
-        return $this->add(static::COMMAND_ADD_DYNAMIC_FIELD, $command);
-    }
-
-    /**
-     * @param $field
-     * @return $this
-     */
-    public function addCopyField($field) {
-        return $this->addCopyFields(array($field));
-    }
-
-    /**
-     * @param array $fields
-     * @return $this
-     */
     public function replaceFields(array $fields) {
 
         if (array_key_exists(static::COMMAND_REPLACE_FIELD, $this->commands))
@@ -271,29 +235,6 @@ class Query extends BaseQuery implements ArrayableInterface {
      */
     public function replaceField($field) {
         return $this->replaceFields(array($field));
-    }
-
-    /**
-     * @param array $fields
-     * @return $this
-     */
-    public function replaceDynamicFields(array $fields) {
-
-        if (array_key_exists(static::COMMAND_REPLACE_DYNAMIC_FIELD, $this->commands))
-            $command    =   $this->commands[static::COMMAND_REPLACE_DYNAMIC_FIELD];
-        else
-            $command    =   new ReplaceDynamicField;
-
-        $command->addFields($fields);
-        return $this->add(static::COMMAND_REPLACE_DYNAMIC_FIELD, $command);
-    }
-
-    /**
-     * @param $field
-     * @return $this
-     */
-    public function replaceDynamicField($field) {
-        return $this->replaceDynamicFields(array($field));
     }
 
     /**
@@ -323,6 +264,52 @@ class Query extends BaseQuery implements ArrayableInterface {
      * @param array $fields
      * @return $this
      */
+    public function addDynamicFields(array $fields) {
+
+        if (array_key_exists(static::COMMAND_ADD_DYNAMIC_FIELD, $this->commands))
+            $command    =   $this->commands[static::COMMAND_ADD_DYNAMIC_FIELD];
+        else
+            $command    =   new AddDynamicField;
+
+        $command->addFields($fields);
+        return $this->add(static::COMMAND_ADD_DYNAMIC_FIELD, $command);
+    }
+
+    /**
+     * @param $field
+     * @return $this
+     */
+    public function addDynamicField($field) {
+        return $this->addDynamicFields(array($field));
+    }
+
+    /**
+     * @param array $fields
+     * @return $this
+     */
+    public function replaceDynamicFields(array $fields) {
+
+        if (array_key_exists(static::COMMAND_REPLACE_DYNAMIC_FIELD, $this->commands))
+            $command    =   $this->commands[static::COMMAND_REPLACE_DYNAMIC_FIELD];
+        else
+            $command    =   new ReplaceDynamicField;
+
+        $command->addFields($fields);
+        return $this->add(static::COMMAND_REPLACE_DYNAMIC_FIELD, $command);
+    }
+
+    /**
+     * @param $field
+     * @return $this
+     */
+    public function replaceDynamicField($field) {
+        return $this->replaceDynamicFields(array($field));
+    }
+
+    /**
+     * @param array $fields
+     * @return $this
+     */
     public function deleteDynamicFields(array $fields) {
 
         if (array_key_exists(static::COMMAND_DELETE_DYNAMIC_FIELD, $this->commands))
@@ -340,6 +327,121 @@ class Query extends BaseQuery implements ArrayableInterface {
      */
     public function deleteDynamicField($field) {
         return $this->deleteDynamicFields(array($field));
+    }
+
+    /**
+     * @param array $fields
+     * @return $this
+     */
+    public function addCopyFields(array $fields) {
+
+        if (array_key_exists(static::COMMAND_ADD_DYNAMIC_FIELD, $this->commands))
+            $command    =   $this->commands[static::COMMAND_ADD_DYNAMIC_FIELD];
+        else
+            $command    =   new AddCopyField;
+
+        $command->addFields($fields);
+        return $this->add(static::COMMAND_ADD_DYNAMIC_FIELD, $command);
+    }
+
+    /**
+     * @param $field
+     * @return $this
+     */
+    public function addCopyField($field) {
+        return $this->addCopyFields(array($field));
+    }
+
+    /**
+     * @param array $fields
+     * @return $this
+     */
+    public function deleteCopyFields(array $fields) {
+
+        if (array_key_exists(static::COMMAND_DELETE_COPY_FIELD, $this->commands))
+            $command    =   $this->commands[static::COMMAND_DELETE_COPY_FIELD];
+        else
+            $command    =   new DeleteCopyField;
+
+        $command->addFields($fields);
+        return $this->add(static::COMMAND_DELETE_COPY_FIELD, $command);
+    }
+
+    /**
+     * @param $field
+     * @return $this
+     */
+    public function deleteCopyField($field) {
+        return $this->deleteCopyFields(array($field));
+    }
+
+    /**
+     * @param array $fieldTypes
+     * @return Query
+     */
+    public function addFieldTypes(array $fieldTypes) {
+
+        if (array_key_exists(static::COMMAND_ADD_FIELD_TYPE, $this->commands))
+            $command    =   $this->commands[static::COMMAND_ADD_FIELD_TYPE];
+        else
+            $command    =   new AddFieldType;
+
+        $command->addFieldTypes($fieldTypes);
+        return $this->add(static::COMMAND_ADD_FIELD_TYPE, $command);
+    }
+
+    /**
+     * @param $fieldType
+     * @return Query
+     */
+    public function addFieldType($fieldType) {
+        return $this->addFields(array($fieldType));
+    }
+
+    /**
+     * @param array $fieldTypes
+     * @return Query
+     */
+    public function replaceFieldTypes(array $fieldTypes) {
+
+        if (array_key_exists(static::COMMAND_REPLACE_FIELD_TYPE, $this->commands))
+            $command    =   $this->commands[static::COMMAND_REPLACE_FIELD_TYPE];
+        else
+            $command    =   new ReplaceFieldType;
+
+        $command->addFieldTypes($fieldTypes);
+        return $this->add(static::COMMAND_REPLACE_FIELD_TYPE, $command);
+    }
+
+    /**
+     * @param $fieldType
+     * @return Query
+     */
+    public function replaceFieldType($fieldType) {
+        return $this->replaceFields(array($fieldType));
+    }
+
+    /**
+     * @param array $fieldTypes
+     * @return Query
+     */
+    public function deleteFieldTypes(array $fieldTypes) {
+
+        if (array_key_exists(static::COMMAND_DELETE_FIELD_TYPE, $this->commands))
+            $command    =   $this->commands[static::COMMAND_DELETE_FIELD_TYPE];
+        else
+            $command    =   new DeleteFieldType;
+
+        $command->addFieldTypes($fieldTypes);
+        return $this->add(static::COMMAND_DELETE_FIELD_TYPE, $command);
+    }
+
+    /**
+     * @param $fieldType
+     * @return Query
+     */
+    public function deleteFieldType($fieldType) {
+        return $this->deleteFieldTypes(array($fieldType));
     }
 
     /**
