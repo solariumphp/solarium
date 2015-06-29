@@ -42,7 +42,6 @@ namespace Solarium\QueryType\Schema\Query\Command;
 use Solarium\Core\ArrayableInterface;
 use Solarium\QueryType\Schema\Query\FieldType\FieldType;
 use Solarium\QueryType\Schema\Query\FieldType\FieldTypeInterface;
-use Symfony\Component\Console\Command\Command;
 use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
 
 /**
