@@ -94,6 +94,20 @@ class CopyField implements ArrayableInterface, StringableInterface {
     }
 
     /**
+     * @param $dest
+     * @return $this
+     */
+    public function addDest($dest) {
+        if (!$this->dest)
+            $this->dest = $dest;
+        elseif (is_array($this->dest))
+            $this->dest[] = $dest;
+        else
+            $this->dest = array($this->dest, $dest);
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getMaxChars() {
