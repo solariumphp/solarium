@@ -398,7 +398,7 @@ class Query extends BaseQuery implements ArrayableInterface {
      * @return Query
      */
     public function addFieldType($fieldType) {
-        return $this->addFields(array($fieldType));
+        return $this->addFieldTypes(array($fieldType));
     }
 
     /**
@@ -421,7 +421,7 @@ class Query extends BaseQuery implements ArrayableInterface {
      * @return Query
      */
     public function replaceFieldType($fieldType) {
-        return $this->replaceFields(array($fieldType));
+        return $this->replaceFieldTypes(array($fieldType));
     }
 
     /**
