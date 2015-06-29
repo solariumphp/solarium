@@ -338,13 +338,13 @@ class Query extends BaseQuery implements ArrayableInterface {
      */
     public function addCopyFields(array $fields) {
 
-        if (array_key_exists(static::COMMAND_ADD_DYNAMIC_FIELD, $this->commands))
-            $command    =   $this->commands[static::COMMAND_ADD_DYNAMIC_FIELD];
+        if (array_key_exists(static::COMMAND_ADD_COPY_FIELD, $this->commands))
+            $command    =   $this->commands[static::COMMAND_ADD_COPY_FIELD];
         else
             $command    =   new AddCopyField;
 
         $command->addFields($fields);
-        return $this->add(static::COMMAND_ADD_DYNAMIC_FIELD, $command);
+        return $this->add(static::COMMAND_ADD_COPY_FIELD, $command);
     }
 
     /**
