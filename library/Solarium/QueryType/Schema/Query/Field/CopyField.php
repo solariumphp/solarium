@@ -39,12 +39,13 @@
 namespace Solarium\QueryType\Schema\Query\Field;
 
 use Solarium\Core\ArrayableInterface;
+use Solarium\Core\StringableInterface;
 
 /**
  * Class CopyField
  * @author Beno!t POLASZEK
  */
-class CopyField implements ArrayableInterface {
+class CopyField implements ArrayableInterface, StringableInterface {
 
     protected $source = '';
 
@@ -121,6 +122,13 @@ class CopyField implements ArrayableInterface {
         if (!is_null($this->getMaxChars()))
             $output['maxChars'] = $this->getMaxChars();
         return $output;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return $this->getSource();
     }
 
 }
