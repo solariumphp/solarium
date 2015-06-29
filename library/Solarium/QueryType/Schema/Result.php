@@ -43,12 +43,7 @@ use Solarium\QueryType\Schema\Query\Field\Field;
 
 /**
  * Schema result
- *
- * An schema query only returns a query time and status. Both are accessible
- * using the methods provided by {@link Solarium\Result\Query}.
- *
- * @internal For now this class only exists to distinguish the different result
- *  types. It might get some extra behaviour in the future.
+ * @author Beno!t POLASZEK
  */
 class Result extends BaseResult
 {

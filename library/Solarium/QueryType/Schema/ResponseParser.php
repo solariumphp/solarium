@@ -44,6 +44,7 @@ use Solarium\QueryType\Schema\Query\Field\Field;
 
 /**
  * Parse schema response data
+ * @author Beno!t POLASZEK
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
