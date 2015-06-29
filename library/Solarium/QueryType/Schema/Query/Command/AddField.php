@@ -75,7 +75,9 @@ class AddField extends Command implements ArrayableInterface {
     public function createField(array $attributes = array()) {
         if (!array_key_exists('name', $attributes))
             throw new RuntimeException("A field must have a name attribute.");
-        return $this->addField(new Field($attributes));
+        $field = new Field($attributes);
+        $this->addField($field);
+        return $field;
     }
 
     /**

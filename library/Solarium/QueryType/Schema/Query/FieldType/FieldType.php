@@ -8,8 +8,6 @@
 
 namespace Solarium\QueryType\Schema\Query\FieldType;
 
-
-use Solarium\Core\ArrayableInterface;
 use Solarium\Core\StringableInterface;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\QueryType\Schema\Query\FieldType\Analyzer\AnalyzerInterface;
@@ -17,7 +15,7 @@ use Solarium\QueryType\Schema\Query\FieldType\Analyzer\IndexAnalyzer;
 use Solarium\QueryType\Schema\Query\FieldType\Analyzer\QueryAnalyzer;
 use Solarium\QueryType\Schema\Query\FieldType\Analyzer\StandardAnalyzer;
 
-class FieldType implements StringableInterface, \ArrayAccess, ArrayableInterface {
+class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface {
 
     protected $name;
     protected $class;
@@ -39,6 +37,11 @@ class FieldType implements StringableInterface, \ArrayAccess, ArrayableInterface
     protected $termOffsets;
     protected $termPayloads;
     protected $analyzers = array();
+
+    public function __construct($name = null, $class = null) {
+        $this->name = $name;
+        $this->class = $class;
+    }
 
     /**
      * @return string
