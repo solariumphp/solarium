@@ -39,7 +39,9 @@
 namespace Solarium\QueryType\Schema;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\QueryType\Schema\Query\Field\CopyField;
 use Solarium\QueryType\Schema\Query\Field\Field;
+use Solarium\QueryType\Schema\Query\FieldType\FieldType;
 
 /**
  * Schema result
@@ -75,9 +77,24 @@ class Result extends BaseResult
     protected $defaultSearchField;
 
     /**
+     * @var FieldType[]
+     */
+    protected $fieldTypes = array();
+
+    /**
      * @var Field[]
      */
     protected $fields = array();
+
+    /**
+     * @var Field[]
+     */
+    protected $dynamicFields = array();
+
+    /**
+     * @var CopyField[]
+     */
+    protected $copyFields = array();
 
     /**
      * Get Solr status code
@@ -124,6 +141,16 @@ class Result extends BaseResult
     }
 
     /**
+     * @return Query\FieldType\FieldType[]
+     */
+    public function getFieldTypes()
+    {
+        $this->parseResponse();
+
+        return $this->fieldTypes;
+    }
+
+    /**
      * @return Query\Field\Field[]
      */
     public function getFields()
@@ -134,11 +161,55 @@ class Result extends BaseResult
     }
 
     /**
+     * @return Query\Field\Field[]
+     */
+    public function getDynamicFields()
+    {
+        $this->parseResponse();
+
+        return $this->dynamicFields;
+    }
+
+    /**
+     * @return Query\Field\CopyField[]
+     */
+    public function getCopyFields()
+    {
+        $this->parseResponse();
+
+        return $this->copyFields;
+    }
+
+    /**
+     * @param $fieldType
+     * @return null|FieldType
+     */
+    public function getFieldType($fieldType) {
+        return array_key_exists($fieldType, $this->getFieldTypes()) ? $this->fieldTypes[$fieldType] : null;
+    }
+
+    /**
      * @param $fieldName
      * @return null|Field
      */
     public function getField($fieldName) {
         return array_key_exists($fieldName, $this->getFields()) ? $this->fields[$fieldName] : null;
+    }
+
+    /**
+     * @param $fieldName
+     * @return null|Field
+     */
+    public function getDynamicField($fieldName) {
+        return array_key_exists($fieldName, $this->getDynamicFields()) ? $this->dynamicFields[$fieldName] : null;
+    }
+
+    /**
+     * @param $source
+     * @return null|CopyField
+     */
+    public function getCopyField($source) {
+        return array_key_exists($source, $this->getCopyFields()) ? $this->copyFields[$source] : null;
     }
 
     /**
