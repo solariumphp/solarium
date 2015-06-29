@@ -213,6 +213,36 @@ class Result extends BaseResult
     }
 
     /**
+     * @return mixed
+     */
+    public function getVersion()
+    {
+        $this->parseResponse();
+
+        return $this->version;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUniqueKey()
+    {
+        $this->parseResponse();
+
+        return $this->uniqueKey;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultSearchField()
+    {
+        $this->parseResponse();
+
+        return $this->defaultSearchField;
+    }
+
+    /**
      * Return errors (if any)
      * @return array
      */
