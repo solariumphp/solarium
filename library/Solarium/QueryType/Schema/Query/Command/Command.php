@@ -44,6 +44,7 @@ use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Schema query command base class
+ * @author Beno!t POLASZEK
  */
 abstract class Command extends Configurable implements ArrayableInterface
 {

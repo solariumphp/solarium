@@ -46,6 +46,7 @@ use Solarium\QueryType\Schema\Query\Query AS SchemaQuery;
 
 /**
  * Build a schema request
+ * @author Beno!t POLASZEK
  */
 class RequestBuilder extends BaseRequestBuilder {
 

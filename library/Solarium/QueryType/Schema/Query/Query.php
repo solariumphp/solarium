@@ -59,7 +59,10 @@ use Solarium\QueryType\Schema\Query\Command\ReplaceFieldType;
 use Solarium\QueryType\Schema\RequestBuilder;
 use Solarium\QueryType\Schema\ResponseParser;
 
-
+/**
+ * Class Query
+ * @author Beno!t POLASZEK
+ */
 class Query extends BaseQuery implements ArrayableInterface {
 
     /**
