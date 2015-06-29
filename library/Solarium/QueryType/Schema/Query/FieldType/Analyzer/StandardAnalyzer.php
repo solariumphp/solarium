@@ -150,7 +150,10 @@ class StandardAnalyzer implements AnalyzerInterface {
      */
     public function castAsArray() {
 
-        $out = array('class' => $this->getClass());
+        $out = array();
+
+        if ($this->getClass())
+            $out['class'] = $this->getClass();
 
         if ($this->getTokenizer()) {
             $out['tokenizer'] = $this->getTokenizer()->castAsArray();

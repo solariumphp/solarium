@@ -49,7 +49,7 @@ class Filter implements FilterInterface, \ArrayAccess {
 
     public function __construct($class = null, $attributes = array()) {
         $this->class = $class;
-        $this->attributes = $attributes;
+        $this->setAttributes($attributes);
     }
 
     /**
@@ -80,7 +80,18 @@ class Filter implements FilterInterface, \ArrayAccess {
      * @return $this - Provides Fluent Interface
      */
     public function setAttributes(array $attributes) {
-        $this->attributes = $attributes;
+        $this->attributes = array();
+        $this->addAttributes($attributes);
+        return $this;
+    }
+
+    /**
+     * @param array $attributes
+     * @return $this
+     */
+    public function addAttributes(array $attributes) {
+        foreach ($attributes AS $name => $value)
+            $this->addAttribute($name, $value);
         return $this;
     }
 

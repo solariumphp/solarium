@@ -404,7 +404,7 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @return $this
      */
     public function addAnalyzer(AnalyzerInterface $analyzer) {
-        $this->analyzers[] = $analyzer;
+        $this->analyzers[$analyzer->getType()] = $analyzer;
         return $this;
     }
 
@@ -466,9 +466,9 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
                 $out[$attribute] = $this[$attribute];
 
         if ($this->getAnalyzers()) {
-            $out['analyzers'] = array_map(function (AnalyzerInterface $analyzer) {
+            $out = array_merge($out, array_map(function (AnalyzerInterface $analyzer) {
                 return $analyzer->castAsArray();
-            }, $this->getAnalyzers());
+            }, $this->getAnalyzers()));
         }
 
         return $out;
