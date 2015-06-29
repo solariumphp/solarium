@@ -208,6 +208,30 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             urldecode($request->getUri())
         );
     }
+
+    public function testBuildWithPivotStatFacet()
+    {
+        $facet = new FacetPivot(
+            array(
+                'key' => 'f1',
+                'fields' => 'cat,inStock',
+                'stats' => 'piv1'
+            )
+        );
+        $this->component->addFacet($facet);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertEquals(
+            null,
+            $request->getRawData()
+        );
+
+        $this->assertEquals(
+            '?facet=true&facet.pivot={!stats=piv1}cat,inStock',
+            urldecode($request->getUri())
+        );
+    }
 }
 
 class UnknownFacet extends FacetField

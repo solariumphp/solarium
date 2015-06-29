@@ -78,6 +78,11 @@ class FacetSet extends Component
     const FACET_PIVOT = 'pivot';
 
     /**
+     * Facet type interval
+     */
+    const FACET_INTERVAL = 'interval';
+    
+    /**
      * Facet type mapping
      *
      * @var array
@@ -88,6 +93,7 @@ class FacetSet extends Component
         self::FACET_MULTIQUERY => 'Solarium\QueryType\Select\Query\Component\Facet\MultiQuery',
         self::FACET_RANGE => 'Solarium\QueryType\Select\Query\Component\Facet\Range',
         self::FACET_PIVOT => 'Solarium\QueryType\Select\Query\Component\Facet\Pivot',
+        self::FACET_INTERVAL => 'Solarium\QueryType\Select\Query\Component\Facet\Interval',
     );
 
     /**
@@ -525,5 +531,17 @@ class FacetSet extends Component
     public function createFacetPivot($options = null, $add = true)
     {
         return $this->createFacet(self::FACET_PIVOT, $options, $add);
+    }
+    
+    /**
+     * Get a facet interval instance
+     *
+     * @param  mixed                                                  $options
+     * @param  bool                                                   $add
+     * @return \Solarium\QueryType\Select\Query\Component\Facet\Interval
+     */
+    public function createFacetInterval($options = null, $add = true)
+    {
+        return $this->createFacet(self::FACET_INTERVAL, $options, $add);
     }
 }

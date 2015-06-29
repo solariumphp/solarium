@@ -96,6 +96,30 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                 }
             }
 
+            /*
+             * https://issues.apache.org/jira/browse/SOLR-3029
+             * Solr5 has moved collations and correctlySpelled
+             * directly under spellcheck.
+             */
+            if (isset($data['spellcheck']['collations']) &&
+                is_array($data['spellcheck']['collations'])
+            ) {
+              foreach ($data['spellcheck']['collations'] as $collationResult) {
+                if (is_array($collationResult)) {
+                  $collation = array();
+                  foreach ($collationResult as $key => $value) {
+                    $collation = array_merge($collation, array($key, $value));
+                  }
+                  $collations = array_merge($collations, $this->parseCollation($query, $collation ));
+                }
+              }
+            }
+
+            if (isset($data['spellcheck']['correctlySpelled'])
+            ) {
+              $correctlySpelled = $data['spellcheck']['correctlySpelled'];
+            }
+
             return new SpellcheckResult\Result($suggestions, $collations, $correctlySpelled);
         } else {
             return null;
