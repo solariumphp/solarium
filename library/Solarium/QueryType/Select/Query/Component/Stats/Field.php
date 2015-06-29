@@ -53,6 +53,13 @@ class Field extends Configurable
     protected $facets = array();
 
     /**
+     * pivot facets for these stats
+     *
+     * @var array
+     */
+    protected $pivots = array();
+
+    /**
      * Initialize options
      *
      * Several options need some extra checks or setup work, for these options
@@ -66,6 +73,9 @@ class Field extends Configurable
             switch ($name) {
                 case 'facet':
                     $this->setFacets($value);
+                    break;
+                case 'pivot':
+                    $this->setPivots($value);
                     break;
             }
         }
@@ -176,6 +186,94 @@ class Field extends Configurable
     {
         $this->clearFacets();
         $this->addFacets($facets);
+
+        return $this;
+    }
+
+    /**
+     * Add pivot
+     *
+     * @param string $pivot
+     * @return self  Provides fluent interface
+     */
+    public function addPivot($pivot)
+    {
+        $this->pivots[$pivot] = true;
+
+        return $this;
+    }
+
+    /**
+     * Specify multiple Pivots
+     *
+     * @param string|array $pivots can be an array or string with comma
+     *                             separated facetnames
+     *
+     * @return self Provides fluent interface
+     */
+    public function addPivots($pivots)
+    {
+        if (is_string($pivots)) {
+            $pivots = explode(',', $pivots);
+            $pivots = array_map('trim', $pivots);
+        }
+
+        foreach ($pivots as $facet) {
+            $this->addPivot($facet);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a pivot facet from the pivot list
+     *
+     * @param  string $pivot
+     * @return self   Provides fluent interface
+     */
+    public function removePivot($pivot)
+    {
+        if (isset($this->pivots[$pivot])) {
+            unset($this->pivots[$pivot]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all pivot facets from the pivot list.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearPivots()
+    {
+        $this->pivots = array();
+
+        return $this;
+    }
+
+    /**
+     * Get the list of pivot facets
+     *
+     * @return array
+     */
+    public function getPivots()
+    {
+        return array_keys($this->pivots);
+    }
+
+    /**
+     * Set multiple pivot facets
+     *
+     * This overwrites any existing pivots
+     *
+     * @param  array $pivots
+     * @return self  Provides fluent interface
+     */
+    public function setPivots($pivots)
+    {
+        $this->clearPivots();
+        $this->addPivots($pivots);
 
         return $this;
     }

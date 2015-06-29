@@ -105,6 +105,17 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
+     * Forward isset call to the original document
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function __isset($name)
+    {
+        return $this->document->__isset($name);
+    }
+
+    /**
      * IteratorAggregate implementation
      *
      * @return \ArrayIterator

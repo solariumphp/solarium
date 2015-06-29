@@ -131,4 +131,14 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Solarium\Exception\RuntimeException');
         $this->builder->build($this->query);
     }
+
+    public function testContentTypeHeader()
+    {
+        $headers = array(
+            'Content-Type: multipart/form-data'
+        );
+        $request = $this->builder->build($this->query);
+        $this->assertEquals($headers,
+                            $request->getHeaders());
+    }
 }

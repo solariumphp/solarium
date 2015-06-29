@@ -32,11 +32,10 @@
 namespace Solarium\Tests\Plugin\MinimumScoreFilter;
 
 use Solarium\Plugin\MinimumScoreFilter\Query;
-use Solarium\Tests\QueryType\Select\Query\QueryTest as SelectQueryTest;
+use Solarium\Tests\QueryType\Select\Query\AbstractQueryTest;
 
-class QueryTest extends SelectQueryTest
+class QueryTest extends AbstractQueryTest
 {
-
     public function setUp()
     {
         $this->query = new Query;
