@@ -132,7 +132,9 @@ class RequestBuilder extends BaseRequestBuilder
                         if(is_array($multival)){
                             $xml .= '<doc>';
                             foreach ($multival as $k=>$v) {
-                                $xml .= $this->buildFieldXml($k, $boost, $v, $modifier, $query);
+                                if(is_array($v))
+                                    foreach($v as $v2)$xml .= $this->buildFieldXml($k, $boost, $v2, $modifier, $query);
+                                else $xml .= $this->buildFieldXml($k, $boost, $v, $modifier, $query);
                             }
                             $xml .= '</doc>';
 
