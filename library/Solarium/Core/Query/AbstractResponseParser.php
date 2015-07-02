@@ -59,8 +59,9 @@ abstract class AbstractResponseParser
         // key counter to convert values to arrays when keys are re-used
         $keys = array();
 
+        $dataCount = count($data);
         $result = array();
-        for ($i = 0; $i < count($data); $i += 2) {
+        for ($i = 0; $i < $dataCount; $i += 2) {
             $key  = $data[$i];
             $value = $data[$i+1];
             if (array_key_exists($key, $keys)) {
