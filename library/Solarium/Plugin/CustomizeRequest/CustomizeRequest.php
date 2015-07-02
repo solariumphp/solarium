@@ -41,7 +41,6 @@
 namespace Solarium\Plugin\CustomizeRequest;
 
 use Solarium\Core\Plugin\AbstractPlugin;
-use Solarium\Core\Client\Request;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Core\Event\Events;

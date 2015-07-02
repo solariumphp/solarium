@@ -40,7 +40,6 @@
 
 namespace Solarium\Plugin\BufferedAdd;
 
-use Solarium\Client;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\QueryType\Update\Result as UpdateResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;

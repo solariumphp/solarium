@@ -437,7 +437,7 @@ class Loadbalancer extends AbstractPlugin
         $adapter = $this->client->getAdapter();
 
         // save adapter presets (once) to allow the settings to be restored later
-        if ($this->defaultEndpoint == null) {
+        if ($this->defaultEndpoint === null) {
             $this->defaultEndpoint = $this->client->getEndpoint()->getKey();
         }
 
@@ -470,7 +470,8 @@ class Loadbalancer extends AbstractPlugin
         $adapter = $this->client->getAdapter();
 
         if ($this->getFailoverEnabled() == true) {
-            for ($i = 0; $i <= $this->getFailoverMaxRetries(); $i++) {
+            $maxRetries = $this->getFailoverMaxRetries();
+            for ($i = 0; $i <= $maxRetries; $i++) {
                 $endpoint = $this->getRandomEndpoint();
                 try {
                     return $adapter->execute($request, $endpoint);
