@@ -145,7 +145,7 @@ class Result implements ResultInterface
      */
     public function getData()
     {
-        if (null == $this->data) {
+        if (null === $this->data) {
             switch ($this->query->getResponseWriter()) {
                 case AbstractQuery::WT_PHPS:
                     $this->data = unserialize($this->response->getBody());

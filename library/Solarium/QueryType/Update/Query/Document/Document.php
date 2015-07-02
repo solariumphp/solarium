@@ -225,7 +225,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function setField($key, $value, $boost = null, $modifier = null)
     {
-        if ($value === null && $modifier == null) {
+        if ($value === null && $modifier === null) {
             $this->removeField($key);
         } else {
             if ($this->filterControlCharacters && is_string($value)) {
@@ -435,7 +435,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function getFields()
     {
-        if (count($this->modifiers) > 0 && ($this->key == null || !isset($this->fields[$this->key]))) {
+        if (count($this->modifiers) > 0 && ($this->key === null || !isset($this->fields[$this->key]))) {
             throw new RuntimeException(
                 'A document that uses modifiers (atomic updates) must have a key defined before it is used'
             );

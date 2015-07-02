@@ -111,7 +111,7 @@ class MoreLikeThis extends AbstractComponent
     public function getFields()
     {
         $fields = $this->getOption('fields');
-        if ($fields == null) {
+        if ($fields === null) {
             $fields = array();
         }
 
@@ -320,7 +320,7 @@ class MoreLikeThis extends AbstractComponent
     public function getQueryFields()
     {
         $queryfields = $this->getOption('queryfields');
-        if ($queryfields == null) {
+        if ($queryfields === null) {
             $queryfields = array();
         }
 

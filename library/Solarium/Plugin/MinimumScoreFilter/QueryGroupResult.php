@@ -83,7 +83,7 @@ class QueryGroupResult extends StandardQueryGroupResult
         $this->filterRatio = $query->getFilterRatio();
 
         // Use the maximumScore of the first group as maximum for all groups
-        if (self::$overallMaximumScore == null) {
+        if (self::$overallMaximumScore === null) {
             self::$overallMaximumScore = $maximumScore;
         }
 

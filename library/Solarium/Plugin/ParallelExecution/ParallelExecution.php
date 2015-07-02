@@ -92,7 +92,7 @@ class ParallelExecution extends AbstractPlugin
             $endpoint = $endpoint->getKey();
         }
 
-        if ($endpoint == null) {
+        if ($endpoint === null) {
             $endpoint = $this->client->getEndpoint()->getKey();
         }
 

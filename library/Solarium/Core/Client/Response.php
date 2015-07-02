@@ -149,7 +149,7 @@ class Response
             }
         }
 
-        if (null == $statusHeader) {
+        if (null === $statusHeader) {
             throw new HttpException("No HTTP status found");
         }
 
