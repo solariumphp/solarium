@@ -470,7 +470,8 @@ class Loadbalancer extends AbstractPlugin
         $adapter = $this->client->getAdapter();
 
         if ($this->getFailoverEnabled() == true) {
-            for ($i = 0; $i <= $this->getFailoverMaxRetries(); $i++) {
+            $maxRetries = $this->getFailoverMaxRetries();
+            for ($i = 0; $i <= $maxRetries; $i++) {
                 $endpoint = $this->getRandomEndpoint();
                 try {
                     return $adapter->execute($request, $endpoint);
