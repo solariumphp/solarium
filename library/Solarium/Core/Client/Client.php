@@ -283,7 +283,7 @@ class Client extends Configurable
             $this->endpoints[$key] = $endpoint;
 
             // if no default endpoint is set do so now
-            if (null == $this->defaultEndpoint) {
+            if (null === $this->defaultEndpoint) {
                 $this->defaultEndpoint = $key;
             }
         }
@@ -323,7 +323,7 @@ class Client extends Configurable
      */
     public function getEndpoint($key = null)
     {
-        if (null == $key) {
+        if (null === $key) {
             $key = $this->defaultEndpoint;
         }
 

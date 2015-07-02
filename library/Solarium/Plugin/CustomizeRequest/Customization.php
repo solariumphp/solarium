@@ -227,7 +227,7 @@ class Customization extends Configurable
             return false;
         }
 
-        if (null == $this->getKey() || null == $this->getName() || null == $this->getValue()) {
+        if (null === $this->getKey() || null === $this->getName() || null === $this->getValue()) {
             return false;
         }
 
