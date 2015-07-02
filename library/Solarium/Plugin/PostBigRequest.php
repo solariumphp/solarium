@@ -40,7 +40,6 @@
 
 namespace Solarium\Plugin;
 
-use Solarium\Client;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Event\Events;
