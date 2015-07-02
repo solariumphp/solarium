@@ -4,7 +4,7 @@
     "description": "PHP Solr client",
     "keywords": ["solr", "search", "php"],
     "homepage": "http://www.solarium-project.org",
-    "license": "NewBSD",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "See GitHub contributors",
