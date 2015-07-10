@@ -138,19 +138,19 @@ class Client extends Configurable
      *
      * @var array
      */
-    protected $options = [
+    protected $options = array(
         'adapter' => 'Solarium\Core\Client\Adapter\Curl',
-        'endpoint' => [
-            'localhost' => []
-        ]
-    ];
+        'endpoint' => array(
+            'localhost' => array()
+        )
+    );
 
     /**
      * Querytype mappings
      *
      * These can be customized using {@link registerQueryType()}
      */
-    protected $queryTypes = [
+    protected $queryTypes = array(
         self::QUERY_SELECT => 'Solarium\QueryType\Select\Query\Query',
         self::QUERY_UPDATE => 'Solarium\QueryType\Update\Query\Query',
         self::QUERY_SCHEMA => 'Solarium\QueryType\Schema\Query\Query',
@@ -162,14 +162,14 @@ class Client extends Configurable
         self::QUERY_SUGGESTER => 'Solarium\QueryType\Suggester\Query',
         self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
         self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
-    ];
+    );
 
     /**
      * Plugin types
      *
      * @var array
      */
-    protected $pluginTypes = [
+    protected $pluginTypes = array(
         'loadbalancer' => 'Solarium\Plugin\Loadbalancer\Loadbalancer',
         'postbigrequest' => 'Solarium\Plugin\PostBigRequest',
         'customizerequest' => 'Solarium\Plugin\CustomizeRequest\CustomizeRequest',
@@ -177,7 +177,7 @@ class Client extends Configurable
         'bufferedadd' => 'Solarium\Plugin\BufferedAdd\BufferedAdd',
         'prefetchiterator' => 'Solarium\Plugin\PrefetchIterator',
         'minimumscorefilter' => 'Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter',
-    ];
+    );
 
     /**
      * EventDispatcher
@@ -191,14 +191,14 @@ class Client extends Configurable
      *
      * @var PluginInterface[]
      */
-    protected $pluginInstances = [];
+    protected $pluginInstances = array();
 
     /**
      * Registered endpoints
      *
      * @var Endpoint[]
      */
-    protected $endpoints = [];
+    protected $endpoints = array();
 
     /**
      * Default endpoint key
@@ -394,7 +394,7 @@ class Client extends Configurable
      */
     public function clearEndpoints()
     {
-        $this->endpoints = [];
+        $this->endpoints = array();
         $this->defaultEndpoint = null;
 
         return $this;
@@ -607,7 +607,7 @@ class Client extends Configurable
      * @param  array                    $options
      * @return self                     Provides fluent interface
      */
-    public function registerPlugin($key, $plugin, $options = [])
+    public function registerPlugin($key, $plugin, $options = array())
     {
         if (is_string($plugin)) {
             $plugin = class_exists($plugin) ? $plugin : $plugin.strrchr($plugin, '\\');
