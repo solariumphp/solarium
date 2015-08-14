@@ -151,7 +151,7 @@ class Curl extends Configurable implements AdapterInterface
         curl_setopt($handler, CURLOPT_TIMEOUT, $options['timeout']);
         curl_setopt($handler, CURLOPT_CONNECTTIMEOUT, $options['timeout']);
 
-        if ($proxy = $this->getOption('proxy')) {
+        if (null !== ($proxy = $this->getOption('proxy'))) {
             curl_setopt($handler, CURLOPT_PROXY, $proxy);
         }
 
