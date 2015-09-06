@@ -53,6 +53,7 @@ use Solarium\Exception\HttpException;
  */
 class Curl extends Configurable implements AdapterInterface
 {
+	public static $CURL_HANDLE = null;
     /**
      * Initialization hook
      *
@@ -74,7 +75,7 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Execute a Solr request using the cURL Http
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  Endpoint $endpoint
      * @return Response
      */
@@ -86,7 +87,7 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Execute request
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  Endpoint $endpoint
      * @return Response
      */
@@ -94,7 +95,21 @@ class Curl extends Configurable implements AdapterInterface
     {
         // @codeCoverageIgnoreStart
         $handle = $this->createHandle($request, $endpoint);
+		
+		$time_start = 0;
+		if (YII_DEBUG) {
+			$time_start = round(microtime(true) * 1000);
+		}
         $httpResponse = curl_exec($handle);
+
+		if (YII_DEBUG) {
+			//phpinfo();exit;
+			$time_end = round(microtime(true) * 1000);
+			$time = $time_end - $time_start;
+			if($log_file = $endpoint->getOption('log_file')){
+				error_log("Time: {$time} -- " . $request->getUri() . PHP_EOL, 3,$log_file);  
+			}
+		}
 
         return $this->getResponse($handle, $httpResponse);
         // @codeCoverageIgnoreEnd
@@ -104,7 +119,7 @@ class Curl extends Configurable implements AdapterInterface
      * Get the response for a curl handle
      *
      * @param  resource $handle
-     * @param  string   $httpResponse
+     * @param  string $httpResponse
      * @return Response
      */
     public function getResponse($handle, $httpResponse)
@@ -114,14 +129,14 @@ class Curl extends Configurable implements AdapterInterface
             $data = $httpResponse;
             $info = curl_getinfo($handle);
             $headers = array();
-            $headers[] = 'HTTP/1.1 ' . $info['http_code']. ' OK';
+            $headers[] = 'HTTP/1.1 ' . $info['http_code'] . ' OK';
         } else {
             $headers = array();
             $data = '';
         }
 
         $this->check($data, $headers, $handle);
-        curl_close($handle);
+        //curl_close($handle);
 
         return new Response($data, $headers);
         // @codeCoverageIgnoreEnd
@@ -131,19 +146,30 @@ class Curl extends Configurable implements AdapterInterface
      * Create curl handle for a request
      *
      * @throws InvalidArgumentException
-     * @param  Request                  $request
-     * @param  Endpoint                 $endpoint
+     * @param  Request $request
+     * @param  Endpoint $endpoint
      * @return resource
      */
     public function createHandle($request, $endpoint)
     {
         // @codeCoverageIgnoreStart
         $uri = $endpoint->getBaseUri() . $request->getUri();
-        $method = $request->getMethod();
+
+		$method = $request->getMethod();
+		if( self::$CURL_HANDLE === null ){
+			$handler = curl_init();
+			curl_setopt($handler, CURLOPT_URL, $uri);
+			self::$CURL_HANDLE = $handler;
+			//d(self::$CURL_HANDLE);
+		}elseif($method == Request::METHOD_GET){
+			$handler = self::$CURL_HANDLE;
+			curl_setopt($handler, CURLOPT_URL, $uri);
+			return $handler;
+		}
+		
         $options = $this->createOptions($request, $endpoint);
 
-        $handler = curl_init();
-        curl_setopt($handler, CURLOPT_URL, $uri);
+
         curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
         if (!ini_get('open_basedir')) {
             curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
@@ -156,7 +182,7 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         if (!isset($options['headers']['Content-Type'])) {
-            if($method == Request::METHOD_GET){
+            if ($method == Request::METHOD_GET) {
                 $options['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
             } else {
                 $options['headers']['Content-Type'] = 'application/xml; charset=utf-8';
@@ -170,7 +196,7 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         if (!empty($authData['username']) && !empty($authData['password'])) {
-            curl_setopt($handler, CURLOPT_USERPWD, $authData['username']. ':' . $authData['password']);
+            curl_setopt($handler, CURLOPT_USERPWD, $authData['username'] . ':' . $authData['password']);
             curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
 
@@ -190,7 +216,7 @@ class Curl extends Configurable implements AdapterInterface
                     $curlFile = curl_file_create($request->getFileUpload());
                     curl_setopt($handler, CURLOPT_POSTFIELDS, array('content' => $curlFile));
                 } else {
-                    curl_setopt($handler, CURLOPT_POSTFIELDS, array('content' => '@'.$request->getFileUpload()));
+                    curl_setopt($handler, CURLOPT_POSTFIELDS, array('content' => '@' . $request->getFileUpload()));
                 }
             } else {
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
@@ -210,7 +236,7 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Create http request options from request.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  Endpoint $endpoint
      * @return array
      */
@@ -235,9 +261,9 @@ class Curl extends Configurable implements AdapterInterface
      * Check result of a request
      *
      * @throws HttpException
-     * @param  string        $data
-     * @param  array         $headers
-     * @param  resource      $handle
+     * @param  string $data
+     * @param  array $headers
+     * @param  resource $handle
      * @return void
      */
     public function check($data, $headers, $handle)
@@ -245,7 +271,7 @@ class Curl extends Configurable implements AdapterInterface
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
         if (empty($data) && count($headers) == 0) {
-            throw new HttpException('HTTP request failed, '.curl_error($handle));
+            throw new HttpException('HTTP request failed, ' . curl_error($handle));
         }
     }
 }
