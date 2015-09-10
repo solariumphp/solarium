@@ -110,7 +110,6 @@ class WeightedRandomChoice
         }
 
         // continue until a non-excluded value is found
-        // @todo optimize?
         $result = null;
         while (1) {
             $result = $this->values[$this->getKey()];

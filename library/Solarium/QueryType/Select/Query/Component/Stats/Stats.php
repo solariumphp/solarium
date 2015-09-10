@@ -152,7 +152,6 @@ class Stats extends AbstractComponent
         }
 
         //double add calls for the same field are ignored, but non-unique keys cause an exception
-        //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->fields) && $this->fields[$key] !== $field) {
             throw new InvalidArgumentException('A field must have a unique key value');
         } else {

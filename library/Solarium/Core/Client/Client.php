@@ -218,6 +218,23 @@ class Client extends Configurable
     protected $adapter;
 
     /**
+     * Constructor.
+     *
+     * If options are passed they will be merged with {@link $options} using
+     * the {@link setOptions()} method.
+     *
+     * If an EventDispatcher instance is provided this will be used instead of creating a new instance
+     *
+     * @param array|\Zend_Config $options
+     * @param EventDispatcher $eventDispatcher
+     */
+    public function __construct($options = null, $eventDispatcher = null)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+        parent::__construct($options);
+    }
+
+    /**
      * Create a endpoint instance.
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the endpoint
@@ -276,7 +293,6 @@ class Client extends Configurable
         }
 
         //double add calls for the same endpoint are ignored, but non-unique keys cause an exception
-        //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
             throw new InvalidArgumentException('An endpoint must have a unique key');
         } else {
@@ -1144,8 +1160,9 @@ class Client extends Configurable
      */
     protected function init()
     {
-        //@todo use injection
-        $this->eventDispatcher = new EventDispatcher();
+        if ($this->eventDispatcher === null) {
+            $this->eventDispatcher = new EventDispatcher();
+        }
 
         foreach ($this->options as $name => $value) {
             switch ($name) {
