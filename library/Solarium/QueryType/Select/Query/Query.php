@@ -634,7 +634,6 @@ class Query extends BaseQuery
         }
 
         //double add calls for the same FQ are ignored, but non-unique keys cause an exception
-        //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->filterQueries) && $this->filterQueries[$key] !== $filterQuery) {
             throw new InvalidArgumentException('A filterquery must have a unique key value within a query');
         } else {
@@ -792,7 +791,7 @@ class Query extends BaseQuery
         if (isset($this->components[$key])) {
             return $this->components[$key];
         } else {
-            if ($autoload == true) {
+            if ($autoload === true) {
                 if (!isset($this->componentTypes[$key])) {
                     throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
                 }

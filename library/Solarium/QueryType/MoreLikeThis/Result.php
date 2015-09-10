@@ -119,7 +119,7 @@ class Result extends SelectResult
     public function getMatch()
     {
         $query = $this->getQuery();
-        if (true != $query->getMatchInclude()) {
+        if (true !== $query->getMatchInclude()) {
             throw new UnexpectedValueException('matchinclude was disabled in the MLT query');
         }
         $this->parseResponse();

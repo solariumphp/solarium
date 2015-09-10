@@ -80,7 +80,7 @@ class RequestBuilder extends BaseRequestBuilder
         }
 
         // add document settings to request
-        if (($doc = $query->getDocument()) != null) {
+        if (($doc = $query->getDocument()) !== null) {
             if ($doc->getBoost() !== null) {
                 throw new RuntimeException('Extract does not support document-level boosts, use field boosts instead.');
             }

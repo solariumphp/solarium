@@ -218,6 +218,23 @@ class Client extends Configurable
     protected $adapter;
 
     /**
+     * Constructor.
+     *
+     * If options are passed they will be merged with {@link $options} using
+     * the {@link setOptions()} method.
+     *
+     * If an EventDispatcher instance is provided this will be used instead of creating a new instance
+     *
+     * @param array|\Zend_Config $options
+     * @param EventDispatcher $eventDispatcher
+     */
+    public function __construct($options = null, $eventDispatcher = null)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+        parent::__construct($options);
+    }
+
+    /**
      * Create a endpoint instance.
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the endpoint
@@ -243,7 +260,7 @@ class Client extends Configurable
 
         if ($endpoint->getKey() !== null) {
             $this->addEndpoint($endpoint);
-            if ($setAsDefault == true) {
+            if ($setAsDefault === true) {
                 $this->setDefaultEndpoint($endpoint);
             }
         }
@@ -276,7 +293,6 @@ class Client extends Configurable
         }
 
         //double add calls for the same endpoint are ignored, but non-unique keys cause an exception
-        //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
             throw new InvalidArgumentException('An endpoint must have a unique key');
         } else {
@@ -799,6 +815,9 @@ class Client extends Configurable
     /**
      * Execute a ping query.
      *
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
+     *
      * Example usage:
      * <code>
      * $client = new Solarium\Client;
@@ -807,9 +826,6 @@ class Client extends Configurable
      * </code>
      *
      * @see Solarium\QueryType\Ping
-     *
-     * @internal This is a convenience method that forwards the query to the
-     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\Ping\Query $query
      * @param Endpoint|string|null                          $endpoint
@@ -824,6 +840,9 @@ class Client extends Configurable
     /**
      * Execute an update query.
      *
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
+     *
      * Example usage:
      * <code>
      * $client = new Solarium\Client;
@@ -834,9 +853,6 @@ class Client extends Configurable
      *
      * @see Solarium\QueryType\Update
      * @see Solarium\Result\Update
-     *
-     * @internal This is a convenience method that forwards the query to the
-     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\Update\Query\Query $query
      * @param Endpoint|string|null                                  $endpoint
@@ -851,6 +867,9 @@ class Client extends Configurable
     /**
      * Execute a select query.
      *
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
+     *
      * Example usage:
      * <code>
      * $client = new Solarium\Client;
@@ -860,9 +879,6 @@ class Client extends Configurable
      *
      * @see Solarium\QueryType\Select
      * @see Solarium\Result\Select
-     *
-     * @internal This is a convenience method that forwards the query to the
-     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\Select\Query\Query $query
      * @param Endpoint|string|null                                  $endpoint
@@ -877,6 +893,9 @@ class Client extends Configurable
     /**
      * Execute a MoreLikeThis query.
      *
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
+     *
      * Example usage:
      * <code>
      * $client = new Solarium\Client;
@@ -886,9 +905,6 @@ class Client extends Configurable
      *
      * @see Solarium\QueryType\MoreLikeThis
      * @see Solarium\Result\MoreLikeThis
-     *
-     * @internal This is a convenience method that forwards the query to the
-     *  execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\MoreLikeThis\Query $query
      * @param Endpoint|string|null                                  $endpoint
@@ -903,8 +919,8 @@ class Client extends Configurable
     /**
      * Execute an analysis query.
      *
-     * @internal This is a convenience method that forwards the query to the
-     *  execute method, thus allowing for an easy to use and clean API.
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\Analysis\Query\Document|\Solarium\QueryType\Analysis\Query\Field $query
      * @param Endpoint|string|null                                                                                $endpoint
@@ -919,8 +935,8 @@ class Client extends Configurable
     /**
      * Execute a terms query.
      *
-     * @internal This is a convenience method that forwards the query to the
-     *  execute method, thus allowing for an easy to use and clean API.
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\Terms\Query $query
      * @param Endpoint|string|null                           $endpoint
@@ -935,8 +951,8 @@ class Client extends Configurable
     /**
      * Execute a suggester query.
      *
-     * @internal This is a convenience method that forwards the query to the
-     *  execute method, thus allowing for an easy to use and clean API.
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\Suggester\Query $query
      * @param Endpoint|string|null                               $endpoint
@@ -951,8 +967,8 @@ class Client extends Configurable
     /**
      * Execute an extract query.
      *
-     * @internal This is a convenience method that forwards the query to the
-     *  execute method, thus allowing for an easy to use and clean API.
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\Extract\Query $query
      * @param Endpoint|string|null                             $endpoint
@@ -967,8 +983,8 @@ class Client extends Configurable
     /**
      * Execute a RealtimeGet query.
      *
-     * @internal This is a convenience method that forwards the query to the
-     *  execute method, thus allowing for an easy to use and clean API.
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
      *
      * @param QueryInterface|\Solarium\QueryType\RealtimeGet\Query $query
      * @param Endpoint|string|null                                 $endpoint
@@ -1144,8 +1160,9 @@ class Client extends Configurable
      */
     protected function init()
     {
-        //@todo use injection
-        $this->eventDispatcher = new EventDispatcher();
+        if ($this->eventDispatcher === null) {
+            $this->eventDispatcher = new EventDispatcher();
+        }
 
         foreach ($this->options as $name => $value) {
             switch ($name) {

@@ -71,7 +71,7 @@ class ResponseParser extends SelectResponseParser
             $parseResult['interestingTerms'] = $terms;
         }
 
-        if (isset($data['match']['docs'][0]) && true == $query->getMatchInclude()) {
+        if (isset($data['match']['docs'][0]) && true === $query->getMatchInclude()) {
             $matchData = $data['match']['docs'][0];
 
             $documentClass = $query->getOption('documentclass');

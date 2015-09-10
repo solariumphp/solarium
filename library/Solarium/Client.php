@@ -95,8 +95,8 @@ class Client extends CoreClient
      * - 1.2.4 (higher)
      *
      *
-     * @internal a string compare is used instead of version_compare because
-     *  version_compare returns false for a compare of 1.0.0 with 1.0
+     * A string compare is used instead of version_compare because
+     * version_compare returns false for a compare of 1.0.0 with 1.0
      *
      * @param string $version
      *
