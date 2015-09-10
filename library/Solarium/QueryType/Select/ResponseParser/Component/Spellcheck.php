@@ -104,14 +104,8 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
             if (isset($data['spellcheck']['collations']) &&
                 is_array($data['spellcheck']['collations'])
             ) {
-              foreach ($data['spellcheck']['collations'] as $collationResult) {
-                if (is_array($collationResult)) {
-                  $collation = array();
-                  foreach ($collationResult as $key => $value) {
-                    $collation = array_merge($collation, array($key, $value));
-                  }
-                  $collations = array_merge($collations, $this->parseCollation($query, $collation ));
-                }
+              foreach ($this->convertToKeyValueArray($data['spellcheck']['collations']) as $collationResult) {
+                $collations = array_merge($collations, $this->parseCollation($query, $collationResult ));
               }
             }
 
