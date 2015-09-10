@@ -157,9 +157,9 @@ class Configurable implements ConfigurableInterface
      * This hook is called by the constructor after saving the constructor
      * arguments in {@link $options}
      *
-     * @internal This empty implementation can optionally be implemented in
-     *  descending classes. It's not an abstract method on purpose, there are
-     *  many cases where no initialization is needed.
+     * This empty implementation can optionally be implemented in
+     * descending classes. It's not an abstract method on purpose, there are
+     * many cases where no initialization is needed.
      */
     protected function init()
     {
