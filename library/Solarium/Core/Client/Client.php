@@ -243,7 +243,7 @@ class Client extends Configurable
 
         if ($endpoint->getKey() !== null) {
             $this->addEndpoint($endpoint);
-            if ($setAsDefault == true) {
+            if ($setAsDefault === true) {
                 $this->setDefaultEndpoint($endpoint);
             }
         }

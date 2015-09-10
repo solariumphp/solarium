@@ -108,7 +108,7 @@ class Configurable implements ConfigurableInterface
                 }
             }
 
-            if (true == $overwrite) {
+            if (true === $overwrite) {
                 $this->options = $options;
             } else {
                 $this->options = array_merge($this->options, $options);

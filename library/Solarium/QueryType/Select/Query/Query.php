@@ -792,7 +792,7 @@ class Query extends BaseQuery
         if (isset($this->components[$key])) {
             return $this->components[$key];
         } else {
-            if ($autoload == true) {
+            if ($autoload === true) {
                 if (!isset($this->componentTypes[$key])) {
                     throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
                 }

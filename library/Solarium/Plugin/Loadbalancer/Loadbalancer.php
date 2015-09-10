@@ -469,7 +469,7 @@ class Loadbalancer extends AbstractPlugin
         $this->endpointExcludes = array(); // reset for each query
         $adapter = $this->client->getAdapter();
 
-        if ($this->getFailoverEnabled() == true) {
+        if ($this->getFailoverEnabled() === true) {
             $maxRetries = $this->getFailoverMaxRetries();
             for ($i = 0; $i <= $maxRetries; $i++) {
                 $endpoint = $this->getRandomEndpoint();
