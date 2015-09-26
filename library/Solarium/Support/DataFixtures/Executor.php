@@ -2,7 +2,7 @@
 
 namespace Solarium\Support\DataFixtures;
 
-use Solarium\Core\Client\Client;
+use Solarium\Core\Client\ClientInterface;
 
 /**
  * @author Baldur Rensch <brensch@gmail.com>
@@ -17,9 +17,9 @@ class Executor
     /**
      * Constructor.
      *
-     * @param \Solarium\Core\Client\Client $client
+     * @param \Solarium\Core\Client\ClientInterface $client
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }

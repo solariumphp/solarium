@@ -8,7 +8,7 @@ class PurgerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPurge()
     {
-        $solarium = $this->getMock('Solarium\Core\Client\Client');
+        $solarium = $this->getMock('Solarium\Core\Client\ClientInterface');
 
         $update = $this->getMock('\Solarium\QueryType\Update\Query\Query');
         $update->expects($this->once())
