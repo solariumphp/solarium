@@ -155,16 +155,23 @@ class Curl extends Configurable implements AdapterInterface
         // @codeCoverageIgnoreStart
         $uri = $endpoint->getBaseUri() . $request->getUri();
 
-        $method = $request->getMethod();
-        if (self::$CURL_HANDLE === null || !isset(self::$CURL_HANDLE[$method])) {
+	$method = $request->getMethod();
+        //d($method);
+        if ($method == 'POST') {
             $handler = curl_init();
             curl_setopt($handler, CURLOPT_URL, $uri);
-            self::$CURL_HANDLE[$method] = $handler;
-            //d(self::$CURL_HANDLE);
+
         } else {
-            $handler = self::$CURL_HANDLE[$method];
-            curl_setopt($handler, CURLOPT_URL, $uri);
-            return $handler;
+            if (self::$CURL_HANDLE === null || !isset(self::$CURL_HANDLE[$method])) {
+                $handler = curl_init();
+                curl_setopt($handler, CURLOPT_URL, $uri);
+                self::$CURL_HANDLE[$method] = $handler;
+                //d(self::$CURL_HANDLE);
+            } else {
+                $handler = self::$CURL_HANDLE[$method];
+                curl_setopt($handler, CURLOPT_URL, $uri);
+                return $handler;
+            }
         }
 		
         $options = $this->createOptions($request, $endpoint);
