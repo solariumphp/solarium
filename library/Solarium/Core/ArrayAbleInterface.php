@@ -3,7 +3,7 @@
 namespace Solarium\Core;
 
 
-interface ArrayableInterface {
+interface ArrayAbleInterface {
 
     /**
      * Get the instance as an array.
