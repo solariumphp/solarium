@@ -88,4 +88,4 @@ if ($compress) {
 }
 
 $time = round(microtime(true)-$start, 5);
-echo "\nDONE ($time seconds)\nsolarium.php has been created.\n\n";
+echo "\nDONE ($time seconds)\nsolarium.phar has been created.\n\n";
