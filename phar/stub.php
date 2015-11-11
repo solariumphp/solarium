@@ -52,5 +52,4 @@ if ('cli' === php_sapi_name() && basename(__FILE__) === basename($_SERVER['argv'
     exit(0);
 }
 
-__halt_compiler();
-?>
+__HALT_COMPILER();
