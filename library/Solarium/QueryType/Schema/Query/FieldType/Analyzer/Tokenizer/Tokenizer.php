@@ -43,12 +43,13 @@ namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer\Tokenizer;
  * Class Tokenizer
  * @author Beno!t POLASZEK
  */
-class Tokenizer implements TokenizerInterface {
-
+class Tokenizer implements TokenizerInterface
+{
     protected $class;
     protected $delimiter;
 
-    public function __construct($class = null, $delimiter = null) {
+    public function __construct($class = null, $delimiter = null)
+    {
         $this->class = $class;
         $this->delimiter = $delimiter;
     }
@@ -56,7 +57,8 @@ class Tokenizer implements TokenizerInterface {
     /**
      * @return string
      */
-    public function getClass() {
+    public function getClass()
+    {
         return $this->class;
     }
 
@@ -64,15 +66,18 @@ class Tokenizer implements TokenizerInterface {
      * @param string $class
      * @return $this - Provides Fluent Interface
      */
-    public function setClass($class) {
+    public function setClass($class)
+    {
         $this->class = $class;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getDelimiter() {
+    public function getDelimiter()
+    {
         return $this->delimiter;
     }
 
@@ -80,8 +85,10 @@ class Tokenizer implements TokenizerInterface {
      * @param string $delimiter
      * @return $this - Provides Fluent Interface
      */
-    public function setDelimiter($delimiter) {
+    public function setDelimiter($delimiter)
+    {
         $this->delimiter = $delimiter;
+
         return $this;
     }
 
@@ -90,10 +97,13 @@ class Tokenizer implements TokenizerInterface {
      *
      * @return array
      */
-    public function castAsArray() {
+    public function castAsArray()
+    {
         $out = array('class' => $this->getClass());
-        if (!is_null($this->getDelimiter()))
+        if (!is_null($this->getDelimiter())) {
             $out['delimiter'] = $this->getDelimiter();
+        }
+
         return $out;
     }
 }

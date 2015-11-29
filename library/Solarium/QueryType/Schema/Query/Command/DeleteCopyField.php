@@ -46,8 +46,8 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class DeleteCopyField
  * @author Beno!t POLASZEK
  */
-class DeleteCopyField extends AddCopyField implements ArrayableInterface {
-
+class DeleteCopyField extends AddCopyField implements ArrayableInterface
+{
     /**
      * @var CopyField[]
      */
@@ -58,8 +58,8 @@ class DeleteCopyField extends AddCopyField implements ArrayableInterface {
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return SchemaQuery::COMMAND_DELETE_COPY_FIELD;
     }
-
 }

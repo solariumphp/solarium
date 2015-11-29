@@ -47,8 +47,8 @@ use Solarium\QueryType\Schema\Query\FieldType\Analyzer\Tokenizer\TokenizerInterf
  * Class StandardAnalyzer
  * @author Beno!t POLASZEK
  */
-class StandardAnalyzer implements AnalyzerInterface {
-
+class StandardAnalyzer implements AnalyzerInterface
+{
     protected $class;
     protected $tokenizer;
     protected $filters = array();
@@ -58,14 +58,16 @@ class StandardAnalyzer implements AnalyzerInterface {
      * @see https://cwiki.apache.org/confluence/display/solr/Analyzers
      * @return string|null
      */
-    public function getType() {
+    public function getType()
+    {
         return 'analyzer';
     }
 
     /**
      * @return string|null
      */
-    public function getClass() {
+    public function getClass()
+    {
         return $this->class;
     }
 
@@ -73,15 +75,18 @@ class StandardAnalyzer implements AnalyzerInterface {
      * @param string $class
      * @return $this - Provides Fluent Interface
      */
-    public function setClass($class) {
+    public function setClass($class)
+    {
         $this->class = $class;
+
         return $this;
     }
 
     /**
      * @return TokenizerInterface
      */
-    public function getTokenizer() {
+    public function getTokenizer()
+    {
         return $this->tokenizer;
     }
 
@@ -89,8 +94,10 @@ class StandardAnalyzer implements AnalyzerInterface {
      * @param TokenizerInterface  $tokenizer
      * @return $this - Provides Fluent Interface
      */
-    public function setTokenizer(TokenizerInterface $tokenizer) {
+    public function setTokenizer(TokenizerInterface $tokenizer)
+    {
         $this->tokenizer = $tokenizer;
+
         return $this;
     }
 
@@ -99,16 +106,19 @@ class StandardAnalyzer implements AnalyzerInterface {
      * @param null $delimiter
      * @return Tokenizer
      */
-    public function createTokenizer($class = null, $delimiter = null) {
+    public function createTokenizer($class = null, $delimiter = null)
+    {
         $tokenizer = new Tokenizer($class, $delimiter);
         $this->setTokenizer($tokenizer);
+
         return $tokenizer;
     }
 
     /**
      * @return FilterInterface[]
      */
-    public function getFilters() {
+    public function getFilters()
+    {
         return $this->filters;
     }
 
@@ -116,8 +126,10 @@ class StandardAnalyzer implements AnalyzerInterface {
      * @param FilterInterface $filter
      * @return $this
      */
-    public function addFilter(FilterInterface $filter) {
+    public function addFilter(FilterInterface $filter)
+    {
         $this->filters[] = $filter;
+
         return $this;
     }
 
@@ -125,10 +137,13 @@ class StandardAnalyzer implements AnalyzerInterface {
      * @param FilterInterface[] $filters
      * @return $this - Provides Fluent Interface
      */
-    public function setFilters(array $filters) {
+    public function setFilters(array $filters)
+    {
         $this->filters = array();
-        foreach ($filters AS $filter)
+        foreach ($filters AS $filter) {
             $this->addFilter($filter);
+        }
+
         return $this;
     }
 
@@ -137,9 +152,11 @@ class StandardAnalyzer implements AnalyzerInterface {
      * @param array $attributes
      * @return Filter
      */
-    public function createFilter($class, $attributes = array()) {
+    public function createFilter($class, $attributes = array())
+    {
         $filter = new Filter($class, $attributes);
         $this->addFilter($filter);
+
         return $filter;
     }
 
@@ -148,8 +165,8 @@ class StandardAnalyzer implements AnalyzerInterface {
      *
      * @return array
      */
-    public function castAsArray() {
-
+    public function castAsArray()
+    {
         $out = array();
 
         if ($this->getClass())
@@ -160,12 +177,14 @@ class StandardAnalyzer implements AnalyzerInterface {
         }
 
         if ($this->getFilters()) {
-            $out['filters'] = array_map(function (FilterInterface $filter) {
-                return $filter->castAsArray();
-            }, $this->getFilters());
+            $out['filters'] = array_map(
+                function (FilterInterface $filter) {
+                    return $filter->castAsArray();
+                },
+                $this->getFilters()
+            );
         }
 
         return $out;
     }
-
 }

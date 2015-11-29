@@ -45,15 +45,15 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class ReplaceDynamicField
  * @author Beno!t POLASZEK
  */
-class ReplaceDynamicField extends ReplaceField implements ArrayableInterface {
-
+class ReplaceDynamicField extends ReplaceField implements ArrayableInterface
+{
      /**
-     * Returns command type, for use in adapters
-     *
-     * @return string
-     */
-    public function getType() {
+      * Returns command type, for use in adapters
+      *
+      * @return string
+      */
+    public function getType()
+    {
         return SchemaQuery::COMMAND_REPLACE_DYNAMIC_FIELD;
     }
-
 }

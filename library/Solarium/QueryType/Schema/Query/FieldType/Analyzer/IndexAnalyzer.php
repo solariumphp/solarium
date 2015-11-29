@@ -42,13 +42,13 @@ namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer;
  * Class IndexAnalyzer
  * @author Beno!t POLASZEK
  */
-class IndexAnalyzer extends StandardAnalyzer {
-
+class IndexAnalyzer extends StandardAnalyzer
+{
     /**
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return 'indexAnalyzer';
     }
-
 }

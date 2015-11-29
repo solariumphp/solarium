@@ -46,8 +46,8 @@ use Solarium\Core\StringableInterface;
  * Interface FieldInterface
  * @author Beno!t POLASZEK
  */
-interface FieldInterface extends ArrayableInterface, StringableInterface {
-
+interface FieldInterface extends ArrayableInterface, StringableInterface
+{
     /**
      * @param array $attributes
      */

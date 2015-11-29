@@ -48,8 +48,8 @@ use Solarium\QueryType\Schema\Query\Query AS SchemaQuery;
  * Build a schema request
  * @author Beno!t POLASZEK
  */
-class RequestBuilder extends BaseRequestBuilder {
-
+class RequestBuilder extends BaseRequestBuilder
+{
     /**
      * Build request for an update query
      *
@@ -58,9 +58,9 @@ class RequestBuilder extends BaseRequestBuilder {
      */
     public function build(QueryInterface $query)
     {
-
-        if (!$query instanceof SchemaQuery)
+        if (!$query instanceof SchemaQuery) {
             throw new RuntimeException('The query must be an instance of Solarium\\QueryType\\Schema\\Query\\Query');
+        }
 
         $request = parent::build($query);
         $request->setMethod($query->hasCommands() ? Request::METHOD_POST : Request::METHOD_GET);
@@ -68,5 +68,4 @@ class RequestBuilder extends BaseRequestBuilder {
 
         return $request;
     }
-
 }

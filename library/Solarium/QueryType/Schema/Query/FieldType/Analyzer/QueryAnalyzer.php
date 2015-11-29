@@ -42,13 +42,13 @@ namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer;
  * Class QueryAnalyzer
  * @author Beno!t POLASZEK
  */
-class QueryAnalyzer extends StandardAnalyzer {
-
+class QueryAnalyzer extends StandardAnalyzer
+{
     /**
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return 'queryAnalyzer';
     }
-
 }

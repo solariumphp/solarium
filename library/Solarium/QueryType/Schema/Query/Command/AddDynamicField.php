@@ -45,15 +45,15 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class AddDynamicField
  * @author Beno!t POLASZEK
  */
-class AddDynamicField extends AddField implements ArrayableInterface {
-
+class AddDynamicField extends AddField implements ArrayableInterface
+{
      /**
      * Returns command type, for use in adapters
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return SchemaQuery::COMMAND_ADD_DYNAMIC_FIELD;
     }
-
 }

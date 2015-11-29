@@ -2,8 +2,7 @@
 
 namespace Solarium\Core;
 
-
-interface StringableInterface {
-
+interface StringableInterface
+{
     public function __toString();
 }

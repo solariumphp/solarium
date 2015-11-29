@@ -49,8 +49,8 @@ use Solarium\QueryType\Schema\Query\FieldType\Analyzer\StandardAnalyzer;
  * Class FieldType
  * @author Beno!t POLASZEK
  */
-class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface {
-
+class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
+{
     protected $name;
     protected $class;
     protected $positionIncrementGap;
@@ -72,7 +72,8 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
     protected $termPayloads;
     protected $analyzers = array();
 
-    public function __construct($name = null, $class = null) {
+    public function __construct($name = null, $class = null)
+    {
         $this->name = $name;
         $this->class = $class;
     }
@@ -80,7 +81,8 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
     /**
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -88,15 +90,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param string $name
      * @return $this - Provides Fluent Interface
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getClass() {
+    public function getClass()
+    {
         return $this->class;
     }
 
@@ -104,15 +109,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param string $class
      * @return $this - Provides Fluent Interface
      */
-    public function setClass($class) {
+    public function setClass($class)
+    {
         $this->class = $class;
+
         return $this;
     }
 
     /**
      * @return int
      */
-    public function getPositionIncrementGap() {
+    public function getPositionIncrementGap()
+    {
         return $this->positionIncrementGap;
     }
 
@@ -120,15 +128,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param int $positionIncrementGap
      * @return $this - Provides Fluent Interface
      */
-    public function setPositionIncrementGap($positionIncrementGap) {
+    public function setPositionIncrementGap($positionIncrementGap)
+    {
         $this->positionIncrementGap = $positionIncrementGap;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isAutoGeneratePhraseQueries() {
+    public function isAutoGeneratePhraseQueries()
+    {
         return $this->autoGeneratePhraseQueries;
     }
 
@@ -136,15 +147,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $autoGeneratePhraseQueries
      * @return $this - Provides Fluent Interface
      */
-    public function setAutoGeneratePhraseQueries($autoGeneratePhraseQueries) {
+    public function setAutoGeneratePhraseQueries($autoGeneratePhraseQueries)
+    {
         $this->autoGeneratePhraseQueries = (bool) $autoGeneratePhraseQueries;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getDocValuesFormat() {
+    public function getDocValuesFormat()
+    {
         return $this->docValuesFormat;
     }
 
@@ -152,15 +166,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param string $docValuesFormat
      * @return $this - Provides Fluent Interface
      */
-    public function setDocValuesFormat($docValuesFormat) {
+    public function setDocValuesFormat($docValuesFormat)
+    {
         $this->docValuesFormat = $docValuesFormat;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getPostingsFormat() {
+    public function getPostingsFormat()
+    {
         return $this->postingsFormat;
     }
 
@@ -168,15 +185,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param string $postingsFormat
      * @return $this - Provides Fluent Interface
      */
-    public function setPostingsFormat($postingsFormat) {
+    public function setPostingsFormat($postingsFormat)
+    {
         $this->postingsFormat = $postingsFormat;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isIndexed() {
+    public function isIndexed()
+    {
         return $this->indexed;
     }
 
@@ -184,15 +204,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $indexed
      * @return $this - Provides Fluent Interface
      */
-    public function setIndexed($indexed) {
+    public function setIndexed($indexed)
+    {
         $this->indexed = (bool) $indexed;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isStored() {
+    public function isStored()
+    {
         return $this->stored;
     }
 
@@ -200,15 +223,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $stored
      * @return $this - Provides Fluent Interface
      */
-    public function setStored($stored) {
+    public function setStored($stored)
+    {
         $this->stored = (bool) $stored;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isDocValues() {
+    public function isDocValues()
+    {
         return $this->docValues;
     }
 
@@ -216,15 +242,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $docValues
      * @return $this - Provides Fluent Interface
      */
-    public function setDocValues($docValues) {
+    public function setDocValues($docValues)
+    {
         $this->docValues = (bool) $docValues;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isSortMissingFirst() {
+    public function isSortMissingFirst()
+    {
         return $this->sortMissingFirst;
     }
 
@@ -232,15 +261,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $sortMissingFirst
      * @return $this - Provides Fluent Interface
      */
-    public function setSortMissingFirst($sortMissingFirst) {
+    public function setSortMissingFirst($sortMissingFirst)
+    {
         $this->sortMissingFirst = (bool) $sortMissingFirst;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isSortMissingLast() {
+    public function isSortMissingLast()
+    {
         return $this->sortMissingLast;
     }
 
@@ -248,15 +280,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $sortMissingLast
      * @return $this - Provides Fluent Interface
      */
-    public function setSortMissingLast($sortMissingLast) {
+    public function setSortMissingLast($sortMissingLast)
+    {
         $this->sortMissingLast = (bool) $sortMissingLast;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isMultiValued() {
+    public function isMultiValued()
+    {
         return $this->multiValued;
     }
 
@@ -264,15 +299,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $multiValued
      * @return $this - Provides Fluent Interface
      */
-    public function setMultiValued($multiValued) {
+    public function setMultiValued($multiValued)
+    {
         $this->multiValued = (bool) $multiValued;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isOmitNorms() {
+    public function isOmitNorms()
+    {
         return $this->omitNorms;
     }
 
@@ -280,15 +318,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $omitNorms
      * @return $this - Provides Fluent Interface
      */
-    public function setOmitNorms($omitNorms) {
+    public function setOmitNorms($omitNorms)
+    {
         $this->omitNorms = (bool) $omitNorms;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isOmitTermFreqAndPositions() {
+    public function isOmitTermFreqAndPositions()
+    {
         return $this->omitTermFreqAndPositions;
     }
 
@@ -296,15 +337,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $omitTermFreqAndPositions
      * @return $this - Provides Fluent Interface
      */
-    public function setOmitTermFreqAndPositions($omitTermFreqAndPositions) {
+    public function setOmitTermFreqAndPositions($omitTermFreqAndPositions)
+    {
         $this->omitTermFreqAndPositions = (bool) $omitTermFreqAndPositions;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isOmitPositions() {
+    public function isOmitPositions()
+    {
         return $this->omitPositions;
     }
 
@@ -312,15 +356,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $omitPositions
      * @return $this - Provides Fluent Interface
      */
-    public function setOmitPositions($omitPositions) {
+    public function setOmitPositions($omitPositions)
+    {
         $this->omitPositions = (bool) $omitPositions;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isTermVectors() {
+    public function isTermVectors()
+    {
         return $this->termVectors;
     }
 
@@ -328,15 +375,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $termVectors
      * @return $this - Provides Fluent Interface
      */
-    public function setTermVectors($termVectors) {
+    public function setTermVectors($termVectors)
+    {
         $this->termVectors = (bool) $termVectors;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isTermPositions() {
+    public function isTermPositions()
+    {
         return $this->termPositions;
     }
 
@@ -344,15 +394,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $termPositions
      * @return $this - Provides Fluent Interface
      */
-    public function setTermPositions($termPositions) {
+    public function setTermPositions($termPositions)
+    {
         $this->termPositions = (bool) $termPositions;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isTermOffsets() {
+    public function isTermOffsets()
+    {
         return $this->termOffsets;
     }
 
@@ -360,15 +413,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $termOffsets
      * @return $this - Provides Fluent Interface
      */
-    public function setTermOffsets($termOffsets) {
+    public function setTermOffsets($termOffsets)
+    {
         $this->termOffsets = (bool) $termOffsets;
+
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isTermPayloads() {
+    public function isTermPayloads()
+    {
         return $this->termPayloads;
     }
 
@@ -376,15 +432,18 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param boolean $termPayloads
      * @return $this - Provides Fluent Interface
      */
-    public function setTermPayloads($termPayloads) {
+    public function setTermPayloads($termPayloads)
+    {
         $this->termPayloads = (bool) $termPayloads;
+
         return $this;
     }
 
     /**
      * @return AnalyzerInterface[]
      */
-    public function getAnalyzers() {
+    public function getAnalyzers()
+    {
         return $this->analyzers;
     }
 
@@ -392,10 +451,13 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param AnalyzerInterface[] $analyzers
      * @return $this - Provides Fluent Interface
      */
-    public function setAnalyzers(array $analyzers) {
+    public function setAnalyzers(array $analyzers)
+    {
         $this->analyzers = array();
-        foreach ($analyzers AS $analyzer)
+        foreach ($analyzers AS $analyzer) {
             $this->addAnalyzer($analyzer);
+        }
+
         return $this;
     }
 
@@ -403,8 +465,10 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param AnalyzerInterface $analyzer
      * @return $this
      */
-    public function addAnalyzer(AnalyzerInterface $analyzer) {
+    public function addAnalyzer(AnalyzerInterface $analyzer)
+    {
         $this->analyzers[$analyzer->getType()] = $analyzer;
+
         return $this;
     }
 
@@ -412,7 +476,8 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param null $type
      * @return AnalyzerInterface|StandardAnalyzer|IndexAnalyzer|QueryAnalyzer
      */
-    public function createAnalyzer($type = null) {
+    public function createAnalyzer($type = null)
+    {
         switch ($type) {
             case 'index' :
                 $analyzer = new IndexAnalyzer();
@@ -427,6 +492,7 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
                 throw new OutOfBoundsException("Invalid analyzer type");
         }
         $this->addAnalyzer($analyzer);
+
         return $analyzer;
     }
 
@@ -435,8 +501,8 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      *
      * @return array
      */
-    public function castAsArray() {
-
+    public function castAsArray()
+    {
         $out = array();
 
         $attributes = array(
@@ -461,14 +527,19 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
             'termPayloads',
         );
 
-        foreach ($attributes AS $attribute)
-            if (!is_null($this[$attribute]))
+        foreach ($attributes AS $attribute) {
+            if (!is_null($this[$attribute])) {
                 $out[$attribute] = $this[$attribute];
+            }
+        }
 
         if ($this->getAnalyzers()) {
-            $out = array_merge($out, array_map(function (AnalyzerInterface $analyzer) {
-                return $analyzer->castAsArray();
-            }, $this->getAnalyzers()));
+            $out = array_merge($out, array_map(
+                function (AnalyzerInterface $analyzer) {
+                    return $analyzer->castAsArray();
+                },
+                $this->getAnalyzers()
+            ));
         }
 
         return $out;
@@ -477,7 +548,8 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
     /**
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getName();
     }
 
@@ -486,8 +558,11 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param mixed $offset
      * @return bool
      */
-    public function offsetExists($offset) {
-        return method_exists($this, 'get' . $offset) || method_exists($this, 'is' . $offset) || (stripos($offset, 'is') === 0 && method_exists($this, $offset));
+    public function offsetExists($offset)
+    {
+        return method_exists($this, 'get' . $offset)
+            || method_exists($this, 'is' . $offset)
+            || (stripos($offset, 'is') === 0 && method_exists($this, $offset));
     }
 
     /**
@@ -495,18 +570,17 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param mixed $offset
      * @return mixed|null
      */
-    public function offsetGet($offset) {
-        if (method_exists($this, 'get' . $offset))
+    public function offsetGet($offset)
+    {
+        if (method_exists($this, 'get' . $offset)) {
             return call_user_func([$this, 'get' . $offset]);
-
-        elseif (method_exists($this, 'is' . $offset))
+        } elseif (method_exists($this, 'is' . $offset)) {
             return call_user_func([$this, 'is' . $offset]);
-
-        elseif (stripos($offset, 'is') === 0 && method_exists($this, $offset))
+        } elseif (stripos($offset, 'is') === 0 && method_exists($this, $offset)) {
             return call_user_func([$this, $offset]);
+        }
 
-        else
-            return null;
+        return null;
     }
 
     /**
@@ -515,8 +589,11 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param mixed $value
      * @return $this
      */
-    public function offsetSet($offset, $value) {
-        return method_exists($this, 'set' . $offset) ? call_user_func([$this, 'set' . $offset], $value) : $this;
+    public function offsetSet($offset, $value)
+    {
+        return (method_exists($this, 'set' . $offset))
+            ? call_user_func([$this, 'set' . $offset], $value)
+            : $this;
     }
 
     /**
@@ -524,8 +601,8 @@ class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
      * @param mixed $offset
      * @return $this
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         return $this->offsetSet($offset, null);
     }
-
 }

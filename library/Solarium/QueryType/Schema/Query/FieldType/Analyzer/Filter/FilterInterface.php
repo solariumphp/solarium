@@ -39,15 +39,14 @@
 
 namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer\Filter;
 
-
 use Solarium\Core\ArrayableInterface;
 
 /**
  * Interface FilterInterface
  * @author Beno!t POLASZEK
  */
-interface FilterInterface extends ArrayableInterface {
-
+interface FilterInterface extends ArrayableInterface
+{
     /**
      * @return string
      */
@@ -57,5 +56,4 @@ interface FilterInterface extends ArrayableInterface {
      * @return array
      */
     public function getAttributes();
-
 }

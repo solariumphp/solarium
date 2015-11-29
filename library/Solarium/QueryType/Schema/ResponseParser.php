@@ -50,14 +50,16 @@ use Solarium\QueryType\Schema\Query\FieldType\FieldType;
  * Parse schema response data
  * @author Beno!t POLASZEK
  */
-class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface {
+class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
+{
     /**
      * Parse response data
      *
      * @param  Result $result
      * @return array
      */
-    public function parse($result) {
+    public function parse($result)
+    {
         $data = $result->getData();
 
         $errors = isset($data['errors']) ? $data['errors'] : null;
@@ -79,8 +81,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
                     if (in_array($key, array('analyzer', 'indexAnalyzer', 'queryAnalyzer')) && $value instanceof AnalyzerInterface) {
                         $_fieldType->addAnalyzer($value);
-                    }
-                    elseif (in_array($key, array('analyzer', 'indexAnalyzer', 'queryAnalyzer')) && is_array($value)) {
+                    } elseif (in_array($key, array('analyzer', 'indexAnalyzer', 'queryAnalyzer')) && is_array($value)) {
                         switch ($key) {
                             case 'indexAnalyzer':
                                 $analyzer = 'index';
@@ -105,9 +106,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
                         }
 
                         if (!empty($value['filters'])) {
-
                             foreach ($value['filters'] AS $filter) {
-
                                 $_filter = $analyzer->createFilter($filter['class']);
                                 foreach ($filter AS $attrName => $attrValue) {
                                     if ($attrName != 'class') {
@@ -118,13 +117,9 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
                         }
 
-                    }
-
-                    else {
+                    } else {
                         $_fieldType[$key] = $value;
                     }
-
-
                 }
 
                 $fieldTypes[$fieldType['name']] = $_fieldType;
@@ -149,12 +144,9 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         if (isset($data['schema']['copyFields'])) {
 
             foreach ($data['schema']['copyFields'] AS $field) {
-
                 if (array_key_exists($field['source'], $copyFields)) {
                     $copyFields[$field['source']]->addDest($field['dest']);
-                }
-
-                else {
+                } else {
                     $copyFields[$field['source']] = new CopyField($field['source'], $field['dest']);
                     if (isset($field['maxChars'])) {
                         $copyFields[$field['source']]->setMaxChars($field['maxChars']);

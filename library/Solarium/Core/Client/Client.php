@@ -1080,7 +1080,7 @@ class Client extends Configurable
     /**
      * Create a schema query instance.
      *
-     * @param mixed $options
+     * @param mixed                                   $options
      * @return \Solarium\QueryType\Schema\Query\Query
      */
     public function createSchema($options = null)

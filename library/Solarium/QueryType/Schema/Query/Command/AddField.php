@@ -48,8 +48,8 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class AddField
  * @author Beno!t POLASZEK
  */
-class AddField extends Command implements ArrayableInterface {
-
+class AddField extends Command implements ArrayableInterface
+{
     /**
      * @var FieldInterface[]|Field[]
      */
@@ -60,14 +60,16 @@ class AddField extends Command implements ArrayableInterface {
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return SchemaQuery::COMMAND_ADD_FIELD;
     }
 
     /**
      * @return Field[]|FieldInterface[]
      */
-    public function getFields() {
+    public function getFields()
+    {
         return $this->fields;
     }
 
@@ -75,9 +77,11 @@ class AddField extends Command implements ArrayableInterface {
      * @param Field[]|FieldInterface[] $fields
      * @return $this - Provides Fluent Interface
      */
-    public function setFields(array $fields) {
+    public function setFields(array $fields)
+    {
         $this->fields = array();
         $this->addFields($fields);
+
         return $this;
     }
 
@@ -85,9 +89,12 @@ class AddField extends Command implements ArrayableInterface {
      * @param Field[]|FieldInterface[] $fields
      * @return $this - Provides Fluent Interface
      */
-    public function addFields(array $fields) {
-        foreach ($fields AS $field)
-            is_array($field) ? $this->createField($field) : $this->addField($field);
+    public function addFields(array $fields)
+    {
+        foreach ($fields AS $field) {
+            (is_array($field)) ? $this->createField($field) : $this->addField($field);
+        }
+
         return $this;
     }
 
@@ -95,9 +102,12 @@ class AddField extends Command implements ArrayableInterface {
      * @param FieldInterface $field
      * @return $this
      */
-    public function addField(FieldInterface $field) {
-        if (!array_key_exists((string) $field, $this->getFields()))
+    public function addField(FieldInterface $field)
+    {
+        if (!array_key_exists((string) $field, $this->getFields())) {
             $this->fields[(string) $field] = $field;
+        }
+
         return $this;
     }
 
@@ -105,21 +115,27 @@ class AddField extends Command implements ArrayableInterface {
      * @param array $attributes
      * @return $this
      */
-    public function createField(array $attributes = array()) {
-        if (!array_key_exists('name', $attributes))
+    public function createField(array $attributes = array())
+    {
+        if (!array_key_exists('name', $attributes)) {
             throw new RuntimeException("A field must have a name attribute.");
+        }
         $field = new Field($attributes);
         $this->addField($field);
+
         return $field;
     }
 
     /**
      * @return array
      */
-    public function castAsArray() {
-        return array_values(array_map(function (FieldInterface $field) {
-            return $field->castAsArray();
-        }, $this->getFields()));
+    public function castAsArray()
+    {
+        return array_values(array_map(
+            function (FieldInterface $field) {
+                return $field->castAsArray();
+            },
+            $this->getFields()
+        ));
     }
-
 }

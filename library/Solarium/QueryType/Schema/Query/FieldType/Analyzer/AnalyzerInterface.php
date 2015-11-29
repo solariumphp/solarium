@@ -46,8 +46,8 @@ use Solarium\QueryType\Schema\Query\FieldType\Analyzer\Tokenizer\TokenizerInterf
  * Interface AnalyzerInterface
  * @author Beno!t POLASZEK
  */
-interface AnalyzerInterface extends ArrayableInterface {
-
+interface AnalyzerInterface extends ArrayableInterface
+{
     /**
      * Analyzer type. Can be 'analyzer', 'indexAnalyzer', or 'queryAnalyzer'
      * @see https://cwiki.apache.org/confluence/display/solr/Analyzers
@@ -69,5 +69,4 @@ interface AnalyzerInterface extends ArrayableInterface {
      * @return FilterInterface[]
      */
     public function getFilters();
-
 }

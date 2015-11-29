@@ -184,7 +184,8 @@ class Result extends BaseResult
      * @param $fieldType
      * @return null|FieldType
      */
-    public function getFieldType($fieldType) {
+    public function getFieldType($fieldType)
+    {
         return array_key_exists($fieldType, $this->getFieldTypes()) ? $this->fieldTypes[$fieldType] : null;
     }
 
@@ -192,7 +193,8 @@ class Result extends BaseResult
      * @param $fieldName
      * @return null|Field
      */
-    public function getField($fieldName) {
+    public function getField($fieldName)
+    {
         return array_key_exists($fieldName, $this->getFields()) ? $this->fields[$fieldName] : null;
     }
 
@@ -200,7 +202,8 @@ class Result extends BaseResult
      * @param $fieldName
      * @return null|Field
      */
-    public function getDynamicField($fieldName) {
+    public function getDynamicField($fieldName)
+    {
         return array_key_exists($fieldName, $this->getDynamicFields()) ? $this->dynamicFields[$fieldName] : null;
     }
 
@@ -208,7 +211,8 @@ class Result extends BaseResult
      * @param $source
      * @return null|CopyField
      */
-    public function getCopyField($source) {
+    public function getCopyField($source)
+    {
         return array_key_exists($source, $this->getCopyFields()) ? $this->copyFields[$source] : null;
     }
 
@@ -260,5 +264,4 @@ class Result extends BaseResult
     {
         return (bool) $this->getErrors();
     }
-
 }

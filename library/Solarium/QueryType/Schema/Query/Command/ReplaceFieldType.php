@@ -36,23 +36,23 @@
 /**
  * @namespace
  */
-
 namespace Solarium\QueryType\Schema\Query\Command;
+
 use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
 
 /**
  * Class ReplaceFieldType
  * @author Beno!t POLASZEK
  */
-class ReplaceFieldType extends AddFieldType {
-
+class ReplaceFieldType extends AddFieldType
+{
     /**
      * Returns command type, for use in adapters
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return SchemaQuery::COMMAND_REPLACE_FIELD_TYPE;
     }
-
 }

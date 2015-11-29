@@ -45,14 +45,15 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class DeleteDynamicField
  * @author Beno!t POLASZEK
  */
-class DeleteDynamicField extends DeleteField implements ArrayableInterface {
-
+class DeleteDynamicField extends DeleteField implements ArrayableInterface
+{
      /**
      * Returns command type, for use in adapters
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return SchemaQuery::COMMAND_DELETE_DYNAMIC_FIELD;
     }
 

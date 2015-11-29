@@ -47,8 +47,8 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class AddCopyField
  * @author Beno!t POLASZEK
  */
-class AddCopyField extends Command implements ArrayableInterface {
-
+class AddCopyField extends Command implements ArrayableInterface
+{
     /**
      * @var CopyField[]
      */
@@ -59,14 +59,16 @@ class AddCopyField extends Command implements ArrayableInterface {
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return SchemaQuery::COMMAND_ADD_COPY_FIELD;
     }
 
     /**
      * @return CopyField[]
      */
-    public function getFields() {
+    public function getFields()
+    {
         return $this->fields;
     }
 
@@ -74,9 +76,11 @@ class AddCopyField extends Command implements ArrayableInterface {
      * @param CopyField[] $fields
      * @return $this - Provides Fluent Interface
      */
-    public function setFields(array $fields) {
+    public function setFields(array $fields)
+    {
         $this->fields = array();
         $this->addFields($fields);
+
         return $this;
     }
 
@@ -84,9 +88,12 @@ class AddCopyField extends Command implements ArrayableInterface {
      * @param CopyField[] $fields
      * @return $this - Provides Fluent Interface
      */
-    public function addFields(array $fields) {
-        foreach ($fields AS $field)
-            is_array($field) ? $this->createField($field) : $this->addField($field);
+    public function addFields(array $fields)
+    {
+        foreach ($fields AS $field) {
+            (is_array($field)) ? $this->createField($field) : $this->addField($field);
+        }
+
         return $this;
     }
 
@@ -94,9 +101,12 @@ class AddCopyField extends Command implements ArrayableInterface {
      * @param CopyField $field
      * @return $this
      */
-    public function addField(CopyField $field) {
-        if (!array_key_exists((string) $field, $this->getFields()))
+    public function addField(CopyField $field)
+    {
+        if (!array_key_exists((string) $field, $this->getFields())) {
             $this->fields[(string) $field] = $field;
+        }
+
         return $this;
     }
 
@@ -104,23 +114,34 @@ class AddCopyField extends Command implements ArrayableInterface {
      * @param array $attributes
      * @return $this
      */
-    public function createField(array $attributes = array()) {
-        if (!array_key_exists('source', $attributes))
+    public function createField(array $attributes = array())
+    {
+        if (!array_key_exists('source', $attributes)) {
             throw new RuntimeException("A copyField must have a source attribute.");
-        if (!array_key_exists('dest', $attributes))
+        }
+        if (!array_key_exists('dest', $attributes)) {
             throw new RuntimeException("A copyField must have a dest attribute.");
-        $copyField = new CopyField($attributes['source'], $attributes['dest'], isset($attributes['maxChars']) ? $attributes['maxChars'] : null);
+        }
+        $copyField = new CopyField(
+            $attributes['source'],
+            $attributes['dest'],
+            (isset($attributes['maxChars'])) ? $attributes['maxChars'] : null
+        );
         $this->addField($copyField);
+
         return $copyField;
     }
 
     /**
      * @return array
      */
-    public function castAsArray() {
-        return array_values(array_map(function (CopyField $copyField) {
-            return $copyField->castAsArray();
-        }, $this->getFields()));
+    public function castAsArray()
+    {
+        return array_values(array_map(
+            function (CopyField $copyField) {
+                return $copyField->castAsArray();
+            },
+            $this->getFields()
+        ));
     }
-
 }

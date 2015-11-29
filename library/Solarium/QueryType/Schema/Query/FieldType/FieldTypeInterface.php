@@ -44,8 +44,8 @@ use Solarium\Core\ArrayableInterface;
  * Interface FieldTypeInterface
  * @author Beno!t POLASZEK
  */
-interface FieldTypeInterface extends ArrayableInterface {
-
+interface FieldTypeInterface extends ArrayableInterface
+{
     public function getName();
 
     public function getClass();

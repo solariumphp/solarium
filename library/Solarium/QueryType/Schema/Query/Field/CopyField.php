@@ -45,24 +45,32 @@ use Solarium\Core\StringableInterface;
  * Class CopyField
  * @author Beno!t POLASZEK
  */
-class CopyField implements ArrayableInterface, StringableInterface {
-
+class CopyField implements ArrayableInterface, StringableInterface
+{
     protected $source = '';
 
     protected $dest = array();
 
     protected $maxChars;
 
-    public function __construct($source = null, $dest = null, $maxChars = null) {
-        is_null($source) ?: $this->setSource($source);
-        is_null($dest) ?: $this->setDest($dest);
-        is_null($maxChars) ?: $this->setMaxChars($maxChars);
+    public function __construct($source = null, $dest = null, $maxChars = null)
+    {
+        if (is_null($source)) {
+            $this->setSource($source);
+        }
+        if (is_null($dest)) {
+            $this->setDest($dest);
+        }
+        if (is_null($maxChars)) {
+            $this->setMaxChars($maxChars);
+        }
     }
 
     /**
      * @return string
      */
-    public function getSource() {
+    public function getSource()
+    {
         return $this->source;
     }
 
@@ -70,15 +78,18 @@ class CopyField implements ArrayableInterface, StringableInterface {
      * @param string $source
      * @return $this - Provides Fluent Interface
      */
-    public function setSource($source) {
+    public function setSource($source)
+    {
         $this->source = $source;
+
         return $this;
     }
 
     /**
      * @return array
      */
-    public function getDest() {
+    public function getDest()
+    {
         return $this->dest;
     }
 
@@ -86,10 +97,19 @@ class CopyField implements ArrayableInterface, StringableInterface {
      * @param array $dest
      * @return $this - Provides Fluent Interface
      */
-    public function setDest($dest) {
-        $this->dest = is_array($dest)? array_map(function($field) {
-            return (string) $field;
-        }, $dest) : array((string) $dest);
+    public function setDest($dest)
+    {
+        if (is_array($dest)) {
+            $this->dest = array_map(
+                function($field) {
+                    return (string) $field;
+                },
+                $dest
+            );
+        } else {
+            $this->dest = array((string) $dest);
+        }
+
         return $this;
     }
 
@@ -97,20 +117,24 @@ class CopyField implements ArrayableInterface, StringableInterface {
      * @param $dest
      * @return $this
      */
-    public function addDest($dest) {
-        if (!$this->dest)
+    public function addDest($dest)
+    {
+        if (!$this->dest) {
             $this->dest = $dest;
-        elseif (is_array($this->dest))
+        } elseif (is_array($this->dest)) {
             $this->dest[] = $dest;
-        else
+        } else {
             $this->dest = array($this->dest, $dest);
+        }
+
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getMaxChars() {
+    public function getMaxChars()
+    {
         return $this->maxChars;
     }
 
@@ -118,8 +142,10 @@ class CopyField implements ArrayableInterface, StringableInterface {
      * @param mixed $maxChars
      * @return $this - Provides Fluent Interface
      */
-    public function setMaxChars($maxChars) {
-        $this->maxChars = is_null($maxChars) ? null : (int) $maxChars;
+    public function setMaxChars($maxChars)
+    {
+        $this->maxChars = (!is_null($maxChars)) ? (int) $maxChars : null;
+
         return $this;
     }
 
@@ -128,20 +154,24 @@ class CopyField implements ArrayableInterface, StringableInterface {
      *
      * @return array
      */
-    public function castAsArray() {
+    public function castAsArray()
+    {
         $output = array(
             'source' => $this->getSource(),
             'dest' => $this->getDest(),
         );
-        if (!is_null($this->getMaxChars()))
+        if (!is_null($this->getMaxChars())) {
             $output['maxChars'] = $this->getMaxChars();
+        }
+
         return $output;
     }
 
     /**
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getSource();
     }
 

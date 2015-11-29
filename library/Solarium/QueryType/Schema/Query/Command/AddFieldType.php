@@ -48,8 +48,8 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class AddFieldType
  * @author Beno!t POLASZEK
  */
-class AddFieldType extends Command implements ArrayableInterface {
-
+class AddFieldType extends Command implements ArrayableInterface
+{
     /**
      * @var FieldTypeInterface[]
      */
@@ -60,14 +60,16 @@ class AddFieldType extends Command implements ArrayableInterface {
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return SchemaQuery::COMMAND_ADD_FIELD_TYPE;
     }
 
     /**
      * @return FieldTypeInterface[]
      */
-    public function getFieldTypes() {
+    public function getFieldTypes()
+    {
         return $this->fieldTypes;
     }
 
@@ -75,9 +77,11 @@ class AddFieldType extends Command implements ArrayableInterface {
      * @param FieldTypeInterface[] $fieldTypes
      * @return $this - Provides Fluent Interface
      */
-    public function setFieldTypes(array $fieldTypes) {
+    public function setFieldTypes(array $fieldTypes)
+    {
         $this->fieldTypes = array();
         $this->addFieldTypes($fieldTypes);
+
         return $this;
     }
 
@@ -85,8 +89,10 @@ class AddFieldType extends Command implements ArrayableInterface {
      * @param FieldTypeInterface $fieldType
      * @return $this
      */
-    public function addFieldType(FieldTypeInterface $fieldType) {
+    public function addFieldType(FieldTypeInterface $fieldType)
+    {
         $this->fieldTypes[] = $fieldType;
+
         return $this;
     }
 
@@ -94,9 +100,12 @@ class AddFieldType extends Command implements ArrayableInterface {
      * @param FieldTypeInterface[] $fieldTypes
      * @return $this - Provides Fluent Interface
      */
-    public function addFieldTypes(array $fieldTypes) {
-        foreach ($fieldTypes AS $fieldType)
+    public function addFieldTypes(array $fieldTypes)
+    {
+        foreach ($fieldTypes AS $fieldType) {
             $this->addFieldType($fieldType);
+        }
+
         return $this;
     }
 
@@ -105,19 +114,24 @@ class AddFieldType extends Command implements ArrayableInterface {
      * @param null $class
      * @return FieldType
      */
-    public function createFieldType($name = null, $class = null) {
+    public function createFieldType($name = null, $class = null)
+    {
         $fieldType = new FieldType($name, $class);
         $this->addFieldType($fieldType);
+
         return $fieldType;
     }
 
     /**
      * @return array
      */
-    public function castAsArray() {
-        return array_values(array_map(function (FieldTypeInterface $fieldType) {
-            return $fieldType->castAsArray();
-        }, $this->getFieldTypes()));
+    public function castAsArray()
+    {
+        return array_values(array_map(
+            function (FieldTypeInterface $fieldType) {
+                return $fieldType->castAsArray();
+            },
+            $this->getFieldTypes()
+        ));
     }
-
 }

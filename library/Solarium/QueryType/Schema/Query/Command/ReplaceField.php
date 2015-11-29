@@ -45,8 +45,8 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class ReplaceField
  * @author Beno!t POLASZEK
  */
-class ReplaceField extends AddField implements ArrayableInterface {
-
+class ReplaceField extends AddField implements ArrayableInterface
+{
     /**
      * Returns command type, for use in adapters
      *
@@ -55,5 +55,4 @@ class ReplaceField extends AddField implements ArrayableInterface {
     public function getType() {
         return SchemaQuery::COMMAND_REPLACE_FIELD;
     }
-
 }

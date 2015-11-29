@@ -42,12 +42,13 @@ namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer\Filter;
  * Class Filter
  * @author Beno!t POLASZEK
  */
-class Filter implements FilterInterface, \ArrayAccess {
-
+class Filter implements FilterInterface, \ArrayAccess
+{
     protected $class = '';
     protected $attributes = array();
 
-    public function __construct($class = null, $attributes = array()) {
+    public function __construct($class = null, $attributes = array())
+    {
         $this->class = $class;
         $this->setAttributes($attributes);
     }
@@ -55,7 +56,8 @@ class Filter implements FilterInterface, \ArrayAccess {
     /**
      * @return string
      */
-    public function getClass() {
+    public function getClass()
+    {
         return $this->class;
     }
 
@@ -63,7 +65,8 @@ class Filter implements FilterInterface, \ArrayAccess {
      * @param string $class
      * @return $this - Provides Fluent Interface
      */
-    public function setClass($class) {
+    public function setClass($class)
+    {
         $this->class = $class;
         return $this;
     }
@@ -71,7 +74,8 @@ class Filter implements FilterInterface, \ArrayAccess {
     /**
      * @return array
      */
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return $this->attributes;
     }
 
@@ -79,9 +83,11 @@ class Filter implements FilterInterface, \ArrayAccess {
      * @param array $attributes
      * @return $this - Provides Fluent Interface
      */
-    public function setAttributes(array $attributes) {
+    public function setAttributes(array $attributes)
+    {
         $this->attributes = array();
         $this->addAttributes($attributes);
+
         return $this;
     }
 
@@ -89,9 +95,12 @@ class Filter implements FilterInterface, \ArrayAccess {
      * @param array $attributes
      * @return $this
      */
-    public function addAttributes(array $attributes) {
-        foreach ($attributes AS $name => $value)
+    public function addAttributes(array $attributes)
+    {
+        foreach ($attributes AS $name => $value) {
             $this->addAttribute($name, $value);
+        }
+
         return $this;
     }
 
@@ -100,8 +109,10 @@ class Filter implements FilterInterface, \ArrayAccess {
      * @param $value
      * @return $this
      */
-    public function addAttribute($name, $value) {
+    public function addAttribute($name, $value)
+    {
         $this->attributes[$name] = $value;
+
         return $this;
     }
 
@@ -110,65 +121,50 @@ class Filter implements FilterInterface, \ArrayAccess {
      *
      * @return array
      */
-    public function castAsArray() {
+    public function castAsArray()
+    {
         return array_merge(array('class' => $this->getClass()), $this->getAttributes());
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Whether a offset exists
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset <p>
-     *                      An offset to check for.
-     *                      </p>
+     * @param mixed $offset An offset to check for.
      * @return boolean true on success or false on failure.
-     *                      </p>
-     *                      <p>
      *                      The return value will be casted to boolean if non-boolean was returned.
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return array_key_exists($offset, $this->attributes);
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Offset to retrieve
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset <p>
-     *                      The offset to retrieve.
-     *                      </p>
+     * @param mixed $offset The offset to retrieve.
      * @return mixed Can return all value types.
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->attributes[$offset];
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Offset to set
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset <p>
-     *                      The offset to assign the value to.
-     *                      </p>
-     * @param mixed $value  <p>
-     *                      The value to set.
-     *                      </p>
+     * @param mixed $offset The offset to assign the value to.
+     * @param mixed $value  The value to set.
      * @return void
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         $this->attributes[$offset] = $value;
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Offset to unset
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset <p>
-     *                      The offset to unset.
-     *                      </p>
+     * @param mixed $offset The offset to unset.
      * @return void
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->attributes[$offset]);
     }
 }
