@@ -13,6 +13,7 @@
 - added: ClientInterface
 - improvement: Set hard paths in .gitignore to prevent tree lookups
 - added: Support for facet.contains settings
+- improvement: updated Symfony event dispatcher dependency to a maintained version
 
 ## 3.4.0 - 2015-06-14
 

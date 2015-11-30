@@ -9,11 +9,9 @@ php:
   - nightly
 
 env:
-  - SYMFONY_VERSION=2.1.*
-  - SYMFONY_VERSION=2.2.*
   - SYMFONY_VERSION=2.3.*
-  - SYMFONY_VERSION=2.4.*
-  - SYMFONY_VERSION=2.5.*
+  - SYMFONY_VERSION=2.7.*
+  - SYMFONY_VERSION=2.8.*
 
 before_script:
   - bash -c "if [ $TRAVIS_PHP_VERSION != 'hhvm' ] && [ $TRAVIS_PHP_VERSION != '5.3' ]; then printf '\n\n\n\n' | pecl install pecl_http-1.7.6; fi"
