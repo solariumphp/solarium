@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -43,14 +45,14 @@ use Solarium\QueryType\Select\RequestBuilder\Component\Debug as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Debug as ResponseParser;
 
 /**
- * Debug component
+ * Debug component.
  *
  * @link http://wiki.apache.org/solr/CommonQueryParameters#Debugging
  */
-class Debug extends Component
+class Debug extends AbstractComponent
 {
     /**
-     * Get component type
+     * Get component type.
      *
      * @return string
      */
@@ -60,27 +62,27 @@ class Debug extends Component
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Get the explainOther option
+     * Get the explainOther option.
      *
      * @return string|null
      */
@@ -90,10 +92,11 @@ class Debug extends Component
     }
 
     /**
-     * Set the explainOther query
+     * Set the explainOther query.
      *
-     * @param  string $query
-     * @return self   Provides fluent interface
+     * @param string $query
+     *
+     * @return self Provides fluent interface
      */
     public function setExplainOther($query)
     {

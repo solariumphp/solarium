@@ -30,53 +30,55 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Grouping;
 
 use Solarium\QueryType\Select\Query\Query;
 
 /**
- * Select component grouping query group result
+ * Select component grouping query group result.
  *
  * @since 2.1.0
  */
 class QueryGroup implements \IteratorAggregate, \Countable
 {
     /**
-     * Match count
+     * Match count.
      *
      * @var int
      */
     protected $matches;
 
     /**
-     * NumFound value
+     * NumFound value.
      *
      * @var int
      */
     protected $numFound;
 
     /**
-     * Start offset
+     * Start offset.
      *
      * @var int
      */
     protected $start;
 
     /**
-     * Maximum score in group
+     * Maximum score in group.
      *
      * @var float
      */
     protected $maximumScore;
 
     /**
-     * Group documents array
+     * Group documents array.
      *
      * @var array
      */
@@ -88,7 +90,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
     protected $query;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int   $matches
      * @param int   $numFound
@@ -107,10 +109,8 @@ class QueryGroup implements \IteratorAggregate, \Countable
         $this->query = $query;
     }
 
-
-
     /**
-     * Get matches value
+     * Get matches value.
      *
      * @return int
      */
@@ -120,7 +120,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get numFound value
+     * Get numFound value.
      *
      * @return int
      */
@@ -130,7 +130,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get start value
+     * Get start value.
      *
      * @return int
      */
@@ -140,7 +140,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get maximumScore value
+     * Get maximumScore value.
      *
      * @return int
      */
@@ -150,7 +150,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all documents
+     * Get all documents.
      *
      * @return array
      */
@@ -160,7 +160,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -170,7 +170,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

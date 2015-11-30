@@ -30,29 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Facet\Pivot;
 
 /**
- * Select field pivot result
- *
+ * Select field pivot result.
  */
 class Pivot implements \IteratorAggregate, \Countable
 {
     /**
-     * Value array
+     * Value array.
      *
      * @var array
      */
     protected $pivot = array();
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $data
      */
@@ -64,7 +65,7 @@ class Pivot implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get pivot results
+     * Get pivot results.
      *
      * @return Pivot[]
      */
@@ -74,7 +75,7 @@ class Pivot implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -84,7 +85,7 @@ class Pivot implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

@@ -30,22 +30,23 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin;
 
-use Solarium\Client;
-use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 
 /**
- * PostBigRequest plugin
+ * PostBigRequest plugin.
  *
  * If you reach the url/header length limit of your servlet container your queries will fail.
  * You can increase the limit in the servlet container, but if that's not possible this plugin can automatically
@@ -54,10 +55,10 @@ use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
  * The default maximum querystring length is 1024. This doesn't include the base url or headers.
  * For most servlet setups this limit leaves enough room for that extra data. Adjust the limit if needed.
  */
-class PostBigRequest extends Plugin
+class PostBigRequest extends AbstractPlugin
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -66,23 +67,11 @@ class PostBigRequest extends Plugin
     );
 
     /**
-     * Plugin init function
+     * Set maxquerystringlength enabled option.
      *
-     * Register event listeners
+     * @param integer $value
      *
-     * @return void
-     */
-    protected function initPluginType()
-    {
-        $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->addListener(Events::POST_CREATE_REQUEST, array($this, 'postCreateRequest'));
-    }
-
-    /**
-     * Set maxquerystringlength enabled option
-     *
-     * @param  integer $value
-     * @return self    Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setMaxQueryStringLength($value)
     {
@@ -90,7 +79,7 @@ class PostBigRequest extends Plugin
     }
 
     /**
-     * Get maxquerystringlength option
+     * Get maxquerystringlength option.
      *
      * @return integer
      */
@@ -100,10 +89,9 @@ class PostBigRequest extends Plugin
     }
 
     /**
-     * Event hook to adjust client settings just before query execution
+     * Event hook to adjust client settings just before query execution.
      *
-     * @param  PostCreateRequestEvent $event
-     * @return void
+     * @param PostCreateRequestEvent $event
      */
     public function postCreateRequest($event)
     {
@@ -111,11 +99,21 @@ class PostBigRequest extends Plugin
         $queryString = $request->getQueryString();
         if ($request->getMethod() == Request::METHOD_GET &&
             strlen($queryString) > $this->getMaxQueryStringLength()) {
-
             $request->setMethod(Request::METHOD_POST);
             $request->setRawData($queryString);
             $request->clearParams();
             $request->addHeader('Content-Type: application/x-www-form-urlencoded');
         }
+    }
+
+    /**
+     * Plugin init function.
+     *
+     * Register event listeners
+     */
+    protected function initPluginType()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(Events::POST_CREATE_REQUEST, array($this, 'postCreateRequest'));
     }
 }

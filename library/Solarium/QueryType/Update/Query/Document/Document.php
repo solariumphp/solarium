@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Document;
 
 use Solarium\Core\Query\Helper;
@@ -43,7 +45,7 @@ use Solarium\QueryType\Select\Result\AbstractDocument;
 use Solarium\Exception\RuntimeException;
 
 /**
- * Read/Write Solr document
+ * Read/Write Solr document.
  *
  * This document type is used for update queries. It has all of the features of
  * the readonly document and it also allows for updating or adding fields and
@@ -60,77 +62,77 @@ use Solarium\Exception\RuntimeException;
 class Document extends AbstractDocument implements DocumentInterface
 {
     /**
-     * Directive to set a value using atomic updates
+     * Directive to set a value using atomic updates.
      *
      * @var string
      */
     const MODIFIER_SET = 'set';
 
     /**
-     * Directive to increment an integer value using atomic updates
+     * Directive to increment an integer value using atomic updates.
      *
      * @var string
      */
     const MODIFIER_INC = 'inc';
 
     /**
-     * Directive to append a value (e.g. multivalued fields) using atomic updates
+     * Directive to append a value (e.g. multivalued fields) using atomic updates.
      *
      * @var string
      */
     const MODIFIER_ADD = 'add';
 
     /**
-     * Directive to remove a value (e.g. multivalued fields) using atomic updates
+     * Directive to remove a value (e.g. multivalued fields) using atomic updates.
      *
      * @var string
      */
     const MODIFIER_REMOVE = 'remove';
 
     /**
-     * This value has the same effect as not setting a version
+     * This value has the same effect as not setting a version.
      *
      * @var int
      */
     const VERSION_DONT_CARE = 0;
 
     /**
-     * This value requires an existing document with the same key, but no specific version
+     * This value requires an existing document with the same key, but no specific version.
      *
      * @var int
      */
     const VERSION_MUST_EXIST = 1;
 
     /**
-     * This value requires that no document with the same key exists (so no automatic overwrite like default)
+     * This value requires that no document with the same key exists (so no automatic overwrite like default).
      *
      * @var int
      */
     const VERSION_MUST_NOT_EXIST = -1;
 
     /**
-     * Document boost value
+     * Document boost value.
      *
      * @var float
      */
     protected $boost = null;
 
     /**
-     * Allows us to determine what kind of atomic update we want to set
+     * Allows us to determine what kind of atomic update we want to set.
      *
      * @var array
      */
     protected $modifiers = array();
 
     /**
-     * This field needs to be explicitly set to observe the rules of atomic updates
+     * This field needs to be explicitly set to observe the rules of atomic updates.
      *
      * @var string
      */
     protected $key;
 
     /**
-     * Field boosts
+     * Field boosts.
      *
      * Using fieldname as the key and the boost as the value
      *
@@ -139,7 +141,7 @@ class Document extends AbstractDocument implements DocumentInterface
     protected $fieldBoosts;
 
     /**
-     * Version value
+     * Version value.
      *
      * Can be used for updating using Solr's optimistic concurrency control
      *
@@ -148,7 +150,7 @@ class Document extends AbstractDocument implements DocumentInterface
     protected $version;
 
     /**
-     * Helper instance
+     * Helper instance.
      *
      * @var Helper
      */
@@ -157,7 +159,7 @@ class Document extends AbstractDocument implements DocumentInterface
     protected $filterControlCharacters = true;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $fields
      * @param array $boosts
@@ -171,16 +173,17 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Add a field value
+     * Add a field value.
      *
      * If a field already has a value it will be converted
      * to a multivalue field.
      *
-     * @param  string $key
-     * @param  mixed  $value
-     * @param  float  $boost
-     * @param  string $modifier
-     * @return self   Provides fluent interface
+     * @param string $key
+     * @param mixed  $value
+     * @param float  $boost
+     * @param string $modifier
+     *
+     * @return self Provides fluent interface
      */
     public function addField($key, $value, $boost = null, $modifier = null)
     {
@@ -207,21 +210,22 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Set a field value
+     * Set a field value.
      *
      * If a field already has a value it will be overwritten. You cannot use
      * this method for a multivalue field.
      * If you supply NULL as the value the field will be removed
      *
-     * @param  string $key
-     * @param  mixed  $value
-     * @param  float  $boost
-     * @param  string $modifier
-     * @return self   Provides fluent interface
+     * @param string $key
+     * @param mixed  $value
+     * @param float  $boost
+     * @param string $modifier
+     *
+     * @return self Provides fluent interface
      */
     public function setField($key, $value, $boost = null, $modifier = null)
     {
-        if ($value === null && $modifier == null) {
+        if ($value === null && $modifier === null) {
             $this->removeField($key);
         } else {
             if ($this->filterControlCharacters && is_string($value)) {
@@ -239,10 +243,11 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Remove a field
+     * Remove a field.
      *
-     * @param  string $key
-     * @return self   Provides fluent interface
+     * @param string $key
+     *
+     * @return self Provides fluent interface
      */
     public function removeField($key)
     {
@@ -258,9 +263,10 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Get the boost value for a field
+     * Get the boost value for a field.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return float
      */
     public function getFieldBoost($key)
@@ -268,16 +274,17 @@ class Document extends AbstractDocument implements DocumentInterface
         if (isset($this->fieldBoosts[$key])) {
             return $this->fieldBoosts[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Set the boost value for a field
+     * Set the boost value for a field.
      *
-     * @param  string $key
-     * @param  float  $boost
-     * @return self   Provides fluent interface
+     * @param string $key
+     * @param float  $boost
+     *
+     * @return self Provides fluent interface
      */
     public function setFieldBoost($key, $boost)
     {
@@ -287,7 +294,7 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Get boost values for all fields
+     * Get boost values for all fields.
      *
      * @return array
      */
@@ -297,10 +304,11 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Set the document boost value
+     * Set the document boost value.
      *
-     * @param  float $boost
-     * @return self  Provides fluent interface
+     * @param float $boost
+     *
+     * @return self Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -310,7 +318,7 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Get the document boost value
+     * Get the document boost value.
      *
      * @return float
      */
@@ -320,7 +328,7 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Clear all fields
+     * Clear all fields.
      *
      * @return self Provides fluent interface
      **/
@@ -334,7 +342,7 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Set field value
+     * Set field value.
      *
      * Magic method for setting fields as properties of this document
      * object, by field name.
@@ -343,9 +351,8 @@ class Document extends AbstractDocument implements DocumentInterface
      * If you supply an array a multivalue field will be created.
      * In all cases any existing (multi)value will be overwritten.
      *
-     * @param  string      $name
-     * @param  string|null $value
-     * @return void
+     * @param string      $name
+     * @param string|null $value
      */
     public function __set($name, $value)
     {
@@ -353,12 +360,11 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Unset field value
+     * Unset field value.
      *
      * Magic method for removing fields by unsetting object properties
      *
-     * @param  string $name
-     * @return void
+     * @param string $name
      */
     public function __unset($name)
     {
@@ -366,14 +372,15 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Sets the uniquely identifying key for use in atomic updating
+     * Sets the uniquely identifying key for use in atomic updating.
      *
      * You can set an existing field as key by supplying that field name as key, or add a new field by also supplying a
      * value.
      *
-     * @param  string $key
-     * @param  mixed  $value
-     * @return self   Provides fluent interface
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return self Provides fluent interface
      */
     public function setKey($key, $value = null)
     {
@@ -386,11 +393,13 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Sets the modifier type for the provided field
+     * Sets the modifier type for the provided field.
      *
-     * @param  string           $key
-     * @param  string           $modifier
+     * @param string $key
+     * @param string $modifier
+     *
      * @throws RuntimeException
+     *
      * @return self
      */
     public function setFieldModifier($key, $modifier = null)
@@ -406,7 +415,8 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Returns the appropriate modifier for atomic updates.
      *
-     * @param  string      $key
+     * @param string $key
+     *
      * @return null|string
      */
     public function getFieldModifier($key)
@@ -415,16 +425,17 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Get fields
+     * Get fields.
      *
      * Adds validation for atomicUpdates
      *
      * @throws RuntimeException
+     *
      * @return array
      */
     public function getFields()
     {
-        if (count($this->modifiers) > 0 && ($this->key == null || !isset($this->fields[$this->key]))) {
+        if (count($this->modifiers) > 0 && ($this->key === null || !isset($this->fields[$this->key]))) {
             throw new RuntimeException(
                 'A document that uses modifiers (atomic updates) must have a key defined before it is used'
             );
@@ -434,9 +445,10 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Set version
+     * Set version.
      *
-     * @param  int  $version
+     * @param int $version
+     *
      * @return self
      */
     public function setVersion($version)
@@ -447,7 +459,7 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Get version
+     * Get version.
      *
      * @return int
      */
@@ -457,7 +469,7 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Get a helper instance
+     * Get a helper instance.
      *
      * Uses lazy loading: the helper is instantiated on first use
      *
@@ -473,7 +485,7 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Whether values should be filtered for control characters automatically
+     * Whether values should be filtered for control characters automatically.
      *
      * @param boolean $filterControlCharacters
      */
@@ -483,7 +495,7 @@ class Document extends AbstractDocument implements DocumentInterface
     }
 
     /**
-     * Returns whether values should be filtered automatically or control characters
+     * Returns whether values should be filtered automatically or control characters.
      *
      * @return boolean
      */

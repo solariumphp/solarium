@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
@@ -45,23 +47,23 @@ use Solarium\QueryType\Select\Result\Stats\Result as ResultStatsResult;
 use Solarium\QueryType\Select\Result\Stats\FacetValue as ResultStatsFacetValue;
 
 /**
- * Parse select component Stats result from the data
+ * Parse select component Stats result from the data.
  */
 class Stats implements ComponentParserInterface
 {
     /**
-     * Parse result data into result objects
+     * Parse result data into result objects.
      *
-     * @param  Query          $query
-     * @param  StatsComponent $stats
-     * @param  array          $data
+     * @param Query          $query
+     * @param StatsComponent $stats
+     * @param array          $data
+     *
      * @return ResultStats;
      */
     public function parse($query, $stats, $data)
     {
         $results = array();
         if (isset($data['stats']['stats_fields'])) {
-
             $statResults = $data['stats']['stats_fields'];
             foreach ($statResults as $field => $stats) {
                 if (isset($stats['facets'])) {

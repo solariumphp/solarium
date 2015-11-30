@@ -30,27 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
 use Solarium\Core\Client\Request;
 
 /**
- * Add select component morelikethis to the request
+ * Add select component morelikethis to the request.
  */
 class MoreLikeThis implements ComponentRequestBuilderInterface
 {
     /**
-     * Add request settings for morelikethis
+     * Add request settings for morelikethis.
      *
-     * @param  MoreLikeThisComponent $component
-     * @param  Request               $request
+     * @param MoreLikeThisComponent $component
+     * @param Request               $request
+     *
      * @return Request
      */
     public function buildComponent($component, $request)

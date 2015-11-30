@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -43,20 +45,21 @@ use Solarium\QueryType\Select\RequestBuilder\Component\Spellcheck as RequestBuil
 use Solarium\QueryType\Select\ResponseParser\Component\Spellcheck as ResponseParser;
 
 /**
- * Spellcheck component
+ * Spellcheck component.
  *
  * @link http://wiki.apache.org/solr/SpellCheckComponent
  */
-class Spellcheck extends Component
+class Spellcheck extends AbstractComponent
 {
     /**
-     * Used to further customize collation parameters
+     * Used to further customize collation parameters.
+     *
      * @var array
      */
     protected $collateParams = array();
 
     /**
-     * Get component type
+     * Get component type.
      *
      * @return string
      */
@@ -66,31 +69,32 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Set spellcheck query option
+     * Set spellcheck query option.
      *
-     * @param  string $query
-     * @param  array  $bind  Bind values for placeholders in the query string
-     * @return self   Provides fluent interface
+     * @param string $query
+     * @param array  $bind  Bind values for placeholders in the query string
+     *
+     * @return self Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
@@ -102,7 +106,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get query option
+     * Get query option.
      *
      * @return string|null
      */
@@ -112,12 +116,13 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set build option
+     * Set build option.
      *
      * Build the spellcheck?
      *
-     * @param  boolean $build
-     * @return self    Provides fluent interface
+     * @param boolean $build
+     *
+     * @return self Provides fluent interface
      */
     public function setBuild($build)
     {
@@ -125,7 +130,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get build option
+     * Get build option.
      *
      * @return boolean|null
      */
@@ -135,12 +140,13 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set reload option
+     * Set reload option.
      *
      * Reload the dictionary?
      *
-     * @param  boolean $reload
-     * @return self    Provides fluent interface
+     * @param boolean $reload
+     *
+     * @return self Provides fluent interface
      */
     public function setReload($reload)
     {
@@ -148,7 +154,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get fragsize option
+     * Get fragsize option.
      *
      * @return boolean|null
      */
@@ -158,12 +164,13 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set dictionary option
+     * Set dictionary option.
      *
      * The name of the dictionary to use
      *
-     * @param  string $dictionary
-     * @return self   Provides fluent interface
+     * @param string $dictionary
+     *
+     * @return self Provides fluent interface
      */
     public function setDictionary($dictionary)
     {
@@ -171,7 +178,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get dictionary option
+     * Get dictionary option.
      *
      * @return string|null
      */
@@ -181,11 +188,12 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set count option
+     * Set count option.
      *
      * The maximum number of suggestions to return
      *
-     * @param  int  $count
+     * @param int $count
+     *
      * @return self Provides fluent interface
      */
     public function setCount($count)
@@ -194,7 +202,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get count option
+     * Get count option.
      *
      * @return int|null
      */
@@ -204,12 +212,13 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set onlyMorePopular option
+     * Set onlyMorePopular option.
      *
      * Only return suggestions that result in more hits for the query than the existing query
      *
-     * @param  boolean $onlyMorePopular
-     * @return self    Provides fluent interface
+     * @param boolean $onlyMorePopular
+     *
+     * @return self Provides fluent interface
      */
     public function setOnlyMorePopular($onlyMorePopular)
     {
@@ -217,7 +226,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get onlyMorePopular option
+     * Get onlyMorePopular option.
      *
      * @return boolean|null
      */
@@ -227,10 +236,11 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set extendedResults option
+     * Set extendedResults option.
      *
-     * @param  boolean $extendedResults
-     * @return self    Provides fluent interface
+     * @param boolean $extendedResults
+     *
+     * @return self Provides fluent interface
      */
     public function setExtendedResults($extendedResults)
     {
@@ -238,7 +248,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get extendedResults option
+     * Get extendedResults option.
      *
      * @return boolean|null
      */
@@ -248,10 +258,11 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set collate option
+     * Set collate option.
      *
-     * @param  boolean $collate
-     * @return self    Provides fluent interface
+     * @param boolean $collate
+     *
+     * @return self Provides fluent interface
      */
     public function setCollate($collate)
     {
@@ -259,7 +270,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get collate option
+     * Get collate option.
      *
      * @return boolean|null
      */
@@ -269,9 +280,10 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set maxCollations option
+     * Set maxCollations option.
      *
-     * @param  int  $maxCollations
+     * @param int $maxCollations
+     *
      * @return self Provides fluent interface
      */
     public function setMaxCollations($maxCollations)
@@ -280,7 +292,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get maxCollations option
+     * Get maxCollations option.
      *
      * @return int|null
      */
@@ -290,10 +302,11 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set maxCollationTries option
+     * Set maxCollationTries option.
      *
-     * @param  string $maxCollationTries
-     * @return self   Provides fluent interface
+     * @param string $maxCollationTries
+     *
+     * @return self Provides fluent interface
      */
     public function setMaxCollationTries($maxCollationTries)
     {
@@ -301,7 +314,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get maxCollationTries option
+     * Get maxCollationTries option.
      *
      * @return string|null
      */
@@ -311,9 +324,10 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set maxCollationEvaluations option
+     * Set maxCollationEvaluations option.
      *
-     * @param  int  $maxCollationEvaluations
+     * @param int $maxCollationEvaluations
+     *
      * @return self Provides fluent interface
      */
     public function setMaxCollationEvaluations($maxCollationEvaluations)
@@ -322,7 +336,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get maxCollationEvaluations option
+     * Get maxCollationEvaluations option.
      *
      * @return int|null
      */
@@ -332,10 +346,11 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set collateExtendedResults option
+     * Set collateExtendedResults option.
      *
-     * @param  string $collateExtendedResults
-     * @return self   Provides fluent interface
+     * @param string $collateExtendedResults
+     *
+     * @return self Provides fluent interface
      */
     public function setCollateExtendedResults($collateExtendedResults)
     {
@@ -343,7 +358,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get collateExtendedResults option
+     * Get collateExtendedResults option.
      *
      * @return string|null
      */
@@ -353,10 +368,11 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set accuracy option
+     * Set accuracy option.
      *
-     * @param  float $accuracy
-     * @return self  Provides fluent interface
+     * @param float $accuracy
+     *
+     * @return self Provides fluent interface
      */
     public function setAccuracy($accuracy)
     {
@@ -364,7 +380,7 @@ class Spellcheck extends Component
     }
 
     /**
-     * Get accuracy option
+     * Get accuracy option.
      *
      * @return float|null
      */
@@ -374,10 +390,12 @@ class Spellcheck extends Component
     }
 
     /**
-     * Set a collation param
-     * @param  string $param
-     * @param  mixed  $value
-     * @return self   Provides fluent interface
+     * Set a collation param.
+     *
+     * @param string $param
+     * @param mixed  $value
+     *
+     * @return self Provides fluent interface
      */
     public function setCollateParam($param, $value)
     {
@@ -387,7 +405,8 @@ class Spellcheck extends Component
     }
 
     /**
-     * Returns the array of collate params
+     * Returns the array of collate params.
+     *
      * @return array
      */
     public function getCollateParams()

@@ -30,27 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Dismax as DismaxComponent;
 use Solarium\Core\Client\Request;
 
 /**
- * Add select component dismax to the request
+ * Add select component dismax to the request.
  */
 class DisMax implements ComponentRequestBuilderInterface
 {
     /**
-     * Add request settings for Dismax
+     * Add request settings for Dismax.
      *
-     * @param  DismaxComponent $component
-     * @param  Request         $request
+     * @param DismaxComponent $component
+     * @param Request         $request
+     *
      * @return Request
      */
     public function buildComponent($component, $request)

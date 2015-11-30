@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -43,7 +45,7 @@ use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 
 /**
- * PostExecute event, see Events for details
+ * PostExecute event, see Events for details.
  */
 class PostExecute extends Event
 {
@@ -58,7 +60,7 @@ class PostExecute extends Event
     protected $result;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param QueryInterface  $query
      * @param ResultInterface $result
@@ -70,7 +72,7 @@ class PostExecute extends Event
     }
 
     /**
-     * Get the query object for this event
+     * Get the query object for this event.
      *
      * @return QueryInterface
      */
@@ -80,7 +82,7 @@ class PostExecute extends Event
     }
 
     /**
-     * Get the result object for this event
+     * Get the result object for this event.
      *
      * @return ResultInterface
      */

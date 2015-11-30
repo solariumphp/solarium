@@ -30,19 +30,21 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
- * PreFlush event, see Events for details
+ * PreFlush event, see Events for details.
  */
 class PreFlush extends Event
 {
@@ -62,7 +64,7 @@ class PreFlush extends Event
     protected $commitWithin;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param array   $buffer
      * @param boolean $overwrite
@@ -76,7 +78,7 @@ class PreFlush extends Event
     }
 
     /**
-     * Get the buffer for this event
+     * Get the buffer for this event.
      *
      * @return DocumentInterface[]
      */
@@ -86,10 +88,9 @@ class PreFlush extends Event
     }
 
     /**
-     * Set the buffer for this event, this way you can alter the buffer before it is committed to Solr
+     * Set the buffer for this event, this way you can alter the buffer before it is committed to Solr.
      *
-     * @param  array $buffer
-     * @return void
+     * @param array $buffer
      */
     public function setBuffer($buffer)
     {
@@ -97,7 +98,7 @@ class PreFlush extends Event
     }
 
     /**
-     * Optionally override the value
+     * Optionally override the value.
      *
      * @param int $commitWithin
      */
@@ -115,7 +116,7 @@ class PreFlush extends Event
     }
 
     /**
-     * Optionally override the value
+     * Optionally override the value.
      *
      * @param boolean $overwrite
      */

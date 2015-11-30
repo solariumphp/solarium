@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium;
 
 /**
- * Autoloader
+ * Autoloader.
  *
  * This class is included to allow for easy usage of Solarium in environments missing a PSR-O autoloader.
  *
@@ -52,7 +54,7 @@ namespace Solarium;
 class Autoloader
 {
     /**
-     * Register the Solarium autoloader
+     * Register the Solarium autoloader.
      *
      * The autoloader only acts for classnames that start with 'Solarium'. It
      * will be appended to any other autoloaders already registered.
@@ -61,36 +63,34 @@ class Autoloader
      * you want to use multiple autoloaders please use spl_autoload_register.
      *
      * @static
-     * @return void
      */
     public static function register()
     {
-        spl_autoload_register(array(new self, 'load'));
+        spl_autoload_register(array(new self(), 'load'));
     }
 
     /**
-     * Autoload a class
+     * Autoload a class.
      *
      * This method is automatically called after registering this autoloader.
      * The autoloader only acts for classnames that start with 'Solarium'.
      *
      * @static
-     * @param  string $class
-     * @return void
+     *
+     * @param string $class
      */
     public static function load($class)
     {
         if (substr($class, 0, 8) == 'Solarium') {
-
             $class = str_replace(
                 array('Solarium', '\\'),
                 array('', '/'),
                 $class
             );
 
-            $file = dirname(__FILE__) . $class . '.php';
+            $file = dirname(__FILE__).$class.'.php';
 
-            require($file);
+            require $file;
         }
     }
 }

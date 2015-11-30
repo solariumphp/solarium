@@ -30,51 +30,53 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Exception\HttpException;
 
 /**
- * Class for describing a response
+ * Class for describing a response.
  */
 class Response
 {
     /**
-     * Headers
+     * Headers.
      *
      * @var array
      */
     protected $headers;
 
     /**
-     * Body
+     * Body.
      *
      * @var string
      */
     protected $body;
 
     /**
-     * HTTP response code
+     * HTTP response code.
      *
      * @var int
      */
     protected $statusCode;
 
     /**
-     * HTTP response message
+     * HTTP response message.
      *
      * @var string
      */
     protected $statusMessage;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $body
      * @param array  $headers
@@ -88,7 +90,7 @@ class Response
     }
 
     /**
-     * Get body data
+     * Get body data.
      *
      * @return string
      */
@@ -98,7 +100,7 @@ class Response
     }
 
     /**
-     * Get response headers
+     * Get response headers.
      *
      * @return array
      */
@@ -108,7 +110,7 @@ class Response
     }
 
     /**
-     * Get status code
+     * Get status code.
      *
      * @return int
      */
@@ -118,7 +120,7 @@ class Response
     }
 
     /**
-     * Get status message
+     * Get status message.
      *
      * @return string
      */
@@ -128,11 +130,11 @@ class Response
     }
 
     /**
-     * Set headers
+     * Set headers.
      *
      * @throws HttpException
-     * @param  array         $headers
-     * @return void
+     *
+     * @param array $headers
      */
     public function setHeaders($headers)
     {
@@ -147,7 +149,7 @@ class Response
             }
         }
 
-        if (null == $statusHeader) {
+        if (null === $statusHeader) {
             throw new HttpException("No HTTP status found");
         }
 

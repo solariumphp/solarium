@@ -30,56 +30,59 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\Loadbalancer;
 
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 
 /**
- * Weighted random choice class
+ * Weighted random choice class.
  *
  * For use in the loadbalancer plugin
  */
 class WeightedRandomChoice
 {
     /**
-     * Total weight of all choices
+     * Total weight of all choices.
      *
      * @var int
      */
     protected $totalWeight = 0;
 
     /**
-     * Choices total lookup array
+     * Choices total lookup array.
      *
      * @var array
      */
     protected $lookup = array();
 
     /**
-     * Values lookup array
+     * Values lookup array.
      *
      * @var array
      */
     protected $values = array();
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @throws InvalidArgumentException
-     * @param  array                    $choices
+     *
+     * @param array $choices
      */
     public function __construct($choices)
     {
         $i = 0;
         foreach ($choices as $key => $weight) {
-            if ($weight <=0) {
+            if ($weight <= 0) {
                 throw new InvalidArgumentException('Weight must be greater than zero');
             }
 
@@ -92,10 +95,12 @@ class WeightedRandomChoice
     }
 
     /**
-     * Get a (weighted) random entry
+     * Get a (weighted) random entry.
      *
      * @throws RuntimeException
-     * @param  array            $excludes Keys to exclude
+     *
+     * @param array $excludes Keys to exclude
+     *
      * @return string
      */
     public function getRandom($excludes = array())
@@ -105,7 +110,6 @@ class WeightedRandomChoice
         }
 
         // continue until a non-excluded value is found
-        // @todo optimize?
         $result = null;
         while (1) {
             $result = $this->values[$this->getKey()];
@@ -118,7 +122,7 @@ class WeightedRandomChoice
     }
 
     /**
-     * Get a (weighted) random entry key
+     * Get a (weighted) random entry key.
      *
      * @return int
      */
@@ -144,6 +148,5 @@ class WeightedRandomChoice
         } else {
             return $low+1;
         }
-
     }
 }

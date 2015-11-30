@@ -30,25 +30,27 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 /**
- * Facet pivot
+ * Facet pivot.
  *
  * @link http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting
  */
-class Pivot extends Facet
+class Pivot extends AbstractFacet
 {
     /**
-     * Fields to use
+     * Fields to use.
      *
      * @var array
      */
@@ -62,25 +64,6 @@ class Pivot extends Facet
     protected $stats = array();
 
     /**
-     * Initialize options
-     *
-     * @return void
-     */
-    protected function init()
-    {
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'fields':
-                    $this->addFields($value);
-                    break;
-                case 'stats':
-                    $this->setStats($value);
-                    break;
-            }
-        }
-    }
-
-    /**
      * Get the facet type
      *
      * @return string
@@ -91,9 +74,10 @@ class Pivot extends Facet
     }
 
     /**
-     * Set the facet mincount
+     * Set the facet mincount.
      *
-     * @param  int  $minCount
+     * @param int $minCount
+     *
      * @return self Provides fluent interface
      */
     public function setMinCount($minCount)
@@ -102,7 +86,7 @@ class Pivot extends Facet
     }
 
     /**
-     * Get the facet mincount
+     * Get the facet mincount.
      *
      * @return int
      */
@@ -112,10 +96,11 @@ class Pivot extends Facet
     }
 
     /**
-     * Specify a field to return in the resultset
+     * Specify a field to return in the resultset.
      *
-     * @param  string $field
-     * @return self   Provides fluent interface
+     * @param string $field
+     *
+     * @return self Provides fluent interface
      */
     public function addField($field)
     {
@@ -126,7 +111,7 @@ class Pivot extends Facet
     }
 
     /**
-     * Specify multiple fields to return in the resultset
+     * Specify multiple fields to return in the resultset.
      *
      * @param string|array $fields can be an array or string with comma
      *                             separated fieldnames
@@ -147,10 +132,11 @@ class Pivot extends Facet
     }
 
     /**
-     * Remove a field from the field list
+     * Remove a field from the field list.
      *
-     * @param  string $field
-     * @return self   Provides fluent interface
+     * @param string $field
+     *
+     * @return self Provides fluent interface
      */
     public function removeField($field)
     {
@@ -174,7 +160,7 @@ class Pivot extends Facet
     }
 
     /**
-     * Get the list of fields
+     * Get the list of fields.
      *
      * @return array
      */
@@ -184,12 +170,13 @@ class Pivot extends Facet
     }
 
     /**
-     * Set multiple fields
+     * Set multiple fields.
      *
      * This overwrites any existing fields
      *
-     * @param  array $fields
-     * @return self  Provides fluent interface
+     * @param array $fields
+     *
+     * @return self Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -285,5 +272,24 @@ class Pivot extends Facet
         $this->addStats($stats);
 
         return $this;
+    }
+
+    /**
+     * Initialize options
+     *
+     * @return void
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'fields':
+                    $this->addFields($value);
+                    break;
+                case 'stats':
+                    $this->setStats($value);
+                    break;
+            }
+        }
     }
 }

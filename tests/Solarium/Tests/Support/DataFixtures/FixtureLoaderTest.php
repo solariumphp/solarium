@@ -35,7 +35,7 @@ class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->client = $this->getMock('Solarium\Core\Client\Client');
+        $this->client = $this->getMock('Solarium\Core\Client\ClientInterface');
         $this->fixturePath = __DIR__ . '/Fixtures/';
     }
 

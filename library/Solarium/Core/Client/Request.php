@@ -30,39 +30,41 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Core\Configurable;
 use Solarium\Exception\RuntimeException;
 
 /**
- * Class for describing a request
+ * Class for describing a request.
  */
 class Request extends Configurable
 {
     /**
-     * Request GET method
+     * Request GET method.
      */
     const METHOD_GET     = 'GET';
 
     /**
-     * Request POST method
+     * Request POST method.
      */
     const METHOD_POST    = 'POST';
 
     /**
-     * Request HEAD method
+     * Request HEAD method.
      */
     const METHOD_HEAD    = 'HEAD';
 
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -71,12 +73,12 @@ class Request extends Configurable
     );
 
     /**
-     * Request headers
+     * Request headers.
      */
     protected $headers = array();
 
     /**
-     * Request params
+     * Request params.
      *
      * Multivalue params are supported using a multidimensional array:
      * 'fq' => array('cat:1','published:1')
@@ -86,44 +88,18 @@ class Request extends Configurable
     protected $params = array();
 
     /**
-     * Raw POST data
+     * Raw POST data.
      *
      * @var string
      */
     protected $rawData;
 
     /**
-     * Initialization hook
-     */
-    protected function init()
-    {
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'rawdata':
-                    $this->setRawData($value);
-                    break;
-                case 'file':
-                    $this->setFileUpload($value);
-                    break;
-                case 'param':
-                    $this->setParams($value);
-                    break;
-                case 'header':
-                    $this->setHeaders($value);
-                    break;
-                case 'authentication':
-                    if (isset($value['username']) && isset($value['password'])) {
-                        $this->setAuthentication($value['username'], $value['password']);
-                    }
-            }
-        }
-    }
-
-    /**
-     * Set request handler
+     * Set request handler.
      *
-     * @param  string $handler
-     * @return self   Provides fluent interface
+     * @param string $handler
+     *
+     * @return self Provides fluent interface
      */
     public function setHandler($handler)
     {
@@ -133,7 +109,7 @@ class Request extends Configurable
     }
 
     /**
-     * Get request handler
+     * Get request handler.
      *
      * @return string
      */
@@ -143,12 +119,13 @@ class Request extends Configurable
     }
 
     /**
-     * Set request method
+     * Set request method.
      *
      * Use one of the constants as value
      *
-     * @param  string $method
-     * @return self   Provides fluent interface
+     * @param string $method
+     *
+     * @return self Provides fluent interface
      */
     public function setMethod($method)
     {
@@ -158,7 +135,7 @@ class Request extends Configurable
     }
 
     /**
-     * Get request method
+     * Get request method.
      *
      * @return string
      */
@@ -168,9 +145,10 @@ class Request extends Configurable
     }
 
     /**
-     * Get a param value
+     * Get a param value.
      *
-     * @param  string       $key
+     * @param string $key
+     *
      * @return string|array
      */
     public function getParam($key)
@@ -178,12 +156,12 @@ class Request extends Configurable
         if (isset($this->params[$key])) {
             return $this->params[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Get all params
+     * Get all params.
      *
      * @return array
      */
@@ -193,10 +171,11 @@ class Request extends Configurable
     }
 
     /**
-     * Set request params
+     * Set request params.
      *
-     * @param  array $params
-     * @return self  Provides fluent interface
+     * @param array $params
+     *
+     * @return self Provides fluent interface
      */
     public function setParams($params)
     {
@@ -207,7 +186,7 @@ class Request extends Configurable
     }
 
     /**
-     * Add a request param
+     * Add a request param.
      *
      * If you add a request param that already exists the param will be converted into a multivalue param,
      * unless you set the overwrite param to true.
@@ -215,10 +194,11 @@ class Request extends Configurable
      * Empty params are not added to the request. If you want to empty a param disable it you should use
      * remove param instead.
      *
-     * @param  string       $key
-     * @param  string|array $value
-     * @param  boolean      $overwrite
-     * @return self         Provides fluent interface
+     * @param string       $key
+     * @param string|array $value
+     * @param boolean      $overwrite
+     *
+     * @return self Provides fluent interface
      */
     public function addParam($key, $value, $overwrite = false)
     {
@@ -244,11 +224,12 @@ class Request extends Configurable
     }
 
     /**
-     * Add multiple params to the request
+     * Add multiple params to the request.
      *
-     * @param  array   $params
-     * @param  boolean $overwrite
-     * @return self    Provides fluent interface
+     * @param array   $params
+     * @param boolean $overwrite
+     *
+     * @return self Provides fluent interface
      */
     public function addParams($params, $overwrite = false)
     {
@@ -260,10 +241,11 @@ class Request extends Configurable
     }
 
     /**
-     * Remove a param by key
+     * Remove a param by key.
      *
-     * @param  string $key
-     * @return self   Provides fluent interface
+     * @param string $key
+     *
+     * @return self Provides fluent interface
      */
     public function removeParam($key)
     {
@@ -275,7 +257,7 @@ class Request extends Configurable
     }
 
     /**
-     * Clear all request params
+     * Clear all request params.
      *
      * @return self Provides fluent interface
      */
@@ -287,9 +269,9 @@ class Request extends Configurable
     }
 
     /**
-     * Get raw POST data
+     * Get raw POST data.
      *
-     * @return null
+     * @return string
      */
     public function getRawData()
     {
@@ -297,12 +279,13 @@ class Request extends Configurable
     }
 
     /**
-     * Set raw POST data
+     * Set raw POST data.
      *
      * This string must be safely encoded.
      *
-     * @param  string $data
-     * @return self   Provides fluent interface
+     * @param string $data
+     *
+     * @return self Provides fluent interface
      */
     public function setRawData($data)
     {
@@ -312,7 +295,7 @@ class Request extends Configurable
     }
 
     /**
-     * Get the file to upload via "multipart/form-data" POST request
+     * Get the file to upload via "multipart/form-data" POST request.
      *
      * @return string|null
      */
@@ -322,10 +305,12 @@ class Request extends Configurable
     }
 
     /**
-     * Set the file to upload via "multipart/form-data" POST request
+     * Set the file to upload via "multipart/form-data" POST request.
      *
      * @throws RuntimeException
-     * @param  string           $filename Name of file to upload
+     *
+     * @param string $filename Name of file to upload
+     *
      * @return self
      */
     public function setFileUpload($filename)
@@ -340,7 +325,7 @@ class Request extends Configurable
     }
 
     /**
-     * Get all request headers
+     * Get all request headers.
      *
      * @return array
      */
@@ -350,10 +335,11 @@ class Request extends Configurable
     }
 
     /**
-     * Set request headers
+     * Set request headers.
      *
-     * @param  array $headers
-     * @return self  Provides fluent interface
+     * @param array $headers
+     *
+     * @return self Provides fluent interface
      */
     public function setHeaders($headers)
     {
@@ -364,10 +350,11 @@ class Request extends Configurable
     }
 
     /**
-     * Add a request header
+     * Add a request header.
      *
-     * @param  string|array $value
-     * @return self         Provides fluent interface
+     * @param string|array $value
+     *
+     * @return self Provides fluent interface
      */
     public function addHeader($value)
     {
@@ -377,10 +364,11 @@ class Request extends Configurable
     }
 
     /**
-     * Add multiple headers to the request
+     * Add multiple headers to the request.
      *
-     * @param  array $headers
-     * @return self  Provides fluent interface
+     * @param array $headers
+     *
+     * @return self Provides fluent interface
      */
     public function addHeaders($headers)
     {
@@ -392,7 +380,7 @@ class Request extends Configurable
     }
 
     /**
-     * Clear all request headers
+     * Clear all request headers.
      *
      * @return self Provides fluent interface
      */
@@ -404,17 +392,17 @@ class Request extends Configurable
     }
 
     /**
-     * Get an URI for this request
+     * Get an URI for this request.
      *
      * @return string
      */
     public function getUri()
     {
-        return $this->getHandler() . '?' . $this->getQueryString();
+        return $this->getHandler().'?'.$this->getQueryString();
     }
 
     /**
-     * Get the query string for this request
+     * Get the query string for this request.
      *
      * @return string
      */
@@ -434,7 +422,7 @@ class Request extends Configurable
     }
 
     /**
-     * Magic method enables a object to be transformed to a string
+     * Magic method enables a object to be transformed to a string.
      *
      * Get a summary showing significant variables in the object
      * note: uri resource is decoded for readability
@@ -443,27 +431,20 @@ class Request extends Configurable
      */
     public function __toString()
     {
-        $output = __CLASS__ . '::__toString' . "\n"
-                . 'method: ' . $this->getMethod() . "\n"
-                . 'header: ' . print_r($this->getHeaders(), 1) //don't add newline when using print_r
-                . 'authentication: ' . print_r($this->getAuthentication(), 1)
-                . 'resource: ' . $this->getUri() . "\n"
-                . 'resource urldecoded: ' . urldecode($this->getUri()) . "\n"
-                . 'raw data: ' . $this->getRawData() . "\n"
-                . 'file upload: ' . $this->getFileUpload() . "\n";
+        $output = __CLASS__.'::__toString'."\n".'method: '.$this->getMethod()."\n".'header: '.print_r($this->getHeaders(), 1).'authentication: '.print_r($this->getAuthentication(), 1).'resource: '.$this->getUri()."\n".'resource urldecoded: '.urldecode($this->getUri())."\n".'raw data: '.$this->getRawData()."\n".'file upload: '.$this->getFileUpload()."\n";
 
         return $output;
     }
 
-
     /**
-     * Set HTTP basic auth settings
+     * Set HTTP basic auth settings.
      *
      * If one or both values are NULL authentication will be disabled
      *
-     * @param  string $username
-     * @param  string $password
-     * @return self   Provides fluent interface
+     * @param string $username
+     * @param string $password
+     *
+     * @return self Provides fluent interface
      */
     public function setAuthentication($username, $password)
     {
@@ -474,7 +455,7 @@ class Request extends Configurable
     }
 
     /**
-     * Get HTTP basic auth settings
+     * Get HTTP basic auth settings.
      *
      * @return array
      */
@@ -484,5 +465,32 @@ class Request extends Configurable
             'username' => $this->getOption('username'),
             'password' => $this->getOption('password'),
         );
+    }
+
+    /**
+     * Initialization hook.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'rawdata':
+                    $this->setRawData($value);
+                    break;
+                case 'file':
+                    $this->setFileUpload($value);
+                    break;
+                case 'param':
+                    $this->setParams($value);
+                    break;
+                case 'header':
+                    $this->setHeaders($value);
+                    break;
+                case 'authentication':
+                    if (isset($value['username']) && isset($value['password'])) {
+                        $this->setAuthentication($value['username'], $value['password']);
+                    }
+            }
+        }
     }
 }

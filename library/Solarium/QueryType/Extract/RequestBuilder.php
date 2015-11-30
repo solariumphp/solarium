@@ -32,35 +32,33 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @copyright Copyright 2012 Alexander Brausewetter <alex@helpdeskhq.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
  *
- * @package Solarium
- * @subpackage Client
+ * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Extract;
 
 use Solarium\Core\Query\QueryInterface;
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\RuntimeException;
 
 /**
- * Build an extract request
- *
- * @package Solarium
- * @subpackage Client
+ * Build an extract request.
  */
 class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * Build the request
+     * Build the request.
      *
      * @throws RuntimeException
-     * @param  Query|QueryInterface $query
+     *
+     * @param Query|QueryInterface $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -78,11 +76,11 @@ class RequestBuilder extends BaseRequestBuilder
         $request->addParam('extractOnly', $query->getExtractOnly());
 
         foreach ($query->getFieldMappings() as $fromField => $toField) {
-            $request->addParam('fmap.' . $fromField, $toField);
+            $request->addParam('fmap.'.$fromField, $toField);
         }
 
         // add document settings to request
-        if (($doc = $query->getDocument()) != null) {
+        if (($doc = $query->getDocument()) !== null) {
             if ($doc->getBoost() !== null) {
                 throw new RuntimeException('Extract does not support document-level boosts, use field boosts instead.');
             }
@@ -91,13 +89,13 @@ class RequestBuilder extends BaseRequestBuilder
             foreach ($doc->getFields() as $name => $value) {
                 $value = (array) $value;
                 foreach ($value as $multival) {
-                    $request->addParam('literal.' . $name, $multival);
+                    $request->addParam('literal.'.$name, $multival);
                 }
             }
 
             // boost.*
             foreach ($doc->getFieldBoosts() as $name => $value) {
-                $request->addParam('boost.' . $name, $value);
+                $request->addParam('boost.'.$name, $value);
             }
         }
 
@@ -105,7 +103,7 @@ class RequestBuilder extends BaseRequestBuilder
         $file = $query->getFile();
         if (preg_match('/^(http|https):\/\/(.+)/i', $file)) {
             $request->addParam('stream.url', $file);
-        } else if (is_readable($file)) {
+        } elseif (is_readable($file)) {
             $request->setFileUpload($file);
             $request->addParam('resource.name', basename($query->getFile()));
             $request->addHeader('Content-Type: multipart/form-data');
