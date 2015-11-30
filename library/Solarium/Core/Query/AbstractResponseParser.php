@@ -30,25 +30,28 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 /**
- * Abstract class for response parsers
+ * Abstract class for response parsers.
  *
  * Base class with shared functionality for querytype responseparser implementations
  */
-abstract class ResponseParser
+abstract class AbstractResponseParser
 {
     /**
-     * Converts a flat key-value array (alternating rows) as used in Solr JSON results to a real key value array
+     * Converts a flat key-value array (alternating rows) as used in Solr JSON results to a real key value array.
      *
-     * @param $data
+     * @param array $data
+     *
      * @return array
      */
     public function convertToKeyValueArray($data)
@@ -56,9 +59,9 @@ abstract class ResponseParser
         // key counter to convert values to arrays when keys are re-used
         $keys = array();
 
+        $dataCount = count($data);
         $result = array();
-        for ($i = 0; $i < count($data); $i += 2) {
-
+        for ($i = 0; $i < $dataCount; $i += 2) {
             $key  = $data[$i];
             $value = $data[$i+1];
             if (array_key_exists($key, $keys)) {
@@ -77,10 +80,11 @@ abstract class ResponseParser
     }
 
     /**
-     * Parses header data (if available) and adds it to result data
+     * Parses header data (if available) and adds it to result data.
      *
-     * @param  array $data
-     * @param  array $result
+     * @param array $data
+     * @param array $result
+     *
      * @return mixed
      */
     public function addHeaderInfo($data, $result)

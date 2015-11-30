@@ -30,30 +30,33 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Client\Request;
 
 /**
- * Class for building Solarium client requests
+ * Class for building Solarium client requests.
  */
-abstract class RequestBuilder implements RequestBuilderInterface
+abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
     /**
-     * Build request for a select query
+     * Build request for a select query.
      *
-     * @param  QueryInterface|Query $query
+     * @param QueryInterface|Query $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)
     {
-        $request = new Request;
+        $request = new Request();
         $request->setHandler($query->getHandler());
         $request->addParam('omitHeader', $query->getOmitHeader());
         $request->addParam('timeAllowed', $query->getTimeAllowed());
@@ -69,13 +72,15 @@ abstract class RequestBuilder implements RequestBuilderInterface
     }
 
     /**
-     * Render a param with localParams
+     * Render a param with localParams.
      *
      * LocalParams can be use in various Solr GET params.
+     *
      * @link http://wiki.apache.org/solr/LocalParams
      *
-     * @param  string $value
-     * @param  array  $localParams in key => value format
+     * @param string $value
+     * @param array  $localParams in key => value format
+     *
      * @return string with Solr localparams syntax
      */
     public function renderLocalParams($value, $localParams = array())
@@ -90,29 +95,30 @@ abstract class RequestBuilder implements RequestBuilderInterface
                 $paramValue = implode($paramValue, ',');
             }
 
-            $params .= $paramName . '=' . $paramValue . ' ';
+            $params .= $paramName.'='.$paramValue.' ';
         }
 
         if ($params !== '') {
-            $value = '{!' . trim($params) . '}' . $value;
+            $value = '{!'.trim($params).'}'.$value;
         }
 
         return $value;
     }
 
     /**
-    * Render a boolean attribute
-    *
-    * For use in building XML messages
-    *
-    * @param string $name
-    * @param boolean $value
-    * @return string
-    */
+     * Render a boolean attribute.
+     *
+     * For use in building XML messages
+     *
+     * @param string  $name
+     * @param boolean $value
+     *
+     * @return string
+     */
     public function boolAttrib($name, $value)
     {
         if (null !== $value) {
-            $value = (true == $value) ? 'true' : 'false';
+            $value = (true === (bool)$value) ? 'true' : 'false';
 
             return $this->attrib($name, $value);
         } else {
@@ -121,18 +127,19 @@ abstract class RequestBuilder implements RequestBuilderInterface
     }
 
     /**
-    * Render an attribute
-    *
-    * For use in building XML messages
-    *
-    * @param string $name
-    * @param string $value
-    * @return string
-    */
+     * Render an attribute.
+     *
+     * For use in building XML messages
+     *
+     * @param string $name
+     * @param string $value
+     *
+     * @return string
+     */
     public function attrib($name, $value)
     {
         if (null !== $value) {
-            return ' ' . $name . '="' . $value . '"';
+            return ' '.$name.'="'.$value.'"';
         } else {
             return '';
         }

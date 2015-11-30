@@ -30,23 +30,25 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query\Result;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
-use Solarium\Core\Query\Query;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\Exception\RuntimeException;
 
 /**
- * Query result
+ * Query result.
  *
  * This base class provides access to the response and decoded data. If you need more functionality
  * like resultset parsing use one of the subclasses
@@ -54,14 +56,14 @@ use Solarium\Exception\RuntimeException;
 class Result implements ResultInterface
 {
     /**
-     * Response object
+     * Response object.
      *
      * @var Response
      */
     protected $response;
 
     /**
-     * Decoded response data
+     * Decoded response data.
      *
      * This is lazy loaded, {@link getData()}
      *
@@ -70,26 +72,27 @@ class Result implements ResultInterface
     protected $data;
 
     /**
-     * Query used for this request
+     * Query used for this request.
      *
-     * @var Query
+     * @var AbstractQuery
      */
     protected $query;
 
     /**
-     * Solarium client instance
+     * Solarium client instance.
      *
      * @var Client
      */
     protected $client;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @throws HttpException
-     * @param  Client        $client
-     * @param  Query         $query
-     * @param  Response      $response
+     *
+     * @param Client        $client
+     * @param AbstractQuery $query
+     * @param Response      $response
      */
     public function __construct($client, $query, $response)
     {
@@ -109,7 +112,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * Get response object
+     * Get response object.
      *
      * This is the raw HTTP response object, not the parsed data!
      *
@@ -121,9 +124,9 @@ class Result implements ResultInterface
     }
 
     /**
-     * Get query instance
+     * Get query instance.
      *
-     * @return Query
+     * @return AbstractQuery
      */
     public function getQuery()
     {
@@ -131,27 +134,27 @@ class Result implements ResultInterface
     }
 
     /**
-     * Get Solr response data
+     * Get Solr response data.
      *
      * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
      *
      * @throws UnexpectedValueException
      * @throws RuntimeException
+     *
      * @return array
      */
     public function getData()
     {
-        if (null == $this->data) {
-
+        if (null === $this->data) {
             switch ($this->query->getResponseWriter()) {
-                case Query::WT_PHPS:
+                case AbstractQuery::WT_PHPS:
                     $this->data = unserialize($this->response->getBody());
                     break;
-                case Query::WT_JSON:
+                case AbstractQuery::WT_JSON:
                     $this->data = json_decode($this->response->getBody(), true);
                     break;
                 default:
-                    throw new RuntimeException('Responseparser cannot handle ' . $this->query->getResponseWriter());
+                    throw new RuntimeException('Responseparser cannot handle '.$this->query->getResponseWriter());
             }
 
             if (null === $this->data) {

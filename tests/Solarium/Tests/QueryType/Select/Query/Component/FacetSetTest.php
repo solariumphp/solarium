@@ -59,6 +59,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             'mincount' => 10,
             'missing' => 5,
             'extractfromresponse' => true,
+            'contains' => 'foobar',
+            'containsignorecase' => true,
         );
 
         $this->facetSet->setOptions($options);
@@ -70,6 +72,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['mincount'], $this->facetSet->getMincount());
         $this->assertEquals($options['missing'], $this->facetSet->getMissing());
         $this->assertEquals($options['extractfromresponse'], $this->facetSet->getExtractFromResponse());
+        $this->assertEquals($options['contains'], $this->facetSet->getContains());
+        $this->assertEquals($options['containsignorecase'], $this->facetSet->getContainsIgnoreCase());
     }
 
     public function testGetType()

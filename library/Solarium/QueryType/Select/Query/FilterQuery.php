@@ -30,42 +30,180 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query;
 
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Helper;
 
 /**
- * Filterquery
+ * Filterquery.
  *
  * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
  */
 class FilterQuery extends Configurable
 {
     /**
-     * Tags for this filterquery
+     * Tags for this filterquery.
      *
      * @var array
      */
     protected $tags = array();
 
     /**
-     * Query
+     * Query.
      *
      * @var string
      */
     protected $query;
 
     /**
-     * Initialize options
+     * Get key value.
      *
-     * @return void
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->getOption('key');
+    }
+
+    /**
+     * Set key value.
+     *
+     * @param string $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setKey($value)
+    {
+        return $this->setOption('key', $value);
+    }
+
+    /**
+     * Set the query string.
+     *
+     * This overwrites the current value
+     *
+     * @param string $query
+     * @param array  $bind  Bind values for placeholders in the query string
+     *
+     * @return self Provides fluent interface
+     */
+    public function setQuery($query, $bind = null)
+    {
+        if (!is_null($bind)) {
+            $helper = new Helper();
+            $query = $helper->assemble($query, $bind);
+        }
+
+        $this->query = trim($query);
+
+        return $this;
+    }
+
+    /**
+     * Get the query string.
+     *
+     * @return string
+     */
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+    /**
+     * Add a tag.
+     *
+     * @param string $tag
+     *
+     * @return self Provides fluent interface
+     */
+    public function addTag($tag)
+    {
+        $this->tags[$tag] = true;
+
+        return $this;
+    }
+
+    /**
+     * Add tags.
+     *
+     * @param array $tags
+     *
+     * @return self Provides fluent interface
+     */
+    public function addTags($tags)
+    {
+        foreach ($tags as $tag) {
+            $this->addTag($tag);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get all tagss.
+     *
+     * @return array
+     */
+    public function getTags()
+    {
+        return array_keys($this->tags);
+    }
+
+    /**
+     * Remove a tag.
+     *
+     * @param string $tag
+     *
+     * @return self Provides fluent interface
+     */
+    public function removeTag($tag)
+    {
+        if (isset($this->tags[$tag])) {
+            unset($this->tags[$tag]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all tags.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearTags()
+    {
+        $this->tags = array();
+
+        return $this;
+    }
+
+    /**
+     * Set multiple tags.
+     *
+     * This overwrites any existing tags
+     *
+     * @param array $tags
+     *
+     * @return self Provides fluent interface
+     */
+    public function setTags($tags)
+    {
+        $this->clearTags();
+
+        return $this->addTags($tags);
+    }
+
+    /**
+     * Initialize options.
      */
     protected function init()
     {
@@ -85,137 +223,5 @@ class FilterQuery extends Configurable
                     break;
             }
         }
-    }
-
-    /**
-     * Get key value
-     *
-     * @return string
-     */
-    public function getKey()
-    {
-        return $this->getOption('key');
-    }
-
-    /**
-     * Set key value
-     *
-     * @param  string $value
-     * @return self   Provides fluent interface
-     */
-    public function setKey($value)
-    {
-        return $this->setOption('key', $value);
-    }
-
-    /**
-     * Set the query string
-     *
-     * This overwrites the current value
-     *
-     * @param  string $query
-     * @param  array  $bind  Bind values for placeholders in the query string
-     * @return self   Provides fluent interface
-     */
-    public function setQuery($query, $bind = null)
-    {
-        if (!is_null($bind)) {
-            $helper = new Helper;
-            $query = $helper->assemble($query, $bind);
-        }
-
-        $this->query = trim($query);
-
-        return $this;
-    }
-
-    /**
-     * Get the query string
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->query;
-    }
-
-    /**
-     * Add a tag
-     *
-     * @param  string $tag
-     * @return self   Provides fluent interface
-     */
-    public function addTag($tag)
-    {
-        $this->tags[$tag] = true;
-
-        return $this;
-    }
-
-    /**
-     * Add tags
-     *
-     * @param  array $tags
-     * @return self  Provides fluent interface
-     */
-    public function addTags($tags)
-    {
-        foreach ($tags as $tag) {
-            $this->addTag($tag);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get all tagss
-     *
-     * @return array
-     */
-    public function getTags()
-    {
-        return array_keys($this->tags);
-    }
-
-    /**
-     * Remove a tag
-     *
-     * @param  string $tag
-     * @return self   Provides fluent interface
-     */
-    public function removeTag($tag)
-    {
-        if (isset($this->tags[$tag])) {
-            unset($this->tags[$tag]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove all tags
-     *
-     * @return self Provides fluent interface
-     */
-    public function clearTags()
-    {
-        $this->tags = array();
-
-        return $this;
-    }
-
-    /**
-     * Set multiple tags
-     *
-     * This overwrites any existing tags
-     *
-     * @param  array $tags
-     * @return self  Provides fluent interface
-     */
-    public function setTags($tags)
-    {
-        $this->clearTags();
-
-        return $this->addTags($tags);
     }
 }

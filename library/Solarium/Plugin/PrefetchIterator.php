@@ -30,31 +30,32 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin;
 
-use Solarium\Client;
-use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 use Solarium\Core\Client\Endpoint;
 
 /**
- * Prefetch plugin
+ * Prefetch plugin.
  *
  * This plugin can be used to create an 'endless' iterator over a complete resultset. The iterator will take care of
  * fetching the data in sets (sequential prefetching).
  */
-class PrefetchIterator extends Plugin implements \Iterator, \Countable
+class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -63,54 +64,56 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     );
 
     /**
-     * Query instance to execute
+     * Query instance to execute.
      *
      * @var SelectQuery
      */
     protected $query;
 
     /**
-     * Start position (offset)
+     * Start position (offset).
      *
      * @var int
      */
     protected $start = 0;
 
     /**
-     * Last resultset from the query instance
+     * Last resultset from the query instance.
      *
      * @var SelectResult
      */
     protected $result;
 
     /**
-     * Iterator position
+     * Iterator position.
      *
      * @var int
      */
     protected $position;
 
     /**
-     * Documents from the last resultset
+     * Documents from the last resultset.
      *
      * @var DocumentInterface[]
      */
     protected $documents;
 
     /**
-     * Set prefetch option
+     * Set prefetch option.
      *
-     * @param  integer $value
-     * @return self    Provides fluent interface
+     * @param integer $value
+     *
+     * @return self Provides fluent interface
      */
     public function setPrefetch($value)
     {
         $this->resetData();
+
         return $this->setOption('prefetch', $value);
     }
 
     /**
-     * Get prefetch option
+     * Get prefetch option.
      *
      * @return integer
      */
@@ -120,10 +123,11 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Set query to use for prefetching
+     * Set query to use for prefetching.
      *
-     * @param  SelectQuery $query
-     * @return self        Provides fluent interface
+     * @param SelectQuery $query
+     *
+     * @return self Provides fluent interface
      */
     public function setQuery($query)
     {
@@ -134,7 +138,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Get the query object used
+     * Get the query object used.
      *
      * @return SelectQuery
      */
@@ -144,11 +148,13 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Set endpoint to use
+     * Set endpoint to use.
      *
      * This overwrites any existing endpoint
      *
      * @param string|Endpoint $endpoint
+     *
+     * @return self Provides fluent interface
      */
     public function setEndpoint($endpoint)
     {
@@ -156,7 +162,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Get endpoint setting
+     * Get endpoint setting.
      *
      * @return string|Endpoint|null
      */
@@ -165,16 +171,15 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
         return $this->getOption('endpoint');
     }
 
-
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */
     public function count()
     {
         // if no results are available yet, get them now
-        if (null == $this->result) {
+        if (null === $this->result) {
             $this->fetchNext();
         }
 
@@ -182,7 +187,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Iterator implementation
+     * Iterator implementation.
      */
     public function rewind()
     {
@@ -195,7 +200,9 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Iterator implementation
+     * Iterator implementation.
+     *
+     * @return DocumentInterface
      */
     public function current()
     {
@@ -205,7 +212,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Iterator implementation
+     * Iterator implementation.
      *
      * @return int
      */
@@ -215,7 +222,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Iterator implementation
+     * Iterator implementation.
      */
     public function next()
     {
@@ -223,7 +230,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Iterator implementation
+     * Iterator implementation.
      *
      * @return boolean
      */
@@ -232,7 +239,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
         $adjustedIndex = $this->position % $this->options['prefetch'];
 
         // this condition prevent useless re-fetching of data if a count is done before the iterator is used
-        if ($adjustedIndex == 0 && ($this->position !== 0 || null == $this->result)) {
+        if ($adjustedIndex === 0 && ($this->position !== 0 || null === $this->result)) {
             $this->fetchNext();
         }
 
@@ -240,9 +247,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Fetch the next set of results
-     *
-     * @return void
+     * Fetch the next set of results.
      */
     protected function fetchNext()
     {
@@ -253,7 +258,7 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
     }
 
     /**
-     * Reset any cached data / position
+     * Reset any cached data / position.
      */
     protected function resetData()
     {

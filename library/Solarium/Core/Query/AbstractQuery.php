@@ -30,44 +30,46 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Configurable;
 
 /**
- * Base class for all query types, not intended for direct usage
+ * Base class for all query types, not intended for direct usage.
  */
-abstract class Query extends Configurable implements QueryInterface
+abstract class AbstractQuery extends Configurable implements QueryInterface
 {
-
     const WT_JSON = 'json';
     const WT_PHPS = 'phps';
 
     /**
-     * Helper instance
+     * Helper instance.
      *
      * @var Helper
      */
     protected $helper;
 
     /**
-     * Extra query params (e.g. dereferenced params)
+     * Extra query params (e.g. dereferenced params).
      *
      * @var array
      */
     protected $params = array();
 
     /**
-     * Set handler option
+     * Set handler option.
      *
-     * @param  string $handler
-     * @return self   Provides fluent interface
+     * @param string $handler
+     *
+     * @return self Provides fluent interface
      */
     public function setHandler($handler)
     {
@@ -75,7 +77,7 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Get handler option
+     * Get handler option.
      *
      * @return string
      */
@@ -85,7 +87,7 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Set resultclass option
+     * Set resultclass option.
      *
      * If you set a custom result class it must be available through autoloading
      * or a manual require before calling this method. This is your
@@ -94,8 +96,9 @@ abstract class Query extends Configurable implements QueryInterface
      * Also you need to make sure it extends the orginal result class of the
      * query or has an identical API.
      *
-     * @param  string $classname
-     * @return self   Provides fluent interface
+     * @param string $classname
+     *
+     * @return self Provides fluent interface
      */
     public function setResultClass($classname)
     {
@@ -103,7 +106,7 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Get resultclass option
+     * Get resultclass option.
      *
      * @return string
      */
@@ -113,9 +116,10 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Set timeAllowed option
+     * Set timeAllowed option.
      *
-     * @param  int  $value
+     * @param int $value
+     *
      * @return self Provides fluent interface
      */
     public function setTimeAllowed($value)
@@ -124,7 +128,7 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Get timeAllowed option
+     * Get timeAllowed option.
      *
      * @return int|null
      */
@@ -134,10 +138,11 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Set omitHeader option
+     * Set omitHeader option.
      *
-     * @param  boolean $value
-     * @return self    Provides fluent interface
+     * @param boolean $value
+     *
+     * @return self Provides fluent interface
      */
     public function setOmitHeader($value)
     {
@@ -145,7 +150,7 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Get omitHeader option
+     * Get omitHeader option.
      *
      * @return boolean
      */
@@ -155,7 +160,7 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Get a helper instance
+     * Get a helper instance.
      *
      * Uses lazy loading: the helper is instantiated on first use
      *
@@ -171,14 +176,15 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Add extra params to the request
+     * Add extra params to the request.
      *
      * Only intended for internal use, for instance with dereferenced params.
      * Therefore the params are limited in functionality. Only add and get
      *
-     * @param  string $name
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $name
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function addParam($name, $value)
     {
@@ -188,7 +194,7 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Get extra params
+     * Get extra params.
      *
      * @return array
      */
@@ -198,10 +204,11 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Set responsewriter option
+     * Set responsewriter option.
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function setResponseWriter($value)
     {
@@ -209,7 +216,7 @@ abstract class Query extends Configurable implements QueryInterface
     }
 
     /**
-     * Get responsewriter option
+     * Get responsewriter option.
      *
      * Defaults to json for backwards compatibility and security.
      *

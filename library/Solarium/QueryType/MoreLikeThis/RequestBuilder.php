@@ -33,12 +33,14 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\Core\Client\Request;
@@ -46,14 +48,15 @@ use Solarium\QueryType\Select\RequestBuilder\RequestBuilder as SelectRequestBuil
 use Solarium\Core\Query\QueryInterface;
 
 /**
- * Build a MoreLikeThis request
+ * Build a MoreLikeThis request.
  */
 class RequestBuilder extends SelectRequestBuilder
 {
     /**
-     * Build request for a MoreLikeThis query
+     * Build request for a MoreLikeThis query.
      *
-     * @param  QueryInterface|Query $query
+     * @param QueryInterface|Query $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)

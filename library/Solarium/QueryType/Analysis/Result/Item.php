@@ -30,77 +30,79 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Result;
 
 /**
- * Analysis item
+ * Analysis item.
  */
 class Item
 {
     /**
-     * Text string
+     * Text string.
      *
      * @var string
      */
     protected $text;
 
     /**
-     * RawText string
+     * RawText string.
      *
      * @var string
      */
     protected $rawText;
 
     /**
-     * Start
+     * Start.
      *
      * @var int
      */
     protected $start;
 
     /**
-     * End
+     * End.
      *
      * @var int
      */
     protected $end;
 
     /**
-     * Position
+     * Position.
      *
      * @var int
      */
     protected $position;
 
     /**
-     * Position history
+     * Position history.
      *
      * @var array
      */
     protected $positionHistory;
 
     /**
-     * Type
+     * Type.
      *
      * @var string
      */
     protected $type;
 
     /**
-     * Match
+     * Match.
      *
      * @var boolean
      */
     protected $match = false;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $analysis
      */
@@ -123,7 +125,7 @@ class Item
     }
 
     /**
-     * Get text value
+     * Get text value.
      *
      * @return string
      */
@@ -133,7 +135,7 @@ class Item
     }
 
     /**
-     * Get raw text value
+     * Get raw text value.
      *
      * This values is not available in all cases
      *
@@ -145,7 +147,7 @@ class Item
     }
 
     /**
-     * Get start value
+     * Get start value.
      *
      * @return int
      */
@@ -155,7 +157,7 @@ class Item
     }
 
     /**
-     * Get end value
+     * Get end value.
      *
      * @return int
      */
@@ -165,7 +167,7 @@ class Item
     }
 
     /**
-     * Get postion value
+     * Get postion value.
      *
      * @return int
      */
@@ -175,7 +177,7 @@ class Item
     }
 
     /**
-     * Get position history value
+     * Get position history value.
      *
      * @return array
      */
@@ -189,7 +191,7 @@ class Item
     }
 
     /**
-     * Get type value
+     * Get type value.
      *
      * @return string
      */
@@ -199,7 +201,7 @@ class Item
     }
 
     /**
-     * Get match value
+     * Get match value.
      *
      * @return boolean
      */

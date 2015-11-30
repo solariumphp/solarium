@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -43,7 +45,7 @@ use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Client\Request;
 
 /**
- * PreCreateRequest event, see Events for details
+ * PreCreateRequest event, see Events for details.
  */
 class PreCreateRequest extends Event
 {
@@ -58,7 +60,7 @@ class PreCreateRequest extends Event
     protected $request;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param QueryInterface $query
      */
@@ -68,7 +70,7 @@ class PreCreateRequest extends Event
     }
 
     /**
-     * Get the query object for this event
+     * Get the query object for this event.
      *
      * @return QueryInterface
      */
@@ -78,12 +80,11 @@ class PreCreateRequest extends Event
     }
 
     /**
-     * Set request
+     * Set request.
      *
      * If you set this request value the default execution is skipped and this request is directly returned
      *
-     * @param  Request $request
-     * @return void
+     * @param Request $request
      */
     public function setRequest(Request $request)
     {
@@ -91,7 +92,7 @@ class PreCreateRequest extends Event
     }
 
     /**
-     * Get the result
+     * Get the result.
      *
      * @return null|Request
      */

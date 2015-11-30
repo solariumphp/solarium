@@ -30,30 +30,32 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update;
 
-use Solarium\Client;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
 
 /**
- * Build an update request
+ * Build an update request.
  */
 class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * Build request for an update query
+     * Build request for an update query.
      *
-     * @param  QueryInterface|UpdateQuery $query
+     * @param QueryInterface|UpdateQuery $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -66,12 +68,14 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * Generates raw POST data
+     * Generates raw POST data.
      *
      * Each commandtype is delegated to a separate builder method.
      *
-     * @param  UpdateQuery      $query
+     * @param UpdateQuery $query
+     *
      * @throws RuntimeException
+     *
      * @return string
      */
     public function getRawData($query)
@@ -105,10 +109,11 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * Build XML for an add command
+     * Build XML for an add command.
      *
-     * @param  \Solarium\QueryType\Update\Query\Command\Add $command
-     * @param  UpdateQuery                                  $query
+     * @param \Solarium\QueryType\Update\Query\Command\Add $command
+     * @param UpdateQuery                                  $query
+     *
      * @return string
      */
     public function buildAddXml($command, $query = null)
@@ -149,54 +154,20 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * Build XML for a field
+     * Build XML for a delete command.
      *
-     * Used in the add command
+     * @param \Solarium\QueryType\Update\Query\Command\Delete $command
      *
-     * @param  string      $name
-     * @param  float       $boost
-     * @param  mixed       $value
-     * @param  string      $modifier
-     * @param  UpdateQuery $query
-     * @return string
-     */
-    protected function buildFieldXml($name, $boost, $value, $modifier = null, $query = null)
-    {
-        if ($value instanceof \DateTime) {
-            $value = $query->getHelper()->formatDate($value);
-        }
-
-        $xml = '<field name="' . $name . '"';
-        $xml .= $this->attrib('boost', $boost);
-        $xml .= $this->attrib('update', $modifier);
-        if ($value === null) {
-            $xml .= $this->attrib('null', 'true');
-        } else if ($value === false) {
-            $value = 'false';
-        } else if ($value === true) {
-            $value = 'true';
-        }
-
-        $xml .= '>' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
-        $xml .= '</field>';
-
-        return $xml;
-    }
-
-    /**
-     * Build XML for a delete command
-     *
-     * @param  \Solarium\QueryType\Update\Query\Command\Delete $command
      * @return string
      */
     public function buildDeleteXml($command)
     {
         $xml = '<delete>';
         foreach ($command->getIds() as $id) {
-            $xml .= '<id>' . htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8') . '</id>';
+            $xml .= '<id>'.htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8').'</id>';
         }
         foreach ($command->getQueries() as $query) {
-            $xml .= '<query>' . htmlspecialchars($query, ENT_NOQUOTES, 'UTF-8') . '</query>';
+            $xml .= '<query>'.htmlspecialchars($query, ENT_NOQUOTES, 'UTF-8').'</query>';
         }
         $xml .= '</delete>';
 
@@ -204,9 +175,10 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * Build XML for an update command
+     * Build XML for an update command.
      *
-     * @param  \Solarium\QueryType\Update\Query\Command\Optimize $command
+     * @param \Solarium\QueryType\Update\Query\Command\Optimize $command
+     *
      * @return string
      */
     public function buildOptimizeXml($command)
@@ -221,9 +193,10 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * Build XML for a commit command
+     * Build XML for a commit command.
      *
-     * @param  \Solarium\QueryType\Update\Query\Command\Commit $command
+     * @param \Solarium\QueryType\Update\Query\Command\Commit $command
+     *
      * @return string
      */
     public function buildCommitXml($command)
@@ -238,12 +211,48 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * Build XMl for a rollback command
+     * Build XMl for a rollback command.
      *
      * @return string
      */
     public function buildRollbackXml()
     {
         return '<rollback/>';
+    }
+
+    /**
+     * Build XML for a field.
+     *
+     * Used in the add command
+     *
+     * @param string      $name
+     * @param float       $boost
+     * @param mixed       $value
+     * @param string      $modifier
+     * @param UpdateQuery $query
+     *
+     * @return string
+     */
+    protected function buildFieldXml($name, $boost, $value, $modifier = null, $query = null)
+    {
+        if ($value instanceof \DateTime) {
+            $value = $query->getHelper()->formatDate($value);
+        }
+
+        $xml = '<field name="'.$name.'"';
+        $xml .= $this->attrib('boost', $boost);
+        $xml .= $this->attrib('update', $modifier);
+        if ($value === null) {
+            $xml .= $this->attrib('null', 'true');
+        } elseif ($value === false) {
+            $value = 'false';
+        } elseif ($value === true) {
+            $value = 'true';
+        }
+
+        $xml .= '>'.htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
+        $xml .= '</field>';
+
+        return $xml;
     }
 }

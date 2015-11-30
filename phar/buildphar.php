@@ -36,7 +36,7 @@
 
 // Check phar.readonly ini setting
 if (ini_get('phar.readonly') == '1') {
-    exit("Your php.ini has phar.readonly enabled. Phar cannot be created. Please alter your php.ini first.\n");
+    throw new \RuntimeException("Your php.ini has phar.readonly enabled. Phar cannot be created. Please alter your php.ini first.\n");
 }
 
 // You can optionally use arguments to enable compression and whitespace/comment stripping.
@@ -49,27 +49,36 @@ $strip = (isset($options['s']) && $options['s'] == '1');
 
 $start = microtime(true);
 
-// Create a new Solarium phar file
+// Create a new Solarium PHAR file.
 @unlink('solarium.phar');
 $phar = new Phar('solarium.phar', 0, 'solarium.phar');
-$phar->setStub(file_get_contents("stub.php"));
+$phar->setStub(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stub.php'));
 $phar->setSignatureAlgorithm(Phar::SHA1);
 
-// Add files to the phar
-$basePath = realpath(__DIR__."/../library/Solarium");
-if ($strip) {
-    $directoryIterator = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($basePath),
+// Add files to the PHAR.
+$basePath = dirname(__DIR__);
+$directoryIterator = new AppendIterator();
+$directoryIterator->append(
+    new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($basePath . DIRECTORY_SEPARATOR . 'library'),
         RecursiveIteratorIterator::SELF_FIRST
-    );
+    )
+);
+$directoryIterator->append(
+    new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($basePath . DIRECTORY_SEPARATOR . 'vendor'),
+        RecursiveIteratorIterator::SELF_FIRST
+    )
+);
 
+if ($strip) {
     foreach ($directoryIterator as $file) {
-        if (preg_match('/\\.php$/i', $file)) {
+        if (0 !== preg_match('/\\.php$/i', $file)) {
             $phar->addFromString(substr($file, strlen($basePath) + 1), php_strip_whitespace($file));
         }
     }
 } else {
-    $phar->buildFromDirectory($basePath, '/\.php$/');
+    $phar->buildFromIterator($directoryIterator, $basePath);
 }
 
 // Create compressed versions
@@ -79,4 +88,4 @@ if ($compress) {
 }
 
 $time = round(microtime(true)-$start, 5);
-echo "\nDONE ($time seconds)\n\n";
+echo "\nDONE ($time seconds)\nsolarium.phar has been created.\n\n";

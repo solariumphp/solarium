@@ -45,7 +45,7 @@ use Solarium\QueryType\Select\Query\Component\FacetSet;
  *
  * @link http://wiki.apache.org/solr/SimpleFacetParameters#Interval_Faceting
  */
-class Interval extends Facet
+class Interval extends AbstractFacet
 {
 
     /**

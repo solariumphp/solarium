@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -44,7 +46,7 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\ResultInterface;
 
 /**
- * PreCreateResult event, see Events for details
+ * PreCreateResult event, see Events for details.
  */
 class PreCreateResult extends Event
 {
@@ -64,7 +66,7 @@ class PreCreateResult extends Event
     protected $result;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param QueryInterface $query
      * @param Response       $response
@@ -76,7 +78,7 @@ class PreCreateResult extends Event
     }
 
     /**
-     * Get the query object for this event
+     * Get the query object for this event.
      *
      * @return QueryInterface
      */
@@ -86,7 +88,7 @@ class PreCreateResult extends Event
     }
 
     /**
-     * Get the response object for this event
+     * Get the response object for this event.
      *
      * @return Response
      */
@@ -96,7 +98,7 @@ class PreCreateResult extends Event
     }
 
     /**
-     * Get the result object for this event
+     * Get the result object for this event.
      *
      * @return ResultInterface
      */
@@ -106,10 +108,9 @@ class PreCreateResult extends Event
     }
 
     /**
-     * Set the result object for this event, overrides default execution
+     * Set the result object for this event, overrides default execution.
      *
-     * @param  ResultInterface $result
-     * @return void
+     * @param ResultInterface $result
      */
     public function setResult($result)
     {

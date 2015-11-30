@@ -30,28 +30,31 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 
 /**
- * Build a select request
+ * Build a select request.
  */
 class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * Build request for a select query
+     * Build request for a select query.
      *
-     * @param  QueryInterface|SelectQuery $query
+     * @param QueryInterface|SelectQuery $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -75,7 +78,7 @@ class RequestBuilder extends BaseRequestBuilder
         // add sort fields to request
         $sort = array();
         foreach ($query->getSorts() as $field => $order) {
-            $sort[] = $field . ' ' . $order;
+            $sort[] = $field.' '.$order;
         }
         if (count($sort) !== 0) {
             $request->addParam('sort', implode(',', $sort));

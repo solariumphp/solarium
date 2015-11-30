@@ -30,27 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Spellcheck as SpellcheckComponent;
 use Solarium\Core\Client\Request;
 
 /**
- * Add select component Spellcheck to the request
+ * Add select component Spellcheck to the request.
  */
 class Spellcheck implements ComponentRequestBuilderInterface
 {
     /**
-     * Add request settings for Spellcheck
+     * Add request settings for Spellcheck.
      *
-     * @param  SpellcheckComponent $component
-     * @param  Request             $request
+     * @param SpellcheckComponent $component
+     * @param Request             $request
+     *
      * @return Request
      */
     public function buildComponent($component, $request)

@@ -30,26 +30,29 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\ResponseParser;
 
 use Solarium\QueryType\Analysis\Result\ResultList;
 
 /**
- * Parse document analysis response data
+ * Parse document analysis response data.
  */
 class Document extends Field
 {
     /**
-     * Parse implementation
+     * Parse implementation.
      *
-     * @param  array        $result
-     * @param  array        $data
+     * @param array $result
+     * @param array $data
+     *
      * @return ResultList[]
      */
     protected function parseAnalysis($result, $data)

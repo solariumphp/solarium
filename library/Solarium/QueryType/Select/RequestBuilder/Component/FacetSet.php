@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\Core\Client\Request;
@@ -50,29 +52,32 @@ use Solarium\QueryType\Select\Query\Component\Facet\Interval as FacetInterval;
 use Solarium\Exception\UnexpectedValueException;
 
 /**
- * Add select component FacetSet to the request
+ * Add select component FacetSet to the request.
  */
 class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterface
 {
     /**
-     * Add request settings for FacetSet
+     * Add request settings for FacetSet.
      *
      * @throws UnexpectedValueException
-     * @param  FacetsetComponent        $component
-     * @param  Request                  $request
+     *
+     * @param FacetsetComponent $component
+     * @param Request           $request
+     *
      * @return Request
      */
     public function buildComponent($component, $request)
     {
         $facets = $component->getFacets();
         if (count($facets) !== 0) {
-
             // enable faceting
             $request->addParam('facet', 'true');
 
             // global facet params
             $request->addParam('facet.sort', $component->getSort());
             $request->addParam('facet.prefix', $component->getPrefix());
+            $request->addParam('facet.contains', $component->getContains());
+            $request->addParam('facet.contains.ignoreCase', is_null($ignoreCase = $component->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
             $request->addParam('facet.missing', $component->getMissing());
             $request->addParam('facet.mincount', $component->getMinCount());
             $request->addParam('facet.limit', $component->getLimit());
@@ -107,11 +112,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     }
 
     /**
-     * Add params for a field facet to request
+     * Add params for a field facet to request.
      *
-     * @param  Request    $request
-     * @param  FacetField $facet
-     * @return void
+     * @param Request    $request
+     * @param FacetField $facet
      */
     public function addFacetField($request, $facet)
     {
@@ -128,6 +132,8 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $request->addParam("f.$field.facet.limit", $facet->getLimit());
         $request->addParam("f.$field.facet.sort", $facet->getSort());
         $request->addParam("f.$field.facet.prefix", $facet->getPrefix());
+        $request->addParam("f.$field.facet.contains", $facet->getContains());
+        $request->addParam("f.$field.facet.contains.ignoreCase", is_null($ignoreCase = $facet->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
         $request->addParam("f.$field.facet.offset", $facet->getOffset());
         $request->addParam("f.$field.facet.mincount", $facet->getMinCount());
         $request->addParam("f.$field.facet.missing", $facet->getMissing());
@@ -135,11 +141,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     }
 
     /**
-     * Add params for a facet query to request
+     * Add params for a facet query to request.
      *
-     * @param  Request    $request
-     * @param  FacetQuery $facet
-     * @return void
+     * @param Request    $request
+     * @param FacetQuery $facet
      */
     public function addFacetQuery($request, $facet)
     {
@@ -153,11 +158,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     }
 
     /**
-     * Add params for a multiquery facet to request
+     * Add params for a multiquery facet to request.
      *
-     * @param  Request         $request
-     * @param  FacetMultiQuery $facet
-     * @return void
+     * @param Request         $request
+     * @param FacetMultiQuery $facet
      */
     public function addFacetMultiQuery($request, $facet)
     {
@@ -167,11 +171,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     }
 
     /**
-     * Add params for a range facet to request
+     * Add params for a range facet to request.
      *
-     * @param  Request    $request
-     * @param  FacetRange $facet
-     * @return void
+     * @param Request    $request
+     * @param FacetRange $facet
      */
     public function addFacetRange($request, $facet)
     {
@@ -201,11 +204,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     }
 
     /**
-     * Add params for a range facet to request
+     * Add params for a range facet to request.
      *
-     * @param  Request    $request
-     * @param  FacetPivot $facet
-     * @return void
+     * @param Request    $request
+     * @param FacetPivot $facet
      */
     public function addFacetPivot($request, $facet)
     {

@@ -30,26 +30,26 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\ParallelExecution;
 
-use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\HttpException;
-use Solarium\Core\Client\Client;
-use Solarium\Core\Query\Query;
-use Solarium\Core\Query\Result;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Plugin\ParallelExecution\Event\Events;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
 
 /**
- * ParallelExecution plugin
+ * ParallelExecution plugin.
  *
  * You can use this plugin to run multiple queries parallel. This functionality depends on the curl adapter so you
  * do need to have curl available in your PHP environment.
@@ -59,10 +59,10 @@ use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
  *
  * @codeCoverageIgnoreStart
  */
-class ParallelExecution extends Plugin
+class ParallelExecution extends AbstractPlugin
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -71,27 +71,20 @@ class ParallelExecution extends Plugin
     );
 
     /**
-     * Queries (and optionally clients) to execute
+     * Queries (and optionally clients) to execute.
      *
-     * @var Query[]
+     * @var AbstractQuery[]
      */
     protected $queries = array();
 
     /**
-     * Set curl adapter (the only type that supports parallelexecution)
-     */
-    protected function initPluginType()
-    {
-        $this->client->setAdapter('Solarium\Core\Client\Adapter\Curl');
-    }
-
-    /**
-     * Add a query to execute
+     * Add a query to execute.
      *
-     * @param  string               $key
-     * @param  Query                $query
-     * @param  null|string|Endpoint $endpoint
-     * @return self                 Provides fluent interface
+     * @param string               $key
+     * @param AbstractQuery        $query
+     * @param null|string|Endpoint $endpoint
+     *
+     * @return self Provides fluent interface
      */
     public function addQuery($key, $query, $endpoint = null)
     {
@@ -99,7 +92,7 @@ class ParallelExecution extends Plugin
             $endpoint = $endpoint->getKey();
         }
 
-        if ($endpoint == null) {
+        if ($endpoint === null) {
             $endpoint = $this->client->getEndpoint()->getKey();
         }
 
@@ -112,9 +105,9 @@ class ParallelExecution extends Plugin
     }
 
     /**
-     * Get queries (and coupled client instances)
+     * Get queries (and coupled client instances).
      *
-     * @return Query[]
+     * @return AbstractQuery[]
      */
     public function getQueries()
     {
@@ -122,7 +115,7 @@ class ParallelExecution extends Plugin
     }
 
     /**
-     * Clear all queries
+     * Clear all queries.
      *
      * @return self Provides fluent interface
      */
@@ -136,7 +129,7 @@ class ParallelExecution extends Plugin
     // @codeCoverageIgnoreStart
 
     /**
-     * Execute queries parallel
+     * Execute queries parallel.
      *
      * @return \Solarium\Core\Query\Result\Result[]
      */
@@ -180,7 +173,6 @@ class ParallelExecution extends Plugin
                 $response = $adapter->getResponse($handle, curl_multi_getcontent($handle));
                 $results[$key] = $this->client->createResult($this->queries[$key]['query'], $response);
             } catch (HttpException $e) {
-
                 $results[$key] = $e;
             }
         }
@@ -190,7 +182,15 @@ class ParallelExecution extends Plugin
         return $results;
     }
 
-    /**
+    /*
      * @codeCoverageIgnoreEnd
      */
+
+    /**
+     * Set curl adapter (the only type that supports parallelexecution).
+     */
+    protected function initPluginType()
+    {
+        $this->client->setAdapter('Solarium\Core\Client\Adapter\Curl');
+    }
 }

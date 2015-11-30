@@ -58,6 +58,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             'mincount' => 5,
             'missing' => true,
             'method' => 'enum',
+            'contains' => 'foobar',
+            'containsignorecase' => true,
         );
 
         $this->facet->setOptions($options);
@@ -71,6 +73,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['mincount'], $this->facet->getMinCount());
         $this->assertEquals($options['missing'], $this->facet->getMissing());
         $this->assertEquals($options['method'], $this->facet->getMethod());
+        $this->assertEquals($options['contains'], $this->facet->getContains());
+        $this->assertEquals($options['containsignorecase'], $this->facet->getContainsIgnoreCase());
     }
 
     public function testGetType()
@@ -127,5 +131,17 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $this->facet->setMethod('enum');
         $this->assertEquals('enum', $this->facet->getMethod());
+    }
+
+    public function testSetAndGetContains()
+    {
+        $this->facet->setContains('foobar');
+        $this->assertEquals('foobar', $this->facet->getContains());
+    }
+
+    public function testSetAndGetContainsIgnoreCase()
+    {
+        $this->facet->setContainsIgnoreCase(true);
+        $this->assertEquals(true, $this->facet->getContainsIgnoreCase());
     }
 }

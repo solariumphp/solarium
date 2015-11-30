@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
-use Solarium\QueryType\Select\Query\Component\Component;
+use Solarium\QueryType\Select\Query\Component\AbstractComponent;
 use Solarium\QueryType\Select\Query\Query;
 
 class ComponentTest extends \PHPUnit_Framework_TestCase
@@ -51,7 +51,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestComponent extends Component
+class TestComponent extends AbstractComponent
 {
     public function getType()
     {

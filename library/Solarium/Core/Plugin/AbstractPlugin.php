@@ -30,25 +30,54 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Update\Query\Command;
 
+namespace Solarium\Core\Plugin;
+
+use Solarium\Core\Client\Client;
 use Solarium\Core\Configurable;
 
 /**
- * Update query command base class
+ * Base class for plugins.
  */
-abstract class Command extends Configurable
+abstract class AbstractPlugin extends Configurable implements PluginInterface
 {
     /**
-     * Returns command type, for use in adapters
+     * Client instance.
      *
-     * @return string
+     * @var Client
      */
-    abstract public function getType();
+    protected $client;
+
+    /**
+     * Initialize.
+     *
+     * This method is called when the plugin is registered to a client instance
+     *
+     * @param Client $client
+     * @param array  $options
+     */
+    public function initPlugin($client, $options)
+    {
+        $this->client = $client;
+        parent::__construct($options);
+
+        $this->initPluginType();
+    }
+
+    /**
+     * Plugin init function.
+     *
+     * This is an extension point for plugin implementations.
+     * Will be called as soon as $this->client and options have been set.
+     */
+    protected function initPluginType()
+    {
+    }
 }

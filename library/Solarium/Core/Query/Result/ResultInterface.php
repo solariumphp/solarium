@@ -30,24 +30,26 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query\Result;
 
 use Solarium\Core\Client\Response;
-use Solarium\Core\Query\Query;
+use Solarium\Core\Query\AbstractQuery;
 
 /**
- * Query result interface
+ * Query result interface.
  */
 interface ResultInterface
 {
     /**
-     * Get response object
+     * Get response object.
      *
      * This is the raw HTTP response object, not the parsed data!
      *
@@ -56,14 +58,14 @@ interface ResultInterface
     public function getResponse();
 
     /**
-     * Get query instance
+     * Get query instance.
      *
-     * @return Query
+     * @return AbstractQuery
      */
     public function getQuery();
 
     /**
-     * Get Solr response data
+     * Get Solr response data.
      *
      * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
      *

@@ -30,67 +30,39 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\CustomizeRequest;
 
-use Solarium\Core\Plugin\Plugin;
-use Solarium\Core\Client\Request;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\preExecuteRequest as preExecuteRequestEvent;
 
 /**
- * CustomizeRequest plugin
+ * CustomizeRequest plugin.
  *
  * You can use this plugin to customize the requests generated for Solarium queries by adding or overwriting
  * params and/or headers.
  */
-class CustomizeRequest extends Plugin
+class CustomizeRequest extends AbstractPlugin
 {
     /**
-     * Holds customizations added to this plugin
+     * Holds customizations added to this plugin.
      *
      * @var Customization[]
      */
     protected $customizations = array();
 
     /**
-     * Initialize options
-     *
-     * @return void
-     */
-    protected function init()
-    {
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'customization':
-                    $this->addCustomizations($value);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Plugin init function
-     *
-     * Register event listeners
-     *
-     * @return void
-     */
-    protected function initPluginType()
-    {
-        $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
-    }
-
-    /**
-     * Create a Customization instance
+     * Create a Customization instance.
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the Customization
      * and it will be added to this plugin.
@@ -99,13 +71,14 @@ class CustomizeRequest extends Plugin
      * When no key is supplied the Customization cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addCustomization method.
      *
-     * @param  mixed         $options
+     * @param mixed $options
+     *
      * @return Customization
      */
     public function createCustomization($options = null)
     {
         if (is_string($options)) {
-            $fq = new Customization;
+            $fq = new Customization();
             $fq->setKey($options);
         } else {
             $fq = new Customization($options);
@@ -119,14 +92,16 @@ class CustomizeRequest extends Plugin
     }
 
     /**
-     * Add a customization
+     * Add a customization.
      *
      * Supports a Customization instance or a config array, in that case a new
      * Customization instance wil be created based on the options.
      *
      * @throws InvalidArgumentException
-     * @param  Customization|array      $customization
-     * @return self                     Provides fluent interface
+     *
+     * @param Customization|array $customization
+     *
+     * @return self Provides fluent interface
      */
     public function addCustomization($customization)
     {
@@ -155,15 +130,15 @@ class CustomizeRequest extends Plugin
     }
 
     /**
-     * Add multiple Customizations
+     * Add multiple Customizations.
      *
-     * @param  array            $customizations
+     * @param array $customizations
+     *
      * @return CustomizeRequest Provides fluent interface
      */
     public function addCustomizations(array $customizations)
     {
         foreach ($customizations as $key => $customization) {
-
             // in case of a config array: add key to config
             if (is_array($customization) && !isset($customization['key'])) {
                 $customization['key'] = $key;
@@ -176,9 +151,10 @@ class CustomizeRequest extends Plugin
     }
 
     /**
-     * Get a Customization
+     * Get a Customization.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return string
      */
     public function getCustomization($key)
@@ -186,12 +162,12 @@ class CustomizeRequest extends Plugin
         if (isset($this->customizations[$key])) {
             return $this->customizations[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Get all Customizations
+     * Get all Customizations.
      *
      * @return Customization[]
      */
@@ -201,12 +177,13 @@ class CustomizeRequest extends Plugin
     }
 
     /**
-     * Remove a single Customization
+     * Remove a single Customization.
      *
      * You can remove a Customization by passing its key, or by passing the Customization instance.
      *
-     * @param  string|Customization $customization
-     * @return CustomizeRequest     Provides fluent interface
+     * @param string|Customization $customization
+     *
+     * @return CustomizeRequest Provides fluent interface
      */
     public function removeCustomization($customization)
     {
@@ -222,7 +199,7 @@ class CustomizeRequest extends Plugin
     }
 
     /**
-     * Remove all Customizations
+     * Remove all Customizations.
      *
      * @return CustomizeRequest Provides fluent interface
      */
@@ -234,7 +211,7 @@ class CustomizeRequest extends Plugin
     }
 
     /**
-     * Set multiple Customizations
+     * Set multiple Customizations.
      *
      * This overwrites any existing Customizations
      *
@@ -247,20 +224,19 @@ class CustomizeRequest extends Plugin
     }
 
     /**
-     * Event hook to customize the request object
+     * Event hook to customize the request object.
      *
      * @throws RuntimeException
-     * @param  preExecuteRequestEvent $event
-     * @return void
+     *
+     * @param preExecuteRequestEvent $event
      */
     public function preExecuteRequest(preExecuteRequestEvent $event)
     {
         $request = $event->getRequest();
         foreach ($this->getCustomizations() as $key => $customization) {
-
             // first validate
             if (!$customization->isValid()) {
-                throw new RuntimeException('Request customization with key "' . $key . '" is invalid');
+                throw new RuntimeException('Request customization with key "'.$key.'" is invalid');
             }
 
             // apply to request, depending on type
@@ -273,7 +249,7 @@ class CustomizeRequest extends Plugin
                     );
                     break;
                 case Customization::TYPE_HEADER:
-                    $request->addHeader($customization->getName() . ': ' . $customization->getValue());
+                    $request->addHeader($customization->getName().': '.$customization->getValue());
                     break;
             }
 
@@ -284,5 +260,30 @@ class CustomizeRequest extends Plugin
         }
 
         $event->setRequest($request);
+    }
+
+    /**
+     * Initialize options.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'customization':
+                    $this->addCustomizations($value);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Plugin init function.
+     *
+     * Register event listeners
+     */
+    protected function initPluginType()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
     }
 }

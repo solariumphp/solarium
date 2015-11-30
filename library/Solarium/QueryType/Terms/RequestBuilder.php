@@ -33,27 +33,30 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Terms;
 
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\QueryInterface;
 
 /**
- * Build a Terms query request
+ * Build a Terms query request.
  */
 class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * Build request for a Terms query
+     * Build request for a Terms query.
      *
-     * @param  QueryInterface|Query $query
+     * @param QueryInterface|Query $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)

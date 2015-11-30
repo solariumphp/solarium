@@ -30,24 +30,26 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Plugin;
 
 use Solarium\Core\ConfigurableInterface;
 use Solarium\Core\Client\Client;
 
 /**
- * Interface for plugins
+ * Interface for plugins.
  */
 interface PluginInterface extends ConfigurableInterface
 {
     /**
-     * Initialize
+     * Initialize.
      *
      * This method is called when the plugin is registered to a client instance
      *
