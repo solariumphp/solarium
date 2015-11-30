@@ -28,3 +28,6 @@ matrix:
       - php: 5.3
       - php: hhvm
       - php: nightly
+
+
+sudo: false
