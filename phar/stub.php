@@ -34,7 +34,7 @@
  */
 
 Phar::mapPhar("solarium.phar");
-require_once 'phar://solarium.phar/Autoloader.php';
+require_once 'phar://solarium.phar/vendor/autoload.php';
 \Solarium\Autoloader::register();
 
 if ('cli' === php_sapi_name() && basename(__FILE__) === basename($_SERVER['argv'][0]) && isset($_SERVER['argv'][1])) {
@@ -46,9 +46,8 @@ if ('cli' === php_sapi_name() && basename(__FILE__) === basename($_SERVER['argv'
             break;
 
         default:
-            echo "Unknown command '" . $_SERVER['argv'][1] . "' (Supported commands: version)\n";
+            echo 'Unknown command \'' . $_SERVER['argv'][1] . '\' (Supported commands: version)' . "\n";
     }
 }
 
 __HALT_COMPILER();
-?>
