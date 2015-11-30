@@ -38,8 +38,8 @@
  */
 namespace Solarium\QueryType\Schema;
 
+use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
-use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 use Solarium\QueryType\Schema\Query\Field\CopyField;
 use Solarium\QueryType\Schema\Query\Field\Field;
 use Solarium\QueryType\Schema\Query\FieldType\Analyzer\AnalyzerInterface;

@@ -39,8 +39,8 @@
 namespace Solarium\QueryType\Schema;
 
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Schema\Query\Query AS SchemaQuery;
 
