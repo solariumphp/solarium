@@ -56,6 +56,7 @@ use Solarium\Core\Event\PreExecute as PreExecuteEvent;
 use Solarium\Core\Event\PostExecute as PostExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * @coversDefaultClass \Solarium\Core\Client\Client
@@ -570,8 +571,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $query = new SelectQuery();
         $expectedEvent = new PreCreateRequestEvent($query);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::PRE_CREATE_REQUEST);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::PRE_CREATE_REQUEST);
+        }
 
         $observer = $this->getMock('Solarium\Core\Plugin\AbstractPlugin', array('preCreateRequest'));
         $observer->expects($this->once())
@@ -592,8 +595,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery();
         $request = $this->client->createRequest($query);
         $expectedEvent = new PostCreateRequestEvent($query, $request);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::POST_CREATE_REQUEST);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::POST_CREATE_REQUEST);
+        }
 
         $observer = $this->getMock('Solarium\Core\Plugin\AbstractPlugin', array('postCreateRequest'));
         $observer->expects($this->once())
@@ -616,8 +621,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $query = new SelectQuery();
         $expectedEvent = new PreCreateRequestEvent($query);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::PRE_CREATE_REQUEST);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::PRE_CREATE_REQUEST);
+        }
 
         $test = $this;
         $this->client->getEventDispatcher()->addListener(
@@ -653,8 +660,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery();
         $response = new Response('', array('HTTP 1.0 200 OK'));
         $expectedEvent = new PreCreateResultEvent($query, $response);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::PRE_CREATE_RESULT);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::PRE_CREATE_RESULT);
+        }
 
         $observer = $this->getMock('Solarium\Core\Plugin\AbstractPlugin', array('preCreateResult'));
         $observer->expects($this->once())
@@ -676,8 +685,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = $this->client->createResult($query, $response);
         $expectedEvent = new PostCreateResultEvent($query, $response, $result);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::POST_CREATE_RESULT);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::POST_CREATE_RESULT);
+        }
 
         $observer = $this->getMock('Solarium\Core\Plugin\AbstractPlugin', array('postCreateResult'));
         $observer->expects($this->once())
@@ -698,8 +709,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery();
         $response = new Response('test 1234', array('HTTP 1.0 200 OK'));
         $expectedEvent = new PreCreateResultEvent($query, $response);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::PRE_CREATE_RESULT);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::PRE_CREATE_RESULT);
+        }
         $expectedResult = new Result($this->client, $query, $response);
 
         $test = $this;
@@ -768,7 +781,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = new Result($this->client, $query, $response);
         $expectedEvent = new PreExecuteEvent($query);
-        $expectedEvent->setName(Events::PRE_EXECUTE);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setName(Events::PRE_EXECUTE);
+        }
 
         $mock = $this->getMock('Solarium\Core\Client\Client', array('createRequest', 'executeRequest', 'createResult'));
 
@@ -791,7 +806,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $mock->getEventDispatcher()->addListener(Events::PRE_EXECUTE, array($observer, 'preExecute'));
 
-        $expectedEvent->setDispatcher($mock->getEventDispatcher());
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($mock->getEventDispatcher());
+        }
 
         $mock->execute($query);
     }
@@ -802,7 +819,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = new Result($this->client, $query, $response);
         $expectedEvent = new PostExecuteEvent($query, $result);
-        $expectedEvent->setName(Events::POST_EXECUTE);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setName(Events::POST_EXECUTE);
+        }
 
         $mock = $this->getMock('Solarium\Core\Client\Client', array('createRequest', 'executeRequest', 'createResult'));
 
@@ -825,7 +844,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $mock->getEventDispatcher()->addListener(Events::POST_EXECUTE, array($observer, 'postExecute'));
 
-        $expectedEvent->setDispatcher($mock->getEventDispatcher());
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($mock->getEventDispatcher());
+        }
 
         $mock->execute($query);
     }
@@ -836,8 +857,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $response = new Response('', array('HTTP 1.0 200 OK'));
         $expectedResult = new Result($this->client, $query, $response);
         $expectedEvent = new PreExecuteEvent($query);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::PRE_EXECUTE);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::PRE_EXECUTE);
+        }
 
         $test = $this;
         $this->client->getEventDispatcher()->addListener(
@@ -882,8 +905,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $endpoint = $this->client->createEndpoint('s1');
         $response = new Response('', array('HTTP 1.0 200 OK'));
         $expectedEvent = new PreExecuteRequestEvent($request, $endpoint);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::PRE_EXECUTE_REQUEST);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::PRE_EXECUTE_REQUEST);
+        }
 
         $mockAdapter = $this->getMock('Solarium\Core\Client\Adapter\Http', array('execute'));
         $mockAdapter->expects($this->once())
@@ -910,8 +935,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $endpoint = $this->client->createEndpoint('s1');
         $response = new Response('', array('HTTP 1.0 200 OK'));
         $expectedEvent = new PostExecuteRequestEvent($request, $endpoint, $response);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::POST_EXECUTE_REQUEST);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::POST_EXECUTE_REQUEST);
+        }
 
         $mockAdapter = $this->getMock('Solarium\Core\Client\Adapter\Http', array('execute'));
         $mockAdapter->expects($this->any())
@@ -938,8 +965,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $response = new Response('', array('HTTP 1.0 200 OK'));
         $endpoint = $this->client->createEndpoint('s1');
         $expectedEvent = new PreExecuteRequestEvent($request, $endpoint);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::PRE_EXECUTE_REQUEST);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::PRE_EXECUTE_REQUEST);
+        }
 
         $test = $this;
         $this->client->getEventDispatcher()->addListener(
@@ -1088,8 +1117,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $type = Client::QUERY_SELECT;
         $options = array('optionA' => 1, 'optionB' => 2);
         $expectedEvent = new PreCreateQueryEvent($type, $options);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::PRE_CREATE_QUERY);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::PRE_CREATE_QUERY);
+        }
 
         $observer = $this->getMock('Solarium\Core\Plugin\AbstractPlugin', array('preCreateQuery'));
         $observer->expects($this->once())
@@ -1107,8 +1138,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $expectedQuery = new SelectQuery();
         $expectedQuery->setQuery('test789');
         $expectedEvent = new PreCreateQueryEvent($type, $options);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::PRE_CREATE_QUERY);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::PRE_CREATE_QUERY);
+        }
 
         $test = $this;
         $this->client->getEventDispatcher()->addListener(
@@ -1133,8 +1166,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $options = array('optionA' => 1, 'optionB' => 2);
         $query = $this->client->createQuery($type, $options);
         $expectedEvent = new PostCreateQueryEvent($type, $options, $query);
-        $expectedEvent->setDispatcher($this->client->getEventDispatcher());
-        $expectedEvent->setName(Events::POST_CREATE_QUERY);
+        if ($this->usesSymfony2Events()) {
+            $expectedEvent->setDispatcher($this->client->getEventDispatcher());
+            $expectedEvent->setName(Events::POST_CREATE_QUERY);
+        }
 
         $observer = $this->getMock('Solarium\Core\Plugin\AbstractPlugin', array('postCreateQuery'));
         $observer->expects($this->once())
@@ -1255,6 +1290,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                  ->with($this->equalTo(Client::QUERY_EXTRACT), $this->equalTo($options));
 
         $observer->createExtract($options);
+    }
+
+    private function usesSymfony2Events()
+    {
+        $event = new Event();
+
+        return method_exists($event, 'setName') && method_exists($event, 'setDispatcher');
     }
 }
 
