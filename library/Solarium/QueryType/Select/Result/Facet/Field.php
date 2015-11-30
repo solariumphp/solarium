@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Facet;
 
 /**
- * Select field facet result
+ * Select field facet result.
  *
  * A field facet will usually return a dataset of multiple rows, in each row a
  * value and its count. You can access the values as an array using
@@ -48,14 +50,14 @@ namespace Solarium\QueryType\Select\Result\Facet;
 class Field implements \IteratorAggregate, \Countable
 {
     /**
-     * Value array
+     * Value array.
      *
      * @var array
      */
     protected $values;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $values
      */
@@ -65,7 +67,7 @@ class Field implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all values
+     * Get all values.
      *
      * @return array
      */
@@ -75,7 +77,7 @@ class Field implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -85,7 +87,7 @@ class Field implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

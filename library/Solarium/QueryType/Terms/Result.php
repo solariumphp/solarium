@@ -30,30 +30,32 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Terms;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**
- * Terms query result
+ * Terms query result.
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
-     * Status code returned by Solr
+     * Status code returned by Solr.
      *
      * @var int
      */
     protected $status;
 
     /**
-     * Solr index queryTime
+     * Solr index queryTime.
      *
      * This doesn't include things like the HTTP responsetime. Purely the Solr
      * query execution time.
@@ -63,14 +65,14 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     protected $queryTime;
 
     /**
-     * Term results
+     * Term results.
      *
      * @var array
      */
     protected $results;
 
     /**
-     * Get Solr status code
+     * Get Solr status code.
      *
      * This is not the HTTP status code! The normal value for success is 0.
      *
@@ -84,7 +86,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get Solr query time
+     * Get Solr query time.
      *
      * This doesn't include things like the HTTP responsetime. Purely the Solr
      * query execution time.
@@ -99,7 +101,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all term results
+     * Get all term results.
      *
      * @return array
      */
@@ -111,9 +113,10 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get term results for a specific field
+     * Get term results for a specific field.
      *
-     * @param  string $field
+     * @param string $field
+     *
      * @return array
      */
     public function getTerms($field)
@@ -128,7 +131,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -140,7 +143,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

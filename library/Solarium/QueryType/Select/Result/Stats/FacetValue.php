@@ -30,35 +30,37 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Stats;
 
 /**
- * Select component stats facet value
+ * Select component stats facet value.
  */
 class FacetValue
 {
     /**
-     * Facet value
+     * Facet value.
      *
      * @var string
      */
     protected $value;
 
     /**
-     * Stats data
+     * Stats data.
      *
      * @var array
      */
     protected $stats;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $value
      * @param array  $stats
@@ -70,7 +72,7 @@ class FacetValue
     }
 
     /**
-     * Get facet value
+     * Get facet value.
      *
      * @return string
      */
@@ -80,7 +82,7 @@ class FacetValue
     }
 
     /**
-     * Get min value
+     * Get min value.
      *
      * @return string
      */
@@ -90,7 +92,7 @@ class FacetValue
     }
 
     /**
-     * Get max value
+     * Get max value.
      *
      * @return string
      */
@@ -100,7 +102,7 @@ class FacetValue
     }
 
     /**
-     * Get sum value
+     * Get sum value.
      *
      * @return string
      */
@@ -110,7 +112,7 @@ class FacetValue
     }
 
     /**
-     * Get count value
+     * Get count value.
      *
      * @return string
      */
@@ -120,7 +122,7 @@ class FacetValue
     }
 
     /**
-     * Get missing value
+     * Get missing value.
      *
      * @return string
      */
@@ -130,7 +132,7 @@ class FacetValue
     }
 
     /**
-     * Get sumOfSquares value
+     * Get sumOfSquares value.
      *
      * @return string
      */
@@ -140,7 +142,7 @@ class FacetValue
     }
 
     /**
-     * Get mean value
+     * Get mean value.
      *
      * @return string
      */
@@ -150,7 +152,7 @@ class FacetValue
     }
 
     /**
-     * Get stddev value
+     * Get stddev value.
      *
      * @return string
      */
@@ -160,7 +162,7 @@ class FacetValue
     }
 
     /**
-     * Get facet stats
+     * Get facet stats.
      *
      * @return array
      */

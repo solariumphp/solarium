@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting as HighlightingComponent;
@@ -43,15 +45,16 @@ use Solarium\QueryType\Select\Query\Component\Highlighting\Field as Highlighting
 use Solarium\Core\Client\Request;
 
 /**
- * Add select component Highlighting to the request
+ * Add select component Highlighting to the request.
  */
 class Highlighting implements ComponentRequestBuilderInterface
 {
     /**
-     * Add request settings for Highlighting
+     * Add request settings for Highlighting.
      *
-     * @param  HighlightingComponent $component
-     * @param  Request               $request
+     * @param HighlightingComponent $component
+     * @param Request               $request
+     *
      * @return Request
      */
     public function buildComponent($component, $request)
@@ -103,15 +106,14 @@ class Highlighting implements ComponentRequestBuilderInterface
     }
 
     /**
-     * Add per-field override options to the request
+     * Add per-field override options to the request.
      *
-     * @param  HighlightingField $field
-     * @param  Request           $request
-     * @return void
+     * @param HighlightingField $field
+     * @param Request           $request
      */
     protected function addFieldParams($field, $request)
     {
-        $prefix = 'f.' . $field->getName() . '.hl.';
+        $prefix = 'f.'.$field->getName().'.hl.';
         $request->addParam($prefix.'snippets', $field->getSnippets());
         $request->addParam($prefix.'fragsize', $field->getFragSize());
         $request->addParam($prefix.'mergeContiguous', $field->getMergeContiguous());

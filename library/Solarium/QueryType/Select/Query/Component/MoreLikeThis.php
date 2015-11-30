@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -43,14 +45,14 @@ use Solarium\QueryType\Select\RequestBuilder\Component\MoreLikeThis as RequestBu
 use Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis as ResponseParser;
 
 /**
- * MoreLikeThis component
+ * MoreLikeThis component.
  *
  * @link http://wiki.apache.org/solr/MoreLikeThis
  */
-class MoreLikeThis extends Component
+class MoreLikeThis extends AbstractComponent
 {
     /**
-     * Get component type
+     * Get component type.
      *
      * @return string
      */
@@ -60,35 +62,36 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Set fields option
+     * Set fields option.
      *
      * The fields to use for similarity. NOTE: if possible, these should have a
      * stored TermVector
      *
      * When using string input you can separate multiple fields with commas.
      *
-     * @param  string|array $fields
-     * @return self         Provides fluent interface
+     * @param string|array $fields
+     *
+     * @return self Provides fluent interface
      */
     public function setFields($fields)
     {
@@ -101,14 +104,14 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get fields option
+     * Get fields option.
      *
      * @return array
      */
     public function getFields()
     {
         $fields = $this->getOption('fields');
-        if ($fields == null) {
+        if ($fields === null) {
             $fields = array();
         }
 
@@ -116,12 +119,13 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set minimumtermfrequency option
+     * Set minimumtermfrequency option.
      *
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
-     * @param  int  $minimum
+     * @param int $minimum
+     *
      * @return self Provides fluent interface
      */
     public function setMinimumTermFrequency($minimum)
@@ -130,7 +134,7 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get minimumtermfrequency option
+     * Get minimumtermfrequency option.
      *
      * @return integer|null
      */
@@ -140,12 +144,13 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set minimumdocumentfrequency option
+     * Set minimumdocumentfrequency option.
      *
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
-     * @param  int  $minimum
+     * @param int $minimum
+     *
      * @return self Provides fluent interface
      */
     public function setMinimumDocumentFrequency($minimum)
@@ -154,7 +159,7 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get minimumdocumentfrequency option
+     * Get minimumdocumentfrequency option.
      *
      * @return integer|null
      */
@@ -164,11 +169,12 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set minimumwordlength option
+     * Set minimumwordlength option.
      *
      * Minimum word length below which words will be ignored.
      *
-     * @param  int  $minimum
+     * @param int $minimum
+     *
      * @return self Provides fluent interface
      */
     public function setMinimumWordLength($minimum)
@@ -177,7 +183,7 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get minimumwordlength option
+     * Get minimumwordlength option.
      *
      * @return integer|null
      */
@@ -187,11 +193,12 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set maximumwordlength option
+     * Set maximumwordlength option.
      *
      * Maximum word length above which words will be ignored.
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setMaximumWordLength($maximum)
@@ -200,7 +207,7 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get maximumwordlength option
+     * Get maximumwordlength option.
      *
      * @return integer|null
      */
@@ -210,12 +217,13 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set maximumqueryterms option
+     * Set maximumqueryterms option.
      *
      * Maximum number of query terms that will be included in any generated
      * query.
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setMaximumQueryTerms($maximum)
@@ -224,7 +232,7 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get maximumqueryterms option
+     * Get maximumqueryterms option.
      *
      * @return integer|null
      */
@@ -234,12 +242,13 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set maximumnumberoftokens option
+     * Set maximumnumberoftokens option.
      *
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setMaximumNumberOfTokens($maximum)
@@ -248,7 +257,7 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get maximumnumberoftokens option
+     * Get maximumnumberoftokens option.
      *
      * @return integer|null
      */
@@ -258,12 +267,13 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set boost option
+     * Set boost option.
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @param  boolean $boost
-     * @return self    Provides fluent interface
+     * @param boolean $boost
+     *
+     * @return self Provides fluent interface
      */
     public function setBoost($boost)
     {
@@ -271,7 +281,7 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get boost option
+     * Get boost option.
      *
      * @return boolean|null
      */
@@ -281,15 +291,16 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set queryfields option
+     * Set queryfields option.
      *
      * Query fields and their boosts using the same format as that used in
      * DisMaxQParserPlugin. These fields must also be specified in fields.
      *
      * When using string input you can separate multiple fields with commas.
      *
-     * @param  string $queryFields
-     * @return self   Provides fluent interface
+     * @param string $queryFields
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -302,14 +313,14 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get queryfields option
+     * Get queryfields option.
      *
      * @return array
      */
     public function getQueryFields()
     {
         $queryfields = $this->getOption('queryfields');
-        if ($queryfields == null) {
+        if ($queryfields === null) {
             $queryfields = array();
         }
 
@@ -317,11 +328,12 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Set count option
+     * Set count option.
      *
      * The number of similar documents to return for each result
      *
-     * @param  int  $count
+     * @param int $count
+     *
      * @return self Provides fluent interface
      */
     public function setCount($count)
@@ -330,7 +342,7 @@ class MoreLikeThis extends Component
     }
 
     /**
-     * Get count option
+     * Get count option.
      *
      * @return int|null
      */

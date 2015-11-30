@@ -30,23 +30,27 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\QueryType\Select\Result\Grouping\ValueGroup as StandardValueGroup;
 
+/**
+ * MinimumScoreFilter ValueGroupResult.
+ */
 class ValueGroupResult extends StandardValueGroup
 {
-
     /**
      * @var float
      */
-    static protected $overallMaximumScore;
+    protected static $overallMaximumScore;
 
     /**
      * @var string
@@ -64,12 +68,13 @@ class ValueGroupResult extends StandardValueGroup
     protected $filtered = false;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $value
      * @param int    $numFound
      * @param int    $start
      * @param array  $documents
+     * @param int    $maximumScore
      * @param Query  $query
      */
     public function __construct($value, $numFound, $start, $documents, $maximumScore, $query)
@@ -86,19 +91,18 @@ class ValueGroupResult extends StandardValueGroup
     }
 
     /**
-     * Get all documents, apply filter at first use
+     * Get all documents, apply filter at first use.
      *
      * @return array
      */
     public function getDocuments()
     {
         if (!$this->filtered) {
-            $filter = new Filter;
+            $filter = new Filter();
             $this->documents = $filter->filterDocuments($this->documents, self::$overallMaximumScore, $this->filterRatio, $this->filterMode);
             $this->filtered = true;
         }
 
         return $this->documents;
     }
-
 }

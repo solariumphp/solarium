@@ -30,28 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result;
 
 /**
- * Document base functionality, used by readonly and readwrite documents
+ * Document base functionality, used by readonly and readwrite documents.
  */
 abstract class AbstractDocument implements \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**
-     * All fields in this document
+     * All fields in this document.
      *
      * @var array
      */
     protected $fields;
 
     /**
-     * Get all fields
+     * Get all fields.
      *
      * @return array
      */
@@ -61,30 +63,32 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     }
 
     /**
-     * Get field value by name
+     * Get field value by name.
      *
      * Magic access method for accessing fields as properties of this document
      * object, by field name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return mixed
      */
     public function __get($name)
     {
         if (!isset($this->fields[$name])) {
-            return null;
+            return;
         }
 
         return $this->fields[$name];
     }
 
     /**
-     * Check if field is set by name
+     * Check if field is set by name.
      *
      * Magic method for checking if fields are set as properties of this document
      * object, by field name. Also used by empty().
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return boolean
      */
     public function __isset($name)
@@ -93,7 +97,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -103,7 +107,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */
@@ -113,11 +117,10 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     }
 
     /**
-     * ArrayAccess implementation
+     * ArrayAccess implementation.
      *
-     * @param  mixed $offset
-     * @param  mixed $value
-     * @return void
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value)
     {
@@ -125,9 +128,10 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     }
 
     /**
-     * ArrayAccess implementation
+     * ArrayAccess implementation.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
+     *
      * @return bool
      */
     public function offsetExists($offset)
@@ -136,10 +140,9 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     }
 
     /**
-     * ArrayAccess implementation
+     * ArrayAccess implementation.
      *
-     * @param  mixed $offset
-     * @return void
+     * @param mixed $offset
      */
     public function offsetUnset($offset)
     {
@@ -147,9 +150,10 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     }
 
     /**
-     * ArrayAccess implementation
+     * ArrayAccess implementation.
      *
-     * @param  mixed      $offset
+     * @param mixed $offset
+     *
      * @return mixed|null
      */
     public function offsetGet($offset)

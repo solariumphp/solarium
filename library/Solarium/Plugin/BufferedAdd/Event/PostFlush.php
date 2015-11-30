@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -43,7 +45,7 @@ use Solarium\QueryType\Update\Result;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
- * PostFlush event, see Events for details
+ * PostFlush event, see Events for details.
  */
 class PostFlush extends Event
 {
@@ -53,7 +55,7 @@ class PostFlush extends Event
     protected $result;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param Result $result
      */
@@ -63,7 +65,7 @@ class PostFlush extends Event
     }
 
     /**
-     * Get the result for this event
+     * Get the result for this event.
      *
      * @return DocumentInterface[]
      */

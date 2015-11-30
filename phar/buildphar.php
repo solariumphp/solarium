@@ -36,7 +36,7 @@
 
 // Check phar.readonly ini setting
 if (ini_get('phar.readonly') == '1') {
-    exit("Your php.ini has phar.readonly enabled. Phar cannot be created. Please alter your php.ini first.\n");
+    throw new \RuntimeException("Your php.ini has phar.readonly enabled. Phar cannot be created. Please alter your php.ini first.\n");
 }
 
 // You can optionally use arguments to enable compression and whitespace/comment stripping.

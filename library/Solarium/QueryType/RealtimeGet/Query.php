@@ -30,21 +30,22 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\RealtimeGet;
 
-use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\RealtimeGet\RequestBuilder as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 
 /**
- * Get query
+ * Get query.
  *
  * Realtime Get query for one or multiple document IDs
  *
@@ -53,7 +54,7 @@ use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 class Query extends BaseQuery
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -65,14 +66,14 @@ class Query extends BaseQuery
     );
 
     /**
-     * Document IDs
+     * Document IDs.
      *
      * @var array
      */
     protected $ids = array();
 
     /**
-     * Get type for this query
+     * Get type for this query.
      *
      * @return string
      */
@@ -82,30 +83,31 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * The ping query has no response parser so we return a null value
+     * The ping query has no response parser so we return a null value.
      *
-     * @return null;
+     * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Add an id
+     * Add an id.
      *
-     * @param  string $id
-     * @return self   Provides fluent interface
+     * @param string $id
+     *
+     * @return self Provides fluent interface
      */
     public function addId($id)
     {
@@ -115,7 +117,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Add multiple ids
+     * Add multiple ids.
      *
      * @param string|array $ids can be an array or string with comma separated ids
      *
@@ -136,10 +138,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Remove an id
+     * Remove an id.
      *
-     * @param  string $id
-     * @return self   Provides fluent interface
+     * @param string $id
+     *
+     * @return self Provides fluent interface
      */
     public function removeId($id)
     {
@@ -151,7 +154,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Remove all IDs
+     * Remove all IDs.
      *
      * @return self Provides fluent interface
      */
@@ -163,7 +166,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get the list of ids
+     * Get the list of ids.
      *
      * @return array
      */
@@ -173,12 +176,13 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set multiple ids
+     * Set multiple ids.
      *
      * This overwrites any existing ids
      *
-     * @param  array $ids
-     * @return self  Provides fluent interface
+     * @param array $ids
+     *
+     * @return self Provides fluent interface
      */
     public function setIds($ids)
     {
@@ -189,12 +193,13 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set a custom document class
+     * Set a custom document class.
      *
      * This class should implement the document interface
      *
-     * @param  string $value classname
-     * @return self   Provides fluent interface
+     * @param string $value classname
+     *
+     * @return self Provides fluent interface
      */
     public function setDocumentClass($value)
     {
@@ -202,7 +207,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get the current documentclass option
+     * Get the current documentclass option.
      *
      * The value is a classname, not an instance
      *
@@ -214,7 +219,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * No components for this querytype
+     * No components for this querytype.
      *
      * @return array
      */

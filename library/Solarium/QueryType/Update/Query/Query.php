@@ -30,21 +30,23 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Client\Client;
-use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\InvalidArgumentException;
-use Solarium\QueryType\Update\Query\Command\Command;
+use Solarium\QueryType\Update\Query\Command\AbstractCommand;
 use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
@@ -53,7 +55,7 @@ use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
 use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 
 /**
- * Update query
+ * Update query.
  *
  * Can be used to send multiple update commands to solr, e.g. add, delete,
  * rollback, commit, optimize.
@@ -62,32 +64,32 @@ use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 class Query extends BaseQuery
 {
     /**
-     * Update command add
+     * Update command add.
      */
     const COMMAND_ADD = 'add';
 
     /**
-     * Update command delete
+     * Update command delete.
      */
     const COMMAND_DELETE = 'delete';
 
     /**
-     * Update command commit
+     * Update command commit.
      */
     const COMMAND_COMMIT = 'commit';
 
     /**
-     * Update command rollback
+     * Update command rollback.
      */
     const COMMAND_ROLLBACK = 'rollback';
 
     /**
-     * Update command optimize
+     * Update command optimize.
      */
     const COMMAND_OPTIMIZE = 'optimize';
 
     /**
-     * Update command types
+     * Update command types.
      *
      * @var array
      */
@@ -100,7 +102,7 @@ class Query extends BaseQuery
     );
 
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -112,17 +114,17 @@ class Query extends BaseQuery
     );
 
     /**
-     * Array of commands
+     * Array of commands.
      *
      * The commands will be executed in the order of this array, this can be
      * important in some cases. For instance a rollback.
      *
-     * @var Command[]
+     * @var AbstractCommand[]
      */
     protected $commands = array();
 
     /**
-     * Get type for this query
+     * Get type for this query.
      *
      * @return string
      */
@@ -132,67 +134,41 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Initialize options
-     *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
-     *
-     * @throws RuntimeException
-     * @return void
-     */
-    protected function init()
-    {
-        if (isset($this->options['command'])) {
-            foreach ($this->options['command'] as $key => $value) {
-
-                $type = $value['type'];
-
-                if ($type == self::COMMAND_ADD) {
-                    throw new RuntimeException(
-                        "Adding documents is not supported in configuration, use the API for this"
-                    );
-                }
-
-                $this->add($key, $this->createCommand($type, $value));
-            }
-        }
-
-    }
-
-    /**
-     * Create a command instance
+     * Create a command instance.
      *
      * @throws InvalidArgumentException
-     * @param  string                   $type
-     * @param  mixed                    $options
-     * @return Command
+     *
+     * @param string $type
+     * @param mixed  $options
+     *
+     * @return AbstractCommand
      */
     public function createCommand($type, $options = null)
     {
         $type = strtolower($type);
 
         if (!isset($this->commandTypes[$type])) {
-            throw new InvalidArgumentException("Update commandtype unknown: " . $type);
+            throw new InvalidArgumentException("Update commandtype unknown: ".$type);
         }
 
         $class = $this->commandTypes[$type];
@@ -201,9 +177,9 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get all commands for this update query
+     * Get all commands for this update query.
      *
-     * @return Command[]
+     * @return AbstractCommand[]
      */
     public function getCommands()
     {
@@ -211,14 +187,15 @@ class Query extends BaseQuery
     }
 
     /**
-     * Add a command to this update query
+     * Add a command to this update query.
      *
      * The command must be an instance of one of the Solarium\QueryType\Update_*
      * classes.
      *
-     * @param  string $key
-     * @param  object $command
-     * @return self   Provides fluent interface
+     * @param string $key
+     * @param object $command
+     *
+     * @return self Provides fluent interface
      */
     public function add($key, $command)
     {
@@ -232,12 +209,13 @@ class Query extends BaseQuery
     }
 
     /**
-     * Remove a command
+     * Remove a command.
      *
      * You can remove a command by passing its key or by passing the command instance.
      *
-     * @param  string|\Solarium\QueryType\Update\Query\Command\Command $command
-     * @return self                                                    Provides fluent interface
+     * @param string|\Solarium\QueryType\Update\Query\Command\AbstractCommand $command
+     *
+     * @return self Provides fluent interface
      */
     public function remove($command)
     {
@@ -258,7 +236,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Convenience method for adding a rollback command
+     * Convenience method for adding a rollback command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
@@ -267,18 +245,19 @@ class Query extends BaseQuery
      */
     public function addRollback()
     {
-        return $this->add(null, new RollbackCommand);
+        return $this->add(null, new RollbackCommand());
     }
 
     /**
-     * Convenience method for adding a delete query command
+     * Convenience method for adding a delete query command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  string $query
-     * @param  array  $bind  Bind values for placeholders in the query string
-     * @return self   Provides fluent interface
+     * @param string $query
+     * @param array  $bind  Bind values for placeholders in the query string
+     *
+     * @return self Provides fluent interface
      */
     public function addDeleteQuery($query, $bind = null)
     {
@@ -286,73 +265,77 @@ class Query extends BaseQuery
             $query = $this->getHelper()->assemble($query, $bind);
         }
 
-        $delete = new DeleteCommand;
+        $delete = new DeleteCommand();
         $delete->addQuery($query);
 
         return $this->add(null, $delete);
     }
 
     /**
-     * Convenience method to add a multi delete query command
+     * Convenience method to add a multi delete query command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  array $queries
-     * @return self  Provides fluent interface
+     * @param array $queries
+     *
+     * @return self Provides fluent interface
      */
     public function addDeleteQueries($queries)
     {
-        $delete = new DeleteCommand;
+        $delete = new DeleteCommand();
         $delete->addQueries($queries);
 
         return $this->add(null, $delete);
     }
 
     /**
-     * Convenience method to add a delete by ID command
+     * Convenience method to add a delete by ID command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  int|string $id
-     * @return self       Provides fluent interface
+     * @param int|string $id
+     *
+     * @return self Provides fluent interface
      */
     public function addDeleteById($id)
     {
-        $delete = new DeleteCommand;
+        $delete = new DeleteCommand();
         $delete->addId($id);
 
         return $this->add(null, $delete);
     }
 
     /**
-     * Convenience method to add a delete by IDs command
+     * Convenience method to add a delete by IDs command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  array $ids
-     * @return self  Provides fluent interface
+     * @param array $ids
+     *
+     * @return self Provides fluent interface
      */
     public function addDeleteByIds($ids)
     {
-        $delete = new DeleteCommand;
+        $delete = new DeleteCommand();
         $delete->addIds($ids);
 
         return $this->add(null, $delete);
     }
 
     /**
-     * Convenience method to add a 'add document' command
+     * Convenience method to add a 'add document' command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  DocumentInterface $document
-     * @param  boolean           $overwrite
-     * @param  int               $commitWithin
-     * @return self              Provides fluent interface
+     * @param DocumentInterface $document
+     * @param boolean           $overwrite
+     * @param int               $commitWithin
+     *
+     * @return self Provides fluent interface
      */
     public function addDocument(DocumentInterface $document, $overwrite = null, $commitWithin = null)
     {
@@ -360,19 +343,20 @@ class Query extends BaseQuery
     }
 
     /**
-     * Convenience method to add a 'add documents' command
+     * Convenience method to add a 'add documents' command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  array   $documents
-     * @param  boolean $overwrite
-     * @param  int     $commitWithin
-     * @return self    Provides fluent interface
+     * @param array   $documents
+     * @param boolean $overwrite
+     * @param int     $commitWithin
+     *
+     * @return self Provides fluent interface
      */
     public function addDocuments($documents, $overwrite = null, $commitWithin = null)
     {
-        $add = new AddCommand;
+        $add = new AddCommand();
 
         if (null !== $overwrite) {
             $add->setOverwrite($overwrite);
@@ -388,15 +372,16 @@ class Query extends BaseQuery
     }
 
     /**
-     * Convenience method to add a commit command
+     * Convenience method to add a commit command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  boolean $softCommit
-     * @param  boolean $waitSearcher
-     * @param  boolean $expungeDeletes
-     * @return self    Provides fluent interface
+     * @param boolean $softCommit
+     * @param boolean $waitSearcher
+     * @param boolean $expungeDeletes
+     *
+     * @return self Provides fluent interface
      */
     public function addCommit($softCommit = null, $waitSearcher = null, $expungeDeletes = null)
     {
@@ -418,15 +403,16 @@ class Query extends BaseQuery
     }
 
     /**
-     * Convenience method to add an optimize command
+     * Convenience method to add an optimize command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param  boolean $softCommit
-     * @param  boolean $waitSearcher
-     * @param  int     $maxSegments
-     * @return self    Provides fluent interface
+     * @param boolean $softCommit
+     * @param boolean $waitSearcher
+     * @param int     $maxSegments
+     *
+     * @return self Provides fluent interface
      */
     public function addOptimize($softCommit = null, $waitSearcher = null, $maxSegments = null)
     {
@@ -448,12 +434,13 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set a custom document class for use in the createDocument method
+     * Set a custom document class for use in the createDocument method.
      *
      * This class should implement the document interface
      *
-     * @param  string $value classname
-     * @return self   Provides fluent interface
+     * @param string $value classname
+     *
+     * @return self Provides fluent interface
      */
     public function setDocumentClass($value)
     {
@@ -461,7 +448,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get the current documentclass option
+     * Get the current documentclass option.
      *
      * The value is a classname, not an instance
      *
@@ -473,16 +460,17 @@ class Query extends BaseQuery
     }
 
     /**
-     * Create a document object instance
+     * Create a document object instance.
      *
      * You can optionally directly supply the fields and boosts
      * to get a ready-made document instance for direct use in an add command
      *
      * @since 2.1.0
      *
-     * @param  array             $fields
-     * @param  array             $boosts
-     * @param  array             $modifiers
+     * @param array $fields
+     * @param array $boosts
+     * @param array $modifiers
+     *
      * @return DocumentInterface
      */
     public function createDocument($fields = array(), $boosts = array(), $modifiers = array())
@@ -490,5 +478,30 @@ class Query extends BaseQuery
         $class = $this->getDocumentClass();
 
         return new $class($fields, $boosts, $modifiers);
+    }
+
+    /**
+     * Initialize options.
+     *
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
+     *
+     * @throws RuntimeException
+     */
+    protected function init()
+    {
+        if (isset($this->options['command'])) {
+            foreach ($this->options['command'] as $key => $value) {
+                $type = $value['type'];
+
+                if ($type == self::COMMAND_ADD) {
+                    throw new RuntimeException(
+                        "Adding documents is not supported in configuration, use the API for this"
+                    );
+                }
+
+                $this->add($key, $this->createCommand($type, $value));
+            }
+        }
     }
 }

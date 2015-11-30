@@ -30,21 +30,23 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Spellcheck;
 
 /**
- * Select component spellcheck suggestion result
+ * Select component spellcheck suggestion result.
  */
 class Suggestion
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int   $numFound
      * @param int   $startOffset
@@ -62,7 +64,7 @@ class Suggestion
     }
 
     /**
-     * Get numFound value
+     * Get numFound value.
      *
      * @return int
      */
@@ -72,7 +74,7 @@ class Suggestion
     }
 
     /**
-     * Get startOffset value
+     * Get startOffset value.
      *
      * @return int
      */
@@ -82,7 +84,7 @@ class Suggestion
     }
 
     /**
-     * Get endOffset value
+     * Get endOffset value.
      *
      * @return int
      */
@@ -92,7 +94,7 @@ class Suggestion
     }
 
     /**
-     * Get originalFrequency value
+     * Get originalFrequency value.
      *
      * Only available if CollateExtendedResults was enabled in your query
      *
@@ -104,7 +106,7 @@ class Suggestion
     }
 
     /**
-     * Get first word
+     * Get first word.
      *
      * @return string|null
      */
@@ -119,7 +121,7 @@ class Suggestion
     }
 
     /**
-     * Get all words (and frequencies)
+     * Get all words (and frequencies).
      *
      * @return array
      */
@@ -129,7 +131,7 @@ class Suggestion
     }
 
     /**
-     * Get frequency value
+     * Get frequency value.
      *
      * Only available if CollateExtendedResults was enabled in your query
      *
@@ -141,7 +143,7 @@ class Suggestion
         if (isset($word['freq'])) {
             return $word['freq'];
         } else {
-            return null;
+            return;
         }
     }
 }

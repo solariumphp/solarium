@@ -140,7 +140,7 @@ class Zend2Http extends Configurable implements AdapterInterface
      */
     public function getZendHttp()
     {
-        if (null == $this->zendHttp) {
+        if (null === $this->zendHttp) {
             $options = array();
 
             // forward zendhttp options

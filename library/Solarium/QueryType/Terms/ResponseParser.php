@@ -31,26 +31,29 @@
  *
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Terms;
 
-use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 
 /**
- * Parse Terms response data
+ * Parse Terms response data.
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
     /**
-     * Get result data for the response
+     * Get result data for the response.
      *
-     * @param  Result $result
+     * @param Result $result
+     *
      * @return array
      */
     public function parse($result)
@@ -59,8 +62,8 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
         $data = $result->getData();
 
-        /**
-         * @var $query Query
+        /*
+         * @var Query
          */
         $query = $result->getQuery();
 

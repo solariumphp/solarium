@@ -30,43 +30,45 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Stats;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\Query\Component\Component;
+use Solarium\QueryType\Select\Query\Component\AbstractComponent;
 use Solarium\QueryType\Select\RequestBuilder\Component\Stats as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Stats as ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
 
 /**
- * Stats component
+ * Stats component.
  *
  * @link http://wiki.apache.org/solr/StatsComponent
  */
-class Stats extends Component
+class Stats extends AbstractComponent
 {
     /**
-     * Stats facets for all fields
+     * Stats facets for all fields.
      *
      * @var array
      */
     protected $facets = array();
 
     /**
-     * Fields
+     * Fields.
      *
      * @var array
      */
     protected $fields = array();
 
     /**
-     * Get component type
+     * Get component type.
      *
      * @return string
      */
@@ -76,49 +78,27 @@ class Stats extends Component
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Initialize options
-     *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
-     *
-     * @return void
-     */
-    protected function init()
-    {
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'field':
-                    $this->setFields($value);
-                    break;
-                case 'facet':
-                    $this->setFacets($value);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Create a field instance
+     * Create a field instance.
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the field
      * and it will be added to this query component.
@@ -127,13 +107,14 @@ class Stats extends Component
      * When no key is supplied the field cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addField method.
      *
-     * @param  mixed $options
+     * @param mixed $options
+     *
      * @return Field
      */
     public function createField($options = null)
     {
         if (is_string($options)) {
-            $fq = new Field;
+            $fq = new Field();
             $fq->setKey($options);
         } else {
             $fq = new Field($options);
@@ -147,14 +128,16 @@ class Stats extends Component
     }
 
     /**
-     * Add a field
+     * Add a field.
      *
      * Supports a field instance or a config array, in that case a new
      * field instance wil be created based on the options.
      *
      * @throws InvalidArgumentException
-     * @param  Field|array              $field
-     * @return self                     Provides fluent interface
+     *
+     * @param Field|array $field
+     *
+     * @return self Provides fluent interface
      */
     public function addField($field)
     {
@@ -169,7 +152,6 @@ class Stats extends Component
         }
 
         //double add calls for the same field are ignored, but non-unique keys cause an exception
-        //@todo add trigger_error with a notice for double add calls?
         if (array_key_exists($key, $this->fields) && $this->fields[$key] !== $field) {
             throw new InvalidArgumentException('A field must have a unique key value');
         } else {
@@ -180,15 +162,15 @@ class Stats extends Component
     }
 
     /**
-     * Add multiple fields
+     * Add multiple fields.
      *
-     * @param  array $fields
-     * @return self  Provides fluent interface
+     * @param array $fields
+     *
+     * @return self Provides fluent interface
      */
     public function addFields(array $fields)
     {
         foreach ($fields as $key => $field) {
-
             // in case of a config array: add key to config
             if (is_array($field) && !isset($field['key'])) {
                 $field['key'] = $key;
@@ -201,9 +183,10 @@ class Stats extends Component
     }
 
     /**
-     * Get a field
+     * Get a field.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return string
      */
     public function getField($key)
@@ -211,12 +194,12 @@ class Stats extends Component
         if (isset($this->fields[$key])) {
             return $this->fields[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Get all fields
+     * Get all fields.
      *
      * @return Field[]
      */
@@ -226,12 +209,13 @@ class Stats extends Component
     }
 
     /**
-     * Remove a single field
+     * Remove a single field.
      *
      * You can remove a field by passing its key, or by passing the field instance
      *
-     * @param  string|Field $field
-     * @return self         Provides fluent interface
+     * @param string|Field $field
+     *
+     * @return self Provides fluent interface
      */
     public function removeField($field)
     {
@@ -247,7 +231,7 @@ class Stats extends Component
     }
 
     /**
-     * Remove all fields
+     * Remove all fields.
      *
      * @return self Provides fluent interface
      */
@@ -259,7 +243,7 @@ class Stats extends Component
     }
 
     /**
-     * Set multiple fields
+     * Set multiple fields.
      *
      * This overwrites any existing fields
      *
@@ -272,10 +256,11 @@ class Stats extends Component
     }
 
     /**
-     * Specify a facet to return in the resultset
+     * Specify a facet to return in the resultset.
      *
-     * @param  string $facet
-     * @return self   Provides fluent interface
+     * @param string $facet
+     *
+     * @return self Provides fluent interface
      */
     public function addFacet($facet)
     {
@@ -285,7 +270,7 @@ class Stats extends Component
     }
 
     /**
-     * Specify multiple facets to return in the resultset
+     * Specify multiple facets to return in the resultset.
      *
      * @param string|array $facets can be an array or string with comma
      *                             separated facetnames
@@ -307,10 +292,11 @@ class Stats extends Component
     }
 
     /**
-     * Remove a facet from the facet list
+     * Remove a facet from the facet list.
      *
-     * @param  string $facet
-     * @return self   Provides fluent interface
+     * @param string $facet
+     *
+     * @return self Provides fluent interface
      */
     public function removeFacet($facet)
     {
@@ -334,7 +320,7 @@ class Stats extends Component
     }
 
     /**
-     * Get the list of facets
+     * Get the list of facets.
      *
      * @return array
      */
@@ -344,12 +330,13 @@ class Stats extends Component
     }
 
     /**
-     * Set multiple facets
+     * Set multiple facets.
      *
      * This overwrites any existing facets
      *
-     * @param  array $facets
-     * @return self  Provides fluent interface
+     * @param array $facets
+     *
+     * @return self Provides fluent interface
      */
     public function setFacets($facets)
     {
@@ -357,5 +344,25 @@ class Stats extends Component
         $this->addFacets($facets);
 
         return $this;
+    }
+
+    /**
+     * Initialize options.
+     *
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'field':
+                    $this->setFields($value);
+                    break;
+                case 'facet':
+                    $this->setFacets($value);
+                    break;
+            }
+        }
     }
 }

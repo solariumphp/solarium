@@ -30,19 +30,21 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
- * AddDocument event, see Events for details
+ * AddDocument event, see Events for details.
  */
 class AddDocument extends Event
 {
@@ -52,7 +54,7 @@ class AddDocument extends Event
     protected $document;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param DocumentInterface $document
      */
@@ -62,7 +64,7 @@ class AddDocument extends Event
     }
 
     /**
-     * Get the result for this event
+     * Get the result for this event.
      *
      * @return DocumentInterface
      */

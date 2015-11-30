@@ -232,6 +232,33 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             urldecode($request->getUri())
         );
     }
+
+    public function testBuildWithContainsSettings()
+    {
+        $facet = new FacetField(
+            array(
+                'key' => 'f1',
+                'field' => 'owner',
+                'contains' => 'foo',
+                'containsignorecase' => true,
+            )
+        );
+        $this->component->addFacet($facet);
+        $this->component->setContains('bar');
+        $this->component->setContainsIgnoreCase(false);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertEquals(
+            null,
+            $request->getRawData()
+        );
+
+        $this->assertEquals(
+            '?facet=true&facet.contains=bar&facet.contains.ignoreCase=false&facet.field={!key=f1}owner&f.owner.facet.contains=foo&f.owner.facet.contains.ignoreCase=true',
+            urldecode($request->getUri())
+        );
+    }
 }
 
 class UnknownFacet extends FacetField

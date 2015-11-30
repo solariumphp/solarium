@@ -5,7 +5,7 @@ namespace Solarium\Support\DataFixtures;
 /**
  * @author Baldur Rensch <brensch@gmail.com>
  */
-class Loader 
+class Loader
 {
     /**
      * @var FixtureInterface[]
@@ -19,6 +19,9 @@ class Loader
      */
     private $fileExtension = '.php';
 
+    /**
+     * constructor.
+     */
     public function __construct()
     {
         $this->fixtures = array();
@@ -41,7 +44,7 @@ class Loader
     }
 
     /**
-     * @param $dir
+     * @param string $dir
      *
      * @throws \InvalidArgumentException
      */
@@ -75,7 +78,7 @@ class Loader
             $sourceFile = $reflClass->getFileName();
 
             if (in_array($sourceFile, $includedFiles)) {
-                $fixture = new $className;
+                $fixture = new $className();
 
                 $this->addFixture($fixture);
             }

@@ -30,33 +30,35 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\CustomizeRequest;
 
 use Solarium\Core\Configurable;
 
 /**
- * Customization value object
+ * Customization value object.
  */
 class Customization extends Configurable
 {
     /**
-     * Type definition for params
+     * Type definition for params.
      */
     const TYPE_PARAM = 'param';
 
     /**
-     * Type definition for headers
+     * Type definition for headers.
      */
     const TYPE_HEADER = 'header';
 
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -70,10 +72,11 @@ class Customization extends Configurable
     );
 
     /**
-     * Set key value
+     * Set key value.
      *
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function setKey($value)
     {
@@ -83,7 +86,7 @@ class Customization extends Configurable
     }
 
     /**
-     * Get key value
+     * Get key value.
      *
      * @return string
      */
@@ -93,9 +96,10 @@ class Customization extends Configurable
     }
 
     /**
-     * Set type value
+     * Set type value.
      *
-     * @param  string        $value
+     * @param string $value
+     *
      * @return Customization
      */
     public function setType($value)
@@ -106,7 +110,7 @@ class Customization extends Configurable
     }
 
     /**
-     * Get type value
+     * Get type value.
      *
      * @return string
      */
@@ -116,9 +120,10 @@ class Customization extends Configurable
     }
 
     /**
-     * Set name value
+     * Set name value.
      *
-     * @param  string        $value
+     * @param string $value
+     *
      * @return Customization
      */
     public function setName($value)
@@ -129,7 +134,7 @@ class Customization extends Configurable
     }
 
     /**
-     * Get name value
+     * Get name value.
      *
      * @return string
      */
@@ -139,9 +144,10 @@ class Customization extends Configurable
     }
 
     /**
-     * Set value
+     * Set value.
      *
-     * @param  string        $value
+     * @param string $value
+     *
      * @return Customization
      */
     public function setValue($value)
@@ -152,7 +158,7 @@ class Customization extends Configurable
     }
 
     /**
-     * Get value
+     * Get value.
      *
      * @return string
      */
@@ -162,9 +168,10 @@ class Customization extends Configurable
     }
 
     /**
-     * Set persistent on/off
+     * Set persistent on/off.
      *
-     * @param  boolean       $value
+     * @param boolean $value
+     *
      * @return Customization
      */
     public function setPersistent($value)
@@ -175,7 +182,7 @@ class Customization extends Configurable
     }
 
     /**
-     * Get persistent setting
+     * Get persistent setting.
      *
      * @return boolean
      */
@@ -185,9 +192,10 @@ class Customization extends Configurable
     }
 
     /**
-     * Set overwrite option on/off
+     * Set overwrite option on/off.
      *
-     * @param  boolean       $value
+     * @param boolean $value
+     *
      * @return Customization
      */
     public function setOverwrite($value)
@@ -198,7 +206,7 @@ class Customization extends Configurable
     }
 
     /**
-     * Get overwrite option value
+     * Get overwrite option value.
      *
      * @return boolean
      */
@@ -208,7 +216,7 @@ class Customization extends Configurable
     }
 
     /**
-     * Check for all mandatory settings
+     * Check for all mandatory settings.
      *
      * @return bool
      */
@@ -219,7 +227,7 @@ class Customization extends Configurable
             return false;
         }
 
-        if (null == $this->getKey() || null == $this->getName() || null == $this->getValue()) {
+        if (null === $this->getKey() || null === $this->getName() || null === $this->getValue()) {
             return false;
         }
 

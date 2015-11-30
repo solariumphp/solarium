@@ -30,29 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
-use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
-use Solarium\QueryType\Analysis\Query\Query;
 use Solarium\Core\Query\QueryInterface;
 
 /**
- * Build an analysis request
+ * Build an analysis request.
  */
 class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * Build request for an analysis query
+     * Build request for an analysis query.
      *
-     * @param  QueryInterface|Query $query
+     * @param QueryInterface|Query $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)
