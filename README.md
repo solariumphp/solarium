@@ -11,7 +11,7 @@ Please see the project website for a more detailed description.
 
 ## Requirements
 
-Solarium only supports PHP 5.3 and up.
+Solarium only supports PHP 5.4 and up.
 It's highly recommended to have Curl enabled in your PHP environment. However if you don't have Curl available you can
 switch from using Curl (the default) to another client adapter. The other adapters don't support all the features of the
 Curl adapter.
@@ -19,19 +19,11 @@ Curl adapter.
 ## Getting started
 
 The preferred way to install Solarium is by using Composer. Solarium is available on Packagist.
-For more info see   
-http://wiki.solarium-project.org/index.php/V3:Installation#Getting_Solarium
 
 ## More information
 
-* Manual  
-  http://wiki.solarium-project.org/index.php/Solarium_3.x_manual
-
-* Project website   
-  http://www.solarium-project.org/
-
-* API docs    
-  http://api.solarium-project.org/
+* Docs
+  See the docs folder
 
 * Issue tracker   
   http://github.com/solariumphp/solarium/issues
