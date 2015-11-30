@@ -8,7 +8,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoad()
     {
-        $solarium = $this->getMock('Solarium\Core\Client\Client');
+        $solarium = $this->getMock('Solarium\Core\Client\ClientInterface');
 
         $mockFixtures = array(
             $this->getMockFixture($solarium),
