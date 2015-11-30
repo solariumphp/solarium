@@ -38,15 +38,18 @@
  */
 namespace Solarium\QueryType\Schema\Query\FieldType;
 
-use Solarium\Core\ArrayableInterface;
-
 /**
  * Interface FieldTypeInterface
  * @author Beno!t POLASZEK
  */
-interface FieldTypeInterface extends ArrayableInterface
+interface FieldTypeInterface
 {
     public function getName();
 
     public function getClass();
+
+    /**
+     * @return array
+     */
+    public function castAsArray();
 }

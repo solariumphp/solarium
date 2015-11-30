@@ -38,12 +38,12 @@
  */
 namespace Solarium\QueryType\Schema\Query;
 
-use Solarium\Core\ArrayableInterface;
 use Solarium\Core\Client\Client;
-use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\QueryType\Analysis\ResponseParser\Field;
 use Solarium\QueryType\Schema\Query\Command\AddCopyField;
 use Solarium\QueryType\Schema\Query\Command\AddDynamicField;
 use Solarium\QueryType\Schema\Query\Command\AddField;
@@ -56,6 +56,10 @@ use Solarium\QueryType\Schema\Query\Command\DeleteFieldType;
 use Solarium\QueryType\Schema\Query\Command\ReplaceDynamicField;
 use Solarium\QueryType\Schema\Query\Command\ReplaceField;
 use Solarium\QueryType\Schema\Query\Command\ReplaceFieldType;
+use Solarium\QueryType\Schema\Query\Field\CopyField;
+use Solarium\QueryType\Schema\Query\Field\FieldInterface;
+use Solarium\QueryType\Schema\Query\FieldType\FieldType;
+use Solarium\QueryType\Schema\Query\FieldType\FieldTypeInterface;
 use Solarium\QueryType\Schema\RequestBuilder;
 use Solarium\QueryType\Schema\ResponseParser;
 
@@ -63,7 +67,7 @@ use Solarium\QueryType\Schema\ResponseParser;
  * Class Query
  * @author Beno!t POLASZEK
  */
-class Query extends BaseQuery implements ArrayableInterface
+class Query extends BaseQuery
 {
     /**
      * Schema command add field
@@ -120,7 +124,7 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * Add a command to this update query
+     * Add a command to this schema query
      *
      * The command must be an instance of one of the Solarium\QueryType\Schema_*
      * classes.
@@ -195,7 +199,7 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param array $fields
+     * @param FieldInterface[] $fields
      * @return $this
      */
     public function addFields(array $fields)
@@ -211,16 +215,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $field
+     * @param FieldInterface $field
      * @return $this
      */
-    public function addField($field)
+    public function addField(FieldInterface $field)
     {
         return $this->addFields(array($field));
     }
 
     /**
-     * @param array $fields
+     * @param FieldInterface[] $fields
      * @return $this
      */
     public function replaceFields(array $fields)
@@ -236,16 +240,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $field
+     * @param FieldInterface $field
      * @return $this
      */
-    public function replaceField($field)
+    public function replaceField(FieldInterface $field)
     {
         return $this->replaceFields(array($field));
     }
 
     /**
-     * @param array $fields
+     * @param FieldInterface[] $fields
      * @return $this
      */
     public function deleteFields(array $fields)
@@ -261,16 +265,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $field
+     * @param FieldInterface $field
      * @return $this
      */
-    public function deleteField($field)
+    public function deleteField(FieldInterface $field)
     {
         return $this->deleteFields(array($field));
     }
 
     /**
-     * @param array $fields
+     * @param FieldInterface[] $fields
      * @return $this
      */
     public function addDynamicFields(array $fields)
@@ -287,16 +291,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $field
+     * @param FieldInterface $field
      * @return $this
      */
-    public function addDynamicField($field)
+    public function addDynamicField(FieldInterface $field)
     {
         return $this->addDynamicFields(array($field));
     }
 
     /**
-     * @param array $fields
+     * @param FieldInterface[] $fields
      * @return $this
      */
     public function replaceDynamicFields(array $fields)
@@ -314,16 +318,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $field
+     * @param FieldInterface $field
      * @return $this
      */
-    public function replaceDynamicField($field)
+    public function replaceDynamicField(FieldInterface $field)
     {
         return $this->replaceDynamicFields(array($field));
     }
 
     /**
-     * @param array $fields
+     * @param FieldInterface[] $fields
      * @return $this
      */
     public function deleteDynamicFields(array $fields)
@@ -339,16 +343,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $field
+     * @param FieldInterface $field
      * @return $this
      */
-    public function deleteDynamicField($field)
+    public function deleteDynamicField(FieldInterface $field)
     {
         return $this->deleteDynamicFields(array($field));
     }
 
     /**
-     * @param array $fields
+     * @param CopyField[] $fields
      * @return $this
      */
     public function addCopyFields(array $fields)
@@ -365,16 +369,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $field
+     * @param CopyField $field
      * @return $this
      */
-    public function addCopyField($field)
+    public function addCopyField(CopyField $field)
     {
         return $this->addCopyFields(array($field));
     }
 
     /**
-     * @param array $fields
+     * @param CopyField[] $fields
      * @return $this
      */
     public function deleteCopyFields(array $fields)
@@ -390,16 +394,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $field
+     * @param CopyField $field
      * @return $this
      */
-    public function deleteCopyField($field)
+    public function deleteCopyField(CopyField $field)
     {
         return $this->deleteCopyFields(array($field));
     }
 
     /**
-     * @param array $fieldTypes
+     * @param FieldTypeInterface[] $fieldTypes
      * @return Query
      */
     public function addFieldTypes(array $fieldTypes)
@@ -415,16 +419,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $fieldType
+     * @param FieldTypeInterface $fieldType
      * @return Query
      */
-    public function addFieldType($fieldType)
+    public function addFieldType(FieldTypeInterface $fieldType)
     {
         return $this->addFieldTypes(array($fieldType));
     }
 
     /**
-     * @param array $fieldTypes
+     * @param FieldTypeInterface[] $fieldTypes
      * @return Query
      */
     public function replaceFieldTypes(array $fieldTypes)
@@ -440,16 +444,16 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $fieldType
+     * @param FieldTypeInterface $fieldType
      * @return Query
      */
-    public function replaceFieldType($fieldType)
+    public function replaceFieldType(FieldTypeInterface $fieldType)
     {
         return $this->replaceFieldTypes(array($fieldType));
     }
 
     /**
-     * @param array $fieldTypes
+     * @param FieldTypeInterface[] $fieldTypes
      * @return Query
      */
     public function deleteFieldTypes(array $fieldTypes)
@@ -465,10 +469,10 @@ class Query extends BaseQuery implements ArrayableInterface
     }
 
     /**
-     * @param $fieldType
+     * @param FieldTypeInterface $fieldType
      * @return Query
      */
-    public function deleteFieldType($fieldType)
+    public function deleteFieldType(FieldTypeInterface $fieldType)
     {
         return $this->deleteFieldTypes(array($fieldType));
     }

@@ -38,14 +38,13 @@
  */
 namespace Solarium\QueryType\Schema\Query\Command;
 
-use Solarium\Core\ArrayableInterface;
 use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
 
 /**
  * Class AddDynamicField
  * @author Beno!t POLASZEK
  */
-class AddDynamicField extends AddField implements ArrayableInterface
+class AddDynamicField extends AddField
 {
      /**
      * Returns command type, for use in adapters

@@ -38,14 +38,13 @@
  */
 namespace Solarium\QueryType\Schema\Query\Command;
 
-use Solarium\Core\ArrayableInterface;
 use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
 
 /**
  * Class ReplaceField
  * @author Beno!t POLASZEK
  */
-class ReplaceField extends AddField implements ArrayableInterface
+class ReplaceField extends AddField
 {
     /**
      * Returns command type, for use in adapters

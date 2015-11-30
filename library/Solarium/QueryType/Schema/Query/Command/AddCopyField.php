@@ -38,7 +38,6 @@
  */
 namespace Solarium\QueryType\Schema\Query\Command;
 
-use Solarium\Core\ArrayableInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Schema\Query\Field\CopyField;
 use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
@@ -47,7 +46,7 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class AddCopyField
  * @author Beno!t POLASZEK
  */
-class AddCopyField extends Command implements ArrayableInterface
+class AddCopyField extends Command
 {
     /**
      * @var CopyField[]

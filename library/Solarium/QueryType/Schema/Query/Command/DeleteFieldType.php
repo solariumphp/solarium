@@ -38,8 +38,6 @@
  */
 namespace Solarium\QueryType\Schema\Query\Command;
 
-
-use Solarium\Core\ArrayableInterface;
 use Solarium\QueryType\Schema\Query\FieldType\FieldType;
 use Solarium\QueryType\Schema\Query\FieldType\FieldTypeInterface;
 use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
@@ -48,7 +46,7 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class DeleteFieldType
  * @author Beno!t POLASZEK
  */
-class DeleteFieldType extends Command implements ArrayableInterface
+class DeleteFieldType extends Command
 {
     /**
      * @var FieldTypeInterface[]

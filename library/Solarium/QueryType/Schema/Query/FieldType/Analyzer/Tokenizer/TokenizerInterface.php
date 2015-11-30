@@ -38,13 +38,11 @@
  */
 namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer\Tokenizer;
 
-use Solarium\Core\ArrayableInterface;
-
 /**
  * Interface TokenizerInterface
  * @author Beno!t POLASZEK
  */
-interface TokenizerInterface extends ArrayableInterface
+interface TokenizerInterface
 {
     /**
      * @return string
@@ -55,4 +53,9 @@ interface TokenizerInterface extends ArrayableInterface
      * @return string|null
      */
     public function getDelimiter();
+
+    /**
+     * @return array
+     */
+    public function castAsArray();
 }

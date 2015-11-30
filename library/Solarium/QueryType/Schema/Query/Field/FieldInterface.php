@@ -38,15 +38,11 @@
  */
 namespace Solarium\QueryType\Schema\Query\Field;
 
-
-use Solarium\Core\ArrayableInterface;
-use Solarium\Core\StringableInterface;
-
 /**
  * Interface FieldInterface
  * @author Beno!t POLASZEK
  */
-interface FieldInterface extends ArrayableInterface, StringableInterface
+interface FieldInterface
 {
     /**
      * @param array $attributes
@@ -54,4 +50,14 @@ interface FieldInterface extends ArrayableInterface, StringableInterface
     public function __construct(array $attributes = array());
 
     public function getName();
+    
+    /**
+     * @return string
+     */
+    public function __toString();
+
+    /**
+     * @return array
+     */
+    public function castAsArray();
 }

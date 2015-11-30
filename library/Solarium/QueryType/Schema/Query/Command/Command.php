@@ -38,15 +38,13 @@
  */
 namespace Solarium\QueryType\Schema\Query\Command;
 
-use Solarium\Core\ArrayableInterface;
 use Solarium\Core\Configurable;
-use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Schema query command base class
  * @author Beno!t POLASZEK
  */
-abstract class Command extends Configurable implements ArrayableInterface
+abstract class Command extends Configurable
 {
     /**
      * Returns command type, for use in adapters

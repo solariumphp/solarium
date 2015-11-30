@@ -38,14 +38,11 @@
  */
 namespace Solarium\QueryType\Schema\Query\Field;
 
-use Solarium\Core\ArrayableInterface;
-use Solarium\Core\StringableInterface;
-
 /**
  * Class CopyField
  * @author Beno!t POLASZEK
  */
-class CopyField implements ArrayableInterface, StringableInterface
+class CopyField
 {
     protected $source = '';
 

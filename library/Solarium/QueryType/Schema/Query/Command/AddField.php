@@ -38,7 +38,6 @@
  */
 namespace Solarium\QueryType\Schema\Query\Command;
 
-use Solarium\Core\ArrayableInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Schema\Query\Field\Field;
 use Solarium\QueryType\Schema\Query\Field\FieldInterface;
@@ -48,7 +47,7 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
  * Class AddField
  * @author Beno!t POLASZEK
  */
-class AddField extends Command implements ArrayableInterface
+class AddField extends Command
 {
     /**
      * @var FieldInterface[]|Field[]

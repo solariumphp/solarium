@@ -38,7 +38,6 @@
  */
 namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer;
 
-use Solarium\Core\ArrayableInterface;
 use Solarium\QueryType\Schema\Query\FieldType\Analyzer\Filter\FilterInterface;
 use Solarium\QueryType\Schema\Query\FieldType\Analyzer\Tokenizer\TokenizerInterface;
 
@@ -46,7 +45,7 @@ use Solarium\QueryType\Schema\Query\FieldType\Analyzer\Tokenizer\TokenizerInterf
  * Interface AnalyzerInterface
  * @author Beno!t POLASZEK
  */
-interface AnalyzerInterface extends ArrayableInterface
+interface AnalyzerInterface
 {
     /**
      * Analyzer type. Can be 'analyzer', 'indexAnalyzer', or 'queryAnalyzer'
@@ -69,4 +68,9 @@ interface AnalyzerInterface extends ArrayableInterface
      * @return FilterInterface[]
      */
     public function getFilters();
+
+    /**
+     * @return array
+     */
+    public function castAsArray();
 }

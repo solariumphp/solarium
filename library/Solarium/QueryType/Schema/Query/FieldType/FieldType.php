@@ -38,7 +38,6 @@
  */
 namespace Solarium\QueryType\Schema\Query\FieldType;
 
-use Solarium\Core\StringableInterface;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\QueryType\Schema\Query\FieldType\Analyzer\AnalyzerInterface;
 use Solarium\QueryType\Schema\Query\FieldType\Analyzer\IndexAnalyzer;
@@ -49,7 +48,7 @@ use Solarium\QueryType\Schema\Query\FieldType\Analyzer\StandardAnalyzer;
  * Class FieldType
  * @author Beno!t POLASZEK
  */
-class FieldType implements StringableInterface, \ArrayAccess, FieldTypeInterface
+class FieldType implements \ArrayAccess, FieldTypeInterface
 {
     protected $name;
     protected $class;

@@ -38,14 +38,13 @@
  */
 namespace Solarium\QueryType\Schema\Query\Command;
 
-use Solarium\Core\ArrayableInterface;
 use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
 
 /**
  * Class DeleteDynamicField
  * @author Beno!t POLASZEK
  */
-class DeleteDynamicField extends DeleteField implements ArrayableInterface
+class DeleteDynamicField extends DeleteField
 {
      /**
      * Returns command type, for use in adapters
