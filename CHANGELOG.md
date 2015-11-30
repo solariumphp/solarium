@@ -12,6 +12,7 @@
 - improvement: Added SensioLabs Insight (including lots of fixed in the code based on report)
 - added: ClientInterface
 - improvement: Set hard paths in .gitignore to prevent tree lookups
+- added: Support for facet.contains settings
 
 ## 3.4.0 - 2015-06-14
 
