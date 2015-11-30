@@ -227,7 +227,7 @@ class FacetSet extends AbstractComponent
      */
     public function setContainsIgnoreCase($containsIgnoreCase)
     {
-        return $this->setOption('contains.ignoreCase', $containsIgnoreCase);
+        return $this->setOption('containsignorecase', $containsIgnoreCase);
     }
 
     /**
@@ -239,7 +239,7 @@ class FacetSet extends AbstractComponent
      */
     public function getContainsIgnoreCase()
     {
-        return $this->getOption('contains.ignoreCase');
+        return $this->getOption('containsignorecase');
     }
 
     /**
