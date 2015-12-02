@@ -14,9 +14,19 @@ env:
   - SYMFONY_VERSION=2.7.*
   - SYMFONY_VERSION=2.8.*
 
+matrix:
+  include:
+    - php: 5.5
+      env: SYMFONY_VERSION=3.0.*
+    - php: 7.0
+      env: SYMFONY_VERSION=3.0.*
+
 before_script:
   - bash -c "if [ $TRAVIS_PHP_VERSION != 'hhvm' ] && [ $TRAVIS_PHP_VERSION != '5.3' ]; then printf '\n\n\n\n' | pecl install pecl_http-1.7.6; fi"
-  - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
+
+before_install:
+  - composer self-update
+  - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/event-dispatcher:${SYMFONY_VERSION}" --no-update; fi;
 
 script: vendor/bin/phpunit -c phpunit.xml.travis -v
 
