@@ -48,7 +48,7 @@ use Solarium\QueryType\Schema\Query\FieldType\Analyzer\StandardAnalyzer;
  * Class FieldType
  * @author Beno!t POLASZEK
  */
-class FieldType implements \ArrayAccess, FieldTypeInterface
+class FieldType implements FieldTypeInterface
 {
     protected $name;
     protected $class;

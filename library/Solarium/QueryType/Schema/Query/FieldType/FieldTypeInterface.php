@@ -42,7 +42,7 @@ namespace Solarium\QueryType\Schema\Query\FieldType;
  * Interface FieldTypeInterface
  * @author Beno!t POLASZEK
  */
-interface FieldTypeInterface
+interface FieldTypeInterface extends \ArrayAccess
 {
     public function getName();
 
