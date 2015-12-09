@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.5.0 - 2015-11-30
+## 3.5.0 - 2015-12-09
 
 - improvement: lots of code style fixes
 - improvement: refactored 'base' plugin class to AbstractPlugin
@@ -14,6 +14,7 @@
 - improvement: Set hard paths in .gitignore to prevent tree lookups
 - added: Support for facet.contains settings
 - improvement: updated Symfony event dispatcher dependency to a maintained version
+- added: docs in repository (markdown format)
 
 ## 3.4.0 - 2015-06-14
 
