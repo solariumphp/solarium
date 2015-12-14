@@ -2,7 +2,7 @@
 
 namespace Solarium\Support\DataFixtures;
 
-use Solarium\Core\Client\Client;
+use Solarium\Core\Client\ClientInterface;
 
 /**
  * @author Baldur Rensch <brensch@gmail.com>
@@ -10,7 +10,7 @@ use Solarium\Core\Client\Client;
 interface FixtureInterface
 {
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function load(Client $client);
+    public function load(ClientInterface $client);
 }

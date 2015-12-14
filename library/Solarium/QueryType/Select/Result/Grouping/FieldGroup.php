@@ -30,44 +30,46 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Grouping;
 
 /**
- * Select component grouping field group result
+ * Select component grouping field group result.
  *
  * @since 2.1.0
  */
 class FieldGroup implements \IteratorAggregate, \Countable
 {
     /**
-     * Match count
+     * Match count.
      *
      * @var int
      */
     protected $matches;
 
     /**
-     * Number of groups
+     * Number of groups.
      *
      * @var int
      */
     protected $numberOfGroups;
 
     /**
-     * Value groups
+     * Value groups.
      *
      * @var array
      */
     protected $valueGroups;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int   $matches
      * @param int   $numberOfGroups
@@ -81,7 +83,7 @@ class FieldGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get matches value
+     * Get matches value.
      *
      * @return int
      */
@@ -91,7 +93,7 @@ class FieldGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get numberOfGroups value
+     * Get numberOfGroups value.
      *
      * Only available if the numberofgroups option in the query was 'true'
      *
@@ -103,7 +105,7 @@ class FieldGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all value groups
+     * Get all value groups.
      *
      * @return array
      */
@@ -113,7 +115,7 @@ class FieldGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -123,7 +125,7 @@ class FieldGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

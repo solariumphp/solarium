@@ -31,27 +31,30 @@
  *
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Suggester;
 
-use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 use Solarium\QueryType\Suggester\Result\Result;
 
 /**
- * Parse Suggester response data
+ * Parse Suggester response data.
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
     /**
-     * Get result data for the response
+     * Get result data for the response.
      *
-     * @param  Result $result
+     * @param Result $result
+     *
      * @return array
      */
     public function parse($result)

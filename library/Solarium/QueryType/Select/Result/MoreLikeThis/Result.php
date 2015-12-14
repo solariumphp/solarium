@@ -30,30 +30,32 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\MoreLikeThis;
 
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
- * Select component morelikethis result item
+ * Select component morelikethis result item.
  */
 class Result implements \IteratorAggregate, \Countable
 {
     /**
-     * Document instances array
+     * Document instances array.
      *
      * @var array
      */
     protected $documents;
 
     /**
-     * Solr numFound
+     * Solr numFound.
      *
      * This is NOT the number of MLT documents fetched from Solr!
      *
@@ -62,14 +64,14 @@ class Result implements \IteratorAggregate, \Countable
     protected $numFound;
 
     /**
-     * Maximum score in this MLT set
+     * Maximum score in this MLT set.
      *
      * @var float
      */
     protected $maximumScore;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int        $numFound
      * @param float|null $maxScore
@@ -83,7 +85,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * get Solr numFound
+     * get Solr numFound.
      *
      * Returns the number of MLT documents found by Solr (this is NOT the
      * number of documents fetched from Solr!)
@@ -96,7 +98,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get maximum score in the MLT document set
+     * Get maximum score in the MLT document set.
      *
      * @return float
      */
@@ -106,7 +108,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all documents
+     * Get all documents.
      *
      * @return DocumentInterface[]
      */
@@ -116,7 +118,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -126,7 +128,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

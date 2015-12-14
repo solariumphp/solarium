@@ -30,19 +30,21 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
- * PreCommit event, see Events for details
+ * PreCommit event, see Events for details.
  */
 class PreCommit extends Event
 {
@@ -72,7 +74,7 @@ class PreCommit extends Event
     protected $expungeDeletes;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param array   $buffer
      * @param boolean $overwrite
@@ -90,7 +92,7 @@ class PreCommit extends Event
     }
 
     /**
-     * Get the buffer for this event
+     * Get the buffer for this event.
      *
      * @return DocumentInterface[]
      */
@@ -100,10 +102,9 @@ class PreCommit extends Event
     }
 
     /**
-     * Set the buffer for this event, this way you can alter the buffer before it is committed to Solr
+     * Set the buffer for this event, this way you can alter the buffer before it is committed to Solr.
      *
-     * @param  array $buffer
-     * @return void
+     * @param array $buffer
      */
     public function setBuffer($buffer)
     {
@@ -111,7 +112,7 @@ class PreCommit extends Event
     }
 
     /**
-     * Optionally override the value
+     * Optionally override the value.
      *
      * @param boolean $expungeDeletes
      */
@@ -129,7 +130,7 @@ class PreCommit extends Event
     }
 
     /**
-     * Optionally override the value
+     * Optionally override the value.
      *
      * @param boolean $overwrite
      */
@@ -147,7 +148,7 @@ class PreCommit extends Event
     }
 
     /**
-     * Optionally override the value
+     * Optionally override the value.
      *
      * @param boolean $softCommit
      */
@@ -165,7 +166,7 @@ class PreCommit extends Event
     }
 
     /**
-     * Optionally override the value
+     * Optionally override the value.
      *
      * @param boolean $waitSearcher
      */

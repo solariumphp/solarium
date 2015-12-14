@@ -2,8 +2,11 @@
 
 namespace Solarium\Support\DataFixtures;
 
-use Solarium\Core\Client\Client;
+use Solarium\Core\Client\ClientInterface;
 
+/**
+ * DataFixtures Purger.
+ */
 class Purger
 {
     /**
@@ -17,9 +20,9 @@ class Purger
     private $deleteQuery = '*:*';
 
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }

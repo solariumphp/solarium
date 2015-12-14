@@ -30,35 +30,37 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Debug;
 
 /**
- * Select component debug document result
+ * Select component debug document result.
  */
 class Document extends Detail implements \IteratorAggregate, \Countable
 {
     /**
-     * Key
+     * Key.
      *
      * @var string
      */
     protected $key;
 
     /**
-     * Details
+     * Details.
      *
      * @var array
      */
     protected $details;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string  $key
      * @param boolean $match
@@ -74,7 +76,7 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get key value for this document
+     * Get key value for this document.
      *
      * @return string
      */
@@ -84,7 +86,7 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get details
+     * Get details.
      *
      * @return array
      */
@@ -94,7 +96,7 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -104,7 +106,7 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

@@ -30,16 +30,17 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\BufferedAdd;
 
-use Solarium\Client;
-use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\QueryType\Update\Result as UpdateResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Select\Result\DocumentInterface;
@@ -51,15 +52,15 @@ use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
 
 /**
- * Buffered add plugin
+ * Buffered add plugin.
  *
  * If you need to add (or update) a big number of documents to Solr it's much more efficient to do so in batches.
  * This plugin makes this as easy as possible.
  */
-class BufferedAdd extends Plugin
+class BufferedAdd extends AbstractPlugin
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -68,34 +69,21 @@ class BufferedAdd extends Plugin
     );
 
     /**
-     * Update query instance
+     * Update query instance.
      *
      * @var UpdateQuery
      */
     protected $updateQuery;
 
     /**
-     * Buffered documents
+     * Buffered documents.
      *
      * @var DocumentInterface[]
      */
     protected $buffer = array();
 
     /**
-     * Plugin init function
-     *
-     * This is an extension point for plugin implementations.
-     * Will be called as soon as $this->client and options have been set.
-     *
-     * @return void
-     */
-    protected function initPluginType()
-    {
-        $this->updateQuery = $this->client->createUpdate();
-    }
-
-    /**
-     * Set the endpoint for the documents
+     * Set the endpoint for the documents.
      *
      * @param string $endpoint The endpoint to set
      *
@@ -107,7 +95,7 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Return the endpoint
+     * Return the endpoint.
      *
      * @return string
      */
@@ -117,9 +105,10 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Set buffer size option
+     * Set buffer size option.
      *
-     * @param  int  $size
+     * @param int $size
+     *
      * @return self
      */
     public function setBufferSize($size)
@@ -128,7 +117,7 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Get buffer size option value
+     * Get buffer size option value.
      *
      * @return int
      */
@@ -138,11 +127,12 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Create a document object instance and add it to the buffer
+     * Create a document object instance and add it to the buffer.
      *
-     * @param  array $fields
-     * @param  array $boosts
-     * @return self  Provides fluent interface
+     * @param array $fields
+     * @param array $boosts
+     *
+     * @return self Provides fluent interface
      */
     public function createDocument($fields, $boosts = array())
     {
@@ -153,10 +143,11 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Add a document
+     * Add a document.
      *
-     * @param  DocumentInterface $document
-     * @return self              Provides fluent interface
+     * @param DocumentInterface $document
+     *
+     * @return self Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -173,9 +164,10 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Add multiple documents
+     * Add multiple documents.
      *
-     * @param array
+     * @param array $documents
+     *
      * @return self Provides fluent interface
      */
     public function addDocuments($documents)
@@ -188,7 +180,7 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Get all documents currently in the buffer
+     * Get all documents currently in the buffer.
      *
      * Any previously flushed documents will not be included!
      *
@@ -200,7 +192,7 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Clear any buffered documents
+     * Clear any buffered documents.
      *
      * @return self Provides fluent interface
      */
@@ -213,10 +205,11 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Flush any buffered documents to Solr
+     * Flush any buffered documents to Solr.
      *
-     * @param  boolean              $overwrite
-     * @param  int                  $commitWithin
+     * @param boolean $overwrite
+     * @param int     $commitWithin
+     *
      * @return boolean|UpdateResult
      */
     public function flush($overwrite = null, $commitWithin = null)
@@ -240,14 +233,15 @@ class BufferedAdd extends Plugin
     }
 
     /**
-     * Commit changes
+     * Commit changes.
      *
      * Any remaining documents in the buffer will also be flushed
      *
-     * @param  boolean      $overwrite
-     * @param  boolean      $softCommit
-     * @param  boolean      $waitSearcher
-     * @param  boolean      $expungeDeletes
+     * @param boolean $overwrite
+     * @param boolean $softCommit
+     * @param boolean $waitSearcher
+     * @param boolean $expungeDeletes
+     *
      * @return UpdateResult
      */
     public function commit($overwrite = null, $softCommit = null, $waitSearcher = null, $expungeDeletes = null)
@@ -264,5 +258,16 @@ class BufferedAdd extends Plugin
         $this->client->getEventDispatcher()->dispatch(Events::POST_COMMIT, $event);
 
         return $result;
+    }
+
+    /**
+     * Plugin init function.
+     *
+     * This is an extension point for plugin implementations.
+     * Will be called as soon as $this->client and options have been set.
+     */
+    protected function initPluginType()
+    {
+        $this->updateQuery = $this->client->createUpdate();
     }
 }

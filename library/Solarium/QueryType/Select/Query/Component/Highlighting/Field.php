@@ -30,35 +30,37 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
 
 use Solarium\Core\Configurable;
 
 /**
- * Highlighting per-field settings
+ * Highlighting per-field settings.
  *
  * @link http://wiki.apache.org/solr/HighlightingParameters
  */
 class Field extends Configurable
 {
     /**
-     * Value for fragmenter option gap
+     * Value for fragmenter option gap.
      */
     const FRAGMENTER_GAP = 'gap';
 
     /**
-     * Value for fragmenter option regex
+     * Value for fragmenter option regex.
      */
     const FRAGMENTER_REGEX = 'regex';
 
     /**
-     * Get name option
+     * Get name option.
      *
      * @return string|null
      */
@@ -68,10 +70,11 @@ class Field extends Configurable
     }
 
     /**
-     * Set name option
+     * Set name option.
      *
-     * @param  string $name
-     * @return self   Provides fluent interface
+     * @param string $name
+     *
+     * @return self Provides fluent interface
      */
     public function setName($name)
     {
@@ -79,11 +82,12 @@ class Field extends Configurable
     }
 
     /**
-     * Set snippets option
+     * Set snippets option.
      *
      * Maximum number of snippets per field
      *
-     * @param  int  $maximum
+     * @param int $maximum
+     *
      * @return self Provides fluent interface
      */
     public function setSnippets($maximum)
@@ -92,7 +96,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get snippets option
+     * Get snippets option.
      *
      * @return int|null
      */
@@ -102,11 +106,12 @@ class Field extends Configurable
     }
 
     /**
-     * Set fragsize option
+     * Set fragsize option.
      *
      * The size, in characters, of fragments to consider for highlighting
      *
-     * @param  int  $size
+     * @param int $size
+     *
      * @return self Provides fluent interface
      */
     public function setFragSize($size)
@@ -115,7 +120,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get fragsize option
+     * Get fragsize option.
      *
      * @return int|null
      */
@@ -125,12 +130,13 @@ class Field extends Configurable
     }
 
     /**
-     * Set mergeContiguous option
+     * Set mergeContiguous option.
      *
      * Collapse contiguous fragments into a single fragment
      *
-     * @param  boolean $merge
-     * @return self    Provides fluent interface
+     * @param boolean $merge
+     *
+     * @return self Provides fluent interface
      */
     public function setMergeContiguous($merge)
     {
@@ -138,7 +144,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get mergeContiguous option
+     * Get mergeContiguous option.
      *
      * @return boolean|null
      */
@@ -148,10 +154,11 @@ class Field extends Configurable
     }
 
     /**
-     * Set alternatefield option
+     * Set alternatefield option.
      *
-     * @param  string $field
-     * @return self   Provides fluent interface
+     * @param string $field
+     *
+     * @return self Provides fluent interface
      */
     public function setAlternateField($field)
     {
@@ -159,7 +166,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get alternatefield option
+     * Get alternatefield option.
      *
      * @return string|null
      */
@@ -167,20 +174,21 @@ class Field extends Configurable
     {
         return $this->getOption('alternatefield');
     }
-    
+
     /**
-     * Set preserveMulti option
+     * Set preserveMulti option.
      *
-     * @param  boolean $preservemulti
-     * @return self    Provides fluent interface
+     * @param boolean $preservemulti
+     *
+     * @return self Provides fluent interface
      */
     public function setPreserveMulti($preservemulti)
     {
         return $this->setOption('preservemulti', $preservemulti);
     }
-    
+
     /**
-     * Get preserveMulti option
+     * Get preserveMulti option.
      *
      * @return boolean|null
      */
@@ -190,10 +198,11 @@ class Field extends Configurable
     }
 
     /**
-     * Set formatter option
+     * Set formatter option.
      *
-     * @param  string $formatter
-     * @return self   Provides fluent interface
+     * @param string $formatter
+     *
+     * @return self Provides fluent interface
      */
     public function setFormatter($formatter = 'simple')
     {
@@ -201,7 +210,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get formatter option
+     * Get formatter option.
      *
      * @return string|null
      */
@@ -211,12 +220,13 @@ class Field extends Configurable
     }
 
     /**
-     * Set simple prefix option
+     * Set simple prefix option.
      *
      * Solr option h1.simple.pre
      *
-     * @param  string $prefix
-     * @return self   Provides fluent interface
+     * @param string $prefix
+     *
+     * @return self Provides fluent interface
      */
     public function setSimplePrefix($prefix)
     {
@@ -224,7 +234,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get simple prefix option
+     * Get simple prefix option.
      *
      * Solr option hl.simple.pre
      *
@@ -236,12 +246,13 @@ class Field extends Configurable
     }
 
     /**
-     * Set simple postfix option
+     * Set simple postfix option.
      *
      * Solr option h1.simple.post
      *
-     * @param  string $postfix
-     * @return self   Provides fluent interface
+     * @param string $postfix
+     *
+     * @return self Provides fluent interface
      */
     public function setSimplePostfix($postfix)
     {
@@ -249,7 +260,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get simple postfix option
+     * Get simple postfix option.
      *
      * Solr option hl.simple.post
      *
@@ -261,12 +272,13 @@ class Field extends Configurable
     }
 
     /**
-     * Set fragmenter option
+     * Set fragmenter option.
      *
      * Use one of the constants as value.
      *
-     * @param  string $fragmenter
-     * @return self   Provides fluent interface
+     * @param string $fragmenter
+     *
+     * @return self Provides fluent interface
      */
     public function setFragmenter($fragmenter)
     {
@@ -274,7 +286,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get fragmenter option
+     * Get fragmenter option.
      *
      * @return string|null
      */
@@ -284,10 +296,11 @@ class Field extends Configurable
     }
 
     /**
-     * Set useFastVectorHighlighter option
+     * Set useFastVectorHighlighter option.
      *
-     * @param  boolean $use
-     * @return self    Provides fluent interface
+     * @param boolean $use
+     *
+     * @return self Provides fluent interface
      */
     public function setUseFastVectorHighlighter($use)
     {
@@ -295,7 +308,7 @@ class Field extends Configurable
     }
 
     /**
-     * Get useFastVectorHighlighter option
+     * Get useFastVectorHighlighter option.
      *
      * @return boolean|null
      */

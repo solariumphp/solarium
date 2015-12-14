@@ -30,27 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Ping;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 
 /**
- * Build a ping request
+ * Build a ping request.
  */
 class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * Build request for a ping query
+     * Build request for a ping query.
      *
-     * @param  QueryInterface|Query $query
+     * @param QueryInterface|Query $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)

@@ -30,35 +30,37 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Stats;
 
 /**
- * Select component stats field result item
+ * Select component stats field result item.
  */
 class Result
 {
     /**
-     * Field name
+     * Field name.
      *
      * @var string
      */
     protected $field;
 
     /**
-     * Stats data
+     * Stats data.
      *
      * @var array
      */
     protected $stats;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $field
      * @param array  $stats
@@ -70,7 +72,7 @@ class Result
     }
 
     /**
-     * Get field name
+     * Get field name.
      *
      * @return string
      */
@@ -80,7 +82,7 @@ class Result
     }
 
     /**
-     * Get min value
+     * Get min value.
      *
      * @return string
      */
@@ -90,7 +92,7 @@ class Result
     }
 
     /**
-     * Get max value
+     * Get max value.
      *
      * @return string
      */
@@ -100,7 +102,7 @@ class Result
     }
 
     /**
-     * Get sum value
+     * Get sum value.
      *
      * @return string
      */
@@ -110,7 +112,7 @@ class Result
     }
 
     /**
-     * Get count value
+     * Get count value.
      *
      * @return string
      */
@@ -120,7 +122,7 @@ class Result
     }
 
     /**
-     * Get missing value
+     * Get missing value.
      *
      * @return string
      */
@@ -130,7 +132,7 @@ class Result
     }
 
     /**
-     * Get sumOfSquares value
+     * Get sumOfSquares value.
      *
      * @return string
      */
@@ -140,7 +142,7 @@ class Result
     }
 
     /**
-     * Get mean value
+     * Get mean value.
      *
      * @return string
      */
@@ -150,7 +152,7 @@ class Result
     }
 
     /**
-     * Get stddev value
+     * Get stddev value.
      *
      * @return string
      */
@@ -160,7 +162,7 @@ class Result
     }
 
     /**
-     * Get facet stats
+     * Get facet stats.
      *
      * @return array
      */

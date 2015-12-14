@@ -30,28 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Spellcheck;
 
 /**
- * Select component spellcheck result
+ * Select component spellcheck result.
  */
 class Result implements \IteratorAggregate, \Countable
 {
     /**
-     * Suggestions array
+     * Suggestions array.
      *
      * @var array
      */
     protected $suggestions;
 
     /**
-     * Collation object array
+     * Collation object array.
      *
      * @var array
      */
@@ -65,7 +67,7 @@ class Result implements \IteratorAggregate, \Countable
     protected $correctlySpelled;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array   $suggestions
      * @param array   $collations
@@ -79,18 +81,18 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get the collation result
+     * Get the collation result.
      *
-     * @param  int       $key
+     * @param int $key
+     *
      * @return Collation
      */
     public function getCollation($key = null)
     {
         $nrOfCollations = count($this->collations);
         if ($nrOfCollations == 0) {
-            return null;
+            return;
         } else {
-
             if ($key === null) {
                 return reset($this->collations);
             }
@@ -100,7 +102,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all collations
+     * Get all collations.
      *
      * @return Collation[]
      */
@@ -110,7 +112,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get correctly spelled status
+     * Get correctly spelled status.
      *
      * Only available if ExtendedResults was enabled in your query
      *
@@ -122,9 +124,10 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get a result by key
+     * Get a result by key.
      *
-     * @param  mixed           $key
+     * @param mixed $key
+     *
      * @return Suggestion|null
      */
     public function getSuggestion($key)
@@ -132,12 +135,12 @@ class Result implements \IteratorAggregate, \Countable
         if (isset($this->suggestions[$key])) {
             return $this->suggestions[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Get all suggestions
+     * Get all suggestions.
      *
      * @return Suggestion[]
      */
@@ -147,7 +150,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -157,7 +160,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

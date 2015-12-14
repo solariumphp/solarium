@@ -30,25 +30,27 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
- * Update query rollback command
+ * Update query rollback command.
  *
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22rollback.22
  */
-class Rollback extends Command
+class Rollback extends AbstractCommand
 {
     /**
-     * Get command type
+     * Get command type.
      *
      * @return string
      */

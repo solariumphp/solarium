@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -44,7 +46,7 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
 
 /**
- * PreExecuteRequest event, see Events for details
+ * PreExecuteRequest event, see Events for details.
  */
 class PreExecuteRequest extends Event
 {
@@ -54,17 +56,17 @@ class PreExecuteRequest extends Event
     protected $request;
 
     /**
-    * @var Endpoint
-    */
+     * @var Endpoint
+     */
     protected $endpoint;
 
     /**
-    * @var Response
-    */
+     * @var Response
+     */
     protected $response;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param Request  $request
      * @param Endpoint $endpoint
@@ -76,7 +78,7 @@ class PreExecuteRequest extends Event
     }
 
     /**
-     * Get the endpoint object for this event
+     * Get the endpoint object for this event.
      *
      * @return Endpoint
      */
@@ -86,7 +88,7 @@ class PreExecuteRequest extends Event
     }
 
     /**
-     * Get the request object for this event
+     * Get the request object for this event.
      *
      * @return Request
      */
@@ -96,10 +98,9 @@ class PreExecuteRequest extends Event
     }
 
     /**
-     * Get the request object for this event
+     * Get the request object for this event.
      *
-     * @param  Request $request
-     * @return void
+     * @param Request $request
      */
     public function setRequest($request)
     {
@@ -107,7 +108,7 @@ class PreExecuteRequest extends Event
     }
 
     /**
-     * Get the response object for this event
+     * Get the response object for this event.
      *
      * @return Response
      */
@@ -117,10 +118,9 @@ class PreExecuteRequest extends Event
     }
 
     /**
-     * Set the response object for this event, overrides default execution
+     * Set the response object for this event, overrides default execution.
      *
-     * @param  Response $response
-     * @return void
+     * @param Response $response
      */
     public function setResponse($response)
     {

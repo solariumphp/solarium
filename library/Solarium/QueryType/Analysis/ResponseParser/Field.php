@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\ResponseParser;
 
 use Solarium\Core\Query\Result\Result;
@@ -43,18 +45,19 @@ use Solarium\QueryType\Analysis\Result as AnalysisResult;
 use Solarium\QueryType\Analysis\Result\ResultList;
 use Solarium\QueryType\Analysis\Result\Item;
 use Solarium\QueryType\Analysis\Result\Types;
-use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 
 /**
- * Parse document analysis response data
+ * Parse document analysis response data.
  */
 class Field extends ResponseParserAbstract implements ResponseParserInterface
 {
     /**
-     * Parse response data
+     * Parse response data.
      *
-     * @param  Result $result
+     * @param Result $result
+     *
      * @return array
      */
     public function parse($result)
@@ -71,10 +74,11 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
     }
 
     /**
-     * Parser
+     * Parser.
      *
-     * @param  Result  $result
-     * @param  array   $data
+     * @param Result $result
+     * @param array  $data
+     *
      * @return Types[]
      */
     protected function parseAnalysis($result, $data)
@@ -89,10 +93,11 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
     }
 
     /**
-     * Parse analysis types and items
+     * Parse analysis types and items.
      *
-     * @param  Result  $result
-     * @param  array   $typeData
+     * @param Result $result
+     * @param array  $typeData
+     *
      * @return Types[]
      */
     protected function parseTypes($result, $typeData)
@@ -101,10 +106,8 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
 
         $results = array();
         foreach ($typeData as $fieldKey => $fieldData) {
-
             $types = array();
             foreach ($fieldData as $typeKey => $typeData) {
-
                 if ($query->getResponseWriter() == $query::WT_JSON) {
                     // fix for extra level for key fields
                     if (count($typeData) == 1) {
@@ -116,7 +119,6 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
                 $classes = array();
                 foreach ($typeData as $class => $analysis) {
                     if (is_string($analysis)) {
-
                         $item = new Item(
                             array(
                                 'text' => $analysis,
@@ -129,9 +131,7 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
                         );
 
                         $classes[] = new ResultList($class, array($item));
-
                     } else {
-
                         $items = array();
                         foreach ($analysis as $itemData) {
                             $items[] = new Item($itemData);

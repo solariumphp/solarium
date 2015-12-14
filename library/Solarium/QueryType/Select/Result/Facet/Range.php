@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Facet;
 
 /**
- * Select range facet result
+ * Select range facet result.
  *
  * A multiquery facet will usually return a dataset of multiple count, in each
  * row a range as key and its count. You can access the values as an array using
@@ -51,49 +53,49 @@ namespace Solarium\QueryType\Select\Result\Facet;
 class Range extends Field
 {
     /**
-     * Count of all records with field values lower then lower bound of the first range
+     * Count of all records with field values lower then lower bound of the first range.
      *
      * @var int
      */
     protected $before;
 
     /**
-     * Count of all records with field values greater then the upper bound of the last range
+     * Count of all records with field values greater then the upper bound of the last range.
      *
      * @var int
      */
     protected $after;
 
     /**
-     * Count all records with field values between the start and end bounds of all ranges
+     * Count all records with field values between the start and end bounds of all ranges.
      *
      * @var int
      */
     protected $between;
 
     /**
-     * The lower bound of the ranges
+     * The lower bound of the ranges.
      *
      * @var string
      */
     protected $start;
 
     /**
-     * The upper bound of all ranges
+     * The upper bound of all ranges.
      *
      * @var string
      */
     protected $end;
 
     /**
-     * The gap between each range
+     * The gap between each range.
      *
      * @var string
      */
     protected $gap;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $values
      * @param int   $before
@@ -115,7 +117,7 @@ class Range extends Field
     }
 
     /**
-     * Get 'before' count
+     * Get 'before' count.
      *
      * Count of all records with field values lower then lower bound of the first range
      * Only available if the 'other' setting was used in the query facet.
@@ -128,7 +130,7 @@ class Range extends Field
     }
 
     /**
-     * Get 'after' count
+     * Get 'after' count.
      *
      * Count of all records with field values greater then the upper bound of the last range
      * Only available if the 'other' setting was used in the query facet.
@@ -141,7 +143,7 @@ class Range extends Field
     }
 
     /**
-     * Get 'between' count
+     * Get 'between' count.
      *
      * Count all records with field values between the start and end bounds of all ranges
      * Only available if the 'other' setting was used in the query facet.
@@ -154,7 +156,7 @@ class Range extends Field
     }
 
     /**
-     * Get 'start' value of the ranges
+     * Get 'start' value of the ranges.
      *
      * The start value specified in the query facet.
      *
@@ -166,7 +168,7 @@ class Range extends Field
     }
 
     /**
-     * Get 'end' value of the ranges
+     * Get 'end' value of the ranges.
      *
      * The end value specified in the query facet
      *
@@ -178,7 +180,7 @@ class Range extends Field
     }
 
     /**
-     * Get 'gap' between the start and end of each range
+     * Get 'gap' between the start and end of each range.
      *
      * Get the gap specified in the query facet
      *

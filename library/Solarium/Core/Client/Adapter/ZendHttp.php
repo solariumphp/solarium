@@ -32,12 +32,14 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @copyright Copyright 2012 Alexander Brausewetter <alex@helpdeskhq.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\Configurable;
@@ -49,7 +51,7 @@ use Solarium\Exception\HttpException;
 use Solarium\Exception\OutOfBoundsException;
 
 /**
- * Adapter that uses a Zend_Http_Client
+ * Adapter that uses a Zend_Http_Client.
  *
  * The Zend Framework HTTP client has many great features and has lots of
  * configuration options. For more info see the manual at
@@ -60,7 +62,7 @@ use Solarium\Exception\OutOfBoundsException;
 class ZendHttp extends Configurable implements AdapterInterface
 {
     /**
-     * Zend Http instance for communication with Solr
+     * Zend Http instance for communication with Solr.
      *
      * @var \Zend_Http_Client
      */
@@ -72,7 +74,7 @@ class ZendHttp extends Configurable implements AdapterInterface
     protected $timeout;
 
     /**
-     * Set options
+     * Set options.
      *
      * Overrides any existing values.
      *
@@ -83,9 +85,10 @@ class ZendHttp extends Configurable implements AdapterInterface
      * The $options param should be an array or an object that has a toArray
      * method, like Zend_Config
      *
-     * @param  array|object $options
-     * @param  boolean      $overwrite
-     * @return self         Provides fluent interface
+     * @param array|object $options
+     * @param boolean      $overwrite
+     *
+     * @return self Provides fluent interface
      */
     public function setOptions($options, $overwrite = false)
     {
@@ -93,7 +96,6 @@ class ZendHttp extends Configurable implements AdapterInterface
 
         // forward options to zendHttp instance
         if (null !== $this->zendHttp) {
-
             // forward timeout setting
             $adapterOptions = array();
 
@@ -109,14 +111,15 @@ class ZendHttp extends Configurable implements AdapterInterface
     }
 
     /**
-     * Set the Zend_Http_Client instance
+     * Set the Zend_Http_Client instance.
      *
      * This method is optional, if you don't set a client it will be created
      * upon first use, using default and/or custom options (the most common use
      * case)
      *
-     * @param  \Zend_Http_Client $zendHttp
-     * @return self              Provides fluent interface
+     * @param \Zend_Http_Client $zendHttp
+     *
+     * @return self Provides fluent interface
      */
     public function setZendHttp($zendHttp)
     {
@@ -126,7 +129,7 @@ class ZendHttp extends Configurable implements AdapterInterface
     }
 
     /**
-     * Get the Zend_Http_Client instance
+     * Get the Zend_Http_Client instance.
      *
      * If no instance is available yet it will be created automatically based on
      * options.
@@ -139,7 +142,7 @@ class ZendHttp extends Configurable implements AdapterInterface
      */
     public function getZendHttp()
     {
-        if (null == $this->zendHttp) {
+        if (null === $this->zendHttp) {
             $options = array();
 
             // forward zendhttp options
@@ -157,12 +160,14 @@ class ZendHttp extends Configurable implements AdapterInterface
     }
 
     /**
-     * Execute a Solr request using the Zend_Http_Client instance
+     * Execute a Solr request using the Zend_Http_Client instance.
      *
      * @throws HttpException
      * @throws OutOfBoundsException
-     * @param  Request              $request
-     * @param  Endpoint             $endpoint
+     *
+     * @param Request  $request
+     * @param Endpoint $endpoint
+     *
      * @return Response
      */
     public function execute($request, $endpoint)
@@ -190,11 +195,11 @@ class ZendHttp extends Configurable implements AdapterInterface
                 $client->setParameterGet($request->getParams());
                 break;
             default:
-                throw new OutOfBoundsException('Unsupported method: ' . $request->getMethod());
+                throw new OutOfBoundsException('Unsupported method: '.$request->getMethod());
                 break;
         }
 
-        $client->setUri($endpoint->getBaseUri() . $request->getHandler());
+        $client->setUri($endpoint->getBaseUri().$request->getHandler());
         $client->setHeaders($request->getHeaders());
         $this->timeout = $endpoint->getTimeout();
 
@@ -208,11 +213,13 @@ class ZendHttp extends Configurable implements AdapterInterface
 
     /**
      * Prepare a solarium response from the given request and client
-     * response
+     * response.
      *
      * @throws HttpException
-     * @param  Request             $request
-     * @param  \Zend_Http_Response $response
+     *
+     * @param Request             $request
+     * @param \Zend_Http_Response $response
+     *
      * @return Response
      */
     protected function prepareResponse($request, $response)
@@ -237,11 +244,10 @@ class ZendHttp extends Configurable implements AdapterInterface
     }
 
     /**
-     * Prepare the client to send the file and params in request
+     * Prepare the client to send the file and params in request.
      *
-     * @param  \Zend_Http_Client $client
-     * @param  Request           $request
-     * @return void
+     * @param \Zend_Http_Client $client
+     * @param Request           $request
      */
     protected function prepareFileUpload($client, $request)
     {

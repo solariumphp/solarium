@@ -30,18 +30,20 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Ping;
 
 use Solarium\Core\Query\Result\Result as BaseResult;
 
 /**
- * Ping query result
+ * Ping query result.
  *
  * A ping query has no useful result so only a dummy status var is available.
  * If you don't get an exception for a ping query it was succesful.
@@ -49,7 +51,7 @@ use Solarium\Core\Query\Result\Result as BaseResult;
 class Result extends BaseResult
 {
     /**
-     * Get Solr status code
+     * Get Solr status code.
      *
      * Since no status is returned for a ping, a default of 0 is used.
      * If you don't get an exception for a ping query it was succesful.

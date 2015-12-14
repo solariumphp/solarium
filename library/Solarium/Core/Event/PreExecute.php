@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -43,7 +45,7 @@ use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 
 /**
- * PostExecute event, see Events for details
+ * PostExecute event, see Events for details.
  */
 class PreExecute extends Event
 {
@@ -58,7 +60,7 @@ class PreExecute extends Event
     protected $result;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param QueryInterface $query
      */
@@ -68,7 +70,7 @@ class PreExecute extends Event
     }
 
     /**
-     * Get the query object for this event
+     * Get the query object for this event.
      *
      * @return QueryInterface
      */
@@ -78,7 +80,7 @@ class PreExecute extends Event
     }
 
     /**
-     * Get the result object for this event
+     * Get the result object for this event.
      *
      * @return ResultInterface
      */
@@ -88,10 +90,9 @@ class PreExecute extends Event
     }
 
     /**
-     * Set the result object for this event, overrides default execution
+     * Set the result object for this event, overrides default execution.
      *
-     * @param  ResultInterface $result
-     * @return void
+     * @param ResultInterface $result
      */
     public function setResult($result)
     {

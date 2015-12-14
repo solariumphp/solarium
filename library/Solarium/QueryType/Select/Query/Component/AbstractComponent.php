@@ -30,57 +30,60 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\Core\Configurable;
-use Solarium\Core\Query\Query;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;
 use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderInterface;
 
 /**
- * Query component base class
+ * Query component base class.
  */
-abstract class Component extends Configurable
+abstract class AbstractComponent extends Configurable
 {
     /**
-     * @var Query
+     * @var AbstractQuery
      */
     protected $queryInstance;
 
     /**
-     * Get component type
+     * Get component type.
      *
      * @return string
      */
     abstract public function getType();
 
     /**
-     * Get the requestbuilder class for this query
+     * Get the requestbuilder class for this query.
      *
      * @return ComponentRequestBuilderInterface
      */
     abstract public function getRequestBuilder();
 
     /**
-     * Get the response parser class for this query
+     * Get the response parser class for this query.
      *
      * @return ComponentParserInterface
      */
     abstract public function getResponseParser();
 
     /**
-     * Set parent query instance
+     * Set parent query instance.
      *
-     * @param  Query $instance
-     * @return self  Provides fluent interface
+     * @param AbstractQuery $instance
+     *
+     * @return self Provides fluent interface
      */
-    public function setQueryInstance(Query $instance)
+    public function setQueryInstance(AbstractQuery $instance)
     {
         $this->queryInstance = $instance;
 
@@ -88,9 +91,9 @@ abstract class Component extends Configurable
     }
 
     /**
-     * Get parent query instance
+     * Get parent query instance.
      *
-     * @return Query
+     * @return AbstractQuery
      */
     public function getQueryInstance()
     {
