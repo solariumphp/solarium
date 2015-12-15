@@ -7,7 +7,7 @@ Solarium is a PHP Solr client library that accurately model Solr concepts. Where
 the communication with Solr, Solarium also relieves you of handling all the complex Solr query parameters using a
 well documented API.
 
-Please see the project website for a more detailed description.
+Please see the docs for a more detailed description.
 
 ## Requirements
 
@@ -23,7 +23,7 @@ The preferred way to install Solarium is by using Composer. Solarium is availabl
 ## More information
 
 * Docs
-  See the docs folder
+  http://solarium.readthedocs.org/en/stable/
 
 * Issue tracker   
   http://github.com/solariumphp/solarium/issues
