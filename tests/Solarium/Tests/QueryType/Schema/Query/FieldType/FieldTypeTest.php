@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Schema\Query;
+namespace Solarium\Tests\QueryType\Schema\Query\FieldType;
 
 use Solarium\QueryType\Schema\Query\FieldType\FieldType;
 

@@ -33,16 +33,13 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
 namespace Solarium\QueryType\Schema\Query\Field;
 
 /**
  * Interface FieldInterface
  * @author Beno!t POLASZEK
  */
-interface FieldInterface
+interface FieldInterface extends \ArrayAccess
 {
     /**
      * @param array $attributes

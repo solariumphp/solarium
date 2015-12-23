@@ -33,10 +33,6 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-
 namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer\Filter;
 
 /**

@@ -52,13 +52,13 @@ class CopyField
 
     public function __construct($source = null, $dest = null, $maxChars = null)
     {
-        if (is_null($source)) {
+        if (null !== $source) {
             $this->setSource($source);
         }
-        if (is_null($dest)) {
+        if (null !== $dest) {
             $this->setDest($dest);
         }
-        if (is_null($maxChars)) {
+        if (null !== $maxChars) {
             $this->setMaxChars($maxChars);
         }
     }
@@ -73,7 +73,7 @@ class CopyField
 
     /**
      * @param string $source
-     * @return $this - Provides Fluent Interface
+     * @return $this
      */
     public function setSource($source)
     {
@@ -92,7 +92,7 @@ class CopyField
 
     /**
      * @param array $dest
-     * @return $this - Provides Fluent Interface
+     * @return $this
      */
     public function setDest($dest)
     {
@@ -137,7 +137,7 @@ class CopyField
 
     /**
      * @param mixed $maxChars
-     * @return $this - Provides Fluent Interface
+     * @return $this
      */
     public function setMaxChars($maxChars)
     {
@@ -171,5 +171,4 @@ class CopyField
     {
         return $this->getSource();
     }
-
 }

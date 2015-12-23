@@ -44,8 +44,8 @@ use Solarium\Exception\RuntimeException;
  * Class Field
  * @author Beno!t POLASZEK
  */
-class Field implements FieldInterface, \ArrayAccess {
-
+class Field implements FieldInterface
+{
     protected $name;
     protected $type;
     protected $default;
@@ -84,7 +84,7 @@ class Field implements FieldInterface, \ArrayAccess {
     }
 
     /**
-     * @param boolean|null $indexed
+     * @param bool|null $indexed
      * @return $this - Provides Fluent Interface
      */
     public function setIndexed($indexed)
@@ -95,7 +95,7 @@ class Field implements FieldInterface, \ArrayAccess {
     }
 
     /**
-     * @return boolean|null
+     * @return bool|null
      */
     public function isIndexed()
     {
@@ -103,7 +103,7 @@ class Field implements FieldInterface, \ArrayAccess {
     }
 
     /**
-     * @param boolean|null $multiValued
+     * @param bool|null $multiValued
      * @return $this - Provides Fluent Interface
      */
     public function setMultiValued($multiValued)
@@ -113,7 +113,7 @@ class Field implements FieldInterface, \ArrayAccess {
     }
 
     /**
-     * @return boolean|null
+     * @return bool|null
      */
     public function isMultiValued()
     {
@@ -140,7 +140,7 @@ class Field implements FieldInterface, \ArrayAccess {
     }
 
     /**
-     * @param boolean $required
+     * @param bool $required
      * @return $this - Provides Fluent Interface
      */
     public function setRequired($required)
@@ -151,7 +151,7 @@ class Field implements FieldInterface, \ArrayAccess {
     }
 
     /**
-     * @return boolean|null
+     * @return bool|null
      */
     public function isRequired()
     {
@@ -159,7 +159,7 @@ class Field implements FieldInterface, \ArrayAccess {
     }
 
     /**
-     * @param boolean|null $stored
+     * @param bool|null $stored
      * @return $this - Provides Fluent Interface
      */
     public function setStored($stored)
@@ -169,7 +169,7 @@ class Field implements FieldInterface, \ArrayAccess {
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isStored()
     {
