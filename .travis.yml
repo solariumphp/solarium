@@ -25,8 +25,6 @@ after_script: vendor/bin/coveralls -v
 matrix:
   allow_failures:
       - php: 5.3
-      - php: hhvm
       - php: nightly
-
 
 sudo: false
