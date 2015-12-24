@@ -99,7 +99,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testCreateCommandWithUnknownType()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $this->query->createCommand('unknown', []);
+        $this->query->createCommand('unknown', array());
     }
 
     public function testHasCommands()
@@ -463,7 +463,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testCastAsArray()
     {
-        $this->assertEquals([], $this->query->castAsArray());
+        $this->assertEquals(array(), $this->query->castAsArray());
         $fieldArray = array('this' => 'and that');
         $field = $this->getMock('Solarium\QueryType\Schema\Query\Field\FieldInterface');
         $field
