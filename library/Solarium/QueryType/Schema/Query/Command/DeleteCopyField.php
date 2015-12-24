@@ -48,11 +48,6 @@ use Solarium\QueryType\Schema\Query\Query as SchemaQuery;
 class DeleteCopyField extends AddCopyField
 {
     /**
-     * @var CopyField[]
-     */
-    protected $fields = array();
-
-    /**
      * Returns command type, for use in adapters
      *
      * @return string
