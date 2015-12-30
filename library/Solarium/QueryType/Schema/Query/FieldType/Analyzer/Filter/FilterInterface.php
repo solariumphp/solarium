@@ -39,7 +39,7 @@ namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer\Filter;
  * Interface FilterInterface
  * @author Beno!t POLASZEK
  */
-interface FilterInterface
+interface FilterInterface extends \ArrayAccess
 {
     /**
      * @return string

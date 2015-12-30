@@ -42,7 +42,7 @@ namespace Solarium\QueryType\Schema\Query\FieldType\Analyzer\Filter;
  * Class Filter
  * @author Beno!t POLASZEK
  */
-class Filter implements FilterInterface, \ArrayAccess
+class Filter implements FilterInterface
 {
     protected $class = '';
     protected $attributes = array();
