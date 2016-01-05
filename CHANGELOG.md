@@ -1,5 +1,14 @@
 # CHANGELOG
 
+
+## 3.6.0
+
+- no longer allow failures for HHVM in continuous integration
+
+## 3.5.1
+
+- fix backwards incompatible change in classnames
+
 ## 3.5.0 - 2015-12-09
 
 - improvement: lots of code style fixes
