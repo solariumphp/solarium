@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 3.5.0 - 2015-12-09
+
+- improvement: lots of code style fixes
+- improvement: refactored 'base' plugin class to AbstractPlugin
+- improvement: removed old PHP environments for Travis, added PHP7
+- improvement: set license to a valid SPDX license identifier
+- bugfix: PHAR generator updated to support namespacing
+- bugfix: Collations broken for Solr 5 data format
+- added: Make it possible to bypass (system-wide) proxy setting in Curl adapter
+- improvement: Added SensioLabs Insight (including lots of fixed in the code based on report)
+- added: ClientInterface
+- improvement: Set hard paths in .gitignore to prevent tree lookups
+- added: Support for facet.contains settings
+- improvement: updated Symfony event dispatcher dependency to a maintained version
+- added: docs in repository (markdown format)
+
 ## 3.4.0 - 2015-06-14
 
 - bugfix: only check type for added documents to add query if provided as an array

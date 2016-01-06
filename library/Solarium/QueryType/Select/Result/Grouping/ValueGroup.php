@@ -30,53 +30,55 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Grouping;
 
 use Solarium\QueryType\Select\Query\Query;
 
 /**
- * Select component grouping field value group result
+ * Select component grouping field value group result.
  *
  * @since 2.1.0
  */
 class ValueGroup implements \IteratorAggregate, \Countable
 {
     /**
-     * Field value
+     * Field value.
      *
      * @var string
      */
     protected $value;
 
     /**
-     * NumFound
+     * NumFound.
      *
      * @var int
      */
     protected $numFound;
 
     /**
-     * Start position
+     * Start position.
      *
      * @var int
      */
     protected $start;
 
     /**
-     * Documents in this group
+     * Documents in this group.
      *
      * @var array
      */
     protected $documents;
 
     /**
-     * Maximum score in group
+     * Maximum score in group.
      *
      * @var float
      */
@@ -88,7 +90,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     protected $query;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $value
      * @param int    $numFound
@@ -108,7 +110,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get value
+     * Get value.
      *
      * @return string
      */
@@ -118,7 +120,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get numFound
+     * Get numFound.
      *
      * @return int
      */
@@ -128,7 +130,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get start
+     * Get start.
      *
      * @return int
      */
@@ -138,7 +140,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get maximumScore value
+     * Get maximumScore value.
      *
      * @return int
      */
@@ -148,7 +150,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all documents
+     * Get all documents.
      *
      * @return array
      */
@@ -158,7 +160,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -168,7 +170,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

@@ -30,18 +30,19 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Exception;
 
 /**
- * InvalidArgument exception for Solarium classes
+ * InvalidArgument exception for Solarium classes.
  */
 class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
-
 }

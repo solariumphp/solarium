@@ -30,35 +30,37 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Result;
 
 /**
- * Analysis list result
+ * Analysis list result.
  */
 class ResultList implements \IteratorAggregate, \Countable
 {
     /**
-     * List name
+     * List name.
      *
      * @var string
      */
     protected $name;
 
     /**
-     * List items
+     * List items.
      *
      * @var array
      */
     protected $items;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $name
      * @param array  $items
@@ -70,7 +72,7 @@ class ResultList implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get type value
+     * Get type value.
      *
      * @return string
      */
@@ -80,7 +82,7 @@ class ResultList implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all items
+     * Get all items.
      *
      * @return array
      */
@@ -90,7 +92,7 @@ class ResultList implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -100,7 +102,7 @@ class ResultList implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

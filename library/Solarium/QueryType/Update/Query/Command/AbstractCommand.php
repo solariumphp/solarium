@@ -30,23 +30,25 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\Core\Configurable;
 
 /**
- * Update query command base class
+ * Update query command base class.
  */
-abstract class Command extends Configurable
+abstract class AbstractCommand extends Configurable
 {
     /**
-     * Returns command type, for use in adapters
+     * Returns command type, for use in adapters.
      *
      * @return string
      */

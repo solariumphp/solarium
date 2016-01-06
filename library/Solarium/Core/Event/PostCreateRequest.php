@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -43,7 +45,7 @@ use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Client\Request;
 
 /**
- * PostCreateRequest event, see Events for details
+ * PostCreateRequest event, see Events for details.
  */
 class PostCreateRequest extends Event
 {
@@ -58,7 +60,7 @@ class PostCreateRequest extends Event
     protected $request;
 
     /**
-     * Event constructor
+     * Event constructor.
      *
      * @param QueryInterface $query
      * @param Request        $request
@@ -70,7 +72,7 @@ class PostCreateRequest extends Event
     }
 
     /**
-     * Get the query object for this event
+     * Get the query object for this event.
      *
      * @return QueryInterface
      */
@@ -80,7 +82,7 @@ class PostCreateRequest extends Event
     }
 
     /**
-     * Get the request object for this event
+     * Get the request object for this event.
      *
      * @return Request
      */

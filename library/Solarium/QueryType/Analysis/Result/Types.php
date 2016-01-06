@@ -30,28 +30,30 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Result;
 
 /**
- * Analysis types result
+ * Analysis types result.
  */
 class Types extends ResultList
 {
     /**
-     * List items
+     * List items.
      *
      * @var ResultList[]
      */
     protected $items;
 
     /**
-     * Get index analysis list
+     * Get index analysis list.
      *
      * @return ResultList|null
      */
@@ -63,11 +65,11 @@ class Types extends ResultList
             }
         }
 
-        return null;
+        return;
     }
 
     /**
-     * Get query analysis list
+     * Get query analysis list.
      *
      * @return ResultList|null
      */
@@ -79,6 +81,6 @@ class Types extends ResultList
             }
         }
 
-        return null;
+        return;
     }
 }

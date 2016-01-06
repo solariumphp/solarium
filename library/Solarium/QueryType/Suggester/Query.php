@@ -30,26 +30,28 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Suggester;
 
-use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
 
 /**
- * Suggester Query
+ * Suggester Query.
  *
  * Can be used for an autocomplete feature. See http://wiki.apache.org/solr/Suggester for more info.
  */
 class Query extends BaseQuery
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -61,7 +63,7 @@ class Query extends BaseQuery
     );
 
     /**
-     * Get type for this query
+     * Get type for this query.
      *
      * @return string
      */
@@ -71,32 +73,33 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Get a response parser for this query
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
     public function getResponseParser()
     {
-        return new ResponseParser;
+        return new ResponseParser();
     }
 
     /**
-     * Set query option
+     * Set query option.
      *
      * Query to spellcheck
      *
-     * @param  string $query
-     * @return self   Provides fluent interface
+     * @param string $query
+     *
+     * @return self Provides fluent interface
      */
     public function setQuery($query)
     {
@@ -104,7 +107,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get query option
+     * Get query option.
      *
      * @return string|null
      */
@@ -114,12 +117,13 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set dictionary option
+     * Set dictionary option.
      *
      * The name of the dictionary to use
      *
-     * @param  string $dictionary
-     * @return self   Provides fluent interface
+     * @param string $dictionary
+     *
+     * @return self Provides fluent interface
      */
     public function setDictionary($dictionary)
     {
@@ -127,7 +131,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get dictionary option
+     * Get dictionary option.
      *
      * @return string|null
      */
@@ -137,11 +141,12 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set count option
+     * Set count option.
      *
      * The maximum number of suggestions to return
      *
-     * @param  int  $count
+     * @param int $count
+     *
      * @return self Provides fluent interface
      */
     public function setCount($count)
@@ -150,7 +155,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get count option
+     * Get count option.
      *
      * @return int|null
      */
@@ -160,12 +165,13 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set onlyMorePopular option
+     * Set onlyMorePopular option.
      *
      * Only return suggestions that result in more hits for the query than the existing query
      *
-     * @param  boolean $onlyMorePopular
-     * @return self    Provides fluent interface
+     * @param boolean $onlyMorePopular
+     *
+     * @return self Provides fluent interface
      */
     public function setOnlyMorePopular($onlyMorePopular)
     {
@@ -173,7 +179,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get onlyMorePopular option
+     * Get onlyMorePopular option.
      *
      * @return boolean|null
      */
@@ -183,10 +189,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set collate option
+     * Set collate option.
      *
-     * @param  boolean $collate
-     * @return self    Provides fluent interface
+     * @param boolean $collate
+     *
+     * @return self Provides fluent interface
      */
     public function setCollate($collate)
     {
@@ -194,7 +201,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get collate option
+     * Get collate option.
      *
      * @return boolean|null
      */

@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 /**
- * Interface for response parsers
+ * Interface for response parsers.
  *
  * Most {@link Solarium\Client\Adapter} implementations will use HTTP for
  * communicating with Solr. While the HTTP part is adapter-specific, the parsing
@@ -50,11 +52,12 @@ namespace Solarium\Core\Query;
 interface ResponseParserInterface
 {
     /**
-     * Get a Result object for the given data
+     * Get a Result object for the given data.
      *
      * When this method is called the actual response parsing is started.
      *
-     * @param  \Solarium\Core\Query\Result\Result $result
+     * @param \Solarium\Core\Query\Result\Result $result
+     *
      * @return mixed
      */
     public function parse($result);

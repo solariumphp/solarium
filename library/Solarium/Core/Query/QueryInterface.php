@@ -30,59 +30,62 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Core\ConfigurableInterface;
 
 /**
- * Query interface
+ * Query interface.
  */
 interface QueryInterface extends ConfigurableInterface
 {
     /**
-     * Get type for this query
+     * Get type for this query.
      *
      * @return string
      */
     public function getType();
 
     /**
-     * Get the requestbuilder class for this query
+     * Get the requestbuilder class for this query.
      *
      * @return RequestBuilderInterface
      */
     public function getRequestBuilder();
 
     /**
-     * Get the response parser class for this query
+     * Get the response parser class for this query.
      *
      * @return ResponseParserInterface
      */
     public function getResponseParser();
 
     /**
-     * Set handler option
+     * Set handler option.
      *
-     * @param  string $handler
-     * @return self   Provides fluent interface
+     * @param string $handler
+     *
+     * @return self Provides fluent interface
      */
     public function setHandler($handler);
 
     /**
-     * Get handler option
+     * Get handler option.
      *
      * @return string
      */
     public function getHandler();
 
     /**
-     * Set resultclass option
+     * Set resultclass option.
      *
      * If you set a custom result class it must be available through autoloading
      * or a manual require before calling this method. This is your
@@ -90,39 +93,41 @@ interface QueryInterface extends ConfigurableInterface
      *
      * Also you need to make sure this class implements the ResultInterface
      *
-     * @param  string $classname
-     * @return self   Provides fluent interface
+     * @param string $classname
+     *
+     * @return self Provides fluent interface
      */
     public function setResultClass($classname);
 
     /**
-     * Get resultclass option
+     * Get resultclass option.
      *
      * @return string
      */
     public function getResultClass();
 
     /**
-     * Get a helper instance
+     * Get a helper instance.
      *
      * @return Helper
      */
     public function getHelper();
 
     /**
-     * Add extra params to the request
+     * Add extra params to the request.
      *
      * Only intended for internal use, for instance with dereferenced params.
      * Therefore the params are limited in functionality. Only add and get
      *
-     * @param  string $name
-     * @param  string $value
-     * @return self   Provides fluent interface
+     * @param string $name
+     * @param string $value
+     *
+     * @return self Provides fluent interface
      */
     public function addParam($name, $value);
 
     /**
-     * Get extra params
+     * Get extra params.
      *
      * @return array
      */

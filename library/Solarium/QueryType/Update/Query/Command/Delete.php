@@ -30,39 +30,41 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
- * Update query delete command
+ * Update query delete command.
  *
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22delete.22_by_ID_and_by_Query
  */
-class Delete extends Command
+class Delete extends AbstractCommand
 {
     /**
-     * Ids to delete
+     * Ids to delete.
      *
      * @var array
      */
     protected $ids = array();
 
     /**
-     * Delete queries
+     * Delete queries.
      *
      * @var array
      */
     protected $queries = array();
 
     /**
-     * Get command type
+     * Get command type.
      *
      * @return string
      */
@@ -72,9 +74,83 @@ class Delete extends Command
     }
 
     /**
-     * Build ids/queries based on options
+     * Add a single ID to the delete command.
      *
-     * @return void
+     * @param int|string $id
+     *
+     * @return self Provides fluent interface
+     */
+    public function addId($id)
+    {
+        $this->ids[] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Add multiple IDs to the delete command.
+     *
+     * @param array $ids
+     *
+     * @return self Provides fluent interface
+     */
+    public function addIds($ids)
+    {
+        $this->ids = array_merge($this->ids, $ids);
+
+        return $this;
+    }
+
+    /**
+     * Add a single query to the delete command.
+     *
+     * @param string $query
+     *
+     * @return self Provides fluent interface
+     */
+    public function addQuery($query)
+    {
+        $this->queries[] = $query;
+
+        return $this;
+    }
+
+    /**
+     * Add multiple queries to the delete command.
+     *
+     * @param array $queries
+     *
+     * @return self Provides fluent interface
+     */
+    public function addQueries($queries)
+    {
+        $this->queries = array_merge($this->queries, $queries);
+
+        return $this;
+    }
+
+    /**
+     * Get all queries of this delete command.
+     *
+     * @return array
+     */
+    public function getQueries()
+    {
+        return $this->queries;
+    }
+
+    /**
+     * Get all qids of this delete command.
+     *
+     * @return array
+     */
+    public function getIds()
+    {
+        return $this->ids;
+    }
+
+    /**
+     * Build ids/queries based on options.
      */
     protected function init()
     {
@@ -95,77 +171,5 @@ class Delete extends Command
                 $this->addQuery($queries);
             }
         }
-    }
-
-    /**
-     * Add a single ID to the delete command
-     *
-     * @param  int|string $id
-     * @return self       Provides fluent interface
-     */
-    public function addId($id)
-    {
-        $this->ids[] = $id;
-
-        return $this;
-    }
-
-    /**
-     * Add multiple IDs to the delete command
-     *
-     * @param  array $ids
-     * @return self  Provides fluent interface
-     */
-    public function addIds($ids)
-    {
-        $this->ids = array_merge($this->ids, $ids);
-
-        return $this;
-    }
-
-    /**
-     * Add a single query to the delete command
-     *
-     * @param  string $query
-     * @return self   Provides fluent interface
-     */
-    public function addQuery($query)
-    {
-        $this->queries[] = $query;
-
-        return $this;
-    }
-
-    /**
-     * Add multiple queries to the delete command
-     *
-     * @param  array $queries
-     * @return self  Provides fluent interface
-     */
-    public function addQueries($queries)
-    {
-        $this->queries = array_merge($this->queries, $queries);
-
-        return $this;
-    }
-
-    /**
-     * Get all queries of this delete command
-     *
-     * @return array
-     */
-    public function getQueries()
-    {
-        return $this->queries;
-    }
-
-    /**
-     * Get all qids of this delete command
-     *
-     * @return array
-     */
-    public function getIds()
-    {
-        return $this->ids;
     }
 }

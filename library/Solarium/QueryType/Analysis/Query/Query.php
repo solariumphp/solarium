@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2015 Bas de Nooijer. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,69 +28,23 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
  *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2015 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Query;
 
-use Solarium\Core\Query\Query as BaseQuery;
-
 /**
- * Base class for Analysis queries
+ * This class is for backwards compatibility, will be removed in 4.x releases in favor of AbstractQuery
+ *
+ * @deprecated
  */
-abstract class Query extends BaseQuery
+abstract class Query extends AbstractQuery
 {
-    /**
-     * Set the query string
-     *
-     * When present, the text that will be analyzed. The analysis will mimic the query-time analysis.
-     *
-     * @param  string $query
-     * @param  array  $bind  Optional bind values for placeholders in the query string
-     * @return self   Provides fluent interface
-     */
-    public function setQuery($query, $bind = null)
-    {
-        if (!is_null($bind)) {
-            $query = $this->getHelper()->assemble($query, $bind);
-        }
-
-        return $this->setOption('query', trim($query));
-    }
-
-    /**
-     * Get the query string
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->getOption('query');
-    }
-
-    /**
-     * Set the showmatch option
-     *
-     * @param  boolean $show
-     * @return self    Provides fluent interface
-     */
-    public function setShowMatch($show)
-    {
-        return $this->setOption('showmatch', $show);
-    }
-
-    /**
-     * Get the showmatch option
-     *
-     * @return mixed
-     */
-    public function getShowMatch()
-    {
-        return $this->getOption('showmatch');
-    }
 }

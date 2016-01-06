@@ -30,42 +30,44 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Spellcheck;
 
 /**
- * Select component spellcheck collation result
+ * Select component spellcheck collation result.
  */
 class Collation implements \IteratorAggregate, \Countable
 {
     /**
-     * Query
+     * Query.
      *
      * @var string
      */
     protected $query;
 
     /**
-     * Hit count
+     * Hit count.
      *
      * @var int
      */
     protected $hits;
 
     /**
-     * Corrections
+     * Corrections.
      *
      * @var array
      */
     protected $corrections;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string   $query
      * @param int|null $hits
@@ -79,7 +81,7 @@ class Collation implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get query string
+     * Get query string.
      *
      * @return string
      */
@@ -89,7 +91,7 @@ class Collation implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get hit count
+     * Get hit count.
      *
      * Only available if ExtendedResults was enabled in your query
      *
@@ -101,7 +103,7 @@ class Collation implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all corrrections
+     * Get all corrrections.
      *
      * Only available if ExtendedResults was enabled in your query
      *
@@ -113,7 +115,7 @@ class Collation implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * Only available if ExtendedResults was enabled in your query
      *
@@ -125,7 +127,7 @@ class Collation implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * Only available if ExtendedResults was enabled in your query
      *

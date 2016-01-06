@@ -30,35 +30,37 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Debug;
 
 /**
- * Select component debug timing result
+ * Select component debug timing result.
  */
 class Timing implements \IteratorAggregate, \Countable
 {
     /**
-     * Time
+     * Time.
      *
      * @var float
      */
     protected $time;
 
     /**
-     * Timing phase array
+     * Timing phase array.
      *
      * @var array
      */
     protected $phases;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param float $time
      * @param array $phases
@@ -70,7 +72,7 @@ class Timing implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get total time
+     * Get total time.
      *
      * @return float
      */
@@ -80,9 +82,10 @@ class Timing implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get a timing phase by key
+     * Get a timing phase by key.
      *
-     * @param  mixed            $key
+     * @param mixed $key
+     *
      * @return TimingPhase|null
      */
     public function getPhase($key)
@@ -90,12 +93,12 @@ class Timing implements \IteratorAggregate, \Countable
         if (isset($this->phases[$key])) {
             return $this->phases[$key];
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * Get timings
+     * Get timings.
      *
      * @return array
      */
@@ -105,7 +108,7 @@ class Timing implements \IteratorAggregate, \Countable
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -115,7 +118,7 @@ class Timing implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */

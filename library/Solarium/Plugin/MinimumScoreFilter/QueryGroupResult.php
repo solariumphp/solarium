@@ -30,23 +30,27 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\QueryType\Select\Result\Grouping\QueryGroup as StandardQueryGroupResult;
 
+/**
+ * MinimumScoreFilter QueryGroupResult.
+ */
 class QueryGroupResult extends StandardQueryGroupResult
 {
-
     /**
      * @var float
      */
-    static protected $overallMaximumScore;
+    protected static $overallMaximumScore;
 
     /**
      * @var string
@@ -64,7 +68,7 @@ class QueryGroupResult extends StandardQueryGroupResult
     protected $filtered = false;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int   $matches
      * @param int   $numFound
@@ -79,7 +83,7 @@ class QueryGroupResult extends StandardQueryGroupResult
         $this->filterRatio = $query->getFilterRatio();
 
         // Use the maximumScore of the first group as maximum for all groups
-        if (self::$overallMaximumScore == null) {
+        if (self::$overallMaximumScore === null) {
             self::$overallMaximumScore = $maximumScore;
         }
 
@@ -87,19 +91,18 @@ class QueryGroupResult extends StandardQueryGroupResult
     }
 
     /**
-     * Get all documents, apply filter at first use
+     * Get all documents, apply filter at first use.
      *
      * @return array
      */
     public function getDocuments()
     {
         if (!$this->filtered) {
-            $filter = new Filter;
+            $filter = new Filter();
             $this->documents = $filter->filterDocuments($this->documents, self::$overallMaximumScore, $this->filterRatio, $this->filterMode);
             $this->filtered = true;
         }
 
         return $this->documents;
     }
-
 }

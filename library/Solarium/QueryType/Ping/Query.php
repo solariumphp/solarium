@@ -30,20 +30,21 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Ping;
 
-use Solarium\Core\Query\Query as BaseQuery;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Ping\RequestBuilder as RequestBuilder;
 
 /**
- * Ping query
+ * Ping query.
  *
  * Use a ping query to test Solr communication.
  * A ping query has only two options, the path to use and the resultclass. See
@@ -52,7 +53,7 @@ use Solarium\QueryType\Ping\RequestBuilder as RequestBuilder;
 class Query extends BaseQuery
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -63,7 +64,7 @@ class Query extends BaseQuery
     );
 
     /**
-     * Get type for this query
+     * Get type for this query.
      *
      * @return string
      */
@@ -73,22 +74,20 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * The ping query has no response parser so we return a null value
-     *
-     * @return null;
+     * The ping query has no response parser so we return a null value.
      */
     public function getResponseParser()
     {
-        return null;
+        return;
     }
 }

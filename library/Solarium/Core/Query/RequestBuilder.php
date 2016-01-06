@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2015 Bas de Nooijer. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,113 +28,23 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
  *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @copyright Copyright 2015 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
-use Solarium\Core\Client\Request;
-
 /**
- * Class for building Solarium client requests
+ * This class is for backwards compatibility, will be removed in 4.x releases in favor of AbstractRequestBuilder
+ *
+ * @deprecated
  */
-abstract class RequestBuilder implements RequestBuilderInterface
+abstract class RequestBuilder extends AbstractRequestBuilder
 {
-    /**
-     * Build request for a select query
-     *
-     * @param  QueryInterface|Query $query
-     * @return Request
-     */
-    public function build(QueryInterface $query)
-    {
-        $request = new Request;
-        $request->setHandler($query->getHandler());
-        $request->addParam('omitHeader', $query->getOmitHeader());
-        $request->addParam('timeAllowed', $query->getTimeAllowed());
-        $request->addParams($query->getParams());
-
-        $request->addParam('wt', $query->getResponseWriter());
-        if ($query->getResponseWriter() == $query::WT_JSON) {
-            // only one JSON format is supported
-            $request->addParam('json.nl', 'flat');
-        }
-
-        return $request;
-    }
-
-    /**
-     * Render a param with localParams
-     *
-     * LocalParams can be use in various Solr GET params.
-     * @link http://wiki.apache.org/solr/LocalParams
-     *
-     * @param  string $value
-     * @param  array  $localParams in key => value format
-     * @return string with Solr localparams syntax
-     */
-    public function renderLocalParams($value, $localParams = array())
-    {
-        $params = '';
-        foreach ($localParams as $paramName => $paramValue) {
-            if (empty($paramValue)) {
-                continue;
-            }
-
-            if (is_array($paramValue)) {
-                $paramValue = implode($paramValue, ',');
-            }
-
-            $params .= $paramName . '=' . $paramValue . ' ';
-        }
-
-        if ($params !== '') {
-            $value = '{!' . trim($params) . '}' . $value;
-        }
-
-        return $value;
-    }
-
-    /**
-    * Render a boolean attribute
-    *
-    * For use in building XML messages
-    *
-    * @param string $name
-    * @param boolean $value
-    * @return string
-    */
-    public function boolAttrib($name, $value)
-    {
-        if (null !== $value) {
-            $value = (true == $value) ? 'true' : 'false';
-
-            return $this->attrib($name, $value);
-        } else {
-            return '';
-        }
-    }
-
-    /**
-    * Render an attribute
-    *
-    * For use in building XML messages
-    *
-    * @param string $name
-    * @param string $value
-    * @return string
-    */
-    public function attrib($name, $value)
-    {
-        if (null !== $value) {
-            return ' ' . $name . '="' . $value . '"';
-        } else {
-            return '';
-        }
-    }
 }

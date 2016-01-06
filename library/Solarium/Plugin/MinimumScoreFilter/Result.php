@@ -30,36 +30,35 @@
  *
  * @copyright Copyright 2014 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\QueryType\Select\Result\Result as SelectResult;
-use Solarium\Exception\OutOfBoundsException;
 
 /**
- * Minimumscore filter query result
+ * Minimumscore filter query result.
  *
  * Extends select query result, adds filtering / marking
- *
  */
 class Result extends SelectResult
 {
     /**
-     * Map parser data into properties
+     * Map parser data into properties.
      *
-     * @param  array $mapData
-     * @return void
+     * @param array $mapData
      */
     protected function mapData($mapData)
     {
         foreach ($mapData as $key => $data) {
             if ($key == 'documents') {
-                $filter = new Filter;
+                $filter = new Filter();
                 $mode = $this->getQuery()->getFilterMode();
                 $ratio = $this->getQuery()->getFilterRatio();
                 $data = $filter->filterDocuments($data, $mapData['maxscore'], $ratio, $mode);

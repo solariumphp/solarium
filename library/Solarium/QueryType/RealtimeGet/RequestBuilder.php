@@ -30,27 +30,30 @@
  *
  * @copyright Copyright 2012 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\RealtimeGet;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 
 /**
- * Build a RealtimeGet request
+ * Build a RealtimeGet request.
  */
 class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * Build request for a ping query
+     * Build request for a ping query.
      *
-     * @param  QueryInterface|Query $query
+     * @param QueryInterface|Query $query
+     *
      * @return Request
      */
     public function build(QueryInterface $query)

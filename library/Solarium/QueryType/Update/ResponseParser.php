@@ -30,26 +30,29 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update;
 
 use Solarium\Core\Query\ResponseParserInterface;
-use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 
 /**
- * Parse update response data
+ * Parse update response data.
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
     /**
-     * Parse response data
+     * Parse response data.
      *
-     * @param  Result $result
+     * @param Result $result
+     *
      * @return array
      */
     public function parse($result)

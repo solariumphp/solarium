@@ -30,35 +30,37 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
 use Solarium\QueryType\Select\Query\Component\FacetSet;
 use Solarium\Core\Query\Helper;
 
 /**
- * Facet query
+ * Facet query.
  *
  * @link http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
  */
-class Query extends Facet
+class Query extends AbstractFacet
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
     protected $options = array(
-        'query' => '*:*'
+        'query' => '*:*',
     );
 
     /**
-     * Get the facet type
+     * Get the facet type.
      *
      * @return string
      */
@@ -68,18 +70,19 @@ class Query extends Facet
     }
 
     /**
-     * Set the query string
+     * Set the query string.
      *
      * This overwrites the current value
      *
-     * @param  string $query
-     * @param  array  $bind  Bind values for placeholders in the query string
-     * @return self   Provides fluent interface
+     * @param string $query
+     * @param array  $bind  Bind values for placeholders in the query string
+     *
+     * @return self Provides fluent interface
      */
     public function setQuery($query, $bind = null)
     {
         if (!is_null($bind)) {
-            $helper = new Helper;
+            $helper = new Helper();
             $query = $helper->assemble($query, $bind);
         }
 
@@ -87,7 +90,7 @@ class Query extends Facet
     }
 
     /**
-     * Get the query string
+     * Get the query string.
      *
      * @return string
      */
