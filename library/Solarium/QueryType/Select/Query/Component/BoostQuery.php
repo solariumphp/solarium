@@ -38,47 +38,93 @@
  * @namespace
  */
 
-namespace Solarium\QueryType\Select\RequestBuilder\Component;
+namespace Solarium\QueryType\Select\Query\Component;
 
-use Solarium\QueryType\Select\Query\Component\Dismax as DismaxComponent;
-use Solarium\Core\Client\Request;
+use Solarium\Core\Configurable;
+use Solarium\Core\Query\Helper;
 
 /**
- * Add select component dismax to the request.
+ * Filterquery.
+ *
+ * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
  */
-class DisMax implements ComponentRequestBuilderInterface
+class BoostQuery extends Configurable
 {
     /**
-     * Add request settings for Dismax.
+     * Query.
      *
-     * @param DismaxComponent $component
-     * @param Request         $request
-     *
-     * @return Request
+     * @var string
      */
-    public function buildComponent($component, $request)
+    protected $query;
+
+    /**
+     * Get key value.
+     *
+     * @return string
+     */
+    public function getKey()
     {
-        // enable dismax
-        $request->addParam('defType', $component->getQueryParser());
+        return $this->getOption('key');
+    }
 
-        $request->addParam('q.alt', $component->getQueryAlternative());
-        $request->addParam('qf', $component->getQueryFields());
-        $request->addParam('mm', $component->getMinimumMatch());
-        $request->addParam('pf', $component->getPhraseFields());
-        $request->addParam('ps', $component->getPhraseSlop());
-        $request->addParam('qs', $component->getQueryPhraseSlop());
-        $request->addParam('tie', $component->getTie());
+    /**
+     * Set key value.
+     *
+     * @param string $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setKey($value)
+    {
+        return $this->setOption('key', $value);
+    }
 
-        // add boostqueries to request
-        $boostQueries = $component->getBoostQueries();
-        if (count($boostQueries) !== 0) {
-            foreach ($boostQueries as $boostQuery) {
-                $request->addParam('bq', $boostQuery->getQuery());
-            }
+    /**
+     * Set the query string.
+     *
+     * This overwrites the current value
+     *
+     * @param string $query
+     * @param array  $bind  Bind values for placeholders in the query string
+     *
+     * @return self Provides fluent interface
+     */
+    public function setQuery($query, $bind = null)
+    {
+        if (!is_null($bind)) {
+            $helper = new Helper();
+            $query = $helper->assemble($query, $bind);
         }
 
-        $request->addParam('bf', $component->getBoostFunctions());
+        $this->query = trim($query);
 
-        return $request;
+        return $this;
+    }
+
+    /**
+     * Get the query string.
+     *
+     * @return string
+     */
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+    /**
+     * Initialize options.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'key':
+                    $this->setKey($value);
+                    break;
+                case 'query':
+                    $this->setQuery($value);
+                    break;
+            }
+        }
     }
 }
