@@ -75,6 +75,19 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($options['collections'], $this->distributedSearch->getCollections());
     }
 
+    public function testConfigModeForReplicas()
+    {
+        $options = array(
+            'replicas' => array(
+                'replica1' => 'localhost:8983/solr/collection1',
+                'replica2' => 'localhost:8983/solr/collection2',
+            ),
+        );
+
+        $this->distributedSearch->setOptions($options);
+        $this->assertEquals($options['replicas'], $this->distributedSearch->getReplicas());
+    }
+
     public function testGetType()
     {
         $this->assertEquals(
@@ -240,6 +253,75 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
                 'collection5' => 'localhost:8983/solr/collection5',
             ),
             $collections
+        );
+    }
+
+    public function testAddReplica()
+    {
+        $this->distributedSearch->addReplica('replica1', 'localhost:8983/solr/replica1');
+        $replicas = $this->distributedSearch->getReplicas();
+        $this->assertEquals(
+            'localhost:8983/solr/replica1',
+            $replicas['replica1']
+        );
+    }
+
+    public function testRemoveReplica()
+    {
+        $this->distributedSearch->addReplica('replica1', 'localhost:8983/solr/replica1');
+        $this->distributedSearch->removeReplica('replica1');
+        $replicas = $this->distributedSearch->getReplicas();
+        $this->assertFalse(isset($replicas['replica1']));
+    }
+
+    public function testClearReplicas()
+    {
+        $this->distributedSearch->addReplicas(
+            array(
+                'replica1' => 'localhost:8983/solr/replica1',
+                'replica2' => 'localhost:8983/solr/replica2',
+            )
+        );
+        $this->distributedSearch->clearReplicas();
+        $replicas = $this->distributedSearch->getReplicas();
+        $this->assertTrue(is_array($replicas));
+        $this->assertEquals(0, count($replicas));
+    }
+
+    public function testAddReplicas()
+    {
+        $replicas = array(
+            'replica1' => 'localhost:8983/solr/replica1',
+            'replica2' => 'localhost:8983/solr/replica2',
+        );
+        $this->distributedSearch->addReplicas($replicas);
+        $this->assertEquals($replicas, $this->distributedSearch->getReplicas());
+    }
+
+    public function testSetReplicas()
+    {
+        $this->distributedSearch->addReplicas(
+            array(
+                'replica1' => 'localhost:8983/solr/replica1',
+                'replica2' => 'localhost:8983/solr/replica2',
+            )
+        );
+        $this->distributedSearch->setReplicas(
+            array(
+                'replica3' => 'localhost:8983/solr/replica3',
+                'replica4' => 'localhost:8983/solr/replica4',
+                'replica5' => 'localhost:8983/solr/replica5',
+            )
+        );
+        $replicas = $this->distributedSearch->getReplicas();
+        $this->assertEquals(3, count($replicas));
+        $this->assertEquals(
+            array(
+                'replica3' => 'localhost:8983/solr/replica3',
+                'replica4' => 'localhost:8983/solr/replica4',
+                'replica5' => 'localhost:8983/solr/replica5',
+            ),
+            $replicas
         );
     }
 }

@@ -8,6 +8,7 @@ Options
 | shards       | string | null          | Shards to use for request                                                  |
 | shardhandler | string | null          | Request handler to use                                                     |
 | collections  | string | null          | A list of collections, for use with SolrCloud (available in Solarium 3.1+) |
+| replicas     | string | null          | A list of replicas, for use with SolrCloud (available in Solarium 3.1+)    |
 ||
 
 Example

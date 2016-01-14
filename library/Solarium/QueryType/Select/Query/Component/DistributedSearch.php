@@ -66,6 +66,13 @@ class DistributedSearch extends AbstractComponent
     protected $collections = array();
 
     /**
+     * Requests will be load balanced across replicas in this list.
+     *
+     * @var array
+     */
+    protected $replicas = array();
+
+    /**
      * Get component type.
      *
      * @return string
@@ -319,6 +326,94 @@ class DistributedSearch extends AbstractComponent
     }
 
     /**
+     * Add a replica.
+     *
+     * @param string $key     unique string
+     * @param string $replica The syntax is host:port/base_url
+     *
+     * @return self Provides fluent interface
+     *
+     * @link https://cwiki.apache.org/confluence/display/solr/Distributed+Requests
+     */
+    public function addReplica($key, $replica)
+    {
+        $this->replicas[$key] = $replica;
+
+        return $this;
+    }
+
+    /**
+     * Add multiple replicas.
+     *
+     * @param array $replicas
+     *
+     * @return self Provides fluent interface
+     */
+    public function addReplicas(array $replicas)
+    {
+        foreach ($replicas as $key => $replica) {
+            $this->addReplica($key, $replica);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a replica.
+     *
+     * @param string $key
+     *
+     * @return self Provides fluent interface
+     */
+    public function removeReplica($key)
+    {
+        if (isset($this->replicas[$key])) {
+            unset($this->replicas[$key]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all replicas.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearReplicas()
+    {
+        $this->replicas = array();
+
+        return $this;
+    }
+
+    /**
+     * Set multiple replicas.
+     *
+     * This overwrites any existing replicas
+     *
+     * @param array $replicas Associative array of collections
+     *
+     * @return self Provides fluent interface
+     */
+    public function setReplicas(array $replicas)
+    {
+        $this->clearReplicas();
+        $this->addReplicas($replicas);
+
+        return $this;
+    }
+
+    /**
+     * Get a list of the replicas.
+     *
+     * @return array
+     */
+    public function getReplicas()
+    {
+        return $this->replicas;
+    }
+
+    /**
      * Initialize options.
      *
      * Several options need some extra checks or setup work, for these options
@@ -333,6 +428,9 @@ class DistributedSearch extends AbstractComponent
                     break;
                 case 'collections':
                     $this->setCollections($value);
+                    break;
+                case 'replicas':
+                    $this->setReplicas($value);
                     break;
             }
         }
