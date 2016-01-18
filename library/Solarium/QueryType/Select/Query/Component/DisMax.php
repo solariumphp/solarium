@@ -338,12 +338,12 @@ class DisMax extends AbstractComponent
         $key = $boostQuery->getKey();
 
         if (0 === strlen($key)) {
-            throw new InvalidArgumentException('A filterquery must have a key value');
+            throw new InvalidArgumentException('A boostquery must have a key value');
         }
 
         //double add calls for the same BQ are ignored, but non-unique keys cause an exception
         if (array_key_exists($key, $this->boostQueries) && $this->boostQueries[$key] !== $boostQuery) {
-            throw new InvalidArgumentException('A filterquery must have a unique key value within a query');
+            throw new InvalidArgumentException('A boostquery must have a unique key value within a query');
         } else {
             $this->boostQueries[$key] = $boostQuery;
         }
@@ -383,9 +383,9 @@ class DisMax extends AbstractComponent
     }
 
     /**
-     * Remove a single filterquery.
+     * Remove a single boostquery.
      *
-     * You can remove a filterquery by passing its key, or by passing the filterquery instance
+     * You can remove a boostquery by passing its key, or by passing the boostquery instance
      *
      * @param string|BoostQuery $boostQuery
      *
@@ -405,7 +405,7 @@ class DisMax extends AbstractComponent
     }
 
     /**
-     * Remove all filterqueries.
+     * Remove all boostqueries.
      *
      * @return self Provides fluent interface
      */
@@ -417,9 +417,9 @@ class DisMax extends AbstractComponent
     }
 
     /**
-     * Set multiple filterqueries.
+     * Set multiple boostqueries.
      *
-     * This overwrites any existing filterqueries
+     * This overwrites any existing boostqueries
      *
      * @param array $boostQueries
      */
