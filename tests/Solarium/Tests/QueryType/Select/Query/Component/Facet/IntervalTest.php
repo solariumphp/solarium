@@ -27,59 +27,62 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
+namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
-namespace Solarium\QueryType\Select\RequestBuilder\Component;
+use Solarium\QueryType\Select\Query\Component\Facet\Interval;
+use Solarium\QueryType\Select\Query\Component\FacetSet;
 
-use Solarium\QueryType\Select\Query\Component\DistributedSearch as DistributedSearchComponent;
-use Solarium\Core\Client\Request;
-
-/**
- * Add select component distributedsearch to the request.
- */
-class DistributedSearch implements ComponentRequestBuilderInterface
+class IntervalTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Add request settings for DistributedSearch.
-     *
-     * @param DistributedSearchComponent $component
-     * @param Request                    $request
-     *
-     * @return Request
+     * @var Query
      */
-    public function buildComponent($component, $request)
+    protected $facet;
+
+    public function setUp()
     {
-        // add shards to request
-        $shards = array_values($component->getShards());
-        if (count($shards)) {
-            $request->addParam('shards', implode(',', $shards));
-        }
+        $this->facet = new Interval();
+    }
 
-        $replicas = array_values($component->getReplicas());
+    public function testConfigMode()
+    {
+        $options = array(
+            'key' => 'myKey',
+            'exclude' => array('e1', 'e2'),
+            'set' => array('i1', 'i2'),
+        );
 
-        if (count($replicas)) {
-            $value = ($request->getParam('shards')) ? $request->getParam('shards').','.implode('|', $replicas) : implode('|', $replicas);
+        $this->facet->setOptions($options);
 
-            $request->addParam('shards', $value, true);
-        }
+        $this->assertEquals($options['key'], $this->facet->getKey());
+        $this->assertEquals($options['exclude'], $this->facet->getExcludes());
+        $this->assertEquals($options['set'], $this->facet->getSet());
+    }
 
-        $request->addParam('shards.qt', $component->getShardRequestHandler());
+    public function testGetType()
+    {
+        $this->assertEquals(
+            FacetSet::FACET_INTERVAL,
+            $this->facet->getType()
+        );
+    }
 
-        // add collections to request
-        $collections = array_values($component->getCollections());
-        if (count($collections)) {
-            $request->addParam('collection', implode(',', $collections));
-        }
+    public function testSetAndGetSet()
+    {
+        $this->facet->setSet('interval1,interval2');
+        $this->assertEquals(array('interval1', 'interval2'), $this->facet->getSet());
+    }
 
-        return $request;
+    public function testEmptySet()
+    {
+        $this->assertEquals(array(), $this->facet->getSet());
+    }
+
+    public function testSetAndGetField()
+    {
+        $this->facet->setField('field1');
+        $this->assertEquals('field1', $this->facet->getField());
     }
 }

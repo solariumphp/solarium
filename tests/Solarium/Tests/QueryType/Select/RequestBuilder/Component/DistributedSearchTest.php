@@ -82,4 +82,47 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array('collection' => $url.'1,'.$url.'2,'.$url.'3'), $request->getParams());
     }
+
+    public function testBuildComponentWithReplicas()
+    {
+        $builder = new RequestBuilder();
+        $request = new Request();
+
+        $url = 'localhost:8983/solr/replica';
+        $component = new Component();
+        $component->addReplica('replica1', $url.'1');
+        $component->addReplicas(
+            array(
+                'replica2' => $url.'2',
+                'replica3' => $url.'3',
+            )
+        );
+
+        $request = $builder->buildComponent($component, $request);
+
+        $this->assertEquals(array('shards' => $url.'1|'.$url.'2|'.$url.'3'), $request->getParams());
+    }
+
+
+
+    public function testBuildComponentWithReplicasAndShard()
+    {
+        $builder = new RequestBuilder();
+        $request = new Request();
+
+        $url = 'localhost:8983/solr/replica';
+        $component = new Component();
+        $component->addShard('shard1', 'localhost:8983/solr/shard1');
+
+        $component->addReplicas(
+            array(
+                'replica2' => $url.'2',
+                'replica3' => $url.'3',
+            )
+        );
+
+        $request = $builder->buildComponent($component, $request);
+
+        $this->assertEquals(array('shards' => 'localhost:8983/solr/shard1,'.$url.'2|'.$url.'3'), $request->getParams());
+    }
 }
