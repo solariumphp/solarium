@@ -327,4 +327,4 @@ With Solarium a set of examples is included to demonstrate the usage and to test
 
 That's all! The default config file of the examples was made for the standard Solr example included with a Solr release. If you want to use a custom Solr environment you can copy the file 'config.dist.php' in the example dir to 'config.php' and correct the settings. Your environment needs to have the default Solr example schema and data for the examples to work.
 
-If examples for some Solarium functionality are missing please request them by opening an issue in the issue tracker: [<http://github.com/basdenooijer/solarium/issues>](http://github.com/basdenooijer/solarium/issues)
+If examples for some Solarium functionality are missing please request them by opening an issue in the issue tracker: [<http://github.com/solariumphp/solarium/issues>](http://github.com/solariumphp/solarium/issues)
