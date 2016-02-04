@@ -188,6 +188,6 @@ class Result
      */
     protected function getValue($name)
     {
-        return isset($this->stats['min']) ? $this->stats['min'] : null;
+        return isset($this->stats[$name]) ? $this->stats[$name] : null;
     }    
 }
