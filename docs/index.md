@@ -4,7 +4,7 @@ Solarium documentation
 
 Solarium is a Solr client library for PHP. It is developed with these goals in mind:
 
--  Releave developers of the ‘raw communication’ with Solr, ie. setting params, building strings, hiding all this with an easy to use API, allowing you to focus on business logic.
+-  Relieve developers of the ‘raw communication’ with Solr, ie. setting params, building strings, hiding all this with an easy to use API, allowing you to focus on business logic.
 -  Allow for reuse, for instance a query can be extended to modify it
 -  Be flexible. For instance the query and result models are not tied to a specific Solr client implementation. There are multiple Solr Client adapters for Solr communication. All models can be extended by your own implementation if needed and a plugin system is available.
 -  Be usable in any PHP application. No dependencies on other frameworks. Solarium tries to follow the Symfony 2 standard and integrates nicely with SF2, but doesn’t in rely on it. You can use Solarium just as easily in Zend Framework or any other PHP framework.
