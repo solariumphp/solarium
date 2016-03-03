@@ -37,13 +37,19 @@ See [<https://packagist.org>](https://packagist.org) for other packages.
 
 - Make sure to use the composer autoloader, and Solarium should be available.
 
-**Only if you don't use composer:** you need to use a PSR-0 autoloader, or the supplied autoloader: ```php
+**Only if you don't use composer:** you need to use a PSR-0 autoloader, or the supplied autoloader:
+
+```php
 
 Also you need to make sure the the Symfony Event Dispatcher component is available.
 
 ### Checking the availability
 
+<<<<<<< e523aa92f2d3d0b9aac6764fd3b35e70bf1369ea
 To check your installation you can do a Solarium version check with the following code. If everything works you should see the version of Solarium you downloaded. To test Solr communication you can use a ping query (you might need some configuration to get the ping working, more on that later) 
+=======
+To check your installation you can do a Solarium version check with the following code. If everything works you should see the version of Solarium you downloaded. To test Solr communication you can use a ping query (you might need some configuration to get the ping working, more on that later)
+>>>>>>> docs(queries): fixes php docblocks without preceding line break
 
 ```php
 <?php
@@ -95,7 +101,11 @@ Basic usage
 
 All the code display below can be found in the /examples dir of the project, where you can also easily execute the code. For more info see [Example code](V3:Example_code "wikilink").
 
+<<<<<<< e523aa92f2d3d0b9aac6764fd3b35e70bf1369ea
 All the examples use the init.php file. This file registers the Solarium autoloader and also loads the $config array for use in the client constructor. The $config array has the following contents: 
+=======
+All the examples use the init.php file. This file registers the Solarium autoloader and also loads the $config array for use in the client constructor. The $config array has the following contents:
+>>>>>>> docs(queries): fixes php docblocks without preceding line break
 
 ```php
 <?php
@@ -114,7 +124,11 @@ $config = array(
 
 ### Selecting documents
 
+<<<<<<< e523aa92f2d3d0b9aac6764fd3b35e70bf1369ea
 This is the basic example of executing a select query and displaying the results: 
+=======
+This is the basic example of executing a select query and displaying the results:
+>>>>>>> docs(queries): fixes php docblocks without preceding line break
 
 ```php
 <?php
@@ -209,7 +223,11 @@ htmlFooter();
 
 ### Deleting documents
 
+<<<<<<< e523aa92f2d3d0b9aac6764fd3b35e70bf1369ea
 Documents can be deleted with a query: 
+=======
+Documents can be deleted with a query:
+>>>>>>> docs(queries): fixes php docblocks without preceding line break
 
 ```php
 <?php
@@ -238,7 +256,11 @@ htmlFooter();
 
 ```
 
+<<<<<<< e523aa92f2d3d0b9aac6764fd3b35e70bf1369ea
 Or by id 
+=======
+Or by id
+>>>>>>> docs(queries): fixes php docblocks without preceding line break
 
 ```php
 <?php
@@ -271,7 +293,11 @@ Also, a combination of both is possible. See the docs for more info.
 
 ### Adding documents
 
+<<<<<<< e523aa92f2d3d0b9aac6764fd3b35e70bf1369ea
 This example adds some documents to the index: 
+=======
+This example adds some documents to the index:
+>>>>>>> docs(queries): fixes php docblocks without preceding line break
 
 ```php
 <?php
@@ -327,4 +353,4 @@ With Solarium a set of examples is included to demonstrate the usage and to test
 
 That's all! The default config file of the examples was made for the standard Solr example included with a Solr release. If you want to use a custom Solr environment you can copy the file 'config.dist.php' in the example dir to 'config.php' and correct the settings. Your environment needs to have the default Solr example schema and data for the examples to work.
 
-If examples for some Solarium functionality are missing please request them by opening an issue in the issue tracker: [<http://github.com/solariumphp/solarium/issues>](http://github.com/solariumphp/solarium/issues)
+If examples for some Solarium functionality are missing please request them by opening an issue in the issue tracker: [<http://github.com/basdenooijer/solarium/issues>](http://github.com/basdenooijer/solarium/issues)
