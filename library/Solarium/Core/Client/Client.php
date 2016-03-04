@@ -91,12 +91,12 @@ class Client extends Configurable
     const QUERY_UPDATE = 'update';
 
     /**
-     * Querytype schema
+     * Querytype schema.
      */
     const QUERY_SCHEMA = 'schema';
 
     /**
-     * Querytype ping
+     * Querytype ping.
      */
     const QUERY_PING = 'ping';
 
