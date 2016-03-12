@@ -20,7 +20,8 @@ before_script:
 
 script: vendor/bin/phpunit -c phpunit.xml.travis -v
 
-after_script: vendor/bin/coveralls -v
+after_success:
+  - travis_retry php vendor/bin/coveralls -v
 
 matrix:
   allow_failures:
