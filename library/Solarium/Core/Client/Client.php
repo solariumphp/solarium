@@ -78,7 +78,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * $result = $client->select($query);
  * </code>
  */
-class Client extends Configurable
+class Client extends Configurable implements ClientInterface
 {
     /**
      * Querytype select.
