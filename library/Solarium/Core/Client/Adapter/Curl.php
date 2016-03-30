@@ -82,8 +82,11 @@ class Curl extends Configurable implements AdapterInterface
         if ($httpResponse !== false && $httpResponse !== null) {
             $data = $httpResponse;
             $info = curl_getinfo($handle);
-            $headers = array();
-            $headers[] = 'HTTP/1.1 '.$info['http_code'].' OK';
+            // Some frameworks (i.e. Acquia Search) may rely on response headers
+            $headers = $this->extractResponseHeaders($httpResponse);
+            $headers[] = 'HTTP/1.0 '.$info['http_code'].' OK';
+            // Strip response headers from the response body
+            $data = substr($data, stripos($data, "\r\n\r\n"));
         } else {
             $headers = array();
             $data = '';
@@ -116,6 +119,8 @@ class Curl extends Configurable implements AdapterInterface
         $handler = curl_init();
         curl_setopt($handler, CURLOPT_URL, $uri);
         curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handler, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+        curl_setopt($handler, CURLOPT_HEADER, true);
         if (!ini_get('open_basedir')) {
             curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
         }
@@ -255,5 +260,37 @@ class Curl extends Configurable implements AdapterInterface
 
         return $options;
         // @codeCoverageIgnoreEnd
+    }
+
+
+    /**
+     * Extract response headers from cURL response. The headers are embeded in
+     * the body and the section is ending with \r\n\r\n. Example:
+     * --------------------------------------------
+     *  HTTP/1.1 200 OK
+     *  Content-Type: text/plain; charset=utf-8
+     *
+     *  { ... response JSON or XML ... }
+     * --------------------------------------------
+     *
+     * @param $content
+     * @return array
+     */
+    protected function extractResponseHeaders($content)
+    {
+        $headers = array();
+        // Split the string on every "double" new line.
+        $arrRequests = explode("\r\n\r\n", $content);
+        // Loop of response headers. The "count() -1" is to
+        //avoid an empty row for the extra line break before the body of the response.
+        for ($index = 0; $index < count($arrRequests) -1; $index++) {
+            foreach (explode("\r\n", $arrRequests[$index]) as $i => $line) {
+                if ($i !== 0) { // First is HTTP 1.0 200 OK.
+                    list ($key, $value) = explode(': ', $line);
+                    $headers[$key] = $value;
+                }
+            }
+        }
+        return $headers;
     }
 }
