@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false" backupStaticAttributes="false" syntaxCheck="false" bootstrap="tests/bootstrap.php">
 
+    <php>
+      <env name="solr_host" value="127.0.0.1" />
+      <env name="solr_port" value="8983" />
+      <env name="solr_path" value="/solr/solarium-core" />
+    </php>
+
     <testsuites>
        <testsuite name="Solarium">
          <directory suffix="Test.php">tests</directory>
