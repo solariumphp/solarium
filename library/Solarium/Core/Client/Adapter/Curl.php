@@ -286,8 +286,7 @@ class Curl extends Configurable implements AdapterInterface
         for ($index = 0; $index < count($arrRequests) -1; $index++) {
             foreach (explode("\r\n", $arrRequests[$index]) as $i => $line) {
                 if ($i !== 0) { // First is HTTP 1.0 200 OK.
-                    list ($key, $value) = explode(': ', $line);
-                    $headers[$key] = $value;
+                    $headers[] = $line;
                 }
             }
         }

@@ -61,6 +61,6 @@ class CurlSolrTest extends \Solarium\Tests\Core\FunctionalTestBase
     $this->assertEquals("Congratulations!The extraction seems working!Yay!", $body);
 
     $headers = $response->getHeaders();
-    $this->assertEquals('text/plain; charset=utf-8', $headers['Content-Type']);
+    $this->assertEquals('Content-Type: text/plain; charset=utf-8', $headers[0]);
   }
 }
