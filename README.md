@@ -23,7 +23,7 @@ The preferred way to install Solarium is by using Composer. Solarium is availabl
 ## More information
 
 * Docs
-  http://solarium.readthedocs.org/en/stable/
+  http://solarium.readthedocs.io/en/stable/
 
 * Issue tracker   
   http://github.com/solariumphp/solarium/issues
