@@ -25,11 +25,13 @@ See [<https://packagist.org>](https://packagist.org) for other packages.
 
 - Add Solarium to your composer.json file. It should look something like this:
 
-`  {`
-`      "require": {`
-`          "solarium/solarium": "2.4.0"`
-`      }`
-`  }`
+```json
+{
+    "require": {
+        "solarium/solarium": "2.4.0"
+    }
+}
+```
 
 - Run composer install
 
@@ -37,13 +39,13 @@ See [<https://packagist.org>](https://packagist.org) for other packages.
 
 **Only if you don't use composer:** you need to use a PSR-0 autoloader, or the supplied autoloader: ```php
 
-```
-
 Also you need to make sure the the Symfony Event Dispatcher component is available.
 
 ### Checking the availability
 
-To check your installation you can do a Solarium version check with the following code. If everything works you should see the version of Solarium you downloaded. To test Solr communication you can use a ping query (you might need some configuration to get the ping working, more on that later) ```php
+To check your installation you can do a Solarium version check with the following code. If everything works you should see the version of Solarium you downloaded. To test Solr communication you can use a ping query (you might need some configuration to get the ping working, more on that later) 
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
@@ -93,7 +95,9 @@ Basic usage
 
 All the code display below can be found in the /examples dir of the project, where you can also easily execute the code. For more info see [Example code](V3:Example_code "wikilink").
 
-All the examples use the init.php file. This file registers the Solarium autoloader and also loads the $config array for use in the client constructor. The $config array has the following contents: ```php
+All the examples use the init.php file. This file registers the Solarium autoloader and also loads the $config array for use in the client constructor. The $config array has the following contents: 
+
+```php
 <?php
 
 $config = array(
@@ -110,7 +114,9 @@ $config = array(
 
 ### Selecting documents
 
-This is the basic example of executing a select query and displaying the results: ```php
+This is the basic example of executing a select query and displaying the results: 
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
@@ -203,7 +209,9 @@ htmlFooter();
 
 ### Deleting documents
 
-Documents can be deleted with a query: ```php
+Documents can be deleted with a query: 
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
@@ -230,7 +238,9 @@ htmlFooter();
 
 ```
 
-Or by id ```php
+Or by id 
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
@@ -261,7 +271,9 @@ Also, a combination of both is possible. See the docs for more info.
 
 ### Adding documents
 
-This example adds some documents to the index: ```php
+This example adds some documents to the index: 
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
@@ -315,4 +327,4 @@ With Solarium a set of examples is included to demonstrate the usage and to test
 
 That's all! The default config file of the examples was made for the standard Solr example included with a Solr release. If you want to use a custom Solr environment you can copy the file 'config.dist.php' in the example dir to 'config.php' and correct the settings. Your environment needs to have the default Solr example schema and data for the examples to work.
 
-If examples for some Solarium functionality are missing please request them by opening an issue in the issue tracker: [<http://github.com/basdenooijer/solarium/issues>](http://github.com/basdenooijer/solarium/issues)
+If examples for some Solarium functionality are missing please request them by opening an issue in the issue tracker: [<http://github.com/solariumphp/solarium/issues>](http://github.com/solariumphp/solarium/issues)

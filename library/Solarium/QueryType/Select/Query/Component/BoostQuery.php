@@ -38,48 +38,93 @@
  * @namespace
  */
 
-namespace Solarium\QueryType\Select\RequestBuilder\Component;
+namespace Solarium\QueryType\Select\Query\Component;
 
-use Solarium\QueryType\Select\Query\Component\DistributedSearch as DistributedSearchComponent;
-use Solarium\Core\Client\Request;
+use Solarium\Core\Configurable;
+use Solarium\Core\Query\Helper;
 
 /**
- * Add select component distributedsearch to the request.
+ * Filterquery.
+ *
+ * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
  */
-class DistributedSearch implements ComponentRequestBuilderInterface
+class BoostQuery extends Configurable
 {
     /**
-     * Add request settings for DistributedSearch.
+     * Query.
      *
-     * @param DistributedSearchComponent $component
-     * @param Request                    $request
-     *
-     * @return Request
+     * @var string
      */
-    public function buildComponent($component, $request)
+    protected $query;
+
+    /**
+     * Get key value.
+     *
+     * @return string
+     */
+    public function getKey()
     {
-        // add shards to request
-        $shards = array_values($component->getShards());
-        if (count($shards)) {
-            $request->addParam('shards', implode(',', $shards));
+        return $this->getOption('key');
+    }
+
+    /**
+     * Set key value.
+     *
+     * @param string $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setKey($value)
+    {
+        return $this->setOption('key', $value);
+    }
+
+    /**
+     * Set the query string.
+     *
+     * This overwrites the current value
+     *
+     * @param string $query
+     * @param array  $bind  Bind values for placeholders in the query string
+     *
+     * @return self Provides fluent interface
+     */
+    public function setQuery($query, $bind = null)
+    {
+        if (!is_null($bind)) {
+            $helper = new Helper();
+            $query = $helper->assemble($query, $bind);
         }
 
-        $replicas = array_values($component->getReplicas());
+        $this->query = trim($query);
 
-        if (count($replicas)) {
-            $value = ($request->getParam('shards')) ? $request->getParam('shards').','.implode('|', $replicas) : implode('|', $replicas);
+        return $this;
+    }
 
-            $request->addParam('shards', $value, true);
+    /**
+     * Get the query string.
+     *
+     * @return string
+     */
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+    /**
+     * Initialize options.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'key':
+                    $this->setKey($value);
+                    break;
+                case 'query':
+                    $this->setQuery($value);
+                    break;
+            }
         }
-
-        $request->addParam('shards.qt', $component->getShardRequestHandler());
-
-        // add collections to request
-        $collections = array_values($component->getCollections());
-        if (count($collections)) {
-            $request->addParam('collection', implode(',', $collections));
-        }
-
-        return $request;
     }
 }

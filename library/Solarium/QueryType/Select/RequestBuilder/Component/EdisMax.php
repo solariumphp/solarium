@@ -72,7 +72,15 @@ class EdisMax implements ComponentRequestBuilderInterface
         $request->addParam('ps3', $component->getPhraseTrigramSlop());
         $request->addParam('qs', $component->getQueryPhraseSlop());
         $request->addParam('tie', $component->getTie());
-        $request->addParam('bq', $component->getBoostQuery());
+
+        // add boostqueries to request
+        $boostQueries = $component->getBoostQueries();
+        if (count($boostQueries) !== 0) {
+            foreach ($boostQueries as $boostQuery) {
+                $request->addParam('bq', $boostQuery->getQuery());
+            }
+        }
+
         $request->addParam('bf', $component->getBoostFunctions());
         $request->addParam('boost', $component->getBoostFunctionsMult());
         $request->addParam('uf', $component->getUserFields());

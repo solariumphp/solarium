@@ -88,7 +88,7 @@ class Result
      */
     public function getMin()
     {
-        return $this->stats['min'];
+        return $this->getValue('min');
     }
 
     /**
@@ -98,7 +98,7 @@ class Result
      */
     public function getMax()
     {
-        return $this->stats['max'];
+        return $this->getValue('max');
     }
 
     /**
@@ -108,7 +108,7 @@ class Result
      */
     public function getSum()
     {
-        return $this->stats['sum'];
+        return $this->getValue('sum');
     }
 
     /**
@@ -118,7 +118,7 @@ class Result
      */
     public function getCount()
     {
-        return $this->stats['count'];
+        return $this->getValue('count');
     }
 
     /**
@@ -128,7 +128,7 @@ class Result
      */
     public function getMissing()
     {
-        return $this->stats['missing'];
+        return $this->getValue('missing');
     }
 
     /**
@@ -138,7 +138,7 @@ class Result
      */
     public function getSumOfSquares()
     {
-        return $this->stats['sumOfSquares'];
+        return $this->getValue('sumOfSquares');
     }
 
     /**
@@ -148,7 +148,7 @@ class Result
      */
     public function getMean()
     {
-        return $this->stats['mean'];
+        return $this->getValue('mean');
     }
 
     /**
@@ -158,7 +158,7 @@ class Result
      */
     public function getStddev()
     {
-        return $this->stats['stddev'];
+        return $this->getValue('stddev');
     }
 
     /**
@@ -168,6 +168,26 @@ class Result
      */
     public function getFacets()
     {
-        return $this->stats['facets'];
+        return $this->getValue('facets');
     }
+    
+    /**
+     * Get percentile stats.
+     *
+     * @return array
+     */
+    public function getPercentiles()
+    {
+        return $this->getValue('percentiles');
+    }
+
+    /**
+     * Get value by name.
+     *
+     * @return string
+     */
+    protected function getValue($name)
+    {
+        return isset($this->stats[$name]) ? $this->stats[$name] : null;
+    }    
 }

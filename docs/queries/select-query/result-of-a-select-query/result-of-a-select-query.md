@@ -35,7 +35,8 @@ The countable interface returns the number of documents in this resultset. This 
 Example
 -------
 
-A basic usage example: ```php
+A basic usage example: 
+```php
 <?php
 
 require(__DIR__.'/init.php');

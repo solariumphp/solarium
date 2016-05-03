@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Select\Query\Component;
 
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 
@@ -58,6 +59,13 @@ class DisMax extends AbstractComponent
     protected $options = array(
         'queryparser' => 'dismax',
     );
+
+    /**
+     * Boostqueries.
+     *
+     * @var BoostQuery[]
+     */
+    protected $boostQueries = array();
 
     /**
      * Get component type.
@@ -278,17 +286,147 @@ class DisMax extends AbstractComponent
      */
     public function setBoostQuery($boostQuery)
     {
-        return $this->setOption('boostquery', $boostQuery);
+        $this->clearBoostQueries();
+        $this->addBoostQuery(array('key' => 0, 'query' => $boostQuery));
+
+        return $this;
     }
 
     /**
      * Get BoostQuery option.
      *
+     * @param string $key
+     *
      * @return string|null
      */
-    public function getBoostQuery()
+    public function getBoostQuery($key = null)
     {
-        return $this->getOption('boostquery');
+        if ($key !== null) {
+            if (array_key_exists($key, $this->boostQueries)) {
+                return $this->boostQueries[$key]->getQuery();
+            }
+        } else if (!empty($this->boostQueries)) {
+            /** @var BoostQuery[] $boostQueries */
+            $boostQueries = array_values($this->boostQueries);
+
+            return $boostQueries[0]->getQuery();
+        } else if (array_key_exists('boostquery', $this->options)) {
+            return $this->options['boostquery'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Add a boost query.
+     *
+     * Supports a boostquery instance or a config array, in that case a new
+     * boostquery instance wil be created based on the options.
+     *
+     * @throws InvalidArgumentException
+     *
+     * @param BoostQuery|array $boostQuery
+     *
+     * @return self Provides fluent interface
+     */
+    public function addBoostQuery($boostQuery)
+    {
+        if (is_array($boostQuery)) {
+            $boostQuery = new BoostQuery($boostQuery);
+        }
+
+        $key = $boostQuery->getKey();
+
+        if (0 === strlen($key)) {
+            throw new InvalidArgumentException('A boostquery must have a key value');
+        }
+
+        //double add calls for the same BQ are ignored, but non-unique keys cause an exception
+        if (array_key_exists($key, $this->boostQueries) && $this->boostQueries[$key] !== $boostQuery) {
+            throw new InvalidArgumentException('A boostquery must have a unique key value within a query');
+        } else {
+            $this->boostQueries[$key] = $boostQuery;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add multiple boostqueries.
+     *
+     * @param array $boostQueries
+     *
+     * @return self Provides fluent interface
+     */
+    public function addBoostQueries(array $boostQueries)
+    {
+        foreach ($boostQueries as $key => $boostQuery) {
+            // in case of a config array: add key to config
+            if (is_array($boostQuery) && !isset($boostQuery['key'])) {
+                $boostQuery['key'] = $key;
+            }
+
+            $this->addBoostQuery($boostQuery);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get all boostqueries.
+     *
+     * @return BoostQuery[]
+     */
+    public function getBoostQueries()
+    {
+        return $this->boostQueries;
+    }
+
+    /**
+     * Remove a single boostquery.
+     *
+     * You can remove a boostquery by passing its key, or by passing the boostquery instance
+     *
+     * @param string|BoostQuery $boostQuery
+     *
+     * @return self Provides fluent interface
+     */
+    public function removeBoostQuery($boostQuery)
+    {
+        if (is_object($boostQuery)) {
+            $boostQuery = $boostQuery->getKey();
+        }
+
+        if (isset($this->boostQueries[$boostQuery])) {
+            unset($this->boostQueries[$boostQuery]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all boostqueries.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearBoostQueries()
+    {
+        $this->boostQueries = array();
+
+        return $this;
+    }
+
+    /**
+     * Set multiple boostqueries.
+     *
+     * This overwrites any existing boostqueries
+     *
+     * @param array $boostQueries
+     */
+    public function setBoostQueries($boostQueries)
+    {
+        $this->clearBoostQueries();
+        $this->addBoostQueries($boostQueries);
     }
 
     /**
