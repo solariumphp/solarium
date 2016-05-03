@@ -3,7 +3,14 @@
 
 ## 3.6.0
 
-- no longer allow failures for HHVM in continuous integration
+- improvement: no longer allow failures for HHVM in continuous integration
+- improvement: added Symfony 3.x components to CI tests for PHP 5.5+
+- added: support for replicas in distributed search
+- added: support for multiple boost queries in dismax
+- added: support for additional stats values like percentiles
+- improvement: several typo / markup fixes in documentation
+- improvement: several docblock fixes
+- improvement: ClientInterface now also used for standard Client class
 
 ## 3.5.1
 
