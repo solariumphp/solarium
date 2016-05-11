@@ -125,7 +125,7 @@ class RequestBuilder extends BaseRequestBuilder
 
         foreach ($command->getDocuments() as $doc) {
             $xml .= '<doc';
-            $xml .= $this->attrib('boost', $doc->getBoost());
+            $xml .= $this->attrib('boost', number_format($doc->getBoost(), 5, '.', ''));
             $xml .= '>';
 
             foreach ($doc->getFields() as $name => $value) {
