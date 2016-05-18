@@ -30,35 +30,37 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Stats;
 
 /**
- * Select component stats field result item
+ * Select component stats field result item.
  */
 class Result
 {
     /**
-     * Field name
+     * Field name.
      *
      * @var string
      */
     protected $field;
 
     /**
-     * Stats data
+     * Stats data.
      *
      * @var array
      */
     protected $stats;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $field
      * @param array  $stats
@@ -70,7 +72,7 @@ class Result
     }
 
     /**
-     * Get field name
+     * Get field name.
      *
      * @return string
      */
@@ -80,92 +82,112 @@ class Result
     }
 
     /**
-     * Get min value
+     * Get min value.
      *
      * @return string
      */
     public function getMin()
     {
-        return $this->stats['min'];
+        return $this->getValue('min');
     }
 
     /**
-     * Get max value
+     * Get max value.
      *
      * @return string
      */
     public function getMax()
     {
-        return $this->stats['max'];
+        return $this->getValue('max');
     }
 
     /**
-     * Get sum value
+     * Get sum value.
      *
      * @return string
      */
     public function getSum()
     {
-        return $this->stats['sum'];
+        return $this->getValue('sum');
     }
 
     /**
-     * Get count value
+     * Get count value.
      *
      * @return string
      */
     public function getCount()
     {
-        return $this->stats['count'];
+        return $this->getValue('count');
     }
 
     /**
-     * Get missing value
+     * Get missing value.
      *
      * @return string
      */
     public function getMissing()
     {
-        return $this->stats['missing'];
+        return $this->getValue('missing');
     }
 
     /**
-     * Get sumOfSquares value
+     * Get sumOfSquares value.
      *
      * @return string
      */
     public function getSumOfSquares()
     {
-        return $this->stats['sumOfSquares'];
+        return $this->getValue('sumOfSquares');
     }
 
     /**
-     * Get mean value
+     * Get mean value.
      *
      * @return string
      */
     public function getMean()
     {
-        return $this->stats['mean'];
+        return $this->getValue('mean');
     }
 
     /**
-     * Get stddev value
+     * Get stddev value.
      *
      * @return string
      */
     public function getStddev()
     {
-        return $this->stats['stddev'];
+        return $this->getValue('stddev');
     }
 
     /**
-     * Get facet stats
+     * Get facet stats.
      *
      * @return array
      */
     public function getFacets()
     {
-        return $this->stats['facets'];
+        return $this->getValue('facets');
     }
+    
+    /**
+     * Get percentile stats.
+     *
+     * @return array
+     */
+    public function getPercentiles()
+    {
+        return $this->getValue('percentiles');
+    }
+
+    /**
+     * Get value by name.
+     *
+     * @return string
+     */
+    protected function getValue($name)
+    {
+        return isset($this->stats[$name]) ? $this->stats[$name] : null;
+    }    
 }

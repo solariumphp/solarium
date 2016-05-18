@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -43,21 +45,21 @@ use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 use Solarium\Exception\RuntimeException;
 
 /**
- * Update query add command
+ * Update query add command.
  *
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#add.2BAC8-update
  */
-class Add extends Command
+class Add extends AbstractCommand
 {
     /**
-     * Documents to add
+     * Documents to add.
      *
      * @var \Solarium\QueryType\Update\Query\Document\DocumentInterface[]
      */
     protected $documents = array();
 
     /**
-     * Get command type
+     * Get command type.
      *
      * @return string
      */
@@ -67,11 +69,13 @@ class Add extends Command
     }
 
     /**
-     * Add a single document
+     * Add a single document.
      *
      * @throws RuntimeException
-     * @param  DocumentInterface $document
-     * @return self              Provides fluent interface
+     *
+     * @param DocumentInterface $document
+     *
+     * @return self Provides fluent interface
      */
     public function addDocument(DocumentInterface $document)
     {
@@ -81,11 +85,13 @@ class Add extends Command
     }
 
     /**
-     * Add multiple documents
+     * Add multiple documents.
      *
-     * @param  array|\Traversable $documents
-     * @return self               Provides fluent interface
-     * @throws RuntimeException   If any of the given documents does not implement DocumentInterface
+     * @param array|\Traversable $documents
+     *
+     * @return self Provides fluent interface
+     *
+     * @throws RuntimeException If any of the given documents does not implement DocumentInterface
      */
     public function addDocuments($documents)
     {
@@ -119,7 +125,7 @@ class Add extends Command
     }
 
     /**
-     * Get all documents
+     * Get all documents.
      *
      * @return DocumentInterface[]
      */
@@ -129,10 +135,11 @@ class Add extends Command
     }
 
     /**
-     * Set overwrite option
+     * Set overwrite option.
      *
-     * @param  boolean $overwrite
-     * @return self    Provides fluent interface
+     * @param boolean $overwrite
+     *
+     * @return self Provides fluent interface
      */
     public function setOverwrite($overwrite)
     {
@@ -140,7 +147,7 @@ class Add extends Command
     }
 
     /**
-     * Get overwrite option
+     * Get overwrite option.
      *
      * @return boolean
      */
@@ -150,10 +157,11 @@ class Add extends Command
     }
 
     /**
-     * Get commitWithin option
+     * Get commitWithin option.
      *
-     * @param  boolean $commitWithin
-     * @return self    Provides fluent interface
+     * @param boolean $commitWithin
+     *
+     * @return self Provides fluent interface
      */
     public function setCommitWithin($commitWithin)
     {
@@ -161,7 +169,7 @@ class Add extends Command
     }
 
     /**
-     * Set commitWithin option
+     * Set commitWithin option.
      *
      * @return boolean
      */

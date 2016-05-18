@@ -30,45 +30,45 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query\Result;
 
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\UnexpectedValueException;
 
 /**
- * QueryType result
+ * QueryType result.
  */
 class QueryType extends Result
 {
     /**
-     * Lazy load parsing indicator
+     * Lazy load parsing indicator.
      *
      * @var bool
      */
     protected $parsed = false;
 
     /**
-     * Parse response into result objects
+     * Parse response into result objects.
      *
      * Only runs once
      *
      * @throws UnexpectedValueException
-     * @return void
      */
     protected function parseResponse()
     {
         if (!$this->parsed) {
-
             $responseParser = $this->query->getResponseParser();
             if (!$responseParser || !($responseParser instanceof ResponseParserInterface)) {
                 throw new UnexpectedValueException(
-                    'No responseparser returned by querytype: '. $this->query->getType()
+                    'No responseparser returned by querytype: '.$this->query->getType()
                 );
             }
 
@@ -79,10 +79,9 @@ class QueryType extends Result
     }
 
     /**
-     * Map parser data into properties
+     * Map parser data into properties.
      *
-     * @param  array $mapData
-     * @return void
+     * @param array $mapData
      */
     protected function mapData($mapData)
     {

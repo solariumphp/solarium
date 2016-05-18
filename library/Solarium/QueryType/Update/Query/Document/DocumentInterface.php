@@ -30,21 +30,23 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Document;
 
 /**
- * Solr update document interface
+ * Solr update document interface.
  */
 interface DocumentInterface
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $fields
      * @param array $boosts

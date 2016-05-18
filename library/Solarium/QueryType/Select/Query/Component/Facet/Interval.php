@@ -38,149 +38,100 @@
  */
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
-use Solarium\Core\Configurable;
+use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 /**
- * Facet base class
+ * Facet interval
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters
+ * @link http://wiki.apache.org/solr/SimpleFacetParameters#Interval_Faceting
  */
-abstract class Facet extends Configurable
+class Interval extends AbstractFacet
 {
-    /**
-     * Exclude tags for this facet
-     *
-     * @var array
-     */
-    protected $excludes = array();
-
-    /**
-     * Must be implemented by the facet types and return one of the constants
-     *
-     * @abstract
-     * @return string
-     */
-    abstract public function getType();
 
     /**
      * Initialize options
+     *
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
      *
      * @return void
      */
     protected function init()
     {
+        parent::init();
+
         foreach ($this->options as $name => $value) {
             switch ($name) {
-                case 'key':
-                    $this->setKey($value);
-                    break;
-                case 'exclude':
-                    if (!is_array($value)) {
-                        $value = array($value);
-                    }
-                    $this->setExcludes($value);
-                    unset($this->options['exclude']);
+                case 'set':
+                    $this->setSet($value);
                     break;
             }
         }
     }
 
     /**
-     * Get key value
+     * Get the facet type
      *
      * @return string
      */
-    public function getKey()
+    public function getType()
     {
-        return $this->getOption('key');
+        return FacetSet::FACET_INTERVAL;
     }
 
     /**
-     * Set key value
+     * Set the field name
      *
-     * @param  string $value
+     * @param  string $field
      * @return self   Provides fluent interface
      */
-    public function setKey($value)
+    public function setField($field)
     {
-        return $this->setOption('key', $value);
+        return $this->setOption('field', $field);
     }
 
     /**
-     * Add an exclude tag
+     * Get the field name
      *
-     * @param  string $tag
-     * @return self   Provides fluent interface
+     * @return string
      */
-    public function addExclude($tag)
+    public function getField()
     {
-        $this->excludes[$tag] = true;
-
-        return $this;
+        return $this->getOption('field');
     }
 
     /**
-     * Add multiple exclude tags
+     * Set set counts
      *
-     * @param  array $excludes
-     * @return self  Provides fluent interface
+     * Use one of the constants as value.
+     * If you want to use multiple values supply an array or comma separated string
+     *
+     * @param  string|array $set
+     * @return self         Provides fluent interface
      */
-    public function addExcludes(array $excludes)
+    public function setSet($set)
     {
-        foreach ($excludes as $exclude) {
-            $this->addExclude($exclude);
+        if (is_string($set)) {
+            $set = explode(',', $set);
+            $set = array_map('trim', $set);
         }
 
-        return $this;
+        return $this->setOption('set', $set);
     }
 
     /**
-     * Get all excludes
+     * Get set counts
      *
      * @return array
      */
-    public function getExcludes()
+    public function getSet()
     {
-        return array_keys($this->excludes);
-    }
-
-    /**
-     * Remove a single exclude tag
-     *
-     * @param  string $exclude
-     * @return self   Provides fluent interface
-     */
-    public function removeExclude($exclude)
-    {
-        if (isset($this->excludes[$exclude])) {
-            unset($this->excludes[$exclude]);
+        $set = $this->getOption('set');
+        if ($set === null) {
+            $set = array();
         }
 
-        return $this;
+        return $set;
     }
 
-    /**
-     * Remove all excludes
-     *
-     * @return self Provides fluent interface
-     */
-    public function clearExcludes()
-    {
-        $this->excludes = array();
-
-        return $this;
-    }
-
-    /**
-     * Set multiple excludes
-     *
-     * This overwrites any existing excludes
-     *
-     * @param array $excludes
-     */
-    public function setExcludes($excludes)
-    {
-        $this->clearExcludes();
-        $this->addExcludes($excludes);
-    }
 }

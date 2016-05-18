@@ -30,26 +30,28 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\QueryType\Select\Result\DocumentInterface;
 use Solarium\Exception\RuntimeException;
 
 /**
- * Minimum score filter query result document
+ * Minimum score filter query result document.
  *
  * Decorates the original document with a filter indicator
  */
 class Document implements \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**
-     * Original document
+     * Original document.
      *
      * @var array
      */
@@ -63,9 +65,10 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     protected $marked;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param DocumentInterface $fields
+     * @param DocumentInterface $document
+     * @param int               $threshold
      */
     public function __construct(DocumentInterface $document, $threshold)
     {
@@ -74,7 +77,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
-     * Get markedAsLowScore status
+     * Get markedAsLowScore status.
      *
      * @return bool
      */
@@ -84,30 +87,35 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
-     * Forward all other calls to the original document
+     * Forward all other calls to the original document.
      *
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
+     *
      * @return mixed
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         return $this->document->$name($arguments);
     }
 
     /**
-     * Forward all other calls to the original document
+     * Forward all other calls to the original document.
      *
      * @param string $name
+     *
      * @return mixed
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         return $this->document->__get($name);
     }
 
     /**
-     * Forward isset call to the original document
+     * Forward isset call to the original document.
      *
      * @param string $name
+     *
      * @return boolean
      */
     public function __isset($name)
@@ -116,7 +124,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
-     * IteratorAggregate implementation
+     * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
      */
@@ -126,7 +134,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
-     * Countable implementation
+     * Countable implementation.
      *
      * @return int
      */
@@ -136,9 +144,10 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
-     * ArrayAccess implementation
+     * ArrayAccess implementation.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
+     *
      * @return bool
      */
     public function offsetExists($offset)
@@ -147,10 +156,9 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
-     * ArrayAccess implementation
+     * ArrayAccess implementation.
      *
-     * @param  mixed $offset
-     * @return void
+     * @param mixed $offset
      */
     public function offsetUnset($offset)
     {
@@ -158,9 +166,10 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
-     * ArrayAccess implementation
+     * ArrayAccess implementation.
      *
-     * @param  mixed      $offset
+     * @param mixed $offset
+     *
      * @return mixed|null
      */
     public function offsetGet($offset)
@@ -169,15 +178,15 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
-     * Set field value
+     * Set field value.
      *
      * Magic method for setting a field as property of this object. Since this
      * is a readonly document an exception will be thrown to prevent this.
      *
      * @throws RuntimeException
-     * @param  string           $name
-     * @param  string           $value
-     * @return void
+     *
+     * @param string $name
+     * @param string $value
      */
     public function __set($name, $value)
     {
@@ -185,15 +194,13 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     }
 
     /**
-     * ArrayAccess implementation
+     * ArrayAccess implementation.
      *
-     * @param  mixed $offset
-     * @param  mixed $value
-     * @return void
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value)
     {
         $this->__set($offset, $value);
     }
-
 }

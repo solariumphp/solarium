@@ -30,26 +30,29 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 
 /**
- * DisMax component
+ * DisMax component.
  *
  * @link http://wiki.apache.org/solr/DisMaxQParserPlugin
  */
-class DisMax extends Component
+class DisMax extends AbstractComponent
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -58,7 +61,14 @@ class DisMax extends Component
     );
 
     /**
-     * Get component type
+     * Boostqueries.
+     *
+     * @var BoostQuery[]
+     */
+    protected $boostQueries = array();
+
+    /**
+     * Get component type.
      *
      * @return string
      */
@@ -68,34 +78,33 @@ class DisMax extends Component
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
      * This component has no response parser...
-     *
-     * @return null
      */
     public function getResponseParser()
     {
-        return null;
+        return;
     }
 
     /**
-     * Set QueryAlternative option
+     * Set QueryAlternative option.
      *
      * If specified, this query will be used (and parsed by default using
      * standard query parsing syntax) when the main query string is not
      * specified or blank.
      *
-     * @param  string $queryAlternative
-     * @return self   Provides fluent interface
+     * @param string $queryAlternative
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryAlternative($queryAlternative)
     {
@@ -103,7 +112,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get QueryAlternative option
+     * Get QueryAlternative option.
      *
      * @return string|null
      */
@@ -113,15 +122,16 @@ class DisMax extends Component
     }
 
     /**
-     * Set QueryFields option
+     * Set QueryFields option.
      *
      * List of fields and the "boosts" to associate with each of them when
      * building DisjunctionMaxQueries from the user's query.
      *
      * The format supported is "fieldOne^2.3 fieldTwo fieldThree^0.4"
      *
-     * @param  string $queryFields
-     * @return self   Provides fluent interface
+     * @param string $queryFields
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryFields($queryFields)
     {
@@ -129,7 +139,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get QueryFields option
+     * Get QueryFields option.
      *
      * @return string|null
      */
@@ -139,13 +149,14 @@ class DisMax extends Component
     }
 
     /**
-     * Set MinimumMatch option
+     * Set MinimumMatch option.
      *
      * This option makes it possible to say that a certain minimum number of
      * clauses must match. See Solr manual for details.
      *
-     * @param  string $minimumMatch
-     * @return self   Provides fluent interface
+     * @param string $minimumMatch
+     *
+     * @return self Provides fluent interface
      */
     public function setMinimumMatch($minimumMatch)
     {
@@ -153,7 +164,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get MinimumMatch option
+     * Get MinimumMatch option.
      *
      * @return string|null
      */
@@ -163,15 +174,16 @@ class DisMax extends Component
     }
 
     /**
-     * Set PhraseFields option
+     * Set PhraseFields option.
      *
      * This param can be used to "boost" the score of documents in cases
      * where all of the terms in the "q" param appear in close proximity.
      *
      * Format is: "fieldA^1.0 fieldB^2.2"
      *
-     * @param  string $phraseFields
-     * @return self   Provides fluent interface
+     * @param string $phraseFields
+     *
+     * @return self Provides fluent interface
      */
     public function setPhraseFields($phraseFields)
     {
@@ -179,7 +191,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get PhraseFields option
+     * Get PhraseFields option.
      *
      * @return string|null
      */
@@ -189,13 +201,14 @@ class DisMax extends Component
     }
 
     /**
-     * Set PhraseSlop option
+     * Set PhraseSlop option.
      *
      * Amount of slop on phrase queries built for "pf" fields
      * (affects boosting)
      *
-     * @param  string $phraseSlop
-     * @return self   Provides fluent interface
+     * @param string $phraseSlop
+     *
+     * @return self Provides fluent interface
      */
     public function setPhraseSlop($phraseSlop)
     {
@@ -203,7 +216,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get PhraseSlop option
+     * Get PhraseSlop option.
      *
      * @return string|null
      */
@@ -213,13 +226,14 @@ class DisMax extends Component
     }
 
     /**
-     * Set QueryPhraseSlop option
+     * Set QueryPhraseSlop option.
      *
      * Amount of slop on phrase queries explicitly included in the user's
      * query string (in qf fields; affects matching)
      *
-     * @param  string $queryPhraseSlop
-     * @return self   Provides fluent interface
+     * @param string $queryPhraseSlop
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryPhraseSlop($queryPhraseSlop)
     {
@@ -227,7 +241,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get QueryPhraseSlop option
+     * Get QueryPhraseSlop option.
      *
      * @return string|null
      */
@@ -237,12 +251,13 @@ class DisMax extends Component
     }
 
     /**
-     * Set Tie option
+     * Set Tie option.
      *
      * Float value to use as tiebreaker in DisjunctionMaxQueries
      *
-     * @param  float $tie
-     * @return self  Provides fluent interface
+     * @param float $tie
+     *
+     * @return self Provides fluent interface
      */
     public function setTie($tie)
     {
@@ -250,7 +265,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get Tie option
+     * Get Tie option.
      *
      * @return float|null
      */
@@ -260,39 +275,171 @@ class DisMax extends Component
     }
 
     /**
-     * Set BoostQuery option
+     * Set BoostQuery option.
      *
      * A raw query string (in the SolrQuerySyntax) that will be included
      * with the user's query to influence the score.
      *
-     * @param  string $boostQuery
-     * @return self   Provides fluent interface
+     * @param string $boostQuery
+     *
+     * @return self Provides fluent interface
      */
     public function setBoostQuery($boostQuery)
     {
-        return $this->setOption('boostquery', $boostQuery);
+        $this->clearBoostQueries();
+        $this->addBoostQuery(array('key' => 0, 'query' => $boostQuery));
+
+        return $this;
     }
 
     /**
-     * Get BoostQuery option
+     * Get BoostQuery option.
+     *
+     * @param string $key
      *
      * @return string|null
      */
-    public function getBoostQuery()
+    public function getBoostQuery($key = null)
     {
-        return $this->getOption('boostquery');
+        if ($key !== null) {
+            if (array_key_exists($key, $this->boostQueries)) {
+                return $this->boostQueries[$key]->getQuery();
+            }
+        } else if (!empty($this->boostQueries)) {
+            /** @var BoostQuery[] $boostQueries */
+            $boostQueries = array_values($this->boostQueries);
+
+            return $boostQueries[0]->getQuery();
+        } else if (array_key_exists('boostquery', $this->options)) {
+            return $this->options['boostquery'];
+        }
+
+        return null;
     }
 
     /**
-     * Set BoostFunctions option
+     * Add a boost query.
+     *
+     * Supports a boostquery instance or a config array, in that case a new
+     * boostquery instance wil be created based on the options.
+     *
+     * @throws InvalidArgumentException
+     *
+     * @param BoostQuery|array $boostQuery
+     *
+     * @return self Provides fluent interface
+     */
+    public function addBoostQuery($boostQuery)
+    {
+        if (is_array($boostQuery)) {
+            $boostQuery = new BoostQuery($boostQuery);
+        }
+
+        $key = $boostQuery->getKey();
+
+        if (0 === strlen($key)) {
+            throw new InvalidArgumentException('A boostquery must have a key value');
+        }
+
+        //double add calls for the same BQ are ignored, but non-unique keys cause an exception
+        if (array_key_exists($key, $this->boostQueries) && $this->boostQueries[$key] !== $boostQuery) {
+            throw new InvalidArgumentException('A boostquery must have a unique key value within a query');
+        } else {
+            $this->boostQueries[$key] = $boostQuery;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add multiple boostqueries.
+     *
+     * @param array $boostQueries
+     *
+     * @return self Provides fluent interface
+     */
+    public function addBoostQueries(array $boostQueries)
+    {
+        foreach ($boostQueries as $key => $boostQuery) {
+            // in case of a config array: add key to config
+            if (is_array($boostQuery) && !isset($boostQuery['key'])) {
+                $boostQuery['key'] = $key;
+            }
+
+            $this->addBoostQuery($boostQuery);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get all boostqueries.
+     *
+     * @return BoostQuery[]
+     */
+    public function getBoostQueries()
+    {
+        return $this->boostQueries;
+    }
+
+    /**
+     * Remove a single boostquery.
+     *
+     * You can remove a boostquery by passing its key, or by passing the boostquery instance
+     *
+     * @param string|BoostQuery $boostQuery
+     *
+     * @return self Provides fluent interface
+     */
+    public function removeBoostQuery($boostQuery)
+    {
+        if (is_object($boostQuery)) {
+            $boostQuery = $boostQuery->getKey();
+        }
+
+        if (isset($this->boostQueries[$boostQuery])) {
+            unset($this->boostQueries[$boostQuery]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all boostqueries.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearBoostQueries()
+    {
+        $this->boostQueries = array();
+
+        return $this;
+    }
+
+    /**
+     * Set multiple boostqueries.
+     *
+     * This overwrites any existing boostqueries
+     *
+     * @param array $boostQueries
+     */
+    public function setBoostQueries($boostQueries)
+    {
+        $this->clearBoostQueries();
+        $this->addBoostQueries($boostQueries);
+    }
+
+    /**
+     * Set BoostFunctions option.
      *
      * Functions (with optional boosts) that will be included in the
      * user's query to influence the score.
      *
      * Format is: "funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2"
      *
-     * @param  string $boostFunctions
-     * @return self   Provides fluent interface
+     * @param string $boostFunctions
+     *
+     * @return self Provides fluent interface
      */
     public function setBoostFunctions($boostFunctions)
     {
@@ -300,7 +447,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get BoostFunctions option
+     * Get BoostFunctions option.
      *
      * @return string|null
      */
@@ -310,14 +457,15 @@ class DisMax extends Component
     }
 
     /**
-     * Set QueryParser option
+     * Set QueryParser option.
      *
      * Can be used to enable edismax
      *
      * @since 2.1.0
      *
-     * @param  string $parser
-     * @return self   Provides fluent interface
+     * @param string $parser
+     *
+     * @return self Provides fluent interface
      */
     public function setQueryParser($parser)
     {
@@ -325,7 +473,7 @@ class DisMax extends Component
     }
 
     /**
-     * Get QueryParser option
+     * Get QueryParser option.
      *
      * @since 2.1.0
      *

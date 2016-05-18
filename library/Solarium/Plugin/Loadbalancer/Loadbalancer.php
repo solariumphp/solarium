@@ -30,18 +30,19 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\Loadbalancer;
 
-use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
-use Solarium\Core\Query\Query;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Exception\InvalidArgumentException;
@@ -55,7 +56,7 @@ use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 
 /**
- * Loadbalancer plugin
+ * Loadbalancer plugin.
  *
  * Using this plugin you can use software loadbalancing over multiple Solr instances.
  * You can add any number of endpoints, each with their own weight. The weight influences
@@ -67,10 +68,10 @@ use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
  *
  * You can also enable the failover mode. In this case a query will be retried on another endpoint in case of error.
  */
-class Loadbalancer extends Plugin
+class Loadbalancer extends AbstractPlugin
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -80,23 +81,23 @@ class Loadbalancer extends Plugin
     );
 
     /**
-     * Registered endpoints
+     * Registered endpoints.
      *
      * @var Endpoint[]
      */
     protected $endpoints = array();
 
     /**
-     * Query types that are blocked from loadbalancing
+     * Query types that are blocked from loadbalancing.
      *
      * @var array
      */
     protected $blockedQueryTypes = array(
-        Client::QUERY_UPDATE => true
+        Client::QUERY_UPDATE => true,
     );
 
     /**
-     * Last used endpoint key
+     * Last used endpoint key.
      *
      * The value can be null if no queries have been executed, or if the last executed query didn't use loadbalancing.
      *
@@ -105,14 +106,14 @@ class Loadbalancer extends Plugin
     protected $lastEndpoint;
 
     /**
-     * Endpoint key to use for next query (overrules randomizer)
+     * Endpoint key to use for next query (overrules randomizer).
      *
      * @var string
      */
     protected $nextEndpoint;
 
     /**
-     * Default endpoint key
+     * Default endpoint key.
      *
      * This endpoint is used for queries that cannot be loadbalanced
      * (for instance update queries that need to go to the master)
@@ -122,66 +123,31 @@ class Loadbalancer extends Plugin
     protected $defaultEndpoint;
 
     /**
-     * Pool of endpoint keys to use for requests
+     * Pool of endpoint keys to use for requests.
      *
      * @var WeightedRandomChoice
      */
     protected $randomizer;
 
     /**
-     * Query type
+     * Query type.
      *
      * @var string
      */
     protected $queryType;
 
     /**
-     * Used for failover mechanism
+     * Used for failover mechanism.
      *
      * @var array
      */
     protected $endpointExcludes;
 
     /**
-     * Initialize options
+     * Set failover enabled option.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * @param bool $value
      *
-     * @return void
-     */
-    protected function init()
-    {
-        foreach ($this->options as $name => $value) {
-            switch ($name) {
-                case 'endpoint':
-                    $this->setEndpoints($value);
-                    break;
-                case 'blockedquerytype':
-                    $this->setBlockedQueryTypes($value);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Plugin init function
-     *
-     * Register event listeners
-     *
-     * @return void
-     */
-    protected function initPluginType()
-    {
-        $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->addListener(CoreEvents::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
-        $dispatcher->addListener(CoreEvents::PRE_CREATE_REQUEST, array($this, 'preCreateRequest'));
-    }
-
-    /**
-     * Set failover enabled option
-     *
-     * @param  bool $value
      * @return self Provides fluent interface
      */
     public function setFailoverEnabled($value)
@@ -190,7 +156,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Get failoverenabled option
+     * Get failoverenabled option.
      *
      * @return boolean
      */
@@ -200,9 +166,10 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Set failover max retries
+     * Set failover max retries.
      *
-     * @param  int  $value
+     * @param int $value
+     *
      * @return self Provides fluent interface
      */
     public function setFailoverMaxRetries($value)
@@ -211,7 +178,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Get failovermaxretries option
+     * Get failovermaxretries option.
      *
      * @return int
      */
@@ -221,12 +188,14 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Add an endpoint to the loadbalacing 'pool'
+     * Add an endpoint to the loadbalacing 'pool'.
      *
      * @throws InvalidArgumentException
-     * @param  Endpoint|string          $endpoint
-     * @param  int                      $weight   Must be a positive number
-     * @return self                     Provides fluent interface
+     *
+     * @param Endpoint|string $endpoint
+     * @param int             $weight   Must be a positive number
+     *
+     * @return self Provides fluent interface
      */
     public function addEndpoint($endpoint, $weight = 1)
     {
@@ -247,10 +216,11 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Add multiple endpoints
+     * Add multiple endpoints.
      *
-     * @param  array $endpoints
-     * @return self  Provides fluent interface
+     * @param array $endpoints
+     *
+     * @return self Provides fluent interface
      */
     public function addEndpoints(array $endpoints)
     {
@@ -262,7 +232,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Get the endpoints in the loadbalancing pool
+     * Get the endpoints in the loadbalancing pool.
      *
      * @return Endpoint[]
      */
@@ -272,7 +242,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Clear all endpoint entries
+     * Clear all endpoint entries.
      *
      * @return self Provides fluent interface
      */
@@ -282,10 +252,11 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Remove an endpoint by key
+     * Remove an endpoint by key.
      *
-     * @param  Endpoint|string $endpoint
-     * @return self            Provides fluent interface
+     * @param Endpoint|string $endpoint
+     *
+     * @return self Provides fluent interface
      */
     public function removeEndpoint($endpoint)
     {
@@ -301,7 +272,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Set multiple endpoints
+     * Set multiple endpoints.
      *
      * This overwrites any existing endpoints
      *
@@ -314,7 +285,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Set a forced endpoints (by key) for the next request
+     * Set a forced endpoints (by key) for the next request.
      *
      * As soon as one query has used the forced endpoint this setting is reset. If you want to remove this setting
      * pass NULL as the key value.
@@ -323,8 +294,10 @@ class Loadbalancer extends Plugin
      * but will still be reset.
      *
      * @throws OutOfBoundsException
-     * @param  string|null|Endpoint $endpoint
-     * @return self                 Provides fluent interface
+     *
+     * @param string|null|Endpoint $endpoint
+     *
+     * @return self Provides fluent interface
      */
     public function setForcedEndpointForNextQuery($endpoint)
     {
@@ -342,7 +315,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Get the ForcedEndpointForNextQuery value
+     * Get the ForcedEndpointForNextQuery value.
      *
      * @return string|null
      */
@@ -352,7 +325,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Get an array of blocked querytypes
+     * Get an array of blocked querytypes.
      *
      * @return array
      */
@@ -362,12 +335,13 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Set querytypes to block from loadbalancing
+     * Set querytypes to block from loadbalancing.
      *
      * Overwrites any existing types
      *
-     * @param  array $types Use an array with the constants defined in Solarium\Client as values
-     * @return self  Provides fluent interface
+     * @param array $types Use an array with the constants defined in Solarium\Client as values
+     *
+     * @return self Provides fluent interface
      */
     public function setBlockedQueryTypes($types)
     {
@@ -378,10 +352,11 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Add a querytype to block from loadbalancing
+     * Add a querytype to block from loadbalancing.
      *
-     * @param  string $type Use one of the constants defined in Solarium\Client
-     * @return self   Provides fluent interface
+     * @param string $type Use one of the constants defined in Solarium\Client
+     *
+     * @return self Provides fluent interface
      */
     public function addBlockedQueryType($type)
     {
@@ -393,12 +368,13 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Add querytypes to block from loadbalancing
+     * Add querytypes to block from loadbalancing.
      *
      * Appended to any existing types
      *
-     * @param  array $types Use an array with the constants defined in Solarium\Client as values
-     * @return self  Provides fluent interface
+     * @param array $types Use an array with the constants defined in Solarium\Client as values
+     *
+     * @return self Provides fluent interface
      */
     public function addBlockedQueryTypes($types)
     {
@@ -408,10 +384,9 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Remove a single querytype from the block list
+     * Remove a single querytype from the block list.
      *
-     * @param  string $type
-     * @return void
+     * @param string $type
      */
     public function removeBlockedQueryType($type)
     {
@@ -421,7 +396,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Clear all blocked querytypes
+     * Clear all blocked querytypes.
      *
      * @return self Provides fluent interface
      */
@@ -431,7 +406,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Get the key of the endpoint that was used for the last query
+     * Get the key of the endpoint that was used for the last query.
      *
      * May return a null value if no query has been executed yet, or the last query could not be loadbalanced.
      *
@@ -443,10 +418,9 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Event hook to capture querytype
+     * Event hook to capture querytype.
      *
-     * @param  PreCreateRequestEvent $event
-     * @return void
+     * @param PreCreateRequestEvent $event
      */
     public function preCreateRequest(PreCreateRequestEvent $event)
     {
@@ -454,7 +428,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Event hook to adjust client settings just before query execution
+     * Event hook to adjust client settings just before query execution.
      *
      * @param PreExecuteRequestEvent $event
      */
@@ -463,7 +437,7 @@ class Loadbalancer extends Plugin
         $adapter = $this->client->getAdapter();
 
         // save adapter presets (once) to allow the settings to be restored later
-        if ($this->defaultEndpoint == null) {
+        if ($this->defaultEndpoint === null) {
             $this->defaultEndpoint = $this->client->getEndpoint()->getKey();
         }
 
@@ -482,20 +456,22 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Execute a request using the adapter
+     * Execute a request using the adapter.
      *
      * @throws RuntimeException
-     * @param  Request          $request
-     * @return Response         $response
+     *
+     * @param Request $request
+     *
+     * @return Response $response
      */
     protected function getLoadbalancedResponse($request)
     {
         $this->endpointExcludes = array(); // reset for each query
         $adapter = $this->client->getAdapter();
 
-        if ($this->getFailoverEnabled() == true) {
-
-            for ($i=0; $i<=$this->getFailoverMaxRetries(); $i++) {
+        if ($this->getFailoverEnabled() === true) {
+            $maxRetries = $this->getFailoverMaxRetries();
+            for ($i = 0; $i <= $maxRetries; $i++) {
                 $endpoint = $this->getRandomEndpoint();
                 try {
                     return $adapter->execute($request, $endpoint);
@@ -511,7 +487,6 @@ class Loadbalancer extends Plugin
 
             // if we get here no more retries available, throw exception
             throw new RuntimeException('Maximum number of loadbalancer retries reached');
-
         } else {
             // no failover retries, just execute and let an exception bubble upwards
             $endpoint = $this->getRandomEndpoint();
@@ -521,7 +496,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Get a random endpoint
+     * Get a random endpoint.
      *
      * @return Endpoint
      */
@@ -543,7 +518,7 @@ class Loadbalancer extends Plugin
     }
 
     /**
-     * Get randomizer instance
+     * Get randomizer instance.
      *
      * @return WeightedRandomChoice
      */
@@ -554,5 +529,37 @@ class Loadbalancer extends Plugin
         }
 
         return $this->randomizer;
+    }
+
+    /**
+     * Initialize options.
+     *
+     * Several options need some extra checks or setup work, for these options
+     * the setters are called.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'endpoint':
+                    $this->setEndpoints($value);
+                    break;
+                case 'blockedquerytype':
+                    $this->setBlockedQueryTypes($value);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Plugin init function.
+     *
+     * Register event listeners
+     */
+    protected function initPluginType()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(CoreEvents::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
+        $dispatcher->addListener(CoreEvents::PRE_CREATE_REQUEST, array($this, 'preCreateRequest'));
     }
 }

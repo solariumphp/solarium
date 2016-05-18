@@ -30,25 +30,27 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
- * Update query commit command
+ * Update query commit command.
  *
  * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22
  */
-class Commit extends Command
+class Commit extends AbstractCommand
 {
     /**
-     * Get command type
+     * Get command type.
      *
      * @return string
      */
@@ -58,7 +60,7 @@ class Commit extends Command
     }
 
     /**
-     * Get softCommit option
+     * Get softCommit option.
      *
      * @return boolean
      */
@@ -68,10 +70,11 @@ class Commit extends Command
     }
 
     /**
-     * Set softCommit option
+     * Set softCommit option.
      *
-     * @param  boolean $softCommit
-     * @return self    Provides fluent interface
+     * @param boolean $softCommit
+     *
+     * @return self Provides fluent interface
      */
     public function setSoftCommit($softCommit)
     {
@@ -79,7 +82,7 @@ class Commit extends Command
     }
 
     /**
-     * Get waitSearcher option
+     * Get waitSearcher option.
      *
      * @return boolean
      */
@@ -89,10 +92,11 @@ class Commit extends Command
     }
 
     /**
-     * Set waitSearcher option
+     * Set waitSearcher option.
      *
-     * @param  boolean $waitSearcher
-     * @return self    Provides fluent interface
+     * @param boolean $waitSearcher
+     *
+     * @return self Provides fluent interface
      */
     public function setWaitSearcher($waitSearcher)
     {
@@ -100,7 +104,7 @@ class Commit extends Command
     }
 
     /**
-     * Get expungeDeletes option
+     * Get expungeDeletes option.
      *
      * @return boolean
      */
@@ -110,10 +114,11 @@ class Commit extends Command
     }
 
     /**
-     * Set expungeDeletes option
+     * Set expungeDeletes option.
      *
-     * @param  boolean $expungeDeletes
-     * @return self    Provides fluent interface
+     * @param boolean $expungeDeletes
+     *
+     * @return self Provides fluent interface
      */
     public function setExpungeDeletes($expungeDeletes)
     {

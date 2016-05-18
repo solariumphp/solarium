@@ -27,28 +27,62 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
-namespace Solarium\QueryType\Update\Query\Command;
+namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
-use Solarium\Core\Configurable;
+use Solarium\QueryType\Select\Query\Component\Facet\Interval;
+use Solarium\QueryType\Select\Query\Component\FacetSet;
 
-/**
- * Update query command base class
- */
-abstract class Command extends Configurable
+class IntervalTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Returns command type, for use in adapters
-     *
-     * @return string
+     * @var Query
      */
-    abstract public function getType();
+    protected $facet;
+
+    public function setUp()
+    {
+        $this->facet = new Interval();
+    }
+
+    public function testConfigMode()
+    {
+        $options = array(
+            'key' => 'myKey',
+            'exclude' => array('e1', 'e2'),
+            'set' => array('i1', 'i2'),
+        );
+
+        $this->facet->setOptions($options);
+
+        $this->assertEquals($options['key'], $this->facet->getKey());
+        $this->assertEquals($options['exclude'], $this->facet->getExcludes());
+        $this->assertEquals($options['set'], $this->facet->getSet());
+    }
+
+    public function testGetType()
+    {
+        $this->assertEquals(
+            FacetSet::FACET_INTERVAL,
+            $this->facet->getType()
+        );
+    }
+
+    public function testSetAndGetSet()
+    {
+        $this->facet->setSet('interval1,interval2');
+        $this->assertEquals(array('interval1', 'interval2'), $this->facet->getSet());
+    }
+
+    public function testEmptySet()
+    {
+        $this->assertEquals(array(), $this->facet->getSet());
+    }
+
+    public function testSetAndGetField()
+    {
+        $this->facet->setField('field1');
+        $this->assertEquals('field1', $this->facet->getField());
+    }
 }

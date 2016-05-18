@@ -31,6 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
+use Solarium\QueryType\Select\Query\Component\BoostQuery;
 use Solarium\QueryType\Select\Query\Component\DisMax;
 use Solarium\QueryType\Select\Query\Query;
 
@@ -192,6 +193,101 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $value,
             $this->disMax->getBoostQuery()
+        );
+    }
+
+    public function testAddBoostQueryWithArray()
+    {
+        $query = 'cat:1^3';
+        $key = 'cat';
+
+        $this->disMax->addBoostQuery(array('query' => $query, 'key' => $key));
+
+        $this->assertEquals(
+            $query,
+            $this->disMax->getBoostQuery($key)
+        );
+    }
+
+    public function testAddBoostQueryWithObject()
+    {
+        $query = 'cat:1^3';
+        $key = 'cat';
+
+        $bq = new BoostQuery();
+        $bq -> setKey($key);
+        $bq -> setQuery($query);
+
+        $this->disMax->addBoostQuery($bq);
+
+        $this->assertEquals(
+            $query,
+            $this->disMax->getBoostQuery($key)
+        );
+    }
+
+    public function testAddBoostQueryWithoutKey()
+    {
+        $bq = new BoostQuery;
+        $bq->setQuery('category:1');
+
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->disMax->addBoostQuery($bq);
+    }
+
+    public function testAddBoostQueryWithUsedKey()
+    {
+        $bq1 = new BoostQuery;
+        $bq1->setKey('bq1')->setQuery('category:1');
+
+        $bq2 = new BoostQuery;
+        $bq2->setKey('bq1')->setQuery('category:2');
+
+        $this->disMax->addBoostQuery($bq1);
+        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->disMax->addBoostQuery($bq2);
+    }
+
+    public function testAddBoostQueriesWithInnerKeys()
+    {
+        $bqs = array(
+            array('key' => 'key1', 'query' => 'cat:1'),
+            array('key' => 'key2', 'query' => 'cat:2')
+        );
+
+        $this->disMax->addBoostQueries($bqs);
+
+        $bqs2 = array();
+
+        foreach ($bqs as $bq) {
+            $bqs2[$bq['key']] = new BoostQuery($bq);
+        }
+
+        $this->assertEquals(
+            $bqs2,
+            $this->disMax->getBoostQueries()
+        );
+    }
+
+    public function testAddBoostQueriesWithOuterKeys()
+    {
+        $bqs = array(
+            'key1' => array('query' => 'cat:1'),
+            'key2' => array('query' => 'cat:2')
+        );
+
+        $this->disMax->addBoostQueries($bqs);
+
+        $bqs2 = array();
+
+        foreach ($bqs as $key => $bq) {
+            $bq['key'] = $key;
+            $bqs2[$key] = new BoostQuery($bq);
+        }
+
+        $this->assertEquals(
+            $bqs2,
+            $this->disMax->getBoostQueries()
         );
     }
 

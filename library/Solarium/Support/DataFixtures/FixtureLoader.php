@@ -7,7 +7,7 @@ namespace Solarium\Support\DataFixtures;
  *
  * @author Baldur Rensch <brensch@gmail.com>
  */
-class FixtureLoader 
+class FixtureLoader
 {
     /**
      * @var Loader
@@ -37,8 +37,8 @@ class FixtureLoader
     }
 
     /**
-     * @param      $dir
-     * @param bool $append
+     * @param string $dir
+     * @param bool   $append
      */
     public function loadFixturesFromDir($dir, $append = true)
     {

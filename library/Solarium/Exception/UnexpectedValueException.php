@@ -30,18 +30,19 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Exception;
 
 /**
- * UnexpectedValueException exception for Solarium classes
+ * UnexpectedValueException exception for Solarium classes.
  */
 class UnexpectedValueException extends \UnexpectedValueException implements ExceptionInterface
 {
-
 }

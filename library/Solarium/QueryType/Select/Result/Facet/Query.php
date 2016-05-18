@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Facet;
 
 /**
- * Select query facet result
+ * Select query facet result.
  *
  * Since a query facet has only a single result, the count for the query, this
  * is a very simple object.
@@ -47,14 +49,14 @@ namespace Solarium\QueryType\Select\Result\Facet;
 class Query
 {
     /**
-     * Value (count)
+     * Value (count).
      *
      * @var mixed
      */
     protected $value;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param mixed $value
      */
@@ -64,7 +66,7 @@ class Query
     }
 
     /**
-     * Get the value
+     * Get the value.
      *
      * @return mixed
      */

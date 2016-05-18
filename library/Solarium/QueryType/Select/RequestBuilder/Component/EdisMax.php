@@ -30,28 +30,30 @@
  *
  * @copyright Copyright 2012 Marc Morera <yuhu@mmoreram.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Edismax as EdismaxComponent;
 use Solarium\Core\Client\Request;
 
 /**
- * Add select component edismax to the request
- *
+ * Add select component edismax to the request.
  */
 class EdisMax implements ComponentRequestBuilderInterface
 {
     /**
-     * Add request settings for EdismaxComponent
+     * Add request settings for EdismaxComponent.
      *
-     * @param  EdismaxComponent $component
-     * @param  Request          $request
+     * @param EdismaxComponent $component
+     * @param Request          $request
+     *
      * @return Request
      */
     public function buildComponent($component, $request)
@@ -70,7 +72,15 @@ class EdisMax implements ComponentRequestBuilderInterface
         $request->addParam('ps3', $component->getPhraseTrigramSlop());
         $request->addParam('qs', $component->getQueryPhraseSlop());
         $request->addParam('tie', $component->getTie());
-        $request->addParam('bq', $component->getBoostQuery());
+
+        // add boostqueries to request
+        $boostQueries = $component->getBoostQueries();
+        if (count($boostQueries) !== 0) {
+            foreach ($boostQueries as $boostQuery) {
+                $request->addParam('bq', $boostQuery->getQuery());
+            }
+        }
+
         $request->addParam('bf', $component->getBoostFunctions());
         $request->addParam('boost', $component->getBoostFunctionsMult());
         $request->addParam('uf', $component->getUserFields());

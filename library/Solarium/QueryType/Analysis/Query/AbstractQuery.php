@@ -30,70 +30,71 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
-namespace Solarium\QueryType\Select\Query\Component;
 
-use Solarium\Core\Configurable;
-use Solarium\Core\Query\Query;
-use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;
-use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderInterface;
+namespace Solarium\QueryType\Analysis\Query;
+
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 
 /**
- * Query component base class
+ * Base class for Analysis queries.
  */
-abstract class Component extends Configurable
+abstract class AbstractQuery extends BaseQuery
 {
     /**
-     * @var Query
-     */
-    protected $queryInstance;
-
-    /**
-     * Get component type
+     * Set the query string.
      *
-     * @return string
-     */
-    abstract public function getType();
-
-    /**
-     * Get the requestbuilder class for this query
+     * When present, the text that will be analyzed. The analysis will mimic the query-time analysis.
      *
-     * @return ComponentRequestBuilderInterface
-     */
-    abstract public function getRequestBuilder();
-
-    /**
-     * Get the response parser class for this query
+     * @param string $query
+     * @param array  $bind  Optional bind values for placeholders in the query string
      *
-     * @return ComponentParserInterface
+     * @return self Provides fluent interface
      */
-    abstract public function getResponseParser();
-
-    /**
-     * Set parent query instance
-     *
-     * @param  Query $instance
-     * @return self  Provides fluent interface
-     */
-    public function setQueryInstance(Query $instance)
+    public function setQuery($query, $bind = null)
     {
-        $this->queryInstance = $instance;
+        if (!is_null($bind)) {
+            $query = $this->getHelper()->assemble($query, $bind);
+        }
 
-        return $this;
+        return $this->setOption('query', trim($query));
     }
 
     /**
-     * Get parent query instance
+     * Get the query string.
      *
-     * @return Query
+     * @return string
      */
-    public function getQueryInstance()
+    public function getQuery()
     {
-        return $this->queryInstance;
+        return $this->getOption('query');
+    }
+
+    /**
+     * Set the showmatch option.
+     *
+     * @param boolean $show
+     *
+     * @return self Provides fluent interface
+     */
+    public function setShowMatch($show)
+    {
+        return $this->setOption('showmatch', $show);
+    }
+
+    /**
+     * Get the showmatch option.
+     *
+     * @return mixed
+     */
+    public function getShowMatch()
+    {
+        return $this->getOption('showmatch');
     }
 }

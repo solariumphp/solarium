@@ -30,26 +30,28 @@
  *
  * @copyright Copyright 2012 Marc Morera <yuhu@mmoreram.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\EdisMax as RequestBuilder;
 
 /**
- * EdisMax component
+ * EdisMax component.
  *
  * @link http://wiki.apache.org/solr/ExtendedDisMax
  */
 class EdisMax extends DisMax
 {
     /**
-     * Default options
+     * Default options.
      *
      * @var array
      */
@@ -58,7 +60,7 @@ class EdisMax extends DisMax
     );
 
     /**
-     * Get component type
+     * Get component type.
      *
      * @return string
      */
@@ -68,25 +70,26 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Get a requestbuilder for this query
+     * Get a requestbuilder for this query.
      *
      * @return RequestBuilder
      */
     public function getRequestBuilder()
     {
-        return new RequestBuilder;
+        return new RequestBuilder();
     }
 
     /**
-     * Set BoostFunctionsMult option
+     * Set BoostFunctionsMult option.
      *
      * Functions (with optional boosts) that will be included in the
      * user's query to influence the score by multiplying its value.
      *
      * Format is: "funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2"
      *
-     * @param  string $boostFunctionsMult
-     * @return self   Provides fluent interface
+     * @param string $boostFunctionsMult
+     *
+     * @return self Provides fluent interface
      */
     public function setBoostFunctionsMult($boostFunctionsMult)
     {
@@ -94,7 +97,7 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Get BoostFunctionsMult option
+     * Get BoostFunctionsMult option.
      *
      * @return string|null
      */
@@ -104,15 +107,16 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Set PhraseFields option
+     * Set PhraseFields option.
      *
      * As with 'pf' but chops the input into bi-grams,
      * e.g. "the brown fox jumped" is queried as "the brown" "brown fox" "fox jumped"
      *
      * Format is: "fieldA^1.0 fieldB^2.2 fieldC^3.5"
      *
-     * @param  string $phraseBigramFields
-     * @return self   Provides fluent interface
+     * @param string $phraseBigramFields
+     *
+     * @return self Provides fluent interface
      */
     public function setPhraseBigramFields($phraseBigramFields)
     {
@@ -120,7 +124,7 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Get PhraseBigramFields option
+     * Get PhraseBigramFields option.
      *
      * @return string|null
      */
@@ -130,13 +134,14 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Set PhraseBigramSlop option
+     * Set PhraseBigramSlop option.
      *
      * As with 'ps' but sets default slop factor for 'pf2'.
      * If not specified, 'ps' will be used.
      *
-     * @param  string $phraseBigramSlop
-     * @return self   Provides fluent interface
+     * @param string $phraseBigramSlop
+     *
+     * @return self Provides fluent interface
      */
     public function setPhraseBigramSlop($phraseBigramSlop)
     {
@@ -144,7 +149,7 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Get PhraseBigramSlop option
+     * Get PhraseBigramSlop option.
      *
      * @return string|null
      */
@@ -154,15 +159,16 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Set PhraseFields option
+     * Set PhraseFields option.
      *
      * As with 'pf' but chops the input into tri-grams,
      * e.g. "the brown fox jumped" is queried as "the brown fox" "brown fox jumped"
      *
      * Format is: "fieldA^1.0 fieldB^2.2 fieldC^3.5"
      *
-     * @param  string $phraseTrigramFields
-     * @return self   Provides fluent interface
+     * @param string $phraseTrigramFields
+     *
+     * @return self Provides fluent interface
      */
     public function setPhraseTrigramFields($phraseTrigramFields)
     {
@@ -170,7 +176,7 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Get PhraseTrigramFields option
+     * Get PhraseTrigramFields option.
      *
      * @return string|null
      */
@@ -180,13 +186,14 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Set PhraseTrigramSlop option
+     * Set PhraseTrigramSlop option.
      *
      * As with 'ps' but sets default slop factor for 'pf3'.
      * If not specified, 'ps' will be used.
      *
-     * @param  string $phraseTrigramSlop
-     * @return self   Provides fluent interface
+     * @param string $phraseTrigramSlop
+     *
+     * @return self Provides fluent interface
      */
     public function setPhraseTrigramSlop($phraseTrigramSlop)
     {
@@ -194,7 +201,7 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Get PhraseTrigramSlop option
+     * Get PhraseTrigramSlop option.
      *
      * @return string|null
      */
@@ -204,7 +211,7 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Set UserFields option
+     * Set UserFields option.
      *
      * Specifies which schema fields the end user shall be allowed to query for explicitly.
      * This parameter supports wildcards.
@@ -214,8 +221,9 @@ class EdisMax extends DisMax
      * To allow all fields except title, use &uf=* -title. To disallow all fielded searches, use &uf=-*.
      * The uf parameter was introduced in Solr3.6
      *
-     * @param  string $userFields
-     * @return self   Provides fluent interface
+     * @param string $userFields
+     *
+     * @return self Provides fluent interface
      */
     public function setUserFields($userFields)
     {
@@ -223,7 +231,7 @@ class EdisMax extends DisMax
     }
 
     /**
-     * Get UserFields option
+     * Get UserFields option.
      *
      * @return string|null
      */

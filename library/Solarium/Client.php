@@ -30,12 +30,14 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium;
 
 use Solarium\Core\Client\Client as CoreClient;
@@ -47,7 +49,7 @@ use Solarium\Core\Client\Client as CoreClient;
 class Client extends CoreClient
 {
     /**
-     * Version number of the Solarium library
+     * Version number of the Solarium library.
      *
      * The version is built up in this format: major.minor.mini
      *
@@ -70,10 +72,10 @@ class Client extends CoreClient
      *
      * @var string
      */
-    const VERSION = '3.2.0';
+    const VERSION = '3.4.0';
 
     /**
-     * Check for an exact version
+     * Check for an exact version.
      *
      * This method can check for all three versioning levels, but they are
      * optional. If you only care for major and minor versions you can use
@@ -93,10 +95,11 @@ class Client extends CoreClient
      * - 1.2.4 (higher)
      *
      *
-     * @internal a string compare is used instead of version_compare because
-     *  version_compare returns false for a compare of 1.0.0 with 1.0
+     * A string compare is used instead of version_compare because
+     * version_compare returns false for a compare of 1.0.0 with 1.0
      *
-     * @param  string  $version
+     * @param string $version
+     *
      * @return boolean
      */
     public static function checkExact($version)
@@ -105,7 +108,7 @@ class Client extends CoreClient
     }
 
     /**
-     * Check for a minimal version
+     * Check for a minimal version.
      *
      * This method can check for all three versioning levels, but they are
      * optional. If you only care for major and minor versions you can use
@@ -123,7 +126,8 @@ class Client extends CoreClient
      * - 2 (the actual version is lower)
      * - 1.3 (the actual version is lower)
      *
-     * @param  string  $version
+     * @param string $version
+     *
      * @return boolean
      */
     public static function checkMinimal($version)

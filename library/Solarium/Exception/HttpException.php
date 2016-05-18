@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
  * @link http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\Exception;
 
 /**
- * Solarium client HTTP exception
+ * Solarium client HTTP exception.
  *
  * This exception class exists to make it easy to catch HTTP errors.
  * HTTP errors usually mean your Solr settings or Solr input (e.g. query)
@@ -56,14 +58,14 @@ namespace Solarium\Exception;
 class HttpException extends \RuntimeException implements ExceptionInterface
 {
     /**
-     * HTTP status message
+     * HTTP status message.
      *
      * @var string
      */
     protected $statusMessage;
 
     /**
-     * HTTP response body
+     * HTTP response body.
      *
      * Usually contains a description of the error (if Solr returned one)
      *
@@ -72,7 +74,7 @@ class HttpException extends \RuntimeException implements ExceptionInterface
     protected $body;
 
     /**
-     * Exception constructor
+     * Exception constructor.
      *
      * The input message is a HTTP status message. Because an exception with the
      * message 'Not Found' is not very clear it this message is tranformed to a
@@ -85,23 +87,22 @@ class HttpException extends \RuntimeException implements ExceptionInterface
      */
     public function __construct($statusMessage, $code = null, $body = null)
     {
-
         $this->statusMessage = $statusMessage;
         $this->body = $body;
 
-        $message = 'Solr HTTP error: ' . $statusMessage;
+        $message = 'Solr HTTP error: '.$statusMessage;
         if (null !== $code) {
-             $message .= ' (' . $code . ')';
+            $message .= ' ('.$code.')';
         }
         if ($body) {
-            $message .= "\n" . $body;
+            $message .= "\n".$body;
         }
 
         parent::__construct($message, $code);
     }
 
     /**
-     * Get the HTTP status message
+     * Get the HTTP status message.
      *
      * @return string
      */
@@ -110,6 +111,11 @@ class HttpException extends \RuntimeException implements ExceptionInterface
         return $this->statusMessage;
     }
 
+    /**
+     * Get body.
+     *
+     * @return string
+     */
     public function getBody()
     {
         return $this->body;

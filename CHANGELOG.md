@@ -1,5 +1,53 @@
 # CHANGELOG
 
+
+## 3.6.0
+
+- improvement: no longer allow failures for HHVM in continuous integration
+- improvement: added Symfony 3.x components to CI tests for PHP 5.5+
+- added: support for replicas in distributed search
+- added: support for multiple boost queries in dismax
+- added: support for additional stats values like percentiles
+- improvement: several typo / markup fixes in documentation
+- improvement: several docblock fixes
+- improvement: ClientInterface now also used for standard Client class
+
+## 3.5.1
+
+- fix backwards incompatible change in classnames
+
+## 3.5.0 - 2015-12-09
+
+- improvement: lots of code style fixes
+- improvement: refactored 'base' plugin class to AbstractPlugin
+- improvement: removed old PHP environments for Travis, added PHP7
+- improvement: set license to a valid SPDX license identifier
+- bugfix: PHAR generator updated to support namespacing
+- bugfix: Collations broken for Solr 5 data format
+- added: Make it possible to bypass (system-wide) proxy setting in Curl adapter
+- improvement: Added SensioLabs Insight (including lots of fixed in the code based on report)
+- added: ClientInterface
+- improvement: Set hard paths in .gitignore to prevent tree lookups
+- added: Support for facet.contains settings
+- improvement: updated Symfony event dispatcher dependency to a maintained version
+- added: docs in repository (markdown format)
+
+## 3.4.0 - 2015-06-14
+
+- bugfix: only check type for added documents to add query if provided as an array
+- improvement: added support for calling empty() and isset() on result document properties
+- improvement: added composer test script
+- bugfix: curl file upload handling
+- improvement: added 'contributing' file
+- improvement: docblock fixes in grouping component facets
+- added: facet interval support
+- added: ZF2 http adapter
+- added: stats for pivot facet
+- bugfix: spellcheck 'collations' and 'correctlyspelled' updated to support Solr 5 format
+- bugfix: curl adapter now uses Solr 5 compatible headers for a GET request
+- improvement: lots of code style fixes, using the SF2 code style
+
+
 ## 3.3.0 - 2014-11-16
 
 - improvement: fixes in build.xml (use phpunit in vendor directory)
