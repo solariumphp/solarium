@@ -1058,6 +1058,40 @@ class Query extends BaseQuery
     }
 
     /**
+     * Set the cursor mark to fetch.
+     * 
+     * Cursor functionality requires a sort containing a uniqueKey field tie breaker
+     *
+     * @param string $cursormark
+     *
+     * @return self Provides fluent interface
+     */
+    public function setCursormark($cursormark)
+    {
+        return $this->setOption('cursormark', $cursormark);
+    }
+
+    /**
+     * Get the cursor mark.
+     *
+     * @return string|null
+     */
+    public function getCursormark()
+    {
+        return $this->getOption('cursormark');
+    }
+
+    /**
+     * Remove the cursor mark.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearCursormark()
+    {
+        return $this->setOption('cursormark', null);
+    }
+
+    /**
      * Initialize options.
      *
      * Several options need some extra checks or setup work, for these options
@@ -1093,6 +1127,9 @@ class Query extends BaseQuery
                         $value = array($value);
                     }
                     $this->addTags($value);
+                    break;
+                case 'cursormark':
+                    $this->setCursormark($value);
                     break;
             }
         }
