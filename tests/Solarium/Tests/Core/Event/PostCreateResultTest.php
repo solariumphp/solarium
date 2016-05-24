@@ -45,7 +45,7 @@ class PostCreateResultTest extends \PHPUnit_Framework_TestCase
         $query = $client->createSelect();
         $query->setQuery('test123');
         $response = new Response('', array('HTTP 1.0 200 OK'));
-        $result = new Result($client, $query, $response);
+        $result = new Result($query, $response);
 
         $event = new PostCreateResult($query, $response, $result);
 
