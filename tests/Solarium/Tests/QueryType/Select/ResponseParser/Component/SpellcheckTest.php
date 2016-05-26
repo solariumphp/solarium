@@ -115,12 +115,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                             false,
                             'collation',
                             array(
-                                0 => 'collationQuery',
-                                1 => 'dell ultrasharp',
-                                2 => 'hits',
-                                3 => 0,
-                                4 => 'misspellingsAndCorrections',
-                                5 => array(
+                                'collationQuery' => 'dell ultrasharp',
+                                'hits' => 0,
+                                'misspellingsAndCorrections' => array(
                                     0 => 'delll',
                                     1 => 'dell',
                                     2 => 'ultrashar',
@@ -129,12 +126,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                             ),
                             'collation',
                             array(
-                                0 => 'collationQuery',
-                                1 => 'dell ultrasharp new',
-                                2 => 'hits',
-                                3 => 0,
-                                4 => 'misspellingsAndCorrections',
-                                5 => array(
+                                'collationQuery' => 'dell ultrasharp new',
+                                'hits' => 0,
+                                'misspellingsAndCorrections' => array(
                                     0 => 'delll',
                                     1 => 'dell',
                                     2 => 'ultrashar',
@@ -194,12 +188,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                         'collations' => array(
                             'collation',
                             array(
-                                0 => 'collationQuery',
-                                1 => 'dell ultrasharp',
-                                2 => 'hits',
-                                3 => 0,
-                                4 => 'misspellingsAndCorrections',
-                                5 => array(
+                                'collationQuery' => 'dell ultrasharp',
+                                'hits' => 0,
+                                'misspellingsAndCorrections' => array(
                                     0 => 'delll',
                                     1 => 'dell',
                                     2 => 'ultrashar',
@@ -208,12 +199,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                             ),
                             'collation',
                             array(
-                                0 => 'collationQuery',
-                                1 => 'dell ultrasharp new',
-                                2 => 'hits',
-                                3 => 0,
-                                4 => 'misspellingsAndCorrections',
-                                5 => array(
+                                'collationQuery' => 'dell ultrasharp new',
+                                'hits' => 0,
+                                'misspellingsAndCorrections' => array(
                                     0 => 'delll',
                                     1 => 'dell',
                                     2 => 'ultrashar',
