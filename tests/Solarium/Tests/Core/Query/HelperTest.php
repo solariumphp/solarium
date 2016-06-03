@@ -321,6 +321,22 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testFormatDateInputDateTimeImmutable()
+    {
+        date_default_timezone_set("UTC"); // prevent timezone differences
+
+        $this->assertFalse(
+            $this->helper->formatDate(new \stdClass()),
+            'Expect any other object not to be accepted'
+        );
+
+        $this->assertEquals(
+            $this->mockFormatDateOutput(strtotime('2011-10-01')),
+            $this->helper->formatDate(new \DateTimeImmutable('2011-10-01')),
+            'Expects formatDate with DateTimeImmutable input to output ISO8601 with stripped timezone'
+        );
+    }
+
     public function testFormatDate()
     {
         //check if timezone is stripped
