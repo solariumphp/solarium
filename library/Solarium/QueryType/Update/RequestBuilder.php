@@ -131,7 +131,7 @@ class RequestBuilder extends BaseRequestBuilder
             foreach ($doc->getFields() as $name => $value) {
                 $boost = $doc->getFieldBoost($name);
                 $modifier = $doc->getFieldModifier($name);
-                $xml = $this->extract($name, $boost, $value, $modifier, $query, $xml);
+                $xml = $this->buildFieldsXml($name, $boost, $value, $modifier, $query, $xml);
             }
 
             $version = $doc->getVersion();
@@ -260,14 +260,14 @@ class RequestBuilder extends BaseRequestBuilder
      * @param string $xml
      * @return string
      */
-    private function extract($key, $boost, $value, $modifier, $query, $xml)
+    private function buildFieldsXml($key, $boost, $value, $modifier, $query, $xml)
     {
         if (is_array($value)) {
             foreach ($value as $multival) {
                 if (is_array($multival)) {
                     $xml .= '<doc>';
                     foreach ($multival as $k => $v) {
-                        $xml = $this->extract($k, $boost, $v, $modifier, $query, $xml);
+                        $xml = $this->buildFieldsXml($k, $boost, $v, $modifier, $query, $xml);
                     }
                     $xml .= '</doc>';
 
