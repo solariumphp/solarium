@@ -97,7 +97,8 @@ By combining these options you can achieve almost any type of customization with
 
 Solarium uses a separate library (included using Composer) for events. For more info on the Event Dispatcher take a look at [http://symfony.com/doc/2.0/components/event\_dispatcher/introduction.html the docs](http://symfony.com/doc/2.0/components/event_dispatcher/introduction.html_the_docs)
 
-This example shows all available events and how to use the events to create a very basic debugger: ```php
+This example shows all available events and how to use the events to create a very basic debugger: 
+```php
 <?php
 require(__DIR__.'/init.php');
 use Solarium\Core\Event\Events;
@@ -230,7 +231,8 @@ htmlFooter();
 
 ```
 
-The second example shows how to replace the built-in select querytype with a custom implementation: ```php
+The second example shows how to replace the built-in select querytype with a custom implementation: 
+```php
 <?php
 require(__DIR__.'/init.php');
 use Solarium\Client;
