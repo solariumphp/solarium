@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## 3.6.0
+## 3.6.0 - 2016-05-03
 
 - improvement: no longer allow failures for HHVM in continuous integration
 - improvement: added Symfony 3.x components to CI tests for PHP 5.5+
