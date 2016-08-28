@@ -28,7 +28,7 @@ See [<https://packagist.org>](https://packagist.org) for other packages.
 ```json
 {
     "require": {
-        "solarium/solarium": "2.4.0"
+        "solarium/solarium": "3.6.0"
     }
 }
 ```
