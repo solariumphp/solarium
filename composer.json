@@ -21,6 +21,9 @@
         "zendframework/zendframework1": "~1.12",
         "satooshi/php-coveralls": "~1.0"
     },
+    "suggest": {
+        "minimalcode/search": "Query builder compatible with Solarium, allows simplified solr-query handling"
+    },
     "extra": {
         "branch-alias": {
             "dev-develop": "3.3.x-dev"
