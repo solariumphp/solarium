@@ -24,7 +24,9 @@ Options
 Examples
 --------
 
-Grouping by field: ```php
+Grouping by field: 
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
@@ -82,7 +84,9 @@ htmlFooter();
 
 ```
 
-Grouping by query: ```php
+Grouping by query: 
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
