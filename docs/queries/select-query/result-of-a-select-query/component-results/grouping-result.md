@@ -11,7 +11,9 @@ In most cases only one type of grouping is used, but you can mix any number of q
 Examples
 --------
 
-Grouped by field: ```php
+Grouped by field: 
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
@@ -69,7 +71,9 @@ htmlFooter();
 
 ```
 
-Grouped by query: ```php
+Grouped by query: 
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
