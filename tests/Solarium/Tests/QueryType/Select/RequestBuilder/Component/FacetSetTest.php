@@ -9,7 +9,7 @@
  *    this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
@@ -261,7 +261,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testBuildeWithIntervalFacet()
+    public function testBuildWithIntervalFacet()
     {
         $facet = new FacetInterval(
             array(
