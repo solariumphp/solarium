@@ -128,6 +128,11 @@ class Query extends BaseQuery
     const COMPONENT_DEBUG = 'debug';
 
     /**
+     * Query component spatial.
+     */
+    const COMPONENT_SPATIAL = 'spatial';
+
+    /**
      * Default options.
      *
      * @var array
@@ -166,6 +171,7 @@ class Query extends BaseQuery
         self::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\QueryType\Select\Query\Component\DistributedSearch',
         self::COMPONENT_STATS             => 'Solarium\QueryType\Select\Query\Component\Stats\Stats',
         self::COMPONENT_DEBUG             => 'Solarium\QueryType\Select\Query\Component\Debug',
+        self::COMPONENT_SPATIAL           => 'Solarium\QueryType\Select\Query\Component\Spatial',
     );
 
     /**
@@ -1055,6 +1061,18 @@ class Query extends BaseQuery
         $this->clearTags();
 
         return $this->addTags($tags);
+    }
+
+    /**
+     * Get a Spatial component instance.
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return \Solarium\QueryType\Select\Query\Component\Spatial
+     */
+    public function getSpatial()
+    {
+        return $this->getComponent(self::COMPONENT_SPATIAL, true);
     }
 
     /**
