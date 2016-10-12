@@ -1064,11 +1064,11 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get a DisMax component instance.
+     * Get a Spatial component instance.
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\QueryType\Select\Query\Component\DisMax
+     * @return \Solarium\QueryType\Select\Query\Component\Spatial
      */
     public function getSpatial()
     {
