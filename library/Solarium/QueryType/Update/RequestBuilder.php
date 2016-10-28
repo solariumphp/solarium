@@ -112,7 +112,7 @@ class RequestBuilder extends BaseRequestBuilder
      * Build XML for an add command.
      *
      * @param \Solarium\QueryType\Update\Query\Command\Add $command
-     * @param UpdateQuery                                  $query
+     * @param UpdateQuery $query
      *
      * @return string
      */
@@ -131,13 +131,7 @@ class RequestBuilder extends BaseRequestBuilder
             foreach ($doc->getFields() as $name => $value) {
                 $boost = $doc->getFieldBoost($name);
                 $modifier = $doc->getFieldModifier($name);
-                if (is_array($value)) {
-                    foreach ($value as $multival) {
-                        $xml .= $this->buildFieldXml($name, $boost, $multival, $modifier, $query);
-                    }
-                } else {
-                    $xml .= $this->buildFieldXml($name, $boost, $value, $modifier, $query);
-                }
+                $xml .= $this->buildFieldsXml($name, $boost, $value, $modifier, $query);
             }
 
             $version = $doc->getVersion();
@@ -164,10 +158,10 @@ class RequestBuilder extends BaseRequestBuilder
     {
         $xml = '<delete>';
         foreach ($command->getIds() as $id) {
-            $xml .= '<id>'.htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8').'</id>';
+            $xml .= '<id>' . htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8') . '</id>';
         }
         foreach ($command->getQueries() as $query) {
-            $xml .= '<query>'.htmlspecialchars($query, ENT_NOQUOTES, 'UTF-8').'</query>';
+            $xml .= '<query>' . htmlspecialchars($query, ENT_NOQUOTES, 'UTF-8') . '</query>';
         }
         $xml .= '</delete>';
 
@@ -225,10 +219,10 @@ class RequestBuilder extends BaseRequestBuilder
      *
      * Used in the add command
      *
-     * @param string      $name
-     * @param float       $boost
-     * @param mixed       $value
-     * @param string      $modifier
+     * @param string $name
+     * @param float $boost
+     * @param mixed $value
+     * @param string $modifier
      * @param UpdateQuery $query
      *
      * @return string
@@ -239,7 +233,7 @@ class RequestBuilder extends BaseRequestBuilder
             $value = $query->getHelper()->formatDate($value);
         }
 
-        $xml = '<field name="'.$name.'"';
+        $xml = '<field name="' . $name . '"';
         $xml .= $this->attrib('boost', $boost);
         $xml .= $this->attrib('update', $modifier);
         if ($value === null) {
@@ -250,8 +244,41 @@ class RequestBuilder extends BaseRequestBuilder
             $value = 'true';
         }
 
-        $xml .= '>'.htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
+        $xml .= '>' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
         $xml .= '</field>';
+
+        return $xml;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @param float $boost
+     * @param mixed $value
+     * @param string $modifier
+     * @param UpdateQuery $query
+     * @return string
+     */
+    private function buildFieldsXml($key, $boost, $value, $modifier, $query)
+    {
+        $xml = '';
+        if (is_array($value)) {
+            foreach ($value as $multival) {
+                if (is_array($multival)) {
+                    $xml .= '<doc>';
+                    foreach ($multival as $k => $v) {
+                        $xml .= $this->buildFieldsXml($k, $boost, $v, $modifier, $query);
+                    }
+                    $xml .= '</doc>';
+
+                } else {
+                    $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier, $query);
+                }
+            }
+
+        } else {
+            $xml .= $this->buildFieldXml($key, $boost, $value, $modifier, $query);
+        }
 
         return $xml;
     }

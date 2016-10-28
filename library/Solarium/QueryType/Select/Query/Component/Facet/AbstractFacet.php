@@ -180,7 +180,7 @@ abstract class AbstractFacet extends Configurable
                     break;
                 case 'exclude':
                     if (!is_array($value)) {
-                        $value = array($value);
+                        $value = explode(',', $value);
                     }
                     $this->setExcludes($value);
                     unset($this->options['exclude']);

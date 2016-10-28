@@ -708,4 +708,14 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $this->query->setTags(array('t3', 't4'));
         $this->assertEquals(array('t3', 't4'), $this->query->getTags());
     }
+
+    public function testGetSpatial()
+    {
+        $spatial = $this->query->getSpatial();
+
+        $this->assertEquals(
+            'Solarium\QueryType\Select\Query\Component\Spatial',
+            get_class($spatial)
+        );
+    }
 }

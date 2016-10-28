@@ -246,9 +246,8 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $request->addParam(
             'facet.interval',
             $this->renderLocalParams(
-                $field
-                // key & ex not supported for interval
-                //,array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                $field,
+                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
             )
         );
 
