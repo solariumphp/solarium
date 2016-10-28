@@ -1090,7 +1090,7 @@ class Query extends BaseQuery
                     break;
                 case 'tag':
                     if (!is_array($value)) {
-                        $value = array($value);
+                        $value = explode(',', $value);
                     }
                     $this->addTags($value);
                     break;
