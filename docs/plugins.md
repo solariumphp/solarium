@@ -7,7 +7,7 @@ Solarium offers a plugin system to allow for easy extension by users. But plugin
 BufferedAdd plugin
 ==================
 
-When you need to do a lot of document inserts or updates, for instance a bulk update or initial indexing, it’s most efficient to do this in batches. This makes a lot more difference than you might think, for some benchmarks see [http://www.raspberry.nl/2011/04/08/solr-update-performance/ this blogpost](http://www.raspberry.nl/2011/04/08/solr-update-performance/_this_blogpost "wikilink").
+When you need to do a lot of document inserts or updates, for instance a bulk update or initial indexing, it’s most efficient to do this in batches. This makes a lot more difference than you might think, for some benchmarks see [this_blog post](http://www.raspberry.nl/2011/04/08/solr-update-performance/).
 
 This can be done very easily with this plugin, you can simply keep feeding documents, it will automatically create batch update queries for you.
 
@@ -250,7 +250,7 @@ Some important notes:
 2.  Rows and start (paging and offset) still work, but again this is not adjusted for filtering. So if you sets rows to 10, you might get less because of the filtering.
 3.  While it's not strictly necessary, you should sort by score as this is much more efficient. This also fits with the expected use case of getting only the best scoring documents.
 4.  Result document marking is done using a decorator, so you should still be able to use a custom document class.
-5.  Be aware of the issues related to 'normalizing' scores: [http://wiki.apache.org/lucene-java/ScoresAsPercentages more info](http://wiki.apache.org/lucene-java/ScoresAsPercentages_more_info "wikilink"). This filter only uses score to calculate a the relevancy relative to the best result and doesn't return this calculated score, but be sure to test your results! In cases like an autocomplete or 'best-bet' type of search this filter can be very useful.
+5.  Be aware of the issues related to 'normalizing' scores [more info](http://wiki.apache.org/lucene-java/ScoresAsPercentages). This filter only uses score to calculate a the relevancy relative to the best result and doesn't return this calculated score, but be sure to test your results! In cases like an autocomplete or 'best-bet' type of search this filter can be very useful.
 
 Example usage
 -------------
@@ -319,7 +319,7 @@ Some important notes:
 -   The execution time is limited by the slowest request. If you execute 3 queries with timings of 0.2, 0.4 and 1.2 seconds the execution time for all will be (near) 1.2 seconds.
 -   If one of the requests fails the other requests will still be executed and the results parsed. In the result array the entry for the failed query will contain an exception instead of a result object. It’s your own responsibility to check the result type.
 -   All query types are supported, and you can even mix query types in the same execute call.
--   For testing this plugin you can use a special Solr delay component I’ve created (and used to develop the plugin). For more info see [http://www.raspberry.nl/2012/01/04/solr-delay-component/ this blog post](http://www.raspberry.nl/2012/01/04/solr-delay-component/_this_blog_post "wikilink").
+-   For testing this plugin you can use a special Solr delay component I’ve created (and used to develop the plugin). For more info see [this blog post](http://www.raspberry.nl/2012/01/04/solr-delay-component/).
 -   Add queries using the addQuery method. Supply at least a key and a query instance. Optionally you can supply a client instance as third argument. This can be used to execute queries on different cores or even servers. If omitted the plugin will use it's own client instance.
 
 Example usage
