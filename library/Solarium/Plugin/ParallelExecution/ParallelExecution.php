@@ -156,11 +156,13 @@ class ParallelExecution extends AbstractPlugin
 
         $timeout = $this->getOption('curlmultiselecttimeout');
         while ($active && $mrc == CURLM_OK) {
-            if (curl_multi_select($multiHandle, $timeout) != -1) {
-                do {
-                    $mrc = curl_multi_exec($multiHandle, $active);
-                } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            if (curl_multi_select($multiHandle, $timeout) == -1) {
+                usleep(100);
             }
+
+            do {
+                $mrc = curl_multi_exec($multiHandle, $active);
+            } while ($mrc == CURLM_CALL_MULTI_PERFORM);
         }
 
         $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_END, new ExecuteEndEvent());
