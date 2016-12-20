@@ -161,6 +161,43 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $result->getGroups());
     }
 
+    public function testParseMissingGroupField()
+    {
+        //data does not contain 'fieldA'
+        $data = array(
+            'grouped' => array(
+                'functionF' => array(
+                    'matches' =>  8,
+                    'ngroups' => 3,
+                    'groups' => array(
+                        array(
+                            'groupValue' => true,
+                            'doclist' => array(
+                                'numFound' => 5,
+                                'docs' => array(
+                                    array('id' => 3, 'name' => 'fun'),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'cat:1' => array(
+                    'matches' =>  40,
+                    'doclist' => array(
+                        'numFound' => 22,
+                        'docs' => array(
+                            array('id' => 2, 'name' => 'dummy2'),
+                            array('id' => 5, 'name' => 'dummy5'),
+                        ),
+                    ),
+                ),
+            ),
+        );
+
+        $result = $this->parser->parse($this->query, $this->grouping, $data);
+        $this->assertNull($result->getGroup('fieldA'));
+    }
+
     public function testFunctionGroupParsing()
     {
         $fieldGroup = $this->result->getGroup('functionF');
@@ -175,5 +212,41 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
 
         $docs = $valueGroup->getDocuments();
         $this->assertEquals('fun', $docs[0]->name);
+    }
+
+    public function testsParseWithSimpleFormat()
+    {
+        $data = array(
+            'grouped' => array(
+                'fieldA' => array(
+                    'matches' =>  25,
+                    'ngroups' => 12,
+                    'doclist' => array(
+                        'numFound' => 13,
+                        'docs' => array(
+                            array('id' => 1, 'name' => 'test'),
+                            array('id' => 2, 'name' => 'test2'),
+                        ),
+                    ),
+                ),
+            ),
+        );
+
+        $this->grouping->setFormat(Component::FORMAT_SIMPLE);
+
+        $result = $this->parser->parse($this->query, $this->grouping, $data);
+
+        $fieldGroup = $result->getGroup('fieldA');
+        $valueGroups = $fieldGroup->getValueGroups();
+
+        $this->assertEquals(25, $fieldGroup->getMatches());
+        $this->assertEquals(12, $fieldGroup->getNumberOfGroups());
+        $this->assertEquals(1, count($valueGroups));
+
+        $valueGroup = $valueGroups[0];
+        $this->assertEquals(13, $valueGroup->getNumFound());
+
+        $docs = $valueGroup->getDocuments();
+        $this->assertEquals('test2', $docs[1]->name);
     }
 }
