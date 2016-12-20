@@ -83,28 +83,7 @@ class Grouping implements ComponentParserInterface
             $groupCount = (isset($result['ngroups'])) ? $result['ngroups'] : null;
             $valueGroups = array();
             foreach ($result['groups'] as $valueGroupResult) {
-                $value = (isset($valueGroupResult['groupValue'])) ?
-                        $valueGroupResult['groupValue'] : null;
-
-                $numFound = (isset($valueGroupResult['doclist']['numFound'])) ?
-                        $valueGroupResult['doclist']['numFound'] : null;
-
-                $start = (isset($valueGroupResult['doclist']['start'])) ?
-                        $valueGroupResult['doclist']['start'] : null;
-
-                $maxScore = (isset($valueGroupResult['doclist']['maxScore'])) ?
-                        $valueGroupResult['doclist']['maxScore'] : null;
-
-                // create document instances
-                $documents = array();
-                if (isset($valueGroupResult['doclist']['docs']) &&
-                    is_array($valueGroupResult['doclist']['docs'])) {
-                    foreach ($valueGroupResult['doclist']['docs'] as $doc) {
-                        $documents[] = new $documentClass($doc);
-                    }
-                }
-
-                $valueGroups[] = new $valueResultClass($value, $numFound, $start, $documents, $maxScore, $query);
+                $valueGroups[] = $this->extractValueGroup($valueResultClass, $documentClass, $valueGroupResult, $query);
             }
 
             $groups[$field] = new FieldGroup($matches, $groupCount, $valueGroups);
@@ -138,5 +117,41 @@ class Grouping implements ComponentParserInterface
         }
 
         return new Result($groups);
+    }
+
+    /**
+     * Helper method to extract a ValueGroup object from the given value group result array.
+     *
+     * @param string $valueResultClass The grouping resultvaluegroupclass option.
+     * @param string $documentClass    The name of the solr document class to use.
+     * @param array  $valueGroupResult The group result from the solr response.
+     * @param Query  $query            The current solr query.
+     *
+     * @return object
+     */
+    private function extractValueGroup($valueResultClass, $documentClass, $valueGroupResult, $query)
+    {
+        $value = (isset($valueGroupResult['groupValue'])) ?
+                $valueGroupResult['groupValue'] : null;
+
+        $numFound = (isset($valueGroupResult['doclist']['numFound'])) ?
+                $valueGroupResult['doclist']['numFound'] : null;
+
+        $start = (isset($valueGroupResult['doclist']['start'])) ?
+                $valueGroupResult['doclist']['start'] : null;
+
+        $maxScore = (isset($valueGroupResult['doclist']['maxScore'])) ?
+                $valueGroupResult['doclist']['maxScore'] : null;
+
+        // create document instances
+        $documents = array();
+        if (isset($valueGroupResult['doclist']['docs']) &&
+            is_array($valueGroupResult['doclist']['docs'])) {
+            foreach ($valueGroupResult['doclist']['docs'] as $doc) {
+                $documents[] = new $documentClass($doc);
+            }
+        }
+
+        return new $valueResultClass($value, $numFound, $start, $documents, $maxScore, $query);
     }
 }
