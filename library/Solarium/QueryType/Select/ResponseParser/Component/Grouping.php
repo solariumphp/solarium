@@ -61,75 +61,77 @@ class Grouping implements ComponentParserInterface
      */
     public function parse($query, $grouping, $data)
     {
+        if (!isset($data['grouped'])) {
+            return new Result(array());
+        }
+
         $groups = array();
 
-        if (isset($data['grouped'])) {
-            // parse field groups
-            $valueResultClass = $grouping->getOption('resultvaluegroupclass');
-            $documentClass = $query->getOption('documentclass');
+        // parse field groups
+        $valueResultClass = $grouping->getOption('resultvaluegroupclass');
+        $documentClass = $query->getOption('documentclass');
 
-            // check grouping fields as well as the grouping function (either can be used in the query)
-            foreach (array_merge($grouping->getFields(), array($grouping->getFunction())) as $field) {
-                if (isset($data['grouped'][$field])) {
-                    $result = $data['grouped'][$field];
+        // check grouping fields as well as the grouping function (either can be used in the query)
+        foreach (array_merge($grouping->getFields(), array($grouping->getFunction())) as $field) {
+            if (isset($data['grouped'][$field])) {
+                $result = $data['grouped'][$field];
 
-                    $matches = (isset($result['matches'])) ? $result['matches'] : null;
-                    $groupCount = (isset($result['ngroups'])) ? $result['ngroups'] : null;
-                    $valueGroups = array();
-                    foreach ($result['groups'] as $valueGroupResult) {
-                        $value = (isset($valueGroupResult['groupValue'])) ?
-                                $valueGroupResult['groupValue'] : null;
+                $matches = (isset($result['matches'])) ? $result['matches'] : null;
+                $groupCount = (isset($result['ngroups'])) ? $result['ngroups'] : null;
+                $valueGroups = array();
+                foreach ($result['groups'] as $valueGroupResult) {
+                    $value = (isset($valueGroupResult['groupValue'])) ?
+                            $valueGroupResult['groupValue'] : null;
 
-                        $numFound = (isset($valueGroupResult['doclist']['numFound'])) ?
-                                $valueGroupResult['doclist']['numFound'] : null;
+                    $numFound = (isset($valueGroupResult['doclist']['numFound'])) ?
+                            $valueGroupResult['doclist']['numFound'] : null;
 
-                        $start = (isset($valueGroupResult['doclist']['start'])) ?
-                                $valueGroupResult['doclist']['start'] : null;
+                    $start = (isset($valueGroupResult['doclist']['start'])) ?
+                            $valueGroupResult['doclist']['start'] : null;
 
-                        $maxScore = (isset($valueGroupResult['doclist']['maxScore'])) ?
-                                $valueGroupResult['doclist']['maxScore'] : null;
-
-                        // create document instances
-                        $documents = array();
-                        if (isset($valueGroupResult['doclist']['docs']) &&
-                            is_array($valueGroupResult['doclist']['docs'])) {
-                            foreach ($valueGroupResult['doclist']['docs'] as $doc) {
-                                $documents[] = new $documentClass($doc);
-                            }
-                        }
-
-                        $valueGroups[] = new $valueResultClass($value, $numFound, $start, $documents, $maxScore, $query);
-                    }
-
-                    $groups[$field] = new FieldGroup($matches, $groupCount, $valueGroups);
-                }
-            }
-
-            // parse query groups
-            $groupResultClass = $grouping->getOption('resultquerygroupclass');
-            foreach ($grouping->getQueries() as $groupQuery) {
-                if (isset($data['grouped'][$groupQuery])) {
-                    $result = $data['grouped'][$groupQuery];
-
-                    // get statistics
-                    $matches = (isset($result['matches'])) ? $result['matches'] : null;
-                    $numFound = (isset($result['doclist']['numFound'])) ? $result['doclist']['numFound'] : null;
-                    $start = (isset($result['doclist']['start'])) ? $result['doclist']['start'] : null;
-                    $maxScore = (isset($result['doclist']['maxScore'])) ? $result['doclist']['maxScore'] : null;
+                    $maxScore = (isset($valueGroupResult['doclist']['maxScore'])) ?
+                            $valueGroupResult['doclist']['maxScore'] : null;
 
                     // create document instances
-                    $documentClass = $query->getOption('documentclass');
                     $documents = array();
-                    if (isset($result['doclist']['docs']) && is_array($result['doclist']['docs'])) {
-                        foreach ($result['doclist']['docs'] as $doc) {
+                    if (isset($valueGroupResult['doclist']['docs']) &&
+                        is_array($valueGroupResult['doclist']['docs'])) {
+                        foreach ($valueGroupResult['doclist']['docs'] as $doc) {
                             $documents[] = new $documentClass($doc);
                         }
                     }
 
-                    // create a group result object
-                    $group = new $groupResultClass($matches, $numFound, $start, $maxScore, $documents, $query);
-                    $groups[$groupQuery] = $group;
+                    $valueGroups[] = new $valueResultClass($value, $numFound, $start, $documents, $maxScore, $query);
                 }
+
+                $groups[$field] = new FieldGroup($matches, $groupCount, $valueGroups);
+            }
+        }
+
+        // parse query groups
+        $groupResultClass = $grouping->getOption('resultquerygroupclass');
+        foreach ($grouping->getQueries() as $groupQuery) {
+            if (isset($data['grouped'][$groupQuery])) {
+                $result = $data['grouped'][$groupQuery];
+
+                // get statistics
+                $matches = (isset($result['matches'])) ? $result['matches'] : null;
+                $numFound = (isset($result['doclist']['numFound'])) ? $result['doclist']['numFound'] : null;
+                $start = (isset($result['doclist']['start'])) ? $result['doclist']['start'] : null;
+                $maxScore = (isset($result['doclist']['maxScore'])) ? $result['doclist']['maxScore'] : null;
+
+                // create document instances
+                $documentClass = $query->getOption('documentclass');
+                $documents = array();
+                if (isset($result['doclist']['docs']) && is_array($result['doclist']['docs'])) {
+                    foreach ($result['doclist']['docs'] as $doc) {
+                        $documents[] = new $documentClass($doc);
+                    }
+                }
+
+                // create a group result object
+                $group = new $groupResultClass($matches, $numFound, $start, $maxScore, $documents, $query);
+                $groups[$groupQuery] = $group;
             }
         }
 
