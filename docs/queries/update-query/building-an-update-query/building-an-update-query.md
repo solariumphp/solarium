@@ -29,7 +29,9 @@ Examples
 
 These are two examples of update query usages. See the following sections for the details and examples of all available commands.
 
-Add documents: ```php
+Add documents:
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
@@ -68,7 +70,9 @@ htmlFooter();
 
 ```
 
-Delete by query: ```php
+Delete by query:
+
+```php
 <?php
 
 require(__DIR__.'/init.php');
