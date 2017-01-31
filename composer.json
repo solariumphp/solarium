@@ -19,7 +19,8 @@
         "phpunit/phpunit": "~3.7",
         "squizlabs/php_codesniffer": "~1.4",
         "zendframework/zendframework1": "~1.12",
-        "satooshi/php-coveralls": "~1.0"
+        "satooshi/php-coveralls": "~1.0",
+        "guzzlehttp/guzzle": "^3.8 || ^6.2"
     },
     "suggest": {
         "minimalcode/search": "Query builder compatible with Solarium, allows simplified solr-query handling"

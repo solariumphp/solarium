@@ -103,6 +103,7 @@ class RequestBuilder extends BaseRequestBuilder
         $file = $query->getFile();
         if (preg_match('/^(http|https):\/\/(.+)/i', $file)) {
             $request->addParam('stream.url', $file);
+            $request->setMethod(Request::METHOD_GET);
         } elseif (is_readable($file)) {
             $request->setFileUpload($file);
             $request->addParam('resource.name', basename($query->getFile()));

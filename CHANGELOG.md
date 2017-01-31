@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 3.8.0 - 2017-01-31
+
+- bugfix: use GET request for extracting remote files
+- added: support for simple group format in response parser
+- added: helper for fetching ValueGroup from a Grouped result
+- bugfix: prevent ParallelExecution Curl spinloop
+- added: Guzzle 3 and Guzzle 6 client adapters
+- improvement: various fixes in documentation
+
 ## 3.7.0 - 2016-10-28
 
 - added: support for nested documents in update query

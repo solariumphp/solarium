@@ -17,7 +17,7 @@ See the example code below.
 Executing a RealtimeGet query
 -----------------------------
 
-First of all create a RealtimeGet query instance and set one ore multiple IDs. Use the `realtimeGet` method of the client to execute the query object.
+First of all create a RealtimeGet query instance and set a single ID or multiple IDs. Use the `realtimeGet` method of the client to execute the query object.
 
 See the example code below.
 
