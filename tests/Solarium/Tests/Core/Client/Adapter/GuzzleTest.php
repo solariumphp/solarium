@@ -1,8 +1,7 @@
 <?php
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
+ * * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -12,7 +11,7 @@
  *    this listof conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS 'AS IS'
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
@@ -27,42 +26,42 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
+ *
+ * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
+ * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
+ *
+ * @link http://www.solarium-project.org/
  */
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
-use Guzzle\Plugin\Mock\MockPlugin;
-use Guzzle\Http\Message\Response;
-use Guzzle\Http\Client as GuzzleClient;
-use Solarium\Core\Client\Adapter\Guzzle3 as GuzzleAdapter;
-use Solarium\Core\Client\Request;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
+use Solarium\Core\Client\Adapter\Guzzle as GuzzleAdapter;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
 use Solarium\Core\Exception;
 
 /**
- * @coversDefaultClass \Solarium\Core\Client\Adapter\Guzzle3
+ * @coversDefaultClass \Solarium\Core\Client\Adapter\Guzzle
  * @covers ::<private>
  * @covers ::getGuzzleClient
  */
-final class Guzzle3Test extends \PHPUnit_Framework_TestCase
+final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Guzzle3Adapter
-     */
-    private $adapter;
-
-    /**
-     * Prepare each test
+     * Prepare each test.
      *
      * @return void
      */
     public function setUp()
     {
-        if (!class_exists('\\Guzzle\\Http\\Client')) {
-            $this->markTestSkipped('Guzzle 3 not installed');
+        if (!class_exists('\\GuzzleHttp\\Client')) {
+            $this->markTestSkipped('Guzzle 6 not installed');
         }
-
-        $this->adapter = new GuzzleAdapter();
     }
 
     /**
@@ -76,9 +75,15 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
     public function executeGet()
     {
         $guzzleResponse = $this->getValidResponse();
-        $plugin = new MockPlugin();
-        $plugin->addResponse($guzzleResponse);
-        $this->adapter->getGuzzleClient()->addSubscriber($plugin);
+        $mockHandler = new MockHandler([$guzzleResponse]);
+
+        $container = [];
+        $history = Middleware::history($container);
+
+        $stack = HandlerStack::create($mockHandler);
+        $stack->push($history);
+
+        $adapter = new GuzzleAdapter(['handler' => $stack]);
 
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
@@ -87,7 +92,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $endpoint = new Endpoint();
         $endpoint->setTimeout(10);
 
-        $response = $this->adapter->execute($request, $endpoint);
+        $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
@@ -98,17 +103,11 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
             ],
             $response->getHeaders()
         );
-        $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
+        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
 
-        $receivedRequests = $plugin->getReceivedRequests();
-
-        $this->assertSame(1, count($receivedRequests));
-
-        $this->assertSame('GET', $receivedRequests[0]->getMethod());
-        $this->assertSame(
-            'request value',
-            (string)$receivedRequests[0]->getHeader('X-PHPUnit')
-        );
+        $this->assertCount(1, $container);
+        $this->assertSame('GET', $container[0]['request']->getMethod());
+        $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
     }
 
     /**
@@ -122,9 +121,15 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
     public function executePostWithFile()
     {
         $guzzleResponse = $this->getValidResponse();
-        $plugin = new MockPlugin();
-        $plugin->addResponse($guzzleResponse);
-        $this->adapter->getGuzzleClient()->addSubscriber($plugin);
+        $mockHandler = new MockHandler([$guzzleResponse]);
+
+        $container = [];
+        $history = Middleware::history($container);
+
+        $stack = HandlerStack::create($mockHandler);
+        $stack->push($history);
+
+        $adapter = new GuzzleAdapter(['handler' => $stack]);
 
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
@@ -134,7 +139,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $endpoint = new Endpoint();
         $endpoint->setTimeout(10);
 
-        $response = $this->adapter->execute($request, $endpoint);
+        $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
@@ -145,18 +150,12 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
             ],
             $response->getHeaders()
         );
-        $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
+        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
 
-        $receivedRequests = $plugin->getReceivedRequests();
-
-        $this->assertSame(1, count($receivedRequests));
-
-        $this->assertSame('POST', $receivedRequests[0]->getMethod());
-        $this->assertSame(file_get_contents(__FILE__), (string)$receivedRequests[0]->getBody());
-        $this->assertSame(
-            'request value',
-            (string)$receivedRequests[0]->getHeader('X-PHPUnit')
-        );
+        $this->assertCount(1, $container);
+        $this->assertSame('POST', $container[0]['request']->getMethod());
+        $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
+        $this->assertSame(file_get_contents(__FILE__), (string)$container[0]['request']->getBody());
     }
 
     /**
@@ -170,9 +169,15 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
     public function executePostWithRawBody()
     {
         $guzzleResponse = $this->getValidResponse();
-        $plugin = new MockPlugin();
-        $plugin->addResponse($guzzleResponse);
-        $this->adapter->getGuzzleClient()->addSubscriber($plugin);
+        $mockHandler = new MockHandler([$guzzleResponse]);
+
+        $container = [];
+        $history = Middleware::history($container);
+
+        $stack = HandlerStack::create($mockHandler);
+        $stack->push($history);
+
+        $adapter = new GuzzleAdapter(['handler' => $stack]);
 
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
@@ -183,7 +188,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $endpoint = new Endpoint();
         $endpoint->setTimeout(10);
 
-        $response = $this->adapter->execute($request, $endpoint);
+        $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
@@ -194,22 +199,13 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
             ],
             $response->getHeaders()
         );
-        $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
+        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
 
-        $receivedRequests = $plugin->getReceivedRequests();
-
-        $this->assertSame(1, count($receivedRequests));
-
-        $this->assertSame('POST', $receivedRequests[0]->getMethod());
-        $this->assertSame($xml, (string)$receivedRequests[0]->getBody());
-        $this->assertSame(
-            'request value',
-            (string)$receivedRequests[0]->getHeader('X-PHPUnit')
-        );
-        $this->assertSame(
-            'application/xml; charset=utf-8',
-            (string)$receivedRequests[0]->getHeader('Content-Type')
-        );
+        $this->assertCount(1, $container);
+        $this->assertSame('POST', $container[0]['request']->getMethod());
+        $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
+        $this->assertSame('application/xml; charset=utf-8', $container[0]['request']->getHeaderline('Content-Type'));
+        $this->assertSame($xml, (string)$container[0]['request']->getBody());
     }
 
     /**
@@ -223,9 +219,15 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
     public function executeGetWithAuthentication()
     {
         $guzzleResponse = $this->getValidResponse();
-        $plugin = new MockPlugin();
-        $plugin->addResponse($guzzleResponse);
-        $this->adapter->getGuzzleClient()->addSubscriber($plugin);
+        $mockHandler = new MockHandler([$guzzleResponse]);
+
+        $container = [];
+        $history = Middleware::history($container);
+
+        $stack = HandlerStack::create($mockHandler);
+        $stack->push($history);
+
+        $adapter = new GuzzleAdapter(['handler' => $stack]);
 
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
@@ -235,7 +237,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $endpoint = new Endpoint();
         $endpoint->setTimeout(10);
 
-        $response = $this->adapter->execute($request, $endpoint);
+        $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
@@ -246,21 +248,14 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
             ],
             $response->getHeaders()
         );
-        $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
+        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
 
-        $receivedRequests = $plugin->getReceivedRequests();
-
-        $this->assertSame(1, count($receivedRequests));
-
-        $this->assertSame('GET', $receivedRequests[0]->getMethod());
-        $this->assertSame(
-            'request value',
-            (string)$receivedRequests[0]->getHeader('X-PHPUnit')
-        );
-
+        $this->assertCount(1, $container);
+        $this->assertSame('GET', $container[0]['request']->getMethod());
+        $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
         $this->assertSame(
             'Basic ' . base64_encode('username:s3cr3t'),
-            (string)$receivedRequests[0]->getHeader('Authorization')
+            $container[0]['request']->getHeaderLine('Authorization')
         );
     }
 
@@ -276,6 +271,8 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
      */
     public function executeRequestException()
     {
+        $adapter = new GuzzleAdapter();
+
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
 
@@ -284,8 +281,9 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
                 'scheme'  => 'silly', //invalid protocol
             ]
         );
+        $endpoint->setTimeout(10);
 
-        $this->adapter->execute($request, $endpoint);
+        $adapter->execute($request, $endpoint);
     }
 
     /**
