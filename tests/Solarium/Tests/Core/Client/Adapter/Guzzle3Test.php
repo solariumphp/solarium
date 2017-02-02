@@ -91,11 +91,11 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
-            [
+            array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ],
+            ),
             $response->getHeaders()
         );
         $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
@@ -138,11 +138,11 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
-            [
+            array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ],
+            ),
             $response->getHeaders()
         );
         $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
@@ -187,11 +187,11 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
-            [
+            array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ],
+            ),
             $response->getHeaders()
         );
         $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
@@ -239,11 +239,11 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
-            [
+            array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ],
+            ),
             $response->getHeaders()
         );
         $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
@@ -280,9 +280,9 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $request->setMethod(Request::METHOD_GET);
 
         $endpoint = new Endpoint(
-            [
+            array(
                 'scheme'  => 'silly', //invalid protocol
-            ]
+            )
         );
 
         $this->adapter->execute($request, $endpoint);
@@ -296,12 +296,12 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
     private function getValidResponse()
     {
         $body = json_encode(
-            [
-                'response' => [
+            array(
+                'response' => array(
                     'numFound' => 10,
                     'start' => 0,
-                    'docs' => [
-                        [
+                    'docs' => array(
+                        array(
                             'id' => '58339e95d5200',
                             'author' => 'Gambardella, Matthew',
                             'title' => "XML Developer's Guide",
@@ -309,13 +309,13 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
                             'price' => 44.95,
                             'published' => 970372800,
                             'description' => 'An in-depth look at creating applications with XML.',
-                        ],
-                    ],
-                ],
-            ]
+                        ),
+                    ),
+                ),
+            )
         );
 
-        $headers = ['Content-Type' => 'application/json', 'X-PHPUnit' => 'response value'];
+        $headers = array('Content-Type' => 'application/json', 'X-PHPUnit' => 'response value');
         return new Response(200, $headers, $body);
     }
 }
