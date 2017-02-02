@@ -82,7 +82,7 @@ class Grouping implements ComponentParserInterface
             $matches = (isset($result['matches'])) ? $result['matches'] : null;
             $groupCount = (isset($result['ngroups'])) ? $result['ngroups'] : null;
             if ($grouping->getFormat() === GroupingComponent::FORMAT_SIMPLE) {
-                $valueGroups = [$this->extractValueGroup($valueResultClass, $documentClass, $result, $query)];
+                $valueGroups = array($this->extractValueGroup($valueResultClass, $documentClass, $result, $query));
                 $groups[$field] = new FieldGroup($matches, $groupCount, $valueGroups);
                 continue;
             }

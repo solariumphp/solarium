@@ -74,10 +74,10 @@ class Guzzle3 extends Configurable implements AdapterInterface
             $endpoint->getBaseUri() . $request->getUri(),
             $this->getRequestHeaders($request),
             $this->getRequestBody($request),
-            [
+            array(
                 'timeout' => $endpoint->getTimeout(),
                 'connecttimeout' => $endpoint->getTimeout(),
-            ]
+            )
         );
 
         // Try endpoint authentication first, fallback to request for backwards compatibility
@@ -96,7 +96,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
             $guzzleResponse = $guzzleRequest->getResponse();
 
             $responseHeaders = array_merge(
-                ["HTTP/1.1 {$guzzleResponse->getStatusCode()} {$guzzleResponse->getReasonPhrase()}"],
+                array("HTTP/1.1 {$guzzleResponse->getStatusCode()} {$guzzleResponse->getReasonPhrase()}"),
                 $guzzleResponse->getHeaderLines()
             );
 
@@ -155,7 +155,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
      */
     private function getRequestHeaders(Request $request)
     {
-        $headers = [];
+        $headers = array();
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);
             if ($header = trim($header)) {

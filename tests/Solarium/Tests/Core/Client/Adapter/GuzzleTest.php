@@ -75,15 +75,15 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
     public function executeGet()
     {
         $guzzleResponse = $this->getValidResponse();
-        $mockHandler = new MockHandler([$guzzleResponse]);
+        $mockHandler = new MockHandler(array($guzzleResponse));
 
-        $container = [];
+        $container = array();
         $history = Middleware::history($container);
 
         $stack = HandlerStack::create($mockHandler);
         $stack->push($history);
 
-        $adapter = new GuzzleAdapter(['handler' => $stack]);
+        $adapter = new GuzzleAdapter(array('handler' => $stack));
 
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
@@ -96,11 +96,11 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
-            [
+            array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ],
+            ),
             $response->getHeaders()
         );
         $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
@@ -121,15 +121,15 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
     public function executePostWithFile()
     {
         $guzzleResponse = $this->getValidResponse();
-        $mockHandler = new MockHandler([$guzzleResponse]);
+        $mockHandler = new MockHandler(array($guzzleResponse));
 
-        $container = [];
+        $container = array();
         $history = Middleware::history($container);
 
         $stack = HandlerStack::create($mockHandler);
         $stack->push($history);
 
-        $adapter = new GuzzleAdapter(['handler' => $stack]);
+        $adapter = new GuzzleAdapter(array('handler' => $stack));
 
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
@@ -143,11 +143,11 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
-            [
+            array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ],
+            ),
             $response->getHeaders()
         );
         $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
@@ -169,15 +169,15 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
     public function executePostWithRawBody()
     {
         $guzzleResponse = $this->getValidResponse();
-        $mockHandler = new MockHandler([$guzzleResponse]);
+        $mockHandler = new MockHandler(array($guzzleResponse));
 
-        $container = [];
+        $container = array();
         $history = Middleware::history($container);
 
         $stack = HandlerStack::create($mockHandler);
         $stack->push($history);
 
-        $adapter = new GuzzleAdapter(['handler' => $stack]);
+        $adapter = new GuzzleAdapter(array('handler' => $stack));
 
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
@@ -192,11 +192,11 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
-            [
+            array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ],
+            ),
             $response->getHeaders()
         );
         $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
@@ -219,15 +219,15 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
     public function executeGetWithAuthentication()
     {
         $guzzleResponse = $this->getValidResponse();
-        $mockHandler = new MockHandler([$guzzleResponse]);
+        $mockHandler = new MockHandler(array($guzzleResponse));
 
-        $container = [];
+        $container = array();
         $history = Middleware::history($container);
 
         $stack = HandlerStack::create($mockHandler);
         $stack->push($history);
 
-        $adapter = new GuzzleAdapter(['handler' => $stack]);
+        $adapter = new GuzzleAdapter(array('handler' => $stack));
 
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
@@ -241,11 +241,11 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame('200', $response->getStatusCode());
         $this->assertSame(
-            [
+            array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ],
+            ),
             $response->getHeaders()
         );
         $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
@@ -277,9 +277,9 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
         $request->setMethod(Request::METHOD_GET);
 
         $endpoint = new Endpoint(
-            [
+            array(
                 'scheme'  => 'silly', //invalid protocol
-            ]
+            )
         );
         $endpoint->setTimeout(10);
 
@@ -294,12 +294,12 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
     private function getValidResponse()
     {
         $body = json_encode(
-            [
-                'response' => [
+            array(
+                'response' => array(
                     'numFound' => 10,
                     'start' => 0,
-                    'docs' => [
-                        [
+                    'docs' => array(
+                        array(
                             'id' => '58339e95d5200',
                             'author' => 'Gambardella, Matthew',
                             'title' => "XML Developer's Guide",
@@ -307,13 +307,13 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
                             'price' => 44.95,
                             'published' => 970372800,
                             'description' => 'An in-depth look at creating applications with XML.',
-                        ],
-                    ],
-                ],
-            ]
+                        ),
+                    ),
+                ),
+            )
         );
 
-        $headers = ['Content-Type' => 'application/json', 'X-PHPUnit' => 'response value'];
+        $headers = array('Content-Type' => 'application/json', 'X-PHPUnit' => 'response value');
         return new Response(200, $headers, $body);
     }
 }
