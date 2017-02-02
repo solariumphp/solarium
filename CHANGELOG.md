@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.8.1 - 2017-02-02
+
+- bugfix: restore PHP 5.3 compatibility (remove short array syntax)
+
 ## 3.8.0 - 2017-01-31
 
 - bugfix: use GET request for extracting remote files
