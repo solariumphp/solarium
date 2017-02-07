@@ -187,7 +187,6 @@ class ZendHttp extends Configurable implements AdapterInterface
                 } else {
                     $client->setParameterGet($request->getParams());
                     $client->setRawData($request->getRawData());
-                    $request->addHeader('Content-Type: text/xml; charset=UTF-8');
                 }
                 break;
             case Request::METHOD_HEAD:

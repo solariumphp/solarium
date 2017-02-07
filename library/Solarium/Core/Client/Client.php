@@ -91,6 +91,11 @@ class Client extends Configurable implements ClientInterface
     const QUERY_UPDATE = 'update';
 
     /**
+     * Querytype schema.
+     */
+    const QUERY_SCHEMA = 'schema';
+
+    /**
      * Querytype ping.
      */
     const QUERY_PING = 'ping';
@@ -150,6 +155,7 @@ class Client extends Configurable implements ClientInterface
     protected $queryTypes = array(
         self::QUERY_SELECT => 'Solarium\QueryType\Select\Query\Query',
         self::QUERY_UPDATE => 'Solarium\QueryType\Update\Query\Query',
+        self::QUERY_SCHEMA => 'Solarium\QueryType\Schema\Query\Query',
         self::QUERY_PING => 'Solarium\QueryType\Ping\Query',
         self::QUERY_MORELIKETHIS => 'Solarium\QueryType\MoreLikeThis\Query',
         self::QUERY_ANALYSIS_DOCUMENT => 'Solarium\QueryType\Analysis\Query\Document',
@@ -1069,6 +1075,18 @@ class Client extends Configurable implements ClientInterface
     public function createUpdate($options = null)
     {
         return $this->createQuery(self::QUERY_UPDATE, $options);
+    }
+
+    /**
+     * Create a schema query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\Schema\Query\Query
+     */
+    public function createSchema($options = null)
+    {
+        return $this->createQuery(self::QUERY_SCHEMA, $options);
     }
 
     /**

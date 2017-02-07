@@ -135,9 +135,6 @@ class PeclHttp extends Configurable implements AdapterInterface
                     );
                 } else {
                     $httpRequest->setBody($request->getRawData());
-                    if (!isset($headers['Content-Type'])) {
-                        $headers['Content-Type'] = 'text/xml; charset=utf-8';
-                    }
                 }
                 break;
             case Request::METHOD_HEAD:
