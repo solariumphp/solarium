@@ -191,11 +191,15 @@ class Grouping extends AbstractComponent
      * This overwrites any existing fields
      *
      * @param array $fields
+     *
+     * @return self Provides fluent interface
      */
     public function setFields($fields)
     {
         $this->clearFields();
         $this->addFields($fields);
+
+        return $this;
     }
 
     /**
