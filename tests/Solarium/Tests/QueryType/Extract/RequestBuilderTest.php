@@ -134,9 +134,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testContentTypeHeader()
     {
-        $headers = array(
-            'Content-Type: multipart/form-data'
-        );
+        $headers = array();
         $request = $this->builder->build($this->query);
         $this->assertEquals($headers,
                             $request->getHeaders());
