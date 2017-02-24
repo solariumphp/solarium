@@ -157,7 +157,7 @@ class Response
         // $statusInfo[1] = the HTTP response code
         // $statusInfo[2] = the response message
         $statusInfo = explode(' ', $statusHeader, 3);
-        $this->statusCode = $statusInfo[1];
+        $this->statusCode = (int) $statusInfo[1];
         $this->statusMessage = $statusInfo[2];
     }
 }
