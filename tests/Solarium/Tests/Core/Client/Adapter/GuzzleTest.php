@@ -94,7 +94,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 
         $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -141,7 +141,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 
         $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -190,7 +190,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 
         $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -239,7 +239,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 
         $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',

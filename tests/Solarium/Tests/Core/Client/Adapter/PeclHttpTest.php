@@ -211,7 +211,7 @@ EOF;
 
         $response = $mock->execute($request, $endpoint);
         $this->assertEquals($body, $response->getBody());
-        $this->assertEquals($statusCode, $response->getStatusCode());
+        $this->assertSame($statusCode, $response->getStatusCode());
         $this->assertEquals($statusMessage, $response->getStatusMessage());
     }
 
