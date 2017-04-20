@@ -41,7 +41,7 @@
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 
 /**
  * AddDocument event, see Events for details.

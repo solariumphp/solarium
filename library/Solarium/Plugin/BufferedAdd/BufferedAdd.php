@@ -43,7 +43,7 @@ namespace Solarium\Plugin\BufferedAdd;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\QueryType\Update\Result as UpdateResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 use Solarium\Plugin\BufferedAdd\Event\Events;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
