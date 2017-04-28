@@ -76,7 +76,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
             $this->getRequestBody($request),
             array(
                 'timeout' => $endpoint->getTimeout(),
-                'connecttimeout' => $endpoint->getTimeout(),
+                'connect_timeout' => $endpoint->getTimeout(),
             )
         );
 
