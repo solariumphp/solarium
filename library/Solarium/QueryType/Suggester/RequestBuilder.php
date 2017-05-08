@@ -59,12 +59,10 @@ class RequestBuilder extends BaseRequestBuilder
     public function build(QueryInterface $query)
     {
         $request = parent::build($query);
-        $request->addParam('spellcheck', 'true');
-        $request->addParam('q', $query->getQuery());
-        $request->addParam('spellcheck.dictionary', $query->getDictionary());
-        $request->addParam('spellcheck.count', $query->getCount());
-        $request->addParam('spellcheck.onlyMorePopular', $query->getOnlyMorePopular());
-        $request->addParam('spellcheck.collate', $query->getCollate());
+        $request->addParam('suggest', 'true');
+        $request->addParam('suggest.q', $query->getQuery());
+        $request->addParam('suggest.dictionary', $query->getDictionary());
+        $request->addParam('suggest.count', $query->getCount());
 
         return $request;
     }
