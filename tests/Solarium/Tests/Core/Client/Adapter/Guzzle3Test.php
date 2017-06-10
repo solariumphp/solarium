@@ -33,7 +33,6 @@ namespace Solarium\Tests\Core\Client\Adapter;
 
 use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response;
-use Guzzle\Http\Client as GuzzleClient;
 use Solarium\Core\Client\Adapter\Guzzle3 as GuzzleAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
