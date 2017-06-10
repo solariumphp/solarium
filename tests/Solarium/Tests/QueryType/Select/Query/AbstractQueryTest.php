@@ -262,7 +262,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
     {
         $key = 'fq1';
 
-        $fq = $this->query->createFilterQuery($key, true);
+        $fq = $this->query->createFilterQuery($key);
         $fq->setQuery('category:1');
 
         $this->assertEquals(
@@ -612,7 +612,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $components = $this->query->getComponentTypes();
         $components['mykey'] = 'mycomponent';
 
-        $this->query->registerComponentType('mykey', 'mycomponent', 'mybuilder', 'myparser');
+        $this->query->registerComponentType('mykey', 'mycomponent');
 
         $this->assertEquals(
             $components,
