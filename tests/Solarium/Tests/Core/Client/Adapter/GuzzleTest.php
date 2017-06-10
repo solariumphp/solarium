@@ -155,7 +155,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $container);
         $this->assertSame('POST', $container[0]['request']->getMethod());
         $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
-        $this->assertSame(file_get_contents(__FILE__), (string)$container[0]['request']->getBody());
+        $this->assertStringEqualsFile(__FILE__, (string)$container[0]['request']->getBody());
     }
 
     /**

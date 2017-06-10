@@ -65,7 +65,7 @@ class WeightedRandomChoiceTest extends \PHPUnit_Framework_TestCase
 
         $key = $randomizer->getRandom($excludes);
 
-        $this->assertTrue($key !== 'key3');
+        $this->assertNotSame($key, 'key3');
     }
 
     public function testAllEntriesExcluded()

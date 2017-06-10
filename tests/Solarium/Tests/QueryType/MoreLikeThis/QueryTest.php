@@ -467,7 +467,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
 
         $components = $query->getComponents();
-        $this->assertEquals(1, count($components));
+        $this->assertCount(1, $components);
         $this->assertThat(
             array_pop($components),
             $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\FacetSet')
