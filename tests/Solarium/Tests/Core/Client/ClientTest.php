@@ -1293,9 +1293,7 @@ class MyAdapter extends ClientAdapterHttp
 {
     public function execute($request, $endpoint)
     {
-        $response = new Response('{}', array('HTTP/1.1 200 OK'));
-
-        return $response;
+        return new Response('{}', array('HTTP/1.1 200 OK'));
     }
 }
 
