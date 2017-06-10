@@ -32,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Solarium\\": "library/Solarium/"
+            "Solarium\\": "library/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Solarium\\Tests\\": "tests/Solarium/Tests/"
+            "Solarium\\Tests\\": "tests/"
         }
     }
 }
