@@ -273,8 +273,6 @@ class Document extends AbstractDocument implements DocumentInterface
     {
         if (isset($this->fieldBoosts[$key])) {
             return $this->fieldBoosts[$key];
-        } else {
-            return;
         }
     }
 

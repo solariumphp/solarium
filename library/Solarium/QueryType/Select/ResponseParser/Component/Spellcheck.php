@@ -115,8 +115,6 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
             }
 
             return new SpellcheckResult\Result($suggestions, $collations, $correctlySpelled);
-        } else {
-            return;
         }
     }
 

@@ -642,9 +642,9 @@ class Query extends BaseQuery
         //double add calls for the same FQ are ignored, but non-unique keys cause an exception
         if (array_key_exists($key, $this->filterQueries) && $this->filterQueries[$key] !== $filterQuery) {
             throw new InvalidArgumentException('A filterquery must have a unique key value within a query');
-        } else {
-            $this->filterQueries[$key] = $filterQuery;
-        }
+        } 
+        
+        $this->filterQueries[$key] = $filterQuery;
 
         return $this;
     }
@@ -681,8 +681,6 @@ class Query extends BaseQuery
     {
         if (isset($this->filterQueries[$key])) {
             return $this->filterQueries[$key];
-        } else {
-            return;
         }
     }
 
@@ -796,21 +794,19 @@ class Query extends BaseQuery
     {
         if (isset($this->components[$key])) {
             return $this->components[$key];
-        } else {
-            if ($autoload === true) {
-                if (!isset($this->componentTypes[$key])) {
-                    throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
-                }
+        }
 
-                $className = $this->componentTypes[$key];
-                $className = class_exists($className) ? $className : $className.strrchr($className, '\\');
-                $component = new $className($config);
-                $this->setComponent($key, $component);
-
-                return $component;
+        if ($autoload === true) {
+            if (!isset($this->componentTypes[$key])) {
+                throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
             }
 
-            return;
+            $className = $this->componentTypes[$key];
+            $className = class_exists($className) ? $className : $className.strrchr($className, '\\');
+            $component = new $className($config);
+            $this->setComponent($key, $component);
+
+            return $component;
         }
     }
 

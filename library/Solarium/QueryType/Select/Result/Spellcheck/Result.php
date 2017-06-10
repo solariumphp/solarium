@@ -92,13 +92,13 @@ class Result implements \IteratorAggregate, \Countable
         $nrOfCollations = count($this->collations);
         if ($nrOfCollations == 0) {
             return;
-        } else {
-            if ($key === null) {
-                return reset($this->collations);
-            }
-
-            return $this->collations[$key];
         }
+
+        if ($key === null) {
+            return reset($this->collations);
+        }
+
+        return $this->collations[$key];
     }
 
     /**
@@ -134,8 +134,6 @@ class Result implements \IteratorAggregate, \Countable
     {
         if (isset($this->suggestions[$key])) {
             return $this->suggestions[$key];
-        } else {
-            return;
         }
     }
 

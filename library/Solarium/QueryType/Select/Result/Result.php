@@ -232,8 +232,6 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
 
         if (isset($this->components[$key])) {
             return $this->components[$key];
-        } else {
-            return;
         }
     }
 

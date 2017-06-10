@@ -162,8 +162,6 @@ class MultiQuery extends AbstractFacet
     {
         if (isset($this->facetQueries[$key])) {
             return $this->facetQueries[$key];
-        } else {
-            return;
         }
     }
 

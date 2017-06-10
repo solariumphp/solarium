@@ -92,8 +92,6 @@ class Timing implements \IteratorAggregate, \Countable
     {
         if (isset($this->phases[$key])) {
             return $this->phases[$key];
-        } else {
-            return;
         }
     }
 

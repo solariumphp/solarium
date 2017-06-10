@@ -372,9 +372,9 @@ class FacetSet extends AbstractComponent
         //double add calls for the same facet are ignored, but non-unique keys cause an exception
         if (array_key_exists($key, $this->facets) && $this->facets[$key] !== $facet) {
             throw new InvalidArgumentException('A facet must have a unique key value within a query');
-        } else {
-            $this->facets[$key] = $facet;
         }
+
+        $this->facets[$key] = $facet;
 
         return $this;
     }
@@ -411,8 +411,6 @@ class FacetSet extends AbstractComponent
     {
         if (isset($this->facets[$key])) {
             return $this->facets[$key];
-        } else {
-            return;
         }
     }
 

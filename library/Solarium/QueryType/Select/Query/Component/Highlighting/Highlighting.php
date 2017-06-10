@@ -132,12 +132,12 @@ class Highlighting extends AbstractComponent
     {
         if (isset($this->fields[$name])) {
             return $this->fields[$name];
-        } elseif ($autocreate) {
+        }
+
+        if ($autocreate) {
             $this->addField($name);
 
             return $this->fields[$name];
-        } else {
-            return;
         }
     }
 

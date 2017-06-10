@@ -73,8 +73,6 @@ class Highlighting implements \IteratorAggregate, \Countable
     {
         if (isset($this->results[$key])) {
             return $this->results[$key];
-        } else {
-            return;
         }
     }
 
