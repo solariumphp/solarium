@@ -97,7 +97,6 @@ class DistributedSearch extends AbstractComponent
      */
     public function getResponseParser()
     {
-        return;
     }
 
     /**
