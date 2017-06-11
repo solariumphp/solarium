@@ -139,7 +139,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
     {
         $key = 'f1';
 
-        $fld = $this->stats->createField($key, true);
+        $fld = $this->stats->createField($key);
 
         $this->assertEquals(
             $key,

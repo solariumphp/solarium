@@ -551,7 +551,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
              ->method('getRequestBuilder')
              ->will($this->returnValue($observer));
 
-        $this->client->registerQueryType('testquerytype', 'Solarium\QueryType\Select\Query\Query', $observer, '');
+        $this->client->registerQueryType('testquerytype', 'Solarium\QueryType\Select\Query\Query');
         $this->client->createRequest($queryStub);
     }
 
