@@ -92,7 +92,6 @@ class DisMax extends AbstractComponent
      */
     public function getResponseParser()
     {
-        return;
     }
 
     /**
