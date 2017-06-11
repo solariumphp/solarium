@@ -183,10 +183,10 @@ class Http extends Configurable implements AdapterInterface
         // @codeCoverageIgnoreStart
         $data = @file_get_contents($uri, false, $context);
 
+        $headers = array();
+
         if (isset($http_response_header)) {
             $headers = $http_response_header;
-        } else {
-            $headers = array();
         }
 
         return array($data, $headers);
