@@ -16,7 +16,7 @@ env:
   - SYMFONY_VERSION=3.0.* # Does not work with php below 5.5
 
 before_script:
-  - bash -c "if [ $TRAVIS_PHP_VERSION != 'hhvm*' ] && [ $TRAVIS_PHP_VERSION != '7.*' ] && [ $TRAVIS_PHP_VERSION != 'nightly' ]; then printf '\n\n\n\n' | pecl install pecl_http-1.7.6; else printf '\n\n\n\n' |pecl install pecl_http-3.1.0 fi"
+  - bash -c "if [ $TRAVIS_PHP_VERSION != 'hhvm*' ] && [ $TRAVIS_PHP_VERSION != '7.*' ] && [ $TRAVIS_PHP_VERSION != 'nightly' ]; then printf '\n\n\n\n' | pecl install pecl_http-1.7.6; else printf '\n\n\n\n' | pecl install pecl_http-3.1.0 fi"
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
 
 script: vendor/bin/phpunit -c phpunit.xml.travis -v
