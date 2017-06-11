@@ -31,7 +31,6 @@
 
 namespace Solarium\Tests\QueryType\RealtimeGet;
 
-use Solarium\Core\Client\Request;
 use Solarium\QueryType\RealtimeGet\Query;
 use Solarium\QueryType\RealtimeGet\RequestBuilder;
 

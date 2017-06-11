@@ -35,7 +35,6 @@
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
-use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;

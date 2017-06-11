@@ -33,7 +33,6 @@ namespace Solarium\Tests\Core\Event;
 
 use Solarium\Core\Event\PostExecute;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
 

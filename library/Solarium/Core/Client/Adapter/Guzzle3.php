@@ -41,7 +41,6 @@ namespace Solarium\Core\Client\Adapter;
 
 use Guzzle\Http\Client as GuzzleClient;
 use Solarium\Core\Configurable;
-use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
