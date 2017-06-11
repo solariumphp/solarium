@@ -40,7 +40,7 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\Edismax as EdismaxComponent;
+use Solarium\QueryType\Select\Query\Component\EdisMax as EdismaxComponent;
 use Solarium\Core\Client\Request;
 
 /**

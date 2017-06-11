@@ -66,7 +66,7 @@ class Loader
             if (($fileName = $file->getBasename($this->fileExtension)) == $file->getBasename()) {
                 continue;
             }
-            $sourceFile = realpath($file->getPathName());
+            $sourceFile = realpath($file->getPathname());
             /** @noinspection PhpIncludeInspection */
             require_once $sourceFile;
             $includedFiles[] = $sourceFile;

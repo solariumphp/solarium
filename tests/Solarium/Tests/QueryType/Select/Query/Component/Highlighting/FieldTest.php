@@ -101,7 +101,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetFragSize()
     {
         $value = 20;
-        $this->fld->setFragsize($value);
+        $this->fld->setFragSize($value);
 
         $this->assertEquals(
             $value,

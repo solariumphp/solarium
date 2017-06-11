@@ -44,7 +44,7 @@ use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Core\Event\Events;
-use Solarium\Core\Event\preExecuteRequest as preExecuteRequestEvent;
+use Solarium\Core\Event\PreExecuteRequest as preExecuteRequestEvent;
 
 /**
  * CustomizeRequest plugin.

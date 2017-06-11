@@ -71,7 +71,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
         }
 
         try {
-            $doc = new \StdClass();
+            $doc = new \stdClass;
             $this->command->addDocument($doc);
 
             $this->fail(
