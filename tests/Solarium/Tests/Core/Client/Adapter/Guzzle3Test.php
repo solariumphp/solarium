@@ -102,7 +102,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $receivedRequests = $plugin->getReceivedRequests();
 
-        $this->assertSame(1, count($receivedRequests));
+        $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('GET', $receivedRequests[0]->getMethod());
         $this->assertSame(
@@ -149,10 +149,10 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $receivedRequests = $plugin->getReceivedRequests();
 
-        $this->assertSame(1, count($receivedRequests));
+        $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('POST', $receivedRequests[0]->getMethod());
-        $this->assertSame(file_get_contents(__FILE__), (string)$receivedRequests[0]->getBody());
+        $this->assertStringEqualsFile(__FILE__, (string)$receivedRequests[0]->getBody());
         $this->assertSame(
             'request value',
             (string)$receivedRequests[0]->getHeader('X-PHPUnit')
@@ -198,7 +198,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $receivedRequests = $plugin->getReceivedRequests();
 
-        $this->assertSame(1, count($receivedRequests));
+        $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('POST', $receivedRequests[0]->getMethod());
         $this->assertSame($xml, (string)$receivedRequests[0]->getBody());
@@ -250,7 +250,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $receivedRequests = $plugin->getReceivedRequests();
 
-        $this->assertSame(1, count($receivedRequests));
+        $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('GET', $receivedRequests[0]->getMethod());
         $this->assertSame(

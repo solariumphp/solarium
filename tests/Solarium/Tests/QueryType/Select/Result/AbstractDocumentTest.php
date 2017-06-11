@@ -73,13 +73,8 @@ abstract class AbstractDocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testPropertyEmpty()
     {
-        $this->assertTrue(
-            empty($this->doc->empty_field)
-        );
-
-        $this->assertFalse(
-            empty($this->doc->categories)
-        );
+        $this->assertEmpty($this->doc->empty_field);
+        $this->assertNotEmpty($this->doc->categories);
     }
 
     public function testSetField()
@@ -124,13 +119,8 @@ abstract class AbstractDocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayEmpty()
     {
-        $this->assertTrue(
-            empty($this->doc['empty_field'])
-        );
-
-        $this->assertFalse(
-            empty($this->doc['categories'])
-        );
+        $this->assertEmpty($this->doc['empty_field']);
+        $this->assertNotEmpty($this->doc['categories']);
     }
 
     public function testArraySet()

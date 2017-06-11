@@ -85,7 +85,7 @@ class ResultTest extends AbstractResultTest
         $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
         $docs = $result->getDocuments();
 
-        $this->assertEquals(3, count($docs));
+        $this->assertCount(3, $docs);
         $this->assertEquals($docs[0]->title, $this->docs[0]->title);
         $this->assertEquals($docs[1]->title, $this->docs[1]->title);
         $this->assertEquals($docs[2]->title, $this->docs[2]->title);

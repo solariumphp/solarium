@@ -86,7 +86,7 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
 
         $this->plugin->initPlugin($mockClient, array());
         $this->plugin->setQuery($this->query);
-        $this->assertEquals(5, count($this->plugin));
+        $this->assertCount(5, $this->plugin);
     }
 
     public function testIteratorAndRewind()
@@ -200,7 +200,7 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
 
         $this->plugin->initPlugin($mockClient, array());
         $this->plugin->setQuery($this->query)->setEndpoint('s2');
-        $this->assertEquals(5, count($this->plugin));
+        $this->assertCount(5, $this->plugin);
     }
 
     public function testWithSpecificEndpointOption()
@@ -214,7 +214,7 @@ class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
 
         $this->plugin->initPlugin($mockClient, array('endpoint' => 's3'));
         $this->plugin->setQuery($this->query);
-        $this->assertEquals(5, count($this->plugin));
+        $this->assertCount(5, $this->plugin);
     }
 }
 
