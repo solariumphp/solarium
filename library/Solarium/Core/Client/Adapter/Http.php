@@ -114,11 +114,10 @@ class Http extends Configurable implements AdapterInterface
                 $boundary = '----------' . md5(time());
                 $CRLF = "\r\n";
                 $file = $request->getFileUpload();
-                $filename = basename($file);
                 // Add the proper boundary to the Content-Type header
                 $request->addHeader("Content-Type: multipart/form-data; boundary={$boundary}");
                 $data =  "--{$boundary}" . $CRLF;
-                $data .= 'Content-Disposition: form-data; name="upload"; filename=' . $filename . $CRLF;
+                $data .= 'Content-Disposition: form-data; name="upload"; filename=' . $file . $CRLF;
                 $data .= 'Content-Type: application/octet-stream' . $CRLF . $CRLF;
                 $data .= file_get_contents($request->getFileUpload()) . $CRLF;
                 $data .= '--' . $boundary . '--';
