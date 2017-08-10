@@ -111,13 +111,30 @@ class Http extends Configurable implements AdapterInterface
 
         if ($method == Request::METHOD_POST) {
             if ($request->getFileUpload()) {
+                $boundary = '----------' . md5(time());
+                $CRLF = "\r\n";
+                $file = $request->getFileUpload();
+                // Add the proper boundary to the Content-Type header
+                $headers = $request->getHeaders();
+                // Remove the Content-Type header, because we will replace it with something else.
+                if (($key = array_search("Content-Type: multipart/form-data", $headers)) !== false) {
+                  unset($headers[$key]);
+                }
+                $request->setHeaders($headers);
+                $request->addHeader("Content-Type: multipart/form-data; boundary={$boundary}");
+                $data =  "--{$boundary}" . $CRLF;
+                $data .= 'Content-Disposition: form-data; name="upload"; filename=' . $file . $CRLF;
+                $data .= 'Content-Type: application/octet-stream' . $CRLF . $CRLF;
+                $data .= file_get_contents($file) . $CRLF;
+                $data .= '--' . $boundary . '--';
+                $content_length = strlen($data);
+                $request->addHeader("Content-Length: $content_length\r\n");
                 stream_context_set_option(
                     $context,
                     'http',
                     'content',
-                    file_get_contents($request->getFileUpload())
+                    $data
                 );
-                $request->addHeader('Content-Type: multipart/form-data');
             } else {
                 $data = $request->getRawData();
                 if (null !== $data) {
