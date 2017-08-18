@@ -80,7 +80,7 @@ interface ClientInterface
      * Supports a endpoint instance or a config array as input.
      * In case of options a new endpoint instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
+     * @throws \Solarium\Exception\InvalidArgumentException
      * @param  Endpoint|array           $endpoint
      * @return self                     Provides fluent interface
      */
@@ -97,7 +97,7 @@ interface ClientInterface
     /**
      * Get an endpoint by key
      *
-     * @throws OutOfBoundsException
+     * @throws \Solarium\Exception\OutOfBoundsException
      * @param  string               $key
      * @return Endpoint
      */
@@ -116,7 +116,7 @@ interface ClientInterface
      * You can remove a endpoint by passing it's key, or by passing the endpoint instance
      *
      * @param  string|Endpoint $endpoint
-     * @return ClientInterface Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function removeEndpoint($endpoint);
 
@@ -142,8 +142,8 @@ interface ClientInterface
      * All queries executed without a specific endpoint will use this default endpoint.
      *
      * @param  string|Endpoint      $endpoint
-     * @return ClientInterface      Provides fluent interface
-     * @throws OutOfBoundsException
+     * @return self      Provides fluent interface
+     * @throws \Solarium\Exception\OutOfBoundsException
      */
     public function setDefaultEndpoint($endpoint);
 
@@ -162,9 +162,9 @@ interface ClientInterface
      * If an adapter instance is passed it will replace the current adapter
      * immediately, bypassing the lazy loading.
      *
-     * @throws InvalidArgumentException
+     * @throws \Solarium\Exception\InvalidArgumentException
      * @param  string|Adapter\AdapterInterface $adapter
-     * @return ClientInterface                 Provides fluent interface
+     * @return self                 Provides fluent interface
      */
     public function setAdapter($adapter);
 
@@ -175,7 +175,7 @@ interface ClientInterface
      * calling {@see createAdapter()}
      *
      * @param  boolean          $autoload
-     * @return AdapterInterface
+     * @return Adapter\AdapterInterface
      */
     public function getAdapter($autoload = true);
 
@@ -230,9 +230,9 @@ interface ClientInterface
      * This requires the availability of the class through autoloading
      * or a manual require.
      *
-     * @throws InvalidArgumentException
+     * @throws \Solarium\Exception\InvalidArgumentException
      * @param  string                   $key
-     * @param  string|PluginInterface   $plugin
+     * @param  string|\Solarium\Core\Plugin\PluginInterface   $plugin
      * @param  array                    $options
      * @return self                     Provides fluent interface
      */
@@ -249,17 +249,17 @@ interface ClientInterface
     /**
      * Get all registered plugins
      *
-     * @return PluginInterface[]
+     * @return \Solarium\Core\Plugin\PluginInterface[]
      */
     public function getPlugins();
 
     /**
      * Get a plugin instance
      *
-     * @throws OutOfBoundsException
+     * @throws \Solarium\Exception\OutOfBoundsException
      * @param  string               $key
      * @param  boolean              $autocreate
-     * @return PluginInterface|null
+     * @return \Solarium\Core\Plugin\PluginInterface|null
      */
     public function getPlugin($key, $autocreate = true);
 
@@ -268,15 +268,15 @@ interface ClientInterface
      *
      * You can remove a plugin by passing the plugin key, or the plugin instance
      *
-     * @param  string|PluginInterface $plugin
-     * @return ClientInterface        Provides fluent interface
+     * @param  string|\Solarium\Core\Plugin\PluginInterface $plugin
+     * @return self        Provides fluent interface
      */
     public function removePlugin($plugin);
 
     /**
      * Creates a request based on a query instance
      *
-     * @throws UnexpectedValueException
+     * @throws \Solarium\Exception\UnexpectedValueException
      * @param  QueryInterface           $query
      * @return Request
      */
@@ -285,10 +285,10 @@ interface ClientInterface
     /**
      * Creates a result object
      *
-     * @throws UnexpectedValueException;
+     * @throws \Solarium\Exception\UnexpectedValueException
      * @param  QueryInterface            $query
-     * @param  array Response            $response
-     * @return ResultInterface
+     * @param  Response            $response
+     * @return \Solarium\Core\Query\Result\ResultInterface
      */
     public function createResult(QueryInterface $query, $response);
 
@@ -297,15 +297,15 @@ interface ClientInterface
      *
      * @param  QueryInterface       $query
      * @param  Endpoint|string|null $endpoint
-     * @return ResultInterface
+     * @return \Solarium\Core\Query\Result\ResultInterface
      */
     public function execute(QueryInterface $query, $endpoint = null);
 
     /**
      * Execute a request and return the response
      *
-     * @param Request
-     * @param Endpoint|string|null
+     * @param Request               $request
+     * @param Endpoint|string|null  $endpoint
      * @return Response
      */
     public function executeRequest($request, $endpoint = null);
@@ -461,7 +461,7 @@ interface ClientInterface
     /**
      * Create a query instance
      *
-     * @throws InvalidArgumentException|UnexpectedValueException
+     * @throws \Solarium\Exception\InvalidArgumentException|\Solarium\Exception\UnexpectedValueException
      * @param  string                                            $type
      * @param  array                                             $options
      * @return \Solarium\Core\Query\Query
