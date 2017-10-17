@@ -107,7 +107,7 @@ class Range extends Field
      */
     public function __construct($values, $before, $after, $between, $start, $end, $gap)
     {
-        $this->values = $values;
+        parent::__construct($values);
         $this->before = $before;
         $this->after = $after;
         $this->between = $between;
