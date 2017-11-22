@@ -64,8 +64,6 @@ class Types extends ResultList
                 return $item;
             }
         }
-
-        return;
     }
 
     /**
@@ -80,7 +78,5 @@ class Types extends ResultList
                 return $item;
             }
         }
-
-        return;
     }
 }

@@ -64,10 +64,10 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
     {
         $data = $result->getData();
 
+        $items = array();
+
         if (isset($data['analysis'])) {
             $items = $this->parseAnalysis($result, $data['analysis']);
-        } else {
-            $items = array();
         }
 
         return $this->addHeaderInfo($data, array('items' => $items));

@@ -33,7 +33,6 @@ namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
 
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting;
 use Solarium\QueryType\Select\Query\Component\Highlighting\Field;
-use Solarium\QueryType\Select\Query\Query;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -101,7 +100,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetFragSize()
     {
         $value = 20;
-        $this->fld->setFragsize($value);
+        $this->fld->setFragSize($value);
 
         $this->assertEquals(
             $value,

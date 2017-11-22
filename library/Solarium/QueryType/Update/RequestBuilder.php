@@ -229,10 +229,6 @@ class RequestBuilder extends BaseRequestBuilder
      */
     protected function buildFieldXml($name, $boost, $value, $modifier = null, $query = null)
     {
-        if ($value instanceof \DateTime) {
-            $value = $query->getHelper()->formatDate($value);
-        }
-
         $xml = '<field name="' . $name . '"';
         $xml .= $this->attrib('boost', $boost);
         $xml .= $this->attrib('update', $modifier);
@@ -242,10 +238,13 @@ class RequestBuilder extends BaseRequestBuilder
             $value = 'false';
         } elseif ($value === true) {
             $value = 'true';
+        } elseif ($value instanceof \DateTime) {
+            $value = $query->getHelper()->formatDate($value);
+        } else {
+            $value = htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
         }
 
-        $xml .= '>' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
-        $xml .= '</field>';
+        $xml .= '>' . $value . '</field>';
 
         return $xml;
     }

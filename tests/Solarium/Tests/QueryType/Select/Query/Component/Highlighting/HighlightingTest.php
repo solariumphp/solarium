@@ -294,7 +294,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetFragSize()
     {
         $value = 20;
-        $this->hlt->setFragsize($value);
+        $this->hlt->setFragSize($value);
 
         $this->assertEquals(
             $value,

@@ -37,7 +37,6 @@ class Spatial extends AbstractComponent
      */
     public function getResponseParser()
     {
-        return;
     }
 
     /**

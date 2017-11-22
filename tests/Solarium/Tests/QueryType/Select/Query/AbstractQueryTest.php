@@ -262,7 +262,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
     {
         $key = 'fq1';
 
-        $fq = $this->query->createFilterQuery($key, true);
+        $fq = $this->query->createFilterQuery($key);
         $fq->setQuery('category:1');
 
         $this->assertEquals(
@@ -470,7 +470,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         );
 
         $components = $query->getComponents();
-        $this->assertEquals(1, count($components));
+        $this->assertCount(1, $components);
         $this->assertThat(
             array_pop($components),
             $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\FacetSet')
@@ -612,7 +612,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $components = $this->query->getComponentTypes();
         $components['mykey'] = 'mycomponent';
 
-        $this->query->registerComponentType('mykey', 'mycomponent', 'mybuilder', 'myparser');
+        $this->query->registerComponentType('mykey', 'mycomponent');
 
         $this->assertEquals(
             $components,

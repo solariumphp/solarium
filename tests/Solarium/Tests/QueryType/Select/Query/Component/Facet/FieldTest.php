@@ -117,8 +117,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetMinCount()
     {
-        $this->facet->setMincount(100);
-        $this->assertEquals(100, $this->facet->getMincount());
+        $this->facet->setMinCount(100);
+        $this->assertEquals(100, $this->facet->getMinCount());
     }
 
     public function testSetAndGetMissing()
