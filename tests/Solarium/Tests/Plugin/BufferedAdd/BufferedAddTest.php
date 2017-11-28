@@ -57,6 +57,18 @@ class BufferedAddTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(500, $this->plugin->getBufferSize());
     }
 
+    public function testSetAndGetOverwrite()
+    {
+        $this->plugin->setOverwrite(true);
+        $this->assertTrue($this->plugin->getOverwrite());
+	}
+
+    public function testSetAndGetCommitWithin()
+    {
+        $this->plugin->setCommitWithin(500);
+        $this->assertEquals(500, $this->plugin->getCommitWithin());
+	}
+
     public function testAddDocument()
     {
         $doc = new Document();
