@@ -11,7 +11,7 @@ Please see the docs for a more detailed description.
 
 ## Requirements
 
-Solarium only supports PHP 5.4 and up.
+Solarium only supports PHP 5.5 and up.
 It's highly recommended to have Curl enabled in your PHP environment. However if you don't have Curl available you can
 switch from using Curl (the default) to another client adapter. The other adapters don't support all the features of the
 Curl adapter.
