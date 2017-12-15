@@ -20,6 +20,8 @@ cache:
     - $HOME/.composer/cache
 
 before_script:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y zlib
   - pecl install pecl_http
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
 
