@@ -20,7 +20,7 @@ cache:
     - $HOME/.composer/cache
 
 before_script:
-  - bash -c "pecl install pecl_http"
+  - pecl install pecl_http
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
 
 script: vendor/bin/phpunit -c phpunit.xml.travis -v
