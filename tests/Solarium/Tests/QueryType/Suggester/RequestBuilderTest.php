@@ -55,22 +55,18 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildParams()
     {
-        $this->query->setCollate(true);
         $this->query->setCount(13);
         $this->query->setDictionary('suggest');
         $this->query->setQuery('ap ip');
-        $this->query->setOnlyMorePopular(true);
 
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
             array(
-                'spellcheck' => 'true',
-                'q' => 'ap ip',
-                'spellcheck.dictionary' => 'suggest',
-                'spellcheck.count' => 13,
-                'spellcheck.onlyMorePopular' => 'true',
-                'spellcheck.collate' => 'true',
+                'suggest' => 'true',
+                'suggest.q' => 'ap ip',
+                'suggest.dictionary' => 'suggest',
+                'suggest.count' => 13,
                 'wt' => 'json',
                 'json.nl' => 'flat',
                 'omitHeader' => 'true',
