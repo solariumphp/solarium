@@ -60,9 +60,12 @@ class RequestBuilder extends BaseRequestBuilder
     {
         $request = parent::build($query);
         $request->addParam('suggest', 'true');
-        $request->addParam('suggest.q', $query->getQuery());
         $request->addParam('suggest.dictionary', $query->getDictionary());
+        $request->addParam('suggest.q', $query->getQuery());
         $request->addParam('suggest.count', $query->getCount());
+        $request->addParam('suggest.cfq', $query->getContextFilterQuery());
+        $request->addParam('suggest.build', $query->getBuild());
+        $request->addParam('suggest.reload', $query->getReload());
 
         return $request;
     }
