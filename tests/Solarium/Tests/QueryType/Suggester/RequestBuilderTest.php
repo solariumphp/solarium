@@ -55,18 +55,23 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildParams()
     {
-        $this->query->setCount(13);
         $this->query->setDictionary('suggest');
         $this->query->setQuery('ap ip');
+        $this->query->setCount(13);
+        $this->query->setContextFilterQuery('foo bar');
+        $this->query->setBuild('true');
 
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
             array(
                 'suggest' => 'true',
-                'suggest.q' => 'ap ip',
                 'suggest.dictionary' => 'suggest',
+                'suggest.q' => 'ap ip',
                 'suggest.count' => 13,
+                'suggest.cfq' => 'foo bar',
+                'suggest.build' => 'true',
+                'suggest.reload' => 'false',
                 'wt' => 'json',
                 'json.nl' => 'flat',
                 'omitHeader' => 'true',

@@ -94,25 +94,46 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSetAndGetOnlyMorePopular()
+    public function testSetAndGetContextFilterQuery()
     {
-        $value = false;
-        $this->query->setOnlyMorePopular($value);
+        $value = 'context filter query';
+        $this->query->setContextFilterQuery($value);
 
         $this->assertEquals(
             $value,
-            $this->query->getOnlyMorePopular()
+            $this->query->getContextFilterQuery()
         );
     }
 
-    public function testSetAndGetCollate()
+    public function testSetAndBuild()
     {
-        $value = false;
-        $this->query->setCollate($value);
+        $this->assertEquals(
+            false,
+            $this->query->getBuild()
+        );
+
+        $value = true;
+        $this->query->setBuild($value);
 
         $this->assertEquals(
             $value,
-            $this->query->getCollate()
+            $this->query->getBuild()
+        );
+    }
+
+    public function testSetAndReload()
+    {
+        $this->assertEquals(
+            false,
+            $this->query->getReload()
+        );
+
+        $value = true;
+        $this->query->setReload($value);
+
+        $this->assertEquals(
+            $value,
+            $this->query->getReload()
         );
     }
 }

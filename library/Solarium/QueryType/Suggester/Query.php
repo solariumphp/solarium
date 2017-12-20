@@ -60,6 +60,8 @@ class Query extends BaseQuery
         'resultclass'   => 'Solarium\QueryType\Suggester\Result\Result',
         'termclass'     => 'Solarium\QueryType\Suggester\Result\Term',
         'omitheader'    => true,
+        'build'         => false,
+        'reload'        => false,
     );
 
     /**
@@ -165,48 +167,70 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set onlyMorePopular option.
+     * Set cfq option.
      *
-     * Only return suggestions that result in more hits for the query than the existing query
+     * A Context Filter Query used to filter suggestions based on the context field, if supported by the suggester.
      *
-     * @param boolean $onlyMorePopular
-     *
-     * @return self Provides fluent interface
-     */
-    public function setOnlyMorePopular($onlyMorePopular)
-    {
-        return $this->setOption('onlymorepopular', $onlyMorePopular);
-    }
-
-    /**
-     * Get onlyMorePopular option.
-     *
-     * @return boolean|null
-     */
-    public function getOnlyMorePopular()
-    {
-        return $this->getOption('onlymorepopular');
-    }
-
-    /**
-     * Set collate option.
-     *
-     * @param boolean $collate
+     * @param string $cfq
      *
      * @return self Provides fluent interface
      */
-    public function setCollate($collate)
+    public function setContextFilterQuery($cfq)
     {
-        return $this->setOption('collate', $collate);
+        return $this->setOption('cfq', $cfq);
     }
 
     /**
-     * Get collate option.
+     * Get cfq option.
+     *
+     * @return string|null
+     */
+    public function getContextFilterQuery()
+    {
+        return $this->getOption('cfq');
+    }
+
+    /**
+     * Set build option.
+     *
+     * @param boolean $build
+     *
+     * @return self Provides fluent interface
+     */
+    public function setBuild($build)
+    {
+        return $this->setOption('build', $build);
+    }
+
+    /**
+     * Get build option.
      *
      * @return boolean|null
      */
-    public function getCollate()
+    public function getBuild()
     {
-        return $this->getOption('collate');
+        return $this->getOption('build');
+    }
+
+    /**
+     * Set reload option.
+     *
+     * @param boolean $build
+     *
+     * @return self Provides fluent interface
+     */
+    public function setReload($reload)
+    {
+      return $this->setOption('reload', $reload);
+    }
+
+    /**
+     * Get reload option.
+     *
+     * @return boolean|null
+     */
+    public function getReload()
+    {
+      return $this->getOption('reload');
     }
 }
