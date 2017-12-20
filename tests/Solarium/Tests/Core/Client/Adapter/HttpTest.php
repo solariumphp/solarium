@@ -184,16 +184,20 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $context = $this->adapter->createContext($request, $endpoint);
 
+        // Remove content from comparison, since we can't determine the
+        // random boundary string.
+        $stream_context_get_options = stream_context_get_options($context);
+        unset($stream_context_get_options['http']['content']);
+        unset($stream_context_get_options['http']['header']);
+
         $this->assertEquals(
             array(
                 'http' => array(
                     'method' => $method,
                     'timeout' => $timeout,
-                    'content' => file_get_contents(__FILE__),
-                    'header' => 'Content-Type: multipart/form-data',
                 )
             ),
-            stream_context_get_options($context)
+            $stream_context_get_options
         );
     }
 
