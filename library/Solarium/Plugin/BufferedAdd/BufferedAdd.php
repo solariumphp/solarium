@@ -99,7 +99,7 @@ class BufferedAdd extends AbstractPlugin
      *
      * @return string
      */
-    public function getEndPoint()
+    public function getEndpoint()
     {
         return $this->getOption('endpoint');
     }
@@ -223,7 +223,7 @@ class BufferedAdd extends AbstractPlugin
         $this->client->getEventDispatcher()->dispatch(Events::PRE_FLUSH, $event);
 
         $this->updateQuery->addDocuments($event->getBuffer(), $event->getOverwrite(), $event->getCommitWithin());
-        $result = $this->client->update($this->updateQuery, $this->getEndPoint());
+        $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 
         $event = new PostFlushEvent($result);
@@ -251,7 +251,7 @@ class BufferedAdd extends AbstractPlugin
 
         $this->updateQuery->addDocuments($this->buffer, $event->getOverwrite());
         $this->updateQuery->addCommit($event->getSoftCommit(), $event->getWaitSearcher(), $event->getExpungeDeletes());
-        $result = $this->client->update($this->updateQuery, $this->getEndPoint());
+        $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 
         $event = new PostCommitEvent($result);
