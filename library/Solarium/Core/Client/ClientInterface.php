@@ -126,7 +126,7 @@ interface ClientInterface
      * You can remove a endpoint by passing it's key, or by passing the endpoint instance
      *
      * @param  string|Endpoint $endpoint
-     * @return ClientInterface Provides fluent interface
+     * @return self            Provides fluent interface
      */
     public function removeEndpoint($endpoint);
 
@@ -152,7 +152,7 @@ interface ClientInterface
      * All queries executed without a specific endpoint will use this default endpoint.
      *
      * @param  string|Endpoint      $endpoint
-     * @return ClientInterface      Provides fluent interface
+     * @return self                 Provides fluent interface
      * @throws OutOfBoundsException
      */
     public function setDefaultEndpoint($endpoint);
@@ -174,7 +174,7 @@ interface ClientInterface
      *
      * @throws InvalidArgumentException
      * @param  string|Adapter\AdapterInterface $adapter
-     * @return ClientInterface                 Provides fluent interface
+     * @return self                            Provides fluent interface
      */
     public function setAdapter($adapter);
 
@@ -229,7 +229,7 @@ interface ClientInterface
      *
      * @param EventDispatcherInterface $eventDispatcher
      *
-     * @return $this
+     * @return self                    Provides fluent interface
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher);
 
@@ -279,7 +279,7 @@ interface ClientInterface
      * You can remove a plugin by passing the plugin key, or the plugin instance
      *
      * @param  string|PluginInterface $plugin
-     * @return ClientInterface        Provides fluent interface
+     * @return self                   Provides fluent interface
      */
     public function removePlugin($plugin);
 
@@ -352,8 +352,8 @@ interface ClientInterface
      * $result = $client->update($update);
      * </code>
      *
-     * @see Solarium\QueryType\Update
-     * @see Solarium\Result\Update
+     * @see \Solarium\QueryType\Update\Query\Query
+     * @see \Solarium\QueryType\Update\Result
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
@@ -374,8 +374,8 @@ interface ClientInterface
      * $result = $client->select($query);
      * </code>
      *
-     * @see Solarium\QueryType\Select
-     * @see Solarium\Result\Select
+     * @see \Solarium\QueryType\Select\Query\Query
+     * @see \Solarium\QueryType\Select\Result\Result
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
@@ -396,8 +396,8 @@ interface ClientInterface
      * $result = $client->moreLikeThis($query);
      * </code>
      *
-     * @see Solarium\QueryType\MoreLikeThis
-     * @see Solarium\Result\MoreLikeThis
+     * @see \Solarium\QueryType\MoreLikeThis\Query
+     * @see \Solarium\QueryType\MoreLikeThis\Result
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
