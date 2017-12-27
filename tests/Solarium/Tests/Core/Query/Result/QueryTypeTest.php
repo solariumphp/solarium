@@ -49,7 +49,7 @@ class QueryTypeTest extends \PHPUnit_Framework_TestCase
         $client = new Client;
         $query = new UpdateQuery;
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
-        $this->result = new QueryTypeDummy($client, $query, $response);
+        $this->result = new QueryTypeDummy($query, $response);
     }
 
     public function testParseResponse()
@@ -57,7 +57,7 @@ class QueryTypeTest extends \PHPUnit_Framework_TestCase
         $client = new Client;
         $query = new QueryDummyTest;
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
-        $result = new QueryTypeDummy($client, $query, $response);
+        $result = new QueryTypeDummy($query, $response);
 
         $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $result->parse();

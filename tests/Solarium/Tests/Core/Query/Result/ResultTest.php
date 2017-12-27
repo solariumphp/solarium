@@ -58,7 +58,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             '"response":{"numFound":0,"start":0,"docs":[]}}';
         $this->response = new Response($data, $this->headers);
 
-        $this->result = new Result($this->client, $this->query, $this->response);
+        $this->result = new Result($this->query, $this->response);
     }
 
     public function testResultWithErrorResponse()
@@ -67,7 +67,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $response = new Response('Error message', $headers);
 
         $this->setExpectedException('Solarium\Exception\HttpException');
-        new Result($this->client, $this->query, $response);
+        new Result($this->query, $response);
     }
 
     public function testExceptionGetBody()
@@ -76,7 +76,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $response = new Response('Error message', $headers);
 
         try {
-            new Result($this->client, $this->query, $response);
+            new Result($this->query, $response);
         } catch (HttpException $e) {
             $this->assertEquals('Error message', $e->getBody());
         }
@@ -126,7 +126,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         );
 
         $response = new Response($phpsData, $this->headers);
-        $result = new Result($this->client, $this->query, $response);
+        $result = new Result($this->query, $response);
 
         $this->assertEquals($resultData, $result->getData());
     }
@@ -134,7 +134,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testGetDataWithUnkownResponseWriter()
     {
         $this->query->setResponseWriter('asdf');
-        $result = new Result($this->client, $this->query, $this->response);
+        $result = new Result($this->query, $this->response);
 
         $this->setExpectedException('Solarium\Exception\RuntimeException');
         $result->getData();
@@ -144,9 +144,10 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     {
         $data = 'invalid';
         $this->response = new Response($data, $this->headers);
-        $this->result = new Result($this->client, $this->query, $this->response);
+        $this->result = new Result($this->query, $this->response);
 
         $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
         $this->result->getData();
     }
+
 }

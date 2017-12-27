@@ -739,7 +739,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $resultClass = $query->getResultClass();
-        $result = new $resultClass($this, $query, $response);
+        $result = new $resultClass($query, $response);
 
         if (!($result instanceof ResultInterface)) {
             throw new UnexpectedValueException('Result class must implement the ResultInterface');

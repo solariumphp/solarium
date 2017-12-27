@@ -712,7 +712,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
             $expectedEvent->setName(Events::PRE_CREATE_RESULT);
         }
-        $expectedResult = new Result($this->client, $query, $response);
+        $expectedResult = new Result($query, $response);
 
         $test = $this;
         $this->client->getEventDispatcher()->addListener(
@@ -749,7 +749,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $query = new PingQuery();
         $response = new Response('', array('HTTP 1.0 200 OK'));
-        $result = new Result($this->client, $query, $response);
+        $result = new Result($query, $response);
 
         $observer = $this->getMock(
             'Solarium\Core\Client\Client',
@@ -778,7 +778,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $query = new PingQuery();
         $response = new Response('', array('HTTP 1.0 200 OK'));
-        $result = new Result($this->client, $query, $response);
+        $result = new Result($query, $response);
         $expectedEvent = new PreExecuteEvent($query);
 
 
@@ -815,7 +815,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $query = new PingQuery();
         $response = new Response('', array('HTTP 1.0 200 OK'));
-        $result = new Result($this->client, $query, $response);
+        $result = new Result($query, $response);
         $expectedEvent = new PostExecuteEvent($query, $result);
 
         $mock = $this->getMock('Solarium\Core\Client\Client', array('createRequest', 'executeRequest', 'createResult'));
@@ -851,7 +851,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $query = new PingQuery();
         $response = new Response('', array('HTTP 1.0 200 OK'));
-        $expectedResult = new Result($this->client, $query, $response);
+        $expectedResult = new Result($query, $response);
         $expectedEvent = new PreExecuteEvent($query);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());

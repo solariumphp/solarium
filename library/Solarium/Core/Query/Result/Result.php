@@ -79,24 +79,15 @@ class Result implements ResultInterface
     protected $query;
 
     /**
-     * Solarium client instance.
-     *
-     * @var Client
-     */
-    protected $client;
-
-    /**
      * Constructor.
      *
      * @throws HttpException
      *
-     * @param Client        $client
      * @param AbstractQuery $query
      * @param Response      $response
      */
-    public function __construct($client, $query, $response)
+    public function __construct($query, $response)
     {
-        $this->client = $client;
         $this->query = $query;
         $this->response = $response;
 
