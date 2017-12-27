@@ -82,6 +82,8 @@ class PivotItem extends Pivot
      */
     public function __construct($data)
     {
+        parent::__construct([]);
+
         $this->field = $data['field'];
         $this->value = $data['value'];
         $this->count = $data['count'];

@@ -10,7 +10,7 @@ use Solarium\Core\Client\ClientInterface;
 class Purger
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 

@@ -10,14 +10,14 @@ use Solarium\Core\Client\ClientInterface;
 class Executor
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
     /**
      * Constructor.
      *
-     * @param \Solarium\Core\Client\ClientInterface $client
+     * @param ClientInterface $client
      */
     public function __construct(ClientInterface $client)
     {

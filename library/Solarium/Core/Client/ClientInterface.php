@@ -38,7 +38,17 @@
  */
 namespace Solarium\Core\Client;
 
+use Solarium\Core\Client\Adapter\AdapterInterface;
+use Solarium\Core\Plugin\PluginInterface;
 use Solarium\Core\Query\QueryInterface;
+use Solarium\Core\Query\Result\ResultInterface;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
+use Solarium\Exception\UnexpectedValueException;
+use Solarium\QueryType\Analysis\Query\Document as AnalysisQueryDocument;
+use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
+use Solarium\QueryType\Analysis\Result\Document as AnalysisResultDocument;
+use Solarium\QueryType\Analysis\Result\Field as AnalysisResultField;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -320,7 +330,7 @@ interface ClientInterface
      * $result = $client->ping($query);
      * </code>
      *
-     * @see Solarium\QueryType\Ping
+     * @see \Solarium\QueryType\Ping\Query
      *
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
@@ -404,9 +414,9 @@ interface ClientInterface
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param  QueryInterface|\Solarium\QueryType\Analysis\Query\Document|\Solarium\QueryType\Analysis\Query\Field $query
+     * @param  QueryInterface|AnalysisQueryDocument|AnalysisQueryField $query
      * @param  Endpoint|string|null                                                                                $endpoint
-     * @return \Solarium\QueryType\Analysis\Result\Document|\Solarium\QueryType\Analysis\Result\Field
+     * @return AnalysisResultDocument|AnalysisResultField
      */
     public function analyze(QueryInterface $query, $endpoint = null);
 
@@ -504,7 +514,7 @@ interface ClientInterface
      * Create an analysis field query instance
      *
      * @param  mixed                                    $options
-     * @return \Solarium\QueryType\Analysis\Query\Field
+     * @return AnalysisQueryField
      */
     public function createAnalysisField($options = null);
 
@@ -512,7 +522,7 @@ interface ClientInterface
      * Create an analysis document query instance
      *
      * @param  mixed                                       $options
-     * @return \Solarium\QueryType\Analysis\Query\Document
+     * @return AnalysisQueryDocument
      */
     public function createAnalysisDocument($options = null);
 
