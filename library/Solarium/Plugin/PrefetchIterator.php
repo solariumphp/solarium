@@ -92,6 +92,13 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     protected $position;
 
     /**
+     * Cursor mark.
+     *
+     * @var string
+     */
+    protected $cursormark;
+
+    /**
      * Documents from the last resultset.
      *
      * @var DocumentInterface[]
@@ -196,6 +203,10 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
         // this condition prevent useless re-fetching of data if a count is done before the iterator is used
         if ($this->start !== $this->options['prefetch']) {
             $this->start = 0;
+            
+            if (null !== $this->cursormark) {
+                $this->cursormark = '*';
+            }
         }
     }
 
@@ -251,8 +262,19 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     protected function fetchNext()
     {
-        $this->query->setStart($this->start)->setRows($this->getPrefetch());
+        if (null === $this->cursormark && null !== $this->query->getCursormark()) {
+            $this->cursormark = '*';
+        }
+
+        if (null === $this->cursormark) {
+            $this->query->setStart($this->start)->setRows($this->getPrefetch());
+        }
+        else {
+            $this->query->setCursormark($this->cursormark)->setRows($this->getPrefetch());
+        }
+
         $this->result = $this->client->execute($this->query, $this->getOption('endpoint'));
+        $this->cursormark = $this->result->getNextCursorMark();
         $this->documents = $this->result->getDocuments();
         $this->start += $this->getPrefetch();
     }
@@ -266,5 +288,6 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
         $this->result = null;
         $this->documents = null;
         $this->start = 0;
+        $this->cursormark = null;
     }
 }

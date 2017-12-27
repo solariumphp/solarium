@@ -74,6 +74,7 @@ class RequestBuilder extends BaseRequestBuilder
         $request->addParam('fl', implode(',', $query->getFields()));
         $request->addParam('q.op', $query->getQueryDefaultOperator());
         $request->addParam('df', $query->getQueryDefaultField());
+        $request->addParam('cursorMark', $query->getCursormark());
 
         // add sort fields to request
         $sort = array();

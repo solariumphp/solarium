@@ -90,6 +90,15 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     protected $maxscore;
 
     /**
+     * Solr nextcursormark.
+     *
+     * Will only be available if 'cursormark' was set for your query
+     *
+     * @var string
+     */
+    protected $nextcursormark;
+
+    /**
      * Document instances array.
      *
      * @var array
@@ -175,6 +184,21 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
         $this->parseResponse();
 
         return $this->maxscore;
+    }
+
+    /**
+     * get Solr nextcursormark.
+     *
+     * Returns the next cursor mark for deep paging
+     * Will only be available if 'cursormark' was set for your query
+     *
+     * @return string
+     */
+    public function getNextCursorMark()
+    {
+        $this->parseResponse();
+
+        return $this->nextcursormark;
     }
 
     /**

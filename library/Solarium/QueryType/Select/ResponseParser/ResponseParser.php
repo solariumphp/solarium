@@ -107,6 +107,12 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             $maxScore = $data['response']['maxScore'];
         }
 
+        if (isset($data['nextCursorMark'])) {
+            $nextCursorMark = $data['nextCursorMark'];
+        } else {
+            $nextCursorMark = null;
+        }
+
         return $this->addHeaderInfo(
             $data,
             array(
@@ -114,6 +120,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
                 'maxscore' => $maxScore,
                 'documents' => $documents,
                 'components' => $components,
+                'nextcursormark' => $nextCursorMark,
             )
         );
     }
