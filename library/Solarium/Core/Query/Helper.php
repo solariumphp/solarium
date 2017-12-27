@@ -139,7 +139,7 @@ class Helper
      *
      * @see http://lucene.apache.org/solr/api/org/apache/solr/schema/DateField.html
      *
-     * @param int|string|\DateTime $input accepted formats: timestamp, date string or DateTime
+     * @param int|string|\DateTimeInterface $input accepted formats: timestamp, date string or DateTime / DateTimeImmutable
      *
      * @return string|boolean false is returned in case of invalid input
      */
@@ -148,7 +148,7 @@ class Helper
         switch (true) {
 
             // input of datetime object
-            case $input instanceof \DateTime:
+            case $input instanceof \DateTimeInterface:
                 // no work needed
                 break;
 
@@ -180,7 +180,7 @@ class Helper
         // handle the filtered input
         if ($input) {
             // when we get here the input is always a datetime object
-            $input->setTimezone(new \DateTimeZone('UTC'));
+            $input = $input->setTimezone(new \DateTimeZone('UTC'));
             $iso8601 = $input->format(\DateTime::ISO8601);
             $iso8601 = strstr($iso8601, '+', true); //strip timezone
             $iso8601 .= 'Z';
