@@ -10,19 +10,28 @@ php:
   - nightly
 
 env:
-  - SYMFONY_VERSION=2.3.*
-  - SYMFONY_VERSION=2.7.*
-  - SYMFONY_VERSION=2.8.*
-  - SYMFONY_VERSION=3.0.* # Does not work with php below 5.5
-  - SYMFONY_VERSION=4.0.*
+  - SYMFONY_VERSION=2.3.* SOLR_VERSION=6.6.1 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.1 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - SYMFONY_VERSION=2.8.* SOLR_VERSION=6.6.1 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - SYMFONY_VERSION=3.0.* SOLR_VERSION=6.6.1 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.1 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.0.1 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
 cache:
   directories:
     - $HOME/.composer/cache
 
+before_install:
+  - composer global require "hirak/prestissimo:^0.3"
+  - sudo apt-get install -y oracle-java8-installer
+  - sudo apt-get install -y oracle-java8-set-default
+  - curl -O http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz
+  - tar -xzf solr-${SOLR_VERSION}.tgz
+
 before_script:
 #  - pecl install pecl_http
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
+  - solr-${SOLR_VERSION}/bin/solr start -e techproducts
 
 script: vendor/bin/phpunit -c phpunit.xml.travis -v
 
