@@ -28,10 +28,14 @@ class TechproductsTest extends \PHPUnit_Framework_TestCase
         $this->client = new \Solarium\Client($config);
     }
 
+    /**
+     * The ping test succeeds if no exception is thrown.
+     */
     public function testPing()
     {
         $ping = $this->client->createPing();
-        $this->client->ping($ping);
+        $result = $this->client->ping($ping);
+        $this->assertEquals(0, $result->getStatus());
     }
 
     public function testSelect()
