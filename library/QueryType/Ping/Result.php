@@ -46,7 +46,7 @@ use Solarium\Core\Query\Result\Result as BaseResult;
  * Ping query result.
  *
  * A ping query has no useful result so only a dummy status var is available.
- * If you don't get an exception for a ping query it was succesful.
+ * If you don't get an exception for a ping query it was successful.
  */
 class Result extends BaseResult
 {
@@ -54,7 +54,7 @@ class Result extends BaseResult
      * Get Solr status code.
      *
      * Since no status is returned for a ping, a default of 0 is used.
-     * If you don't get an exception for a ping query it was succesful.
+     * If you don't get an exception for a ping query it was successful.
      *
      * @return int
      */
