@@ -29,15 +29,14 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Suggester\Result;
+namespace Solarium\Tests\QueryType\Spellcheck\Result;
 
-use Solarium\QueryType\Suggester\Result\Dictionary;
-use Solarium\QueryType\Suggester\Result\Result;
+use Solarium\QueryType\Spellcheck\Result\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var SuggesterDummy
+     * @var SpellcheckDummy
      */
     protected $result;
 
@@ -51,19 +50,20 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      */
     protected $allData;
 
+    /**
+     * @var string
+     */
+    protected $collation;
+
     public function setUp()
     {
-        $this->data = [
-            'dictionary1' => new Dictionary([
-                'term1' => 'data1',
-                'term2' => 'data2',
-            ]),
-            'dictionary2' => new Dictionary([
-                'term3' => 'data3',
-            ]),
-        ];
-        $this->allData = ['data1', 'data2', 'data3'];
-        $this->result = new SuggesterDummy($this->data, $this->allData);
+        $this->data = array(
+            'term1' => 'data1',
+            'term2' => 'data2',
+        );
+        $this->allData = array_values($this->data);
+        $this->collation = 'collation result';
+        $this->result = new SpellcheckDummy($this->data, $this->allData, $this->collation);
     }
 
     public function testGetStatus()
@@ -92,15 +92,14 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->allData, $this->result->getAll());
     }
 
-    public function testGetDictionary()
+    public function testGetTerm()
     {
-        $dictionary = $this->result->getDictionary('dictionary1');
-        $this->assertEquals('data1', $dictionary->getTerm('term1'));
+        $this->assertEquals($this->data['term1'], $this->result->getTerm('term1'));
     }
 
-    public function testGetDictionaryWithInvalidFieldName()
+    public function testGetTermsWithInvalidFieldName()
     {
-        $this->assertEquals(null, $this->result->getDictionary('dictionary3'));
+        $this->assertEquals(array(), $this->result->getTerm('term3'));
     }
 
     public function testCount()
@@ -118,16 +117,21 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->data, $results);
     }
 
+    public function testGetCollation()
+    {
+        $this->assertEquals($this->collation, $this->result->getCollation());
+    }
 }
 
-class SuggesterDummy extends Result
+class SpellcheckDummy extends Result
 {
     protected $parsed = true;
 
-    public function __construct($results, $all)
+    public function __construct($results, $all, $collation)
     {
         $this->results = $results;
         $this->all = $all;
+        $this->collation = $collation;
         $this->status = 1;
         $this->queryTime = 12;
     }

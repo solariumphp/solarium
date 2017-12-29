@@ -29,83 +29,85 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Suggester\Result;
+namespace Solarium\Tests\QueryType\Spellcheck\Result;
 
-use Solarium\QueryType\Suggester\Result\Dictionary;
-use Solarium\QueryType\Suggester\Result\Result;
+use Solarium\QueryType\Spellcheck\Result\Term;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+class TermTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var SuggesterDummy
+     * @var Term
      */
     protected $result;
 
     /**
-     * @var array
+     * @var int
      */
-    protected $data;
+    protected $numFound;
+
+    /**
+     * @var int
+     */
+    protected $startOffset;
+
+    /**
+     * @var int
+     */
+    protected $endOffset;
 
     /**
      * @var array
      */
-    protected $allData;
+    protected $suggestions;
 
     public function setUp()
     {
-        $this->data = [
-            'dictionary1' => new Dictionary([
-                'term1' => 'data1',
-                'term2' => 'data2',
-            ]),
-            'dictionary2' => new Dictionary([
-                'term3' => 'data3',
-            ]),
-        ];
-        $this->allData = ['data1', 'data2', 'data3'];
-        $this->result = new SuggesterDummy($this->data, $this->allData);
+        $this->numFound = 5;
+        $this->startOffset = 2;
+        $this->endOffset = 6;
+        $this->suggestions = array(
+            'suggestion1',
+            'suggestion2',
+        );
+
+        $this->result = new Term($this->numFound, $this->startOffset, $this->endOffset, $this->suggestions);
     }
 
-    public function testGetStatus()
+    public function testGetNumFound()
     {
         $this->assertEquals(
-            1,
-            $this->result->getStatus()
+            $this->numFound,
+            $this->result->getNumFound()
         );
     }
 
-    public function testGetQueryTime()
+    public function testGetStartOffset()
     {
         $this->assertEquals(
-            12,
-            $this->result->getQueryTime()
+            $this->startOffset,
+            $this->result->getStartOffset()
         );
     }
 
-    public function testGetResults()
+    public function testGetEndOffset()
     {
-        $this->assertEquals($this->data, $this->result->getResults());
+        $this->assertEquals(
+            $this->endOffset,
+            $this->result->getEndOffset()
+        );
     }
 
-    public function testGetAll()
+    public function testGetSuggestions()
     {
-        $this->assertEquals($this->allData, $this->result->getAll());
-    }
-
-    public function testGetDictionary()
-    {
-        $dictionary = $this->result->getDictionary('dictionary1');
-        $this->assertEquals('data1', $dictionary->getTerm('term1'));
-    }
-
-    public function testGetDictionaryWithInvalidFieldName()
-    {
-        $this->assertEquals(null, $this->result->getDictionary('dictionary3'));
+        $this->assertEquals(
+            $this->suggestions,
+            $this->result->getSuggestions()
+        );
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->data), count($this->result));
+        $this->assertEquals(count($this->suggestions), count($this->result));
     }
 
     public function testIterator()
@@ -115,20 +117,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             $results[$key] = $doc;
         }
 
-        $this->assertEquals($this->data, $results);
-    }
-
-}
-
-class SuggesterDummy extends Result
-{
-    protected $parsed = true;
-
-    public function __construct($results, $all)
-    {
-        $this->results = $results;
-        $this->all = $all;
-        $this->status = 1;
-        $this->queryTime = 12;
+        $this->assertEquals($this->suggestions, $results);
     }
 }

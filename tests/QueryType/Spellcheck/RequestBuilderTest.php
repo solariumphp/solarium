@@ -27,87 +27,61 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
+namespace Solarium\Tests\QueryType\Spellcheck;
 
-namespace Solarium\QueryType\Suggester\Result;
+use Solarium\QueryType\Spellcheck\Query;
+use Solarium\QueryType\Spellcheck\RequestBuilder;
+use Solarium\Core\Client\Request;
 
-/**
- * Suggester query term result.
- */
-class Term implements \IteratorAggregate, \Countable
+class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * NumFound.
-     *
-     * @var int
+     * @var Query
      */
-    protected $numFound;
+    protected $query;
 
     /**
-     * Suggestions.
-     *
-     * @var array
+     * @var RequestBuilder
      */
-    protected $suggestions;
+    protected $builder;
 
-    /**
-     * Constructor.
-     *
-     * @param int   $numFound
-     * @param array $suggestions
-     */
-    public function __construct($numFound, $suggestions)
+    public function setUp()
     {
-        $this->numFound = $numFound;
-        $this->suggestions = $suggestions;
+        $this->query = new Query;
+        $this->builder = new RequestBuilder;
     }
 
-    /**
-     * Get NumFound.
-     *
-     * @return int
-     */
-    public function getNumFound()
+    public function testBuildParams()
     {
-        return $this->numFound;
-    }
+        $this->query->setCollate(true);
+        $this->query->setCount(13);
+        $this->query->setDictionary('suggest');
+        $this->query->setQuery('ap ip');
+        $this->query->setOnlyMorePopular(true);
 
-    /**
-     * Get suggestions.
-     *
-     * @return array
-     */
-    public function getSuggestions()
-    {
-        return $this->suggestions;
-    }
+        $request = $this->builder->build($this->query);
 
-    /**
-     * IteratorAggregate implementation.
-     *
-     * @return \ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->suggestions);
-    }
+        $this->assertEquals(
+            array(
+                'spellcheck' => 'true',
+                'spellcheck.q' => 'ap ip',
+                'spellcheck.dictionary' => 'suggest',
+                'spellcheck.count' => 13,
+                'spellcheck.onlyMorePopular' => 'true',
+                'spellcheck.collate' => 'true',
+                'spellcheck.build' => 'false',
+                'wt' => 'json',
+                'json.nl' => 'flat',
+                'omitHeader' => 'true',
+            ),
+            $request->getParams()
+        );
 
-    /**
-     * Countable implementation.
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->suggestions);
+        $this->assertEquals(
+            Request::METHOD_GET,
+            $request->getMethod()
+        );
     }
 }

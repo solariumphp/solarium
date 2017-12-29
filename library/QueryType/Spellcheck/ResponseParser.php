@@ -39,14 +39,14 @@
  * @namespace
  */
 
-namespace Solarium\QueryType\Suggester;
+namespace Solarium\QueryType\Spellcheck;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
-use Solarium\QueryType\Suggester\Result\Result;
+use Solarium\QueryType\Spellcheck\Result\Result;
 
 /**
- * Parse Suggester response data.
+ * Parse Spellcheck response data.
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
@@ -62,36 +62,44 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $data = $result->getData();
         $query = $result->getQuery();
 
-        $dictionaries = [];
-        $allSuggestions = [];
+        $suggestions = array();
+        $allSuggestions = array();
+        $collation = null;
 
-        if (isset($data['suggest']) && is_array($data['suggest'])) {
-            $dictionaryClass = $query->getOption('dictionaryclass');
+        if (isset($data['spellcheck']['suggestions']) && is_array($data['spellcheck']['suggestions'])) {
+            $suggestResults = $data['spellcheck']['suggestions'];
             $termClass = $query->getOption('termclass');
 
-            foreach ($data['suggest'] as $dictionary => $dictionaryResults) {
-                $terms = [];
-                foreach ($dictionaryResults as $term => $termData) {
-                    $allSuggestions[] = $this->createTerm($termClass, $termData);
-                    $terms[$term] = $this->createTerm($termClass, $termData);
+            if ($query->getResponseWriter() == $query::WT_JSON) {
+                $suggestResults = $this->convertToKeyValueArray($suggestResults);
+            }
+
+            foreach ($suggestResults as $term => $termData) {
+                if ($term == 'collation') {
+                    $collation = $termData;
+                } else {
+                    if (!array_key_exists(0, $termData)) {
+                        $termData = array($termData);
+                    }
+
+                    foreach ($termData as $currentTermData) {
+                        $allSuggestions[] = $this->createTerm($termClass, $currentTermData);
+
+                        if (!array_key_exists($term, $suggestions)) {
+                            $suggestions[$term] = $this->createTerm($termClass, $currentTermData);
+                        }
+                    }
                 }
-                $dictionaries[$dictionary] = $this->createDictionary($dictionaryClass, $terms);
             }
         }
 
         return $this->addHeaderInfo(
             $data,
-            [
-                'results' => $dictionaries,
+            array(
+                'results' => $suggestions,
                 'all' => $allSuggestions,
-            ]
-        );
-    }
-
-    private function createDictionary($dictionaryClass, array $terms)
-    {
-        return new $dictionaryClass(
-            $terms
+                'collation' => $collation,
+            )
         );
     }
 
@@ -99,7 +107,9 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     {
         return new $termClass(
             $termData['numFound'],
-            $termData['suggestions']
+            $termData['startOffset'],
+            $termData['endOffset'],
+            $termData['suggestion']
         );
     }
 }

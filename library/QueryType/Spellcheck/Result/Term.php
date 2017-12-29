@@ -38,115 +38,95 @@
  * @namespace
  */
 
-namespace Solarium\QueryType\Suggester\Result;
-
-use Solarium\Core\Query\Result\QueryType as BaseResult;
+namespace Solarium\QueryType\Spellcheck\Result;
 
 /**
- * Suggester query result.
+ * Spellcheck query term result.
  */
-class Result extends BaseResult implements \IteratorAggregate, \Countable
+class Term implements \IteratorAggregate, \Countable
 {
     /**
-     * Status code returned by Solr.
+     * NumFound.
      *
      * @var int
      */
-    protected $status;
+    protected $numFound;
 
     /**
-     * Solr index queryTime.
-     *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
+     * StartOffset.
      *
      * @var int
      */
-    protected $queryTime;
+    protected $startOffset;
 
     /**
-     * Suggester results.
+     * EndOffset.
+     *
+     * @var int
+     */
+    protected $endOffset;
+
+    /**
+     * Suggestions.
      *
      * @var array
      */
-    protected $results;
+    protected $suggestions;
 
     /**
-     * Suggester flat results.
+     * Constructor.
      *
-     * @var array
+     * @param int   $numFound
+     * @param int   $startOffset
+     * @param int   $endOffset
+     * @param array $suggestions
      */
-    protected $all;
+    public function __construct($numFound, $startOffset, $endOffset, $suggestions)
+    {
+        $this->numFound = $numFound;
+        $this->startOffset = $startOffset;
+        $this->endOffset = $endOffset;
+        $this->suggestions = $suggestions;
+    }
 
     /**
-     * Get Solr status code.
-     *
-     * This is not the HTTP status code! The normal value for success is 0.
+     * Get NumFound.
      *
      * @return int
      */
-    public function getStatus()
+    public function getNumFound()
     {
-        $this->parseResponse();
-
-        return $this->status;
+        return $this->numFound;
     }
 
     /**
-     * Get Solr query time.
-     *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
+     * Get StartOffset.
      *
      * @return int
      */
-    public function getQueryTime()
+    public function getStartOffset()
     {
-        $this->parseResponse();
-
-        return $this->queryTime;
+        return $this->startOffset;
     }
 
     /**
-     * Get all results.
+     * Get EndOffset.
+     *
+     * @return int
+     */
+    public function getEndOffset()
+    {
+        return $this->endOffset;
+    }
+
+    /**
+     * Get suggestions.
      *
      * @return array
      */
-    public function getResults()
+    public function getSuggestions()
     {
-        $this->parseResponse();
-
-        return $this->results;
-    }
-
-    /**
-     * Get flat results.
-     *
-     * @return array
-     */
-    public function getAll()
-    {
-        $this->parseResponse();
-
-        return $this->all;
-    }
-
-    /**
-     * Get results for a specific dictionary.
-     *
-     * @param string $dictionary
-     *
-     * @return Dictionary|null
-     */
-    public function getDictionary($dictionary)
-    {
-        $this->parseResponse();
-
-        if (isset($this->results[$dictionary])) {
-            return $this->results[$dictionary];
-        } else {
-            return null;
-        }
+        return $this->suggestions;
     }
 
     /**
@@ -156,9 +136,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function getIterator()
     {
-        $this->parseResponse();
-
-        return new \ArrayIterator($this->results);
+        return new \ArrayIterator($this->suggestions);
     }
 
     /**
@@ -168,9 +146,6 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        $this->parseResponse();
-
-        return count($this->results);
+        return count($this->suggestions);
     }
-
 }

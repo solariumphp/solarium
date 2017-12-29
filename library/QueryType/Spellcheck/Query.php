@@ -38,15 +38,15 @@
  * @namespace
  */
 
-namespace Solarium\QueryType\Suggester;
+namespace Solarium\QueryType\Spellcheck;
 
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
 
 /**
- * Suggester Query.
+ * Spellcheck Query.
  *
- * Can be used for an autocomplete feature. See http://wiki.apache.org/solr/Suggester for more info.
+ * Can be used for an autocomplete feature. See http://wiki.apache.org/solr/SpellcheckComponent for more info.
  */
 class Query extends BaseQuery
 {
@@ -56,13 +56,11 @@ class Query extends BaseQuery
      * @var array
      */
     protected $options = array(
-        'handler'         => 'suggest',
-        'resultclass'     => 'Solarium\QueryType\Suggester\Result\Result',
-        'dictionaryclass' => 'Solarium\QueryType\Suggester\Result\Dictionary',
-        'termclass'       => 'Solarium\QueryType\Suggester\Result\Term',
-        'omitheader'      => true,
-        'build'           => false,
-        'reload'          => false,
+        'handler'       => 'spell',
+        'resultclass'   => 'Solarium\QueryType\Spellcheck\Result\Result',
+        'termclass'     => 'Solarium\QueryType\Spellcheck\Result\Term',
+        'omitheader'    => true,
+        'build'         => false,
     );
 
     /**
@@ -72,7 +70,7 @@ class Query extends BaseQuery
      */
     public function getType()
     {
-        return Client::QUERY_SUGGESTER;
+        return Client::QUERY_SPELLCHECK;
     }
 
     /**
@@ -168,27 +166,49 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set cfq option.
+     * Set onlyMorePopular option.
      *
-     * A Context Filter Query used to filter suggestions based on the context field, if supported by the suggester.
+     * Only return suggestions that result in more hits for the query than the existing query
      *
-     * @param string $cfq
+     * @param boolean $onlyMorePopular
      *
      * @return self Provides fluent interface
      */
-    public function setContextFilterQuery($cfq)
+    public function setOnlyMorePopular($onlyMorePopular)
     {
-        return $this->setOption('cfq', $cfq);
+        return $this->setOption('onlymorepopular', $onlyMorePopular);
     }
 
     /**
-     * Get cfq option.
+     * Get onlyMorePopular option.
      *
-     * @return string|null
+     * @return boolean|null
      */
-    public function getContextFilterQuery()
+    public function getOnlyMorePopular()
     {
-        return $this->getOption('cfq');
+        return $this->getOption('onlymorepopular');
+    }
+
+    /**
+     * Set collate option.
+     *
+     * @param boolean $collate
+     *
+     * @return self Provides fluent interface
+     */
+    public function setCollate($collate)
+    {
+        return $this->setOption('collate', $collate);
+    }
+
+    /**
+     * Get collate option.
+     *
+     * @return boolean|null
+     */
+    public function getCollate()
+    {
+        return $this->getOption('collate');
     }
 
     /**
@@ -211,27 +231,5 @@ class Query extends BaseQuery
     public function getBuild()
     {
         return $this->getOption('build');
-    }
-
-    /**
-     * Set reload option.
-     *
-     * @param boolean $build
-     *
-     * @return self Provides fluent interface
-     */
-    public function setReload($reload)
-    {
-      return $this->setOption('reload', $reload);
-    }
-
-    /**
-     * Get reload option.
-     *
-     * @return boolean|null
-     */
-    public function getReload()
-    {
-      return $this->getOption('reload');
     }
 }
