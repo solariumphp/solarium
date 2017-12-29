@@ -10,12 +10,12 @@ php:
   - nightly
 
 env:
-#  - SYMFONY_VERSION=2.3.* SOLR_VERSION=6.6.1 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
-#  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.1 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - SYMFONY_VERSION=2.8.* SOLR_VERSION=6.6.2 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - SYMFONY_VERSION=3.0.* SOLR_VERSION=6.6.2 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0 SOLR_JAVA_HOME=/usr/lib/jvm/java-8-oracle
+#  - SYMFONY_VERSION=2.3.* SOLR_VERSION=6.6.1
+#  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.1
+  - SYMFONY_VERSION=2.8.* SOLR_VERSION=6.6.2
+  - SYMFONY_VERSION=3.0.* SOLR_VERSION=6.6.2
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
 
 cache:
   directories:
@@ -39,15 +39,18 @@ after_success:
 matrix:
   exclude:
       - php: 7.0
-        env: SYMFONY_VERSION=4.0.*
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+      - php: 7.0
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
       - php: 5.6
-        env: SYMFONY_VERSION=4.0.*
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+      - php: 5.6
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
       - php: hhvm
-        env: SYMFONY_VERSION=4.0.*
-      - php: nightly
-        env: SYMFONY_VERSION=4.0.*
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+      - php: hhvm
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
   allow_failures:
-#      - php: 5.3
       - php: nightly
 
 sudo: false
