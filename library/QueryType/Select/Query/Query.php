@@ -108,6 +108,11 @@ class Query extends BaseQuery
     const COMPONENT_SPELLCHECK = 'spellcheck';
 
     /**
+     * Query component spellcheck.
+     */
+    const COMPONENT_SUGGESTER = 'suggest';
+
+    /**
      * Query component grouping.
      */
     const COMPONENT_GROUPING = 'grouping';

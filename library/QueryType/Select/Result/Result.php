@@ -42,7 +42,7 @@ namespace Solarium\QueryType\Select\Result;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
-use Solarium\QueryType\Select\Result\Spellcheck\Result as SpellCheckResult;
+use Solarium\QueryType\Select\Result\Spellcheck\Result as SpellcheckResult;
 use Solarium\QueryType\Select\Result\Stats\Result as StatsResult;
 use Solarium\QueryType\Select\Result\Debug\Result as DebugResult;
 use Solarium\QueryType\Select\Result\Grouping\Result as GroupingResult;
@@ -320,7 +320,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return SpellCheckResult|null
+     * @return SpellcheckResult|null
      */
     public function getSpellcheck()
     {

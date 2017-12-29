@@ -29,66 +29,90 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Suggester\Result;
+namespace Solarium\Tests\QueryType\Spellcheck;
 
-use Solarium\QueryType\Suggester\Result\Term;
+use Solarium\QueryType\Spellcheck\Query;
+use Solarium\Core\Client\Client;
 
-class TermTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Term
+     * @var Query
      */
-    protected $result;
-
-    /**
-     * @var int
-     */
-    protected $numFound;
-
-    /**
-     * @var array
-     */
-    protected $suggestions;
+    protected $query;
 
     public function setUp()
     {
-        $this->numFound = 5;
-        $this->suggestions = [
-            'suggestion1',
-            'suggestion2',
-        ];
-
-        $this->result = new Term($this->numFound, $this->suggestions);
+        $this->query = new Query;
     }
 
-    public function testGetNumFound()
+    public function testGetType()
     {
+        $this->assertEquals(Client::QUERY_SPELLCHECK, $this->query->getType());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf('Solarium\QueryType\Spellcheck\ResponseParser', $this->query->getResponseParser());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf('Solarium\QueryType\Spellcheck\RequestBuilder', $this->query->getRequestBuilder());
+    }
+
+    public function testSetAndGetQuery()
+    {
+        $value = 'testquery';
+        $this->query->setQuery($value);
+
         $this->assertEquals(
-            $this->numFound,
-            $this->result->getNumFound()
+            $value,
+            $this->query->getQuery()
         );
     }
 
-    public function testGetSuggestions()
+    public function testSetAndGetDictionary()
     {
+        $value = 'myDictionary';
+        $this->query->setDictionary($value);
+
         $this->assertEquals(
-            $this->suggestions,
-            $this->result->getSuggestions()
+            $value,
+            $this->query->getDictionary()
         );
     }
 
-    public function testCount()
+    public function testSetAndGetCount()
     {
-        $this->assertEquals(count($this->suggestions), count($this->result));
+        $value = 11;
+        $this->query->setCount($value);
+
+        $this->assertEquals(
+            $value,
+            $this->query->getCount()
+        );
     }
 
-    public function testIterator()
+    public function testSetAndGetOnlyMorePopular()
     {
-        $results = array();
-        foreach ($this->result as $key => $doc) {
-            $results[$key] = $doc;
-        }
+        $value = false;
+        $this->query->setOnlyMorePopular($value);
 
-        $this->assertEquals($this->suggestions, $results);
+        $this->assertEquals(
+            $value,
+            $this->query->getOnlyMorePopular()
+        );
+    }
+
+    public function testSetAndGetCollate()
+    {
+        $value = false;
+        $this->query->setCollate($value);
+
+        $this->assertEquals(
+            $value,
+            $this->query->getCollate()
+        );
     }
 }

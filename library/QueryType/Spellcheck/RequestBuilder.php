@@ -38,76 +38,35 @@
  * @namespace
  */
 
-namespace Solarium\QueryType\Suggester\Result;
+namespace Solarium\QueryType\Spellcheck;
+
+use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\QueryInterface;
 
 /**
- * Suggester query term result.
+ * Build a Spellcheck query request.
  */
-class Term implements \IteratorAggregate, \Countable
+class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * NumFound.
+     * Build request for a Suggester query.
      *
-     * @var int
-     */
-    protected $numFound;
-
-    /**
-     * Suggestions.
+     * @param QueryInterface|Query $query
      *
-     * @var array
+     * @return Request
      */
-    protected $suggestions;
-
-    /**
-     * Constructor.
-     *
-     * @param int   $numFound
-     * @param array $suggestions
-     */
-    public function __construct($numFound, $suggestions)
+    public function build(QueryInterface $query)
     {
-        $this->numFound = $numFound;
-        $this->suggestions = $suggestions;
-    }
+        $request = parent::build($query);
+        $request->addParam('spellcheck', 'true');
+        $request->addParam('spellcheck.q', $query->getQuery());
+        $request->addParam('spellcheck.dictionary', $query->getDictionary());
+        $request->addParam('spellcheck.count', $query->getCount());
+        $request->addParam('spellcheck.onlyMorePopular', $query->getOnlyMorePopular());
+        $request->addParam('spellcheck.collate', $query->getCollate());
+        $request->addParam('spellcheck.build', $query->getBuild());
 
-    /**
-     * Get NumFound.
-     *
-     * @return int
-     */
-    public function getNumFound()
-    {
-        return $this->numFound;
-    }
-
-    /**
-     * Get suggestions.
-     *
-     * @return array
-     */
-    public function getSuggestions()
-    {
-        return $this->suggestions;
-    }
-
-    /**
-     * IteratorAggregate implementation.
-     *
-     * @return \ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->suggestions);
-    }
-
-    /**
-     * Countable implementation.
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->suggestions);
+        return $request;
     }
 }

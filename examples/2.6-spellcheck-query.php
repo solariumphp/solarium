@@ -6,15 +6,16 @@ htmlHeader();
 // create a client instance
 $client = new Solarium\Client($config);
 
-// get a suggester query instance
-$query = $client->createSuggester();
+// get a spellcheck query instance
+$query = $client->createSpellcheck();
 $query->setQuery('ap ip v'); //multiple terms
-$query->setDictionary('mySuggester');
-$query->setBuild(true);
+$query->setDictionary('suggest');
+$query->setOnlyMorePopular(true);
 $query->setCount(10);
+$query->setCollate(true);
 
 // this executes the query and returns the result
-$resultset = $client->suggester($query);
+$resultset = $client->spellcheck($query);
 
 echo '<b>Query:</b> '.$query->getQuery().'<hr/>';
 

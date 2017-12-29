@@ -433,6 +433,18 @@ interface ClientInterface
     public function terms(QueryInterface $query, $endpoint = null);
 
     /**
+     * Execute a spellcheck query
+     *
+     * @internal This is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param  QueryInterface|\Solarium\QueryType\Spellcheck\Query $query
+     * @param  Endpoint|string|null                               $endpoint
+     * @return \Solarium\QueryType\Spellcheck\Result\Result
+     */
+    public function spellcheck(QueryInterface $query, $endpoint = null);
+
+    /**
      * Execute a suggester query
      *
      * @internal This is a convenience method that forwards the query to the
@@ -533,6 +545,14 @@ interface ClientInterface
      * @return \Solarium\QueryType\Terms\Query
      */
     public function createTerms($options = null);
+
+    /**
+     * Create a spellcheck query instance
+     *
+     * @param  mixed                               $options
+     * @return \Solarium\QueryType\Spellcheck\Query
+     */
+    public function createSpellcheck($options = null);
 
     /**
      * Create a suggester query instance

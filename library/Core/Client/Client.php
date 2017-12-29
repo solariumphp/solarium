@@ -116,6 +116,11 @@ class Client extends Configurable implements ClientInterface
     const QUERY_TERMS = 'terms';
 
     /**
+     * Querytype spellcheck.
+     */
+    const QUERY_SPELLCHECK = 'spell';
+
+    /**
      * Querytype suggester.
      */
     const QUERY_SUGGESTER = 'suggester';
@@ -155,6 +160,7 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_ANALYSIS_DOCUMENT => 'Solarium\QueryType\Analysis\Query\Document',
         self::QUERY_ANALYSIS_FIELD => 'Solarium\QueryType\Analysis\Query\Field',
         self::QUERY_TERMS => 'Solarium\QueryType\Terms\Query',
+        self::QUERY_SPELLCHECK => 'Solarium\QueryType\Spellcheck\Query',
         self::QUERY_SUGGESTER => 'Solarium\QueryType\Suggester\Query',
         self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
         self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
@@ -949,6 +955,22 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
+     * Execute a spellcheck query.
+     *
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param QueryInterface|\Solarium\QueryType\Spellcheck\Query $query
+     * @param Endpoint|string|null                               $endpoint
+     *
+     * @return \Solarium\QueryType\Spellcheck\Result\Result
+     */
+    public function spellcheck(QueryInterface $query, $endpoint = null)
+    {
+        return $this->execute($query, $endpoint);
+    }
+
+    /**
      * Execute a suggester query.
      *
      * This is a convenience method that forwards the query to the
@@ -1117,6 +1139,18 @@ class Client extends Configurable implements ClientInterface
     public function createTerms($options = null)
     {
         return $this->createQuery(self::QUERY_TERMS, $options);
+    }
+
+    /**
+     * Create a specllcheck query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\Spellcheck\Query
+     */
+    public function createSpellcheck($options = null)
+    {
+        return $this->createQuery(self::QUERY_SPELLCHECK, $options);
     }
 
     /**

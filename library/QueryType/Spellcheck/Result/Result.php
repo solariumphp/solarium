@@ -38,12 +38,12 @@
  * @namespace
  */
 
-namespace Solarium\QueryType\Suggester\Result;
+namespace Solarium\QueryType\Spellcheck\Result;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**
- * Suggester query result.
+ * Spellcheck query result.
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
@@ -77,6 +77,15 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * @var array
      */
     protected $all;
+
+    /**
+     * Collation result.
+     *
+     * Only available when collate is enabled in the suggester query
+     *
+     * @var string
+     */
+    protected $collation;
 
     /**
      * Get Solr status code.
@@ -132,20 +141,20 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get results for a specific dictionary.
+     * Get results for a specific term.
      *
-     * @param string $dictionary
+     * @param string $term
      *
-     * @return Dictionary|null
+     * @return array
      */
-    public function getDictionary($dictionary)
+    public function getTerm($term)
     {
         $this->parseResponse();
 
-        if (isset($this->results[$dictionary])) {
-            return $this->results[$dictionary];
+        if (isset($this->results[$term])) {
+            return $this->results[$term];
         } else {
-            return null;
+            return array();
         }
     }
 
@@ -173,4 +182,15 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
         return count($this->results);
     }
 
+    /**
+     * Get collation.
+     *
+     * @return null|string
+     */
+    public function getCollation()
+    {
+        $this->parseResponse();
+
+        return $this->collation;
+    }
 }

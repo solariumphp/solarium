@@ -29,12 +29,11 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Suggester;
+namespace Solarium\Tests\QueryType\Spellcheck;
 
-use Solarium\QueryType\Suggester\Query;
-use Solarium\QueryType\Suggester\ResponseParser;
-use Solarium\QueryType\Suggester\Result\Dictionary;
-use Solarium\QueryType\Suggester\Result\Term;
+use Solarium\QueryType\Spellcheck\Query;
+use Solarium\QueryType\Spellcheck\ResponseParser;
+use Solarium\QueryType\Spellcheck\Result\Term;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,73 +44,67 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
                 'status' => 1,
                 'QTime' => 13,
             ),
-            'suggest' => array(
-                'dictionary1' => array(
-                    'foo' => array(
+            'spellcheck' => array(
+                'suggestions' => array(
+                    'd',
+                    array(
                         'numFound' => 2,
-                        'suggestions' => array(
-                            array(
-                                'term' => 'foo',
-                            ),
-                            array(
-                                'term' => 'foobar',
-                            ),
-                        ),
+                        'startOffset' => 3,
+                        'endOffset' => 7,
+                        'suggestion' => array(
+                            'disk',
+                            'ddr'
+                        )
                     ),
-                    'zoo' => array(
+                    'vid',
+                    array(
                         'numFound' => 1,
-                        'suggestions' => array(
-                            array(
-                                'term' => 'zoo keeper',
-                            ),
-                        ),
+                        'startOffset' => 2,
+                        'endOffset' => 5,
+                        'suggestion' => array(
+                            'video',
+                        )
                     ),
-                ),
-                'dictionary2' => array(
-                    'free' => array(
-                        'numFound' => 2,
-                        'suggestions' => array(
-                            array(
-                                'term' => 'free beer',
-                            ),
-                            array(
-                                'term' => 'free software',
-                            ),
-                        ),
+                    'vid',
+                    array(
+                        'numFound' => 1,
+                        'startOffset' => 6,
+                        'endOffset' => 9,
+                        'suggestion' => array(
+                            'video',
+                        )
                     ),
+                    'collation',
+                    'disk video'
                 ),
             ),
         );
 
         $query = new Query();
 
-        $resultStub = $this->getMock('Solarium\QueryType\Suggester\Result\Result', array(), array(), '', false);
+        $resultStub = $this->getMock('Solarium\QueryType\Spellcheck\Result\Result', array(), array(), '', false);
         $resultStub->expects($this->any())
-             ->method('getData')
-             ->will($this->returnValue($data));
+            ->method('getData')
+            ->will($this->returnValue($data));
         $resultStub->expects($this->any())
-             ->method('getQuery')
-             ->will($this->returnValue($query));
+            ->method('getQuery')
+            ->will($this->returnValue($query));
 
         $parser = new ResponseParser;
         $result = $parser->parse($resultStub);
 
         $expected = array(
-            'dictionary1' => new Dictionary([
-                'foo' => new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),
-                'zoo' => new Term(1, [['term' => 'zoo keeper']]),
-            ]),
-            'dictionary2' => new Dictionary([
-                'free' => new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
-            ]),
+            'd' => new Term(2, 3, 7, array('disk', 'ddr')),
+            'vid' => new Term(1, 2, 5, array('video'))
         );
         $allExpected = array(
-            new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),
-            new Term(1, [['term' => 'zoo keeper']]),
-            new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
+            new Term(2, 3, 7, array('disk', 'ddr')),
+            new Term(1, 2, 5, array('video')),
+            new Term(1, 6, 9, array('video')),
         );
 
         $this->assertEquals($expected, $result['results']);
         $this->assertEquals($allExpected, $result['all']);
+        $this->assertEquals('disk video', $result['collation']);
     }
 }

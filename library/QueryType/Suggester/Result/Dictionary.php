@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
+ * Copyright 2011 Markus Kalkbrenner. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -40,110 +40,49 @@
 
 namespace Solarium\QueryType\Suggester\Result;
 
-use Solarium\Core\Query\Result\QueryType as BaseResult;
-
 /**
- * Suggester query result.
+ * Suggester query dictionary result.
  */
-class Result extends BaseResult implements \IteratorAggregate, \Countable
+class Dictionary implements \IteratorAggregate, \Countable
 {
     /**
-     * Status code returned by Solr.
+     * Suggestions.
      *
-     * @var int
+     * @var Term[]
      */
-    protected $status;
+    protected $terms;
 
     /**
-     * Solr index queryTime.
+     * Constructor.
      *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
-     *
-     * @var int
+     * @param Term[] $terms
      */
-    protected $queryTime;
-
-    /**
-     * Suggester results.
-     *
-     * @var array
-     */
-    protected $results;
-
-    /**
-     * Suggester flat results.
-     *
-     * @var array
-     */
-    protected $all;
-
-    /**
-     * Get Solr status code.
-     *
-     * This is not the HTTP status code! The normal value for success is 0.
-     *
-     * @return int
-     */
-    public function getStatus()
+    public function __construct(array $terms)
     {
-        $this->parseResponse();
-
-        return $this->status;
+        $this->terms = $terms;
     }
 
     /**
-     * Get Solr query time.
+     * Get Terms.
      *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
-     *
-     * @return int
+     * @return Term[]
      */
-    public function getQueryTime()
+    public function getTerms()
     {
-        $this->parseResponse();
-
-        return $this->queryTime;
+        return $this->terms;
     }
 
     /**
-     * Get all results.
+     * Get results for a specific term.
      *
-     * @return array
+     * @param string $term
+     *
+     * @return Term|null
      */
-    public function getResults()
+    public function getTerm($term)
     {
-        $this->parseResponse();
-
-        return $this->results;
-    }
-
-    /**
-     * Get flat results.
-     *
-     * @return array
-     */
-    public function getAll()
-    {
-        $this->parseResponse();
-
-        return $this->all;
-    }
-
-    /**
-     * Get results for a specific dictionary.
-     *
-     * @param string $dictionary
-     *
-     * @return Dictionary|null
-     */
-    public function getDictionary($dictionary)
-    {
-        $this->parseResponse();
-
-        if (isset($this->results[$dictionary])) {
-            return $this->results[$dictionary];
+        if (isset($this->terms[$term])) {
+            return $this->terms[$term];
         } else {
             return null;
         }
@@ -156,9 +95,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function getIterator()
     {
-        $this->parseResponse();
-
-        return new \ArrayIterator($this->results);
+        return new \ArrayIterator($this->terms);
     }
 
     /**
@@ -168,9 +105,6 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        $this->parseResponse();
-
-        return count($this->results);
+        return count($this->terms);
     }
-
 }
