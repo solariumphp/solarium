@@ -8,8 +8,7 @@ $client = new Solarium\Client($config);
 
 // get a spellcheck query instance
 $query = $client->createSpellcheck();
-$query->setQuery('ap ip v'); //multiple terms
-$query->setDictionary('suggest');
+$query->setQuery('cort');
 $query->setOnlyMorePopular(true);
 $query->setCount(10);
 $query->setCollate(true);
@@ -27,7 +26,7 @@ foreach ($resultset as $term => $termResult) {
     echo 'EndOffset: '.$termResult->getEndOffset().'<br/>';
     echo 'Suggestions:<br/>';
     foreach ($termResult as $result) {
-        echo '- '.$result.'<br/>';
+        echo '- '.$result['word'].'<br/>';
     }
 
     echo '<hr/>';
