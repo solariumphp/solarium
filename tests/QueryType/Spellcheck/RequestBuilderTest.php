@@ -60,6 +60,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->setDictionary('suggest');
         $this->query->setQuery('ap ip');
         $this->query->setOnlyMorePopular(true);
+        $this->query->setAccuracy(0.45);
 
         $request = $this->builder->build($this->query);
 
@@ -75,6 +76,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'wt' => 'json',
                 'json.nl' => 'flat',
                 'omitHeader' => 'true',
+                'spellcheck.accuracy' => 0.45,
             ),
             $request->getParams()
         );

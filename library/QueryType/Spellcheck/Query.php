@@ -50,6 +50,8 @@ use Solarium\Core\Client\Client;
  */
 class Query extends BaseQuery
 {
+    use QueryTrait;
+
     /**
      * Default options.
      *
@@ -107,129 +109,4 @@ class Query extends BaseQuery
         return $this->setOption('query', $query);
     }
 
-    /**
-     * Get query option.
-     *
-     * @return string|null
-     */
-    public function getQuery()
-    {
-        return $this->getOption('query');
-    }
-
-    /**
-     * Set dictionary option.
-     *
-     * The name of the dictionary to use
-     *
-     * @param string $dictionary
-     *
-     * @return self Provides fluent interface
-     */
-    public function setDictionary($dictionary)
-    {
-        return $this->setOption('dictionary', $dictionary);
-    }
-
-    /**
-     * Get dictionary option.
-     *
-     * @return string|null
-     */
-    public function getDictionary()
-    {
-        return $this->getOption('dictionary');
-    }
-
-    /**
-     * Set count option.
-     *
-     * The maximum number of suggestions to return
-     *
-     * @param int $count
-     *
-     * @return self Provides fluent interface
-     */
-    public function setCount($count)
-    {
-        return $this->setOption('count', $count);
-    }
-
-    /**
-     * Get count option.
-     *
-     * @return int|null
-     */
-    public function getCount()
-    {
-        return $this->getOption('count');
-    }
-
-    /**
-     * Set onlyMorePopular option.
-     *
-     * Only return suggestions that result in more hits for the query than the existing query
-     *
-     * @param boolean $onlyMorePopular
-     *
-     * @return self Provides fluent interface
-     */
-    public function setOnlyMorePopular($onlyMorePopular)
-    {
-        return $this->setOption('onlymorepopular', $onlyMorePopular);
-    }
-
-    /**
-     * Get onlyMorePopular option.
-     *
-     * @return boolean|null
-     */
-    public function getOnlyMorePopular()
-    {
-        return $this->getOption('onlymorepopular');
-    }
-
-    /**
-     * Set collate option.
-     *
-     * @param boolean $collate
-     *
-     * @return self Provides fluent interface
-     */
-    public function setCollate($collate)
-    {
-        return $this->setOption('collate', $collate);
-    }
-
-    /**
-     * Get collate option.
-     *
-     * @return boolean|null
-     */
-    public function getCollate()
-    {
-        return $this->getOption('collate');
-    }
-
-    /**
-     * Set build option.
-     *
-     * @param boolean $build
-     *
-     * @return self Provides fluent interface
-     */
-    public function setBuild($build)
-    {
-        return $this->setOption('build', $build);
-    }
-
-    /**
-     * Get build option.
-     *
-     * @return boolean|null
-     */
-    public function getBuild()
-    {
-        return $this->getOption('build');
-    }
 }
