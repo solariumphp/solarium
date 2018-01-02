@@ -5,7 +5,7 @@ namespace Solarium\Tests\Integration;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
-class TechproductsTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -23,7 +23,9 @@ class TechproductsTest extends \PHPUnit_Framework_TestCase
                     'path' => '/solr/',
                     'core' => 'techproducts',
                 ]
-            ]
+            ],
+            // Curl is the default adapter.
+            //'adapter' => 'Solarium\Core\Client\Adapter\Curl',
         ];
 
         $this->client = new \Solarium\Client($config);
