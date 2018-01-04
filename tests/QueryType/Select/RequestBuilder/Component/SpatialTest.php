@@ -2,8 +2,8 @@
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\RequestBuilder\Component\Spatial as RequestBuilder;
-use Solarium\QueryType\Select\Query\Component\Spatial as Component;
+use Solarium\Component\RequestBuilder\Spatial as RequestBuilder;
+use Solarium\Component\Spatial as Component;
 use Solarium\Core\Client\Request;
 
 class SpatialTest extends \PHPUnit_Framework_TestCase

@@ -29,6 +29,14 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->client = new \Solarium\Client($config);
+
+        try {
+            $ping = $this->client->createPing();
+            $this->client->ping($ping);
+        }
+        catch (\Exception $e) {
+            $this->markTestSkipped('Solr techproducts example not reachable.');
+        }
     }
 
     /**

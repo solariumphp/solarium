@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting as HighlightingComponent;
 use Solarium\QueryType\Select\Query\Component\Highlighting\Field as HighlightingField;
 use Solarium\Core\Client\Request;

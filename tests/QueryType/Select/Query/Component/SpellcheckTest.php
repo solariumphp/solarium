@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
-use Solarium\QueryType\Select\Query\Component\Spellcheck;
+use Solarium\Component\Spellcheck;
 use Solarium\QueryType\Select\Query\Query;
 
 class SpellcheckTest extends \PHPUnit_Framework_TestCase
@@ -55,7 +55,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\ResponseParser\Component\Spellcheck',
+            'Solarium\Component\ResponseParser\Spellcheck',
             $this->spellCheck->getResponseParser()
         );
     }
@@ -63,7 +63,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\Component\Spellcheck',
+            'Solarium\Component\RequestBuilder\Spellcheck',
             $this->spellCheck->getRequestBuilder()
         );
     }

@@ -34,7 +34,7 @@ namespace Solarium\Tests\QueryType\Select\Query;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\FilterQuery;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Select\Query\Component\MoreLikeThis;
+use Solarium\Component\MoreLikeThis;
 
 abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -572,7 +572,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $mlt = $this->query->getMoreLikeThis();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\MoreLikeThis',
+            'Solarium\Component\MoreLikeThis',
             get_class($mlt)
         );
     }
@@ -641,8 +641,18 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $spellcheck = $this->query->getSpellcheck();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Spellcheck',
+            'Solarium\Component\Spellcheck',
             get_class($spellcheck)
+        );
+    }
+
+    public function testGetSuggester()
+    {
+        $suggester = $this->query->getSuggester();
+
+        $this->assertEquals(
+            'Solarium\Component\Suggester',
+            get_class($suggester)
         );
     }
 
@@ -671,7 +681,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $stats = $this->query->getDebug();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Debug',
+            'Solarium\Component\Debug',
             get_class($stats)
         );
     }
@@ -714,7 +724,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $spatial = $this->query->getSpatial();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Spatial',
+            'Solarium\Component\Spatial',
             get_class($spatial)
         );
     }

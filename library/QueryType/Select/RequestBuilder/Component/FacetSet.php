@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\FacetSet as FacetsetComponent;

@@ -40,13 +40,11 @@
 
 namespace Solarium\QueryType\Select\Query;
 
+use Solarium\Component\AbstractComponentAwareQuery;
 use Solarium\Core\Client\Client;
-use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
-use Solarium\Exception\OutOfBoundsException;
-use Solarium\QueryType\Select\Query\Component\AbstractComponent as AbstractComponent;
 
 /**
  * Select Query.
@@ -55,7 +53,7 @@ use Solarium\QueryType\Select\Query\Component\AbstractComponent as AbstractCompo
  * lots of options and there are many Solarium subclasses for it.
  * See the Solr documentation and the relevant Solarium classes for more info.
  */
-class Query extends BaseQuery
+class Query extends AbstractComponentAwareQuery
 {
     /**
      * Solr sort mode descending.
@@ -93,24 +91,9 @@ class Query extends BaseQuery
     const COMPONENT_EDISMAX = 'edismax';
 
     /**
-     * Query component morelikethis.
-     */
-    const COMPONENT_MORELIKETHIS = 'morelikethis';
-
-    /**
      * Query component highlighting.
      */
     const COMPONENT_HIGHLIGHTING = 'highlighting';
-
-    /**
-     * Query component spellcheck.
-     */
-    const COMPONENT_SPELLCHECK = 'spellcheck';
-
-    /**
-     * Query component spellcheck.
-     */
-    const COMPONENT_SUGGESTER = 'suggest';
 
     /**
      * Query component grouping.
@@ -126,16 +109,6 @@ class Query extends BaseQuery
      * Query component stats.
      */
     const COMPONENT_STATS = 'stats';
-
-    /**
-     * Query component debug.
-     */
-    const COMPONENT_DEBUG = 'debug';
-
-    /**
-     * Query component spatial.
-     */
-    const COMPONENT_SPATIAL = 'spatial';
 
     /**
      * Default options.
@@ -169,14 +142,15 @@ class Query extends BaseQuery
         self::COMPONENT_FACETSET          => 'Solarium\QueryType\Select\Query\Component\FacetSet',
         self::COMPONENT_DISMAX            => 'Solarium\QueryType\Select\Query\Component\DisMax',
         self::COMPONENT_EDISMAX           => 'Solarium\QueryType\Select\Query\Component\EdisMax',
-        self::COMPONENT_MORELIKETHIS      => 'Solarium\QueryType\Select\Query\Component\MoreLikeThis',
+        parent::COMPONENT_MORELIKETHIS    => 'Solarium\Component\MoreLikeThis',
         self::COMPONENT_HIGHLIGHTING      => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
         self::COMPONENT_GROUPING          => 'Solarium\QueryType\Select\Query\Component\Grouping',
-        self::COMPONENT_SPELLCHECK        => 'Solarium\QueryType\Select\Query\Component\Spellcheck',
+        parent::COMPONENT_SPELLCHECK      => 'Solarium\Component\Spellcheck',
+        parent::COMPONENT_SUGGESTER       => 'Solarium\Component\Suggester',
         self::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\QueryType\Select\Query\Component\DistributedSearch',
         self::COMPONENT_STATS             => 'Solarium\QueryType\Select\Query\Component\Stats\Stats',
-        self::COMPONENT_DEBUG             => 'Solarium\QueryType\Select\Query\Component\Debug',
-        self::COMPONENT_SPATIAL           => 'Solarium\QueryType\Select\Query\Component\Spatial',
+        parent::COMPONENT_DEBUG           => 'Solarium\Component\Debug',
+        parent::COMPONENT_SPATIAL         => 'Solarium\Component\Spatial',
     );
 
     /**
@@ -199,13 +173,6 @@ class Query extends BaseQuery
      * @var FilterQuery[]
      */
     protected $filterQueries = array();
-
-    /**
-     * Search components.
-     *
-     * @var AbstractComponent[]
-     */
-    protected $components = array();
 
     /**
      * Get type for this query.
@@ -749,134 +716,6 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get all registered component types.
-     *
-     * @return array
-     */
-    public function getComponentTypes()
-    {
-        return $this->componentTypes;
-    }
-
-    /**
-     * Register a component type.
-     *
-     * @param string $key
-     * @param string $component
-     *
-     * @return self Provides fluent interface
-     */
-    public function registerComponentType($key, $component)
-    {
-        $this->componentTypes[$key] = $component;
-
-        return $this;
-    }
-
-    /**
-     * Get all registered components.
-     *
-     * @return AbstractComponent[]
-     */
-    public function getComponents()
-    {
-        return $this->components;
-    }
-
-    /**
-     * Get a component instance by key.
-     *
-     * You can optionally supply an autoload class to create a new component
-     * instance if there is no registered component for the given key yet.
-     *
-     * @throws OutOfBoundsException
-     *
-     * @param string         $key      Use one of the constants
-     * @param string|boolean $autoload Class to autoload if component needs to be created
-     * @param array|null     $config   Configuration to use for autoload
-     *
-     * @return object|null
-     */
-    public function getComponent($key, $autoload = false, $config = null)
-    {
-        if (isset($this->components[$key])) {
-            return $this->components[$key];
-        } else {
-            if ($autoload === true) {
-                if (!isset($this->componentTypes[$key])) {
-                    throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
-                }
-
-                $className = $this->componentTypes[$key];
-                $className = class_exists($className) ? $className : $className.strrchr($className, '\\');
-                $component = new $className($config);
-                $this->setComponent($key, $component);
-
-                return $component;
-            }
-
-            return;
-        }
-    }
-
-    /**
-     * Set a component instance.
-     *
-     * This overwrites any existing component registered with the same key.
-     *
-     * @param string            $key
-     * @param AbstractComponent $component
-     *
-     * @return self Provides fluent interface
-     */
-    public function setComponent($key, $component)
-    {
-        $component->setQueryInstance($this);
-        $this->components[$key] = $component;
-
-        return $this;
-    }
-
-    /**
-     * Remove a component instance.
-     *
-     * You can remove a component by passing its key or the component instance.
-     *
-     * @param string|AbstractComponent $component
-     *
-     * @return self Provides fluent interface
-     */
-    public function removeComponent($component)
-    {
-        if (is_object($component)) {
-            foreach ($this->components as $key => $instance) {
-                if ($instance === $component) {
-                    unset($this->components[$key]);
-                    break;
-                }
-            }
-        } else {
-            if (isset($this->components[$component])) {
-                unset($this->components[$component]);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get a MoreLikeThis component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\MoreLikeThis
-     */
-    public function getMoreLikeThis()
-    {
-        return $this->getComponent(self::COMPONENT_MORELIKETHIS, true);
-    }
-
-    /**
      * Get a FacetSet component instance.
      *
      * This is a convenience method that maps presets to getComponent
@@ -937,18 +776,6 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get a spellcheck component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\Spellcheck
-     */
-    public function getSpellcheck()
-    {
-        return $this->getComponent(self::COMPONENT_SPELLCHECK, true);
-    }
-
-    /**
      * Get a DistributedSearch component instance.
      *
      * This is a convenience method that maps presets to getComponent
@@ -970,18 +797,6 @@ class Query extends BaseQuery
     public function getStats()
     {
         return $this->getComponent(self::COMPONENT_STATS, true);
-    }
-
-    /**
-     * Get a Debug component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\Debug
-     */
-    public function getDebug()
-    {
-        return $this->getComponent(self::COMPONENT_DEBUG, true);
     }
 
     /**
@@ -1069,18 +884,6 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get a Spatial component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\Spatial
-     */
-    public function getSpatial()
-    {
-        return $this->getComponent(self::COMPONENT_SPATIAL, true);
-    }
-
-    /**
      * Set the cursor mark to fetch.
      *
      * Cursor functionality requires a sort containing a uniqueKey field tie breaker
@@ -1158,15 +961,4 @@ class Query extends BaseQuery
         }
     }
 
-    /**
-     * Build component instances based on config.
-     *
-     * @param array $configs
-     */
-    protected function createComponents($configs)
-    {
-        foreach ($configs as $type => $config) {
-            $this->getComponent($type, true, $config);
-        }
-    }
 }

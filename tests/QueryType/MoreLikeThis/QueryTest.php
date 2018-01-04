@@ -34,7 +34,7 @@ namespace Solarium\Tests\QueryType\MoreLikeThis;
 use Solarium\QueryType\MoreLikeThis\Query;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Select\Query\FilterQuery;
-use Solarium\QueryType\Select\Query\Component\MoreLikeThis;
+use Solarium\Component\MoreLikeThis;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -551,7 +551,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $mlt = $this->query->getMoreLikeThis();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\MoreLikeThis',
+            'Solarium\Component\MoreLikeThis',
             get_class($mlt)
         );
     }
@@ -620,7 +620,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $spellcheck = $this->query->getSpellcheck();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Spellcheck',
+            'Solarium\Component\Spellcheck',
             get_class($spellcheck)
         );
     }
@@ -650,7 +650,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $stats = $this->query->getDebug();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Debug',
+            'Solarium\Component\Debug',
             get_class($stats)
         );
     }

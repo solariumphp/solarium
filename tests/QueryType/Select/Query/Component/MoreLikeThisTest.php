@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
-use Solarium\QueryType\Select\Query\Component\MoreLikeThis;
+use Solarium\Component\MoreLikeThis;
 use Solarium\QueryType\Select\Query\Query;
 
 class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
@@ -82,7 +82,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis',
+            'Solarium\Component\ResponseParser\MoreLikeThis',
             $this->mlt->getResponseParser()
         );
     }
@@ -90,7 +90,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\Component\MoreLikeThis',
+            'Solarium\Component\RequestBuilder\MoreLikeThis',
             $this->mlt->getRequestBuilder()
         );
     }
