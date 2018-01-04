@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Grouping as GroupingComponent;
 use Solarium\QueryType\Select\Result\Grouping\Result;

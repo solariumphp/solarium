@@ -31,10 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\ResponseParser\Component\MoreLikeThis as Parser;
+use Solarium\Component\ResponseParser\MoreLikeThis as Parser;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
+use Solarium\Component\Result\MoreLikeThis\Result;
 
 class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 {

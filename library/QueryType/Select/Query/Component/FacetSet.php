@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Select\Query\Component;
 
+use Solarium\Component\AbstractComponent;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\FacetSet as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\FacetSet as ResponseParser;

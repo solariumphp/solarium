@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\RequestBuilder\Component\Spellcheck as RequestBuilder;
-use Solarium\QueryType\Select\Query\Component\Spellcheck as Component;
+use Solarium\Component\RequestBuilder\Spellcheck as RequestBuilder;
+use Solarium\Component\Spellcheck as Component;
 use Solarium\Core\Client\Request;
 
 class SpellcheckTest extends \PHPUnit_Framework_TestCase

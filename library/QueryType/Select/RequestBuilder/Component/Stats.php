@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\QueryType\Select\Query\Component\Stats\Stats as StatsComponent;
 use Solarium\Core\Client\Request;
 

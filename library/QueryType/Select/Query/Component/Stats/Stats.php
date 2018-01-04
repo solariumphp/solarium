@@ -41,7 +41,7 @@
 namespace Solarium\QueryType\Select\Query\Component\Stats;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\Query\Component\AbstractComponent;
+use Solarium\Component\AbstractComponent;
 use Solarium\QueryType\Select\RequestBuilder\Component\Stats as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Stats as ResponseParser;
 use Solarium\Exception\InvalidArgumentException;

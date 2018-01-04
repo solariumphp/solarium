@@ -41,7 +41,7 @@
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\Query\Component\AbstractComponent;
+use Solarium\Component\AbstractComponent;
 use Solarium\QueryType\Select\RequestBuilder\Component\Highlighting as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Highlighting as ResponseParser;
 use Solarium\Exception\InvalidArgumentException;

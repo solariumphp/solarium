@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\FacetSet as QueryFacetSet;
 use Solarium\QueryType\Select\Query\Component\Facet\Field as QueryFacetField;
@@ -252,7 +253,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
 
         return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap);
     }
-    
+
     /**
      * Add a facet result for a interval facet
      *
@@ -267,7 +268,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         if (!isset($data['facet_counts']['facet_intervals'][$key])) {
             return null;
         }
-        
+
         return new ResultFacetInterval($data['facet_counts']['facet_intervals'][$key]);
     }
 

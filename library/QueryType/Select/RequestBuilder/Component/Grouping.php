@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\QueryType\Select\Query\Component\Grouping as GroupingComponent;
 use Solarium\Core\Client\Request;
 

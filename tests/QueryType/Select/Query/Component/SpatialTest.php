@@ -2,7 +2,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
-use Solarium\QueryType\Select\Query\Component\Spatial;
+use Solarium\Component\Spatial;
 use Solarium\QueryType\Select\Query\Query;
 
 class SpatialTest extends \PHPUnit_Framework_TestCase
@@ -48,7 +48,7 @@ class SpatialTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\Component\Spatial',
+            'Solarium\Component\RequestBuilder\Spatial',
             $this->spatial->getRequestBuilder()
         );
     }
