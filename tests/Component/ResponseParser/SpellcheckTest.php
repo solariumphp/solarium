@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+namespace Solarium\Tests\Component\ResponseParser;
 
 use Solarium\Component\ResponseParser\Spellcheck as Parser;
 use Solarium\QueryType\Select\Query\Query;

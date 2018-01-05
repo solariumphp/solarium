@@ -34,70 +34,34 @@
  * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
+namespace Solarium\Component\RequestBuilder;
 
-namespace Solarium\Component;
-
-use Solarium\Component\RequestBuilder\Suggester as RequestBuilder;
-use Solarium\Component\ResponseParser\Suggester as ResponseParser;
-use Solarium\QueryType\Suggester\QueryTrait;
+use Solarium\Component\Suggester as SuggesterComponent;
+use Solarium\Core\Client\Request;
 
 /**
- * Spellcheck component.
- *
- * @link http://wiki.apache.org/solr/SpellcheckComponent
+ * Add select component Spellcheck to the request.
  */
-class Suggester extends AbstractComponent
+class Suggester implements ComponentRequestBuilderInterface
 {
-    use QueryTrait;
-
     /**
-     * Get component type.
+     * Add request settings for Spellcheck.
      *
-     * @return string
+     * @param SuggesterComponent $component
+     * @param Request             $request
+     *
+     * @return Request
      */
-    public function getType()
+    public function buildComponent($component, $request)
     {
-        return AbstractComponentAwareQuery::COMPONENT_SUGGESTER;
+        $request->addParam('suggest', 'true');
+        $request->addParam('suggest.dictionary', $component->getDictionary());
+        $request->addParam('suggest.q', $component->getQuery());
+        $request->addParam('suggest.count', $component->getCount());
+        $request->addParam('suggest.cfq', $component->getContextFilterQuery());
+        $request->addParam('suggest.build', $component->getBuild());
+        $request->addParam('suggest.reload', $component->getReload());
+
+        return $request;
     }
-
-    /**
-     * Get a requestbuilder for this query.
-     *
-     * @return RequestBuilder
-     */
-    public function getRequestBuilder()
-    {
-        return new RequestBuilder();
-    }
-
-    /**
-     * Get a response parser for this query.
-     *
-     * @return ResponseParser
-     */
-    public function getResponseParser()
-    {
-        return new ResponseParser();
-    }
-
-    /**
-     * Set spellcheck query option.
-     *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
-     */
-    public function setQuery($query, $bind = null)
-    {
-        if (!is_null($bind)) {
-            $query = $this->getQueryInstance()->getHelper()->assemble($query, $bind);
-        }
-
-        return $this->setOption('query', trim($query));
-    }
-
 }

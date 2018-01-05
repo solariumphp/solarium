@@ -29,8 +29,9 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\Query\Component;
+namespace Solarium\Tests\Component;
 
+use Solarium\Component\AbstractComponentAwareQuery;
 use Solarium\Component\Spellcheck;
 use Solarium\QueryType\Select\Query\Query;
 
@@ -49,7 +50,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Query::COMPONENT_SPELLCHECK, $this->spellCheck->getType());
+        $this->assertEquals(AbstractComponentAwareQuery::COMPONENT_SPELLCHECK, $this->spellCheck->getType());
     }
 
     public function testGetResponseParser()

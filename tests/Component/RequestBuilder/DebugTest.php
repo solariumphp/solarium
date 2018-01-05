@@ -27,77 +27,34 @@
  * The views and conclusions contained in the software and documentation are
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
  */
 
-/**
- * @namespace
- */
+namespace Solarium\Tests\Component\RequestBuilder;
 
-namespace Solarium\Component;
+use Solarium\Component\RequestBuilder\Debug as RequestBuilder;
+use Solarium\Component\Debug as Component;
+use Solarium\Core\Client\Request;
 
-use Solarium\Component\RequestBuilder\Suggester as RequestBuilder;
-use Solarium\Component\ResponseParser\Suggester as ResponseParser;
-use Solarium\QueryType\Suggester\QueryTrait;
-
-/**
- * Spellcheck component.
- *
- * @link http://wiki.apache.org/solr/SpellcheckComponent
- */
-class Suggester extends AbstractComponent
+class DebugTest extends \PHPUnit_Framework_TestCase
 {
-    use QueryTrait;
-
-    /**
-     * Get component type.
-     *
-     * @return string
-     */
-    public function getType()
+    public function testBuildComponent()
     {
-        return AbstractComponentAwareQuery::COMPONENT_SUGGESTER;
+        $builder = new RequestBuilder();
+        $request = new Request();
+
+        $component = new Component();
+        $component->setExplainOther('id:45');
+
+        $request = $builder->buildComponent($component, $request);
+
+        $this->assertEquals(
+            array(
+                'debugQuery' => 'true',
+                'debug.explain.structured' => 'true',
+                'explainOther' => 'id:45',
+            ),
+            $request->getParams()
+        );
+
     }
-
-    /**
-     * Get a requestbuilder for this query.
-     *
-     * @return RequestBuilder
-     */
-    public function getRequestBuilder()
-    {
-        return new RequestBuilder();
-    }
-
-    /**
-     * Get a response parser for this query.
-     *
-     * @return ResponseParser
-     */
-    public function getResponseParser()
-    {
-        return new ResponseParser();
-    }
-
-    /**
-     * Set spellcheck query option.
-     *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
-     */
-    public function setQuery($query, $bind = null)
-    {
-        if (!is_null($bind)) {
-            $query = $this->getQueryInstance()->getHelper()->assemble($query, $bind);
-        }
-
-        return $this->setOption('query', trim($query));
-    }
-
 }

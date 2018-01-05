@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Select\Query\Component;
+namespace Solarium\Tests\Component;
 
 use Solarium\Component\Spatial;
 use Solarium\QueryType\Select\Query\Query;

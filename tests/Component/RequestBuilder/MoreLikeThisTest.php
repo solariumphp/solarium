@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+namespace Solarium\Tests\Component\RequestBuilder;
 
 use Solarium\Component\RequestBuilder\MoreLikeThis as RequestBuilder;
 use Solarium\Component\MoreLikeThis as Component;
