@@ -38,66 +38,61 @@
  * @namespace
  */
 
-namespace Solarium\Component;
+namespace Solarium\Component\ResponseParser;
 
-use Solarium\Component\RequestBuilder\Suggester as RequestBuilder;
-use Solarium\Component\ResponseParser\Suggester as ResponseParser;
-use Solarium\QueryType\Suggester\QueryTrait;
+use Solarium\Core\Query\AbstractQuery;
+use Solarium\Component\Suggester as SuggesterComponent;
+use Solarium\Component\Result\Suggester\Result;
+use Solarium\Core\Query\AbstractResponseParser;
+use Solarium\QueryType\Suggester\Result\Dictionary;
+use Solarium\QueryType\Suggester\Result\Term;
 
 /**
- * Spellcheck component.
- *
- * @link http://wiki.apache.org/solr/SpellcheckComponent
+ * Parse select component Highlighting result from the data.
  */
-class Suggester extends AbstractComponent
+class Suggester extends AbstractResponseParser implements ComponentParserInterface
 {
-    use QueryTrait;
-
     /**
-     * Get component type.
+     * Parse result data into result objects.
      *
-     * @return string
+     * @param AbstractQuery       $query
+     * @param SuggesterComponent  $suggester
+     * @param array               $data
+     *
+     * @return Result|null
      */
-    public function getType()
+    public function parse($query, $suggester, $data)
     {
-        return AbstractComponentAwareQuery::COMPONENT_SUGGESTER;
-    }
+        $dictionaries = [];
+        $allSuggestions = [];
 
-    /**
-     * Get a requestbuilder for this query.
-     *
-     * @return RequestBuilder
-     */
-    public function getRequestBuilder()
-    {
-        return new RequestBuilder();
-    }
-
-    /**
-     * Get a response parser for this query.
-     *
-     * @return ResponseParser
-     */
-    public function getResponseParser()
-    {
-        return new ResponseParser();
-    }
-
-    /**
-     * Set spellcheck query option.
-     *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
-     */
-    public function setQuery($query, $bind = null)
-    {
-        if (!is_null($bind)) {
-            $query = $this->getQueryInstance()->getHelper()->assemble($query, $bind);
+        if (isset($data['suggest']) && is_array($data['suggest'])) {
+            foreach ($data['suggest'] as $dictionary => $dictionaryResults) {
+                $terms = [];
+                foreach ($dictionaryResults as $term => $termData) {
+                    $allSuggestions[] = $this->createTerm($termData);
+                    $terms[$term] = $this->createTerm($termData);
+                }
+                $dictionaries[$dictionary] = $this->createDictionary($terms);
+            }
+            return new Result($dictionaries, $allSuggestions);
         }
 
-        return $this->setOption('query', trim($query));
+        return null;
     }
 
+    private function createDictionary(array $terms)
+    {
+        return new Dictionary(
+            $terms
+        );
+    }
+
+    private function createTerm(array $termData)
+    {
+        return new Term(
+            $termData['numFound'],
+            $termData['suggestions']
+        );
+    }
 }

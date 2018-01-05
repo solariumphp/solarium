@@ -29,13 +29,13 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+namespace Solarium\Tests\Component\RequestBuilder;
 
-use Solarium\Component\RequestBuilder\Debug as RequestBuilder;
-use Solarium\Component\Debug as Component;
+use Solarium\Component\RequestBuilder\Suggester as RequestBuilder;
+use Solarium\Component\Suggester as Component;
 use Solarium\Core\Client\Request;
 
-class DebugTest extends \PHPUnit_Framework_TestCase
+class SuggesterTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuildComponent()
     {
@@ -43,18 +43,26 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
 
         $component = new Component();
-        $component->setExplainOther('id:45');
+        $component->setDictionary('suggest');
+        $component->setQuery('ap ip');
+        $component->setCount(13);
+        $component->setContextFilterQuery('foo bar');
+        $component->setBuild('true');
+        $component->setReload('false');
 
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             array(
-                'debugQuery' => 'true',
-                'debug.explain.structured' => 'true',
-                'explainOther' => 'id:45',
+                'suggest' => 'true',
+                'suggest.dictionary' => 'suggest',
+                'suggest.q' => 'ap ip',
+                'suggest.count' => 13,
+                'suggest.cfq' => 'foo bar',
+                'suggest.build' => 'true',
+                'suggest.reload' => 'false',
             ),
             $request->getParams()
         );
-
     }
 }

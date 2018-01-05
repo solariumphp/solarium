@@ -42,7 +42,6 @@ namespace Solarium\Component\ResponseParser;
 
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Component\Spellcheck as SpellcheckComponent;
-use Solarium\Component\Result\Spellcheck as SpellcheckResult;
 use Solarium\Component\Result\Spellcheck\Result;
 use Solarium\Component\Result\Spellcheck\Collation;
 use Solarium\Component\Result\Spellcheck\Suggestion;
@@ -114,10 +113,10 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
               $correctlySpelled = $data['spellcheck']['correctlySpelled'];
             }
 
-            return new SpellcheckResult\Result($suggestions, $collations, $correctlySpelled);
-        } else {
-            return;
+            return new Result($suggestions, $collations, $correctlySpelled);
         }
+
+        return null;
     }
 
     /**
