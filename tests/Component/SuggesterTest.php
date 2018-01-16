@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\Component;
 
-use Solarium\Component\AbstractComponentAwareQuery;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Suggester;
 use Solarium\QueryType\Select\Query\Query;
 
@@ -50,7 +50,7 @@ class SuggesterTest extends \PHPUnit_Framework_TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(AbstractComponentAwareQuery::COMPONENT_SUGGESTER, $this->suggester->getType());
+        $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_SUGGESTER, $this->suggester->getType());
     }
 
     public function testGetResponseParser()

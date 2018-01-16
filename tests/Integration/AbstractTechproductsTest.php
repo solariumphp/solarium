@@ -122,4 +122,19 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
             'electronics and stuff2'
             ], $phrases);
     }
+
+    public function testTerms()
+    {
+        $terms = $this->client->createTerms();
+        $terms->setFields('name');
+        $result = $this->client->terms($terms);
+        $phrases = [];
+        foreach ($result->getTerms('name') as $term => $count) {
+            $phrases[] = $term;
+        }
+        $this->assertEquals([
+            'one', 184, '1gb', 3200, 400, 'ddr', 'gb', 'ipod', 'memory', 'pc',
+        ], $phrases);
+    }
+
 }

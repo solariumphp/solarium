@@ -18,7 +18,7 @@ class Spatial extends AbstractComponent
      */
     public function getType()
     {
-        return AbstractComponentAwareQuery::COMPONENT_SPATIAL;
+        return ComponentAwareQueryInterface::COMPONENT_SPATIAL;
     }
 
     /**

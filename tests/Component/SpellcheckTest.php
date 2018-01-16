@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\Component;
 
-use Solarium\Component\AbstractComponentAwareQuery;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Spellcheck;
 use Solarium\QueryType\Select\Query\Query;
 
@@ -50,7 +50,7 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(AbstractComponentAwareQuery::COMPONENT_SPELLCHECK, $this->spellCheck->getType());
+        $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_SPELLCHECK, $this->spellCheck->getType());
     }
 
     public function testGetResponseParser()
