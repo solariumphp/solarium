@@ -57,7 +57,7 @@ class Debug extends AbstractComponent
      */
     public function getType()
     {
-        return AbstractComponentAwareQuery::COMPONENT_DEBUG;
+        return ComponentAwareQueryInterface::COMPONENT_DEBUG;
     }
 
     /**

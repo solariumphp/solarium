@@ -57,7 +57,7 @@ class MoreLikeThis extends AbstractComponent
      */
     public function getType()
     {
-        return AbstractComponentAwareQuery::COMPONENT_MORELIKETHIS;
+        return ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS;
     }
 
     /**

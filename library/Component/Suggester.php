@@ -60,7 +60,7 @@ class Suggester extends AbstractComponent
      */
     public function getType()
     {
-        return AbstractComponentAwareQuery::COMPONENT_SUGGESTER;
+        return ComponentAwareQueryInterface::COMPONENT_SUGGESTER;
     }
 
     /**

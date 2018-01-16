@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component;
 
-use Solarium\Component\AbstractComponentAwareQuery;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\MoreLikeThis;
-use Solarium\QueryType\Select\Query\Query;
 
 class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 {
@@ -77,7 +76,7 @@ class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(AbstractComponentAwareQuery::COMPONENT_MORELIKETHIS, $this->mlt->getType());
+        $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS, $this->mlt->getType());
     }
 
     public function testGetResponseParser()

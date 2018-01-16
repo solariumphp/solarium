@@ -40,8 +40,10 @@
 
 namespace Solarium\QueryType\Select\Query;
 
-use Solarium\Component\AbstractComponentAwareQuery;
+use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\ComponentAwareQueryTrait;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
@@ -53,8 +55,10 @@ use Solarium\Exception\InvalidArgumentException;
  * lots of options and there are many Solarium subclasses for it.
  * See the Solr documentation and the relevant Solarium classes for more info.
  */
-class Query extends AbstractComponentAwareQuery
+class Query extends AbstractQuery implements ComponentAwareQueryInterface
 {
+    use ComponentAwareQueryTrait;
+
     /**
      * Solr sort mode descending.
      */
@@ -134,26 +138,6 @@ class Query extends AbstractComponentAwareQuery
     protected $tags = array();
 
     /**
-     * Default select query component types.
-     *
-     * @var array
-     */
-    protected $componentTypes = array(
-        self::COMPONENT_FACETSET          => 'Solarium\QueryType\Select\Query\Component\FacetSet',
-        self::COMPONENT_DISMAX            => 'Solarium\QueryType\Select\Query\Component\DisMax',
-        self::COMPONENT_EDISMAX           => 'Solarium\QueryType\Select\Query\Component\EdisMax',
-        parent::COMPONENT_MORELIKETHIS    => 'Solarium\Component\MoreLikeThis',
-        self::COMPONENT_HIGHLIGHTING      => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
-        self::COMPONENT_GROUPING          => 'Solarium\QueryType\Select\Query\Component\Grouping',
-        parent::COMPONENT_SPELLCHECK      => 'Solarium\Component\Spellcheck',
-        parent::COMPONENT_SUGGESTER       => 'Solarium\Component\Suggester',
-        self::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\QueryType\Select\Query\Component\DistributedSearch',
-        self::COMPONENT_STATS             => 'Solarium\QueryType\Select\Query\Component\Stats\Stats',
-        parent::COMPONENT_DEBUG           => 'Solarium\Component\Debug',
-        parent::COMPONENT_SPATIAL         => 'Solarium\Component\Spatial',
-    );
-
-    /**
      * Fields to fetch.
      *
      * @var array
@@ -173,6 +157,26 @@ class Query extends AbstractComponentAwareQuery
      * @var FilterQuery[]
      */
     protected $filterQueries = array();
+
+    public function __construct($options = null)
+    {
+        $this->componentTypes = [
+            ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS => 'Solarium\Component\MoreLikeThis',
+            ComponentAwareQueryInterface::COMPONENT_SPELLCHECK   => 'Solarium\Component\Spellcheck',
+            ComponentAwareQueryInterface::COMPONENT_SUGGESTER    => 'Solarium\Component\Suggester',
+            ComponentAwareQueryInterface::COMPONENT_DEBUG        => 'Solarium\Component\Debug',
+            ComponentAwareQueryInterface::COMPONENT_SPATIAL      => 'Solarium\Component\Spatial',
+            self::COMPONENT_FACETSET          => 'Solarium\QueryType\Select\Query\Component\FacetSet',
+            self::COMPONENT_DISMAX            => 'Solarium\QueryType\Select\Query\Component\DisMax',
+            self::COMPONENT_EDISMAX           => 'Solarium\QueryType\Select\Query\Component\EdisMax',
+            self::COMPONENT_HIGHLIGHTING      => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
+            self::COMPONENT_GROUPING          => 'Solarium\QueryType\Select\Query\Component\Grouping',
+            self::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\QueryType\Select\Query\Component\DistributedSearch',
+            self::COMPONENT_STATS             => 'Solarium\QueryType\Select\Query\Component\Stats\Stats',
+        ];
+
+        parent::__construct($options);
+    }
 
     /**
      * Get type for this query.

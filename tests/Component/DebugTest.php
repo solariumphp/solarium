@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component;
 
-use Solarium\Component\AbstractComponentAwareQuery;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Debug;
-use Solarium\QueryType\Select\Query\Query;
 
 class DebugTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,7 +60,7 @@ class DebugTest extends \PHPUnit_Framework_TestCase
     public function testGetType()
     {
         $this->assertEquals(
-            AbstractComponentAwareQuery::COMPONENT_DEBUG,
+            ComponentAwareQueryInterface::COMPONENT_DEBUG,
             $this->debug->getType()
         );
     }

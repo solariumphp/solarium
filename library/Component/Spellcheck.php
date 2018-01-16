@@ -61,7 +61,7 @@ class Spellcheck extends AbstractComponent
      */
     public function getType()
     {
-        return AbstractComponentAwareQuery::COMPONENT_SPELLCHECK;
+        return ComponentAwareQueryInterface::COMPONENT_SPELLCHECK;
     }
 
     /**
