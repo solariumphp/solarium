@@ -40,6 +40,8 @@
 
 namespace Solarium\QueryType\Spellcheck;
 
+use Solarium\Component\ComponentTraits\SpellcheckTrait;
+use Solarium\Component\SpellcheckInterface;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
 
@@ -48,9 +50,9 @@ use Solarium\Core\Client\Client;
  *
  * Can be used for an autocomplete feature. See http://wiki.apache.org/solr/SpellcheckComponent for more info.
  */
-class Query extends BaseQuery
+class Query extends BaseQuery implements SpellcheckInterface
 {
-    use QueryTrait;
+    use SpellcheckTrait;
 
     /**
      * Default options.

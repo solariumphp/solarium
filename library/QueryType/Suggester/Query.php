@@ -40,6 +40,8 @@
 
 namespace Solarium\QueryType\Suggester;
 
+use Solarium\Component\ComponentTraits\SuggesterTrait;
+use Solarium\Component\SuggesterInterface;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
 
@@ -48,9 +50,9 @@ use Solarium\Core\Client\Client;
  *
  * Can be used for an autocomplete feature. See http://wiki.apache.org/solr/Suggester for more info.
  */
-class Query extends BaseQuery
+class Query extends BaseQuery implements SuggesterInterface
 {
-    use QueryTrait;
+    use SuggesterTrait;
 
     /**
      * Default options.

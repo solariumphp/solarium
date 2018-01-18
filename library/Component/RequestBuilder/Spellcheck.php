@@ -36,8 +36,8 @@
 
 namespace Solarium\Component\RequestBuilder;
 
-use Solarium\Component\Spellcheck as SpellcheckComponent;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Spellcheck\SpellcheckInterface;
 
 /**
  * Add select component Spellcheck to the request.
@@ -47,7 +47,7 @@ class Spellcheck implements ComponentRequestBuilderInterface
     /**
      * Add request settings for Spellcheck.
      *
-     * @param SpellcheckComponent $component
+     * @param SpellcheckInterface $component
      * @param Request             $request
      *
      * @return Request

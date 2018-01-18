@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Component\Traits;
+namespace Solarium\Component\QueryTraits;
 
 use Solarium\Component\ComponentAwareQueryInterface;
 
