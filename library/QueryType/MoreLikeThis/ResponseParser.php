@@ -41,7 +41,7 @@
 
 namespace Solarium\QueryType\MoreLikeThis;
 
-use Solarium\QueryType\Select\ResponseParser\ResponseParser as SelectResponseParser;
+use Solarium\QueryType\Select\ResponseParser as SelectResponseParser;
 
 /**
  * Parse MoreLikeThis response data.

@@ -31,6 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Result;
 
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Result;
@@ -73,13 +74,13 @@ abstract class AbstractResultTest extends \PHPUnit_Framework_TestCase
         $this->debug = 'dummy-debug-value';
 
         $this->components = array(
-            Query::COMPONENT_FACETSET => $this->facetSet,
-            Query::COMPONENT_MORELIKETHIS => $this->moreLikeThis,
-            Query::COMPONENT_HIGHLIGHTING => $this->highlighting,
-            Query::COMPONENT_GROUPING => $this->grouping,
-            Query::COMPONENT_SPELLCHECK => $this->spellcheck,
-            Query::COMPONENT_STATS => $this->stats,
-            Query::COMPONENT_DEBUG => $this->debug,
+            ComponentAwareQueryInterface::COMPONENT_FACETSET => $this->facetSet,
+            ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS => $this->moreLikeThis,
+            ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING => $this->highlighting,
+            ComponentAwareQueryInterface::COMPONENT_GROUPING => $this->grouping,
+            ComponentAwareQueryInterface::COMPONENT_SPELLCHECK => $this->spellcheck,
+            ComponentAwareQueryInterface::COMPONENT_STATS => $this->stats,
+            ComponentAwareQueryInterface::COMPONENT_DEBUG => $this->debug,
         );
 
         $this->result = new SelectDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components);
@@ -118,8 +119,8 @@ abstract class AbstractResultTest extends \PHPUnit_Framework_TestCase
     public function testGetComponent()
     {
         $this->assertEquals(
-            $this->components[Query::COMPONENT_MORELIKETHIS],
-            $this->result->getComponent(Query::COMPONENT_MORELIKETHIS)
+            $this->components[ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS],
+            $this->result->getComponent(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS)
         );
     }
 
@@ -134,7 +135,7 @@ abstract class AbstractResultTest extends \PHPUnit_Framework_TestCase
     public function testGetMoreLikeThis()
     {
         $this->assertEquals(
-            $this->components[Query::COMPONENT_MORELIKETHIS],
+            $this->components[ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS],
             $this->result->getMoreLikeThis()
         );
     }
@@ -142,7 +143,7 @@ abstract class AbstractResultTest extends \PHPUnit_Framework_TestCase
     public function testGetHighlighting()
     {
         $this->assertEquals(
-            $this->components[Query::COMPONENT_HIGHLIGHTING],
+            $this->components[ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING],
             $this->result->getHighlighting()
         );
     }
@@ -150,7 +151,7 @@ abstract class AbstractResultTest extends \PHPUnit_Framework_TestCase
     public function testGetGrouping()
     {
         $this->assertEquals(
-            $this->components[Query::COMPONENT_GROUPING],
+            $this->components[ComponentAwareQueryInterface::COMPONENT_GROUPING],
             $this->result->getGrouping()
         );
     }
@@ -158,7 +159,7 @@ abstract class AbstractResultTest extends \PHPUnit_Framework_TestCase
     public function testGetSpellcheck()
     {
         $this->assertEquals(
-            $this->components[Query::COMPONENT_SPELLCHECK],
+            $this->components[ComponentAwareQueryInterface::COMPONENT_SPELLCHECK],
             $this->result->getSpellcheck()
         );
     }
@@ -166,7 +167,7 @@ abstract class AbstractResultTest extends \PHPUnit_Framework_TestCase
     public function testGetStats()
     {
         $this->assertEquals(
-            $this->components[Query::COMPONENT_STATS],
+            $this->components[ComponentAwareQueryInterface::COMPONENT_STATS],
             $this->result->getStats()
         );
     }
@@ -174,7 +175,7 @@ abstract class AbstractResultTest extends \PHPUnit_Framework_TestCase
     public function testGetDebug()
     {
         $this->assertEquals(
-            $this->components[Query::COMPONENT_DEBUG],
+            $this->components[ComponentAwareQueryInterface::COMPONENT_DEBUG],
             $this->result->getDebug()
         );
     }

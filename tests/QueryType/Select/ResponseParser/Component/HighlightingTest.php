@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\ResponseParser\Component\Highlighting as Parser;
-use Solarium\QueryType\Select\Result\Highlighting\Result;
+use Solarium\Component\ResponseParser\Highlighting as Parser;
+use Solarium\Component\Result\Highlighting\Result;
 
 class HighlightingTest extends \PHPUnit_Framework_TestCase
 {

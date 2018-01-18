@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
 
-use Solarium\QueryType\Select\Result\Grouping\ValueGroup;
+use Solarium\Component\Result\Grouping\ValueGroup;
 
 class ValueGroupTest extends \PHPUnit_Framework_TestCase
 {

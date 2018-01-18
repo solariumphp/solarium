@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
 
-use Solarium\QueryType\Select\Result\Facet\MultiQuery;
+use Solarium\Component\Result\Facet\MultiQuery;
 
 class MultiQueryTest extends \PHPUnit_Framework_TestCase
 {

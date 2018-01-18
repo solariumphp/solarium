@@ -40,7 +40,7 @@
 
 namespace Solarium\Plugin\MinimumScoreFilter;
 
-use Solarium\QueryType\Select\Result\Grouping\QueryGroup as StandardQueryGroupResult;
+use Solarium\Component\Result\Grouping\QueryGroup as StandardQueryGroupResult;
 
 /**
  * MinimumScoreFilter QueryGroupResult.

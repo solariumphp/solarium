@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Stats;
 
-use Solarium\QueryType\Select\Query\Component\Stats\Field;
+use Solarium\Component\Stats\Field;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {

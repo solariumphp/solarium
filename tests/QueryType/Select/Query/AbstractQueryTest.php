@@ -51,7 +51,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\ResponseParser\ResponseParser',
+            'Solarium\QueryType\Select\ResponseParser',
             $this->query->getResponseParser()
         );
     }
@@ -59,7 +59,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\RequestBuilder',
+            'Solarium\QueryType\Select\RequestBuilder',
             $this->query->getRequestBuilder()
         );
     }
@@ -473,7 +473,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $components);
         $this->assertThat(
             array_pop($components),
-            $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\FacetSet')
+            $this->isInstanceOf('Solarium\Component\FacetSet')
         );
         $this->assertEquals(array('t1', 't2'), $query->getTags());
     }
@@ -582,7 +582,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $dismax = $this->query->getDisMax();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\DisMax',
+            'Solarium\Component\DisMax',
             get_class($dismax)
         );
     }
@@ -592,7 +592,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $hlt = $this->query->getHighlighting();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
+            'Solarium\Component\Highlighting\Highlighting',
             get_class($hlt)
         );
     }
@@ -602,7 +602,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $grouping = $this->query->getGrouping();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Grouping',
+            'Solarium\Component\Grouping',
             get_class($grouping)
         );
     }
@@ -661,7 +661,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $spellcheck = $this->query->getDistributedSearch();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\DistributedSearch',
+            'Solarium\Component\DistributedSearch',
             get_class($spellcheck)
         );
     }
@@ -671,7 +671,7 @@ abstract class AbstractQueryTest extends \PHPUnit_Framework_TestCase
         $stats = $this->query->getStats();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Stats\Stats',
+            'Solarium\Component\Stats\Stats',
             get_class($stats)
         );
     }

@@ -31,9 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\Query\Component\Grouping as Component;
-use Solarium\QueryType\Select\Result\Grouping\Result as Result;
-use Solarium\QueryType\Select\ResponseParser\Component\Grouping as Parser;
+use Solarium\Component\Grouping as Component;
+use Solarium\Component\Result\Grouping\Result as Result;
+use Solarium\Component\ResponseParser\Grouping as Parser;
 use Solarium\QueryType\Select\Query\Query;
 
 class GroupingTest extends \PHPUnit_Framework_TestCase
@@ -123,9 +123,9 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $queryGroup = $this->result->getGroup('cat:1');
         $functionGroup = $this->result->getGroup('functionF');
 
-        $this->assertEquals('Solarium\QueryType\Select\Result\Grouping\FieldGroup', get_class($fieldGroup));
-        $this->assertEquals('Solarium\QueryType\Select\Result\Grouping\QueryGroup', get_class($queryGroup));
-        $this->assertEquals('Solarium\QueryType\Select\Result\Grouping\FieldGroup', get_class($functionGroup));
+        $this->assertEquals('Solarium\Component\Result\Grouping\FieldGroup', get_class($fieldGroup));
+        $this->assertEquals('Solarium\Component\Result\Grouping\QueryGroup', get_class($queryGroup));
+        $this->assertEquals('Solarium\Component\Result\Grouping\FieldGroup', get_class($functionGroup));
     }
 
     public function testFieldGroupParsing()

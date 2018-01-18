@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Highlighting;
 
-use Solarium\QueryType\Select\Result\Highlighting\Highlighting;
+use Solarium\Component\Result\Highlighting\Highlighting;
 
 class HighlightingTest extends \PHPUnit_Framework_TestCase
 {

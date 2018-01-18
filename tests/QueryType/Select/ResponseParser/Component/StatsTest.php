@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\ResponseParser\Component\Stats as Parser;
+use Solarium\Component\ResponseParser\Stats as Parser;
 
 class StatsTest extends \PHPUnit_Framework_TestCase
 {

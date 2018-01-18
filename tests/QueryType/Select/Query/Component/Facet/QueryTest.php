@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
-use Solarium\QueryType\Select\Query\Component\Facet\Query;
-use Solarium\QueryType\Select\Query\Component\FacetSet;
+use Solarium\Component\Facet\Query;
+use Solarium\Component\FacetSet;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {

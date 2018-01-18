@@ -31,9 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
-use Solarium\QueryType\Select\Query\Component\FacetSet;
+use Solarium\Component\FacetSet;
 use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
+use Solarium\Component\Facet\Query as FacetQuery;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase
 {
@@ -84,7 +84,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\ResponseParser\Component\FacetSet',
+            'Solarium\Component\ResponseParser\FacetSet',
             $this->facetSet->getResponseParser()
         );
     }
@@ -92,7 +92,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\Component\FacetSet',
+            'Solarium\Component\RequestBuilder\FacetSet',
             $this->facetSet->getRequestBuilder()
         );
     }
@@ -360,7 +360,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
-        $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
+        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
                  ->with($this->equalTo(FacetSet::FACET_FIELD), $this->equalTo($options), $add);
@@ -375,7 +375,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
-        $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
+        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
                  ->with($this->equalTo(FacetSet::FACET_QUERY), $this->equalTo($options), $add);
@@ -390,7 +390,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
-        $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
+        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
                  ->with($this->equalTo(FacetSet::FACET_MULTIQUERY), $this->equalTo($options), $add);
@@ -405,7 +405,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
-        $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
+        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
                  ->with($this->equalTo(FacetSet::FACET_RANGE), $this->equalTo($options), $add);
@@ -420,7 +420,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     {
         $options = array('optionA' => 1, 'optionB' => 2);
 
-        $observer = $this->getMock('Solarium\QueryType\Select\Query\Component\FacetSet', array('createFacet'));
+        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
         $observer->expects($this->once())
                  ->method('createFacet')
                  ->with($this->equalTo(FacetSet::FACET_PIVOT), $this->equalTo($options), $add);

@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
 
-use Solarium\QueryType\Select\Result\Facet\Field;
+use Solarium\Component\Result\Facet\Field;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {

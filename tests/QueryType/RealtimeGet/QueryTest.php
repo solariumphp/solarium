@@ -54,7 +54,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\ResponseParser\ResponseParser',
+            'Solarium\QueryType\Select\ResponseParser',
             $this->query->getResponseParser()
         );
     }

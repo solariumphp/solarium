@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet\Pivot;
 
-use Solarium\QueryType\Select\Result\Facet\Pivot\Pivot;
-use Solarium\QueryType\Select\Result\Facet\Pivot\PivotItem;
+use Solarium\Component\Result\Facet\Pivot\Pivot;
+use Solarium\Component\Result\Facet\Pivot\PivotItem;
 
 class PivotTest extends \PHPUnit_Framework_TestCase
 {

@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
 
-use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting;
-use Solarium\QueryType\Select\Query\Component\Highlighting\Field;
+use Solarium\Component\Highlighting\Highlighting;
+use Solarium\Component\Highlighting\Field;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -129,7 +129,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $this->fld->getAlternateField()
         );
     }
-    
+
     public function testSetAndGetPreserveMulti()
     {
         $value = true;

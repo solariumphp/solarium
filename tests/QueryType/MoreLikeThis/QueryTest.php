@@ -470,7 +470,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $components);
         $this->assertThat(
             array_pop($components),
-            $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\FacetSet')
+            $this->isInstanceOf('Solarium\Component\FacetSet')
         );
     }
 
@@ -561,7 +561,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $dismax = $this->query->getDisMax();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\DisMax',
+            'Solarium\Component\DisMax',
             get_class($dismax)
         );
     }
@@ -571,7 +571,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $hlt = $this->query->getHighlighting();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
+            'Solarium\Component\Highlighting\Highlighting',
             get_class($hlt)
         );
     }
@@ -581,7 +581,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $grouping = $this->query->getGrouping();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Grouping',
+            'Solarium\Component\Grouping',
             get_class($grouping)
         );
     }
@@ -630,7 +630,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $spellcheck = $this->query->getDistributedSearch();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\DistributedSearch',
+            'Solarium\Component\DistributedSearch',
             get_class($spellcheck)
         );
     }
@@ -640,7 +640,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $stats = $this->query->getStats();
 
         $this->assertEquals(
-            'Solarium\QueryType\Select\Query\Component\Stats\Stats',
+            'Solarium\Component\Stats\Stats',
             get_class($stats)
         );
     }

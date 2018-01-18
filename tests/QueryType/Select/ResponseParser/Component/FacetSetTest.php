@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\ResponseParser\Component\FacetSet as Parser;
-use Solarium\QueryType\Select\Query\Component\FacetSet;
+use Solarium\Component\ResponseParser\FacetSet as Parser;
+use Solarium\Component\FacetSet;
 use Solarium\QueryType\Select\Query\Query;
 
 class FacetSetTest extends \PHPUnit_Framework_TestCase
@@ -284,7 +284,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidFacetType()
     {
-        $facetStub = $this->getMock('Solarium\QueryType\Select\Query\Component\Facet\Field');
+        $facetStub = $this->getMock('Solarium\Component\Facet\Field');
         $facetStub->expects($this->once())
              ->method('getType')
              ->will($this->returnValue('invalidfacettype'));

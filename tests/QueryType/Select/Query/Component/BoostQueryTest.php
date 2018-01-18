@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
-use Solarium\QueryType\Select\Query\Component\BoostQuery;
+use Solarium\Component\BoostQuery;
 
 class BoostQueryTest extends \PHPUnit_Framework_TestCase
 {
