@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\ResponseParser;
+namespace Solarium\Tests\QueryType\Select;
 
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\Component\Result\FacetSet;

@@ -29,7 +29,7 @@
  * policies, either expressed or implied, of the copyright holder.
  */
 
-namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+namespace Solarium\Tests\Component\ResponseParser;
 
 use Solarium\Component\Grouping as Component;
 use Solarium\Component\Result\Grouping\Result as Result;
