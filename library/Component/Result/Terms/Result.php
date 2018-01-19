@@ -1,23 +1,22 @@
 <?php
 
-namespace Solarium\Component\Result\Suggester;
-
-use Solarium\QueryType\Suggester\Result\Field;
+namespace Solarium\Component\Result\Terms;
 
 /**
- * Component suggester result.
+ * Component terms result.
  */
 class Result implements \IteratorAggregate, \Countable
 {
+
     /**
-     * Suggester results.
+     * Terms results.
      *
      * @var array
      */
     protected $results;
 
     /**
-     * Suggester flat results.
+     * Terms flat results.
      *
      * @var array
      */
@@ -58,14 +57,14 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get results for a specific dictionary.
      *
-     * @param string $dictionary
+     * @param string $field
      *
      * @return Field|null
      */
-    public function getDictionary($dictionary)
+    public function getField($field)
     {
-        if (isset($this->results[$dictionary])) {
-            return $this->results[$dictionary];
+        if (isset($this->results[$field])) {
+            return $this->results[$field];
         } else {
             return null;
         }

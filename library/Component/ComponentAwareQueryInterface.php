@@ -68,6 +68,11 @@ interface ComponentAwareQueryInterface
     const COMPONENT_STATS = 'stats';
 
     /**
+     * Query component terms.
+     */
+    const COMPONENT_TERMS = 'terms';
+
+    /**
      * Get all registered component types.
      *
      * @return array

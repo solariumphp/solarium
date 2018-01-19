@@ -136,7 +136,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @param string $dictionary
      *
-     * @return Dictionary|null
+     * @return Field|null
      */
     public function getDictionary($dictionary)
     {
