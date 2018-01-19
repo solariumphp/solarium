@@ -35,7 +35,6 @@
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
-use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -94,7 +93,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 
         $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -141,7 +140,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 
         $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -155,7 +154,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $container);
         $this->assertSame('POST', $container[0]['request']->getMethod());
         $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
-        $this->assertSame(file_get_contents(__FILE__), (string)$container[0]['request']->getBody());
+        $this->assertStringEqualsFile(__FILE__, (string)$container[0]['request']->getBody());
     }
 
     /**
@@ -190,7 +189,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 
         $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -239,7 +238,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 
         $response = $adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',

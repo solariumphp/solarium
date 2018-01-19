@@ -437,11 +437,9 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildRollbackXml()
     {
-        $command = new RollbackCommand;
-
         $this->assertEquals(
             '<rollback/>',
-            $this->builder->buildRollbackXml($command)
+            $this->builder->buildRollbackXml()
         );
     }
 

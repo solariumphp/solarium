@@ -41,7 +41,6 @@ namespace Solarium\Core\Client\Adapter;
 
 use Guzzle\Http\Client as GuzzleClient;
 use Solarium\Core\Configurable;
-use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
@@ -76,7 +75,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
             $this->getRequestBody($request),
             array(
                 'timeout' => $endpoint->getTimeout(),
-                'connecttimeout' => $endpoint->getTimeout(),
+                'connect_timeout' => $endpoint->getTimeout(),
             )
         );
 

@@ -76,6 +76,6 @@ class StatsTest extends \PHPUnit_Framework_TestCase
     public function testParseNoData()
     {
         $result = $this->parser->parse(null, null, array());
-        $this->assertEquals(0, count($result));
+        $this->assertCount(0, $result);
     }
 }

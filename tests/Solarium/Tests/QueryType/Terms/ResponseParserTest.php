@@ -85,7 +85,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($expected, $result['results']);
-        $this->assertEquals(2, count($result['results']));
+        $this->assertCount(2, $result['results']);
     }
 
     public function testParseSolr14Format()
@@ -139,6 +139,6 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($expected, $result['results']);
-        $this->assertEquals(2, count($result['results']));
+        $this->assertCount(2, $result['results']);
     }
 }

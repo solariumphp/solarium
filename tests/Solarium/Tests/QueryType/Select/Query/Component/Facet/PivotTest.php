@@ -157,7 +157,7 @@ class PivotTest extends \PHPUnit_Framework_TestCase
         $this->facet->clearStats();
         $this->facet->addStats(array('stat1', 'stat2'));
         $this->facet->removeStat('stat1');
-        $this->assertEquals(array('stat2'), $this->facet->getstats());
+        $this->assertEquals(array('stat2'), $this->facet->getStats());
     }
 
     public function testSetStats()

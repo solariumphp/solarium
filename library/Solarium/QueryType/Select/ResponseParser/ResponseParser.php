@@ -95,16 +95,16 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             }
         }
 
+        $numFound = null;
+
         if (isset($data['response']['numFound'])) {
             $numFound = $data['response']['numFound'];
-        } else {
-            $numFound = null;
         }
+
+        $maxScore = null;
 
         if (isset($data['response']['maxScore'])) {
             $maxScore = $data['response']['maxScore'];
-        } else {
-            $maxScore = null;
         }
 
         return $this->addHeaderInfo(

@@ -69,7 +69,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($facets));
         $this->assertEquals($options['prefix'], $this->facetSet->getPrefix());
         $this->assertEquals($options['sort'], $this->facetSet->getSort());
-        $this->assertEquals($options['mincount'], $this->facetSet->getMincount());
+        $this->assertEquals($options['mincount'], $this->facetSet->getMinCount());
         $this->assertEquals($options['missing'], $this->facetSet->getMissing());
         $this->assertEquals($options['extractfromresponse'], $this->facetSet->getExtractFromResponse());
         $this->assertEquals($options['contains'], $this->facetSet->getContains());
@@ -117,8 +117,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetMinCount()
     {
-        $this->facetSet->setMincount(100);
-        $this->assertEquals(100, $this->facetSet->getMincount());
+        $this->facetSet->setMinCount(100);
+        $this->assertEquals(100, $this->facetSet->getMinCount());
     }
 
     public function testSetAndGetMissing()

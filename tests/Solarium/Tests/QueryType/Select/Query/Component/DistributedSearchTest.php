@@ -138,7 +138,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         $this->distributedSearch->clearShards();
         $shards = $this->distributedSearch->getShards();
         $this->assertTrue(is_array($shards));
-        $this->assertEquals(0, count($shards));
+        $this->assertCount(0, $shards);
     }
 
     public function testAddShards()
@@ -167,7 +167,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             )
         );
         $shards = $this->distributedSearch->getShards();
-        $this->assertEquals(3, count($shards));
+        $this->assertCount(3, $shards);
         $this->assertEquals(
             array(
                 'shard3' => 'localhost:8983/solr/shard3',
@@ -216,7 +216,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         $this->distributedSearch->clearCollections();
         $collections = $this->distributedSearch->getCollections();
         $this->assertTrue(is_array($collections));
-        $this->assertEquals(0, count($collections));
+        $this->assertCount(0, $collections);
     }
 
     public function testAddCollections()
@@ -245,7 +245,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             )
         );
         $collections = $this->distributedSearch->getCollections();
-        $this->assertEquals(3, count($collections));
+        $this->assertCount(3, $collections);
         $this->assertEquals(
             array(
                 'collection3' => 'localhost:8983/solr/collection3',
@@ -285,7 +285,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         $this->distributedSearch->clearReplicas();
         $replicas = $this->distributedSearch->getReplicas();
         $this->assertTrue(is_array($replicas));
-        $this->assertEquals(0, count($replicas));
+        $this->assertCount(0, $replicas);
     }
 
     public function testAddReplicas()
@@ -314,7 +314,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             )
         );
         $replicas = $this->distributedSearch->getReplicas();
-        $this->assertEquals(3, count($replicas));
+        $this->assertCount(3, $replicas);
         $this->assertEquals(
             array(
                 'replica3' => 'localhost:8983/solr/replica3',

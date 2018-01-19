@@ -124,7 +124,7 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('dummy-qp', $result->getQueryParser());
         $this->assertEquals('dummy-oq', $result->getOtherQuery());
 
-        $this->assertEquals(1, count($result->getExplain()));
+        $this->assertCount(1, $result->getExplain());
         $doc = $result->getExplain()->getDocument('MA147LL/A');
         $this->assertEquals(0.5, $doc->getValue());
         $this->assertEquals(true, $doc->getMatch());
@@ -146,7 +146,7 @@ class DebugTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertEquals(array($expectedDetail), $doc->getDetails());
-        $this->assertEquals(1, count($result->getExplainOther()));
+        $this->assertCount(1, $result->getExplainOther());
         $doc = $result->getExplainOther()->getDocument('IW-02');
         $this->assertEquals(0.6, $doc->getValue());
         $this->assertEquals(true, $doc->getMatch());
@@ -158,10 +158,10 @@ class DebugTest extends \PHPUnit_Framework_TestCase
 
         $timing = $result->getTiming();
         $this->assertEquals(36, $timing->getTime());
-        $this->assertEquals(2, count($timing->getPhases()));
+        $this->assertCount(2, $timing->getPhases());
         $phase = $timing->getPhase('process');
         $this->assertEquals(8, $phase->getTime());
-        $this->assertEquals(2, count($phase->getTimings()));
+        $this->assertCount(2, $phase->getTimings());
         $this->assertEquals(5, $phase->getTiming('org.apache.solr.handler.component.QueryComponent'));
         $this->assertEquals(3, $phase->getTiming('org.apache.solr.handler.component.MoreLikeThisComponent'));
     }
@@ -183,8 +183,8 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('dummy-qp', $result->getQueryParser());
         $this->assertEquals('dummy-oq', $result->getOtherQuery());
 
-        $this->assertEquals(0, count($result->getExplain()));
-        $this->assertEquals(0, count($result->getExplainOther()));
+        $this->assertCount(0, $result->getExplain());
+        $this->assertCount(0, $result->getExplainOther());
     }
 
     public function testParseNoData()

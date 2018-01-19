@@ -40,7 +40,7 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\Dismax as DismaxComponent;
+use Solarium\QueryType\Select\Query\Component\DisMax as DismaxComponent;
 use Solarium\Core\Client\Request;
 
 /**

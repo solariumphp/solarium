@@ -32,7 +32,6 @@
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 
 use Solarium\Plugin\BufferedAdd\Event\PostFlush;
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;

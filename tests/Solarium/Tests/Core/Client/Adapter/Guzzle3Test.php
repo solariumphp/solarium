@@ -33,7 +33,6 @@ namespace Solarium\Tests\Core\Client\Adapter;
 
 use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response;
-use Guzzle\Http\Client as GuzzleClient;
 use Solarium\Core\Client\Adapter\Guzzle3 as GuzzleAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
@@ -89,7 +88,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $response = $this->adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -102,7 +101,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $receivedRequests = $plugin->getReceivedRequests();
 
-        $this->assertSame(1, count($receivedRequests));
+        $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('GET', $receivedRequests[0]->getMethod());
         $this->assertSame(
@@ -136,7 +135,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $response = $this->adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -149,10 +148,10 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $receivedRequests = $plugin->getReceivedRequests();
 
-        $this->assertSame(1, count($receivedRequests));
+        $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('POST', $receivedRequests[0]->getMethod());
-        $this->assertSame(file_get_contents(__FILE__), (string)$receivedRequests[0]->getBody());
+        $this->assertStringEqualsFile(__FILE__, (string)$receivedRequests[0]->getBody());
         $this->assertSame(
             'request value',
             (string)$receivedRequests[0]->getHeader('X-PHPUnit')
@@ -185,7 +184,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $response = $this->adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -198,7 +197,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $receivedRequests = $plugin->getReceivedRequests();
 
-        $this->assertSame(1, count($receivedRequests));
+        $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('POST', $receivedRequests[0]->getMethod());
         $this->assertSame($xml, (string)$receivedRequests[0]->getBody());
@@ -237,7 +236,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $response = $this->adapter->execute($request, $endpoint);
         $this->assertSame('OK', $response->getStatusMessage());
-        $this->assertSame('200', $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
@@ -250,7 +249,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $receivedRequests = $plugin->getReceivedRequests();
 
-        $this->assertSame(1, count($receivedRequests));
+        $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('GET', $receivedRequests[0]->getMethod());
         $this->assertSame(

@@ -74,6 +74,7 @@ class Guzzle extends Configurable implements AdapterInterface
             RequestOptions::HEADERS => $this->getRequestHeaders($request),
             RequestOptions::BODY => $this->getRequestBody($request),
             RequestOptions::TIMEOUT => $endpoint->getTimeout(),
+            RequestOptions::CONNECT_TIMEOUT => $endpoint->getTimeout(),
         ];
 
         // Try endpoint authentication first, fallback to request for backwards compatibility
