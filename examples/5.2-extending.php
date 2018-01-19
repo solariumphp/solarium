@@ -23,8 +23,8 @@ class MyClient extends Client
     protected $queryTypes = array(
         self::QUERY_SELECT => array(
             'query'          => 'MyQuery',
-            'requestbuilder' => 'Solarium\QueryType\Select\RequestBuilder\RequestBuilder',
-            'responseparser' => 'Solarium\QueryType\Select\ResponseParser\ResponseParser'
+            'requestbuilder' => 'Solarium\QueryType\Select\RequestBuilder',
+            'responseparser' => 'Solarium\QueryType\Select\ResponseParser'
         ),
     );
 }
