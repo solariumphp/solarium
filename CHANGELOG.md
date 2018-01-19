@@ -2,6 +2,8 @@
 
 ## 3.x - Unreleased
 
+## 3.9.0-alpha - 2018-01-19
+
 - (backport) Fixes bugs from PR #484: fix Http adapter for extraction requests (PR #519)
 - Updated PHP annotations and docblock (PR #526)
 - Performance updates for formatting values (PR #485)
