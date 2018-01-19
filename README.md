@@ -1,5 +1,8 @@
 # Solarium PHP Solr client library
 
+[![Build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=3.x)](http://travis-ci.org/solariumphp/solarium)
+[![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=3.x)](https://coveralls.io/r/solariumphp/solarium?branch=3.x)
+[![Total Downloads](https://poser.pugx.org/solarium/solarium/downloads.svg)](https://packagist.org/packages/solarium/solarium)
 
 ## What is Solarium?
 
@@ -23,23 +26,7 @@ The preferred way to install Solarium is by using Composer. Solarium is availabl
 ## More information
 
 * Docs
-  http://solarium.readthedocs.io/en/stable/
+  http://solarium.readthedocs.io/en/3.x/
 
 * Issue tracker   
   http://github.com/solariumphp/solarium/issues
-
-* Contributors    
-  https://github.com/solariumphp/solarium/contributors
-
-* License   
-  See the COPYING file or view online:  
-  https://github.com/solariumphp/solarium/blob/master/COPYING
-
-## Continuous Integration status
-
-* 4.x develop branch [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=4.x)](http://travis-ci.org/solariumphp/solarium) [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=4.x)](https://coveralls.io/r/solariumphp/solarium?branch=4.x)
-* 3.x develop branch [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=develop)](http://travis-ci.org/solariumphp/solarium) [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=develop)](https://coveralls.io/r/solariumphp/solarium?branch=develop)
-* 3.x master branch [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=master)](http://travis-ci.org/solariumphp/solarium) [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=master)](https://coveralls.io/r/solariumphp/solarium?branch=master)
-* [![SensioLabsInsight](https://insight.sensiolabs.com/projects/292e29f7-10a9-4685-b9ac-37925ebef9ae/small.png)](https://insight.sensiolabs.com/projects/292e29f7-10a9-4685-b9ac-37925ebef9ae)
-* [![Total Downloads](https://poser.pugx.org/solarium/solarium/downloads.svg)](https://packagist.org/packages/solarium/solarium)
-

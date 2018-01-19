@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.x - Unreleased
+
+- Updated PHP annotations and docblock (PR #526)
+- Performance updates for formatting values (PR #485)
+- Provide fluent interface (PR #483)
+
 ## 3.8.1 - 2017-02-02
 
 - bugfix: restore PHP 5.3 compatibility (remove short array syntax)
