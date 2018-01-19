@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Result\Suggester;
 
-use Solarium\QueryType\Suggester\Result\Field;
+use Solarium\QueryType\Suggester\Result\Dictionary;
 
 /**
  * Component suggester result.
@@ -60,7 +60,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @param string $dictionary
      *
-     * @return Field|null
+     * @return Dictionary|null
      */
     public function getDictionary($dictionary)
     {
