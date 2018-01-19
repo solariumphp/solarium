@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
-use Solarium\QueryType\Select\Query\Component\Facet\Interval;
-use Solarium\QueryType\Select\Query\Component\FacetSet;
+use Solarium\Component\Facet\Interval;
+use Solarium\Component\FacetSet;
 
 class IntervalTest extends \PHPUnit_Framework_TestCase
 {

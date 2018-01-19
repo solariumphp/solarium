@@ -42,10 +42,22 @@ namespace Solarium\QueryType\Select\Query;
 
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\ComponentAwareQueryTrait;
+use Solarium\Component\QueryTraits\DebugTrait;
+use Solarium\Component\QueryTraits\DisMaxTrait;
+use Solarium\Component\QueryTraits\DistributedSearchTrait;
+use Solarium\Component\QueryTraits\EDisMaxTrait;
+use Solarium\Component\QueryTraits\FacetSetTrait;
+use Solarium\Component\QueryTraits\GroupingTrait;
+use Solarium\Component\QueryTraits\HighlightingTrait;
+use Solarium\Component\QueryTraits\MoreLikeThisTrait;
+use Solarium\Component\QueryTraits\SpatialTrait;
+use Solarium\Component\QueryTraits\SpellcheckTrait;
+use Solarium\Component\QueryTraits\StatsTrait;
+use Solarium\Component\QueryTraits\SuggesterTrait;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery;
-use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
-use Solarium\QueryType\Select\ResponseParser\ResponseParser;
+use Solarium\QueryType\Select\RequestBuilder;
+use Solarium\QueryType\Select\ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
 
 /**
@@ -58,6 +70,18 @@ use Solarium\Exception\InvalidArgumentException;
 class Query extends AbstractQuery implements ComponentAwareQueryInterface
 {
     use ComponentAwareQueryTrait;
+    use MoreLikeThisTrait;
+    use SpellcheckTrait;
+    use SuggesterTrait;
+    use DebugTrait;
+    use SpatialTrait;
+    use FacetSetTrait;
+    use DisMaxTrait;
+    use EDisMaxTrait;
+    use HighlightingTrait;
+    use GroupingTrait;
+    use DistributedSearchTrait;
+    use StatsTrait;
 
     /**
      * Solr sort mode descending.
@@ -78,41 +102,6 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      * Solr query operator OR.
      */
     const QUERY_OPERATOR_OR = 'OR';
-
-    /**
-     * Query component facetset.
-     */
-    const COMPONENT_FACETSET = 'facetset';
-
-    /**
-     * Query component dismax.
-     */
-    const COMPONENT_DISMAX = 'dismax';
-
-    /**
-     * Query component dismax.
-     */
-    const COMPONENT_EDISMAX = 'edismax';
-
-    /**
-     * Query component highlighting.
-     */
-    const COMPONENT_HIGHLIGHTING = 'highlighting';
-
-    /**
-     * Query component grouping.
-     */
-    const COMPONENT_GROUPING = 'grouping';
-
-    /**
-     * Query component distributed search.
-     */
-    const COMPONENT_DISTRIBUTEDSEARCH = 'distributedsearch';
-
-    /**
-     * Query component stats.
-     */
-    const COMPONENT_STATS = 'stats';
 
     /**
      * Default options.
@@ -161,18 +150,18 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     public function __construct($options = null)
     {
         $this->componentTypes = [
-            ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS => 'Solarium\Component\MoreLikeThis',
-            ComponentAwareQueryInterface::COMPONENT_SPELLCHECK   => 'Solarium\Component\Spellcheck',
-            ComponentAwareQueryInterface::COMPONENT_SUGGESTER    => 'Solarium\Component\Suggester',
-            ComponentAwareQueryInterface::COMPONENT_DEBUG        => 'Solarium\Component\Debug',
-            ComponentAwareQueryInterface::COMPONENT_SPATIAL      => 'Solarium\Component\Spatial',
-            self::COMPONENT_FACETSET          => 'Solarium\QueryType\Select\Query\Component\FacetSet',
-            self::COMPONENT_DISMAX            => 'Solarium\QueryType\Select\Query\Component\DisMax',
-            self::COMPONENT_EDISMAX           => 'Solarium\QueryType\Select\Query\Component\EdisMax',
-            self::COMPONENT_HIGHLIGHTING      => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
-            self::COMPONENT_GROUPING          => 'Solarium\QueryType\Select\Query\Component\Grouping',
-            self::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\QueryType\Select\Query\Component\DistributedSearch',
-            self::COMPONENT_STATS             => 'Solarium\QueryType\Select\Query\Component\Stats\Stats',
+            ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS      => 'Solarium\Component\MoreLikeThis',
+            ComponentAwareQueryInterface::COMPONENT_SPELLCHECK        => 'Solarium\Component\Spellcheck',
+            ComponentAwareQueryInterface::COMPONENT_SUGGESTER         => 'Solarium\Component\Suggester',
+            ComponentAwareQueryInterface::COMPONENT_DEBUG             => 'Solarium\Component\Debug',
+            ComponentAwareQueryInterface::COMPONENT_SPATIAL           => 'Solarium\Component\Spatial',
+            ComponentAwareQueryInterface::COMPONENT_FACETSET          => 'Solarium\Component\FacetSet',
+            ComponentAwareQueryInterface::COMPONENT_DISMAX            => 'Solarium\Component\DisMax',
+            ComponentAwareQueryInterface::COMPONENT_EDISMAX           => 'Solarium\Component\EdisMax',
+            ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING      => 'Solarium\Component\Highlighting\Highlighting',
+            ComponentAwareQueryInterface::COMPONENT_GROUPING          => 'Solarium\Component\Grouping',
+            ComponentAwareQueryInterface::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\Component\DistributedSearch',
+            ComponentAwareQueryInterface::COMPONENT_STATS             => 'Solarium\Component\Stats\Stats',
         ];
 
         parent::__construct($options);
@@ -717,90 +706,6 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     {
         $this->clearFilterQueries();
         $this->addFilterQueries($filterQueries);
-    }
-
-    /**
-     * Get a FacetSet component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\FacetSet
-     */
-    public function getFacetSet()
-    {
-        return $this->getComponent(self::COMPONENT_FACETSET, true);
-    }
-
-    /**
-     * Get a DisMax component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\DisMax
-     */
-    public function getDisMax()
-    {
-        return $this->getComponent(self::COMPONENT_DISMAX, true);
-    }
-
-    /**
-     * Get a EdisMax component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\EdisMax
-     */
-    public function getEDisMax()
-    {
-        return $this->getComponent(self::COMPONENT_EDISMAX, true);
-    }
-
-    /**
-     * Get a highlighting component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting
-     */
-    public function getHighlighting()
-    {
-        return $this->getComponent(self::COMPONENT_HIGHLIGHTING, true);
-    }
-
-    /**
-     * Get a grouping component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\Grouping
-     */
-    public function getGrouping()
-    {
-        return $this->getComponent(self::COMPONENT_GROUPING, true);
-    }
-
-    /**
-     * Get a DistributedSearch component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\DistributedSearch
-     */
-    public function getDistributedSearch()
-    {
-        return $this->getComponent(self::COMPONENT_DISTRIBUTEDSEARCH, true);
-    }
-
-    /**
-     * Get a Stats component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\QueryType\Select\Query\Component\Stats\Stats
-     */
-    public function getStats()
-    {
-        return $this->getComponent(self::COMPONENT_STATS, true);
     }
 
     /**

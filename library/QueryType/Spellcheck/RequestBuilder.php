@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Spellcheck;
 
+use Solarium\Component\RequestBuilder\Spellcheck;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
@@ -50,7 +51,7 @@ use Solarium\Core\Query\QueryInterface;
 class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * Build request for a Suggester query.
+     * Build request for a Spellcheck query.
      *
      * @param QueryInterface|Query $query
      *
@@ -59,26 +60,9 @@ class RequestBuilder extends BaseRequestBuilder
     public function build(QueryInterface $query)
     {
         $request = parent::build($query);
-        // enable spellcheck
-        $request->addParam('spellcheck', 'true');
 
-        $request->addParam('spellcheck.q', $query->getQuery());
-        $request->addParam('spellcheck.build', $query->getBuild());
-        $request->addParam('spellcheck.reload', $query->getReload());
-        $request->addParam('spellcheck.dictionary', $query->getDictionary());
-        $request->addParam('spellcheck.count', $query->getCount());
-        $request->addParam('spellcheck.onlyMorePopular', $query->getOnlyMorePopular());
-        $request->addParam('spellcheck.extendedResults', $query->getExtendedResults());
-        $request->addParam('spellcheck.collate', $query->getCollate());
-        $request->addParam('spellcheck.maxCollations', $query->getMaxCollations());
-        $request->addParam('spellcheck.maxCollationTries', $query->getMaxCollationTries());
-        $request->addParam('spellcheck.maxCollationEvaluations', $query->getMaxCollationEvaluations());
-        $request->addParam('spellcheck.collateExtendedResults', $query->getCollateExtendedResults());
-        $request->addParam('spellcheck.accuracy', $query->getAccuracy());
-
-        foreach ($query->getCollateParams() as $param => $value) {
-            $request->addParam('spellcheck.collateParam.'.$param, $value);
-        }
+        $componentRequestBuilder = new Spellcheck();
+        $componentRequestBuilder->buildComponent($query, $request);
 
         return $request;
     }

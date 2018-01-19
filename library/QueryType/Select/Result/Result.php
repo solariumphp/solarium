@@ -42,12 +42,12 @@ namespace Solarium\QueryType\Select\Result;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
-use Solarium\QueryType\Select\Result\Spellcheck\Result as SpellcheckResult;
-use Solarium\QueryType\Select\Result\Stats\Result as StatsResult;
-use Solarium\QueryType\Select\Result\Debug\Result as DebugResult;
-use Solarium\QueryType\Select\Result\Grouping\Result as GroupingResult;
-use Solarium\QueryType\Select\Result\Highlighting\Result as HighlightingResult;
-use Solarium\QueryType\Select\Result\MoreLikeThis\Result as MoreLikeThisResult;
+use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
+use Solarium\Component\Result\Stats\Result as StatsResult;
+use Solarium\Component\Result\Debug\Result as DebugResult;
+use Solarium\Component\Result\Grouping\Result as GroupingResult;
+use Solarium\Component\Result\Highlighting\Result as HighlightingResult;
+use Solarium\Component\Result\MoreLikeThis\Result as MoreLikeThisResult;
 
 /**
  * Select query result.

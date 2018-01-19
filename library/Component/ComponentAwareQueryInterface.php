@@ -33,6 +33,46 @@ interface ComponentAwareQueryInterface
     const COMPONENT_SPATIAL = 'spatial';
 
     /**
+     * Query component facetset.
+     */
+    const COMPONENT_FACETSET = 'facetset';
+
+    /**
+     * Query component dismax.
+     */
+    const COMPONENT_DISMAX = 'dismax';
+
+    /**
+     * Query component dismax.
+     */
+    const COMPONENT_EDISMAX = 'edismax';
+
+    /**
+     * Query component highlighting.
+     */
+    const COMPONENT_HIGHLIGHTING = 'highlighting';
+
+    /**
+     * Query component grouping.
+     */
+    const COMPONENT_GROUPING = 'grouping';
+
+    /**
+     * Query component distributed search.
+     */
+    const COMPONENT_DISTRIBUTEDSEARCH = 'distributedsearch';
+
+    /**
+     * Query component stats.
+     */
+    const COMPONENT_STATS = 'stats';
+
+    /**
+     * Query component terms.
+     */
+    const COMPONENT_TERMS = 'terms';
+
+    /**
      * Get all registered component types.
      *
      * @return array
@@ -94,50 +134,5 @@ interface ComponentAwareQueryInterface
      * @return self Provides fluent interface
      */
     public function removeComponent($component);
-
-    /**
-     * Get a MoreLikeThis component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\Component\MoreLikeThis
-     */
-    public function getMoreLikeThis();
-
-    /**
-     * Get a spellcheck component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\Component\Spellcheck
-     */
-    public function getSpellcheck();
-
-    /**
-     * Get a suggest component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\Component\Spellcheck
-     */
-    public function getSuggester();
-
-    /**
-     * Get a Debug component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\Component\Debug
-     */
-    public function getDebug();
-
-    /**
-     * Get a Spatial component instance.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return \Solarium\Component\Spatial
-     */
-    public function getSpatial();
 
 }

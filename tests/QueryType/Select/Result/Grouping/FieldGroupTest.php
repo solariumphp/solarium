@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
 
-use Solarium\QueryType\Select\Result\Grouping\FieldGroup;
+use Solarium\Component\Result\Grouping\FieldGroup;
 
 class FieldGroupTest extends \PHPUnit_Framework_TestCase
 {

@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Stats;
 
-use Solarium\QueryType\Select\Result\Stats\FacetValue;
+use Solarium\Component\Result\Stats\FacetValue;
 
 class FacetValueTest extends \PHPUnit_Framework_TestCase
 {

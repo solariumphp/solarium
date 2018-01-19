@@ -40,8 +40,8 @@
 
 namespace Solarium\Component\RequestBuilder;
 
-use Solarium\Component\AbstractComponent;
 use Solarium\Core\Client\Request;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * ComponentRequestBuilderInterface.
@@ -51,8 +51,8 @@ interface ComponentRequestBuilderInterface
     /**
      * Add request settings for the debug component.
      *
-     * @param AbstractComponent $component
-     * @param Request           $request
+     * @param ConfigurableInterface $component
+     * @param Request               $request
      *
      * @return Request
      */

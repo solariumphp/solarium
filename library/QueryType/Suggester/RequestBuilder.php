@@ -40,6 +40,7 @@
 
 namespace Solarium\QueryType\Suggester;
 
+use Solarium\Component\RequestBuilder\Suggester;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
@@ -59,13 +60,9 @@ class RequestBuilder extends BaseRequestBuilder
     public function build(QueryInterface $query)
     {
         $request = parent::build($query);
-        $request->addParam('suggest', 'true');
-        $request->addParam('suggest.dictionary', $query->getDictionary());
-        $request->addParam('suggest.q', $query->getQuery());
-        $request->addParam('suggest.count', $query->getCount());
-        $request->addParam('suggest.cfq', $query->getContextFilterQuery());
-        $request->addParam('suggest.build', $query->getBuild());
-        $request->addParam('suggest.reload', $query->getReload());
+
+        $componentRequestBuilder = new Suggester();
+        $componentRequestBuilder->buildComponent($query, $request);
 
         return $request;
     }

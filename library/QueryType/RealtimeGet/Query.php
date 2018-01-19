@@ -42,7 +42,7 @@ namespace Solarium\QueryType\RealtimeGet;
 
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Select\ResponseParser\ResponseParser;
+use Solarium\QueryType\Select\ResponseParser;
 
 /**
  * Get query.

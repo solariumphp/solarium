@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
 
-use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting;
-use Solarium\QueryType\Select\Query\Component\Highlighting\Field;
+use Solarium\Component\Highlighting\Highlighting;
+use Solarium\Component\Highlighting\Field;
 use Solarium\QueryType\Select\Query\Query;
 
 class HighlightingTest extends \PHPUnit_Framework_TestCase
@@ -134,7 +134,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\ResponseParser\Component\Highlighting',
+            'Solarium\Component\ResponseParser\Highlighting',
             $this->hlt->getResponseParser()
         );
     }
@@ -142,7 +142,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\Component\Highlighting',
+            'Solarium\Component\RequestBuilder\Highlighting',
             $this->hlt->getRequestBuilder()
         );
     }
@@ -356,7 +356,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
             $this->hlt->getMaxAlternateFieldLength()
         );
     }
-    
+
     public function testSetAndGetPreserveMulti()
     {
         $value = true;

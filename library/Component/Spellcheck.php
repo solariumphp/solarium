@@ -42,17 +42,17 @@ namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\Spellcheck as RequestBuilder;
 use Solarium\Component\ResponseParser\Spellcheck as ResponseParser;
-use Solarium\QueryType\Spellcheck\QueryTrait;
+use Solarium\Component\ComponentTraits\SpellcheckTrait;
 
 /**
  * Spellcheck component.
  *
  * @link http://wiki.apache.org/solr/SpellcheckComponent
  */
-class Spellcheck extends AbstractComponent
+class Spellcheck extends AbstractComponent implements SpellcheckInterface
 {
 
-    use QueryTrait;
+    use SpellcheckTrait;
 
     /**
      * Get component type.

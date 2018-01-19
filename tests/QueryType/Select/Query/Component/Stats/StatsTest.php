@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Stats;
 
-use Solarium\QueryType\Select\Query\Component\Stats\Stats;
-use Solarium\QueryType\Select\Query\Component\Stats\Field;
+use Solarium\Component\Stats\Stats;
+use Solarium\Component\Stats\Field;
 use Solarium\QueryType\Select\Query\Query;
 
 class StatsTest extends \PHPUnit_Framework_TestCase
@@ -55,7 +55,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\ResponseParser\Component\Stats',
+            'Solarium\Component\ResponseParser\Stats',
             $this->stats->getResponseParser()
         );
     }
@@ -63,7 +63,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\Component\Stats',
+            'Solarium\Component\RequestBuilder\Stats',
             $this->stats->getRequestBuilder()
         );
     }
@@ -89,7 +89,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $field = $this->stats->createField('mykey');
 
         // check class
-        $this->assertThat($field, $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\Stats\Field'));
+        $this->assertThat($field, $this->isInstanceOf('Solarium\Component\Stats\Field'));
 
         $this->assertEquals(
             'mykey',
@@ -103,7 +103,7 @@ class StatsTest extends \PHPUnit_Framework_TestCase
         $field = $this->stats->createField($options);
 
         // check class
-        $this->assertThat($field, $this->isInstanceOf('Solarium\QueryType\Select\Query\Component\Stats\Field'));
+        $this->assertThat($field, $this->isInstanceOf('Solarium\Component\Stats\Field'));
 
         // check option forwarding
         $fieldOptions = $field->getOptions();

@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
-use Solarium\QueryType\Select\Query\Component\BoostQuery;
-use Solarium\QueryType\Select\Query\Component\DisMax;
+use Solarium\Component\BoostQuery;
+use Solarium\Component\DisMax;
 use Solarium\QueryType\Select\Query\Query;
 
 class DisMaxTest extends \PHPUnit_Framework_TestCase
@@ -92,7 +92,7 @@ class DisMaxTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(
-            'Solarium\QueryType\Select\RequestBuilder\Component\Dismax',
+            'Solarium\Component\RequestBuilder\Dismax',
             $this->disMax->getRequestBuilder()
         );
     }

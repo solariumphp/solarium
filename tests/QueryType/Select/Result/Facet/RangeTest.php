@@ -31,7 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
 
-use Solarium\QueryType\Select\Result\Facet\Range;
+use Solarium\Component\Result\Facet\Range;
 
 class RangeTest extends \PHPUnit_Framework_TestCase
 {

@@ -42,16 +42,16 @@ namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\Suggester as RequestBuilder;
 use Solarium\Component\ResponseParser\Suggester as ResponseParser;
-use Solarium\QueryType\Suggester\QueryTrait;
+use Solarium\Component\ComponentTraits\SuggesterTrait;
 
 /**
  * Spellcheck component.
  *
  * @link http://wiki.apache.org/solr/SpellcheckComponent
  */
-class Suggester extends AbstractComponent
+class Suggester extends AbstractComponent implements SuggesterInterface
 {
-    use QueryTrait;
+    use SuggesterTrait;
 
     /**
      * Get component type.
