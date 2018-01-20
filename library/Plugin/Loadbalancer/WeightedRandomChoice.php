@@ -145,8 +145,8 @@ class WeightedRandomChoice
 
         if ($this->lookup[$low] >= $random) {
             return $low;
-        } else {
-            return $low+1;
         }
+
+        return $low+1;
     }
 }

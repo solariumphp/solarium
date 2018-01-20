@@ -73,9 +73,7 @@ class FacetSet implements \IteratorAggregate, \Countable
     {
         if (isset($this->facets[$key])) {
             return $this->facets[$key];
-        } else {
-            return;
-        }
+        }  
     }
 
     /**

@@ -186,10 +186,10 @@ class Helper
             $iso8601 .= 'Z';
 
             return $iso8601;
-        } else {
-            // unsupported input
-            return false;
         }
+
+        // unsupported input
+        return false;
     }
 
     /**
@@ -223,9 +223,9 @@ class Helper
 
         if ($inclusive) {
             return $field.':['.$from.' TO '.$to.']';
-        } else {
-            return $field.':{'.$from.' TO '.$to.'}';
         }
+
+        return $field.':{'.$from.' TO '.$to.'}';
     }
 
     /**
@@ -369,9 +369,9 @@ class Helper
             }
 
             return $name.'()';
-        } else {
-            return $name.'('.implode($params, ',').')';
         }
+
+        return $name.'('.implode($params, ',').')';
     }
 
     /**

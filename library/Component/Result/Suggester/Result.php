@@ -66,9 +66,9 @@ class Result implements \IteratorAggregate, \Countable
     {
         if (isset($this->results[$dictionary])) {
             return $this->results[$dictionary];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

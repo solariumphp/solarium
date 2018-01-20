@@ -149,8 +149,6 @@ class Document extends BaseResult implements \IteratorAggregate, \Countable
 
         if (isset($this->items[$key])) {
             return $this->items[$key];
-        } else {
-            return;
-        }
+        }  
     }
 }

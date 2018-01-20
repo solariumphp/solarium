@@ -132,9 +132,7 @@ class Configurable implements ConfigurableInterface
     {
         if (isset($this->options[$name])) {
             return $this->options[$name];
-        } else {
-            return;
-        }
+        }  
     }
 
     /**
