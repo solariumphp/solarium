@@ -98,8 +98,6 @@ class Highlighting extends AbstractComponent
             $this->addField($name);
 
             return $this->fields[$name];
-        } else {
-            return;
         }
     }
 

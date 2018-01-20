@@ -155,8 +155,6 @@ class Request extends Configurable
     {
         if (isset($this->params[$key])) {
             return $this->params[$key];
-        } else {
-            return;
         }
     }
 

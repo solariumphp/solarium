@@ -115,9 +115,9 @@ class Suggestion
         $word = reset($this->words);
         if (isset($word['word'])) {
             return $word['word'];
-        } else {
-            return $word;
         }
+
+        return $word;
     }
 
     /**
@@ -142,8 +142,6 @@ class Suggestion
         $word = reset($this->words);
         if (isset($word['freq'])) {
             return $word['freq'];
-        } else {
-            return;
         }
     }
 }

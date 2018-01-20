@@ -83,9 +83,9 @@ class Dictionary implements \IteratorAggregate, \Countable
     {
         if (isset($this->terms[$term])) {
             return $this->terms[$term];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

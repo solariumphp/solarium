@@ -161,9 +161,7 @@ class CustomizeRequest extends AbstractPlugin
     {
         if (isset($this->customizations[$key])) {
             return $this->customizations[$key];
-        } else {
-            return;
-        }
+        }  
     }
 
     /**

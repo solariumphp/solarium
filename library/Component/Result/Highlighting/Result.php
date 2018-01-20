@@ -83,9 +83,9 @@ class Result implements \IteratorAggregate, \Countable
     {
         if (isset($this->fields[$key])) {
             return $this->fields[$key];
-        } else {
-            return array();
         }
+
+        return array();
     }
 
     /**
