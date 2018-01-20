@@ -4,3 +4,4 @@
 /composer.lock
 /vendor
 /phar/solarium.phar
+.idea
