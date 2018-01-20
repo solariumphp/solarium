@@ -1,82 +1,82 @@
 <project name="solarium" default="build" basedir=".">
-<target name="clean">
-<!-- Clean up -->
-<delete dir="build"/>
+    <target name="clean">
+        <!-- Clean up -->
+        <delete dir="build"/>
 
-<!-- Create build directories -->
-<mkdir dir="${basedir}/build/api"/>
-<mkdir dir="${basedir}/build/code-browser"/>
-<mkdir dir="${basedir}/build/coverage"/>
-<mkdir dir="${basedir}/build/logs"/>
-<mkdir dir="${basedir}/build/pdepend"/>
-</target>
+        <!-- Create build directories -->
+        <mkdir dir="${basedir}/build/api"/>
+        <mkdir dir="${basedir}/build/code-browser"/>
+        <mkdir dir="${basedir}/build/coverage"/>
+        <mkdir dir="${basedir}/build/logs"/>
+        <mkdir dir="${basedir}/build/pdepend"/>
+    </target>
 
-<!-- Run unit tests and generate junit.xml and clover.xml
- (This is done in the phpunit.xml.dist,
-you could also write the switches here)
--->
-<target name="phpunit">
-<exec executable="${basedir}/vendor/bin/phpunit" />
-</target>
+    <!-- Run unit tests and generate junit.xml and clover.xml
+     (This is done in the phpunit.xml.dist,
+    you could also write the switches here)
+    -->
+    <target name="phpunit">
+        <exec executable="${basedir}/vendor/bin/phpunit"/>
+    </target>
 
-<!-- Run pdepend, phpmd, phpcpd, and phpcs in parallel -->
-<target name="parallelTasks">
-<parallel>
-<antcall target="pdepend"/>
-<antcall target="phpmd"/>
-<antcall target="phpcpd"/>
-<antcall target="phpcs"/>
-<antcall target="docblox"/>
-</parallel>
-</target>
+    <!-- Run pdepend, phpmd, phpcpd, and phpcs in parallel -->
+    <target name="parallelTasks">
+        <parallel>
+            <antcall target="pdepend"/>
+            <antcall target="phpmd"/>
+            <antcall target="phpcpd"/>
+            <antcall target="phpcs"/>
+            <antcall target="docblox"/>
+        </parallel>
+    </target>
 
-<!-- Generate jdepend.xml and software metrics charts -->
-<target name="pdepend">
-<exec executable="pdepend">
-<arg line="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-<arg line="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
-<arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
-<arg line="library" />
-</exec>
-</target>
+    <!-- Generate jdepend.xml and software metrics charts -->
+    <target name="pdepend">
+        <exec executable="pdepend">
+            <arg line="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg"/>
+            <arg line="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg"/>
+            <arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml"/>
+            <arg line="library"/>
+        </exec>
+    </target>
 
-<!-- Generate pmd.xml -->
-<target name="phpmd">
-<exec executable="phpmd">
-<arg line="library xml codesize,unusedcode --reportfile ${basedir}/build/logs/pmd.xml" />
-</exec>
-</target>
+    <!-- Generate pmd.xml -->
+    <target name="phpmd">
+        <exec executable="phpmd">
+            <arg line="library xml codesize,unusedcode --reportfile ${basedir}/build/logs/pmd.xml"/>
+        </exec>
+    </target>
 
-<!-- Generate pmd-cpd.xml -->
-<target name="phpcpd">
-<exec executable="phpcpd">
-<arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml library" />
-</exec>
-</target>
+    <!-- Generate pmd-cpd.xml -->
+    <target name="phpcpd">
+        <exec executable="phpcpd">
+            <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml library"/>
+        </exec>
+    </target>
 
-<!-- Generate checkstyle.xml -->
-<target name="phpcs">
-<exec executable="${basedir}/vendor/bin/phpcs">
-<arg value="--report=checkstyle" />
-<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-<arg value="--standard=PSR2" />
-<arg value="--extensions=php" />
-<arg path="library" />
-</exec>
-</target>
+    <!-- Generate checkstyle.xml -->
+    <target name="phpcs">
+        <exec executable="${basedir}/vendor/bin/phpcs">
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
+            <arg value="--standard=PSR2"/>
+            <arg value="--extensions=php"/>
+            <arg path="library"/>
+        </exec>
+    </target>
 
-<!-- Generate API documentation -->
-<target name="docblox">
-<exec executable="docblox">
-<arg line="run -d library -t build/api"/>
-</exec>
-</target>
+    <!-- Generate API documentation -->
+    <target name="docblox">
+        <exec executable="docblox">
+            <arg line="run -d library -t build/api"/>
+        </exec>
+    </target>
 
-<target name="phpcb">
-<exec executable="phpcb">
-<arg line="--log ${basedir}/build/logs --source ${basedir}/library --output ${basedir}/build/code-browser" />
-</exec>
-</target>
+    <target name="phpcb">
+        <exec executable="phpcb">
+            <arg line="--log ${basedir}/build/logs --source ${basedir}/library --output ${basedir}/build/code-browser"/>
+        </exec>
+    </target>
 
-<target name="build" depends="clean,phpunit,parallelTasks,phpcb"/>
+    <target name="build" depends="clean,phpunit,parallelTasks,phpcb"/>
 </project>
