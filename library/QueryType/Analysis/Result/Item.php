@@ -185,9 +185,9 @@ class Item
     {
         if (is_array($this->positionHistory)) {
             return $this->positionHistory;
-        } else {
-            return array();
         }
+
+        return array();
     }
 
     /**

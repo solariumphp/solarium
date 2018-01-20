@@ -121,9 +121,9 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
             $value = (true === (bool)$value) ? 'true' : 'false';
 
             return $this->attrib($name, $value);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -140,8 +140,8 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     {
         if (null !== $value) {
             return ' '.$name.'="'.$value.'"';
-        } else {
-            return '';
         }
+
+        return '';
     }
 }

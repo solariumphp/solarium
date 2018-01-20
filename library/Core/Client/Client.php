@@ -301,13 +301,13 @@ class Client extends Configurable implements ClientInterface
         //double add calls for the same endpoint are ignored, but non-unique keys cause an exception
         if (array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
             throw new InvalidArgumentException('An endpoint must have a unique key');
-        } else {
-            $this->endpoints[$key] = $endpoint;
+        }  
 
-            // if no default endpoint is set do so now
-            if (null === $this->defaultEndpoint) {
-                $this->defaultEndpoint = $key;
-            }
+        $this->endpoints[$key] = $endpoint;
+
+        // if no default endpoint is set do so now
+        if (null === $this->defaultEndpoint) {
+            $this->defaultEndpoint = $key;
         }
 
         return $this;
@@ -474,9 +474,9 @@ class Client extends Configurable implements ClientInterface
             $this->adapter = $adapter;
 
             return $this;
-        } else {
-            throw new InvalidArgumentException('Invalid adapter input for setAdapter');
         }
+
+        throw new InvalidArgumentException('Invalid adapter input for setAdapter');
     }
 
     /**
@@ -659,11 +659,9 @@ class Client extends Configurable implements ClientInterface
                 $this->registerPlugin($key, $this->pluginTypes[$key]);
 
                 return $this->pluginInstances[$key];
-            } else {
-                throw new OutOfBoundsException('Cannot autoload plugin of unknown type: '.$key);
-            }
-        } else {
-            return;
+            }  
+
+            throw new OutOfBoundsException('Cannot autoload plugin of unknown type: '.$key);
         }
     }
 

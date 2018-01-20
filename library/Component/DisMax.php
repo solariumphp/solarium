@@ -306,9 +306,9 @@ class DisMax extends AbstractComponent
         //double add calls for the same BQ are ignored, but non-unique keys cause an exception
         if (array_key_exists($key, $this->boostQueries) && $this->boostQueries[$key] !== $boostQuery) {
             throw new InvalidArgumentException('A boostquery must have a unique key value within a query');
-        } else {
-            $this->boostQueries[$key] = $boostQuery;
         }
+
+        $this->boostQueries[$key] = $boostQuery;
 
         return $this;
     }

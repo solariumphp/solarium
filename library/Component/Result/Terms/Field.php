@@ -45,9 +45,9 @@ class Field implements \IteratorAggregate, \Countable
     {
         if (isset($this->terms[$field])) {
             return $this->terms[$field];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

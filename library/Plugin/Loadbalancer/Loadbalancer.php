@@ -205,9 +205,9 @@ class Loadbalancer extends AbstractPlugin
 
         if (array_key_exists($endpoint, $this->endpoints)) {
             throw new InvalidArgumentException('An endpoint for the loadbalancer plugin must have a unique key');
-        } else {
-            $this->endpoints[$endpoint] = $weight;
         }
+
+        $this->endpoints[$endpoint] = $weight;
 
         // reset the randomizer as soon as a new endpoint is added
         $this->randomizer = null;
@@ -487,12 +487,12 @@ class Loadbalancer extends AbstractPlugin
 
             // if we get here no more retries available, throw exception
             throw new RuntimeException('Maximum number of loadbalancer retries reached');
-        } else {
-            // no failover retries, just execute and let an exception bubble upwards
-            $endpoint = $this->getRandomEndpoint();
-
-            return $adapter->execute($request, $endpoint);
         }
+
+        // no failover retries, just execute and let an exception bubble upwards
+        $endpoint = $this->getRandomEndpoint();
+
+        return $adapter->execute($request, $endpoint);
     }
 
     /**

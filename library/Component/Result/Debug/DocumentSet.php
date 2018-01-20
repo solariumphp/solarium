@@ -73,9 +73,7 @@ class DocumentSet implements \IteratorAggregate, \Countable
     {
         if (isset($this->docs[$key])) {
             return $this->docs[$key];
-        } else {
-            return;
-        }
+        }  
     }
 
     /**

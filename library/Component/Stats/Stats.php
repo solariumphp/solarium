@@ -116,9 +116,9 @@ class Stats extends AbstractComponent
         //double add calls for the same field are ignored, but non-unique keys cause an exception
         if (array_key_exists($key, $this->fields) && $this->fields[$key] !== $field) {
             throw new InvalidArgumentException('A field must have a unique key value');
-        } else {
-            $this->fields[$key] = $field;
         }
+
+        $this->fields[$key] = $field;
 
         return $this;
     }
@@ -155,8 +155,6 @@ class Stats extends AbstractComponent
     {
         if (isset($this->fields[$key])) {
             return $this->fields[$key];
-        } else {
-            return;
         }
     }
 

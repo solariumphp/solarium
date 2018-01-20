@@ -125,9 +125,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
 
         if (isset($this->results[$field])) {
             return $this->results[$field];
-        } else {
-            return array();
         }
+
+        return array();
     }
 
     /**
