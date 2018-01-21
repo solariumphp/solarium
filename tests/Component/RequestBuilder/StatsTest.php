@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\Component\RequestBuilder;
-
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\Stats as RequestBuilder;
 use Solarium\Component\Stats\Stats as Component;
 use Solarium\Core\Client\Request;
 
-class StatsTest extends \PHPUnit_Framework_TestCase
+class StatsTest extends TestCase
 {
     public function testBuildComponent()
     {

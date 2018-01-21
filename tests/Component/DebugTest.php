@@ -34,7 +34,9 @@ namespace Solarium\Tests\Component;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Debug;
 
-class DebugTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DebugTest extends TestCase
 {
     /**
      * @var Debug

@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\RealtimeGet;
 use Solarium\QueryType\RealtimeGet\Result;
 use Solarium\QueryType\Select\Result\Document;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResultTest extends TestCase
 {
     protected $doc;
     protected $result;

@@ -33,7 +33,9 @@ namespace Solarium\Tests\Component\Result\Debug;
 
 use Solarium\Component\Result\Debug\TimingPhase;
 
-class TimingPhaseTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class TimingPhaseTest extends TestCase
 {
     /**
      * @var TimingPhase

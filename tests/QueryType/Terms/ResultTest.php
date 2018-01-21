@@ -33,7 +33,9 @@ namespace Solarium\Tests\QueryType\Terms;
 
 use Solarium\QueryType\Terms\Result;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResultTest extends TestCase
 {
     /**
      * @var TermsDummy

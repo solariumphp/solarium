@@ -4,7 +4,9 @@ namespace Solarium\Tests\Support\DataFixtures;
 
 use Solarium\Support\DataFixtures\Purger;
 
-class PurgerTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PurgerTest extends TestCase
 {
     public function testPurge()
     {

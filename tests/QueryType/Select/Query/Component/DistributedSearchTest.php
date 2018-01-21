@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Select\Query\Component;
 use Solarium\Component\DistributedSearch;
 use Solarium\QueryType\Select\Query\Query;
 
-class DistributedSearchTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DistributedSearchTest extends TestCase
 {
     /**
      * @var DistributedSearch

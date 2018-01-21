@@ -33,7 +33,9 @@ namespace Solarium\Tests\QueryType\Spellcheck\Result;
 
 use Solarium\QueryType\Spellcheck\Result\Term;
 
-class TermTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class TermTest extends TestCase
 {
     /**
      * @var Term

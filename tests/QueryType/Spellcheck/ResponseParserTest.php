@@ -35,7 +35,9 @@ use Solarium\QueryType\Spellcheck\Query;
 use Solarium\QueryType\Spellcheck\ResponseParser;
 use Solarium\QueryType\Spellcheck\Result\Term;
 
-class ResponseParserTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResponseParserTest extends TestCase
 {
     public function testParse()
     {

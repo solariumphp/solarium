@@ -36,7 +36,9 @@ use Solarium\QueryType\Suggester\ResponseParser;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
 
-class ResponseParserTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResponseParserTest extends TestCase
 {
     public function testParse()
     {

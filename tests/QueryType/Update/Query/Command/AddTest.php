@@ -35,7 +35,9 @@ use Solarium\QueryType\Update\Query\Command\Add;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\Query\Document\Document;
 
-class AddTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AddTest extends TestCase
 {
     protected $command;
 

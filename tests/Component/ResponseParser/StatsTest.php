@@ -33,7 +33,9 @@ namespace Solarium\Tests\Component\ResponseParser;
 
 use Solarium\Component\ResponseParser\Stats as Parser;
 
-class StatsTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class StatsTest extends TestCase
 {
     protected $parser;
 

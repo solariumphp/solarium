@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Analysis\RequestBuilder;
 use Solarium\QueryType\Analysis\Query\Field;
 use Solarium\QueryType\Analysis\RequestBuilder\RequestBuilder;
 
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RequestBuilderTest extends TestCase
 {
     /**
      * @var Field

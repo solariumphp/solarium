@@ -37,7 +37,9 @@ use Solarium\QueryType\Select\Result\Result;
 use Solarium\Core\Client\Client;
 use Solarium\Plugin\PrefetchIterator;
 
-class PrefetchIteratorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PrefetchIteratorTest extends TestCase
 {
     /**
      * @var PrefetchIterator

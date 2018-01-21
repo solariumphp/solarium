@@ -36,7 +36,9 @@ use Solarium\Core\Client\Client;
 use Solarium\QueryType\Select\Query\FilterQuery;
 use Solarium\Component\MoreLikeThis;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class QueryTest extends TestCase
 {
     protected $query;
 
@@ -277,7 +279,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $fq = new FilterQuery;
         $fq->setQuery('category:1');
 
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->query->addFilterQuery($fq);
     }
 
@@ -290,7 +292,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $fq2->setKey('fq1')->setQuery('category:2');
 
         $this->query->addFilterQuery($fq1);
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->query->addFilterQuery($fq2);
     }
 
@@ -506,7 +508,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInvalidComponentAutoload()
     {
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $this->query->getComponent('invalid', true);
     }
 

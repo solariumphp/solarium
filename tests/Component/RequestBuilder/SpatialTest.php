@@ -1,12 +1,12 @@
 <?php
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
-
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\Spatial as RequestBuilder;
 use Solarium\Component\Spatial as Component;
 use Solarium\Core\Client\Request;
 
-class SpatialTest extends \PHPUnit_Framework_TestCase
+class SpatialTest extends TestCase
 {
     public function testBuildComponent()
     {

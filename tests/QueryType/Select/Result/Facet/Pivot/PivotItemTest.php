@@ -33,7 +33,9 @@ namespace Solarium\Tests\QueryType\Select\Result\Facet\Pivot;
 
 use Solarium\Component\Result\Facet\Pivot\PivotItem;
 
-class PivotItemTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PivotItemTest extends TestCase
 {
     protected $values;
     protected $pivotItem;

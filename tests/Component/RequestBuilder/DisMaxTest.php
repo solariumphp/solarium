@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\Component\RequestBuilder;
-
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\DisMax as RequestBuilder;
 use Solarium\Component\DisMax as Component;
 use Solarium\Core\Client\Request;
 
-class DisMaxTest extends \PHPUnit_Framework_TestCase
+class DisMaxTest extends TestCase
 {
     public function testBuildComponent()
     {

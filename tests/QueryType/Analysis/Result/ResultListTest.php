@@ -33,7 +33,9 @@ namespace Solarium\Tests\QueryType\Analysis\Result;
 
 use Solarium\QueryType\Analysis\Result\ResultList;
 
-class ResultListTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResultListTest extends TestCase
 {
     /**
      * @var ResultList

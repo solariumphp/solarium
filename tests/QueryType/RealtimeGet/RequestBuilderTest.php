@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\RealtimeGet;
 use Solarium\QueryType\RealtimeGet\Query;
 use Solarium\QueryType\RealtimeGet\RequestBuilder;
 
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RequestBuilderTest extends TestCase
 {
     public function testBuildSingleId()
     {

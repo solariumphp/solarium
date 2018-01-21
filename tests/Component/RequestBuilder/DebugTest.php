@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\Component\RequestBuilder;
-
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\Debug as RequestBuilder;
 use Solarium\Component\Debug as Component;
 use Solarium\Core\Client\Request;
 
-class DebugTest extends \PHPUnit_Framework_TestCase
+class DebugTest extends TestCase
 {
     public function testBuildComponent()
     {

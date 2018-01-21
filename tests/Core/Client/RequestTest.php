@@ -33,7 +33,9 @@ namespace Solarium\Tests\Core\Client;
 
 use Solarium\Core\Client\Request;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RequestTest extends TestCase
 {
     /**
      * @var Request
@@ -528,7 +530,7 @@ EOF;
 
     public function testSetAndGetFileUploadWithInvalidFile()
     {
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $this->request->setFileUpload('invalid-filename.dummy');
     }
 }

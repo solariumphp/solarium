@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\Component\RequestBuilder;
-
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\Suggester as RequestBuilder;
 use Solarium\Component\Suggester as Component;
 use Solarium\Core\Client\Request;
 
-class SuggesterTest extends \PHPUnit_Framework_TestCase
+class SuggesterTest extends TestCase
 {
     public function testBuildComponent()
     {

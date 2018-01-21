@@ -36,7 +36,9 @@ use Solarium\Core\Event\PreCreateResult;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
 
-class PreCreateResultTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PreCreateResultTest extends TestCase
 {
     public function testConstructorAndGetters()
     {

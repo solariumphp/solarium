@@ -33,7 +33,9 @@ namespace Solarium\Tests\QueryType\Update\Query\Document;
 
 use Solarium\QueryType\Update\Query\Document\Document;
 
-class DocumentTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DocumentTest extends TestCase
 {
     /**
      * @var Document
@@ -413,7 +415,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testSetFieldModifierWithInvalidValue()
     {
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $this->doc->setFieldModifier('name', 'invalid_modifier_value');
     }
 
@@ -435,7 +437,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc->setField('id', 1);
         $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $this->doc->getFields();
     }
 

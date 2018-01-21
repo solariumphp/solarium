@@ -34,7 +34,9 @@ namespace Solarium\Tests\Core\Query;
 use Solarium\Core\Query\Helper;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
-class HelperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class HelperTest extends TestCase
 {
     /**
      * @var Helper
@@ -186,7 +188,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testQparserDereferencedNoQuery()
     {
         $helper = new Helper();
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true);
     }
 
@@ -398,7 +400,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testAssembleInvalidPartNumber()
     {
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->helper->assemble('cat:%1% AND content:%2%', array('value1'));
     }
 

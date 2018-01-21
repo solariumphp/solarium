@@ -37,7 +37,9 @@ use Solarium\QueryType\Update\Query\Command\Rollback;
 use Solarium\QueryType\Update\Query\Command\Commit;
 use Solarium\QueryType\Update\Query\Document\Document;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class QueryTest extends TestCase
 {
     protected $query;
 
@@ -157,7 +159,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         new Query($config);
     }
 
@@ -447,7 +449,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateCommandWithInvalidQueryType()
     {
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->query->createCommand('invalidtype');
     }
 

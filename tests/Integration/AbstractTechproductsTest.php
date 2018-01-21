@@ -7,8 +7,8 @@ use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-
-abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+abstract class AbstractTechproductsTest extends TestCase
 {
 
     /**

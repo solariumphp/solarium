@@ -31,15 +31,19 @@
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
-use Solarium\Core\Client\Adapter\Curl as CurlAdapter;
+use PHPUnit\Framework\MockObject\MockObject;
+use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Exception;
 
-class CurlTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+use Solarium\Exception\HttpException;
+
+class CurlTest extends TestCase
 {
     /**
-     * @var CurlAdapter
+     * @var Curl
      */
     protected $adapter;
 
@@ -49,7 +53,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Curl not available, skipping Curl adapter tests');
         }
 
-        $this->adapter = new CurlAdapter();
+        $this->adapter = new Curl();
     }
 
     public function testCheck()
@@ -64,7 +68,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $data = '';
         $headers = array();
 
-        $this->setExpectedException('Solarium\Exception\HttpException');
+        $this->expectException(HttpException::class);
         $this->adapter->check($data, $headers, $handler);
 
         curl_close($handler);

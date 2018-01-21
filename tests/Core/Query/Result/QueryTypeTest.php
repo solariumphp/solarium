@@ -37,7 +37,9 @@ use Solarium\Core\Query\Result\QueryType as QueryTypeResult;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
-class QueryTypeTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class QueryTypeTest extends TestCase
 {
     /**
      * @var QueryTypeDummy
@@ -59,7 +61,7 @@ class QueryTypeTest extends \PHPUnit_Framework_TestCase
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
         $result = new QueryTypeDummy($query, $response);
 
-        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
+        $this->expectException('Solarium\Exception\UnexpectedValueException');
         $result->parse();
     }
 

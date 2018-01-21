@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
 use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Component\Highlighting\Field;
 
-class FieldTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class FieldTest extends TestCase
 {
     /**
      * @var Field

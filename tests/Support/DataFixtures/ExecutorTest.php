@@ -4,7 +4,9 @@ namespace Solarium\Tests\Support\DataFixtures;
 
 use Solarium\Support\DataFixtures\Executor;
 
-class ExecutorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ExecutorTest extends TestCase
 {
     public function testLoad()
     {

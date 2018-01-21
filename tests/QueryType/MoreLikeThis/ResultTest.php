@@ -36,7 +36,9 @@ use Solarium\QueryType\MoreLikeThis\Result;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResultTest extends TestCase
 {
     public function testGetInterestingTerms()
     {
@@ -63,7 +65,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
              ->method('getQuery')
              ->will($this->returnValue($query));
 
-        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
+        $this->expectException('Solarium\Exception\UnexpectedValueException');
         $mock->getInterestingTerms();
     }
 
@@ -92,7 +94,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
              ->method('getQuery')
              ->will($this->returnValue($query));
 
-        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
+        $this->expectException('Solarium\Exception\UnexpectedValueException');
         $mock->getMatch();
     }
 

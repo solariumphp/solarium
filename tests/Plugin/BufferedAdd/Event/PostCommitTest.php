@@ -36,7 +36,9 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
 
-class PostCommitTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PostCommitTest extends TestCase
 {
     public function testConstructorAndGetter()
     {

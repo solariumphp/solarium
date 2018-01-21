@@ -36,7 +36,9 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 
-class PostExecuteRequestTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PostExecuteRequestTest extends TestCase
 {
     public function testConstructorAndGetters()
     {

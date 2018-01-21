@@ -39,7 +39,9 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 
-class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class CustomizeRequestTest extends TestCase
 {
     /**
      * @var CustomizeRequest
@@ -182,7 +184,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
     {
         $customization = new Customization;
 
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->plugin->addCustomization($customization);
     }
 
@@ -195,7 +197,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         $customization2->setKey('id1')->setName('test2');
 
         $this->plugin->addCustomization($customization1);
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->plugin->addCustomization($customization2);
     }
 
@@ -385,7 +387,7 @@ class CustomizeRequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $event = new PreExecuteRequestEvent($request, new Endpoint);
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $this->plugin->preExecuteRequest($event);
     }
 

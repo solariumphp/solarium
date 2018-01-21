@@ -41,7 +41,9 @@ use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\RequestBuilder;
 
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RequestBuilderTest extends TestCase
 {
     /**
      * @var Query
@@ -469,7 +471,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->query->add('invalidcommand', new InvalidCommand);
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $this->builder->build($this->query);
     }
 }

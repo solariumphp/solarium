@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 use Solarium\Component\Facet\Field;
 use Solarium\Component\FacetSet;
 
-class FieldTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class FieldTest extends TestCase
 {
     /**
      * @var Field

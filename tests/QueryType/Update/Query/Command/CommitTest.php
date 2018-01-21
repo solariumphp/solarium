@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Update\Query\Command;
 use Solarium\QueryType\Update\Query\Command\Commit;
 use Solarium\QueryType\Update\Query\Query;
 
-class CommitTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class CommitTest extends TestCase
 {
     protected $command;
 

@@ -35,7 +35,9 @@ use Solarium\Core\Event\PreCreateRequest;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\Core\Client\Request;
 
-class PreCreateRequestTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PreCreateRequestTest extends TestCase
 {
     public function testConstructorAndGetters()
     {

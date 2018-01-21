@@ -37,7 +37,9 @@ use Solarium\QueryType\Select\Query\Query;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 
-class PostBigRequestTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PostBigRequestTest extends TestCase
 {
     /**
      * @var PostBigRequest

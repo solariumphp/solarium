@@ -93,7 +93,7 @@ class ResultTest extends AbstractResultTest
 
     public function testFilterWithInvalidMode()
     {
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, 'invalid_filter_name');
     }
 

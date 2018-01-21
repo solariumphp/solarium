@@ -35,7 +35,9 @@ use Solarium\QueryType\Extract\Query;
 use Solarium\QueryType\Extract\RequestBuilder;
 use Solarium\Core\Client\Request;
 
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RequestBuilderTest extends TestCase
 {
     /**
      * @var Query
@@ -128,7 +130,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $document->setBoost(4);
         $this->query->setDocument($document);
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $this->builder->build($this->query);
     }
 

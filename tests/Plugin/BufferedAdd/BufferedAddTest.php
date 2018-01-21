@@ -31,6 +31,7 @@
 
 namespace Solarium\Tests\Plugin\BufferedAdd;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument;
 use Solarium\Plugin\BufferedAdd\BufferedAdd;
@@ -38,7 +39,11 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Plugin\BufferedAdd\Event\Events;
 
-class BufferedAddTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Update\Query\Query;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+class BufferedAddTest extends TestCase
 {
     /**
      * @var BufferedAdd

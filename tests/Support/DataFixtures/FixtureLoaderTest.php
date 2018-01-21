@@ -5,7 +5,9 @@ namespace Solarium\Tests\Support\DataFixtures;
 use Solarium\Support\DataFixtures\FixtureLoader;
 use Solarium\Tests\Support\DataFixtures\Fixtures\MockFixture1;
 
-class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class FixtureLoaderTest extends TestCase
 {
     private $fixturePath;
 

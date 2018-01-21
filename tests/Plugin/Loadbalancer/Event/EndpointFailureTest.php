@@ -35,7 +35,9 @@ use Solarium\Plugin\Loadbalancer\Event\EndpointFailure;
 use Solarium\Core\Client\Client;
 use Solarium\Exception\HttpException;
 
-class EndpointFailureTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class EndpointFailureTest extends TestCase
 {
     public function testConstructorAndGetters()
     {

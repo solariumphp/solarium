@@ -33,7 +33,9 @@ namespace Solarium\Tests\Component\Result\Debug;
 
 use Solarium\Component\Result\Debug\Document;
 
-class DocumentTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DocumentTest extends TestCase
 {
     /**
      * @var Document

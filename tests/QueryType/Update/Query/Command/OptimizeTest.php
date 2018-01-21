@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Update\Query\Command;
 use Solarium\QueryType\Update\Query\Command\Optimize;
 use Solarium\QueryType\Update\Query\Query;
 
-class OptimizeTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class OptimizeTest extends TestCase
 {
     protected $command;
 

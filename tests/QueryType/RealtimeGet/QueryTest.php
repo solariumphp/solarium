@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\RealtimeGet;
 use Solarium\QueryType\RealtimeGet\Query;
 use Solarium\Core\Client\Client;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class QueryTest extends TestCase
 {
     /**
      * @var Query

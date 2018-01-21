@@ -33,7 +33,9 @@ namespace Solarium\Tests\Core\Client;
 
 use Solarium\Core\Client\Response;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResponseTest extends TestCase
 {
     protected $headers;
     protected $data;
@@ -75,7 +77,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $headers = array();
 
-        $this->setExpectedException('Solarium\Exception\HttpException');
+        $this->expectException('Solarium\Exception\HttpException');
         new Response($this->data, $headers);
     }
 }

@@ -35,7 +35,9 @@ use Solarium\Core\Client\Adapter\ZendHttp as ZendHttpAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
 
-class ZendHttpTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ZendHttpTest extends TestCase
 {
     /**
      * @var ZendHttpAdapter
@@ -200,7 +202,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
         $this->adapter->setZendHttp($mock);
 
-        $this->setExpectedException('Solarium\Exception\HttpException');
+        $this->expectException('Solarium\Exception\HttpException');
         $this->adapter->execute($request, $endpoint);
 
     }
@@ -232,7 +234,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $request->setMethod('invalid');
         $endpoint = new Endpoint();
 
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $this->adapter->execute($request, $endpoint);
     }
 

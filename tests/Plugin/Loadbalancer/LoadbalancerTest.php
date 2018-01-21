@@ -42,7 +42,9 @@ use Solarium\Exception\HttpException;
 use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 
-class LoadbalancerTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class LoadbalancerTest extends TestCase
 {
     /**
      * @var Loadbalancer
@@ -148,7 +150,7 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
     {
         $this->plugin->addEndpoint('s1', 10);
 
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->plugin->addEndpoint('s1', 20);
     }
 
@@ -244,7 +246,7 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         );
         $this->plugin->addEndpoints($endpoints1);
 
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $this->plugin->setForcedEndpointForNextQuery('s3');
     }
 
@@ -460,7 +462,7 @@ class LoadbalancerTest extends \PHPUnit_Framework_TestCase
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
 
-        $this->setExpectedException(
+        $this->expectException(
             'Solarium\Exception\RuntimeException',
             'Maximum number of loadbalancer retries reached'
         );

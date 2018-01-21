@@ -5,7 +5,9 @@ namespace Solarium\Tests\Component;
 use Solarium\Component\Spatial;
 use Solarium\QueryType\Select\Query\Query;
 
-class SpatialTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class SpatialTest extends TestCase
 {
     /**
      * @var Spatial

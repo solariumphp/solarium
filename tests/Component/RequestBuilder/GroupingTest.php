@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\Component\RequestBuilder;
-
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\Grouping as RequestBuilder;
 use Solarium\Component\Grouping as Component;
 use Solarium\Core\Client\Request;
 
-class GroupingTest extends \PHPUnit_Framework_TestCase
+class GroupingTest extends TestCase
 {
     public function testBuildComponent()
     {

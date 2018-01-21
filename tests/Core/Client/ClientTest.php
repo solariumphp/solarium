@@ -31,13 +31,16 @@
 
 namespace Solarium\Tests\Core\Client;
 
+use Solarium\Core\Client\Adapter\Http;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
+use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\Core\Query\Result\Result;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Ping\Query as PingQuery;
 use Solarium\QueryType\MoreLikeThis\Query as MoreLikeThisQuery;
+use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Terms\Query as TermsQuery;
@@ -60,7 +63,10 @@ use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
 /**
  * @coversDefaultClass \Solarium\Core\Client\Client
  */
-class ClientTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+class ClientTest extends TestCase
 {
     /**
      * @var Client
@@ -254,14 +260,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $endpoint = $this->client->createEndpoint();
 
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->client->addEndpoint($endpoint);
     }
 
     public function testAddEndpointWithDuplicateKey()
     {
         $this->client->createEndpoint('s1');
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->client->createEndpoint('s1');
     }
 
@@ -286,7 +292,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->client->createEndpoint('s1');
 
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $this->client->getEndpoint('s2');
     }
 
@@ -373,7 +379,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDefaultEndpointWithInvalidKey()
     {
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $this->client->setDefaultEndpoint('invalidkey');
     }
 
@@ -400,7 +406,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetAdapterWithInvalidObject()
     {
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->client->setAdapter(new \stdClass());
     }
 
@@ -408,7 +414,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $adapterClass = '\\stdClass';
         $this->client->setAdapter($adapterClass);
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->client->getAdapter();
     }
 
@@ -463,7 +469,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testRegisterInvalidPlugin()
     {
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->client->registerPlugin('testplugin', 'StdClass');
     }
 
@@ -486,7 +492,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testAutoloadInvalidPlugin()
     {
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $this->client->getPlugin('invalidpluginname');
     }
 
@@ -562,7 +568,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
              ->method('getType')
              ->will($this->returnValue('testquerytype'));
 
-        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
+        $this->expectException('Solarium\Exception\UnexpectedValueException');
         $this->client->createRequest($queryStub);
     }
 
@@ -741,7 +747,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                  ->method('getResultClass')
                  ->will($this->returnValue($overrideValue));
 
-        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
+        $this->expectException('Solarium\Exception\UnexpectedValueException');
         $this->client->createResult($mockQuery, $response);
     }
 
@@ -1097,14 +1103,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateQueryWithInvalidQueryType()
     {
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->client->createQuery('invalidtype');
     }
 
     public function testCreateQueryWithInvalidClass()
     {
         $this->client->registerQueryType('invalidquery', '\\StdClass');
-        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
+        $this->expectException('Solarium\Exception\UnexpectedValueException');
         $this->client->createQuery('invalidquery');
     }
 

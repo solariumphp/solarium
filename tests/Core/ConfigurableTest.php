@@ -35,7 +35,9 @@ use Solarium\Core\Client\Client;
 use Solarium\Exception\RuntimeException;
 use Solarium\Core\Configurable;
 
-class ConfigurableTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ConfigurableTest extends TestCase
 {
     public function testConstructorNoConfig()
     {
@@ -82,7 +84,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorWithInvalidConfig()
     {
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         new Client('invalid');
     }
 
@@ -100,7 +102,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     public function testInitialisation()
     {
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         new ConfigTestInit;
     }
 

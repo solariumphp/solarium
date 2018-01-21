@@ -36,7 +36,9 @@ use Solarium\QueryType\Ping\Query;
 use Solarium\Core\Client\Response;
 use Solarium\QueryType\Ping\Result;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResultTest extends TestCase
 {
     public function testGetStatus()
     {

@@ -37,7 +37,9 @@ use Solarium\QueryType\Select\Query\FilterQuery;
 use Solarium\QueryType\Select\RequestBuilder as RequestBuilder;
 use Solarium\Component\AbstractComponent;
 
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RequestBuilderTest extends TestCase
 {
     /**
      * @var Query

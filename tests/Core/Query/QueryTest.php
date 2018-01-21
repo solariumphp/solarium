@@ -33,7 +33,9 @@ namespace Solarium\Tests\Core\Query;
 
 use Solarium\Core\Query\AbstractQuery;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class QueryTest extends TestCase
 {
     public function testSetAndGetHandler()
     {

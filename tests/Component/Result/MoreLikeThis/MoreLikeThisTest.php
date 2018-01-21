@@ -35,7 +35,9 @@ use Solarium\QueryType\Select\Result\Document;
 use Solarium\Component\Result\MoreLikeThis\Result;
 use Solarium\Component\Result\MoreLikeThis\MoreLikeThis;
 
-class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class MoreLikeThisTest extends TestCase
 {
     /**
      * @var MoreLikeThis

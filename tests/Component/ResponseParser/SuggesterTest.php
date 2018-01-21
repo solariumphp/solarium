@@ -36,7 +36,9 @@ use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
 
-class SuggesterTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class SuggesterTest extends TestCase
 {
     protected $parser;
     protected $query;

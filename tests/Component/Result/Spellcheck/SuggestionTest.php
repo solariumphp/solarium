@@ -33,7 +33,9 @@ namespace Solarium\Tests\Component\Result\Spellcheck;
 
 use Solarium\Component\Result\Spellcheck\Suggestion;
 
-class SuggestionTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class SuggestionTest extends TestCase
 {
     /**
      * @var Suggestion

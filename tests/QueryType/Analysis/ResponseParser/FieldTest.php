@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Analysis\ResponseParser;
 use Solarium\QueryType\Analysis\ResponseParser\Field as FieldParser;
 use Solarium\QueryType\Analysis\Query\Field as Query;
 
-class FieldTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class FieldTest extends TestCase
 {
     public function testParse()
     {

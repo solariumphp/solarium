@@ -31,11 +31,12 @@
 
 namespace Solarium\Tests\Component\RequestBuilder;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\MoreLikeThis as RequestBuilder;
 use Solarium\Component\MoreLikeThis as Component;
 use Solarium\Core\Client\Request;
 
-class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
+class MoreLikeThisTest extends TestCase
 {
     public function testBuildComponent()
     {

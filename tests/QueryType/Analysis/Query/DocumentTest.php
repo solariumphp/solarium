@@ -35,7 +35,9 @@ use Solarium\QueryType\Analysis\Query\Document;
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 use Solarium\Core\Client\Client;
 
-class DocumentTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DocumentTest extends TestCase
 {
     /**
      * @var Document

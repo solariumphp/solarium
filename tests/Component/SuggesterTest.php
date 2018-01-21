@@ -35,7 +35,9 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Suggester;
 use Solarium\QueryType\Select\Query\Query;
 
-class SuggesterTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class SuggesterTest extends TestCase
 {
     /**
      * @var Spellcheck

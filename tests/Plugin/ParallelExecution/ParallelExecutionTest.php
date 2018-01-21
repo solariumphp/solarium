@@ -34,7 +34,9 @@ namespace Solarium\Tests\Plugin\ParallelExecution;
 use Solarium\Plugin\ParallelExecution\ParallelExecution;
 use Solarium\Core\Client\Client;
 
-class ParallelExecutionTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ParallelExecutionTest extends TestCase
 {
     /**
      * @var ParallelExecution

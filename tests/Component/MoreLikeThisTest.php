@@ -34,7 +34,9 @@ namespace Solarium\Tests\Component;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\MoreLikeThis;
 
-class MoreLikeThisTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class MoreLikeThisTest extends TestCase
 {
     /**
      * @var MoreLikeThis

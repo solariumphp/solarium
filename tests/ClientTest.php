@@ -31,9 +31,10 @@
 
 namespace Solarium\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Client;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     public function testVersion()
     {

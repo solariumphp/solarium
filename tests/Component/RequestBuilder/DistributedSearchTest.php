@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\Component\RequestBuilder;
-
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\DistributedSearch as RequestBuilder;
 use Solarium\Component\DistributedSearch as Component;
 use Solarium\Core\Client\Request;
 
-class DistributedSearchTest extends \PHPUnit_Framework_TestCase
+class DistributedSearchTest extends TestCase
 {
     public function testBuildComponentWithShards()
     {

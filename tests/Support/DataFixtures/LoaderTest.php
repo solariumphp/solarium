@@ -4,7 +4,9 @@ namespace Solarium\Tests\Support\DataFixtures;
 
 use Solarium\Support\DataFixtures\Loader;
 
-class LoaderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class LoaderTest extends TestCase
 {
     public function testGetEmptyFixtures()
     {

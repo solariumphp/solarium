@@ -36,7 +36,9 @@ use Solarium\Component\Result\Grouping\Result as Result;
 use Solarium\Component\ResponseParser\Grouping as Parser;
 use Solarium\QueryType\Select\Query\Query;
 
-class GroupingTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class GroupingTest extends TestCase
 {
     /**
      * @var Parser

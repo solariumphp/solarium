@@ -36,7 +36,9 @@ use Solarium\Component\Result\FacetSet;
 use Solarium\QueryType\Select\ResponseParser;
 use Solarium\QueryType\Update\Query\Document\Document;
 
-class ResponseParserTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResponseParserTest extends TestCase
 {
     public function testParse()
     {
@@ -162,7 +164,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
 
         $parser = new ResponseParser();
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $parser->parse($resultStub);
     }
 

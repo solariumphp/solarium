@@ -35,7 +35,9 @@ use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Component\Highlighting\Field;
 use Solarium\QueryType\Select\Query\Query;
 
-class HighlightingTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class HighlightingTest extends TestCase
 {
     /**
      * @var Highlighting
@@ -195,7 +197,7 @@ class HighlightingTest extends \PHPUnit_Framework_TestCase
     public function testAddFieldWithObjectWithoutName()
     {
         $field = new Field;
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->hlt->addField($field);
     }
 

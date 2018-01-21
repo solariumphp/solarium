@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Terms;
 use Solarium\QueryType\Terms\Query;
 use Solarium\QueryType\Terms\ResponseParser;
 
-class ResponseParserTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResponseParserTest extends TestCase
 {
     public function testParse()
     {

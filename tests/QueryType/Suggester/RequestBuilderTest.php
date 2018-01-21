@@ -35,7 +35,9 @@ use Solarium\QueryType\Suggester\Query;
 use Solarium\QueryType\Suggester\RequestBuilder;
 use Solarium\Core\Client\Request;
 
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RequestBuilderTest extends TestCase
 {
     /**
      * @var Query

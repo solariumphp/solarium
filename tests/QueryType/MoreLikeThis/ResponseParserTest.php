@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\MoreLikeThis;
 use Solarium\QueryType\MoreLikeThis\Query;
 use Solarium\QueryType\MoreLikeThis\ResponseParser;
 
-class ResponseParserTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResponseParserTest extends TestCase
 {
     public function testParse()
     {

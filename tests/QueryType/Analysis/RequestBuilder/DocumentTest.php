@@ -36,7 +36,9 @@ use Solarium\QueryType\Analysis\RequestBuilder\Document as DocumentBuilder;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Update\Query\Document\Document as InputDocument;
 
-class DocumentTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DocumentTest extends TestCase
 {
     /**
      * @var Document

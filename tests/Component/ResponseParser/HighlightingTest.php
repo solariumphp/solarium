@@ -34,7 +34,9 @@ namespace Solarium\Tests\Component\ResponseParser;
 use Solarium\Component\ResponseParser\Highlighting as Parser;
 use Solarium\Component\Result\Highlighting\Result;
 
-class HighlightingTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class HighlightingTest extends TestCase
 {
     protected $parser;
 

@@ -35,7 +35,9 @@ use Solarium\Core\Client\Client;
 use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\QueryType\Extract\Query;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class QueryTest extends TestCase
 {
     /**
      * @var Query

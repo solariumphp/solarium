@@ -31,7 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Analysis\ResponseParser;
 
-class DocumentTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DocumentTest extends TestCase
 {
     public function testParse()
     {

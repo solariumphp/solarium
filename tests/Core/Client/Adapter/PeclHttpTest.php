@@ -31,12 +31,17 @@
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
+use HttpRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Solarium\Core\Client\Adapter\PeclHttp as PeclHttpAdapter;
+use Solarium\Core\Client\Adapter\PeclHttp;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\ExceptionInterface;
 
-class PeclHttpTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PeclHttpTest extends TestCase
 {
     /**
      * @var PeclHttpAdapter

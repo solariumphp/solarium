@@ -33,7 +33,9 @@ namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
 use Solarium\Component\Facet\AbstractFacet;
 
-class FacetTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class FacetTest extends TestCase
 {
     /**
      * @var AbstractFacet

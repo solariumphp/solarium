@@ -37,13 +37,16 @@ use Solarium\Core\Client\Adapter\Guzzle3 as GuzzleAdapter;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Exception;
+use PHPUnit\Framework\TestCase;
+
 
 /**
  * @coversDefaultClass \Solarium\Core\Client\Adapter\Guzzle3
  * @covers ::<private>
  * @covers ::getGuzzleClient
  */
-final class Guzzle3Test extends \PHPUnit_Framework_TestCase
+
+final class Guzzle3Test extends TestCase
 {
     /**
      * @var Guzzle3Adapter

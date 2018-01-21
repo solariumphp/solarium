@@ -31,10 +31,11 @@
 
 namespace Solarium\Tests\Component;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\AbstractComponent;
 use Solarium\QueryType\Select\Query\Query;
 
-class ComponentTest extends \PHPUnit_Framework_TestCase
+class ComponentTest extends TestCase
 {
     public function testGetType()
     {

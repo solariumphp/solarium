@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Suggester\Result;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
 
-class DictionaryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DictionaryTest extends TestCase
 {
     /**
      * @var Term[]

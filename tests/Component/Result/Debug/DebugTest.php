@@ -33,7 +33,9 @@ namespace Solarium\Tests\Component\Result\Debug;
 
 use Solarium\Component\Result\Debug\Result;
 
-class DebugTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DebugTest extends TestCase
 {
     /**
      * @var Result

@@ -33,7 +33,9 @@ namespace Solarium\Tests\QueryType\Select\Result\Facet;
 
 use Solarium\Component\Result\Facet\Query;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class QueryTest extends TestCase
 {
     public function testGetValue()
     {

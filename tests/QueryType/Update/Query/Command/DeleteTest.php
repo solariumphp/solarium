@@ -34,7 +34,9 @@ namespace Solarium\Tests\QueryType\Update\Query\Command;
 use Solarium\QueryType\Update\Query\Command\Delete;
 use Solarium\QueryType\Update\Query\Query;
 
-class DeleteTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DeleteTest extends TestCase
 {
     protected $command;
 

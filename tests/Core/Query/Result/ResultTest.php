@@ -37,7 +37,9 @@ use Solarium\Core\Query\Result\Result;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Exception\HttpException;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResultTest extends TestCase
 {
     /**
      * @var Result
@@ -66,7 +68,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $headers = array('HTTP/1.0 404 Not Found');
         $response = new Response('Error message', $headers);
 
-        $this->setExpectedException('Solarium\Exception\HttpException');
+        $this->expectException('Solarium\Exception\HttpException');
         new Result($this->query, $response);
     }
 
@@ -136,7 +138,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->query->setResponseWriter('asdf');
         $result = new Result($this->query, $this->response);
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $result->getData();
     }
 
@@ -146,7 +148,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->response = new Response($data, $this->headers);
         $this->result = new Result($this->query, $this->response);
 
-        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
+        $this->expectException('Solarium\Exception\UnexpectedValueException');
         $this->result->getData();
     }
 

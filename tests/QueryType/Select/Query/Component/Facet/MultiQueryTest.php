@@ -35,7 +35,9 @@ use Solarium\Component\Facet\MultiQuery;
 use Solarium\Component\Facet\Query;
 use Solarium\Component\FacetSet;
 
-class MultiQueryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class MultiQueryTest extends TestCase
 {
     /**
      * @var MultiQuery
@@ -163,7 +165,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
         $facetQuery->setQuery($query);
         $facetQuery->setExcludes($excludes);
 
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->facet->addQuery($facetQuery);
     }
 
@@ -179,7 +181,7 @@ class MultiQueryTest extends \PHPUnit_Framework_TestCase
 
         $this->facet->addQuery($facetQuery1);
 
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->facet->addQuery($facetQuery2);
     }
 
