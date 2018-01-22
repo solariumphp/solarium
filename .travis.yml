@@ -6,25 +6,29 @@ php:
   - 7.1
   - 7.0
   - 5.6
-  - 5.5
-  - 5.4
-  - 5.3
   - hhvm
   - nightly
 
 env:
-  - SYMFONY_VERSION=2.3.*
-  - SYMFONY_VERSION=2.7.*
-  - SYMFONY_VERSION=2.8.*
-  - SYMFONY_VERSION=3.0.* # Does not work with php below 5.5
+  - SYMFONY_VERSION=2.3.* SOLR_VERSION=6.6.2
+  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.2
+  - SYMFONY_VERSION=2.8.* SOLR_VERSION=6.6.2
+  - SYMFONY_VERSION=3.0.* SOLR_VERSION=6.6.2
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
 
 cache:
   directories:
     - $HOME/.composer/cache
 
+before_install:
+  - composer global require "hirak/prestissimo:^0.3"
+  - curl -O http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz
+  - tar -xzf solr-${SOLR_VERSION}.tgz
+
 before_script:
-  - bash -c "if [ $TRAVIS_PHP_VERSION != 'hhvm' ] && [ $TRAVIS_PHP_VERSION != '7.0' ] && [ $TRAVIS_PHP_VERSION != 'nightly' ]; then printf '\n\n\n\n' | pecl install pecl_http-1.7.6; fi"
+#  - pecl install pecl_http
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
+  - solr-${SOLR_VERSION}/bin/solr start -e techproducts
 
 script: vendor/bin/phpunit -c phpunit.xml.travis -v
 
@@ -33,12 +37,13 @@ after_success:
 
 matrix:
   exclude:
-      - php: 5.3
-        env: SYMFONY_VERSION=3.0.*
-      - php: 5.4
-        env: SYMFONY_VERSION=3.0.*
+      - php: 7.0
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+      - php: 5.6
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+      - php: hhvm
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
   allow_failures:
-      - php: 5.3
       - php: nightly
 
 sudo: false
