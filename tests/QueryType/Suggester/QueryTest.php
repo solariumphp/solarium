@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Suggester;
 
-use Solarium\QueryType\Suggester\Query;
-use Solarium\Core\Client\Client;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\Suggester\Query;
 
 class QueryTest extends TestCase
 {
@@ -50,7 +49,7 @@ class QueryTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_SUGGESTER, $this->query->getType());
+        $this->assertSame(Client::QUERY_SUGGESTER, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -68,7 +67,7 @@ class QueryTest extends TestCase
         $value = 'testquery';
         $this->query->setQuery($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getQuery()
         );
@@ -79,7 +78,7 @@ class QueryTest extends TestCase
         $value = 'myDictionary';
         $this->query->setDictionary($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getDictionary()
         );
@@ -90,7 +89,7 @@ class QueryTest extends TestCase
         $value = 11;
         $this->query->setCount($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getCount()
         );
@@ -101,7 +100,7 @@ class QueryTest extends TestCase
         $value = 'context filter query';
         $this->query->setContextFilterQuery($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getContextFilterQuery()
         );
@@ -109,7 +108,7 @@ class QueryTest extends TestCase
 
     public function testSetAndBuild()
     {
-        $this->assertEquals(
+        $this->assertSame(
             false,
             $this->query->getBuild()
         );
@@ -117,7 +116,7 @@ class QueryTest extends TestCase
         $value = true;
         $this->query->setBuild($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getBuild()
         );
@@ -125,7 +124,7 @@ class QueryTest extends TestCase
 
     public function testSetAndReload()
     {
-        $this->assertEquals(
+        $this->assertSame(
             false,
             $this->query->getReload()
         );
@@ -133,7 +132,7 @@ class QueryTest extends TestCase
         $value = true;
         $this->query->setReload($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getReload()
         );

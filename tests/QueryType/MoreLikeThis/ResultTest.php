@@ -31,12 +31,13 @@
 
 namespace Solarium\Tests\QueryType\MoreLikeThis;
 
-use Solarium\QueryType\MoreLikeThis\Query;
-use Solarium\QueryType\MoreLikeThis\Result;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\Exception\UnexpectedValueException;
+use Solarium\QueryType\MoreLikeThis\Query;
+use Solarium\QueryType\MoreLikeThis\Result;
 
 class ResultTest extends TestCase
 {
@@ -45,86 +46,47 @@ class ResultTest extends TestCase
         $query = new Query();
         $query->setInterestingTerms('list');
 
-        $mock = $this->getQueryResultMock();
-        $mock->expects($this->once())
-             ->method('getQuery')
-             ->will($this->returnValue($query));
-        $mock->expects($this->once())
-             ->method('parseResponse');
-
-        $mock->getInterestingTerms();
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $result = new Result($query, $response);
+        $this->assertEmpty($result->getInterestingTerms());
     }
 
     public function testGetInterestingTermsException()
     {
         $query = new Query();
         $query->setInterestingTerms('none');
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
 
-        $mock = $this->getMock('Solarium\QueryType\MoreLikeThis\Result', array('getQuery'), array(), '', false);
-        $mock->expects($this->once())
-             ->method('getQuery')
-             ->will($this->returnValue($query));
-
-        $this->expectException('Solarium\Exception\UnexpectedValueException');
-        $mock->getInterestingTerms();
+        $result = new Result($query, $response);
+        $this->expectException(UnexpectedValueException::class);
+        $result->getInterestingTerms();
     }
 
     public function testGetMatch()
     {
         $query = new Query();
         $query->setMatchInclude(true);
-
-        $mock = $this->getQueryResultMock();
-        $mock->expects($this->once())
-             ->method('getQuery')
-             ->will($this->returnValue($query));
-        $mock->expects($this->once())
-             ->method('parseResponse');
-
-        $mock->getMatch();
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $result = new Result($query, $response);
+        $this->assertEmpty($result->getMatch());
     }
 
     public function testGetMatchException()
     {
         $query = new Query();
         $query->setMatchInclude(false);
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $result = new Result($query, $response);
 
-        $mock = $this->getQueryResultMock();
-        $mock->expects($this->once())
-             ->method('getQuery')
-             ->will($this->returnValue($query));
-
-        $this->expectException('Solarium\Exception\UnexpectedValueException');
-        $mock->getMatch();
+        $this->expectException(UnexpectedValueException::class);
+        $result->getMatch();
     }
 
     public function testGetQuery()
     {
-        $client = new Client;
         $query = new Query;
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
-
         $ping = new Result($query, $response);
-        $this->assertEquals(
-            $query,
-            $ping->getQuery()
-        );
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getQueryResultMock()
-    {
-        return $this->getMock(
-            'Solarium\QueryType\MoreLikeThis\Result',
-            array(
-                'getQuery',
-                'parseResponse',
-            ),
-            array(),
-            '',
-            false
-        );
+        $this->assertSame($query, $ping->getQuery());
     }
 }

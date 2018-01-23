@@ -31,12 +31,12 @@
 
 namespace Solarium\Tests\QueryType\Suggester;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Suggester\Query;
 use Solarium\QueryType\Suggester\ResponseParser;
 use Solarium\QueryType\Suggester\Result\Dictionary;
+use Solarium\QueryType\Suggester\Result\Result;
 use Solarium\QueryType\Suggester\Result\Term;
-
-use PHPUnit\Framework\TestCase;
 
 class ResponseParserTest extends TestCase
 {
@@ -87,7 +87,7 @@ class ResponseParserTest extends TestCase
 
         $query = new Query();
 
-        $resultStub = $this->getMock('Solarium\QueryType\Suggester\Result\Result', array(), array(), '', false);
+        $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->any())
              ->method('getData')
              ->will($this->returnValue($data));
@@ -113,7 +113,7 @@ class ResponseParserTest extends TestCase
             new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
         );
 
-        $this->assertEquals($expected, $result['results']);
-        $this->assertEquals($allExpected, $result['all']);
+        $this->assertSame($expected, $result['results']);
+        $this->assertSame($allExpected, $result['all']);
     }
 }

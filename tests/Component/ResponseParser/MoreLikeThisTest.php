@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\Component\ResponseParser;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ResponseParser\MoreLikeThis as Parser;
+use Solarium\Component\Result\MoreLikeThis\Result;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\Component\Result\MoreLikeThis\Result;
-
-use PHPUnit\Framework\TestCase;
 
 class MoreLikeThisTest extends TestCase
 {
@@ -69,14 +68,14 @@ class MoreLikeThisTest extends TestCase
 
         $result = $this->parser->parse($query, null, $data);
 
-        $this->assertEquals($expected, $result->getResults());
+        $this->assertSame($expected, $result->getResults());
     }
 
     public function testParseNoData()
     {
         $result = $this->parser->parse(null, null, array());
 
-        $this->assertEquals(array(), $result->getResults());
+        $this->assertSame(array(), $result->getResults());
     }
 
     public function testParseWithoutMaxScore()
@@ -100,6 +99,6 @@ class MoreLikeThisTest extends TestCase
 
         $result = $this->parser->parse($query, null, $data);
 
-        $this->assertEquals($expected, $result->getResults());
+        $this->assertSame($expected, $result->getResults());
     }
 }

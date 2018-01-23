@@ -31,15 +31,16 @@
 
 namespace Solarium\Tests\Plugin\CustomizeRequest;
 
-use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
-use Solarium\Plugin\CustomizeRequest\Customization;
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Adapter\AdapterInterface;
+use Solarium\Core\Client\Adapter\Http;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\Plugin\CustomizeRequest\Customization;
+use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 
 class CustomizeRequestTest extends TestCase
 {
@@ -80,24 +81,24 @@ class CustomizeRequestTest extends TestCase
         $id = $this->plugin->getCustomization('id');
 
         $this->assertThat($auth, $this->isInstanceOf('Solarium\Plugin\CustomizeRequest\Customization'));
-        $this->assertEquals('auth', $auth->getKey());
-        $this->assertEquals('header', $auth->getType());
-        $this->assertEquals('X-my-auth', $auth->getName());
-        $this->assertEquals('mypassword', $auth->getValue());
-        $this->assertEquals(true, $auth->getPersistent());
+        $this->assertSame('auth', $auth->getKey());
+        $this->assertSame('header', $auth->getType());
+        $this->assertSame('X-my-auth', $auth->getName());
+        $this->assertSame('mypassword', $auth->getValue());
+        $this->assertSame(true, $auth->getPersistent());
 
         $this->assertThat($id, $this->isInstanceOf('Solarium\Plugin\CustomizeRequest\Customization'));
-        $this->assertEquals('id', $id->getKey());
-        $this->assertEquals('param', $id->getType());
-        $this->assertEquals('id', $id->getName());
-        $this->assertEquals('1234', $id->getValue());
-        $this->assertEquals(false, $id->getPersistent());
-        $this->assertEquals(false, $id->getOverwrite());
+        $this->assertSame('id', $id->getKey());
+        $this->assertSame('param', $id->getType());
+        $this->assertSame('id', $id->getName());
+        $this->assertSame('1234', $id->getValue());
+        $this->assertSame(false, $id->getPersistent());
+        $this->assertSame(false, $id->getOverwrite());
     }
 
     public function testPluginIntegration()
     {
-        $client = new Client;
+        $client = new Client();
         $client->registerPlugin('testplugin', $this->plugin);
 
         $input = array(
@@ -112,12 +113,13 @@ class CustomizeRequestTest extends TestCase
         $expectedRequest = new Request();
         $expectedRequest->addParam('xid', 123); // this should be the effect of the customization
 
-        $observer = $this->getMock('Solarium\Core\Client\Adapter\Http', array('execute'));
-        $observer->expects($this->once())
+        $adapter = $this->createMock(AdapterInterface::class);
+        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $adapter->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($expectedRequest))
-                 ->will($this->returnValue(new Response('', array('HTTP 1.0 200 OK'))));
-        $client->setAdapter($observer);
+                 ->willReturn($response);
+        $client->setAdapter($adapter);
 
         $client->executeRequest($originalRequest);
     }
@@ -126,7 +128,7 @@ class CustomizeRequestTest extends TestCase
     {
         $customization = $this->plugin->createCustomization('id1');
 
-        $this->assertEquals(
+        $this->assertSame(
             $customization,
             $this->plugin->getCustomization('id1')
         );
@@ -143,12 +145,12 @@ class CustomizeRequestTest extends TestCase
         );
         $customization = $this->plugin->createCustomization($input);
 
-        $this->assertEquals($customization, $this->plugin->getCustomization('auth'));
-        $this->assertEquals($input['key'], $customization->getKey());
-        $this->assertEquals($input['type'], $customization->getType());
-        $this->assertEquals($input['name'], $customization->getName());
-        $this->assertEquals($input['value'], $customization->getValue());
-        $this->assertEquals($input['persistent'], $customization->getPersistent());
+        $this->assertSame($customization, $this->plugin->getCustomization('auth'));
+        $this->assertSame($input['key'], $customization->getKey());
+        $this->assertSame($input['type'], $customization->getType());
+        $this->assertSame($input['name'], $customization->getName());
+        $this->assertSame($input['value'], $customization->getValue());
+        $this->assertSame($input['persistent'], $customization->getPersistent());
     }
 
     public function testAddAndGetCustomization()
@@ -157,7 +159,7 @@ class CustomizeRequestTest extends TestCase
         $customization->setKey('id1');
         $this->plugin->addCustomization($customization);
 
-        $this->assertEquals(
+        $this->assertSame(
             $customization,
             $this->plugin->getCustomization('id1')
         );
@@ -169,12 +171,12 @@ class CustomizeRequestTest extends TestCase
 
         $customization = $this->plugin->createCustomization($key);
 
-        $this->assertEquals(
+        $this->assertSame(
             $key,
             $customization->getKey()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $customization,
             $this->plugin->getCustomization($key)
         );
@@ -209,7 +211,7 @@ class CustomizeRequestTest extends TestCase
         $this->plugin->addCustomization($customization);
         $this->plugin->addCustomization($customization);
 
-        $this->assertEquals(
+        $this->assertSame(
             $customization,
             $this->plugin->getCustomization('id1')
         );
@@ -217,7 +219,7 @@ class CustomizeRequestTest extends TestCase
 
     public function testGetInvalidCustomization()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->plugin->getCustomization('invalidkey')
         );
@@ -234,7 +236,7 @@ class CustomizeRequestTest extends TestCase
         $customizations = array('id1' => $customization1, 'id2' => $customization2);
 
         $this->plugin->addCustomizations($customizations);
-        $this->assertEquals(
+        $this->assertSame(
             $customizations,
             $this->plugin->getCustomizations()
         );
@@ -252,7 +254,7 @@ class CustomizeRequestTest extends TestCase
 
         $this->plugin->addCustomizations($customizations);
         $this->plugin->removeCustomization('id1');
-        $this->assertEquals(
+        $this->assertSame(
             array('id2' => $customization2),
             $this->plugin->getCustomizations()
         );
@@ -270,7 +272,7 @@ class CustomizeRequestTest extends TestCase
 
         $this->plugin->addCustomizations($customizations);
         $this->plugin->removeCustomization($customization1);
-        $this->assertEquals(
+        $this->assertSame(
             array('id2' => $customization2),
             $this->plugin->getCustomizations()
         );
@@ -288,7 +290,7 @@ class CustomizeRequestTest extends TestCase
 
         $this->plugin->addCustomizations($customizations);
         $this->plugin->removeCustomization('id3'); //continue silently
-        $this->assertEquals(
+        $this->assertSame(
             $customizations,
             $this->plugin->getCustomizations()
         );
@@ -306,7 +308,7 @@ class CustomizeRequestTest extends TestCase
 
         $this->plugin->addCustomizations($customizations);
         $this->plugin->clearCustomizations();
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->plugin->getCustomizations()
         );
@@ -334,7 +336,7 @@ class CustomizeRequestTest extends TestCase
 
         $this->plugin->setCustomizations($customizations2);
 
-        $this->assertEquals(
+        $this->assertSame(
             $customizations2,
             $this->plugin->getCustomizations()
         );
@@ -363,12 +365,12 @@ class CustomizeRequestTest extends TestCase
         $event = new PreExecuteRequestEvent($request, new Endpoint);
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertEquals(
+        $this->assertSame(
             123,
             $request->getParam('xid')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('X-my-auth: mypassword'),
             $request->getHeaders()
         );
@@ -399,7 +401,7 @@ class CustomizeRequestTest extends TestCase
         $event = new PreExecuteRequestEvent($request, new Endpoint);
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertEquals(
+        $this->assertSame(
             $originalRequest,
             $request
         );
@@ -428,12 +430,12 @@ class CustomizeRequestTest extends TestCase
         $event = new PreExecuteRequestEvent($request, new Endpoint);
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertEquals(
+        $this->assertSame(
             123,
             $request->getParam('xid')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('X-my-auth: mypassword'),
             $request->getHeaders()
         );
@@ -443,12 +445,12 @@ class CustomizeRequestTest extends TestCase
         $event = new PreExecuteRequestEvent($request, new Endpoint);
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $request->getParam('xid')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('X-my-auth: mypassword'),
             $request->getHeaders()
         );

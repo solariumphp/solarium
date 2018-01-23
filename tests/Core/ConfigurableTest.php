@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\Core;
 
-use Solarium\Core\Client\Client;
-use Solarium\Exception\RuntimeException;
-use Solarium\Core\Configurable;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\Core\Configurable;
+use Solarium\Exception\RuntimeException;
 
 class ConfigurableTest extends TestCase
 {
@@ -47,7 +46,7 @@ class ConfigurableTest extends TestCase
             'option2' => 'value 2',
         );
 
-        $this->assertEquals($configTest->getOptions(), $defaultOptions);
+        $this->assertSame($configTest->getOptions(), $defaultOptions);
     }
 
     public function testConstructorWithObject()
@@ -62,7 +61,7 @@ class ConfigurableTest extends TestCase
             'option3' => 3,
         );
 
-        $this->assertEquals($expectedOptions, $configTest->getOptions());
+        $this->assertSame($expectedOptions, $configTest->getOptions());
     }
 
     public function testConstructorWithArrayConfig()
@@ -79,7 +78,7 @@ class ConfigurableTest extends TestCase
             'option3' => 3,
         );
 
-        $this->assertEquals($expectedOptions, $configTest->getOptions());
+        $this->assertSame($expectedOptions, $configTest->getOptions());
     }
 
     public function testConstructorWithInvalidConfig()
@@ -91,13 +90,13 @@ class ConfigurableTest extends TestCase
     public function testGetOption()
     {
         $configTest = new ConfigTest;
-        $this->assertEquals(1, $configTest->getOption('option1'));
+        $this->assertSame(1, $configTest->getOption('option1'));
     }
 
     public function testGetOptionWIthInvalidName()
     {
         $configTest = new ConfigTest();
-        $this->assertEquals(null, $configTest->getOption('invalidoptionname'));
+        $this->assertSame(null, $configTest->getOption('invalidoptionname'));
     }
 
     public function testInitialisation()
@@ -111,7 +110,7 @@ class ConfigurableTest extends TestCase
         $configTest = new ConfigTest();
         $configTest->setOptions(array('option2' => 2, 'option3' => 3));
 
-        $this->assertEquals(
+        $this->assertSame(
             array('option1' => 1, 'option2' => 2, 'option3' => 3),
             $configTest->getOptions()
         );
@@ -122,7 +121,7 @@ class ConfigurableTest extends TestCase
         $configTest = new ConfigTest();
         $configTest->setOptions(array('option2' => 2, 'option3' => 3), true);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('option2' => 2, 'option3' => 3),
             $configTest->getOptions()
         );

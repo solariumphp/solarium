@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 
-use Solarium\Plugin\BufferedAdd\Event\PostCommit;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\Plugin\BufferedAdd\Event\PostCommit;
 
 class PostCommitTest extends TestCase
 {
@@ -50,6 +49,6 @@ class PostCommitTest extends TestCase
 
         $event = new PostCommit($result);
 
-        $this->assertEquals($result, $event->getResult());
+        $this->assertSame($result, $event->getResult());
     }
 }

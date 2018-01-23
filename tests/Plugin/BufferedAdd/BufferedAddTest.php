@@ -32,14 +32,14 @@
 namespace Solarium\Tests\Plugin\BufferedAdd;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use Solarium\QueryType\Update\Query\Document\Document;
-use Solarium\Plugin\BufferedAdd\Event\AddDocument;
-use Solarium\Plugin\BufferedAdd\BufferedAdd;
-use Solarium\Core\Client\Client;
-use Solarium\Core\Client\Endpoint;
-use Solarium\Plugin\BufferedAdd\Event\Events;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\Core\Client\ClientInterface;
+use Solarium\Core\Client\Endpoint;
+use Solarium\Plugin\BufferedAdd\BufferedAdd;
+use Solarium\Plugin\BufferedAdd\Event\AddDocument;
+use Solarium\Plugin\BufferedAdd\Event\Events;
+use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -59,7 +59,7 @@ class BufferedAddTest extends TestCase
     public function testSetAndGetBufferSize()
     {
         $this->plugin->setBufferSize(500);
-        $this->assertEquals(500, $this->plugin->getBufferSize());
+        $this->assertSame(500, $this->plugin->getBufferSize());
     }
 
     public function testAddDocument()
@@ -70,7 +70,7 @@ class BufferedAddTest extends TestCase
 
         $this->plugin->addDocument($doc);
 
-        $this->assertEquals(array($doc), $this->plugin->getDocuments());
+        $this->assertSame(array($doc), $this->plugin->getDocuments());
     }
 
     public function testCreateDocument()
@@ -80,7 +80,7 @@ class BufferedAddTest extends TestCase
 
         $this->plugin->createDocument($data);
 
-        $this->assertEquals(array($doc), $this->plugin->getDocuments());
+        $this->assertSame(array($doc), $this->plugin->getDocuments());
     }
 
     public function testAddDocuments()
@@ -97,17 +97,23 @@ class BufferedAddTest extends TestCase
 
         $this->plugin->addDocuments($docs);
 
-        $this->assertEquals($docs, $this->plugin->getDocuments());
+        $this->assertSame($docs, $this->plugin->getDocuments());
     }
 
     public function testAddDocumentAutoFlush()
     {
-        $mockUpdate = $this->getMock('Solarium\QueryType\Update\Query\Query', array('addDocuments'));
-        $mockUpdate->expects($this->exactly(2))->method('addDocuments');
+        $updateQuery = $this->createMock(Query::class);
+        $updateQuery->expects($this->exactly(2))
+            ->method('addDocuments');
 
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('createUpdate', 'update', 'triggerEvent'));
-        $mockClient->expects($this->exactly(3))->method('createUpdate')->will($this->returnValue($mockUpdate));
-        $mockClient->expects($this->exactly(2))->method('update')->will($this->returnValue('dummyResult'));
+        $client = $this->getClient();
+
+        $client->expects($this->exactly(3))
+            ->method('createUpdate')
+            ->will($this->returnValue($updateQuery));
+        $client->expects($this->exactly(2))
+            ->method('update')
+            ->will($this->returnValue('dummyResult'));
 
         $doc1 = new Document();
         $doc1->id = '123';
@@ -120,7 +126,7 @@ class BufferedAddTest extends TestCase
         $docs = array($doc1, $doc2);
 
         $plugin = new BufferedAdd();
-        $plugin->initPlugin($mockClient, array());
+        $plugin->initPlugin($client, array());
         $plugin->setBufferSize(1);
         $plugin->addDocuments($docs);
     }
@@ -134,12 +140,12 @@ class BufferedAddTest extends TestCase
         $this->plugin->addDocument($doc);
         $this->plugin->clear();
 
-        $this->assertEquals(array(), $this->plugin->getDocuments());
+        $this->assertSame(array(), $this->plugin->getDocuments());
     }
 
     public function testFlushEmptyBuffer()
     {
-        $this->assertEquals(false, $this->plugin->flush());
+        $this->assertSame(false, $this->plugin->flush());
     }
 
     public function testFlush()
@@ -147,12 +153,12 @@ class BufferedAddTest extends TestCase
         $data = array('id' => '123', 'name' => 'test');
         $doc = new Document($data);
 
-        $mockUpdate = $this->getMock('Solarium\QueryType\Update\Query\Query', array('addDocuments'));
+        $mockUpdate = $this->createMock(Query::class);
         $mockUpdate->expects($this->once())
             ->method('addDocuments')
             ->with($this->equalTo(array($doc)), $this->equalTo(true), $this->equalTo(12));
 
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('createUpdate', 'update', 'triggerEvent'));
+        $mockClient = $this->getClient();
         $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
         $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
 
@@ -160,7 +166,7 @@ class BufferedAddTest extends TestCase
         $plugin->initPlugin($mockClient, array());
         $plugin->addDocument($doc);
 
-        $this->assertEquals('dummyResult', $plugin->flush(true, 12));
+        $this->assertSame('dummyResult', $plugin->flush(true, 12));
     }
 
     public function testCommit()
@@ -168,7 +174,7 @@ class BufferedAddTest extends TestCase
         $data = array('id' => '123', 'name' => 'test');
         $doc = new Document($data);
 
-        $mockUpdate = $this->getMock('Solarium\QueryType\Update\Query\Query', array('addDocuments', 'addCommit'));
+        $mockUpdate = $this->createMock(Query::class); //, array('addDocuments', 'addCommit'));
         $mockUpdate->expects($this->once())
             ->method('addDocuments')
             ->with($this->equalTo(array($doc)), $this->equalTo(true));
@@ -176,7 +182,7 @@ class BufferedAddTest extends TestCase
             ->method('addCommit')
             ->with($this->equalTo(false), $this->equalTo(true), $this->equalTo(false));
 
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('createUpdate', 'update', 'triggerEvent'));
+        $mockClient = $this->getClient();
         $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
         $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
 
@@ -184,7 +190,7 @@ class BufferedAddTest extends TestCase
         $plugin->initPlugin($mockClient, array());
         $plugin->addDocument($doc);
 
-        $this->assertEquals('dummyResult', $plugin->commit(true, false, true, false));
+        $this->assertSame('dummyResult', $plugin->commit(true, false, true, false));
     }
 
     public function testAddDocumentEventIsTriggered()
@@ -194,17 +200,13 @@ class BufferedAddTest extends TestCase
 
         $expectedEvent = new AddDocument($doc);
 
-        $mockEventDispatcher = $this->getMock('Solarium\QueryType\Update\Query\Query', array('dispatch'));
+        $mockEventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $mockEventDispatcher
             ->expects($this->once())
             ->method('dispatch')
             ->with($this->equalTo(Events::ADD_DOCUMENT), $this->equalTo($expectedEvent));
 
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('getEventDispatcher'));
-        $mockClient->expects($this->once())
-            ->method('getEventDispatcher')
-            ->will($this->returnValue($mockEventDispatcher));
-
+        $mockClient = $this->getClient($mockEventDispatcher);
         $plugin = new BufferedAdd();
         $plugin->initPlugin($mockClient, array());
         $plugin->addDocument($doc);
@@ -214,7 +216,30 @@ class BufferedAddTest extends TestCase
     {
         $endpoint = new Endpoint();
         $endpoint->setKey('master');
-        $this->assertEquals($this->plugin, $this->plugin->setEndpoint($endpoint));
-        $this->assertEquals($endpoint, $this->plugin->getEndPoint());
+        $this->assertSame($this->plugin, $this->plugin->setEndpoint($endpoint));
+        $this->assertSame($endpoint, $this->plugin->getEndPoint());
+    }
+
+    /**
+     * @param EventDispatcherInterface|null $dispatcher
+     *
+     * @return Client|MockObject
+     */
+    private function getClient(EventDispatcherInterface $dispatcher = null): ClientInterface
+    {
+        if (!$dispatcher) {
+            $dispatcher = $this->createMock(EventDispatcherInterface::class);
+            $dispatcher->expects($this->any())
+                ->method('dispatch');
+        }
+
+        /** @var Client|MockObject $client */
+        $client = $this->createMock(ClientInterface::class);
+
+        $client->expects($this->any())
+            ->method('getEventDispatcher')
+            ->willReturn($dispatcher);
+
+        return $client;
     }
 }

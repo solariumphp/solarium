@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 
-use Solarium\Plugin\BufferedAdd\Event\PreCommit;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Plugin\BufferedAdd\Event\PreCommit;
 
 class PreCommitTest extends TestCase
 {
@@ -47,11 +46,11 @@ class PreCommitTest extends TestCase
 
         $event = new PreCommit($buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
 
-        $this->assertEquals($buffer, $event->getBuffer());
-        $this->assertEquals($overwrite, $event->getOverwrite());
-        $this->assertEquals($softCommit, $event->getSoftCommit());
-        $this->assertEquals($waitSearcher, $event->getWaitSearcher());
-        $this->assertEquals($expungeDeletes, $event->getExpungeDeletes());
+        $this->assertSame($buffer, $event->getBuffer());
+        $this->assertSame($overwrite, $event->getOverwrite());
+        $this->assertSame($softCommit, $event->getSoftCommit());
+        $this->assertSame($waitSearcher, $event->getWaitSearcher());
+        $this->assertSame($expungeDeletes, $event->getExpungeDeletes());
 
         return $event;
     }
@@ -65,7 +64,7 @@ class PreCommitTest extends TestCase
     {
         $buffer = array(4, 5, 6);
         $event->setBuffer($buffer);
-        $this->assertEquals($buffer, $event->getBuffer());
+        $this->assertSame($buffer, $event->getBuffer());
     }
 
     /**
@@ -77,7 +76,7 @@ class PreCommitTest extends TestCase
     {
         $expungeDeletes = true;
         $event->setExpungeDeletes($expungeDeletes);
-        $this->assertEquals($expungeDeletes, $event->getExpungeDeletes());
+        $this->assertSame($expungeDeletes, $event->getExpungeDeletes());
     }
 
     /**
@@ -89,7 +88,7 @@ class PreCommitTest extends TestCase
     {
         $overwrite = false;
         $event->setOverwrite($overwrite);
-        $this->assertEquals($overwrite, $event->getOverwrite());
+        $this->assertSame($overwrite, $event->getOverwrite());
     }
 
     /**
@@ -101,7 +100,7 @@ class PreCommitTest extends TestCase
     {
         $softCommit = true;
         $event->setSoftCommit($softCommit);
-        $this->assertEquals($softCommit, $event->getSoftCommit());
+        $this->assertSame($softCommit, $event->getSoftCommit());
     }
 
     /**
@@ -113,6 +112,6 @@ class PreCommitTest extends TestCase
     {
         $waitSearcher = false;
         $event->setWaitSearcher($waitSearcher);
-        $this->assertEquals($waitSearcher, $event->getWaitSearcher());
+        $this->assertSame($waitSearcher, $event->getWaitSearcher());
     }
 }

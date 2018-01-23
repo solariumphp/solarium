@@ -31,14 +31,13 @@
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
-use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response;
-use Solarium\Core\Client\Adapter\Guzzle3 as GuzzleAdapter;
-use Solarium\Core\Client\Request;
-use Solarium\Core\Client\Endpoint;
-use Solarium\Core\Exception;
+use Guzzle\Plugin\Mock\MockPlugin;
 use PHPUnit\Framework\TestCase;
-
+use Solarium\Core\Client\Adapter\Guzzle3 as GuzzleAdapter;
+use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
+use Solarium\Core\Exception;
 
 /**
  * @coversDefaultClass \Solarium\Core\Client\Adapter\Guzzle3

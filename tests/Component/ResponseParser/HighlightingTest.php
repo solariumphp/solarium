@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\Component\ResponseParser;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ResponseParser\Highlighting as Parser;
 use Solarium\Component\Result\Highlighting\Result;
-
-use PHPUnit\Framework\TestCase;
 
 class HighlightingTest extends TestCase
 {
@@ -56,13 +55,13 @@ class HighlightingTest extends TestCase
 
         $result = $this->parser->parse(null, null, $data);
 
-        $this->assertEquals($expected, $result->getResults());
+        $this->assertSame($expected, $result->getResults());
     }
 
     public function testParseNoData()
     {
         $result = $this->parser->parse(null, null, array());
 
-        $this->assertEquals(array(), $result->getResults());
+        $this->assertSame(array(), $result->getResults());
     }
 }

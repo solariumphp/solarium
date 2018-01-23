@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\Component\RequestBuilder;
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\RequestBuilder\DisMax as RequestBuilder;
 use Solarium\Component\DisMax as Component;
+use Solarium\Component\RequestBuilder\DisMax as RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class DisMaxTest extends TestCase
@@ -56,7 +56,7 @@ class DisMaxTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'defType' => 'dummyparser',
                 'q.alt' => 'test',
@@ -71,6 +71,5 @@ class DisMaxTest extends TestCase
             ),
             $request->getParams()
         );
-
     }
 }

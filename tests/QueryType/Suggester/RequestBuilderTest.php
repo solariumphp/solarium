@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Suggester;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\Suggester\Query;
 use Solarium\QueryType\Suggester\RequestBuilder;
-use Solarium\Core\Client\Request;
-
-use PHPUnit\Framework\TestCase;
 
 class RequestBuilderTest extends TestCase
 {
@@ -65,7 +64,7 @@ class RequestBuilderTest extends TestCase
 
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'suggest' => 'true',
                 'suggest.dictionary' => 'suggest',
@@ -81,7 +80,7 @@ class RequestBuilderTest extends TestCase
             $request->getParams()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_GET,
             $request->getMethod()
         );

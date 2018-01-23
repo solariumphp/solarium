@@ -49,7 +49,7 @@ class StatsTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'stats' => 'true',
                 'stats.facet' => array(
@@ -64,6 +64,5 @@ class StatsTest extends TestCase
             ),
             $request->getParams()
         );
-
     }
 }

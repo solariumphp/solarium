@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Grouping;
 use Solarium\QueryType\Select\Query\Query;
-
-use PHPUnit\Framework\TestCase;
 
 class GroupingTest extends TestCase
 {
@@ -67,23 +66,23 @@ class GroupingTest extends TestCase
 
         $this->grouping->setOptions($options);
 
-        $this->assertEquals($options['fields'], $this->grouping->getFields());
-        $this->assertEquals($options['queries'], $this->grouping->getQueries());
-        $this->assertEquals($options['limit'], $this->grouping->getLimit());
-        $this->assertEquals($options['offset'], $this->grouping->getOffset());
-        $this->assertEquals($options['sort'], $this->grouping->getSort());
-        $this->assertEquals($options['mainresult'], $this->grouping->getMainResult());
-        $this->assertEquals($options['numberofgroups'], $this->grouping->getNumberOfGroups());
-        $this->assertEquals($options['cachepercentage'], $this->grouping->getCachePercentage());
-        $this->assertEquals($options['truncate'], $this->grouping->getTruncate());
-        $this->assertEquals($options['function'], $this->grouping->getFunction());
-        $this->assertEquals($options['format'], $this->grouping->getFormat());
-        $this->assertEquals($options['facet'], $this->grouping->getFacet());
+        $this->assertSame($options['fields'], $this->grouping->getFields());
+        $this->assertSame($options['queries'], $this->grouping->getQueries());
+        $this->assertSame($options['limit'], $this->grouping->getLimit());
+        $this->assertSame($options['offset'], $this->grouping->getOffset());
+        $this->assertSame($options['sort'], $this->grouping->getSort());
+        $this->assertSame($options['mainresult'], $this->grouping->getMainResult());
+        $this->assertSame($options['numberofgroups'], $this->grouping->getNumberOfGroups());
+        $this->assertSame($options['cachepercentage'], $this->grouping->getCachePercentage());
+        $this->assertSame($options['truncate'], $this->grouping->getTruncate());
+        $this->assertSame($options['function'], $this->grouping->getFunction());
+        $this->assertSame($options['format'], $this->grouping->getFormat());
+        $this->assertSame($options['facet'], $this->grouping->getFacet());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(Query::COMPONENT_GROUPING, $this->grouping->getType());
+        $this->assertSame(Query::COMPONENT_GROUPING, $this->grouping->getType());
     }
 
     public function testGetResponseParser()
@@ -107,7 +106,7 @@ class GroupingTest extends TestCase
         $value = 'classX';
         $this->grouping->setResultQueryGroupClass($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getResultQueryGroupClass()
         );
@@ -118,7 +117,7 @@ class GroupingTest extends TestCase
         $value = 'classY';
         $this->grouping->setResultValueGroupClass($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getResultValueGroupClass()
         );
@@ -129,7 +128,7 @@ class GroupingTest extends TestCase
         $value = 'fieldC';
         $this->grouping->setFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             array($value),
             $this->grouping->getFields()
         );
@@ -140,7 +139,7 @@ class GroupingTest extends TestCase
         $value = 'fieldD, fieldE';
         $this->grouping->setFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'fieldD',
                 'fieldE',
@@ -154,7 +153,7 @@ class GroupingTest extends TestCase
         $values = array('fieldD', 'fieldE');
         $this->grouping->setFields($values);
 
-        $this->assertEquals(
+        $this->assertSame(
             $values,
             $this->grouping->getFields()
         );
@@ -165,7 +164,7 @@ class GroupingTest extends TestCase
         $value = 'cat:3';
         $this->grouping->setQueries($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             array($value),
             $this->grouping->getQueries()
         );
@@ -176,7 +175,7 @@ class GroupingTest extends TestCase
         $values = array('cat:5', 'cat:6');
         $this->grouping->setQueries($values);
 
-        $this->assertEquals(
+        $this->assertSame(
             $values,
             $this->grouping->getQueries()
         );
@@ -187,7 +186,7 @@ class GroupingTest extends TestCase
         $value = '12';
         $this->grouping->setLimit($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getLimit()
         );
@@ -198,7 +197,7 @@ class GroupingTest extends TestCase
         $value = '2';
         $this->grouping->setOffset($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getOffset()
         );
@@ -209,7 +208,7 @@ class GroupingTest extends TestCase
         $value = 'price desc';
         $this->grouping->setSort($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getSort()
         );
@@ -220,7 +219,7 @@ class GroupingTest extends TestCase
         $value = true;
         $this->grouping->setMainResult($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getMainResult()
         );
@@ -231,7 +230,7 @@ class GroupingTest extends TestCase
         $value = true;
         $this->grouping->setNumberOfGroups($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getNumberOfGroups()
         );
@@ -242,7 +241,7 @@ class GroupingTest extends TestCase
         $value = 40;
         $this->grouping->setCachePercentage($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getCachePercentage()
         );
@@ -253,7 +252,7 @@ class GroupingTest extends TestCase
         $value = true;
         $this->grouping->setTruncate($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getTruncate()
         );
@@ -264,7 +263,7 @@ class GroupingTest extends TestCase
         $value = 'log(foo)';
         $this->grouping->setFunction($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getFunction()
         );
@@ -275,7 +274,7 @@ class GroupingTest extends TestCase
         $value = 'grouped';
         $this->grouping->setFormat($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getFormat()
         );
@@ -286,7 +285,7 @@ class GroupingTest extends TestCase
         $value = true;
         $this->grouping->setFacet($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->grouping->getFacet()
         );

@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Core\Query;
 
-use Solarium\Core\Query\AbstractQuery;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Query\AbstractQuery;
 
 class QueryTest extends TestCase
 {
@@ -41,14 +40,14 @@ class QueryTest extends TestCase
     {
         $query = new TestQuery;
         $query->setHandler('myhandler');
-        $this->assertEquals('myhandler', $query->getHandler());
+        $this->assertSame('myhandler', $query->getHandler());
     }
 
     public function testSetAndGetResultClass()
     {
         $query = new TestQuery;
         $query->setResultClass('myResultClass');
-        $this->assertEquals('myResultClass', $query->getResultClass());
+        $this->assertSame('myResultClass', $query->getResultClass());
     }
 
     public function testGetHelper()
@@ -56,7 +55,7 @@ class QueryTest extends TestCase
         $query = new TestQuery;
         $helper = $query->getHelper();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Core\Query\Helper',
             get_class($helper)
         );
@@ -69,7 +68,7 @@ class QueryTest extends TestCase
         $query->addParam('p2', 'v2');
         $query->addParam('p2', 'v3'); //should overwrite previous value
 
-        $this->assertEquals(
+        $this->assertSame(
             array('p1' => 'v1', 'p2' => 'v3'),
             $query->getParams()
         );
@@ -78,27 +77,27 @@ class QueryTest extends TestCase
     public function testGetDefaultResponseWriter()
     {
         $query = new TestQuery;
-        $this->assertEquals('json', $query->getResponseWriter());
+        $this->assertSame('json', $query->getResponseWriter());
     }
 
     public function testSetAndGetResponseWriter()
     {
         $query = new TestQuery;
         $query->setResponseWriter('phps');
-        $this->assertEquals('phps', $query->getResponseWriter());
+        $this->assertSame('phps', $query->getResponseWriter());
     }
 
     public function testGetDefaultTimeAllowed()
     {
         $query = new TestQuery;
-        $this->assertEquals(null, $query->getTimeAllowed());
+        $this->assertSame(null, $query->getTimeAllowed());
     }
 
     public function testSetAndGetTimeAllowed()
     {
         $query = new TestQuery;
         $query->setTimeAllowed(1200);
-        $this->assertEquals(1200, $query->getTimeAllowed());
+        $this->assertSame(1200, $query->getTimeAllowed());
     }
 }
 

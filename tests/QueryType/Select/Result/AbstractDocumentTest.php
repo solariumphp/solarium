@@ -35,6 +35,9 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractDocumentTest extends TestCase
 {
+    /**
+     * @var Document
+     */
     protected $doc;
 
     protected $fields = array(
@@ -46,17 +49,17 @@ abstract class AbstractDocumentTest extends TestCase
 
     public function testGetFields()
     {
-        $this->assertEquals($this->fields, $this->doc->getFields());
+        $this->assertSame($this->fields, $this->doc->getFields());
     }
 
     public function testGetFieldAsProperty()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->fields['categories'],
             $this->doc->categories
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->doc->invalidfieldname
         );
@@ -92,17 +95,17 @@ abstract class AbstractDocumentTest extends TestCase
             $fields[$key] = $field;
         }
 
-        $this->assertEquals($this->fields, $fields);
+        $this->assertSame($this->fields, $fields);
     }
 
     public function testArrayGet()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->fields['categories'],
             $this->doc['categories']
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->doc['invalidfieldname']
         );
@@ -139,6 +142,6 @@ abstract class AbstractDocumentTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->fields), count($this->doc));
+        $this->assertSame(count($this->fields), count($this->doc));
     }
 }

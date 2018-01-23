@@ -2,9 +2,9 @@
 
 namespace Solarium\Tests\Support\DataFixtures;
 
-use Solarium\Support\DataFixtures\Loader;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Support\DataFixtures\FixtureInterface;
+use Solarium\Support\DataFixtures\Loader;
 
 class LoaderTest extends TestCase
 {
@@ -19,15 +19,15 @@ class LoaderTest extends TestCase
         $loader = new Loader();
 
         $fixtures = array(
-            $this->getMock('Solarium\Support\DataFixtures\FixtureInterface'),
-            $this->getMock('Solarium\Support\DataFixtures\FixtureInterface'),
+            $this->createMock(FixtureInterface::class),
+            $this->createMock(FixtureInterface::class),
         );
 
         foreach ($fixtures as $fixture) {
             $loader->addFixture($fixture);
         }
 
-        $this->assertEquals($fixtures, $loader->getFixtures());
+        $this->assertSame($fixtures, $loader->getFixtures());
     }
 
     /**
@@ -47,7 +47,7 @@ class LoaderTest extends TestCase
         $loadedFixtures = $loader->getFixtures();
         $this->assertCount(3, $loadedFixtures);
         foreach ($loadedFixtures as $fixture) {
-            $this->assertInstanceOf('Solarium\Support\DataFixtures\FixtureInterface', $fixture);
+            $this->assertInstanceOf(FixtureInterface::class, $fixture);
         }
     }
 }

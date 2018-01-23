@@ -32,6 +32,8 @@
 namespace Solarium\Tests\QueryType\Analysis\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Query\Result\Result;
+use Solarium\QueryType\Analysis\ResponseParser\Document;
 
 class DocumentTest extends TestCase
 {
@@ -48,19 +50,21 @@ class DocumentTest extends TestCase
             )
         );
 
-        $resultStub = $this->getMock('Solarium\Core\Query\Result\Result', array(), array(), '', false);
+        $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
              ->will($this->returnValue($data));
 
-        $parserStub = $this->getMock('Solarium\QueryType\Analysis\ResponseParser\Document', array('parseTypes'));
+        $parserStub = $this->getMockBuilder(Document::class)
+            ->setMethods(['parseTypes'])
+            ->getMock();
         $parserStub->expects($this->exactly(2))
              ->method('parseTypes')
              ->will($this->returnValue('dummy'));
 
         $result = $parserStub->parse($resultStub);
 
-        $this->assertEquals(count($data['analysis']), count($result['items']));
-        $this->assertEquals('key2', $result['items'][1]->getName());
+        $this->assertSame(count($data['analysis']), count($result['items']));
+        $this->assertSame('key2', $result['items'][1]->getName());
     }
 }

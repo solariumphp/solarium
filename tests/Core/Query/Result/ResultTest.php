@@ -31,13 +31,12 @@
 
 namespace Solarium\Tests\Core\Query\Result;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Exception\HttpException;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class ResultTest extends TestCase
 {
@@ -80,18 +79,18 @@ class ResultTest extends TestCase
         try {
             new Result($this->query, $response);
         } catch (HttpException $e) {
-            $this->assertEquals('Error message', $e->getBody());
+            $this->assertSame('Error message', $e->getBody());
         }
     }
 
     public function testGetResponse()
     {
-        $this->assertEquals($this->response, $this->result->getResponse());
+        $this->assertSame($this->response, $this->result->getResponse());
     }
 
     public function testGetQuery()
     {
-        $this->assertEquals($this->query, $this->result->getQuery());
+        $this->assertSame($this->query, $this->result->getQuery());
     }
 
     public function testGetData()
@@ -101,7 +100,7 @@ class ResultTest extends TestCase
             'response' => array('numFound' => 0, 'start' => 0, 'docs' => array())
         );
 
-        $this->assertEquals($data, $this->result->getData());
+        $this->assertSame($data, $this->result->getData());
     }
 
     public function testGetDataWithPhps()
@@ -130,7 +129,7 @@ class ResultTest extends TestCase
         $response = new Response($phpsData, $this->headers);
         $result = new Result($this->query, $response);
 
-        $this->assertEquals($resultData, $result->getData());
+        $this->assertSame($resultData, $result->getData());
     }
 
     public function testGetDataWithUnkownResponseWriter()
@@ -151,5 +150,4 @@ class ResultTest extends TestCase
         $this->expectException('Solarium\Exception\UnexpectedValueException');
         $this->result->getData();
     }
-
 }

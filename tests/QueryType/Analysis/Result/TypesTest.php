@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Analysis\Result;
 
-use Solarium\QueryType\Analysis\Result\Types;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Analysis\Result\Types;
 
 class TypesTest extends TestCase
 {
@@ -57,12 +56,12 @@ class TypesTest extends TestCase
 
     public function testGetItems()
     {
-        $this->assertEquals($this->items, $this->result->getItems());
+        $this->assertSame($this->items, $this->result->getItems());
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->items), count($this->result));
+        $this->assertSame(count($this->items), count($this->result));
     }
 
     public function testIterator()
@@ -72,12 +71,12 @@ class TypesTest extends TestCase
             $lists[$key] = $list;
         }
 
-        $this->assertEquals($this->items, $lists);
+        $this->assertSame($this->items, $lists);
     }
 
     public function testGetName()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->name,
             $this->result->getName()
         );
@@ -85,7 +84,7 @@ class TypesTest extends TestCase
 
     public function testGetIndexAnalysis()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->items['index'],
             $this->result->getIndexAnalysis()
         );
@@ -99,7 +98,7 @@ class TypesTest extends TestCase
         );
 
         $result = new Types($this->name, $items);
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $result->getIndexAnalysis()
         );
@@ -107,7 +106,7 @@ class TypesTest extends TestCase
 
     public function testGetQueryAnalysis()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->items['query'],
             $this->result->getQueryAnalysis()
         );
@@ -121,7 +120,7 @@ class TypesTest extends TestCase
         );
 
         $result = new Types($this->name, $items);
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $result->getQueryAnalysis()
         );

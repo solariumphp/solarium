@@ -32,8 +32,8 @@
 namespace Solarium\Tests\Component\RequestBuilder;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\RequestBuilder\Highlighting as RequestBuilder;
 use Solarium\Component\Highlighting\Highlighting as Component;
+use Solarium\Component\RequestBuilder\Highlighting as RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class HighlightingTest extends TestCase
@@ -91,7 +91,7 @@ class HighlightingTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'hl' => 'true',
                 'hl.fl' => 'fieldA,fieldB',
@@ -137,7 +137,6 @@ class HighlightingTest extends TestCase
             ),
             $request->getParams()
         );
-
     }
 
     public function testBuildComponentWithoutFields()
@@ -179,7 +178,7 @@ class HighlightingTest extends TestCase
 
             $request = $builder->buildComponent($component, $request);
 
-            $this->assertEquals(
+            $this->assertSame(
                 array(
                     'hl' => 'true',
                     'hl.snippets' => 2,
@@ -214,6 +213,5 @@ class HighlightingTest extends TestCase
                 ),
                 $request->getParams()
             );
-
         }
 }

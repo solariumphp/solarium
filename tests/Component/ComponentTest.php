@@ -40,7 +40,7 @@ class ComponentTest extends TestCase
     public function testGetType()
     {
         $component = new TestComponent();
-        $this->assertEquals('testtype', $component->getType());
+        $this->assertSame('testtype', $component->getType());
     }
 
     public function testSetAndGetQueryInstance()
@@ -48,7 +48,7 @@ class ComponentTest extends TestCase
         $query = new Query;
         $component = new TestComponent();
         $component->setQueryInstance($query);
-        $this->assertEquals($query, $component->getQueryInstance());
+        $this->assertSame($query, $component->getQueryInstance());
     }
 }
 

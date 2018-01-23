@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\Interval;
 use Solarium\Component\FacetSet;
-
-use PHPUnit\Framework\TestCase;
 
 class IntervalTest extends TestCase
 {
@@ -58,14 +57,14 @@ class IntervalTest extends TestCase
 
         $this->facet->setOptions($options);
 
-        $this->assertEquals($options['key'], $this->facet->getKey());
-        $this->assertEquals($options['exclude'], $this->facet->getExcludes());
-        $this->assertEquals($options['set'], $this->facet->getSet());
+        $this->assertSame($options['key'], $this->facet->getKey());
+        $this->assertSame($options['exclude'], $this->facet->getExcludes());
+        $this->assertSame($options['set'], $this->facet->getSet());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             FacetSet::FACET_INTERVAL,
             $this->facet->getType()
         );
@@ -74,17 +73,17 @@ class IntervalTest extends TestCase
     public function testSetAndGetSet()
     {
         $this->facet->setSet('interval1,interval2');
-        $this->assertEquals(array('interval1', 'interval2'), $this->facet->getSet());
+        $this->assertSame(array('interval1', 'interval2'), $this->facet->getSet());
     }
 
     public function testEmptySet()
     {
-        $this->assertEquals(array(), $this->facet->getSet());
+        $this->assertSame(array(), $this->facet->getSet());
     }
 
     public function testSetAndGetField()
     {
         $this->facet->setField('field1');
-        $this->assertEquals('field1', $this->facet->getField());
+        $this->assertSame('field1', $this->facet->getField());
     }
 }

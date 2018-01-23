@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
-use Solarium\QueryType\Update\Query\Command\Add;
-use Solarium\QueryType\Update\Query\Query;
-use Solarium\QueryType\Update\Query\Document\Document;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Update\Query\Command\Add;
+use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Query;
 
 class AddTest extends TestCase
 {
@@ -48,7 +47,7 @@ class AddTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_ADD,
             $this->command->getType()
         );
@@ -58,7 +57,7 @@ class AddTest extends TestCase
     {
         $doc = new Document(array('id' => 1));
         $this->command->addDocument($doc);
-        $this->assertEquals(
+        $this->assertSame(
             array($doc),
             $this->command->getDocuments()
         );
@@ -93,7 +92,7 @@ class AddTest extends TestCase
         $doc1 = new Document(array('id' => 1));
         $doc2 = new Document(array('id' => 2));
         $this->command->addDocuments(array($doc1, $doc2));
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2),
             $this->command->getDocuments()
         );
@@ -109,7 +108,7 @@ class AddTest extends TestCase
         $doc4 = new Document(array('id' => 4));
         $this->command->addDocuments(array($doc3, $doc4));
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2, $doc3, $doc4),
             $this->command->getDocuments()
         );
@@ -130,7 +129,7 @@ class AddTest extends TestCase
             $command_documents = $this->command->getDocuments();
         }
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2),
             $command_documents,
             'checking first two documents are added correctly'
@@ -150,7 +149,7 @@ class AddTest extends TestCase
             $command_documents = $this->command->getDocuments();
         }
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2, $doc3, $doc4, $doc5),
             $command_documents,
             'checking second three documents are added correctly to first two'
@@ -177,7 +176,7 @@ class AddTest extends TestCase
             $command_documents = $this->command->getDocuments();
         }
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2, $doc3),
             $command_documents
         );
@@ -186,7 +185,7 @@ class AddTest extends TestCase
     public function testGetAndSetOverwrite()
     {
         $this->command->setOverwrite(false);
-        $this->assertEquals(
+        $this->assertSame(
             false,
             $this->command->getOverwrite()
         );
@@ -195,7 +194,7 @@ class AddTest extends TestCase
     public function testGetAndSetCommitWithin()
     {
         $this->command->setCommitWithin(100);
-        $this->assertEquals(
+        $this->assertSame(
             100,
             $this->command->getCommitWithin()
         );

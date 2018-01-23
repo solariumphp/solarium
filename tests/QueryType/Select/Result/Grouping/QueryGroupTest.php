@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
 
-use Solarium\Component\Result\Grouping\QueryGroup;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Grouping\QueryGroup;
 
 class QueryGroupTest extends TestCase
 {
@@ -65,7 +64,7 @@ class QueryGroupTest extends TestCase
 
     public function testGetMatches()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->matches,
             $this->group->getMatches()
         );
@@ -73,7 +72,7 @@ class QueryGroupTest extends TestCase
 
     public function testGetNumFound()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->numFound,
             $this->group->getNumFound()
         );
@@ -81,7 +80,7 @@ class QueryGroupTest extends TestCase
 
     public function testGetStart()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->start,
             $this->group->getStart()
         );
@@ -89,7 +88,7 @@ class QueryGroupTest extends TestCase
 
     public function testGetMaximumScore()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->maximumScore,
             $this->group->getMaximumScore()
         );
@@ -97,7 +96,7 @@ class QueryGroupTest extends TestCase
 
     public function testGetDocuments()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->items,
             $this->group->getDocuments()
         );
@@ -110,11 +109,11 @@ class QueryGroupTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->items, $items);
+        $this->assertSame($this->items, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->items), count($this->group));
+        $this->assertSame(count($this->items), count($this->group));
     }
 }

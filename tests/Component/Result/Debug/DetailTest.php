@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component\Result\Debug;
 
-use Solarium\Component\Result\Debug\Detail;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Debug\Detail;
 
 class DetailTest extends TestCase
 {
@@ -61,24 +60,23 @@ class DetailTest extends TestCase
 
     public function testGetValue()
     {
-         $this->assertEquals($this->value, $this->result->getValue());
+         $this->assertSame($this->value, $this->result->getValue());
     }
 
     public function testGetMatch()
     {
-         $this->assertEquals($this->match, $this->result->getMatch());
+         $this->assertSame($this->match, $this->result->getMatch());
     }
 
     public function testGetDescription()
     {
-         $this->assertEquals($this->description, $this->result->getDescription());
+         $this->assertSame($this->description, $this->result->getDescription());
     }
 
     public function testSetSubDetails()
     {
         $subDetailsDummy = array('dummy', 'testing');
         $this->result->setSubDetails($subDetailsDummy);
-        $this->assertEquals($subDetailsDummy, $this->result->getSubDetails());
+        $this->assertSame($subDetailsDummy, $this->result->getSubDetails());
     }
-
 }

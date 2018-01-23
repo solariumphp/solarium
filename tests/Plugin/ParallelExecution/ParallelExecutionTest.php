@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\Plugin\ParallelExecution;
 
-use Solarium\Plugin\ParallelExecution\ParallelExecution;
-use Solarium\Core\Client\Client;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\Plugin\ParallelExecution\ParallelExecution;
 
 class ParallelExecutionTest extends TestCase
 {
@@ -63,7 +62,7 @@ class ParallelExecutionTest extends TestCase
         $this->plugin->addQuery(1, $query1);
         $this->plugin->addQuery(2, $query2, $endpoint2);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 1 => array('query' => $query1, 'endpoint' => 'local1'),
                 2 => array('query' => $query2, 'endpoint' => 'local2'),
@@ -84,7 +83,7 @@ class ParallelExecutionTest extends TestCase
         $this->plugin->addQuery(2, $query2);
         $this->plugin->clearQueries();
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->plugin->getQueries()
         );

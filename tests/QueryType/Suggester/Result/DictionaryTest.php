@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Suggester\Result;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
-
-use PHPUnit\Framework\TestCase;
 
 class DictionaryTest extends TestCase
 {
@@ -60,7 +59,7 @@ class DictionaryTest extends TestCase
 
     public function testGetTerms()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->terms,
             $this->dictionary->getTerms()
         );
@@ -68,7 +67,7 @@ class DictionaryTest extends TestCase
 
     public function testGetTerm()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->terms['zoo'],
             $this->dictionary->getTerm('zoo')
         );
@@ -76,7 +75,7 @@ class DictionaryTest extends TestCase
 
     public function testGetTermWithUnknownKey()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->dictionary->getTerm('bar')
         );
@@ -84,7 +83,7 @@ class DictionaryTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->terms), count($this->dictionary));
+        $this->assertSame(count($this->terms), count($this->dictionary));
     }
 
     public function testIterator()
@@ -94,6 +93,6 @@ class DictionaryTest extends TestCase
             $results[$key] = $doc;
         }
 
-        $this->assertEquals($this->terms, $results);
+        $this->assertSame($this->terms, $results);
     }
 }

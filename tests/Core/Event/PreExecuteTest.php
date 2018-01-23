@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\Core\Event;
 
-use Solarium\Core\Event\PreExecute;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
+use Solarium\Core\Event\PreExecute;
 use Solarium\Core\Query\Result\Result;
-
-use PHPUnit\Framework\TestCase;
 
 class PreExecuteTest extends TestCase
 {
@@ -48,7 +47,7 @@ class PreExecuteTest extends TestCase
 
         $event = new PreExecute($query);
 
-        $this->assertEquals($query, $event->getQuery());
+        $this->assertSame($query, $event->getQuery());
 
         return $event;
     }
@@ -67,6 +66,6 @@ class PreExecuteTest extends TestCase
         $result = new Result($query, $response);
 
         $event->setResult($result);
-        $this->assertEquals($result, $event->getResult());
+        $this->assertSame($result, $event->getResult());
     }
 }

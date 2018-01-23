@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component\Result\Spellcheck;
 
-use Solarium\Component\Result\Spellcheck\Collation;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Spellcheck\Collation;
 
 class CollationTest extends TestCase
 {
@@ -60,17 +59,17 @@ class CollationTest extends TestCase
 
     public function testGetQuery()
     {
-        $this->assertEquals($this->query, $this->result->getQuery());
+        $this->assertSame($this->query, $this->result->getQuery());
     }
 
     public function testGetHits()
     {
-        $this->assertEquals($this->hits, $this->result->getHits());
+        $this->assertSame($this->hits, $this->result->getHits());
     }
 
     public function testGetCorrections()
     {
-         $this->assertEquals($this->corrections, $this->result->getCorrections());
+         $this->assertSame($this->corrections, $this->result->getCorrections());
     }
 
     public function testIterator()
@@ -80,11 +79,11 @@ class CollationTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->corrections, $items);
+        $this->assertSame($this->corrections, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->corrections), count($this->result));
+        $this->assertSame(count($this->corrections), count($this->result));
     }
 }

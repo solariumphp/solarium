@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\Component;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Spellcheck;
 use Solarium\QueryType\Select\Query\Query;
-
-use PHPUnit\Framework\TestCase;
 
 class SpellcheckTest extends TestCase
 {
@@ -52,7 +51,7 @@ class SpellcheckTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_SPELLCHECK, $this->spellCheck->getType());
+        $this->assertSame(ComponentAwareQueryInterface::COMPONENT_SPELLCHECK, $this->spellCheck->getType());
     }
 
     public function testGetResponseParser()
@@ -76,7 +75,7 @@ class SpellcheckTest extends TestCase
         $value = 'testquery';
         $this->spellCheck->setQuery($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getQuery()
         );
@@ -85,7 +84,7 @@ class SpellcheckTest extends TestCase
     public function testSetAndGetQueryWithBind()
     {
         $this->spellCheck->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->spellCheck->getQuery());
+        $this->assertSame('id:678', $this->spellCheck->getQuery());
     }
 
     public function testSetAndGetBuild()
@@ -93,7 +92,7 @@ class SpellcheckTest extends TestCase
         $value = true;
         $this->spellCheck->setBuild($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getBuild()
         );
@@ -104,7 +103,7 @@ class SpellcheckTest extends TestCase
         $value = false;
         $this->spellCheck->setReload($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getReload()
         );
@@ -115,7 +114,7 @@ class SpellcheckTest extends TestCase
         $value = 'myDictionary';
         $this->spellCheck->setDictionary($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getDictionary()
         );
@@ -126,7 +125,7 @@ class SpellcheckTest extends TestCase
         $value = 11;
         $this->spellCheck->setCount($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getCount()
         );
@@ -137,7 +136,7 @@ class SpellcheckTest extends TestCase
         $value = false;
         $this->spellCheck->setOnlyMorePopular($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getOnlyMorePopular()
         );
@@ -148,7 +147,7 @@ class SpellcheckTest extends TestCase
         $value = false;
         $this->spellCheck->setExtendedResults($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getExtendedResults()
         );
@@ -159,7 +158,7 @@ class SpellcheckTest extends TestCase
         $value = false;
         $this->spellCheck->setCollate($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getCollate()
         );
@@ -170,7 +169,7 @@ class SpellcheckTest extends TestCase
         $value = 23;
         $this->spellCheck->setMaxCollations($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getMaxCollations()
         );
@@ -181,7 +180,7 @@ class SpellcheckTest extends TestCase
         $value = 10;
         $this->spellCheck->setMaxCollationTries($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getMaxCollationTries()
         );
@@ -192,7 +191,7 @@ class SpellcheckTest extends TestCase
         $value = 10;
         $this->spellCheck->setMaxCollationEvaluations($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getMaxCollationEvaluations()
         );
@@ -203,7 +202,7 @@ class SpellcheckTest extends TestCase
         $value = true;
         $this->spellCheck->setCollateExtendedResults($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getCollateExtendedResults()
         );
@@ -214,7 +213,7 @@ class SpellcheckTest extends TestCase
         $value = .1;
         $this->spellCheck->setAccuracy($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spellCheck->getAccuracy()
         );
@@ -222,7 +221,7 @@ class SpellcheckTest extends TestCase
 
     public function testSetAndGetCollateParams()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->spellCheck,
             $this->spellCheck->setCollateParam('mm', '100%')
         );
@@ -230,6 +229,6 @@ class SpellcheckTest extends TestCase
         $params = $this->spellCheck->getCollateParams();
 
         $this->assertArrayHasKey('mm', $params);
-        $this->assertEquals('100%', $params['mm']);
+        $this->assertSame('100%', $params['mm']);
     }
 }

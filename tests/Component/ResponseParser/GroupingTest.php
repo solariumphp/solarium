@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\Component\ResponseParser;
 
-use Solarium\Component\Grouping as Component;
-use Solarium\Component\Result\Grouping\Result as Result;
-use Solarium\Component\ResponseParser\Grouping as Parser;
-use Solarium\QueryType\Select\Query\Query;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Grouping as Component;
+use Solarium\Component\ResponseParser\Grouping as Parser;
+use Solarium\Component\Result\Grouping\Result as Result;
+use Solarium\QueryType\Select\Query\Query;
 
 class GroupingTest extends TestCase
 {
@@ -119,15 +118,15 @@ class GroupingTest extends TestCase
 
     public function testGroupParsing()
     {
-        $this->assertEquals(3, count($this->result->getGroups()));
+        $this->assertSame(3, count($this->result->getGroups()));
 
         $fieldGroup = $this->result->getGroup('fieldA');
         $queryGroup = $this->result->getGroup('cat:1');
         $functionGroup = $this->result->getGroup('functionF');
 
-        $this->assertEquals('Solarium\Component\Result\Grouping\FieldGroup', get_class($fieldGroup));
-        $this->assertEquals('Solarium\Component\Result\Grouping\QueryGroup', get_class($queryGroup));
-        $this->assertEquals('Solarium\Component\Result\Grouping\FieldGroup', get_class($functionGroup));
+        $this->assertSame('Solarium\Component\Result\Grouping\FieldGroup', get_class($fieldGroup));
+        $this->assertSame('Solarium\Component\Result\Grouping\QueryGroup', get_class($queryGroup));
+        $this->assertSame('Solarium\Component\Result\Grouping\FieldGroup', get_class($functionGroup));
     }
 
     public function testFieldGroupParsing()
@@ -135,32 +134,32 @@ class GroupingTest extends TestCase
         $fieldGroup = $this->result->getGroup('fieldA');
         $valueGroups = $fieldGroup->getValueGroups();
 
-        $this->assertEquals(25, $fieldGroup->getMatches());
-        $this->assertEquals(12, $fieldGroup->getNumberOfGroups());
-        $this->assertEquals(1, count($valueGroups));
+        $this->assertSame(25, $fieldGroup->getMatches());
+        $this->assertSame(12, $fieldGroup->getNumberOfGroups());
+        $this->assertSame(1, count($valueGroups));
 
         $valueGroup = $valueGroups[0];
-        $this->assertEquals(13, $valueGroup->getNumFound());
+        $this->assertSame(13, $valueGroup->getNumFound());
 
         $docs = $valueGroup->getDocuments();
-        $this->assertEquals('test', $docs[0]->name);
+        $this->assertSame('test', $docs[0]->name);
     }
 
     public function testQueryGroupParsing()
     {
         $queryGroup = $this->result->getGroup('cat:1');
 
-        $this->assertEquals(40, $queryGroup->getMatches());
-        $this->assertEquals(22, $queryGroup->getNumFound());
+        $this->assertSame(40, $queryGroup->getMatches());
+        $this->assertSame(22, $queryGroup->getNumFound());
 
         $docs = $queryGroup->getDocuments();
-        $this->assertEquals('dummy5', $docs[1]->name);
+        $this->assertSame('dummy5', $docs[1]->name);
     }
 
     public function testParseNoData()
     {
         $result = $this->parser->parse($this->query, $this->grouping, array());
-        $this->assertEquals(array(), $result->getGroups());
+        $this->assertSame(array(), $result->getGroups());
     }
 
     public function testParseMissingGroupField()
@@ -205,15 +204,15 @@ class GroupingTest extends TestCase
         $fieldGroup = $this->result->getGroup('functionF');
         $valueGroups = $fieldGroup->getValueGroups();
 
-        $this->assertEquals(8, $fieldGroup->getMatches());
-        $this->assertEquals(3, $fieldGroup->getNumberOfGroups());
-        $this->assertEquals(1, count($valueGroups));
+        $this->assertSame(8, $fieldGroup->getMatches());
+        $this->assertSame(3, $fieldGroup->getNumberOfGroups());
+        $this->assertSame(1, count($valueGroups));
 
         $valueGroup = $valueGroups[0];
-        $this->assertEquals(5, $valueGroup->getNumFound());
+        $this->assertSame(5, $valueGroup->getNumFound());
 
         $docs = $valueGroup->getDocuments();
-        $this->assertEquals('fun', $docs[0]->name);
+        $this->assertSame('fun', $docs[0]->name);
     }
 
     public function testsParseWithSimpleFormat()
@@ -241,14 +240,14 @@ class GroupingTest extends TestCase
         $fieldGroup = $result->getGroup('fieldA');
         $valueGroups = $fieldGroup->getValueGroups();
 
-        $this->assertEquals(25, $fieldGroup->getMatches());
-        $this->assertEquals(12, $fieldGroup->getNumberOfGroups());
-        $this->assertEquals(1, count($valueGroups));
+        $this->assertSame(25, $fieldGroup->getMatches());
+        $this->assertSame(12, $fieldGroup->getNumberOfGroups());
+        $this->assertSame(1, count($valueGroups));
 
         $valueGroup = $valueGroups[0];
-        $this->assertEquals(13, $valueGroup->getNumFound());
+        $this->assertSame(13, $valueGroup->getNumFound());
 
         $docs = $valueGroup->getDocuments();
-        $this->assertEquals('test2', $docs[1]->name);
+        $this->assertSame('test2', $docs[1]->name);
     }
 }

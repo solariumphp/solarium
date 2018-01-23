@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Highlighting;
 
-use Solarium\Component\Result\Highlighting\Result;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Highlighting\Result;
 
 class ResultTest extends TestCase
 {
@@ -56,12 +55,12 @@ class ResultTest extends TestCase
 
     public function testGetFields()
     {
-         $this->assertEquals($this->fields, $this->result->getFields());
+         $this->assertSame($this->fields, $this->result->getFields());
     }
 
     public function testGetField()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->fields['field2'],
             $this->result->getField('field2')
         );
@@ -69,7 +68,7 @@ class ResultTest extends TestCase
 
     public function testGetInvalidField()
     {
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->result->getField('invalid')
         );
@@ -82,11 +81,11 @@ class ResultTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->fields, $items);
+        $this->assertSame($this->fields, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->fields), count($this->result));
+        $this->assertSame(count($this->fields), count($this->result));
     }
 }

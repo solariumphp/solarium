@@ -2,13 +2,11 @@
 
 namespace Solarium\Tests\Integration\TechproductsAdapters;
 
-use Solarium\Tests\Integration\AbstractTechproductsTest;
-
 use Solarium\Core\Client\Adapter\PeclHttp;
+use Solarium\Tests\Integration\AbstractTechproductsTest;
 
 class TechproductsPeclHttpTestTest extends AbstractTechproductsTest
 {
-
     public function setUp()
     {
         if (!function_exists('http_get')) {
@@ -19,5 +17,4 @@ class TechproductsPeclHttpTestTest extends AbstractTechproductsTest
             $this->client->setAdapter(new PeclHttp(array('timeout' => 10)));
         }
     }
-
 }

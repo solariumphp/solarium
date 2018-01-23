@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
 
-use Solarium\Component\Result\Grouping\FieldGroup;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Grouping\FieldGroup;
 
 class FieldGroupTest extends TestCase
 {
@@ -61,7 +60,7 @@ class FieldGroupTest extends TestCase
 
     public function testGetMatches()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->matches,
             $this->group->getMatches()
         );
@@ -69,7 +68,7 @@ class FieldGroupTest extends TestCase
 
     public function testGetNumberOfGroups()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->numberOfGroups,
             $this->group->getNumberOfGroups()
         );
@@ -82,11 +81,11 @@ class FieldGroupTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->items, $items);
+        $this->assertSame($this->items, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->items), count($this->group));
+        $this->assertSame(count($this->items), count($this->group));
     }
 }

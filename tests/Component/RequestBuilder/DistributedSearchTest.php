@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\Component\RequestBuilder;
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\RequestBuilder\DistributedSearch as RequestBuilder;
 use Solarium\Component\DistributedSearch as Component;
+use Solarium\Component\RequestBuilder\DistributedSearch as RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class DistributedSearchTest extends TestCase
@@ -54,7 +54,7 @@ class DistributedSearchTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'shards.qt' => 'dummy',
                 'shards' => 'localhost:8983/solr/shard1,localhost:8983/solr/shard2,localhost:8983/solr/shard3',
@@ -80,7 +80,7 @@ class DistributedSearchTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(array('collection' => $url.'1,'.$url.'2,'.$url.'3'), $request->getParams());
+        $this->assertSame(array('collection' => $url.'1,'.$url.'2,'.$url.'3'), $request->getParams());
     }
 
     public function testBuildComponentWithReplicas()
@@ -100,10 +100,8 @@ class DistributedSearchTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(array('shards' => $url.'1|'.$url.'2|'.$url.'3'), $request->getParams());
+        $this->assertSame(array('shards' => $url.'1|'.$url.'2|'.$url.'3'), $request->getParams());
     }
-
-
 
     public function testBuildComponentWithReplicasAndShard()
     {
@@ -123,6 +121,6 @@ class DistributedSearchTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(array('shards' => 'localhost:8983/solr/shard1,'.$url.'2|'.$url.'3'), $request->getParams());
+        $this->assertSame(array('shards' => 'localhost:8983/solr/shard1,'.$url.'2|'.$url.'3'), $request->getParams());
     }
 }

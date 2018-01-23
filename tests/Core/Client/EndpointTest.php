@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Core\Client;
 
-use Solarium\Core\Client\Endpoint;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Endpoint;
 
 class EndpointTest extends TestCase
 {
@@ -63,70 +62,70 @@ class EndpointTest extends TestCase
 
         $options['path'] = '/mysolr'; //expected trimming of trailing slash
 
-        $this->assertEquals($options, $this->endpoint->getOptions());
+        $this->assertSame($options, $this->endpoint->getOptions());
     }
 
     public function testSetAndGetHost()
     {
         $this->endpoint->setHost('myhost');
-        $this->assertEquals('myhost', $this->endpoint->getHost());
+        $this->assertSame('myhost', $this->endpoint->getHost());
     }
 
     public function testSetAndGetPort()
     {
         $this->endpoint->setPort(8080);
-        $this->assertEquals(8080, $this->endpoint->getPort());
+        $this->assertSame(8080, $this->endpoint->getPort());
     }
 
     public function testSetAndGetPath()
     {
         $this->endpoint->setPath('/mysolr');
-        $this->assertEquals('/mysolr', $this->endpoint->getPath());
+        $this->assertSame('/mysolr', $this->endpoint->getPath());
     }
 
     public function testSetAndGetPathWithTrailingSlash()
     {
         $this->endpoint->setPath('/mysolr/');
-        $this->assertEquals('/mysolr', $this->endpoint->getPath());
+        $this->assertSame('/mysolr', $this->endpoint->getPath());
     }
 
     public function testSetAndGetCore()
     {
         $this->endpoint->setCore('core1');
-        $this->assertEquals('core1', $this->endpoint->getCore());
+        $this->assertSame('core1', $this->endpoint->getCore());
     }
 
     public function testSetAndGetTimeout()
     {
         $this->endpoint->setTimeout(7);
-        $this->assertEquals(7, $this->endpoint->getTimeout());
+        $this->assertSame(7, $this->endpoint->getTimeout());
     }
 
     public function testSetAndGetScheme()
     {
         $this->endpoint->setScheme('https');
-        $this->assertEquals('https', $this->endpoint->getScheme());
+        $this->assertSame('https', $this->endpoint->getScheme());
     }
 
     public function testGetBaseUri()
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
 
-        $this->assertEquals('http://myserver:123/mypath/', $this->endpoint->getBaseUri());
+        $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getBaseUri());
     }
 
     public function testGetBaseUriWithHttps()
     {
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123);
 
-        $this->assertEquals('https://myserver:123/mypath/', $this->endpoint->getBaseUri());
+        $this->assertSame('https://myserver:123/mypath/', $this->endpoint->getBaseUri());
     }
 
     public function testGetBaseUriWithCore()
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('mycore');
 
-        $this->assertEquals('http://myserver:123/mypath/mycore/', $this->endpoint->getBaseUri());
+        $this->assertSame('http://myserver:123/mypath/mycore/', $this->endpoint->getBaseUri());
     }
 
     public function testGetAndSetAuthentication()
@@ -136,7 +135,7 @@ class EndpointTest extends TestCase
 
         $this->endpoint->setAuthentication($user, $pass);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'username' => $user,
                 'password' => $pass,
@@ -174,6 +173,6 @@ authentication: Array
 
 EOF;
 
-        $this->assertEquals($endpoint, (string) $this->endpoint);
+        $this->assertSame($endpoint, (string) $this->endpoint);
     }
 }

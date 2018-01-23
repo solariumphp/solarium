@@ -31,11 +31,11 @@
 
 namespace Solarium\Tests\QueryType\Select\Result;
 
-use Solarium\Component\ComponentAwareQueryInterface;
-use Solarium\QueryType\Select\Result\Document;
-use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Result\Result;
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Select\Result\Result;
 
 abstract class AbstractResultTest extends TestCase
 {
@@ -89,37 +89,37 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetNumFound()
     {
-        $this->assertEquals($this->numFound, $this->result->getNumFound());
+        $this->assertSame($this->numFound, $this->result->getNumFound());
     }
 
     public function testGetMaxScore()
     {
-        $this->assertEquals($this->maxScore, $this->result->getMaxScore());
+        $this->assertSame($this->maxScore, $this->result->getMaxScore());
     }
 
     public function testGetDocuments()
     {
-        $this->assertEquals($this->docs, $this->result->getDocuments());
+        $this->assertSame($this->docs, $this->result->getDocuments());
     }
 
     public function testGetFacetSet()
     {
-        $this->assertEquals($this->facetSet, $this->result->getFacetSet());
+        $this->assertSame($this->facetSet, $this->result->getFacetSet());
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->docs), count($this->result));
+        $this->assertSame(count($this->docs), count($this->result));
     }
 
     public function testGetComponents()
     {
-        $this->assertEquals($this->components, $this->result->getComponents());
+        $this->assertSame($this->components, $this->result->getComponents());
     }
 
     public function testGetComponent()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS],
             $this->result->getComponent(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS)
         );
@@ -127,7 +127,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetInvalidComponent()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->result->getComponent('invalid')
         );
@@ -135,7 +135,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetMoreLikeThis()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS],
             $this->result->getMoreLikeThis()
         );
@@ -143,7 +143,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetHighlighting()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING],
             $this->result->getHighlighting()
         );
@@ -151,7 +151,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetGrouping()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_GROUPING],
             $this->result->getGrouping()
         );
@@ -159,7 +159,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetSpellcheck()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_SPELLCHECK],
             $this->result->getSpellcheck()
         );
@@ -167,7 +167,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetStats()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_STATS],
             $this->result->getStats()
         );
@@ -175,7 +175,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetDebug()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_DEBUG],
             $this->result->getDebug()
         );
@@ -188,12 +188,12 @@ abstract class AbstractResultTest extends TestCase
             $docs[$key] = $doc;
         }
 
-        $this->assertEquals($this->docs, $docs);
+        $this->assertSame($this->docs, $docs);
     }
 
     public function testGetStatus()
     {
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $this->result->getStatus()
         );
@@ -201,7 +201,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetQueryTime()
     {
-        $this->assertEquals(
+        $this->assertSame(
             12,
             $this->result->getQueryTime()
         );

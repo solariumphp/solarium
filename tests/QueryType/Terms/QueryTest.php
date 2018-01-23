@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Terms;
 
-use Solarium\QueryType\Terms\Query;
-use Solarium\Core\Client\Client;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\Terms\Query;
 
 class QueryTest extends TestCase
 {
@@ -50,7 +49,7 @@ class QueryTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_TERMS, $this->query->getType());
+        $this->assertSame(Client::QUERY_TERMS, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -66,90 +65,90 @@ class QueryTest extends TestCase
     public function testSetAndGetFields()
     {
         $this->query->setFields('fieldA,fieldB');
-        $this->assertEquals(array('fieldA', 'fieldB'), $this->query->getFields());
+        $this->assertSame(array('fieldA', 'fieldB'), $this->query->getFields());
     }
 
     public function testSetAndGetFieldsWithArray()
     {
         $this->query->setFields(array('fieldA', 'fieldB'));
-        $this->assertEquals(array('fieldA', 'fieldB'), $this->query->getFields());
+        $this->assertSame(array('fieldA', 'fieldB'), $this->query->getFields());
     }
 
     public function testSetAndGetLowerbound()
     {
         $this->query->setLowerbound('f');
-        $this->assertEquals('f', $this->query->getLowerbound());
+        $this->assertSame('f', $this->query->getLowerbound());
     }
 
     public function testSetAndGetLowerboundInclude()
     {
         $this->query->setLowerboundInclude(true);
-        $this->assertEquals(true, $this->query->getLowerboundInclude());
+        $this->assertSame(true, $this->query->getLowerboundInclude());
     }
 
     public function testSetAndGetMinCount()
     {
         $this->query->setMinCount(3);
-        $this->assertEquals(3, $this->query->getMinCount());
+        $this->assertSame(3, $this->query->getMinCount());
     }
 
     public function testSetAndGetMaxCount()
     {
         $this->query->setMaxCount(25);
-        $this->assertEquals(25, $this->query->getMaxCount());
+        $this->assertSame(25, $this->query->getMaxCount());
     }
 
     public function testSetAndGetPrefix()
     {
         $this->query->setPrefix('wat');
-        $this->assertEquals('wat', $this->query->getPrefix());
+        $this->assertSame('wat', $this->query->getPrefix());
     }
 
     public function testSetAndGetRegex()
     {
         $this->query->setRegex('at.*');
-        $this->assertEquals('at.*', $this->query->getRegex());
+        $this->assertSame('at.*', $this->query->getRegex());
     }
 
     public function testSetAndGetRegexFlags()
     {
         $this->query->setRegexFlags('case_insensitive,comments');
-        $this->assertEquals(array('case_insensitive', 'comments'), $this->query->getRegexFlags());
+        $this->assertSame(array('case_insensitive', 'comments'), $this->query->getRegexFlags());
     }
 
     public function testSetAndGetRegexFlagsWithArray()
     {
         $this->query->setRegexFlags(array('case_insensitive', 'comments'));
-        $this->assertEquals(array('case_insensitive', 'comments'), $this->query->getRegexFlags());
+        $this->assertSame(array('case_insensitive', 'comments'), $this->query->getRegexFlags());
     }
 
     public function testSetAndGetLimit()
     {
         $this->query->setLimit(15);
-        $this->assertEquals(15, $this->query->getLimit());
+        $this->assertSame(15, $this->query->getLimit());
     }
 
     public function testSetAndGetUpperbound()
     {
         $this->query->setUpperbound('x');
-        $this->assertEquals('x', $this->query->getUpperbound());
+        $this->assertSame('x', $this->query->getUpperbound());
     }
 
     public function testSetAndGetUpperboundInclude()
     {
         $this->query->setUpperboundInclude(true);
-        $this->assertEquals(true, $this->query->getUpperboundInclude());
+        $this->assertSame(true, $this->query->getUpperboundInclude());
     }
 
     public function testSetAndGetRaw()
     {
         $this->query->setRaw(false);
-        $this->assertEquals(false, $this->query->getRaw());
+        $this->assertSame(false, $this->query->getRaw());
     }
 
     public function testSetAndGetSort()
     {
         $this->query->setSort('index');
-        $this->assertEquals('index', $this->query->getSort());
+        $this->assertSame('index', $this->query->getSort());
     }
 }

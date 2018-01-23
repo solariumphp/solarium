@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Plugin\CustomizeRequest;
 
-use Solarium\Plugin\CustomizeRequest\Customization;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Plugin\CustomizeRequest\Customization;
 
 class CustomizationTest extends TestCase
 {
@@ -51,42 +50,42 @@ class CustomizationTest extends TestCase
     {
         $value = 'mykey';
         $this->instance->setKey($value);
-        $this->assertEquals($value, $this->instance->getKey());
+        $this->assertSame($value, $this->instance->getKey());
     }
 
     public function testSetAndGetName()
     {
         $value = 'myname';
         $this->instance->setName($value);
-        $this->assertEquals($value, $this->instance->getName());
+        $this->assertSame($value, $this->instance->getName());
     }
 
     public function testSetAndGetType()
     {
         $value = 'mytype';
         $this->instance->setType($value);
-        $this->assertEquals($value, $this->instance->getType());
+        $this->assertSame($value, $this->instance->getType());
     }
 
     public function testSetAndGetValue()
     {
         $value = 'myvalue';
         $this->instance->setValue($value);
-        $this->assertEquals($value, $this->instance->getValue());
+        $this->assertSame($value, $this->instance->getValue());
     }
 
     public function testSetAndGetPersistence()
     {
         $value = true;
         $this->instance->setPersistent($value);
-        $this->assertEquals($value, $this->instance->getPersistent());
+        $this->assertSame($value, $this->instance->getPersistent());
     }
 
     public function testSetAndGetOverwrite()
     {
         $value = false;
         $this->instance->setOverwrite($value);
-        $this->assertEquals($value, $this->instance->getOverwrite());
+        $this->assertSame($value, $this->instance->getOverwrite());
     }
 
     public function testIsValid()

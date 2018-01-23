@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 
-use Solarium\Plugin\BufferedAdd\Event\PreFlush;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush;
 
 class PreFlushTest extends TestCase
 {
@@ -45,9 +44,9 @@ class PreFlushTest extends TestCase
 
         $event = new PreFlush($buffer, $overwrite, $commitWithin);
 
-        $this->assertEquals($buffer, $event->getBuffer());
-        $this->assertEquals($overwrite, $event->getOverwrite());
-        $this->assertEquals($commitWithin, $event->getCommitWithin());
+        $this->assertSame($buffer, $event->getBuffer());
+        $this->assertSame($overwrite, $event->getOverwrite());
+        $this->assertSame($commitWithin, $event->getCommitWithin());
 
         return $event;
     }
@@ -61,7 +60,7 @@ class PreFlushTest extends TestCase
     {
         $buffer = array(4, 5, 6);
         $event->setBuffer($buffer);
-        $this->assertEquals($buffer, $event->getBuffer());
+        $this->assertSame($buffer, $event->getBuffer());
     }
 
     /**
@@ -73,7 +72,7 @@ class PreFlushTest extends TestCase
     {
         $commitWithin = 321;
         $event->setCommitWithin($commitWithin);
-        $this->assertEquals($commitWithin, $event->getCommitWithin());
+        $this->assertSame($commitWithin, $event->getCommitWithin());
     }
 
     /**
@@ -85,6 +84,6 @@ class PreFlushTest extends TestCase
     {
         $overwrite = false;
         $event->setOverwrite($overwrite);
-        $this->assertEquals($overwrite, $event->getOverwrite());
+        $this->assertSame($overwrite, $event->getOverwrite());
     }
 }

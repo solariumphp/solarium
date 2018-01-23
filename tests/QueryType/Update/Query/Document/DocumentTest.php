@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Update\Query\Document;
 
-use Solarium\QueryType\Update\Query\Document\Document;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Update\Query\Document\Document;
 
 class DocumentTest extends TestCase
 {
@@ -61,17 +60,17 @@ class DocumentTest extends TestCase
         $doc = new Document($fields, $boosts, $modifiers);
         $doc->setKey('id');
 
-        $this->assertEquals(
+        $this->assertSame(
             $fields,
             $doc->getFields()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             2.7,
             $doc->getFieldBoost('name')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Document::MODIFIER_SET,
             $doc->getFieldModifier('name')
         );
@@ -84,7 +83,7 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         $expectedFields['myfield'] = 'myvalue';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -97,12 +96,12 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         $expectedFields['myfield'] = 'myvalue';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             2.3,
             $this->doc->getFieldBoost('myfield')
         );
@@ -115,7 +114,7 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         $expectedFields['myfield'] = 'myvalue';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -124,7 +123,7 @@ class DocumentTest extends TestCase
 
         $expectedFields['myfield'] = array('myvalue', 'mysecondvalue');
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -137,12 +136,12 @@ class DocumentTest extends TestCase
         $this->doc->addField('myfield', 'myvalue', null, Document::MODIFIER_ADD);
         $this->doc->addField('myfield', 'myvalue2', null, Document::MODIFIER_ADD);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('id' => 1, 'myfield' => array('myvalue', 'myvalue2')),
             $this->doc->getFields()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Document::MODIFIER_ADD,
             $this->doc->getFieldModifier('myfield')
         );
@@ -155,7 +154,7 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         $expectedFields['name'] = 'newname';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -167,12 +166,12 @@ class DocumentTest extends TestCase
         $this->doc->setKey('id', 1);
         $this->doc->setField('myfield', 'myvalue', null, Document::MODIFIER_ADD);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('id' => 1, 'myfield' => 'myvalue'),
             $this->doc->getFields()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Document::MODIFIER_ADD,
             $this->doc->getFieldModifier('myfield')
         );
@@ -186,7 +185,7 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         $expectedFields['name'] = $falsy_value;
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -199,7 +198,7 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         unset($expectedFields['name']);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -214,7 +213,7 @@ class DocumentTest extends TestCase
         $expectedFields['key'] = 123;
         $expectedFields['name'] = null;
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -227,7 +226,7 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         unset($expectedFields['name']);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -238,7 +237,7 @@ class DocumentTest extends TestCase
         $this->doc->setFieldBoost('name', 3.2);
         $this->doc->removeField('name');
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->doc->getFieldBoost('name')
         );
@@ -248,7 +247,7 @@ class DocumentTest extends TestCase
     {
         $this->doc->removeField('invalidname'); //should silently continue...
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->fields,
             $this->doc->getFields()
         );
@@ -257,7 +256,7 @@ class DocumentTest extends TestCase
     public function testSetAndGetFieldBoost()
     {
         $this->doc->setFieldBoost('name', 2.5);
-        $this->assertEquals(
+        $this->assertSame(
             2.5,
             $this->doc->getFieldBoost('name')
         );
@@ -267,7 +266,7 @@ class DocumentTest extends TestCase
     {
         $this->doc->setFieldBoost('name', 2.5);
         $this->doc->setFieldBoost('category', 1.5);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'name' => 2.5,
                 'category' => 1.5,
@@ -278,7 +277,7 @@ class DocumentTest extends TestCase
 
     public function testGetInvalidFieldBoost()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->doc->getFieldBoost('invalidname')
         );
@@ -287,7 +286,7 @@ class DocumentTest extends TestCase
     public function testSetAndGetBoost()
     {
         $this->doc->setBoost(2.5);
-        $this->assertEquals(
+        $this->assertSame(
             2.5,
             $this->doc->getBoost()
         );
@@ -297,7 +296,7 @@ class DocumentTest extends TestCase
     {
         $this->doc->name = 'new name';
 
-        $this->assertEquals(
+        $this->assertSame(
             'new name',
             $this->doc->name
         );
@@ -308,7 +307,7 @@ class DocumentTest extends TestCase
         $values = array('test1', 'test2', 'test3');
         $this->doc->multivaluefield = $values;
 
-        $this->assertEquals(
+        $this->assertSame(
             $values,
             $this->doc->multivaluefield
         );
@@ -319,7 +318,7 @@ class DocumentTest extends TestCase
         $values = array('test1', 'test2', 'test3');
         $this->doc->name = $values;
 
-        $this->assertEquals(
+        $this->assertSame(
             $values,
             $this->doc->name
         );
@@ -332,7 +331,7 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         unset($expectedFields['name']);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -345,7 +344,7 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         $expectedFields['name'] = 'newname';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -358,7 +357,7 @@ class DocumentTest extends TestCase
         $expectedFields = $this->fields;
         unset($expectedFields['name']);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -370,7 +369,7 @@ class DocumentTest extends TestCase
 
         $expectedFields = array();
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -381,7 +380,7 @@ class DocumentTest extends TestCase
         $this->doc->setFieldBoost('name', 3.2);
         $this->doc->clear();
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->doc->getFieldBoost('name')
         );
@@ -391,12 +390,12 @@ class DocumentTest extends TestCase
     {
         $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
 
-        $this->assertEquals(
+        $this->assertSame(
             Document::MODIFIER_ADD,
             $this->doc->getFieldModifier('name')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->doc->getFieldModifier('non-existing-field')
         );
@@ -407,7 +406,7 @@ class DocumentTest extends TestCase
         $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
         $this->doc->clear();
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->doc->getFieldBoost('name')
         );
@@ -425,7 +424,7 @@ class DocumentTest extends TestCase
         $this->doc->setKey('id', 1);
         $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('id' => 1, 'name' => 'newname'),
             $this->doc->getFields()
         );
@@ -443,19 +442,19 @@ class DocumentTest extends TestCase
 
     public function testSetAndGetVersion()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->doc->getVersion()
         );
 
         $this->doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
-        $this->assertEquals(
+        $this->assertSame(
             Document::VERSION_MUST_NOT_EXIST,
             $this->doc->getVersion()
         );
 
         $this->doc->setVersion(234);
-        $this->assertEquals(
+        $this->assertSame(
             234,
             $this->doc->getVersion()
         );
@@ -465,7 +464,7 @@ class DocumentTest extends TestCase
     {
         $this->doc->setField('foo', 'bar' . chr(15));
 
-        $this->assertEquals('bar ', $this->doc->foo);
+        $this->assertSame('bar ', $this->doc->foo);
     }
 
     public function testEscapeByDefaultAddField()
@@ -473,7 +472,7 @@ class DocumentTest extends TestCase
         $this->doc->setField('foo', 'bar' . chr(15));
         $this->doc->addField('foo', 'bar' . chr(15) . chr(8));
 
-        $this->assertEquals(array('bar ', 'bar  '), $this->doc->foo);
+        $this->assertSame(array('bar ', 'bar  '), $this->doc->foo);
     }
 
     public function testNoEscapeSetField()
@@ -481,7 +480,7 @@ class DocumentTest extends TestCase
         $this->doc->setFilterControlCharacters(false);
         $this->doc->setField('foo', $value = 'bar' . chr(15));
 
-        $this->assertEquals($value, $this->doc->foo);
+        $this->assertSame($value, $this->doc->foo);
     }
 
     public function testNoEscapeAddField()
@@ -490,6 +489,6 @@ class DocumentTest extends TestCase
         $this->doc->setField('foo', $value1 = 'bar' . chr(15));
         $this->doc->addField('foo', $value2 = 'bar' . chr(15) . chr(8));
 
-        $this->assertEquals(array($value1, $value2), $this->doc->foo);
+        $this->assertSame(array($value1, $value2), $this->doc->foo);
     }
 }

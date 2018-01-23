@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component\Result\Debug;
 
-use Solarium\Component\Result\Debug\Document;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Debug\Document;
 
 class DocumentTest extends TestCase
 {
@@ -67,12 +66,12 @@ class DocumentTest extends TestCase
 
     public function testGetKey()
     {
-         $this->assertEquals($this->key, $this->result->getKey());
+         $this->assertSame($this->key, $this->result->getKey());
     }
 
     public function testGetDetails()
     {
-         $this->assertEquals($this->details, $this->result->getDetails());
+         $this->assertSame($this->details, $this->result->getDetails());
     }
 
     public function testIterator()
@@ -82,11 +81,11 @@ class DocumentTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->details, $items);
+        $this->assertSame($this->details, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->details), count($this->result));
+        $this->assertSame(count($this->details), count($this->result));
     }
 }

@@ -31,10 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Terms;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Terms\Query;
 use Solarium\QueryType\Terms\ResponseParser;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Terms\Result;
 
 class ResponseParserTest extends TestCase
 {
@@ -64,7 +64,7 @@ class ResponseParserTest extends TestCase
         $query = new Query();
         $query->setFields('fieldA,fieldB');
 
-        $resultStub = $this->getMock('Solarium\QueryType\Terms\Result', array(), array(), '', false);
+        $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->any())
              ->method('getData')
              ->will($this->returnValue($data));
@@ -86,7 +86,7 @@ class ResponseParserTest extends TestCase
             )
         );
 
-        $this->assertEquals($expected, $result['results']);
+        $this->assertSame($expected, $result['results']);
         $this->assertCount(2, $result['results']);
     }
 
@@ -118,7 +118,7 @@ class ResponseParserTest extends TestCase
         $query = new Query();
         $query->setFields('fieldA,fieldB');
 
-        $resultStub = $this->getMock('Solarium\QueryType\Terms\Result', array(), array(), '', false);
+        $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->any())
              ->method('getData')
              ->will($this->returnValue($data));
@@ -140,7 +140,7 @@ class ResponseParserTest extends TestCase
             )
         );
 
-        $this->assertEquals($expected, $result['results']);
+        $this->assertSame($expected, $result['results']);
         $this->assertCount(2, $result['results']);
     }
 }

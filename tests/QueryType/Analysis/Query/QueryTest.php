@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Analysis\Query;
 
-use Solarium\QueryType\Analysis\Query\AbstractQuery;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Analysis\Query\AbstractQuery;
 
 class QueryTest extends TestCase
 {
@@ -49,13 +48,13 @@ class QueryTest extends TestCase
         $querystring = 'test query values';
 
         $this->query->setQuery($querystring);
-        $this->assertEquals($querystring, $this->query->getQuery());
+        $this->assertSame($querystring, $this->query->getQuery());
     }
 
     public function testSetAndGetQueryWithBind()
     {
         $this->query->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->query->getQuery());
+        $this->assertSame('id:678', $this->query->getQuery());
     }
 
     public function testSetAndGetShowMatch()
@@ -63,7 +62,7 @@ class QueryTest extends TestCase
         $show = true;
 
         $this->query->setShowMatch($show);
-        $this->assertEquals($show, $this->query->getShowMatch());
+        $this->assertSame($show, $this->query->getShowMatch());
     }
 }
 

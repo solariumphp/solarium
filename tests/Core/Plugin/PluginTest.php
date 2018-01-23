@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Core\Plugin;
 
-use Solarium\Core\Plugin\AbstractPlugin;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Plugin\AbstractPlugin;
 
 class PluginTest extends TestCase
 {
@@ -55,24 +54,24 @@ class PluginTest extends TestCase
 
     public function testConstructor()
     {
-        $this->assertEquals($this->client, $this->plugin->getClient());
-        $this->assertEquals($this->options, $this->plugin->getOptions());
+        $this->assertSame($this->client, $this->plugin->getClient());
+        $this->assertSame($this->options, $this->plugin->getOptions());
     }
 
     public function testEventHooksEmpty()
     {
         $this->markTestSkipped('This test is currently skipped for unknown reasons.');
 
-        $this->assertEquals(null, $this->plugin->preCreateRequest(null));
-        $this->assertEquals(null, $this->plugin->postCreateRequest(null, null));
-        $this->assertEquals(null, $this->plugin->preExecuteRequest(null));
-        $this->assertEquals(null, $this->plugin->postExecuteRequest(null, null));
-        $this->assertEquals(null, $this->plugin->preExecute(null));
-        $this->assertEquals(null, $this->plugin->postExecute(null, null));
-        $this->assertEquals(null, $this->plugin->preCreateResult(null, null));
-        $this->assertEquals(null, $this->plugin->postCreateResult(null, null, null));
-        $this->assertEquals(null, $this->plugin->preCreateQuery(null, null));
-        $this->assertEquals(null, $this->plugin->postCreateQuery(null, null, null));
+        $this->assertSame(null, $this->plugin->preCreateRequest(null));
+        $this->assertSame(null, $this->plugin->postCreateRequest(null, null));
+        $this->assertSame(null, $this->plugin->preExecuteRequest(null));
+        $this->assertSame(null, $this->plugin->postExecuteRequest(null, null));
+        $this->assertSame(null, $this->plugin->preExecute(null));
+        $this->assertSame(null, $this->plugin->postExecute(null, null));
+        $this->assertSame(null, $this->plugin->preCreateResult(null, null));
+        $this->assertSame(null, $this->plugin->postCreateResult(null, null, null));
+        $this->assertSame(null, $this->plugin->preCreateQuery(null, null));
+        $this->assertSame(null, $this->plugin->postCreateQuery(null, null, null));
     }
 }
 

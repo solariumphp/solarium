@@ -6,7 +6,6 @@ use Solarium\Tests\Integration\AbstractTechproductsTest;
 
 class TechproductsGuzzleTest extends AbstractTechproductsTest
 {
-
     public function setUp()
     {
         if (!class_exists('\\GuzzleHttp\\Client')) {
@@ -17,5 +16,4 @@ class TechproductsGuzzleTest extends AbstractTechproductsTest
             $this->client->setAdapter('Solarium\Core\Client\Adapter\Guzzle3');
         }
     }
-
 }

@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\Core\Event;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Request;
 use Solarium\Core\Event\PostCreateRequest;
 use Solarium\QueryType\Select\Query\Query;
-use Solarium\Core\Client\Request;
-
-use PHPUnit\Framework\TestCase;
 
 class PostCreateRequestTest extends TestCase
 {
@@ -48,7 +47,7 @@ class PostCreateRequestTest extends TestCase
 
         $event = new PostCreateRequest($query, $request);
 
-        $this->assertEquals($query, $event->getQuery());
-        $this->assertEquals($request, $event->getRequest());
+        $this->assertSame($query, $event->getQuery());
+        $this->assertSame($request, $event->getRequest());
     }
 }

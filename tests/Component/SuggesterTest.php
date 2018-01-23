@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\Component;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Suggester;
 use Solarium\QueryType\Select\Query\Query;
-
-use PHPUnit\Framework\TestCase;
 
 class SuggesterTest extends TestCase
 {
@@ -52,7 +51,7 @@ class SuggesterTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_SUGGESTER, $this->suggester->getType());
+        $this->assertSame(ComponentAwareQueryInterface::COMPONENT_SUGGESTER, $this->suggester->getType());
     }
 
     public function testGetResponseParser()
@@ -76,7 +75,7 @@ class SuggesterTest extends TestCase
         $value = 'testquery';
         $this->suggester->setQuery($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->suggester->getQuery()
         );
@@ -85,7 +84,7 @@ class SuggesterTest extends TestCase
     public function testSetAndGetQueryWithBind()
     {
         $this->suggester->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->suggester->getQuery());
+        $this->assertSame('id:678', $this->suggester->getQuery());
     }
 
     public function testSetAndGetContextFilterQuery()
@@ -93,7 +92,7 @@ class SuggesterTest extends TestCase
         $value = 'context filter query';
         $this->suggester->setContextFilterQuery($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->suggester->getContextFilterQuery()
         );
@@ -104,7 +103,7 @@ class SuggesterTest extends TestCase
         $value = true;
         $this->suggester->setBuild($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->suggester->getBuild()
         );
@@ -115,7 +114,7 @@ class SuggesterTest extends TestCase
         $value = false;
         $this->suggester->setReload($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->suggester->getReload()
         );
@@ -126,7 +125,7 @@ class SuggesterTest extends TestCase
         $value = 'myDictionary';
         $this->suggester->setDictionary($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->suggester->getDictionary()
         );
@@ -137,10 +136,9 @@ class SuggesterTest extends TestCase
         $value = 11;
         $this->suggester->setCount($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->suggester->getCount()
         );
     }
-
 }

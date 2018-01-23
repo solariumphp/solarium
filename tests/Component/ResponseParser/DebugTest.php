@@ -120,16 +120,16 @@ class DebugTest extends TestCase
         );
 
         $result = $this->parser->parse(null, null, $data);
-        $this->assertEquals('dummy-qs', $result->getQueryString());
-        $this->assertEquals('dummy-pq', $result->getParsedQuery());
-        $this->assertEquals('dummy-qp', $result->getQueryParser());
-        $this->assertEquals('dummy-oq', $result->getOtherQuery());
+        $this->assertSame('dummy-qs', $result->getQueryString());
+        $this->assertSame('dummy-pq', $result->getParsedQuery());
+        $this->assertSame('dummy-qp', $result->getQueryParser());
+        $this->assertSame('dummy-oq', $result->getOtherQuery());
 
         $this->assertCount(1, $result->getExplain());
         $doc = $result->getExplain()->getDocument('MA147LL/A');
-        $this->assertEquals(0.5, $doc->getValue());
-        $this->assertEquals(true, $doc->getMatch());
-        $this->assertEquals('fieldWeight(text:ipod in 5), product of:', $doc->getDescription());
+        $this->assertSame(0.5, $doc->getValue());
+        $this->assertSame(true, $doc->getMatch());
+        $this->assertSame('fieldWeight(text:ipod in 5), product of:', $doc->getDescription());
 
         $expectedDetail = new Detail(true, 0.5, 'sum of:');
         $expectedDetail->setSubDetails(
@@ -146,25 +146,25 @@ class DebugTest extends TestCase
                 )
             )
         );
-        $this->assertEquals(array($expectedDetail), $doc->getDetails());
+        $this->assertSame(array($expectedDetail), $doc->getDetails());
         $this->assertCount(1, $result->getExplainOther());
         $doc = $result->getExplainOther()->getDocument('IW-02');
-        $this->assertEquals(0.6, $doc->getValue());
-        $this->assertEquals(true, $doc->getMatch());
-        $this->assertEquals('fieldWeight(text:ipod in 6), product of:', $doc->getDescription());
-        $this->assertEquals(
+        $this->assertSame(0.6, $doc->getValue());
+        $this->assertSame(true, $doc->getMatch());
+        $this->assertSame('fieldWeight(text:ipod in 6), product of:', $doc->getDescription());
+        $this->assertSame(
             array(new Detail(true, 0.7, 'tf(termFreq(text:ipod)=1)')),
             $doc->getDetails()
         );
 
         $timing = $result->getTiming();
-        $this->assertEquals(36, $timing->getTime());
+        $this->assertSame(36, $timing->getTime());
         $this->assertCount(2, $timing->getPhases());
         $phase = $timing->getPhase('process');
-        $this->assertEquals(8, $phase->getTime());
+        $this->assertSame(8, $phase->getTime());
         $this->assertCount(2, $phase->getTimings());
-        $this->assertEquals(5, $phase->getTiming('org.apache.solr.handler.component.QueryComponent'));
-        $this->assertEquals(3, $phase->getTiming('org.apache.solr.handler.component.MoreLikeThisComponent'));
+        $this->assertSame(5, $phase->getTiming('org.apache.solr.handler.component.QueryComponent'));
+        $this->assertSame(3, $phase->getTiming('org.apache.solr.handler.component.MoreLikeThisComponent'));
     }
 
     public function testParseNoExplainData()
@@ -179,10 +179,10 @@ class DebugTest extends TestCase
         );
 
         $result = $this->parser->parse(null, null, $data);
-        $this->assertEquals('dummy-qs', $result->getQueryString());
-        $this->assertEquals('dummy-pq', $result->getParsedQuery());
-        $this->assertEquals('dummy-qp', $result->getQueryParser());
-        $this->assertEquals('dummy-oq', $result->getOtherQuery());
+        $this->assertSame('dummy-qs', $result->getQueryString());
+        $this->assertSame('dummy-pq', $result->getParsedQuery());
+        $this->assertSame('dummy-qp', $result->getQueryParser());
+        $this->assertSame('dummy-oq', $result->getOtherQuery());
 
         $this->assertCount(0, $result->getExplain());
         $this->assertCount(0, $result->getExplainOther());
@@ -191,6 +191,6 @@ class DebugTest extends TestCase
     public function testParseNoData()
     {
         $result = $this->parser->parse(null, null, array());
-        $this->assertEquals(null, $result);
+        $this->assertSame(null, $result);
     }
 }

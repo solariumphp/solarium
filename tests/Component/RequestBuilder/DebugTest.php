@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\Component\RequestBuilder;
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\RequestBuilder\Debug as RequestBuilder;
 use Solarium\Component\Debug as Component;
+use Solarium\Component\RequestBuilder\Debug as RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class DebugTest extends TestCase
@@ -47,7 +47,7 @@ class DebugTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'debugQuery' => 'true',
                 'debug.explain.structured' => 'true',
@@ -55,6 +55,5 @@ class DebugTest extends TestCase
             ),
             $request->getParams()
         );
-
     }
 }

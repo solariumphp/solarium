@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Analysis\Result;
 
-use Solarium\QueryType\Analysis\Result\Item;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Analysis\Result\Item;
 
 class ItemTest extends TestCase
 {
@@ -61,27 +60,27 @@ class ItemTest extends TestCase
 
     public function testGetText()
     {
-        $this->assertEquals($this->data['text'], $this->item->getText());
+        $this->assertSame($this->data['text'], $this->item->getText());
     }
 
     public function testGetStart()
     {
-        $this->assertEquals($this->data['start'], $this->item->getStart());
+        $this->assertSame($this->data['start'], $this->item->getStart());
     }
 
     public function testGetEnd()
     {
-        $this->assertEquals($this->data['end'], $this->item->getEnd());
+        $this->assertSame($this->data['end'], $this->item->getEnd());
     }
 
     public function testGetPosition()
     {
-        $this->assertEquals($this->data['position'], $this->item->getPosition());
+        $this->assertSame($this->data['position'], $this->item->getPosition());
     }
 
     public function testGetPositionHistory()
     {
-        $this->assertEquals($this->data['positionHistory'], $this->item->getPositionHistory());
+        $this->assertSame($this->data['positionHistory'], $this->item->getPositionHistory());
     }
 
     public function testGetPositionHistoryFallbackValue()
@@ -89,17 +88,17 @@ class ItemTest extends TestCase
         $data = $this->data;
         $data['positionHistory'] = '';
         $item = new Item($data);
-        $this->assertEquals(array(), $item->getPositionHistory());
+        $this->assertSame(array(), $item->getPositionHistory());
     }
 
     public function testGetRawText()
     {
-        $this->assertEquals($this->data['raw_text'], $this->item->getRawText());
+        $this->assertSame($this->data['raw_text'], $this->item->getRawText());
     }
 
     public function testGetType()
     {
-        $this->assertEquals($this->data['type'], $this->item->getType());
+        $this->assertSame($this->data['type'], $this->item->getType());
     }
 
     public function testGetRawTextEmpty()
@@ -113,11 +112,11 @@ class ItemTest extends TestCase
             'type' => '<dummytype>',
         );
         $item = new Item($data);
-        $this->assertEquals(null, $item->getRawText());
+        $this->assertSame(null, $item->getRawText());
     }
 
     public function testGetMatch()
     {
-        $this->assertEquals($this->data['match'], $this->item->getMatch());
+        $this->assertSame($this->data['match'], $this->item->getMatch());
     }
 }

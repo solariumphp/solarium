@@ -33,13 +33,12 @@ namespace Solarium\Tests\Core\Client\Adapter;
 
 use HttpRequest;
 use PHPUnit\Framework\MockObject\MockObject;
-use Solarium\Core\Client\Adapter\PeclHttp as PeclHttpAdapter;
-use Solarium\Core\Client\Adapter\PeclHttp;
-use Solarium\Core\Client\Request;
-use Solarium\Core\Client\Endpoint;
-use Solarium\Exception\ExceptionInterface;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Adapter\PeclHttp;
+use Solarium\Core\Client\Adapter\PeclHttp as PeclHttpAdapter;
+use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
+use Solarium\Exception\ExceptionInterface;
 
 class PeclHttpTest extends TestCase
 {
@@ -59,6 +58,9 @@ class PeclHttpTest extends TestCase
 
     /**
      * @dataProvider requestProvider
+     * @param mixed $request
+     * @param mixed $method
+     * @param mixed $support
      */
     public function testToHttpRequestWithMethod($request, $method, $support)
     {
@@ -66,7 +68,7 @@ class PeclHttpTest extends TestCase
 
         try {
             $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-            $this->assertEquals($httpRequest->getMethod(), $method);
+            $this->assertSame($httpRequest->getMethod(), $method);
         } catch (ExceptionInterface $e) {
             if ($support) {
                 $this->fail("Unsupport method: {$request->getMethod()}");
@@ -131,7 +133,7 @@ class PeclHttpTest extends TestCase
         $endpoint->setTimeout(10);
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'timeout' => 10,
                 'connecttimeout' => 10,
@@ -156,7 +158,7 @@ class PeclHttpTest extends TestCase
         $endpoint->setTimeout(10);
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 array(
                     'name' => 'content',
@@ -177,7 +179,7 @@ class PeclHttpTest extends TestCase
         $endpoint->setTimeout(10);
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'timeout' => 10,
                 'connecttimeout' => 10,
@@ -204,20 +206,24 @@ EOF;
         $request = new Request();
         $endpoint = new Endpoint();
 
-        $mockHttpRequest = $this->getMock('HttpRequest');
+        $mockHttpRequest = $this->createMock(HttpRequest::class);
         $mockHttpRequest->expects($this->once())
                         ->method('send')
                         ->will($this->returnValue(\HttpMessage::factory($data)));
-        $mock = $this->getMock('Solarium\Core\Client\Adapter\PeclHttp', array('toHttpRequest'));
+
+        /** @var PeclHttp|MockObject $mock */
+        $mock = $this->getMockBuilder(PeclHttp::class)
+            ->setMethods(array('toHttpRequest'))
+        ->getMock();
         $mock->expects($this->once())
              ->method('toHttpRequest')
              ->with($request, $endpoint)
              ->will($this->returnValue($mockHttpRequest));
 
         $response = $mock->execute($request, $endpoint);
-        $this->assertEquals($body, $response->getBody());
+        $this->assertSame($body, $response->getBody());
         $this->assertSame($statusCode, $response->getStatusCode());
-        $this->assertEquals($statusMessage, $response->getStatusMessage());
+        $this->assertSame($statusMessage, $response->getStatusMessage());
     }
 
     /**

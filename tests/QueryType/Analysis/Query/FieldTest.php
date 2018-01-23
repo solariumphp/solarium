@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Analysis\Query;
 
-use Solarium\QueryType\Analysis\Query\Field;
-use Solarium\Core\Client\Client;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\Analysis\Query\Field;
 
 class FieldTest extends TestCase
 {
@@ -50,7 +49,7 @@ class FieldTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_ANALYSIS_FIELD, $this->query->getType());
+        $this->assertSame(Client::QUERY_ANALYSIS_FIELD, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -67,20 +66,20 @@ class FieldTest extends TestCase
     {
         $data = 'testdata';
         $this->query->setFieldValue($data);
-        $this->assertEquals($data, $this->query->getFieldValue());
+        $this->assertSame($data, $this->query->getFieldValue());
     }
 
     public function testSetAndGetFieldType()
     {
         $data = 'testdata';
         $this->query->setFieldType($data);
-        $this->assertEquals($data, $this->query->getFieldType());
+        $this->assertSame($data, $this->query->getFieldType());
     }
 
     public function testSetAndGetFieldName()
     {
         $data = 'testdata';
         $this->query->setFieldName($data);
-        $this->assertEquals($data, $this->query->getFieldName());
+        $this->assertSame($data, $this->query->getFieldName());
     }
 }

@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\QueryType\Analysis\RequestBuilder;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\Analysis\Query\Document;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as DocumentBuilder;
-use Solarium\Core\Client\Request;
 use Solarium\QueryType\Update\Query\Document\Document as InputDocument;
-
-use PHPUnit\Framework\TestCase;
 
 class DocumentTest extends TestCase
 {
@@ -60,8 +59,8 @@ class DocumentTest extends TestCase
     {
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(Request::METHOD_POST, $request->getMethod());
-        $this->assertEquals($this->builder->getRawData($this->query), $request->getRawData());
+        $this->assertSame(Request::METHOD_POST, $request->getMethod());
+        $this->assertSame($this->builder->getRawData($this->query), $request->getRawData());
     }
 
     public function testGetRawData()
@@ -74,7 +73,7 @@ class DocumentTest extends TestCase
 
         $this->query->addDocuments(array($doc1, $doc2));
 
-        $this->assertEquals(
+        $this->assertSame(
             '<docs>'.
             '<doc>'.
             '<field name="id">1</field>'.

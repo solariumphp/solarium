@@ -31,10 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Analysis\ResponseParser;
 
-use Solarium\QueryType\Analysis\ResponseParser\Field as FieldParser;
-use Solarium\QueryType\Analysis\Query\Field as Query;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Query\Result\Result;
+use Solarium\QueryType\Analysis\Query\Field as Query;
+use Solarium\QueryType\Analysis\ResponseParser\Field as FieldParser;
 
 class FieldTest extends TestCase
 {
@@ -78,7 +78,7 @@ class FieldTest extends TestCase
             )
         );
 
-        $resultStub = $this->getMock('Solarium\Core\Query\Result\Result', array(), array(), '', false);
+        $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
              ->will($this->returnValue($data));
@@ -95,8 +95,8 @@ class FieldTest extends TestCase
         $class1items = $types[0]->getItems();
         $class2items = $types[1]->getItems();
 
-        $this->assertEquals('string value', $class1items[0]->getText());
-        $this->assertEquals('test2', $class2items[1]->getText());
+        $this->assertSame('string value', $class1items[0]->getText());
+        $this->assertSame('test2', $class2items[1]->getText());
     }
 
     public function testParseNoData()
@@ -108,7 +108,7 @@ class FieldTest extends TestCase
             )
         );
 
-        $resultStub = $this->getMock('Solarium\Core\Query\Result\Result', array(), array(), '', false);
+        $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
              ->will($this->returnValue($data));
@@ -116,7 +116,7 @@ class FieldTest extends TestCase
         $parser = new FieldParser();
         $result = $parser->parse($resultStub);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'status' => 1,
                 'queryTime' => 5,

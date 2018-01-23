@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\Component\Result\MoreLikeThis;
 
-use Solarium\QueryType\Select\Result\Document;
-use Solarium\Component\Result\MoreLikeThis\Result;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\MoreLikeThis\Result;
+use Solarium\QueryType\Select\Result\Document;
 
 class ResultTest extends TestCase
 {
@@ -55,17 +54,17 @@ class ResultTest extends TestCase
 
     public function testGetNumFound()
     {
-        $this->assertEquals(2, $this->mltResult->getNumFound());
+        $this->assertSame(2, $this->mltResult->getNumFound());
     }
 
     public function testGetMaximumScore()
     {
-        $this->assertEquals(5.13, $this->mltResult->getMaximumScore());
+        $this->assertSame(5.13, $this->mltResult->getMaximumScore());
     }
 
     public function testGetDocuments()
     {
-         $this->assertEquals($this->docs, $this->mltResult->getDocuments());
+         $this->assertSame($this->docs, $this->mltResult->getDocuments());
     }
 
     public function testIterator()
@@ -75,11 +74,11 @@ class ResultTest extends TestCase
             $docs[$key] = $doc;
         }
 
-        $this->assertEquals($this->docs, $docs);
+        $this->assertSame($this->docs, $docs);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->docs), count($this->mltResult));
+        $this->assertSame(count($this->docs), count($this->mltResult));
     }
 }

@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Analysis\RequestBuilder;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Analysis\Query\Field;
 use Solarium\QueryType\Analysis\RequestBuilder\RequestBuilder;
-
-use PHPUnit\Framework\TestCase;
 
 class RequestBuilderTest extends TestCase
 {
@@ -65,7 +64,7 @@ class RequestBuilderTest extends TestCase
                      ->setHandler($handler);
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'wt' => 'json',
                 'analysis.query' => $query,
@@ -76,6 +75,6 @@ class RequestBuilderTest extends TestCase
             $request->getParams()
         );
 
-        $this->assertEquals($handler, $request->getHandler());
+        $this->assertSame($handler, $request->getHandler());
     }
 }

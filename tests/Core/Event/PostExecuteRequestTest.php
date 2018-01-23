@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\Core\Event;
 
-use Solarium\Core\Event\PostExecuteRequest;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\Core\Event\PostExecuteRequest;
 
 class PostExecuteRequestTest extends TestCase
 {
@@ -50,8 +49,8 @@ class PostExecuteRequestTest extends TestCase
 
         $event = new PostExecuteRequest($request, $endpoint, $response);
 
-        $this->assertEquals($request, $event->getRequest());
-        $this->assertEquals($endpoint, $event->getEndpoint());
-        $this->assertEquals($response, $event->getResponse());
+        $this->assertSame($request, $event->getRequest());
+        $this->assertSame($endpoint, $event->getEndpoint());
+        $this->assertSame($response, $event->getResponse());
     }
 }

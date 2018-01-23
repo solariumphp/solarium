@@ -31,11 +31,11 @@
 
 namespace Solarium\Tests\QueryType\Select\Query;
 
-use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Query\FilterQuery;
-use Solarium\Core\Client\Client;
-use Solarium\Component\MoreLikeThis;
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\MoreLikeThis;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\Select\Query\FilterQuery;
+use Solarium\QueryType\Select\Query\Query;
 
 abstract class AbstractQueryTest extends TestCase
 {
@@ -46,7 +46,7 @@ abstract class AbstractQueryTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_SELECT, $this->query->getType());
+        $this->assertSame(Client::QUERY_SELECT, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -68,19 +68,19 @@ abstract class AbstractQueryTest extends TestCase
     public function testSetAndGetStart()
     {
         $this->query->setStart(234);
-        $this->assertEquals(234, $this->query->getStart());
+        $this->assertSame(234, $this->query->getStart());
     }
 
     public function testSetAndGetQueryWithTrim()
     {
         $this->query->setQuery(' *:* ');
-        $this->assertEquals('*:*', $this->query->getQuery());
+        $this->assertSame('*:*', $this->query->getQuery());
     }
 
     public function testSetAndGetQueryWithBind()
     {
         $this->query->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->query->getQuery());
+        $this->assertSame('id:678', $this->query->getQuery());
     }
 
     public function testSetAndGetQueryDefaultOperator()
@@ -88,7 +88,7 @@ abstract class AbstractQueryTest extends TestCase
         $value = Query::QUERY_OPERATOR_AND;
 
         $this->query->setQueryDefaultOperator($value);
-        $this->assertEquals($value, $this->query->getQueryDefaultOperator());
+        $this->assertSame($value, $this->query->getQueryDefaultOperator());
     }
 
     public function testSetAndGetQueryDefaultField()
@@ -96,25 +96,25 @@ abstract class AbstractQueryTest extends TestCase
         $value = 'mydefault';
 
         $this->query->setQueryDefaultField($value);
-        $this->assertEquals($value, $this->query->getQueryDefaultField());
+        $this->assertSame($value, $this->query->getQueryDefaultField());
     }
 
     public function testSetAndGetResultClass()
     {
         $this->query->setResultClass('MyResult');
-        $this->assertEquals('MyResult', $this->query->getResultClass());
+        $this->assertSame('MyResult', $this->query->getResultClass());
     }
 
     public function testSetAndGetDocumentClass()
     {
         $this->query->setDocumentClass('MyDocument');
-        $this->assertEquals('MyDocument', $this->query->getDocumentClass());
+        $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
     public function testSetAndGetRows()
     {
         $this->query->setRows(100);
-        $this->assertEquals(100, $this->query->getRows());
+        $this->assertSame(100, $this->query->getRows());
     }
 
     public function testAddField()
@@ -122,14 +122,14 @@ abstract class AbstractQueryTest extends TestCase
         $expectedFields = $this->query->getFields();
         $expectedFields[] = 'newfield';
         $this->query->addField('newfield');
-        $this->assertEquals($expectedFields, $this->query->getFields());
+        $this->assertSame($expectedFields, $this->query->getFields());
     }
 
     public function testClearFields()
     {
         $this->query->addField('newfield');
         $this->query->clearFields();
-        $this->assertEquals(array(), $this->query->getFields());
+        $this->assertSame(array(), $this->query->getFields());
     }
 
     public function testAddFields()
@@ -138,14 +138,14 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->clearFields();
         $this->query->addFields($fields);
-        $this->assertEquals($fields, $this->query->getFields());
+        $this->assertSame($fields, $this->query->getFields());
     }
 
     public function testAddFieldsAsStringWithTrim()
     {
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
-        $this->assertEquals(array('field1', 'field2'), $this->query->getFields());
+        $this->assertSame(array('field1', 'field2'), $this->query->getFields());
     }
 
     public function testRemoveField()
@@ -153,7 +153,7 @@ abstract class AbstractQueryTest extends TestCase
         $this->query->clearFields();
         $this->query->addFields(array('field1', 'field2'));
         $this->query->removeField('field1');
-        $this->assertEquals(array('field2'), $this->query->getFields());
+        $this->assertSame(array('field2'), $this->query->getFields());
     }
 
     public function testSetFields()
@@ -161,13 +161,13 @@ abstract class AbstractQueryTest extends TestCase
         $this->query->clearFields();
         $this->query->addFields(array('field1', 'field2'));
         $this->query->setFields(array('field3', 'field4'));
-        $this->assertEquals(array('field3', 'field4'), $this->query->getFields());
+        $this->assertSame(array('field3', 'field4'), $this->query->getFields());
     }
 
     public function testAddSort()
     {
         $this->query->addSort('field1', Query::SORT_DESC);
-        $this->assertEquals(
+        $this->assertSame(
             array('field1' => Query::SORT_DESC),
             $this->query->getSorts()
         );
@@ -181,7 +181,7 @@ abstract class AbstractQueryTest extends TestCase
         );
 
         $this->query->addSorts($sorts);
-        $this->assertEquals(
+        $this->assertSame(
             $sorts,
             $this->query->getSorts()
         );
@@ -196,7 +196,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->addSorts($sorts);
         $this->query->removeSort('field1');
-        $this->assertEquals(
+        $this->assertSame(
             array('field2' => Query::SORT_ASC),
             $this->query->getSorts()
         );
@@ -211,7 +211,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->addSorts($sorts);
         $this->query->removeSort('invalidfield'); //continue silently
-        $this->assertEquals(
+        $this->assertSame(
             $sorts,
             $this->query->getSorts()
         );
@@ -226,7 +226,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->addSorts($sorts);
         $this->query->clearSorts();
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->query->getSorts()
         );
@@ -241,7 +241,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->addSorts($sorts);
         $this->query->setSorts(array('field3' => Query::SORT_ASC));
-        $this->assertEquals(
+        $this->assertSame(
             array('field3' => Query::SORT_ASC),
             $this->query->getSorts()
         );
@@ -253,7 +253,7 @@ abstract class AbstractQueryTest extends TestCase
         $fq->setKey('fq1')->setQuery('category:1');
         $this->query->addFilterQuery($fq);
 
-        $this->assertEquals(
+        $this->assertSame(
             $fq,
             $this->query->getFilterQuery('fq1')
         );
@@ -266,12 +266,12 @@ abstract class AbstractQueryTest extends TestCase
         $fq = $this->query->createFilterQuery($key);
         $fq->setQuery('category:1');
 
-        $this->assertEquals(
+        $this->assertSame(
             $key,
             $fq->getKey()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $fq,
             $this->query->getFilterQuery('fq1')
         );
@@ -301,7 +301,7 @@ abstract class AbstractQueryTest extends TestCase
 
     public function testGetInvalidFilterQuery()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->query->getFilterQuery('invalidtag')
         );
@@ -318,7 +318,7 @@ abstract class AbstractQueryTest extends TestCase
         $filterQueries = array('fq1' => $fq1, 'fq2' => $fq2);
 
         $this->query->addFilterQueries($filterQueries);
-        $this->assertEquals(
+        $this->assertSame(
             $filterQueries,
             $this->query->getFilterQueries()
         );
@@ -336,7 +336,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->addFilterQueries($filterQueries);
         $this->query->removeFilterQuery('fq1');
-        $this->assertEquals(
+        $this->assertSame(
             array('fq2' => $fq2),
             $this->query->getFilterQueries()
         );
@@ -354,7 +354,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->addFilterQueries($filterQueries);
         $this->query->removeFilterQuery($fq1);
-        $this->assertEquals(
+        $this->assertSame(
             array('fq2' => $fq2),
             $this->query->getFilterQueries()
         );
@@ -372,7 +372,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->addFilterQueries($filterQueries);
         $this->query->removeFilterQuery('fq3'); //continue silently
-        $this->assertEquals(
+        $this->assertSame(
             $filterQueries,
             $this->query->getFilterQueries()
         );
@@ -390,7 +390,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->addFilterQueries($filterQueries);
         $this->query->clearFilterQueries();
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->query->getFilterQueries()
         );
@@ -418,7 +418,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->setFilterQueries($filterQueries2);
 
-        $this->assertEquals(
+        $this->assertSame(
             $filterQueries2,
             $this->query->getFilterQueries()
         );
@@ -450,22 +450,22 @@ abstract class AbstractQueryTest extends TestCase
         );
         $query = new Query($config);
 
-        $this->assertEquals($config['query'], $query->getQuery());
-        $this->assertEquals($config['sort'], $query->getSorts());
-        $this->assertEquals($config['fields'], $query->getFields());
-        $this->assertEquals($config['rows'], $query->getRows());
-        $this->assertEquals($config['start'], $query->getStart());
-        $this->assertEquals($config['documentclass'], $query->getDocumentClass());
-        $this->assertEquals($config['resultclass'], $query->getResultClass());
-        $this->assertEquals('published:true', $query->getFilterQuery('pub')->getQuery());
-        $this->assertEquals('online:true', $query->getFilterQuery('online')->getQuery());
+        $this->assertSame($config['query'], $query->getQuery());
+        $this->assertSame($config['sort'], $query->getSorts());
+        $this->assertSame($config['fields'], $query->getFields());
+        $this->assertSame($config['rows'], $query->getRows());
+        $this->assertSame($config['start'], $query->getStart());
+        $this->assertSame($config['documentclass'], $query->getDocumentClass());
+        $this->assertSame($config['resultclass'], $query->getResultClass());
+        $this->assertSame('published:true', $query->getFilterQuery('pub')->getQuery());
+        $this->assertSame('online:true', $query->getFilterQuery('online')->getQuery());
 
         $facets = $query->getFacetSet()->getFacets();
-        $this->assertEquals(
+        $this->assertSame(
             'category',
             $facets['categories']->getField()
         );
-        $this->assertEquals(
+        $this->assertSame(
             'category:13',
             $facets['category13']->getQuery()
         );
@@ -476,13 +476,13 @@ abstract class AbstractQueryTest extends TestCase
             array_pop($components),
             $this->isInstanceOf('Solarium\Component\FacetSet')
         );
-        $this->assertEquals(array('t1', 't2'), $query->getTags());
+        $this->assertSame(array('t1', 't2'), $query->getTags());
     }
 
     public function testConfigModeWithSingleValueTag()
     {
         $query = $query = new Query(array('tag' => 't1'));
-        $this->assertEquals(array('t1'), $query->getTags());
+        $this->assertSame(array('t1'), $query->getTags());
     }
 
     public function testSetAndGetComponents()
@@ -490,7 +490,7 @@ abstract class AbstractQueryTest extends TestCase
         $mlt = new MoreLikeThis;
         $this->query->setComponent('mlt', $mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('mlt' => $mlt),
             $this->query->getComponents()
         );
@@ -501,7 +501,7 @@ abstract class AbstractQueryTest extends TestCase
         $mlt = new MoreLikeThis;
         $this->query->setComponent('mlt', $mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             $mlt,
             $this->query->getComponent('mlt')
         );
@@ -512,7 +512,7 @@ abstract class AbstractQueryTest extends TestCase
         $mlt = new MoreLikeThis;
         $this->query->setComponent('mlt', $mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->query,
             $this->query->getComponent('mlt')->getQueryInstance()
         );
@@ -520,7 +520,7 @@ abstract class AbstractQueryTest extends TestCase
 
     public function testGetInvalidComponent()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->query->getComponent('invalid')
         );
@@ -537,14 +537,14 @@ abstract class AbstractQueryTest extends TestCase
         $mlt = new MoreLikeThis;
         $this->query->setComponent('mlt', $mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('mlt' => $mlt),
             $this->query->getComponents()
         );
 
         $this->query->removeComponent('mlt');
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->query->getComponents()
         );
@@ -555,14 +555,14 @@ abstract class AbstractQueryTest extends TestCase
         $mlt = new MoreLikeThis;
         $this->query->setComponent('mlt', $mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('mlt' => $mlt),
             $this->query->getComponents()
         );
 
         $this->query->removeComponent($mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->query->getComponents()
         );
@@ -572,7 +572,7 @@ abstract class AbstractQueryTest extends TestCase
     {
         $mlt = $this->query->getMoreLikeThis();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\MoreLikeThis',
             get_class($mlt)
         );
@@ -582,7 +582,7 @@ abstract class AbstractQueryTest extends TestCase
     {
         $dismax = $this->query->getDisMax();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\DisMax',
             get_class($dismax)
         );
@@ -592,7 +592,7 @@ abstract class AbstractQueryTest extends TestCase
     {
         $hlt = $this->query->getHighlighting();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Highlighting\Highlighting',
             get_class($hlt)
         );
@@ -602,7 +602,7 @@ abstract class AbstractQueryTest extends TestCase
     {
         $grouping = $this->query->getGrouping();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Grouping',
             get_class($grouping)
         );
@@ -615,7 +615,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->query->registerComponentType('mykey', 'mycomponent');
 
-        $this->assertEquals(
+        $this->assertSame(
             $components,
             $this->query->getComponentTypes()
         );
@@ -631,7 +631,7 @@ abstract class AbstractQueryTest extends TestCase
 
         // check option forwarding
         $fqOptions = $fq->getOptions();
-        $this->assertEquals(
+        $this->assertSame(
             $options['optionB'],
             $fqOptions['optionB']
         );
@@ -641,7 +641,7 @@ abstract class AbstractQueryTest extends TestCase
     {
         $spellcheck = $this->query->getSpellcheck();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Spellcheck',
             get_class($spellcheck)
         );
@@ -651,7 +651,7 @@ abstract class AbstractQueryTest extends TestCase
     {
         $suggester = $this->query->getSuggester();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Suggester',
             get_class($suggester)
         );
@@ -661,7 +661,7 @@ abstract class AbstractQueryTest extends TestCase
     {
         $spellcheck = $this->query->getDistributedSearch();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\DistributedSearch',
             get_class($spellcheck)
         );
@@ -671,7 +671,7 @@ abstract class AbstractQueryTest extends TestCase
     {
         $stats = $this->query->getStats();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Stats\Stats',
             get_class($stats)
         );
@@ -681,7 +681,7 @@ abstract class AbstractQueryTest extends TestCase
     {
         $stats = $this->query->getDebug();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Debug',
             get_class($stats)
         );
@@ -690,41 +690,41 @@ abstract class AbstractQueryTest extends TestCase
     public function testAddTag()
     {
         $this->query->addTag('testtag');
-        $this->assertEquals(array('testtag'), $this->query->getTags());
+        $this->assertSame(array('testtag'), $this->query->getTags());
     }
 
     public function testAddTags()
     {
         $this->query->addTags(array('t1', 't2'));
-        $this->assertEquals(array('t1', 't2'), $this->query->getTags());
+        $this->assertSame(array('t1', 't2'), $this->query->getTags());
     }
 
     public function testRemoveTag()
     {
         $this->query->addTags(array('t1', 't2'));
         $this->query->removeTag('t1');
-        $this->assertEquals(array('t2'), $this->query->getTags());
+        $this->assertSame(array('t2'), $this->query->getTags());
     }
 
     public function testClearTags()
     {
         $this->query->addTags(array('t1', 't2'));
         $this->query->clearTags();
-        $this->assertEquals(array(), $this->query->getTags());
+        $this->assertSame(array(), $this->query->getTags());
     }
 
     public function testSetTags()
     {
         $this->query->addTags(array('t1', 't2'));
         $this->query->setTags(array('t3', 't4'));
-        $this->assertEquals(array('t3', 't4'), $this->query->getTags());
+        $this->assertSame(array('t3', 't4'), $this->query->getTags());
     }
 
     public function testGetSpatial()
     {
         $spatial = $this->query->getSpatial();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Spatial',
             get_class($spatial)
         );

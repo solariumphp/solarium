@@ -31,13 +31,12 @@
 
 namespace Solarium\Tests\Plugin;
 
-use Solarium\Plugin\PostBigRequest;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\Plugin\PostBigRequest;
+use Solarium\QueryType\Select\Query\Query;
 
 class PostBigRequestTest extends TestCase
 {
@@ -62,13 +61,12 @@ class PostBigRequestTest extends TestCase
 
         $this->client = new Client();
         $this->query = $this->client->createSelect();
-
     }
 
     public function testSetAndGetMaxQueryStringLength()
     {
         $this->plugin->setMaxQueryStringLength(512);
-        $this->assertEquals(512, $this->plugin->getMaxQueryStringLength());
+        $this->assertSame(512, $this->plugin->getMaxQueryStringLength());
     }
 
     public function testPostCreateRequest()
@@ -86,10 +84,10 @@ class PostBigRequestTest extends TestCase
         $event = new PostCreateRequestEvent($this->query, $requestOutput);
         $this->plugin->postCreateRequest($event);
 
-        $this->assertEquals(Request::METHOD_GET, $requestInput->getMethod());
-        $this->assertEquals(Request::METHOD_POST, $requestOutput->getMethod());
-        $this->assertEquals($requestInput->getQueryString(), $requestOutput->getRawData());
-        $this->assertEquals('', $requestOutput->getQueryString());
+        $this->assertSame(Request::METHOD_GET, $requestInput->getMethod());
+        $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
+        $this->assertSame($requestInput->getQueryString(), $requestOutput->getRawData());
+        $this->assertSame('', $requestOutput->getQueryString());
     }
 
     public function testPostCreateRequestUnalteredSmallRequest()
@@ -99,7 +97,7 @@ class PostBigRequestTest extends TestCase
         $event = new PostCreateRequestEvent($this->query, $requestOutput);
         $this->plugin->postCreateRequest($event);
 
-        $this->assertEquals($requestInput, $requestOutput);
+        $this->assertSame($requestInput, $requestOutput);
     }
 
     public function testPostCreateRequestUnalteredPostRequest()
@@ -112,7 +110,7 @@ class PostBigRequestTest extends TestCase
         $event = new PostCreateRequestEvent($this->query, $requestOutput);
         $this->plugin->postCreateRequest($event);
 
-        $this->assertEquals($requestInput, $requestOutput);
+        $this->assertSame($requestInput, $requestOutput);
     }
 
     public function testPluginIntegration()
@@ -125,6 +123,6 @@ class PostBigRequestTest extends TestCase
         $request = $client->createRequest($query);
 
         // default method is GET, the plugin should have changed this to POST
-        $this->assertEquals(Request::METHOD_POST, $request->getMethod());
+        $this->assertSame(Request::METHOD_POST, $request->getMethod());
     }
 }

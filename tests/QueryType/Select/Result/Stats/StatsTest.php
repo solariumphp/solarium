@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Stats;
 
-use Solarium\Component\Result\Stats\Stats;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Stats\Stats;
 
 class StatsTest extends TestCase
 {
@@ -53,17 +52,17 @@ class StatsTest extends TestCase
 
     public function testGetResult()
     {
-         $this->assertEquals($this->data['key1'], $this->result->getResult('key1'));
+         $this->assertSame($this->data['key1'], $this->result->getResult('key1'));
     }
 
     public function testGetInvalidResult()
     {
-         $this->assertEquals(null, $this->result->getResult('key3'));
+         $this->assertSame(null, $this->result->getResult('key3'));
     }
 
     public function testGetResults()
     {
-         $this->assertEquals($this->data, $this->result->getResults());
+         $this->assertSame($this->data, $this->result->getResults());
     }
 
     public function testIterator()
@@ -73,11 +72,11 @@ class StatsTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->data, $items);
+        $this->assertSame($this->data, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->data), count($this->result));
+        $this->assertSame(count($this->data), count($this->result));
     }
 }

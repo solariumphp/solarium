@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
 
-use Solarium\Component\Result\Grouping\ValueGroup;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Grouping\ValueGroup;
 
 class ValueGroupTest extends TestCase
 {
@@ -63,7 +62,7 @@ class ValueGroupTest extends TestCase
 
     public function testGetValue()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->value,
             $this->group->getValue()
         );
@@ -71,7 +70,7 @@ class ValueGroupTest extends TestCase
 
     public function testGetNumFound()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->numFound,
             $this->group->getNumFound()
         );
@@ -79,7 +78,7 @@ class ValueGroupTest extends TestCase
 
     public function testGetStart()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->start,
             $this->group->getStart()
         );
@@ -87,7 +86,7 @@ class ValueGroupTest extends TestCase
 
     public function testGetDocuments()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->items,
             $this->group->getDocuments()
         );
@@ -100,11 +99,11 @@ class ValueGroupTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->items, $items);
+        $this->assertSame($this->items, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->items), count($this->group));
+        $this->assertSame(count($this->items), count($this->group));
     }
 }

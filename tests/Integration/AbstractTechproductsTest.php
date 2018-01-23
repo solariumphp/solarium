@@ -8,9 +8,9 @@ use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use PHPUnit\Framework\TestCase;
+
 abstract class AbstractTechproductsTest extends TestCase
 {
-
     /**
      * @var ClientInterface
      */
@@ -49,7 +49,7 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $ping = $this->client->createPing();
         $result = $this->client->ping($ping);
-        $this->assertEquals(0, $result->getStatus());
+        $this->assertSame(0, $result->getStatus());
     }
 
     public function testSelect()
@@ -57,8 +57,8 @@ abstract class AbstractTechproductsTest extends TestCase
         $select = $this->client->createSelect();
         $select->setSorts(['id' => SelectQuery::SORT_ASC]);
         $result = $this->client->select($select);
-        $this->assertEquals(32, $result->getNumFound());
-        $this->assertEquals(10, $result->count());
+        $this->assertSame(32, $result->getNumFound());
+        $this->assertSame(10, $result->count());
 
         $ids = [];
         /** @var \Solarium\QueryType\Select\Result\Document $document */
@@ -88,7 +88,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->spellcheck($spellcheck);
         $words = [];
         foreach ($result as $term => $suggestions) {
-            $this->assertEquals('cort', $term);
+            $this->assertSame('cort', $term);
             foreach ($suggestions as $suggestion) {
                 $words[] = $suggestion['word'];
             }
@@ -111,9 +111,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->suggester($suggester);
         $phrases = [];
         foreach ($result as $dictionary => $terms) {
-            $this->assertEquals('mySuggester', $dictionary);
+            $this->assertSame('mySuggester', $dictionary);
             foreach ($terms as $term => $suggestions) {
-                $this->assertEquals('electronics', $term);
+                $this->assertSame('electronics', $term);
                 foreach ($suggestions as $suggestion) {
                     $phrases[] = $suggestion['term'];
                 }

@@ -31,11 +31,11 @@
 
 namespace Solarium\Tests\QueryType\Spellcheck;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Spellcheck\Query;
 use Solarium\QueryType\Spellcheck\ResponseParser;
+use Solarium\QueryType\Spellcheck\Result\Result;
 use Solarium\QueryType\Spellcheck\Result\Term;
-
-use PHPUnit\Framework\TestCase;
 
 class ResponseParserTest extends TestCase
 {
@@ -84,7 +84,7 @@ class ResponseParserTest extends TestCase
 
         $query = new Query();
 
-        $resultStub = $this->getMock('Solarium\QueryType\Spellcheck\Result\Result', array(), array(), '', false);
+        $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($data));
@@ -105,8 +105,8 @@ class ResponseParserTest extends TestCase
             new Term(1, 6, 9, array('video')),
         );
 
-        $this->assertEquals($expected, $result['results']);
-        $this->assertEquals($allExpected, $result['all']);
-        $this->assertEquals('disk video', $result['collation']);
+        $this->assertSame($expected, $result['results']);
+        $this->assertSame($allExpected, $result['all']);
+        $this->assertSame('disk video', $result['collation']);
     }
 }

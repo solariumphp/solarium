@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet\Pivot;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Result\Facet\Pivot\Pivot;
 use Solarium\Component\Result\Facet\Pivot\PivotItem;
-
-use PHPUnit\Framework\TestCase;
 
 class PivotTest extends TestCase
 {
@@ -57,11 +56,11 @@ class PivotTest extends TestCase
             new PivotItem($this->values[1]),
         );
 
-        $this->assertEquals($expected, $this->facet->getPivot());
+        $this->assertSame($expected, $this->facet->getPivot());
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->values), count($this->facet));
+        $this->assertSame(count($this->values), count($this->facet));
     }
 }

@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Core\Client;
 
-use Solarium\Core\Client\Response;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Response;
 
 class ResponseTest extends TestCase
 {
@@ -55,22 +54,22 @@ class ResponseTest extends TestCase
 
     public function testGetStatusCode()
     {
-        $this->assertEquals(304, $this->response->getStatusCode());
+        $this->assertSame(304, $this->response->getStatusCode());
     }
 
     public function testGetStatusMessage()
     {
-        $this->assertEquals('Not Modified', $this->response->getStatusMessage());
+        $this->assertSame('Not Modified', $this->response->getStatusMessage());
     }
 
     public function testGetHeaders()
     {
-        $this->assertEquals($this->headers, $this->response->getHeaders());
+        $this->assertSame($this->headers, $this->response->getHeaders());
     }
 
     public function testGetBody()
     {
-        $this->assertEquals($this->data, $this->response->getBody());
+        $this->assertSame($this->data, $this->response->getBody());
     }
 
     public function testMissingHeader()

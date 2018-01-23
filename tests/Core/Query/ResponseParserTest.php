@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Core\Query;
 
-use Solarium\Core\Query\AbstractResponseParser;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Query\AbstractResponseParser;
 
 class ResponseParserTest extends TestCase
 {
@@ -64,7 +63,7 @@ class ResponseParserTest extends TestCase
             'key3' => 'value3',
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $expected,
             $this->parser->convertToKeyValueArray($input)
         );
@@ -85,7 +84,7 @@ class ResponseParserTest extends TestCase
             'queryTime' => 5,
         );
 
-        $this->assertEquals($expected, $this->parser->addHeaderInfo($data, $result));
+        $this->assertSame($expected, $this->parser->addHeaderInfo($data, $result));
     }
 
     public function testAddHeaderInfoEmpty()
@@ -98,7 +97,7 @@ class ResponseParserTest extends TestCase
             'queryTime' => null,
         );
 
-        $this->assertEquals($expected, $this->parser->addHeaderInfo($data, $result));
+        $this->assertSame($expected, $this->parser->addHeaderInfo($data, $result));
     }
 }
 

@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Highlighting;
 
-use Solarium\Component\Result\Highlighting\Highlighting;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Highlighting\Highlighting;
 
 class HighlightingTest extends TestCase
 {
@@ -56,12 +55,12 @@ class HighlightingTest extends TestCase
 
     public function testGetResults()
     {
-         $this->assertEquals($this->items, $this->result->getResults());
+         $this->assertSame($this->items, $this->result->getResults());
     }
 
     public function testGetResult()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->items['key2'],
             $this->result->getResult('key2')
         );
@@ -69,7 +68,7 @@ class HighlightingTest extends TestCase
 
     public function testGetInvalidResult()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->result->getResult('invalid')
         );
@@ -82,11 +81,11 @@ class HighlightingTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->items, $items);
+        $this->assertSame($this->items, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->items), count($this->result));
+        $this->assertSame(count($this->items), count($this->result));
     }
 }

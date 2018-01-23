@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Ping;
 
-use Solarium\QueryType\Ping\Query;
-use Solarium\Core\Client\Client;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\Ping\Query;
 
 class QueryTest extends TestCase
 {
@@ -47,12 +46,12 @@ class QueryTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_PING, $this->query->getType());
+        $this->assertSame(Client::QUERY_PING, $this->query->getType());
     }
 
     public function testGetResponseParser()
     {
-        $this->assertEquals(null, $this->query->getResponseParser());
+        $this->assertSame(null, $this->query->getResponseParser());
     }
 
     public function testGetRequestBuilder()
@@ -68,12 +67,12 @@ class QueryTest extends TestCase
         );
         $this->query->setOptions($options);
 
-        $this->assertEquals(
+        $this->assertSame(
             $options['handler'],
             $this->query->getHandler()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $options['resultclass'],
             $this->query->getResultClass()
         );

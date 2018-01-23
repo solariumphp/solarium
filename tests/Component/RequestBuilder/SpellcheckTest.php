@@ -60,7 +60,7 @@ class SpellcheckTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'spellcheck' => 'true',
                 'spellcheck.q' => 'testquery',
@@ -80,6 +80,5 @@ class SpellcheckTest extends TestCase
             ),
             $request->getParams()
         );
-
     }
 }

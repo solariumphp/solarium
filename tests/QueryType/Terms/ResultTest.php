@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Terms;
 
-use Solarium\QueryType\Terms\Result;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Terms\Result;
 
 class ResultTest extends TestCase
 {
@@ -71,7 +70,7 @@ class ResultTest extends TestCase
 
     public function testGetStatus()
     {
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $this->result->getStatus()
         );
@@ -79,7 +78,7 @@ class ResultTest extends TestCase
 
     public function testGetQueryTime()
     {
-        $this->assertEquals(
+        $this->assertSame(
             12,
             $this->result->getQueryTime()
         );
@@ -87,22 +86,22 @@ class ResultTest extends TestCase
 
     public function testGetResults()
     {
-        $this->assertEquals($this->data, $this->result->getResults());
+        $this->assertSame($this->data, $this->result->getResults());
     }
 
     public function testGetTerms()
     {
-        $this->assertEquals($this->data['fieldA'], $this->result->getTerms('fieldA'));
+        $this->assertSame($this->data['fieldA'], $this->result->getTerms('fieldA'));
     }
 
     public function testGetTermsWithInvalidFieldName()
     {
-        $this->assertEquals(array(), $this->result->getTerms('fieldX'));
+        $this->assertSame(array(), $this->result->getTerms('fieldX'));
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->data), count($this->result));
+        $this->assertSame(count($this->data), count($this->result));
     }
 
     public function testIterator()
@@ -112,7 +111,7 @@ class ResultTest extends TestCase
             $results[$key] = $doc;
         }
 
-        $this->assertEquals($this->data, $results);
+        $this->assertSame($this->data, $results);
     }
 }
 

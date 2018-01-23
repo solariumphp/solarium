@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 
-use Solarium\Plugin\BufferedAdd\Event\PostFlush;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\Plugin\BufferedAdd\Event\PostFlush;
 
 class PostFlushTest extends TestCase
 {
@@ -50,6 +49,6 @@ class PostFlushTest extends TestCase
 
         $event = new PostFlush($result);
 
-        $this->assertEquals($result, $event->getResult());
+        $this->assertSame($result, $event->getResult());
     }
 }

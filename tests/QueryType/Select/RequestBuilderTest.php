@@ -31,13 +31,12 @@
 
 namespace Solarium\Tests\QueryType\Select;
 
-use Solarium\Core\Client\Request;
-use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Query\FilterQuery;
-use Solarium\QueryType\Select\RequestBuilder as RequestBuilder;
-use Solarium\Component\AbstractComponent;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\AbstractComponent;
+use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Query\FilterQuery;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\RequestBuilder as RequestBuilder;
 
 class RequestBuilderTest extends TestCase
 {
@@ -60,7 +59,7 @@ class RequestBuilderTest extends TestCase
     public function testGetMethod()
     {
         $request = $this->builder->build($this->query);
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_GET,
             $request->getMethod()
         );
@@ -70,12 +69,12 @@ class RequestBuilderTest extends TestCase
     {
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $request->getRawData()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score',
             urldecode($request->getUri())
         );
@@ -87,12 +86,12 @@ class RequestBuilderTest extends TestCase
         $this->query->addSort('name', Query::SORT_DESC);
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $request->getRawData()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc',
             urldecode($request->getUri())
         );
@@ -104,12 +103,12 @@ class RequestBuilderTest extends TestCase
         $this->query->setQueryDefaultOperator(Query::QUERY_OPERATOR_AND);
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $request->getRawData()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&q.op=AND&df=mydefault',
             urldecode($request->getUri())
         );
@@ -125,12 +124,12 @@ class RequestBuilderTest extends TestCase
         );
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $request->getRawData()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc'.
             '&fq=published:true&fq={!tag=t1,t2}category:23',
             urldecode($request->getUri())
@@ -146,7 +145,7 @@ class RequestBuilderTest extends TestCase
 
         $requestWithNoBuilderComponent = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             $request,
             $requestWithNoBuilderComponent
         );
@@ -157,7 +156,7 @@ class RequestBuilderTest extends TestCase
         $this->query->getDisMax();
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             'dismax',
             $request->getParam('defType')
         );
@@ -168,7 +167,7 @@ class RequestBuilderTest extends TestCase
         $this->query->getEDisMax();
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             'edismax',
             $request->getParam('defType')
         );
@@ -180,7 +179,7 @@ class RequestBuilderTest extends TestCase
         $this->query->setQuery('cat:1');
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             '{!tag=t1,t2}cat:1',
             $request->getParam('q')
         );

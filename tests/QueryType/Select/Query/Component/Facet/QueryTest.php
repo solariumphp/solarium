@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\Query;
 use Solarium\Component\FacetSet;
-
-use PHPUnit\Framework\TestCase;
 
 class QueryTest extends TestCase
 {
@@ -58,14 +57,14 @@ class QueryTest extends TestCase
 
         $this->facet->setOptions($options);
 
-        $this->assertEquals($options['key'], $this->facet->getKey());
-        $this->assertEquals($options['exclude'], $this->facet->getExcludes());
-        $this->assertEquals($options['query'], $this->facet->getQuery());
+        $this->assertSame($options['key'], $this->facet->getKey());
+        $this->assertSame($options['exclude'], $this->facet->getExcludes());
+        $this->assertSame($options['query'], $this->facet->getQuery());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             FacetSet::FACET_QUERY,
             $this->facet->getType()
         );
@@ -74,12 +73,12 @@ class QueryTest extends TestCase
     public function testSetAndGetQuery()
     {
         $this->facet->setQuery('category:1');
-        $this->assertEquals('category:1', $this->facet->getQuery());
+        $this->assertSame('category:1', $this->facet->getQuery());
     }
 
     public function testSetAndGetQueryWithBind()
     {
         $this->facet->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->facet->getQuery());
+        $this->assertSame('id:678', $this->facet->getQuery());
     }
 }

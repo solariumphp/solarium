@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Plugin\Loadbalancer;
 
-use Solarium\Plugin\Loadbalancer\WeightedRandomChoice;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Plugin\Loadbalancer\WeightedRandomChoice;
 
 class WeightedRandomChoiceTest extends TestCase
 {

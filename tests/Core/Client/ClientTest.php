@@ -64,7 +64,6 @@ use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Suggester\Query as SuggesterQuery;
 use Solarium\QueryType\Terms\Query as TermsQuery;
-
 /**
  * @coversDefaultClass \Solarium\Core\Client\Client
  */
@@ -112,18 +111,17 @@ class ClientTest extends TestCase
         $adapter = $this->client->getAdapter();
 
         $this->assertThat($adapter, $this->isInstanceOf(MyAdapter::class));
-        $this->assertEquals(8080, $this->client->getEndpoint('myhost')->getPort());
+        $this->assertSame(8080, $this->client->getEndpoint('myhost')->getPort());
 
         $queryTypes = $this->client->getQueryTypes();
-        $this->assertEquals(
+        $this->assertSame(
             $options['querytype']['myquerytype'],
             $queryTypes['myquerytype']
         );
 
         $plugin = $this->client->getPlugin('myplugin');
         $this->assertThat($plugin, $this->isInstanceOf(MyClientPlugin::class));
-        $this->assertEquals($options['plugin']['myplugin']['options'], $plugin->getOptions());
-
+        $this->assertSame($options['plugin']['myplugin']['options'], $plugin->getOptions());
     }
 
     /**
@@ -131,7 +129,6 @@ class ClientTest extends TestCase
      * @covers ::setEventDispatcher
      */
     public function testGetEventDispatcher() {
-
       $this->assertInstanceOf(EventDispatcherInterface::class, $this->client->getEventDispatcher());
       $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
       $this->client->setEventDispatcher($eventDispatcher);
@@ -179,30 +176,30 @@ class ClientTest extends TestCase
         $adapter = $this->client->getAdapter();
 
         $this->assertThat($adapter, $this->isInstanceOf(MyAdapter::class));
-        $this->assertEquals(8080, $this->client->getEndpoint('myhost')->getPort());
+        $this->assertSame(8080, $this->client->getEndpoint('myhost')->getPort());
 
         $queryTypes = $this->client->getQueryTypes();
-        $this->assertEquals(
+        $this->assertSame(
             'MyQuery',
             $queryTypes['myquerytype']
         );
 
         $plugin = $this->client->getPlugin('myplugin');
         $this->assertThat($plugin, $this->isInstanceOf(MyClientPlugin::class));
-        $this->assertEquals($options['plugin'][0]['options'], $plugin->getOptions());
+        $this->assertSame($options['plugin'][0]['options'], $plugin->getOptions());
     }
 
     public function testCreateEndpoint()
     {
         $endpoint = $this->client->createEndpoint();
-        $this->assertEquals(null, $endpoint->getKey());
+        $this->assertSame(null, $endpoint->getKey());
         $this->assertThat($endpoint, $this->isInstanceOf(Endpoint::class));
     }
 
     public function testCreateEndpointWithKey()
     {
         $endpoint = $this->client->createEndpoint('key1');
-        $this->assertEquals('key1', $endpoint->getKey());
+        $this->assertSame('key1', $endpoint->getKey());
         $this->assertThat($endpoint, $this->isInstanceOf(Endpoint::class));
     }
 
@@ -210,7 +207,7 @@ class ClientTest extends TestCase
     {
         $this->client->createEndpoint('key3', true);
         $endpoint = $this->client->getEndpoint();
-        $this->assertEquals('key3', $endpoint->getKey());
+        $this->assertSame('key3', $endpoint->getKey());
     }
 
     public function testCreateEndpointWithArray()
@@ -221,8 +218,8 @@ class ClientTest extends TestCase
         );
 
         $endpoint = $this->client->createEndpoint($options);
-        $this->assertEquals('server2', $endpoint->getKey());
-        $this->assertEquals('s2.local', $endpoint->getHost());
+        $this->assertSame('server2', $endpoint->getKey());
+        $this->assertSame('s2.local', $endpoint->getHost());
         $this->assertThat($endpoint, $this->isInstanceOf(Endpoint::class));
     }
 
@@ -234,13 +231,13 @@ class ClientTest extends TestCase
         $this->client->clearEndpoints();
         $this->client->addEndpoint($endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('s3' => $endpoint),
             $this->client->getEndpoints()
         );
 
         // check default endpoint
-        $this->assertEquals(
+        $this->assertSame(
             $endpoint,
             $this->client->getEndpoint()
         );
@@ -256,7 +253,7 @@ class ClientTest extends TestCase
         $endpoint = $this->client->createEndpoint($options);
         $this->client->addEndpoint($endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             $endpoint,
             $this->client->getEndpoint('server2')
         );
@@ -290,8 +287,8 @@ class ClientTest extends TestCase
         $this->client->addEndpoints($options);
         $endpoints = $this->client->getEndpoints();
 
-        $this->assertEquals('s1.local', $endpoints['s1']->getHost());
-        $this->assertEquals('s2.local', $endpoints['s2']->getHost());
+        $this->assertSame('s1.local', $endpoints['s1']->getHost());
+        $this->assertSame('s2.local', $endpoints['s2']->getHost());
     }
 
     public function testGetEndpointWithInvalidKey()
@@ -311,7 +308,7 @@ class ClientTest extends TestCase
         $endpoint3 = $this->client->createEndpoint('s3');
         $this->client->setEndpoints(array($endpoint2, $endpoint3));
 
-        $this->assertEquals(
+        $this->assertSame(
             array('s2' => $endpoint2, 's3' => $endpoint3),
             $this->client->getEndpoints()
         );
@@ -325,7 +322,7 @@ class ClientTest extends TestCase
         $this->client->setEndpoints(array($endpoint1, $endpoint2, $endpoint3));
         $this->client->removeEndpoint('s1');
 
-        $this->assertEquals(
+        $this->assertSame(
             array('s2' => $endpoint2, 's3' => $endpoint3),
             $this->client->getEndpoints()
         );
@@ -339,7 +336,7 @@ class ClientTest extends TestCase
         $this->client->setEndpoints(array($endpoint1, $endpoint2, $endpoint3));
         $this->client->removeEndpoint($endpoint1);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('s2' => $endpoint2, 's3' => $endpoint3),
             $this->client->getEndpoints()
         );
@@ -353,7 +350,7 @@ class ClientTest extends TestCase
         $this->client->setEndpoints(array($endpoint1, $endpoint2));
         $this->client->clearEndpoints();
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->client->getEndpoints()
         );
@@ -366,9 +363,9 @@ class ClientTest extends TestCase
 
         $this->client->setEndpoints(array($endpoint1, $endpoint2));
 
-        $this->assertEquals($endpoint1, $this->client->getEndpoint());
+        $this->assertSame($endpoint1, $this->client->getEndpoint());
         $this->client->setDefaultEndpoint('s2');
-        $this->assertEquals($endpoint2, $this->client->getEndpoint());
+        $this->assertSame($endpoint2, $this->client->getEndpoint());
     }
 
     public function testSetDefaultEndpointWithObject()
@@ -378,9 +375,9 @@ class ClientTest extends TestCase
 
         $this->client->setEndpoints(array($endpoint1, $endpoint2));
 
-        $this->assertEquals($endpoint1, $this->client->getEndpoint());
+        $this->assertSame($endpoint1, $this->client->getEndpoint());
         $this->client->setDefaultEndpoint($endpoint2);
-        $this->assertEquals($endpoint2, $this->client->getEndpoint());
+        $this->assertSame($endpoint2, $this->client->getEndpoint());
     }
 
     public function testSetDefaultEndpointWithInvalidKey()
@@ -449,7 +446,7 @@ class ClientTest extends TestCase
 
         $queryTypes['myquerytype'] = 'myquery';
 
-        $this->assertEquals(
+        $this->assertSame(
             $queryTypes,
             $this->client->getQueryTypes()
         );
@@ -467,7 +464,7 @@ class ClientTest extends TestCase
             $this->isInstanceOf(MyClientPlugin::class)
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $options,
             $plugin->getOptions()
         );
@@ -481,7 +478,7 @@ class ClientTest extends TestCase
 
     public function testGetInvalidPlugin()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->client->getPlugin('invalidplugin', false)
         );
@@ -510,7 +507,7 @@ class ClientTest extends TestCase
         $plugin = $this->client->getPlugin('testplugin');
         $plugins = $this->client->getPlugins();
 
-        $this->assertEquals(
+        $this->assertSame(
             array('testplugin' => $plugin),
             $plugins
         );
@@ -518,7 +515,7 @@ class ClientTest extends TestCase
         $this->client->removePlugin('testplugin');
         $plugins = $this->client->getPlugins();
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $plugins
         );
@@ -532,7 +529,7 @@ class ClientTest extends TestCase
         $plugin = $this->client->getPlugin('testplugin');
         $plugins = $this->client->getPlugins();
 
-        $this->assertEquals(
+        $this->assertSame(
             array('testplugin' => $plugin),
             $plugins
         );
@@ -540,7 +537,7 @@ class ClientTest extends TestCase
         $this->client->removePlugin($plugin);
         $plugins = $this->client->getPlugins();
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $plugins
         );
@@ -652,7 +649,7 @@ class ClientTest extends TestCase
 
         $returnedRequest = $this->client->createRequest($query);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedRequest,
             $returnedRequest
         );
@@ -745,7 +742,7 @@ class ClientTest extends TestCase
 
         $returnedResult = $this->client->createResult($query, $response);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedResult,
             $returnedResult
         );
@@ -755,10 +752,6 @@ class ClientTest extends TestCase
     {
         $overrideValue =  '\\stdClass';
         $response = new Response('', array('HTTP 1.0 200 OK'));
-
-
-
-
 
         $mockQuery = $this->getMockBuilder(Query::class)
             ->setMethods(array('getResultClass'))
@@ -805,7 +798,6 @@ class ClientTest extends TestCase
         $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = new Result($query, $response);
         $expectedEvent = new PreExecuteEvent($query);
-
 
         $mock = $this->getMockBuilder(Client::class)
             ->setMethods(array('createRequest', 'executeRequest', 'createResult'))
@@ -905,7 +897,7 @@ class ClientTest extends TestCase
 
         $returnedResult = $this->client->execute($query);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedResult,
             $returnedResult
         );
@@ -915,7 +907,6 @@ class ClientTest extends TestCase
     {
         $request = new Request();
         $response = new Response('', array('HTTP 1.0 200 OK'));
-
 
         $observer = $this->getMockBuilder(Http::class)
             ->setMethods(array('execute'))
@@ -928,7 +919,7 @@ class ClientTest extends TestCase
         $this->client->setAdapter($observer);
         $returnedResponse = $this->client->executeRequest($request);
 
-        $this->assertEquals(
+        $this->assertSame(
             $response,
             $returnedResponse
         );
@@ -1024,7 +1015,7 @@ class ClientTest extends TestCase
 
         $returnedResponse = $this->client->executeRequest($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             $response,
             $returnedResponse
         );
@@ -1152,7 +1143,7 @@ class ClientTest extends TestCase
 
         // check option forwarding
         $queryOptions = $query->getOptions();
-        $this->assertEquals(
+        $this->assertSame(
             $options['optionB'],
             $queryOptions['optionB']
         );
@@ -1215,7 +1206,7 @@ class ClientTest extends TestCase
 
         $returnedQuery = $this->client->createQuery($type, $options);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedQuery,
             $returnedQuery
         );

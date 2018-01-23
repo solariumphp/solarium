@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Suggester\Result;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Result;
-
-use PHPUnit\Framework\TestCase;
 
 class ResultTest extends TestCase
 {
@@ -70,7 +69,7 @@ class ResultTest extends TestCase
 
     public function testGetStatus()
     {
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $this->result->getStatus()
         );
@@ -78,7 +77,7 @@ class ResultTest extends TestCase
 
     public function testGetQueryTime()
     {
-        $this->assertEquals(
+        $this->assertSame(
             12,
             $this->result->getQueryTime()
         );
@@ -86,28 +85,28 @@ class ResultTest extends TestCase
 
     public function testGetResults()
     {
-        $this->assertEquals($this->data, $this->result->getResults());
+        $this->assertSame($this->data, $this->result->getResults());
     }
 
     public function testGetAll()
     {
-        $this->assertEquals($this->allData, $this->result->getAll());
+        $this->assertSame($this->allData, $this->result->getAll());
     }
 
     public function testGetDictionary()
     {
         $dictionary = $this->result->getDictionary('dictionary1');
-        $this->assertEquals('data1', $dictionary->getTerm('term1'));
+        $this->assertSame('data1', $dictionary->getTerm('term1'));
     }
 
     public function testGetDictionaryWithInvalidFieldName()
     {
-        $this->assertEquals(null, $this->result->getDictionary('dictionary3'));
+        $this->assertSame(null, $this->result->getDictionary('dictionary3'));
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->data), count($this->result));
+        $this->assertSame(count($this->data), count($this->result));
     }
 
     public function testIterator()
@@ -117,9 +116,8 @@ class ResultTest extends TestCase
             $results[$key] = $doc;
         }
 
-        $this->assertEquals($this->data, $results);
+        $this->assertSame($this->data, $results);
     }
-
 }
 
 class SuggesterDummy extends Result

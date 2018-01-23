@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\RealtimeGet;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\RealtimeGet\Query;
 use Solarium\QueryType\RealtimeGet\RequestBuilder;
-
-use PHPUnit\Framework\TestCase;
 
 class RequestBuilderTest extends TestCase
 {
@@ -45,12 +44,12 @@ class RequestBuilderTest extends TestCase
         $builder = new RequestBuilder();
         $request = $builder->build($query);
 
-        $this->assertEquals(
+        $this->assertSame(
             $request::METHOD_GET,
             $request->getMethod()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'get?omitHeader=true&wt=json&json.nl=flat&ids=123',
             urldecode($request->getUri())
         );
@@ -63,12 +62,12 @@ class RequestBuilderTest extends TestCase
         $builder = new RequestBuilder();
         $request = $builder->build($query);
 
-        $this->assertEquals(
+        $this->assertSame(
             $request::METHOD_GET,
             $request->getMethod()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'get?omitHeader=true&wt=json&json.nl=flat&ids=123,456',
             urldecode($request->getUri())
         );

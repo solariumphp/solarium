@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component\ResponseParser;
 
-use Solarium\Component\ResponseParser\Stats as Parser;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\ResponseParser\Stats as Parser;
 
 class StatsTest extends TestCase
 {
@@ -68,11 +67,11 @@ class StatsTest extends TestCase
 
         $result = $this->parser->parse(null, null, $data);
 
-        $this->assertEquals(3, $result->getResult('fieldA')->getMin());
-        $this->assertEquals(4, $result->getResult('fieldB')->getMin());
+        $this->assertSame(3, $result->getResult('fieldA')->getMin());
+        $this->assertSame(4, $result->getResult('fieldB')->getMin());
 
         $facets = $result->getResult('fieldB')->getFacets();
-        $this->assertEquals(5, $facets['fieldC']['value1']->getMin());
+        $this->assertSame(5, $facets['fieldC']['value1']->getMin());
     }
 
     public function testParseNoData()

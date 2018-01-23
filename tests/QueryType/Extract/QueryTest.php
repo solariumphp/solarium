@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Extract;
 
-use Solarium\Core\Client\Client;
-use Solarium\QueryType\Update\Query\Document\Document;
-use Solarium\QueryType\Extract\Query;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\Extract\Query;
+use Solarium\QueryType\Update\Query\Document\Document;
 
 class QueryTest extends TestCase
 {
@@ -51,7 +50,7 @@ class QueryTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_EXTRACT, $this->query->getType());
+        $this->assertSame(Client::QUERY_EXTRACT, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -77,7 +76,7 @@ class QueryTest extends TestCase
 
         $this->query->setOptions($options);
 
-        $this->assertEquals(
+        $this->assertSame(
             $mappings,
             $this->query->getFieldMappings()
         );
@@ -87,61 +86,62 @@ class QueryTest extends TestCase
     {
         $doc = new Document(array('field1', 'value1'));
         $this->query->setDocument($doc);
-        $this->assertEquals($doc, $this->query->getDocument());
+        $this->assertSame($doc, $this->query->getDocument());
     }
 
     public function testSetAndGetFilename()
     {
         $this->query->setFile(__FILE__);
-        $this->assertEquals(__FILE__, $this->query->getFile());
+        $this->assertSame(__FILE__, $this->query->getFile());
     }
 
     public function testSetAndGetUprefix()
     {
         $this->query->setUprefix('dyn_');
-        $this->assertEquals('dyn_', $this->query->getUprefix());
+        $this->assertSame('dyn_', $this->query->getUprefix());
     }
 
     public function testSetAndGetDefaultField()
     {
         $this->query->setDefaultField('defaulttext');
-        $this->assertEquals('defaulttext', $this->query->getDefaultField());
+        $this->assertSame('defaulttext', $this->query->getDefaultField());
     }
 
     public function testSetAndGetExtractOnly()
     {
         $this->query->setExtractOnly(true);
-        $this->assertEquals(true, $this->query->getExtractOnly());
+        $this->assertSame(true, $this->query->getExtractOnly());
     }
 
     public function testSetAndGetLowernames()
     {
         $this->query->setLowernames(true);
-        $this->assertEquals(true, $this->query->getLowernames());
+        $this->assertSame(true, $this->query->getLowernames());
     }
 
     public function testSetAndGetCommit()
     {
         $this->query->setCommit(true);
-        $this->assertEquals(true, $this->query->getCommit());
+        $this->assertSame(true, $this->query->getCommit());
     }
 
     public function testSetAndGetCommitWithin()
     {
         $this->query->setCommitWithin(458);
-        $this->assertEquals(458, $this->query->getCommitWithin());
+        $this->assertSame(458, $this->query->getCommitWithin());
     }
 
     public function testSetAndGetDocumentClass()
     {
         $this->query->setDocumentClass('Solarium\Tests\QueryType\Extract\MyCustomDoc');
-        $this->assertEquals('Solarium\Tests\QueryType\Extract\MyCustomDoc', $this->query->getDocumentClass());
+        $this->assertSame('Solarium\Tests\QueryType\Extract\MyCustomDoc', $this->query->getDocumentClass());
 
         return $this->query;
     }
 
     /**
      * @depends testSetAndGetDocumentClass
+     * @param mixed $query
      */
     public function testCreateDocument($query)
     {
@@ -150,8 +150,8 @@ class QueryTest extends TestCase
         $document = $query->createDocument($fields, $boosts);
 
         $this->assertInstanceOf('Solarium\Tests\QueryType\Extract\MyCustomDoc', $document);
-        $this->assertEquals($boosts, $document->getFieldBoosts());
-        $this->assertEquals($fields, $document->getFields());
+        $this->assertSame($boosts, $document->getFieldBoosts());
+        $this->assertSame($fields, $document->getFields());
     }
 
     public function testAddFieldMapping()
@@ -159,7 +159,7 @@ class QueryTest extends TestCase
         $expectedFields = $this->query->getFieldMappings();
         $expectedFields['newfield'] = 'tofield';
         $this->query->addFieldMapping('newfield', 'tofield');
-        $this->assertEquals($expectedFields, $this->query->getFieldMappings());
+        $this->assertSame($expectedFields, $this->query->getFieldMappings());
 
         return $this->query;
     }
@@ -171,7 +171,7 @@ class QueryTest extends TestCase
     public function testClearFieldMappingss($query)
     {
         $query->clearFieldMappings();
-        $this->assertEquals(array(), $query->getFieldMappings());
+        $this->assertSame(array(), $query->getFieldMappings());
 
         return $query;
     }
@@ -184,7 +184,7 @@ class QueryTest extends TestCase
     {
         $fields = array('field1' => 'target1', 'field2' => 'target2');
         $query->addFieldMappings($fields);
-        $this->assertEquals($fields, $query->getFieldMappings());
+        $this->assertSame($fields, $query->getFieldMappings());
 
         return $query;
     }
@@ -196,7 +196,7 @@ class QueryTest extends TestCase
     public function testRemoveFieldMapping($query)
     {
         $query->removeFieldMapping('field1');
-        $this->assertEquals(array('field2' => 'target2'), $query->getFieldMappings());
+        $this->assertSame(array('field2' => 'target2'), $query->getFieldMappings());
 
         return $query;
     }
@@ -209,7 +209,7 @@ class QueryTest extends TestCase
     {
         $fields = array('field3' => 'target3', 'field4' => 'target4');
         $query->setFieldMappings($fields);
-        $this->assertEquals($fields, $query->getFieldMappings());
+        $this->assertSame($fields, $query->getFieldMappings());
     }
 }
 

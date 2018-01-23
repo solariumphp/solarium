@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\RealtimeGet;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\RealtimeGet\Result;
 use Solarium\QueryType\Select\Result\Document;
-
-use PHPUnit\Framework\TestCase;
 
 class ResultTest extends TestCase
 {
@@ -49,7 +48,7 @@ class ResultTest extends TestCase
 
     public function testGetDocument()
     {
-        $this->assertEquals($this->doc, $this->result->getDocument());
+        $this->assertSame($this->doc, $this->result->getDocument());
     }
 }
 

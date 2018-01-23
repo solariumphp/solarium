@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\Component\ResponseParser;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ResponseParser\Suggester;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
-
-use PHPUnit\Framework\TestCase;
 
 class SuggesterTest extends TestCase
 {
@@ -51,6 +50,7 @@ class SuggesterTest extends TestCase
 
     /**
      * @dataProvider providerParse
+     * @param mixed $data
      */
     public function testParse($data)
     {
@@ -61,13 +61,13 @@ class SuggesterTest extends TestCase
             'zoo' => new Term(1, [['term' => 'zoo keeper']]),
         ]);
 
-        $this->assertEquals($expected, $result->getDictionary('dictionary1'));
+        $this->assertSame($expected, $result->getDictionary('dictionary1'));
 
         $expected = new Dictionary([
             'free' => new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
         ]);
 
-        $this->assertEquals($expected, $result->getDictionary('dictionary2'));
+        $this->assertSame($expected, $result->getDictionary('dictionary2'));
 
         $allExpected = array(
             new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),
@@ -75,7 +75,7 @@ class SuggesterTest extends TestCase
             new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
         );
 
-        $this->assertEquals($allExpected, $result->getAll());
+        $this->assertSame($allExpected, $result->getAll());
     }
 
     public function providerParse()
@@ -128,6 +128,6 @@ class SuggesterTest extends TestCase
     {
         $result = $this->parser->parse($this->query, null, array());
 
-        $this->assertEquals(null, $result);
+        $this->assertSame(null, $result);
     }
 }

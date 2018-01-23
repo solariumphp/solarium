@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
-use Solarium\Core\Client\Adapter\ZendHttp as ZendHttpAdapter;
-use Solarium\Core\Client\Request;
-use Solarium\Core\Client\Endpoint;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Adapter\ZendHttp as ZendHttpAdapter;
+use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
 
 class ZendHttpTest extends TestCase
 {
@@ -46,6 +45,10 @@ class ZendHttpTest extends TestCase
 
     public function setUp()
     {
+        if (!class_exists('\Zend_Http_Client')) {
+            $this->markTestSkipped('Zend_Http_Client class not found! skipping test');
+        }
+
         if (!class_exists('Zend_Loader_Autoloader') && !(@include_once 'Zend/Loader/Autoloader.php')) {
             $this->markTestSkipped('ZF not in include_path, skipping ZendHttp adapter tests');
         }
@@ -60,7 +63,7 @@ class ZendHttpTest extends TestCase
         $options = array('optionZ' => 123, 'options' => array('optionX' => 'Y'));
         $adapterOptions = array('optionX' => 'Y');
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('setConfig')
                  ->with($this->equalTo($adapterOptions));
@@ -75,7 +78,7 @@ class ZendHttpTest extends TestCase
 
         $this->adapter->setZendHttp($dummy);
 
-        $this->assertEquals(
+        $this->assertSame(
             $dummy,
             $this->adapter->getZendHttp()
         );
@@ -87,7 +90,7 @@ class ZendHttpTest extends TestCase
         $this->adapter->setOptions($options);
 
         $zendHttp = $this->adapter->getZendHttp();
-        $this->assertThat($zendHttp, $this->isInstanceOf('Zend_Http_Client'));
+        $this->assertThat($zendHttp, $this->isInstanceOf(\Zend_Http_Client::class));
     }
 
     public function testExecuteGet()
@@ -112,7 +115,7 @@ class ZendHttpTest extends TestCase
 
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('setMethod')
                  ->with($this->equalTo($method));
@@ -132,7 +135,7 @@ class ZendHttpTest extends TestCase
         $this->adapter->setZendHttp($mock);
         $adapterResponse = $this->adapter->execute($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             $responseData,
             $adapterResponse->getBody()
         );
@@ -160,7 +163,7 @@ class ZendHttpTest extends TestCase
 
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('setMethod')
                  ->with($this->equalTo($method));
@@ -183,7 +186,7 @@ class ZendHttpTest extends TestCase
         $this->adapter->setZendHttp($mock);
         $adapterResponse = $this->adapter->execute($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             $responseData,
             $adapterResponse->getBody()
         );
@@ -195,7 +198,7 @@ class ZendHttpTest extends TestCase
         $response = new \Zend_Http_Response(404, array(), '');
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('request')
                  ->will($this->returnValue($response));
@@ -204,7 +207,6 @@ class ZendHttpTest extends TestCase
 
         $this->expectException('Solarium\Exception\HttpException');
         $this->adapter->execute($request, $endpoint);
-
     }
 
     public function testExecuteHeadRequestReturnsNoData()
@@ -214,7 +216,7 @@ class ZendHttpTest extends TestCase
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'data');
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('request')
                  ->will($this->returnValue($response));
@@ -222,7 +224,7 @@ class ZendHttpTest extends TestCase
         $this->adapter->setZendHttp($mock);
         $response = $this->adapter->execute($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             '',
             $response->getBody()
         );
@@ -246,7 +248,7 @@ class ZendHttpTest extends TestCase
         $endpoint = new Endpoint();
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'dummy');
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
              ->method('setFileUpload')
              ->with(

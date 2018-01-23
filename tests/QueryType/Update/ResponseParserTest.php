@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\QueryType\Update;
 
-use Solarium\Core\Client\Response;
-use Solarium\QueryType\Update\Result;
-use Solarium\QueryType\Update\ResponseParser;
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Response;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Update\ResponseParser;
+use Solarium\QueryType\Update\Result;
 
 class ResponseParserTest extends TestCase
 {
@@ -49,7 +48,7 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser;
         $parsed = $parser->parse($result);
 
-        $this->assertEquals(1, $parsed['status']);
-        $this->assertEquals(15, $parsed['queryTime']);
+        $this->assertSame(1, $parsed['status']);
+        $this->assertSame(15, $parsed['queryTime']);
     }
 }

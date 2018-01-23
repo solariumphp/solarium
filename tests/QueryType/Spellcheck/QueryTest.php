@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Spellcheck;
 
-use Solarium\QueryType\Spellcheck\Query;
-use Solarium\Core\Client\Client;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\Spellcheck\Query;
 
 class QueryTest extends TestCase
 {
@@ -50,7 +49,7 @@ class QueryTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_SPELLCHECK, $this->query->getType());
+        $this->assertSame(Client::QUERY_SPELLCHECK, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -68,7 +67,7 @@ class QueryTest extends TestCase
         $value = 'testquery';
         $this->query->setQuery($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getQuery()
         );
@@ -79,7 +78,7 @@ class QueryTest extends TestCase
         $value = 'myDictionary';
         $this->query->setDictionary($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getDictionary()
         );
@@ -90,7 +89,7 @@ class QueryTest extends TestCase
         $value = 11;
         $this->query->setCount($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getCount()
         );
@@ -101,7 +100,7 @@ class QueryTest extends TestCase
         $value = false;
         $this->query->setOnlyMorePopular($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getOnlyMorePopular()
         );
@@ -112,7 +111,7 @@ class QueryTest extends TestCase
         $value = false;
         $this->query->setCollate($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getCollate()
         );

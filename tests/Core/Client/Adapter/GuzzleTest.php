@@ -39,11 +39,11 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\Guzzle as GuzzleAdapter;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Exception;
-use PHPUnit\Framework\TestCase;
 /**
  * @coversDefaultClass \Solarium\Core\Client\Adapter\Guzzle
  * @covers ::<private>

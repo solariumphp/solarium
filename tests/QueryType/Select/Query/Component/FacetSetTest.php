@@ -31,11 +31,14 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Component\Facet\Field;
+use Solarium\Component\Facet\MultiQuery;
+use Solarium\Component\Facet\Pivot;
+use Solarium\Component\Facet\Query as FacetQuery;
+use Solarium\Component\Facet\Range;
 use Solarium\Component\FacetSet;
 use Solarium\QueryType\Select\Query\Query;
-use Solarium\Component\Facet\Query as FacetQuery;
-
-use PHPUnit\Framework\TestCase;
 
 class FacetSetTest extends TestCase
 {
@@ -68,19 +71,19 @@ class FacetSetTest extends TestCase
         $this->facetSet->setOptions($options);
         $facets = $this->facetSet->getFacets();
 
-        $this->assertEquals(2, count($facets));
-        $this->assertEquals($options['prefix'], $this->facetSet->getPrefix());
-        $this->assertEquals($options['sort'], $this->facetSet->getSort());
-        $this->assertEquals($options['mincount'], $this->facetSet->getMinCount());
-        $this->assertEquals($options['missing'], $this->facetSet->getMissing());
-        $this->assertEquals($options['extractfromresponse'], $this->facetSet->getExtractFromResponse());
-        $this->assertEquals($options['contains'], $this->facetSet->getContains());
-        $this->assertEquals($options['containsignorecase'], $this->facetSet->getContainsIgnoreCase());
+        $this->assertSame(2, count($facets));
+        $this->assertSame($options['prefix'], $this->facetSet->getPrefix());
+        $this->assertSame($options['sort'], $this->facetSet->getSort());
+        $this->assertSame($options['mincount'], $this->facetSet->getMinCount());
+        $this->assertSame($options['missing'], $this->facetSet->getMissing());
+        $this->assertSame($options['extractfromresponse'], $this->facetSet->getExtractFromResponse());
+        $this->assertSame($options['contains'], $this->facetSet->getContains());
+        $this->assertSame($options['containsignorecase'], $this->facetSet->getContainsIgnoreCase());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(Query::COMPONENT_FACETSET, $this->facetSet->getType());
+        $this->assertSame(Query::COMPONENT_FACETSET, $this->facetSet->getType());
     }
 
     public function testGetResponseParser()
@@ -102,31 +105,31 @@ class FacetSetTest extends TestCase
     public function testSetAndGetSort()
     {
         $this->facetSet->setSort('index');
-        $this->assertEquals('index', $this->facetSet->getSort());
+        $this->assertSame('index', $this->facetSet->getSort());
     }
 
     public function testSetAndGetPrefix()
     {
         $this->facetSet->setPrefix('xyz');
-        $this->assertEquals('xyz', $this->facetSet->getPrefix());
+        $this->assertSame('xyz', $this->facetSet->getPrefix());
     }
 
     public function testSetAndGetLimit()
     {
         $this->facetSet->setLimit(12);
-        $this->assertEquals(12, $this->facetSet->getLimit());
+        $this->assertSame(12, $this->facetSet->getLimit());
     }
 
     public function testSetAndGetMinCount()
     {
         $this->facetSet->setMinCount(100);
-        $this->assertEquals(100, $this->facetSet->getMinCount());
+        $this->assertSame(100, $this->facetSet->getMinCount());
     }
 
     public function testSetAndGetMissing()
     {
         $this->facetSet->setMissing(true);
-        $this->assertEquals(true, $this->facetSet->getMissing());
+        $this->assertSame(true, $this->facetSet->getMissing());
     }
 
     public function testAddAndGetFacet()
@@ -135,7 +138,7 @@ class FacetSetTest extends TestCase
         $fq->setKey('f1')->setQuery('category:1');
         $this->facetSet->addFacet($fq);
 
-        $this->assertEquals(
+        $this->assertSame(
             $fq,
             $this->facetSet->getFacet('f1')
         );
@@ -165,7 +168,7 @@ class FacetSetTest extends TestCase
 
     public function testGetInvalidFacet()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->facetSet->getFacet('invalidtag')
         );
@@ -182,7 +185,7 @@ class FacetSetTest extends TestCase
         $facets = array('f1' => $fq1, 'f2' => $fq2);
 
         $this->facetSet->addFacets($facets);
-        $this->assertEquals(
+        $this->assertSame(
             $facets,
             $this->facetSet->getFacets()
         );
@@ -197,7 +200,7 @@ class FacetSetTest extends TestCase
 
         $this->facetSet->addFacets($facets);
 
-        $this->assertEquals(
+        $this->assertSame(
             2,
             count($this->facetSet->getFacets())
         );
@@ -215,7 +218,7 @@ class FacetSetTest extends TestCase
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->removeFacet('f1');
-        $this->assertEquals(
+        $this->assertSame(
             array('f2' => $fq2),
             $this->facetSet->getFacets()
         );
@@ -233,7 +236,7 @@ class FacetSetTest extends TestCase
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->removeFacet($fq1);
-        $this->assertEquals(
+        $this->assertSame(
             array('f2' => $fq2),
             $this->facetSet->getFacets()
         );
@@ -251,7 +254,7 @@ class FacetSetTest extends TestCase
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->removeFacet('f3'); //continue silently
-        $this->assertEquals(
+        $this->assertSame(
             $facets,
             $this->facetSet->getFacets()
         );
@@ -269,7 +272,7 @@ class FacetSetTest extends TestCase
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->clearFacets();
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->facetSet->getFacets()
         );
@@ -297,7 +300,7 @@ class FacetSetTest extends TestCase
 
         $this->facetSet->setFacets($facets);
 
-        $this->assertEquals(
+        $this->assertSame(
             $facets,
             $this->facetSet->getFacets()
         );
@@ -310,14 +313,14 @@ class FacetSetTest extends TestCase
         $facet = $this->facetSet->createFacet($type, $options);
 
         // check class mapping
-        $this->assertEquals(
+        $this->assertSame(
             $type,
             $facet->getType()
         );
 
         // check option forwarding
         $facetOptions = $facet->getOptions();
-        $this->assertEquals(
+        $this->assertSame(
             $options['optionB'],
             $facetOptions['optionB']
         );
@@ -329,7 +332,7 @@ class FacetSetTest extends TestCase
         $options = array('key' => 'mykey', 'optionA' => 1, 'optionB' => 2);
         $facet = $this->facetSet->createFacet($type, $options);
 
-        $this->assertEquals($facet, $this->facetSet->getFacet('mykey'));
+        $this->assertSame($facet, $this->facetSet->getFacet('mykey'));
     }
 
     public function testCreateFacetAddWithString()
@@ -338,7 +341,7 @@ class FacetSetTest extends TestCase
         $options = 'mykey';
         $facet = $this->facetSet->createFacet($type, $options);
 
-        $this->assertEquals($facet, $this->facetSet->getFacet('mykey'));
+        $this->assertSame($facet, $this->facetSet->getFacet('mykey'));
     }
 
     public function testCreateFacetWithInvalidType()
@@ -357,82 +360,111 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
+     * @param bool $add
      */
-    public function testCreateFacetField($add)
+    public function testCreateFacetField(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_FIELD), $this->equalTo($options), $add);
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetField($options, $add);
 
-        $observer->createFacetField($options, $add);
+        $this->assertInstanceOf(Field::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
+        $this->assertSame('id', $result->getOption(FacetSet::FACET_FIELD));
+
+        if ($add) {
+            $this->assertInstanceOf(Field::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     /**
      * @dataProvider createFacetAddProvider
      */
-    public function testCreateFacetQuery($add)
+    public function testCreateFacetQuery(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetQuery($options, $add);
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_QUERY), $this->equalTo($options), $add);
+        $this->assertInstanceOf(FacetQuery::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
+        $this->assertSame('*:*', $result->getOption(FacetSet::FACET_QUERY));
 
-        $observer->createFacetQuery($options, $add);
+        if ($add) {
+            $this->assertInstanceOf(FacetQuery::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     /**
      * @dataProvider createFacetAddProvider
      */
-    public function testCreateFacetMultiQuery($add)
+    public function testCreateFacetMultiQuery(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetMultiQuery($options, $add);
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_MULTIQUERY), $this->equalTo($options), $add);
+        $this->assertInstanceOf(MultiQuery::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
 
-        $observer->createFacetMultiQuery($options, $add);
+        if ($add) {
+            $this->assertInstanceOf(MultiQuery::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     /**
      * @dataProvider createFacetAddProvider
      */
-    public function testCreateFacetRange($add)
+    public function testCreateFacetRange(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetRange($options, $add);
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_RANGE), $this->equalTo($options), $add);
+        $this->assertInstanceOf(Range::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
 
-        $observer->createFacetRange($options, $add);
+        if ($add) {
+            $this->assertInstanceOf(Range::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     /**
      * @dataProvider createFacetAddProvider
      */
-    public function testCreateFacetPivot($add)
+    public function testCreateFacetPivot(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetPivot($options, $add);
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_PIVOT), $this->equalTo($options), $add);
+        $this->assertInstanceOf(Pivot::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
 
-        $observer->createFacetPivot($options, $add);
+        if ($add) {
+            $this->assertInstanceOf(Pivot::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     public function testSetAndGetExtractFromResponse()
     {
         $this->facetSet->setExtractFromResponse(true);
-        $this->assertEquals(true, $this->facetSet->getExtractFromResponse());
+        $this->assertSame(true, $this->facetSet->getExtractFromResponse());
     }
 }

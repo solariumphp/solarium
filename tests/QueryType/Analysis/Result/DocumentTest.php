@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Analysis\Result;
 
-use Solarium\QueryType\Analysis\Result\Document;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Analysis\Result\Document;
 
 class DocumentTest extends TestCase
 {
@@ -52,12 +51,12 @@ class DocumentTest extends TestCase
 
     public function testGetDocuments()
     {
-        $this->assertEquals($this->items, $this->result->getDocuments());
+        $this->assertSame($this->items, $this->result->getDocuments());
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->items), count($this->result));
+        $this->assertSame(count($this->items), count($this->result));
     }
 
     public function testIterator()
@@ -67,12 +66,12 @@ class DocumentTest extends TestCase
             $docs[$key] = $doc;
         }
 
-        $this->assertEquals($this->items, $docs);
+        $this->assertSame($this->items, $docs);
     }
 
     public function testGetStatus()
     {
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $this->result->getStatus()
         );
@@ -80,7 +79,7 @@ class DocumentTest extends TestCase
 
     public function testGetQueryTime()
     {
-        $this->assertEquals(
+        $this->assertSame(
             12,
             $this->result->getQueryTime()
         );
@@ -88,7 +87,7 @@ class DocumentTest extends TestCase
 
     public function testGetDocument()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->items['key2'],
             $this->result->getDocument('key2')
         );
@@ -96,7 +95,7 @@ class DocumentTest extends TestCase
 
     public function testGetInvalidDocument()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->result->getDocument('invalidkey')
         );

@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Update\Query\Command\Delete;
 use Solarium\QueryType\Update\Query\Query;
-
-use PHPUnit\Framework\TestCase;
 
 class DeleteTest extends TestCase
 {
@@ -47,7 +46,7 @@ class DeleteTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_DELETE,
             $this->command->getType()
         );
@@ -62,12 +61,12 @@ class DeleteTest extends TestCase
 
         $command = new Delete($options);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(1),
             $command->getIds()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('*:*'),
             $command->getQueries()
         );
@@ -82,12 +81,12 @@ class DeleteTest extends TestCase
 
         $command = new Delete($options);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(1, 2),
             $command->getIds()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('id:1', 'id:2'),
             $command->getQueries()
         );
@@ -96,7 +95,7 @@ class DeleteTest extends TestCase
     public function testAddId()
     {
         $this->command->addId(1);
-        $this->assertEquals(
+        $this->assertSame(
             array(1),
             $this->command->getIds()
         );
@@ -106,7 +105,7 @@ class DeleteTest extends TestCase
     {
         $this->command->addId(1);
         $this->command->addIds(array(2, 3));
-        $this->assertEquals(
+        $this->assertSame(
             array(1, 2, 3),
             $this->command->getIds()
         );
@@ -115,7 +114,7 @@ class DeleteTest extends TestCase
     public function testAddQuery()
     {
         $this->command->addQuery('*:*');
-        $this->assertEquals(
+        $this->assertSame(
             array('*:*'),
             $this->command->getQueries()
         );
@@ -125,7 +124,7 @@ class DeleteTest extends TestCase
     {
         $this->command->addQuery('*:*');
         $this->command->addQueries(array('id:1', 'id:2'));
-        $this->assertEquals(
+        $this->assertSame(
             array('*:*', 'id:1', 'id:2'),
             $this->command->getQueries()
         );

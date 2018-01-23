@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component\Result\Debug;
 
-use Solarium\Component\Result\Debug\Result;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Debug\Result;
 
 class DebugTest extends TestCase
 {
@@ -75,37 +74,37 @@ class DebugTest extends TestCase
 
     public function testGetQueryString()
     {
-         $this->assertEquals($this->queryString, $this->result->getQueryString());
+         $this->assertSame($this->queryString, $this->result->getQueryString());
     }
 
     public function testGetParsedQuery()
     {
-         $this->assertEquals($this->parsedQuery, $this->result->getParsedQuery());
+         $this->assertSame($this->parsedQuery, $this->result->getParsedQuery());
     }
 
     public function testGetQueryParser()
     {
-         $this->assertEquals($this->queryParser, $this->result->getQueryParser());
+         $this->assertSame($this->queryParser, $this->result->getQueryParser());
     }
 
     public function testGetOtherQuery()
     {
-         $this->assertEquals($this->otherQuery, $this->result->getOtherQuery());
+         $this->assertSame($this->otherQuery, $this->result->getOtherQuery());
     }
 
     public function testGetExplain()
     {
-         $this->assertEquals($this->explain, $this->result->getExplain());
+         $this->assertSame($this->explain, $this->result->getExplain());
     }
 
     public function testGetExplainOther()
     {
-         $this->assertEquals($this->explainOther, $this->result->getExplainOther());
+         $this->assertSame($this->explainOther, $this->result->getExplainOther());
     }
 
     public function testGetTiming()
     {
-         $this->assertEquals($this->timing, $this->result->getTiming());
+         $this->assertSame($this->timing, $this->result->getTiming());
     }
 
     public function testIterator()
@@ -115,11 +114,11 @@ class DebugTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->explainData, $items);
+        $this->assertSame($this->explainData, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->explain), count($this->result));
+        $this->assertSame(count($this->explain), count($this->result));
     }
 }

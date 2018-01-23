@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Analysis\Query;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
 use Solarium\QueryType\Analysis\Query\Document;
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
-use Solarium\Core\Client\Client;
-
-use PHPUnit\Framework\TestCase;
 
 class DocumentTest extends TestCase
 {
@@ -51,7 +50,7 @@ class DocumentTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_ANALYSIS_DOCUMENT, $this->query->getType());
+        $this->assertSame(Client::QUERY_ANALYSIS_DOCUMENT, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -74,7 +73,7 @@ class DocumentTest extends TestCase
     {
         $doc = new ReadOnlyDocument(array('id' => 1));
         $this->query->addDocument($doc);
-        $this->assertEquals(
+        $this->assertSame(
             array($doc),
             $this->query->getDocuments()
         );
@@ -85,7 +84,7 @@ class DocumentTest extends TestCase
         $doc1 = new ReadOnlyDocument(array('id' => 1));
         $doc2 = new ReadOnlyDocument(array('id' => 2));
         $this->query->addDocuments(array($doc1, $doc2));
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2),
             $this->query->getDocuments()
         );

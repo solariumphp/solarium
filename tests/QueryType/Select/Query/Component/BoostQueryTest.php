@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
-use Solarium\Component\BoostQuery;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\BoostQuery;
 
 class BoostQueryTest extends TestCase
 {
@@ -48,25 +47,25 @@ class BoostQueryTest extends TestCase
     {
         $fq = new BoostQuery(array('key' => 'k1', 'query'=> 'id:[10 TO 20]'));
 
-        $this->assertEquals('k1', $fq->getKey());
-        $this->assertEquals('id:[10 TO 20]', $fq->getQuery());
+        $this->assertSame('k1', $fq->getKey());
+        $this->assertSame('id:[10 TO 20]', $fq->getQuery());
     }
 
     public function testSetAndGetKey()
     {
         $this->boostQuery->setKey('testkey');
-        $this->assertEquals('testkey', $this->boostQuery->getKey());
+        $this->assertSame('testkey', $this->boostQuery->getKey());
     }
 
     public function testSetAndGetQuery()
     {
         $this->boostQuery->setQuery('category:1');
-        $this->assertEquals('category:1', $this->boostQuery->getQuery());
+        $this->assertSame('category:1', $this->boostQuery->getQuery());
     }
 
     public function testSetAndGetQueryWithBind()
     {
         $this->boostQuery->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->boostQuery->getQuery());
+        $this->assertSame('id:678', $this->boostQuery->getQuery());
     }
 }

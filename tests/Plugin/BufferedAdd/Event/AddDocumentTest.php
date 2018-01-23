@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument;
 use Solarium\QueryType\Update\Query\Document\Document;
-
-use PHPUnit\Framework\TestCase;
 
 class AddDocumentTest extends TestCase
 {
@@ -44,7 +43,7 @@ class AddDocumentTest extends TestCase
 
         $event = new AddDocument($document);
 
-        $this->assertEquals($document, $event->getDocument());
+        $this->assertSame($document, $event->getDocument());
 
         return $event;
     }

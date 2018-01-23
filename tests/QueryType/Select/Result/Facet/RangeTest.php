@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
 
-use Solarium\Component\Result\Facet\Range;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Facet\Range;
 
 class RangeTest extends TestCase
 {
@@ -78,12 +77,12 @@ class RangeTest extends TestCase
 
     public function testGetValues()
     {
-        $this->assertEquals($this->values, $this->facet->getValues());
+        $this->assertSame($this->values, $this->facet->getValues());
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->values), count($this->facet));
+        $this->assertSame(count($this->values), count($this->facet));
     }
 
     public function testIterator()
@@ -93,36 +92,36 @@ class RangeTest extends TestCase
             $values[$key] = $value;
         }
 
-        $this->assertEquals($this->values, $values);
+        $this->assertSame($this->values, $values);
     }
 
     public function testGetBefore()
     {
-        $this->assertEquals($this->before, $this->facet->getBefore());
+        $this->assertSame($this->before, $this->facet->getBefore());
     }
 
     public function testGetAfter()
     {
-        $this->assertEquals($this->after, $this->facet->getAfter());
+        $this->assertSame($this->after, $this->facet->getAfter());
     }
 
     public function testGetBetween()
     {
-        $this->assertEquals($this->between, $this->facet->getBetween());
+        $this->assertSame($this->between, $this->facet->getBetween());
     }
 
     public function testGetStart()
     {
-        $this->assertEquals($this->start, $this->facet->getStart());
+        $this->assertSame($this->start, $this->facet->getStart());
     }
 
     public function testGetEnd()
     {
-        $this->assertEquals($this->end, $this->facet->getEnd());
+        $this->assertSame($this->end, $this->facet->getEnd());
     }
 
     public function testGetGap()
     {
-        $this->assertEquals($this->gap, $this->facet->getGap());
+        $this->assertSame($this->gap, $this->facet->getGap());
     }
 }

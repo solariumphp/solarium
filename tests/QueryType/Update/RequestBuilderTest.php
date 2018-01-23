@@ -31,6 +31,7 @@
 
 namespace Solarium\Tests\QueryType\Update;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
@@ -40,8 +41,6 @@ use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
 use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\RequestBuilder;
-
-use PHPUnit\Framework\TestCase;
 
 class RequestBuilderTest extends TestCase
 {
@@ -64,7 +63,7 @@ class RequestBuilderTest extends TestCase
     public function testGetMethod()
     {
         $request = $this->builder->build($this->query);
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_POST,
             $request->getMethod()
         );
@@ -73,7 +72,7 @@ class RequestBuilderTest extends TestCase
     public function testGetUri()
     {
         $request = $this->builder->build($this->query);
-        $this->assertEquals(
+        $this->assertSame(
             'update?omitHeader=false&wt=json&json.nl=flat',
             $request->getUri()
         );
@@ -84,7 +83,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand;
         $command->addDocument(new Document(array('id' => 1)));
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add><doc><field name="id">1</field></doc></add>',
             $this->builder->buildAddXml($command)
         );
@@ -95,7 +94,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand;
         $command->addDocument(new Document(array('id' => 1, 'visible' => true, 'forsale' => false)));
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add><doc><field name="id">1</field><field name="visible">true</field><field name="forsale">false</field></doc></add>',
             $this->builder->buildAddXml($command)
         );
@@ -106,7 +105,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand(array('overwrite' => true, 'commitwithin' => 100));
         $command->addDocument(new Document(array('id' => 1)));
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add overwrite="true" commitWithin="100"><doc><field name="id">1</field></doc></add>',
             $this->builder->buildAddXml($command)
         );
@@ -117,7 +116,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand;
         $command->addDocument(new Document(array('id' => 1, 'text' => 'test < 123 > test')));
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add><doc><field name="id">1</field><field name="text">test &lt; 123 &gt; test</field></doc></add>',
             $this->builder->buildAddXml($command)
         );
@@ -128,7 +127,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand;
         $command->addDocument(new Document(array('id' => array(1, 2, 3), 'text' => 'test < 123 > test')));
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add>' .
             '<doc>' .
             '<field name="id">1</field>' .
@@ -163,7 +162,7 @@ class RequestBuilderTest extends TestCase
             )
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add>' .
             '<doc>' .
             '<doc>' .
@@ -187,7 +186,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand;
         $command->addDocument($doc);
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add><doc boost="2.5"><field name="id">1</field></doc></add>',
             $this->builder->buildAddXml($command)
         );
@@ -200,7 +199,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand;
         $command->addDocument($doc);
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add><doc><field name="id" boost="2.1">1</field></doc></add>',
             $this->builder->buildAddXml($command)
         );
@@ -212,7 +211,7 @@ class RequestBuilderTest extends TestCase
         $command->addDocument(new Document(array('id' => 1)));
         $command->addDocument(new Document(array('id' => 2)));
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add><doc><field name="id">1</field></doc><doc><field name="id">2</field></doc></add>',
             $this->builder->buildAddXml($command)
         );
@@ -229,7 +228,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand();
         $command->addDocument($doc);
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add>' .
             '<doc>' .
             '<field name="id">1</field>' .
@@ -254,7 +253,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand();
         $command->addDocument($doc);
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add>' .
             '<doc>' .
             '<field name="id">1</field>' .
@@ -276,7 +275,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand;
         $command->addDocument($doc);
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add><doc><field name="id">1</field><field name="_version_">-1</field></doc></add>',
             $this->builder->buildAddXml($command)
         );
@@ -289,7 +288,7 @@ class RequestBuilderTest extends TestCase
             new Document(array('id' => 1, 'datetime' => new \DateTime('2013-01-15 14:41:58', new \DateTimeZone('Europe/London'))))
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add><doc><field name="id">1</field><field name="datetime">2013-01-15T14:41:58Z</field></doc></add>',
             $this->builder->buildAddXml($command, $this->query)
         );
@@ -304,7 +303,7 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand();
         $command->addDocument($doc);
 
-        $this->assertEquals(
+        $this->assertSame(
             '<add>' .
             '<doc>' .
             '<field name="employeeId">05991</field>' .
@@ -319,7 +318,7 @@ class RequestBuilderTest extends TestCase
     {
         $command = new DeleteCommand;
 
-        $this->assertEquals(
+        $this->assertSame(
             '<delete></delete>',
             $this->builder->buildDeleteXml($command)
         );
@@ -330,7 +329,7 @@ class RequestBuilderTest extends TestCase
         $command = new DeleteCommand;
         $command->addId(123);
 
-        $this->assertEquals(
+        $this->assertSame(
             '<delete><id>123</id></delete>',
             $this->builder->buildDeleteXml($command)
         );
@@ -342,7 +341,7 @@ class RequestBuilderTest extends TestCase
         $command->addId(123);
         $command->addId(456);
 
-        $this->assertEquals(
+        $this->assertSame(
             '<delete><id>123</id><id>456</id></delete>',
             $this->builder->buildDeleteXml($command)
         );
@@ -353,7 +352,7 @@ class RequestBuilderTest extends TestCase
         $command = new DeleteCommand;
         $command->addQuery('*:*');
 
-        $this->assertEquals(
+        $this->assertSame(
             '<delete><query>*:*</query></delete>',
             $this->builder->buildDeleteXml($command)
         );
@@ -365,7 +364,7 @@ class RequestBuilderTest extends TestCase
         $command->addQuery('published:false');
         $command->addQuery('id:[10 TO 20]');
 
-        $this->assertEquals(
+        $this->assertSame(
             '<delete><query>published:false</query><query>id:[10 TO 20]</query></delete>',
             $this->builder->buildDeleteXml($command)
         );
@@ -379,7 +378,7 @@ class RequestBuilderTest extends TestCase
         $command->addQuery('published:false');
         $command->addQuery('id:[10 TO 20]');
 
-        $this->assertEquals(
+        $this->assertSame(
             '<delete><id>123</id><id>456</id><query>published:false</query><query>id:[10 TO 20]</query></delete>',
             $this->builder->buildDeleteXml($command)
         );
@@ -391,7 +390,7 @@ class RequestBuilderTest extends TestCase
         $command->addId('special<char>id');
         $command->addQuery('id:special<char>id');
 
-        $this->assertEquals(
+        $this->assertSame(
             '<delete><id>special&lt;char&gt;id</id><query>id:special&lt;char&gt;id</query></delete>',
             $this->builder->buildDeleteXml($command)
         );
@@ -401,7 +400,7 @@ class RequestBuilderTest extends TestCase
     {
         $command = new OptimizeCommand();
 
-        $this->assertEquals(
+        $this->assertSame(
             '<optimize/>',
             $this->builder->buildOptimizeXml($command)
         );
@@ -411,7 +410,7 @@ class RequestBuilderTest extends TestCase
     {
         $command = new OptimizeCommand(array('softcommit' => true, 'waitsearcher' => false, 'maxsegments' => 10));
 
-        $this->assertEquals(
+        $this->assertSame(
             '<optimize softCommit="true" waitSearcher="false" maxSegments="10"/>',
             $this->builder->buildOptimizeXml($command)
         );
@@ -421,7 +420,7 @@ class RequestBuilderTest extends TestCase
     {
         $command = new CommitCommand;
 
-        $this->assertEquals(
+        $this->assertSame(
             '<commit/>',
             $this->builder->buildCommitXml($command)
         );
@@ -431,7 +430,7 @@ class RequestBuilderTest extends TestCase
     {
         $command = new CommitCommand(array('softcommit' => true, 'waitsearcher' => false, 'expungedeletes' => true));
 
-        $this->assertEquals(
+        $this->assertSame(
             '<commit softCommit="true" waitSearcher="false" expungeDeletes="true"/>',
             $this->builder->buildCommitXml($command)
         );
@@ -439,7 +438,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildRollbackXml()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '<rollback/>',
             $this->builder->buildRollbackXml()
         );
@@ -454,7 +453,7 @@ class RequestBuilderTest extends TestCase
         $this->query->addCommit();
         $this->query->addOptimize();
 
-        $this->assertEquals(
+        $this->assertSame(
             '<update>'
             . '<delete><id>1</id></delete>'
             . '<rollback/>'

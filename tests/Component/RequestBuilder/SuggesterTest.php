@@ -52,7 +52,7 @@ class SuggesterTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'suggest' => 'true',
                 'suggest.dictionary' => 'suggest',

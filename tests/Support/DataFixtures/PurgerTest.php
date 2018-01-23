@@ -2,40 +2,40 @@
 
 namespace Solarium\Tests\Support\DataFixtures;
 
-use Solarium\Support\DataFixtures\Purger;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\ClientInterface;
+use Solarium\QueryType\Update\Query\Query;
+use Solarium\QueryType\Update\Result;
+use Solarium\Support\DataFixtures\Purger;
 
 class PurgerTest extends TestCase
 {
     public function testPurge()
     {
-        $solarium = $this->getMock('Solarium\Core\Client\ClientInterface');
+        $client = $this->createMock(ClientInterface::class);
 
-        $update = $this->getMock('\Solarium\QueryType\Update\Query\Query');
+        $update = $this->createMock(Query::class);
         $update->expects($this->once())
             ->method('addDeleteQuery')
             ->with('*:*');
         $update->expects($this->once())
             ->method('addCommit');
 
-        $queryResult = $this->getMockBuilder('\Solarium\QueryType\Update\Result')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $queryResult = $this->createMock(Result::class);
         $queryResult->expects($this->once())
             ->method('getStatus')
             ->will($this->returnValue(0));
 
-        $solarium->expects($this->once())
+        $client->expects($this->once())
             ->method('createUpdate')
             ->will($this->returnValue($update));
 
-        $solarium->expects($this->once())
+        $client->expects($this->once())
             ->method('update')
             ->with($update)
             ->will($this->returnValue($queryResult));
 
-        $purger = new Purger($solarium);
+        $purger = new Purger($client);
         $purger->purge();
     }
 }

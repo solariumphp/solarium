@@ -2,10 +2,9 @@
 
 namespace Solarium\Tests\Component;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Spatial;
 use Solarium\QueryType\Select\Query\Query;
-
-use PHPUnit\Framework\TestCase;
 
 class SpatialTest extends TestCase
 {
@@ -29,14 +28,14 @@ class SpatialTest extends TestCase
 
         $this->spatial->setOptions($options);
 
-        $this->assertEquals($options['sfield'], $this->spatial->getField());
-        $this->assertEquals($options['d'], $this->spatial->getDistance());
-        $this->assertEquals($options['pt'], $this->spatial->getPoint());
+        $this->assertSame($options['sfield'], $this->spatial->getField());
+        $this->assertSame($options['d'], $this->spatial->getDistance());
+        $this->assertSame($options['pt'], $this->spatial->getPoint());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMPONENT_SPATIAL,
             $this->spatial->getType()
         );
@@ -44,7 +43,7 @@ class SpatialTest extends TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertEquals(null, $this->spatial->getResponseParser());
+        $this->assertSame(null, $this->spatial->getResponseParser());
     }
 
     public function testGetRequestBuilder()
@@ -60,7 +59,7 @@ class SpatialTest extends TestCase
         $value = 'geo';
         $this->spatial->setField($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spatial->getField()
         );
@@ -71,7 +70,7 @@ class SpatialTest extends TestCase
         $value = 'distance';
         $this->spatial->setDistance($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spatial->getDistance()
         );
@@ -82,7 +81,7 @@ class SpatialTest extends TestCase
         $value = '52,13';
         $this->spatial->setPoint($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->spatial->getPoint()
         );

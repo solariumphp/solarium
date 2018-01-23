@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\Component\ResponseParser;
 
-use Solarium\Component\Facet\Field;
-use Solarium\Component\ResponseParser\FacetSet as Parser;
-use Solarium\Component\FacetSet;
-use Solarium\QueryType\Select\Query\Query;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Facet\Field;
+use Solarium\Component\FacetSet;
+use Solarium\Component\ResponseParser\FacetSet as Parser;
+use Solarium\QueryType\Select\Query\Query;
 
 class FacetSetTest extends TestCase
 {
@@ -129,44 +128,44 @@ class FacetSetTest extends TestCase
         $result = $this->parser->parse($this->query, $this->facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(array('keyA', 'keyB', 'keyC', 'keyD', 'keyE'), array_keys($facets));
+        $this->assertSame(array('keyA', 'keyB', 'keyC', 'keyD', 'keyE'), array_keys($facets));
 
-        $this->assertEquals(
+        $this->assertSame(
             array('value1' => 12, 'value2' => 3),
             $facets['keyA']->getValues()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             23,
             $facets['keyB']->getValue()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('keyC_A' => 25, 'keyC_B' => 16),
             $facets['keyC']->getValues()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('1.0' => 1, '101.0' => 2, '201.0' => 1),
             $facets['keyD']->getValues()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             3,
             $facets['keyD']->getBefore()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             4,
             $facets['keyD']->getBetween()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             5,
             $facets['keyD']->getAfter()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             1,
             count($facets['keyE'])
         );
@@ -232,57 +231,57 @@ class FacetSetTest extends TestCase
         $result = $this->parser->parse($this->query, $facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(array('keyA', 'keyB', 'keyC_A', 'keyC_B', 'keyD', 'cat,price'), array_keys($facets));
+        $this->assertSame(array('keyA', 'keyB', 'keyC_A', 'keyC_B', 'keyD', 'cat,price'), array_keys($facets));
 
-        $this->assertEquals(
+        $this->assertSame(
             array('value1' => 12, 'value2' => 3),
             $facets['keyA']->getValues()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             23,
             $facets['keyB']->getValue()
         );
 
         // As the multiquery facet is a Solarium virtual facet type, it cannot be detected based on Solr response data
-        $this->assertEquals(
+        $this->assertSame(
             25,
             $facets['keyC_A']->getValue()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             16,
             $facets['keyC_B']->getValue()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('1.0' => 1, '101.0' => 2, '201.0' => 1),
             $facets['keyD']->getValues()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             3,
             $facets['keyD']->getBefore()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             4,
             $facets['keyD']->getBetween()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             5,
             $facets['keyD']->getAfter()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             1,
             count($facets['cat,price'])
         );
 
         $pivots = $facets['cat,price']->getPivot();
 
-        $this->assertEquals(
+        $this->assertSame(
             2,
             count($pivots[0]->getStats())
         );
@@ -293,12 +292,12 @@ class FacetSetTest extends TestCase
     public function testParseNoData()
     {
         $result = $this->parser->parse($this->query, $this->facetSet, array());
-        $this->assertEquals(array(), $result->getFacets());
+        $this->assertSame(array(), $result->getFacets());
     }
 
     public function testInvalidFacetType()
     {
-        $facetStub = $this->getMock('Solarium\Component\Facet\Field');
+        $facetStub = $this->createMock(Field::class);
         $facetStub->expects($this->once())
              ->method('getType')
              ->will($this->returnValue('invalidfacettype'));

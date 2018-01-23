@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\Core\Event;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Event\PostCreateQuery;
 use Solarium\QueryType\Select\Query\Query;
-
-use PHPUnit\Framework\TestCase;
 
 class PostCreateQueryTest extends TestCase
 {
@@ -47,8 +46,8 @@ class PostCreateQueryTest extends TestCase
 
         $event = new PostCreateQuery($type, $options, $query);
 
-        $this->assertEquals($type, $event->getQueryType());
-        $this->assertEquals($options, $event->getOptions());
-        $this->assertEquals($query, $event->getQuery());
+        $this->assertSame($type, $event->getQueryType());
+        $this->assertSame($options, $event->getOptions());
+        $this->assertSame($query, $event->getQuery());
     }
 }

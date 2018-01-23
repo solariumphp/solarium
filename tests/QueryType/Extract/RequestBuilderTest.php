@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Extract;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\Extract\Query;
 use Solarium\QueryType\Extract\RequestBuilder;
-use Solarium\Core\Client\Request;
-
-use PHPUnit\Framework\TestCase;
 
 class RequestBuilderTest extends TestCase
 {
@@ -61,7 +60,7 @@ class RequestBuilderTest extends TestCase
     public function testGetMethod()
     {
         $request = $this->builder->build($this->query);
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_POST,
             $request->getMethod()
         );
@@ -70,7 +69,7 @@ class RequestBuilderTest extends TestCase
     public function testGetFileUpload()
     {
         $request = $this->builder->build($this->query);
-        $this->assertEquals(
+        $this->assertSame(
             __FILE__,
             $request->getFileUpload()
         );
@@ -79,7 +78,7 @@ class RequestBuilderTest extends TestCase
     public function testGetUri()
     {
         $request = $this->builder->build($this->query);
-        $this->assertEquals(
+        $this->assertSame(
             'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&extractOnly=false&fmap.from-field=to-field'.
             '&resource.name=RequestBuilderTest.php',
             $request->getUri()
@@ -91,7 +90,7 @@ class RequestBuilderTest extends TestCase
         $query = $this->query;
         $query->setFile('http://solarium-project.org/');
         $request = $this->builder->build($query);
-        $this->assertEquals(
+        $this->assertSame(
             'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&extractOnly=false&fmap.from-field=to-field'.
             '&stream.url=http%3A%2F%2Fsolarium-project.org%2F',
             $request->getUri()
@@ -106,7 +105,7 @@ class RequestBuilderTest extends TestCase
         $this->query->setDocument($document);
 
         $request = $this->builder->build($this->query);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'boost.field1' => 1,
                 'boost.field2' => 5,
@@ -140,7 +139,7 @@ class RequestBuilderTest extends TestCase
             'Content-Type: multipart/form-data'
         );
         $request = $this->builder->build($this->query);
-        $this->assertEquals($headers,
+        $this->assertSame($headers,
                             $request->getHeaders());
     }
 }

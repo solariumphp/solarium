@@ -6,7 +6,6 @@ use Solarium\Tests\Integration\AbstractTechproductsTest;
 
 class TechproductsZendHttpTest extends AbstractTechproductsTest
 {
-
     public function setUp()
     {
         if (!class_exists('Zend_Loader_Autoloader') && !(@include_once 'Zend/Loader/Autoloader.php')) {
@@ -17,5 +16,4 @@ class TechproductsZendHttpTest extends AbstractTechproductsTest
             $this->client->setAdapter('Solarium\Core\Client\Adapter\ZendHttp');
         }
     }
-
 }

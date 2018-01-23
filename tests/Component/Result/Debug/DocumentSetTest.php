@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component\Result\Debug;
 
-use Solarium\Component\Result\Debug\DocumentSet;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Debug\DocumentSet;
 
 class DocumentSetTest extends TestCase
 {
@@ -52,7 +51,7 @@ class DocumentSetTest extends TestCase
 
     public function testGetDocument()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->docs['key1'],
             $this->result->getDocument('key1')
         );
@@ -60,7 +59,7 @@ class DocumentSetTest extends TestCase
 
     public function testGetDocumentWithInvalidKey()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->result->getDocument('invalidkey')
         );
@@ -68,7 +67,7 @@ class DocumentSetTest extends TestCase
 
     public function testGetDocuments()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->docs,
             $this->result->getDocuments()
         );
@@ -81,11 +80,11 @@ class DocumentSetTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->docs, $items);
+        $this->assertSame($this->docs, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->docs), count($this->result));
+        $this->assertSame(count($this->docs), count($this->result));
     }
 }

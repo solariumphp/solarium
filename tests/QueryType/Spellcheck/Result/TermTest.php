@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Spellcheck\Result;
 
-use Solarium\QueryType\Spellcheck\Result\Term;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Spellcheck\Result\Term;
 
 class TermTest extends TestCase
 {
@@ -77,7 +76,7 @@ class TermTest extends TestCase
 
     public function testGetNumFound()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->numFound,
             $this->result->getNumFound()
         );
@@ -85,7 +84,7 @@ class TermTest extends TestCase
 
     public function testGetStartOffset()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->startOffset,
             $this->result->getStartOffset()
         );
@@ -93,7 +92,7 @@ class TermTest extends TestCase
 
     public function testGetEndOffset()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->endOffset,
             $this->result->getEndOffset()
         );
@@ -101,7 +100,7 @@ class TermTest extends TestCase
 
     public function testGetSuggestions()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->suggestions,
             $this->result->getSuggestions()
         );
@@ -109,7 +108,7 @@ class TermTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->suggestions), count($this->result));
+        $this->assertSame(count($this->suggestions), count($this->result));
     }
 
     public function testIterator()
@@ -119,6 +118,6 @@ class TermTest extends TestCase
             $results[$key] = $doc;
         }
 
-        $this->assertEquals($this->suggestions, $results);
+        $this->assertSame($this->suggestions, $results);
     }
 }

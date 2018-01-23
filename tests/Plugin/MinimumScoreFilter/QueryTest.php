@@ -44,34 +44,34 @@ class QueryTest extends AbstractQueryTest
     public function testSetAndGetFilterMode()
     {
         $this->query->setFilterMode(Query::FILTER_MODE_MARK);
-        $this->assertEquals(Query::FILTER_MODE_MARK, $this->query->getFilterMode());
+        $this->assertSame(Query::FILTER_MODE_MARK, $this->query->getFilterMode());
     }
 
     public function testSetAndGetFilterRatio()
     {
         $this->query->setFilterRatio(0.345);
-        $this->assertEquals(0.345, $this->query->getFilterRatio());
+        $this->assertSame(0.345, $this->query->getFilterRatio());
     }
 
     public function testClearFields()
     {
         $this->query->addField('newfield');
         $this->query->clearFields();
-        $this->assertEquals(array('score'), $this->query->getFields());
+        $this->assertSame(array('score'), $this->query->getFields());
     }
 
     public function testSetAndGetResultClass()
     {
         // Should be ignored
         $this->query->setResultClass('MyResult');
-        $this->assertEquals('Solarium\Plugin\MinimumScoreFilter\Result', $this->query->getResultClass());
+        $this->assertSame('Solarium\Plugin\MinimumScoreFilter\Result', $this->query->getResultClass());
     }
 
     public function testAddFields()
     {
         $this->query->clearFields();
         $this->query->addFields(array('field1', 'field2'));
-        $this->assertEquals(array('field1', 'field2', 'score'), $this->query->getFields());
+        $this->assertSame(array('field1', 'field2', 'score'), $this->query->getFields());
     }
 
     public function testRemoveField()
@@ -79,7 +79,7 @@ class QueryTest extends AbstractQueryTest
         $this->query->clearFields();
         $this->query->addFields(array('field1', 'field2'));
         $this->query->removeField('field1');
-        $this->assertEquals(array('field2', 'score'), $this->query->getFields());
+        $this->assertSame(array('field2', 'score'), $this->query->getFields());
     }
 
     public function testSetFields()
@@ -87,13 +87,13 @@ class QueryTest extends AbstractQueryTest
         $this->query->clearFields();
         $this->query->addFields(array('field1', 'field2'));
         $this->query->setFields(array('field3', 'field4'));
-        $this->assertEquals(array('field3', 'field4', 'score'), $this->query->getFields());
+        $this->assertSame(array('field3', 'field4', 'score'), $this->query->getFields());
     }
 
     public function testAddFieldsAsStringWithTrim()
     {
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
-        $this->assertEquals(array('field1', 'field2', 'score'), $this->query->getFields());
+        $this->assertSame(array('field1', 'field2', 'score'), $this->query->getFields());
     }
 }

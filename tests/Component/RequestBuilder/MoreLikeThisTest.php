@@ -32,8 +32,8 @@
 namespace Solarium\Tests\Component\RequestBuilder;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\RequestBuilder\MoreLikeThis as RequestBuilder;
 use Solarium\Component\MoreLikeThis as Component;
+use Solarium\Component\RequestBuilder\MoreLikeThis as RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class MoreLikeThisTest extends TestCase
@@ -57,7 +57,7 @@ class MoreLikeThisTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'mlt' => 'true',
                 'mlt.fl' => 'description,name',
@@ -73,7 +73,6 @@ class MoreLikeThisTest extends TestCase
             ),
             $request->getParams()
         );
-
     }
 
     public function testBuildComponentWithoutFieldsAndQueryFields()
@@ -93,7 +92,7 @@ class MoreLikeThisTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'mlt' => 'true',
                 'mlt.mintf' => 1,
@@ -107,6 +106,5 @@ class MoreLikeThisTest extends TestCase
             ),
             $request->getParams()
         );
-
     }
 }

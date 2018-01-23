@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\MoreLikeThis;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\MoreLikeThis\Query;
 use Solarium\QueryType\MoreLikeThis\RequestBuilder;
-use Solarium\Core\Client\Request;
-
-use PHPUnit\Framework\TestCase;
 
 class RequestBuilderTest extends TestCase
 {
@@ -73,7 +72,7 @@ class RequestBuilderTest extends TestCase
 
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'mlt.interestingTerms' => 'test',
                 'mlt.match.include' => 'true',
@@ -98,7 +97,7 @@ class RequestBuilderTest extends TestCase
             $request->getParams()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_GET,
             $request->getMethod()
         );
@@ -113,9 +112,9 @@ class RequestBuilderTest extends TestCase
 
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(Request::METHOD_POST, $request->getMethod());
-        $this->assertEquals(null, $request->getParam('q'));
-        $this->assertEquals($content, $request->getRawData());
+        $this->assertSame(Request::METHOD_POST, $request->getMethod());
+        $this->assertSame(null, $request->getParam('q'));
+        $this->assertSame($content, $request->getRawData());
         $this->assertTrue(in_array('Content-Type: text/plain; charset=utf-8', $request->getHeaders()));
     }
 }

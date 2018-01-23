@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\Component\RequestBuilder;
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\RequestBuilder\EdisMax as RequestBuilder;
 use Solarium\Component\EdisMax as Component;
+use Solarium\Component\RequestBuilder\EdisMax as RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class EDisMaxTest extends TestCase
@@ -62,7 +62,7 @@ class EDisMaxTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'defType' => 'dummyparser',
                 'q.alt' => 'test',
@@ -83,6 +83,5 @@ class EDisMaxTest extends TestCase
             ),
             $request->getParams()
         );
-
     }
 }

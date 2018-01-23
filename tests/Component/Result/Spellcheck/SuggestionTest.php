@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component\Result\Spellcheck;
 
-use Solarium\Component\Result\Spellcheck\Suggestion;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Spellcheck\Suggestion;
 
 class SuggestionTest extends TestCase
 {
@@ -77,36 +76,36 @@ class SuggestionTest extends TestCase
 
     public function testGetNumFound()
     {
-        $this->assertEquals($this->numFound, $this->result->getNumFound());
+        $this->assertSame($this->numFound, $this->result->getNumFound());
     }
 
     public function testGetStartOffset()
     {
-        $this->assertEquals($this->startOffset, $this->result->getStartOffset());
+        $this->assertSame($this->startOffset, $this->result->getStartOffset());
     }
 
     public function testGetEndOffset()
     {
-        $this->assertEquals($this->endOffset, $this->result->getEndOffset());
+        $this->assertSame($this->endOffset, $this->result->getEndOffset());
     }
 
     public function testGetOriginalFrequency()
     {
-         $this->assertEquals($this->originalFrequency, $this->result->getOriginalFrequency());
+         $this->assertSame($this->originalFrequency, $this->result->getOriginalFrequency());
     }
 
     public function testGetWord()
     {
-         $this->assertEquals($this->words[0]['word'], $this->result->getWord());
+         $this->assertSame($this->words[0]['word'], $this->result->getWord());
     }
 
     public function testGetFrequency()
     {
-         $this->assertEquals($this->words[0]['freq'], $this->result->getFrequency());
+         $this->assertSame($this->words[0]['freq'], $this->result->getFrequency());
     }
 
     public function testGetWords()
     {
-         $this->assertEquals($this->words, $this->result->getWords());
+         $this->assertSame($this->words, $this->result->getWords());
     }
 }

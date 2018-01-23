@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\Component\Result\MoreLikeThis;
 
-use Solarium\QueryType\Select\Result\Document;
-use Solarium\Component\Result\MoreLikeThis\Result;
-use Solarium\Component\Result\MoreLikeThis\MoreLikeThis;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\MoreLikeThis\MoreLikeThis;
+use Solarium\Component\Result\MoreLikeThis\Result;
+use Solarium\QueryType\Select\Result\Document;
 
 class MoreLikeThisTest extends TestCase
 {
@@ -63,12 +62,12 @@ class MoreLikeThisTest extends TestCase
 
     public function testGetResults()
     {
-         $this->assertEquals($this->results, $this->mlt->getResults());
+         $this->assertSame($this->results, $this->mlt->getResults());
     }
 
     public function testGetResult()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->results['key1'],
             $this->mlt->getResult('key1')
         );
@@ -76,7 +75,7 @@ class MoreLikeThisTest extends TestCase
 
     public function testGetInvalidResult()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->mlt->getResult('invalid')
         );
@@ -89,11 +88,11 @@ class MoreLikeThisTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->results, $items);
+        $this->assertSame($this->results, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->results), count($this->mlt));
+        $this->assertSame(count($this->results), count($this->mlt));
     }
 }

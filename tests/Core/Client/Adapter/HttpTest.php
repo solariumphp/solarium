@@ -32,12 +32,11 @@
 namespace Solarium\Tests\Core\Client\Adapter;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use Solarium\Core\Client\Adapter\Http;
-use Solarium\Core\Client\Request;
-use Solarium\Core\Client\Endpoint;
-use Solarium\Exception\HttpException;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Adapter\Http;
+use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
+use Solarium\Exception\HttpException;
 
 class HttpTest extends TestCase
 {
@@ -57,10 +56,13 @@ class HttpTest extends TestCase
 
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
-
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Solarium\Core\Client\Adapter\Http', array('getData', 'check'));
+        /** @var Http|MockObject $mock */
+        $mock = $this->getMockBuilder(Http::class)
+            ->setMethods(['getData', 'check'])
+            ->getMock();
+
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
@@ -76,7 +78,11 @@ class HttpTest extends TestCase
         $request = new Request();
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Solarium\Core\Client\Adapter\Http', array('getData', 'check'));
+        /** @var Http|MockObject $mock */
+        $mock = $this->getMockBuilder(Http::class)
+            ->setMethods(['getData', 'check'])
+            ->getMock();
+
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
@@ -93,14 +99,13 @@ class HttpTest extends TestCase
     {
         $this->expectException(HttpException::class);
         $this->adapter->check(false, array());
-
     }
 
     public function testCheckOk()
     {
         $value = $this->adapter->check('dummydata', array('HTTP 1.1 200 OK'));
 
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $value
         );
@@ -118,7 +123,7 @@ class HttpTest extends TestCase
 
         $context = $this->adapter->createContext($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('http' => array('method' => $method, 'timeout' => $timeout)),
             stream_context_get_options($context)
         );
@@ -140,7 +145,7 @@ class HttpTest extends TestCase
 
         $context = $this->adapter->createContext($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('http' => array('method' => $method, 'timeout' => $timeout, 'header' => $header1."\r\n".$header2)),
             stream_context_get_options($context)
         );
@@ -160,7 +165,7 @@ class HttpTest extends TestCase
 
         $context = $this->adapter->createContext($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'http' => array(
                     'method' => $method,
@@ -193,7 +198,7 @@ class HttpTest extends TestCase
         unset($stream_context_get_options['http']['content']);
         unset($stream_context_get_options['http']['header']);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'http' => array(
                     'method' => $method,
@@ -218,7 +223,7 @@ class HttpTest extends TestCase
 
         $context = $this->adapter->createContext($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'http' => array(
                     'method' => $method,

@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Core\Client;
 
-use Solarium\Exception\HttpException;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Exception\HttpException;
 
 class HttpExceptionTest extends TestCase
 {
@@ -41,7 +40,7 @@ class HttpExceptionTest extends TestCase
     {
         $exception = new HttpException('message text', 123);
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solr HTTP error: message text (123)',
             $exception->getMessage()
         );
@@ -51,7 +50,7 @@ class HttpExceptionTest extends TestCase
     {
         $exception = new HttpException('message text', 123);
 
-        $this->assertEquals(
+        $this->assertSame(
             'message text',
             $exception->getStatusMessage()
         );
@@ -61,7 +60,7 @@ class HttpExceptionTest extends TestCase
     {
         $exception = new HttpException('message text', 123, 'body text');
 
-        $this->assertEquals(
+        $this->assertSame(
             'body text',
             $exception->getBody()
         );
@@ -71,7 +70,7 @@ class HttpExceptionTest extends TestCase
     {
         $exception = new HttpException('message text');
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solr HTTP error: message text',
             $exception->getMessage()
         );

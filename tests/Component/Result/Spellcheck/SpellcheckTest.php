@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component\Result\Spellcheck;
 
-use Solarium\Component\Result\Spellcheck\Result;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Spellcheck\Result;
 
 class SpellcheckTest extends TestCase
 {
@@ -64,43 +63,43 @@ class SpellcheckTest extends TestCase
 
     public function testGetCollation()
     {
-        $this->assertEquals(reset($this->collations), $this->result->getCollation());
+        $this->assertSame(reset($this->collations), $this->result->getCollation());
     }
 
     public function testGetCollationWithoutData()
     {
         $result = new Result($this->suggestions, array(), $this->correctlySpelled);
-        $this->assertEquals(null, $result->getCollation());
+        $this->assertSame(null, $result->getCollation());
     }
 
     public function testGetCollationWithKey()
     {
-        $this->assertEquals($this->collations[0], $this->result->getCollation(0));
+        $this->assertSame($this->collations[0], $this->result->getCollation(0));
     }
 
     public function testGetCollations()
     {
-        $this->assertEquals($this->collations, $this->result->getCollations());
+        $this->assertSame($this->collations, $this->result->getCollations());
     }
 
     public function testGetCorrectlySpelled()
     {
-        $this->assertEquals($this->correctlySpelled, $this->result->getCorrectlySpelled());
+        $this->assertSame($this->correctlySpelled, $this->result->getCorrectlySpelled());
     }
 
     public function testGetSuggestion()
     {
-         $this->assertEquals($this->suggestions['key1'], $this->result->getSuggestion('key1'));
+         $this->assertSame($this->suggestions['key1'], $this->result->getSuggestion('key1'));
     }
 
     public function testGetInvalidSuggestion()
     {
-         $this->assertEquals(null, $this->result->getSuggestion('key3'));
+         $this->assertSame(null, $this->result->getSuggestion('key3'));
     }
 
     public function testGetSuggestions()
     {
-         $this->assertEquals($this->suggestions, $this->result->getSuggestions());
+         $this->assertSame($this->suggestions, $this->result->getSuggestions());
     }
 
     public function testIterator()
@@ -110,11 +109,11 @@ class SpellcheckTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->suggestions, $items);
+        $this->assertSame($this->suggestions, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->suggestions), count($this->result));
+        $this->assertSame(count($this->suggestions), count($this->result));
     }
 }

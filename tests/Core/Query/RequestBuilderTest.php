@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\Core\Query;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-
-use PHPUnit\Framework\TestCase;
 
 class RequestBuilderTest extends TestCase
 {
@@ -56,7 +55,7 @@ class RequestBuilderTest extends TestCase
         $query->setResponseWriter('xyz');
         $request = $this->builder->build($query);
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=true&p1=v1&p2=v2&wt=xyz',
             urldecode($request->getUri())
         );
@@ -70,7 +69,7 @@ class RequestBuilderTest extends TestCase
         $query->setOmitHeader(false);
         $request = $this->builder->build($query);
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=false&p1=v1&p2=v2&wt=json&json.nl=flat',
             urldecode($request->getUri())
         );
@@ -84,7 +83,7 @@ class RequestBuilderTest extends TestCase
         $query->setTimeAllowed(1400);
         $request = $this->builder->build($query);
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=true&timeAllowed=1400&p1=v1&p2=v2&wt=json&json.nl=flat',
             urldecode($request->getUri())
         );
@@ -94,7 +93,7 @@ class RequestBuilderTest extends TestCase
     {
         $myParams = array('tag' => 'mytag', 'ex' => array('exclude1', 'exclude2'));
 
-        $this->assertEquals(
+        $this->assertSame(
             '{!tag=mytag ex=exclude1,exclude2}myValue',
             $this->builder->renderLocalParams('myValue', $myParams)
         );
@@ -102,7 +101,7 @@ class RequestBuilderTest extends TestCase
 
     public function testRenderLocalParamsWithoutParams()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'myValue',
             $this->builder->renderLocalParams('myValue')
         );
@@ -110,7 +109,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBoolAttribWithNull()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '',
             $this->builder->boolAttrib('myattrib', null)
         );
@@ -118,7 +117,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBoolAttribWithString()
     {
-        $this->assertEquals(
+        $this->assertSame(
             ' myattrib="true"',
             $this->builder->boolAttrib('myattrib', 'true')
         );
@@ -126,7 +125,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBoolAttribWithBool()
     {
-        $this->assertEquals(
+        $this->assertSame(
             ' myattrib="false"',
             $this->builder->boolAttrib('myattrib', false)
         );
@@ -134,7 +133,7 @@ class RequestBuilderTest extends TestCase
 
     public function testAttribWithNull()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '',
             $this->builder->attrib('myattrib', null)
         );
@@ -142,7 +141,7 @@ class RequestBuilderTest extends TestCase
 
     public function testAttribWithString()
     {
-        $this->assertEquals(
+        $this->assertSame(
             ' myattrib="myvalue"',
             $this->builder->attrib('myattrib', 'myvalue')
         );

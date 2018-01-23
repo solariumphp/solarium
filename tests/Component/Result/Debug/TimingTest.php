@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\Component\Result\Debug;
 
-use Solarium\Component\Result\Debug\Timing;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Debug\Timing;
 
 class TimingTest extends TestCase
 {
@@ -54,7 +53,7 @@ class TimingTest extends TestCase
 
     public function testGetTime()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->time,
             $this->result->getTime()
         );
@@ -62,7 +61,7 @@ class TimingTest extends TestCase
 
     public function testGetPhase()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->phases['key1'],
             $this->result->getPhase('key1')
         );
@@ -70,7 +69,7 @@ class TimingTest extends TestCase
 
     public function testGetPhaseWithInvalidKey()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->result->getPhase('invalidkey')
         );
@@ -78,7 +77,7 @@ class TimingTest extends TestCase
 
     public function testGetPhases()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->phases,
             $this->result->getPhases()
         );
@@ -91,11 +90,11 @@ class TimingTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->phases, $items);
+        $this->assertSame($this->phases, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->phases), count($this->result));
+        $this->assertSame(count($this->phases), count($this->result));
     }
 }

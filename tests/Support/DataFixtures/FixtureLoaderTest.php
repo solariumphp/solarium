@@ -2,16 +2,25 @@
 
 namespace Solarium\Tests\Support\DataFixtures;
 
-use Solarium\Support\DataFixtures\FixtureLoader;
-use Solarium\Tests\Support\DataFixtures\Fixtures\MockFixture1;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\ClientInterface;
+use Solarium\Support\DataFixtures\Executor;
+use Solarium\Support\DataFixtures\FixtureLoader;
+use Solarium\Support\DataFixtures\Loader;
+use Solarium\Support\DataFixtures\Purger;
+use Solarium\Tests\Support\DataFixtures\Fixtures\MockFixture1;
 
 class FixtureLoaderTest extends TestCase
 {
     private $fixturePath;
 
     private $client;
+
+    protected function setUp()
+    {
+        $this->client = $this->createMock(ClientInterface::class);
+        $this->fixturePath = __DIR__ . '/Fixtures/';
+    }
 
     public function testWithAppending()
     {
@@ -35,15 +44,9 @@ class FixtureLoaderTest extends TestCase
         $fixtureLoader->loadFixturesFromDir($this->fixturePath, false);
     }
 
-    protected function setUp()
-    {
-        $this->client = $this->getMock('Solarium\Core\Client\ClientInterface');
-        $this->fixturePath = __DIR__ . '/Fixtures/';
-    }
-
     private function mockLoader()
     {
-        $loader = $this->getMock('Solarium\Support\DataFixtures\Loader', array(), array($this->client));
+        $loader = $this->createMock(Loader::class);
 
         $loader->expects($this->once())
             ->method('loadFromDirectory')
@@ -64,7 +67,7 @@ class FixtureLoaderTest extends TestCase
 
     private function mockPurger($expectPurge)
     {
-        $purger = $this->getMock('Solarium\Support\DataFixtures\Purger', array(), array($this->client));
+        $purger = $this->createMock(Purger::class);
 
         $purger->expects($expectPurge ? $this->once() : $this->never())
             ->method('purge');
@@ -74,7 +77,7 @@ class FixtureLoaderTest extends TestCase
 
     private function mockExecutor()
     {
-        $executor = $this->getMock('Solarium\Support\DataFixtures\Executor', array(), array($this->client));
+        $executor = $this->createMock(Executor::class);
 
         return $executor;
     }

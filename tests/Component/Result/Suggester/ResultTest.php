@@ -2,11 +2,10 @@
 
 namespace Solarium\Tests\Component\Result\Suggester;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Result\Suggester\Result;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
-
-use PHPUnit\Framework\TestCase;
 
 class ResultTest extends TestCase
 {
@@ -33,13 +32,12 @@ class ResultTest extends TestCase
             new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
         );
 
-
         $this->result = new Result($this->docs, $all);
     }
 
     public function testGetDictionary()
     {
-         $this->assertEquals($this->docs['dictionary1'], $this->result->getDictionary('dictionary1'));
+         $this->assertSame($this->docs['dictionary1'], $this->result->getDictionary('dictionary1'));
     }
 
     public function testIterator()
@@ -49,11 +47,11 @@ class ResultTest extends TestCase
             $docs[$key] = $doc;
         }
 
-        $this->assertEquals($this->docs, $docs);
+        $this->assertSame($this->docs, $docs);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->docs), count($this->result));
+        $this->assertSame(count($this->docs), count($this->result));
     }
 }

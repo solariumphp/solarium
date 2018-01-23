@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Ping;
 
-use Solarium\QueryType\Ping\RequestBuilder;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Ping\Query;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Ping\RequestBuilder;
 
 class RequestBuilderTest extends TestCase
 {
@@ -44,12 +43,12 @@ class RequestBuilderTest extends TestCase
         $builder = new RequestBuilder;
         $request = $builder->build(new Query);
 
-        $this->assertEquals(
+        $this->assertSame(
             'admin/ping?omitHeader=true&wt=json&json.nl=flat',
             $request->getUri()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_GET,
             $request->getMethod()
         );

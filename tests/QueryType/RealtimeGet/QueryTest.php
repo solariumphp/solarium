@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\RealtimeGet;
 
-use Solarium\QueryType\RealtimeGet\Query;
-use Solarium\Core\Client\Client;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\RealtimeGet\Query;
 
 class QueryTest extends TestCase
 {
@@ -50,7 +49,7 @@ class QueryTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_REALTIME_GET, $this->query->getType());
+        $this->assertSame(Client::QUERY_REALTIME_GET, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -69,12 +68,12 @@ class QueryTest extends TestCase
     public function testSetAndGetDocumentClass()
     {
         $this->query->setDocumentClass('MyDocument');
-        $this->assertEquals('MyDocument', $this->query->getDocumentClass());
+        $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
     public function testGetComponents()
     {
-        $this->assertEquals(array(), $this->query->getComponents());
+        $this->assertSame(array(), $this->query->getComponents());
     }
 
     public function testAddId()
@@ -82,14 +81,14 @@ class QueryTest extends TestCase
         $expectedIds = $this->query->getIds();
         $expectedIds[] = 'newid';
         $this->query->addId('newid');
-        $this->assertEquals($expectedIds, $this->query->getIds());
+        $this->assertSame($expectedIds, $this->query->getIds());
     }
 
     public function testClearIds()
     {
         $this->query->addId('newid');
         $this->query->clearIds();
-        $this->assertEquals(array(), $this->query->getIds());
+        $this->assertSame(array(), $this->query->getIds());
     }
 
     public function testAddIds()
@@ -98,14 +97,14 @@ class QueryTest extends TestCase
 
         $this->query->clearIds();
         $this->query->addIds($ids);
-        $this->assertEquals($ids, $this->query->getIds());
+        $this->assertSame($ids, $this->query->getIds());
     }
 
     public function testAddIdsAsStringWithTrim()
     {
         $this->query->clearIds();
         $this->query->addIds('id1, id2');
-        $this->assertEquals(array('id1', 'id2'), $this->query->getIds());
+        $this->assertSame(array('id1', 'id2'), $this->query->getIds());
     }
 
     public function testRemoveId()
@@ -113,7 +112,7 @@ class QueryTest extends TestCase
         $this->query->clearIds();
         $this->query->addIds(array('id1', 'id2'));
         $this->query->removeId('id1');
-        $this->assertEquals(array('id2'), $this->query->getIds());
+        $this->assertSame(array('id2'), $this->query->getIds());
     }
 
     public function testSetIds()
@@ -121,6 +120,6 @@ class QueryTest extends TestCase
         $this->query->clearIds();
         $this->query->addIds(array('id1', 'id2'));
         $this->query->setIds(array('id3', 'id4'));
-        $this->assertEquals(array('id3', 'id4'), $this->query->getIds());
+        $this->assertSame(array('id3', 'id4'), $this->query->getIds());
     }
 }

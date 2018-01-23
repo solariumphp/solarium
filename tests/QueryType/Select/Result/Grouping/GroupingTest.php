@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
 
-use Solarium\Component\Result\Grouping\Result;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Grouping\Result;
 
 class GroupingTest extends TestCase
 {
@@ -56,7 +55,7 @@ class GroupingTest extends TestCase
 
     public function testGetGroups()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->items,
             $this->grouping->getGroups()
         );
@@ -64,7 +63,7 @@ class GroupingTest extends TestCase
 
     public function testGetGroup()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->items['key1'],
             $this->grouping->getGroup('key1')
         );
@@ -72,7 +71,7 @@ class GroupingTest extends TestCase
 
     public function testGetGroupInvalid()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->grouping->getGroup('invalidkey')
         );
@@ -85,11 +84,11 @@ class GroupingTest extends TestCase
             $items[$key] = $item;
         }
 
-        $this->assertEquals($this->items, $items);
+        $this->assertSame($this->items, $items);
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->items), count($this->grouping));
+        $this->assertSame(count($this->items), count($this->grouping));
     }
 }

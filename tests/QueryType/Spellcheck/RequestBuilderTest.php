@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Spellcheck;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\Spellcheck\Query;
 use Solarium\QueryType\Spellcheck\RequestBuilder;
-use Solarium\Core\Client\Request;
-
-use PHPUnit\Framework\TestCase;
 
 class RequestBuilderTest extends TestCase
 {
@@ -66,7 +65,7 @@ class RequestBuilderTest extends TestCase
 
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'spellcheck' => 'true',
                 'spellcheck.q' => 'ap ip',
@@ -83,7 +82,7 @@ class RequestBuilderTest extends TestCase
             $request->getParams()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_GET,
             $request->getMethod()
         );

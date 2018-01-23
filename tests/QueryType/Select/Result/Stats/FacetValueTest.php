@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Stats;
 
-use Solarium\Component\Result\Stats\FacetValue;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Stats\FacetValue;
 
 class FacetValueTest extends TestCase
 {
@@ -65,51 +64,51 @@ class FacetValueTest extends TestCase
 
     public function testGetValue()
     {
-        $this->assertEquals($this->value, $this->result->getValue());
+        $this->assertSame($this->value, $this->result->getValue());
     }
 
     public function testGetMin()
     {
-        $this->assertEquals($this->stats['min'], $this->result->getMin());
+        $this->assertSame($this->stats['min'], $this->result->getMin());
     }
 
     public function testGetMax()
     {
-        $this->assertEquals($this->stats['max'], $this->result->getMax());
+        $this->assertSame($this->stats['max'], $this->result->getMax());
     }
 
     public function testGetSum()
     {
-        $this->assertEquals($this->stats['sum'], $this->result->getSum());
+        $this->assertSame($this->stats['sum'], $this->result->getSum());
     }
 
     public function testGetCount()
     {
-        $this->assertEquals($this->stats['count'], $this->result->getCount());
+        $this->assertSame($this->stats['count'], $this->result->getCount());
     }
 
     public function testGetMissing()
     {
-        $this->assertEquals($this->stats['missing'], $this->result->getMissing());
+        $this->assertSame($this->stats['missing'], $this->result->getMissing());
     }
 
     public function testGetSumOfSquares()
     {
-        $this->assertEquals($this->stats['sumOfSquares'], $this->result->getSumOfSquares());
+        $this->assertSame($this->stats['sumOfSquares'], $this->result->getSumOfSquares());
     }
 
     public function testGetMean()
     {
-        $this->assertEquals($this->stats['mean'], $this->result->getMean());
+        $this->assertSame($this->stats['mean'], $this->result->getMean());
     }
 
     public function testGetStddev()
     {
-        $this->assertEquals($this->stats['stddev'], $this->result->getStddev());
+        $this->assertSame($this->stats['stddev'], $this->result->getStddev());
     }
 
     public function testGetFacets()
     {
-        $this->assertEquals($this->stats['facets'], $this->result->getFacets());
+        $this->assertSame($this->stats['facets'], $this->result->getFacets());
     }
 }

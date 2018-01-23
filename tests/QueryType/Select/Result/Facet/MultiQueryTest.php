@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
 
-use Solarium\Component\Result\Facet\MultiQuery;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Facet\MultiQuery;
 
 class MultiQueryTest extends TestCase
 {
@@ -52,12 +51,12 @@ class MultiQueryTest extends TestCase
 
     public function testGetValues()
     {
-        $this->assertEquals($this->values, $this->facet->getValues());
+        $this->assertSame($this->values, $this->facet->getValues());
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->values), count($this->facet));
+        $this->assertSame(count($this->values), count($this->facet));
     }
 
     public function testIterator()
@@ -67,6 +66,6 @@ class MultiQueryTest extends TestCase
             $values[$key] = $value;
         }
 
-        $this->assertEquals($this->values, $values);
+        $this->assertSame($this->values, $values);
     }
 }

@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
 
-use Solarium\Component\Result\Facet\Query;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Facet\Query;
 
 class QueryTest extends TestCase
 {
@@ -41,6 +40,6 @@ class QueryTest extends TestCase
     {
         $facet = new Query(124);
 
-        $this->assertEquals(124, $facet->getValue());
+        $this->assertSame(124, $facet->getValue());
     }
 }

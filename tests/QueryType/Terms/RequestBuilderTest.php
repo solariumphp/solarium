@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Terms;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\Terms\Query;
 use Solarium\QueryType\Terms\RequestBuilder;
-use Solarium\Core\Client\Request;
-
-use PHPUnit\Framework\TestCase;
 
 class RequestBuilderTest extends TestCase
 {
@@ -73,7 +72,7 @@ class RequestBuilderTest extends TestCase
 
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'terms' => 'true',
                 'terms.fl' => array(
@@ -102,7 +101,7 @@ class RequestBuilderTest extends TestCase
             $request->getParams()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_GET,
             $request->getMethod()
         );

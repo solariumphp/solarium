@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\MultiQuery;
 use Solarium\Component\Facet\Query;
 use Solarium\Component\FacetSet;
-
-use PHPUnit\Framework\TestCase;
 
 class MultiQueryTest extends TestCase
 {
@@ -68,17 +67,17 @@ class MultiQueryTest extends TestCase
 
         $this->facet->setOptions($options);
 
-        $this->assertEquals($options['key'], $this->facet->getKey());
-        $this->assertEquals($options['exclude'], $this->facet->getExcludes());
+        $this->assertSame($options['key'], $this->facet->getKey());
+        $this->assertSame($options['exclude'], $this->facet->getExcludes());
 
         $query1 = $this->facet->getQuery('k1');
-        $this->assertEquals('k1', $query1->getKey());
-        $this->assertEquals('category:1', $query1->getQuery());
-        $this->assertEquals(array('fq1', 'fq2', 'e1', 'e2'), $query1->getExcludes());
+        $this->assertSame('k1', $query1->getKey());
+        $this->assertSame('category:1', $query1->getQuery());
+        $this->assertSame(array('fq1', 'fq2', 'e1', 'e2'), $query1->getExcludes());
 
         $query2 = $this->facet->getQuery('k2');
-        $this->assertEquals('k2', $query2->getKey());
-        $this->assertEquals('category:2', $query2->getQuery());
+        $this->assertSame('k2', $query2->getKey());
+        $this->assertSame('category:2', $query2->getQuery());
     }
 
     public function testConfigModeSingleQuery()
@@ -88,13 +87,12 @@ class MultiQueryTest extends TestCase
         );
 
         $this->facet->setOptions($options);
-        $this->assertEquals('category:2', $this->facet->getQuery(0)->getQuery());
-
+        $this->assertSame('category:2', $this->facet->getQuery(0)->getQuery());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             FacetSet::FACET_MULTIQUERY,
             $this->facet->getType()
         );
@@ -113,7 +111,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->createQuery($key, $query, $excludes);
 
-        $this->assertEquals(
+        $this->assertSame(
             $facetQuery,
             $this->facet->getQuery($key)
         );
@@ -132,7 +130,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQuery($facetQuery);
 
-        $this->assertEquals(
+        $this->assertSame(
             $facetQuery,
             $this->facet->getQuery($key)
         );
@@ -150,7 +148,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQuery($config);
 
-        $this->assertEquals(
+        $this->assertSame(
             $facetQuery,
             $this->facet->getQuery($config['key'])
         );
@@ -195,7 +193,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQuery($facetQuery);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('fq1'),
             $facetQuery->getExcludes()
         );
@@ -213,7 +211,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQueries(array($facetQuery1, $facetQuery2));
 
-        $this->assertEquals(
+        $this->assertSame(
             array('k1' => $facetQuery1, 'k2' => $facetQuery2),
             $this->facet->getQueries()
         );
@@ -244,7 +242,7 @@ class MultiQueryTest extends TestCase
         );
         $this->facet->addQueries($config);
 
-        $this->assertEquals(
+        $this->assertSame(
             $facetQueries,
             $this->facet->getQueries()
         );
@@ -252,7 +250,7 @@ class MultiQueryTest extends TestCase
 
     public function testGetInvalidQuery()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->facet->getQuery('invalidkey')
         );
@@ -265,13 +263,13 @@ class MultiQueryTest extends TestCase
         $facetQuery->setQuery('category:1');
 
         $this->facet->addQuery($facetQuery);
-        $this->assertEquals(
+        $this->assertSame(
             array('k1' => $facetQuery),
             $this->facet->getQueries()
         );
 
         $this->facet->removeQuery('k1');
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->facet->getQueries()
         );
@@ -284,13 +282,13 @@ class MultiQueryTest extends TestCase
         $facetQuery->setQuery('category:1');
 
         $this->facet->addQuery($facetQuery);
-        $this->assertEquals(
+        $this->assertSame(
             array('k1' => $facetQuery),
             $this->facet->getQueries()
         );
 
         $this->facet->removeQuery($facetQuery);
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->facet->getQueries()
         );
@@ -307,7 +305,7 @@ class MultiQueryTest extends TestCase
         $this->facet->removeQuery('invalidkey');
         $after = $this->facet->getQueries();
 
-        $this->assertEquals(
+        $this->assertSame(
             $before,
             $after
         );
@@ -325,7 +323,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQueries(array($facetQuery1, $facetQuery2));
         $this->facet->clearQueries();
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->facet->getQueries()
         );
@@ -347,7 +345,7 @@ class MultiQueryTest extends TestCase
         $facetQuery3->setQuery('category:3');
 
         $this->facet->setQueries(array($facetQuery2, $facetQuery3));
-        $this->assertEquals(
+        $this->assertSame(
             array('k2' => $facetQuery2, 'k3' => $facetQuery3),
             $this->facet->getQueries()
         );
@@ -362,7 +360,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addExclude('fq1');
 
-        $this->assertEquals(
+        $this->assertSame(
             array('fq1'),
             $facetQuery->getExcludes()
         );
@@ -377,14 +375,14 @@ class MultiQueryTest extends TestCase
         $facetQuery->setQuery('category:1');
         $this->facet->addQuery($facetQuery);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('fq1'),
             $facetQuery->getExcludes()
         );
 
         $this->facet->removeExclude('fq1');
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $facetQuery->getExcludes()
         );
@@ -400,14 +398,14 @@ class MultiQueryTest extends TestCase
         $facetQuery->setQuery('category:1');
         $this->facet->addQuery($facetQuery);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('fq1', 'fq2'),
             $facetQuery->getExcludes()
         );
 
         $this->facet->clearExcludes();
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $facetQuery->getExcludes()
         );

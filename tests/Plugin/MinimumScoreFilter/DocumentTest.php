@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\Plugin\MinimumScoreFilter;
 
-use Solarium\QueryType\Select\Result\Document;
 use Solarium\Plugin\MinimumScoreFilter\Document as FilterDocument;
+use Solarium\QueryType\Select\Result\Document;
 use Solarium\Tests\QueryType\Select\Result\AbstractDocumentTest;
 
 class DocumentTest extends AbstractDocumentTest
@@ -45,10 +45,10 @@ class DocumentTest extends AbstractDocumentTest
 
     public function testMarkedAsLowScore()
     {
-        $this->assertEquals(true, $this->doc->markedAsLowScore());
+        $this->assertSame(true, $this->doc->markedAsLowScore());
 
         $doc2 = new Document($this->fields);
         $filterDoc2 = new FilterDocument($doc2, false);
-        $this->assertEquals(false, $filterDoc2->markedAsLowScore());
+        $this->assertSame(false, $filterDoc2->markedAsLowScore());
     }
 }

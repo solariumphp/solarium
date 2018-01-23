@@ -32,12 +32,10 @@
 namespace Solarium\Tests\Core\Client\Adapter;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use Solarium\Core\Client\Adapter\Curl;
-use Solarium\Core\Client\Request;
-use Solarium\Core\Client\Endpoint;
-use Solarium\Core\Exception;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Adapter\Curl;
+use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
 use Solarium\Exception\HttpException;
 
 class CurlTest extends TestCase
@@ -83,14 +81,18 @@ class CurlTest extends TestCase
         $request = new Request();
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Solarium\Core\Client\Adapter\Curl', array('getData'));
+        /** @var Curl|MockObject $mock */
+        $mock = $this->getMockBuilder(Curl::class)
+            ->setMethods(['getData'])
+            ->getMock();
+
         $mock->expects($this->once())
-                 ->method('getData')
-                 ->with($request, $endpoint)
-                 ->will($this->returnValue($data));
+             ->method('getData')
+             ->with($request, $endpoint)
+             ->will($this->returnValue($data));
 
         $response = $mock->execute($request, $endpoint);
 
-        $this->assertEquals($data, $response);
+        $this->assertSame($data, $response);
     }
 }

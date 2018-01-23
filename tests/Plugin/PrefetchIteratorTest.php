@@ -31,13 +31,12 @@
 
 namespace Solarium\Tests\Plugin;
 
-use Solarium\QueryType\Select\Result\Document;
-use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Result\Result;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Plugin\PrefetchIterator;
-
-use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Select\Result\Result;
 
 class PrefetchIteratorTest extends TestCase
 {
@@ -62,25 +61,24 @@ class PrefetchIteratorTest extends TestCase
 
         $this->client = new Client();
         $this->query = $this->client->createSelect();
-
     }
 
     public function testSetAndGetPrefetch()
     {
         $this->plugin->setPrefetch(120);
-        $this->assertEquals(120, $this->plugin->getPrefetch());
+        $this->assertSame(120, $this->plugin->getPrefetch());
     }
 
     public function testSetAndGetQuery()
     {
         $this->plugin->setQuery($this->query);
-        $this->assertEquals($this->query, $this->plugin->getQuery());
+        $this->assertSame($this->query, $this->plugin->getQuery());
     }
 
     public function testCount()
     {
         $result = $this->getResult();
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient = $this->createMock(Client::class);
         $mockClient->expects($this->exactly(1))
                    ->method('execute')
                    ->with($this->equalTo($this->query), $this->equalTo(null))
@@ -94,7 +92,7 @@ class PrefetchIteratorTest extends TestCase
     public function testIteratorAndRewind()
     {
         $result = $this->getResult();
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient = $this->createMock(Client::class);
 
         // Important: if prefetch or query settings are not changed, the query should be executed only once!
         $mockClient->expects($this->exactly(1))->method('execute')->will($this->returnValue($result));
@@ -113,14 +111,14 @@ class PrefetchIteratorTest extends TestCase
             $results2[$key] = $doc;
         }
 
-        $this->assertEquals($result->getDocuments(), $results1);
-        $this->assertEquals($result->getDocuments(), $results2);
+        $this->assertSame($result->getDocuments(), $results1);
+        $this->assertSame($result->getDocuments(), $results2);
     }
 
     public function testIteratorResetOnSetPrefetch()
     {
         $result = $this->getResult();
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient = $this->createMock(Client::class);
         $mockClient->expects($this->exactly(2))->method('execute')->will($this->returnValue($result));
 
         $this->plugin->initPlugin($mockClient, array());
@@ -139,14 +137,14 @@ class PrefetchIteratorTest extends TestCase
             $results2[] = $doc;
         }
 
-        $this->assertEquals($result->getDocuments(), $results1);
-        $this->assertEquals($result->getDocuments(), $results2);
+        $this->assertSame($result->getDocuments(), $results1);
+        $this->assertSame($result->getDocuments(), $results2);
     }
 
     public function testIteratorResetOnSetQuery()
     {
         $result = $this->getResult();
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient = $this->createMock(Client::class);
         $mockClient->expects($this->exactly(2))->method('execute')->will($this->returnValue($result));
 
         $this->plugin->initPlugin($mockClient, array());
@@ -165,8 +163,8 @@ class PrefetchIteratorTest extends TestCase
             $results2[] = $doc;
         }
 
-        $this->assertEquals($result->getDocuments(), $results1);
-        $this->assertEquals($result->getDocuments(), $results2);
+        $this->assertSame($result->getDocuments(), $results1);
+        $this->assertSame($result->getDocuments(), $results2);
     }
 
     public function getResult()
@@ -186,15 +184,15 @@ class PrefetchIteratorTest extends TestCase
 
     public function testSetAndGetEndpointAsString()
     {
-        $this->assertEquals(null, $this->plugin->getEndpoint());
+        $this->assertSame(null, $this->plugin->getEndpoint());
         $this->plugin->setEndpoint('s1');
-        $this->assertEquals('s1', $this->plugin->getEndpoint());
+        $this->assertSame('s1', $this->plugin->getEndpoint());
     }
 
     public function testWithSpecificEndpoint()
     {
         $result = $this->getResult();
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient = $this->createMock(Client::class);
         $mockClient->expects($this->exactly(1))
                    ->method('execute')
                    ->with($this->equalTo($this->query), $this->equalTo('s2'))
@@ -208,7 +206,7 @@ class PrefetchIteratorTest extends TestCase
     public function testWithSpecificEndpointOption()
     {
         $result = $this->getResult();
-        $mockClient = $this->getMock('Solarium\Core\Client\Client', array('execute'));
+        $mockClient = $this->createMock(Client::class);
         $mockClient->expects($this->exactly(1))
                    ->method('execute')
                    ->with($this->equalTo($this->query), $this->equalTo('s3'))

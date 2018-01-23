@@ -56,14 +56,14 @@ class ResultTest extends AbstractResultTest
     public function testIterator()
     {
         foreach ($this->result as $key => $doc) {
-            $this->assertEquals($this->docs[$key]->title, $doc->title);
-            $this->assertEquals(($key == 3), $doc->markedAsLowScore());
+            $this->assertSame($this->docs[$key]->title, $doc->title);
+            $this->assertSame(($key == 3), $doc->markedAsLowScore());
         }
     }
 
     public function testGetDocuments()
     {
-        $this->assertEquals(count($this->docs), count($this->result->getDocuments()));
+        $this->assertSame(count($this->docs), count($this->result->getDocuments()));
     }
 
     public function testIteratorWithRemoveFilter()
@@ -74,9 +74,9 @@ class ResultTest extends AbstractResultTest
             $docs[$key] = $doc;
         }
 
-        $this->assertEquals($docs[0]->title, $this->docs[0]->title);
-        $this->assertEquals($docs[1]->title, $this->docs[1]->title);
-        $this->assertEquals($docs[2]->title, $this->docs[2]->title);
+        $this->assertSame($docs[0]->title, $this->docs[0]->title);
+        $this->assertSame($docs[1]->title, $this->docs[1]->title);
+        $this->assertSame($docs[2]->title, $this->docs[2]->title);
         $this->assertArrayNotHasKey(3, $docs);
     }
 
@@ -86,9 +86,9 @@ class ResultTest extends AbstractResultTest
         $docs = $result->getDocuments();
 
         $this->assertCount(3, $docs);
-        $this->assertEquals($docs[0]->title, $this->docs[0]->title);
-        $this->assertEquals($docs[1]->title, $this->docs[1]->title);
-        $this->assertEquals($docs[2]->title, $this->docs[2]->title);
+        $this->assertSame($docs[0]->title, $this->docs[0]->title);
+        $this->assertSame($docs[1]->title, $this->docs[1]->title);
+        $this->assertSame($docs[2]->title, $this->docs[2]->title);
     }
 
     public function testFilterWithInvalidMode()
@@ -96,7 +96,6 @@ class ResultTest extends AbstractResultTest
         $this->expectException('Solarium\Exception\OutOfBoundsException');
         $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, 'invalid_filter_name');
     }
-
 }
 
 class FilterResultDummy extends Result

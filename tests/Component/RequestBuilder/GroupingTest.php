@@ -31,8 +31,8 @@
 
 namespace Solarium\Tests\Component\RequestBuilder;
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\RequestBuilder\Grouping as RequestBuilder;
 use Solarium\Component\Grouping as Component;
+use Solarium\Component\RequestBuilder\Grouping as RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class GroupingTest extends TestCase
@@ -58,7 +58,7 @@ class GroupingTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'group' => 'true',
                 'group.field' => array('fieldA', 'fieldB'),
@@ -76,6 +76,5 @@ class GroupingTest extends TestCase
             ),
             $request->getParams()
         );
-
     }
 }

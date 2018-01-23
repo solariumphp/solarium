@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\Core\Event;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Event\PreCreateQuery;
 use Solarium\QueryType\Select\Query\Query;
-
-use PHPUnit\Framework\TestCase;
 
 class PreCreateQueryTest extends TestCase
 {
@@ -47,8 +46,8 @@ class PreCreateQueryTest extends TestCase
 
         $event = new PreCreateQuery($type, $options);
 
-        $this->assertEquals($type, $event->getQueryType());
-        $this->assertEquals($options, $event->getOptions());
+        $this->assertSame($type, $event->getQueryType());
+        $this->assertSame($options, $event->getOptions());
 
         return $event;
     }
@@ -65,6 +64,6 @@ class PreCreateQueryTest extends TestCase
 
         $event->setQuery($query);
 
-        $this->assertEquals($query, $event->getQuery());
+        $this->assertSame($query, $event->getQuery());
     }
 }

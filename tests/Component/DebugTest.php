@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\Component;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Debug;
-
-use PHPUnit\Framework\TestCase;
 
 class DebugTest extends TestCase
 {
@@ -56,12 +55,12 @@ class DebugTest extends TestCase
 
         $this->debug->setOptions($options);
 
-        $this->assertEquals($options['explainother'], $this->debug->getExplainOther());
+        $this->assertSame($options['explainother'], $this->debug->getExplainOther());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             ComponentAwareQueryInterface::COMPONENT_DEBUG,
             $this->debug->getType()
         );
@@ -88,7 +87,7 @@ class DebugTest extends TestCase
         $value = 'id:24';
         $this->debug->setExplainOther($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->debug->getExplainOther()
         );

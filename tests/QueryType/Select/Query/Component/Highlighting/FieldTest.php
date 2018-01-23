@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
 
-use Solarium\Component\Highlighting\Highlighting;
-use Solarium\Component\Highlighting\Field;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Highlighting\Field;
+use Solarium\Component\Highlighting\Highlighting;
 
 class FieldTest extends TestCase
 {
@@ -65,16 +64,16 @@ class FieldTest extends TestCase
 
         $this->fld->setOptions($options);
 
-        $this->assertEquals(3, $this->fld->getSnippets());
-        $this->assertEquals(25, $this->fld->getFragSize());
-        $this->assertEquals(true, $this->fld->getMergeContiguous());
-        $this->assertEquals('text', $this->fld->getAlternateField());
-        $this->assertEquals(true, $this->fld->getPreserveMulti());
-        $this->assertEquals('myFormatter', $this->fld->getFormatter());
-        $this->assertEquals('<b>', $this->fld->getSimplePrefix());
-        $this->assertEquals('</b>', $this->fld->getSimplePostfix());
-        $this->assertEquals('myFragmenter', $this->fld->getFragmenter());
-        $this->assertEquals(true, $this->fld->getUseFastVectorHighlighter());
+        $this->assertSame(3, $this->fld->getSnippets());
+        $this->assertSame(25, $this->fld->getFragSize());
+        $this->assertSame(true, $this->fld->getMergeContiguous());
+        $this->assertSame('text', $this->fld->getAlternateField());
+        $this->assertSame(true, $this->fld->getPreserveMulti());
+        $this->assertSame('myFormatter', $this->fld->getFormatter());
+        $this->assertSame('<b>', $this->fld->getSimplePrefix());
+        $this->assertSame('</b>', $this->fld->getSimplePostfix());
+        $this->assertSame('myFragmenter', $this->fld->getFragmenter());
+        $this->assertSame(true, $this->fld->getUseFastVectorHighlighter());
     }
 
     public function testSetAndGetName()
@@ -82,7 +81,7 @@ class FieldTest extends TestCase
         $value = 'testname';
         $this->fld->setName($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getName()
         );
@@ -93,7 +92,7 @@ class FieldTest extends TestCase
         $value = 2;
         $this->fld->setSnippets($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getSnippets()
         );
@@ -104,7 +103,7 @@ class FieldTest extends TestCase
         $value = 20;
         $this->fld->setFragSize($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getFragSize()
         );
@@ -115,7 +114,7 @@ class FieldTest extends TestCase
         $value = true;
         $this->fld->setMergeContiguous($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getMergeContiguous()
         );
@@ -126,7 +125,7 @@ class FieldTest extends TestCase
         $value = 'description';
         $this->fld->setAlternateField($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getAlternateField()
         );
@@ -137,7 +136,7 @@ class FieldTest extends TestCase
         $value = true;
         $this->fld->setPreserveMulti($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getPreserveMulti()
         );
@@ -147,7 +146,7 @@ class FieldTest extends TestCase
     {
         $this->fld->setFormatter();
 
-        $this->assertEquals(
+        $this->assertSame(
             'simple',
             $this->fld->getFormatter()
         );
@@ -158,7 +157,7 @@ class FieldTest extends TestCase
         $value = '<em>';
         $this->fld->setSimplePrefix($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getSimplePrefix()
         );
@@ -169,7 +168,7 @@ class FieldTest extends TestCase
         $value = '</em>';
         $this->fld->setSimplePostfix($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getSimplePostfix()
         );
@@ -180,7 +179,7 @@ class FieldTest extends TestCase
         $value = Highlighting::FRAGMENTER_REGEX;
         $this->fld->setFragmenter($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getFragmenter()
         );
@@ -191,7 +190,7 @@ class FieldTest extends TestCase
         $value = true;
         $this->fld->setUseFastVectorHighlighter($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getUseFastVectorHighlighter()
         );

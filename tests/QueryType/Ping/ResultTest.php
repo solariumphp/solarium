@@ -31,12 +31,11 @@
 
 namespace Solarium\Tests\QueryType\Ping;
 
-use Solarium\Core\Client\Client;
-use Solarium\QueryType\Ping\Query;
-use Solarium\Core\Client\Response;
-use Solarium\QueryType\Ping\Result;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\Core\Client\Response;
+use Solarium\QueryType\Ping\Query;
+use Solarium\QueryType\Ping\Result;
 
 class ResultTest extends TestCase
 {
@@ -47,7 +46,7 @@ class ResultTest extends TestCase
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
 
         $ping = new Result($query, $response);
-        $this->assertEquals(
+        $this->assertSame(
             0,
             $ping->getStatus()
         );

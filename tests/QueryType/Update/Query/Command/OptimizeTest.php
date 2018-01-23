@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Update\Query\Command\Optimize;
 use Solarium\QueryType\Update\Query\Query;
-
-use PHPUnit\Framework\TestCase;
 
 class OptimizeTest extends TestCase
 {
@@ -55,17 +54,17 @@ class OptimizeTest extends TestCase
 
         $command = new Optimize($options);
 
-        $this->assertEquals(
+        $this->assertSame(
             true,
             $command->getSoftCommit()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             false,
             $command->getWaitSearcher()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             6,
             $command->getMaxSegments()
         );
@@ -73,7 +72,7 @@ class OptimizeTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_OPTIMIZE,
             $this->command->getType()
         );
@@ -82,7 +81,7 @@ class OptimizeTest extends TestCase
     public function testGetAndSetSoftCommit()
     {
         $this->command->setSoftCommit(false);
-        $this->assertEquals(
+        $this->assertSame(
             false,
             $this->command->getSoftCommit()
         );
@@ -91,7 +90,7 @@ class OptimizeTest extends TestCase
     public function testGetAndSetWaitSearcher()
     {
         $this->command->setWaitSearcher(false);
-        $this->assertEquals(
+        $this->assertSame(
             false,
             $this->command->getWaitSearcher()
         );
@@ -100,7 +99,7 @@ class OptimizeTest extends TestCase
     public function testGetAndSetMaxSegments()
     {
         $this->command->setMaxSegments(12);
-        $this->assertEquals(
+        $this->assertSame(
             12,
             $this->command->getMaxSegments()
         );

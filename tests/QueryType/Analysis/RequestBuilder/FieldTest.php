@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Analysis\RequestBuilder;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Analysis\Query\Field as FieldQuery;
 use Solarium\QueryType\Analysis\RequestBuilder\Field as FieldBuilder;
-
-use PHPUnit\Framework\TestCase;
 
 class FieldTest extends TestCase
 {
@@ -66,8 +65,8 @@ class FieldTest extends TestCase
 
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals($fieldValue, $request->getParam('analysis.fieldvalue'));
-        $this->assertEquals($fieldName, $request->getParam('analysis.fieldname'));
-        $this->assertEquals($fieldType, $request->getParam('analysis.fieldtype'));
+        $this->assertSame($fieldValue, $request->getParam('analysis.fieldvalue'));
+        $this->assertSame($fieldName, $request->getParam('analysis.fieldname'));
+        $this->assertSame($fieldType, $request->getParam('analysis.fieldtype'));
     }
 }

@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Stats;
 
-use Solarium\Component\Stats\Stats;
-use Solarium\Component\Stats\Field;
-use Solarium\QueryType\Select\Query\Query;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Stats\Field;
+use Solarium\Component\Stats\Stats;
+use Solarium\QueryType\Select\Query\Query;
 
 class StatsTest extends TestCase
 {
@@ -51,7 +50,7 @@ class StatsTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(Query::COMPONENT_STATS, $this->stats->getType());
+        $this->assertSame(Query::COMPONENT_STATS, $this->stats->getType());
     }
 
     public function testGetResponseParser()
@@ -82,8 +81,8 @@ class StatsTest extends TestCase
 
         $this->stats->setOptions($options);
 
-        $this->assertEquals(array('field1', 'field2'), $this->stats->getFacets());
-        $this->assertEquals(array('f1', 'f2'), array_keys($this->stats->getFields()));
+        $this->assertSame(array('field1', 'field2'), $this->stats->getFacets());
+        $this->assertSame(array('f1', 'f2'), array_keys($this->stats->getFields()));
     }
 
     public function testCreateFieldWithKey()
@@ -93,7 +92,7 @@ class StatsTest extends TestCase
         // check class
         $this->assertThat($field, $this->isInstanceOf('Solarium\Component\Stats\Field'));
 
-        $this->assertEquals(
+        $this->assertSame(
             'mykey',
             $field->getKey()
         );
@@ -109,7 +108,7 @@ class StatsTest extends TestCase
 
         // check option forwarding
         $fieldOptions = $field->getOptions();
-        $this->assertEquals(
+        $this->assertSame(
             $options['key'],
             $field->getKey()
         );
@@ -121,7 +120,7 @@ class StatsTest extends TestCase
         $field->setKey('f1');
         $this->stats->addField($field);
 
-        $this->assertEquals(
+        $this->assertSame(
             $field,
             $this->stats->getField('f1')
         );
@@ -131,7 +130,7 @@ class StatsTest extends TestCase
     {
         $this->stats->addField(array('key' => 'f1'));
 
-        $this->assertEquals(
+        $this->assertSame(
             'f1',
             $this->stats->getField('f1')->getKey()
         );
@@ -143,12 +142,12 @@ class StatsTest extends TestCase
 
         $fld = $this->stats->createField($key);
 
-        $this->assertEquals(
+        $this->assertSame(
             $key,
             $fld->getKey()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $fld,
             $this->stats->getField('f1')
         );
@@ -177,7 +176,7 @@ class StatsTest extends TestCase
 
     public function testGetInvalidField()
     {
-        $this->assertEquals(
+        $this->assertSame(
             null,
             $this->stats->getField('invalidkey')
         );
@@ -194,7 +193,7 @@ class StatsTest extends TestCase
         $fields = array('f1' => $f1, 'f2' => $f2);
 
         $this->stats->addFields($fields);
-        $this->assertEquals(
+        $this->assertSame(
             $fields,
             $this->stats->getFields()
         );
@@ -210,7 +209,7 @@ class StatsTest extends TestCase
         $this->stats->addFields($fields);
         $fields = $this->stats->getFields();
 
-        $this->assertEquals(array('f1', 'f2'), array_keys($fields));
+        $this->assertSame(array('f1', 'f2'), array_keys($fields));
     }
 
     public function testRemoveField()
@@ -225,7 +224,7 @@ class StatsTest extends TestCase
 
         $this->stats->addFields($fields);
         $this->stats->removeField('f1');
-        $this->assertEquals(
+        $this->assertSame(
             array('f2' => $f2),
             $this->stats->getFields()
         );
@@ -243,7 +242,7 @@ class StatsTest extends TestCase
 
         $this->stats->addFields($fields);
         $this->stats->removeField($f1);
-        $this->assertEquals(
+        $this->assertSame(
             array('f2' => $f2),
             $this->stats->getFields()
         );
@@ -261,7 +260,7 @@ class StatsTest extends TestCase
 
         $this->stats->addFields($fields);
         $this->stats->removeField('f3'); //continue silently
-        $this->assertEquals(
+        $this->assertSame(
             $fields,
             $this->stats->getFields()
         );
@@ -279,7 +278,7 @@ class StatsTest extends TestCase
 
         $this->stats->addFields($fields);
         $this->stats->clearFields();
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->stats->getFields()
         );
@@ -307,7 +306,7 @@ class StatsTest extends TestCase
 
         $this->stats->setFields($fields2);
 
-        $this->assertEquals(
+        $this->assertSame(
             $fields2,
             $this->stats->getFields()
         );
@@ -318,14 +317,14 @@ class StatsTest extends TestCase
         $expectedFacets = $this->stats->getFacets();
         $expectedFacets[] = 'newfacet';
         $this->stats->addFacet('newfacet');
-        $this->assertEquals($expectedFacets, $this->stats->getFacets());
+        $this->assertSame($expectedFacets, $this->stats->getFacets());
     }
 
     public function testClearFacets()
     {
         $this->stats->addFacet('newfacet');
         $this->stats->clearFacets();
-        $this->assertEquals(array(), $this->stats->getFacets());
+        $this->assertSame(array(), $this->stats->getFacets());
     }
 
     public function testAddFacets()
@@ -334,14 +333,14 @@ class StatsTest extends TestCase
 
         $this->stats->clearFacets();
         $this->stats->addFacets($facets);
-        $this->assertEquals($facets, $this->stats->getFacets());
+        $this->assertSame($facets, $this->stats->getFacets());
     }
 
     public function testAddFacetsAsStringWithTrim()
     {
         $this->stats->clearFacets();
         $this->stats->addFacets('facet1, facet2');
-        $this->assertEquals(array('facet1', 'facet2'), $this->stats->getFacets());
+        $this->assertSame(array('facet1', 'facet2'), $this->stats->getFacets());
     }
 
     public function testRemoveFacet()
@@ -349,7 +348,7 @@ class StatsTest extends TestCase
         $this->stats->clearFacets();
         $this->stats->addFacets(array('facet1', 'facet2'));
         $this->stats->removeFacet('facet1');
-        $this->assertEquals(array('facet2'), $this->stats->getFacets());
+        $this->assertSame(array('facet2'), $this->stats->getFacets());
     }
 
     public function testSetFacets()
@@ -357,6 +356,6 @@ class StatsTest extends TestCase
         $this->stats->clearFacets();
         $this->stats->addFacets(array('facet1', 'facet2'));
         $this->stats->setFacets(array('facet3', 'facet4'));
-        $this->assertEquals(array('facet3', 'facet4'), $this->stats->getFacets());
+        $this->assertSame(array('facet3', 'facet4'), $this->stats->getFacets());
     }
 }

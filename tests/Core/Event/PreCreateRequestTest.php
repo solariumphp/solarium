@@ -31,11 +31,10 @@
 
 namespace Solarium\Tests\Core\Event;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Request;
 use Solarium\Core\Event\PreCreateRequest;
 use Solarium\QueryType\Select\Query\Query;
-use Solarium\Core\Client\Request;
-
-use PHPUnit\Framework\TestCase;
 
 class PreCreateRequestTest extends TestCase
 {
@@ -44,7 +43,7 @@ class PreCreateRequestTest extends TestCase
         $query = new Query;
         $query->setQuery('test123');
         $event = new PreCreateRequest($query);
-        $this->assertEquals($query, $event->getQuery());
+        $this->assertSame($query, $event->getQuery());
 
         return $event;
     }
@@ -61,6 +60,6 @@ class PreCreateRequestTest extends TestCase
 
         $event->setRequest($request);
 
-        $this->assertEquals($request, $event->getRequest());
+        $this->assertSame($request, $event->getRequest());
     }
 }

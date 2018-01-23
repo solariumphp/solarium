@@ -31,9 +31,8 @@
 
 namespace Solarium\Tests\QueryType\Analysis\Result;
 
-use Solarium\QueryType\Analysis\Result\ResultList;
-
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Analysis\Result\ResultList;
 
 class ResultListTest extends TestCase
 {
@@ -54,12 +53,12 @@ class ResultListTest extends TestCase
 
     public function testGetItems()
     {
-        $this->assertEquals($this->items, $this->result->getItems());
+        $this->assertSame($this->items, $this->result->getItems());
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->items), count($this->result));
+        $this->assertSame(count($this->items), count($this->result));
     }
 
     public function testIterator()
@@ -69,12 +68,12 @@ class ResultListTest extends TestCase
             $lists[$key] = $list;
         }
 
-        $this->assertEquals($this->items, $lists);
+        $this->assertSame($this->items, $lists);
     }
 
     public function testGetName()
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->name,
             $this->result->getName()
         );

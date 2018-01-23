@@ -31,65 +31,63 @@
 
 namespace Solarium\Tests\Core\Query\Result;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\QueryType as QueryTypeResult;
+use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-
-use PHPUnit\Framework\TestCase;
 
 class QueryTypeTest extends TestCase
 {
     /**
-     * @var QueryTypeDummy
+     * @var TestStubResult
      */
     protected $result;
 
     public function setUp()
     {
-        $client = new Client;
         $query = new UpdateQuery;
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
-        $this->result = new QueryTypeDummy($query, $response);
+        $this->result = new TestStubResult($query, $response);
     }
 
     public function testParseResponse()
     {
-        $client = new Client;
-        $query = new QueryDummyTest;
+        $query = new TestStubQuery;
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
-        $result = new QueryTypeDummy($query, $response);
+        $result = new TestStubResult($query, $response);
 
-        $this->expectException('Solarium\Exception\UnexpectedValueException');
+        $this->expectException(UnexpectedValueException::class);
         $result->parse();
     }
 
     public function testParseResponseInvalidQuerytype()
     {
-        $this->result->parse();
+        $this->assertNull($this->result->parse());
     }
 
     public function testParseLazyLoading()
     {
-        $this->assertEquals(0, $this->result->parseCount);
+        $this->assertSame(0, $this->result->parseCount);
 
         $this->result->parse();
-        $this->assertEquals(1, $this->result->parseCount);
+        $this->assertSame(1, $this->result->parseCount);
 
         $this->result->parse();
-        $this->assertEquals(1, $this->result->parseCount);
+        $this->assertSame(1, $this->result->parseCount);
     }
 
     public function testMapData()
     {
         $this->result->mapData(array('dummyvar' => 'dummyvalue'));
 
-        $this->assertEquals('dummyvalue', $this->result->getVar('dummyvar'));
+        $this->assertSame('dummyvalue', $this->result->getVar('dummyvar'));
     }
 }
 
-class QueryDummyTest extends SelectQuery
+class TestStubQuery extends SelectQuery
 {
     public function getType()
     {
@@ -102,7 +100,7 @@ class QueryDummyTest extends SelectQuery
     }
 }
 
-class QueryTypeDummy extends QueryTypeResult
+class TestStubResult extends QueryTypeResult
 {
     public $parseCount = 0;
 

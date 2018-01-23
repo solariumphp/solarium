@@ -31,10 +31,9 @@
 
 namespace Solarium\Tests\Component\ResponseParser;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ResponseParser\Spellcheck as Parser;
 use Solarium\QueryType\Select\Query\Query;
-
-use PHPUnit\Framework\TestCase;
 
 class SpellcheckTest extends TestCase
 {
@@ -49,22 +48,23 @@ class SpellcheckTest extends TestCase
 
     /**
      * @dataProvider providerParseExtended
+     * @param mixed $data
      */
     public function testParseExtended($data)
     {
         $result = $this->parser->parse($this->query, null, $data);
 
         $suggestions = $result->getSuggestions();
-        $this->assertEquals(false, $result->getCorrectlySpelled());
-        $this->assertEquals('dell', $suggestions[0]->getWord());
-        $this->assertEquals('ultrasharp', $suggestions[1]->getWord());
-        $this->assertEquals(6, $suggestions[1]->getStartOffset());
-        $this->assertEquals('ultrasharp', $suggestions[2]->getWord());
-        $this->assertEquals(16, $suggestions[2]->getStartOffset());
-        $this->assertEquals('dell ultrasharp', $result->getCollation()->getQuery());
+        $this->assertSame(false, $result->getCorrectlySpelled());
+        $this->assertSame('dell', $suggestions[0]->getWord());
+        $this->assertSame('ultrasharp', $suggestions[1]->getWord());
+        $this->assertSame(6, $suggestions[1]->getStartOffset());
+        $this->assertSame('ultrasharp', $suggestions[2]->getWord());
+        $this->assertSame(16, $suggestions[2]->getStartOffset());
+        $this->assertSame('dell ultrasharp', $result->getCollation()->getQuery());
         $collations = $result->getCollations();
-        $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
-        $this->assertEquals('dell ultrasharp new', $collations[1]->getQuery());
+        $this->assertSame('dell ultrasharp', $collations[0]->getQuery());
+        $this->assertSame('dell ultrasharp new', $collations[1]->getQuery());
     }
 
     public function providerParseExtended()
@@ -225,19 +225,19 @@ class SpellcheckTest extends TestCase
 
     /**
      * @dataProvider providerParse
+     * @param mixed $data
      */
     public function testParse($data)
     {
         $result = $this->parser->parse($this->query, null, $data);
 
         $suggestions = $result->getSuggestions();
-        $this->assertEquals(false, $result->getCorrectlySpelled());
-        $this->assertEquals('dell', $suggestions[0]->getWord());
-        $this->assertEquals('dell ultrasharp', $result->getCollation()->getQuery());
+        $this->assertSame(false, $result->getCorrectlySpelled());
+        $this->assertSame('dell', $suggestions[0]->getWord());
+        $this->assertSame('dell ultrasharp', $result->getCollation()->getQuery());
         $collations = $result->getCollations();
-        $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
-        $this->assertEquals('dell ultrasharp new', $collations[1]->getQuery());
-
+        $this->assertSame('dell ultrasharp', $collations[0]->getQuery());
+        $this->assertSame('dell ultrasharp new', $collations[1]->getQuery());
     }
 
     public function providerParse()
@@ -324,15 +324,16 @@ class SpellcheckTest extends TestCase
 
     /**
      * @dataProvider providerParseSingleCollation
+     * @param mixed $data
      */
     public function testParseSingleCollation($data)
     {
         $result = $this->parser->parse($this->query, null, $data);
         $collations = $result->getCollations();
-        $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
+        $this->assertSame('dell ultrasharp', $collations[0]->getQuery());
 
         $words = $result->getSuggestion(1)->getWords();
-        $this->assertEquals(array('word' => 'ultrasharpy', 'freq' => 1), $words[1]);
+        $this->assertSame(array('word' => 'ultrasharpy', 'freq' => 1), $words[1]);
     }
 
     public function providerParseSingleCollation()
@@ -425,6 +426,6 @@ class SpellcheckTest extends TestCase
     {
         $result = $this->parser->parse($this->query, null, array());
 
-        $this->assertEquals(null, $result);
+        $this->assertSame(null, $result);
     }
 }
