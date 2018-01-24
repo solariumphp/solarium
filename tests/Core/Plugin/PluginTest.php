@@ -18,7 +18,7 @@ class PluginTest extends TestCase
     public function setUp()
     {
         $this->client = 'dummy';
-        $this->options = array('option1' => 1);
+        $this->options = ['option1' => 1];
         $this->plugin = new MyPlugin();
         $this->plugin->initPlugin($this->client, $this->options);
     }

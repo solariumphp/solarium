@@ -12,11 +12,11 @@ class DocumentTest extends TestCase
      */
     protected $doc;
 
-    protected $fields = array(
+    protected $fields = [
         'id' => 123,
         'name' => 'Test document',
-        'categories' => array(1, 2, 3),
-    );
+        'categories' => [1, 2, 3],
+    ];
 
     protected function setUp()
     {
@@ -25,9 +25,9 @@ class DocumentTest extends TestCase
 
     public function testConstructorWithFieldsAndBoostsAndModifiers()
     {
-        $fields = array('id' => 1, 'name' => 'testname');
-        $boosts = array('name' => 2.7);
-        $modifiers = array('name' => Document::MODIFIER_SET);
+        $fields = ['id' => 1, 'name' => 'testname'];
+        $boosts = ['name' => 2.7];
+        $modifiers = ['name' => Document::MODIFIER_SET];
         $doc = new Document($fields, $boosts, $modifiers);
         $doc->setKey('id');
 
@@ -92,7 +92,7 @@ class DocumentTest extends TestCase
 
         $this->doc->addField('myfield', 'mysecondvalue');
 
-        $expectedFields['myfield'] = array('myvalue', 'mysecondvalue');
+        $expectedFields['myfield'] = ['myvalue', 'mysecondvalue'];
 
         $this->assertSame(
             $expectedFields,
@@ -108,7 +108,7 @@ class DocumentTest extends TestCase
         $this->doc->addField('myfield', 'myvalue2', null, Document::MODIFIER_ADD);
 
         $this->assertSame(
-            array('id' => 1, 'myfield' => array('myvalue', 'myvalue2')),
+            ['id' => 1, 'myfield' => ['myvalue', 'myvalue2']],
             $this->doc->getFields()
         );
 
@@ -138,7 +138,7 @@ class DocumentTest extends TestCase
         $this->doc->setField('myfield', 'myvalue', null, Document::MODIFIER_ADD);
 
         $this->assertSame(
-            array('id' => 1, 'myfield' => 'myvalue'),
+            ['id' => 1, 'myfield' => 'myvalue'],
             $this->doc->getFields()
         );
 
@@ -237,10 +237,10 @@ class DocumentTest extends TestCase
         $this->doc->setFieldBoost('name', 2.5);
         $this->doc->setFieldBoost('category', 1.5);
         $this->assertSame(
-            array(
+            [
                 'name' => 2.5,
                 'category' => 1.5,
-            ),
+            ],
             $this->doc->getFieldBoosts()
         );
     }
@@ -273,7 +273,7 @@ class DocumentTest extends TestCase
 
     public function testSetAndGetMultivalueFieldByProperty()
     {
-        $values = array('test1', 'test2', 'test3');
+        $values = ['test1', 'test2', 'test3'];
         $this->doc->multivaluefield = $values;
 
         $this->assertSame(
@@ -284,7 +284,7 @@ class DocumentTest extends TestCase
 
     public function testSetAndGetMultivalueFieldByPropertyOverwrite()
     {
-        $values = array('test1', 'test2', 'test3');
+        $values = ['test1', 'test2', 'test3'];
         $this->doc->name = $values;
 
         $this->assertSame(
@@ -336,7 +336,7 @@ class DocumentTest extends TestCase
     {
         $this->doc->clear();
 
-        $expectedFields = array();
+        $expectedFields = [];
 
         $this->assertSame(
             $expectedFields,
@@ -391,7 +391,7 @@ class DocumentTest extends TestCase
         $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
 
         $this->assertSame(
-            array('id' => 1, 'name' => 'newname'),
+            ['id' => 1, 'name' => 'newname'],
             $this->doc->getFields()
         );
     }
@@ -437,7 +437,7 @@ class DocumentTest extends TestCase
         $this->doc->setField('foo', 'bar'.chr(15));
         $this->doc->addField('foo', 'bar'.chr(15).chr(8));
 
-        $this->assertSame(array('bar ', 'bar  '), $this->doc->foo);
+        $this->assertSame(['bar ', 'bar  '], $this->doc->foo);
     }
 
     public function testNoEscapeSetField()
@@ -454,6 +454,6 @@ class DocumentTest extends TestCase
         $this->doc->setField('foo', $value1 = 'bar'.chr(15));
         $this->doc->addField('foo', $value2 = 'bar'.chr(15).chr(8));
 
-        $this->assertSame(array($value1, $value2), $this->doc->foo);
+        $this->assertSame([$value1, $value2], $this->doc->foo);
     }
 }

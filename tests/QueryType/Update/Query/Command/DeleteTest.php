@@ -25,40 +25,40 @@ class DeleteTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'id' => 1,
             'query' => '*:*',
-        );
+        ];
 
         $command = new Delete($options);
 
         $this->assertSame(
-            array(1),
+            [1],
             $command->getIds()
         );
 
         $this->assertSame(
-            array('*:*'),
+            ['*:*'],
             $command->getQueries()
         );
     }
 
     public function testConfigModeMultiValue()
     {
-        $options = array(
-            'id' => array(1, 2),
-            'query' => array('id:1', 'id:2'),
-        );
+        $options = [
+            'id' => [1, 2],
+            'query' => ['id:1', 'id:2'],
+        ];
 
         $command = new Delete($options);
 
         $this->assertSame(
-            array(1, 2),
+            [1, 2],
             $command->getIds()
         );
 
         $this->assertSame(
-            array('id:1', 'id:2'),
+            ['id:1', 'id:2'],
             $command->getQueries()
         );
     }
@@ -67,7 +67,7 @@ class DeleteTest extends TestCase
     {
         $this->command->addId(1);
         $this->assertSame(
-            array(1),
+            [1],
             $this->command->getIds()
         );
     }
@@ -75,9 +75,9 @@ class DeleteTest extends TestCase
     public function testAddIds()
     {
         $this->command->addId(1);
-        $this->command->addIds(array(2, 3));
+        $this->command->addIds([2, 3]);
         $this->assertSame(
-            array(1, 2, 3),
+            [1, 2, 3],
             $this->command->getIds()
         );
     }
@@ -86,7 +86,7 @@ class DeleteTest extends TestCase
     {
         $this->command->addQuery('*:*');
         $this->assertSame(
-            array('*:*'),
+            ['*:*'],
             $this->command->getQueries()
         );
     }
@@ -94,9 +94,9 @@ class DeleteTest extends TestCase
     public function testAddQueries()
     {
         $this->command->addQuery('*:*');
-        $this->command->addQueries(array('id:1', 'id:2'));
+        $this->command->addQueries(['id:1', 'id:2']);
         $this->assertSame(
-            array('*:*', 'id:1', 'id:2'),
+            ['*:*', 'id:1', 'id:2'],
             $this->command->getQueries()
         );
     }

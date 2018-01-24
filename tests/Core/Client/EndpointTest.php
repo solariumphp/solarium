@@ -19,7 +19,7 @@ class EndpointTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'scheme' => 'http',
             'host' => '192.168.0.1',
             'port' => 123,
@@ -28,7 +28,7 @@ class EndpointTest extends TestCase
             'timeout' => 3,
             'username' => 'x',
             'password' => 'y',
-        );
+        ];
         $this->endpoint->setOptions($options);
 
         $options['path'] = '/mysolr'; //expected trimming of trailing slash
@@ -107,17 +107,17 @@ class EndpointTest extends TestCase
         $this->endpoint->setAuthentication($user, $pass);
 
         $this->assertSame(
-            array(
+            [
                 'username' => $user,
                 'password' => $pass,
-            ),
+            ],
             $this->endpoint->getAuthentication()
         );
     }
 
     public function testToString()
     {
-        $options = array(
+        $options = [
             'host' => '192.168.0.1',
             'port' => 123,
             'path' => '/mysolr/',
@@ -125,7 +125,7 @@ class EndpointTest extends TestCase
             'timeout' => 3,
             'username' => 'x',
             'password' => 'y',
-        );
+        ];
         $this->endpoint->setOptions($options);
 
         $endpoint = <<<EOF

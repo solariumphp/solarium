@@ -25,10 +25,10 @@ class QueryGroupTest extends TestCase
         $this->start = 2;
         $this->maximumScore = 0.89;
 
-        $this->items = array(
+        $this->items = [
             'key1' => 'content1',
             'key2' => 'content2',
-        );
+        ];
 
         $this->group = new QueryGroup($this->matches, $this->numFound, $this->start, $this->maximumScore, $this->items);
     }
@@ -60,7 +60,7 @@ class QueryGroupTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->group as $key => $item) {
             $items[$key] = $item;
         }

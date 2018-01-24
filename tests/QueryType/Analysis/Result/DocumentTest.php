@@ -16,7 +16,7 @@ class DocumentTest extends TestCase
 
     public function setUp()
     {
-        $this->items = array('key1' => 'dummy1', 'key2' => 'dummy2', 'key3' => 'dummy3');
+        $this->items = ['key1' => 'dummy1', 'key2' => 'dummy2', 'key3' => 'dummy3'];
         $this->result = new DocumentDummy(1, 12, $this->items);
     }
 
@@ -32,7 +32,7 @@ class DocumentTest extends TestCase
 
     public function testIterator()
     {
-        $docs = array();
+        $docs = [];
         foreach ($this->result as $key => $doc) {
             $docs[$key] = $doc;
         }

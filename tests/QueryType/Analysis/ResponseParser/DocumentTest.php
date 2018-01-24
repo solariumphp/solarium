@@ -10,16 +10,16 @@ class DocumentTest extends TestCase
 {
     public function testParse()
     {
-        $data = array(
-            'analysis' => array(
+        $data = [
+            'analysis' => [
                 'key1' => 'data1',
                 'key2' => 'data2',
-            ),
-            'responseHeader' => array(
+            ],
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 5,
-            ),
-        );
+            ],
+        ];
 
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())

@@ -16,7 +16,7 @@ class FieldTest extends TestCase
 
     public function setUp()
     {
-        $this->items = array('key1' => 'dummy1', 'key2' => 'dummy2', 'key3' => 'dummy3');
+        $this->items = ['key1' => 'dummy1', 'key2' => 'dummy2', 'key3' => 'dummy3'];
         $this->result = new FieldDummy(1, 12, $this->items);
     }
 
@@ -32,7 +32,7 @@ class FieldTest extends TestCase
 
     public function testIterator()
     {
-        $lists = array();
+        $lists = [];
         foreach ($this->result as $key => $list) {
             $lists[$key] = $list;
         }

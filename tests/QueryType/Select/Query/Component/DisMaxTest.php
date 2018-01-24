@@ -22,7 +22,7 @@ class DisMaxTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'queryparser' => 'edismax',
             'queryalternative' => '*:*',
             'queryfields' => 'title^2.0 description',
@@ -33,7 +33,7 @@ class DisMaxTest extends TestCase
             'tie' => 2.1,
             'boostquery' => 'cat:1^3',
             'boostfunctions' => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
-        );
+        ];
 
         $this->disMax->setOptions($options);
 
@@ -162,7 +162,7 @@ class DisMaxTest extends TestCase
         $query = 'cat:1^3';
         $key = 'cat';
 
-        $this->disMax->addBoostQuery(array('query' => $query, 'key' => $key));
+        $this->disMax->addBoostQuery(['query' => $query, 'key' => $key]);
 
         $this->assertSame($query, $this->disMax->getBoostQuery($key));
     }
@@ -205,14 +205,14 @@ class DisMaxTest extends TestCase
 
     public function testAddBoostQueriesWithInnerKeys()
     {
-        $bqs = array(
-            array('key' => 'key1', 'query' => 'cat:1'),
-            array('key' => 'key2', 'query' => 'cat:2'),
-        );
+        $bqs = [
+            ['key' => 'key1', 'query' => 'cat:1'],
+            ['key' => 'key2', 'query' => 'cat:2'],
+        ];
 
         $this->disMax->addBoostQueries($bqs);
 
-        $bqs2 = array();
+        $bqs2 = [];
 
         foreach ($bqs as $bq) {
             $bqs2[$bq['key']] = new BoostQuery($bq);
@@ -223,14 +223,14 @@ class DisMaxTest extends TestCase
 
     public function testAddBoostQueriesWithOuterKeys()
     {
-        $bqs = array(
-            'key1' => array('query' => 'cat:1'),
-            'key2' => array('query' => 'cat:2'),
-        );
+        $bqs = [
+            'key1' => ['query' => 'cat:1'],
+            'key2' => ['query' => 'cat:2'],
+        ];
 
         $this->disMax->addBoostQueries($bqs);
 
-        $bqs2 = array();
+        $bqs2 = [];
 
         foreach ($bqs as $key => $bq) {
             $bq['key'] = $key;

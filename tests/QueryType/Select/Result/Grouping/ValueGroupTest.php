@@ -23,10 +23,10 @@ class ValueGroupTest extends TestCase
         $this->numFound = 6;
         $this->start = 2;
 
-        $this->items = array(
+        $this->items = [
             'key1' => 'content1',
             'key2' => 'content2',
-        );
+        ];
 
         $this->group = new ValueGroup($this->value, $this->numFound, $this->start, $this->items);
     }
@@ -53,7 +53,7 @@ class ValueGroupTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->group as $key => $item) {
             $items[$key] = $item;
         }

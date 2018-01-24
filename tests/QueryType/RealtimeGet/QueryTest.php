@@ -44,7 +44,7 @@ class QueryTest extends TestCase
 
     public function testGetComponents()
     {
-        $this->assertSame(array(), $this->query->getComponents());
+        $this->assertSame([], $this->query->getComponents());
     }
 
     public function testAddId()
@@ -59,12 +59,12 @@ class QueryTest extends TestCase
     {
         $this->query->addId('newid');
         $this->query->clearIds();
-        $this->assertSame(array(), $this->query->getIds());
+        $this->assertSame([], $this->query->getIds());
     }
 
     public function testAddIds()
     {
-        $ids = array('id1', 'id2');
+        $ids = ['id1', 'id2'];
 
         $this->query->clearIds();
         $this->query->addIds($ids);
@@ -75,22 +75,22 @@ class QueryTest extends TestCase
     {
         $this->query->clearIds();
         $this->query->addIds('id1, id2');
-        $this->assertSame(array('id1', 'id2'), $this->query->getIds());
+        $this->assertSame(['id1', 'id2'], $this->query->getIds());
     }
 
     public function testRemoveId()
     {
         $this->query->clearIds();
-        $this->query->addIds(array('id1', 'id2'));
+        $this->query->addIds(['id1', 'id2']);
         $this->query->removeId('id1');
-        $this->assertSame(array('id2'), $this->query->getIds());
+        $this->assertSame(['id2'], $this->query->getIds());
     }
 
     public function testSetIds()
     {
         $this->query->clearIds();
-        $this->query->addIds(array('id1', 'id2'));
-        $this->query->setIds(array('id3', 'id4'));
-        $this->assertSame(array('id3', 'id4'), $this->query->getIds());
+        $this->query->addIds(['id1', 'id2']);
+        $this->query->setIds(['id3', 'id4']);
+        $this->assertSame(['id3', 'id4'], $this->query->getIds());
     }
 }

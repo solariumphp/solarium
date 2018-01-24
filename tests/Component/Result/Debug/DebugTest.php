@@ -27,7 +27,7 @@ class DebugTest extends TestCase
         $this->parsedQuery = 'dummy-parsed-qs';
         $this->queryParser = 'dummy-parser';
         $this->otherQuery = 'id:67';
-        $this->explainData = array('a' => 'dummy1', 'b' => 'dummy2');
+        $this->explainData = ['a' => 'dummy1', 'b' => 'dummy2'];
         $this->explain = new \ArrayIterator($this->explainData);
         $this->explainOther = 'dummy-other';
         $this->timing = 'dummy-timing';
@@ -80,7 +80,7 @@ class DebugTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }

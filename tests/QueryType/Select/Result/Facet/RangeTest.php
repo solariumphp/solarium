@@ -22,11 +22,11 @@ class RangeTest extends TestCase
 
     public function setUp()
     {
-        $this->values = array(
+        $this->values = [
             '10.0' => 12,
             '20.0' => 5,
             '30.0' => 3,
-        );
+        ];
 
         $this->before = 2;
         $this->after = 4;
@@ -58,7 +58,7 @@ class RangeTest extends TestCase
 
     public function testIterator()
     {
-        $values = array();
+        $values = [];
         foreach ($this->facet as $key => $value) {
             $values[$key] = $value;
         }

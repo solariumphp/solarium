@@ -19,13 +19,13 @@ class FieldTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'facet' => 'field1, field2',
             'pivot' => 'piv1',
-        );
+        ];
 
         $this->field->setOptions($options);
-        $this->assertSame(array('field1', 'field2'), $this->field->getFacets());
+        $this->assertSame(['field1', 'field2'], $this->field->getFacets());
     }
 
     public function testSetAndGetKey()
@@ -46,12 +46,12 @@ class FieldTest extends TestCase
     {
         $this->field->addFacet('newfacet');
         $this->field->clearFacets();
-        $this->assertSame(array(), $this->field->getFacets());
+        $this->assertSame([], $this->field->getFacets());
     }
 
     public function testAddFacets()
     {
-        $facets = array('facet1', 'facet2');
+        $facets = ['facet1', 'facet2'];
 
         $this->field->clearFacets();
         $this->field->addFacets($facets);
@@ -62,23 +62,23 @@ class FieldTest extends TestCase
     {
         $this->field->clearFacets();
         $this->field->addFacets('facet1, facet2');
-        $this->assertSame(array('facet1', 'facet2'), $this->field->getFacets());
+        $this->assertSame(['facet1', 'facet2'], $this->field->getFacets());
     }
 
     public function testRemoveFacet()
     {
         $this->field->clearFacets();
-        $this->field->addFacets(array('facet1', 'facet2'));
+        $this->field->addFacets(['facet1', 'facet2']);
         $this->field->removeFacet('facet1');
-        $this->assertSame(array('facet2'), $this->field->getFacets());
+        $this->assertSame(['facet2'], $this->field->getFacets());
     }
 
     public function testSetFacets()
     {
         $this->field->clearFacets();
-        $this->field->addFacets(array('facet1', 'facet2'));
-        $this->field->setFacets(array('facet3', 'facet4'));
-        $this->assertSame(array('facet3', 'facet4'), $this->field->getFacets());
+        $this->field->addFacets(['facet1', 'facet2']);
+        $this->field->setFacets(['facet3', 'facet4']);
+        $this->assertSame(['facet3', 'facet4'], $this->field->getFacets());
     }
 
     public function testAddPivot()
@@ -93,12 +93,12 @@ class FieldTest extends TestCase
     {
         $this->field->addPivot('newpivot');
         $this->field->clearPivots();
-        $this->assertSame(array(), $this->field->getPivots());
+        $this->assertSame([], $this->field->getPivots());
     }
 
     public function testAddPivots()
     {
-        $pivots = array('pivot1', 'pivot2');
+        $pivots = ['pivot1', 'pivot2'];
 
         $this->field->clearPivots();
         $this->field->addPivots($pivots);
@@ -109,22 +109,22 @@ class FieldTest extends TestCase
     {
         $this->field->clearPivots();
         $this->field->addPivots('pivot1, pivot2');
-        $this->assertSame(array('pivot1', 'pivot2'), $this->field->getPivots());
+        $this->assertSame(['pivot1', 'pivot2'], $this->field->getPivots());
     }
 
     public function testRemovePivot()
     {
         $this->field->clearPivots();
-        $this->field->addPivots(array('pivot1', 'pivot2'));
+        $this->field->addPivots(['pivot1', 'pivot2']);
         $this->field->removePivot('pivot1');
-        $this->assertSame(array('pivot2'), $this->field->getPivots());
+        $this->assertSame(['pivot2'], $this->field->getPivots());
     }
 
     public function testSetPivots()
     {
         $this->field->clearPivots();
-        $this->field->addPivots(array('pivot1', 'pivot2'));
-        $this->field->setPivots(array('pivot3', 'pivot4'));
-        $this->assertSame(array('pivot3', 'pivot4'), $this->field->getPivots());
+        $this->field->addPivots(['pivot1', 'pivot2']);
+        $this->field->setPivots(['pivot3', 'pivot4']);
+        $this->assertSame(['pivot3', 'pivot4'], $this->field->getPivots());
     }
 }

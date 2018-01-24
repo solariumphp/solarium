@@ -12,11 +12,11 @@ class FieldTest extends TestCase
 
     public function setUp()
     {
-        $this->values = array(
+        $this->values = [
             'a' => 12,
             'b' => 5,
             'c' => 3,
-        );
+        ];
         $this->facet = new Field($this->values);
     }
 
@@ -32,7 +32,7 @@ class FieldTest extends TestCase
 
     public function testIterator()
     {
-        $values = array();
+        $values = [];
         foreach ($this->facet as $key => $value) {
             $values[$key] = $value;
         }

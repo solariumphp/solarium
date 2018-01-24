@@ -33,7 +33,7 @@ class SpellcheckTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'spellcheck' => 'true',
                 'spellcheck.q' => 'testquery',
                 'spellcheck.build' => 'false',
@@ -49,7 +49,7 @@ class SpellcheckTest extends TestCase
                 'spellcheck.collateExtendedResults' => 'true',
                 'spellcheck.accuracy' => .2,
                 'spellcheck.collateParam.mm' => '100%',
-            ),
+            ],
             $request->getParams()
         );
     }

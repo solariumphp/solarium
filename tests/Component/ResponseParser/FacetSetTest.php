@@ -31,91 +31,91 @@ class FacetSetTest extends TestCase
         $this->parser = new Parser();
 
         $this->facetSet = new FacetSet();
-        $this->facetSet->createFacet('field', array('key' => 'keyA', 'field' => 'fieldA'));
-        $this->facetSet->createFacet('query', array('key' => 'keyB'));
+        $this->facetSet->createFacet('field', ['key' => 'keyA', 'field' => 'fieldA']);
+        $this->facetSet->createFacet('query', ['key' => 'keyB']);
         $this->facetSet->createFacet(
             'multiquery',
-            array(
+            [
                 'key' => 'keyC',
-                'query' => array(
-                    'keyC_A' => array('query' => 'id:1'),
-                    'keyC_B' => array('query' => 'id:2'),
-                ),
-            )
+                'query' => [
+                    'keyC_A' => ['query' => 'id:1'],
+                    'keyC_B' => ['query' => 'id:2'],
+                ],
+            ]
         );
-        $this->facetSet->createFacet('range', array('key' => 'keyD'));
-        $this->facetSet->createFacet('pivot', array('key' => 'keyE', 'fields' => 'cat,price'));
+        $this->facetSet->createFacet('range', ['key' => 'keyD']);
+        $this->facetSet->createFacet('pivot', ['key' => 'keyE', 'fields' => 'cat,price']);
 
         $this->query = new Query();
     }
 
     public function testParse()
     {
-        $data = array(
-            'facet_counts' => array(
-                'facet_fields' => array(
-                    'keyA' => array(
+        $data = [
+            'facet_counts' => [
+                'facet_fields' => [
+                    'keyA' => [
                         'value1',
                         12,
                         'value2',
                         3,
-                    ),
-                ),
-                'facet_queries' => array(
+                    ],
+                ],
+                'facet_queries' => [
                     'keyB' => 23,
                     'keyC_A' => 25,
                     'keyC_B' => 16,
-                ),
-                'facet_ranges' => array(
-                    'keyD' => array(
+                ],
+                'facet_ranges' => [
+                    'keyD' => [
                         'before' => 3,
                         'after' => 5,
                         'between' => 4,
-                        'counts' => array(
+                        'counts' => [
                             '1.0',
                             1,
                             '101.0',
                             2,
                             '201.0',
                             1,
-                        ),
-                    ),
-                ),
-                'facet_pivot' => array(
-                    'keyE' => array(
-                        array(
+                        ],
+                    ],
+                ],
+                'facet_pivot' => [
+                    'keyE' => [
+                        [
                             'field' => 'cat',
                             'value' => 'abc',
                             'count' => '123',
-                            'pivot' => array(
-                                array('field' => 'price', 'value' => 1, 'count' => 12),
-                                array('field' => 'price', 'value' => 2, 'count' => 8),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            'pivot' => [
+                                ['field' => 'price', 'value' => 1, 'count' => 12],
+                                ['field' => 'price', 'value' => 2, 'count' => 8],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $result = $this->parser->parse($this->query, $this->facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(array('keyA', 'keyB', 'keyC', 'keyD', 'keyE'), array_keys($facets));
+        $this->assertEquals(['keyA', 'keyB', 'keyC', 'keyD', 'keyE'], array_keys($facets));
 
         $this->assertEquals(
-            array('value1' => 12, 'value2' => 3),
+            ['value1' => 12, 'value2' => 3],
             $facets['keyA']->getValues()
         );
 
         $this->assertEquals(23, $facets['keyB']->getValue());
 
         $this->assertEquals(
-            array('keyC_A' => 25, 'keyC_B' => 16),
+            ['keyC_A' => 25, 'keyC_B' => 16],
             $facets['keyC']->getValues()
         );
 
         $this->assertEquals(
-            array('1.0' => 1, '101.0' => 2, '201.0' => 1),
+            ['1.0' => 1, '101.0' => 2, '201.0' => 1],
             $facets['keyD']->getValues()
         );
 
@@ -129,55 +129,55 @@ class FacetSetTest extends TestCase
 
     public function testParseExtractFromResponse()
     {
-        $data = array(
-            'facet_counts' => array(
-                'facet_fields' => array(
-                    'keyA' => array(
+        $data = [
+            'facet_counts' => [
+                'facet_fields' => [
+                    'keyA' => [
                         'value1',
                         12,
                         'value2',
                         3,
-                    ),
-                ),
-                'facet_queries' => array(
+                    ],
+                ],
+                'facet_queries' => [
                     'keyB' => 23,
                     'keyC_A' => 25,
                     'keyC_B' => 16,
-                ),
-                'facet_ranges' => array(
-                    'keyD' => array(
+                ],
+                'facet_ranges' => [
+                    'keyD' => [
                         'before' => 3,
                         'after' => 5,
                         'between' => 4,
-                        'counts' => array(
+                        'counts' => [
                             '1.0',
                             1,
                             '101.0',
                             2,
                             '201.0',
                             1,
-                        ),
-                    ),
-                ),
-                'facet_pivot' => array(
-                    'cat,price' => array(
-                        array(
+                        ],
+                    ],
+                ],
+                'facet_pivot' => [
+                    'cat,price' => [
+                        [
                             'field' => 'cat',
                             'value' => 'abc',
                             'count' => '123',
-                            'pivot' => array(
-                                array('field' => 'price', 'value' => 1, 'count' => 12),
-                                array('field' => 'price', 'value' => 2, 'count' => 8),
-                            ),
-                            'stats' => array(
+                            'pivot' => [
+                                ['field' => 'price', 'value' => 1, 'count' => 12],
+                                ['field' => 'price', 'value' => 2, 'count' => 8],
+                            ],
+                            'stats' => [
                                 'min' => 4,
                                 'max' => 6,
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $facetSet = new FacetSet();
         $facetSet->setExtractFromResponse(true);
@@ -185,10 +185,10 @@ class FacetSetTest extends TestCase
         $result = $this->parser->parse($this->query, $facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(array('keyA', 'keyB', 'keyC_A', 'keyC_B', 'keyD', 'cat,price'), array_keys($facets));
+        $this->assertEquals(['keyA', 'keyB', 'keyC_A', 'keyC_B', 'keyD', 'cat,price'], array_keys($facets));
 
         $this->assertEquals(
-            array('value1' => 12, 'value2' => 3),
+            ['value1' => 12, 'value2' => 3],
             $facets['keyA']->getValues()
         );
 
@@ -209,7 +209,7 @@ class FacetSetTest extends TestCase
         );
 
         $this->assertEquals(
-            array('1.0' => 1, '101.0' => 2, '201.0' => 1),
+            ['1.0' => 1, '101.0' => 2, '201.0' => 1],
             $facets['keyD']->getValues()
         );
 
@@ -245,8 +245,8 @@ class FacetSetTest extends TestCase
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse($this->query, $this->facetSet, array());
-        $this->assertEquals(array(), $result->getFacets());
+        $result = $this->parser->parse($this->query, $this->facetSet, []);
+        $this->assertEquals([], $result->getFacets());
     }
 
     public function testInvalidFacetType()
@@ -262,6 +262,6 @@ class FacetSetTest extends TestCase
         $this->facetSet->addFacet($facetStub);
 
         $this->expectException(RuntimeException::class);
-        $this->parser->parse($this->query, $this->facetSet, array());
+        $this->parser->parse($this->query, $this->facetSet, []);
     }
 }

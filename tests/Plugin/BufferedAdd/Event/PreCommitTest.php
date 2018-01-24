@@ -9,7 +9,7 @@ class PreCommitTest extends TestCase
 {
     public function testConstructorAndGetters()
     {
-        $buffer = array(1, 2, 3);
+        $buffer = [1, 2, 3];
         $overwrite = true;
         $softCommit = false;
         $waitSearcher = true;
@@ -33,7 +33,7 @@ class PreCommitTest extends TestCase
      */
     public function testSetAndGetBuffer($event)
     {
-        $buffer = array(4, 5, 6);
+        $buffer = [4, 5, 6];
         $event->setBuffer($buffer);
         $this->assertSame($buffer, $event->getBuffer());
     }

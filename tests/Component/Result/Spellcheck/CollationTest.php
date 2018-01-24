@@ -18,10 +18,10 @@ class CollationTest extends TestCase
 
     public function setUp()
     {
-        $this->corrections = array(
+        $this->corrections = [
             'key1' => 'content1',
             'key2' => 'content2',
-        );
+        ];
         $this->hits = 1;
         $this->query = 'dummy query';
 
@@ -45,7 +45,7 @@ class CollationTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }

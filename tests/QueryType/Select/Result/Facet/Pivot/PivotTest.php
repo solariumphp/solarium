@@ -13,19 +13,19 @@ class PivotTest extends TestCase
 
     public function setUp()
     {
-        $this->values = array(
-            array('field' => 'cat', 'value' => 1, 'count' => 12),
-            array('field' => 'cat', 'value' => 2, 'count' => 8),
-        );
+        $this->values = [
+            ['field' => 'cat', 'value' => 1, 'count' => 12],
+            ['field' => 'cat', 'value' => 2, 'count' => 8],
+        ];
         $this->facet = new Pivot($this->values);
     }
 
     public function testGetPivot()
     {
-        $expected = array(
+        $expected = [
             new PivotItem($this->values[0]),
             new PivotItem($this->values[1]),
-        );
+        ];
 
         $this->assertEquals($expected, $this->facet->getPivot());
     }

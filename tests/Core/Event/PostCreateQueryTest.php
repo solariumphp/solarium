@@ -11,7 +11,7 @@ class PostCreateQueryTest extends TestCase
     public function testConstructorAndGetters()
     {
         $type = 'testtype';
-        $options = array('key' => 'value');
+        $options = ['key' => 'value'];
         $query = new Query();
         $query->setQuery('test123');
 

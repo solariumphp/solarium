@@ -21,10 +21,10 @@ class FieldGroupTest extends TestCase
         $this->matches = 12;
         $this->numberOfGroups = 6;
 
-        $this->items = array(
+        $this->items = [
             'key1' => 'content1',
             'key2' => 'content2',
-        );
+        ];
 
         $this->group = new FieldGroup($this->matches, $this->numberOfGroups, $this->items);
     }
@@ -47,7 +47,7 @@ class FieldGroupTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->group as $key => $item) {
             $items[$key] = $item;
         }

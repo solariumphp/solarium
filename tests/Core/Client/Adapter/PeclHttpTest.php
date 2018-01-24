@@ -24,7 +24,7 @@ class PeclHttpTest extends TestCase
             $this->markTestSkipped('Pecl_http not available, skipping PeclHttp adapter tests');
         }
 
-        $this->adapter = new PeclHttpAdapter(array('timeout' => 10));
+        $this->adapter = new PeclHttpAdapter(['timeout' => 10]);
     }
 
     /**
@@ -52,34 +52,34 @@ class PeclHttpTest extends TestCase
     {
         // prevents undefined constants errors
         if (function_exists('http_get')) {
-            $methods = array(
-                Request::METHOD_GET => array(
+            $methods = [
+                Request::METHOD_GET => [
                     'method' => HTTP_METH_GET,
                     'support' => true,
-                ),
-                Request::METHOD_POST => array(
+                ],
+                Request::METHOD_POST => [
                     'method' => HTTP_METH_POST,
                     'support' => true,
-                ),
-                Request::METHOD_HEAD => array(
+                ],
+                Request::METHOD_HEAD => [
                     'method' => HTTP_METH_HEAD,
                     'support' => true,
-                ),
-                'PUT' => array(
+                ],
+                'PUT' => [
                     'method' => HTTP_METH_PUT,
                     'support' => false,
-                ),
-                'DELETE' => array(
+                ],
+                'DELETE' => [
                     'method' => HTTP_METH_DELETE,
                     'support' => false,
-                ),
-            );
+                ],
+            ];
 
-            $data = array();
+            $data = [];
             foreach ($methods as $method => $options) {
                 $request = new Request();
                 $request->setMethod($method);
-                $data[] = array_merge(array($request), $options);
+                $data[] = array_merge([$request], $options);
             }
 
             return $data;
@@ -89,16 +89,16 @@ class PeclHttpTest extends TestCase
     public function testToHttpRequestWithHeaders()
     {
         $request = new Request(
-            array(
-                'header' => array(
+            [
+                'header' => [
                     'Content-Type: application/json',
                     'User-Agent: Foo',
-                ),
-                'authentication' => array(
+                ],
+                'authentication' => [
                     'username' => 'someone',
                     'password' => 'S0M3p455',
-                ),
-            )
+                ],
+            ]
         );
 
         $endpoint = new Endpoint();
@@ -106,16 +106,16 @@ class PeclHttpTest extends TestCase
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
         $this->assertSame(
-            array(
+            [
                 'timeout' => 10,
                 'connecttimeout' => 10,
                 'dns_cache_timeout' => 10,
-                'headers' => array(
+                'headers' => [
                     'Content-Type' => 'application/json',
                     'User-Agent' => 'Foo',
                     'Authorization' => 'Basic c29tZW9uZTpTME0zcDQ1NQ==',
-                ),
-            ),
+                ],
+            ],
             $httpRequest->getOptions()
         );
     }
@@ -131,13 +131,13 @@ class PeclHttpTest extends TestCase
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
         $this->assertSame(
-            array(
-                array(
+            [
+                [
                     'name' => 'content',
                     'type' => 'application/octet-stream; charset=binary',
                     'file' => __FILE__,
-                ),
-            ),
+                ],
+            ],
             $httpRequest->getPostFiles()
         );
     }
@@ -152,14 +152,14 @@ class PeclHttpTest extends TestCase
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
         $this->assertSame(
-            array(
+            [
                 'timeout' => 10,
                 'connecttimeout' => 10,
                 'dns_cache_timeout' => 10,
-                'headers' => array(
+                'headers' => [
                     'Content-Type' => 'text/xml; charset=utf-8',
-                ),
-            ),
+                ],
+            ],
             $httpRequest->getOptions()
         );
     }
@@ -185,7 +185,7 @@ EOF;
 
         /** @var PeclHttp|MockObject $mock */
         $mock = $this->getMockBuilder(PeclHttp::class)
-            ->setMethods(array('toHttpRequest'))
+            ->setMethods(['toHttpRequest'])
         ->getMock();
         $mock->expects($this->once())
              ->method('toHttpRequest')
@@ -198,9 +198,6 @@ EOF;
         $this->assertSame($statusMessage, $response->getStatusMessage());
     }
 
-    /**
-     * @expectedException \Solarium\Exception\HttpException
-     */
     public function testExecuteWithException()
     {
         $endpoint = new Endpoint();

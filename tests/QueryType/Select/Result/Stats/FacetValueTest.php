@@ -18,7 +18,7 @@ class FacetValueTest extends TestCase
     public function setUp()
     {
         $this->value = 'myvalue';
-        $this->stats = array(
+        $this->stats = [
             'min' => 'dummyMin',
             'max' => 'dummyMax',
             'sum' => 'dummySum',
@@ -28,7 +28,7 @@ class FacetValueTest extends TestCase
             'mean' => 'dummyMean',
             'stddev' => 'dummyStddev',
             'facets' => 'dummyFacets',
-        );
+        ];
 
         $this->result = new FacetValue($this->value, $this->stats);
     }

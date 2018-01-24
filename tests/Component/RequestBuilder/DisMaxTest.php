@@ -29,7 +29,7 @@ class DisMaxTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'defType' => 'dummyparser',
                 'q.alt' => 'test',
                 'qf' => 'content,name',
@@ -40,7 +40,7 @@ class DisMaxTest extends TestCase
                 'tie' => 0.5,
                 'bq' => 'cat:1',
                 'bf' => 'functionX(price)',
-            ),
+            ],
             $request->getParams()
         );
     }

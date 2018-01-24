@@ -22,9 +22,9 @@ class DebugTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'explainother' => 'id:12',
-        );
+        ];
 
         $this->debug->setOptions($options);
 

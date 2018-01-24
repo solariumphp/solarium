@@ -46,7 +46,7 @@ class DetailTest extends TestCase
 
     public function testSetSubDetails()
     {
-        $subDetailsDummy = array('dummy', 'testing');
+        $subDetailsDummy = ['dummy', 'testing'];
         $this->result->setSubDetails($subDetailsDummy);
         $this->assertEquals($subDetailsDummy, $this->result->getSubDetails());
     }

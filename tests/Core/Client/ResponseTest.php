@@ -17,7 +17,7 @@ class ResponseTest extends TestCase
 
     public function setUp()
     {
-        $this->headers = array('HTTP/1.0 304 Not Modified');
+        $this->headers = ['HTTP/1.0 304 Not Modified'];
         $this->data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"mdsfgdsfgdf"}},'.
             '"response":{"numFound":0,"start":0,"docs":[]}}';
         $this->response = new Response($this->data, $this->headers);
@@ -45,7 +45,7 @@ class ResponseTest extends TestCase
 
     public function testMissingHeader()
     {
-        $headers = array();
+        $headers = [];
 
         $this->expectException('Solarium\Exception\HttpException');
         new Response($this->data, $headers);

@@ -55,27 +55,27 @@ class ClientTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'adapter' => MyAdapter::class,
-            'endpoint' => array(
-                'myhost' => array(
+            'endpoint' => [
+                'myhost' => [
                     'host' => 'myhost',
                     'port' => 8080,
-                ),
-            ),
-            'querytype' => array(
+                ],
+            ],
+            'querytype' => [
                 'myquerytype' => 'MyQuery',
-            ),
-            'plugin' => array(
-                'myplugin' => array(
+            ],
+            'plugin' => [
+                'myplugin' => [
                     'plugin' => MyClientPlugin::class,
-                    'options' => array(
+                    'options' => [
                         'option1' => 'value1',
                         'option2' => 'value2',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $this->client->setOptions($options);
 
@@ -113,32 +113,32 @@ class ClientTest extends TestCase
 
     public function testConfigModeWithoutKeys()
     {
-        $options = array(
+        $options = [
             'adapter' => MyAdapter::class,
-            'endpoint' => array(
-                array(
+            'endpoint' => [
+                [
                     'key' => 'myhost',
                     'host' => 'myhost',
                     'port' => 8080,
-                ),
-            ),
-            'querytype' => array(
-                array(
+                ],
+            ],
+            'querytype' => [
+                [
                     'type' => 'myquerytype',
                     'query' => 'MyQuery',
-                ),
-            ),
-            'plugin' => array(
-                 array(
+                ],
+            ],
+            'plugin' => [
+                 [
                     'key' => 'myplugin',
                     'plugin' => MyClientPlugin::class,
-                    'options' => array(
+                    'options' => [
                         'option1' => 'value1',
                         'option2' => 'value2',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $this->client->setOptions($options);
 
@@ -181,10 +181,10 @@ class ClientTest extends TestCase
 
     public function testCreateEndpointWithArray()
     {
-        $options = array(
+        $options = [
             'key' => 'server2',
             'host' => 's2.local',
-        );
+        ];
 
         $endpoint = $this->client->createEndpoint($options);
         $this->assertSame('server2', $endpoint->getKey());
@@ -201,7 +201,7 @@ class ClientTest extends TestCase
         $this->client->addEndpoint($endpoint);
 
         $this->assertSame(
-            array('s3' => $endpoint),
+            ['s3' => $endpoint],
             $this->client->getEndpoints()
         );
 
@@ -214,10 +214,10 @@ class ClientTest extends TestCase
 
     public function testAddEndpointWithArray()
     {
-        $options = array(
+        $options = [
             'key' => 'server2',
             'host' => 's2.local',
-        );
+        ];
 
         $endpoint = $this->client->createEndpoint($options);
         $this->client->addEndpoint($endpoint);
@@ -245,13 +245,13 @@ class ClientTest extends TestCase
 
     public function testAddAndGetEndpoints()
     {
-        $options = array(
+        $options = [
             //use array key
-            's1' => array('host' => 's1.local'),
+            's1' => ['host' => 's1.local'],
 
             //use key array entry
-            array('key' => 's2', 'host' => 's2.local'),
-        );
+            ['key' => 's2', 'host' => 's2.local'],
+        ];
 
         $this->client->addEndpoints($options);
         $endpoints = $this->client->getEndpoints();
@@ -275,10 +275,10 @@ class ClientTest extends TestCase
 
         $endpoint2 = $this->client->createEndpoint('s2');
         $endpoint3 = $this->client->createEndpoint('s3');
-        $this->client->setEndpoints(array($endpoint2, $endpoint3));
+        $this->client->setEndpoints([$endpoint2, $endpoint3]);
 
         $this->assertSame(
-            array('s2' => $endpoint2, 's3' => $endpoint3),
+            ['s2' => $endpoint2, 's3' => $endpoint3],
             $this->client->getEndpoints()
         );
     }
@@ -288,11 +288,11 @@ class ClientTest extends TestCase
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
         $endpoint3 = $this->client->createEndpoint('s3');
-        $this->client->setEndpoints(array($endpoint1, $endpoint2, $endpoint3));
+        $this->client->setEndpoints([$endpoint1, $endpoint2, $endpoint3]);
         $this->client->removeEndpoint('s1');
 
         $this->assertSame(
-            array('s2' => $endpoint2, 's3' => $endpoint3),
+            ['s2' => $endpoint2, 's3' => $endpoint3],
             $this->client->getEndpoints()
         );
     }
@@ -302,11 +302,11 @@ class ClientTest extends TestCase
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
         $endpoint3 = $this->client->createEndpoint('s3');
-        $this->client->setEndpoints(array($endpoint1, $endpoint2, $endpoint3));
+        $this->client->setEndpoints([$endpoint1, $endpoint2, $endpoint3]);
         $this->client->removeEndpoint($endpoint1);
 
         $this->assertSame(
-            array('s2' => $endpoint2, 's3' => $endpoint3),
+            ['s2' => $endpoint2, 's3' => $endpoint3],
             $this->client->getEndpoints()
         );
     }
@@ -316,11 +316,11 @@ class ClientTest extends TestCase
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
 
-        $this->client->setEndpoints(array($endpoint1, $endpoint2));
+        $this->client->setEndpoints([$endpoint1, $endpoint2]);
         $this->client->clearEndpoints();
 
         $this->assertSame(
-            array(),
+            [],
             $this->client->getEndpoints()
         );
     }
@@ -330,7 +330,7 @@ class ClientTest extends TestCase
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
 
-        $this->client->setEndpoints(array($endpoint1, $endpoint2));
+        $this->client->setEndpoints([$endpoint1, $endpoint2]);
 
         $this->assertSame($endpoint1, $this->client->getEndpoint());
         $this->client->setDefaultEndpoint('s2');
@@ -342,7 +342,7 @@ class ClientTest extends TestCase
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
 
-        $this->client->setEndpoints(array($endpoint1, $endpoint2));
+        $this->client->setEndpoints([$endpoint1, $endpoint2]);
 
         $this->assertSame($endpoint1, $this->client->getEndpoint());
         $this->client->setDefaultEndpoint($endpoint2);
@@ -392,18 +392,18 @@ class ClientTest extends TestCase
 
     public function testSetAdapterWithOptions()
     {
-        $adapterOptions = array(
+        $adapterOptions = [
             'host' => 'myhost',
             'port' => 8080,
             'customOption' => 'foobar',
-        );
+        ];
 
-        $observer = $this->createMock(Http::class, array('setOptions', 'execute'));
+        $observer = $this->createMock(Http::class, ['setOptions', 'execute']);
         $observer->expects($this->once())
                  ->method('setOptions')
                  ->with($this->equalTo($adapterOptions));
 
-        $this->client->setOptions(array('adapteroptions' => $adapterOptions));
+        $this->client->setOptions(['adapteroptions' => $adapterOptions]);
         $this->client->setAdapter($observer);
     }
 
@@ -423,7 +423,7 @@ class ClientTest extends TestCase
 
     public function testRegisterAndGetPlugin()
     {
-        $options = array('option1' => 1);
+        $options = ['option1' => 1];
         $this->client->registerPlugin('testplugin', MyClientPlugin::class, $options);
 
         $plugin = $this->client->getPlugin('testplugin');
@@ -469,14 +469,14 @@ class ClientTest extends TestCase
 
     public function testRemoveAndGetPlugins()
     {
-        $options = array('option1' => 1);
+        $options = ['option1' => 1];
         $this->client->registerPlugin('testplugin', MyClientPlugin::class, $options);
 
         $plugin = $this->client->getPlugin('testplugin');
         $plugins = $this->client->getPlugins();
 
         $this->assertSame(
-            array('testplugin' => $plugin),
+            ['testplugin' => $plugin],
             $plugins
         );
 
@@ -484,21 +484,21 @@ class ClientTest extends TestCase
         $plugins = $this->client->getPlugins();
 
         $this->assertSame(
-            array(),
+            [],
             $plugins
         );
     }
 
     public function testRemovePluginAndGetPluginsWithObjectInput()
     {
-        $options = array('option1' => 1);
+        $options = ['option1' => 1];
         $this->client->registerPlugin('testplugin', MyClientPlugin::class, $options);
 
         $plugin = $this->client->getPlugin('testplugin');
         $plugins = $this->client->getPlugins();
 
         $this->assertSame(
-            array('testplugin' => $plugin),
+            ['testplugin' => $plugin],
             $plugins
         );
 
@@ -506,7 +506,7 @@ class ClientTest extends TestCase
         $plugins = $this->client->getPlugins();
 
         $this->assertSame(
-            array(),
+            [],
             $plugins
         );
     }
@@ -515,7 +515,7 @@ class ClientTest extends TestCase
     {
         $queryStub = $this->createMock(Query::class);
 
-        $observer = $this->createMock(AbstractRequestBuilder::class, array('build'));
+        $observer = $this->createMock(AbstractRequestBuilder::class, ['build']);
         $observer->expects($this->once())
                  ->method('build')
                  ->with($this->equalTo($queryStub))
@@ -553,7 +553,7 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('preCreateRequest'))
+            ->setMethods(['preCreateRequest'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('preCreateRequest')
@@ -562,7 +562,7 @@ class ClientTest extends TestCase
         $this->client->registerPlugin('testplugin', $observer);
         $this->client->getEventDispatcher()->addListener(
             Events::PRE_CREATE_REQUEST,
-            array($observer, 'preCreateRequest')
+            [$observer, 'preCreateRequest']
         );
 
         $this->client->createRequest($query);
@@ -579,7 +579,7 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('postCreateRequest'))
+            ->setMethods(['postCreateRequest'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('postCreateRequest')
@@ -588,7 +588,7 @@ class ClientTest extends TestCase
         $this->client->registerPlugin('testplugin', $observer);
         $this->client->getEventDispatcher()->addListener(
             Events::POST_CREATE_REQUEST,
-            array($observer, 'postCreateRequest')
+            [$observer, 'postCreateRequest']
         );
 
         $this->client->createRequest($query);
@@ -626,7 +626,7 @@ class ClientTest extends TestCase
     public function testCreateResult()
     {
         $query = new SelectQuery();
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $result = $this->client->createResult($query, $response);
 
         $this->assertThat(
@@ -638,7 +638,7 @@ class ClientTest extends TestCase
     public function testCreateResultPrePlugin()
     {
         $query = new SelectQuery();
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $expectedEvent = new PreCreateResultEvent($query, $response);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -646,7 +646,7 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('preCreateResult'))
+            ->setMethods(['preCreateResult'])
             ->getMock();
 
         $observer->expects($this->once())
@@ -656,7 +656,7 @@ class ClientTest extends TestCase
         $this->client->registerPlugin('testplugin', $observer);
         $this->client->getEventDispatcher()->addListener(
             Events::PRE_CREATE_RESULT,
-            array($observer, 'preCreateResult')
+            [$observer, 'preCreateResult']
         );
 
         $this->client->createResult($query, $response);
@@ -665,7 +665,7 @@ class ClientTest extends TestCase
     public function testCreateResultPostPlugin()
     {
         $query = new SelectQuery();
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $result = $this->client->createResult($query, $response);
         $expectedEvent = new PostCreateResultEvent($query, $response, $result);
         if (method_exists($expectedEvent, 'setDispatcher')) {
@@ -673,7 +673,7 @@ class ClientTest extends TestCase
             $expectedEvent->setName(Events::POST_CREATE_RESULT);
         }
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('postCreateResult'))
+            ->setMethods(['postCreateResult'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('postCreateResult')
@@ -682,7 +682,7 @@ class ClientTest extends TestCase
         $this->client->registerPlugin('testplugin', $observer);
         $this->client->getEventDispatcher()->addListener(
             Events::POST_CREATE_RESULT,
-            array($observer, 'postCreateResult')
+            [$observer, 'postCreateResult']
         );
 
         $this->client->createResult($query, $response);
@@ -691,7 +691,7 @@ class ClientTest extends TestCase
     public function testCreateResultWithOverridingPlugin()
     {
         $query = new SelectQuery();
-        $response = new Response('test 1234', array('HTTP 1.0 200 OK'));
+        $response = new Response('test 1234', ['HTTP 1.0 200 OK']);
         $expectedEvent = new PreCreateResultEvent($query, $response);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -719,10 +719,10 @@ class ClientTest extends TestCase
     public function testCreateResultWithInvalidResult()
     {
         $overrideValue = '\\stdClass';
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
 
         $mockQuery = $this->getMockBuilder(Query::class)
-            ->setMethods(array('getResultClass'))
+            ->setMethods(['getResultClass'])
             ->getMock();
         $mockQuery->expects($this->once())
                  ->method('getResultClass')
@@ -735,7 +735,7 @@ class ClientTest extends TestCase
     public function testExecute()
     {
         $query = new PingQuery();
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $result = new Result($query, $response);
 
         $observer = $this->getMockBuilder(Client::class)
@@ -763,12 +763,12 @@ class ClientTest extends TestCase
     public function testExecutePrePlugin()
     {
         $query = new PingQuery();
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $result = new Result($query, $response);
         $expectedEvent = new PreExecuteEvent($query);
 
         $mock = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createRequest', 'executeRequest', 'createResult'))
+            ->setMethods(['createRequest', 'executeRequest', 'createResult'])
             ->getMock();
 
         $mock->expects($this->once())
@@ -784,13 +784,13 @@ class ClientTest extends TestCase
              ->will($this->returnValue($result));
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('preExecute'))
+            ->setMethods(['preExecute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('preExecute')
                  ->with($this->equalTo($expectedEvent));
 
-        $mock->getEventDispatcher()->addListener(Events::PRE_EXECUTE, array($observer, 'preExecute'));
+        $mock->getEventDispatcher()->addListener(Events::PRE_EXECUTE, [$observer, 'preExecute']);
 
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setName(Events::PRE_EXECUTE);
@@ -803,12 +803,12 @@ class ClientTest extends TestCase
     public function testExecutePostPlugin()
     {
         $query = new PingQuery();
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $result = new Result($query, $response);
         $expectedEvent = new PostExecuteEvent($query, $result);
 
         $mock = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createRequest', 'executeRequest', 'createResult'))
+            ->setMethods(['createRequest', 'executeRequest', 'createResult'])
             ->getMock();
 
         $mock->expects($this->once())
@@ -824,13 +824,13 @@ class ClientTest extends TestCase
              ->will($this->returnValue($result));
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('postExecute'))
+            ->setMethods(['postExecute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('postExecute')
                  ->with($this->equalTo($expectedEvent));
 
-        $mock->getEventDispatcher()->addListener(Events::POST_EXECUTE, array($observer, 'postExecute'));
+        $mock->getEventDispatcher()->addListener(Events::POST_EXECUTE, [$observer, 'postExecute']);
 
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setName(Events::POST_EXECUTE);
@@ -843,7 +843,7 @@ class ClientTest extends TestCase
     public function testExecuteWithOverridingPlugin()
     {
         $query = new PingQuery();
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $expectedResult = new Result($query, $response);
         $expectedEvent = new PreExecuteEvent($query);
         if (method_exists($expectedEvent, 'setDispatcher')) {
@@ -871,10 +871,10 @@ class ClientTest extends TestCase
     public function testExecuteRequest()
     {
         $request = new Request();
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
 
         $observer = $this->getMockBuilder(Http::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -894,7 +894,7 @@ class ClientTest extends TestCase
     {
         $request = new Request();
         $endpoint = $this->client->createEndpoint('s1');
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $expectedEvent = new PreExecuteRequestEvent($request, $endpoint);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -902,7 +902,7 @@ class ClientTest extends TestCase
         }
 
         $mockAdapter = $this->getMockBuilder(Http::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $mockAdapter->expects($this->once())
                  ->method('execute')
@@ -911,7 +911,7 @@ class ClientTest extends TestCase
         $this->client->setAdapter($mockAdapter);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('preExecuteRequest'))
+            ->setMethods(['preExecuteRequest'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('preExecuteRequest')
@@ -919,7 +919,7 @@ class ClientTest extends TestCase
 
         $this->client->getEventDispatcher()->addListener(
             Events::PRE_EXECUTE_REQUEST,
-            array($observer, 'preExecuteRequest')
+            [$observer, 'preExecuteRequest']
         );
         $this->client->executeRequest($request, $endpoint);
     }
@@ -928,7 +928,7 @@ class ClientTest extends TestCase
     {
         $request = new Request();
         $endpoint = $this->client->createEndpoint('s1');
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $expectedEvent = new PostExecuteRequestEvent($request, $endpoint, $response);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -936,7 +936,7 @@ class ClientTest extends TestCase
         }
 
         $mockAdapter = $this->getMockBuilder(Http::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $mockAdapter->expects($this->any())
                  ->method('execute')
@@ -945,7 +945,7 @@ class ClientTest extends TestCase
         $this->client->setAdapter($mockAdapter);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('postExecuteRequest'))
+            ->setMethods(['postExecuteRequest'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('postExecuteRequest')
@@ -953,7 +953,7 @@ class ClientTest extends TestCase
 
         $this->client->getEventDispatcher()->addListener(
             Events::POST_EXECUTE_REQUEST,
-            array($observer, 'postExecuteRequest')
+            [$observer, 'postExecuteRequest']
         );
         $this->client->executeRequest($request, $endpoint);
     }
@@ -961,7 +961,7 @@ class ClientTest extends TestCase
     public function testExecuteRequestWithOverridingPlugin()
     {
         $request = new Request();
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $endpoint = $this->client->createEndpoint('s1');
         $expectedEvent = new PreExecuteRequestEvent($request, $endpoint);
         if (method_exists($expectedEvent, 'setDispatcher')) {
@@ -991,7 +991,7 @@ class ClientTest extends TestCase
         $query = new PingQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1005,7 +1005,7 @@ class ClientTest extends TestCase
         $query = new SelectQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1019,7 +1019,7 @@ class ClientTest extends TestCase
         $query = new UpdateQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1033,7 +1033,7 @@ class ClientTest extends TestCase
         $query = new MoreLikeThisQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1047,7 +1047,7 @@ class ClientTest extends TestCase
         $query = new AnalysisQueryField();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1061,7 +1061,7 @@ class ClientTest extends TestCase
         $query = new TermsQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1075,7 +1075,7 @@ class ClientTest extends TestCase
         $query = new SuggesterQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1089,7 +1089,7 @@ class ClientTest extends TestCase
         $query = new ExtractQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1100,7 +1100,7 @@ class ClientTest extends TestCase
 
     public function testCreateQuery()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
         $query = $this->client->createQuery(Client::QUERY_SELECT, $options);
 
         // check class mapping
@@ -1130,7 +1130,7 @@ class ClientTest extends TestCase
     public function testCreateQueryPrePlugin()
     {
         $type = Client::QUERY_SELECT;
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
         $expectedEvent = new PreCreateQueryEvent($type, $options);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -1138,20 +1138,20 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('preCreateQuery'))
+            ->setMethods(['preCreateQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('preCreateQuery')
                  ->with($this->equalTo($expectedEvent));
 
-        $this->client->getEventDispatcher()->addListener(Events::PRE_CREATE_QUERY, array($observer, 'preCreateQuery'));
+        $this->client->getEventDispatcher()->addListener(Events::PRE_CREATE_QUERY, [$observer, 'preCreateQuery']);
         $this->client->createQuery($type, $options);
     }
 
     public function testCreateQueryWithOverridingPlugin()
     {
         $type = Client::QUERY_SELECT;
-        $options = array('query' => 'test789');
+        $options = ['query' => 'test789'];
         $expectedQuery = new SelectQuery();
         $expectedQuery->setQuery('test789');
         $expectedEvent = new PreCreateQueryEvent($type, $options);
@@ -1180,7 +1180,7 @@ class ClientTest extends TestCase
     public function testCreateQueryPostPlugin()
     {
         $type = Client::QUERY_SELECT;
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
         $query = $this->client->createQuery($type, $options);
         $expectedEvent = new PostCreateQueryEvent($type, $options, $query);
         if (method_exists($expectedEvent, 'setDispatcher')) {
@@ -1189,7 +1189,7 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(array('postCreateQuery'))
+            ->setMethods(['postCreateQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('postCreateQuery')
@@ -1197,7 +1197,7 @@ class ClientTest extends TestCase
 
         $this->client->getEventDispatcher()->addListener(
             Events::POST_CREATE_QUERY,
-            array($observer, 'postCreateQuery')
+            [$observer, 'postCreateQuery']
         );
 
         $this->client->createQuery($type, $options);
@@ -1205,10 +1205,10 @@ class ClientTest extends TestCase
 
     public function testCreateSelect()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createQuery'))
+            ->setMethods(['createQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1219,10 +1219,10 @@ class ClientTest extends TestCase
 
     public function testCreateUpdate()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createQuery'))
+            ->setMethods(['createQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1233,10 +1233,10 @@ class ClientTest extends TestCase
 
     public function testCreatePing()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createQuery'))
+            ->setMethods(['createQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1247,10 +1247,10 @@ class ClientTest extends TestCase
 
     public function testCreateMoreLikeThis()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createQuery'))
+            ->setMethods(['createQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1261,10 +1261,10 @@ class ClientTest extends TestCase
 
     public function testCreateAnalysisField()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createQuery'))
+            ->setMethods(['createQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1275,10 +1275,10 @@ class ClientTest extends TestCase
 
     public function testCreateAnalysisDocument()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createQuery'))
+            ->setMethods(['createQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1289,10 +1289,10 @@ class ClientTest extends TestCase
 
     public function testCreateTerms()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createQuery'))
+            ->setMethods(['createQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1303,10 +1303,10 @@ class ClientTest extends TestCase
 
     public function testCreateSuggester()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createQuery'))
+            ->setMethods(['createQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1317,10 +1317,10 @@ class ClientTest extends TestCase
 
     public function testCreateExtract()
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(array('createQuery'))
+            ->setMethods(['createQuery'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1334,7 +1334,7 @@ class MyAdapter extends ClientAdapterHttp
 {
     public function execute($request, $endpoint)
     {
-        return new Response('{}', array('HTTP/1.1 200 OK'));
+        return new Response('{}', ['HTTP/1.1 200 OK']);
     }
 }
 

@@ -76,9 +76,9 @@ class RequestBuilderTest extends TestCase
     {
         $this->query->addSort('id', Query::SORT_ASC);
         $this->query->addSort('name', Query::SORT_DESC);
-        $this->query->addFilterQuery(new FilterQuery(array('key' => 'f1', 'query' => 'published:true')));
+        $this->query->addFilterQuery(new FilterQuery(['key' => 'f1', 'query' => 'published:true']));
         $this->query->addFilterQuery(
-            new FilterQuery(array('key' => 'f2', 'tag' => array('t1', 't2'), 'query' => 'category:23'))
+            new FilterQuery(['key' => 'f2', 'tag' => ['t1', 't2'], 'query' => 'category:23'])
         );
         $request = $this->builder->build($this->query);
 
@@ -121,7 +121,7 @@ class RequestBuilderTest extends TestCase
 
     public function testWithTags()
     {
-        $this->query->setTags(array('t1', 't2'));
+        $this->query->setTags(['t1', 't2']);
         $this->query->setQuery('cat:1');
         $request = $this->builder->build($this->query);
 

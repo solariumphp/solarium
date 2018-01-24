@@ -28,14 +28,14 @@ class CurlTest extends TestCase
     public function testCheck()
     {
         $data = 'data';
-        $headers = array('X-dummy: data');
+        $headers = ['X-dummy: data'];
         $handler = curl_init();
 
         // this should be ok, no exception
         $this->adapter->check($data, $headers, $handler);
 
         $data = '';
-        $headers = array();
+        $headers = [];
 
         $this->expectException(HttpException::class);
         $this->adapter->check($data, $headers, $handler);
@@ -45,9 +45,9 @@ class CurlTest extends TestCase
 
     public function testExecute()
     {
-        $headers = array('HTTP/1.0 200 OK');
+        $headers = ['HTTP/1.0 200 OK'];
         $body = 'data';
-        $data = array($body, $headers);
+        $data = [$body, $headers];
 
         $request = new Request();
         $endpoint = new Endpoint();

@@ -24,7 +24,7 @@ class DocumentTest extends TestCase
         $this->value = 1.5;
         $this->match = true;
         $this->description = 'dummy-desc';
-        $this->details = array(0 => 'dummy1', 1 => 'dummy2');
+        $this->details = [0 => 'dummy1', 1 => 'dummy2'];
 
         $this->result = new Document(
             $this->key,
@@ -47,7 +47,7 @@ class DocumentTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }

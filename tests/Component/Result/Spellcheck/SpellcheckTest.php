@@ -18,15 +18,15 @@ class SpellcheckTest extends TestCase
 
     public function setUp()
     {
-        $this->suggestions = array(
+        $this->suggestions = [
             'key1' => 'content1',
             'key2' => 'content2',
-        );
+        ];
 
-        $this->collations = array(
+        $this->collations = [
             'dummy1',
             'dummy2',
-        );
+        ];
         $this->correctlySpelled = false;
 
         $this->result = new Result($this->suggestions, $this->collations, $this->correctlySpelled);
@@ -39,7 +39,7 @@ class SpellcheckTest extends TestCase
 
     public function testGetCollationWithoutData()
     {
-        $result = new Result($this->suggestions, array(), $this->correctlySpelled);
+        $result = new Result($this->suggestions, [], $this->correctlySpelled);
         $this->assertNull($result->getCollation());
     }
 
@@ -75,7 +75,7 @@ class SpellcheckTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }

@@ -20,7 +20,7 @@ class TimingPhaseTest extends TestCase
     {
         $this->name = 'dummy-name';
         $this->time = 14;
-        $this->timings = array('class1' => 1, 'class2' => 3);
+        $this->timings = ['class1' => 1, 'class2' => 3];
         $this->result = new TimingPhase($this->name, $this->time, $this->timings);
     }
 
@@ -57,7 +57,7 @@ class TimingPhaseTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }

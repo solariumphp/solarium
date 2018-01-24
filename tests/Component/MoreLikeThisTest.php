@@ -20,7 +20,7 @@ class MoreLikeThisTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'fields' => 'fieldA,fieldB',
             'minimumtermfrequency' => 10,
             'minimumdocumentfrequency' => 2,
@@ -31,7 +31,7 @@ class MoreLikeThisTest extends TestCase
             'boost' => 1.5,
             'queryfields' => 'fieldC,fieldD',
             'count' => 5,
-        );
+        ];
 
         $this->mlt->setOptions($options);
 
@@ -73,14 +73,14 @@ class MoreLikeThisTest extends TestCase
         $this->mlt->setFields($value);
 
         $this->assertEquals(
-            array('name', 'description'),
+            ['name', 'description'],
             $this->mlt->getFields()
         );
     }
 
     public function testSetAndGetFieldsWithArray()
     {
-        $value = array('name', 'description');
+        $value = ['name', 'description'];
         $this->mlt->setFields($value);
 
         $this->assertEquals(
@@ -172,14 +172,14 @@ class MoreLikeThisTest extends TestCase
         $this->mlt->setQueryFields($value);
 
         $this->assertEquals(
-            array('content', 'name'),
+            ['content', 'name'],
             $this->mlt->getQueryFields()
         );
     }
 
     public function testSetAndGetQueryFieldsWithArray()
     {
-        $value = array('content', 'name');
+        $value = ['content', 'name'];
         $this->mlt->setQueryFields($value);
 
         $this->assertEquals(

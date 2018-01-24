@@ -17,20 +17,20 @@ class DistributedSearchTest extends TestCase
         $component = new Component();
         $component->addShard('shard1', 'localhost:8983/solr/shard1');
         $component->addShards(
-            array(
+            [
                 'shard2' => 'localhost:8983/solr/shard2',
                 'shard3' => 'localhost:8983/solr/shard3',
-            )
+            ]
         );
         $component->setShardRequestHandler('dummy');
 
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'shards.qt' => 'dummy',
                 'shards' => 'localhost:8983/solr/shard1,localhost:8983/solr/shard2,localhost:8983/solr/shard3',
-            ),
+            ],
             $request->getParams()
         );
     }
@@ -44,15 +44,15 @@ class DistributedSearchTest extends TestCase
         $component = new Component();
         $component->addCollection('collection1', $url.'1');
         $component->addCollections(
-            array(
+            [
                 'collection2' => $url.'2',
                 'collection3' => $url.'3',
-            )
+            ]
         );
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(array('collection' => $url.'1,'.$url.'2,'.$url.'3'), $request->getParams());
+        $this->assertEquals(['collection' => $url.'1,'.$url.'2,'.$url.'3'], $request->getParams());
     }
 
     public function testBuildComponentWithReplicas()
@@ -64,15 +64,15 @@ class DistributedSearchTest extends TestCase
         $component = new Component();
         $component->addReplica('replica1', $url.'1');
         $component->addReplicas(
-            array(
+            [
                 'replica2' => $url.'2',
                 'replica3' => $url.'3',
-            )
+            ]
         );
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(array('shards' => $url.'1|'.$url.'2|'.$url.'3'), $request->getParams());
+        $this->assertEquals(['shards' => $url.'1|'.$url.'2|'.$url.'3'], $request->getParams());
     }
 
     public function testBuildComponentWithReplicasAndShard()
@@ -85,14 +85,14 @@ class DistributedSearchTest extends TestCase
         $component->addShard('shard1', 'localhost:8983/solr/shard1');
 
         $component->addReplicas(
-            array(
+            [
                 'replica2' => $url.'2',
                 'replica3' => $url.'3',
-            )
+            ]
         );
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertEquals(array('shards' => 'localhost:8983/solr/shard1,'.$url.'2|'.$url.'3'), $request->getParams());
+        $this->assertEquals(['shards' => 'localhost:8983/solr/shard1,'.$url.'2|'.$url.'3'], $request->getParams());
     }
 }

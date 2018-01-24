@@ -12,10 +12,10 @@ class ConfigurableTest extends TestCase
     public function testConstructorNoConfig()
     {
         $configTest = new ConfigTest();
-        $defaultOptions = array(
+        $defaultOptions = [
             'option1' => 1,
             'option2' => 'value 2',
-        );
+        ];
 
         $this->assertSame($configTest->getOptions(), $defaultOptions);
     }
@@ -26,11 +26,11 @@ class ConfigurableTest extends TestCase
 
         // the default options should be merged with the constructor values,
         // overwriting any default values.
-        $expectedOptions = array(
+        $expectedOptions = [
             'option1' => 1,
             'option2' => 'newvalue2',
             'option3' => 3,
-        );
+        ];
 
         $this->assertSame($expectedOptions, $configTest->getOptions());
     }
@@ -38,16 +38,16 @@ class ConfigurableTest extends TestCase
     public function testConstructorWithArrayConfig()
     {
         $configTest = new ConfigTest(
-            array('option2' => 'newvalue2', 'option3' => 3)
+            ['option2' => 'newvalue2', 'option3' => 3]
         );
 
         // the default options should be merged with the constructor values,
         // overwriting any default values.
-        $expectedOptions = array(
+        $expectedOptions = [
             'option1' => 1,
             'option2' => 'newvalue2',
             'option3' => 3,
-        );
+        ];
 
         $this->assertSame($expectedOptions, $configTest->getOptions());
     }
@@ -79,10 +79,10 @@ class ConfigurableTest extends TestCase
     public function testSetOptions()
     {
         $configTest = new ConfigTest();
-        $configTest->setOptions(array('option2' => 2, 'option3' => 3));
+        $configTest->setOptions(['option2' => 2, 'option3' => 3]);
 
         $this->assertSame(
-            array('option1' => 1, 'option2' => 2, 'option3' => 3),
+            ['option1' => 1, 'option2' => 2, 'option3' => 3],
             $configTest->getOptions()
         );
     }
@@ -90,10 +90,10 @@ class ConfigurableTest extends TestCase
     public function testSetOptionsWithOverride()
     {
         $configTest = new ConfigTest();
-        $configTest->setOptions(array('option2' => 2, 'option3' => 3), true);
+        $configTest->setOptions(['option2' => 2, 'option3' => 3], true);
 
         $this->assertSame(
-            array('option2' => 2, 'option3' => 3),
+            ['option2' => 2, 'option3' => 3],
             $configTest->getOptions()
         );
     }
@@ -101,10 +101,10 @@ class ConfigurableTest extends TestCase
 
 class ConfigTest extends Configurable
 {
-    protected $options = array(
+    protected $options = [
         'option1' => 1,
         'option2' => 'value 2',
-    );
+    ];
 }
 
 class ConfigTestInit extends ConfigTest
@@ -119,6 +119,6 @@ class MyConfigObject
 {
     public function toArray()
     {
-        return array('option2' => 'newvalue2', 'option3' => 3);
+        return ['option2' => 'newvalue2', 'option3' => 3];
     }
 }

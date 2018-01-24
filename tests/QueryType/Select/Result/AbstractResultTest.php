@@ -31,10 +31,10 @@ abstract class AbstractResultTest extends TestCase
         $this->numFound = 11;
         $this->maxScore = 0.91;
 
-        $this->docs = array(
-            new Document(array('id' => 1, 'title' => 'doc1')),
-            new Document(array('id' => 1, 'title' => 'doc1')),
-        );
+        $this->docs = [
+            new Document(['id' => 1, 'title' => 'doc1']),
+            new Document(['id' => 1, 'title' => 'doc1']),
+        ];
 
         $this->facetSet = 'dummy-facetset-value';
         $this->moreLikeThis = 'dummy-facetset-value';
@@ -44,7 +44,7 @@ abstract class AbstractResultTest extends TestCase
         $this->stats = 'dummy-stats-value';
         $this->debug = 'dummy-debug-value';
 
-        $this->components = array(
+        $this->components = [
             ComponentAwareQueryInterface::COMPONENT_FACETSET => $this->facetSet,
             ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS => $this->moreLikeThis,
             ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING => $this->highlighting,
@@ -52,7 +52,7 @@ abstract class AbstractResultTest extends TestCase
             ComponentAwareQueryInterface::COMPONENT_SPELLCHECK => $this->spellcheck,
             ComponentAwareQueryInterface::COMPONENT_STATS => $this->stats,
             ComponentAwareQueryInterface::COMPONENT_DEBUG => $this->debug,
-        );
+        ];
 
         $this->result = new SelectDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components);
     }
@@ -152,7 +152,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testIterator()
     {
-        $docs = array();
+        $docs = [];
         foreach ($this->result as $key => $doc) {
             $docs[$key] = $doc;
         }

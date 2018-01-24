@@ -22,6 +22,7 @@ cache:
 
 before_install:
   - composer global require "hirak/prestissimo:^0.3"
+  - composer global require "friendsofphp/php-cs-fixer"
   - curl -O http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz
   - tar -xzf solr-${SOLR_VERSION}.tgz
 
@@ -30,7 +31,9 @@ before_script:
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
   - solr-${SOLR_VERSION}/bin/solr start -e techproducts
 
-script: vendor/bin/phpunit -c phpunit.xml.travis -v
+script:
+  - php-cs-fixer fix --dry-run
+  - vendor/bin/phpunit -c phpunit.xml.travis -v
 
 after_success:
   - travis_retry php vendor/bin/coveralls -v

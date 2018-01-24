@@ -9,7 +9,7 @@ class WeightedRandomChoiceTest extends TestCase
 {
     public function testGetRandom()
     {
-        $choices = array('key1' => 1, 'key2' => 2, 'key3' => 3);
+        $choices = ['key1' => 1, 'key2' => 2, 'key3' => 3];
 
         $randomizer = new WeightedRandomChoice($choices);
         $choice = $randomizer->getRandom();
@@ -18,7 +18,7 @@ class WeightedRandomChoiceTest extends TestCase
             array_key_exists($choice, $choices)
         );
 
-        $counts = array('key1' => 0, 'key2' => 0, 'key3' => 0);
+        $counts = ['key1' => 0, 'key2' => 0, 'key3' => 0];
         for ($i = 0; $i < 1000; ++$i) {
             $choice = $randomizer->getRandom();
             ++$counts[$choice];
@@ -30,8 +30,8 @@ class WeightedRandomChoiceTest extends TestCase
 
     public function testGetRandomWithExclude()
     {
-        $choices = array('key1' => 1, 'key2' => 1, 'key3' => 300);
-        $excludes = array('key3');
+        $choices = ['key1' => 1, 'key2' => 1, 'key3' => 300];
+        $excludes = ['key3'];
 
         $randomizer = new WeightedRandomChoice($choices);
 
@@ -42,7 +42,7 @@ class WeightedRandomChoiceTest extends TestCase
 
     public function testAllEntriesExcluded()
     {
-        $choices = array('key1' => 1, 'key2' => 2, 'key3' => 3);
+        $choices = ['key1' => 1, 'key2' => 2, 'key3' => 3];
         $excludes = array_keys($choices);
 
         $randomizer = new WeightedRandomChoice($choices);
@@ -53,7 +53,7 @@ class WeightedRandomChoiceTest extends TestCase
 
     public function testInvalidWeigth()
     {
-        $choices = array('key1' => -1, 'key2' => 2);
+        $choices = ['key1' => -1, 'key2' => 2];
         $this->expectException('Solarium\Exception\InvalidArgumentException');
         new WeightedRandomChoice($choices);
     }
