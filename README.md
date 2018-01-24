@@ -13,6 +13,11 @@ Please see the docs for a more detailed description.
 
 Solarium only supports PHP 7.0 and up.
 
+Note: It's still possible to install solarium using PHP 5.6 and HHVM. But since the test suite had to be upgraded to
+support PHP 7.2, we dropped support of PHP 5.6 and HHVM in our test suite. Since there's no test coverage anymore we
+highly recommend to upgrade to PHP 7.0 at least instead of running solarium on PHP 5.6 or HHVM.
+Anyway, some test coverage for 5.6 is provided by drupal.org.
+
 It's highly recommended to have Curl enabled in your PHP environment. However if you don't have Curl available you can
 switch from using Curl (the default) to another client adapter. The other adapters don't support all the features of the
 Curl adapter.
@@ -44,6 +49,7 @@ Example:
 ## Continuous Integration status
 
 * 4.x branch (master) [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=master)](http://travis-ci.org/solariumphp/solarium) [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=master)](https://coveralls.io/r/solariumphp/solarium?branch=master)
+* 4.x branch drupal.org integration tests [![Develop build status](https://secure.travis-ci.org/mkalkbrenner/search_api_solr.png?branch=8.x-2.x)](https://travis-ci.org/mkalkbrenner/search_api_solr/?branch=8.x-2.x)
 * 3.x branch [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=3.x)](http://travis-ci.org/solariumphp/solarium) [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=3.x)](https://coveralls.io/r/solariumphp/solarium?branch=3.x)
 * [![SensioLabsInsight](https://insight.sensiolabs.com/projects/292e29f7-10a9-4685-b9ac-37925ebef9ae/small.png)](https://insight.sensiolabs.com/projects/292e29f7-10a9-4685-b9ac-37925ebef9ae)
 * [![Total Downloads](https://poser.pugx.org/solarium/solarium/downloads.svg)](https://packagist.org/packages/solarium/solarium)
