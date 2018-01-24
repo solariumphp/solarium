@@ -2,12 +2,12 @@
 
 namespace Solarium\Tests\Integration;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTechproductsTest extends TestCase
 {
@@ -201,9 +201,7 @@ abstract class AbstractTechproductsTest extends TestCase
             'pc' => 3,
         ], $terms);
     }
-
 }
-
 
 class TestQuery extends SelectQuery
 {
