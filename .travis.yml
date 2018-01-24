@@ -16,6 +16,9 @@ env:
   - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
   - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
 
+git:
+  depth: 1
+
 cache:
   directories:
     - $HOME/.composer/cache
