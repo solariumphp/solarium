@@ -1,38 +1,10 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Core\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\Helper;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class HelperTest extends TestCase
@@ -55,7 +27,7 @@ class HelperTest extends TestCase
 
     public function testRangeQueryInclusive()
     {
-        $this->assertSame(
+        $this->assertEquals(
             'field:[1 TO 2]',
             $this->helper->rangeQuery('field', 1, 2)
         );
@@ -120,7 +92,7 @@ class HelperTest extends TestCase
             $this->helper->geofilt('store', 45.15, -93.85, 5, true)
         );
 
-        $this->assertSame(
+        $this->assertEquals(
             array('sfield' => 'store', 'pt' => '45.15,-93.85', 'd' => 5),
             $this->query->getParams()
         );
@@ -141,7 +113,7 @@ class HelperTest extends TestCase
             $this->helper->bbox('store', 45.15, -93.85, 5, true)
         );
 
-        $this->assertSame(
+        $this->assertEquals(
             array('sfield' => 'store', 'pt' => '45.15,-93.85', 'd' => 5),
             $this->query->getParams()
         );
@@ -162,7 +134,7 @@ class HelperTest extends TestCase
             $this->helper->geodist('store', 45.15, -93.85, true)
         );
 
-        $this->assertSame(
+        $this->assertEquals(
             array('sfield' => 'store', 'pt' => '45.15,-93.85'),
             $this->query->getParams()
         );
@@ -187,7 +159,7 @@ class HelperTest extends TestCase
     public function testQparserDereferencedNoQuery()
     {
         $helper = new Helper();
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true);
     }
 
@@ -198,7 +170,7 @@ class HelperTest extends TestCase
             $this->helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true, true)
         );
 
-        $this->assertSame(
+        $this->assertEquals(
             array('deref_1' => 'manu_id', 'deref_2' => 'id'),
             $this->query->getParams()
         );
@@ -210,7 +182,7 @@ class HelperTest extends TestCase
         );
 
         // previous params should also still be there
-        $this->assertSame(
+        $this->assertEquals(
             array('deref_1' => 'manu_id', 'deref_2' => 'id', 'deref_3' => 'cat_id', 'deref_4' => 'prod_id'),
             $this->query->getParams()
         );
@@ -218,26 +190,17 @@ class HelperTest extends TestCase
 
     public function testFunctionCallNoParams()
     {
-        $this->assertSame(
-            'sum()',
-            $this->helper->functionCall('sum')
-        );
+        $this->assertSame('sum()', $this->helper->functionCall('sum'));
     }
 
     public function testFunctionCall()
     {
-        $this->assertSame(
-            'sum(1,2)',
-            $this->helper->functionCall('sum', array(1, 2))
-        );
+        $this->assertSame('sum(1,2)', $this->helper->functionCall('sum', array(1, 2)));
     }
 
     public function testEscapeTerm()
     {
-        $this->assertSame(
-            'a\\+b\/c',
-            $this->helper->escapeTerm('a+b/c')
-        );
+        $this->assertSame('a\\+b\/c', $this->helper->escapeTerm('a+b/c'));
     }
 
     public function testEscapeTermNoEscape()
@@ -411,7 +374,7 @@ class HelperTest extends TestCase
             $this->helper->join('manu_id', 'id', true)
         );
 
-        $this->assertSame(
+        $this->assertEquals(
             array('deref_1' => 'manu_id', 'deref_2' => 'id'),
             $this->query->getParams()
         );

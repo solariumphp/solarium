@@ -1,39 +1,11 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\BoostQuery;
 use Solarium\Component\DisMax;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query;
 
 class DisMaxTest extends TestCase
@@ -103,10 +75,7 @@ class DisMaxTest extends TestCase
         $value = 'dummyparser';
         $this->disMax->setQueryParser($value);
 
-        $this->assertSame(
-            $value,
-            $this->disMax->getQueryParser()
-        );
+        $this->assertSame($value, $this->disMax->getQueryParser());
     }
 
     public function testSetAndGetQueryAlternative()
@@ -114,10 +83,7 @@ class DisMaxTest extends TestCase
         $value = '*:*';
         $this->disMax->setQueryAlternative($value);
 
-        $this->assertSame(
-            $value,
-            $this->disMax->getQueryAlternative()
-        );
+        $this->assertSame($value, $this->disMax->getQueryAlternative());
     }
 
     public function testSetAndGetQueryFields()
@@ -125,10 +91,7 @@ class DisMaxTest extends TestCase
         $value = 'title^2.0 description';
         $this->disMax->setQueryFields($value);
 
-        $this->assertSame(
-            $value,
-            $this->disMax->getQueryFields()
-        );
+        $this->assertSame($value, $this->disMax->getQueryFields());
     }
 
     public function testSetAndGetMinimumMatch()
@@ -136,10 +99,7 @@ class DisMaxTest extends TestCase
         $value = '2.0';
         $this->disMax->setMinimumMatch($value);
 
-        $this->assertSame(
-            $value,
-            $this->disMax->getMinimumMatch()
-        );
+        $this->assertSame($value, $this->disMax->getMinimumMatch());
     }
 
     public function testSetAndGetPhraseFields()
@@ -204,10 +164,7 @@ class DisMaxTest extends TestCase
 
         $this->disMax->addBoostQuery(array('query' => $query, 'key' => $key));
 
-        $this->assertSame(
-            $query,
-            $this->disMax->getBoostQuery($key)
-        );
+        $this->assertSame($query, $this->disMax->getBoostQuery($key));
     }
 
     public function testAddBoostQueryWithObject()
@@ -221,10 +178,7 @@ class DisMaxTest extends TestCase
 
         $this->disMax->addBoostQuery($bq);
 
-        $this->assertSame(
-            $query,
-            $this->disMax->getBoostQuery($key)
-        );
+        $this->assertSame($query, $this->disMax->getBoostQuery($key));
     }
 
     public function testAddBoostQueryWithoutKey()
@@ -232,7 +186,7 @@ class DisMaxTest extends TestCase
         $bq = new BoostQuery;
         $bq->setQuery('category:1');
 
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->disMax->addBoostQuery($bq);
     }
 
@@ -245,7 +199,7 @@ class DisMaxTest extends TestCase
         $bq2->setKey('bq1')->setQuery('category:2');
 
         $this->disMax->addBoostQuery($bq1);
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->disMax->addBoostQuery($bq2);
     }
 
@@ -264,10 +218,7 @@ class DisMaxTest extends TestCase
             $bqs2[$bq['key']] = new BoostQuery($bq);
         }
 
-        $this->assertSame(
-            $bqs2,
-            $this->disMax->getBoostQueries()
-        );
+        $this->assertEquals($bqs2, $this->disMax->getBoostQueries());
     }
 
     public function testAddBoostQueriesWithOuterKeys()
@@ -286,10 +237,7 @@ class DisMaxTest extends TestCase
             $bqs2[$key] = new BoostQuery($bq);
         }
 
-        $this->assertSame(
-            $bqs2,
-            $this->disMax->getBoostQueries()
-        );
+        $this->assertEquals($bqs2, $this->disMax->getBoostQueries());
     }
 
     public function testSetAndGetBoostFunctions()
@@ -297,9 +245,6 @@ class DisMaxTest extends TestCase
         $value = 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2';
         $this->disMax->setBoostFunctions($value);
 
-        $this->assertSame(
-            $value,
-            $this->disMax->getBoostFunctions()
-        );
+        $this->assertSame($value, $this->disMax->getBoostFunctions());
     }
 }

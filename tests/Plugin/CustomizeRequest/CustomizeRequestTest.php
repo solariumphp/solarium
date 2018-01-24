@@ -1,33 +1,4 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Plugin\CustomizeRequest;
 
@@ -39,6 +10,8 @@ use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\CustomizeRequest\Customization;
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 
@@ -85,15 +58,15 @@ class CustomizeRequestTest extends TestCase
         $this->assertSame('header', $auth->getType());
         $this->assertSame('X-my-auth', $auth->getName());
         $this->assertSame('mypassword', $auth->getValue());
-        $this->assertSame(true, $auth->getPersistent());
+        $this->assertTrue($auth->getPersistent());
 
         $this->assertThat($id, $this->isInstanceOf('Solarium\Plugin\CustomizeRequest\Customization'));
         $this->assertSame('id', $id->getKey());
         $this->assertSame('param', $id->getType());
         $this->assertSame('id', $id->getName());
         $this->assertSame('1234', $id->getValue());
-        $this->assertSame(false, $id->getPersistent());
-        $this->assertSame(false, $id->getOverwrite());
+        $this->assertFalse($id->getPersistent());
+        $this->assertFalse($id->getOverwrite());
     }
 
     public function testPluginIntegration()
@@ -171,22 +144,15 @@ class CustomizeRequestTest extends TestCase
 
         $customization = $this->plugin->createCustomization($key);
 
-        $this->assertSame(
-            $key,
-            $customization->getKey()
-        );
-
-        $this->assertSame(
-            $customization,
-            $this->plugin->getCustomization($key)
-        );
+        $this->assertSame($key, $customization->getKey());
+        $this->assertSame($customization, $this->plugin->getCustomization($key));
     }
 
     public function testAddCustomizationWithoutKey()
     {
         $customization = new Customization;
 
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->plugin->addCustomization($customization);
     }
 
@@ -199,7 +165,7 @@ class CustomizeRequestTest extends TestCase
         $customization2->setKey('id1')->setName('test2');
 
         $this->plugin->addCustomization($customization1);
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->plugin->addCustomization($customization2);
     }
 
@@ -211,18 +177,12 @@ class CustomizeRequestTest extends TestCase
         $this->plugin->addCustomization($customization);
         $this->plugin->addCustomization($customization);
 
-        $this->assertSame(
-            $customization,
-            $this->plugin->getCustomization('id1')
-        );
+        $this->assertSame($customization, $this->plugin->getCustomization('id1'));
     }
 
     public function testGetInvalidCustomization()
     {
-        $this->assertSame(
-            null,
-            $this->plugin->getCustomization('invalidkey')
-        );
+        $this->assertSame(null, $this->plugin->getCustomization('invalidkey'));
     }
 
     public function testAddCustomizations()
@@ -236,10 +196,7 @@ class CustomizeRequestTest extends TestCase
         $customizations = array('id1' => $customization1, 'id2' => $customization2);
 
         $this->plugin->addCustomizations($customizations);
-        $this->assertSame(
-            $customizations,
-            $this->plugin->getCustomizations()
-        );
+        $this->assertSame($customizations, $this->plugin->getCustomizations());
     }
 
     public function testRemoveCustomization()
@@ -336,10 +293,7 @@ class CustomizeRequestTest extends TestCase
 
         $this->plugin->setCustomizations($customizations2);
 
-        $this->assertSame(
-            $customizations2,
-            $this->plugin->getCustomizations()
-        );
+        $this->assertSame($customizations2, $this->plugin->getCustomizations());
     }
 
     public function testPostCreateRequestWithHeaderAndParam()
@@ -365,15 +319,9 @@ class CustomizeRequestTest extends TestCase
         $event = new PreExecuteRequestEvent($request, new Endpoint);
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertSame(
-            123,
-            $request->getParam('xid')
-        );
+        $this->assertSame(123, $request->getParam('xid'));
 
-        $this->assertSame(
-            array('X-my-auth: mypassword'),
-            $request->getHeaders()
-        );
+        $this->assertEquals(array('X-my-auth: mypassword'), $request->getHeaders());
     }
 
     public function testPreExecuteRequestWithInvalidCustomization()
@@ -389,7 +337,7 @@ class CustomizeRequestTest extends TestCase
         $request = new Request();
         $event = new PreExecuteRequestEvent($request, new Endpoint);
 
-        $this->expectException('Solarium\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->plugin->preExecuteRequest($event);
     }
 
@@ -401,10 +349,7 @@ class CustomizeRequestTest extends TestCase
         $event = new PreExecuteRequestEvent($request, new Endpoint);
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertSame(
-            $originalRequest,
-            $request
-        );
+        $this->assertEquals($originalRequest, $request);
     }
 
     public function testPreExecuteRequestWithPersistentAndNonPersistentCustomizations()
@@ -430,29 +375,17 @@ class CustomizeRequestTest extends TestCase
         $event = new PreExecuteRequestEvent($request, new Endpoint);
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertSame(
-            123,
-            $request->getParam('xid')
-        );
+        $this->assertSame(123, $request->getParam('xid'));
 
-        $this->assertSame(
-            array('X-my-auth: mypassword'),
-            $request->getHeaders()
-        );
+        $this->assertEquals(array('X-my-auth: mypassword'), $request->getHeaders());
 
         // second use, only the header should be persistent
         $request = new Request();
         $event = new PreExecuteRequestEvent($request, new Endpoint);
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertSame(
-            null,
-            $request->getParam('xid')
-        );
+        $this->assertSame(null, $request->getParam('xid'));
 
-        $this->assertSame(
-            array('X-my-auth: mypassword'),
-            $request->getHeaders()
-        );
+        $this->assertEquals(array('X-my-auth: mypassword'), $request->getHeaders());
     }
 }

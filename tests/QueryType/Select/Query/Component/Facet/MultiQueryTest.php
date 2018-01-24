@@ -1,33 +1,4 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
@@ -35,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\MultiQuery;
 use Solarium\Component\Facet\Query;
 use Solarium\Component\FacetSet;
+use Solarium\Exception\InvalidArgumentException;
 
 class MultiQueryTest extends TestCase
 {
@@ -73,7 +45,7 @@ class MultiQueryTest extends TestCase
         $query1 = $this->facet->getQuery('k1');
         $this->assertSame('k1', $query1->getKey());
         $this->assertSame('category:1', $query1->getQuery());
-        $this->assertSame(array('fq1', 'fq2', 'e1', 'e2'), $query1->getExcludes());
+        $this->assertEquals(array('fq1', 'fq2', 'e1', 'e2'), $query1->getExcludes());
 
         $query2 = $this->facet->getQuery('k2');
         $this->assertSame('k2', $query2->getKey());
@@ -92,10 +64,7 @@ class MultiQueryTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertSame(
-            FacetSet::FACET_MULTIQUERY,
-            $this->facet->getType()
-        );
+        $this->assertSame(FacetSet::FACET_MULTIQUERY, $this->facet->getType());
     }
 
     public function testCreateAndGetQuery()
@@ -111,10 +80,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->createQuery($key, $query, $excludes);
 
-        $this->assertSame(
-            $facetQuery,
-            $this->facet->getQuery($key)
-        );
+        $this->assertEquals($facetQuery, $this->facet->getQuery($key));
     }
 
     public function testAddAndGetQuery()
@@ -130,10 +96,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQuery($facetQuery);
 
-        $this->assertSame(
-            $facetQuery,
-            $this->facet->getQuery($key)
-        );
+        $this->assertEquals($facetQuery, $this->facet->getQuery($key));
     }
 
     public function testAddQueryWithConfig()
@@ -148,10 +111,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQuery($config);
 
-        $this->assertSame(
-            $facetQuery,
-            $this->facet->getQuery($config['key'])
-        );
+        $this->assertEquals($facetQuery, $this->facet->getQuery($config['key']));
     }
 
     public function testAddQueryNoKey()
@@ -163,7 +123,7 @@ class MultiQueryTest extends TestCase
         $facetQuery->setQuery($query);
         $facetQuery->setExcludes($excludes);
 
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->facet->addQuery($facetQuery);
     }
 
@@ -179,7 +139,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQuery($facetQuery1);
 
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->facet->addQuery($facetQuery2);
     }
 
@@ -193,10 +153,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQuery($facetQuery);
 
-        $this->assertSame(
-            array('fq1'),
-            $facetQuery->getExcludes()
-        );
+        $this->assertEquals(array('fq1'), $facetQuery->getExcludes());
     }
 
     public function testAddAndGetQueries()
@@ -211,10 +168,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQueries(array($facetQuery1, $facetQuery2));
 
-        $this->assertSame(
-            array('k1' => $facetQuery1, 'k2' => $facetQuery2),
-            $this->facet->getQueries()
-        );
+        $this->assertEquals(array('k1' => $facetQuery1, 'k2' => $facetQuery2), $this->facet->getQueries());
     }
 
     public function testAddQueriesWithConfig()
@@ -242,18 +196,12 @@ class MultiQueryTest extends TestCase
         );
         $this->facet->addQueries($config);
 
-        $this->assertSame(
-            $facetQueries,
-            $this->facet->getQueries()
-        );
+        $this->assertEquals($facetQueries, $this->facet->getQueries());
     }
 
     public function testGetInvalidQuery()
     {
-        $this->assertSame(
-            null,
-            $this->facet->getQuery('invalidkey')
-        );
+        $this->assertSame(null, $this->facet->getQuery('invalidkey'));
     }
 
     public function testRemoveQuery()
@@ -269,10 +217,7 @@ class MultiQueryTest extends TestCase
         );
 
         $this->facet->removeQuery('k1');
-        $this->assertSame(
-            array(),
-            $this->facet->getQueries()
-        );
+        $this->assertSame(array(), $this->facet->getQueries());
     }
 
     public function testRemoveQueryWithObjectInput()
@@ -282,16 +227,10 @@ class MultiQueryTest extends TestCase
         $facetQuery->setQuery('category:1');
 
         $this->facet->addQuery($facetQuery);
-        $this->assertSame(
-            array('k1' => $facetQuery),
-            $this->facet->getQueries()
-        );
+        $this->assertSame(array('k1' => $facetQuery), $this->facet->getQueries());
 
         $this->facet->removeQuery($facetQuery);
-        $this->assertSame(
-            array(),
-            $this->facet->getQueries()
-        );
+        $this->assertSame(array(), $this->facet->getQueries());
     }
 
     public function testRemoveInvalidQuery()
@@ -305,10 +244,7 @@ class MultiQueryTest extends TestCase
         $this->facet->removeQuery('invalidkey');
         $after = $this->facet->getQueries();
 
-        $this->assertSame(
-            $before,
-            $after
-        );
+        $this->assertSame($before, $after);
     }
 
     public function testClearQueries()

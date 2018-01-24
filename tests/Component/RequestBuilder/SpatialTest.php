@@ -20,7 +20,7 @@ class SpatialTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertSame(
+        $this->assertEquals(
             array(
                 'pt' => '48.2233,16.3161',
                 'sfield' => 'geo',

@@ -37,7 +37,7 @@ class ResultTest extends TestCase
 
     public function testGetDictionary()
     {
-         $this->assertSame($this->docs['dictionary1'], $this->result->getDictionary('dictionary1'));
+         $this->assertEquals($this->docs['dictionary1'], $this->result->getDictionary('dictionary1'));
     }
 
     public function testIterator()
@@ -47,11 +47,11 @@ class ResultTest extends TestCase
             $docs[$key] = $doc;
         }
 
-        $this->assertSame($this->docs, $docs);
+        $this->assertEquals($this->docs, $docs);
     }
 
     public function testCount()
     {
-        $this->assertSame(count($this->docs), count($this->result));
+        $this->assertEquals(count($this->docs), count($this->result));
     }
 }

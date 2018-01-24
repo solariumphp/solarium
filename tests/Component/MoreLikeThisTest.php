@@ -1,33 +1,4 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Component;
 
@@ -64,20 +35,20 @@ class MoreLikeThisTest extends TestCase
 
         $this->mlt->setOptions($options);
 
-        $this->assertSame($options['fields'], $this->mlt->getFields());
-        $this->assertSame($options['minimumtermfrequency'], $this->mlt->getMinimumTermFrequency());
-        $this->assertSame($options['minimumdocumentfrequency'], $this->mlt->getMinimumDocumentFrequency());
-        $this->assertSame($options['minimumwordlength'], $this->mlt->getMinimumWordLength());
-        $this->assertSame($options['maximumwordlength'], $this->mlt->getMaximumWordLength());
-        $this->assertSame($options['maximumqueryterms'], $this->mlt->getMaximumQueryTerms());
-        $this->assertSame($options['boost'], $this->mlt->getBoost());
-        $this->assertSame($options['queryfields'], $this->mlt->getQueryFields());
-        $this->assertSame($options['count'], $this->mlt->getCount());
+        $this->assertEquals($options['fields'], $this->mlt->getFields());
+        $this->assertEquals($options['minimumtermfrequency'], $this->mlt->getMinimumTermFrequency());
+        $this->assertEquals($options['minimumdocumentfrequency'], $this->mlt->getMinimumDocumentFrequency());
+        $this->assertEquals($options['minimumwordlength'], $this->mlt->getMinimumWordLength());
+        $this->assertEquals($options['maximumwordlength'], $this->mlt->getMaximumWordLength());
+        $this->assertEquals($options['maximumqueryterms'], $this->mlt->getMaximumQueryTerms());
+        $this->assertEquals($options['boost'], $this->mlt->getBoost());
+        $this->assertEquals($options['queryfields'], $this->mlt->getQueryFields());
+        $this->assertEquals($options['count'], $this->mlt->getCount());
     }
 
     public function testGetType()
     {
-        $this->assertSame(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS, $this->mlt->getType());
+        $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS, $this->mlt->getType());
     }
 
     public function testGetResponseParser()
@@ -101,7 +72,7 @@ class MoreLikeThisTest extends TestCase
         $value = 'name,description';
         $this->mlt->setFields($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             array('name', 'description'),
             $this->mlt->getFields()
         );
@@ -112,7 +83,7 @@ class MoreLikeThisTest extends TestCase
         $value = array('name', 'description');
         $this->mlt->setFields($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getFields()
         );
@@ -123,7 +94,7 @@ class MoreLikeThisTest extends TestCase
         $value = 2;
         $this->mlt->setMinimumTermFrequency($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getMinimumTermFrequency()
         );
@@ -134,7 +105,7 @@ class MoreLikeThisTest extends TestCase
         $value = 4;
         $this->mlt->setMinimumDocumentFrequency($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getMinimumDocumentFrequency()
         );
@@ -145,7 +116,7 @@ class MoreLikeThisTest extends TestCase
         $value = 3;
         $this->mlt->setMinimumWordLength($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getMinimumWordLength()
         );
@@ -156,7 +127,7 @@ class MoreLikeThisTest extends TestCase
         $value = 15;
         $this->mlt->setMaximumWordLength($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getMaximumWordLength()
         );
@@ -167,7 +138,7 @@ class MoreLikeThisTest extends TestCase
         $value = 5;
         $this->mlt->setMaximumQueryTerms($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getMaximumQueryTerms()
         );
@@ -178,7 +149,7 @@ class MoreLikeThisTest extends TestCase
         $value = 5;
         $this->mlt->setMaximumNumberOfTokens($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getMaximumNumberOfTokens()
         );
@@ -189,7 +160,7 @@ class MoreLikeThisTest extends TestCase
         $value = true;
         $this->mlt->setBoost($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getBoost()
         );
@@ -200,7 +171,7 @@ class MoreLikeThisTest extends TestCase
         $value = 'content,name';
         $this->mlt->setQueryFields($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             array('content', 'name'),
             $this->mlt->getQueryFields()
         );
@@ -211,7 +182,7 @@ class MoreLikeThisTest extends TestCase
         $value = array('content', 'name');
         $this->mlt->setQueryFields($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getQueryFields()
         );
@@ -222,7 +193,7 @@ class MoreLikeThisTest extends TestCase
         $value = 8;
         $this->mlt->setCount($value);
 
-        $this->assertSame(
+        $this->assertEquals(
             $value,
             $this->mlt->getCount()
         );

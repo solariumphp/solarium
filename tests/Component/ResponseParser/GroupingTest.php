@@ -1,39 +1,12 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Grouping as Component;
 use Solarium\Component\ResponseParser\Grouping as Parser;
+use Solarium\Component\Result\Grouping\FieldGroup;
+use Solarium\Component\Result\Grouping\QueryGroup;
 use Solarium\Component\Result\Grouping\Result as Result;
 use Solarium\QueryType\Select\Query\Query;
 
@@ -118,15 +91,15 @@ class GroupingTest extends TestCase
 
     public function testGroupParsing()
     {
-        $this->assertSame(3, count($this->result->getGroups()));
+        $this->assertEquals(3, count($this->result->getGroups()));
 
         $fieldGroup = $this->result->getGroup('fieldA');
         $queryGroup = $this->result->getGroup('cat:1');
         $functionGroup = $this->result->getGroup('functionF');
 
-        $this->assertSame('Solarium\Component\Result\Grouping\FieldGroup', get_class($fieldGroup));
-        $this->assertSame('Solarium\Component\Result\Grouping\QueryGroup', get_class($queryGroup));
-        $this->assertSame('Solarium\Component\Result\Grouping\FieldGroup', get_class($functionGroup));
+        $this->assertInstanceOf(FieldGroup::class, $fieldGroup);
+        $this->assertInstanceOf(QueryGroup::class, $queryGroup);
+        $this->assertInstanceOf(FieldGroup::class, $functionGroup);
     }
 
     public function testFieldGroupParsing()
@@ -134,32 +107,32 @@ class GroupingTest extends TestCase
         $fieldGroup = $this->result->getGroup('fieldA');
         $valueGroups = $fieldGroup->getValueGroups();
 
-        $this->assertSame(25, $fieldGroup->getMatches());
-        $this->assertSame(12, $fieldGroup->getNumberOfGroups());
-        $this->assertSame(1, count($valueGroups));
+        $this->assertEquals(25, $fieldGroup->getMatches());
+        $this->assertEquals(12, $fieldGroup->getNumberOfGroups());
+        $this->assertEquals(1, count($valueGroups));
 
         $valueGroup = $valueGroups[0];
-        $this->assertSame(13, $valueGroup->getNumFound());
+        $this->assertEquals(13, $valueGroup->getNumFound());
 
         $docs = $valueGroup->getDocuments();
-        $this->assertSame('test', $docs[0]->name);
+        $this->assertEquals('test', $docs[0]->name);
     }
 
     public function testQueryGroupParsing()
     {
         $queryGroup = $this->result->getGroup('cat:1');
 
-        $this->assertSame(40, $queryGroup->getMatches());
-        $this->assertSame(22, $queryGroup->getNumFound());
+        $this->assertEquals(40, $queryGroup->getMatches());
+        $this->assertEquals(22, $queryGroup->getNumFound());
 
         $docs = $queryGroup->getDocuments();
-        $this->assertSame('dummy5', $docs[1]->name);
+        $this->assertEquals('dummy5', $docs[1]->name);
     }
 
     public function testParseNoData()
     {
         $result = $this->parser->parse($this->query, $this->grouping, array());
-        $this->assertSame(array(), $result->getGroups());
+        $this->assertEquals(array(), $result->getGroups());
     }
 
     public function testParseMissingGroupField()
@@ -204,15 +177,15 @@ class GroupingTest extends TestCase
         $fieldGroup = $this->result->getGroup('functionF');
         $valueGroups = $fieldGroup->getValueGroups();
 
-        $this->assertSame(8, $fieldGroup->getMatches());
-        $this->assertSame(3, $fieldGroup->getNumberOfGroups());
-        $this->assertSame(1, count($valueGroups));
+        $this->assertEquals(8, $fieldGroup->getMatches());
+        $this->assertEquals(3, $fieldGroup->getNumberOfGroups());
+        $this->assertEquals(1, count($valueGroups));
 
         $valueGroup = $valueGroups[0];
-        $this->assertSame(5, $valueGroup->getNumFound());
+        $this->assertEquals(5, $valueGroup->getNumFound());
 
         $docs = $valueGroup->getDocuments();
-        $this->assertSame('fun', $docs[0]->name);
+        $this->assertEquals('fun', $docs[0]->name);
     }
 
     public function testsParseWithSimpleFormat()
@@ -240,14 +213,14 @@ class GroupingTest extends TestCase
         $fieldGroup = $result->getGroup('fieldA');
         $valueGroups = $fieldGroup->getValueGroups();
 
-        $this->assertSame(25, $fieldGroup->getMatches());
-        $this->assertSame(12, $fieldGroup->getNumberOfGroups());
-        $this->assertSame(1, count($valueGroups));
+        $this->assertEquals(25, $fieldGroup->getMatches());
+        $this->assertEquals(12, $fieldGroup->getNumberOfGroups());
+        $this->assertEquals(1, count($valueGroups));
 
         $valueGroup = $valueGroups[0];
-        $this->assertSame(13, $valueGroup->getNumFound());
+        $this->assertEquals(13, $valueGroup->getNumFound());
 
         $docs = $valueGroup->getDocuments();
-        $this->assertSame('test2', $docs[1]->name);
+        $this->assertEquals('test2', $docs[1]->name);
     }
 }

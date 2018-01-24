@@ -28,14 +28,14 @@ class SpatialTest extends TestCase
 
         $this->spatial->setOptions($options);
 
-        $this->assertSame($options['sfield'], $this->spatial->getField());
-        $this->assertSame($options['d'], $this->spatial->getDistance());
-        $this->assertSame($options['pt'], $this->spatial->getPoint());
+        $this->assertEquals($options['sfield'], $this->spatial->getField());
+        $this->assertEquals($options['d'], $this->spatial->getDistance());
+        $this->assertEquals($options['pt'], $this->spatial->getPoint());
     }
 
     public function testGetType()
     {
-        $this->assertSame(
+        $this->assertEquals(
             Query::COMPONENT_SPATIAL,
             $this->spatial->getType()
         );
@@ -43,7 +43,7 @@ class SpatialTest extends TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertSame(null, $this->spatial->getResponseParser());
+        $this->assertNull($this->spatial->getResponseParser());
     }
 
     public function testGetRequestBuilder()
@@ -59,10 +59,7 @@ class SpatialTest extends TestCase
         $value = 'geo';
         $this->spatial->setField($value);
 
-        $this->assertSame(
-            $value,
-            $this->spatial->getField()
-        );
+        $this->assertEquals($value, $this->spatial->getField());
     }
 
     public function testSetAndGetDistance()
@@ -70,10 +67,7 @@ class SpatialTest extends TestCase
         $value = 'distance';
         $this->spatial->setDistance($value);
 
-        $this->assertSame(
-            $value,
-            $this->spatial->getDistance()
-        );
+        $this->assertEquals($value, $this->spatial->getDistance());
     }
 
     public function testSetAndGetPoint()
@@ -81,9 +75,6 @@ class SpatialTest extends TestCase
         $value = '52,13';
         $this->spatial->setPoint($value);
 
-        $this->assertSame(
-            $value,
-            $this->spatial->getPoint()
-        );
+        $this->assertEquals($value, $this->spatial->getPoint());
     }
 }
