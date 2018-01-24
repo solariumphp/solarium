@@ -22,9 +22,9 @@
 
     <filter>
       <whitelist>
-        <directory suffix=".php">library</directory>
+        <directory suffix=".php">src</directory>
         <exclude>
-            <file>library/Solarium/Autoloader.php</file>
+            <file>src/Solarium/Autoloader.php</file>
         </exclude>
       </whitelist>
     </filter>

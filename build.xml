@@ -36,21 +36,21 @@
             <arg line="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg"/>
             <arg line="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg"/>
             <arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml"/>
-            <arg line="library"/>
+            <arg line="src"/>
         </exec>
     </target>
 
     <!-- Generate pmd.xml -->
     <target name="phpmd">
         <exec executable="phpmd">
-            <arg line="library xml codesize,unusedcode --reportfile ${basedir}/build/logs/pmd.xml"/>
+            <arg line="src xml codesize,unusedcode --reportfile ${basedir}/build/logs/pmd.xml"/>
         </exec>
     </target>
 
     <!-- Generate pmd-cpd.xml -->
     <target name="phpcpd">
         <exec executable="phpcpd">
-            <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml library"/>
+            <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml src"/>
         </exec>
     </target>
 
@@ -61,20 +61,20 @@
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
             <arg value="--standard=PSR2"/>
             <arg value="--extensions=php"/>
-            <arg path="library"/>
+            <arg path="src"/>
         </exec>
     </target>
 
     <!-- Generate API documentation -->
     <target name="docblox">
         <exec executable="docblox">
-            <arg line="run -d library -t build/api"/>
+            <arg line="run -d src -t build/api"/>
         </exec>
     </target>
 
     <target name="phpcb">
         <exec executable="phpcb">
-            <arg line="--log ${basedir}/build/logs --source ${basedir}/library --output ${basedir}/build/code-browser"/>
+            <arg line="--log ${basedir}/build/logs --source ${basedir}/src --output ${basedir}/build/code-browser"/>
         </exec>
     </target>
 
