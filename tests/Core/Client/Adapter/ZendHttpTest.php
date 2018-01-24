@@ -1,41 +1,13 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\ZendHttp as ZendHttpAdapter;
-use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
 
-class ZendHttpTest extends \PHPUnit_Framework_TestCase
+class ZendHttpTest extends TestCase
 {
     /**
      * @var ZendHttpAdapter
@@ -44,6 +16,10 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        if (!class_exists('\Zend_Http_Client')) {
+            $this->markTestSkipped('Zend_Http_Client class not found! skipping test');
+        }
+
         if (!class_exists('Zend_Loader_Autoloader') && !(@include_once 'Zend/Loader/Autoloader.php')) {
             $this->markTestSkipped('ZF not in include_path, skipping ZendHttp adapter tests');
         }
@@ -58,7 +34,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $options = array('optionZ' => 123, 'options' => array('optionX' => 'Y'));
         $adapterOptions = array('optionX' => 'Y');
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('setConfig')
                  ->with($this->equalTo($adapterOptions));
@@ -73,7 +49,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
         $this->adapter->setZendHttp($dummy);
 
-        $this->assertEquals(
+        $this->assertSame(
             $dummy,
             $this->adapter->getZendHttp()
         );
@@ -85,7 +61,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $this->adapter->setOptions($options);
 
         $zendHttp = $this->adapter->getZendHttp();
-        $this->assertThat($zendHttp, $this->isInstanceOf('Zend_Http_Client'));
+        $this->assertThat($zendHttp, $this->isInstanceOf(\Zend_Http_Client::class));
     }
 
     public function testExecuteGet()
@@ -95,7 +71,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $responseData = 'abc';
         $handler = 'myhandler';
         $headers = array(
-            'X-test: 123'
+            'X-test: 123',
         );
         $params = array('a' => 1, 'b' => 2);
 
@@ -110,7 +86,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('setMethod')
                  ->with($this->equalTo($method));
@@ -130,7 +106,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $this->adapter->setZendHttp($mock);
         $adapterResponse = $this->adapter->execute($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             $responseData,
             $adapterResponse->getBody()
         );
@@ -143,7 +119,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $responseData = 'abc';
         $handler = 'myhandler';
         $headers = array(
-            'X-test: 123'
+            'X-test: 123',
         );
         $params = array('a' => 1, 'b' => 2);
 
@@ -158,7 +134,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
 
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('setMethod')
                  ->with($this->equalTo($method));
@@ -181,7 +157,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $this->adapter->setZendHttp($mock);
         $adapterResponse = $this->adapter->execute($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             $responseData,
             $adapterResponse->getBody()
         );
@@ -193,16 +169,15 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $response = new \Zend_Http_Response(404, array(), '');
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('request')
                  ->will($this->returnValue($response));
 
         $this->adapter->setZendHttp($mock);
 
-        $this->setExpectedException('Solarium\Exception\HttpException');
+        $this->expectException('Solarium\Exception\HttpException');
         $this->adapter->execute($request, $endpoint);
-
     }
 
     public function testExecuteHeadRequestReturnsNoData()
@@ -212,7 +187,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'data');
         $endpoint = new Endpoint();
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
                  ->method('request')
                  ->will($this->returnValue($response));
@@ -220,7 +195,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $this->adapter->setZendHttp($mock);
         $response = $this->adapter->execute($request, $endpoint);
 
-        $this->assertEquals(
+        $this->assertSame(
             '',
             $response->getBody()
         );
@@ -232,7 +207,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $request->setMethod('invalid');
         $endpoint = new Endpoint();
 
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $this->adapter->execute($request, $endpoint);
     }
 
@@ -244,7 +219,7 @@ class ZendHttpTest extends \PHPUnit_Framework_TestCase
         $endpoint = new Endpoint();
         $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'dummy');
 
-        $mock = $this->getMock('Zend_Http_Client');
+        $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
              ->method('setFileUpload')
              ->with(

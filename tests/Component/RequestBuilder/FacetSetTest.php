@@ -1,47 +1,20 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Component\RequestBuilder;
 
-use Solarium\Component\RequestBuilder\FacetSet as RequestBuilder;
-use Solarium\Component\FacetSet as Component;
-use Solarium\Core\Client\Request;
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\Field as FacetField;
-use Solarium\Component\Facet\Query as FacetQuery;
-use Solarium\Component\Facet\MultiQuery as FacetMultiQuery;
-use Solarium\Component\Facet\Range as FacetRange;
-use Solarium\Component\Facet\Pivot as FacetPivot;
 use Solarium\Component\Facet\Interval as FacetInterval;
+use Solarium\Component\Facet\MultiQuery as FacetMultiQuery;
+use Solarium\Component\Facet\Pivot as FacetPivot;
+use Solarium\Component\Facet\Query as FacetQuery;
+use Solarium\Component\Facet\Range as FacetRange;
+use Solarium\Component\FacetSet as Component;
+use Solarium\Component\RequestBuilder\FacetSet as RequestBuilder;
+use Solarium\Core\Client\Request;
+use Solarium\Exception\UnexpectedValueException;
 
-class FacetSetTest extends \PHPUnit_Framework_TestCase
+class FacetSetTest extends TestCase
 {
     /**
      * @var RequestBuilder
@@ -73,7 +46,6 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             array(),
             $request->getParams()
         );
-
     }
 
     public function testBuildWithFacets()
@@ -86,12 +58,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        static::assertEquals(
-            null,
-            $request->getRawData()
-        );
-
-        static::assertEquals(
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
             '?facet=true&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
             urldecode($request->getUri())
         );
@@ -108,18 +76,14 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
                 'gap' => 10,
                 'other' => 'all',
                 'include' => 'outer',
-                'mincount' => 123
+                'mincount' => 123,
             )
         ));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        static::assertEquals(
-            null,
-            $request->getRawData()
-        );
-
-        static::assertEquals(
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
             '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.mincount=123&f.price.facet.range.other=all&f.price.facet.range.include=outer',
             urldecode($request->getUri())
         );
@@ -141,12 +105,8 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        static::assertEquals(
-            null,
-            $request->getRawData()
-        );
-
-        static::assertEquals(
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
             '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100'.
             '&f.price.facet.range.gap=10',
             urldecode($request->getUri())
@@ -160,7 +120,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->component->addFacet(new FacetField(array('key' => 'f1', 'field' => 'owner')));
         $this->component->addFacet(new FacetQuery(array('key' => 'f2', 'query' => 'category:23')));
         $this->component->addFacet(
-            new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' =>array('query' => 'category:40'))))
+            new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' => array('query' => 'category:40'))))
         );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
@@ -180,7 +140,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     public function testBuildUnknownFacetType()
     {
         $this->component->addFacet(new UnknownFacet(array('key' => 'f1', 'field' => 'owner')));
-        $this->setExpectedException('Solarium\Exception\UnexpectedValueException');
+        $this->expectException(UnexpectedValueException::class);
         $request = $this->builder->buildComponent($this->component, $this->request);
         $request->getUri();
     }
@@ -191,7 +151,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             array(
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
-                'mincount' => 123
+                'mincount' => 123,
             )
         );
         $facet->addExclude('owner');
@@ -199,12 +159,11 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        static::assertEquals(
-            null,
+        $this->assertNull(
             $request->getRawData()
         );
 
-        static::assertEquals(
+        $this->assertEquals(
             '?facet=true&facet.pivot={!key=f1 ex=owner}cat,inStock&facet.pivot.mincount=123',
             urldecode($request->getUri())
         );
@@ -216,19 +175,16 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
             array(
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
-                'stats' => 'piv1'
+                'stats' => 'piv1',
             )
         );
         $this->component->addFacet($facet);
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        static::assertEquals(
-            null,
-            $request->getRawData()
-        );
+        $this->assertNull($request->getRawData());
 
-        static::assertEquals(
+        $this->assertEquals(
             '?facet=true&facet.pivot={!stats=piv1}cat,inStock',
             urldecode($request->getUri())
         );
@@ -250,12 +206,9 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        static::assertEquals(
-            null,
-            $request->getRawData()
-        );
+        $this->assertNull($request->getRawData());
 
-        static::assertEquals(
+        $this->assertEquals(
             '?facet=true&facet.contains=bar&facet.contains.ignoreCase=false&facet.field={!key=f1}owner&f.owner.facet.contains=foo&f.owner.facet.contains.ignoreCase=true',
             urldecode($request->getUri())
         );
@@ -275,12 +228,9 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        static::assertEquals(
-            null,
-            $request->getRawData()
-        );
+        $this->assertNull($request->getRawData());
 
-        static::assertEquals(
+        $this->assertEquals(
             '?facet=true&facet.interval={!key=f1}&f..facet.interval.set=int1&f..facet.interval.set={!key="one"}int2',
             urldecode($request->getUri())
         );

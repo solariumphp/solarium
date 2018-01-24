@@ -1,42 +1,21 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Component\ResponseParser;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ResponseParser\Spellcheck as Parser;
 use Solarium\QueryType\Select\Query\Query;
 
-class SpellcheckTest extends \PHPUnit_Framework_TestCase
+class SpellcheckTest extends TestCase
 {
+    /**
+     * @var Parser
+     */
     protected $parser;
+
+    /**
+     * @var Query
+     */
     protected $query;
 
     public function setUp()
@@ -47,13 +26,15 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerParseExtended
+     *
+     * @param mixed $data
      */
     public function testParseExtended($data)
     {
         $result = $this->parser->parse($this->query, null, $data);
 
         $suggestions = $result->getSuggestions();
-        $this->assertEquals(false, $result->getCorrectlySpelled());
+        $this->assertFalse($result->getCorrectlySpelled());
         $this->assertEquals('dell', $suggestions[0]->getWord());
         $this->assertEquals('ultrasharp', $suggestions[1]->getWord());
         $this->assertEquals(6, $suggestions[1]->getStartOffset());
@@ -141,9 +122,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                                     3 => 'ultrasharp',
                                 ),
                             ),
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             ),
             'solr5' => array(
                 'data' => array(
@@ -214,28 +195,29 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                                     3 => 'ultrasharp',
                                 ),
                             ),
-                        )
-                    )
-                )
-            )
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 
     /**
      * @dataProvider providerParse
+     *
+     * @param mixed $data
      */
     public function testParse($data)
     {
         $result = $this->parser->parse($this->query, null, $data);
 
         $suggestions = $result->getSuggestions();
-        $this->assertEquals(false, $result->getCorrectlySpelled());
+        $this->assertFalse($result->getCorrectlySpelled());
         $this->assertEquals('dell', $suggestions[0]->getWord());
         $this->assertEquals('dell ultrasharp', $result->getCollation()->getQuery());
         $collations = $result->getCollations();
         $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
         $this->assertEquals('dell ultrasharp new', $collations[1]->getQuery());
-
     }
 
     public function providerParse()
@@ -274,9 +256,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                             7 => 'dell ultrasharp',
                             8 => 'collation',
                             9 => 'dell ultrasharp new',
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             ),
             'solr5' => array(
                 'data' => array(
@@ -313,15 +295,17 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                             'dell ultrasharp',
                             'collation',
                             'dell ultrasharp new',
-                        )
-                    )
-                )
-            )
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 
     /**
      * @dataProvider providerParseSingleCollation
+     *
+     * @param mixed $data
      */
     public function testParseSingleCollation($data)
     {
@@ -371,9 +355,9 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                             5 => false,
                             6 => 'collation',
                             7 => 'dell ultrasharp',
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             ),
             'solr5' => array(
                 'data' => array(
@@ -411,11 +395,11 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
                         false,
                         'collations' => array(
                             'collation',
-                            'dell ultrasharp'
-                        )
-                    )
-                )
-            )
+                            'dell ultrasharp',
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 
@@ -423,6 +407,6 @@ class SpellcheckTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->parser->parse($this->query, null, array());
 
-        $this->assertEquals(null, $result);
+        $this->assertNull($result);
     }
 }

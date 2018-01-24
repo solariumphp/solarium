@@ -1,42 +1,16 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Component\ResponseParser;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Grouping as Component;
-use Solarium\Component\Result\Grouping\Result as Result;
 use Solarium\Component\ResponseParser\Grouping as Parser;
+use Solarium\Component\Result\Grouping\FieldGroup;
+use Solarium\Component\Result\Grouping\QueryGroup;
+use Solarium\Component\Result\Grouping\Result as Result;
 use Solarium\QueryType\Select\Query\Query;
 
-class GroupingTest extends \PHPUnit_Framework_TestCase
+class GroupingTest extends TestCase
 {
     /**
      * @var Parser
@@ -60,7 +34,7 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->parser = new Parser;
+        $this->parser = new Parser();
         $this->query = new Query();
         $this->grouping = $this->query->getGrouping();
         $this->grouping->addField('fieldA');
@@ -70,7 +44,7 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $data = array(
             'grouped' => array(
                 'fieldA' => array(
-                    'matches' =>  25,
+                    'matches' => 25,
                     'ngroups' => 12,
                     'groups' => array(
                         array(
@@ -78,14 +52,14 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
                             'doclist' => array(
                                 'numFound' => 13,
                                 'docs' => array(
-                                    array('id' => 1, 'name' => 'test')
-                                )
-                            )
-                        )
-                    )
+                                    array('id' => 1, 'name' => 'test'),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
                 'functionF' => array(
-                    'matches' =>  8,
+                    'matches' => 8,
                     'ngroups' => 3,
                     'groups' => array(
                         array(
@@ -93,23 +67,23 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
                             'doclist' => array(
                                 'numFound' => 5,
                                 'docs' => array(
-                                    array('id' => 3, 'name' => 'fun')
-                                )
-                            )
-                        )
-                    )
+                                    array('id' => 3, 'name' => 'fun'),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
                 'cat:1' => array(
-                    'matches' =>  40,
+                    'matches' => 40,
                     'doclist' => array(
                         'numFound' => 22,
                         'docs' => array(
                             array('id' => 2, 'name' => 'dummy2'),
-                            array('id' => 5, 'name' => 'dummy5')
-                        )
-                    )
-                )
-            )
+                            array('id' => 5, 'name' => 'dummy5'),
+                        ),
+                    ),
+                ),
+            ),
         );
 
         $this->result = $this->parser->parse($this->query, $this->grouping, $data);
@@ -123,9 +97,9 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $queryGroup = $this->result->getGroup('cat:1');
         $functionGroup = $this->result->getGroup('functionF');
 
-        $this->assertEquals('Solarium\Component\Result\Grouping\FieldGroup', get_class($fieldGroup));
-        $this->assertEquals('Solarium\Component\Result\Grouping\QueryGroup', get_class($queryGroup));
-        $this->assertEquals('Solarium\Component\Result\Grouping\FieldGroup', get_class($functionGroup));
+        $this->assertInstanceOf(FieldGroup::class, $fieldGroup);
+        $this->assertInstanceOf(QueryGroup::class, $queryGroup);
+        $this->assertInstanceOf(FieldGroup::class, $functionGroup);
     }
 
     public function testFieldGroupParsing()
@@ -167,7 +141,7 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $data = array(
             'grouped' => array(
                 'functionF' => array(
-                    'matches' =>  8,
+                    'matches' => 8,
                     'ngroups' => 3,
                     'groups' => array(
                         array(
@@ -182,7 +156,7 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
                 'cat:1' => array(
-                    'matches' =>  40,
+                    'matches' => 40,
                     'doclist' => array(
                         'numFound' => 22,
                         'docs' => array(
@@ -219,7 +193,7 @@ class GroupingTest extends \PHPUnit_Framework_TestCase
         $data = array(
             'grouped' => array(
                 'fieldA' => array(
-                    'matches' =>  25,
+                    'matches' => 25,
                     'ngroups' => 12,
                     'doclist' => array(
                         'numFound' => 13,

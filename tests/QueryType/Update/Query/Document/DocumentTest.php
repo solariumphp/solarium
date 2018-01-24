@@ -1,39 +1,11 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Update\Query\Document;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Update\Query\Document\Document;
 
-class DocumentTest extends \PHPUnit_Framework_TestCase
+class DocumentTest extends TestCase
 {
     /**
      * @var Document
@@ -43,7 +15,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     protected $fields = array(
         'id' => 123,
         'name' => 'Test document',
-        'categories' => array(1, 2, 3)
+        'categories' => array(1, 2, 3),
     );
 
     protected function setUp()
@@ -59,17 +31,17 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $doc = new Document($fields, $boosts, $modifiers);
         $doc->setKey('id');
 
-        $this->assertEquals(
+        $this->assertSame(
             $fields,
             $doc->getFields()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             2.7,
             $doc->getFieldBoost('name')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Document::MODIFIER_SET,
             $doc->getFieldModifier('name')
         );
@@ -82,7 +54,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         $expectedFields['myfield'] = 'myvalue';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -95,12 +67,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         $expectedFields['myfield'] = 'myvalue';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             2.3,
             $this->doc->getFieldBoost('myfield')
         );
@@ -113,7 +85,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         $expectedFields['myfield'] = 'myvalue';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -122,7 +94,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $expectedFields['myfield'] = array('myvalue', 'mysecondvalue');
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -135,12 +107,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc->addField('myfield', 'myvalue', null, Document::MODIFIER_ADD);
         $this->doc->addField('myfield', 'myvalue2', null, Document::MODIFIER_ADD);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('id' => 1, 'myfield' => array('myvalue', 'myvalue2')),
             $this->doc->getFields()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Document::MODIFIER_ADD,
             $this->doc->getFieldModifier('myfield')
         );
@@ -153,7 +125,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         $expectedFields['name'] = 'newname';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -165,12 +137,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc->setKey('id', 1);
         $this->doc->setField('myfield', 'myvalue', null, Document::MODIFIER_ADD);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('id' => 1, 'myfield' => 'myvalue'),
             $this->doc->getFields()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Document::MODIFIER_ADD,
             $this->doc->getFieldModifier('myfield')
         );
@@ -184,7 +156,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         $expectedFields['name'] = $falsy_value;
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -197,7 +169,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         unset($expectedFields['name']);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -212,7 +184,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields['key'] = 123;
         $expectedFields['name'] = null;
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -225,7 +197,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         unset($expectedFields['name']);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -236,8 +208,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc->setFieldBoost('name', 3.2);
         $this->doc->removeField('name');
 
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->doc->getFieldBoost('name')
         );
     }
@@ -246,7 +217,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $this->doc->removeField('invalidname'); //should silently continue...
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->fields,
             $this->doc->getFields()
         );
@@ -255,7 +226,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetFieldBoost()
     {
         $this->doc->setFieldBoost('name', 2.5);
-        $this->assertEquals(
+        $this->assertSame(
             2.5,
             $this->doc->getFieldBoost('name')
         );
@@ -265,7 +236,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $this->doc->setFieldBoost('name', 2.5);
         $this->doc->setFieldBoost('category', 1.5);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'name' => 2.5,
                 'category' => 1.5,
@@ -276,8 +247,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInvalidFieldBoost()
     {
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->doc->getFieldBoost('invalidname')
         );
     }
@@ -285,7 +255,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetBoost()
     {
         $this->doc->setBoost(2.5);
-        $this->assertEquals(
+        $this->assertSame(
             2.5,
             $this->doc->getBoost()
         );
@@ -295,7 +265,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $this->doc->name = 'new name';
 
-        $this->assertEquals(
+        $this->assertSame(
             'new name',
             $this->doc->name
         );
@@ -306,7 +276,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $values = array('test1', 'test2', 'test3');
         $this->doc->multivaluefield = $values;
 
-        $this->assertEquals(
+        $this->assertSame(
             $values,
             $this->doc->multivaluefield
         );
@@ -317,7 +287,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $values = array('test1', 'test2', 'test3');
         $this->doc->name = $values;
 
-        $this->assertEquals(
+        $this->assertSame(
             $values,
             $this->doc->name
         );
@@ -330,7 +300,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         unset($expectedFields['name']);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -343,7 +313,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         $expectedFields['name'] = 'newname';
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -356,7 +326,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->fields;
         unset($expectedFields['name']);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -368,7 +338,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $expectedFields = array();
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedFields,
             $this->doc->getFields()
         );
@@ -379,8 +349,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc->setFieldBoost('name', 3.2);
         $this->doc->clear();
 
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->doc->getFieldBoost('name')
         );
     }
@@ -389,13 +358,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
 
-        $this->assertEquals(
+        $this->assertSame(
             Document::MODIFIER_ADD,
             $this->doc->getFieldModifier('name')
         );
 
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->doc->getFieldModifier('non-existing-field')
         );
     }
@@ -405,15 +373,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
         $this->doc->clear();
 
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->doc->getFieldBoost('name')
         );
     }
 
     public function testSetFieldModifierWithInvalidValue()
     {
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $this->doc->setFieldModifier('name', 'invalid_modifier_value');
     }
 
@@ -423,7 +390,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc->setKey('id', 1);
         $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('id' => 1, 'name' => 'newname'),
             $this->doc->getFields()
         );
@@ -435,25 +402,24 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->doc->setField('id', 1);
         $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $this->doc->getFields();
     }
 
     public function testSetAndGetVersion()
     {
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->doc->getVersion()
         );
 
         $this->doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
-        $this->assertEquals(
+        $this->assertSame(
             Document::VERSION_MUST_NOT_EXIST,
             $this->doc->getVersion()
         );
 
         $this->doc->setVersion(234);
-        $this->assertEquals(
+        $this->assertSame(
             234,
             $this->doc->getVersion()
         );
@@ -461,33 +427,33 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testEscapeByDefaultSetField()
     {
-        $this->doc->setField('foo', 'bar' . chr(15));
+        $this->doc->setField('foo', 'bar'.chr(15));
 
-        $this->assertEquals('bar ', $this->doc->foo);
+        $this->assertSame('bar ', $this->doc->foo);
     }
 
     public function testEscapeByDefaultAddField()
     {
-        $this->doc->setField('foo', 'bar' . chr(15));
-        $this->doc->addField('foo', 'bar' . chr(15) . chr(8));
+        $this->doc->setField('foo', 'bar'.chr(15));
+        $this->doc->addField('foo', 'bar'.chr(15).chr(8));
 
-        $this->assertEquals(array('bar ', 'bar  '), $this->doc->foo);
+        $this->assertSame(array('bar ', 'bar  '), $this->doc->foo);
     }
 
     public function testNoEscapeSetField()
     {
         $this->doc->setFilterControlCharacters(false);
-        $this->doc->setField('foo', $value = 'bar' . chr(15));
+        $this->doc->setField('foo', $value = 'bar'.chr(15));
 
-        $this->assertEquals($value, $this->doc->foo);
+        $this->assertSame($value, $this->doc->foo);
     }
 
     public function testNoEscapeAddField()
     {
         $this->doc->setFilterControlCharacters(false);
-        $this->doc->setField('foo', $value1 = 'bar' . chr(15));
-        $this->doc->addField('foo', $value2 = 'bar' . chr(15) . chr(8));
+        $this->doc->setField('foo', $value1 = 'bar'.chr(15));
+        $this->doc->addField('foo', $value2 = 'bar'.chr(15).chr(8));
 
-        $this->assertEquals(array($value1, $value2), $this->doc->foo);
+        $this->assertSame(array($value1, $value2), $this->doc->foo);
     }
 }

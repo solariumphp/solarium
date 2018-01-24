@@ -2,15 +2,15 @@
 
 namespace Solarium\Tests\Integration;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
-abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractTechproductsTest extends TestCase
 {
-
     /**
      * @var ClientInterface
      */
@@ -25,7 +25,7 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
                     'port' => 8983,
                     'path' => '/solr/',
                     'core' => 'techproducts',
-                ]
+                ],
             ],
             // Curl is the default adapter.
             //'adapter' => 'Solarium\Core\Client\Adapter\Curl',
@@ -36,8 +36,7 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
         try {
             $ping = $this->client->createPing();
             $this->client->ping($ping);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->markTestSkipped('Solr techproducts example not reachable.');
         }
     }
@@ -49,7 +48,7 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
     {
         $ping = $this->client->createPing();
         $result = $this->client->ping($ping);
-        $this->assertEquals(0, $result->getStatus());
+        $this->assertSame(0, $result->getStatus());
     }
 
     public function testSelect()
@@ -57,8 +56,8 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
         $select = $this->client->createSelect();
         $select->setSorts(['id' => SelectQuery::SORT_ASC]);
         $result = $this->client->select($select);
-        $this->assertEquals(32, $result->getNumFound());
-        $this->assertEquals(10, $result->count());
+        $this->assertSame(32, $result->getNumFound());
+        $this->assertSame(10, $result->count());
 
         $ids = [];
         /** @var \Solarium\QueryType\Select\Result\Document $document */
@@ -66,16 +65,16 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
             $ids[] = $document->id;
         }
         $this->assertEquals([
-            "0579B002",
-            "100-435805",
-            "3007WFP",
-            "6H500F0",
-            "9885A004",
-            "EN7800GTX/2DHTV/256M",
-            "EUR",
-            "F8V7067-APL-KIT",
-            "GB18030TEST",
-            "GBP",
+            '0579B002',
+            '100-435805',
+            '3007WFP',
+            '6H500F0',
+            '9885A004',
+            'EN7800GTX/2DHTV/256M',
+            'EUR',
+            'F8V7067-APL-KIT',
+            'GB18030TEST',
+            'GBP',
             ], $ids);
     }
 
@@ -88,7 +87,7 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
         $result = $this->client->spellcheck($spellcheck);
         $words = [];
         foreach ($result as $term => $suggestions) {
-            $this->assertEquals('cort', $term);
+            $this->assertSame('cort', $term);
             foreach ($suggestions as $suggestion) {
                 $words[] = $suggestion['word'];
             }
@@ -111,9 +110,9 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
         $result = $this->client->suggester($suggester);
         $phrases = [];
         foreach ($result as $dictionary => $terms) {
-            $this->assertEquals('mySuggester', $dictionary);
+            $this->assertSame('mySuggester', $dictionary);
             foreach ($terms as $term => $suggestions) {
-                $this->assertEquals('electronics', $term);
+                $this->assertSame('electronics', $term);
                 foreach ($suggestions as $suggestion) {
                     $phrases[] = $suggestion['term'];
                 }
@@ -122,7 +121,7 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([
             'electronics',
             'electronics and computer1',
-            'electronics and stuff2'
+            'electronics and stuff2',
             ], $phrases);
     }
 
@@ -201,9 +200,7 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
             'pc' => 3,
         ], $terms);
     }
-
 }
-
 
 class TestQuery extends SelectQuery
 {

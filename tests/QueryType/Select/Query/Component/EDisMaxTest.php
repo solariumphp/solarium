@@ -1,40 +1,12 @@
 <?php
-/**
- * Copyright 2012 Marc Morera. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\EdisMax;
 use Solarium\QueryType\Select\Query\Query;
 
-class EDisMaxTest extends \PHPUnit_Framework_TestCase
+class EDisMaxTest extends TestCase
 {
     /**
      * @var EdisMax
@@ -43,7 +15,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->eDisMax = new EdisMax;
+        $this->eDisMax = new EdisMax();
     }
 
     public function testConfigMode()
@@ -69,26 +41,26 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
 
         $this->eDisMax->setOptions($options);
 
-        $this->assertEquals($options['queryparser'], $this->eDisMax->getQueryParser());
-        $this->assertEquals($options['queryalternative'], $this->eDisMax->getQueryAlternative());
-        $this->assertEquals($options['queryfields'], $this->eDisMax->getQueryFields());
-        $this->assertEquals($options['minimummatch'], $this->eDisMax->getMinimumMatch());
-        $this->assertEquals($options['phrasefields'], $this->eDisMax->getPhraseFields());
-        $this->assertEquals($options['phraseslop'], $this->eDisMax->getPhraseSlop());
-        $this->assertEquals($options['phrasebigramfields'], $this->eDisMax->getPhraseBigramFields());
-        $this->assertEquals($options['phrasebigramslop'], $this->eDisMax->getPhraseBigramSlop());
-        $this->assertEquals($options['phrasetrigramfields'], $this->eDisMax->getPhraseTrigramFields());
-        $this->assertEquals($options['phrasetrigramslop'], $this->eDisMax->getPhraseTrigramSlop());
-        $this->assertEquals($options['queryphraseslop'], $this->eDisMax->getQueryPhraseSlop());
-        $this->assertEquals($options['tie'], $this->eDisMax->getTie());
-        $this->assertEquals($options['boostquery'], $this->eDisMax->getBoostQuery());
-        $this->assertEquals($options['boostfunctionsmult'], $this->eDisMax->getBoostFunctionsMult());
-        $this->assertEquals($options['userfields'], $this->eDisMax->getUserFields());
+        $this->assertSame($options['queryparser'], $this->eDisMax->getQueryParser());
+        $this->assertSame($options['queryalternative'], $this->eDisMax->getQueryAlternative());
+        $this->assertSame($options['queryfields'], $this->eDisMax->getQueryFields());
+        $this->assertSame($options['minimummatch'], $this->eDisMax->getMinimumMatch());
+        $this->assertSame($options['phrasefields'], $this->eDisMax->getPhraseFields());
+        $this->assertSame($options['phraseslop'], $this->eDisMax->getPhraseSlop());
+        $this->assertSame($options['phrasebigramfields'], $this->eDisMax->getPhraseBigramFields());
+        $this->assertSame($options['phrasebigramslop'], $this->eDisMax->getPhraseBigramSlop());
+        $this->assertSame($options['phrasetrigramfields'], $this->eDisMax->getPhraseTrigramFields());
+        $this->assertSame($options['phrasetrigramslop'], $this->eDisMax->getPhraseTrigramSlop());
+        $this->assertSame($options['queryphraseslop'], $this->eDisMax->getQueryPhraseSlop());
+        $this->assertSame($options['tie'], $this->eDisMax->getTie());
+        $this->assertSame($options['boostquery'], $this->eDisMax->getBoostQuery());
+        $this->assertSame($options['boostfunctionsmult'], $this->eDisMax->getBoostFunctionsMult());
+        $this->assertSame($options['userfields'], $this->eDisMax->getUserFields());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMPONENT_EDISMAX,
             $this->eDisMax->getType()
         );
@@ -107,7 +79,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 'dummyparser';
         $this->eDisMax->setQueryParser($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getQueryParser()
         );
@@ -118,7 +90,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = '*:*';
         $this->eDisMax->setQueryAlternative($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getQueryAlternative()
         );
@@ -129,7 +101,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 'title^2.0 description';
         $this->eDisMax->setQueryFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getQueryFields()
         );
@@ -140,7 +112,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = '2.0';
         $this->eDisMax->setMinimumMatch($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getMinimumMatch()
         );
@@ -151,7 +123,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 'title^2.0 description^3.5';
         $this->eDisMax->setPhraseFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getPhraseFields()
         );
@@ -162,7 +134,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = '2';
         $this->eDisMax->setPhraseSlop($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getPhraseSlop()
         );
@@ -173,7 +145,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 'description^1.3 date^4.3 field_text2^1.3';
         $this->eDisMax->setPhraseBigramFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getPhraseBigramFields()
         );
@@ -184,7 +156,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 3;
         $this->eDisMax->setPhraseBigramSlop($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getPhraseBigramSlop()
         );
@@ -195,7 +167,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 'datetime^4 field1^5 myotherfield^9';
         $this->eDisMax->setPhraseTrigramFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getPhraseTrigramFields()
         );
@@ -206,7 +178,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 5;
         $this->eDisMax->setPhraseTrigramSlop($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getPhraseTrigramSlop()
         );
@@ -217,7 +189,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = '3';
         $this->eDisMax->setQueryPhraseSlop($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getQueryPhraseSlop()
         );
@@ -228,7 +200,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 2.1;
         $this->eDisMax->setTie($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getTie()
         );
@@ -239,7 +211,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 'cat:1^3';
         $this->eDisMax->setBoostQuery($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getBoostQuery()
         );
@@ -250,7 +222,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2';
         $this->eDisMax->setBoostFunctions($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getBoostFunctions()
         );
@@ -261,7 +233,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 'funcC(arg5,arg6)^4.3 funcD(arg7,arg8)^3.4';
         $this->eDisMax->setBoostFunctionsMult($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getBoostFunctionsMult()
         );
@@ -272,7 +244,7 @@ class EDisMaxTest extends \PHPUnit_Framework_TestCase
         $value = 'date *_ul';
         $this->eDisMax->setUserFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->eDisMax->getUserFields()
         );

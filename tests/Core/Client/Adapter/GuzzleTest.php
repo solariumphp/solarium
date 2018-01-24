@@ -1,37 +1,4 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- * * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
@@ -39,6 +6,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\Guzzle as GuzzleAdapter;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
@@ -49,12 +17,10 @@ use Solarium\Core\Exception;
  * @covers ::<private>
  * @covers ::getGuzzleClient
  */
-final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
+final class GuzzleTest extends TestCase
 {
     /**
      * Prepare each test.
-     *
-     * @return void
      */
     public function setUp()
     {
@@ -64,12 +30,10 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify basic behavior of execute()
+     * Verify basic behavior of execute().
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executeGet()
     {
@@ -102,7 +66,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
             ),
             $response->getHeaders()
         );
-        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
+        $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
 
         $this->assertCount(1, $container);
         $this->assertSame('GET', $container[0]['request']->getMethod());
@@ -110,12 +74,10 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify execute() with request containing file
+     * Verify execute() with request containing file.
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executePostWithFile()
     {
@@ -149,21 +111,19 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
             ),
             $response->getHeaders()
         );
-        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
+        $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
 
         $this->assertCount(1, $container);
         $this->assertSame('POST', $container[0]['request']->getMethod());
         $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
-        $this->assertStringEqualsFile(__FILE__, (string)$container[0]['request']->getBody());
+        $this->assertStringEqualsFile(__FILE__, (string) $container[0]['request']->getBody());
     }
 
     /**
-     * Verify execute() with request containing raw body
+     * Verify execute() with request containing raw body.
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executePostWithRawBody()
     {
@@ -198,13 +158,13 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
             ),
             $response->getHeaders()
         );
-        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
+        $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
 
         $this->assertCount(1, $container);
         $this->assertSame('POST', $container[0]['request']->getMethod());
         $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
         $this->assertSame('application/xml; charset=utf-8', $container[0]['request']->getHeaderline('Content-Type'));
-        $this->assertSame($xml, (string)$container[0]['request']->getBody());
+        $this->assertSame($xml, (string) $container[0]['request']->getBody());
     }
 
     /**
@@ -212,8 +172,6 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executeGetWithAuthentication()
     {
@@ -247,13 +205,13 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
             ),
             $response->getHeaders()
         );
-        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
+        $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
 
         $this->assertCount(1, $container);
         $this->assertSame('GET', $container[0]['request']->getMethod());
         $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
         $this->assertSame(
-            'Basic ' . base64_encode('username:s3cr3t'),
+            'Basic '.base64_encode('username:s3cr3t'),
             $container[0]['request']->getHeaderLine('Authorization')
         );
     }
@@ -265,8 +223,6 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
      * @covers ::execute
      * @expectedException \Solarium\Exception\HttpException
      * @expectedExceptionMessage HTTP request failed
-     *
-     * @return void
      */
     public function executeRequestException()
     {
@@ -277,7 +233,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
 
         $endpoint = new Endpoint(
             array(
-                'scheme'  => 'silly', //invalid protocol
+                'scheme' => 'silly', //invalid protocol
             )
         );
         $endpoint->setTimeout(10);
@@ -313,6 +269,7 @@ final class GuzzleAdapterTest extends \PHPUnit_Framework_TestCase
         );
 
         $headers = array('Content-Type' => 'application/json', 'X-PHPUnit' => 'response value');
+
         return new Response(200, $headers, $body);
     }
 }

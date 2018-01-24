@@ -1,40 +1,12 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
 
-use Solarium\Component\Highlighting\Highlighting;
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Highlighting\Field;
+use Solarium\Component\Highlighting\Highlighting;
 
-class FieldTest extends \PHPUnit_Framework_TestCase
+class FieldTest extends TestCase
 {
     /**
      * @var Field
@@ -43,7 +15,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->fld = new Field;
+        $this->fld = new Field();
     }
 
     public function testConfigMode()
@@ -63,16 +35,16 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
         $this->fld->setOptions($options);
 
-        $this->assertEquals(3, $this->fld->getSnippets());
-        $this->assertEquals(25, $this->fld->getFragSize());
-        $this->assertEquals(true, $this->fld->getMergeContiguous());
-        $this->assertEquals('text', $this->fld->getAlternateField());
-        $this->assertEquals(true, $this->fld->getPreserveMulti());
-        $this->assertEquals('myFormatter', $this->fld->getFormatter());
-        $this->assertEquals('<b>', $this->fld->getSimplePrefix());
-        $this->assertEquals('</b>', $this->fld->getSimplePostfix());
-        $this->assertEquals('myFragmenter', $this->fld->getFragmenter());
-        $this->assertEquals(true, $this->fld->getUseFastVectorHighlighter());
+        $this->assertSame(3, $this->fld->getSnippets());
+        $this->assertSame(25, $this->fld->getFragSize());
+        $this->assertTrue($this->fld->getMergeContiguous());
+        $this->assertSame('text', $this->fld->getAlternateField());
+        $this->assertTrue($this->fld->getPreserveMulti());
+        $this->assertSame('myFormatter', $this->fld->getFormatter());
+        $this->assertSame('<b>', $this->fld->getSimplePrefix());
+        $this->assertSame('</b>', $this->fld->getSimplePostfix());
+        $this->assertSame('myFragmenter', $this->fld->getFragmenter());
+        $this->assertTrue($this->fld->getUseFastVectorHighlighter());
     }
 
     public function testSetAndGetName()
@@ -80,7 +52,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = 'testname';
         $this->fld->setName($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getName()
         );
@@ -91,7 +63,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = 2;
         $this->fld->setSnippets($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getSnippets()
         );
@@ -102,7 +74,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = 20;
         $this->fld->setFragSize($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getFragSize()
         );
@@ -113,7 +85,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = true;
         $this->fld->setMergeContiguous($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getMergeContiguous()
         );
@@ -124,7 +96,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = 'description';
         $this->fld->setAlternateField($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getAlternateField()
         );
@@ -135,7 +107,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = true;
         $this->fld->setPreserveMulti($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getPreserveMulti()
         );
@@ -145,7 +117,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $this->fld->setFormatter();
 
-        $this->assertEquals(
+        $this->assertSame(
             'simple',
             $this->fld->getFormatter()
         );
@@ -156,7 +128,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = '<em>';
         $this->fld->setSimplePrefix($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getSimplePrefix()
         );
@@ -167,7 +139,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = '</em>';
         $this->fld->setSimplePostfix($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getSimplePostfix()
         );
@@ -178,7 +150,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = Highlighting::FRAGMENTER_REGEX;
         $this->fld->setFragmenter($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getFragmenter()
         );
@@ -189,7 +161,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $value = true;
         $this->fld->setUseFastVectorHighlighter($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->fld->getUseFastVectorHighlighter()
         );

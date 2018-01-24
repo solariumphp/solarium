@@ -1,41 +1,17 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Component\Facet\Field;
+use Solarium\Component\Facet\MultiQuery;
+use Solarium\Component\Facet\Pivot;
+use Solarium\Component\Facet\Query as FacetQuery;
+use Solarium\Component\Facet\Range;
 use Solarium\Component\FacetSet;
 use Solarium\QueryType\Select\Query\Query;
-use Solarium\Component\Facet\Query as FacetQuery;
 
-class FacetSetTest extends \PHPUnit_Framework_TestCase
+class FacetSetTest extends TestCase
 {
     /**
      * @var FacetSet
@@ -44,7 +20,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->facetSet = new FacetSet;
+        $this->facetSet = new FacetSet();
     }
 
     public function testConfigMode()
@@ -52,7 +28,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $options = array(
             'facet' => array(
                 array('type' => 'query', 'key' => 'f1', 'query' => 'category:1'),
-                'f2' => array('type' => 'query', 'query' => 'category:2')
+                'f2' => array('type' => 'query', 'query' => 'category:2'),
             ),
             'prefix' => 'pr',
             'sort' => 'index',
@@ -66,19 +42,19 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $this->facetSet->setOptions($options);
         $facets = $this->facetSet->getFacets();
 
-        $this->assertEquals(2, count($facets));
-        $this->assertEquals($options['prefix'], $this->facetSet->getPrefix());
-        $this->assertEquals($options['sort'], $this->facetSet->getSort());
-        $this->assertEquals($options['mincount'], $this->facetSet->getMinCount());
-        $this->assertEquals($options['missing'], $this->facetSet->getMissing());
-        $this->assertEquals($options['extractfromresponse'], $this->facetSet->getExtractFromResponse());
-        $this->assertEquals($options['contains'], $this->facetSet->getContains());
-        $this->assertEquals($options['containsignorecase'], $this->facetSet->getContainsIgnoreCase());
+        $this->assertSame(2, count($facets));
+        $this->assertSame($options['prefix'], $this->facetSet->getPrefix());
+        $this->assertSame($options['sort'], $this->facetSet->getSort());
+        $this->assertSame($options['mincount'], $this->facetSet->getMinCount());
+        $this->assertSame($options['missing'], $this->facetSet->getMissing());
+        $this->assertSame($options['extractfromresponse'], $this->facetSet->getExtractFromResponse());
+        $this->assertSame($options['contains'], $this->facetSet->getContains());
+        $this->assertSame($options['containsignorecase'], $this->facetSet->getContainsIgnoreCase());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(Query::COMPONENT_FACETSET, $this->facetSet->getType());
+        $this->assertSame(Query::COMPONENT_FACETSET, $this->facetSet->getType());
     }
 
     public function testGetResponseParser()
@@ -100,40 +76,40 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetSort()
     {
         $this->facetSet->setSort('index');
-        $this->assertEquals('index', $this->facetSet->getSort());
+        $this->assertSame('index', $this->facetSet->getSort());
     }
 
     public function testSetAndGetPrefix()
     {
         $this->facetSet->setPrefix('xyz');
-        $this->assertEquals('xyz', $this->facetSet->getPrefix());
+        $this->assertSame('xyz', $this->facetSet->getPrefix());
     }
 
     public function testSetAndGetLimit()
     {
         $this->facetSet->setLimit(12);
-        $this->assertEquals(12, $this->facetSet->getLimit());
+        $this->assertSame(12, $this->facetSet->getLimit());
     }
 
     public function testSetAndGetMinCount()
     {
         $this->facetSet->setMinCount(100);
-        $this->assertEquals(100, $this->facetSet->getMinCount());
+        $this->assertSame(100, $this->facetSet->getMinCount());
     }
 
     public function testSetAndGetMissing()
     {
         $this->facetSet->setMissing(true);
-        $this->assertEquals(true, $this->facetSet->getMissing());
+        $this->assertTrue($this->facetSet->getMissing());
     }
 
     public function testAddAndGetFacet()
     {
-        $fq = new FacetQuery;
+        $fq = new FacetQuery();
         $fq->setKey('f1')->setQuery('category:1');
         $this->facetSet->addFacet($fq);
 
-        $this->assertEquals(
+        $this->assertSame(
             $fq,
             $this->facetSet->getFacet('f1')
         );
@@ -141,46 +117,45 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFacetWithoutKey()
     {
-        $fq = new FacetQuery;
+        $fq = new FacetQuery();
         $fq->setQuery('category:1');
 
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->facetSet->addFacet($fq);
     }
 
     public function testAddFacetWithUsedKey()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f1')->setQuery('category:2');
 
         $this->facetSet->addFacet($fq1);
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->facetSet->addFacet($fq2);
     }
 
     public function testGetInvalidFacet()
     {
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->facetSet->getFacet('invalidtag')
         );
     }
 
     public function testAddFacets()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
 
         $this->facetSet->addFacets($facets);
-        $this->assertEquals(
+        $this->assertSame(
             $facets,
             $this->facetSet->getFacets()
         );
@@ -190,12 +165,12 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
     {
         $facets = array(
             array('type' => 'query', 'key' => 'f1', 'query' => 'category:1'),
-            'f2' => array('type' => 'query', 'query' => 'category:2')
+            'f2' => array('type' => 'query', 'query' => 'category:2'),
         );
 
         $this->facetSet->addFacets($facets);
 
-        $this->assertEquals(
+        $this->assertSame(
             2,
             count($this->facetSet->getFacets())
         );
@@ -203,17 +178,17 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFacet()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->removeFacet('f1');
-        $this->assertEquals(
+        $this->assertSame(
             array('f2' => $fq2),
             $this->facetSet->getFacets()
         );
@@ -221,17 +196,17 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFacetWithObjectInput()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->removeFacet($fq1);
-        $this->assertEquals(
+        $this->assertSame(
             array('f2' => $fq2),
             $this->facetSet->getFacets()
         );
@@ -239,17 +214,17 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveInvalidFacet()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->removeFacet('f3'); //continue silently
-        $this->assertEquals(
+        $this->assertSame(
             $facets,
             $this->facetSet->getFacets()
         );
@@ -257,17 +232,17 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testClearFacets()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->clearFacets();
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->facetSet->getFacets()
         );
@@ -275,27 +250,27 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     public function testSetFacets()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
 
         $this->facetSet->addFacets($facets);
 
-        $fq3 = new FacetQuery;
+        $fq3 = new FacetQuery();
         $fq3->setKey('f3')->setQuery('category:3');
 
-        $fq4 = new FacetQuery;
+        $fq4 = new FacetQuery();
         $fq4->setKey('f4')->setQuery('category:4');
 
         $facets = array('f3' => $fq3, 'f4' => $fq4);
 
         $this->facetSet->setFacets($facets);
 
-        $this->assertEquals(
+        $this->assertSame(
             $facets,
             $this->facetSet->getFacets()
         );
@@ -308,14 +283,14 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $facet = $this->facetSet->createFacet($type, $options);
 
         // check class mapping
-        $this->assertEquals(
+        $this->assertSame(
             $type,
             $facet->getType()
         );
 
         // check option forwarding
         $facetOptions = $facet->getOptions();
-        $this->assertEquals(
+        $this->assertSame(
             $options['optionB'],
             $facetOptions['optionB']
         );
@@ -327,7 +302,7 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $options = array('key' => 'mykey', 'optionA' => 1, 'optionB' => 2);
         $facet = $this->facetSet->createFacet($type, $options);
 
-        $this->assertEquals($facet, $this->facetSet->getFacet('mykey'));
+        $this->assertSame($facet, $this->facetSet->getFacet('mykey'));
     }
 
     public function testCreateFacetAddWithString()
@@ -336,12 +311,12 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
         $options = 'mykey';
         $facet = $this->facetSet->createFacet($type, $options);
 
-        $this->assertEquals($facet, $this->facetSet->getFacet('mykey'));
+        $this->assertSame($facet, $this->facetSet->getFacet('mykey'));
     }
 
     public function testCreateFacetWithInvalidType()
     {
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $this->facetSet->createFacet('invalidtype');
     }
 
@@ -355,82 +330,112 @@ class FacetSetTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
      */
-    public function testCreateFacetField($add)
+    public function testCreateFacetField(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_FIELD), $this->equalTo($options), $add);
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetField($options, $add);
 
-        $observer->createFacetField($options, $add);
+        $this->assertInstanceOf(Field::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
+        $this->assertSame('id', $result->getOption(FacetSet::FACET_FIELD));
+
+        if ($add) {
+            $this->assertInstanceOf(Field::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     /**
      * @dataProvider createFacetAddProvider
      */
-    public function testCreateFacetQuery($add)
+    public function testCreateFacetQuery(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetQuery($options, $add);
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_QUERY), $this->equalTo($options), $add);
+        $this->assertInstanceOf(FacetQuery::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
+        $this->assertSame('*:*', $result->getOption(FacetSet::FACET_QUERY));
 
-        $observer->createFacetQuery($options, $add);
+        if ($add) {
+            $this->assertInstanceOf(FacetQuery::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     /**
      * @dataProvider createFacetAddProvider
      */
-    public function testCreateFacetMultiQuery($add)
+    public function testCreateFacetMultiQuery(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetMultiQuery($options, $add);
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_MULTIQUERY), $this->equalTo($options), $add);
+        $this->assertInstanceOf(MultiQuery::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
 
-        $observer->createFacetMultiQuery($options, $add);
+        if ($add) {
+            $this->assertInstanceOf(MultiQuery::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     /**
      * @dataProvider createFacetAddProvider
      */
-    public function testCreateFacetRange($add)
+    public function testCreateFacetRange(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetRange($options, $add);
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_RANGE), $this->equalTo($options), $add);
+        $this->assertInstanceOf(Range::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
 
-        $observer->createFacetRange($options, $add);
+        if ($add) {
+            $this->assertInstanceOf(Range::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     /**
      * @dataProvider createFacetAddProvider
      */
-    public function testCreateFacetPivot($add)
+    public function testCreateFacetPivot(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetPivot($options, $add);
 
-        $observer = $this->getMock('Solarium\Component\FacetSet', array('createFacet'));
-        $observer->expects($this->once())
-                 ->method('createFacet')
-                 ->with($this->equalTo(FacetSet::FACET_PIVOT), $this->equalTo($options), $add);
+        $this->assertInstanceOf(Pivot::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
 
-        $observer->createFacetPivot($options, $add);
+        if ($add) {
+            $this->assertInstanceOf(Pivot::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
     }
 
     public function testSetAndGetExtractFromResponse()
     {
         $this->facetSet->setExtractFromResponse(true);
-        $this->assertEquals(true, $this->facetSet->getExtractFromResponse());
+        $this->assertTrue($this->facetSet->getExtractFromResponse());
     }
 }

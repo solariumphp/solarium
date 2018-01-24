@@ -1,53 +1,25 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\MoreLikeThis;
 
-use Solarium\QueryType\MoreLikeThis\Query;
-use Solarium\Core\Client\Client;
-use Solarium\QueryType\Select\Query\FilterQuery;
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\MoreLikeThis;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\MoreLikeThis\Query;
+use Solarium\QueryType\Select\Query\FilterQuery;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends TestCase
 {
     protected $query;
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_MORELIKETHIS, $this->query->getType());
+        $this->assertSame(Client::QUERY_MORELIKETHIS, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -63,19 +35,19 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetStart()
     {
         $this->query->setStart(234);
-        $this->assertEquals(234, $this->query->getStart());
+        $this->assertSame(234, $this->query->getStart());
     }
 
     public function testSetAndGetQueryWithTrim()
     {
         $this->query->setQuery(' *:* ');
-        $this->assertEquals('*:*', $this->query->getQuery());
+        $this->assertSame('*:*', $this->query->getQuery());
     }
 
     public function testSetAndGetQueryWithBind()
     {
         $this->query->setQuery('id:%1%', array(678));
-        $this->assertEquals('id:678', $this->query->getQuery());
+        $this->assertSame('id:678', $this->query->getQuery());
     }
 
     public function testSetAndGetQueryDefaultOperator()
@@ -83,7 +55,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = Query::QUERY_OPERATOR_AND;
 
         $this->query->setQueryDefaultOperator($value);
-        $this->assertEquals($value, $this->query->getQueryDefaultOperator());
+        $this->assertSame($value, $this->query->getQueryDefaultOperator());
     }
 
     public function testSetAndGetQueryDefaultField()
@@ -91,25 +63,25 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 'mydefault';
 
         $this->query->setQueryDefaultField($value);
-        $this->assertEquals($value, $this->query->getQueryDefaultField());
+        $this->assertSame($value, $this->query->getQueryDefaultField());
     }
 
     public function testSetAndGetResultClass()
     {
         $this->query->setResultClass('MyResult');
-        $this->assertEquals('MyResult', $this->query->getResultClass());
+        $this->assertSame('MyResult', $this->query->getResultClass());
     }
 
     public function testSetAndGetDocumentClass()
     {
         $this->query->setDocumentClass('MyDocument');
-        $this->assertEquals('MyDocument', $this->query->getDocumentClass());
+        $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
     public function testSetAndGetRows()
     {
         $this->query->setRows(100);
-        $this->assertEquals(100, $this->query->getRows());
+        $this->assertSame(100, $this->query->getRows());
     }
 
     public function testAddField()
@@ -117,14 +89,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $expectedFields = $this->query->getFields();
         $expectedFields[] = 'newfield';
         $this->query->addField('newfield');
-        $this->assertEquals($expectedFields, $this->query->getFields());
+        $this->assertSame($expectedFields, $this->query->getFields());
     }
 
     public function testClearFields()
     {
         $this->query->addField('newfield');
         $this->query->clearFields();
-        $this->assertEquals(array(), $this->query->getFields());
+        $this->assertSame(array(), $this->query->getFields());
     }
 
     public function testAddFields()
@@ -133,14 +105,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->query->clearFields();
         $this->query->addFields($fields);
-        $this->assertEquals($fields, $this->query->getFields());
+        $this->assertSame($fields, $this->query->getFields());
     }
 
     public function testAddFieldsAsStringWithTrim()
     {
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
-        $this->assertEquals(array('field1', 'field2'), $this->query->getFields());
+        $this->assertSame(array('field1', 'field2'), $this->query->getFields());
     }
 
     public function testRemoveField()
@@ -148,7 +120,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->clearFields();
         $this->query->addFields(array('field1', 'field2'));
         $this->query->removeField('field1');
-        $this->assertEquals(array('field2'), $this->query->getFields());
+        $this->assertSame(array('field2'), $this->query->getFields());
     }
 
     public function testSetFields()
@@ -156,13 +128,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->clearFields();
         $this->query->addFields(array('field1', 'field2'));
         $this->query->setFields(array('field3', 'field4'));
-        $this->assertEquals(array('field3', 'field4'), $this->query->getFields());
+        $this->assertSame(array('field3', 'field4'), $this->query->getFields());
     }
 
     public function testAddSort()
     {
         $this->query->addSort('field1', Query::SORT_DESC);
-        $this->assertEquals(
+        $this->assertSame(
             array('field1' => Query::SORT_DESC),
             $this->query->getSorts()
         );
@@ -176,7 +148,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->query->addSorts($sorts);
-        $this->assertEquals(
+        $this->assertSame(
             $sorts,
             $this->query->getSorts()
         );
@@ -191,7 +163,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->query->addSorts($sorts);
         $this->query->removeSort('field1');
-        $this->assertEquals(
+        $this->assertSame(
             array('field2' => Query::SORT_ASC),
             $this->query->getSorts()
         );
@@ -206,7 +178,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->query->addSorts($sorts);
         $this->query->removeSort('invalidfield'); //continue silently
-        $this->assertEquals(
+        $this->assertSame(
             $sorts,
             $this->query->getSorts()
         );
@@ -221,7 +193,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->query->addSorts($sorts);
         $this->query->clearSorts();
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->query->getSorts()
         );
@@ -236,7 +208,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->query->addSorts($sorts);
         $this->query->setSorts(array('field3' => Query::SORT_ASC));
-        $this->assertEquals(
+        $this->assertSame(
             array('field3' => Query::SORT_ASC),
             $this->query->getSorts()
         );
@@ -244,11 +216,11 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetFilterQuery()
     {
-        $fq = new FilterQuery;
+        $fq = new FilterQuery();
         $fq->setKey('fq1')->setQuery('category:1');
         $this->query->addFilterQuery($fq);
 
-        $this->assertEquals(
+        $this->assertSame(
             $fq,
             $this->query->getFilterQuery('fq1')
         );
@@ -261,12 +233,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $fq = $this->query->createFilterQuery($key, true);
         $fq->setQuery('category:1');
 
-        $this->assertEquals(
+        $this->assertSame(
             $key,
             $fq->getKey()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $fq,
             $this->query->getFilterQuery('fq1')
         );
@@ -274,46 +246,45 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFilterQueryWithoutKey()
     {
-        $fq = new FilterQuery;
+        $fq = new FilterQuery();
         $fq->setQuery('category:1');
 
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->query->addFilterQuery($fq);
     }
 
     public function testAddFilterQueryWithUsedKey()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq1')->setQuery('category:2');
 
         $this->query->addFilterQuery($fq1);
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->query->addFilterQuery($fq2);
     }
 
     public function testGetInvalidFilterQuery()
     {
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->query->getFilterQuery('invalidtag')
         );
     }
 
     public function testAddFilterQueries()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array('fq1' => $fq1, 'fq2' => $fq2);
 
         $this->query->addFilterQueries($filterQueries);
-        $this->assertEquals(
+        $this->assertSame(
             $filterQueries,
             $this->query->getFilterQueries()
         );
@@ -321,17 +292,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFilterQuery()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array($fq1, $fq2);
 
         $this->query->addFilterQueries($filterQueries);
         $this->query->removeFilterQuery('fq1');
-        $this->assertEquals(
+        $this->assertSame(
             array('fq2' => $fq2),
             $this->query->getFilterQueries()
         );
@@ -339,17 +310,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFilterQueryWithObjectInput()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array($fq1, $fq2);
 
         $this->query->addFilterQueries($filterQueries);
         $this->query->removeFilterQuery($fq1);
-        $this->assertEquals(
+        $this->assertSame(
             array('fq2' => $fq2),
             $this->query->getFilterQueries()
         );
@@ -357,17 +328,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveInvalidFilterQuery()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array('fq1' => $fq1, 'fq2' => $fq2);
 
         $this->query->addFilterQueries($filterQueries);
         $this->query->removeFilterQuery('fq3'); //continue silently
-        $this->assertEquals(
+        $this->assertSame(
             $filterQueries,
             $this->query->getFilterQueries()
         );
@@ -375,17 +346,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testClearFilterQueries()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array($fq1, $fq2);
 
         $this->query->addFilterQueries($filterQueries);
         $this->query->clearFilterQueries();
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->query->getFilterQueries()
         );
@@ -393,27 +364,27 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetFilterQueries()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries1 = array('fq1' => $fq1, 'fq2' => $fq2);
 
         $this->query->addFilterQueries($filterQueries1);
 
-        $fq3 = new FilterQuery;
+        $fq3 = new FilterQuery();
         $fq3->setKey('fq3')->setQuery('category:3');
 
-        $fq4 = new FilterQuery;
+        $fq4 = new FilterQuery();
         $fq4->setKey('fq4')->setQuery('category:4');
 
         $filterQueries2 = array('fq3' => $fq3, 'fq4' => $fq4);
 
         $this->query->setFilterQueries($filterQueries2);
 
-        $this->assertEquals(
+        $this->assertSame(
             $filterQueries2,
             $this->query->getFilterQueries()
         );
@@ -429,14 +400,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             'start' => 200,
             'filterquery' => array(
                 array('key' => 'pub', 'tag' => array('pub'), 'query' => 'published:true'),
-                'online' => array('tag' => 'onl', 'query' => 'online:true')
+                'online' => array('tag' => 'onl', 'query' => 'online:true'),
             ),
             'component' => array(
                 'facetset' => array(
                     'facet' => array(
                         array('type' => 'field', 'key' => 'categories', 'field' => 'category'),
-                        'category13' => array('type' => 'query', 'query' => 'category:13')
-                    )
+                        'category13' => array('type' => 'query', 'query' => 'category:13'),
+                    ),
                 ),
             ),
             'matchoffset' => 15,
@@ -445,23 +416,23 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
         $query = new Query($config);
 
-        $this->assertEquals($config['query'], $query->getQuery());
-        $this->assertEquals($config['sort'], $query->getSorts());
-        $this->assertEquals($config['fields'], $query->getFields());
-        $this->assertEquals($config['rows'], $query->getRows());
-        $this->assertEquals($config['start'], $query->getStart());
-        $this->assertEquals($config['documentclass'], $query->getDocumentClass());
-        $this->assertEquals($config['resultclass'], $query->getResultClass());
-        $this->assertEquals($config['matchoffset'], $query->getMatchOffset());
-        $this->assertEquals('published:true', $query->getFilterQuery('pub')->getQuery());
-        $this->assertEquals('online:true', $query->getFilterQuery('online')->getQuery());
+        $this->assertSame($config['query'], $query->getQuery());
+        $this->assertSame($config['sort'], $query->getSorts());
+        $this->assertSame($config['fields'], $query->getFields());
+        $this->assertSame($config['rows'], $query->getRows());
+        $this->assertSame($config['start'], $query->getStart());
+        $this->assertSame($config['documentclass'], $query->getDocumentClass());
+        $this->assertSame($config['resultclass'], $query->getResultClass());
+        $this->assertSame($config['matchoffset'], $query->getMatchOffset());
+        $this->assertSame('published:true', $query->getFilterQuery('pub')->getQuery());
+        $this->assertSame('online:true', $query->getFilterQuery('online')->getQuery());
 
         $facets = $query->getFacetSet()->getFacets();
-        $this->assertEquals(
+        $this->assertSame(
             'category',
             $facets['categories']->getField()
         );
-        $this->assertEquals(
+        $this->assertSame(
             'category:13',
             $facets['category13']->getQuery()
         );
@@ -476,10 +447,10 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetComponents()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('mlt' => $mlt),
             $this->query->getComponents()
         );
@@ -487,10 +458,10 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetComponent()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             $mlt,
             $this->query->getComponent('mlt')
         );
@@ -498,31 +469,30 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInvalidComponent()
     {
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->query->getComponent('invalid')
         );
     }
 
     public function testGetInvalidComponentAutoload()
     {
-        $this->setExpectedException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException('Solarium\Exception\OutOfBoundsException');
         $this->query->getComponent('invalid', true);
     }
 
     public function testRemoveComponent()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('mlt' => $mlt),
             $this->query->getComponents()
         );
 
         $this->query->removeComponent('mlt');
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->query->getComponents()
         );
@@ -530,17 +500,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveComponentWithObjectInput()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('mlt' => $mlt),
             $this->query->getComponents()
         );
 
         $this->query->removeComponent($mlt);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->query->getComponents()
         );
@@ -550,7 +520,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $mlt = $this->query->getMoreLikeThis();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\MoreLikeThis',
             get_class($mlt)
         );
@@ -560,7 +530,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $dismax = $this->query->getDisMax();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\DisMax',
             get_class($dismax)
         );
@@ -570,7 +540,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $hlt = $this->query->getHighlighting();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Highlighting\Highlighting',
             get_class($hlt)
         );
@@ -580,7 +550,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $grouping = $this->query->getGrouping();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Grouping',
             get_class($grouping)
         );
@@ -593,7 +563,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->query->registerComponentType('mykey', 'mycomponent', 'mybuilder', 'myparser');
 
-        $this->assertEquals(
+        $this->assertSame(
             $components,
             $this->query->getComponentTypes()
         );
@@ -609,7 +579,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         // check option forwarding
         $fqOptions = $fq->getOptions();
-        $this->assertEquals(
+        $this->assertSame(
             $options['optionB'],
             $fqOptions['optionB']
         );
@@ -619,7 +589,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $spellcheck = $this->query->getSpellcheck();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Spellcheck',
             get_class($spellcheck)
         );
@@ -629,7 +599,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $spellcheck = $this->query->getDistributedSearch();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\DistributedSearch',
             get_class($spellcheck)
         );
@@ -639,7 +609,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $stats = $this->query->getStats();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Stats\Stats',
             get_class($stats)
         );
@@ -649,7 +619,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $stats = $this->query->getDebug();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\Component\Debug',
             get_class($stats)
         );
@@ -660,7 +630,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = true;
         $this->query->setMatchInclude($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getMatchInclude()
         );
@@ -671,7 +641,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 20;
         $this->query->setMatchOffset($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getMatchOffset()
         );
@@ -682,7 +652,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 'name,description';
         $this->query->setMltFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('name', 'description'),
             $this->query->getMltFields()
         );
@@ -693,7 +663,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = array('name', 'description');
         $this->query->setMltFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getMltFields()
         );
@@ -704,7 +674,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 'test';
         $this->query->setInterestingTerms($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getInterestingTerms()
         );
@@ -715,7 +685,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = true;
         $this->query->setQueryStream($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getQueryStream()
         );
@@ -726,7 +696,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 2;
         $this->query->setMinimumTermFrequency($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getMinimumTermFrequency()
         );
@@ -737,7 +707,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 4;
         $this->query->setMinimumDocumentFrequency($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getMinimumDocumentFrequency()
         );
@@ -748,7 +718,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 3;
         $this->query->setMinimumWordLength($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getMinimumWordLength()
         );
@@ -759,7 +729,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 15;
         $this->query->setMaximumWordLength($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getMaximumWordLength()
         );
@@ -770,7 +740,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 5;
         $this->query->setMaximumQueryTerms($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getMaximumQueryTerms()
         );
@@ -781,7 +751,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 5;
         $this->query->setMaximumNumberOfTokens($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getMaximumNumberOfTokens()
         );
@@ -792,7 +762,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = true;
         $this->query->setBoost($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getBoost()
         );
@@ -803,7 +773,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = 'content,name';
         $this->query->setQueryFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('content', 'name'),
             $this->query->getQueryFields()
         );
@@ -814,7 +784,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $value = array('content', 'name');
         $this->query->setQueryFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->query->getQueryFields()
         );

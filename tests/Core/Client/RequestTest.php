@@ -1,39 +1,11 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Core\Client;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
     /**
      * @var Request
@@ -42,7 +14,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->request = new Request;
+        $this->request = new Request();
     }
 
     public function testConfigMode()
@@ -67,35 +39,35 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         );
         $this->request->setOptions($options);
 
-        $this->assertEquals(
+        $this->assertSame(
             $options['method'],
             $this->request->getMethod()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $options['handler'],
             $this->request->getHandler()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $options['rawdata'],
             $this->request->getRawData()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $options['param'],
             $this->request->getParams()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 $options['header']['myHeader1'],
-                $options['header']['myHeader2']
+                $options['header']['myHeader2'],
             ),
             $this->request->getHeaders()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'username' => $options['authentication']['username'],
                 'password' => $options['authentication']['password'],
@@ -103,7 +75,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             $this->request->getAuthentication()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $options['file'],
             $this->request->getFileUpload()
         );
@@ -111,7 +83,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDefaultMethod()
     {
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_GET,
             $this->request->getMethod()
         );
@@ -121,7 +93,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->request->setMethod(Request::METHOD_POST);
 
-        $this->assertEquals(
+        $this->assertSame(
             Request::METHOD_POST,
             $this->request->getMethod()
         );
@@ -131,7 +103,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->request->setHandler('myhandler');
 
-        $this->assertEquals(
+        $this->assertSame(
             'myhandler',
             $this->request->getHandler()
         );
@@ -146,7 +118,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->request->setParams($params);
 
-        $this->assertEquals(
+        $this->assertSame(
             $params,
             $this->request->getParams()
         );
@@ -161,7 +133,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->request->setParams($params);
 
-        $this->assertEquals(
+        $this->assertSame(
             2,
             $this->request->getParam('param2')
         );
@@ -169,8 +141,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInvalidParam()
     {
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->request->getParam('invalidname')
         );
     }
@@ -187,7 +158,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $params['param3'] = 3;
 
-        $this->assertEquals(
+        $this->assertSame(
             $params,
             $this->request->getParams()
         );
@@ -202,7 +173,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->request->addParams($params);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'param1' => 'true',
                 'param2' => 'false',
@@ -223,7 +194,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $params['param2'] = array(2, 3);
 
-        $this->assertEquals(
+        $this->assertSame(
             $params,
             $this->request->getParams()
         );
@@ -243,7 +214,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->request->addParam('param4', ''); // this should add an empty param (for instance "q=" in dismax)
         $this->request->addParam('param5', null); // this param should be ignored
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'param1' => 1,
                 'param2' => array(2, ''),
@@ -263,7 +234,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->request->setParams($params);
         $this->request->addParam('param1', 2, true);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('param1' => 2),
             $this->request->getParams()
         );
@@ -283,7 +254,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->request->setParams($params);
         $this->request->addParams($extraParams);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'param1' => array(1, 2),
                 'param2' => 3,
@@ -306,7 +277,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->request->setParams($params);
         $this->request->addParams($extraParams, true);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'param1' => 2,
                 'param2' => 3,
@@ -325,7 +296,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->request->setParams($params);
         $this->request->removeParam('param2');
 
-        $this->assertEquals(
+        $this->assertSame(
             array('param1' => 1),
             $this->request->getParams()
         );
@@ -341,7 +312,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->request->setParams($params);
         $this->request->clearParams();
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->request->getParams()
         );
@@ -352,7 +323,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $data = '1234567890';
         $this->request->setRawData($data);
 
-        $this->assertEquals(
+        $this->assertSame(
             $data,
             $this->request->getRawData()
         );
@@ -362,11 +333,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $headers = array(
             'User-Agent: My Agent',
-            'Cache-Control: no-cache'
+            'Cache-Control: no-cache',
         );
         $this->request->setHeaders($headers);
 
-        $this->assertEquals(
+        $this->assertSame(
             $headers,
             $this->request->getHeaders()
         );
@@ -376,7 +347,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $headers = array(
             'User-Agent: My Agent',
-
         );
 
         $this->request->setHeaders($headers);
@@ -384,7 +354,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $headers[] = 'Cache-Control: no-cache';
 
-        $this->assertEquals(
+        $this->assertSame(
             $headers,
             $this->request->getHeaders()
         );
@@ -394,7 +364,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $headers = array(
             'User-Agent: My Agent',
-
         );
 
         $extraHeaders = array(
@@ -405,7 +374,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->request->setHeaders($headers);
         $this->request->addHeaders($extraHeaders);
 
-        $this->assertEquals(
+        $this->assertSame(
             array_merge($headers, $extraHeaders),
             $this->request->getHeaders()
         );
@@ -415,19 +384,19 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $headers = array(
             'User-Agent: My Agent',
-            'Cache-Control: no-cache'
+            'Cache-Control: no-cache',
         );
 
         $this->request->setHeaders($headers);
 
-        $this->assertEquals(
+        $this->assertSame(
             $headers,
             $this->request->getHeaders()
         );
 
         $this->request->clearHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             array(),
             $this->request->getHeaders()
         );
@@ -435,7 +404,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUri()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '?',
             $this->request->getUri()
         );
@@ -451,7 +420,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->request->setHandler('myHandler');
         $this->request->addParams($params);
 
-        $this->assertEquals(
+        $this->assertSame(
             'myHandler?param1=1&param2=2&param2=3',
             $this->request->getUri()
         );
@@ -498,7 +467,7 @@ raw data: post data
 EOF;
         $request .= PHP_EOL.'file upload: '.__FILE__.PHP_EOL;
 
-        $this->assertEquals($request, (string) $this->request);
+        $this->assertSame($request, (string) $this->request);
     }
 
     public function testGetAndSetAuthentication()
@@ -508,7 +477,7 @@ EOF;
 
         $this->request->setAuthentication($user, $pass);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'username' => $user,
                 'password' => $pass,
@@ -520,7 +489,7 @@ EOF;
     public function testSetAndGetFileUpload()
     {
         $this->request->setFileUpload(__FILE__);
-        $this->assertEquals(
+        $this->assertSame(
             __FILE__,
             $this->request->getFileUpload()
         );
@@ -528,7 +497,7 @@ EOF;
 
     public function testSetAndGetFileUploadWithInvalidFile()
     {
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         $this->request->setFileUpload('invalid-filename.dummy');
     }
 }

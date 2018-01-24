@@ -1,40 +1,13 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Core\Query;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\Helper;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
-class HelperTest extends \PHPUnit_Framework_TestCase
+class HelperTest extends TestCase
 {
     /**
      * @var Helper
@@ -48,7 +21,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->query = new SelectQuery;
+        $this->query = new SelectQuery();
         $this->helper = new Helper($this->query);
     }
 
@@ -59,7 +32,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             $this->helper->rangeQuery('field', 1, 2)
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'store:[45,-94 TO 46,-93]',
             $this->helper->rangeQuery('store', '45,-94', '46,-93')
         );
@@ -67,12 +40,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testRangeQueryExclusive()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'field:{1 TO 2}',
             $this->helper->rangeQuery('field', 1, 2, false)
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'store:{45,-94 TO 46,-93}',
             $this->helper->rangeQuery('store', '45,-94', '46,-93', false)
         );
@@ -80,12 +53,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testRangeQueryInclusiveNullValues()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'field:[1 TO *]',
             $this->helper->rangeQuery('field', 1, null)
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'store:[* TO 46,-93]',
             $this->helper->rangeQuery('store', null, '46,-93')
         );
@@ -93,12 +66,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testRangeQueryExclusiveNullValues()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'field:{1 TO *}',
             $this->helper->rangeQuery('field', 1, null, false)
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'store:{* TO 46,-93}',
             $this->helper->rangeQuery('store', null, '46,-93', false)
         );
@@ -106,7 +79,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testGeofilt()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!geofilt pt=45.15,-93.85 sfield=store d=5}',
             $this->helper->geofilt('store', 45.15, -93.85, 5)
         );
@@ -114,7 +87,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testGeofiltDereferenced()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!geofilt}',
             $this->helper->geofilt('store', 45.15, -93.85, 5, true)
         );
@@ -127,7 +100,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testBbox()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!bbox pt=45.15,-93.85 sfield=store d=5}',
             $this->helper->bbox('store', 45.15, -93.85, 5)
         );
@@ -135,7 +108,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testBboxDereferenced()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!bbox}',
             $this->helper->bbox('store', 45.15, -93.85, 5, true)
         );
@@ -148,7 +121,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testGeodist()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'geodist(store,45.15,-93.85)',
             $this->helper->geodist('store', 45.15, -93.85)
         );
@@ -156,7 +129,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testGeodistDereferenced()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'geodist()',
             $this->helper->geodist('store', 45.15, -93.85, true)
         );
@@ -169,7 +142,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testQparserNoParams()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!parser}',
             $this->helper->qparser('parser')
         );
@@ -177,7 +150,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testQparser()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!parser a=1 b=test}',
             $this->helper->qparser('parser', array('a' => 1, 'b' => 'test'))
         );
@@ -186,13 +159,13 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testQparserDereferencedNoQuery()
     {
         $helper = new Helper();
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true);
     }
 
     public function testQparserDereferenced()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!join from=$deref_1 to=$deref_2}',
             $this->helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true, true)
         );
@@ -203,7 +176,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
 
         // second call, params should have updated counts
-        $this->assertEquals(
+        $this->assertSame(
             '{!join from=$deref_3 to=$deref_4}',
             $this->helper->qparser('join', array('from' => 'cat_id', 'to' => 'prod_id'), true, true)
         );
@@ -217,31 +190,22 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testFunctionCallNoParams()
     {
-        $this->assertEquals(
-            'sum()',
-            $this->helper->functionCall('sum')
-        );
+        $this->assertSame('sum()', $this->helper->functionCall('sum'));
     }
 
     public function testFunctionCall()
     {
-        $this->assertEquals(
-            'sum(1,2)',
-            $this->helper->functionCall('sum', array(1, 2))
-        );
+        $this->assertSame('sum(1,2)', $this->helper->functionCall('sum', array(1, 2)));
     }
 
     public function testEscapeTerm()
     {
-        $this->assertEquals(
-            'a\\+b\/c',
-            $this->helper->escapeTerm('a+b/c')
-        );
+        $this->assertSame('a\\+b\/c', $this->helper->escapeTerm('a+b/c'));
     }
 
     public function testEscapeTermNoEscape()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'abc',
             $this->helper->escapeTerm('abc')
         );
@@ -249,7 +213,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testEscapePhrase()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '"a+\\"b"',
             $this->helper->escapePhrase('a+"b')
         );
@@ -257,7 +221,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testEscapePhraseNoEscape()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '"a+b"',
             $this->helper->escapePhrase('a+b')
         );
@@ -271,8 +235,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
 
         //allow negative dates.
-        $this->assertNotEquals(
-            false,
+        $this->assertNotFalse(
             $this->helper->formatDate(strtotime('2011-10-01')),
             'Expects negative timestamp input to be accepted'
         );
@@ -284,7 +247,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             'Expects invalid timestamp input (not in calendar) not to be accepted'
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
             $this->helper->formatDate(strtotime('2011-10-01')),
             'Expects formatDate with Timstamp input to output ISO8601 with stripped timezone'
@@ -298,7 +261,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             'Expects an invalid date string input not to be accepted'
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
             $this->helper->formatDate('2011-10-01'),
             'Expects formatDate with String input to output ISO8601 with stripped timezone'
@@ -307,14 +270,14 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testFormatDateInputDateTime()
     {
-        date_default_timezone_set("UTC"); // prevent timezone differences
+        date_default_timezone_set('UTC'); // prevent timezone differences
 
         $this->assertFalse(
             $this->helper->formatDate(new \stdClass()),
             'Expect any other object not to be accepted'
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
             $this->helper->formatDate(new \DateTime('2011-10-01')),
             'Expects formatDate with DateTime input to output ISO8601 with stripped timezone'
@@ -323,14 +286,14 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testFormatDateInputDateTimeImmutable()
     {
-        date_default_timezone_set("UTC"); // prevent timezone differences
+        date_default_timezone_set('UTC'); // prevent timezone differences
 
         $this->assertFalse(
             $this->helper->formatDate(new \stdClass()),
             'Expect any other object not to be accepted'
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
             $this->helper->formatDate(new \DateTimeImmutable('2011-10-01')),
             'Expects formatDate with DateTimeImmutable input to output ISO8601 with stripped timezone'
@@ -342,55 +305,48 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         //check if timezone is stripped
         $expected = strtoupper('Z');
         $actual = substr($this->helper->formatDate(time()), 19, 20);
-        $this->assertEquals($expected, $actual, 'Expects last charachter to be uppercased Z');
+        $this->assertSame($expected, $actual, 'Expects last charachter to be uppercased Z');
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->mockFormatDateOutput(time()),
             $this->helper->formatDate(time())
         );
     }
 
-    protected function mockFormatDateOutput($timestamp)
-    {
-        $date = new \DateTime('@'.$timestamp);
-
-        return strstr($date->format(\DateTime::ISO8601), '+', true) . 'Z';
-    }
-
     public function testAssemble()
     {
         // test single basic placeholder
-        $this->assertEquals(
+        $this->assertSame(
             'id:456 AND cat:2',
             $this->helper->assemble('id:%1% AND cat:2', array(456))
         );
 
         // test multiple basic placeholders and placeholder repeat
-        $this->assertEquals(
+        $this->assertSame(
             '(id:456 AND cat:2) OR (id:456 AND cat:1)',
             $this->helper->assemble('(id:%1% AND cat:%2%) OR (id:%1% AND cat:%3%)', array(456, 2, 1))
         );
 
         // test literal placeholder (same as basic)
-        $this->assertEquals(
+        $this->assertSame(
             'id:456 AND cat:2',
             $this->helper->assemble('id:%L1% AND cat:2', array(456))
         );
 
         // test term placeholder
-        $this->assertEquals(
+        $this->assertSame(
             'cat:2 AND content:a\\+b',
             $this->helper->assemble('cat:2 AND content:%T1%', array('a+b'))
         );
 
         // test term placeholder case-insensitive
-        $this->assertEquals(
+        $this->assertSame(
             'cat:2 AND content:a\\+b',
             $this->helper->assemble('cat:2 AND content:%t1%', array('a+b'))
         );
 
         // test phrase placeholder
-        $this->assertEquals(
+        $this->assertSame(
             'cat:2 AND content:"a+\\"b"',
             $this->helper->assemble('cat:2 AND content:%P1%', array('a+"b'))
         );
@@ -398,13 +354,13 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testAssembleInvalidPartNumber()
     {
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->helper->assemble('cat:%1% AND content:%2%', array('value1'));
     }
 
     public function testJoin()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!join from=manu_id to=id}',
             $this->helper->join('manu_id', 'id')
         );
@@ -412,7 +368,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testJoinDereferenced()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!join from=$deref_1 to=$deref_2}',
             $this->helper->join('manu_id', 'id', true)
         );
@@ -425,7 +381,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testQparserTerm()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!term f=weight}1.5',
             $this->helper->qparserTerm('weight', 1.5)
         );
@@ -433,7 +389,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testCacheControlWithCost()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!cache=false cost=6}',
             $this->helper->cacheControl(false, 6)
         );
@@ -441,7 +397,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testCacheControlWithoutCost()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '{!cache=true}',
             $this->helper->cacheControl(true)
         );
@@ -449,9 +405,16 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterControlCharacters()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'my string',
             $this->helper->filterControlCharacters("my\x08string")
         );
+    }
+
+    protected function mockFormatDateOutput($timestamp)
+    {
+        $date = new \DateTime('@'.$timestamp);
+
+        return strstr($date->format(\DateTime::ISO8601), '+', true).'Z';
     }
 }

@@ -1,41 +1,13 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS 'AS IS'
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
-use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response;
+use Guzzle\Plugin\Mock\MockPlugin;
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\Guzzle3 as GuzzleAdapter;
-use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
 use Solarium\Core\Exception;
 
 /**
@@ -43,7 +15,7 @@ use Solarium\Core\Exception;
  * @covers ::<private>
  * @covers ::getGuzzleClient
  */
-final class Guzzle3Test extends \PHPUnit_Framework_TestCase
+final class Guzzle3Test extends TestCase
 {
     /**
      * @var Guzzle3Adapter
@@ -51,9 +23,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
     private $adapter;
 
     /**
-     * Prepare each test
-     *
-     * @return void
+     * Prepare each test.
      */
     public function setUp()
     {
@@ -65,12 +35,10 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify basic behavior of execute()
+     * Verify basic behavior of execute().
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executeGet()
     {
@@ -106,17 +74,15 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $this->assertSame('GET', $receivedRequests[0]->getMethod());
         $this->assertSame(
             'request value',
-            (string)$receivedRequests[0]->getHeader('X-PHPUnit')
+            (string) $receivedRequests[0]->getHeader('X-PHPUnit')
         );
     }
 
     /**
-     * Verify execute() with request containing file
+     * Verify execute() with request containing file.
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executePostWithFile()
     {
@@ -151,20 +117,18 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('POST', $receivedRequests[0]->getMethod());
-        $this->assertStringEqualsFile(__FILE__, (string)$receivedRequests[0]->getBody());
+        $this->assertStringEqualsFile(__FILE__, (string) $receivedRequests[0]->getBody());
         $this->assertSame(
             'request value',
-            (string)$receivedRequests[0]->getHeader('X-PHPUnit')
+            (string) $receivedRequests[0]->getHeader('X-PHPUnit')
         );
     }
 
     /**
-     * Verify execute() with request containing raw body
+     * Verify execute() with request containing raw body.
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executePostWithRawBody()
     {
@@ -200,14 +164,14 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('POST', $receivedRequests[0]->getMethod());
-        $this->assertSame($xml, (string)$receivedRequests[0]->getBody());
+        $this->assertSame($xml, (string) $receivedRequests[0]->getBody());
         $this->assertSame(
             'request value',
-            (string)$receivedRequests[0]->getHeader('X-PHPUnit')
+            (string) $receivedRequests[0]->getHeader('X-PHPUnit')
         );
         $this->assertSame(
             'application/xml; charset=utf-8',
-            (string)$receivedRequests[0]->getHeader('Content-Type')
+            (string) $receivedRequests[0]->getHeader('Content-Type')
         );
     }
 
@@ -216,8 +180,6 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executeGetWithAuthentication()
     {
@@ -254,12 +216,12 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         $this->assertSame('GET', $receivedRequests[0]->getMethod());
         $this->assertSame(
             'request value',
-            (string)$receivedRequests[0]->getHeader('X-PHPUnit')
+            (string) $receivedRequests[0]->getHeader('X-PHPUnit')
         );
 
         $this->assertSame(
-            'Basic ' . base64_encode('username:s3cr3t'),
-            (string)$receivedRequests[0]->getHeader('Authorization')
+            'Basic '.base64_encode('username:s3cr3t'),
+            (string) $receivedRequests[0]->getHeader('Authorization')
         );
     }
 
@@ -270,8 +232,6 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
      * @covers ::execute
      * @expectedException \Solarium\Exception\HttpException
      * @expectedExceptionMessage HTTP request failed
-     *
-     * @return void
      */
     public function executeRequestException()
     {
@@ -280,7 +240,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
 
         $endpoint = new Endpoint(
             array(
-                'scheme'  => 'silly', //invalid protocol
+                'scheme' => 'silly', //invalid protocol
             )
         );
 
@@ -315,6 +275,7 @@ final class Guzzle3Test extends \PHPUnit_Framework_TestCase
         );
 
         $headers = array('Content-Type' => 'application/json', 'X-PHPUnit' => 'response value');
+
         return new Response(200, $headers, $body);
     }
 }

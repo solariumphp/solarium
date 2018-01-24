@@ -1,52 +1,24 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Update\Query\Command\Add;
-use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Query;
 
-class AddTest extends \PHPUnit_Framework_TestCase
+class AddTest extends TestCase
 {
     protected $command;
 
     public function setUp()
     {
-        $this->command = new Add;
+        $this->command = new Add();
     }
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_ADD,
             $this->command->getType()
         );
@@ -56,7 +28,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
     {
         $doc = new Document(array('id' => 1));
         $this->command->addDocument($doc);
-        $this->assertEquals(
+        $this->assertSame(
             array($doc),
             $this->command->getDocuments()
         );
@@ -71,7 +43,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
         }
 
         try {
-            $doc = new \stdClass;
+            $doc = new \stdClass();
             $this->command->addDocument($doc);
 
             $this->fail(
@@ -91,7 +63,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
         $doc1 = new Document(array('id' => 1));
         $doc2 = new Document(array('id' => 2));
         $this->command->addDocuments(array($doc1, $doc2));
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2),
             $this->command->getDocuments()
         );
@@ -107,7 +79,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
         $doc4 = new Document(array('id' => 4));
         $this->command->addDocuments(array($doc3, $doc4));
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2, $doc3, $doc4),
             $this->command->getDocuments()
         );
@@ -128,7 +100,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
             $command_documents = $this->command->getDocuments();
         }
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2),
             $command_documents,
             'checking first two documents are added correctly'
@@ -148,7 +120,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
             $command_documents = $this->command->getDocuments();
         }
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2, $doc3, $doc4, $doc5),
             $command_documents,
             'checking second three documents are added correctly to first two'
@@ -175,7 +147,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
             $command_documents = $this->command->getDocuments();
         }
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2, $doc3),
             $command_documents
         );
@@ -184,8 +156,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testGetAndSetOverwrite()
     {
         $this->command->setOverwrite(false);
-        $this->assertEquals(
-            false,
+        $this->assertFalse(
             $this->command->getOverwrite()
         );
     }
@@ -193,7 +164,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testGetAndSetCommitWithin()
     {
         $this->command->setCommitWithin(100);
-        $this->assertEquals(
+        $this->assertSame(
             100,
             $this->command->getCommitWithin()
         );

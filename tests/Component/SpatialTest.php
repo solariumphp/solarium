@@ -2,10 +2,11 @@
 
 namespace Solarium\Tests\Component;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Spatial;
 use Solarium\QueryType\Select\Query\Query;
 
-class SpatialTest extends \PHPUnit_Framework_TestCase
+class SpatialTest extends TestCase
 {
     /**
      * @var Spatial
@@ -14,7 +15,7 @@ class SpatialTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->spatial = new Spatial;
+        $this->spatial = new Spatial();
     }
 
     public function testConfigMode()
@@ -42,7 +43,7 @@ class SpatialTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertEquals(null, $this->spatial->getResponseParser());
+        $this->assertNull($this->spatial->getResponseParser());
     }
 
     public function testGetRequestBuilder()
@@ -58,10 +59,7 @@ class SpatialTest extends \PHPUnit_Framework_TestCase
         $value = 'geo';
         $this->spatial->setField($value);
 
-        $this->assertEquals(
-            $value,
-            $this->spatial->getField()
-        );
+        $this->assertEquals($value, $this->spatial->getField());
     }
 
     public function testSetAndGetDistance()
@@ -69,10 +67,7 @@ class SpatialTest extends \PHPUnit_Framework_TestCase
         $value = 'distance';
         $this->spatial->setDistance($value);
 
-        $this->assertEquals(
-            $value,
-            $this->spatial->getDistance()
-        );
+        $this->assertEquals($value, $this->spatial->getDistance());
     }
 
     public function testSetAndGetPoint()
@@ -80,9 +75,6 @@ class SpatialTest extends \PHPUnit_Framework_TestCase
         $value = '52,13';
         $this->spatial->setPoint($value);
 
-        $this->assertEquals(
-            $value,
-            $this->spatial->getPoint()
-        );
+        $this->assertEquals($value, $this->spatial->getPoint());
     }
 }

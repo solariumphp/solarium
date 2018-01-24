@@ -1,40 +1,12 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\DistributedSearch;
 use Solarium\QueryType\Select\Query\Query;
 
-class DistributedSearchTest extends \PHPUnit_Framework_TestCase
+class DistributedSearchTest extends TestCase
 {
     /**
      * @var DistributedSearch
@@ -43,7 +15,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->distributedSearch = new DistributedSearch;
+        $this->distributedSearch = new DistributedSearch();
     }
 
     public function testConfigModeForShards()
@@ -53,13 +25,13 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             'shards' => array(
                 'shard1' => 'localhost:8983/solr/shard1',
                 'shard2' => 'localhost:8983/solr/shard2',
-            )
+            ),
         );
 
         $this->distributedSearch->setOptions($options);
 
-        $this->assertEquals($options['shardhandler'], $this->distributedSearch->getShardRequestHandler());
-        $this->assertEquals($options['shards'], $this->distributedSearch->getShards());
+        $this->assertSame($options['shardhandler'], $this->distributedSearch->getShardRequestHandler());
+        $this->assertSame($options['shards'], $this->distributedSearch->getShards());
     }
 
     public function testConfigModeForCollections()
@@ -68,11 +40,11 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             'collections' => array(
                 'collection1' => 'localhost:8983/solr/collection1',
                 'collection2' => 'localhost:8983/solr/collection2',
-            )
+            ),
         );
 
         $this->distributedSearch->setOptions($options);
-        $this->assertEquals($options['collections'], $this->distributedSearch->getCollections());
+        $this->assertSame($options['collections'], $this->distributedSearch->getCollections());
     }
 
     public function testConfigModeForReplicas()
@@ -85,12 +57,12 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->distributedSearch->setOptions($options);
-        $this->assertEquals($options['replicas'], $this->distributedSearch->getReplicas());
+        $this->assertSame($options['replicas'], $this->distributedSearch->getReplicas());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMPONENT_DISTRIBUTEDSEARCH,
             $this->distributedSearch->getType()
         );
@@ -98,7 +70,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertEquals(null, $this->distributedSearch->getResponseParser());
+        $this->assertNull($this->distributedSearch->getResponseParser());
     }
 
     public function testGetRequestBuilder()
@@ -113,7 +85,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
     {
         $this->distributedSearch->addShard('shard1', 'localhost:8983/solr/shard1');
         $shards = $this->distributedSearch->getShards();
-        $this->assertEquals(
+        $this->assertSame(
             'localhost:8983/solr/shard1',
             $shards['shard1']
         );
@@ -148,7 +120,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             'shard2' => 'localhost:8983/solr/shard2',
         );
         $this->distributedSearch->addShards($shards);
-        $this->assertEquals($shards, $this->distributedSearch->getShards());
+        $this->assertSame($shards, $this->distributedSearch->getShards());
     }
 
     public function testSetShards()
@@ -168,7 +140,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         );
         $shards = $this->distributedSearch->getShards();
         $this->assertCount(3, $shards);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'shard3' => 'localhost:8983/solr/shard3',
                 'shard4' => 'localhost:8983/solr/shard4',
@@ -181,7 +153,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
     public function testSetShardRequestHandler()
     {
         $this->distributedSearch->setShardRequestHandler('dummy');
-        $this->assertEquals(
+        $this->assertSame(
             'dummy',
             $this->distributedSearch->getShardRequestHandler()
         );
@@ -191,7 +163,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
     {
         $this->distributedSearch->addCollection('collection1', 'localhost:8983/solr/collection1');
         $collections = $this->distributedSearch->getCollections();
-        $this->assertEquals(
+        $this->assertSame(
             'localhost:8983/solr/collection1',
             $collections['collection1']
         );
@@ -226,7 +198,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             'collection2' => 'localhost:8983/solr/collection2',
         );
         $this->distributedSearch->addCollections($collections);
-        $this->assertEquals($collections, $this->distributedSearch->getCollections());
+        $this->assertSame($collections, $this->distributedSearch->getCollections());
     }
 
     public function testSetCollections()
@@ -246,7 +218,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         );
         $collections = $this->distributedSearch->getCollections();
         $this->assertCount(3, $collections);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'collection3' => 'localhost:8983/solr/collection3',
                 'collection4' => 'localhost:8983/solr/collection4',
@@ -260,7 +232,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
     {
         $this->distributedSearch->addReplica('replica1', 'localhost:8983/solr/replica1');
         $replicas = $this->distributedSearch->getReplicas();
-        $this->assertEquals(
+        $this->assertSame(
             'localhost:8983/solr/replica1',
             $replicas['replica1']
         );
@@ -295,7 +267,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
             'replica2' => 'localhost:8983/solr/replica2',
         );
         $this->distributedSearch->addReplicas($replicas);
-        $this->assertEquals($replicas, $this->distributedSearch->getReplicas());
+        $this->assertSame($replicas, $this->distributedSearch->getReplicas());
     }
 
     public function testSetReplicas()
@@ -315,7 +287,7 @@ class DistributedSearchTest extends \PHPUnit_Framework_TestCase
         );
         $replicas = $this->distributedSearch->getReplicas();
         $this->assertCount(3, $replicas);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'replica3' => 'localhost:8983/solr/replica3',
                 'replica4' => 'localhost:8983/solr/replica4',

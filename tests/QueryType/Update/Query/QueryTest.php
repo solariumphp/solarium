@@ -1,54 +1,26 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Update\Query;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Update\Query\Query;
-use Solarium\QueryType\Update\Query\Command\Rollback;
 use Solarium\QueryType\Update\Query\Command\Commit;
+use Solarium\QueryType\Update\Query\Command\Rollback;
 use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Query;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends TestCase
 {
     protected $query;
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()
     {
-        $this->assertEquals(Client::QUERY_UPDATE, $this->query->getType());
+        $this->assertSame(Client::QUERY_UPDATE, $this->query->getType());
     }
 
     public function testGetResponseParser()
@@ -86,62 +58,57 @@ class QueryTest extends \PHPUnit_Framework_TestCase
                 ),
                 'key4' => array(
                     'type' => 'rollback',
-                )
-            )
+                ),
+            ),
         );
         $this->query->setOptions($options);
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             $options['handler'],
             $this->query->getHandler()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $options['resultclass'],
             $this->query->getResultClass()
         );
 
         $delete = $commands['key1'];
-        $this->assertEquals(
+        $this->assertSame(
             array(1, 2),
             $delete->getIds()
         );
-        $this->assertEquals(
+        $this->assertSame(
             array('population:[* TO 1000]'),
             $delete->getQueries()
         );
 
         $commit = $commands['key2'];
-        $this->assertEquals(
-            true,
+        $this->assertTrue(
             $commit->getSoftCommit()
         );
-        $this->assertEquals(
-            false,
+        $this->assertFalse(
             $commit->getWaitSearcher()
         );
-        $this->assertEquals(
-            true,
+        $this->assertTrue(
             $commit->getExpungeDeletes()
         );
 
         $optimize = $commands['key3'];
-        $this->assertEquals(
-            true,
+        $this->assertTrue(
             $optimize->getSoftCommit()
         );
-        $this->assertEquals(
-            false,
+        $this->assertFalse(
             $optimize->getWaitSearcher()
         );
-        $this->assertEquals(
+        $this->assertSame(
             5,
             $optimize->getMaxSegments()
         );
 
         $rollback = $commands['key4'];
-        $this->assertEquals(
+        $this->assertSame(
             'Solarium\QueryType\Update\Query\Command\Rollback',
             get_class($rollback)
         );
@@ -154,19 +121,19 @@ class QueryTest extends \PHPUnit_Framework_TestCase
                 'key1' => array(
                     'type' => 'add',
                 ),
-            )
+            ),
         );
 
-        $this->setExpectedException('Solarium\Exception\RuntimeException');
+        $this->expectException('Solarium\Exception\RuntimeException');
         new Query($config);
     }
 
     public function testAddWithoutKey()
     {
-        $command = new Rollback;
+        $command = new Rollback();
         $this->query->add(null, $command);
 
-        $this->assertEquals(
+        $this->assertSame(
             array($command),
             $this->query->getCommands()
         );
@@ -174,13 +141,13 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAddWithKey()
     {
-        $rollback = new Rollback;
+        $rollback = new Rollback();
         $this->query->add('rb', $rollback);
 
-        $commit = new Commit;
+        $commit = new Commit();
         $this->query->add('cm', $commit);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('rb' => $rollback, 'cm' => $commit),
             $this->query->getCommands()
         );
@@ -188,15 +155,15 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testRemove()
     {
-        $rollback = new Rollback;
+        $rollback = new Rollback();
         $this->query->add('rb', $rollback);
 
-        $commit = new Commit;
+        $commit = new Commit();
         $this->query->add('cm', $commit);
 
         $this->query->remove('rb');
 
-        $this->assertEquals(
+        $this->assertSame(
             array('cm' => $commit),
             $this->query->getCommands()
         );
@@ -204,15 +171,15 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveWithObjectInput()
     {
-        $rollback = new Rollback;
+        $rollback = new Rollback();
         $this->query->add('rb', $rollback);
 
-        $commit = new Commit;
+        $commit = new Commit();
         $this->query->add('cm', $commit);
 
         $this->query->remove($rollback);
 
-        $this->assertEquals(
+        $this->assertSame(
             array('cm' => $commit),
             $this->query->getCommands()
         );
@@ -220,15 +187,15 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveInvalidKey()
     {
-        $rollback = new Rollback;
+        $rollback = new Rollback();
         $this->query->add('rb', $rollback);
 
-        $commit = new Commit;
+        $commit = new Commit();
         $this->query->add('cm', $commit);
 
         $this->query->remove('invalidkey'); //should silently ignore
 
-        $this->assertEquals(
+        $this->assertSame(
             array('rb' => $rollback, 'cm' => $commit),
             $this->query->getCommands()
         );
@@ -239,7 +206,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addRollback();
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_ROLLBACK,
             $commands[0]->getType()
         );
@@ -250,12 +217,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addDeleteQuery('*:*');
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_DELETE,
             $commands[0]->getType()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('*:*'),
             $commands[0]->getQueries()
         );
@@ -266,12 +233,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addDeleteQuery('id:%1%', array(678));
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_DELETE,
             $commands[0]->getType()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('id:678'),
             $commands[0]->getQueries()
         );
@@ -282,12 +249,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addDeleteQueries(array('id:1', 'id:2'));
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_DELETE,
             $commands[0]->getType()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array('id:1', 'id:2'),
             $commands[0]->getQueries()
         );
@@ -298,12 +265,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addDeleteById(1);
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_DELETE,
             $commands[0]->getType()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array(1),
             $commands[0]->getIds()
         );
@@ -314,12 +281,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addDeleteByIds(array(1, 2));
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_DELETE,
             $commands[0]->getType()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array(1, 2),
             $commands[0]->getIds()
         );
@@ -332,12 +299,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addDocument($doc);
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_ADD,
             $commands[0]->getType()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc),
             $commands[0]->getDocuments()
         );
@@ -351,22 +318,21 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addDocuments(array($doc1, $doc2), true, 100);
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_ADD,
             $commands[0]->getType()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array($doc1, $doc2),
             $commands[0]->getDocuments()
         );
 
-        $this->assertEquals(
-            true,
+        $this->assertTrue(
             $commands[0]->getOverwrite()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             100,
             $commands[0]->getCommitWithin()
         );
@@ -377,23 +343,20 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addCommit(true, false, true);
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_COMMIT,
             $commands[0]->getType()
         );
 
-        $this->assertEquals(
-            true,
+        $this->assertTrue(
             $commands[0]->getSoftCommit()
         );
 
-        $this->assertEquals(
-            false,
+        $this->assertFalse(
             $commands[0]->getWaitSearcher()
         );
 
-        $this->assertEquals(
-            true,
+        $this->assertTrue(
             $commands[0]->getExpungeDeletes()
         );
     }
@@ -403,23 +366,21 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->query->addOptimize(true, false, 10);
         $commands = $this->query->getCommands();
 
-        $this->assertEquals(
+        $this->assertSame(
             Query::COMMAND_OPTIMIZE,
             Query::COMMAND_OPTIMIZE,
             $commands[0]->getType()
         );
 
-        $this->assertEquals(
-            true,
+        $this->assertTrue(
             $commands[0]->getSoftCommit()
         );
 
-        $this->assertEquals(
-            false,
+        $this->assertFalse(
             $commands[0]->getWaitSearcher()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             10,
             $commands[0]->getMaxSegments()
         );
@@ -432,14 +393,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $command = $this->query->createCommand($type, $options);
 
         // check command type
-        $this->assertEquals(
+        $this->assertSame(
             $type,
             $command->getType()
         );
 
         // check option forwarding
         $commandOptions = $command->getOptions();
-        $this->assertEquals(
+        $this->assertSame(
             $options['optionB'],
             $commandOptions['optionB']
         );
@@ -447,14 +408,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateCommandWithInvalidQueryType()
     {
-        $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->query->createCommand('invalidtype');
     }
 
     public function testSetAndGetDocumentClass()
     {
         $this->query->setDocumentClass('MyDocument');
-        $this->assertEquals('MyDocument', $this->query->getDocumentClass());
+        $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
     public function testCreateDocument()
@@ -482,17 +443,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertThat($doc, $this->isInstanceOf($this->query->getDocumentClass()));
 
-        $this->assertEquals(
+        $this->assertSame(
             $fields,
             $doc->getFields()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             2.7,
             $doc->getFieldBoost('name')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $modifiers['name'],
             $doc->getFieldModifier('name')
         );

@@ -1,54 +1,26 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\RealtimeGet;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\RealtimeGet\Query;
 use Solarium\QueryType\RealtimeGet\RequestBuilder;
 
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+class RequestBuilderTest extends TestCase
 {
     public function testBuildSingleId()
     {
-        $query = new Query;
+        $query = new Query();
         $query->addId(123);
         $builder = new RequestBuilder();
         $request = $builder->build($query);
 
-        $this->assertEquals(
+        $this->assertSame(
             $request::METHOD_GET,
             $request->getMethod()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'get?omitHeader=true&wt=json&json.nl=flat&ids=123',
             urldecode($request->getUri())
         );
@@ -56,17 +28,17 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildMultiId()
     {
-        $query = new Query;
+        $query = new Query();
         $query->addId(123)->addId(456);
         $builder = new RequestBuilder();
         $request = $builder->build($query);
 
-        $this->assertEquals(
+        $this->assertSame(
             $request::METHOD_GET,
             $request->getMethod()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'get?omitHeader=true&wt=json&json.nl=flat&ids=123,456',
             urldecode($request->getUri())
         );

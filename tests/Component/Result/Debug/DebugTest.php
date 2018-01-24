@@ -1,39 +1,11 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Component\Result\Debug;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Result\Debug\Result;
 
-class DebugTest extends \PHPUnit_Framework_TestCase
+class DebugTest extends TestCase
 {
     /**
      * @var Result
@@ -55,7 +27,7 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         $this->parsedQuery = 'dummy-parsed-qs';
         $this->queryParser = 'dummy-parser';
         $this->otherQuery = 'id:67';
-        $this->explainData = array('a'=>'dummy1', 'b'=>'dummy2');
+        $this->explainData = array('a' => 'dummy1', 'b' => 'dummy2');
         $this->explain = new \ArrayIterator($this->explainData);
         $this->explainOther = 'dummy-other';
         $this->timing = 'dummy-timing';
@@ -73,37 +45,37 @@ class DebugTest extends \PHPUnit_Framework_TestCase
 
     public function testGetQueryString()
     {
-         $this->assertEquals($this->queryString, $this->result->getQueryString());
+        $this->assertEquals($this->queryString, $this->result->getQueryString());
     }
 
     public function testGetParsedQuery()
     {
-         $this->assertEquals($this->parsedQuery, $this->result->getParsedQuery());
+        $this->assertEquals($this->parsedQuery, $this->result->getParsedQuery());
     }
 
     public function testGetQueryParser()
     {
-         $this->assertEquals($this->queryParser, $this->result->getQueryParser());
+        $this->assertEquals($this->queryParser, $this->result->getQueryParser());
     }
 
     public function testGetOtherQuery()
     {
-         $this->assertEquals($this->otherQuery, $this->result->getOtherQuery());
+        $this->assertEquals($this->otherQuery, $this->result->getOtherQuery());
     }
 
     public function testGetExplain()
     {
-         $this->assertEquals($this->explain, $this->result->getExplain());
+        $this->assertEquals($this->explain, $this->result->getExplain());
     }
 
     public function testGetExplainOther()
     {
-         $this->assertEquals($this->explainOther, $this->result->getExplainOther());
+        $this->assertEquals($this->explainOther, $this->result->getExplainOther());
     }
 
     public function testGetTiming()
     {
-         $this->assertEquals($this->timing, $this->result->getTiming());
+        $this->assertEquals($this->timing, $this->result->getTiming());
     }
 
     public function testIterator()

@@ -8,7 +8,7 @@ use Solarium\Support\DataFixtures\FixtureInterface;
 class MockFixture1 implements FixtureInterface
 {
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      */
     public function load(ClientInterface $client)
     {

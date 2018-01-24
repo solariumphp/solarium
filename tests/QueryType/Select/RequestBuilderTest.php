@@ -1,43 +1,15 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Select;
 
-use Solarium\Core\Client\Request;
-use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Query\FilterQuery;
-use Solarium\QueryType\Select\RequestBuilder as RequestBuilder;
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\AbstractComponent;
+use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Query\FilterQuery;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\RequestBuilder as RequestBuilder;
 
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+class RequestBuilderTest extends TestCase
 {
     /**
      * @var Query
@@ -51,29 +23,22 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
-        $this->builder = new RequestBuilder;
+        $this->query = new Query();
+        $this->builder = new RequestBuilder();
     }
 
     public function testGetMethod()
     {
         $request = $this->builder->build($this->query);
-        $this->assertEquals(
-            Request::METHOD_GET,
-            $request->getMethod()
-        );
+        $this->assertSame(Request::METHOD_GET, $request->getMethod());
     }
 
     public function testSelectUrlWithDefaultValues()
     {
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
-            null,
-            $request->getRawData()
-        );
-
-        $this->assertEquals(
+        $this->assertNull($request->getRawData());
+        $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score',
             urldecode($request->getUri())
         );
@@ -85,12 +50,9 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->addSort('name', Query::SORT_DESC);
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
-            null,
-            $request->getRawData()
-        );
+        $this->assertNull($request->getRawData());
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc',
             urldecode($request->getUri())
         );
@@ -102,12 +64,9 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->setQueryDefaultOperator(Query::QUERY_OPERATOR_AND);
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
-            null,
-            $request->getRawData()
-        );
+        $this->assertNull($request->getRawData());
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&q.op=AND&df=mydefault',
             urldecode($request->getUri())
         );
@@ -123,12 +82,9 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
-            null,
-            $request->getRawData()
-        );
+        $this->assertNull($request->getRawData());
 
-        $this->assertEquals(
+        $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc'.
             '&fq=published:true&fq={!tag=t1,t2}category:23',
             urldecode($request->getUri())
@@ -144,10 +100,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
         $requestWithNoBuilderComponent = $this->builder->build($this->query);
 
-        $this->assertEquals(
-            $request,
-            $requestWithNoBuilderComponent
-        );
+        $this->assertEquals($request, $requestWithNoBuilderComponent);
     }
 
     public function testWithComponent()
@@ -155,10 +108,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->getDisMax();
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
-            'dismax',
-            $request->getParam('defType')
-        );
+        $this->assertSame('dismax', $request->getParam('defType'));
     }
 
     public function testWithEdismaxComponent()
@@ -166,10 +116,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->getEDisMax();
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
-            'edismax',
-            $request->getParam('defType')
-        );
+        $this->assertSame('edismax', $request->getParam('defType'));
     }
 
     public function testWithTags()
@@ -178,10 +125,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->setQuery('cat:1');
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(
-            '{!tag=t1,t2}cat:1',
-            $request->getParam('q')
-        );
+        $this->assertSame('{!tag=t1,t2}cat:1', $request->getParam('q'));
     }
 }
 

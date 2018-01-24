@@ -1,39 +1,11 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\QueryType\Select\Result\Facet;
 
+use PHPUnit\Framework\TestCase;
 use Solarium\Component\Result\Facet\Range;
 
-class RangeTest extends \PHPUnit_Framework_TestCase
+class RangeTest extends TestCase
 {
     /**
      * @var Range
@@ -76,12 +48,12 @@ class RangeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetValues()
     {
-        $this->assertEquals($this->values, $this->facet->getValues());
+        $this->assertSame($this->values, $this->facet->getValues());
     }
 
     public function testCount()
     {
-        $this->assertEquals(count($this->values), count($this->facet));
+        $this->assertSame(count($this->values), count($this->facet));
     }
 
     public function testIterator()
@@ -91,36 +63,36 @@ class RangeTest extends \PHPUnit_Framework_TestCase
             $values[$key] = $value;
         }
 
-        $this->assertEquals($this->values, $values);
+        $this->assertSame($this->values, $values);
     }
 
     public function testGetBefore()
     {
-        $this->assertEquals($this->before, $this->facet->getBefore());
+        $this->assertSame($this->before, $this->facet->getBefore());
     }
 
     public function testGetAfter()
     {
-        $this->assertEquals($this->after, $this->facet->getAfter());
+        $this->assertSame($this->after, $this->facet->getAfter());
     }
 
     public function testGetBetween()
     {
-        $this->assertEquals($this->between, $this->facet->getBetween());
+        $this->assertSame($this->between, $this->facet->getBetween());
     }
 
     public function testGetStart()
     {
-        $this->assertEquals($this->start, $this->facet->getStart());
+        $this->assertSame($this->start, $this->facet->getStart());
     }
 
     public function testGetEnd()
     {
-        $this->assertEquals($this->end, $this->facet->getEnd());
+        $this->assertSame($this->end, $this->facet->getEnd());
     }
 
     public function testGetGap()
     {
-        $this->assertEquals($this->gap, $this->facet->getGap());
+        $this->assertSame($this->gap, $this->facet->getGap());
     }
 }

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Unreleased
+### Changed
+- Updated PHPUnit to v6.5
+- Updated required PHP version to >= v7.0
+
 ## 3.8.1 - 2017-02-02
 
 - bugfix: restore PHP 5.3 compatibility (remove short array syntax)

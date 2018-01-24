@@ -1,42 +1,17 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- */
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
+use HttpRequest;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Adapter\PeclHttp;
 use Solarium\Core\Client\Adapter\PeclHttp as PeclHttpAdapter;
-use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
 use Solarium\Exception\ExceptionInterface;
 
-class PeclHttpTest extends \PHPUnit_Framework_TestCase
+class PeclHttpTest extends TestCase
 {
     /**
      * @var PeclHttpAdapter
@@ -54,6 +29,10 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider requestProvider
+     *
+     * @param mixed $request
+     * @param mixed $method
+     * @param mixed $support
      */
     public function testToHttpRequestWithMethod($request, $method, $support)
     {
@@ -61,7 +40,7 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
 
         try {
             $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-            $this->assertEquals($httpRequest->getMethod(), $method);
+            $this->assertSame($httpRequest->getMethod(), $method);
         } catch (ExceptionInterface $e) {
             if ($support) {
                 $this->fail("Unsupport method: {$request->getMethod()}");
@@ -98,7 +77,7 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
 
             $data = array();
             foreach ($methods as $method => $options) {
-                $request = new Request;
+                $request = new Request();
                 $request->setMethod($method);
                 $data[] = array_merge(array($request), $options);
             }
@@ -118,7 +97,7 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
                 'authentication' => array(
                     'username' => 'someone',
                     'password' => 'S0M3p455',
-                )
+                ),
             )
         );
 
@@ -126,7 +105,7 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
         $endpoint->setTimeout(10);
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'timeout' => 10,
                 'connecttimeout' => 10,
@@ -135,7 +114,7 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
                     'Content-Type' => 'application/json',
                     'User-Agent' => 'Foo',
                     'Authorization' => 'Basic c29tZW9uZTpTME0zcDQ1NQ==',
-                )
+                ),
             ),
             $httpRequest->getOptions()
         );
@@ -151,13 +130,13 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
         $endpoint->setTimeout(10);
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 array(
                     'name' => 'content',
                     'type' => 'application/octet-stream; charset=binary',
                     'file' => __FILE__,
-                )
+                ),
             ),
             $httpRequest->getPostFiles()
         );
@@ -165,21 +144,21 @@ class PeclHttpTest extends \PHPUnit_Framework_TestCase
 
     public function testToHttpRequestWithDefaultContentType()
     {
-        $request = new Request;
+        $request = new Request();
         $request->setMethod(Request::METHOD_POST);
 
         $endpoint = new Endpoint();
         $endpoint->setTimeout(10);
 
         $httpRequest = $this->adapter->toHttpRequest($request, $endpoint);
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'timeout' => 10,
                 'connecttimeout' => 10,
                 'dns_cache_timeout' => 10,
                 'headers' => array(
                     'Content-Type' => 'text/xml; charset=utf-8',
-                )
+                ),
             ),
             $httpRequest->getOptions()
         );
@@ -199,20 +178,24 @@ EOF;
         $request = new Request();
         $endpoint = new Endpoint();
 
-        $mockHttpRequest = $this->getMock('HttpRequest');
+        $mockHttpRequest = $this->createMock(HttpRequest::class);
         $mockHttpRequest->expects($this->once())
                         ->method('send')
                         ->will($this->returnValue(\HttpMessage::factory($data)));
-        $mock = $this->getMock('Solarium\Core\Client\Adapter\PeclHttp', array('toHttpRequest'));
+
+        /** @var PeclHttp|MockObject $mock */
+        $mock = $this->getMockBuilder(PeclHttp::class)
+            ->setMethods(array('toHttpRequest'))
+        ->getMock();
         $mock->expects($this->once())
              ->method('toHttpRequest')
              ->with($request, $endpoint)
              ->will($this->returnValue($mockHttpRequest));
 
         $response = $mock->execute($request, $endpoint);
-        $this->assertEquals($body, $response->getBody());
+        $this->assertSame($body, $response->getBody());
         $this->assertSame($statusCode, $response->getStatusCode());
-        $this->assertEquals($statusMessage, $response->getStatusMessage());
+        $this->assertSame($statusMessage, $response->getStatusMessage());
     }
 
     /**
