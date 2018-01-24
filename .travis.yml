@@ -6,6 +6,8 @@ php:
   - 7.2
   - 7.1
   - 7.0
+  # hhvm removed as it is not fully compatible with php7
+  # - hhvm
   - nightly
 
 env:
@@ -14,21 +16,14 @@ env:
   - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
   - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
 
-git:
-  depth: 1
-
 cache:
   directories:
     - $HOME/.composer/cache
-    - $HOME/.downloads
 
 before_install:
   - composer global require "hirak/prestissimo:^0.3"
-  - [ -d $HOME/.downloads ] || mkdir $HOME/.downloads
-  - cd $HOME/.downloads
-  - [ -f solr-${SOLR_VERSION}.tgz ] || curl -O http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz
-  - cd $HOME
-  - tar -xzf $HOME/.downloads/solr-${SOLR_VERSION}.tgz
+  - curl -O http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz
+  - tar -xzf solr-${SOLR_VERSION}.tgz
 
 before_script:
 #  - pecl install pecl_http
@@ -45,6 +40,10 @@ matrix:
       - php: 7.0
         env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
       - php: 7.0
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
+      - php: hhvm
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+      - php: hhvm
         env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
   allow_failures:
       - php: nightly
