@@ -2,6 +2,8 @@
 
 ## Unreleased
 ### Changed
+- Renamed folder library to src
+- Use PSR-4 class loading
 - Updated PHPUnit to v6.5
 - Updated required PHP version to >= v7.0
 
