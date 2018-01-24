@@ -5,13 +5,11 @@ dist: trusty
 php:
   - 7.1
   - 7.0
-  - 5.6
-  - hhvm
+  # hhvm removed as it is not fully compatible with php7
+  # - hhvm
   - nightly
 
 env:
-#  - SYMFONY_VERSION=2.3.* SOLR_VERSION=6.6.1
-#  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.1
   - SYMFONY_VERSION=2.8.* SOLR_VERSION=6.6.2
   - SYMFONY_VERSION=3.0.* SOLR_VERSION=6.6.2
   - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
@@ -41,10 +39,6 @@ matrix:
       - php: 7.0
         env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
       - php: 7.0
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
-      - php: 5.6
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
-      - php: 5.6
         env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
       - php: hhvm
         env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
