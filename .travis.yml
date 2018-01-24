@@ -6,8 +6,8 @@ php:
   - 7.2
   - 7.1
   - 7.0
-  - 5.6
-  - hhvm
+  # hhvm removed as it is not fully compatible with php7
+  # - hhvm
   - nightly
 
 env:
