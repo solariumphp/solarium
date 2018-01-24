@@ -19,11 +19,15 @@ env:
 cache:
   directories:
     - $HOME/.composer/cache
+    - $HOME/.downloads
 
 before_install:
   - composer global require "hirak/prestissimo:^0.3"
-  - curl -O http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz
-  - tar -xzf solr-${SOLR_VERSION}.tgz
+  - [ -d $HOME/.downloads ] || mkdir $HOME/.downloads
+  - cd $HOME/.downloads
+  - [ -f solr-${SOLR_VERSION}.tgz ] || curl -O http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz
+  - cd -
+  - tar -xzf $HOME/.downloads/solr-${SOLR_VERSION}.tgz
 
 before_script:
 #  - pecl install pecl_http
