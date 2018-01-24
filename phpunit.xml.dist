@@ -3,7 +3,6 @@
     backupGlobals="false"
     backupStaticAttributes="false"
     syntaxCheck="false"
-    bootstrap="tests/bootstrap.php"
     colors="true"
 >
 

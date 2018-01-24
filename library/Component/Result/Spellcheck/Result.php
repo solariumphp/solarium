@@ -69,11 +69,11 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param array   $suggestions
-     * @param array   $collations
-     * @param boolean $correctlySpelled
+     * @param Suggestion[] $suggestions
+     * @param Collation[]  $collations
+     * @param boolean      $correctlySpelled
      */
-    public function __construct($suggestions, $collations, $correctlySpelled)
+    public function __construct(array $suggestions, array $collations, bool $correctlySpelled)
     {
         $this->suggestions = $suggestions;
         $this->collations = $collations;

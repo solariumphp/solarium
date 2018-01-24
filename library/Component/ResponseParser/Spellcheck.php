@@ -73,8 +73,8 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
             }
 
             $suggestions = array();
-            $correctlySpelled = null;
             $collations = array();
+            $correctlySpelled = false;
 
             foreach ($spellcheckResults as $key => $value) {
                 switch ($key) {

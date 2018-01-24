@@ -8,7 +8,14 @@ use Solarium\QueryType\Select\Query\Query;
 
 class SpellcheckTest extends TestCase
 {
+    /**
+     * @var Parser
+     */
     protected $parser;
+
+    /**
+     * @var Query
+     */
     protected $query;
 
     public function setUp()
