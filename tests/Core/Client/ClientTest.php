@@ -95,15 +95,12 @@ class ClientTest extends TestCase
         $this->assertSame($options['plugin']['myplugin']['options'], $plugin->getOptions());
     }
 
-    /**
-     * @covers ::getEventDispatcher
-     * @covers ::setEventDispatcher
-     */
     public function testGetEventDispatcher()
     {
         $this->assertInstanceOf(EventDispatcherInterface::class, $this->client->getEventDispatcher());
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->client->setEventDispatcher($eventDispatcher);
+
         $this->assertSame($eventDispatcher, $this->client->getEventDispatcher());
     }
 
