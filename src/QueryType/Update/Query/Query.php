@@ -224,7 +224,7 @@ class Query extends BaseQuery
      */
     public function addDeleteQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getHelper()->assemble($query, $bind);
         }
 

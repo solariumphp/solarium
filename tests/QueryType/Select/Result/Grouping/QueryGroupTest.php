@@ -13,9 +13,13 @@ class QueryGroupTest extends TestCase
     protected $group;
 
     protected $matches;
+
     protected $numFound;
+
     protected $start;
+
     protected $maximumScore;
+
     protected $items;
 
     public function setUp()

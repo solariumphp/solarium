@@ -13,7 +13,9 @@ class DetailTest extends TestCase
     protected $result;
 
     protected $value;
+
     protected $match;
+
     protected $description;
 
     public function setUp()

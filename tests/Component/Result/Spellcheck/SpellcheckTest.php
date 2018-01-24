@@ -13,7 +13,9 @@ class SpellcheckTest extends TestCase
     protected $result;
 
     protected $suggestions;
+
     protected $collations;
+
     protected $correctlySpelled;
 
     public function setUp()

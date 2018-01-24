@@ -13,7 +13,9 @@ class CollationTest extends TestCase
     protected $result;
 
     protected $corrections;
+
     protected $hits;
+
     protected $query;
 
     public function setUp()

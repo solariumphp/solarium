@@ -77,7 +77,7 @@ class WeightedRandomChoice
         $result = null;
         while (1) {
             $result = $this->values[$this->getKey()];
-            if (!in_array($result, $excludes)) {
+            if (!in_array($result, $excludes, true)) {
                 break;
             }
         }

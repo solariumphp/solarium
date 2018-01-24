@@ -8,6 +8,7 @@ use Solarium\Component\Result\Facet\MultiQuery;
 class MultiQueryTest extends TestCase
 {
     protected $values;
+
     protected $facet;
 
     public function setUp()

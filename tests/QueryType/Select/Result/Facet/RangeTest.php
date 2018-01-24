@@ -13,11 +13,17 @@ class RangeTest extends TestCase
     protected $facet;
 
     protected $values;
+
     protected $before;
+
     protected $after;
+
     protected $between;
+
     protected $start;
+
     protected $end;
+
     protected $gap;
 
     public function setUp()

@@ -55,7 +55,7 @@ class Spellcheck extends AbstractComponent implements SpellcheckInterface
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getQueryInstance()->getHelper()->assemble($query, $bind);
         }
 

@@ -13,7 +13,9 @@ class FieldGroupTest extends TestCase
     protected $group;
 
     protected $matches;
+
     protected $numberOfGroups;
+
     protected $items;
 
     public function setUp()

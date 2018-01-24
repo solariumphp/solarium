@@ -13,8 +13,11 @@ class ValueGroupTest extends TestCase
     protected $group;
 
     protected $value;
+
     protected $numFound;
+
     protected $start;
+
     protected $items;
 
     public function setUp()

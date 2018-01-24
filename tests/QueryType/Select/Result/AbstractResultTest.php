@@ -15,15 +15,25 @@ abstract class AbstractResultTest extends TestCase
     protected $result;
 
     protected $numFound;
+
     protected $maxScore;
+
     protected $docs;
+
     protected $components;
+
     protected $facetSet;
+
     protected $moreLikeThis;
+
     protected $highlighting;
+
     protected $grouping;
+
     protected $stats;
+
     protected $debug;
+
     protected $spellcheck;
 
     public function setUp()

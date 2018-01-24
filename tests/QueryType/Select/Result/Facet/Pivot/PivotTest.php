@@ -9,6 +9,7 @@ use Solarium\Component\Result\Facet\Pivot\PivotItem;
 class PivotTest extends TestCase
 {
     protected $values;
+
     protected $facet;
 
     public function setUp()

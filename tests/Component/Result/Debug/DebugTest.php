@@ -13,12 +13,19 @@ class DebugTest extends TestCase
     protected $result;
 
     protected $queryString;
+
     protected $queryParser;
+
     protected $parsedQuery;
+
     protected $otherQuery;
+
     protected $explain;
+
     protected $explainOther;
+
     protected $explainData;
+
     protected $timing;
 
     public function setUp()

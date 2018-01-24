@@ -8,6 +8,7 @@ use Solarium\Component\Result\Facet\Field;
 class FieldTest extends TestCase
 {
     protected $values;
+
     protected $facet;
 
     public function setUp()

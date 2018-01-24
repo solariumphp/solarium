@@ -19,8 +19,11 @@ class ResultTest extends TestCase
     protected $result;
 
     protected $client;
+
     protected $query;
+
     protected $response;
+
     protected $headers;
 
     public function setUp()

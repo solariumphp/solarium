@@ -9,6 +9,7 @@ use Solarium\QueryType\Select\Result\Document;
 class ResultTest extends TestCase
 {
     protected $doc;
+
     protected $result;
 
     public function setUp()

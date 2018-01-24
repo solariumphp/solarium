@@ -13,6 +13,7 @@ class FacetValueTest extends TestCase
     protected $result;
 
     protected $value;
+
     protected $stats;
 
     public function setUp()

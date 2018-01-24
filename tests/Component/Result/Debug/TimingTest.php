@@ -13,6 +13,7 @@ class TimingTest extends TestCase
     protected $result;
 
     protected $time;
+
     protected $phases;
 
     public function setUp()

@@ -13,10 +13,15 @@ class SuggestionTest extends TestCase
     protected $result;
 
     protected $numFound;
+
     protected $startOffset;
+
     protected $endOffset;
+
     protected $originalFrequency;
+
     protected $words;
+
     protected $frequency;
 
     public function setUp()

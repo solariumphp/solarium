@@ -13,6 +13,7 @@ class ResultListTest extends TestCase
     protected $result;
 
     protected $items;
+
     protected $name;
 
     public function setUp()

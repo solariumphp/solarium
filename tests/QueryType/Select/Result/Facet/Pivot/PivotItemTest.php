@@ -8,6 +8,7 @@ use Solarium\Component\Result\Facet\Pivot\PivotItem;
 class PivotItemTest extends TestCase
 {
     protected $values;
+
     protected $pivotItem;
 
     public function setUp()

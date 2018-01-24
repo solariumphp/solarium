@@ -13,6 +13,7 @@ class ResultTest extends TestCase
     protected $result;
 
     protected $field;
+
     protected $stats;
 
     public function setUp()

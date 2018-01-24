@@ -55,7 +55,7 @@ class Suggester extends AbstractComponent implements SuggesterInterface
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getQueryInstance()->getHelper()->assemble($query, $bind);
         }
 

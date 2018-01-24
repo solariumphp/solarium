@@ -81,7 +81,7 @@ class Http extends Configurable implements AdapterInterface
                 // Add the proper boundary to the Content-Type header
                 $headers = $request->getHeaders();
                 // Remove the Content-Type header, because we will replace it with something else.
-                if (false !== ($key = array_search('Content-Type: multipart/form-data', $headers))) {
+                if (false !== ($key = array_search('Content-Type: multipart/form-data', $headers, true))) {
                     unset($headers[$key]);
                 }
                 $request->setHeaders($headers);

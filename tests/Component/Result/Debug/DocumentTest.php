@@ -13,9 +13,13 @@ class DocumentTest extends TestCase
     protected $result;
 
     protected $value;
+
     protected $match;
+
     protected $description;
+
     protected $key;
+
     protected $details;
 
     public function setUp()

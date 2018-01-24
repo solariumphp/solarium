@@ -8,6 +8,7 @@ use Solarium\Core\Client\Response;
 class ResponseTest extends TestCase
 {
     protected $headers;
+
     protected $data;
 
     /**

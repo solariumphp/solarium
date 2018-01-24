@@ -13,6 +13,7 @@ class PluginTest extends TestCase
     protected $plugin;
 
     protected $client;
+
     protected $options;
 
     public function setUp()

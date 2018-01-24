@@ -11,6 +11,7 @@ use Solarium\QueryType\Suggester\Result\Term;
 class SuggesterTest extends TestCase
 {
     protected $parser;
+
     protected $query;
 
     public function setUp()

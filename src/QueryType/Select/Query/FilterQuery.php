@@ -60,7 +60,7 @@ class FilterQuery extends Configurable
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $helper = new Helper();
             $query = $helper->assemble($query, $bind);
         }

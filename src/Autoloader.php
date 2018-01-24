@@ -50,7 +50,7 @@ class Autoloader
                 $class
             );
 
-            $file = dirname(__FILE__).$class.'.php';
+            $file = __DIR__.$class.'.php';
 
             require $file;
         }

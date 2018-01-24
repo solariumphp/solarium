@@ -93,7 +93,7 @@ class Query extends SelectQuery
     public function getFields()
     {
         $fields = parent::getFields();
-        if (!in_array('score', $fields)) {
+        if (!in_array('score', $fields, true)) {
             $fields[] = 'score';
         }
 

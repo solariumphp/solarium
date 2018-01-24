@@ -172,11 +172,11 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getHelper()->assemble($query, $bind);
         }
 
-        if (!is_null($query)) {
+        if (null !== $query) {
             $query = trim($query);
         }
 
