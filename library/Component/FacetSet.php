@@ -82,7 +82,7 @@ class FacetSet extends AbstractComponent
      */
     public function getType()
     {
-        return SelectQuery::COMPONENT_FACETSET;
+        return ComponentAwareQueryInterface::COMPONENT_FACETSET;
     }
 
     /**

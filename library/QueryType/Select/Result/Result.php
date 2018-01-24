@@ -40,7 +40,7 @@
 
 namespace Solarium\QueryType\Select\Result;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
 use Solarium\Component\Result\Stats\Result as StatsResult;
@@ -276,7 +276,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function getMoreLikeThis()
     {
-        return $this->getComponent(SelectQuery::COMPONENT_MORELIKETHIS);
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS);
     }
 
     /**
@@ -288,7 +288,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function getHighlighting()
     {
-        return $this->getComponent(SelectQuery::COMPONENT_HIGHLIGHTING);
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING);
     }
 
     /**
@@ -300,7 +300,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function getGrouping()
     {
-        return $this->getComponent(SelectQuery::COMPONENT_GROUPING);
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
     }
 
     /**
@@ -312,7 +312,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function getFacetSet()
     {
-        return $this->getComponent(SelectQuery::COMPONENT_FACETSET);
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_FACETSET);
     }
 
     /**
@@ -324,7 +324,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function getSpellcheck()
     {
-        return $this->getComponent(SelectQuery::COMPONENT_SPELLCHECK);
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_SPELLCHECK);
     }
 
     /**
@@ -336,7 +336,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function getStats()
     {
-        return $this->getComponent(SelectQuery::COMPONENT_STATS);
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_STATS);
     }
 
     /**
@@ -348,6 +348,6 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      */
     public function getDebug()
     {
-        return $this->getComponent(SelectQuery::COMPONENT_DEBUG);
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_DEBUG);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\RequestBuilder\Terms as RequestBuilder;
+use Solarium\Component\ResponseParser\Terms as ResponseParser;
 use Solarium\Component\ComponentTraits\TermsTrait;
-use Solarium\Core\Client\Client;
-use Solarium\Core\Query\AbstractQuery as BaseQuery;
 
 /**
  * Terms component.

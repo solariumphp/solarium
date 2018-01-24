@@ -28,7 +28,7 @@ class EdisMax extends DisMax
      */
     public function getType()
     {
-        return SelectQuery::COMPONENT_EDISMAX;
+        return ComponentAwareQueryInterface::COMPONENT_EDISMAX;
     }
 
     /**

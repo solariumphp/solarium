@@ -10,14 +10,14 @@ class Field implements \IteratorAggregate, \Countable
     /**
      * Terms.
      *
-     * @var Terms[]
+     * @var array
      */
     protected $terms;
 
     /**
      * Constructor.
      *
-     * @param Terms[] $terms
+     * @param array $terms
      */
     public function __construct(array $terms)
     {
@@ -27,27 +27,11 @@ class Field implements \IteratorAggregate, \Countable
     /**
      * Get Terms.
      *
-     * @return Terms[]
+     * @return array
      */
-    public function getAllTerms()
+    public function getTerms()
     {
-        return $this->terms;
-    }
-
-    /**
-     * Get results for a specific term.
-     *
-     * @param string $term
-     *
-     * @return Terms|null
-     */
-    public function getTerms($field)
-    {
-        if (isset($this->terms[$field])) {
-            return $this->terms[$field];
-        }
-
-        return null;
+        return array_keys($this->terms);
     }
 
     /**

@@ -20,7 +20,6 @@ class Terms implements ComponentRequestBuilderInterface
      */
     public function buildComponent($component, $request)
     {
-        $request->setHandler($component->getHandler());
         $request->addParam('terms', true);
         $request->addParam('terms.lower', $component->getLowerbound());
         $request->addParam('terms.lower.incl', $component->getLowerboundInclude());

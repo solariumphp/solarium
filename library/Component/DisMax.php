@@ -37,7 +37,7 @@ class DisMax extends AbstractComponent
      */
     public function getType()
     {
-        return SelectQuery::COMPONENT_DISMAX;
+        return ComponentAwareQueryInterface::COMPONENT_DISMAX;
     }
 
     /**

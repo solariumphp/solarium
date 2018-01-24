@@ -4,7 +4,6 @@ namespace Solarium\Component\ResponseParser;
 
 use Solarium\Component\Result\Terms\Field;
 use Solarium\Component\Result\Terms\Result;
-use Solarium\Component\Result\Terms\Terms as ResultTerms;
 use Solarium\Component\Terms as TermsComponent;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractResponseParser;
@@ -30,28 +29,17 @@ class Terms extends AbstractResponseParser implements ComponentParserInterface
         if (isset($data['terms']) && is_array($data['terms'])) {
             $terms = [];
             foreach ($data['terms'] as $field => $termData) {
-                $allTerms[] = $this->createTerms($termData);
-                $terms[$field] = $this->createTerms($termData);
+                if ($query->getResponseWriter() == $query::WT_JSON) {
+                    $termData = $this->convertToKeyValueArray($termData);
+                }
+                $allTerms[$field] = $termData;
+                $terms[$field] = new Field($termData);
             }
 
-            return new Result($this->createField($terms), $allTerms);
+            return new Result($terms, $allTerms);
         }
 
         return null;
-    }
-
-    private function createField(array $terms)
-    {
-        return new Field(
-            $terms
-        );
-    }
-
-    private function createTerms(array $termData)
-    {
-        return new ResultTerms(
-            $termData
-        );
     }
 
 }
