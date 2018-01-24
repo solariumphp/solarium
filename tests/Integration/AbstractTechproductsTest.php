@@ -2,6 +2,9 @@
 
 namespace Solarium\Tests\Integration;
 
+use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\QueryTraits\TermsTrait;
+use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
@@ -128,13 +131,89 @@ abstract class AbstractTechproductsTest extends \PHPUnit_Framework_TestCase
         $terms = $this->client->createTerms();
         $terms->setFields('name');
         $result = $this->client->terms($terms);
-        $phrases = [];
-        foreach ($result->getTerms('name') as $term => $count) {
-            $phrases[] = $term;
-        }
+
         $this->assertEquals([
-            'one', 184, '1gb', 3200, 400, 'ddr', 'gb', 'ipod', 'memory', 'pc',
-        ], $phrases);
+            'one' => 5,
+            184 => 3,
+            '1gb' => 3,
+            3200 => 3,
+            400 => 3,
+            'ddr' => 3,
+            'gb' => 3,
+            'ipod' => 3,
+            'memory' => 3,
+            'pc' => 3,
+        ], $result->getTerms('name'));
     }
 
+    public function testTermsComponent()
+    {
+        $this->client->registerQueryType('test', '\Solarium\Tests\Integration\TestQuery');
+        $select = $this->client->createQuery('test');
+        $terms = $select->getTerms();
+        $terms->setFields('name');
+        $result = $this->client->select($select);
+        /** @var Result $termsComponentResult */
+        $termsComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_TERMS);
+
+        $this->assertEquals([
+            'one',
+            184,
+            '1gb',
+            3200,
+            400,
+            'ddr',
+            'gb',
+            'ipod',
+            'memory',
+            'pc',
+        ], $termsComponentResult->getField('name')->getTerms());
+
+        $this->assertEquals([
+            'one' => 5,
+            184 => 3,
+            '1gb' => 3,
+            3200 => 3,
+            400 => 3,
+            'ddr' => 3,
+            'gb' => 3,
+            'ipod' => 3,
+            'memory' => 3,
+            'pc' => 3,
+        ], $termsComponentResult->getAll()['name']);
+
+        $terms = [];
+        foreach ($termsComponentResult as $field) {
+            foreach ($field as $term => $count) {
+                $terms[$term] = $count;
+            }
+        }
+        $this->assertEquals([
+            'one' => 5,
+            184 => 3,
+            '1gb' => 3,
+            3200 => 3,
+            400 => 3,
+            'ddr' => 3,
+            'gb' => 3,
+            'ipod' => 3,
+            'memory' => 3,
+            'pc' => 3,
+        ], $terms);
+    }
+
+}
+
+
+class TestQuery extends SelectQuery
+{
+    use TermsTrait;
+
+    public function __construct($options = null)
+    {
+        parent::__construct($options);
+        $this->componentTypes[ComponentAwareQueryInterface::COMPONENT_TERMS] = 'Solarium\Component\Terms';
+        // Unfortunately the terms request Handler is the only one containing a terms component.
+        $this->setHandler('terms');
+    }
 }

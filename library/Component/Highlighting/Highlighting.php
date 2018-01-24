@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Highlighting;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\AbstractComponent;
 use Solarium\Component\RequestBuilder\Highlighting as RequestBuilder;
 use Solarium\Component\ResponseParser\Highlighting as ResponseParser;
@@ -59,7 +59,7 @@ class Highlighting extends AbstractComponent
      */
     public function getType()
     {
-        return SelectQuery::COMPONENT_HIGHLIGHTING;
+        return ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING;
     }
 
     /**

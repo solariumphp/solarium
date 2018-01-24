@@ -42,7 +42,7 @@ class DistributedSearch extends AbstractComponent
      */
     public function getType()
     {
-        return SelectQuery::COMPONENT_DISTRIBUTEDSEARCH;
+        return ComponentAwareQueryInterface::COMPONENT_DISTRIBUTEDSEARCH;
     }
 
     /**

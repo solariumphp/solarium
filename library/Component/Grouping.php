@@ -33,7 +33,7 @@ class Grouping extends AbstractComponent
      *
      * @var string
      */
-    protected $type = SelectQuery::COMPONENT_GROUPING;
+    protected $type = ComponentAwareQueryInterface::COMPONENT_GROUPING;
 
     /**
      * Default options.
@@ -66,7 +66,7 @@ class Grouping extends AbstractComponent
      */
     public function getType()
     {
-        return SelectQuery::COMPONENT_GROUPING;
+        return ComponentAwareQueryInterface::COMPONENT_GROUPING;
     }
 
     /**

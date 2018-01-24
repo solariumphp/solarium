@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Stats;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\AbstractComponent;
 use Solarium\Component\RequestBuilder\Stats as RequestBuilder;
 use Solarium\Component\ResponseParser\Stats as ResponseParser;
@@ -36,7 +36,7 @@ class Stats extends AbstractComponent
      */
     public function getType()
     {
-        return SelectQuery::COMPONENT_STATS;
+        return ComponentAwareQueryInterface::COMPONENT_STATS;
     }
 
     /**
