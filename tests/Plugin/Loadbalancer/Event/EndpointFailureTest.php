@@ -11,7 +11,7 @@ class EndpointFailureTest extends TestCase
 {
     public function testConstructorAndGetters()
     {
-        $client = new Client;
+        $client = new Client();
         $endpoint = $client->getEndpoint();
         $httpException = new HttpException('test exception');
 

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
 use PHPUnit\Framework\TestCase;
@@ -13,7 +12,7 @@ class OptimizeTest extends TestCase
 
     public function setUp()
     {
-        $this->command = new Optimize;
+        $this->command = new Optimize();
     }
 
     public function testConfigMode()
@@ -26,13 +25,11 @@ class OptimizeTest extends TestCase
 
         $command = new Optimize($options);
 
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $command->getSoftCommit()
         );
 
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $command->getWaitSearcher()
         );
 
@@ -53,8 +50,7 @@ class OptimizeTest extends TestCase
     public function testGetAndSetSoftCommit()
     {
         $this->command->setSoftCommit(false);
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $this->command->getSoftCommit()
         );
     }
@@ -62,8 +58,7 @@ class OptimizeTest extends TestCase
     public function testGetAndSetWaitSearcher()
     {
         $this->command->setWaitSearcher(false);
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $this->command->getWaitSearcher()
         );
     }

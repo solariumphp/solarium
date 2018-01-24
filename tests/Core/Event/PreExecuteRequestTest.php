@@ -12,8 +12,8 @@ class PreExecuteRequestTest extends TestCase
 {
     public function testConstructorAndGetters()
     {
-        $client = new Client;
-        $request = new Request;
+        $client = new Client();
+        $request = new Request();
         $request->addParam('testparam', 'test value');
         $endpoint = $client->getEndpoint();
 

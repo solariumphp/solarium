@@ -1,11 +1,8 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\MoreLikeThis;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\MoreLikeThis\Query;
@@ -56,7 +53,7 @@ class ResultTest extends TestCase
 
     public function testGetQuery()
     {
-        $query = new Query;
+        $query = new Query();
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
         $ping = new Result($query, $response);
         $this->assertSame($query, $ping->getQuery());

@@ -11,9 +11,9 @@ class PostCreateRequestTest extends TestCase
 {
     public function testConstructorAndGetters()
     {
-        $query = new Query;
+        $query = new Query();
         $query->setQuery('test123');
-        $request = new Request;
+        $request = new Request();
         $request->addParam('testparam', 'test value');
 
         $event = new PostCreateRequest($query, $request);

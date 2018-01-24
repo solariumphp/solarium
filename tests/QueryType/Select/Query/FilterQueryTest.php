@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query;
 
 use PHPUnit\Framework\TestCase;
@@ -12,12 +11,12 @@ class FilterQueryTest extends TestCase
 
     public function setUp()
     {
-        $this->filterQuery = new FilterQuery;
+        $this->filterQuery = new FilterQuery();
     }
 
     public function testConfigMode()
     {
-        $fq = new FilterQuery(array('tag' => array('t1', 't2'), 'key' => 'k1', 'query'=> 'id:[10 TO 20]'));
+        $fq = new FilterQuery(array('tag' => array('t1', 't2'), 'key' => 'k1', 'query' => 'id:[10 TO 20]'));
 
         $this->assertSame(array('t1', 't2'), $fq->getTags());
         $this->assertSame('k1', $fq->getKey());
@@ -26,7 +25,7 @@ class FilterQueryTest extends TestCase
 
     public function testConfigModeWithSingleValueTag()
     {
-        $fq = new FilterQuery(array('tag' => 't1', 'key' => 'k1', 'query'=> 'id:[10 TO 20]'));
+        $fq = new FilterQuery(array('tag' => 't1', 'key' => 'k1', 'query' => 'id:[10 TO 20]'));
 
         $this->assertSame(array('t1'), $fq->getTags());
         $this->assertSame('k1', $fq->getKey());

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class PivotTest extends TestCase
 
     public function setUp()
     {
-        $this->facet = new Pivot;
+        $this->facet = new Pivot();
     }
 
     public function testConfigMode()

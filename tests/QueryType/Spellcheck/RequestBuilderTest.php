@@ -21,8 +21,8 @@ class RequestBuilderTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
-        $this->builder = new RequestBuilder;
+        $this->query = new Query();
+        $this->builder = new RequestBuilder();
     }
 
     public function testBuildParams()

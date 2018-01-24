@@ -18,7 +18,7 @@ class ResponseParserTest extends TestCase
             'response' => array(
                 'docs' => array(
                     array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2')
+                    array('fieldA' => 2, 'fieldB' => 'Test2'),
                 ),
                 'numFound' => 503,
                 'maxScore' => 1.23,
@@ -26,7 +26,7 @@ class ResponseParserTest extends TestCase
             'responseHeader' => array(
                 'status' => 1,
                 'QTime' => 13,
-            )
+            ),
         );
 
         $query = new Query(array('documentclass' => Document::class));
@@ -50,12 +50,12 @@ class ResponseParserTest extends TestCase
 
         $docs = array(
             new Document(array('fieldA' => 1, 'fieldB' => 'Test')),
-            new Document(array('fieldA' => 2, 'fieldB' => 'Test2'))
+            new Document(array('fieldA' => 2, 'fieldB' => 'Test2')),
         );
         $this->assertEquals($docs, $result['documents']);
 
         $components = array(
-            Query::COMPONENT_FACETSET => new FacetSet(array())
+            Query::COMPONENT_FACETSET => new FacetSet(array()),
         );
         $this->assertEquals($components, $result['components']);
     }
@@ -66,14 +66,14 @@ class ResponseParserTest extends TestCase
             'response' => array(
                 'docs' => array(
                     array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2')
+                    array('fieldA' => 2, 'fieldB' => 'Test2'),
                 ),
                 'numFound' => 503,
             ),
             'responseHeader' => array(
                 'status' => 1,
                 'QTime' => 13,
-            )
+            ),
         );
 
         $query = new Query(array('documentclass' => Document::class));
@@ -93,16 +93,16 @@ class ResponseParserTest extends TestCase
         $this->assertSame(1, $result['status']);
         $this->assertSame(13, $result['queryTime']);
         $this->assertSame(503, $result['numfound']);
-        $this->assertSame(null, $result['maxscore']);
+        $this->assertNull($result['maxscore']);
 
         $docs = array(
             new Document(array('fieldA' => 1, 'fieldB' => 'Test')),
-            new Document(array('fieldA' => 2, 'fieldB' => 'Test2'))
+            new Document(array('fieldA' => 2, 'fieldB' => 'Test2')),
         );
         $this->assertEquals($docs, $result['documents']);
 
         $components = array(
-            Query::COMPONENT_FACETSET => new FacetSet(array())
+            Query::COMPONENT_FACETSET => new FacetSet(array()),
         );
         $this->assertEquals($components, $result['components']);
     }
@@ -113,14 +113,14 @@ class ResponseParserTest extends TestCase
             'response' => array(
                 'docs' => array(
                     array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2')
+                    array('fieldA' => 2, 'fieldB' => 'Test2'),
                 ),
                 'numFound' => 503,
             ),
             'responseHeader' => array(
                 'status' => 1,
                 'QTime' => 13,
-            )
+            ),
         );
 
         $query = new Query(array('documentclass' => 'StdClass'));
@@ -146,13 +146,13 @@ class ResponseParserTest extends TestCase
             'response' => array(
                 'docs' => array(
                     array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2')
+                    array('fieldA' => 2, 'fieldB' => 'Test2'),
                 ),
             ),
             'responseHeader' => array(
                 'status' => 1,
                 'QTime' => 13,
-            )
+            ),
         );
 
         $query = new Query(array('documentclass' => Document::class));
@@ -166,7 +166,7 @@ class ResponseParserTest extends TestCase
              ->method('getQuery')
              ->will($this->returnValue($query));
 
-        $parser = new ResponseParser;
+        $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
         $this->assertSame(1, $result['status']);

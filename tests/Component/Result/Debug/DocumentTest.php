@@ -37,12 +37,12 @@ class DocumentTest extends TestCase
 
     public function testGetKey()
     {
-         $this->assertEquals($this->key, $this->result->getKey());
+        $this->assertEquals($this->key, $this->result->getKey());
     }
 
     public function testGetDetails()
     {
-         $this->assertEquals($this->details, $this->result->getDetails());
+        $this->assertEquals($this->details, $this->result->getDetails());
     }
 
     public function testIterator()

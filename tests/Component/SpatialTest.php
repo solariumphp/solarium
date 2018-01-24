@@ -15,7 +15,7 @@ class SpatialTest extends TestCase
 
     public function setUp()
     {
-        $this->spatial = new Spatial;
+        $this->spatial = new Spatial();
     }
 
     public function testConfigMode()

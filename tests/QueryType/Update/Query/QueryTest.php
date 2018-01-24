@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update\Query;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class QueryTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()
@@ -59,8 +58,8 @@ class QueryTest extends TestCase
                 ),
                 'key4' => array(
                     'type' => 'rollback',
-                )
-            )
+                ),
+            ),
         );
         $this->query->setOptions($options);
         $commands = $this->query->getCommands();
@@ -86,26 +85,21 @@ class QueryTest extends TestCase
         );
 
         $commit = $commands['key2'];
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $commit->getSoftCommit()
         );
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $commit->getWaitSearcher()
         );
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $commit->getExpungeDeletes()
         );
 
         $optimize = $commands['key3'];
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $optimize->getSoftCommit()
         );
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $optimize->getWaitSearcher()
         );
         $this->assertSame(
@@ -127,7 +121,7 @@ class QueryTest extends TestCase
                 'key1' => array(
                     'type' => 'add',
                 ),
-            )
+            ),
         );
 
         $this->expectException('Solarium\Exception\RuntimeException');
@@ -136,7 +130,7 @@ class QueryTest extends TestCase
 
     public function testAddWithoutKey()
     {
-        $command = new Rollback;
+        $command = new Rollback();
         $this->query->add(null, $command);
 
         $this->assertSame(
@@ -147,10 +141,10 @@ class QueryTest extends TestCase
 
     public function testAddWithKey()
     {
-        $rollback = new Rollback;
+        $rollback = new Rollback();
         $this->query->add('rb', $rollback);
 
-        $commit = new Commit;
+        $commit = new Commit();
         $this->query->add('cm', $commit);
 
         $this->assertSame(
@@ -161,10 +155,10 @@ class QueryTest extends TestCase
 
     public function testRemove()
     {
-        $rollback = new Rollback;
+        $rollback = new Rollback();
         $this->query->add('rb', $rollback);
 
-        $commit = new Commit;
+        $commit = new Commit();
         $this->query->add('cm', $commit);
 
         $this->query->remove('rb');
@@ -177,10 +171,10 @@ class QueryTest extends TestCase
 
     public function testRemoveWithObjectInput()
     {
-        $rollback = new Rollback;
+        $rollback = new Rollback();
         $this->query->add('rb', $rollback);
 
-        $commit = new Commit;
+        $commit = new Commit();
         $this->query->add('cm', $commit);
 
         $this->query->remove($rollback);
@@ -193,10 +187,10 @@ class QueryTest extends TestCase
 
     public function testRemoveInvalidKey()
     {
-        $rollback = new Rollback;
+        $rollback = new Rollback();
         $this->query->add('rb', $rollback);
 
-        $commit = new Commit;
+        $commit = new Commit();
         $this->query->add('cm', $commit);
 
         $this->query->remove('invalidkey'); //should silently ignore
@@ -334,8 +328,7 @@ class QueryTest extends TestCase
             $commands[0]->getDocuments()
         );
 
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $commands[0]->getOverwrite()
         );
 
@@ -355,18 +348,15 @@ class QueryTest extends TestCase
             $commands[0]->getType()
         );
 
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $commands[0]->getSoftCommit()
         );
 
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $commands[0]->getWaitSearcher()
         );
 
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $commands[0]->getExpungeDeletes()
         );
     }
@@ -382,13 +372,11 @@ class QueryTest extends TestCase
             $commands[0]->getType()
         );
 
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $commands[0]->getSoftCommit()
         );
 
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $commands[0]->getWaitSearcher()
         );
 

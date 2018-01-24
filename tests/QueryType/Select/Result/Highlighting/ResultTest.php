@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Result\Highlighting;
 
 use PHPUnit\Framework\TestCase;
@@ -27,7 +26,7 @@ class ResultTest extends TestCase
 
     public function testGetFields()
     {
-         $this->assertSame($this->fields, $this->result->getFields());
+        $this->assertSame($this->fields, $this->result->getFields());
     }
 
     public function testGetField()

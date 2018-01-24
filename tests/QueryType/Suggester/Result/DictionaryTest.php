@@ -40,7 +40,7 @@ class DictionaryTest extends TestCase
 
     public function testGetTermWithUnknownKey()
     {
-        $this->assertSame(null, $this->dictionary->getTerm('bar'));
+        $this->assertNull($this->dictionary->getTerm('bar'));
     }
 
     public function testCount()

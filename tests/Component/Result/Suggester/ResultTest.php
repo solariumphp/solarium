@@ -37,7 +37,7 @@ class ResultTest extends TestCase
 
     public function testGetDictionary()
     {
-         $this->assertEquals($this->docs['dictionary1'], $this->result->getDictionary('dictionary1'));
+        $this->assertEquals($this->docs['dictionary1'], $this->result->getDictionary('dictionary1'));
     }
 
     public function testIterator()

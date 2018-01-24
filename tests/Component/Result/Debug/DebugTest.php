@@ -27,7 +27,7 @@ class DebugTest extends TestCase
         $this->parsedQuery = 'dummy-parsed-qs';
         $this->queryParser = 'dummy-parser';
         $this->otherQuery = 'id:67';
-        $this->explainData = array('a'=>'dummy1', 'b'=>'dummy2');
+        $this->explainData = array('a' => 'dummy1', 'b' => 'dummy2');
         $this->explain = new \ArrayIterator($this->explainData);
         $this->explainOther = 'dummy-other';
         $this->timing = 'dummy-timing';
@@ -45,37 +45,37 @@ class DebugTest extends TestCase
 
     public function testGetQueryString()
     {
-         $this->assertEquals($this->queryString, $this->result->getQueryString());
+        $this->assertEquals($this->queryString, $this->result->getQueryString());
     }
 
     public function testGetParsedQuery()
     {
-         $this->assertEquals($this->parsedQuery, $this->result->getParsedQuery());
+        $this->assertEquals($this->parsedQuery, $this->result->getParsedQuery());
     }
 
     public function testGetQueryParser()
     {
-         $this->assertEquals($this->queryParser, $this->result->getQueryParser());
+        $this->assertEquals($this->queryParser, $this->result->getQueryParser());
     }
 
     public function testGetOtherQuery()
     {
-         $this->assertEquals($this->otherQuery, $this->result->getOtherQuery());
+        $this->assertEquals($this->otherQuery, $this->result->getOtherQuery());
     }
 
     public function testGetExplain()
     {
-         $this->assertEquals($this->explain, $this->result->getExplain());
+        $this->assertEquals($this->explain, $this->result->getExplain());
     }
 
     public function testGetExplainOther()
     {
-         $this->assertEquals($this->explainOther, $this->result->getExplainOther());
+        $this->assertEquals($this->explainOther, $this->result->getExplainOther());
     }
 
     public function testGetTiming()
     {
-         $this->assertEquals($this->timing, $this->result->getTiming());
+        $this->assertEquals($this->timing, $this->result->getTiming());
     }
 
     public function testIterator()

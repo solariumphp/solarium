@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component\Stats;
 
 use PHPUnit\Framework\TestCase;
@@ -17,7 +16,7 @@ class StatsTest extends TestCase
 
     public function setUp()
     {
-        $this->stats = new Stats;
+        $this->stats = new Stats();
     }
 
     public function testGetType()
@@ -48,7 +47,7 @@ class StatsTest extends TestCase
             'field' => array(
                 'f1' => array(),
                 'f2' => array(),
-            )
+            ),
         );
 
         $this->stats->setOptions($options);
@@ -88,7 +87,7 @@ class StatsTest extends TestCase
 
     public function testAddAndGetField()
     {
-        $field = new Field;
+        $field = new Field();
         $field->setKey('f1');
         $this->stats->addField($field);
 
@@ -127,7 +126,7 @@ class StatsTest extends TestCase
 
     public function testAddFieldWithoutKey()
     {
-        $fld = new Field;
+        $fld = new Field();
 
         $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->stats->addField($fld);
@@ -135,10 +134,10 @@ class StatsTest extends TestCase
 
     public function testAddFieldWithUsedKey()
     {
-        $f1 = new Field;
+        $f1 = new Field();
         $f1->setKey('f1');
 
-        $f2 = new Field;
+        $f2 = new Field();
         $f2->setKey('f1');
 
         $this->stats->addField($f1);
@@ -148,18 +147,17 @@ class StatsTest extends TestCase
 
     public function testGetInvalidField()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->stats->getField('invalidkey')
         );
     }
 
     public function testAddFields()
     {
-        $f1 = new Field;
+        $f1 = new Field();
         $f1->setKey('f1');
 
-        $f2 = new Field;
+        $f2 = new Field();
         $f2->setKey('f2');
 
         $fields = array('f1' => $f1, 'f2' => $f2);
@@ -175,7 +173,7 @@ class StatsTest extends TestCase
     {
         $fields = array(
             'f1' => array(''),
-            array('key' => 'f2')
+            array('key' => 'f2'),
         );
 
         $this->stats->addFields($fields);
@@ -186,10 +184,10 @@ class StatsTest extends TestCase
 
     public function testRemoveField()
     {
-        $f1 = new Field;
+        $f1 = new Field();
         $f1->setKey('f1');
 
-        $f2 = new Field;
+        $f2 = new Field();
         $f2->setKey('f2');
 
         $fields = array('f1' => $f1, 'f2' => $f2);
@@ -204,10 +202,10 @@ class StatsTest extends TestCase
 
     public function testRemoveFieldWithObjectInput()
     {
-        $f1 = new Field;
+        $f1 = new Field();
         $f1->setKey('f1');
 
-        $f2 = new Field;
+        $f2 = new Field();
         $f2->setKey('f2');
 
         $fields = array($f1, $f2);
@@ -222,10 +220,10 @@ class StatsTest extends TestCase
 
     public function testRemoveInvalidField()
     {
-        $f1 = new Field;
+        $f1 = new Field();
         $f1->setKey('f1');
 
-        $f2 = new Field;
+        $f2 = new Field();
         $f2->setKey('f2');
 
         $fields = array('f1' => $f1, 'f2' => $f2);
@@ -240,10 +238,10 @@ class StatsTest extends TestCase
 
     public function testClearFields()
     {
-        $f1 = new Field;
+        $f1 = new Field();
         $f1->setKey('f1');
 
-        $f2 = new Field;
+        $f2 = new Field();
         $f2->setKey('f2');
 
         $fields = array($f1, $f2);
@@ -258,20 +256,20 @@ class StatsTest extends TestCase
 
     public function testSetFields()
     {
-        $f1 = new Field;
+        $f1 = new Field();
         $f1->setKey('f1');
 
-        $f2 = new Field;
+        $f2 = new Field();
         $f2->setKey('f2');
 
         $fields = array($f1, $f2);
 
         $this->stats->addFields($fields);
 
-        $f3 = new Field;
+        $f3 = new Field();
         $f3->setKey('f3');
 
-        $f4 = new Field;
+        $f4 = new Field();
         $f4->setKey('f4');
 
         $fields2 = array('f3' => $f3, 'f4' => $f4);

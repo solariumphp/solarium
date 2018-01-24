@@ -66,7 +66,7 @@ class ResponseParserTest extends TestCase
              ->method('getQuery')
              ->will($this->returnValue($query));
 
-        $parser = new ResponseParser;
+        $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
         $expected = array(

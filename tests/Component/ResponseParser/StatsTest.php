@@ -28,12 +28,12 @@ class StatsTest extends TestCase
                             'fieldC' => array(
                                 'value1' => array(
                                     'min' => 5,
-                                )
-                            )
-                        )
-                    )
-                )
-            )
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         );
 
         $result = $this->parser->parse(null, null, $data);

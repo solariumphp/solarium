@@ -25,7 +25,7 @@ abstract class AbstractTechproductsTest extends TestCase
                     'port' => 8983,
                     'path' => '/solr/',
                     'core' => 'techproducts',
-                ]
+                ],
             ],
             // Curl is the default adapter.
             //'adapter' => 'Solarium\Core\Client\Adapter\Curl',
@@ -36,8 +36,7 @@ abstract class AbstractTechproductsTest extends TestCase
         try {
             $ping = $this->client->createPing();
             $this->client->ping($ping);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->markTestSkipped('Solr techproducts example not reachable.');
         }
     }
@@ -66,16 +65,16 @@ abstract class AbstractTechproductsTest extends TestCase
             $ids[] = $document->id;
         }
         $this->assertEquals([
-            "0579B002",
-            "100-435805",
-            "3007WFP",
-            "6H500F0",
-            "9885A004",
-            "EN7800GTX/2DHTV/256M",
-            "EUR",
-            "F8V7067-APL-KIT",
-            "GB18030TEST",
-            "GBP",
+            '0579B002',
+            '100-435805',
+            '3007WFP',
+            '6H500F0',
+            '9885A004',
+            'EN7800GTX/2DHTV/256M',
+            'EUR',
+            'F8V7067-APL-KIT',
+            'GB18030TEST',
+            'GBP',
             ], $ids);
     }
 
@@ -122,7 +121,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertEquals([
             'electronics',
             'electronics and computer1',
-            'electronics and stuff2'
+            'electronics and stuff2',
             ], $phrases);
     }
 

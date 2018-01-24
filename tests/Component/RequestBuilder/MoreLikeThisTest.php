@@ -11,7 +11,7 @@ class MoreLikeThisTest extends TestCase
 {
     public function testBuildComponent()
     {
-        $builder = new RequestBuilder;
+        $builder = new RequestBuilder();
         $request = new Request();
 
         $component = new Component();
@@ -48,7 +48,7 @@ class MoreLikeThisTest extends TestCase
 
     public function testBuildComponentWithoutFieldsAndQueryFields()
     {
-        $builder = new RequestBuilder;
+        $builder = new RequestBuilder();
         $request = new Request();
 
         $component = new Component();

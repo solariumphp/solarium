@@ -70,7 +70,7 @@ class ResultTest extends TestCase
     {
         $data = array(
             'responseHeader' => array('status' => 0, 'QTime' => 1, 'params' => array('wt' => 'json', 'q' => 'xyz')),
-            'response' => array('numFound' => 0, 'start' => 0, 'docs' => array())
+            'response' => array('numFound' => 0, 'start' => 0, 'docs' => array()),
         );
 
         $this->assertEquals($data, $this->result->getData());
@@ -94,9 +94,9 @@ class ResultTest extends TestCase
                     'wt' => 'phps',
                     'version' => '2.2',
                     'rows' => 0,
-                )
+                ),
             ),
-            'response' => array('numFound' => 57, 'start' => 0, 'docs' => array())
+            'response' => array('numFound' => 57, 'start' => 0, 'docs' => array()),
         );
 
         $response = new Response($phpsData, $this->headers);

@@ -143,11 +143,11 @@ class PrefetchIteratorTest extends TestCase
         $numFound = 5;
 
         $docs = array(
-            new Document(array('id'=>1, 'title'=>'doc1')),
-            new Document(array('id'=>2, 'title'=>'doc2')),
-            new Document(array('id'=>3, 'title'=>'doc3')),
-            new Document(array('id'=>4, 'title'=>'doc4')),
-            new Document(array('id'=>5, 'title'=>'doc5')),
+            new Document(array('id' => 1, 'title' => 'doc1')),
+            new Document(array('id' => 2, 'title' => 'doc2')),
+            new Document(array('id' => 3, 'title' => 'doc3')),
+            new Document(array('id' => 4, 'title' => 'doc4')),
+            new Document(array('id' => 5, 'title' => 'doc5')),
         );
 
         return new SelectDummy(1, 12, $numFound, $docs, array());
@@ -155,7 +155,7 @@ class PrefetchIteratorTest extends TestCase
 
     public function testSetAndGetEndpointAsString()
     {
-        $this->assertSame(null, $this->plugin->getEndpoint());
+        $this->assertNull($this->plugin->getEndpoint());
         $this->plugin->setEndpoint('s1');
         $this->assertSame('s1', $this->plugin->getEndpoint());
     }

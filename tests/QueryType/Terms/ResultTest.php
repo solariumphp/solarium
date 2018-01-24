@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Terms;
 
 use PHPUnit\Framework\TestCase;
@@ -34,7 +33,7 @@ class ResultTest extends TestCase
                 4,
                 'term5',
                 1,
-            )
+            ),
         );
 
         $this->result = new TermsDummy($this->data);

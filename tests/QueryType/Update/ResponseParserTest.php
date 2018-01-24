@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update;
 
 use PHPUnit\Framework\TestCase;
@@ -16,8 +15,8 @@ class ResponseParserTest extends TestCase
         $data = '{"responseHeader" : {"status":1,"QTime":15}}';
 
         $response = new Response($data, array('HTTP 1.1 200 OK'));
-        $result = new Result(new SelectQuery, $response);
-        $parser = new ResponseParser;
+        $result = new Result(new SelectQuery(), $response);
+        $parser = new ResponseParser();
         $parsed = $parser->parse($result);
 
         $this->assertSame(1, $parsed['status']);

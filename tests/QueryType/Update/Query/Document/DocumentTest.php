@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update\Query\Document;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class DocumentTest extends TestCase
     protected $fields = array(
         'id' => 123,
         'name' => 'Test document',
-        'categories' => array(1, 2, 3)
+        'categories' => array(1, 2, 3),
     );
 
     protected function setUp()
@@ -209,8 +208,7 @@ class DocumentTest extends TestCase
         $this->doc->setFieldBoost('name', 3.2);
         $this->doc->removeField('name');
 
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->doc->getFieldBoost('name')
         );
     }
@@ -249,8 +247,7 @@ class DocumentTest extends TestCase
 
     public function testGetInvalidFieldBoost()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->doc->getFieldBoost('invalidname')
         );
     }
@@ -352,8 +349,7 @@ class DocumentTest extends TestCase
         $this->doc->setFieldBoost('name', 3.2);
         $this->doc->clear();
 
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->doc->getFieldBoost('name')
         );
     }
@@ -367,8 +363,7 @@ class DocumentTest extends TestCase
             $this->doc->getFieldModifier('name')
         );
 
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->doc->getFieldModifier('non-existing-field')
         );
     }
@@ -378,8 +373,7 @@ class DocumentTest extends TestCase
         $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
         $this->doc->clear();
 
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->doc->getFieldBoost('name')
         );
     }
@@ -414,8 +408,7 @@ class DocumentTest extends TestCase
 
     public function testSetAndGetVersion()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->doc->getVersion()
         );
 
@@ -434,15 +427,15 @@ class DocumentTest extends TestCase
 
     public function testEscapeByDefaultSetField()
     {
-        $this->doc->setField('foo', 'bar' . chr(15));
+        $this->doc->setField('foo', 'bar'.chr(15));
 
         $this->assertSame('bar ', $this->doc->foo);
     }
 
     public function testEscapeByDefaultAddField()
     {
-        $this->doc->setField('foo', 'bar' . chr(15));
-        $this->doc->addField('foo', 'bar' . chr(15) . chr(8));
+        $this->doc->setField('foo', 'bar'.chr(15));
+        $this->doc->addField('foo', 'bar'.chr(15).chr(8));
 
         $this->assertSame(array('bar ', 'bar  '), $this->doc->foo);
     }
@@ -450,7 +443,7 @@ class DocumentTest extends TestCase
     public function testNoEscapeSetField()
     {
         $this->doc->setFilterControlCharacters(false);
-        $this->doc->setField('foo', $value = 'bar' . chr(15));
+        $this->doc->setField('foo', $value = 'bar'.chr(15));
 
         $this->assertSame($value, $this->doc->foo);
     }
@@ -458,8 +451,8 @@ class DocumentTest extends TestCase
     public function testNoEscapeAddField()
     {
         $this->doc->setFilterControlCharacters(false);
-        $this->doc->setField('foo', $value1 = 'bar' . chr(15));
-        $this->doc->addField('foo', $value2 = 'bar' . chr(15) . chr(8));
+        $this->doc->setField('foo', $value1 = 'bar'.chr(15));
+        $this->doc->addField('foo', $value2 = 'bar'.chr(15).chr(8));
 
         $this->assertSame(array($value1, $value2), $this->doc->foo);
     }

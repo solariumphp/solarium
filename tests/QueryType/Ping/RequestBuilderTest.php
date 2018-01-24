@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Ping;
 
 use PHPUnit\Framework\TestCase;
@@ -12,8 +11,8 @@ class RequestBuilderTest extends TestCase
 {
     public function testBuild()
     {
-        $builder = new RequestBuilder;
-        $request = $builder->build(new Query);
+        $builder = new RequestBuilder();
+        $request = $builder->build(new Query());
 
         $this->assertSame(
             'admin/ping?omitHeader=true&wt=json&json.nl=flat',

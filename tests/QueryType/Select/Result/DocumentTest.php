@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Result;
 
 use Solarium\QueryType\Select\Result\Document;

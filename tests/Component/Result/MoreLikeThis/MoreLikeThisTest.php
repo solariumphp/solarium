@@ -19,8 +19,8 @@ class MoreLikeThisTest extends TestCase
     public function setUp()
     {
         $docs = array(
-            new Document(array('id'=>1, 'name'=>'test1')),
-            new Document(array('id'=>2, 'name'=>'test2')),
+            new Document(array('id' => 1, 'name' => 'test1')),
+            new Document(array('id' => 2, 'name' => 'test2')),
         );
 
         $this->results = array(
@@ -33,7 +33,7 @@ class MoreLikeThisTest extends TestCase
 
     public function testGetResults()
     {
-         $this->assertEquals($this->results, $this->mlt->getResults());
+        $this->assertEquals($this->results, $this->mlt->getResults());
     }
 
     public function testGetResult()
@@ -46,8 +46,7 @@ class MoreLikeThisTest extends TestCase
 
     public function testGetInvalidResult()
     {
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->mlt->getResult('invalid')
         );
     }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Terms;
 
 use PHPUnit\Framework\TestCase;
@@ -22,14 +21,14 @@ class ResponseParserTest extends TestCase
                     'term1',
                     5,
                     'term2',
-                    3
+                    3,
                 ),
                 'fieldB' => array(
                     'term3',
                     6,
                     'term4',
-                    2
-                )
+                    2,
+                ),
             ),
         );
 
@@ -44,7 +43,7 @@ class ResponseParserTest extends TestCase
              ->method('getQuery')
              ->will($this->returnValue($query));
 
-        $parser = new ResponseParser;
+        $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
         $expected = array(
@@ -55,7 +54,7 @@ class ResponseParserTest extends TestCase
             'fieldB' => array(
                 'term3' => 6,
                 'term4' => 2,
-            )
+            ),
         );
 
         $this->assertSame($expected, $result['results']);
@@ -75,15 +74,15 @@ class ResponseParserTest extends TestCase
                     'term1',
                     5,
                     'term2',
-                    3
+                    3,
                 ),
                 'fieldB',
                 array(
                     'term3',
                     6,
                     'term4',
-                    2
-                )
+                    2,
+                ),
             ),
         );
 
@@ -98,7 +97,7 @@ class ResponseParserTest extends TestCase
              ->method('getQuery')
              ->will($this->returnValue($query));
 
-        $parser = new ResponseParser;
+        $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
         $expected = array(
@@ -109,7 +108,7 @@ class ResponseParserTest extends TestCase
             'fieldB' => array(
                 'term3' => 6,
                 'term4' => 2,
-            )
+            ),
         );
 
         $this->assertSame($expected, $result['results']);

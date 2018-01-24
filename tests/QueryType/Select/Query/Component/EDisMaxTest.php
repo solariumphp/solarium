@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class EDisMaxTest extends TestCase
 
     public function setUp()
     {
-        $this->eDisMax = new EdisMax;
+        $this->eDisMax = new EdisMax();
     }
 
     public function testConfigMode()

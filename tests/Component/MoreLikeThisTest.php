@@ -15,7 +15,7 @@ class MoreLikeThisTest extends TestCase
 
     public function setUp()
     {
-        $this->mlt = new MoreLikeThis;
+        $this->mlt = new MoreLikeThis();
     }
 
     public function testConfigMode()

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component\Stats;
 
 use PHPUnit\Framework\TestCase;
@@ -15,14 +14,14 @@ class FieldTest extends TestCase
 
     public function setUp()
     {
-        $this->field = new Field;
+        $this->field = new Field();
     }
 
     public function testConfigMode()
     {
         $options = array(
             'facet' => 'field1, field2',
-            'pivot' => 'piv1'
+            'pivot' => 'piv1',
         );
 
         $this->field->setOptions($options);

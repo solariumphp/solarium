@@ -1,6 +1,7 @@
 <?php
 
 namespace Solarium\Tests\QueryType\Select\RequestBuilder\Component;
+
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\Spatial as RequestBuilder;
 use Solarium\Component\Spatial as Component;

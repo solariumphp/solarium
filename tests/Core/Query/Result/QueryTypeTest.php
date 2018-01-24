@@ -3,7 +3,6 @@
 namespace Solarium\Tests\Core\Query\Result;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\QueryType as QueryTypeResult;
 use Solarium\Exception\UnexpectedValueException;
@@ -19,14 +18,14 @@ class QueryTypeTest extends TestCase
 
     public function setUp()
     {
-        $query = new UpdateQuery;
+        $query = new UpdateQuery();
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
         $this->result = new TestStubResult($query, $response);
     }
 
     public function testParseResponse()
     {
-        $query = new TestStubQuery;
+        $query = new TestStubQuery();
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
         $result = new TestStubResult($query, $response);
 
@@ -82,7 +81,7 @@ class TestStubResult extends QueryTypeResult
 
     public function mapData($data)
     {
-        $this->parseCount++;
+        ++$this->parseCount;
         parent::mapData($data);
     }
 

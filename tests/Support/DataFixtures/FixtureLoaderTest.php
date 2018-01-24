@@ -19,7 +19,7 @@ class FixtureLoaderTest extends TestCase
     protected function setUp()
     {
         $this->client = $this->createMock(ClientInterface::class);
-        $this->fixturePath = __DIR__ . '/Fixtures/';
+        $this->fixturePath = __DIR__.'/Fixtures/';
     }
 
     public function testWithAppending()
@@ -57,7 +57,7 @@ class FixtureLoaderTest extends TestCase
             ->will(
                 $this->returnValue(
                     array(
-                        $this->getMockFixture()
+                        $this->getMockFixture(),
                     )
                 )
             );

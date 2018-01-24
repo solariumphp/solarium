@@ -17,7 +17,7 @@ class SuggesterTest extends TestCase
     public function setUp()
     {
         $this->suggester = new Suggester();
-        $this->suggester->setQueryInstance(new Query);
+        $this->suggester->setQueryInstance(new Query());
     }
 
     public function testGetType()

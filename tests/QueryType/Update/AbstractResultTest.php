@@ -1,7 +1,7 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update;
+
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractResultTest extends TestCase

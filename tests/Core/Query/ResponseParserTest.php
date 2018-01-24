@@ -25,7 +25,7 @@ class ResponseParserTest extends TestCase
             'key2',
             'value2',
             'key3',
-            'value3'
+            'value3',
         );
 
         $expected = array(
@@ -46,7 +46,7 @@ class ResponseParserTest extends TestCase
             'responseHeader' => array(
                 'status' => 0,
                 'QTime' => 5,
-            )
+            ),
         );
         $result = array('key' => 'value');
         $expected = array(
@@ -73,7 +73,7 @@ class ResponseParserTest extends TestCase
 }
 
 /**
- * Dummy implementation to test code in abstract class
+ * Dummy implementation to test code in abstract class.
  */
 class TestResponseParser extends AbstractResponseParser
 {

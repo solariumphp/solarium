@@ -19,9 +19,9 @@ class WeightedRandomChoiceTest extends TestCase
         );
 
         $counts = array('key1' => 0, 'key2' => 0, 'key3' => 0);
-        for ($i = 0; $i<1000; $i++) {
+        for ($i = 0; $i < 1000; ++$i) {
             $choice = $randomizer->getRandom();
-            $counts[$choice]++;
+            ++$counts[$choice];
         }
 
         $this->assertTrue($counts['key1'] < $counts['key2']);

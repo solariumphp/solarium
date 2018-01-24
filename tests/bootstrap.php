@@ -9,7 +9,7 @@ spl_autoload_register(
     function ($class) {
         $paths = array(__DIR__.'/../library', __DIR__);
         foreach ($paths as $path) {
-            $filename = $path.'/'.str_replace("\\", DIRECTORY_SEPARATOR, $class) . ".php";
+            $filename = $path.'/'.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
             if (file_exists($filename)) {
                 include $filename;
             }

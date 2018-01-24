@@ -15,12 +15,12 @@ class RequestBuilderTest extends TestCase
 
     public function setup()
     {
-        $this->builder = new TestRequestBuilder;
+        $this->builder = new TestRequestBuilder();
     }
 
     public function testBuild()
     {
-        $query = new SelectQuery;
+        $query = new SelectQuery();
         $query->addParam('p1', 'v1');
         $query->addParam('p2', 'v2');
         $query->setResponseWriter('xyz');
@@ -34,7 +34,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildWithHeader()
     {
-        $query = new SelectQuery;
+        $query = new SelectQuery();
         $query->addParam('p1', 'v1');
         $query->addParam('p2', 'v2');
         $query->setOmitHeader(false);
@@ -48,7 +48,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildWithTimeAllowed()
     {
-        $query = new SelectQuery;
+        $query = new SelectQuery();
         $query->addParam('p1', 'v1');
         $query->addParam('p2', 'v2');
         $query->setTimeAllowed(1400);

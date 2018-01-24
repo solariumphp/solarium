@@ -16,7 +16,7 @@ class DocumentTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Document;
+        $this->query = new Document();
     }
 
     public function testGetType()

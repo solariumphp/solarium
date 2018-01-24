@@ -12,7 +12,7 @@ class PostCommitTest extends TestCase
 {
     public function testConstructorAndGetter()
     {
-        $client = new Client;
+        $client = new Client();
         $query = $client->createSelect();
         $query->setQuery('test123');
         $response = new Response('', array('HTTP 1.0 200 OK'));

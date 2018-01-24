@@ -15,7 +15,7 @@ class QueryTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()
@@ -79,8 +79,7 @@ class QueryTest extends TestCase
 
     public function testSetAndBuild()
     {
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $this->query->getBuild()
         );
 
@@ -95,8 +94,7 @@ class QueryTest extends TestCase
 
     public function testSetAndReload()
     {
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $this->query->getReload()
         );
 

@@ -9,7 +9,7 @@ class QueryTest extends AbstractQueryTest
 {
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testSetAndGetFilterMode()

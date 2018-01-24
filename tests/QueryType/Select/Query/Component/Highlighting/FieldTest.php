@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class FieldTest extends TestCase
 
     public function setUp()
     {
-        $this->fld = new Field;
+        $this->fld = new Field();
     }
 
     public function testConfigMode()
@@ -38,14 +37,14 @@ class FieldTest extends TestCase
 
         $this->assertSame(3, $this->fld->getSnippets());
         $this->assertSame(25, $this->fld->getFragSize());
-        $this->assertSame(true, $this->fld->getMergeContiguous());
+        $this->assertTrue($this->fld->getMergeContiguous());
         $this->assertSame('text', $this->fld->getAlternateField());
-        $this->assertSame(true, $this->fld->getPreserveMulti());
+        $this->assertTrue($this->fld->getPreserveMulti());
         $this->assertSame('myFormatter', $this->fld->getFormatter());
         $this->assertSame('<b>', $this->fld->getSimplePrefix());
         $this->assertSame('</b>', $this->fld->getSimplePostfix());
         $this->assertSame('myFragmenter', $this->fld->getFragmenter());
-        $this->assertSame(true, $this->fld->getUseFastVectorHighlighter());
+        $this->assertTrue($this->fld->getUseFastVectorHighlighter());
     }
 
     public function testSetAndGetName()

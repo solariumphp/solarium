@@ -11,7 +11,7 @@ class HighlightingTest extends TestCase
 {
     public function testBuildComponent()
     {
-        $builder = new RequestBuilder;
+        $builder = new RequestBuilder();
         $request = new Request();
 
         $component = new Component();
@@ -111,45 +111,45 @@ class HighlightingTest extends TestCase
     }
 
     public function testBuildComponentWithoutFields()
-        {
-            $builder = new RequestBuilder;
-            $request = new Request();
+    {
+        $builder = new RequestBuilder();
+        $request = new Request();
 
-            $component = new Component();
-            $component->setSnippets(2);
-            $component->setFragSize(3);
-            $component->setMergeContiguous(true);
-            $component->setRequireFieldMatch(false);
-            $component->setMaxAnalyzedChars(4);
-            $component->setAlternateField('fieldC');
-            $component->setMaxAlternateFieldLength(5);
-            $component->setPreserveMulti(true);
-            $component->setFormatter('simple');
-            $component->setSimplePrefix('<b>');
-            $component->setSimplePostfix('</b>');
-            $component->setFragmenter('myFragmenter');
-            $component->setFragListBuilder('myFragListBuilder');
-            $component->setFragmentsBuilder('myFragmentsBuilder');
-            $component->setUsePhraseHighlighter(true);
-            $component->setUseFastVectorHighlighter(false);
-            $component->setHighlightMultiTerm(true);
-            $component->setRegexSlop(1.3);
-            $component->setRegexPattern('mypattern');
-            $component->setMaxAnalyzedChars(100);
-            $component->setQuery('text:myvalue');
-            $component->setPhraseLimit(40);
-            $component->setTagPrefix('<i>');
-            $component->setTagPostfix('</i>');
-            $component->setMultiValuedSeparatorChar('|');
-            $component->setBoundaryScannerChars('.,');
-            $component->setBoundaryScannerMaxScan(16);
-            $component->setBoundaryScannerType($component::BOUNDARYSCANNER_TYPE_WORD);
-            $component->setBoundaryScannerCountry('be');
-            $component->setBoundaryScannerLanguage('en');
+        $component = new Component();
+        $component->setSnippets(2);
+        $component->setFragSize(3);
+        $component->setMergeContiguous(true);
+        $component->setRequireFieldMatch(false);
+        $component->setMaxAnalyzedChars(4);
+        $component->setAlternateField('fieldC');
+        $component->setMaxAlternateFieldLength(5);
+        $component->setPreserveMulti(true);
+        $component->setFormatter('simple');
+        $component->setSimplePrefix('<b>');
+        $component->setSimplePostfix('</b>');
+        $component->setFragmenter('myFragmenter');
+        $component->setFragListBuilder('myFragListBuilder');
+        $component->setFragmentsBuilder('myFragmentsBuilder');
+        $component->setUsePhraseHighlighter(true);
+        $component->setUseFastVectorHighlighter(false);
+        $component->setHighlightMultiTerm(true);
+        $component->setRegexSlop(1.3);
+        $component->setRegexPattern('mypattern');
+        $component->setMaxAnalyzedChars(100);
+        $component->setQuery('text:myvalue');
+        $component->setPhraseLimit(40);
+        $component->setTagPrefix('<i>');
+        $component->setTagPostfix('</i>');
+        $component->setMultiValuedSeparatorChar('|');
+        $component->setBoundaryScannerChars('.,');
+        $component->setBoundaryScannerMaxScan(16);
+        $component->setBoundaryScannerType($component::BOUNDARYSCANNER_TYPE_WORD);
+        $component->setBoundaryScannerCountry('be');
+        $component->setBoundaryScannerLanguage('en');
 
-            $request = $builder->buildComponent($component, $request);
+        $request = $builder->buildComponent($component, $request);
 
-            $this->assertEquals(
+        $this->assertEquals(
                 array(
                     'hl' => 'true',
                     'hl.snippets' => 2,
@@ -184,5 +184,5 @@ class HighlightingTest extends TestCase
                 ),
                 $request->getParams()
             );
-        }
+    }
 }

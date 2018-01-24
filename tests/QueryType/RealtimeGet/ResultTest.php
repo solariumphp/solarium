@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\RealtimeGet;
 
 use PHPUnit\Framework\TestCase;
@@ -14,7 +13,7 @@ class ResultTest extends TestCase
 
     public function setUp()
     {
-        $this->doc = new Document(array('id'=>1, 'title'=>'doc1'));
+        $this->doc = new Document(array('id' => 1, 'title' => 'doc1'));
         $this->result = new ResultDummy(array($this->doc));
     }
 

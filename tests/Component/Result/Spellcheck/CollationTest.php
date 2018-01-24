@@ -40,7 +40,7 @@ class CollationTest extends TestCase
 
     public function testGetCorrections()
     {
-         $this->assertEquals($this->corrections, $this->result->getCorrections());
+        $this->assertEquals($this->corrections, $this->result->getCorrections());
     }
 
     public function testIterator()

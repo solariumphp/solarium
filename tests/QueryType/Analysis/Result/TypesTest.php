@@ -20,7 +20,7 @@ class TypesTest extends TestCase
         $this->name = 'testname';
         $this->items = array(
             'index' => new TestAnalysisTypeIndexDummy(),
-            'query' => new TestAnalysisTypeQueryDummy()
+            'query' => new TestAnalysisTypeQueryDummy(),
         );
         $this->result = new Types($this->name, $this->items);
     }
@@ -65,12 +65,11 @@ class TypesTest extends TestCase
     {
         $items = array(
             'index' => new TestAnalysisTypeInvalidDummy(),
-            'query' => new TestAnalysisTypeQueryDummy()
+            'query' => new TestAnalysisTypeQueryDummy(),
         );
 
         $result = new Types($this->name, $items);
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $result->getIndexAnalysis()
         );
     }
@@ -87,12 +86,11 @@ class TypesTest extends TestCase
     {
         $items = array(
             'index' => new TestAnalysisTypeIndexDummy(),
-            'query' => new TestAnalysisTypeInvalidDummy()
+            'query' => new TestAnalysisTypeInvalidDummy(),
         );
 
         $result = new Types($this->name, $items);
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $result->getQueryAnalysis()
         );
     }

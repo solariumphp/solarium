@@ -34,7 +34,7 @@ class GroupingTest extends TestCase
 
     public function setUp()
     {
-        $this->parser = new Parser;
+        $this->parser = new Parser();
         $this->query = new Query();
         $this->grouping = $this->query->getGrouping();
         $this->grouping->addField('fieldA');
@@ -44,7 +44,7 @@ class GroupingTest extends TestCase
         $data = array(
             'grouped' => array(
                 'fieldA' => array(
-                    'matches' =>  25,
+                    'matches' => 25,
                     'ngroups' => 12,
                     'groups' => array(
                         array(
@@ -52,14 +52,14 @@ class GroupingTest extends TestCase
                             'doclist' => array(
                                 'numFound' => 13,
                                 'docs' => array(
-                                    array('id' => 1, 'name' => 'test')
-                                )
-                            )
-                        )
-                    )
+                                    array('id' => 1, 'name' => 'test'),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
                 'functionF' => array(
-                    'matches' =>  8,
+                    'matches' => 8,
                     'ngroups' => 3,
                     'groups' => array(
                         array(
@@ -67,23 +67,23 @@ class GroupingTest extends TestCase
                             'doclist' => array(
                                 'numFound' => 5,
                                 'docs' => array(
-                                    array('id' => 3, 'name' => 'fun')
-                                )
-                            )
-                        )
-                    )
+                                    array('id' => 3, 'name' => 'fun'),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
                 'cat:1' => array(
-                    'matches' =>  40,
+                    'matches' => 40,
                     'doclist' => array(
                         'numFound' => 22,
                         'docs' => array(
                             array('id' => 2, 'name' => 'dummy2'),
-                            array('id' => 5, 'name' => 'dummy5')
-                        )
-                    )
-                )
-            )
+                            array('id' => 5, 'name' => 'dummy5'),
+                        ),
+                    ),
+                ),
+            ),
         );
 
         $this->result = $this->parser->parse($this->query, $this->grouping, $data);
@@ -141,7 +141,7 @@ class GroupingTest extends TestCase
         $data = array(
             'grouped' => array(
                 'functionF' => array(
-                    'matches' =>  8,
+                    'matches' => 8,
                     'ngroups' => 3,
                     'groups' => array(
                         array(
@@ -156,7 +156,7 @@ class GroupingTest extends TestCase
                     ),
                 ),
                 'cat:1' => array(
-                    'matches' =>  40,
+                    'matches' => 40,
                     'doclist' => array(
                         'numFound' => 22,
                         'docs' => array(
@@ -193,7 +193,7 @@ class GroupingTest extends TestCase
         $data = array(
             'grouped' => array(
                 'fieldA' => array(
-                    'matches' =>  25,
+                    'matches' => 25,
                     'ngroups' => 12,
                     'doclist' => array(
                         'numFound' => 13,

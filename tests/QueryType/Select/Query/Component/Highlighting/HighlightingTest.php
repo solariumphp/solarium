@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
 
 use PHPUnit\Framework\TestCase;
@@ -17,7 +16,7 @@ class HighlightingTest extends TestCase
 
     public function setUp()
     {
-        $this->hlt = new Highlighting;
+        $this->hlt = new Highlighting();
     }
 
     public function testConfigMode()
@@ -28,7 +27,7 @@ class HighlightingTest extends TestCase
                     'snippets' => 3,
                     'fragsize' => 25,
                 ),
-                'fieldB'
+                'fieldB',
             ),
             'snippets' => 2,
             'fragsize' => 20,
@@ -67,7 +66,7 @@ class HighlightingTest extends TestCase
         $this->assertSame(array('fieldA', 'fieldB'), array_keys($this->hlt->getFields()));
         $this->assertSame($options['field']['fieldA']['snippets'], $this->hlt->getField('fieldA')->getSnippets());
         $this->assertSame($options['field']['fieldA']['fragsize'], $this->hlt->getField('fieldA')->getFragSize());
-        $this->assertSame(null, $this->hlt->getField('FieldB')->getSnippets());
+        $this->assertNull($this->hlt->getField('FieldB')->getSnippets());
         $this->assertSame($options['snippets'], $this->hlt->getSnippets());
         $this->assertSame($options['fragsize'], $this->hlt->getFragSize());
         $this->assertSame($options['mergecontiguous'], $this->hlt->getMergeContiguous());
@@ -133,12 +132,12 @@ class HighlightingTest extends TestCase
         $name = 'test';
         $field = $this->hlt->getField($name, false);
 
-        $this->assertSame(null, $field);
+        $this->assertNull($field);
     }
 
     public function testAddFieldWithObject()
     {
-        $field = new Field;
+        $field = new Field();
         $field->setName('test');
 
         $this->hlt->addField($field);
@@ -167,7 +166,7 @@ class HighlightingTest extends TestCase
 
     public function testAddFieldWithObjectWithoutName()
     {
-        $field = new Field;
+        $field = new Field();
         $this->expectException('Solarium\Exception\InvalidArgumentException');
         $this->hlt->addField($field);
     }

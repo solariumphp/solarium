@@ -16,8 +16,8 @@ class ResultTest extends TestCase
     public function setUp()
     {
         $this->docs = array(
-            new Document(array('id'=>1, 'name'=>'test1')),
-            new Document(array('id'=>2, 'name'=>'test2')),
+            new Document(array('id' => 1, 'name' => 'test1')),
+            new Document(array('id' => 2, 'name' => 'test2')),
         );
 
         $this->mltResult = new Result(2, 5.13, $this->docs);
@@ -35,7 +35,7 @@ class ResultTest extends TestCase
 
     public function testGetDocuments()
     {
-         $this->assertEquals($this->docs, $this->mltResult->getDocuments());
+        $this->assertEquals($this->docs, $this->mltResult->getDocuments());
     }
 
     public function testIterator()

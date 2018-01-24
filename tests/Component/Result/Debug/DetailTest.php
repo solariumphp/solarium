@@ -31,17 +31,17 @@ class DetailTest extends TestCase
 
     public function testGetValue()
     {
-         $this->assertEquals($this->value, $this->result->getValue());
+        $this->assertEquals($this->value, $this->result->getValue());
     }
 
     public function testGetMatch()
     {
-         $this->assertEquals($this->match, $this->result->getMatch());
+        $this->assertEquals($this->match, $this->result->getMatch());
     }
 
     public function testGetDescription()
     {
-         $this->assertEquals($this->description, $this->result->getDescription());
+        $this->assertEquals($this->description, $this->result->getDescription());
     }
 
     public function testSetSubDetails()

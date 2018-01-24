@@ -26,15 +26,15 @@ class MoreLikeThisTest extends TestCase
                     'numFound' => 12,
                     'maxScore' => 1.75,
                     'docs' => array(
-                        array('field1' => 'value1')
-                    )
-                )
-            )
+                        array('field1' => 'value1'),
+                    ),
+                ),
+            ),
         );
 
         $docs = array(new Document(array('field1' => 'value1')));
         $expected = array(
-            'id1' => new Result(12, 1.75, $docs)
+            'id1' => new Result(12, 1.75, $docs),
         );
 
         $result = $this->parser->parse($query, null, $data);
@@ -57,15 +57,15 @@ class MoreLikeThisTest extends TestCase
                 'id1' => array(
                     'numFound' => 12,
                     'docs' => array(
-                        array('field1' => 'value1')
-                    )
-                )
-            )
+                        array('field1' => 'value1'),
+                    ),
+                ),
+            ),
         );
 
         $docs = array(new Document(array('field1' => 'value1')));
         $expected = array(
-            'id1' => new Result(12, null, $docs)
+            'id1' => new Result(12, null, $docs),
         );
 
         $result = $this->parser->parse($query, null, $data);

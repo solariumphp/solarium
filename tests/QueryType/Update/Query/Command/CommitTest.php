@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
 use PHPUnit\Framework\TestCase;
@@ -13,7 +12,7 @@ class CommitTest extends TestCase
 
     public function setUp()
     {
-        $this->command = new Commit;
+        $this->command = new Commit();
     }
 
     public function testGetType()
@@ -34,18 +33,15 @@ class CommitTest extends TestCase
 
         $command = new Commit($options);
 
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $command->getSoftCommit()
         );
 
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $command->getWaitSearcher()
         );
 
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $command->getExpungeDeletes()
         );
     }
@@ -53,8 +49,7 @@ class CommitTest extends TestCase
     public function testGetAndSetSoftCommit()
     {
         $this->command->setSoftCommit(false);
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $this->command->getSoftCommit()
         );
     }
@@ -62,8 +57,7 @@ class CommitTest extends TestCase
     public function testGetAndSetWaitSearcher()
     {
         $this->command->setWaitSearcher(false);
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $this->command->getWaitSearcher()
         );
     }
@@ -71,8 +65,7 @@ class CommitTest extends TestCase
     public function testGetAndSetExpungeDeletes()
     {
         $this->command->setExpungeDeletes(true);
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $this->command->getExpungeDeletes()
         );
     }

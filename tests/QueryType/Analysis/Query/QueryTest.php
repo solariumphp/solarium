@@ -11,7 +11,7 @@ class QueryTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new TestAnalysisQuery;
+        $this->query = new TestAnalysisQuery();
     }
 
     public function testSetAndGetQuery()

@@ -14,7 +14,7 @@ class RequestTest extends TestCase
 
     public function setup()
     {
-        $this->request = new Request;
+        $this->request = new Request();
     }
 
     public function testConfigMode()
@@ -62,7 +62,7 @@ class RequestTest extends TestCase
         $this->assertSame(
             array(
                 $options['header']['myHeader1'],
-                $options['header']['myHeader2']
+                $options['header']['myHeader2'],
             ),
             $this->request->getHeaders()
         );
@@ -141,8 +141,7 @@ class RequestTest extends TestCase
 
     public function testGetInvalidParam()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->request->getParam('invalidname')
         );
     }
@@ -334,7 +333,7 @@ class RequestTest extends TestCase
     {
         $headers = array(
             'User-Agent: My Agent',
-            'Cache-Control: no-cache'
+            'Cache-Control: no-cache',
         );
         $this->request->setHeaders($headers);
 
@@ -385,7 +384,7 @@ class RequestTest extends TestCase
     {
         $headers = array(
             'User-Agent: My Agent',
-            'Cache-Control: no-cache'
+            'Cache-Control: no-cache',
         );
 
         $this->request->setHeaders($headers);

@@ -36,7 +36,7 @@ class GroupingTest extends TestCase
 
     public function testGetGroupInvalid()
     {
-        $this->assertSame(null, $this->grouping->getGroup('invalidkey'));
+        $this->assertNull($this->grouping->getGroup('invalidkey'));
     }
 
     public function testIterator()

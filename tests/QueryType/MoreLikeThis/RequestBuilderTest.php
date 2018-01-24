@@ -21,8 +21,8 @@ class RequestBuilderTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
-        $this->builder = new RequestBuilder;
+        $this->query = new Query();
+        $this->builder = new RequestBuilder();
     }
 
     public function testBuildParams()
@@ -81,7 +81,7 @@ class RequestBuilderTest extends TestCase
         $request = $this->builder->build($this->query);
 
         $this->assertSame(Request::METHOD_POST, $request->getMethod());
-        $this->assertSame(null, $request->getParam('q'));
+        $this->assertNull($request->getParam('q'));
         $this->assertSame($content, $request->getRawData());
         $this->assertTrue(in_array('Content-Type: text/plain; charset=utf-8', $request->getHeaders()));
     }

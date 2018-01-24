@@ -14,7 +14,7 @@ class FacetTest extends TestCase
 
     public function setUp()
     {
-        $this->facet = new TestFacet;
+        $this->facet = new TestFacet();
     }
 
     public function testConfigMode()

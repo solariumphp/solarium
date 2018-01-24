@@ -12,7 +12,7 @@ class PreExecuteTest extends TestCase
 {
     public function testConstructorAndGetters()
     {
-        $client = new Client;
+        $client = new Client();
         $query = $client->createSelect();
         $query->setQuery('test123');
 
@@ -30,7 +30,7 @@ class PreExecuteTest extends TestCase
      */
     public function testSetAndGetQuery($event)
     {
-        $client = new Client;
+        $client = new Client();
         $query = $client->createSelect();
         $query->setQuery('test123');
         $response = new Response('', array('HTTP 1.0 200 OK'));

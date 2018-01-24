@@ -33,7 +33,7 @@ class SuggestionTest extends TestCase
             array(
                 'word' => 'secondword',
                 'freq' => 1,
-            )
+            ),
         );
 
         $this->result = new Suggestion(
@@ -62,21 +62,21 @@ class SuggestionTest extends TestCase
 
     public function testGetOriginalFrequency()
     {
-         $this->assertEquals($this->originalFrequency, $this->result->getOriginalFrequency());
+        $this->assertEquals($this->originalFrequency, $this->result->getOriginalFrequency());
     }
 
     public function testGetWord()
     {
-         $this->assertEquals($this->words[0]['word'], $this->result->getWord());
+        $this->assertEquals($this->words[0]['word'], $this->result->getWord());
     }
 
     public function testGetFrequency()
     {
-         $this->assertEquals($this->words[0]['freq'], $this->result->getFrequency());
+        $this->assertEquals($this->words[0]['freq'], $this->result->getFrequency());
     }
 
     public function testGetWords()
     {
-         $this->assertEquals($this->words, $this->result->getWords());
+        $this->assertEquals($this->words, $this->result->getWords());
     }
 }

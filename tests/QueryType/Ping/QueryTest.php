@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Ping;
 
 use PHPUnit\Framework\TestCase;
@@ -13,7 +12,7 @@ class QueryTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()
@@ -23,7 +22,7 @@ class QueryTest extends TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertSame(null, $this->query->getResponseParser());
+        $this->assertNull($this->query->getResponseParser());
     }
 
     public function testGetRequestBuilder()

@@ -17,7 +17,7 @@ class DisMaxTest extends TestCase
 
     public function setUp()
     {
-        $this->disMax = new DisMax;
+        $this->disMax = new DisMax();
     }
 
     public function testConfigMode()
@@ -59,7 +59,7 @@ class DisMaxTest extends TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertSame(null, $this->disMax->getResponseParser());
+        $this->assertNull($this->disMax->getResponseParser());
     }
 
     public function testGetRequestBuilder()
@@ -173,8 +173,8 @@ class DisMaxTest extends TestCase
         $key = 'cat';
 
         $bq = new BoostQuery();
-        $bq -> setKey($key);
-        $bq -> setQuery($query);
+        $bq->setKey($key);
+        $bq->setQuery($query);
 
         $this->disMax->addBoostQuery($bq);
 
@@ -183,7 +183,7 @@ class DisMaxTest extends TestCase
 
     public function testAddBoostQueryWithoutKey()
     {
-        $bq = new BoostQuery;
+        $bq = new BoostQuery();
         $bq->setQuery('category:1');
 
         $this->expectException(InvalidArgumentException::class);
@@ -192,10 +192,10 @@ class DisMaxTest extends TestCase
 
     public function testAddBoostQueryWithUsedKey()
     {
-        $bq1 = new BoostQuery;
+        $bq1 = new BoostQuery();
         $bq1->setKey('bq1')->setQuery('category:1');
 
-        $bq2 = new BoostQuery;
+        $bq2 = new BoostQuery();
         $bq2->setKey('bq1')->setQuery('category:2');
 
         $this->disMax->addBoostQuery($bq1);
@@ -207,7 +207,7 @@ class DisMaxTest extends TestCase
     {
         $bqs = array(
             array('key' => 'key1', 'query' => 'cat:1'),
-            array('key' => 'key2', 'query' => 'cat:2')
+            array('key' => 'key2', 'query' => 'cat:2'),
         );
 
         $this->disMax->addBoostQueries($bqs);
@@ -225,7 +225,7 @@ class DisMaxTest extends TestCase
     {
         $bqs = array(
             'key1' => array('query' => 'cat:1'),
-            'key2' => array('query' => 'cat:2')
+            'key2' => array('query' => 'cat:2'),
         );
 
         $this->disMax->addBoostQueries($bqs);

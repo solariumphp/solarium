@@ -12,7 +12,7 @@ class HighlightingTest extends TestCase
 
     public function setUp()
     {
-        $this->parser = new Parser;
+        $this->parser = new Parser();
     }
 
     public function testParse()

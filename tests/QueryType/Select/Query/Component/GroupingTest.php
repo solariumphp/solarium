@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class GroupingTest extends TestCase
 
     public function setUp()
     {
-        $this->grouping = new Grouping;
+        $this->grouping = new Grouping();
     }
 
     public function testConfigMode()

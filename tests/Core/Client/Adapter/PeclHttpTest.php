@@ -29,6 +29,7 @@ class PeclHttpTest extends TestCase
 
     /**
      * @dataProvider requestProvider
+     *
      * @param mixed $request
      * @param mixed $method
      * @param mixed $support
@@ -76,7 +77,7 @@ class PeclHttpTest extends TestCase
 
             $data = array();
             foreach ($methods as $method => $options) {
-                $request = new Request;
+                $request = new Request();
                 $request->setMethod($method);
                 $data[] = array_merge(array($request), $options);
             }
@@ -96,7 +97,7 @@ class PeclHttpTest extends TestCase
                 'authentication' => array(
                     'username' => 'someone',
                     'password' => 'S0M3p455',
-                )
+                ),
             )
         );
 
@@ -113,7 +114,7 @@ class PeclHttpTest extends TestCase
                     'Content-Type' => 'application/json',
                     'User-Agent' => 'Foo',
                     'Authorization' => 'Basic c29tZW9uZTpTME0zcDQ1NQ==',
-                )
+                ),
             ),
             $httpRequest->getOptions()
         );
@@ -135,7 +136,7 @@ class PeclHttpTest extends TestCase
                     'name' => 'content',
                     'type' => 'application/octet-stream; charset=binary',
                     'file' => __FILE__,
-                )
+                ),
             ),
             $httpRequest->getPostFiles()
         );
@@ -143,7 +144,7 @@ class PeclHttpTest extends TestCase
 
     public function testToHttpRequestWithDefaultContentType()
     {
-        $request = new Request;
+        $request = new Request();
         $request->setMethod(Request::METHOD_POST);
 
         $endpoint = new Endpoint();
@@ -157,7 +158,7 @@ class PeclHttpTest extends TestCase
                 'dns_cache_timeout' => 10,
                 'headers' => array(
                     'Content-Type' => 'text/xml; charset=utf-8',
-                )
+                ),
             ),
             $httpRequest->getOptions()
         );

@@ -12,7 +12,7 @@ class PreCreateQueryTest extends TestCase
     {
         $type = 'testtype';
         $options = array('key' => 'value');
-        $query = new Query;
+        $query = new Query();
         $query->setQuery('test123');
 
         $event = new PreCreateQuery($type, $options);
@@ -30,7 +30,7 @@ class PreCreateQueryTest extends TestCase
      */
     public function testSetAndGetQuery($event)
     {
-        $query = new Query;
+        $query = new Query();
         $query->setQuery('test123');
 
         $event->setQuery($query);

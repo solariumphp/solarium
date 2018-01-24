@@ -11,7 +11,7 @@ class EDisMaxTest extends TestCase
 {
     public function testBuildComponent()
     {
-        $builder = new RequestBuilder;
+        $builder = new RequestBuilder();
         $request = new Request();
 
         $component = new Component();

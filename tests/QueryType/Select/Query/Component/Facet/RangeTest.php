@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class RangeTest extends TestCase
 
     public function setUp()
     {
-        $this->facet = new Range;
+        $this->facet = new Range();
     }
 
     public function testConfigMode()
@@ -88,7 +87,7 @@ class RangeTest extends TestCase
     public function testSetAndGetHardend()
     {
         $this->facet->setHardend(true);
-        $this->assertSame(true, $this->facet->getHardend());
+        $this->assertTrue($this->facet->getHardend());
     }
 
     public function testSetAndGetOther()

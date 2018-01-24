@@ -66,8 +66,7 @@ class DocumentTest extends TestCase
 
     public function testGetInvalidDocument()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->result->getDocument('invalidkey')
         );
     }

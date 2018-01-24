@@ -60,7 +60,7 @@ class HttpTest extends TestCase
              ->will($this->returnValue(array($data, array('HTTP 1.1 200 OK'))));
         $mock->expects($this->once())
              ->method('check')
-             ->will($this->throwException(new HttpException("HTTP request failed")));
+             ->will($this->throwException(new HttpException('HTTP request failed')));
 
         $this->expectException(HttpException::class);
         $mock->execute($request, $endpoint);
@@ -76,8 +76,7 @@ class HttpTest extends TestCase
     {
         $value = $this->adapter->check('dummydata', array('HTTP 1.1 200 OK'));
 
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $value
         );
     }
@@ -143,7 +142,7 @@ class HttpTest extends TestCase
                     'timeout' => $timeout,
                     'content' => $data,
                     'header' => 'Content-Type: text/xml; charset=UTF-8',
-                )
+                ),
             ),
             stream_context_get_options($context)
         );
@@ -174,7 +173,7 @@ class HttpTest extends TestCase
                 'http' => array(
                     'method' => $method,
                     'timeout' => $timeout,
-                )
+                ),
             ),
             $stream_context_get_options
         );
@@ -200,7 +199,7 @@ class HttpTest extends TestCase
                     'method' => $method,
                     'timeout' => $timeout,
                     'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==',
-                )
+                ),
             ),
             stream_context_get_options($context)
         );

@@ -21,6 +21,7 @@ class SuggesterTest extends TestCase
 
     /**
      * @dataProvider providerParse
+     *
      * @param mixed $data
      */
     public function testParse($data)

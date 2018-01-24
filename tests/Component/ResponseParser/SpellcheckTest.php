@@ -19,6 +19,7 @@ class SpellcheckTest extends TestCase
 
     /**
      * @dataProvider providerParseExtended
+     *
      * @param mixed $data
      */
     public function testParseExtended($data)
@@ -26,7 +27,7 @@ class SpellcheckTest extends TestCase
         $result = $this->parser->parse($this->query, null, $data);
 
         $suggestions = $result->getSuggestions();
-        $this->assertEquals(false, $result->getCorrectlySpelled());
+        $this->assertFalse($result->getCorrectlySpelled());
         $this->assertEquals('dell', $suggestions[0]->getWord());
         $this->assertEquals('ultrasharp', $suggestions[1]->getWord());
         $this->assertEquals(6, $suggestions[1]->getStartOffset());
@@ -114,9 +115,9 @@ class SpellcheckTest extends TestCase
                                     3 => 'ultrasharp',
                                 ),
                             ),
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             ),
             'solr5' => array(
                 'data' => array(
@@ -187,15 +188,16 @@ class SpellcheckTest extends TestCase
                                     3 => 'ultrasharp',
                                 ),
                             ),
-                        )
-                    )
-                )
-            )
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 
     /**
      * @dataProvider providerParse
+     *
      * @param mixed $data
      */
     public function testParse($data)
@@ -203,7 +205,7 @@ class SpellcheckTest extends TestCase
         $result = $this->parser->parse($this->query, null, $data);
 
         $suggestions = $result->getSuggestions();
-        $this->assertEquals(false, $result->getCorrectlySpelled());
+        $this->assertFalse($result->getCorrectlySpelled());
         $this->assertEquals('dell', $suggestions[0]->getWord());
         $this->assertEquals('dell ultrasharp', $result->getCollation()->getQuery());
         $collations = $result->getCollations();
@@ -247,9 +249,9 @@ class SpellcheckTest extends TestCase
                             7 => 'dell ultrasharp',
                             8 => 'collation',
                             9 => 'dell ultrasharp new',
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             ),
             'solr5' => array(
                 'data' => array(
@@ -286,15 +288,16 @@ class SpellcheckTest extends TestCase
                             'dell ultrasharp',
                             'collation',
                             'dell ultrasharp new',
-                        )
-                    )
-                )
-            )
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 
     /**
      * @dataProvider providerParseSingleCollation
+     *
      * @param mixed $data
      */
     public function testParseSingleCollation($data)
@@ -345,9 +348,9 @@ class SpellcheckTest extends TestCase
                             5 => false,
                             6 => 'collation',
                             7 => 'dell ultrasharp',
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             ),
             'solr5' => array(
                 'data' => array(
@@ -385,11 +388,11 @@ class SpellcheckTest extends TestCase
                         false,
                         'collations' => array(
                             'collation',
-                            'dell ultrasharp'
-                        )
-                    )
-                )
-            )
+                            'dell ultrasharp',
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 
@@ -397,6 +400,6 @@ class SpellcheckTest extends TestCase
     {
         $result = $this->parser->parse($this->query, null, array());
 
-        $this->assertEquals(null, $result);
+        $this->assertNull($result);
     }
 }

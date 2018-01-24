@@ -17,7 +17,7 @@ class DebugTest extends TestCase
 
     public function setUp()
     {
-        $this->debug = new Debug;
+        $this->debug = new Debug();
     }
 
     public function testConfigMode()

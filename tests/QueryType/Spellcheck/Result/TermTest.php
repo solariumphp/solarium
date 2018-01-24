@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Spellcheck\Result;
 
 use PHPUnit\Framework\TestCase;

@@ -19,7 +19,7 @@ class PivotItemTest extends TestCase
             'pivot' => array(
                 array('field' => 'cat', 'value' => 1, 'count' => 12),
                 array('field' => 'cat', 'value' => 2, 'count' => 8),
-            )
+            ),
         );
         $this->pivotItem = new PivotItem($this->values);
     }

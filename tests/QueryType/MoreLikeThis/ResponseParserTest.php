@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\MoreLikeThis;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class ResponseParserTest extends TestCase
             'response' => array(
                 'docs' => array(
                     array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2')
+                    array('fieldA' => 2, 'fieldB' => 'Test2'),
                 ),
                 'numFound' => 503,
             ),
@@ -25,7 +24,7 @@ class ResponseParserTest extends TestCase
                 'QTime' => 13,
             ),
             'interestingTerms' => array(
-                'key1', 'value1', 'key2', 'value2'
+                'key1', 'value1', 'key2', 'value2',
             ),
             'match' => array(
                 'docs' => array(
@@ -46,7 +45,7 @@ class ResponseParserTest extends TestCase
              ->method('getQuery')
              ->will($this->returnValue($query));
 
-        $parser = new ResponseParser;
+        $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
         $this->assertSame(array('key1' => 'value1', 'key2' => 'value2'), $result['interestingTerms']);

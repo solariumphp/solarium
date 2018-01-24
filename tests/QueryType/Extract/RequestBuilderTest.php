@@ -21,11 +21,11 @@ class RequestBuilderTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
         $this->query->setFile(__FILE__);
         $this->query->addParam('param1', 'value1');
         $this->query->addFieldMapping('from-field', 'to-field');
-        $this->builder = new RequestBuilder;
+        $this->builder = new RequestBuilder();
     }
 
     public function testGetMethod()
@@ -107,7 +107,7 @@ class RequestBuilderTest extends TestCase
     public function testContentTypeHeader()
     {
         $headers = array(
-            'Content-Type: multipart/form-data'
+            'Content-Type: multipart/form-data',
         );
         $request = $this->builder->build($this->query);
         $this->assertSame($headers, $request->getHeaders());

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
 use PHPUnit\Framework\TestCase;
@@ -13,7 +12,7 @@ class DeleteTest extends TestCase
 
     public function setUp()
     {
-        $this->command = new Delete;
+        $this->command = new Delete();
     }
 
     public function testGetType()

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Result\Stats;
 
 use PHPUnit\Framework\TestCase;
@@ -24,17 +23,17 @@ class StatsTest extends TestCase
 
     public function testGetResult()
     {
-         $this->assertSame($this->data['key1'], $this->result->getResult('key1'));
+        $this->assertSame($this->data['key1'], $this->result->getResult('key1'));
     }
 
     public function testGetInvalidResult()
     {
-         $this->assertSame(null, $this->result->getResult('key3'));
+        $this->assertNull($this->result->getResult('key3'));
     }
 
     public function testGetResults()
     {
-         $this->assertSame($this->data, $this->result->getResults());
+        $this->assertSame($this->data, $this->result->getResults());
     }
 
     public function testIterator()

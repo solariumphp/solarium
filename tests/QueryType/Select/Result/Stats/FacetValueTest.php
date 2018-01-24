@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Result\Stats;
 
 use PHPUnit\Framework\TestCase;

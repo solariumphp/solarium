@@ -14,7 +14,7 @@ class QueryTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()
@@ -216,7 +216,7 @@ class QueryTest extends TestCase
 
     public function testAddAndGetFilterQuery()
     {
-        $fq = new FilterQuery;
+        $fq = new FilterQuery();
         $fq->setKey('fq1')->setQuery('category:1');
         $this->query->addFilterQuery($fq);
 
@@ -246,7 +246,7 @@ class QueryTest extends TestCase
 
     public function testAddFilterQueryWithoutKey()
     {
-        $fq = new FilterQuery;
+        $fq = new FilterQuery();
         $fq->setQuery('category:1');
 
         $this->expectException('Solarium\Exception\InvalidArgumentException');
@@ -255,10 +255,10 @@ class QueryTest extends TestCase
 
     public function testAddFilterQueryWithUsedKey()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq1')->setQuery('category:2');
 
         $this->query->addFilterQuery($fq1);
@@ -268,18 +268,17 @@ class QueryTest extends TestCase
 
     public function testGetInvalidFilterQuery()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->query->getFilterQuery('invalidtag')
         );
     }
 
     public function testAddFilterQueries()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array('fq1' => $fq1, 'fq2' => $fq2);
@@ -293,10 +292,10 @@ class QueryTest extends TestCase
 
     public function testRemoveFilterQuery()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array($fq1, $fq2);
@@ -311,10 +310,10 @@ class QueryTest extends TestCase
 
     public function testRemoveFilterQueryWithObjectInput()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array($fq1, $fq2);
@@ -329,10 +328,10 @@ class QueryTest extends TestCase
 
     public function testRemoveInvalidFilterQuery()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array('fq1' => $fq1, 'fq2' => $fq2);
@@ -347,10 +346,10 @@ class QueryTest extends TestCase
 
     public function testClearFilterQueries()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries = array($fq1, $fq2);
@@ -365,20 +364,20 @@ class QueryTest extends TestCase
 
     public function testSetFilterQueries()
     {
-        $fq1 = new FilterQuery;
+        $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
 
-        $fq2 = new FilterQuery;
+        $fq2 = new FilterQuery();
         $fq2->setKey('fq2')->setQuery('category:2');
 
         $filterQueries1 = array('fq1' => $fq1, 'fq2' => $fq2);
 
         $this->query->addFilterQueries($filterQueries1);
 
-        $fq3 = new FilterQuery;
+        $fq3 = new FilterQuery();
         $fq3->setKey('fq3')->setQuery('category:3');
 
-        $fq4 = new FilterQuery;
+        $fq4 = new FilterQuery();
         $fq4->setKey('fq4')->setQuery('category:4');
 
         $filterQueries2 = array('fq3' => $fq3, 'fq4' => $fq4);
@@ -401,14 +400,14 @@ class QueryTest extends TestCase
             'start' => 200,
             'filterquery' => array(
                 array('key' => 'pub', 'tag' => array('pub'), 'query' => 'published:true'),
-                'online' => array('tag' => 'onl', 'query' => 'online:true')
+                'online' => array('tag' => 'onl', 'query' => 'online:true'),
             ),
             'component' => array(
                 'facetset' => array(
                     'facet' => array(
                         array('type' => 'field', 'key' => 'categories', 'field' => 'category'),
-                        'category13' => array('type' => 'query', 'query' => 'category:13')
-                    )
+                        'category13' => array('type' => 'query', 'query' => 'category:13'),
+                    ),
                 ),
             ),
             'matchoffset' => 15,
@@ -448,7 +447,7 @@ class QueryTest extends TestCase
 
     public function testSetAndGetComponents()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
 
         $this->assertSame(
@@ -459,7 +458,7 @@ class QueryTest extends TestCase
 
     public function testSetAndGetComponent()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
 
         $this->assertSame(
@@ -470,8 +469,7 @@ class QueryTest extends TestCase
 
     public function testGetInvalidComponent()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->query->getComponent('invalid')
         );
     }
@@ -484,7 +482,7 @@ class QueryTest extends TestCase
 
     public function testRemoveComponent()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
 
         $this->assertSame(
@@ -502,7 +500,7 @@ class QueryTest extends TestCase
 
     public function testRemoveComponentWithObjectInput()
     {
-        $mlt = new MoreLikeThis;
+        $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
 
         $this->assertSame(

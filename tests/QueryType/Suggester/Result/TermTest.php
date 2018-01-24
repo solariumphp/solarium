@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Suggester\Result;
 
 use PHPUnit\Framework\TestCase;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Result;
 
 use PHPUnit\Framework\TestCase;
@@ -27,7 +26,7 @@ class FacetSetTest extends TestCase
 
     public function testGetFacets()
     {
-         $this->assertSame($this->facets, $this->result->getFacets());
+        $this->assertSame($this->facets, $this->result->getFacets());
     }
 
     public function testGetFacet()
@@ -40,8 +39,7 @@ class FacetSetTest extends TestCase
 
     public function testGetInvalidFacet()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->result->getFacet('invalid')
         );
     }

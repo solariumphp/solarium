@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Terms;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class QueryTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()
@@ -55,7 +54,7 @@ class QueryTest extends TestCase
     public function testSetAndGetLowerboundInclude()
     {
         $this->query->setLowerboundInclude(true);
-        $this->assertSame(true, $this->query->getLowerboundInclude());
+        $this->assertTrue($this->query->getLowerboundInclude());
     }
 
     public function testSetAndGetMinCount()
@@ -109,13 +108,13 @@ class QueryTest extends TestCase
     public function testSetAndGetUpperboundInclude()
     {
         $this->query->setUpperboundInclude(true);
-        $this->assertSame(true, $this->query->getUpperboundInclude());
+        $this->assertTrue($this->query->getUpperboundInclude());
     }
 
     public function testSetAndGetRaw()
     {
         $this->query->setRaw(false);
-        $this->assertSame(false, $this->query->getRaw());
+        $this->assertFalse($this->query->getRaw());
     }
 
     public function testSetAndGetSort()

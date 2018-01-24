@@ -11,17 +11,16 @@ use Solarium\Core\Client\Adapter\Guzzle as GuzzleAdapter;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Exception;
+
 /**
  * @coversDefaultClass \Solarium\Core\Client\Adapter\Guzzle
  * @covers ::<private>
  * @covers ::getGuzzleClient
  */
-final class GuzzleAdapterTest extends TestCase
+final class GuzzleTest extends TestCase
 {
     /**
      * Prepare each test.
-     *
-     * @return void
      */
     public function setUp()
     {
@@ -31,12 +30,10 @@ final class GuzzleAdapterTest extends TestCase
     }
 
     /**
-     * Verify basic behavior of execute()
+     * Verify basic behavior of execute().
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executeGet()
     {
@@ -69,7 +66,7 @@ final class GuzzleAdapterTest extends TestCase
             ),
             $response->getHeaders()
         );
-        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
+        $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
 
         $this->assertCount(1, $container);
         $this->assertSame('GET', $container[0]['request']->getMethod());
@@ -77,12 +74,10 @@ final class GuzzleAdapterTest extends TestCase
     }
 
     /**
-     * Verify execute() with request containing file
+     * Verify execute() with request containing file.
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executePostWithFile()
     {
@@ -116,21 +111,19 @@ final class GuzzleAdapterTest extends TestCase
             ),
             $response->getHeaders()
         );
-        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
+        $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
 
         $this->assertCount(1, $container);
         $this->assertSame('POST', $container[0]['request']->getMethod());
         $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
-        $this->assertStringEqualsFile(__FILE__, (string)$container[0]['request']->getBody());
+        $this->assertStringEqualsFile(__FILE__, (string) $container[0]['request']->getBody());
     }
 
     /**
-     * Verify execute() with request containing raw body
+     * Verify execute() with request containing raw body.
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executePostWithRawBody()
     {
@@ -165,13 +158,13 @@ final class GuzzleAdapterTest extends TestCase
             ),
             $response->getHeaders()
         );
-        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
+        $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
 
         $this->assertCount(1, $container);
         $this->assertSame('POST', $container[0]['request']->getMethod());
         $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
         $this->assertSame('application/xml; charset=utf-8', $container[0]['request']->getHeaderline('Content-Type'));
-        $this->assertSame($xml, (string)$container[0]['request']->getBody());
+        $this->assertSame($xml, (string) $container[0]['request']->getBody());
     }
 
     /**
@@ -179,8 +172,6 @@ final class GuzzleAdapterTest extends TestCase
      *
      * @test
      * @covers ::execute
-     *
-     * @return void
      */
     public function executeGetWithAuthentication()
     {
@@ -214,13 +205,13 @@ final class GuzzleAdapterTest extends TestCase
             ),
             $response->getHeaders()
         );
-        $this->assertSame((string)$guzzleResponse->getBody(), $response->getBody());
+        $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
 
         $this->assertCount(1, $container);
         $this->assertSame('GET', $container[0]['request']->getMethod());
         $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
         $this->assertSame(
-            'Basic ' . base64_encode('username:s3cr3t'),
+            'Basic '.base64_encode('username:s3cr3t'),
             $container[0]['request']->getHeaderLine('Authorization')
         );
     }
@@ -232,8 +223,6 @@ final class GuzzleAdapterTest extends TestCase
      * @covers ::execute
      * @expectedException \Solarium\Exception\HttpException
      * @expectedExceptionMessage HTTP request failed
-     *
-     * @return void
      */
     public function executeRequestException()
     {
@@ -244,7 +233,7 @@ final class GuzzleAdapterTest extends TestCase
 
         $endpoint = new Endpoint(
             array(
-                'scheme'  => 'silly', //invalid protocol
+                'scheme' => 'silly', //invalid protocol
             )
         );
         $endpoint->setTimeout(10);
@@ -280,6 +269,7 @@ final class GuzzleAdapterTest extends TestCase
         );
 
         $headers = array('Content-Type' => 'application/json', 'X-PHPUnit' => 'response value');
+
         return new Response(200, $headers, $body);
     }
 }

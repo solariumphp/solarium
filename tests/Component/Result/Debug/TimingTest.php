@@ -40,8 +40,7 @@ class TimingTest extends TestCase
 
     public function testGetPhaseWithInvalidKey()
     {
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->result->getPhase('invalidkey')
         );
     }

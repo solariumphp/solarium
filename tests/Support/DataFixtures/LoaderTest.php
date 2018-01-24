@@ -42,7 +42,7 @@ class LoaderTest extends TestCase
     public function testLoadFromDir()
     {
         $loader = new Loader();
-        $loader->loadFromDirectory(__DIR__ . '/Fixtures/');
+        $loader->loadFromDirectory(__DIR__.'/Fixtures/');
 
         $loadedFixtures = $loader->getFixtures();
         $this->assertCount(3, $loadedFixtures);

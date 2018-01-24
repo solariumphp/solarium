@@ -12,8 +12,8 @@ class PostExecuteRequestTest extends TestCase
 {
     public function testConstructorAndGetters()
     {
-        $client = new Client;
-        $request = new Request;
+        $client = new Client();
+        $request = new Request();
         $request->addParam('testparam', 'test value');
         $endpoint = $client->getEndpoint();
         $response = new Response('', array('HTTP 1.0 200 OK'));

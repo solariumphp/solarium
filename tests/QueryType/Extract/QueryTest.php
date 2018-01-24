@@ -16,7 +16,7 @@ class QueryTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()
@@ -81,19 +81,19 @@ class QueryTest extends TestCase
     public function testSetAndGetExtractOnly()
     {
         $this->query->setExtractOnly(true);
-        $this->assertSame(true, $this->query->getExtractOnly());
+        $this->assertTrue($this->query->getExtractOnly());
     }
 
     public function testSetAndGetLowernames()
     {
         $this->query->setLowernames(true);
-        $this->assertSame(true, $this->query->getLowernames());
+        $this->assertTrue($this->query->getLowernames());
     }
 
     public function testSetAndGetCommit()
     {
         $this->query->setCommit(true);
-        $this->assertSame(true, $this->query->getCommit());
+        $this->assertTrue($this->query->getCommit());
     }
 
     public function testSetAndGetCommitWithin()
@@ -112,6 +112,7 @@ class QueryTest extends TestCase
 
     /**
      * @depends testSetAndGetDocumentClass
+     *
      * @param mixed $query
      */
     public function testCreateDocument($query)
@@ -137,6 +138,7 @@ class QueryTest extends TestCase
 
     /**
      * @depends testAddFieldMapping
+     *
      * @param Query $query
      */
     public function testClearFieldMappingss($query)
@@ -149,6 +151,7 @@ class QueryTest extends TestCase
 
     /**
      * @depends testClearFieldMappingss
+     *
      * @param Query $query
      */
     public function testAddFieldMappings($query)
@@ -162,6 +165,7 @@ class QueryTest extends TestCase
 
     /**
      * @depends testAddFieldMappings
+     *
      * @param Query $query
      */
     public function testRemoveFieldMapping($query)
@@ -174,6 +178,7 @@ class QueryTest extends TestCase
 
     /**
      * @depends testRemoveFieldMapping
+     *
      * @param Query $query
      */
     public function testSetFields($query)

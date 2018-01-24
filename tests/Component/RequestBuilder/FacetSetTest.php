@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\Component\RequestBuilder;
 
 use PHPUnit\Framework\TestCase;
@@ -77,7 +76,7 @@ class FacetSetTest extends TestCase
                 'gap' => 10,
                 'other' => 'all',
                 'include' => 'outer',
-                'mincount' => 123
+                'mincount' => 123,
             )
         ));
 
@@ -121,7 +120,7 @@ class FacetSetTest extends TestCase
         $this->component->addFacet(new FacetField(array('key' => 'f1', 'field' => 'owner')));
         $this->component->addFacet(new FacetQuery(array('key' => 'f2', 'query' => 'category:23')));
         $this->component->addFacet(
-            new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' =>array('query' => 'category:40'))))
+            new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' => array('query' => 'category:40'))))
         );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
@@ -152,7 +151,7 @@ class FacetSetTest extends TestCase
             array(
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
-                'mincount' => 123
+                'mincount' => 123,
             )
         );
         $facet->addExclude('owner');
@@ -160,8 +159,7 @@ class FacetSetTest extends TestCase
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $request->getRawData()
         );
 
@@ -177,7 +175,7 @@ class FacetSetTest extends TestCase
             array(
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
-                'stats' => 'piv1'
+                'stats' => 'piv1',
             )
         );
         $this->component->addFacet($facet);

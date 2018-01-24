@@ -35,7 +35,7 @@ use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Suggester\Query as SuggesterQuery;
 use Solarium\QueryType\Terms\Query as TermsQuery;
-/**
+/*
  * @coversDefaultClass \Solarium\Core\Client\Client
  */
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -72,8 +72,8 @@ class ClientTest extends TestCase
                     'options' => array(
                         'option1' => 'value1',
                         'option2' => 'value2',
-                    )
-                )
+                    ),
+                ),
             ),
         );
 
@@ -99,11 +99,12 @@ class ClientTest extends TestCase
      * @covers ::getEventDispatcher
      * @covers ::setEventDispatcher
      */
-    public function testGetEventDispatcher() {
-      $this->assertInstanceOf(EventDispatcherInterface::class, $this->client->getEventDispatcher());
-      $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-      $this->client->setEventDispatcher($eventDispatcher);
-      $this->assertSame($eventDispatcher, $this->client->getEventDispatcher());
+    public function testGetEventDispatcher()
+    {
+        $this->assertInstanceOf(EventDispatcherInterface::class, $this->client->getEventDispatcher());
+        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        $this->client->setEventDispatcher($eventDispatcher);
+        $this->assertSame($eventDispatcher, $this->client->getEventDispatcher());
     }
 
     public function testEventDispatcherInjection()
@@ -128,7 +129,7 @@ class ClientTest extends TestCase
                 array(
                     'type' => 'myquerytype',
                     'query' => 'MyQuery',
-                )
+                ),
             ),
             'plugin' => array(
                  array(
@@ -137,8 +138,8 @@ class ClientTest extends TestCase
                     'options' => array(
                         'option1' => 'value1',
                         'option2' => 'value2',
-                    )
-                )
+                    ),
+                ),
             ),
         );
 
@@ -163,7 +164,7 @@ class ClientTest extends TestCase
     public function testCreateEndpoint()
     {
         $endpoint = $this->client->createEndpoint();
-        $this->assertSame(null, $endpoint->getKey());
+        $this->assertNull($endpoint->getKey());
         $this->assertThat($endpoint, $this->isInstanceOf(Endpoint::class));
     }
 
@@ -374,7 +375,7 @@ class ClientTest extends TestCase
     public function testSetAndGetAdapterWithObject()
     {
         $adapterClass = MyAdapter::class;
-        $this->client->setAdapter(new $adapterClass);
+        $this->client->setAdapter(new $adapterClass());
         $this->assertThat($this->client->getAdapter(), $this->isInstanceOf($adapterClass));
     }
 
@@ -449,8 +450,7 @@ class ClientTest extends TestCase
 
     public function testGetInvalidPlugin()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->client->getPlugin('invalidplugin', false)
         );
     }
@@ -721,7 +721,7 @@ class ClientTest extends TestCase
 
     public function testCreateResultWithInvalidResult()
     {
-        $overrideValue =  '\\stdClass';
+        $overrideValue = '\\stdClass';
         $response = new Response('', array('HTTP 1.0 200 OK'));
 
         $mockQuery = $this->getMockBuilder(Query::class)

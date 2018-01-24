@@ -11,7 +11,7 @@ class PreCreateRequestTest extends TestCase
 {
     public function testConstructorAndGetters()
     {
-        $query = new Query;
+        $query = new Query();
         $query->setQuery('test123');
         $event = new PreCreateRequest($query);
         $this->assertSame($query, $event->getQuery());
@@ -26,7 +26,7 @@ class PreCreateRequestTest extends TestCase
      */
     public function testSetAndGetQuery($event)
     {
-        $request = new Request;
+        $request = new Request();
         $request->addParam('testparam', 'test value');
 
         $event->setRequest($request);

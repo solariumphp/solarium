@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
 use PHPUnit\Framework\TestCase;
@@ -21,7 +20,7 @@ class FacetSetTest extends TestCase
 
     public function setUp()
     {
-        $this->facetSet = new FacetSet;
+        $this->facetSet = new FacetSet();
     }
 
     public function testConfigMode()
@@ -29,7 +28,7 @@ class FacetSetTest extends TestCase
         $options = array(
             'facet' => array(
                 array('type' => 'query', 'key' => 'f1', 'query' => 'category:1'),
-                'f2' => array('type' => 'query', 'query' => 'category:2')
+                'f2' => array('type' => 'query', 'query' => 'category:2'),
             ),
             'prefix' => 'pr',
             'sort' => 'index',
@@ -101,12 +100,12 @@ class FacetSetTest extends TestCase
     public function testSetAndGetMissing()
     {
         $this->facetSet->setMissing(true);
-        $this->assertSame(true, $this->facetSet->getMissing());
+        $this->assertTrue($this->facetSet->getMissing());
     }
 
     public function testAddAndGetFacet()
     {
-        $fq = new FacetQuery;
+        $fq = new FacetQuery();
         $fq->setKey('f1')->setQuery('category:1');
         $this->facetSet->addFacet($fq);
 
@@ -118,7 +117,7 @@ class FacetSetTest extends TestCase
 
     public function testAddFacetWithoutKey()
     {
-        $fq = new FacetQuery;
+        $fq = new FacetQuery();
         $fq->setQuery('category:1');
 
         $this->expectException('Solarium\Exception\InvalidArgumentException');
@@ -127,10 +126,10 @@ class FacetSetTest extends TestCase
 
     public function testAddFacetWithUsedKey()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f1')->setQuery('category:2');
 
         $this->facetSet->addFacet($fq1);
@@ -140,18 +139,17 @@ class FacetSetTest extends TestCase
 
     public function testGetInvalidFacet()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->facetSet->getFacet('invalidtag')
         );
     }
 
     public function testAddFacets()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
@@ -167,7 +165,7 @@ class FacetSetTest extends TestCase
     {
         $facets = array(
             array('type' => 'query', 'key' => 'f1', 'query' => 'category:1'),
-            'f2' => array('type' => 'query', 'query' => 'category:2')
+            'f2' => array('type' => 'query', 'query' => 'category:2'),
         );
 
         $this->facetSet->addFacets($facets);
@@ -180,10 +178,10 @@ class FacetSetTest extends TestCase
 
     public function testRemoveFacet()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
@@ -198,10 +196,10 @@ class FacetSetTest extends TestCase
 
     public function testRemoveFacetWithObjectInput()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
@@ -216,10 +214,10 @@ class FacetSetTest extends TestCase
 
     public function testRemoveInvalidFacet()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
@@ -234,10 +232,10 @@ class FacetSetTest extends TestCase
 
     public function testClearFacets()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
@@ -252,20 +250,20 @@ class FacetSetTest extends TestCase
 
     public function testSetFacets()
     {
-        $fq1 = new FacetQuery;
+        $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
 
-        $fq2 = new FacetQuery;
+        $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
         $facets = array('f1' => $fq1, 'f2' => $fq2);
 
         $this->facetSet->addFacets($facets);
 
-        $fq3 = new FacetQuery;
+        $fq3 = new FacetQuery();
         $fq3->setKey('f3')->setQuery('category:3');
 
-        $fq4 = new FacetQuery;
+        $fq4 = new FacetQuery();
         $fq4->setKey('f4')->setQuery('category:4');
 
         $facets = array('f3' => $fq3, 'f4' => $fq4);
@@ -332,6 +330,7 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
+     *
      * @param bool $add
      */
     public function testCreateFacetField(bool $add)
@@ -437,6 +436,6 @@ class FacetSetTest extends TestCase
     public function testSetAndGetExtractFromResponse()
     {
         $this->facetSet->setExtractFromResponse(true);
-        $this->assertSame(true, $this->facetSet->getExtractFromResponse());
+        $this->assertTrue($this->facetSet->getExtractFromResponse());
     }
 }

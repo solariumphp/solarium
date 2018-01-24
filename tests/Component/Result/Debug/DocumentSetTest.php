@@ -30,8 +30,7 @@ class DocumentSetTest extends TestCase
 
     public function testGetDocumentWithInvalidKey()
     {
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->result->getDocument('invalidkey')
         );
     }

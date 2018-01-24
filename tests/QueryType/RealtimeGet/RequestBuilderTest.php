@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\RealtimeGet;
 
 use PHPUnit\Framework\TestCase;
@@ -11,7 +10,7 @@ class RequestBuilderTest extends TestCase
 {
     public function testBuildSingleId()
     {
-        $query = new Query;
+        $query = new Query();
         $query->addId(123);
         $builder = new RequestBuilder();
         $request = $builder->build($query);
@@ -29,7 +28,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildMultiId()
     {
-        $query = new Query;
+        $query = new Query();
         $query->addId(123)->addId(456);
         $builder = new RequestBuilder();
         $request = $builder->build($query);

@@ -10,8 +10,7 @@ class TechproductsGuzzleTest extends AbstractTechproductsTest
     {
         if (!class_exists('\\GuzzleHttp\\Client')) {
             $this->markTestSkipped('Guzzle 6 not installed');
-        }
-        else {
+        } else {
             parent::setUp();
             $this->client->setAdapter('Solarium\Core\Client\Adapter\Guzzle3');
         }

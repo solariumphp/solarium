@@ -45,7 +45,7 @@ class CustomizeRequestTest extends TestCase
                     'persistent' => false,
                     'overwrite' => false,
                 ),
-            )
+            ),
         );
 
         $this->plugin->setOptions($options);
@@ -128,7 +128,7 @@ class CustomizeRequestTest extends TestCase
 
     public function testAddAndGetCustomization()
     {
-        $customization = new Customization;
+        $customization = new Customization();
         $customization->setKey('id1');
         $this->plugin->addCustomization($customization);
 
@@ -150,7 +150,7 @@ class CustomizeRequestTest extends TestCase
 
     public function testAddCustomizationWithoutKey()
     {
-        $customization = new Customization;
+        $customization = new Customization();
 
         $this->expectException(InvalidArgumentException::class);
         $this->plugin->addCustomization($customization);
@@ -158,10 +158,10 @@ class CustomizeRequestTest extends TestCase
 
     public function testAddCustomizationWithUsedKey()
     {
-        $customization1 = new Customization;
+        $customization1 = new Customization();
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new Customization;
+        $customization2 = new Customization();
         $customization2->setKey('id1')->setName('test2');
 
         $this->plugin->addCustomization($customization1);
@@ -171,7 +171,7 @@ class CustomizeRequestTest extends TestCase
 
     public function testAddDuplicateCustomizationWith()
     {
-        $customization = new Customization;
+        $customization = new Customization();
         $customization->setKey('id1')->setName('test1');
 
         $this->plugin->addCustomization($customization);
@@ -182,15 +182,15 @@ class CustomizeRequestTest extends TestCase
 
     public function testGetInvalidCustomization()
     {
-        $this->assertSame(null, $this->plugin->getCustomization('invalidkey'));
+        $this->assertNull($this->plugin->getCustomization('invalidkey'));
     }
 
     public function testAddCustomizations()
     {
-        $customization1 = new Customization;
+        $customization1 = new Customization();
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new Customization;
+        $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array('id1' => $customization1, 'id2' => $customization2);
@@ -201,10 +201,10 @@ class CustomizeRequestTest extends TestCase
 
     public function testRemoveCustomization()
     {
-        $customization1 = new Customization;
+        $customization1 = new Customization();
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new Customization;
+        $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array($customization1, $customization2);
@@ -219,10 +219,10 @@ class CustomizeRequestTest extends TestCase
 
     public function testRemoveCustomizationWithObjectInput()
     {
-        $customization1 = new Customization;
+        $customization1 = new Customization();
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new Customization;
+        $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array($customization1, $customization2);
@@ -237,10 +237,10 @@ class CustomizeRequestTest extends TestCase
 
     public function testRemoveInvalidCustomization()
     {
-        $customization1 = new Customization;
+        $customization1 = new Customization();
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new Customization;
+        $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array('id1' => $customization1, 'id2' => $customization2);
@@ -255,10 +255,10 @@ class CustomizeRequestTest extends TestCase
 
     public function testClearCustomizations()
     {
-        $customization1 = new Customization;
+        $customization1 = new Customization();
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new Customization;
+        $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
         $customizations = array($customization1, $customization2);
@@ -273,20 +273,20 @@ class CustomizeRequestTest extends TestCase
 
     public function testSetCustomizations()
     {
-        $customization1 = new Customization;
+        $customization1 = new Customization();
         $customization1->setKey('id1')->setName('test1');
 
-        $customization2 = new Customization;
+        $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
         $customizations1 = array('id1' => $customization1, 'id2' => $customization2);
 
         $this->plugin->addCustomizations($customizations1);
 
-        $customization3 = new Customization;
+        $customization3 = new Customization();
         $customization3->setKey('id3')->setName('test3');
 
-        $customization4 = new Customization;
+        $customization4 = new Customization();
         $customization4->setKey('id4')->setName('test4');
 
         $customizations2 = array('id3' => $customization3, 'id4' => $customization4);
@@ -316,7 +316,7 @@ class CustomizeRequestTest extends TestCase
         $this->plugin->addCustomization($input);
 
         $request = new Request();
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
         $this->assertSame(123, $request->getParam('xid'));
@@ -335,7 +335,7 @@ class CustomizeRequestTest extends TestCase
         $this->plugin->addCustomization($input);
 
         $request = new Request();
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
 
         $this->expectException(RuntimeException::class);
         $this->plugin->preExecuteRequest($event);
@@ -346,7 +346,7 @@ class CustomizeRequestTest extends TestCase
         $request = new Request();
         $originalRequest = clone $request;
 
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
         $this->assertEquals($originalRequest, $request);
@@ -372,7 +372,7 @@ class CustomizeRequestTest extends TestCase
         $this->plugin->addCustomization($input);
 
         $request = new Request();
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
         $this->assertSame(123, $request->getParam('xid'));
@@ -381,10 +381,10 @@ class CustomizeRequestTest extends TestCase
 
         // second use, only the header should be persistent
         $request = new Request();
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertSame(null, $request->getParam('xid'));
+        $this->assertNull($request->getParam('xid'));
 
         $this->assertEquals(array('X-my-auth: mypassword'), $request->getHeaders());
     }

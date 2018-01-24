@@ -16,7 +16,7 @@ class ComponentTest extends TestCase
 
     public function testSetAndGetQueryInstance()
     {
-        $query = new Query;
+        $query = new Query();
         $component = new TestComponent();
         $component->setQueryInstance($query);
         $this->assertEquals($query, $component->getQueryInstance());

@@ -15,7 +15,7 @@ class FieldTest extends TestCase
 
     public function setUp()
     {
-        $this->facet = new Field;
+        $this->facet = new Field();
     }
 
     public function testConfigMode()
@@ -96,7 +96,7 @@ class FieldTest extends TestCase
     public function testSetAndGetMissing()
     {
         $this->facet->setMissing(true);
-        $this->assertSame(true, $this->facet->getMissing());
+        $this->assertTrue($this->facet->getMissing());
     }
 
     public function testSetAndGetMethod()
@@ -114,6 +114,6 @@ class FieldTest extends TestCase
     public function testSetAndGetContainsIgnoreCase()
     {
         $this->facet->setContainsIgnoreCase(true);
-        $this->assertSame(true, $this->facet->getContainsIgnoreCase());
+        $this->assertTrue($this->facet->getContainsIgnoreCase());
     }
 }

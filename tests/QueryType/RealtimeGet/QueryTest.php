@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\RealtimeGet;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class QueryTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
     }
 
     public function testGetType()

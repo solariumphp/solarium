@@ -12,7 +12,7 @@ class PostCreateQueryTest extends TestCase
     {
         $type = 'testtype';
         $options = array('key' => 'value');
-        $query = new Query;
+        $query = new Query();
         $query->setQuery('test123');
 
         $event = new PostCreateQuery($type, $options, $query);

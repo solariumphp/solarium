@@ -40,15 +40,15 @@ class DebugTest extends TestCase
                                     array(
                                         'match' => true,
                                         'value' => 0.25,
-                                        'description' => 'weight(dummyfield:flachdach^250.0 in 1311) [], result of:'
+                                        'description' => 'weight(dummyfield:flachdach^250.0 in 1311) [], result of:',
                                     ),
                                     array(
                                         'match' => true,
                                         'value' => 0.25,
                                         'description' => 'tf(termFreq(text:ipod)=1)',
-                                    )
-                                )
-                            )
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -62,7 +62,7 @@ class DebugTest extends TestCase
                                 'match' => true,
                                 'value' => 0.7,
                                 'description' => 'tf(termFreq(text:ipod)=1)',
-                            )
+                            ),
                         ),
                     ),
                 ),
@@ -85,9 +85,9 @@ class DebugTest extends TestCase
                         'org.apache.solr.handler.component.MoreLikeThisComponent' => array(
                             'time' => 3,
                         ),
-                    )
-                )
-            )
+                    ),
+                ),
+            ),
         );
 
         $result = $this->parser->parse(null, null, $data);
@@ -108,20 +108,20 @@ class DebugTest extends TestCase
                 array(
                     'match' => true,
                     'value' => 0.25,
-                    'description' => 'weight(dummyfield:flachdach^250.0 in 1311) [], result of:'
+                    'description' => 'weight(dummyfield:flachdach^250.0 in 1311) [], result of:',
                 ),
                 array(
                     'match' => true,
                     'value' => 0.25,
                     'description' => 'tf(termFreq(text:ipod)=1)',
-                )
+                ),
             )
         );
         $this->assertEquals(array($expectedDetail), $doc->getDetails());
         $this->assertCount(1, $result->getExplainOther());
         $doc = $result->getExplainOther()->getDocument('IW-02');
         $this->assertEquals(0.6, $doc->getValue());
-        $this->assertEquals(true, $doc->getMatch());
+        $this->assertTrue($doc->getMatch());
         $this->assertEquals('fieldWeight(text:ipod in 6), product of:', $doc->getDescription());
         $this->assertEquals(
             array(new Detail(true, 0.7, 'tf(termFreq(text:ipod)=1)')),
@@ -146,7 +146,7 @@ class DebugTest extends TestCase
                 'parsedquery' => 'dummy-pq',
                 'QParser' => 'dummy-qp',
                 'otherQuery' => 'dummy-oq',
-            )
+            ),
         );
 
         $result = $this->parser->parse(null, null, $data);
@@ -162,6 +162,6 @@ class DebugTest extends TestCase
     public function testParseNoData()
     {
         $result = $this->parser->parse(null, null, array());
-        $this->assertEquals(null, $result);
+        $this->assertNull($result);
     }
 }

@@ -15,10 +15,10 @@ class ResultTest extends AbstractResultTest
 
         $this->maxScore = 0.91;
         $this->docs = array(
-            new Document(array('id'=>1, 'title'=>'doc1', 'score' => 0.91)),
-            new Document(array('id'=>2, 'title'=>'doc2', 'score' => 0.654)),
-            new Document(array('id'=>3, 'title'=>'doc3', 'score' => 0.23)),
-            new Document(array('id'=>4, 'title'=>'doc4', 'score' => 0.08)),
+            new Document(array('id' => 1, 'title' => 'doc1', 'score' => 0.91)),
+            new Document(array('id' => 2, 'title' => 'doc2', 'score' => 0.654)),
+            new Document(array('id' => 3, 'title' => 'doc3', 'score' => 0.23)),
+            new Document(array('id' => 4, 'title' => 'doc4', 'score' => 0.08)),
         );
 
         $this->result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, Query::FILTER_MODE_MARK);
@@ -28,7 +28,7 @@ class ResultTest extends AbstractResultTest
     {
         foreach ($this->result as $key => $doc) {
             $this->assertSame($this->docs[$key]->title, $doc->title);
-            $this->assertSame(($key == 3), $doc->markedAsLowScore());
+            $this->assertSame((3 == $key), $doc->markedAsLowScore());
         }
     }
 

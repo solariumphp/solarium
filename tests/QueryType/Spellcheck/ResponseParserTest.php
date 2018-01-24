@@ -26,8 +26,8 @@ class ResponseParserTest extends TestCase
                         'endOffset' => 7,
                         'suggestion' => array(
                             'disk',
-                            'ddr'
-                        )
+                            'ddr',
+                        ),
                     ),
                     'vid',
                     array(
@@ -36,7 +36,7 @@ class ResponseParserTest extends TestCase
                         'endOffset' => 5,
                         'suggestion' => array(
                             'video',
-                        )
+                        ),
                     ),
                     'vid',
                     array(
@@ -45,10 +45,10 @@ class ResponseParserTest extends TestCase
                         'endOffset' => 9,
                         'suggestion' => array(
                             'video',
-                        )
+                        ),
                     ),
                     'collation',
-                    'disk video'
+                    'disk video',
                 ),
             ),
         );
@@ -63,12 +63,12 @@ class ResponseParserTest extends TestCase
             ->method('getQuery')
             ->will($this->returnValue($query));
 
-        $parser = new ResponseParser;
+        $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
         $expected = array(
             'd' => new Term(2, 3, 7, array('disk', 'ddr')),
-            'vid' => new Term(1, 2, 5, array('video'))
+            'vid' => new Term(1, 2, 5, array('video')),
         );
         $allExpected = array(
             new Term(2, 3, 7, array('disk', 'ddr')),

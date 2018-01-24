@@ -25,7 +25,7 @@ class SpellcheckTest extends TestCase
 
         $this->collations = array(
             'dummy1',
-            'dummy2'
+            'dummy2',
         );
         $this->correctlySpelled = false;
 
@@ -40,7 +40,7 @@ class SpellcheckTest extends TestCase
     public function testGetCollationWithoutData()
     {
         $result = new Result($this->suggestions, array(), $this->correctlySpelled);
-        $this->assertEquals(null, $result->getCollation());
+        $this->assertNull($result->getCollation());
     }
 
     public function testGetCollationWithKey()
@@ -60,17 +60,17 @@ class SpellcheckTest extends TestCase
 
     public function testGetSuggestion()
     {
-         $this->assertEquals($this->suggestions['key1'], $this->result->getSuggestion('key1'));
+        $this->assertEquals($this->suggestions['key1'], $this->result->getSuggestion('key1'));
     }
 
     public function testGetInvalidSuggestion()
     {
-         $this->assertEquals(null, $this->result->getSuggestion('key3'));
+        $this->assertNull($this->result->getSuggestion('key3'));
     }
 
     public function testGetSuggestions()
     {
-         $this->assertEquals($this->suggestions, $this->result->getSuggestions());
+        $this->assertEquals($this->suggestions, $this->result->getSuggestions());
     }
 
     public function testIterator()

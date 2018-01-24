@@ -11,7 +11,7 @@ class ConfigurableTest extends TestCase
 {
     public function testConstructorNoConfig()
     {
-        $configTest = new ConfigTest;
+        $configTest = new ConfigTest();
         $defaultOptions = array(
             'option1' => 1,
             'option2' => 'value 2',
@@ -22,7 +22,7 @@ class ConfigurableTest extends TestCase
 
     public function testConstructorWithObject()
     {
-        $configTest = new ConfigTest(new MyConfigObject);
+        $configTest = new ConfigTest(new MyConfigObject());
 
         // the default options should be merged with the constructor values,
         // overwriting any default values.
@@ -60,20 +60,20 @@ class ConfigurableTest extends TestCase
 
     public function testGetOption()
     {
-        $configTest = new ConfigTest;
+        $configTest = new ConfigTest();
         $this->assertSame(1, $configTest->getOption('option1'));
     }
 
     public function testGetOptionWIthInvalidName()
     {
         $configTest = new ConfigTest();
-        $this->assertSame(null, $configTest->getOption('invalidoptionname'));
+        $this->assertNull($configTest->getOption('invalidoptionname'));
     }
 
     public function testInitialisation()
     {
         $this->expectException('Solarium\Exception\RuntimeException');
-        new ConfigTestInit;
+        new ConfigTestInit();
     }
 
     public function testSetOptions()

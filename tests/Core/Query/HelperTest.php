@@ -21,7 +21,7 @@ class HelperTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new SelectQuery;
+        $this->query = new SelectQuery();
         $this->helper = new Helper($this->query);
     }
 
@@ -235,8 +235,7 @@ class HelperTest extends TestCase
         );
 
         //allow negative dates.
-        $this->assertNotSame(
-            false,
+        $this->assertNotFalse(
             $this->helper->formatDate(strtotime('2011-10-01')),
             'Expects negative timestamp input to be accepted'
         );
@@ -271,7 +270,7 @@ class HelperTest extends TestCase
 
     public function testFormatDateInputDateTime()
     {
-        date_default_timezone_set("UTC"); // prevent timezone differences
+        date_default_timezone_set('UTC'); // prevent timezone differences
 
         $this->assertFalse(
             $this->helper->formatDate(new \stdClass()),
@@ -287,7 +286,7 @@ class HelperTest extends TestCase
 
     public function testFormatDateInputDateTimeImmutable()
     {
-        date_default_timezone_set("UTC"); // prevent timezone differences
+        date_default_timezone_set('UTC'); // prevent timezone differences
 
         $this->assertFalse(
             $this->helper->formatDate(new \stdClass()),
@@ -416,6 +415,6 @@ class HelperTest extends TestCase
     {
         $date = new \DateTime('@'.$timestamp);
 
-        return strstr($date->format(\DateTime::ISO8601), '+', true) . 'Z';
+        return strstr($date->format(\DateTime::ISO8601), '+', true).'Z';
     }
 }

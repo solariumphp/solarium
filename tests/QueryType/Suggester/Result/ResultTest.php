@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Suggester\Result;
 
 use PHPUnit\Framework\TestCase;
@@ -73,7 +72,7 @@ class ResultTest extends TestCase
 
     public function testGetDictionaryWithInvalidFieldName()
     {
-        $this->assertSame(null, $this->result->getDictionary('dictionary3'));
+        $this->assertNull($this->result->getDictionary('dictionary3'));
     }
 
     public function testCount()

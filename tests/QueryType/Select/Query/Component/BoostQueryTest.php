@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
 use PHPUnit\Framework\TestCase;
@@ -12,12 +11,12 @@ class BoostQueryTest extends TestCase
 
     public function setUp()
     {
-        $this->boostQuery = new BoostQuery;
+        $this->boostQuery = new BoostQuery();
     }
 
     public function testConfigMode()
     {
-        $fq = new BoostQuery(array('key' => 'k1', 'query'=> 'id:[10 TO 20]'));
+        $fq = new BoostQuery(array('key' => 'k1', 'query' => 'id:[10 TO 20]'));
 
         $this->assertSame('k1', $fq->getKey());
         $this->assertSame('id:[10 TO 20]', $fq->getQuery());

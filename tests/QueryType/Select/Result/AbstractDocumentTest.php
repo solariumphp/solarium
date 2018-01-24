@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Result;
 
 use PHPUnit\Framework\TestCase;
@@ -31,8 +30,7 @@ abstract class AbstractDocumentTest extends TestCase
             $this->doc->categories
         );
 
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->doc->invalidfieldname
         );
     }
@@ -77,8 +75,7 @@ abstract class AbstractDocumentTest extends TestCase
             $this->doc['categories']
         );
 
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->doc['invalidfieldname']
         );
     }

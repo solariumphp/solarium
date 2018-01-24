@@ -1,7 +1,7 @@
 <?php
 
-
 namespace Solarium\Tests\Component\RequestBuilder;
+
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\DistributedSearch as Component;
 use Solarium\Component\RequestBuilder\DistributedSearch as RequestBuilder;
@@ -11,7 +11,7 @@ class DistributedSearchTest extends TestCase
 {
     public function testBuildComponentWithShards()
     {
-        $builder = new RequestBuilder;
+        $builder = new RequestBuilder();
         $request = new Request();
 
         $component = new Component();
@@ -37,7 +37,7 @@ class DistributedSearchTest extends TestCase
 
     public function testBuildComponentWithCollections()
     {
-        $builder = new RequestBuilder;
+        $builder = new RequestBuilder();
         $request = new Request();
 
         $url = 'localhost:8983/solr/collection';

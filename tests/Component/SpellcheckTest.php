@@ -16,8 +16,8 @@ class SpellcheckTest extends TestCase
 
     public function setUp()
     {
-        $this->spellCheck = new Spellcheck;
-        $this->spellCheck->setQueryInstance(new Query);
+        $this->spellCheck = new Spellcheck();
+        $this->spellCheck->setQueryInstance(new Query());
     }
 
     public function testGetType()

@@ -33,16 +33,16 @@ class PluginTest extends TestCase
     {
         $this->markTestSkipped('This test is currently skipped for unknown reasons.');
 
-        $this->assertSame(null, $this->plugin->preCreateRequest(null));
-        $this->assertSame(null, $this->plugin->postCreateRequest(null, null));
-        $this->assertSame(null, $this->plugin->preExecuteRequest(null));
-        $this->assertSame(null, $this->plugin->postExecuteRequest(null, null));
-        $this->assertSame(null, $this->plugin->preExecute(null));
-        $this->assertSame(null, $this->plugin->postExecute(null, null));
-        $this->assertSame(null, $this->plugin->preCreateResult(null, null));
-        $this->assertSame(null, $this->plugin->postCreateResult(null, null, null));
-        $this->assertSame(null, $this->plugin->preCreateQuery(null, null));
-        $this->assertSame(null, $this->plugin->postCreateQuery(null, null, null));
+        $this->assertNull($this->plugin->preCreateRequest(null));
+        $this->assertNull($this->plugin->postCreateRequest(null, null));
+        $this->assertNull($this->plugin->preExecuteRequest(null));
+        $this->assertNull($this->plugin->postExecuteRequest(null, null));
+        $this->assertNull($this->plugin->preExecute(null));
+        $this->assertNull($this->plugin->postExecute(null, null));
+        $this->assertNull($this->plugin->preCreateResult(null, null));
+        $this->assertNull($this->plugin->postCreateResult(null, null, null));
+        $this->assertNull($this->plugin->preCreateQuery(null, null));
+        $this->assertNull($this->plugin->postCreateQuery(null, null, null));
     }
 }
 

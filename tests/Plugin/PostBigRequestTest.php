@@ -44,7 +44,7 @@ class PostBigRequestTest extends TestCase
     {
         // create a very long query
         $fq = '';
-        for ($i=1; $i<=1000; $i++) {
+        for ($i = 1; $i <= 1000; ++$i) {
             $fq .= ' OR price:'.$i;
         }
         $fq = substr($fq, 4);
@@ -86,7 +86,7 @@ class PostBigRequestTest extends TestCase
 
     public function testPluginIntegration()
     {
-        $client = new Client;
+        $client = new Client();
         $client->registerPlugin('testplugin', $this->plugin);
         $this->plugin->setMaxQueryStringLength(1); // this forces POST for even the smallest queries
 

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ class DistributedSearchTest extends TestCase
 
     public function setUp()
     {
-        $this->distributedSearch = new DistributedSearch;
+        $this->distributedSearch = new DistributedSearch();
     }
 
     public function testConfigModeForShards()
@@ -26,7 +25,7 @@ class DistributedSearchTest extends TestCase
             'shards' => array(
                 'shard1' => 'localhost:8983/solr/shard1',
                 'shard2' => 'localhost:8983/solr/shard2',
-            )
+            ),
         );
 
         $this->distributedSearch->setOptions($options);
@@ -41,7 +40,7 @@ class DistributedSearchTest extends TestCase
             'collections' => array(
                 'collection1' => 'localhost:8983/solr/collection1',
                 'collection2' => 'localhost:8983/solr/collection2',
-            )
+            ),
         );
 
         $this->distributedSearch->setOptions($options);
@@ -71,7 +70,7 @@ class DistributedSearchTest extends TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertSame(null, $this->distributedSearch->getResponseParser());
+        $this->assertNull($this->distributedSearch->getResponseParser());
     }
 
     public function testGetRequestBuilder()

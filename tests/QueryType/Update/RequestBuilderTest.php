@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update;
 
 use PHPUnit\Framework\TestCase;
@@ -9,7 +8,6 @@ use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
-use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
 use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\RequestBuilder;
@@ -28,8 +26,8 @@ class RequestBuilderTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
-        $this->builder = new RequestBuilder;
+        $this->query = new Query();
+        $this->builder = new RequestBuilder();
     }
 
     public function testGetMethod()
@@ -52,7 +50,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlNoParamsSingleDocument()
     {
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument(new Document(array('id' => 1)));
 
         $this->assertSame(
@@ -63,7 +61,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlWithBooleanValues()
     {
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument(new Document(array('id' => 1, 'visible' => true, 'forsale' => false)));
 
         $this->assertSame(
@@ -85,7 +83,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlSpecialCharacters()
     {
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument(new Document(array('id' => 1, 'text' => 'test < 123 > test')));
 
         $this->assertSame(
@@ -96,17 +94,17 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlMultivalueField()
     {
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument(new Document(array('id' => array(1, 2, 3), 'text' => 'test < 123 > test')));
 
         $this->assertSame(
-            '<add>' .
-            '<doc>' .
-            '<field name="id">1</field>' .
-            '<field name="id">2</field>' .
-            '<field name="id">3</field>' .
-            '<field name="text">test &lt; 123 &gt; test</field>' .
-            '</doc>' .
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1</field>'.
+            '<field name="id">2</field>'.
+            '<field name="id">3</field>'.
+            '<field name="text">test &lt; 123 &gt; test</field>'.
+            '</doc>'.
             '</add>',
             $this->builder->buildAddXml($command)
         );
@@ -114,7 +112,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlWithNestedDocuments()
     {
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument(
             new Document(
                 array(
@@ -123,29 +121,29 @@ class RequestBuilderTest extends TestCase
                             'nested_id' => 42,
                             'customer_ids' => array(
                                 15,
-                                16
-                            )
+                                16,
+                            ),
                         ),
                         2,
-                        'foo'
+                        'foo',
                     ),
-                    'text' => 'test < 123 > test'
+                    'text' => 'test < 123 > test',
                 )
             )
         );
 
         $this->assertSame(
-            '<add>' .
-            '<doc>' .
-            '<doc>' .
-            '<field name="nested_id">42</field>' .
-            '<field name="customer_ids">15</field>' .
-            '<field name="customer_ids">16</field>' .
-            '</doc>' .
-            '<field name="id">2</field>' .
-            '<field name="id">foo</field>' .
-            '<field name="text">test &lt; 123 &gt; test</field>' .
-            '</doc>' .
+            '<add>'.
+            '<doc>'.
+            '<doc>'.
+            '<field name="nested_id">42</field>'.
+            '<field name="customer_ids">15</field>'.
+            '<field name="customer_ids">16</field>'.
+            '</doc>'.
+            '<field name="id">2</field>'.
+            '<field name="id">foo</field>'.
+            '<field name="text">test &lt; 123 &gt; test</field>'.
+            '</doc>'.
             '</add>',
             $this->builder->buildAddXml($command)
         );
@@ -155,7 +153,7 @@ class RequestBuilderTest extends TestCase
     {
         $doc = new Document(array('id' => 1));
         $doc->setBoost(2.5);
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument($doc);
 
         $this->assertSame(
@@ -168,7 +166,7 @@ class RequestBuilderTest extends TestCase
     {
         $doc = new Document(array('id' => 1));
         $doc->setFieldBoost('id', 2.1);
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument($doc);
 
         $this->assertSame(
@@ -179,7 +177,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlMultipleDocuments()
     {
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument(new Document(array('id' => 1)));
         $command->addDocument(new Document(array('id' => 2)));
 
@@ -201,13 +199,13 @@ class RequestBuilderTest extends TestCase
         $command->addDocument($doc);
 
         $this->assertSame(
-            '<add>' .
-            '<doc>' .
-            '<field name="id">1</field>' .
-            '<field name="category" update="add">123</field>' .
-            '<field name="name" boost="2.5" update="set">test</field>' .
-            '<field name="stock" update="inc">2</field>' .
-            '</doc>' .
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1</field>'.
+            '<field name="category" update="add">123</field>'.
+            '<field name="name" boost="2.5" update="set">test</field>'.
+            '<field name="stock" update="inc">2</field>'.
+            '</doc>'.
             '</add>',
             $this->builder->buildAddXml($command)
         );
@@ -226,14 +224,14 @@ class RequestBuilderTest extends TestCase
         $command->addDocument($doc);
 
         $this->assertSame(
-            '<add>' .
-            '<doc>' .
-            '<field name="id">1</field>' .
-            '<field name="category" update="add">123</field>' .
-            '<field name="category" update="add">234</field>' .
-            '<field name="name" boost="2.3" update="set">test</field>' .
-            '<field name="stock" update="inc">2</field>' .
-            '</doc>' .
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1</field>'.
+            '<field name="category" update="add">123</field>'.
+            '<field name="category" update="add">234</field>'.
+            '<field name="name" boost="2.3" update="set">test</field>'.
+            '<field name="stock" update="inc">2</field>'.
+            '</doc>'.
             '</add>',
             $this->builder->buildAddXml($command)
         );
@@ -244,7 +242,7 @@ class RequestBuilderTest extends TestCase
         $doc = new Document(array('id' => 1));
         $doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
 
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument($doc);
 
         $this->assertSame(
@@ -255,7 +253,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlWithDateTime()
     {
-        $command = new AddCommand;
+        $command = new AddCommand();
         $command->addDocument(
             new Document(array('id' => 1, 'datetime' => new \DateTime('2013-01-15 14:41:58', new \DateTimeZone('Europe/London'))))
         );
@@ -276,11 +274,11 @@ class RequestBuilderTest extends TestCase
         $command->addDocument($doc);
 
         $this->assertSame(
-            '<add>' .
-            '<doc>' .
-            '<field name="employeeId">05991</field>' .
-            '<field name="skills" update="set" null="true"></field>' .
-            '</doc>' .
+            '<add>'.
+            '<doc>'.
+            '<field name="employeeId">05991</field>'.
+            '<field name="skills" update="set" null="true"></field>'.
+            '</doc>'.
             '</add>',
             $this->builder->buildAddXml($command)
         );
@@ -288,7 +286,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildDeleteXml()
     {
-        $command = new DeleteCommand;
+        $command = new DeleteCommand();
 
         $this->assertSame(
             '<delete></delete>',
@@ -298,7 +296,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildDeleteXmlSingleId()
     {
-        $command = new DeleteCommand;
+        $command = new DeleteCommand();
         $command->addId(123);
 
         $this->assertSame(
@@ -321,7 +319,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildDeleteXmlSingleQuery()
     {
-        $command = new DeleteCommand;
+        $command = new DeleteCommand();
         $command->addQuery('*:*');
 
         $this->assertSame(
@@ -332,7 +330,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildDeleteXmlMultipleQueries()
     {
-        $command = new DeleteCommand;
+        $command = new DeleteCommand();
         $command->addQuery('published:false');
         $command->addQuery('id:[10 TO 20]');
 
@@ -344,7 +342,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildDeleteXmlIdsAndQueries()
     {
-        $command = new DeleteCommand;
+        $command = new DeleteCommand();
         $command->addId(123);
         $command->addId(456);
         $command->addQuery('published:false');
@@ -358,7 +356,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildDeleteXmlIdAndQuerySpecialChars()
     {
-        $command = new DeleteCommand;
+        $command = new DeleteCommand();
         $command->addId('special<char>id');
         $command->addQuery('id:special<char>id');
 
@@ -390,7 +388,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildCommitXml()
     {
-        $command = new CommitCommand;
+        $command = new CommitCommand();
 
         $this->assertSame(
             '<commit/>',
@@ -427,20 +425,20 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             '<update>'
-            . '<delete><id>1</id></delete>'
-            . '<rollback/>'
-            . '<delete><query>*:*</query></delete>'
-            . '<add><doc><field name="id">1</field></doc></add>'
-            . '<commit/>'
-            . '<optimize/>'
-            . '</update>',
+            .'<delete><id>1</id></delete>'
+            .'<rollback/>'
+            .'<delete><query>*:*</query></delete>'
+            .'<add><doc><field name="id">1</field></doc></add>'
+            .'<commit/>'
+            .'<optimize/>'
+            .'</update>',
             $this->builder->getRawData($this->query)
         );
     }
 
     public function testInvalidCommandInRequest()
     {
-        $this->query->add('invalidcommand', new InvalidCommand);
+        $this->query->add('invalidcommand', new InvalidCommand());
 
         $this->expectException('Solarium\Exception\RuntimeException');
         $this->builder->build($this->query);

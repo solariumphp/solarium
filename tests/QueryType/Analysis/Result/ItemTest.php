@@ -83,7 +83,7 @@ class ItemTest extends TestCase
             'type' => '<dummytype>',
         );
         $item = new Item($data);
-        $this->assertSame(null, $item->getRawText());
+        $this->assertNull($item->getRawText());
     }
 
     public function testGetMatch()

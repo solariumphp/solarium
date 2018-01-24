@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Select\Result;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Result\Result;
 
@@ -34,8 +32,8 @@ abstract class AbstractResultTest extends TestCase
         $this->maxScore = 0.91;
 
         $this->docs = array(
-            new Document(array('id'=>1, 'title'=>'doc1')),
-            new Document(array('id'=>1, 'title'=>'doc1')),
+            new Document(array('id' => 1, 'title' => 'doc1')),
+            new Document(array('id' => 1, 'title' => 'doc1')),
         );
 
         $this->facetSet = 'dummy-facetset-value';
@@ -99,8 +97,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testGetInvalidComponent()
     {
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->result->getComponent('invalid')
         );
     }

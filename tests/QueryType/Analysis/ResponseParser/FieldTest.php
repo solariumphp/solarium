@@ -36,17 +36,17 @@ class FieldTest extends TestCase
                                         'position' => 4,
                                         'positionHistory' => 'test',
                                         'type' => 'test',
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'responseHeader' => array(
                 'status' => 1,
                 'QTime' => 5,
-            )
+            ),
         );
 
         $resultStub = $this->createMock(Result::class);
@@ -55,7 +55,7 @@ class FieldTest extends TestCase
              ->will($this->returnValue($data));
         $resultStub->expects($this->once())
                      ->method('getQuery')
-                     ->will($this->returnValue(new Query));
+                     ->will($this->returnValue(new Query()));
 
         $parser = new FieldParser();
         $result = $parser->parse($resultStub);
@@ -76,7 +76,7 @@ class FieldTest extends TestCase
             'responseHeader' => array(
                 'status' => 1,
                 'QTime' => 5,
-            )
+            ),
         );
 
         $resultStub = $this->createMock(Result::class);
@@ -91,7 +91,7 @@ class FieldTest extends TestCase
             array(
                 'status' => 1,
                 'queryTime' => 5,
-                'items' => array()
+                'items' => array(),
             ),
             $result
         );

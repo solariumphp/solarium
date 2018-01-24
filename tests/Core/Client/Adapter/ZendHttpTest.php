@@ -71,7 +71,7 @@ class ZendHttpTest extends TestCase
         $responseData = 'abc';
         $handler = 'myhandler';
         $headers = array(
-            'X-test: 123'
+            'X-test: 123',
         );
         $params = array('a' => 1, 'b' => 2);
 
@@ -119,7 +119,7 @@ class ZendHttpTest extends TestCase
         $responseData = 'abc';
         $handler = 'myhandler';
         $headers = array(
-            'X-test: 123'
+            'X-test: 123',
         );
         $params = array('a' => 1, 'b' => 2);
 

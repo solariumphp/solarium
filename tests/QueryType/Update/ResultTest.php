@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update;
 
 use Solarium\QueryType\Update\Result as UpdateResult;

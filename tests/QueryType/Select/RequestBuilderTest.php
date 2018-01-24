@@ -23,8 +23,8 @@ class RequestBuilderTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
-        $this->builder = new RequestBuilder;
+        $this->query = new Query();
+        $this->builder = new RequestBuilder();
     }
 
     public function testGetMethod()
@@ -82,7 +82,7 @@ class RequestBuilderTest extends TestCase
         );
         $request = $this->builder->build($this->query);
 
-        $this->assertSame(null, $request->getRawData());
+        $this->assertNull($request->getRawData());
 
         $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc'.

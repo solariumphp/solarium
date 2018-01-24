@@ -18,7 +18,7 @@ class DocumentTest extends TestCase
             'responseHeader' => array(
                 'status' => 1,
                 'QTime' => 5,
-            )
+            ),
         );
 
         $resultStub = $this->createMock(Result::class);

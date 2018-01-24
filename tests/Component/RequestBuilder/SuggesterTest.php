@@ -1,7 +1,7 @@
 <?php
 
-
 namespace Solarium\Tests\Component\RequestBuilder;
+
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\RequestBuilder\Suggester as RequestBuilder;
 use Solarium\Component\Suggester as Component;

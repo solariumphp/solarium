@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
 use PHPUnit\Framework\TestCase;
@@ -11,7 +10,7 @@ class RollbackTest extends TestCase
 {
     public function testGetType()
     {
-        $command = new Rollback;
+        $command = new Rollback();
         $this->assertSame(
             Query::COMMAND_ROLLBACK,
             $command->getType()

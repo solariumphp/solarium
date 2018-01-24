@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
 use PHPUnit\Framework\TestCase;
@@ -14,7 +13,7 @@ class AddTest extends TestCase
 
     public function setUp()
     {
-        $this->command = new Add;
+        $this->command = new Add();
     }
 
     public function testGetType()
@@ -44,7 +43,7 @@ class AddTest extends TestCase
         }
 
         try {
-            $doc = new \stdClass;
+            $doc = new \stdClass();
             $this->command->addDocument($doc);
 
             $this->fail(
@@ -157,8 +156,7 @@ class AddTest extends TestCase
     public function testGetAndSetOverwrite()
     {
         $this->command->setOverwrite(false);
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $this->command->getOverwrite()
         );
     }

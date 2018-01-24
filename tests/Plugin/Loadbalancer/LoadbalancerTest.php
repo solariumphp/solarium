@@ -59,7 +59,7 @@ class LoadbalancerTest extends TestCase
                 'server1' => 10,
                 'server2' => 5,
             ),
-            'blockedquerytype' => array(Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS)
+            'blockedquerytype' => array(Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS),
         );
 
         $this->plugin->setOptions($options);
@@ -78,7 +78,7 @@ class LoadbalancerTest extends TestCase
     public function testSetAndGetFailoverEnabled()
     {
         $this->plugin->setFailoverEnabled(true);
-        $this->assertSame(true, $this->plugin->getFailoverEnabled());
+        $this->assertTrue($this->plugin->getFailoverEnabled());
     }
 
     public function testSetAndGetFailoverMaxRetries()
@@ -291,7 +291,7 @@ class LoadbalancerTest extends TestCase
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
 
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
         $this->assertSame(
@@ -316,7 +316,7 @@ class LoadbalancerTest extends TestCase
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
 
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
         $this->assertSame(
@@ -328,7 +328,7 @@ class LoadbalancerTest extends TestCase
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
 
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
         $this->assertSame(
@@ -351,7 +351,7 @@ class LoadbalancerTest extends TestCase
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
 
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
         $this->assertSame(
@@ -359,8 +359,7 @@ class LoadbalancerTest extends TestCase
             $this->client->getEndpoint()->getHost()
         );
 
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $this->plugin->getLastEndpoint()
         );
     }
@@ -378,7 +377,7 @@ class LoadbalancerTest extends TestCase
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
 
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
         $this->assertTrue(
@@ -404,7 +403,7 @@ class LoadbalancerTest extends TestCase
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
 
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
         $this->assertSame(
@@ -439,7 +438,7 @@ class LoadbalancerTest extends TestCase
             'Maximum number of loadbalancer retries reached'
         );
 
-        $event = new PreExecuteRequestEvent($request, new Endpoint);
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
     }
 }
@@ -449,13 +448,13 @@ class TestLoadbalancer extends Loadbalancer
     protected $counter = 0;
 
     /**
-     * Get options array for a randomized endpoint
+     * Get options array for a randomized endpoint.
      *
      * @return array
      */
     protected function getRandomEndpoint()
     {
-        $this->counter++;
+        ++$this->counter;
         $endpointKey = 'server'.$this->counter;
 
         $this->endpointExcludes[] = $endpointKey;
@@ -478,7 +477,7 @@ class TestAdapterForFailover extends HttpAdapter
 
     public function execute($request, $endpoint)
     {
-        $this->counter++;
+        ++$this->counter;
         if ($this->counter <= $this->failCount) {
             throw new HttpException('failover exception');
         }

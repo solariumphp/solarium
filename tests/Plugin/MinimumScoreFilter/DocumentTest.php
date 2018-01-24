@@ -16,10 +16,10 @@ class DocumentTest extends AbstractDocumentTest
 
     public function testMarkedAsLowScore()
     {
-        $this->assertSame(true, $this->doc->markedAsLowScore());
+        $this->assertTrue($this->doc->markedAsLowScore());
 
         $doc2 = new Document($this->fields);
         $filterDoc2 = new FilterDocument($doc2, false);
-        $this->assertSame(false, $filterDoc2->markedAsLowScore());
+        $this->assertFalse($filterDoc2->markedAsLowScore());
     }
 }

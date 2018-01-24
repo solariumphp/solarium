@@ -15,7 +15,7 @@ class FieldTest extends TestCase
 
     public function setUp()
     {
-        $this->query = new Field;
+        $this->query = new Field();
     }
 
     public function testGetType()
