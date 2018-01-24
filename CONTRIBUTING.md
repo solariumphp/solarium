@@ -21,4 +21,4 @@ If you are uncertain about any part or need help please feel free to ask for hel
 * A pull request should be mergeable (fast-forward) if not, you will be asked to update it.
 * Ideally any change should include updated or new unittests to cover the changes. You can submit a PR without tests, but it will take longer to merge as someone else will need to fix the test coverage.
 * Solarium follows the Symfony2 code standards: http://symfony.com/doc/current/contributing/code/standards.html
-* Each PR will be checked by the CI environment automatically. Ofcourse anything other than a 'green' status needs to be fixed before a PR can be merged.
+* Each PR will be checked by the CI environment automatically. Of course anything other than a 'green' status needs to be fixed before a PR can be merged.
