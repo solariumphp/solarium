@@ -793,9 +793,6 @@ class ClientTest extends TestCase
                  ->method('preExecute')
                  ->with($this->equalTo($expectedEvent));
 
-        //$dispatcher = $this->createMock(EventDispatcherInterface::class);
-        //$mock->method('getEventDispatcher')
-        //    ->willReturn($dispatcher);
         $mock->getEventDispatcher()->addListener(Events::PRE_EXECUTE, array($observer, 'preExecute'));
 
         if (method_exists($expectedEvent, 'setDispatcher')) {
