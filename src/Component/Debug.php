@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -46,7 +46,7 @@ use Solarium\Component\ResponseParser\Debug as ResponseParser;
 /**
  * Debug component.
  *
- * @link http://wiki.apache.org/solr/CommonQueryParameters#Debugging
+ * @see http://wiki.apache.org/solr/CommonQueryParameters#Debugging
  */
 class Debug extends AbstractComponent
 {

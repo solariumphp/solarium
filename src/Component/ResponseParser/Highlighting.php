@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\Component\ResponseParser;
 
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\Component\Highlighting\Highlighting as HighlightingComponent;
 use Solarium\Component\Result\Highlighting\Highlighting as HighlightingResult;
 use Solarium\Component\Result\Highlighting\Result;
+use Solarium\QueryType\Select\Query\Query;
 
 /**
  * Parse select component Highlighting result from the data.
@@ -61,7 +61,7 @@ class Highlighting implements ComponentParserInterface
      */
     public function parse($query, $highlighting, $data)
     {
-        $results = array();
+        $results = [];
         if (isset($data['highlighting'])) {
             $highlightResults = $data['highlighting'];
             foreach ($highlightResults as $key => $result) {

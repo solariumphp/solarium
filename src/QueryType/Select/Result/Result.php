@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -41,13 +41,13 @@
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Component\ComponentAwareQueryInterface;
-use Solarium\Core\Query\Result\QueryType as BaseResult;
-use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
-use Solarium\Component\Result\Stats\Result as StatsResult;
 use Solarium\Component\Result\Debug\Result as DebugResult;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
 use Solarium\Component\Result\Highlighting\Result as HighlightingResult;
 use Solarium\Component\Result\MoreLikeThis\Result as MoreLikeThisResult;
+use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
+use Solarium\Component\Result\Stats\Result as StatsResult;
+use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**
  * Select query result.

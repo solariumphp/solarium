@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -62,7 +62,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * Set handler option.
@@ -140,7 +140,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     /**
      * Set omitHeader option.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -152,7 +152,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     /**
      * Get omitHeader option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getOmitHeader()
     {
@@ -229,7 +229,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     public function getResponseWriter()
     {
         $responseWriter = $this->getOption('responsewriter');
-        if ($responseWriter === null) {
+        if (null === $responseWriter) {
             $responseWriter = self::WT_JSON;
         }
 

@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait DisMaxTrait
 {
-
     /**
      * Get a DisMax component instance.
      *
@@ -21,5 +20,4 @@ trait DisMaxTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_DISMAX, true);
     }
-
 }

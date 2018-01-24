@@ -32,7 +32,7 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -62,8 +62,8 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $data = $result->getData();
         $query = $result->getQuery();
 
-        $suggestions = array();
-        $allSuggestions = array();
+        $suggestions = [];
+        $allSuggestions = [];
         $collation = null;
 
         if (isset($data['spellcheck']['suggestions']) && is_array($data['spellcheck']['suggestions'])) {
@@ -75,11 +75,11 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             }
 
             foreach ($suggestResults as $term => $termData) {
-                if ($term == 'collation') {
+                if ('collation' == $term) {
                     $collation = $termData;
                 } else {
                     if (!array_key_exists(0, $termData)) {
-                        $termData = array($termData);
+                        $termData = [$termData];
                     }
 
                     foreach ($termData as $currentTermData) {
@@ -95,11 +95,11 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
         return $this->addHeaderInfo(
             $data,
-            array(
+            [
                 'results' => $suggestions,
                 'all' => $allSuggestions,
                 'collation' => $collation,
-            )
+            ]
         );
     }
 

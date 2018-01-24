@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -63,7 +63,7 @@ class ValueGroupResult extends StandardValueGroup
     protected $filterRatio;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $filtered = false;
 

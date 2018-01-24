@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,14 +40,14 @@
 
 namespace Solarium\QueryType\Update\Query\Command;
 
-use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 use Solarium\Exception\RuntimeException;
+use Solarium\QueryType\Update\Query\Document\DocumentInterface;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
  * Update query add command.
  *
- * @link http://wiki.apache.org/solr/UpdateXmlMessages#add.2BAC8-update
+ * @see http://wiki.apache.org/solr/UpdateXmlMessages#add.2BAC8-update
  */
 class Add extends AbstractCommand
 {
@@ -56,7 +56,7 @@ class Add extends AbstractCommand
      *
      * @var \Solarium\QueryType\Update\Query\Document\DocumentInterface[]
      */
-    protected $documents = array();
+    protected $documents = [];
 
     /**
      * Get command type.
@@ -71,9 +71,10 @@ class Add extends AbstractCommand
     /**
      * Add a single document.
      *
-     * @throws RuntimeException
      *
      * @param DocumentInterface $document
+     *
+     * @throws RuntimeException
      *
      * @return self Provides fluent interface
      */
@@ -89,9 +90,9 @@ class Add extends AbstractCommand
      *
      * @param array|\Traversable $documents
      *
-     * @return self Provides fluent interface
-     *
      * @throws RuntimeException If any of the given documents does not implement DocumentInterface
+     *
+     * @return self Provides fluent interface
      */
     public function addDocuments($documents)
     {
@@ -137,7 +138,7 @@ class Add extends AbstractCommand
     /**
      * Set overwrite option.
      *
-     * @param boolean $overwrite
+     * @param bool $overwrite
      *
      * @return self Provides fluent interface
      */
@@ -149,7 +150,7 @@ class Add extends AbstractCommand
     /**
      * Get overwrite option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getOverwrite()
     {
@@ -159,7 +160,7 @@ class Add extends AbstractCommand
     /**
      * Get commitWithin option.
      *
-     * @param boolean $commitWithin
+     * @param bool $commitWithin
      *
      * @return self Provides fluent interface
      */
@@ -171,7 +172,7 @@ class Add extends AbstractCommand
     /**
      * Set commitWithin option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getCommitWithin()
     {

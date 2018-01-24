@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,14 +40,14 @@
 
 namespace Solarium\Component\ResponseParser;
 
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\Component\Debug as DebugComponent;
-use Solarium\Component\Result\Debug\Result;
-use Solarium\Component\Result\Debug\DocumentSet;
-use Solarium\Component\Result\Debug\Timing;
 use Solarium\Component\Result\Debug\Detail;
 use Solarium\Component\Result\Debug\Document;
+use Solarium\Component\Result\Debug\DocumentSet;
+use Solarium\Component\Result\Debug\Result;
+use Solarium\Component\Result\Debug\Timing;
 use Solarium\Component\Result\Debug\TimingPhase;
+use Solarium\QueryType\Select\Query\Query;
 
 /**
  * Parse select component Debug result from the data.
@@ -80,21 +80,21 @@ class Debug implements ComponentParserInterface
             if (isset($debug['explain']) && is_array($debug['explain'])) {
                 $explain = $this->parseDocumentSet($debug['explain']);
             } else {
-                $explain = new DocumentSet(array());
+                $explain = new DocumentSet([]);
             }
 
             // parse explainOther data
             if (isset($debug['explainOther']) && is_array($debug['explainOther'])) {
                 $explainOther = $this->parseDocumentSet($debug['explainOther']);
             } else {
-                $explainOther = new DocumentSet(array());
+                $explainOther = new DocumentSet([]);
             }
 
             // parse timing data
             $timing = null;
             if (isset($debug['timing']) && is_array($debug['timing'])) {
                 $time = null;
-                $timingPhases = array();
+                $timingPhases = [];
                 foreach ($debug['timing'] as $key => $timingData) {
                     switch ($key) {
                         case 'time':
@@ -133,9 +133,9 @@ class Debug implements ComponentParserInterface
      */
     protected function parseDocumentSet($data)
     {
-        $docs = array();
+        $docs = [];
         foreach ($data as $key => $documentData) {
-            $details = array();
+            $details = [];
             if (isset($documentData['details']) && is_array($documentData['details'])) {
                 foreach ($documentData['details'] as $detailData) {
                     $detail = new Detail(
@@ -174,7 +174,7 @@ class Debug implements ComponentParserInterface
     protected function parseTimingPhase($name, $data)
     {
         $time = 0.0;
-        $classes = array();
+        $classes = [];
         foreach ($data as $key => $timingData) {
             switch ($key) {
                 case 'time':

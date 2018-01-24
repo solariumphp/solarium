@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -62,11 +62,11 @@ class Query extends BaseQuery implements TermsInterface
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'resultclass' => 'Solarium\QueryType\Terms\Result',
-        'handler'     => 'terms',
-        'omitheader'  => true,
-    );
+        'handler' => 'terms',
+        'omitheader' => true,
+    ];
 
     /**
      * Get type for this query.
@@ -97,5 +97,4 @@ class Query extends BaseQuery implements TermsInterface
     {
         return new ResponseParser();
     }
-
 }

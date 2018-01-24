@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -45,7 +45,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query rollback command.
  *
- * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22rollback.22
+ * @see http://wiki.apache.org/solr/UpdateXmlMessages#A.22rollback.22
  */
 class Rollback extends AbstractCommand
 {

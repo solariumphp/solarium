@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,18 +40,17 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\ComponentTraits\SpellcheckTrait;
 use Solarium\Component\RequestBuilder\Spellcheck as RequestBuilder;
 use Solarium\Component\ResponseParser\Spellcheck as ResponseParser;
-use Solarium\Component\ComponentTraits\SpellcheckTrait;
 
 /**
  * Spellcheck component.
  *
- * @link http://wiki.apache.org/solr/SpellcheckComponent
+ * @see http://wiki.apache.org/solr/SpellcheckComponent
  */
 class Spellcheck extends AbstractComponent implements SpellcheckInterface
 {
-
     use SpellcheckTrait;
 
     /**
@@ -100,5 +99,4 @@ class Spellcheck extends AbstractComponent implements SpellcheckInterface
 
         return $this->setOption('query', trim($query));
     }
-
 }

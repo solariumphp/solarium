@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,13 +40,13 @@
 
 namespace Solarium\QueryType\Analysis\ResponseParser;
 
-use Solarium\Core\Query\Result\Result;
-use Solarium\QueryType\Analysis\Result as AnalysisResult;
-use Solarium\QueryType\Analysis\Result\ResultList;
-use Solarium\QueryType\Analysis\Result\Item;
-use Solarium\QueryType\Analysis\Result\Types;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
+use Solarium\Core\Query\Result\Result;
+use Solarium\QueryType\Analysis\Result as AnalysisResult;
+use Solarium\QueryType\Analysis\Result\Item;
+use Solarium\QueryType\Analysis\Result\ResultList;
+use Solarium\QueryType\Analysis\Result\Types;
 
 /**
  * Parse document analysis response data.
@@ -64,13 +64,13 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
     {
         $data = $result->getData();
 
-        $items = array();
+        $items = [];
 
         if (isset($data['analysis'])) {
             $items = $this->parseAnalysis($result, $data['analysis']);
         }
 
-        return $this->addHeaderInfo($data, array('items' => $items));
+        return $this->addHeaderInfo($data, ['items' => $items]);
     }
 
     /**
@@ -83,7 +83,7 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
      */
     protected function parseAnalysis($result, $data)
     {
-        $types = array();
+        $types = [];
         foreach ($data as $documentKey => $documentData) {
             $fields = $this->parseTypes($result, $documentData);
             $types[] = new AnalysisResult\ResultList($documentKey, $fields);
@@ -104,35 +104,35 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
     {
         $query = $result->getQuery();
 
-        $results = array();
+        $results = [];
         foreach ($typeData as $fieldKey => $fieldData) {
-            $types = array();
+            $types = [];
             foreach ($fieldData as $typeKey => $typeData) {
                 if ($query->getResponseWriter() == $query::WT_JSON) {
                     // fix for extra level for key fields
-                    if (count($typeData) == 1) {
+                    if (1 == count($typeData)) {
                         $typeData = current($typeData);
                     }
                     $typeData = $this->convertToKeyValueArray($typeData);
                 }
 
-                $classes = array();
+                $classes = [];
                 foreach ($typeData as $class => $analysis) {
                     if (is_string($analysis)) {
                         $item = new Item(
-                            array(
+                            [
                                 'text' => $analysis,
                                 'start' => null,
                                 'end' => null,
                                 'position' => null,
                                 'positionHistory' => null,
                                 'type' => null,
-                            )
+                            ]
                         );
 
-                        $classes[] = new ResultList($class, array($item));
+                        $classes[] = new ResultList($class, [$item]);
                     } else {
-                        $items = array();
+                        $items = [];
                         foreach ($analysis as $itemData) {
                             $items[] = new Item($itemData);
                         }

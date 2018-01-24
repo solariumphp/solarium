@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -100,11 +100,11 @@ class Client extends CoreClient
      *
      * @param string $version
      *
-     * @return boolean
+     * @return bool
      */
     public static function checkExact($version)
     {
-        return (substr(self::VERSION, 0, strlen($version)) == $version);
+        return substr(self::VERSION, 0, strlen($version)) == $version;
     }
 
     /**
@@ -128,7 +128,7 @@ class Client extends CoreClient
      *
      * @param string $version
      *
-     * @return boolean
+     * @return bool
      */
     public static function checkMinimal($version)
     {

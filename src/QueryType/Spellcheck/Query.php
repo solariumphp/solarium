@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,8 +42,8 @@ namespace Solarium\QueryType\Spellcheck;
 
 use Solarium\Component\ComponentTraits\SpellcheckTrait;
 use Solarium\Component\SpellcheckInterface;
-use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 
 /**
  * Spellcheck Query.
@@ -59,13 +59,13 @@ class Query extends BaseQuery implements SpellcheckInterface
      *
      * @var array
      */
-    protected $options = array(
-        'handler'       => 'spell',
-        'resultclass'   => 'Solarium\QueryType\Spellcheck\Result\Result',
-        'termclass'     => 'Solarium\QueryType\Spellcheck\Result\Term',
-        'omitheader'    => true,
-        'build'         => false,
-    );
+    protected $options = [
+        'handler' => 'spell',
+        'resultclass' => 'Solarium\QueryType\Spellcheck\Result\Result',
+        'termclass' => 'Solarium\QueryType\Spellcheck\Result\Term',
+        'omitheader' => true,
+        'build' => false,
+    ];
 
     /**
      * Get type for this query.
@@ -110,5 +110,4 @@ class Query extends BaseQuery implements SpellcheckInterface
     {
         return $this->setOption('query', $query);
     }
-
 }

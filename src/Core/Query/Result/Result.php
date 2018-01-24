@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,12 +40,11 @@
 
 namespace Solarium\Core\Query\Result;
 
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
-use Solarium\Exception\HttpException;
 use Solarium\Core\Query\AbstractQuery;
-use Solarium\Exception\UnexpectedValueException;
+use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Query result.
@@ -81,10 +80,11 @@ class Result implements ResultInterface
     /**
      * Constructor.
      *
-     * @throws HttpException
      *
      * @param AbstractQuery $query
      * @param Response      $response
+     *
+     * @throws HttpException
      */
     public function __construct($query, $response)
     {
@@ -93,7 +93,7 @@ class Result implements ResultInterface
 
         // check status for error (range of 400 and 500)
         $statusNum = floor($response->getStatusCode() / 100);
-        if ($statusNum == 4 || $statusNum == 5) {
+        if (4 == $statusNum || 5 == $statusNum) {
             throw new HttpException(
                 $response->getStatusMessage(),
                 $response->getStatusCode(),

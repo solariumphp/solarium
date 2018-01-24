@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,13 +40,13 @@
 
 namespace Solarium\Plugin\ParallelExecution;
 
-use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Client\Endpoint;
-use Solarium\Exception\HttpException;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Exception\HttpException;
 use Solarium\Plugin\ParallelExecution\Event\Events;
-use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
+use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
 
 /**
  * ParallelExecution plugin.
@@ -66,16 +66,16 @@ class ParallelExecution extends AbstractPlugin
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'curlmultiselecttimeout' => 0.1,
-    );
+    ];
 
     /**
      * Queries (and optionally clients) to execute.
      *
      * @var AbstractQuery[]
      */
-    protected $queries = array();
+    protected $queries = [];
 
     /**
      * Add a query to execute.
@@ -92,14 +92,14 @@ class ParallelExecution extends AbstractPlugin
             $endpoint = $endpoint->getKey();
         }
 
-        if ($endpoint === null) {
+        if (null === $endpoint) {
             $endpoint = $this->client->getEndpoint()->getKey();
         }
 
-        $this->queries[$key] = array(
+        $this->queries[$key] = [
             'query' => $query,
             'endpoint' => $endpoint,
-        );
+        ];
 
         return $this;
     }
@@ -121,7 +121,7 @@ class ParallelExecution extends AbstractPlugin
      */
     public function clearQueries()
     {
-        $this->queries = array();
+        $this->queries = [];
 
         return $this;
     }
@@ -138,7 +138,7 @@ class ParallelExecution extends AbstractPlugin
         // create handles and add all handles to the multihandle
         $adapter = $this->client->getAdapter();
         $multiHandle = curl_multi_init();
-        $handles = array();
+        $handles = [];
         foreach ($this->queries as $key => $data) {
             $request = $this->client->createRequest($data['query']);
             $endpoint = $this->client->getEndpoint($data['endpoint']);
@@ -152,23 +152,23 @@ class ParallelExecution extends AbstractPlugin
 
         do {
             $mrc = curl_multi_exec($multiHandle, $active);
-        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+        } while (CURLM_CALL_MULTI_PERFORM == $mrc);
 
         $timeout = $this->getOption('curlmultiselecttimeout');
-        while ($active && $mrc == CURLM_OK) {
+        while ($active && CURLM_OK == $mrc) {
             if (curl_multi_select($multiHandle, $timeout) == -1) {
                 usleep(100);
             }
 
             do {
                 $mrc = curl_multi_exec($multiHandle, $active);
-            } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            } while (CURLM_CALL_MULTI_PERFORM == $mrc);
         }
 
         $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_END, new ExecuteEndEvent());
 
         // get the results
-        $results = array();
+        $results = [];
         foreach ($handles as $key => $handle) {
             try {
                 curl_multi_remove_handle($multiHandle, $handle);

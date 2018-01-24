@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait GroupingTrait
 {
-
     /**
      * Get a grouping component instance.
      *
@@ -21,5 +20,4 @@ trait GroupingTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING, true);
     }
-
 }

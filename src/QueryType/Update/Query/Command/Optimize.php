@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -45,7 +45,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query optimize command.
  *
- * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22
+ * @see http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22
  */
 class Optimize extends AbstractCommand
 {
@@ -62,7 +62,7 @@ class Optimize extends AbstractCommand
     /**
      * Get softCommit option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getSoftCommit()
     {
@@ -72,7 +72,7 @@ class Optimize extends AbstractCommand
     /**
      * Set softCommit option.
      *
-     * @param boolean $softCommit
+     * @param bool $softCommit
      *
      * @return self Provides fluent interface
      */
@@ -84,7 +84,7 @@ class Optimize extends AbstractCommand
     /**
      * Get waitSearcher option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getWaitSearcher()
     {
@@ -94,7 +94,7 @@ class Optimize extends AbstractCommand
     /**
      * Set waitSearcher option.
      *
-     * @param boolean $waitSearcher
+     * @param bool $waitSearcher
      *
      * @return self Provides fluent interface
      */
@@ -106,7 +106,7 @@ class Optimize extends AbstractCommand
     /**
      * Get maxSegments option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getMaxSegments()
     {
@@ -116,7 +116,7 @@ class Optimize extends AbstractCommand
     /**
      * Set maxSegments option.
      *
-     * @param boolean $maxSegments
+     * @param bool $maxSegments
      *
      * @return self Provides fluent interface
      */

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -76,14 +76,14 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * LocalParams can be use in various Solr GET params.
      *
-     * @link http://wiki.apache.org/solr/LocalParams
+     * @see http://wiki.apache.org/solr/LocalParams
      *
      * @param string $value
      * @param array  $localParams in key => value format
      *
      * @return string with Solr localparams syntax
      */
-    public function renderLocalParams($value, $localParams = array())
+    public function renderLocalParams($value, $localParams = [])
     {
         $params = '';
         foreach ($localParams as $paramName => $paramValue) {
@@ -98,7 +98,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
             $params .= $paramName.'='.$paramValue.' ';
         }
 
-        if ($params !== '') {
+        if ('' !== $params) {
             $value = '{!'.trim($params).'}'.$value;
         }
 
@@ -110,15 +110,15 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * For use in building XML messages
      *
-     * @param string  $name
-     * @param boolean $value
+     * @param string $name
+     * @param bool   $value
      *
      * @return string
      */
     public function boolAttrib($name, $value)
     {
         if (null !== $value) {
-            $value = (true === (bool)$value) ? 'true' : 'false';
+            $value = (true === (bool) $value) ? 'true' : 'false';
 
             return $this->attrib($name, $value);
         }

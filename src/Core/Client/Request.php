@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -51,31 +51,31 @@ class Request extends Configurable
     /**
      * Request GET method.
      */
-    const METHOD_GET     = 'GET';
+    const METHOD_GET = 'GET';
 
     /**
      * Request POST method.
      */
-    const METHOD_POST    = 'POST';
+    const METHOD_POST = 'POST';
 
     /**
      * Request HEAD method.
      */
-    const METHOD_HEAD    = 'HEAD';
+    const METHOD_HEAD = 'HEAD';
 
     /**
      * Default options.
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'method' => self::METHOD_GET,
-    );
+    ];
 
     /**
      * Request headers.
      */
-    protected $headers = array();
+    protected $headers = [];
 
     /**
      * Request params.
@@ -85,7 +85,7 @@ class Request extends Configurable
      *
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * Raw POST data.
@@ -93,6 +93,21 @@ class Request extends Configurable
      * @var string
      */
     protected $rawData;
+
+    /**
+     * Magic method enables a object to be transformed to a string.
+     *
+     * Get a summary showing significant variables in the object
+     * note: uri resource is decoded for readability
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $output = __CLASS__.'::__toString'."\n".'method: '.$this->getMethod()."\n".'header: '.print_r($this->getHeaders(), 1).'authentication: '.print_r($this->getAuthentication(), 1).'resource: '.$this->getUri()."\n".'resource urldecoded: '.urldecode($this->getUri())."\n".'raw data: '.$this->getRawData()."\n".'file upload: '.$this->getFileUpload()."\n";
+
+        return $output;
+    }
 
     /**
      * Set request handler.
@@ -194,23 +209,23 @@ class Request extends Configurable
      *
      * @param string       $key
      * @param string|array $value
-     * @param boolean      $overwrite
+     * @param bool         $overwrite
      *
      * @return self Provides fluent interface
      */
     public function addParam($key, $value, $overwrite = false)
     {
-        if ($value !== null) {
+        if (null !== $value) {
             if (!$overwrite && isset($this->params[$key])) {
                 if (!is_array($this->params[$key])) {
-                    $this->params[$key] = array($this->params[$key]);
+                    $this->params[$key] = [$this->params[$key]];
                 }
                 $this->params[$key][] = $value;
             } else {
                 // not all solr handlers support 0/1 as boolean values...
-                if ($value === true) {
+                if (true === $value) {
                     $value = 'true';
-                } elseif ($value === false) {
+                } elseif (false === $value) {
                     $value = 'false';
                 }
 
@@ -224,8 +239,8 @@ class Request extends Configurable
     /**
      * Add multiple params to the request.
      *
-     * @param array   $params
-     * @param boolean $overwrite
+     * @param array $params
+     * @param bool  $overwrite
      *
      * @return self Provides fluent interface
      */
@@ -261,7 +276,7 @@ class Request extends Configurable
      */
     public function clearParams()
     {
-        $this->params = array();
+        $this->params = [];
 
         return $this;
     }
@@ -305,9 +320,10 @@ class Request extends Configurable
     /**
      * Set the file to upload via "multipart/form-data" POST request.
      *
-     * @throws RuntimeException
      *
      * @param string $filename Name of file to upload
+     *
+     * @throws RuntimeException
      *
      * @return self
      */
@@ -384,7 +400,7 @@ class Request extends Configurable
      */
     public function clearHeaders()
     {
-        $this->headers = array();
+        $this->headers = [];
 
         return $this;
     }
@@ -420,21 +436,6 @@ class Request extends Configurable
     }
 
     /**
-     * Magic method enables a object to be transformed to a string.
-     *
-     * Get a summary showing significant variables in the object
-     * note: uri resource is decoded for readability
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        $output = __CLASS__.'::__toString'."\n".'method: '.$this->getMethod()."\n".'header: '.print_r($this->getHeaders(), 1).'authentication: '.print_r($this->getAuthentication(), 1).'resource: '.$this->getUri()."\n".'resource urldecoded: '.urldecode($this->getUri())."\n".'raw data: '.$this->getRawData()."\n".'file upload: '.$this->getFileUpload()."\n";
-
-        return $output;
-    }
-
-    /**
      * Set HTTP basic auth settings.
      *
      * If one or both values are NULL authentication will be disabled
@@ -459,10 +460,10 @@ class Request extends Configurable
      */
     public function getAuthentication()
     {
-        return array(
+        return [
             'username' => $this->getOption('username'),
             'password' => $this->getOption('password'),
-        );
+        ];
     }
 
     /**

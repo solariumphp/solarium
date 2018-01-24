@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -81,7 +81,7 @@ class Response
      * @param string $body
      * @param array  $headers
      */
-    public function __construct($body, $headers = array())
+    public function __construct($body, $headers = [])
     {
         $this->body = $body;
         $this->headers = $headers;
@@ -132,9 +132,10 @@ class Response
     /**
      * Set headers.
      *
-     * @throws HttpException
      *
      * @param array $headers
+     *
+     * @throws HttpException
      */
     public function setHeaders($headers)
     {
@@ -143,14 +144,14 @@ class Response
         // get the status header
         $statusHeader = null;
         foreach ($headers as $header) {
-            if (substr($header, 0, 4) == 'HTTP') {
+            if ('HTTP' == substr($header, 0, 4)) {
                 $statusHeader = $header;
                 break;
             }
         }
 
         if (null === $statusHeader) {
-            throw new HttpException("No HTTP status found");
+            throw new HttpException('No HTTP status found');
         }
 
         // parse header like "$statusInfo[1]" into code and message

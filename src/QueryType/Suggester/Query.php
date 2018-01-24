@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,8 +42,8 @@ namespace Solarium\QueryType\Suggester;
 
 use Solarium\Component\ComponentTraits\SuggesterTrait;
 use Solarium\Component\SuggesterInterface;
-use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 
 /**
  * Suggester Query.
@@ -59,15 +59,15 @@ class Query extends BaseQuery implements SuggesterInterface
      *
      * @var array
      */
-    protected $options = array(
-        'handler'         => 'suggest',
-        'resultclass'     => 'Solarium\QueryType\Suggester\Result\Result',
+    protected $options = [
+        'handler' => 'suggest',
+        'resultclass' => 'Solarium\QueryType\Suggester\Result\Result',
         'dictionaryclass' => 'Solarium\QueryType\Suggester\Result\Dictionary',
-        'termclass'       => 'Solarium\QueryType\Suggester\Result\Term',
-        'omitheader'      => true,
-        'build'           => false,
-        'reload'          => false,
-    );
+        'termclass' => 'Solarium\QueryType\Suggester\Result\Term',
+        'omitheader' => true,
+        'build' => false,
+        'reload' => false,
+    ];
 
     /**
      * Get type for this query.
@@ -112,5 +112,4 @@ class Query extends BaseQuery implements SuggesterInterface
     {
         return $this->setOption('query', $query);
     }
-
 }

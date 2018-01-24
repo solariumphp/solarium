@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait SuggesterTrait
 {
-
     /**
      * Get a suggest component instance.
      *
@@ -21,5 +20,4 @@ trait SuggesterTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_SUGGESTER, true);
     }
-
 }

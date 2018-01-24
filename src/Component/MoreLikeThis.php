@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -46,7 +46,7 @@ use Solarium\Component\ResponseParser\MoreLikeThis as ResponseParser;
 /**
  * MoreLikeThis component.
  *
- * @link http://wiki.apache.org/solr/MoreLikeThis
+ * @see http://wiki.apache.org/solr/MoreLikeThis
  */
 class MoreLikeThis extends AbstractComponent
 {
@@ -110,8 +110,8 @@ class MoreLikeThis extends AbstractComponent
     public function getFields()
     {
         $fields = $this->getOption('fields');
-        if ($fields === null) {
-            $fields = array();
+        if (null === $fields) {
+            $fields = [];
         }
 
         return $fields;
@@ -135,7 +135,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get minimumtermfrequency option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumTermFrequency()
     {
@@ -160,7 +160,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get minimumdocumentfrequency option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumDocumentFrequency()
     {
@@ -184,7 +184,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get minimumwordlength option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumWordLength()
     {
@@ -208,7 +208,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get maximumwordlength option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumWordLength()
     {
@@ -233,7 +233,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get maximumqueryterms option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumQueryTerms()
     {
@@ -258,7 +258,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get maximumnumberoftokens option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumNumberOfTokens()
     {
@@ -270,7 +270,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @param boolean $boost
+     * @param bool $boost
      *
      * @return self Provides fluent interface
      */
@@ -282,7 +282,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get boost option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getBoost()
     {
@@ -319,8 +319,8 @@ class MoreLikeThis extends AbstractComponent
     public function getQueryFields()
     {
         $queryfields = $this->getOption('queryfields');
-        if ($queryfields === null) {
-            $queryfields = array();
+        if (null === $queryfields) {
+            $queryfields = [];
         }
 
         return $queryfields;

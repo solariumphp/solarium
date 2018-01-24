@@ -7,7 +7,7 @@ use Solarium\Core\Configurable;
 /**
  * Facet base class.
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters
+ * @see http://wiki.apache.org/solr/SimpleFacetParameters
  */
 abstract class AbstractFacet extends Configurable
 {
@@ -16,7 +16,7 @@ abstract class AbstractFacet extends Configurable
      *
      * @var array
      */
-    protected $excludes = array();
+    protected $excludes = [];
 
     /**
      * Must be implemented by the facet types and return one of the constants.
@@ -112,7 +112,7 @@ abstract class AbstractFacet extends Configurable
      */
     public function clearExcludes()
     {
-        $this->excludes = array();
+        $this->excludes = [];
 
         return $this;
     }

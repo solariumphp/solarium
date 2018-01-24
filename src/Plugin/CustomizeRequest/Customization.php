@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -62,14 +62,14 @@ class Customization extends Configurable
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'key' => null,
         'type' => null,
         'name' => null,
         'value' => null,
         'persistent' => false,
         'overwrite' => true,
-    );
+    ];
 
     /**
      * Set key value.
@@ -170,7 +170,7 @@ class Customization extends Configurable
     /**
      * Set persistent on/off.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return Customization
      */
@@ -184,7 +184,7 @@ class Customization extends Configurable
     /**
      * Get persistent setting.
      *
-     * @return boolean
+     * @return bool
      */
     public function getPersistent()
     {
@@ -194,7 +194,7 @@ class Customization extends Configurable
     /**
      * Set overwrite option on/off.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return Customization
      */
@@ -208,7 +208,7 @@ class Customization extends Configurable
     /**
      * Get overwrite option value.
      *
-     * @return boolean
+     * @return bool
      */
     public function getOverwrite()
     {
@@ -223,7 +223,7 @@ class Customization extends Configurable
     public function isValid()
     {
         $type = $this->getType();
-        if ($type !== self::TYPE_PARAM && $type !== self::TYPE_HEADER) {
+        if (self::TYPE_PARAM !== $type && self::TYPE_HEADER !== $type) {
             return false;
         }
 

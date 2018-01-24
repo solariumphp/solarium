@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Update;
 
-use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\ResponseParserInterface;
 
 /**
  * Parse update response data.
@@ -59,6 +59,6 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     {
         $data = $result->getData();
 
-        return $this->addHeaderInfo($data, array());
+        return $this->addHeaderInfo($data, []);
     }
 }

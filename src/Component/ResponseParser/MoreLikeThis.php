@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\Component\ResponseParser;
 
-use Solarium\QueryType\Analysis\Query\AbstractQuery;
 use Solarium\Component\MoreLikeThis as MoreLikeThisComponent;
-use Solarium\Component\Result\MoreLikeThis\Result;
 use Solarium\Component\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisResult;
+use Solarium\Component\Result\MoreLikeThis\Result;
+use Solarium\QueryType\Analysis\Query\AbstractQuery;
 
 /**
  * Parse select component MoreLikeThis result from the data.
@@ -61,14 +61,14 @@ class MoreLikeThis implements ComponentParserInterface
      */
     public function parse($query, $moreLikeThis, $data)
     {
-        $results = array();
+        $results = [];
         if (isset($data['moreLikeThis'])) {
             $documentClass = $query->getOption('documentclass');
 
             $searchResults = $data['moreLikeThis'];
             foreach ($searchResults as $key => $result) {
                 // create document instances
-                $docs = array();
+                $docs = [];
                 foreach ($result['docs'] as $fields) {
                     $docs[] = new $documentClass($fields);
                 }

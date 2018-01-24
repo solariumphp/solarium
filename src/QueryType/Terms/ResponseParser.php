@@ -32,7 +32,7 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -58,7 +58,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
      */
     public function parse($result)
     {
-        $termResults = array();
+        $termResults = [];
 
         $data = $result->getData();
 
@@ -84,6 +84,6 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             }
         }
 
-        return $this->addHeaderInfo($data, array('results' => $termResults));
+        return $this->addHeaderInfo($data, ['results' => $termResults]);
     }
 }

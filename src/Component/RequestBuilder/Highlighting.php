@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\Component\RequestBuilder;
 
-use Solarium\Component\Highlighting\Highlighting as HighlightingComponent;
 use Solarium\Component\Highlighting\Field as HighlightingField;
+use Solarium\Component\Highlighting\Highlighting as HighlightingComponent;
 use Solarium\Core\Client\Request;
 
 /**

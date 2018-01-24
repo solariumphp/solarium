@@ -8,7 +8,7 @@ use Solarium\Core\Query\Helper;
 /**
  * Filterquery.
  *
- * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
+ * @see http://wiki.apache.org/solr/CommonQueryParameters#fq
  */
 class BoostQuery extends Configurable
 {

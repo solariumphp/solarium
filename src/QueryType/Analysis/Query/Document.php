@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,8 +42,8 @@ namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Client\Client;
 use Solarium\Exception\RuntimeException;
-use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as RequestBuilder;
+use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
 use Solarium\QueryType\Select\Result\DocumentInterface as ReadOnlyDocumentInterface;
 use Solarium\QueryType\Update\Query\Document\DocumentInterface as DocumentInterface;
 
@@ -61,18 +61,18 @@ class Document extends AbstractQuery
      *
      * @var ReadOnlyDocumentInterface[]|DocumentInterface[]
      */
-    protected $documents = array();
+    protected $documents = [];
 
     /**
      * Default options.
      *
      * @var array
      */
-    protected $options = array(
-        'handler'       => 'analysis/document',
-        'resultclass'   => 'Solarium\QueryType\Analysis\Result\Document',
-        'omitheader'    => true,
-    );
+    protected $options = [
+        'handler' => 'analysis/document',
+        'resultclass' => 'Solarium\QueryType\Analysis\Result\Document',
+        'omitheader' => true,
+    ];
 
     /**
      * Get type for this query.
@@ -109,9 +109,9 @@ class Document extends AbstractQuery
      *
      * @param ReadOnlyDocumentInterface|DocumentInterface $document
      *
-     * @return self Provides fluent interface
-     *
      * @throws RuntimeException If the given document doesn't have the right interface
+     *
+     * @return self Provides fluent interface
      */
     public function addDocument($document)
     {
@@ -129,9 +129,9 @@ class Document extends AbstractQuery
      *
      * @param ReadOnlyDocumentInterface[]|DocumentInterface[] $documents
      *
-     * @return self Provides fluent interface
-     *
      * @throws RuntimeException If the given documents doesn't have the right interface
+     *
+     * @return self Provides fluent interface
      */
     public function addDocuments($documents)
     {

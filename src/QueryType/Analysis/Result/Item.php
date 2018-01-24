@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -97,7 +97,7 @@ class Item
     /**
      * Match.
      *
-     * @var boolean
+     * @var bool
      */
     protected $match = false;
 
@@ -187,7 +187,7 @@ class Item
             return $this->positionHistory;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -203,7 +203,7 @@ class Item
     /**
      * Get match value.
      *
-     * @return boolean
+     * @return bool
      */
     public function getMatch()
     {

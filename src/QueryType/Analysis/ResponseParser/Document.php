@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -57,7 +57,7 @@ class Document extends Field
      */
     protected function parseAnalysis($result, $data)
     {
-        $documents = array();
+        $documents = [];
         foreach ($data as $documentKey => $documentData) {
             $fields = $this->parseTypes($result, $documentData);
             $documents[] = new ResultList($documentKey, $fields);

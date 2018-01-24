@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -41,8 +41,8 @@
 namespace Solarium\QueryType\Update\Query\Document;
 
 use Solarium\Core\Query\Helper;
-use Solarium\QueryType\Select\Result\AbstractDocument;
 use Solarium\Exception\RuntimeException;
+use Solarium\QueryType\Select\Result\AbstractDocument;
 
 /**
  * Read/Write Solr document.
@@ -122,7 +122,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @var array
      */
-    protected $modifiers = array();
+    protected $modifiers = [];
 
     /**
      * This field needs to be explicitly set to observe the rules of atomic updates.
@@ -165,11 +165,41 @@ class Document extends AbstractDocument implements DocumentInterface
      * @param array $boosts
      * @param array $modifiers
      */
-    public function __construct(array $fields = array(), array $boosts = array(), array $modifiers = array())
+    public function __construct(array $fields = [], array $boosts = [], array $modifiers = [])
     {
         $this->fields = $fields;
         $this->fieldBoosts = $boosts;
         $this->modifiers = $modifiers;
+    }
+
+    /**
+     * Set field value.
+     *
+     * Magic method for setting fields as properties of this document
+     * object, by field name.
+     *
+     * If you supply NULL as the value the field will be removed
+     * If you supply an array a multivalue field will be created.
+     * In all cases any existing (multi)value will be overwritten.
+     *
+     * @param string      $name
+     * @param string|null $value
+     */
+    public function __set($name, $value)
+    {
+        $this->setField($name, $value);
+    }
+
+    /**
+     * Unset field value.
+     *
+     * Magic method for removing fields by unsetting object properties
+     *
+     * @param string $name
+     */
+    public function __unset($name)
+    {
+        $this->removeField($name);
     }
 
     /**
@@ -192,7 +222,7 @@ class Document extends AbstractDocument implements DocumentInterface
         } else {
             // convert single value to array if needed
             if (!is_array($this->fields[$key])) {
-                $this->fields[$key] = array($this->fields[$key]);
+                $this->fields[$key] = [$this->fields[$key]];
             }
 
             if ($this->filterControlCharacters && is_string($value)) {
@@ -201,7 +231,7 @@ class Document extends AbstractDocument implements DocumentInterface
 
             $this->fields[$key][] = $value;
             $this->setFieldBoost($key, $boost);
-            if ($modifier !== null) {
+            if (null !== $modifier) {
                 $this->setFieldModifier($key, $modifier);
             }
         }
@@ -225,7 +255,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function setField($key, $value, $boost = null, $modifier = null)
     {
-        if ($value === null && $modifier === null) {
+        if (null === $value && null === $modifier) {
             $this->removeField($key);
         } else {
             if ($this->filterControlCharacters && is_string($value)) {
@@ -234,7 +264,7 @@ class Document extends AbstractDocument implements DocumentInterface
 
             $this->fields[$key] = $value;
             $this->setFieldBoost($key, $boost);
-            if ($modifier !== null) {
+            if (null !== $modifier) {
                 $this->setFieldModifier($key, $modifier);
             }
         }
@@ -273,7 +303,7 @@ class Document extends AbstractDocument implements DocumentInterface
     {
         if (isset($this->fieldBoosts[$key])) {
             return $this->fieldBoosts[$key];
-        }  
+        }
     }
 
     /**
@@ -332,41 +362,11 @@ class Document extends AbstractDocument implements DocumentInterface
      **/
     public function clear()
     {
-        $this->fields = array();
-        $this->fieldBoosts = array();
-        $this->modifiers = array();
+        $this->fields = [];
+        $this->fieldBoosts = [];
+        $this->modifiers = [];
 
         return $this;
-    }
-
-    /**
-     * Set field value.
-     *
-     * Magic method for setting fields as properties of this document
-     * object, by field name.
-     *
-     * If you supply NULL as the value the field will be removed
-     * If you supply an array a multivalue field will be created.
-     * In all cases any existing (multi)value will be overwritten.
-     *
-     * @param string      $name
-     * @param string|null $value
-     */
-    public function __set($name, $value)
-    {
-        $this->setField($name, $value);
-    }
-
-    /**
-     * Unset field value.
-     *
-     * Magic method for removing fields by unsetting object properties
-     *
-     * @param string $name
-     */
-    public function __unset($name)
-    {
-        $this->removeField($name);
     }
 
     /**
@@ -383,7 +383,7 @@ class Document extends AbstractDocument implements DocumentInterface
     public function setKey($key, $value = null)
     {
         $this->key = $key;
-        if ($value !== null) {
+        if (null !== $value) {
             $this->addField($key, $value);
         }
 
@@ -402,7 +402,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function setFieldModifier($key, $modifier = null)
     {
-        if (!in_array($modifier, array(self::MODIFIER_ADD, self::MODIFIER_REMOVE, self::MODIFIER_INC, self::MODIFIER_SET))) {
+        if (!in_array($modifier, [self::MODIFIER_ADD, self::MODIFIER_REMOVE, self::MODIFIER_INC, self::MODIFIER_SET])) {
             throw new RuntimeException('Attempt to set an atomic update modifier that is not supported');
         }
         $this->modifiers[$key] = $modifier;
@@ -433,7 +433,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function getFields()
     {
-        if (count($this->modifiers) > 0 && ($this->key === null || !isset($this->fields[$this->key]))) {
+        if (count($this->modifiers) > 0 && (null === $this->key || !isset($this->fields[$this->key]))) {
             throw new RuntimeException(
                 'A document that uses modifiers (atomic updates) must have a key defined before it is used'
             );
@@ -485,7 +485,7 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Whether values should be filtered for control characters automatically.
      *
-     * @param boolean $filterControlCharacters
+     * @param bool $filterControlCharacters
      */
     public function setFilterControlCharacters($filterControlCharacters)
     {
@@ -495,7 +495,7 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Returns whether values should be filtered automatically or control characters.
      *
-     * @return boolean
+     * @return bool
      */
     public function getFilterControlCharacters()
     {

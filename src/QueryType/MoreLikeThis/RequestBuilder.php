@@ -34,7 +34,7 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -44,8 +44,8 @@
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\Core\Client\Request;
-use Solarium\QueryType\Select\RequestBuilder as SelectRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
+use Solarium\QueryType\Select\RequestBuilder as SelectRequestBuilder;
 
 /**
  * Build a MoreLikeThis request.

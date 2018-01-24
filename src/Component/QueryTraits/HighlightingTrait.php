@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait HighlightingTrait
 {
-
     /**
      * Get a highlighting component instance.
      *
@@ -21,5 +20,4 @@ trait HighlightingTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING, true);
     }
-
 }

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -53,9 +53,10 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     /**
      * Get result data for the response.
      *
-     * @throws RuntimeException
      *
      * @param Result $result
+     *
+     * @throws RuntimeException
      *
      * @return array
      */
@@ -77,7 +78,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             throw new RuntimeException('The result document class must implement a document interface');
         }
 
-        $documents = array();
+        $documents = [];
         if (isset($data['response']['docs'])) {
             foreach ($data['response']['docs'] as $doc) {
                 $fields = (array) $doc;
@@ -86,7 +87,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         }
 
         // component results
-        $components = array();
+        $components = [];
         foreach ($query->getComponents() as $component) {
             $componentParser = $component->getResponseParser();
             if ($componentParser) {
@@ -114,13 +115,13 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
         return $this->addHeaderInfo(
             $data,
-            array(
+            [
                 'numfound' => $numFound,
                 'maxscore' => $maxScore,
                 'documents' => $documents,
                 'components' => $components,
                 'nextcursormark' => $nextCursorMark,
-            )
+            ]
         );
     }
 }

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\Component\ResponseParser;
 
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\Component\Grouping as GroupingComponent;
-use Solarium\Component\Result\Grouping\Result;
 use Solarium\Component\Result\Grouping\FieldGroup;
+use Solarium\Component\Result\Grouping\Result;
+use Solarium\QueryType\Select\Query\Query;
 
 /**
  * Parse select component Grouping result from the data.
@@ -62,17 +62,17 @@ class Grouping implements ComponentParserInterface
     public function parse($query, $grouping, $data)
     {
         if (!isset($data['grouped'])) {
-            return new Result(array());
+            return new Result([]);
         }
 
-        $groups = array();
+        $groups = [];
 
         // parse field groups
         $valueResultClass = $grouping->getOption('resultvaluegroupclass');
         $documentClass = $query->getOption('documentclass');
 
         // check grouping fields as well as the grouping function (either can be used in the query)
-        foreach (array_merge($grouping->getFields(), array($grouping->getFunction())) as $field) {
+        foreach (array_merge($grouping->getFields(), [$grouping->getFunction()]) as $field) {
             if (!isset($data['grouped'][$field])) {
                 continue;
             }
@@ -81,13 +81,13 @@ class Grouping implements ComponentParserInterface
 
             $matches = (isset($result['matches'])) ? $result['matches'] : null;
             $groupCount = (isset($result['ngroups'])) ? $result['ngroups'] : null;
-            if ($grouping->getFormat() === GroupingComponent::FORMAT_SIMPLE) {
-                $valueGroups = array($this->extractValueGroup($valueResultClass, $documentClass, $result, $query));
+            if (GroupingComponent::FORMAT_SIMPLE === $grouping->getFormat()) {
+                $valueGroups = [$this->extractValueGroup($valueResultClass, $documentClass, $result, $query)];
                 $groups[$field] = new FieldGroup($matches, $groupCount, $valueGroups);
                 continue;
             }
 
-            $valueGroups = array();
+            $valueGroups = [];
             foreach ($result['groups'] as $valueGroupResult) {
                 $valueGroups[] = $this->extractValueGroup($valueResultClass, $documentClass, $valueGroupResult, $query);
             }
@@ -109,7 +109,7 @@ class Grouping implements ComponentParserInterface
 
                 // create document instances
                 $documentClass = $query->getOption('documentclass');
-                $documents = array();
+                $documents = [];
                 if (isset($result['doclist']['docs']) && is_array($result['doclist']['docs'])) {
                     foreach ($result['doclist']['docs'] as $doc) {
                         $documents[] = new $documentClass($doc);
@@ -128,10 +128,10 @@ class Grouping implements ComponentParserInterface
     /**
      * Helper method to extract a ValueGroup object from the given value group result array.
      *
-     * @param string $valueResultClass The grouping resultvaluegroupclass option.
-     * @param string $documentClass    The name of the solr document class to use.
-     * @param array  $valueGroupResult The group result from the solr response.
-     * @param Query  $query            The current solr query.
+     * @param string $valueResultClass the grouping resultvaluegroupclass option
+     * @param string $documentClass    the name of the solr document class to use
+     * @param array  $valueGroupResult the group result from the solr response
+     * @param Query  $query            the current solr query
      *
      * @return object
      */
@@ -150,7 +150,7 @@ class Grouping implements ComponentParserInterface
                 $valueGroupResult['doclist']['maxScore'] : null;
 
         // create document instances
-        $documents = array();
+        $documents = [];
         if (isset($valueGroupResult['doclist']['docs']) &&
             is_array($valueGroupResult['doclist']['docs'])) {
             foreach ($valueGroupResult['doclist']['docs'] as $doc) {

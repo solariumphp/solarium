@@ -12,7 +12,7 @@ trait SpellcheckTrait
      *
      * @var array
      */
-    protected $collateParams = array();
+    protected $collateParams = [];
 
     /**
      * Get query option.
@@ -29,7 +29,7 @@ trait SpellcheckTrait
      *
      * Build the spellcheck?
      *
-     * @param boolean $build
+     * @param bool $build
      *
      * @return self Provides fluent interface
      */
@@ -41,7 +41,7 @@ trait SpellcheckTrait
     /**
      * Get build option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getBuild()
     {
@@ -53,7 +53,7 @@ trait SpellcheckTrait
      *
      * Reload the dictionary?
      *
-     * @param boolean $reload
+     * @param bool $reload
      *
      * @return self Provides fluent interface
      */
@@ -65,7 +65,7 @@ trait SpellcheckTrait
     /**
      * Get fragsize option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getReload()
     {
@@ -125,7 +125,7 @@ trait SpellcheckTrait
      *
      * Only return suggestions that result in more hits for the query than the existing query
      *
-     * @param boolean $onlyMorePopular
+     * @param bool $onlyMorePopular
      *
      * @return self Provides fluent interface
      */
@@ -137,7 +137,7 @@ trait SpellcheckTrait
     /**
      * Get onlyMorePopular option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getOnlyMorePopular()
     {
@@ -147,7 +147,7 @@ trait SpellcheckTrait
     /**
      * Set extendedResults option.
      *
-     * @param boolean $extendedResults
+     * @param bool $extendedResults
      *
      * @return self Provides fluent interface
      */
@@ -159,7 +159,7 @@ trait SpellcheckTrait
     /**
      * Get extendedResults option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getExtendedResults()
     {
@@ -169,7 +169,7 @@ trait SpellcheckTrait
     /**
      * Set collate option.
      *
-     * @param boolean $collate
+     * @param bool $collate
      *
      * @return self Provides fluent interface
      */
@@ -181,7 +181,7 @@ trait SpellcheckTrait
     /**
      * Get collate option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getCollate()
     {
@@ -322,5 +322,4 @@ trait SpellcheckTrait
     {
         return $this->collateParams;
     }
-
 }

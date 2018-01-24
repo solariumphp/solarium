@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -149,6 +149,6 @@ class Document extends BaseResult implements \IteratorAggregate, \Countable
 
         if (isset($this->items[$key])) {
             return $this->items[$key];
-        }  
+        }
     }
 }

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -63,7 +63,7 @@ class QueryGroupResult extends StandardQueryGroupResult
     protected $filterRatio;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $filtered = false;
 
@@ -83,7 +83,7 @@ class QueryGroupResult extends StandardQueryGroupResult
         $this->filterRatio = $query->getFilterRatio();
 
         // Use the maximumScore of the first group as maximum for all groups
-        if (self::$overallMaximumScore === null) {
+        if (null === self::$overallMaximumScore) {
             self::$overallMaximumScore = $maximumScore;
         }
 

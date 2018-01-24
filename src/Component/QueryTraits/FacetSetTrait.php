@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait FacetSetTrait
 {
-
     /**
      * Get a FacetSet component instance.
      *
@@ -21,5 +20,4 @@ trait FacetSetTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_FACETSET, true);
     }
-
 }

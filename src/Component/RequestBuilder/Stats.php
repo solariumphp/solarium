@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -66,7 +66,7 @@ class Stats implements ComponentRequestBuilderInterface
             $pivots = $field->getPivots();
 
             $prefix = (count($pivots) > 0) ? '{!tag='.implode(',', $pivots).'}' : '';
-            $request->addParam('stats.field', $prefix . $field->getKey());
+            $request->addParam('stats.field', $prefix.$field->getKey());
 
             // add field specific facet stats
             foreach ($field->getFacets() as $facet) {

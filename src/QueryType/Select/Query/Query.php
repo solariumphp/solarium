@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -56,9 +56,9 @@ use Solarium\Component\QueryTraits\StatsTrait;
 use Solarium\Component\QueryTraits\SuggesterTrait;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser;
-use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Select Query.
@@ -108,60 +108,60 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      *
      * @var array
      */
-    protected $options = array(
-        'handler'       => 'select',
-        'resultclass'   => 'Solarium\QueryType\Select\Result\Result',
+    protected $options = [
+        'handler' => 'select',
+        'resultclass' => 'Solarium\QueryType\Select\Result\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
-        'omitheader'    => true,
-    );
+        'query' => '*:*',
+        'start' => 0,
+        'rows' => 10,
+        'fields' => '*,score',
+        'omitheader' => true,
+    ];
 
     /**
      * Tags for this query.
      *
      * @var array
      */
-    protected $tags = array();
+    protected $tags = [];
 
     /**
      * Fields to fetch.
      *
      * @var array
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
      * Items to sort on.
      *
      * @var array
      */
-    protected $sorts = array();
+    protected $sorts = [];
 
     /**
      * Filterqueries.
      *
      * @var FilterQuery[]
      */
-    protected $filterQueries = array();
+    protected $filterQueries = [];
 
     public function __construct($options = null)
     {
         $this->componentTypes = [
-            ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS      => 'Solarium\Component\MoreLikeThis',
-            ComponentAwareQueryInterface::COMPONENT_SPELLCHECK        => 'Solarium\Component\Spellcheck',
-            ComponentAwareQueryInterface::COMPONENT_SUGGESTER         => 'Solarium\Component\Suggester',
-            ComponentAwareQueryInterface::COMPONENT_DEBUG             => 'Solarium\Component\Debug',
-            ComponentAwareQueryInterface::COMPONENT_SPATIAL           => 'Solarium\Component\Spatial',
-            ComponentAwareQueryInterface::COMPONENT_FACETSET          => 'Solarium\Component\FacetSet',
-            ComponentAwareQueryInterface::COMPONENT_DISMAX            => 'Solarium\Component\DisMax',
-            ComponentAwareQueryInterface::COMPONENT_EDISMAX           => 'Solarium\Component\EdisMax',
-            ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING      => 'Solarium\Component\Highlighting\Highlighting',
-            ComponentAwareQueryInterface::COMPONENT_GROUPING          => 'Solarium\Component\Grouping',
+            ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS => 'Solarium\Component\MoreLikeThis',
+            ComponentAwareQueryInterface::COMPONENT_SPELLCHECK => 'Solarium\Component\Spellcheck',
+            ComponentAwareQueryInterface::COMPONENT_SUGGESTER => 'Solarium\Component\Suggester',
+            ComponentAwareQueryInterface::COMPONENT_DEBUG => 'Solarium\Component\Debug',
+            ComponentAwareQueryInterface::COMPONENT_SPATIAL => 'Solarium\Component\Spatial',
+            ComponentAwareQueryInterface::COMPONENT_FACETSET => 'Solarium\Component\FacetSet',
+            ComponentAwareQueryInterface::COMPONENT_DISMAX => 'Solarium\Component\DisMax',
+            ComponentAwareQueryInterface::COMPONENT_EDISMAX => 'Solarium\Component\EdisMax',
+            ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING => 'Solarium\Component\Highlighting\Highlighting',
+            ComponentAwareQueryInterface::COMPONENT_GROUPING => 'Solarium\Component\Grouping',
             ComponentAwareQueryInterface::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\Component\DistributedSearch',
-            ComponentAwareQueryInterface::COMPONENT_STATS             => 'Solarium\Component\Stats\Stats',
+            ComponentAwareQueryInterface::COMPONENT_STATS => 'Solarium\Component\Stats\Stats',
         ];
 
         parent::__construct($options);
@@ -280,7 +280,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     /**
      * Set the start offset.
      *
-     * @param integer $start
+     * @param int $start
      *
      * @return self Provides fluent interface
      */
@@ -292,7 +292,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     /**
      * Get the start offset.
      *
-     * @return integer
+     * @return int
      */
     public function getStart()
     {
@@ -352,7 +352,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     /**
      * Set the number of rows to fetch.
      *
-     * @param integer $rows
+     * @param int $rows
      *
      * @return self Provides fluent interface
      */
@@ -364,7 +364,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     /**
      * Get the number of rows.
      *
-     * @return integer
+     * @return int
      */
     public function getRows()
     {
@@ -430,7 +430,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function clearFields()
     {
-        $this->fields = array();
+        $this->fields = [];
 
         return $this;
     }
@@ -518,7 +518,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function clearSorts()
     {
-        $this->sorts = array();
+        $this->sorts = [];
 
         return $this;
     }
@@ -573,7 +573,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
             $fq = new FilterQuery($options);
         }
 
-        if ($fq->getKey() !== null) {
+        if (null !== $fq->getKey()) {
             $this->addFilterQuery($fq);
         }
 
@@ -586,9 +586,10 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      * Supports a filterquery instance or a config array, in that case a new
      * filterquery instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param FilterQuery|array $filterQuery
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
@@ -688,7 +689,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function clearFilterQueries()
     {
-        $this->filterQueries = array();
+        $this->filterQueries = [];
 
         return $this;
     }
@@ -769,7 +770,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function clearTags()
     {
-        $this->tags = array();
+        $this->tags = [];
 
         return $this;
     }
@@ -867,5 +868,4 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
             }
         }
     }
-
 }

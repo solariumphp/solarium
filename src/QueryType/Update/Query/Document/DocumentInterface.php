@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -52,5 +52,5 @@ interface DocumentInterface
      * @param array $boosts
      * @param array $modifiers
      */
-    public function __construct(array $fields = array(), array $boosts = array(), array $modifiers = array());
+    public function __construct(array $fields = [], array $boosts = [], array $modifiers = []);
 }

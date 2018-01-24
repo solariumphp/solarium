@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -62,7 +62,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Correctly spelled?
      *
-     * @var boolean
+     * @var bool
      */
     protected $correctlySpelled;
 
@@ -71,7 +71,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @param Suggestion[] $suggestions
      * @param Collation[]  $collations
-     * @param boolean      $correctlySpelled
+     * @param bool         $correctlySpelled
      */
     public function __construct(array $suggestions, array $collations, bool $correctlySpelled)
     {
@@ -90,11 +90,11 @@ class Result implements \IteratorAggregate, \Countable
     public function getCollation($key = null)
     {
         $nrOfCollations = count($this->collations);
-        if ($nrOfCollations == 0) {
+        if (0 == $nrOfCollations) {
             return;
         }
 
-        if ($key === null) {
+        if (null === $key) {
             return reset($this->collations);
         }
 

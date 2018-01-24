@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -97,7 +97,7 @@ class Helper
      * If you want to use the input as a phrase please use the {@link phrase()}
      * method, because a phrase requires much less escaping.\
      *
-     * @link http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
+     * @see http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
      *
      * @param string $input
      *
@@ -141,17 +141,15 @@ class Helper
      *
      * @param int|string|\DateTimeInterface $input accepted formats: timestamp, date string or DateTime / DateTimeImmutable
      *
-     * @return string|boolean false is returned in case of invalid input
+     * @return string|bool false is returned in case of invalid input
      */
     public function formatDate($input)
     {
         switch (true) {
-
             // input of datetime object
             case $input instanceof \DateTimeInterface:
                 // no work needed
                 break;
-
             // input of timestamp or date/time string
             case is_string($input) || is_numeric($input):
 
@@ -167,7 +165,6 @@ class Helper
                     $input = false;
                 }
                 break;
-
             // any other input formats can be added in additional cases here...
             // case $input instanceof Zend_Date:
 
@@ -204,20 +201,20 @@ class Helper
      * Example: rangeQuery('store', '5', '*', false)
      * Returns: store:{5 TO *}
      *
-     * @param string  $field
-     * @param string  $from
-     * @param string  $to
-     * @param boolean $inclusive
+     * @param string $field
+     * @param string $from
+     * @param string $to
+     * @param bool   $inclusive
      *
      * @return string
      */
     public function rangeQuery($field, $from, $to, $inclusive = true)
     {
-        if ($from === null) {
+        if (null === $from) {
             $from = '*';
         }
 
-        if ($to === null) {
+        if (null === $to) {
             $to = '*';
         }
 
@@ -233,11 +230,11 @@ class Helper
      *
      * Find all entries within the distance of a certain point.
      *
-     * @param string  $field
-     * @param string  $pointX
-     * @param string  $pointY
-     * @param string  $distance
-     * @param boolean $dereferenced
+     * @param string $field
+     * @param string $pointX
+     * @param string $pointY
+     * @param string $distance
+     * @param bool   $dereferenced
      *
      * @return string
      */
@@ -245,11 +242,11 @@ class Helper
     {
         return $this->qparser(
             'geofilt',
-            array(
+            [
                 'pt' => $pointX.','.$pointY,
                 'sfield' => $field,
                 'd' => $distance,
-            ),
+            ],
             $dereferenced
         );
     }
@@ -262,11 +259,11 @@ class Helper
      * guaranteed to encompass all of the points of interest, but it may also
      * include other points that are slightly outside of the required distance.
      *
-     * @param string  $field
-     * @param string  $pointX
-     * @param string  $pointY
-     * @param string  $distance
-     * @param boolean $dereferenced
+     * @param string $field
+     * @param string $pointX
+     * @param string $pointY
+     * @param string $distance
+     * @param bool   $dereferenced
      *
      * @return string
      */
@@ -274,11 +271,11 @@ class Helper
     {
         return $this->qparser(
             'bbox',
-            array(
+            [
                 'pt' => $pointX.','.$pointY,
                 'sfield' => $field,
                 'd' => $distance,
-            ),
+            ],
             $dereferenced
         );
     }
@@ -292,10 +289,10 @@ class Helper
      * or combining the distance with the relevancy score,
      * such as boosting by the inverse of the distance.
      *
-     * @param string  $field
-     * @param string  $pointX
-     * @param string  $pointY
-     * @param boolean $dereferenced
+     * @param string $field
+     * @param string $pointX
+     * @param string $pointY
+     * @param bool   $dereferenced
      *
      * @return string
      */
@@ -303,7 +300,7 @@ class Helper
     {
         return $this->functionCall(
             'geodist',
-            array('sfield' => $field, 'pt' => $pointX.','.$pointY),
+            ['sfield' => $field, 'pt' => $pointX.','.$pointY],
             $dereferenced
         );
     }
@@ -311,16 +308,17 @@ class Helper
     /**
      * Render a qparser plugin call.
      *
-     * @throws InvalidArgumentException
      *
-     * @param string  $name
-     * @param array   $params
-     * @param boolean $dereferenced
-     * @param boolean $forceKeys
+     * @param string $name
+     * @param array  $params
+     * @param bool   $dereferenced
+     * @param bool   $forceKeys
+     *
+     * @throws InvalidArgumentException
      *
      * @return string
      */
-    public function qparser($name, $params = array(), $dereferenced = false, $forceKeys = false)
+    public function qparser($name, $params = [], $dereferenced = false, $forceKeys = false)
     {
         if ($dereferenced) {
             if (!$this->query) {
@@ -331,7 +329,7 @@ class Helper
 
             foreach ($params as $paramKey => $paramValue) {
                 if (is_int($paramKey) || $forceKeys) {
-                    $this->derefencedParamsLastKey++;
+                    ++$this->derefencedParamsLastKey;
                     $derefKey = 'deref_'.$this->derefencedParamsLastKey;
                 } else {
                     $derefKey = $paramKey;
@@ -355,13 +353,13 @@ class Helper
     /**
      * Render a functionCall.
      *
-     * @param string  $name
-     * @param array   $params
-     * @param boolean $dereferenced
+     * @param string $name
+     * @param array  $params
+     * @param bool   $dereferenced
      *
      * @return string
      */
-    public function functionCall($name, $params = array(), $dereferenced = false)
+    public function functionCall($name, $params = [], $dereferenced = false)
     {
         if ($dereferenced) {
             foreach ($params as $key => $value) {
@@ -404,7 +402,7 @@ class Helper
 
         return preg_replace_callback(
             $this->placeHolderPattern,
-            array($this, 'renderPlaceHolder'),
+            [$this, 'renderPlaceHolder'],
             $query
         );
     }
@@ -415,15 +413,15 @@ class Helper
      * @see http://wiki.apache.org/solr/Join
      * @since 2.4.0
      *
-     * @param string  $from
-     * @param string  $to
-     * @param boolean $dereferenced
+     * @param string $from
+     * @param string $to
+     * @param bool   $dereferenced
      *
      * @return string
      */
     public function join($from, $to, $dereferenced = false)
     {
-        return $this->qparser('join', array('from' => $from, 'to' => $to), $dereferenced, $dereferenced);
+        return $this->qparser('join', ['from' => $from, 'to' => $to], $dereferenced, $dereferenced);
     }
 
     /**
@@ -443,7 +441,7 @@ class Helper
      */
     public function qparserTerm($field, $weight)
     {
-        return $this->qparser('term', array('f' => $field)).$weight;
+        return $this->qparser('term', ['f' => $field]).$weight;
     }
 
     /**
@@ -453,7 +451,7 @@ class Helper
      *
      * @see http://wiki.apache.org/solr/CommonQueryParameters#Caching_of_filters
      *
-     * @param boolean    $useCache
+     * @param bool       $useCache
      * @param float|null $cost
      *
      * @return string
@@ -462,7 +460,7 @@ class Helper
     {
         $cache = 'false';
 
-        if ($useCache === true) {
+        if (true === $useCache) {
             $cache = 'true';
         }
 
@@ -492,9 +490,10 @@ class Helper
     /**
      * Render placeholders in a querystring.
      *
-     * @throws InvalidArgumentException
      *
      * @param array $matches
+     *
+     * @throws InvalidArgumentException
      *
      * @return string
      */
@@ -503,8 +502,8 @@ class Helper
         $partNumber = $matches[2];
         $partMode = strtoupper($matches[1]);
 
-        if (isset($this->assembleParts[$partNumber-1])) {
-            $value = $this->assembleParts[$partNumber-1];
+        if (isset($this->assembleParts[$partNumber - 1])) {
+            $value = $this->assembleParts[$partNumber - 1];
         } else {
             throw new InvalidArgumentException('No value supplied for part #'.$partNumber.' in query assembler');
         }

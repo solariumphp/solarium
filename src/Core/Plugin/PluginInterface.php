@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\Core\Plugin;
 
-use Solarium\Core\ConfigurableInterface;
 use Solarium\Core\Client\Client;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * Interface for plugins.

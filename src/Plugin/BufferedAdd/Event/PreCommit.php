@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\Plugin\BufferedAdd\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Select\Result\DocumentInterface;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * PreCommit event, see Events for details.
@@ -54,33 +54,33 @@ class PreCommit extends Event
     protected $buffer;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $overwrite;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $softCommit;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $waitSearcher;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $expungeDeletes;
 
     /**
      * Event constructor.
      *
-     * @param array   $buffer
-     * @param boolean $overwrite
-     * @param boolean $softCommit
-     * @param boolean $waitSearcher
-     * @param boolean $expungeDeletes
+     * @param array $buffer
+     * @param bool  $overwrite
+     * @param bool  $softCommit
+     * @param bool  $waitSearcher
+     * @param bool  $expungeDeletes
      */
     public function __construct($buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes)
     {
@@ -114,7 +114,7 @@ class PreCommit extends Event
     /**
      * Optionally override the value.
      *
-     * @param boolean $expungeDeletes
+     * @param bool $expungeDeletes
      */
     public function setExpungeDeletes($expungeDeletes)
     {
@@ -122,7 +122,7 @@ class PreCommit extends Event
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getExpungeDeletes()
     {
@@ -132,7 +132,7 @@ class PreCommit extends Event
     /**
      * Optionally override the value.
      *
-     * @param boolean $overwrite
+     * @param bool $overwrite
      */
     public function setOverwrite($overwrite)
     {
@@ -140,7 +140,7 @@ class PreCommit extends Event
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getOverwrite()
     {
@@ -150,7 +150,7 @@ class PreCommit extends Event
     /**
      * Optionally override the value.
      *
-     * @param boolean $softCommit
+     * @param bool $softCommit
      */
     public function setSoftCommit($softCommit)
     {
@@ -158,7 +158,7 @@ class PreCommit extends Event
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getSoftCommit()
     {
@@ -168,7 +168,7 @@ class PreCommit extends Event
     /**
      * Optionally override the value.
      *
-     * @param boolean $waitSearcher
+     * @param bool $waitSearcher
      */
     public function setWaitSearcher($waitSearcher)
     {
@@ -176,7 +176,7 @@ class PreCommit extends Event
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getWaitSearcher()
     {

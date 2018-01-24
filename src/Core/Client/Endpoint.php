@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -55,14 +55,29 @@ class Endpoint extends Configurable
      *
      * @var array
      */
-    protected $options = array(
-        'scheme'  => 'http',
-        'host'    => '127.0.0.1',
-        'port'    => 8983,
-        'path'    => '/solr',
-        'core'    => null,
+    protected $options = [
+        'scheme' => 'http',
+        'host' => '127.0.0.1',
+        'port' => 8983,
+        'path' => '/solr',
+        'core' => null,
         'timeout' => 5,
-    );
+    ];
+
+    /**
+     * Magic method enables a object to be transformed to a string.
+     *
+     * Get a summary showing significant variables in the object
+     * note: uri resource is decoded for readability
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $output = __CLASS__.'::__toString'."\n".'base uri: '.$this->getBaseUri()."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
+
+        return $output;
+    }
 
     /**
      * Get key value.
@@ -141,7 +156,7 @@ class Endpoint extends Configurable
      */
     public function setPath($path)
     {
-        if (substr($path, -1) == '/') {
+        if ('/' == substr($path, -1)) {
             $path = substr($path, 0, -1);
         }
 
@@ -268,25 +283,10 @@ class Endpoint extends Configurable
      */
     public function getAuthentication()
     {
-        return array(
+        return [
             'username' => $this->getOption('username'),
             'password' => $this->getOption('password'),
-        );
-    }
-
-    /**
-     * Magic method enables a object to be transformed to a string.
-     *
-     * Get a summary showing significant variables in the object
-     * note: uri resource is decoded for readability
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        $output = __CLASS__.'::__toString'."\n".'base uri: '.$this->getBaseUri()."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
-
-        return $output;
+        ];
     }
 
     /**

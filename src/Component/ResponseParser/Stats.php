@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,11 +40,11 @@
 
 namespace Solarium\Component\ResponseParser;
 
-use Solarium\QueryType\Select\Query\Query;
-use Solarium\Component\Stats\Stats as StatsComponent;
-use Solarium\Component\Result\Stats\Stats as ResultStats;
-use Solarium\Component\Result\Stats\Result as ResultStatsResult;
 use Solarium\Component\Result\Stats\FacetValue as ResultStatsFacetValue;
+use Solarium\Component\Result\Stats\Result as ResultStatsResult;
+use Solarium\Component\Result\Stats\Stats as ResultStats;
+use Solarium\Component\Stats\Stats as StatsComponent;
+use Solarium\QueryType\Select\Query\Query;
 
 /**
  * Parse select component Stats result from the data.
@@ -62,7 +62,7 @@ class Stats implements ComponentParserInterface
      */
     public function parse($query, $stats, $data)
     {
-        $results = array();
+        $results = [];
         if (isset($data['stats']['stats_fields'])) {
             $statResults = $data['stats']['stats_fields'];
             foreach ($statResults as $field => $stats) {

@@ -5,7 +5,7 @@ return PhpCsFixer\Config::create()
     ->setRules([
        '@PHP56Migration' => true,
        '@Symfony' => true,
-       '@Symfony:risky' => true,
+       # '@Symfony:risky' => true,
        'array_syntax' => ['syntax' => 'short'],
        'combine_consecutive_unsets' => true,
        # // one should use PHPUnit methods to set up expected exception instead of annotations
@@ -25,12 +25,13 @@ return PhpCsFixer\Config::create()
        'phpdoc_add_missing_param_annotation' => true,
        'phpdoc_order' => true,
        'semicolon_after_instruction' => true,
-       'strict_comparison' => true,
-       'strict_param' => true,
+       # 'strict_comparison' => true,
+       # 'strict_param' => true,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->exclude('vendor/')
+            ->in('src')
             ->in('tests')
     )
 ;

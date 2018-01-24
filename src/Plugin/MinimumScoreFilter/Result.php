@@ -31,7 +31,7 @@
  * @copyright Copyright 2014 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -57,7 +57,7 @@ class Result extends SelectResult
     protected function mapData($mapData)
     {
         foreach ($mapData as $key => $data) {
-            if ($key == 'documents') {
+            if ('documents' == $key) {
                 $filter = new Filter();
                 $mode = $this->getQuery()->getFilterMode();
                 $ratio = $this->getQuery()->getFilterRatio();

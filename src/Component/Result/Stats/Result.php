@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -170,7 +170,7 @@ class Result
     {
         return $this->getValue('facets');
     }
-    
+
     /**
      * Get percentile stats.
      *
@@ -184,10 +184,12 @@ class Result
     /**
      * Get value by name.
      *
+     * @param mixed $name
+     *
      * @return string
      */
     protected function getValue($name)
     {
         return isset($this->stats[$name]) ? $this->stats[$name] : null;
-    }    
+    }
 }

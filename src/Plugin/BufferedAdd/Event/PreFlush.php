@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\Plugin\BufferedAdd\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Solarium\QueryType\Select\Result\DocumentInterface;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * PreFlush event, see Events for details.
@@ -54,7 +54,7 @@ class PreFlush extends Event
     protected $buffer;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $overwrite;
 
@@ -66,9 +66,9 @@ class PreFlush extends Event
     /**
      * Event constructor.
      *
-     * @param array   $buffer
-     * @param boolean $overwrite
-     * @param int     $commitWithin
+     * @param array $buffer
+     * @param bool  $overwrite
+     * @param int   $commitWithin
      */
     public function __construct($buffer, $overwrite, $commitWithin)
     {
@@ -118,7 +118,7 @@ class PreFlush extends Event
     /**
      * Optionally override the value.
      *
-     * @param boolean $overwrite
+     * @param bool $overwrite
      */
     public function setOverwrite($overwrite)
     {
@@ -126,7 +126,7 @@ class PreFlush extends Event
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getOverwrite()
     {

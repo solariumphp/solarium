@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,14 +40,14 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\ComponentTraits\SuggesterTrait;
 use Solarium\Component\RequestBuilder\Suggester as RequestBuilder;
 use Solarium\Component\ResponseParser\Suggester as ResponseParser;
-use Solarium\Component\ComponentTraits\SuggesterTrait;
 
 /**
  * Spellcheck component.
  *
- * @link http://wiki.apache.org/solr/SpellcheckComponent
+ * @see http://wiki.apache.org/solr/SpellcheckComponent
  */
 class Suggester extends AbstractComponent implements SuggesterInterface
 {
@@ -99,5 +99,4 @@ class Suggester extends AbstractComponent implements SuggesterInterface
 
         return $this->setOption('query', trim($query));
     }
-
 }

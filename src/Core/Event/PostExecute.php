@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,9 +40,9 @@
 
 namespace Solarium\Core\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\Result\ResultInterface;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * PostExecute event, see Events for details.

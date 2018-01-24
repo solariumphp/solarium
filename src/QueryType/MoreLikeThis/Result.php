@@ -32,7 +32,7 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -41,9 +41,9 @@
 
 namespace Solarium\QueryType\MoreLikeThis;
 
+use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
-use Solarium\Exception\UnexpectedValueException;
 
 /**
  * MoreLikeThis query result.

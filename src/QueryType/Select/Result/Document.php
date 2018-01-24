@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -73,10 +73,11 @@ class Document extends AbstractDocument implements DocumentInterface
      * Magic method for setting a field as property of this object. Since this
      * is a readonly document an exception will be thrown to prevent this.
      *
-     * @throws RuntimeException
      *
      * @param string $name
      * @param string $value
+     *
+     * @throws RuntimeException
      */
     public function __set($name, $value)
     {

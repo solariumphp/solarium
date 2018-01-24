@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,9 +40,9 @@
 
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 
-use Solarium\QueryType\Analysis\Query\Field as QueryField;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\QueryInterface;
+use Solarium\QueryType\Analysis\Query\Field as QueryField;
 
 /**
  * Build a field analysis request.

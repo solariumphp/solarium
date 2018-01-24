@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,20 +40,20 @@
 
 namespace Solarium\Plugin\Loadbalancer;
 
-use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Exception\InvalidArgumentException;
-use Solarium\Exception\OutOfBoundsException;
-use Solarium\Exception\RuntimeException;
-use Solarium\Exception\HttpException;
-use Solarium\Plugin\Loadbalancer\Event\Events;
-use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as EndpointFailureEvent;
 use Solarium\Core\Event\Events as CoreEvents;
 use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
+use Solarium\Core\Plugin\AbstractPlugin;
+use Solarium\Exception\HttpException;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
+use Solarium\Exception\RuntimeException;
+use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as EndpointFailureEvent;
+use Solarium\Plugin\Loadbalancer\Event\Events;
 
 /**
  * Loadbalancer plugin.
@@ -75,26 +75,26 @@ class Loadbalancer extends AbstractPlugin
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'failoverenabled' => false,
         'failovermaxretries' => 1,
-    );
+    ];
 
     /**
      * Registered endpoints.
      *
      * @var Endpoint[]
      */
-    protected $endpoints = array();
+    protected $endpoints = [];
 
     /**
      * Query types that are blocked from loadbalancing.
      *
      * @var array
      */
-    protected $blockedQueryTypes = array(
+    protected $blockedQueryTypes = [
         Client::QUERY_UPDATE => true,
-    );
+    ];
 
     /**
      * Last used endpoint key.
@@ -158,7 +158,7 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Get failoverenabled option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getFailoverEnabled()
     {
@@ -190,10 +190,11 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Add an endpoint to the loadbalacing 'pool'.
      *
-     * @throws InvalidArgumentException
      *
      * @param Endpoint|string $endpoint
      * @param int             $weight   Must be a positive number
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
@@ -248,7 +249,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function clearEndpoints()
     {
-        $this->endpoints = array();
+        $this->endpoints = [];
     }
 
     /**
@@ -293,9 +294,10 @@ class Loadbalancer extends AbstractPlugin
      * If the next query cannot be loadbalanced (for instance based on the querytype) this setting is ignored
      * but will still be reset.
      *
-     * @throws OutOfBoundsException
      *
      * @param string|null|Endpoint $endpoint
+     *
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -305,7 +307,7 @@ class Loadbalancer extends AbstractPlugin
             $endpoint = $endpoint->getKey();
         }
 
-        if ($endpoint !== null && !array_key_exists($endpoint, $this->endpoints)) {
+        if (null !== $endpoint && !array_key_exists($endpoint, $this->endpoints)) {
             throw new OutOfBoundsException('Unknown endpoint forced for next query');
         }
 
@@ -402,7 +404,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function clearBlockedQueryTypes()
     {
-        $this->blockedQueryTypes = array();
+        $this->blockedQueryTypes = [];
     }
 
     /**
@@ -437,7 +439,7 @@ class Loadbalancer extends AbstractPlugin
         $adapter = $this->client->getAdapter();
 
         // save adapter presets (once) to allow the settings to be restored later
-        if ($this->defaultEndpoint === null) {
+        if (null === $this->defaultEndpoint) {
             $this->defaultEndpoint = $this->client->getEndpoint()->getKey();
         }
 
@@ -458,20 +460,21 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Execute a request using the adapter.
      *
-     * @throws RuntimeException
      *
      * @param Request $request
+     *
+     * @throws RuntimeException
      *
      * @return Response $response
      */
     protected function getLoadbalancedResponse($request)
     {
-        $this->endpointExcludes = array(); // reset for each query
+        $this->endpointExcludes = []; // reset for each query
         $adapter = $this->client->getAdapter();
 
-        if ($this->getFailoverEnabled() === true) {
+        if (true === $this->getFailoverEnabled()) {
             $maxRetries = $this->getFailoverMaxRetries();
-            for ($i = 0; $i <= $maxRetries; $i++) {
+            for ($i = 0; $i <= $maxRetries; ++$i) {
                 $endpoint = $this->getRandomEndpoint();
                 try {
                     return $adapter->execute($request, $endpoint);
@@ -503,7 +506,7 @@ class Loadbalancer extends AbstractPlugin
     protected function getRandomEndpoint()
     {
         // determine the endpoint to use
-        if ($this->nextEndpoint !== null) {
+        if (null !== $this->nextEndpoint) {
             $key = $this->nextEndpoint;
             // reset forced endpoint directly after use
             $this->nextEndpoint = null;
@@ -524,7 +527,7 @@ class Loadbalancer extends AbstractPlugin
      */
     protected function getRandomizer()
     {
-        if ($this->randomizer === null) {
+        if (null === $this->randomizer) {
             $this->randomizer = new WeightedRandomChoice($this->endpoints);
         }
 
@@ -559,7 +562,7 @@ class Loadbalancer extends AbstractPlugin
     protected function initPluginType()
     {
         $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->addListener(CoreEvents::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
-        $dispatcher->addListener(CoreEvents::PRE_CREATE_REQUEST, array($this, 'preCreateRequest'));
+        $dispatcher->addListener(CoreEvents::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
+        $dispatcher->addListener(CoreEvents::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
     }
 }

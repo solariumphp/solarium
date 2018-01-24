@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,9 +40,9 @@
 
 namespace Solarium\Plugin\Loadbalancer\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\HttpException;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * EndpointFailure event, see Events for details.

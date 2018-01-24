@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,16 +40,16 @@
 
 namespace Solarium\Component\RequestBuilder;
 
-use Solarium\Core\Client\Request;
-use Solarium\QueryType\Select\RequestBuilder;
-use Solarium\Component\FacetSet as FacetsetComponent;
 use Solarium\Component\Facet\Field as FacetField;
+use Solarium\Component\Facet\Interval as FacetInterval;
 use Solarium\Component\Facet\MultiQuery as FacetMultiQuery;
+use Solarium\Component\Facet\Pivot as FacetPivot;
 use Solarium\Component\Facet\Query as FacetQuery;
 use Solarium\Component\Facet\Range as FacetRange;
-use Solarium\Component\Facet\Pivot as FacetPivot;
-use Solarium\Component\Facet\Interval as FacetInterval;
+use Solarium\Component\FacetSet as FacetsetComponent;
+use Solarium\Core\Client\Request;
 use Solarium\Exception\UnexpectedValueException;
+use Solarium\QueryType\Select\RequestBuilder;
 
 /**
  * Add select component FacetSet to the request.
@@ -59,17 +59,18 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     /**
      * Add request settings for FacetSet.
      *
-     * @throws UnexpectedValueException
      *
      * @param FacetsetComponent $component
      * @param Request           $request
+     *
+     * @throws UnexpectedValueException
      *
      * @return Request
      */
     public function buildComponent($component, $request)
     {
         $facets = $component->getFacets();
-        if (count($facets) !== 0) {
+        if (0 !== count($facets)) {
             // enable faceting
             $request->addParam('facet', 'true');
 
@@ -125,7 +126,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             'facet.field',
             $this->renderLocalParams(
                 $field,
-                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()]
             )
         );
 
@@ -152,7 +153,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             'facet.query',
             $this->renderLocalParams(
                 $facet->getQuery(),
-                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()]
             )
         );
     }
@@ -184,7 +185,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             'facet.range',
             $this->renderLocalParams(
                 $field,
-                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()]
             )
         );
 
@@ -214,30 +215,29 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $stats = $facet->getStats();
 
         if (count($stats) > 0) {
-            $key = array('stats' => implode('', $stats));
+            $key = ['stats' => implode('', $stats)];
 
             // when specifying stats, solr sets the field as key
             $facet->setKey(implode(',', $facet->getFields()));
         } else {
-            $key = array('key' => $facet->getKey());
+            $key = ['key' => $facet->getKey()];
         }
 
         $request->addParam(
             'facet.pivot',
             $this->renderLocalParams(
                 implode(',', $facet->getFields()),
-                array_merge($key, array('ex' => $facet->getExcludes()))
+                array_merge($key, ['ex' => $facet->getExcludes()])
             )
         );
         $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
     }
 
     /**
-     * Add params for a interval facet to request
+     * Add params for a interval facet to request.
      *
-     * @param  Request    $request
-     * @param  FacetInterval $facet
-     * @return void
+     * @param Request       $request
+     * @param FacetInterval $facet
      */
     public function addFacetInterval($request, $facet)
     {
@@ -247,12 +247,12 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             'facet.interval',
             $this->renderLocalParams(
                 $field,
-                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()]
             )
         );
 
         foreach ($facet->getSet() as $key => $setValue) {
-            if(is_string($key)) {
+            if (is_string($key)) {
                 $setValue = '{!key="'.$key.'"}'.$setValue;
             }
             $request->addParam("f.$field.facet.interval.set", $setValue);

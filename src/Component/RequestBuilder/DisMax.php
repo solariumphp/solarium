@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -71,7 +71,7 @@ class DisMax implements ComponentRequestBuilderInterface
 
         // add boostqueries to request
         $boostQueries = $component->getBoostQueries();
-        if (count($boostQueries) !== 0) {
+        if (0 !== count($boostQueries)) {
             foreach ($boostQueries as $boostQuery) {
                 $request->addParam('bq', $boostQuery->getQuery());
             }

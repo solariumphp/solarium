@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\Core\Client\Adapter;
 
-use Solarium\Core\ConfigurableInterface;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Client\Endpoint;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * Interface for client adapters.

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -50,7 +50,7 @@ class Pivot implements \IteratorAggregate, \Countable
      *
      * @var array
      */
-    protected $pivot = array();
+    protected $pivot = [];
 
     /**
      * Constructor.

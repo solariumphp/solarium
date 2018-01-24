@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,11 +40,11 @@
 
 namespace Solarium\Plugin\CustomizeRequest;
 
+use Solarium\Core\Event\Events;
+use Solarium\Core\Event\PreExecuteRequest as preExecuteRequestEvent;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
-use Solarium\Core\Event\Events;
-use Solarium\Core\Event\PreExecuteRequest as preExecuteRequestEvent;
 
 /**
  * CustomizeRequest plugin.
@@ -59,7 +59,7 @@ class CustomizeRequest extends AbstractPlugin
      *
      * @var Customization[]
      */
-    protected $customizations = array();
+    protected $customizations = [];
 
     /**
      * Create a Customization instance.
@@ -84,7 +84,7 @@ class CustomizeRequest extends AbstractPlugin
             $fq = new Customization($options);
         }
 
-        if ($fq->getKey() !== null) {
+        if (null !== $fq->getKey()) {
             $this->addCustomization($fq);
         }
 
@@ -97,9 +97,10 @@ class CustomizeRequest extends AbstractPlugin
      * Supports a Customization instance or a config array, in that case a new
      * Customization instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param Customization|array $customization
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
@@ -161,7 +162,7 @@ class CustomizeRequest extends AbstractPlugin
     {
         if (isset($this->customizations[$key])) {
             return $this->customizations[$key];
-        }  
+        }
     }
 
     /**
@@ -203,7 +204,7 @@ class CustomizeRequest extends AbstractPlugin
      */
     public function clearCustomizations()
     {
-        $this->customizations = array();
+        $this->customizations = [];
 
         return $this;
     }
@@ -224,9 +225,10 @@ class CustomizeRequest extends AbstractPlugin
     /**
      * Event hook to customize the request object.
      *
-     * @throws RuntimeException
      *
      * @param preExecuteRequestEvent $event
+     *
+     * @throws RuntimeException
      */
     public function preExecuteRequest(preExecuteRequestEvent $event)
     {
@@ -282,6 +284,6 @@ class CustomizeRequest extends AbstractPlugin
     protected function initPluginType()
     {
         $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
+        $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
     }
 }

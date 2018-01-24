@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\RealtimeGet;
 
-use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\QueryType\Select\ResponseParser;
 
 /**
@@ -58,19 +58,19 @@ class Query extends BaseQuery
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'resultclass' => 'Solarium\QueryType\RealtimeGet\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
         'handler' => 'get',
-        'omitheader'    => true,
-    );
+        'omitheader' => true,
+    ];
 
     /**
      * Document IDs.
      *
      * @var array
      */
-    protected $ids = array();
+    protected $ids = [];
 
     /**
      * Get type for this query.
@@ -160,7 +160,7 @@ class Query extends BaseQuery
      */
     public function clearIds()
     {
-        $this->ids = array();
+        $this->ids = [];
 
         return $this;
     }
@@ -225,6 +225,6 @@ class Query extends BaseQuery
      */
     public function getComponents()
     {
-        return array();
+        return [];
     }
 }
