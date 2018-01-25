@@ -20,9 +20,9 @@ class GroupingTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
-            'fields' => array('fieldA', 'fieldB'),
-            'queries' => array('cat:3', 'cat:4'),
+        $options = [
+            'fields' => ['fieldA', 'fieldB'],
+            'queries' => ['cat:3', 'cat:4'],
             'limit' => 8,
             'offset' => 1,
             'sort' => 'score desc',
@@ -33,7 +33,7 @@ class GroupingTest extends TestCase
             'function' => 'log(foo)',
             'format' => 'grouped',
             'facet' => 'true',
-        );
+        ];
 
         $this->grouping->setOptions($options);
 
@@ -100,7 +100,7 @@ class GroupingTest extends TestCase
         $this->grouping->setFields($value);
 
         $this->assertSame(
-            array($value),
+            [$value],
             $this->grouping->getFields()
         );
     }
@@ -111,17 +111,17 @@ class GroupingTest extends TestCase
         $this->grouping->setFields($value);
 
         $this->assertSame(
-            array(
+            [
                 'fieldD',
                 'fieldE',
-            ),
+            ],
             $this->grouping->getFields()
         );
     }
 
     public function testSetAndGetFieldsArray()
     {
-        $values = array('fieldD', 'fieldE');
+        $values = ['fieldD', 'fieldE'];
         $this->grouping->setFields($values);
 
         $this->assertSame(
@@ -136,14 +136,14 @@ class GroupingTest extends TestCase
         $this->grouping->setQueries($value);
 
         $this->assertSame(
-            array($value),
+            [$value],
             $this->grouping->getQueries()
         );
     }
 
     public function testSetAndGetQueriesArray()
     {
-        $values = array('cat:5', 'cat:6');
+        $values = ['cat:5', 'cat:6'];
         $this->grouping->setQueries($values);
 
         $this->assertSame(

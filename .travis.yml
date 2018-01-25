@@ -30,7 +30,8 @@ before_script:
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
   - solr-${SOLR_VERSION}/bin/solr start -e techproducts
 
-script: vendor/bin/phpunit -c phpunit.xml.travis -v
+script:
+  - vendor/bin/phpunit -c phpunit.xml.travis -v
 
 after_success:
   - travis_retry php vendor/bin/coveralls -v

@@ -20,11 +20,11 @@ class DebugTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'debugQuery' => 'true',
                 'debug.explain.structured' => 'true',
                 'explainOther' => 'id:45',
-            ),
+            ],
             $request->getParams()
         );
     }

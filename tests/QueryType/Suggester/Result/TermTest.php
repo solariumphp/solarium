@@ -56,7 +56,7 @@ class TermTest extends TestCase
 
     public function testIterator()
     {
-        $results = array();
+        $results = [];
         foreach ($this->result as $key => $doc) {
             $results[$key] = $doc;
         }

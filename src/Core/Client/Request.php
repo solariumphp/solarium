@@ -1,42 +1,4 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
-
-/**
- * @namespace
- */
 
 namespace Solarium\Core\Client;
 
@@ -51,31 +13,31 @@ class Request extends Configurable
     /**
      * Request GET method.
      */
-    const METHOD_GET     = 'GET';
+    const METHOD_GET = 'GET';
 
     /**
      * Request POST method.
      */
-    const METHOD_POST    = 'POST';
+    const METHOD_POST = 'POST';
 
     /**
      * Request HEAD method.
      */
-    const METHOD_HEAD    = 'HEAD';
+    const METHOD_HEAD = 'HEAD';
 
     /**
      * Default options.
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'method' => self::METHOD_GET,
-    );
+    ];
 
     /**
      * Request headers.
      */
-    protected $headers = array();
+    protected $headers = [];
 
     /**
      * Request params.
@@ -85,7 +47,7 @@ class Request extends Configurable
      *
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * Raw POST data.
@@ -93,6 +55,21 @@ class Request extends Configurable
      * @var string
      */
     protected $rawData;
+
+    /**
+     * Magic method enables a object to be transformed to a string.
+     *
+     * Get a summary showing significant variables in the object
+     * note: uri resource is decoded for readability
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $output = __CLASS__.'::__toString'."\n".'method: '.$this->getMethod()."\n".'header: '.print_r($this->getHeaders(), 1).'authentication: '.print_r($this->getAuthentication(), 1).'resource: '.$this->getUri()."\n".'resource urldecoded: '.urldecode($this->getUri())."\n".'raw data: '.$this->getRawData()."\n".'file upload: '.$this->getFileUpload()."\n";
+
+        return $output;
+    }
 
     /**
      * Set request handler.
@@ -194,23 +171,23 @@ class Request extends Configurable
      *
      * @param string       $key
      * @param string|array $value
-     * @param boolean      $overwrite
+     * @param bool         $overwrite
      *
      * @return self Provides fluent interface
      */
     public function addParam($key, $value, $overwrite = false)
     {
-        if ($value !== null) {
+        if (null !== $value) {
             if (!$overwrite && isset($this->params[$key])) {
                 if (!is_array($this->params[$key])) {
-                    $this->params[$key] = array($this->params[$key]);
+                    $this->params[$key] = [$this->params[$key]];
                 }
                 $this->params[$key][] = $value;
             } else {
                 // not all solr handlers support 0/1 as boolean values...
-                if ($value === true) {
+                if (true === $value) {
                     $value = 'true';
-                } elseif ($value === false) {
+                } elseif (false === $value) {
                     $value = 'false';
                 }
 
@@ -224,8 +201,8 @@ class Request extends Configurable
     /**
      * Add multiple params to the request.
      *
-     * @param array   $params
-     * @param boolean $overwrite
+     * @param array $params
+     * @param bool  $overwrite
      *
      * @return self Provides fluent interface
      */
@@ -261,7 +238,7 @@ class Request extends Configurable
      */
     public function clearParams()
     {
-        $this->params = array();
+        $this->params = [];
 
         return $this;
     }
@@ -305,9 +282,10 @@ class Request extends Configurable
     /**
      * Set the file to upload via "multipart/form-data" POST request.
      *
-     * @throws RuntimeException
      *
      * @param string $filename Name of file to upload
+     *
+     * @throws RuntimeException
      *
      * @return self
      */
@@ -384,7 +362,7 @@ class Request extends Configurable
      */
     public function clearHeaders()
     {
-        $this->headers = array();
+        $this->headers = [];
 
         return $this;
     }
@@ -420,21 +398,6 @@ class Request extends Configurable
     }
 
     /**
-     * Magic method enables a object to be transformed to a string.
-     *
-     * Get a summary showing significant variables in the object
-     * note: uri resource is decoded for readability
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        $output = __CLASS__.'::__toString'."\n".'method: '.$this->getMethod()."\n".'header: '.print_r($this->getHeaders(), 1).'authentication: '.print_r($this->getAuthentication(), 1).'resource: '.$this->getUri()."\n".'resource urldecoded: '.urldecode($this->getUri())."\n".'raw data: '.$this->getRawData()."\n".'file upload: '.$this->getFileUpload()."\n";
-
-        return $output;
-    }
-
-    /**
      * Set HTTP basic auth settings.
      *
      * If one or both values are NULL authentication will be disabled
@@ -459,10 +422,10 @@ class Request extends Configurable
      */
     public function getAuthentication()
     {
-        return array(
+        return [
             'username' => $this->getOption('username'),
             'password' => $this->getOption('password'),
-        );
+        ];
     }
 
     /**

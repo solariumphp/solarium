@@ -1,42 +1,4 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
-
-/**
- * @namespace
- */
 
 namespace Solarium\QueryType\Select\Query;
 
@@ -56,9 +18,9 @@ use Solarium\Component\QueryTraits\StatsTrait;
 use Solarium\Component\QueryTraits\SuggesterTrait;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser;
-use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Select Query.
@@ -108,60 +70,60 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      *
      * @var array
      */
-    protected $options = array(
-        'handler'       => 'select',
-        'resultclass'   => 'Solarium\QueryType\Select\Result\Result',
+    protected $options = [
+        'handler' => 'select',
+        'resultclass' => 'Solarium\QueryType\Select\Result\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
-        'omitheader'    => true,
-    );
+        'query' => '*:*',
+        'start' => 0,
+        'rows' => 10,
+        'fields' => '*,score',
+        'omitheader' => true,
+    ];
 
     /**
      * Tags for this query.
      *
      * @var array
      */
-    protected $tags = array();
+    protected $tags = [];
 
     /**
      * Fields to fetch.
      *
      * @var array
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
      * Items to sort on.
      *
      * @var array
      */
-    protected $sorts = array();
+    protected $sorts = [];
 
     /**
      * Filterqueries.
      *
      * @var FilterQuery[]
      */
-    protected $filterQueries = array();
+    protected $filterQueries = [];
 
     public function __construct($options = null)
     {
         $this->componentTypes = [
-            ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS      => 'Solarium\Component\MoreLikeThis',
-            ComponentAwareQueryInterface::COMPONENT_SPELLCHECK        => 'Solarium\Component\Spellcheck',
-            ComponentAwareQueryInterface::COMPONENT_SUGGESTER         => 'Solarium\Component\Suggester',
-            ComponentAwareQueryInterface::COMPONENT_DEBUG             => 'Solarium\Component\Debug',
-            ComponentAwareQueryInterface::COMPONENT_SPATIAL           => 'Solarium\Component\Spatial',
-            ComponentAwareQueryInterface::COMPONENT_FACETSET          => 'Solarium\Component\FacetSet',
-            ComponentAwareQueryInterface::COMPONENT_DISMAX            => 'Solarium\Component\DisMax',
-            ComponentAwareQueryInterface::COMPONENT_EDISMAX           => 'Solarium\Component\EdisMax',
-            ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING      => 'Solarium\Component\Highlighting\Highlighting',
-            ComponentAwareQueryInterface::COMPONENT_GROUPING          => 'Solarium\Component\Grouping',
+            ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS => 'Solarium\Component\MoreLikeThis',
+            ComponentAwareQueryInterface::COMPONENT_SPELLCHECK => 'Solarium\Component\Spellcheck',
+            ComponentAwareQueryInterface::COMPONENT_SUGGESTER => 'Solarium\Component\Suggester',
+            ComponentAwareQueryInterface::COMPONENT_DEBUG => 'Solarium\Component\Debug',
+            ComponentAwareQueryInterface::COMPONENT_SPATIAL => 'Solarium\Component\Spatial',
+            ComponentAwareQueryInterface::COMPONENT_FACETSET => 'Solarium\Component\FacetSet',
+            ComponentAwareQueryInterface::COMPONENT_DISMAX => 'Solarium\Component\DisMax',
+            ComponentAwareQueryInterface::COMPONENT_EDISMAX => 'Solarium\Component\EdisMax',
+            ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING => 'Solarium\Component\Highlighting\Highlighting',
+            ComponentAwareQueryInterface::COMPONENT_GROUPING => 'Solarium\Component\Grouping',
             ComponentAwareQueryInterface::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\Component\DistributedSearch',
-            ComponentAwareQueryInterface::COMPONENT_STATS             => 'Solarium\Component\Stats\Stats',
+            ComponentAwareQueryInterface::COMPONENT_STATS => 'Solarium\Component\Stats\Stats',
         ];
 
         parent::__construct($options);
@@ -210,11 +172,11 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getHelper()->assemble($query, $bind);
         }
 
-        if (!is_null($query)) {
+        if (null !== $query) {
             $query = trim($query);
         }
 
@@ -280,7 +242,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     /**
      * Set the start offset.
      *
-     * @param integer $start
+     * @param int $start
      *
      * @return self Provides fluent interface
      */
@@ -292,7 +254,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     /**
      * Get the start offset.
      *
-     * @return integer
+     * @return int
      */
     public function getStart()
     {
@@ -352,7 +314,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     /**
      * Set the number of rows to fetch.
      *
-     * @param integer $rows
+     * @param int $rows
      *
      * @return self Provides fluent interface
      */
@@ -364,7 +326,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     /**
      * Get the number of rows.
      *
-     * @return integer
+     * @return int
      */
     public function getRows()
     {
@@ -430,7 +392,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function clearFields()
     {
-        $this->fields = array();
+        $this->fields = [];
 
         return $this;
     }
@@ -518,7 +480,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function clearSorts()
     {
-        $this->sorts = array();
+        $this->sorts = [];
 
         return $this;
     }
@@ -573,7 +535,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
             $fq = new FilterQuery($options);
         }
 
-        if ($fq->getKey() !== null) {
+        if (null !== $fq->getKey()) {
             $this->addFilterQuery($fq);
         }
 
@@ -586,9 +548,10 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      * Supports a filterquery instance or a config array, in that case a new
      * filterquery instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param FilterQuery|array $filterQuery
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
@@ -688,7 +651,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function clearFilterQueries()
     {
-        $this->filterQueries = array();
+        $this->filterQueries = [];
 
         return $this;
     }
@@ -769,7 +732,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
      */
     public function clearTags()
     {
-        $this->tags = array();
+        $this->tags = [];
 
         return $this;
     }
@@ -867,5 +830,4 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
             }
         }
     }
-
 }

@@ -56,9 +56,9 @@ class FixtureLoaderTest extends TestCase
             ->method('getFixtures')
             ->will(
                 $this->returnValue(
-                    array(
+                    [
                         $this->getMockFixture(),
-                    )
+                    ]
                 )
             );
 

@@ -16,7 +16,7 @@ class ResultTest extends TestCase
 
     public function setUp()
     {
-        $this->docs = array(
+        $this->docs = [
             'dictionary1' => new Dictionary([
                 'foo' => new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),
                 'zoo' => new Term(1, [['term' => 'zoo keeper']]),
@@ -24,13 +24,13 @@ class ResultTest extends TestCase
             'dictionary2' => new Dictionary([
                 'free' => new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
             ]),
-        );
+        ];
 
-        $all = array(
+        $all = [
             new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),
             new Term(1, [['term' => 'zoo keeper']]),
             new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
-        );
+        ];
 
         $this->result = new Result($this->docs, $all);
     }
@@ -42,7 +42,7 @@ class ResultTest extends TestCase
 
     public function testIterator()
     {
-        $docs = array();
+        $docs = [];
         foreach ($this->result as $key => $doc) {
             $docs[$key] = $doc;
         }

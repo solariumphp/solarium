@@ -32,16 +32,16 @@ class LoadbalancerTest extends TestCase
     {
         $this->plugin = new Loadbalancer();
 
-        $options = array(
-            'endpoint' => array(
-                'server1' => array(
+        $options = [
+            'endpoint' => [
+                'server1' => [
                     'host' => 'host1',
-                ),
-                'server2' => array(
+                ],
+                'server2' => [
                     'host' => 'host2',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->client = new Client($options);
         $adapter = $this->createMock(AdapterInterface::class);
@@ -49,28 +49,28 @@ class LoadbalancerTest extends TestCase
             ->method('execute')
             ->willReturn('dummyresult');
         $this->client->setAdapter($adapter);
-        $this->plugin->initPlugin($this->client, array());
+        $this->plugin->initPlugin($this->client, []);
     }
 
     public function testConfigMode()
     {
-        $options = array(
-            'endpoint' => array(
+        $options = [
+            'endpoint' => [
                 'server1' => 10,
                 'server2' => 5,
-            ),
-            'blockedquerytype' => array(Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS),
-        );
+            ],
+            'blockedquerytype' => [Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS],
+        ];
 
         $this->plugin->setOptions($options);
 
         $this->assertSame(
-            array('server1' => 10, 'server2' => 5),
+            ['server1' => 10, 'server2' => 5],
             $this->plugin->getEndpoints()
         );
 
         $this->assertSame(
-            array(Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS),
+            [Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS],
             $this->plugin->getBlockedQueryTypes()
         );
     }
@@ -92,7 +92,7 @@ class LoadbalancerTest extends TestCase
         $this->plugin->addEndpoint('s1', 10);
 
         $this->assertSame(
-            array('s1' => 10),
+            ['s1' => 10],
             $this->plugin->getEndpoints()
         );
     }
@@ -102,14 +102,14 @@ class LoadbalancerTest extends TestCase
         $this->plugin->addEndpoint($this->client->getEndpoint('server1'), 10);
 
         $this->assertSame(
-            array('server1' => 10),
+            ['server1' => 10],
             $this->plugin->getEndpoints()
         );
     }
 
     public function testAddEndpoints()
     {
-        $endpoints = array('s1' => 10, 's2' => 8);
+        $endpoints = ['s1' => 10, 's2' => 8];
         $this->plugin->addEndpoints($endpoints);
 
         $this->assertSame(
@@ -130,52 +130,52 @@ class LoadbalancerTest extends TestCase
     {
         $this->plugin->addEndpoint('s1', 10);
         $this->plugin->clearEndpoints();
-        $this->assertSame(array(), $this->plugin->getEndpoints());
+        $this->assertSame([], $this->plugin->getEndpoints());
     }
 
     public function testRemoveEndpoint()
     {
-        $endpoints = array(
+        $endpoints = [
             's1' => 10,
             's2' => 20,
-        );
+        ];
 
         $this->plugin->addEndpoints($endpoints);
         $this->plugin->removeEndpoint('s1');
 
         $this->assertSame(
-            array('s2' => 20),
+            ['s2' => 20],
             $this->plugin->getEndpoints()
         );
     }
 
     public function testRemoveEndpointWithObject()
     {
-        $endpoints = array(
+        $endpoints = [
             'server1' => 10,
             'server2' => 20,
-        );
+        ];
 
         $this->plugin->addEndpoints($endpoints);
         $this->plugin->removeEndpoint($this->client->getEndpoint('server1'));
 
         $this->assertSame(
-            array('server2' => 20),
+            ['server2' => 20],
             $this->plugin->getEndpoints()
         );
     }
 
     public function testSetEndpoints()
     {
-        $endpoints1 = array(
+        $endpoints1 = [
             's1' => 10,
             's2' => 20,
-        );
+        ];
 
-        $endpoints2 = array(
+        $endpoints2 = [
             's3' => 50,
             's4' => 30,
-        );
+        ];
 
         $this->plugin->addEndpoints($endpoints1);
         $this->plugin->setEndpoints($endpoints2);
@@ -188,10 +188,10 @@ class LoadbalancerTest extends TestCase
 
     public function testSetAndGetForcedEndpointForNextQuery()
     {
-        $endpoints1 = array(
+        $endpoints1 = [
             's1' => 10,
             's2' => 20,
-        );
+        ];
         $this->plugin->addEndpoints($endpoints1);
 
         $this->plugin->setForcedEndpointForNextQuery('s2');
@@ -200,10 +200,10 @@ class LoadbalancerTest extends TestCase
 
     public function testSetAndGetForcedEndpointForNextQueryWithObject()
     {
-        $endpoints1 = array(
+        $endpoints1 = [
             'server1' => 10,
             'server2' => 20,
-        );
+        ];
         $this->plugin->addEndpoints($endpoints1);
 
         $this->plugin->setForcedEndpointForNextQuery($this->client->getEndpoint('server2'));
@@ -212,10 +212,10 @@ class LoadbalancerTest extends TestCase
 
     public function testSetForcedEndpointForNextQueryWithInvalidKey()
     {
-        $endpoints1 = array(
+        $endpoints1 = [
             's1' => 10,
             's2' => 20,
-        );
+        ];
         $this->plugin->addEndpoints($endpoints1);
 
         $this->expectException('Solarium\Exception\OutOfBoundsException');
@@ -228,7 +228,7 @@ class LoadbalancerTest extends TestCase
         $this->plugin->addBlockedQueryType('type2');
 
         $this->assertSame(
-            array(Client::QUERY_UPDATE, 'type1', 'type2'),
+            [Client::QUERY_UPDATE, 'type1', 'type2'],
             $this->plugin->getBlockedQueryTypes()
         );
     }
@@ -238,12 +238,12 @@ class LoadbalancerTest extends TestCase
         $this->plugin->addBlockedQueryType('type1');
         $this->plugin->addBlockedQueryType('type2');
         $this->plugin->clearBlockedQueryTypes();
-        $this->assertSame(array(), $this->plugin->getBlockedQueryTypes());
+        $this->assertSame([], $this->plugin->getBlockedQueryTypes());
     }
 
     public function testAddBlockedQueryTypes()
     {
-        $blockedQueryTypes = array('type1', 'type2', 'type3');
+        $blockedQueryTypes = ['type1', 'type2', 'type3'];
 
         $this->plugin->clearBlockedQueryTypes();
         $this->plugin->addBlockedQueryTypes($blockedQueryTypes);
@@ -252,21 +252,21 @@ class LoadbalancerTest extends TestCase
 
     public function testRemoveBlockedQueryType()
     {
-        $blockedQueryTypes = array('type1', 'type2', 'type3');
+        $blockedQueryTypes = ['type1', 'type2', 'type3'];
 
         $this->plugin->clearBlockedQueryTypes();
         $this->plugin->addBlockedQueryTypes($blockedQueryTypes);
         $this->plugin->removeBlockedQueryType('type2');
 
         $this->assertSame(
-            array('type1', 'type3'),
+            ['type1', 'type3'],
             $this->plugin->getBlockedQueryTypes()
         );
     }
 
     public function testSetBlockedQueryTypes()
     {
-        $blockedQueryTypes = array('type1', 'type2', 'type3');
+        $blockedQueryTypes = ['type1', 'type2', 'type3'];
 
         $this->plugin->setBlockedQueryTypes($blockedQueryTypes);
 
@@ -278,10 +278,10 @@ class LoadbalancerTest extends TestCase
 
     public function testPreExecuteRequestWithForcedEndpoint()
     {
-        $endpoints = array(
+        $endpoints = [
            'server1' => 100,
            'server2' => 1,
-        );
+        ];
         $query = new SelectQuery();
         $request = new Request();
 
@@ -303,10 +303,10 @@ class LoadbalancerTest extends TestCase
     public function testDefaultEndpointRestore()
     {
         $originalHost = $this->client->getEndpoint()->getHost();
-        $endpoints = array(
+        $endpoints = [
            'server1' => 100,
            'server2' => 1,
-        );
+        ];
         $request = new Request();
 
         $this->plugin->setEndpoints($endpoints);
@@ -340,10 +340,10 @@ class LoadbalancerTest extends TestCase
     public function testBlockedQueryTypeNotLoadbalanced()
     {
         $originalHost = $this->client->getEndpoint()->getHost();
-        $endpoints = array(
+        $endpoints = [
            'server1' => 100,
            'server2' => 1,
-        );
+        ];
         $this->plugin->setEndpoints($endpoints);
         $request = new Request();
 
@@ -366,10 +366,10 @@ class LoadbalancerTest extends TestCase
 
     public function testLoadbalancerRandomizing()
     {
-        $endpoints = array(
+        $endpoints = [
            'server1' => 1,
            'server2' => 1,
-        );
+        ];
         $this->plugin->setEndpoints($endpoints);
         $request = new Request();
 
@@ -381,7 +381,7 @@ class LoadbalancerTest extends TestCase
         $this->plugin->preExecuteRequest($event);
 
         $this->assertTrue(
-            in_array($this->plugin->getLastEndpoint(), array('server1', 'server2'))
+            in_array($this->plugin->getLastEndpoint(), ['server1', 'server2'], true)
         );
     }
 
@@ -389,13 +389,13 @@ class LoadbalancerTest extends TestCase
     {
         $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns endpoints in fixed order
         $this->client->setAdapter(new TestAdapterForFailover()); // set special mock that fails once
-        $this->plugin->initPlugin($this->client, array());
+        $this->plugin->initPlugin($this->client, []);
 
         $request = new Request();
-        $endpoints = array(
+        $endpoints = [
            'server1' => 1,
            'server2' => 1,
-        );
+        ];
         $this->plugin->setEndpoints($endpoints);
         $this->plugin->setFailoverEnabled(true);
 
@@ -419,13 +419,13 @@ class LoadbalancerTest extends TestCase
         $adapter = new TestAdapterForFailover();
         $adapter->setFailCount(10);
         $this->client->setAdapter($adapter); // set special mock that fails for all endpoints
-        $this->plugin->initPlugin($this->client, array());
+        $this->plugin->initPlugin($this->client, []);
 
         $request = new Request();
-        $endpoints = array(
+        $endpoints = [
            'server1' => 1,
            'server2' => 1,
-        );
+        ];
         $this->plugin->setEndpoints($endpoints);
         $this->plugin->setFailoverEnabled(true);
 

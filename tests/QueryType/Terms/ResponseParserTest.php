@@ -11,26 +11,26 @@ class ResponseParserTest extends TestCase
 {
     public function testParse()
     {
-        $data = array(
-            'responseHeader' => array(
+        $data = [
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 13,
-            ),
-            'terms' => array(
-                'fieldA' => array(
+            ],
+            'terms' => [
+                'fieldA' => [
                     'term1',
                     5,
                     'term2',
                     3,
-                ),
-                'fieldB' => array(
+                ],
+                'fieldB' => [
                     'term3',
                     6,
                     'term4',
                     2,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $query = new Query();
         $query->setFields('fieldA,fieldB');
@@ -46,16 +46,16 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
-        $expected = array(
-            'fieldA' => array(
+        $expected = [
+            'fieldA' => [
                 'term1' => 5,
                 'term2' => 3,
-            ),
-            'fieldB' => array(
+            ],
+            'fieldB' => [
                 'term3' => 6,
                 'term4' => 2,
-            ),
-        );
+            ],
+        ];
 
         $this->assertSame($expected, $result['results']);
         $this->assertCount(2, $result['results']);
@@ -63,28 +63,28 @@ class ResponseParserTest extends TestCase
 
     public function testParseSolr14Format()
     {
-        $data = array(
-            'responseHeader' => array(
+        $data = [
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 13,
-            ),
-            'terms' => array(
+            ],
+            'terms' => [
                 'fieldA',
-                 array(
+                 [
                     'term1',
                     5,
                     'term2',
                     3,
-                ),
+                ],
                 'fieldB',
-                array(
+                [
                     'term3',
                     6,
                     'term4',
                     2,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $query = new Query();
         $query->setFields('fieldA,fieldB');
@@ -100,16 +100,16 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
-        $expected = array(
-            'fieldA' => array(
+        $expected = [
+            'fieldA' => [
                 'term1' => 5,
                 'term2' => 3,
-            ),
-            'fieldB' => array(
+            ],
+            'fieldB' => [
                 'term3' => 6,
                 'term4' => 2,
-            ),
-        );
+            ],
+        ];
 
         $this->assertSame($expected, $result['results']);
         $this->assertCount(2, $result['results']);

@@ -12,7 +12,6 @@ namespace Solarium\Component\ComponentTraits;
  */
 trait TermsTrait
 {
-
     /**
      * Set the field name(s) to get the terms from.
      *
@@ -40,8 +39,8 @@ trait TermsTrait
     public function getFields()
     {
         $value = $this->getOption('fields');
-        if ($value === null) {
-            $value = array();
+        if (null === $value) {
+            $value = [];
         }
 
         return $value;
@@ -72,7 +71,7 @@ trait TermsTrait
     /**
      * Set lowerboundinclude.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -84,7 +83,7 @@ trait TermsTrait
     /**
      * Get lowerboundinclude.
      *
-     * @return boolean
+     * @return bool
      */
     public function getLowerboundInclude()
     {
@@ -94,7 +93,7 @@ trait TermsTrait
     /**
      * Set mincount (the minimum doc frequency for terms in order to be included).
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -106,7 +105,7 @@ trait TermsTrait
     /**
      * Get mincount.
      *
-     * @return integer
+     * @return int
      */
     public function getMinCount()
     {
@@ -116,7 +115,7 @@ trait TermsTrait
     /**
      * Set maxcount (the maximum doc frequency for terms in order to be included).
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -128,7 +127,7 @@ trait TermsTrait
     /**
      * Get maxcount.
      *
-     * @return integer
+     * @return int
      */
     public function getMaxCount()
     {
@@ -206,8 +205,8 @@ trait TermsTrait
     public function getRegexFlags()
     {
         $value = $this->getOption('regexflags');
-        if ($value === null) {
-            $value = array();
+        if (null === $value) {
+            $value = [];
         }
 
         return $value;
@@ -218,7 +217,7 @@ trait TermsTrait
      *
      * If < 0 all terms are included
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -230,7 +229,7 @@ trait TermsTrait
     /**
      * Get limit.
      *
-     * @return integer
+     * @return int
      */
     public function getLimit()
     {
@@ -262,7 +261,7 @@ trait TermsTrait
     /**
      * Set upperboundinclude.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -274,7 +273,7 @@ trait TermsTrait
     /**
      * Get upperboundinclude.
      *
-     * @return boolean
+     * @return bool
      */
     public function getUpperboundInclude()
     {
@@ -284,7 +283,7 @@ trait TermsTrait
     /**
      * Set raw option.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -296,7 +295,7 @@ trait TermsTrait
     /**
      * Get raw option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getRaw()
     {
@@ -324,5 +323,4 @@ trait TermsTrait
     {
         return $this->getOption('sort');
     }
-
 }

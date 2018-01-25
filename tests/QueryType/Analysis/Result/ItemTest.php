@@ -16,16 +16,16 @@ class ItemTest extends TestCase
 
     public function setUp()
     {
-        $this->data = array(
+        $this->data = [
             'text' => 'dummytest',
             'start' => 10,
             'end' => 22,
             'position' => 2,
-            'positionHistory' => array(2, 1),
+            'positionHistory' => [2, 1],
             'type' => '<dummytype>',
             'raw_text' => 'dummy raw text',
             'match' => true,
-        );
+        ];
         $this->item = new Item($this->data);
     }
 
@@ -59,7 +59,7 @@ class ItemTest extends TestCase
         $data = $this->data;
         $data['positionHistory'] = '';
         $item = new Item($data);
-        $this->assertSame(array(), $item->getPositionHistory());
+        $this->assertSame([], $item->getPositionHistory());
     }
 
     public function testGetRawText()
@@ -74,14 +74,14 @@ class ItemTest extends TestCase
 
     public function testGetRawTextEmpty()
     {
-        $data = array(
+        $data = [
             'text' => 'dummytest',
             'start' => 10,
             'end' => 22,
             'position' => 2,
-            'positionHistory' => array(2, 1),
+            'positionHistory' => [2, 1],
             'type' => '<dummytype>',
-        );
+        ];
         $item = new Item($data);
         $this->assertNull($item->getRawText());
     }

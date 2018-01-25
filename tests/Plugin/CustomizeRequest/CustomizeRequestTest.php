@@ -29,24 +29,24 @@ class CustomizeRequestTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
-            'customization' => array(
-                array(
+        $options = [
+            'customization' => [
+                [
                     'key' => 'auth',
                     'type' => 'header',
                     'name' => 'X-my-auth',
                     'value' => 'mypassword',
                     'persistent' => true,
-                ),
-                'id' => array(
+                ],
+                'id' => [
                     'type' => 'param',
                     'name' => 'id',
                     'value' => '1234',
                     'persistent' => false,
                     'overwrite' => false,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->plugin->setOptions($options);
 
@@ -74,12 +74,12 @@ class CustomizeRequestTest extends TestCase
         $client = new Client();
         $client->registerPlugin('testplugin', $this->plugin);
 
-        $input = array(
+        $input = [
                     'key' => 'xid',
                     'type' => 'param',
                     'name' => 'xid',
                     'value' => 123,
-                );
+                ];
         $this->plugin->addCustomization($input);
 
         $originalRequest = new Request();
@@ -87,7 +87,7 @@ class CustomizeRequestTest extends TestCase
         $expectedRequest->addParam('xid', 123); // this should be the effect of the customization
 
         $adapter = $this->createMock(AdapterInterface::class);
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $adapter->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($expectedRequest))
@@ -109,13 +109,13 @@ class CustomizeRequestTest extends TestCase
 
     public function testCreateCustomizationWithArray()
     {
-        $input = array(
+        $input = [
             'key' => 'auth',
             'type' => 'header',
             'name' => 'X-my-auth',
             'value' => 'mypassword',
             'persistent' => true,
-        );
+        ];
         $customization = $this->plugin->createCustomization($input);
 
         $this->assertSame($customization, $this->plugin->getCustomization('auth'));
@@ -193,7 +193,7 @@ class CustomizeRequestTest extends TestCase
         $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
-        $customizations = array('id1' => $customization1, 'id2' => $customization2);
+        $customizations = ['id1' => $customization1, 'id2' => $customization2];
 
         $this->plugin->addCustomizations($customizations);
         $this->assertSame($customizations, $this->plugin->getCustomizations());
@@ -207,12 +207,12 @@ class CustomizeRequestTest extends TestCase
         $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
-        $customizations = array($customization1, $customization2);
+        $customizations = [$customization1, $customization2];
 
         $this->plugin->addCustomizations($customizations);
         $this->plugin->removeCustomization('id1');
         $this->assertSame(
-            array('id2' => $customization2),
+            ['id2' => $customization2],
             $this->plugin->getCustomizations()
         );
     }
@@ -225,12 +225,12 @@ class CustomizeRequestTest extends TestCase
         $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
-        $customizations = array($customization1, $customization2);
+        $customizations = [$customization1, $customization2];
 
         $this->plugin->addCustomizations($customizations);
         $this->plugin->removeCustomization($customization1);
         $this->assertSame(
-            array('id2' => $customization2),
+            ['id2' => $customization2],
             $this->plugin->getCustomizations()
         );
     }
@@ -243,7 +243,7 @@ class CustomizeRequestTest extends TestCase
         $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
-        $customizations = array('id1' => $customization1, 'id2' => $customization2);
+        $customizations = ['id1' => $customization1, 'id2' => $customization2];
 
         $this->plugin->addCustomizations($customizations);
         $this->plugin->removeCustomization('id3'); //continue silently
@@ -261,12 +261,12 @@ class CustomizeRequestTest extends TestCase
         $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
-        $customizations = array($customization1, $customization2);
+        $customizations = [$customization1, $customization2];
 
         $this->plugin->addCustomizations($customizations);
         $this->plugin->clearCustomizations();
         $this->assertSame(
-            array(),
+            [],
             $this->plugin->getCustomizations()
         );
     }
@@ -279,7 +279,7 @@ class CustomizeRequestTest extends TestCase
         $customization2 = new Customization();
         $customization2->setKey('id2')->setName('test2');
 
-        $customizations1 = array('id1' => $customization1, 'id2' => $customization2);
+        $customizations1 = ['id1' => $customization1, 'id2' => $customization2];
 
         $this->plugin->addCustomizations($customizations1);
 
@@ -289,7 +289,7 @@ class CustomizeRequestTest extends TestCase
         $customization4 = new Customization();
         $customization4->setKey('id4')->setName('test4');
 
-        $customizations2 = array('id3' => $customization3, 'id4' => $customization4);
+        $customizations2 = ['id3' => $customization3, 'id4' => $customization4];
 
         $this->plugin->setCustomizations($customizations2);
 
@@ -298,21 +298,21 @@ class CustomizeRequestTest extends TestCase
 
     public function testPostCreateRequestWithHeaderAndParam()
     {
-        $input = array(
+        $input = [
                     'key' => 'xid',
                     'type' => 'param',
                     'name' => 'xid',
                     'value' => 123,
-                );
+                ];
         $this->plugin->addCustomization($input);
 
-        $input = array(
+        $input = [
                     'key' => 'auth',
                     'type' => 'header',
                     'name' => 'X-my-auth',
                     'value' => 'mypassword',
                     'persistent' => true,
-                );
+                ];
         $this->plugin->addCustomization($input);
 
         $request = new Request();
@@ -321,17 +321,17 @@ class CustomizeRequestTest extends TestCase
 
         $this->assertSame(123, $request->getParam('xid'));
 
-        $this->assertEquals(array('X-my-auth: mypassword'), $request->getHeaders());
+        $this->assertEquals(['X-my-auth: mypassword'], $request->getHeaders());
     }
 
     public function testPreExecuteRequestWithInvalidCustomization()
     {
-        $input = array(
+        $input = [
             'key' => 'xid',
             'type' => 'invalid',
             'name' => 'xid',
             'value' => 123,
-        );
+        ];
         $this->plugin->addCustomization($input);
 
         $request = new Request();
@@ -354,21 +354,21 @@ class CustomizeRequestTest extends TestCase
 
     public function testPreExecuteRequestWithPersistentAndNonPersistentCustomizations()
     {
-        $input = array(
+        $input = [
                     'key' => 'xid',
                     'type' => 'param',
                     'name' => 'xid',
                     'value' => 123,
-                );
+                ];
         $this->plugin->addCustomization($input);
 
-        $input = array(
+        $input = [
                     'key' => 'auth',
                     'type' => 'header',
                     'name' => 'X-my-auth',
                     'value' => 'mypassword',
                     'persistent' => true,
-                );
+                ];
         $this->plugin->addCustomization($input);
 
         $request = new Request();
@@ -377,7 +377,7 @@ class CustomizeRequestTest extends TestCase
 
         $this->assertSame(123, $request->getParam('xid'));
 
-        $this->assertEquals(array('X-my-auth: mypassword'), $request->getHeaders());
+        $this->assertEquals(['X-my-auth: mypassword'], $request->getHeaders());
 
         // second use, only the header should be persistent
         $request = new Request();
@@ -386,6 +386,6 @@ class CustomizeRequestTest extends TestCase
 
         $this->assertNull($request->getParam('xid'));
 
-        $this->assertEquals(array('X-my-auth: mypassword'), $request->getHeaders());
+        $this->assertEquals(['X-my-auth: mypassword'], $request->getHeaders());
     }
 }

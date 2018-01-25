@@ -13,15 +13,16 @@ class TypesTest extends TestCase
     protected $result;
 
     protected $items;
+
     protected $name;
 
     public function setUp()
     {
         $this->name = 'testname';
-        $this->items = array(
+        $this->items = [
             'index' => new TestAnalysisTypeIndexDummy(),
             'query' => new TestAnalysisTypeQueryDummy(),
-        );
+        ];
         $this->result = new Types($this->name, $this->items);
     }
 
@@ -37,7 +38,7 @@ class TypesTest extends TestCase
 
     public function testIterator()
     {
-        $lists = array();
+        $lists = [];
         foreach ($this->result as $key => $list) {
             $lists[$key] = $list;
         }
@@ -63,10 +64,10 @@ class TypesTest extends TestCase
 
     public function testGetIndexAnalysisNoData()
     {
-        $items = array(
+        $items = [
             'index' => new TestAnalysisTypeInvalidDummy(),
             'query' => new TestAnalysisTypeQueryDummy(),
-        );
+        ];
 
         $result = new Types($this->name, $items);
         $this->assertNull(
@@ -84,10 +85,10 @@ class TypesTest extends TestCase
 
     public function testGetQueryAnalysisNoData()
     {
-        $items = array(
+        $items = [
             'index' => new TestAnalysisTypeIndexDummy(),
             'query' => new TestAnalysisTypeInvalidDummy(),
-        );
+        ];
 
         $result = new Types($this->name, $items);
         $this->assertNull(

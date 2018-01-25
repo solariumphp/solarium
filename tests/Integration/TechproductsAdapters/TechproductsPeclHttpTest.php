@@ -13,7 +13,7 @@ class TechproductsPeclHttpTest extends AbstractTechproductsTest
             $this->markTestSkipped('Pecl_http not available, skipping PeclHttp adapter tests');
         } else {
             parent::setUp();
-            $this->client->setAdapter(new PeclHttp(array('timeout' => 10)));
+            $this->client->setAdapter(new PeclHttp(['timeout' => 10]));
         }
     }
 }

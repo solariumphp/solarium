@@ -14,7 +14,7 @@ class Spatial implements ComponentRequestBuilderInterface
      * Add request settings for Spatial.
      *
      * @param SpatialComponent $component
-     * @param Request         $request
+     * @param Request          $request
      *
      * @return Request
      */

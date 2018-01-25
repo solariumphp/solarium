@@ -12,46 +12,46 @@ class ResponseParserTest extends TestCase
 {
     public function testParse()
     {
-        $data = array(
-            'responseHeader' => array(
+        $data = [
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 13,
-            ),
-            'spellcheck' => array(
-                'suggestions' => array(
+            ],
+            'spellcheck' => [
+                'suggestions' => [
                     'd',
-                    array(
+                    [
                         'numFound' => 2,
                         'startOffset' => 3,
                         'endOffset' => 7,
-                        'suggestion' => array(
+                        'suggestion' => [
                             'disk',
                             'ddr',
-                        ),
-                    ),
+                        ],
+                    ],
                     'vid',
-                    array(
+                    [
                         'numFound' => 1,
                         'startOffset' => 2,
                         'endOffset' => 5,
-                        'suggestion' => array(
+                        'suggestion' => [
                             'video',
-                        ),
-                    ),
+                        ],
+                    ],
                     'vid',
-                    array(
+                    [
                         'numFound' => 1,
                         'startOffset' => 6,
                         'endOffset' => 9,
-                        'suggestion' => array(
+                        'suggestion' => [
                             'video',
-                        ),
-                    ),
+                        ],
+                    ],
                     'collation',
                     'disk video',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $query = new Query();
 
@@ -66,15 +66,15 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
-        $expected = array(
-            'd' => new Term(2, 3, 7, array('disk', 'ddr')),
-            'vid' => new Term(1, 2, 5, array('video')),
-        );
-        $allExpected = array(
-            new Term(2, 3, 7, array('disk', 'ddr')),
-            new Term(1, 2, 5, array('video')),
-            new Term(1, 6, 9, array('video')),
-        );
+        $expected = [
+            'd' => new Term(2, 3, 7, ['disk', 'ddr']),
+            'vid' => new Term(1, 2, 5, ['video']),
+        ];
+        $allExpected = [
+            new Term(2, 3, 7, ['disk', 'ddr']),
+            new Term(1, 2, 5, ['video']),
+            new Term(1, 6, 9, ['video']),
+        ];
 
         $this->assertEquals($expected, $result['results']);
         $this->assertEquals($allExpected, $result['all']);

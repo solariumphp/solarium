@@ -25,7 +25,7 @@ class ParallelExecutionTest extends TestCase
         $client->createEndpoint('local1');
         $endpoint2 = $client->createEndpoint('local2');
 
-        $this->plugin->initPlugin($client, array());
+        $this->plugin->initPlugin($client, []);
 
         $query1 = $client->createSelect()->setQuery('test1');
         $query2 = $client->createSelect()->setQuery('test2');
@@ -34,10 +34,10 @@ class ParallelExecutionTest extends TestCase
         $this->plugin->addQuery(2, $query2, $endpoint2);
 
         $this->assertSame(
-            array(
-                1 => array('query' => $query1, 'endpoint' => 'local1'),
-                2 => array('query' => $query2, 'endpoint' => 'local2'),
-            ),
+            [
+                1 => ['query' => $query1, 'endpoint' => 'local1'],
+                2 => ['query' => $query2, 'endpoint' => 'local2'],
+            ],
             $this->plugin->getQueries()
         );
     }
@@ -45,7 +45,7 @@ class ParallelExecutionTest extends TestCase
     public function testClearQueries()
     {
         $client = new Client();
-        $this->plugin->initPlugin($client, array());
+        $this->plugin->initPlugin($client, []);
 
         $query1 = $client->createSelect()->setQuery('test1');
         $query2 = $client->createSelect()->setQuery('test2');
@@ -55,7 +55,7 @@ class ParallelExecutionTest extends TestCase
         $this->plugin->clearQueries();
 
         $this->assertSame(
-            array(),
+            [],
             $this->plugin->getQueries()
         );
     }

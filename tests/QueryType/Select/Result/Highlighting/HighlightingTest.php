@@ -16,10 +16,10 @@ class HighlightingTest extends TestCase
 
     public function setUp()
     {
-        $this->items = array(
+        $this->items = [
             'key1' => 'content1',
             'key2' => 'content2',
-        );
+        ];
 
         $this->result = new Highlighting($this->items);
     }
@@ -46,7 +46,7 @@ class HighlightingTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }

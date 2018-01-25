@@ -3,8 +3,8 @@
 namespace Solarium\QueryType\Terms;
 
 use Solarium\Component\RequestBuilder\Terms;
-use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 
 /**
@@ -12,7 +12,6 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
-
     /**
      * Build request for a Terms query.
      *

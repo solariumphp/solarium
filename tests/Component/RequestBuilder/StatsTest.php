@@ -17,23 +17,23 @@ class StatsTest extends TestCase
         $component = new Component();
         $component->createField('fieldA')->addFacet('fieldFacetA');
         $component->createField('fieldB');
-        $component->addFacets(array('facetA', 'facetB'));
+        $component->addFacets(['facetA', 'facetB']);
 
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'stats' => 'true',
-                'stats.facet' => array(
+                'stats.facet' => [
                     'facetA',
                     'facetB',
-                ),
-                'stats.field' => array(
+                ],
+                'stats.field' => [
                     'fieldA',
                     'fieldB',
-                ),
+                ],
                 'f.fieldA.stats.facet' => 'fieldFacetA',
-            ),
+            ],
             $request->getParams()
         );
     }

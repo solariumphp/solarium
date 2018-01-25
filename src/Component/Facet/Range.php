@@ -7,7 +7,7 @@ use Solarium\Component\FacetSet;
 /**
  * Facet range.
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range
+ * @see http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range
  */
 class Range extends AbstractFacet
 {
@@ -169,7 +169,7 @@ class Range extends AbstractFacet
      * A Boolean parameter instructing Solr what to do in the event that facet.range.gap
      * does not divide evenly between facet.range.start and facet.range.end
      *
-     * @param boolean $hardend
+     * @param bool $hardend
      *
      * @return self Provides fluent interface
      */
@@ -181,7 +181,7 @@ class Range extends AbstractFacet
     /**
      * Get hardend option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getHardend()
     {
@@ -216,8 +216,8 @@ class Range extends AbstractFacet
     public function getOther()
     {
         $other = $this->getOption('other');
-        if ($other === null) {
-            $other = array();
+        if (null === $other) {
+            $other = [];
         }
 
         return $other;
@@ -251,8 +251,8 @@ class Range extends AbstractFacet
     public function getInclude()
     {
         $include = $this->getOption('include');
-        if ($include === null) {
-            $include = array();
+        if (null === $include) {
+            $include = [];
         }
 
         return $include;

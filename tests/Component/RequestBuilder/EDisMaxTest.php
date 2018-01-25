@@ -35,7 +35,7 @@ class EDisMaxTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'defType' => 'dummyparser',
                 'q.alt' => 'test',
                 'qf' => 'content,name',
@@ -52,7 +52,7 @@ class EDisMaxTest extends TestCase
                 'bf' => 'functionX(price)',
                 'boost' => 'functionX(date)',
                 'uf' => 'title *_s',
-            ),
+            ],
             $request->getParams()
         );
     }

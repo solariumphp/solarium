@@ -1,52 +1,14 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
-
-/**
- * @namespace
- */
 
 namespace Solarium\Plugin\ParallelExecution;
 
-use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Client\Endpoint;
-use Solarium\Exception\HttpException;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Exception\HttpException;
 use Solarium\Plugin\ParallelExecution\Event\Events;
-use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
+use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
 
 /**
  * ParallelExecution plugin.
@@ -66,16 +28,16 @@ class ParallelExecution extends AbstractPlugin
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'curlmultiselecttimeout' => 0.1,
-    );
+    ];
 
     /**
      * Queries (and optionally clients) to execute.
      *
      * @var AbstractQuery[]
      */
-    protected $queries = array();
+    protected $queries = [];
 
     /**
      * Add a query to execute.
@@ -92,14 +54,14 @@ class ParallelExecution extends AbstractPlugin
             $endpoint = $endpoint->getKey();
         }
 
-        if ($endpoint === null) {
+        if (null === $endpoint) {
             $endpoint = $this->client->getEndpoint()->getKey();
         }
 
-        $this->queries[$key] = array(
+        $this->queries[$key] = [
             'query' => $query,
             'endpoint' => $endpoint,
-        );
+        ];
 
         return $this;
     }
@@ -121,7 +83,7 @@ class ParallelExecution extends AbstractPlugin
      */
     public function clearQueries()
     {
-        $this->queries = array();
+        $this->queries = [];
 
         return $this;
     }
@@ -138,7 +100,7 @@ class ParallelExecution extends AbstractPlugin
         // create handles and add all handles to the multihandle
         $adapter = $this->client->getAdapter();
         $multiHandle = curl_multi_init();
-        $handles = array();
+        $handles = [];
         foreach ($this->queries as $key => $data) {
             $request = $this->client->createRequest($data['query']);
             $endpoint = $this->client->getEndpoint($data['endpoint']);
@@ -152,23 +114,23 @@ class ParallelExecution extends AbstractPlugin
 
         do {
             $mrc = curl_multi_exec($multiHandle, $active);
-        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+        } while (CURLM_CALL_MULTI_PERFORM == $mrc);
 
         $timeout = $this->getOption('curlmultiselecttimeout');
-        while ($active && $mrc == CURLM_OK) {
+        while ($active && CURLM_OK == $mrc) {
             if (curl_multi_select($multiHandle, $timeout) == -1) {
                 usleep(100);
             }
 
             do {
                 $mrc = curl_multi_exec($multiHandle, $active);
-            } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            } while (CURLM_CALL_MULTI_PERFORM == $mrc);
         }
 
         $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_END, new ExecuteEndEvent());
 
         // get the results
-        $results = array();
+        $results = [];
         foreach ($handles as $key => $handle) {
             try {
                 curl_multi_remove_handle($multiHandle, $handle);

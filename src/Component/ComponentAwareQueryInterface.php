@@ -102,11 +102,12 @@ interface ComponentAwareQueryInterface
      * You can optionally supply an autoload class to create a new component
      * instance if there is no registered component for the given key yet.
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
      *
-     * @param string         $key      Use one of the constants
-     * @param string|boolean $autoload Class to autoload if component needs to be created
-     * @param array|null     $config   Configuration to use for autoload
+     * @param string      $key      Use one of the constants
+     * @param string|bool $autoload Class to autoload if component needs to be created
+     * @param array|null  $config   Configuration to use for autoload
+     *
+     * @throws \Solarium\Exception\OutOfBoundsException
      *
      * @return object|null
      */
@@ -134,5 +135,4 @@ interface ComponentAwareQueryInterface
      * @return self Provides fluent interface
      */
     public function removeComponent($component);
-
 }

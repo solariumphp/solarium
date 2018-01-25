@@ -19,20 +19,20 @@ class ResponseParserTest extends TestCase
 
     public function testBuild()
     {
-        $input = array(
+        $input = [
             'key1',
             'value1',
             'key2',
             'value2',
             'key3',
             'value3',
-        );
+        ];
 
-        $expected = array(
+        $expected = [
             'key1' => 'value1',
             'key2' => 'value2',
             'key3' => 'value3',
-        );
+        ];
 
         $this->assertSame(
             $expected,
@@ -42,31 +42,31 @@ class ResponseParserTest extends TestCase
 
     public function testAddHeaderInfo()
     {
-        $data = array(
-            'responseHeader' => array(
+        $data = [
+            'responseHeader' => [
                 'status' => 0,
                 'QTime' => 5,
-            ),
-        );
-        $result = array('key' => 'value');
-        $expected = array(
+            ],
+        ];
+        $result = ['key' => 'value'];
+        $expected = [
             'key' => 'value',
             'status' => 0,
             'queryTime' => 5,
-        );
+        ];
 
         $this->assertSame($expected, $this->parser->addHeaderInfo($data, $result));
     }
 
     public function testAddHeaderInfoEmpty()
     {
-        $data = array();
-        $result = array('key' => 'value');
-        $expected = array(
+        $data = [];
+        $result = ['key' => 'value'];
+        $expected = [
             'key' => 'value',
             'status' => null,
             'queryTime' => null,
-        );
+        ];
 
         $this->assertSame($expected, $this->parser->addHeaderInfo($data, $result));
     }

@@ -11,43 +11,43 @@ class FieldTest extends TestCase
 {
     public function testParse()
     {
-        $data = array(
-            'analysis' => array(
-                'doc1' => array(
-                    'field1' => array(
-                        'type1' => array(
-                            array(
+        $data = [
+            'analysis' => [
+                'doc1' => [
+                    'field1' => [
+                        'type1' => [
+                            [
                                 'org.apache.solr.analysis.PatternReplaceCharFilter',
                                 'string value',
                                 'analysisClass',
-                                array(
-                                    array(
+                                [
+                                    [
                                         'text' => 'test',
                                         'start' => 1,
                                         'end' => 23,
                                         'position' => 4,
                                         'positionHistory' => 'test',
                                         'type' => 'test',
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'text' => 'test2',
                                         'start' => 1,
                                         'end' => 23,
                                         'position' => 4,
                                         'positionHistory' => 'test',
                                         'type' => 'test',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'responseHeader' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 5,
-            ),
-        );
+            ],
+        ];
 
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
@@ -72,12 +72,12 @@ class FieldTest extends TestCase
 
     public function testParseNoData()
     {
-        $data = array(
-            'responseHeader' => array(
+        $data = [
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 5,
-            ),
-        );
+            ],
+        ];
 
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
@@ -88,11 +88,11 @@ class FieldTest extends TestCase
         $result = $parser->parse($resultStub);
 
         $this->assertEquals(
-            array(
+            [
                 'status' => 1,
                 'queryTime' => 5,
-                'items' => array(),
-            ),
+                'items' => [],
+            ],
             $result
         );
     }

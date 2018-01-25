@@ -20,22 +20,22 @@ class MoreLikeThisTest extends TestCase
     public function testParse()
     {
         $query = new Query();
-        $data = array(
-            'moreLikeThis' => array(
-                'id1' => array(
+        $data = [
+            'moreLikeThis' => [
+                'id1' => [
                     'numFound' => 12,
                     'maxScore' => 1.75,
-                    'docs' => array(
-                        array('field1' => 'value1'),
-                    ),
-                ),
-            ),
-        );
+                    'docs' => [
+                        ['field1' => 'value1'],
+                    ],
+                ],
+            ],
+        ];
 
-        $docs = array(new Document(array('field1' => 'value1')));
-        $expected = array(
+        $docs = [new Document(['field1' => 'value1'])];
+        $expected = [
             'id1' => new Result(12, 1.75, $docs),
-        );
+        ];
 
         $result = $this->parser->parse($query, null, $data);
 
@@ -44,29 +44,29 @@ class MoreLikeThisTest extends TestCase
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse(null, null, array());
+        $result = $this->parser->parse(null, null, []);
 
-        $this->assertEquals(array(), $result->getResults());
+        $this->assertEquals([], $result->getResults());
     }
 
     public function testParseWithoutMaxScore()
     {
         $query = new Query();
-        $data = array(
-            'moreLikeThis' => array(
-                'id1' => array(
+        $data = [
+            'moreLikeThis' => [
+                'id1' => [
                     'numFound' => 12,
-                    'docs' => array(
-                        array('field1' => 'value1'),
-                    ),
-                ),
-            ),
-        );
+                    'docs' => [
+                        ['field1' => 'value1'],
+                    ],
+                ],
+            ],
+        ];
 
-        $docs = array(new Document(array('field1' => 'value1')));
-        $expected = array(
+        $docs = [new Document(['field1' => 'value1'])];
+        $expected = [
             'id1' => new Result(12, null, $docs),
-        );
+        ];
 
         $result = $this->parser->parse($query, null, $data);
 
