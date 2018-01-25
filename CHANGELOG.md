@@ -106,6 +106,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PHAR generator updated to support namespacing
 - Collations broken for Solr 5 data format
 
+
 ## [3.4.0]
 ### Added
 - Facet interval support
