@@ -15,7 +15,7 @@ class PostCreateResultTest extends TestCase
         $client = new Client();
         $query = $client->createSelect();
         $query->setQuery('test123');
-        $response = new Response('', array('HTTP 1.0 200 OK'));
+        $response = new Response('', ['HTTP 1.0 200 OK']);
         $result = new Result($query, $response);
 
         $event = new PostCreateResult($query, $response, $result);

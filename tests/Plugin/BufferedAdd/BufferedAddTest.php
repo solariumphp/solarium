@@ -24,7 +24,7 @@ class BufferedAddTest extends TestCase
     public function setUp()
     {
         $this->plugin = new BufferedAdd();
-        $this->plugin->initPlugin(new Client(), array());
+        $this->plugin->initPlugin(new Client(), []);
     }
 
     public function testSetAndGetBufferSize()
@@ -41,17 +41,17 @@ class BufferedAddTest extends TestCase
 
         $this->plugin->addDocument($doc);
 
-        $this->assertEquals(array($doc), $this->plugin->getDocuments());
+        $this->assertEquals([$doc], $this->plugin->getDocuments());
     }
 
     public function testCreateDocument()
     {
-        $data = array('id' => '123', 'name' => 'test');
+        $data = ['id' => '123', 'name' => 'test'];
         $doc = new Document($data);
 
         $this->plugin->createDocument($data);
 
-        $this->assertEquals(array($doc), $this->plugin->getDocuments());
+        $this->assertEquals([$doc], $this->plugin->getDocuments());
     }
 
     public function testAddDocuments()
@@ -64,7 +64,7 @@ class BufferedAddTest extends TestCase
         $doc2->id = '234';
         $doc2->name = 'test2';
 
-        $docs = array($doc1, $doc2);
+        $docs = [$doc1, $doc2];
 
         $this->plugin->addDocuments($docs);
 
@@ -94,10 +94,10 @@ class BufferedAddTest extends TestCase
         $doc2->id = '234';
         $doc2->name = 'test2';
 
-        $docs = array($doc1, $doc2);
+        $docs = [$doc1, $doc2];
 
         $plugin = new BufferedAdd();
-        $plugin->initPlugin($client, array());
+        $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
         $plugin->addDocuments($docs);
     }
@@ -111,7 +111,7 @@ class BufferedAddTest extends TestCase
         $this->plugin->addDocument($doc);
         $this->plugin->clear();
 
-        $this->assertEquals(array(), $this->plugin->getDocuments());
+        $this->assertEquals([], $this->plugin->getDocuments());
     }
 
     public function testFlushEmptyBuffer()
@@ -121,20 +121,20 @@ class BufferedAddTest extends TestCase
 
     public function testFlush()
     {
-        $data = array('id' => '123', 'name' => 'test');
+        $data = ['id' => '123', 'name' => 'test'];
         $doc = new Document($data);
 
         $mockUpdate = $this->createMock(Query::class);
         $mockUpdate->expects($this->once())
             ->method('addDocuments')
-            ->with($this->equalTo(array($doc)), $this->equalTo(true), $this->equalTo(12));
+            ->with($this->equalTo([$doc]), $this->equalTo(true), $this->equalTo(12));
 
         $mockClient = $this->getClient();
         $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
         $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
 
         $plugin = new BufferedAdd();
-        $plugin->initPlugin($mockClient, array());
+        $plugin->initPlugin($mockClient, []);
         $plugin->addDocument($doc);
 
         $this->assertSame('dummyResult', $plugin->flush(true, 12));
@@ -142,13 +142,13 @@ class BufferedAddTest extends TestCase
 
     public function testCommit()
     {
-        $data = array('id' => '123', 'name' => 'test');
+        $data = ['id' => '123', 'name' => 'test'];
         $doc = new Document($data);
 
         $mockUpdate = $this->createMock(Query::class); //, array('addDocuments', 'addCommit'));
         $mockUpdate->expects($this->once())
             ->method('addDocuments')
-            ->with($this->equalTo(array($doc)), $this->equalTo(true));
+            ->with($this->equalTo([$doc]), $this->equalTo(true));
         $mockUpdate->expects($this->once())
             ->method('addCommit')
             ->with($this->equalTo(false), $this->equalTo(true), $this->equalTo(false));
@@ -158,7 +158,7 @@ class BufferedAddTest extends TestCase
         $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
 
         $plugin = new BufferedAdd();
-        $plugin->initPlugin($mockClient, array());
+        $plugin->initPlugin($mockClient, []);
         $plugin->addDocument($doc);
 
         $this->assertSame('dummyResult', $plugin->commit(true, false, true, false));
@@ -166,7 +166,7 @@ class BufferedAddTest extends TestCase
 
     public function testAddDocumentEventIsTriggered()
     {
-        $data = array('id' => '123', 'name' => 'test');
+        $data = ['id' => '123', 'name' => 'test'];
         $doc = new Document($data);
 
         $expectedEvent = new AddDocument($doc);
@@ -179,7 +179,7 @@ class BufferedAddTest extends TestCase
 
         $mockClient = $this->getClient($mockEventDispatcher);
         $plugin = new BufferedAdd();
-        $plugin->initPlugin($mockClient, array());
+        $plugin->initPlugin($mockClient, []);
         $plugin->addDocument($doc);
     }
 

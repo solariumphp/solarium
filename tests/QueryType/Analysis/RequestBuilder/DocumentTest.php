@@ -37,12 +37,12 @@ class DocumentTest extends TestCase
     public function testGetRawData()
     {
         // this doc tests data escaping
-        $doc1 = new InputDocument(array('id' => 1, 'name' => 'doc1', 'cat' => 'my > cat'));
+        $doc1 = new InputDocument(['id' => 1, 'name' => 'doc1', 'cat' => 'my > cat']);
 
         // this doc tests a multivalue field
-        $doc2 = new InputDocument(array('id' => 2, 'name' => 'doc2', 'cat' => array(1, 2, 3)));
+        $doc2 = new InputDocument(['id' => 2, 'name' => 'doc2', 'cat' => [1, 2, 3]]);
 
-        $this->query->addDocuments(array($doc1, $doc2));
+        $this->query->addDocuments([$doc1, $doc2]);
 
         $this->assertSame(
             '<docs>'.

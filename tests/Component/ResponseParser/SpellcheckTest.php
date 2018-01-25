@@ -48,158 +48,158 @@ class SpellcheckTest extends TestCase
 
     public function providerParseExtended()
     {
-        return array(
-            'solr4' => array(
-                'data' => array(
-                    'spellcheck' => array(
-                        'suggestions' => array(
+        return [
+            'solr4' => [
+                'data' => [
+                    'spellcheck' => [
+                        'suggestions' => [
                             'delll',
-                            array(
+                            [
                                 'numFound' => 1,
                                 'startOffset' => 0,
                                 'endOffset' => 5,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'dell',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
+                                    ],
+                                ],
+                            ],
                             'ultrashar',
-                            array(
+                            [
                                 'numFound' => 1,
                                 'startOffset' => 6,
                                 'endOffset' => 15,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'ultrasharp',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
+                                    ],
+                                ],
+                            ],
                             'ultrashar',
-                            array(
+                            [
                                 'numFound' => 1,
                                 'startOffset' => 16,
                                 'endOffset' => 25,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'ultrasharp',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
+                                    ],
+                                ],
+                            ],
                             'correctlySpelled',
                             false,
                             'collation',
-                            array(
+                            [
                                 0 => 'collationQuery',
                                 1 => 'dell ultrasharp',
                                 2 => 'hits',
                                 3 => 0,
                                 4 => 'misspellingsAndCorrections',
-                                5 => array(
+                                5 => [
                                     0 => 'delll',
                                     1 => 'dell',
                                     2 => 'ultrashar',
                                     3 => 'ultrasharp',
-                                ),
-                            ),
+                                ],
+                            ],
                             'collation',
-                            array(
+                            [
                                 0 => 'collationQuery',
                                 1 => 'dell ultrasharp new',
                                 2 => 'hits',
                                 3 => 0,
                                 4 => 'misspellingsAndCorrections',
-                                5 => array(
+                                5 => [
                                     0 => 'delll',
                                     1 => 'dell',
                                     2 => 'ultrashar',
                                     3 => 'ultrasharp',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'solr5' => array(
-                'data' => array(
-                    'spellcheck' => array(
-                        'suggestions' => array(
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'solr5' => [
+                'data' => [
+                    'spellcheck' => [
+                        'suggestions' => [
                             'delll',
-                            array(
+                            [
                                 'numFound' => 1,
                                 'startOffset' => 0,
                                 'endOffset' => 5,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'dell',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
+                                    ],
+                                ],
+                            ],
                             'ultrashar',
-                            array(
+                            [
                                 'numFound' => 1,
                                 'startOffset' => 6,
                                 'endOffset' => 15,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'ultrasharp',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
+                                    ],
+                                ],
+                            ],
                             'ultrashar',
-                            array(
+                            [
                                 'numFound' => 1,
                                 'startOffset' => 16,
                                 'endOffset' => 25,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'ultrasharp',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
-                        ),
+                                    ],
+                                ],
+                            ],
+                        ],
                         'correctlySpelled',
                         false,
-                        'collations' => array(
+                        'collations' => [
                             'collation',
-                            array(
+                            [
                                 'collationQuery' => 'dell ultrasharp',
                                 'hits' => 0,
-                                'misspellingsAndCorrections' => array(
+                                'misspellingsAndCorrections' => [
                                     0 => 'delll',
                                     1 => 'dell',
                                     2 => 'ultrashar',
                                     3 => 'ultrasharp',
-                                ),
-                            ),
+                                ],
+                            ],
                             'collation',
-                            array(
+                            [
                                 'collationQuery' => 'dell ultrasharp new',
                                 'hits' => 0,
-                                'misspellingsAndCorrections' => array(
+                                'misspellingsAndCorrections' => [
                                     0 => 'delll',
                                     1 => 'dell',
                                     2 => 'ultrashar',
                                     3 => 'ultrasharp',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -222,84 +222,84 @@ class SpellcheckTest extends TestCase
 
     public function providerParse()
     {
-        return array(
-            'solr4' => array(
-                'data' => array(
-                    'spellcheck' => array(
-                        'suggestions' => array(
+        return [
+            'solr4' => [
+                'data' => [
+                    'spellcheck' => [
+                        'suggestions' => [
                             0 => 'delll',
-                            1 => array(
+                            1 => [
                                 'numFound' => 1,
                                 'startOffset' => 0,
                                 'endOffset' => 5,
                                 'origFreq' => 0,
-                                'suggestion' => array(
+                                'suggestion' => [
                                     0 => 'dell',
-                                ),
-                            ),
+                                ],
+                            ],
                             2 => 'ultrashar',
-                            3 => array(
+                            3 => [
                                 'numFound' => 1,
                                 'startOffset' => 6,
                                 'endOffset' => 15,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'ultrasharp',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
+                                    ],
+                                ],
+                            ],
                             4 => 'correctlySpelled',
                             5 => false,
                             6 => 'collation',
                             7 => 'dell ultrasharp',
                             8 => 'collation',
                             9 => 'dell ultrasharp new',
-                        ),
-                    ),
-                ),
-            ),
-            'solr5' => array(
-                'data' => array(
-                    'spellcheck' => array(
-                        'suggestions' => array(
+                        ],
+                    ],
+                ],
+            ],
+            'solr5' => [
+                'data' => [
+                    'spellcheck' => [
+                        'suggestions' => [
                             0 => 'delll',
-                            1 => array(
+                            1 => [
                                 'numFound' => 1,
                                 'startOffset' => 0,
                                 'endOffset' => 5,
                                 'origFreq' => 0,
-                                'suggestion' => array(
+                                'suggestion' => [
                                     0 => 'dell',
-                                ),
-                            ),
+                                ],
+                            ],
                             2 => 'ultrashar',
-                            3 => array(
+                            3 => [
                                 'numFound' => 1,
                                 'startOffset' => 6,
                                 'endOffset' => 15,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'ultrasharp',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
-                        ),
+                                    ],
+                                ],
+                            ],
+                        ],
                         'correctlySpelled',
                         false,
-                        'collations' => array(
+                        'collations' => [
                             'collation',
                             'dell ultrasharp',
                             'collation',
                             'dell ultrasharp new',
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -314,98 +314,98 @@ class SpellcheckTest extends TestCase
         $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
 
         $words = $result->getSuggestion(1)->getWords();
-        $this->assertEquals(array('word' => 'ultrasharpy', 'freq' => 1), $words[1]);
+        $this->assertEquals(['word' => 'ultrasharpy', 'freq' => 1], $words[1]);
     }
 
     public function providerParseSingleCollation()
     {
-        return array(
-            'solr4' => array(
-                'data' => array(
-                    'spellcheck' => array(
-                        'suggestions' => array(
+        return [
+            'solr4' => [
+                'data' => [
+                    'spellcheck' => [
+                        'suggestions' => [
                             0 => 'delll',
-                            1 => array(
+                            1 => [
                                 'numFound' => 1,
                                 'startOffset' => 0,
                                 'endOffset' => 5,
                                 'origFreq' => 0,
-                                'suggestion' => array(
+                                'suggestion' => [
                                     0 => 'dell',
-                                ),
-                            ),
+                                ],
+                            ],
                             2 => 'ultrashar',
-                            3 => array(
+                            3 => [
                                 'numFound' => 1,
                                 'startOffset' => 6,
                                 'endOffset' => 15,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'ultrasharp',
                                         'freq' => 2,
-                                    ),
-                                    1 => array(
+                                    ],
+                                    1 => [
                                         'word' => 'ultrasharpy',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
+                                    ],
+                                ],
+                            ],
                             4 => 'correctlySpelled',
                             5 => false,
                             6 => 'collation',
                             7 => 'dell ultrasharp',
-                        ),
-                    ),
-                ),
-            ),
-            'solr5' => array(
-                'data' => array(
-                    'spellcheck' => array(
-                        'suggestions' => array(
+                        ],
+                    ],
+                ],
+            ],
+            'solr5' => [
+                'data' => [
+                    'spellcheck' => [
+                        'suggestions' => [
                             0 => 'delll',
-                            1 => array(
+                            1 => [
                                 'numFound' => 1,
                                 'startOffset' => 0,
                                 'endOffset' => 5,
                                 'origFreq' => 0,
-                                'suggestion' => array(
+                                'suggestion' => [
                                     0 => 'dell',
-                                ),
-                            ),
+                                ],
+                            ],
                             2 => 'ultrashar',
-                            3 => array(
+                            3 => [
                                 'numFound' => 1,
                                 'startOffset' => 6,
                                 'endOffset' => 15,
                                 'origFreq' => 0,
-                                'suggestion' => array(
-                                    0 => array(
+                                'suggestion' => [
+                                    0 => [
                                         'word' => 'ultrasharp',
                                         'freq' => 2,
-                                    ),
-                                    1 => array(
+                                    ],
+                                    1 => [
                                         'word' => 'ultrasharpy',
                                         'freq' => 1,
-                                    ),
-                                ),
-                            ),
-                        ),
+                                    ],
+                                ],
+                            ],
+                        ],
                         'correctlySpelled',
                         false,
-                        'collations' => array(
+                        'collations' => [
                             'collation',
                             'dell ultrasharp',
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse($this->query, null, array());
+        $result = $this->parser->parse($this->query, null, []);
 
         $this->assertNull($result);
     }

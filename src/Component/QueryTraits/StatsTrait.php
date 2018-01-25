@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait StatsTrait
 {
-
     /**
      * Get a Stats component instance.
      *
@@ -21,5 +20,4 @@ trait StatsTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_STATS, true);
     }
-
 }

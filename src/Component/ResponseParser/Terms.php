@@ -16,9 +16,9 @@ class Terms extends AbstractResponseParser implements ComponentParserInterface
     /**
      * Parse result data into result objects.
      *
-     * @param AbstractQuery $query
+     * @param AbstractQuery  $query
      * @param TermsComponent $terms
-     * @param array $data
+     * @param array          $data
      *
      * @return Result|null
      */
@@ -41,5 +41,4 @@ class Terms extends AbstractResponseParser implements ComponentParserInterface
 
         return null;
     }
-
 }

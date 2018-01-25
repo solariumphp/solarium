@@ -8,19 +8,20 @@ use Solarium\Component\Result\Facet\Pivot\PivotItem;
 class PivotItemTest extends TestCase
 {
     protected $values;
+
     protected $pivotItem;
 
     public function setUp()
     {
-        $this->values = array(
+        $this->values = [
             'field' => 'cat',
             'value' => 'abc',
             'count' => '123',
-            'pivot' => array(
-                array('field' => 'cat', 'value' => 1, 'count' => 12),
-                array('field' => 'cat', 'value' => 2, 'count' => 8),
-            ),
-        );
+            'pivot' => [
+                ['field' => 'cat', 'value' => 1, 'count' => 12],
+                ['field' => 'cat', 'value' => 2, 'count' => 8],
+            ],
+        ];
         $this->pivotItem = new PivotItem($this->values);
     }
 

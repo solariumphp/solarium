@@ -32,10 +32,10 @@ class QueryTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'handler' => 'myHandler',
             'resultclass' => 'myResult',
-        );
+        ];
         $this->query->setOptions($options);
 
         $this->assertSame(

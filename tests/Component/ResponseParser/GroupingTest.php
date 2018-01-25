@@ -41,50 +41,50 @@ class GroupingTest extends TestCase
         $this->grouping->setFunction('functionF');
         $this->grouping->addQuery('cat:1');
 
-        $data = array(
-            'grouped' => array(
-                'fieldA' => array(
+        $data = [
+            'grouped' => [
+                'fieldA' => [
                     'matches' => 25,
                     'ngroups' => 12,
-                    'groups' => array(
-                        array(
+                    'groups' => [
+                        [
                             'groupValue' => 'test value',
-                            'doclist' => array(
+                            'doclist' => [
                                 'numFound' => 13,
-                                'docs' => array(
-                                    array('id' => 1, 'name' => 'test'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'functionF' => array(
+                                'docs' => [
+                                    ['id' => 1, 'name' => 'test'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'functionF' => [
                     'matches' => 8,
                     'ngroups' => 3,
-                    'groups' => array(
-                        array(
+                    'groups' => [
+                        [
                             'groupValue' => true,
-                            'doclist' => array(
+                            'doclist' => [
                                 'numFound' => 5,
-                                'docs' => array(
-                                    array('id' => 3, 'name' => 'fun'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'cat:1' => array(
+                                'docs' => [
+                                    ['id' => 3, 'name' => 'fun'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'cat:1' => [
                     'matches' => 40,
-                    'doclist' => array(
+                    'doclist' => [
                         'numFound' => 22,
-                        'docs' => array(
-                            array('id' => 2, 'name' => 'dummy2'),
-                            array('id' => 5, 'name' => 'dummy5'),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        'docs' => [
+                            ['id' => 2, 'name' => 'dummy2'],
+                            ['id' => 5, 'name' => 'dummy5'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $this->result = $this->parser->parse($this->query, $this->grouping, $data);
     }
@@ -131,42 +131,42 @@ class GroupingTest extends TestCase
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse($this->query, $this->grouping, array());
-        $this->assertEquals(array(), $result->getGroups());
+        $result = $this->parser->parse($this->query, $this->grouping, []);
+        $this->assertEquals([], $result->getGroups());
     }
 
     public function testParseMissingGroupField()
     {
         //data does not contain 'fieldA'
-        $data = array(
-            'grouped' => array(
-                'functionF' => array(
+        $data = [
+            'grouped' => [
+                'functionF' => [
                     'matches' => 8,
                     'ngroups' => 3,
-                    'groups' => array(
-                        array(
+                    'groups' => [
+                        [
                             'groupValue' => true,
-                            'doclist' => array(
+                            'doclist' => [
                                 'numFound' => 5,
-                                'docs' => array(
-                                    array('id' => 3, 'name' => 'fun'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'cat:1' => array(
+                                'docs' => [
+                                    ['id' => 3, 'name' => 'fun'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'cat:1' => [
                     'matches' => 40,
-                    'doclist' => array(
+                    'doclist' => [
                         'numFound' => 22,
-                        'docs' => array(
-                            array('id' => 2, 'name' => 'dummy2'),
-                            array('id' => 5, 'name' => 'dummy5'),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        'docs' => [
+                            ['id' => 2, 'name' => 'dummy2'],
+                            ['id' => 5, 'name' => 'dummy5'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $result = $this->parser->parse($this->query, $this->grouping, $data);
         $this->assertNull($result->getGroup('fieldA'));
@@ -190,21 +190,21 @@ class GroupingTest extends TestCase
 
     public function testsParseWithSimpleFormat()
     {
-        $data = array(
-            'grouped' => array(
-                'fieldA' => array(
+        $data = [
+            'grouped' => [
+                'fieldA' => [
                     'matches' => 25,
                     'ngroups' => 12,
-                    'doclist' => array(
+                    'doclist' => [
                         'numFound' => 13,
-                        'docs' => array(
-                            array('id' => 1, 'name' => 'test'),
-                            array('id' => 2, 'name' => 'test2'),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        'docs' => [
+                            ['id' => 1, 'name' => 'test'],
+                            ['id' => 2, 'name' => 'test2'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $this->grouping->setFormat(Component::FORMAT_SIMPLE);
 

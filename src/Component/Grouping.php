@@ -2,8 +2,6 @@
 
 namespace Solarium\Component;
 
-use Solarium\Component\AbstractComponent;
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Component\RequestBuilder\Grouping as RequestBuilder;
 use Solarium\Component\ResponseParser\Grouping as ResponseParser;
 
@@ -13,7 +11,7 @@ use Solarium\Component\ResponseParser\Grouping as ResponseParser;
  * Also known as Result Grouping or Field Collapsing.
  * See the Solr wiki for more info about this functionality
  *
- * @link  http://wiki.apache.org/solr/FieldCollapsing
+ * @see  http://wiki.apache.org/solr/FieldCollapsing
  * @since 2.1.0
  */
 class Grouping extends AbstractComponent
@@ -40,24 +38,24 @@ class Grouping extends AbstractComponent
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'resultquerygroupclass' => 'Solarium\Component\Result\Grouping\QueryGroup',
         'resultvaluegroupclass' => 'Solarium\Component\Result\Grouping\ValueGroup',
-    );
+    ];
 
     /**
      * Fields for grouping.
      *
      * @var array
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
      * Queries for grouping.
      *
      * @var array
      */
-    protected $queries = array();
+    protected $queries = [];
 
     /**
      * Get component type.
@@ -143,7 +141,7 @@ class Grouping extends AbstractComponent
      */
     public function clearFields()
     {
-        $this->fields = array();
+        $this->fields = [];
 
         return $this;
     }
@@ -191,7 +189,7 @@ class Grouping extends AbstractComponent
     public function addQueries($queries)
     {
         if (!is_array($queries)) {
-            $queries = array($queries);
+            $queries = [$queries];
         }
 
         $this->queries = array_merge($this->queries, $queries);
@@ -216,7 +214,7 @@ class Grouping extends AbstractComponent
      */
     public function clearQueries()
     {
-        $this->queries = array();
+        $this->queries = [];
 
         return $this;
     }
@@ -312,7 +310,7 @@ class Grouping extends AbstractComponent
      * If true, the result of the first field grouping command is used as the main
      * result list in the response, using group format 'simple'
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -324,7 +322,7 @@ class Grouping extends AbstractComponent
     /**
      * Get mainresult option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getMainResult()
     {
@@ -336,7 +334,7 @@ class Grouping extends AbstractComponent
      *
      * If true, includes the number of groups that have matched the query.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -348,7 +346,7 @@ class Grouping extends AbstractComponent
     /**
      * Get numberofgroups option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getNumberOfGroups()
     {
@@ -365,7 +363,7 @@ class Grouping extends AbstractComponent
      * wildcard queries and fuzzy queries. For simple queries like a term query or
      * a match all query this cache has a negative impact on performance
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -377,7 +375,7 @@ class Grouping extends AbstractComponent
     /**
      * Get cachepercentage option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getCachePercentage()
     {
@@ -390,7 +388,7 @@ class Grouping extends AbstractComponent
      * If true, facet counts are based on the most relevant document of each group matching the query.
      * Same applies for StatsComponent. Default is false. Only available from Solr 3.4
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -402,7 +400,7 @@ class Grouping extends AbstractComponent
     /**
      * Get truncate option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getTruncate()
     {
@@ -440,7 +438,7 @@ class Grouping extends AbstractComponent
      * Grouped facets are computed based on the first specified group.
      * This parameter only is supported on Solr 4.0+
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -452,7 +450,7 @@ class Grouping extends AbstractComponent
     /**
      * Get facet option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getFacet()
     {

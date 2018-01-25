@@ -19,24 +19,24 @@ class RequestTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'method' => Request::METHOD_POST,
             'handler' => 'myHandler',
-            'param' => array(
+            'param' => [
                 'param1' => 1,
                 'param2' => 'test',
-            ),
+            ],
             'rawdata' => 'raw post data here',
-            'header' => array(
+            'header' => [
                 'myHeader1' => 'X-myHeader1: value1',
                 'myHeader2' => 'X-myHeader2: value2',
-            ),
-            'authentication' => array(
+            ],
+            'authentication' => [
                 'username' => 'testuser',
                 'password' => 'testpass',
-            ),
+            ],
             'file' => __FILE__,
-        );
+        ];
         $this->request->setOptions($options);
 
         $this->assertSame(
@@ -60,18 +60,18 @@ class RequestTest extends TestCase
         );
 
         $this->assertSame(
-            array(
+            [
                 $options['header']['myHeader1'],
                 $options['header']['myHeader2'],
-            ),
+            ],
             $this->request->getHeaders()
         );
 
         $this->assertSame(
-            array(
+            [
                 'username' => $options['authentication']['username'],
                 'password' => $options['authentication']['password'],
-            ),
+            ],
             $this->request->getAuthentication()
         );
 
@@ -111,10 +111,10 @@ class RequestTest extends TestCase
 
     public function testSetAndGetParams()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
             'param2' => 2,
-        );
+        ];
 
         $this->request->setParams($params);
 
@@ -126,10 +126,10 @@ class RequestTest extends TestCase
 
     public function testSetAndGetParam()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
             'param2' => 2,
-        );
+        ];
 
         $this->request->setParams($params);
 
@@ -148,10 +148,10 @@ class RequestTest extends TestCase
 
     public function testAddParam()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
             'param2' => 2,
-        );
+        ];
 
         $this->request->setParams($params);
         $this->request->addParam('param3', 3);
@@ -166,33 +166,33 @@ class RequestTest extends TestCase
 
     public function testAddParamBoolean()
     {
-        $params = array(
+        $params = [
             'param1' => true,
             'param2' => false,
-        );
+        ];
 
         $this->request->addParams($params);
 
         $this->assertSame(
-            array(
+            [
                 'param1' => 'true',
                 'param2' => 'false',
-            ),
+            ],
             $this->request->getParams()
         );
     }
 
     public function testAddParamMultivalue()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
-        );
+        ];
 
         $this->request->setParams($params);
         $this->request->addParam('param2', 2);
         $this->request->addParam('param2', 3);
 
-        $params['param2'] = array(2, 3);
+        $params['param2'] = [2, 3];
 
         $this->assertSame(
             $params,
@@ -202,11 +202,11 @@ class RequestTest extends TestCase
 
     public function testAddParamNoValue()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
             'param2' => 2,
             'param3' => 3,
-        );
+        ];
 
         $this->request->setParams($params);
         $this->request->addParam('param2', ''); // this should add an empty value to param2
@@ -215,105 +215,105 @@ class RequestTest extends TestCase
         $this->request->addParam('param5', null); // this param should be ignored
 
         $this->assertSame(
-            array(
+            [
                 'param1' => 1,
-                'param2' => array(2, ''),
+                'param2' => [2, ''],
                 'param3' => '',
                 'param4' => '',
-            ),
+            ],
             $this->request->getParams()
         );
     }
 
     public function testAddParamOverwrite()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
-        );
+        ];
 
         $this->request->setParams($params);
         $this->request->addParam('param1', 2, true);
 
         $this->assertSame(
-            array('param1' => 2),
+            ['param1' => 2],
             $this->request->getParams()
         );
     }
 
     public function testAddParams()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
-        );
+        ];
 
-        $extraParams = array(
+        $extraParams = [
             'param1' => 2,
             'param2' => 3,
-        );
+        ];
 
         $this->request->setParams($params);
         $this->request->addParams($extraParams);
 
         $this->assertSame(
-            array(
-                'param1' => array(1, 2),
+            [
+                'param1' => [1, 2],
                 'param2' => 3,
-            ),
+            ],
             $this->request->getParams()
         );
     }
 
     public function testAddParamsOverwrite()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
-        );
+        ];
 
-        $extraParams = array(
+        $extraParams = [
             'param1' => 2,
             'param2' => 3,
-        );
+        ];
 
         $this->request->setParams($params);
         $this->request->addParams($extraParams, true);
 
         $this->assertSame(
-            array(
+            [
                 'param1' => 2,
                 'param2' => 3,
-            ),
+            ],
             $this->request->getParams()
         );
     }
 
     public function testRemoveParam()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
             'param2' => 2,
-        );
+        ];
 
         $this->request->setParams($params);
         $this->request->removeParam('param2');
 
         $this->assertSame(
-            array('param1' => 1),
+            ['param1' => 1],
             $this->request->getParams()
         );
     }
 
     public function testClearParams()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
             'param2' => 2,
-        );
+        ];
 
         $this->request->setParams($params);
         $this->request->clearParams();
 
         $this->assertSame(
-            array(),
+            [],
             $this->request->getParams()
         );
     }
@@ -331,10 +331,10 @@ class RequestTest extends TestCase
 
     public function testSetAndGetHeaders()
     {
-        $headers = array(
+        $headers = [
             'User-Agent: My Agent',
             'Cache-Control: no-cache',
-        );
+        ];
         $this->request->setHeaders($headers);
 
         $this->assertSame(
@@ -345,9 +345,9 @@ class RequestTest extends TestCase
 
     public function testAddHeader()
     {
-        $headers = array(
+        $headers = [
             'User-Agent: My Agent',
-        );
+        ];
 
         $this->request->setHeaders($headers);
         $this->request->addHeader('Cache-Control: no-cache');
@@ -362,14 +362,14 @@ class RequestTest extends TestCase
 
     public function testAddHeaders()
     {
-        $headers = array(
+        $headers = [
             'User-Agent: My Agent',
-        );
+        ];
 
-        $extraHeaders = array(
+        $extraHeaders = [
             'Cache-Control: no-cache',
             'X-custom: 123',
-        );
+        ];
 
         $this->request->setHeaders($headers);
         $this->request->addHeaders($extraHeaders);
@@ -382,10 +382,10 @@ class RequestTest extends TestCase
 
     public function testClearHeaders()
     {
-        $headers = array(
+        $headers = [
             'User-Agent: My Agent',
             'Cache-Control: no-cache',
-        );
+        ];
 
         $this->request->setHeaders($headers);
 
@@ -397,7 +397,7 @@ class RequestTest extends TestCase
         $this->request->clearHeaders();
 
         $this->assertSame(
-            array(),
+            [],
             $this->request->getHeaders()
         );
     }
@@ -412,10 +412,10 @@ class RequestTest extends TestCase
 
     public function testGetUriWithHandlerAndParams()
     {
-        $params = array(
+        $params = [
             'param1' => 1,
-            'param2' => array(2, 3),
-        );
+            'param2' => [2, 3],
+        ];
 
         $this->request->setHandler('myHandler');
         $this->request->addParams($params);
@@ -428,24 +428,24 @@ class RequestTest extends TestCase
 
     public function testToString()
     {
-        $options = array(
+        $options = [
             'method' => Request::METHOD_POST,
             'handler' => '/myHandler',
-            'param' => array(
+            'param' => [
                 'param1' => 1,
                 'param2' => 'test content',
-            ),
+            ],
             'rawdata' => 'post data',
-            'header' => array(
+            'header' => [
                 'myHeader1' => 'X-myHeader1: value1',
                 'myHeader2' => 'X-myHeader2: value2',
-            ),
-            'authentication' => array(
+            ],
+            'authentication' => [
                 'username' => 'testuser',
                 'password' => 'testpass',
-            ),
+            ],
             'file' => __FILE__,
-        );
+        ];
         $this->request->setOptions($options);
 
         $request = <<<EOF
@@ -478,10 +478,10 @@ EOF;
         $this->request->setAuthentication($user, $pass);
 
         $this->assertSame(
-            array(
+            [
                 'username' => $user,
                 'password' => $pass,
-            ),
+            ],
             $this->request->getAuthentication()
         );
     }

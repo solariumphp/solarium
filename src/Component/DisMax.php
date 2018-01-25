@@ -2,15 +2,13 @@
 
 namespace Solarium\Component;
 
-use Solarium\Component\AbstractComponent;
-use Solarium\Exception\InvalidArgumentException;
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Component\RequestBuilder\DisMax as RequestBuilder;
+use Solarium\Exception\InvalidArgumentException;
 
 /**
  * DisMax component.
  *
- * @link http://wiki.apache.org/solr/DisMaxQParserPlugin
+ * @see http://wiki.apache.org/solr/DisMaxQParserPlugin
  */
 class DisMax extends AbstractComponent
 {
@@ -19,16 +17,16 @@ class DisMax extends AbstractComponent
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'queryparser' => 'dismax',
-    );
+    ];
 
     /**
      * Boostqueries.
      *
      * @var BoostQuery[]
      */
-    protected $boostQueries = array();
+    protected $boostQueries = [];
 
     /**
      * Get component type.
@@ -249,7 +247,7 @@ class DisMax extends AbstractComponent
     public function setBoostQuery($boostQuery)
     {
         $this->clearBoostQueries();
-        $this->addBoostQuery(array('key' => 0, 'query' => $boostQuery));
+        $this->addBoostQuery(['key' => 0, 'query' => $boostQuery]);
 
         return $this;
     }
@@ -263,16 +261,16 @@ class DisMax extends AbstractComponent
      */
     public function getBoostQuery($key = null)
     {
-        if ($key !== null) {
+        if (null !== $key) {
             if (array_key_exists($key, $this->boostQueries)) {
                 return $this->boostQueries[$key]->getQuery();
             }
-        } else if (!empty($this->boostQueries)) {
+        } elseif (!empty($this->boostQueries)) {
             /** @var BoostQuery[] $boostQueries */
             $boostQueries = array_values($this->boostQueries);
 
             return $boostQueries[0]->getQuery();
-        } else if (array_key_exists('boostquery', $this->options)) {
+        } elseif (array_key_exists('boostquery', $this->options)) {
             return $this->options['boostquery'];
         }
 
@@ -285,9 +283,10 @@ class DisMax extends AbstractComponent
      * Supports a boostquery instance or a config array, in that case a new
      * boostquery instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param BoostQuery|array $boostQuery
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
@@ -373,7 +372,7 @@ class DisMax extends AbstractComponent
      */
     public function clearBoostQueries()
     {
-        $this->boostQueries = array();
+        $this->boostQueries = [];
 
         return $this;
     }

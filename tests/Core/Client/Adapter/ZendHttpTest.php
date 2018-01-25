@@ -31,8 +31,8 @@ class ZendHttpTest extends TestCase
 
     public function testForwardingToZendHttpInSetOptions()
     {
-        $options = array('optionZ' => 123, 'options' => array('optionX' => 'Y'));
-        $adapterOptions = array('optionX' => 'Y');
+        $options = ['optionZ' => 123, 'options' => ['optionX' => 'Y']];
+        $adapterOptions = ['optionX' => 'Y'];
 
         $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
@@ -57,7 +57,7 @@ class ZendHttpTest extends TestCase
 
     public function testGetZendHttpAutoload()
     {
-        $options = array('optionZ' => 123, 'options' => array('adapter' => 'Zend_Http_Client_Adapter_Curl'));
+        $options = ['optionZ' => 123, 'options' => ['adapter' => 'Zend_Http_Client_Adapter_Curl']];
         $this->adapter->setOptions($options);
 
         $zendHttp = $this->adapter->getZendHttp();
@@ -70,10 +70,10 @@ class ZendHttpTest extends TestCase
         $rawData = 'xyz';
         $responseData = 'abc';
         $handler = 'myhandler';
-        $headers = array(
+        $headers = [
             'X-test: 123',
-        );
-        $params = array('a' => 1, 'b' => 2);
+        ];
+        $params = ['a' => 1, 'b' => 2];
 
         $request = new Request();
         $request->setMethod($method);
@@ -84,7 +84,7 @@ class ZendHttpTest extends TestCase
 
         $endpoint = new Endpoint();
 
-        $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
+        $response = new \Zend_Http_Response(200, ['status' => 'HTTP 1.1 200 OK'], $responseData);
 
         $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
@@ -95,7 +95,7 @@ class ZendHttpTest extends TestCase
                  ->with($this->equalTo('http://127.0.0.1:8983/solr/myhandler'));
         $mock->expects($this->once())
                  ->method('setHeaders')
-                 ->with($this->equalTo(array('X-test: 123')));
+                 ->with($this->equalTo(['X-test: 123']));
         $mock->expects($this->once())
                  ->method('setParameterGet')
                  ->with($this->equalTo($params));
@@ -118,10 +118,10 @@ class ZendHttpTest extends TestCase
         $rawData = 'xyz';
         $responseData = 'abc';
         $handler = 'myhandler';
-        $headers = array(
+        $headers = [
             'X-test: 123',
-        );
-        $params = array('a' => 1, 'b' => 2);
+        ];
+        $params = ['a' => 1, 'b' => 2];
 
         $request = new Request();
         $request->setMethod($method);
@@ -132,7 +132,7 @@ class ZendHttpTest extends TestCase
 
         $endpoint = new Endpoint();
 
-        $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), $responseData);
+        $response = new \Zend_Http_Response(200, ['status' => 'HTTP 1.1 200 OK'], $responseData);
 
         $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())
@@ -143,7 +143,7 @@ class ZendHttpTest extends TestCase
                  ->with($this->equalTo('http://127.0.0.1:8983/solr/myhandler'));
         $mock->expects($this->once())
                  ->method('setHeaders')
-                 ->with($this->equalTo(array('X-test: 123', 'Content-Type: text/xml; charset=UTF-8')));
+                 ->with($this->equalTo(['X-test: 123', 'Content-Type: text/xml; charset=UTF-8']));
         $mock->expects($this->once())
                  ->method('setRawData')
                  ->with($this->equalTo($rawData));
@@ -166,7 +166,7 @@ class ZendHttpTest extends TestCase
     public function testExecuteErrorResponse()
     {
         $request = new Request();
-        $response = new \Zend_Http_Response(404, array(), '');
+        $response = new \Zend_Http_Response(404, [], '');
         $endpoint = new Endpoint();
 
         $mock = $this->createMock(\Zend_Http_Client::class);
@@ -184,7 +184,7 @@ class ZendHttpTest extends TestCase
     {
         $request = new Request();
         $request->setMethod(Request::METHOD_HEAD);
-        $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'data');
+        $response = new \Zend_Http_Response(200, ['status' => 'HTTP 1.1 200 OK'], 'data');
         $endpoint = new Endpoint();
 
         $mock = $this->createMock(\Zend_Http_Client::class);
@@ -217,7 +217,7 @@ class ZendHttpTest extends TestCase
         $request->setMethod(Request::METHOD_POST);
         $request->setFileUpload(__FILE__);
         $endpoint = new Endpoint();
-        $response = new \Zend_Http_Response(200, array('status' => 'HTTP 1.1 200 OK'), 'dummy');
+        $response = new \Zend_Http_Response(200, ['status' => 'HTTP 1.1 200 OK'], 'dummy');
 
         $mock = $this->createMock(\Zend_Http_Client::class);
         $mock->expects($this->once())

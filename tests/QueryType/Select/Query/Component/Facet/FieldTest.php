@@ -20,9 +20,9 @@ class FieldTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'key' => 'myKey',
-            'exclude' => array('e1', 'e2'),
+            'exclude' => ['e1', 'e2'],
             'field' => 'text',
             'sort' => 'index',
             'limit' => 10,
@@ -32,7 +32,7 @@ class FieldTest extends TestCase
             'method' => 'enum',
             'contains' => 'foobar',
             'containsignorecase' => true,
-        );
+        ];
 
         $this->facet->setOptions($options);
 

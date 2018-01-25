@@ -2,8 +2,8 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
 use Solarium\Component\Facet\Query as FacetQuery;
+use Solarium\Component\FacetSet;
 use Solarium\Exception\InvalidArgumentException;
 
 /**
@@ -19,7 +19,7 @@ class MultiQuery extends AbstractFacet
      *
      * @var FacetQuery[]
      */
-    protected $facetQueries = array();
+    protected $facetQueries = [];
 
     /**
      * Get the facet type.
@@ -43,7 +43,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function createQuery($key, $query, $excludes = array())
+    public function createQuery($key, $query, $excludes = [])
     {
         // merge excludes with shared excludes
         $excludes = array_merge($this->getExcludes(), $excludes);
@@ -62,9 +62,10 @@ class MultiQuery extends AbstractFacet
      * Supports a facetquery instance or a config array, in that case a new
      * facetquery instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param Query|array $facetQuery
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
@@ -166,7 +167,7 @@ class MultiQuery extends AbstractFacet
      */
     public function clearQueries()
     {
-        $this->facetQueries = array();
+        $this->facetQueries = [];
 
         return $this;
     }
@@ -265,7 +266,7 @@ class MultiQuery extends AbstractFacet
             switch ($name) {
                 case 'query':
                     if (!is_array($value)) {
-                        $value = array(array('query' => $value));
+                        $value = [['query' => $value]];
                     }
                     $this->addQueries($value);
                     break;

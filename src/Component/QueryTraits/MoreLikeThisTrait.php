@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait MoreLikeThisTrait
 {
-
     /**
      * Get a MoreLikeThis component instance.
      *
@@ -21,5 +20,4 @@ trait MoreLikeThisTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS, true);
     }
-
 }

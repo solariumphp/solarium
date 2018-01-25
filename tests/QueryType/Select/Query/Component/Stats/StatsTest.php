@@ -42,18 +42,18 @@ class StatsTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'facet' => 'field1, field2',
-            'field' => array(
-                'f1' => array(),
-                'f2' => array(),
-            ),
-        );
+            'field' => [
+                'f1' => [],
+                'f2' => [],
+            ],
+        ];
 
         $this->stats->setOptions($options);
 
-        $this->assertSame(array('field1', 'field2'), $this->stats->getFacets());
-        $this->assertSame(array('f1', 'f2'), array_keys($this->stats->getFields()));
+        $this->assertSame(['field1', 'field2'], $this->stats->getFacets());
+        $this->assertSame(['f1', 'f2'], array_keys($this->stats->getFields()));
     }
 
     public function testCreateFieldWithKey()
@@ -71,7 +71,7 @@ class StatsTest extends TestCase
 
     public function testCreateFieldWithOptions()
     {
-        $options = array('key' => 'testkey');
+        $options = ['key' => 'testkey'];
         $field = $this->stats->createField($options);
 
         // check class
@@ -99,7 +99,7 @@ class StatsTest extends TestCase
 
     public function testAddFieldWithOptions()
     {
-        $this->stats->addField(array('key' => 'f1'));
+        $this->stats->addField(['key' => 'f1']);
 
         $this->assertSame(
             'f1',
@@ -160,7 +160,7 @@ class StatsTest extends TestCase
         $f2 = new Field();
         $f2->setKey('f2');
 
-        $fields = array('f1' => $f1, 'f2' => $f2);
+        $fields = ['f1' => $f1, 'f2' => $f2];
 
         $this->stats->addFields($fields);
         $this->assertSame(
@@ -171,15 +171,15 @@ class StatsTest extends TestCase
 
     public function testAddFieldsWithOptions()
     {
-        $fields = array(
-            'f1' => array(''),
-            array('key' => 'f2'),
-        );
+        $fields = [
+            'f1' => [''],
+            ['key' => 'f2'],
+        ];
 
         $this->stats->addFields($fields);
         $fields = $this->stats->getFields();
 
-        $this->assertSame(array('f1', 'f2'), array_keys($fields));
+        $this->assertSame(['f1', 'f2'], array_keys($fields));
     }
 
     public function testRemoveField()
@@ -190,12 +190,12 @@ class StatsTest extends TestCase
         $f2 = new Field();
         $f2->setKey('f2');
 
-        $fields = array('f1' => $f1, 'f2' => $f2);
+        $fields = ['f1' => $f1, 'f2' => $f2];
 
         $this->stats->addFields($fields);
         $this->stats->removeField('f1');
         $this->assertSame(
-            array('f2' => $f2),
+            ['f2' => $f2],
             $this->stats->getFields()
         );
     }
@@ -208,12 +208,12 @@ class StatsTest extends TestCase
         $f2 = new Field();
         $f2->setKey('f2');
 
-        $fields = array($f1, $f2);
+        $fields = [$f1, $f2];
 
         $this->stats->addFields($fields);
         $this->stats->removeField($f1);
         $this->assertSame(
-            array('f2' => $f2),
+            ['f2' => $f2],
             $this->stats->getFields()
         );
     }
@@ -226,7 +226,7 @@ class StatsTest extends TestCase
         $f2 = new Field();
         $f2->setKey('f2');
 
-        $fields = array('f1' => $f1, 'f2' => $f2);
+        $fields = ['f1' => $f1, 'f2' => $f2];
 
         $this->stats->addFields($fields);
         $this->stats->removeField('f3'); //continue silently
@@ -244,12 +244,12 @@ class StatsTest extends TestCase
         $f2 = new Field();
         $f2->setKey('f2');
 
-        $fields = array($f1, $f2);
+        $fields = [$f1, $f2];
 
         $this->stats->addFields($fields);
         $this->stats->clearFields();
         $this->assertSame(
-            array(),
+            [],
             $this->stats->getFields()
         );
     }
@@ -262,7 +262,7 @@ class StatsTest extends TestCase
         $f2 = new Field();
         $f2->setKey('f2');
 
-        $fields = array($f1, $f2);
+        $fields = [$f1, $f2];
 
         $this->stats->addFields($fields);
 
@@ -272,7 +272,7 @@ class StatsTest extends TestCase
         $f4 = new Field();
         $f4->setKey('f4');
 
-        $fields2 = array('f3' => $f3, 'f4' => $f4);
+        $fields2 = ['f3' => $f3, 'f4' => $f4];
 
         $this->stats->setFields($fields2);
 
@@ -294,12 +294,12 @@ class StatsTest extends TestCase
     {
         $this->stats->addFacet('newfacet');
         $this->stats->clearFacets();
-        $this->assertSame(array(), $this->stats->getFacets());
+        $this->assertSame([], $this->stats->getFacets());
     }
 
     public function testAddFacets()
     {
-        $facets = array('facet1', 'facet2');
+        $facets = ['facet1', 'facet2'];
 
         $this->stats->clearFacets();
         $this->stats->addFacets($facets);
@@ -310,22 +310,22 @@ class StatsTest extends TestCase
     {
         $this->stats->clearFacets();
         $this->stats->addFacets('facet1, facet2');
-        $this->assertSame(array('facet1', 'facet2'), $this->stats->getFacets());
+        $this->assertSame(['facet1', 'facet2'], $this->stats->getFacets());
     }
 
     public function testRemoveFacet()
     {
         $this->stats->clearFacets();
-        $this->stats->addFacets(array('facet1', 'facet2'));
+        $this->stats->addFacets(['facet1', 'facet2']);
         $this->stats->removeFacet('facet1');
-        $this->assertSame(array('facet2'), $this->stats->getFacets());
+        $this->assertSame(['facet2'], $this->stats->getFacets());
     }
 
     public function testSetFacets()
     {
         $this->stats->clearFacets();
-        $this->stats->addFacets(array('facet1', 'facet2'));
-        $this->stats->setFacets(array('facet3', 'facet4'));
-        $this->assertSame(array('facet3', 'facet4'), $this->stats->getFacets());
+        $this->stats->addFacets(['facet1', 'facet2']);
+        $this->stats->setFacets(['facet3', 'facet4']);
+        $this->assertSame(['facet3', 'facet4'], $this->stats->getFacets());
     }
 }

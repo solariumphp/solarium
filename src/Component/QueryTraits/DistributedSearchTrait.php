@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait DistributedSearchTrait
 {
-
     /**
      * Get a DistributedSearch component instance.
      *
@@ -21,5 +20,4 @@ trait DistributedSearchTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_DISTRIBUTEDSEARCH, true);
     }
-
 }

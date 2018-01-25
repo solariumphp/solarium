@@ -37,7 +37,7 @@ class RequestBuilderTest extends TestCase
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
-            array(
+            [
                 'spellcheck' => 'true',
                 'spellcheck.q' => 'ap ip',
                 'spellcheck.dictionary' => 'suggest',
@@ -49,7 +49,7 @@ class RequestBuilderTest extends TestCase
                 'json.nl' => 'flat',
                 'omitHeader' => 'true',
                 'spellcheck.accuracy' => 0.45,
-            ),
+            ],
             $request->getParams()
         );
 

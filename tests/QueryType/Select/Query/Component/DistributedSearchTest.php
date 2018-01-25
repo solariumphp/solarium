@@ -20,13 +20,13 @@ class DistributedSearchTest extends TestCase
 
     public function testConfigModeForShards()
     {
-        $options = array(
+        $options = [
             'shardhandler' => 'dummyhandler',
-            'shards' => array(
+            'shards' => [
                 'shard1' => 'localhost:8983/solr/shard1',
                 'shard2' => 'localhost:8983/solr/shard2',
-            ),
-        );
+            ],
+        ];
 
         $this->distributedSearch->setOptions($options);
 
@@ -36,12 +36,12 @@ class DistributedSearchTest extends TestCase
 
     public function testConfigModeForCollections()
     {
-        $options = array(
-            'collections' => array(
+        $options = [
+            'collections' => [
                 'collection1' => 'localhost:8983/solr/collection1',
                 'collection2' => 'localhost:8983/solr/collection2',
-            ),
-        );
+            ],
+        ];
 
         $this->distributedSearch->setOptions($options);
         $this->assertSame($options['collections'], $this->distributedSearch->getCollections());
@@ -49,12 +49,12 @@ class DistributedSearchTest extends TestCase
 
     public function testConfigModeForReplicas()
     {
-        $options = array(
-            'replicas' => array(
+        $options = [
+            'replicas' => [
                 'replica1' => 'localhost:8983/solr/collection1',
                 'replica2' => 'localhost:8983/solr/collection2',
-            ),
-        );
+            ],
+        ];
 
         $this->distributedSearch->setOptions($options);
         $this->assertSame($options['replicas'], $this->distributedSearch->getReplicas());
@@ -102,10 +102,10 @@ class DistributedSearchTest extends TestCase
     public function testClearShards()
     {
         $this->distributedSearch->addShards(
-            array(
+            [
                 'shard1' => 'localhost:8983/solr/shard1',
                 'shard2' => 'localhost:8983/solr/shard2',
-            )
+            ]
         );
         $this->distributedSearch->clearShards();
         $shards = $this->distributedSearch->getShards();
@@ -115,10 +115,10 @@ class DistributedSearchTest extends TestCase
 
     public function testAddShards()
     {
-        $shards = array(
+        $shards = [
             'shard1' => 'localhost:8983/solr/shard1',
             'shard2' => 'localhost:8983/solr/shard2',
-        );
+        ];
         $this->distributedSearch->addShards($shards);
         $this->assertSame($shards, $this->distributedSearch->getShards());
     }
@@ -126,26 +126,26 @@ class DistributedSearchTest extends TestCase
     public function testSetShards()
     {
         $this->distributedSearch->addShards(
-            array(
+            [
                 'shard1' => 'localhost:8983/solr/shard1',
                 'shard2' => 'localhost:8983/solr/shard2',
-            )
+            ]
         );
         $this->distributedSearch->setShards(
-            array(
+            [
                 'shard3' => 'localhost:8983/solr/shard3',
                 'shard4' => 'localhost:8983/solr/shard4',
                 'shard5' => 'localhost:8983/solr/shard5',
-            )
+            ]
         );
         $shards = $this->distributedSearch->getShards();
         $this->assertCount(3, $shards);
         $this->assertSame(
-            array(
+            [
                 'shard3' => 'localhost:8983/solr/shard3',
                 'shard4' => 'localhost:8983/solr/shard4',
                 'shard5' => 'localhost:8983/solr/shard5',
-            ),
+            ],
             $shards
         );
     }
@@ -180,10 +180,10 @@ class DistributedSearchTest extends TestCase
     public function testClearCollections()
     {
         $this->distributedSearch->addCollections(
-            array(
+            [
                 'collection1' => 'localhost:8983/solr/collection1',
                 'collection2' => 'localhost:8983/solr/collection2',
-            )
+            ]
         );
         $this->distributedSearch->clearCollections();
         $collections = $this->distributedSearch->getCollections();
@@ -193,10 +193,10 @@ class DistributedSearchTest extends TestCase
 
     public function testAddCollections()
     {
-        $collections = array(
+        $collections = [
             'collection1' => 'localhost:8983/solr/collection1',
             'collection2' => 'localhost:8983/solr/collection2',
-        );
+        ];
         $this->distributedSearch->addCollections($collections);
         $this->assertSame($collections, $this->distributedSearch->getCollections());
     }
@@ -204,26 +204,26 @@ class DistributedSearchTest extends TestCase
     public function testSetCollections()
     {
         $this->distributedSearch->addCollections(
-            array(
+            [
                 'collection1' => 'localhost:8983/solr/collection1',
                 'collection2' => 'localhost:8983/solr/collection2',
-            )
+            ]
         );
         $this->distributedSearch->setCollections(
-            array(
+            [
                 'collection3' => 'localhost:8983/solr/collection3',
                 'collection4' => 'localhost:8983/solr/collection4',
                 'collection5' => 'localhost:8983/solr/collection5',
-            )
+            ]
         );
         $collections = $this->distributedSearch->getCollections();
         $this->assertCount(3, $collections);
         $this->assertSame(
-            array(
+            [
                 'collection3' => 'localhost:8983/solr/collection3',
                 'collection4' => 'localhost:8983/solr/collection4',
                 'collection5' => 'localhost:8983/solr/collection5',
-            ),
+            ],
             $collections
         );
     }
@@ -249,10 +249,10 @@ class DistributedSearchTest extends TestCase
     public function testClearReplicas()
     {
         $this->distributedSearch->addReplicas(
-            array(
+            [
                 'replica1' => 'localhost:8983/solr/replica1',
                 'replica2' => 'localhost:8983/solr/replica2',
-            )
+            ]
         );
         $this->distributedSearch->clearReplicas();
         $replicas = $this->distributedSearch->getReplicas();
@@ -262,10 +262,10 @@ class DistributedSearchTest extends TestCase
 
     public function testAddReplicas()
     {
-        $replicas = array(
+        $replicas = [
             'replica1' => 'localhost:8983/solr/replica1',
             'replica2' => 'localhost:8983/solr/replica2',
-        );
+        ];
         $this->distributedSearch->addReplicas($replicas);
         $this->assertSame($replicas, $this->distributedSearch->getReplicas());
     }
@@ -273,26 +273,26 @@ class DistributedSearchTest extends TestCase
     public function testSetReplicas()
     {
         $this->distributedSearch->addReplicas(
-            array(
+            [
                 'replica1' => 'localhost:8983/solr/replica1',
                 'replica2' => 'localhost:8983/solr/replica2',
-            )
+            ]
         );
         $this->distributedSearch->setReplicas(
-            array(
+            [
                 'replica3' => 'localhost:8983/solr/replica3',
                 'replica4' => 'localhost:8983/solr/replica4',
                 'replica5' => 'localhost:8983/solr/replica5',
-            )
+            ]
         );
         $replicas = $this->distributedSearch->getReplicas();
         $this->assertCount(3, $replicas);
         $this->assertSame(
-            array(
+            [
                 'replica3' => 'localhost:8983/solr/replica3',
                 'replica4' => 'localhost:8983/solr/replica4',
                 'replica5' => 'localhost:8983/solr/replica5',
-            ),
+            ],
             $replicas
         );
     }

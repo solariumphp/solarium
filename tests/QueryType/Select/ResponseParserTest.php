@@ -14,22 +14,22 @@ class ResponseParserTest extends TestCase
 {
     public function testParse()
     {
-        $data = array(
-            'response' => array(
-                'docs' => array(
-                    array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2'),
-                ),
+        $data = [
+            'response' => [
+                'docs' => [
+                    ['fieldA' => 1, 'fieldB' => 'Test'],
+                    ['fieldA' => 2, 'fieldB' => 'Test2'],
+                ],
                 'numFound' => 503,
                 'maxScore' => 1.23,
-            ),
-            'responseHeader' => array(
+            ],
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 13,
-            ),
-        );
+            ],
+        ];
 
-        $query = new Query(array('documentclass' => Document::class));
+        $query = new Query(['documentclass' => Document::class]);
         $query->getFacetSet();
 
         $resultStub = $this->createMock(Result::class);
@@ -48,35 +48,35 @@ class ResponseParserTest extends TestCase
         $this->assertSame(503, $result['numfound']);
         $this->assertSame(1.23, $result['maxscore']);
 
-        $docs = array(
-            new Document(array('fieldA' => 1, 'fieldB' => 'Test')),
-            new Document(array('fieldA' => 2, 'fieldB' => 'Test2')),
-        );
+        $docs = [
+            new Document(['fieldA' => 1, 'fieldB' => 'Test']),
+            new Document(['fieldA' => 2, 'fieldB' => 'Test2']),
+        ];
         $this->assertEquals($docs, $result['documents']);
 
-        $components = array(
-            Query::COMPONENT_FACETSET => new FacetSet(array()),
-        );
+        $components = [
+            Query::COMPONENT_FACETSET => new FacetSet([]),
+        ];
         $this->assertEquals($components, $result['components']);
     }
 
     public function testParseWithoutScore()
     {
-        $data = array(
-            'response' => array(
-                'docs' => array(
-                    array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2'),
-                ),
+        $data = [
+            'response' => [
+                'docs' => [
+                    ['fieldA' => 1, 'fieldB' => 'Test'],
+                    ['fieldA' => 2, 'fieldB' => 'Test2'],
+                ],
                 'numFound' => 503,
-            ),
-            'responseHeader' => array(
+            ],
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 13,
-            ),
-        );
+            ],
+        ];
 
-        $query = new Query(array('documentclass' => Document::class));
+        $query = new Query(['documentclass' => Document::class]);
         $query->getFacetSet();
 
         $resultStub = $this->createMock(Result::class);
@@ -95,35 +95,35 @@ class ResponseParserTest extends TestCase
         $this->assertSame(503, $result['numfound']);
         $this->assertNull($result['maxscore']);
 
-        $docs = array(
-            new Document(array('fieldA' => 1, 'fieldB' => 'Test')),
-            new Document(array('fieldA' => 2, 'fieldB' => 'Test2')),
-        );
+        $docs = [
+            new Document(['fieldA' => 1, 'fieldB' => 'Test']),
+            new Document(['fieldA' => 2, 'fieldB' => 'Test2']),
+        ];
         $this->assertEquals($docs, $result['documents']);
 
-        $components = array(
-            Query::COMPONENT_FACETSET => new FacetSet(array()),
-        );
+        $components = [
+            Query::COMPONENT_FACETSET => new FacetSet([]),
+        ];
         $this->assertEquals($components, $result['components']);
     }
 
     public function testParseWithInvalidDocumentClass()
     {
-        $data = array(
-            'response' => array(
-                'docs' => array(
-                    array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2'),
-                ),
+        $data = [
+            'response' => [
+                'docs' => [
+                    ['fieldA' => 1, 'fieldB' => 'Test'],
+                    ['fieldA' => 2, 'fieldB' => 'Test2'],
+                ],
                 'numFound' => 503,
-            ),
-            'responseHeader' => array(
+            ],
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 13,
-            ),
-        );
+            ],
+        ];
 
-        $query = new Query(array('documentclass' => 'StdClass'));
+        $query = new Query(['documentclass' => 'StdClass']);
         $query->getFacetSet();
 
         $resultStub = $this->createMock(Result::class);
@@ -142,20 +142,20 @@ class ResponseParserTest extends TestCase
 
     public function testParseWithoutNumFound()
     {
-        $data = array(
-            'response' => array(
-                'docs' => array(
-                    array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2'),
-                ),
-            ),
-            'responseHeader' => array(
+        $data = [
+            'response' => [
+                'docs' => [
+                    ['fieldA' => 1, 'fieldB' => 'Test'],
+                    ['fieldA' => 2, 'fieldB' => 'Test2'],
+                ],
+            ],
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 13,
-            ),
-        );
+            ],
+        ];
 
-        $query = new Query(array('documentclass' => Document::class));
+        $query = new Query(['documentclass' => Document::class]);
         $query->getFacetSet();
 
         $resultStub = $this->createMock(Result::class);

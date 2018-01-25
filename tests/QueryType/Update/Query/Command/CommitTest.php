@@ -25,11 +25,11 @@ class CommitTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'softcommit' => true,
             'waitsearcher' => false,
             'expungedeletes' => true,
-        );
+        ];
 
         $command = new Commit($options);
 

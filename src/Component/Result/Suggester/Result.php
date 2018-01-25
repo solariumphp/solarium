@@ -26,8 +26,8 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param array   $results
-     * @param array   $all
+     * @param array $results
+     * @param array $all
      */
     public function __construct($results, $all)
     {
@@ -90,5 +90,4 @@ class Result implements \IteratorAggregate, \Countable
     {
         return count($this->results);
     }
-
 }

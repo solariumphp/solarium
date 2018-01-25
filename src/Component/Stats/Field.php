@@ -14,17 +14,17 @@ class Field extends Configurable
      *
      * @var array
      */
-    protected $facets = array();
+    protected $facets = [];
 
     /**
-     * pivot facets for these stats
+     * pivot facets for these stats.
      *
      * @var array
      */
-    protected $pivots = array();
+    protected $pivots = [];
 
     /**
-     * Get key value
+     * Get key value.
      *
      * @return string
      */
@@ -104,7 +104,7 @@ class Field extends Configurable
      */
     public function clearFacets()
     {
-        $this->facets = array();
+        $this->facets = [];
 
         return $this;
     }
@@ -137,10 +137,11 @@ class Field extends Configurable
     }
 
     /**
-     * Add pivot
+     * Add pivot.
      *
      * @param string $pivot
-     * @return self  Provides fluent interface
+     *
+     * @return self Provides fluent interface
      */
     public function addPivot($pivot)
     {
@@ -150,7 +151,7 @@ class Field extends Configurable
     }
 
     /**
-     * Specify multiple Pivots
+     * Specify multiple Pivots.
      *
      * @param string|array $pivots can be an array or string with comma
      *                             separated facetnames
@@ -172,10 +173,11 @@ class Field extends Configurable
     }
 
     /**
-     * Remove a pivot facet from the pivot list
+     * Remove a pivot facet from the pivot list.
      *
-     * @param  string $pivot
-     * @return self   Provides fluent interface
+     * @param string $pivot
+     *
+     * @return self Provides fluent interface
      */
     public function removePivot($pivot)
     {
@@ -193,13 +195,13 @@ class Field extends Configurable
      */
     public function clearPivots()
     {
-        $this->pivots = array();
+        $this->pivots = [];
 
         return $this;
     }
 
     /**
-     * Get the list of pivot facets
+     * Get the list of pivot facets.
      *
      * @return array
      */
@@ -209,12 +211,13 @@ class Field extends Configurable
     }
 
     /**
-     * Set multiple pivot facets
+     * Set multiple pivot facets.
      *
      * This overwrites any existing pivots
      *
-     * @param  array $pivots
-     * @return self  Provides fluent interface
+     * @param array $pivots
+     *
+     * @return self Provides fluent interface
      */
     public function setPivots($pivots)
     {
@@ -225,12 +228,10 @@ class Field extends Configurable
     }
 
     /**
-     * Initialize options
+     * Initialize options.
      *
      * Several options need some extra checks or setup work, for these options
      * the setters are called.
-     *
-     * @return void
      */
     protected function init()
     {

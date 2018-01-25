@@ -11,12 +11,12 @@ abstract class AbstractDocumentTest extends TestCase
      */
     protected $doc;
 
-    protected $fields = array(
+    protected $fields = [
         'id' => 123,
         'name' => 'Test document',
-        'categories' => array(1, 2, 3),
+        'categories' => [1, 2, 3],
         'empty_field' => '',
-    );
+    ];
 
     public function testGetFields()
     {
@@ -60,7 +60,7 @@ abstract class AbstractDocumentTest extends TestCase
 
     public function testIterator()
     {
-        $fields = array();
+        $fields = [];
         foreach ($this->doc as $key => $field) {
             $fields[$key] = $field;
         }

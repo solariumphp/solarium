@@ -36,13 +36,13 @@ class RequestBuilderTest extends TestCase
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
-            array(
+            [
                 'wt' => 'json',
                 'analysis.query' => $query,
                 'analysis.showmatch' => 'true',
                 'json.nl' => 'flat',
                 'omitHeader' => 'true',
-            ),
+            ],
             $request->getParams()
         );
 

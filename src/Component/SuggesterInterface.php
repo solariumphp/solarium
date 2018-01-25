@@ -73,7 +73,7 @@ interface SuggesterInterface extends ConfigurableInterface
     /**
      * Set build option.
      *
-     * @param boolean $build
+     * @param bool $build
      *
      * @return self Provides fluent interface
      */
@@ -82,14 +82,15 @@ interface SuggesterInterface extends ConfigurableInterface
     /**
      * Get build option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getBuild();
 
     /**
      * Set reload option.
      *
-     * @param boolean $build
+     * @param bool  $build
+     * @param mixed $reload
      *
      * @return self Provides fluent interface
      */
@@ -98,8 +99,7 @@ interface SuggesterInterface extends ConfigurableInterface
     /**
      * Get reload option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getReload();
-
 }

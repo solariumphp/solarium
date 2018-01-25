@@ -15,8 +15,8 @@ class GroupingTest extends TestCase
         $request = new Request();
 
         $component = new Component();
-        $component->setFields(array('fieldA', 'fieldB'));
-        $component->setQueries(array('cat:1', 'cat:2'));
+        $component->setFields(['fieldA', 'fieldB']);
+        $component->setQueries(['cat:1', 'cat:2']);
         $component->setLimit(12);
         $component->setOffset(2);
         $component->setSort('score desc');
@@ -31,10 +31,10 @@ class GroupingTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'group' => 'true',
-                'group.field' => array('fieldA', 'fieldB'),
-                'group.query' => array('cat:1', 'cat:2'),
+                'group.field' => ['fieldA', 'fieldB'],
+                'group.query' => ['cat:1', 'cat:2'],
                 'group.limit' => 12,
                 'group.offset' => 2,
                 'group.sort' => 'score desc',
@@ -45,7 +45,7 @@ class GroupingTest extends TestCase
                 'group.func' => 'log(foo)',
                 'group.facet' => 'true',
                 'group.format' => 'grouped',
-            ),
+            ],
             $request->getParams()
         );
     }

@@ -21,14 +21,14 @@ class HighlightingTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
-            'field' => array(
-                'fieldA' => array(
+        $options = [
+            'field' => [
+                'fieldA' => [
                     'snippets' => 3,
                     'fragsize' => 25,
-                ),
+                ],
                 'fieldB',
-            ),
+            ],
             'snippets' => 2,
             'fragsize' => 20,
             'mergecontiguous' => true,
@@ -59,11 +59,11 @@ class HighlightingTest extends TestCase
             'boundaryscannertype' => 'LINE',
             'boundaryscannerlanguage' => 'nl',
             'boundaryscannercountry' => 'NL',
-        );
+        ];
 
         $this->hlt->setOptions($options);
 
-        $this->assertSame(array('fieldA', 'fieldB'), array_keys($this->hlt->getFields()));
+        $this->assertSame(['fieldA', 'fieldB'], array_keys($this->hlt->getFields()));
         $this->assertSame($options['field']['fieldA']['snippets'], $this->hlt->getField('fieldA')->getSnippets());
         $this->assertSame($options['field']['fieldA']['fragsize'], $this->hlt->getField('fieldA')->getFragSize());
         $this->assertNull($this->hlt->getField('FieldB')->getSnippets());
@@ -150,15 +150,15 @@ class HighlightingTest extends TestCase
         $name = 'test';
         $this->hlt->addField($name);
 
-        $this->assertSame(array($name), array_keys($this->hlt->getFields()));
+        $this->assertSame([$name], array_keys($this->hlt->getFields()));
     }
 
     public function testAddFieldWithArray()
     {
-        $config = array(
+        $config = [
             'name' => 'fieldA',
             'snippets' => 6,
-        );
+        ];
         $this->hlt->addField($config);
 
         $this->assertSame(6, $this->hlt->getField('fieldA')->getSnippets());
@@ -176,15 +176,15 @@ class HighlightingTest extends TestCase
         $fields = 'test1,test2';
         $this->hlt->addFields($fields);
 
-        $this->assertSame(array('test1', 'test2'), array_keys($this->hlt->getFields()));
+        $this->assertSame(['test1', 'test2'], array_keys($this->hlt->getFields()));
     }
 
     public function testAddsFieldsWithArray()
     {
-        $fields = array(
-            'test1' => array('snippets' => 2),
-            'test2' => array('snippets' => 5),
-        );
+        $fields = [
+            'test1' => ['snippets' => 2],
+            'test2' => ['snippets' => 5],
+        ];
         $this->hlt->addFields($fields);
 
         $this->assertSame(2, $this->hlt->getField('test1')->getSnippets());
@@ -193,63 +193,63 @@ class HighlightingTest extends TestCase
 
     public function testRemoveField()
     {
-        $fields = array(
-            'test1' => array('snippets' => 2),
-            'test2' => array('snippets' => 5),
-        );
+        $fields = [
+            'test1' => ['snippets' => 2],
+            'test2' => ['snippets' => 5],
+        ];
 
         $this->hlt->addFields($fields);
-        $this->assertSame(array('test1', 'test2'), array_keys($this->hlt->getFields()));
+        $this->assertSame(['test1', 'test2'], array_keys($this->hlt->getFields()));
 
         $this->hlt->removeField('test1');
-        $this->assertSame(array('test2'), array_keys($this->hlt->getFields()));
+        $this->assertSame(['test2'], array_keys($this->hlt->getFields()));
     }
 
     public function testRemoveFieldWithInvalidName()
     {
-        $fields = array(
-            'test1' => array('snippets' => 2),
-            'test2' => array('snippets' => 5),
-        );
+        $fields = [
+            'test1' => ['snippets' => 2],
+            'test2' => ['snippets' => 5],
+        ];
 
         $this->hlt->addFields($fields);
-        $this->assertSame(array('test1', 'test2'), array_keys($this->hlt->getFields()));
+        $this->assertSame(['test1', 'test2'], array_keys($this->hlt->getFields()));
 
         $this->hlt->removeField('test1=3'); // should fail silently and do nothing
-        $this->assertSame(array('test1', 'test2'), array_keys($this->hlt->getFields()));
+        $this->assertSame(['test1', 'test2'], array_keys($this->hlt->getFields()));
     }
 
     public function testClearFields()
     {
-        $fields = array(
-            'test1' => array('snippets' => 2),
-            'test2' => array('snippets' => 5),
-        );
+        $fields = [
+            'test1' => ['snippets' => 2],
+            'test2' => ['snippets' => 5],
+        ];
 
         $this->hlt->addFields($fields);
-        $this->assertSame(array('test1', 'test2'), array_keys($this->hlt->getFields()));
+        $this->assertSame(['test1', 'test2'], array_keys($this->hlt->getFields()));
 
         $this->hlt->clearFields();
-        $this->assertSame(array(), array_keys($this->hlt->getFields()));
+        $this->assertSame([], array_keys($this->hlt->getFields()));
     }
 
     public function testSetFields()
     {
-        $fields = array(
-            'test1' => array('snippets' => 2),
-            'test2' => array('snippets' => 5),
-        );
+        $fields = [
+            'test1' => ['snippets' => 2],
+            'test2' => ['snippets' => 5],
+        ];
 
         $this->hlt->addFields($fields);
-        $this->assertSame(array('test1', 'test2'), array_keys($this->hlt->getFields()));
+        $this->assertSame(['test1', 'test2'], array_keys($this->hlt->getFields()));
 
-        $newFields = array(
-            'test3' => array('snippets' => 4),
-            'test4' => array('snippets' => 6),
-        );
+        $newFields = [
+            'test3' => ['snippets' => 4],
+            'test4' => ['snippets' => 6],
+        ];
 
         $this->hlt->setFields($newFields);
-        $this->assertSame(array('test3', 'test4'), array_keys($this->hlt->getFields()));
+        $this->assertSame(['test3', 'test4'], array_keys($this->hlt->getFields()));
     }
 
     public function testSetAndGetSnippets()

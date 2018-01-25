@@ -44,7 +44,7 @@ class RequestBuilderTest extends TestCase
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
-            array(
+            [
                 'mlt.interestingTerms' => 'test',
                 'mlt.match.include' => 'true',
                 'mlt.match.offset' => 15,
@@ -56,7 +56,7 @@ class RequestBuilderTest extends TestCase
                 'mlt.maxqt' => 4,
                 'mlt.maxntp' => 5,
                 'mlt.boost' => 'true',
-                'mlt.qf' => array('description'),
+                'mlt.qf' => ['description'],
                 'q' => '*:*',
                 'fl' => '*,score',
                 'rows' => 10,
@@ -64,7 +64,7 @@ class RequestBuilderTest extends TestCase
                 'wt' => 'json',
                 'omitHeader' => 'true',
                 'json.nl' => 'flat',
-            ),
+            ],
             $request->getParams()
         );
 
@@ -83,6 +83,6 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::METHOD_POST, $request->getMethod());
         $this->assertNull($request->getParam('q'));
         $this->assertSame($content, $request->getRawData());
-        $this->assertTrue(in_array('Content-Type: text/plain; charset=utf-8', $request->getHeaders()));
+        $this->assertTrue(in_array('Content-Type: text/plain; charset=utf-8', $request->getHeaders(), true));
     }
 }

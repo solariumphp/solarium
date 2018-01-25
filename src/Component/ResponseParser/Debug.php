@@ -1,53 +1,15 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
-
-/**
- * @namespace
- */
 
 namespace Solarium\Component\ResponseParser;
 
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\Component\Debug as DebugComponent;
-use Solarium\Component\Result\Debug\Result;
-use Solarium\Component\Result\Debug\DocumentSet;
-use Solarium\Component\Result\Debug\Timing;
 use Solarium\Component\Result\Debug\Detail;
 use Solarium\Component\Result\Debug\Document;
+use Solarium\Component\Result\Debug\DocumentSet;
+use Solarium\Component\Result\Debug\Result;
+use Solarium\Component\Result\Debug\Timing;
 use Solarium\Component\Result\Debug\TimingPhase;
+use Solarium\QueryType\Select\Query\Query;
 
 /**
  * Parse select component Debug result from the data.
@@ -80,21 +42,21 @@ class Debug implements ComponentParserInterface
             if (isset($debug['explain']) && is_array($debug['explain'])) {
                 $explain = $this->parseDocumentSet($debug['explain']);
             } else {
-                $explain = new DocumentSet(array());
+                $explain = new DocumentSet([]);
             }
 
             // parse explainOther data
             if (isset($debug['explainOther']) && is_array($debug['explainOther'])) {
                 $explainOther = $this->parseDocumentSet($debug['explainOther']);
             } else {
-                $explainOther = new DocumentSet(array());
+                $explainOther = new DocumentSet([]);
             }
 
             // parse timing data
             $timing = null;
             if (isset($debug['timing']) && is_array($debug['timing'])) {
                 $time = null;
-                $timingPhases = array();
+                $timingPhases = [];
                 foreach ($debug['timing'] as $key => $timingData) {
                     switch ($key) {
                         case 'time':
@@ -133,9 +95,9 @@ class Debug implements ComponentParserInterface
      */
     protected function parseDocumentSet($data)
     {
-        $docs = array();
+        $docs = [];
         foreach ($data as $key => $documentData) {
-            $details = array();
+            $details = [];
             if (isset($documentData['details']) && is_array($documentData['details'])) {
                 foreach ($documentData['details'] as $detailData) {
                     $detail = new Detail(
@@ -174,7 +136,7 @@ class Debug implements ComponentParserInterface
     protected function parseTimingPhase($name, $data)
     {
         $time = 0.0;
-        $classes = array();
+        $classes = [];
         foreach ($data as $key => $timingData) {
             switch ($key) {
                 case 'time':
