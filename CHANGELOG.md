@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Spellcheck component
 - Spellcheck query type
 - Added missing parameters to the Spellcheck query type and the component (compared to the 3.x Suggester)
+- Support for deep paging with a cursor
 - Symfony 4 support
 - Nightly builds / tests
 - Basic Integration tests running real Solr queries against Solr's techproducts example
