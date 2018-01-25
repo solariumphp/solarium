@@ -11,27 +11,27 @@ class ResponseParserTest extends TestCase
 {
     public function testParse()
     {
-        $data = array(
-            'response' => array(
-                'docs' => array(
-                    array('fieldA' => 1, 'fieldB' => 'Test'),
-                    array('fieldA' => 2, 'fieldB' => 'Test2'),
-                ),
+        $data = [
+            'response' => [
+                'docs' => [
+                    ['fieldA' => 1, 'fieldB' => 'Test'],
+                    ['fieldA' => 2, 'fieldB' => 'Test2'],
+                ],
                 'numFound' => 503,
-            ),
-            'responseHeader' => array(
+            ],
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 13,
-            ),
-            'interestingTerms' => array(
+            ],
+            'interestingTerms' => [
                 'key1', 'value1', 'key2', 'value2',
-            ),
-            'match' => array(
-                'docs' => array(
-                    array('fieldA' => 5, 'fieldB' => 'Test5'),
-                ),
-            ),
-        );
+            ],
+            'match' => [
+                'docs' => [
+                    ['fieldA' => 5, 'fieldB' => 'Test5'],
+                ],
+            ],
+        ];
 
         $query = new Query();
         $query->setInterestingTerms('details');
@@ -48,7 +48,7 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
-        $this->assertSame(array('key1' => 'value1', 'key2' => 'value2'), $result['interestingTerms']);
+        $this->assertSame(['key1' => 'value1', 'key2' => 'value2'], $result['interestingTerms']);
         $this->assertSame(5, $result['match']->fieldA);
     }
 }

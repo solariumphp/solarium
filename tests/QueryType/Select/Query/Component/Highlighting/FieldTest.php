@@ -20,7 +20,7 @@ class FieldTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'snippets' => 3,
             'fragsize' => 25,
             'mergecontiguous' => true,
@@ -31,7 +31,7 @@ class FieldTest extends TestCase
             'simplepostfix' => '</b>',
             'fragmenter' => 'myFragmenter',
             'usefastvectorhighlighter' => true,
-        );
+        ];
 
         $this->fld->setOptions($options);
 

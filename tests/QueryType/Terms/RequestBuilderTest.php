@@ -44,12 +44,12 @@ class RequestBuilderTest extends TestCase
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
-            array(
+            [
                 'terms' => 'true',
-                'terms.fl' => array(
+                'terms.fl' => [
                     'fieldA',
                     'fieldB',
-                ),
+                ],
                 'terms.limit' => 50,
                 'terms.lower' => 'd',
                 'terms.lower.incl' => 'true',
@@ -58,17 +58,17 @@ class RequestBuilderTest extends TestCase
                 'terms.prefix' => 'de',
                 'terms.raw' => 'false',
                 'terms.regex' => 'det.*',
-                'terms.regex.flag' => array(
+                'terms.regex.flag' => [
                     'case_insensitive',
                     'comments',
-                ),
+                ],
                 'terms.sort' => 'index',
                 'terms.upper' => 'x',
                 'terms.upper.incl' => 'false',
                 'wt' => 'json',
                 'json.nl' => 'flat',
                 'omitHeader' => 'true',
-            ),
+            ],
             $request->getParams()
         );
 

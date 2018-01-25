@@ -36,13 +36,13 @@ class QueryTest extends TestCase
     public function testSetAndGetFields()
     {
         $this->query->setFields('fieldA,fieldB');
-        $this->assertSame(array('fieldA', 'fieldB'), $this->query->getFields());
+        $this->assertSame(['fieldA', 'fieldB'], $this->query->getFields());
     }
 
     public function testSetAndGetFieldsWithArray()
     {
-        $this->query->setFields(array('fieldA', 'fieldB'));
-        $this->assertSame(array('fieldA', 'fieldB'), $this->query->getFields());
+        $this->query->setFields(['fieldA', 'fieldB']);
+        $this->assertSame(['fieldA', 'fieldB'], $this->query->getFields());
     }
 
     public function testSetAndGetLowerbound()
@@ -84,13 +84,13 @@ class QueryTest extends TestCase
     public function testSetAndGetRegexFlags()
     {
         $this->query->setRegexFlags('case_insensitive,comments');
-        $this->assertSame(array('case_insensitive', 'comments'), $this->query->getRegexFlags());
+        $this->assertSame(['case_insensitive', 'comments'], $this->query->getRegexFlags());
     }
 
     public function testSetAndGetRegexFlagsWithArray()
     {
-        $this->query->setRegexFlags(array('case_insensitive', 'comments'));
-        $this->assertSame(array('case_insensitive', 'comments'), $this->query->getRegexFlags());
+        $this->query->setRegexFlags(['case_insensitive', 'comments']);
+        $this->assertSame(['case_insensitive', 'comments'], $this->query->getRegexFlags());
     }
 
     public function testSetAndGetLimit()

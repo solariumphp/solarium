@@ -11,6 +11,7 @@ use Solarium\Core\Client\Adapter\Guzzle as GuzzleAdapter;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Exception;
+use Solarium\Exception\HttpException;
 
 /**
  * @coversDefaultClass \Solarium\Core\Client\Adapter\Guzzle
@@ -32,21 +33,20 @@ final class GuzzleTest extends TestCase
     /**
      * Verify basic behavior of execute().
      *
-     * @test
      * @covers ::execute
      */
-    public function executeGet()
+    public function testExecuteGet()
     {
         $guzzleResponse = $this->getValidResponse();
-        $mockHandler = new MockHandler(array($guzzleResponse));
+        $mockHandler = new MockHandler([$guzzleResponse]);
 
-        $container = array();
+        $container = [];
         $history = Middleware::history($container);
 
         $stack = HandlerStack::create($mockHandler);
         $stack->push($history);
 
-        $adapter = new GuzzleAdapter(array('handler' => $stack));
+        $adapter = new GuzzleAdapter(['handler' => $stack]);
 
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
@@ -59,11 +59,11 @@ final class GuzzleTest extends TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ),
+            ],
             $response->getHeaders()
         );
         $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
@@ -76,21 +76,20 @@ final class GuzzleTest extends TestCase
     /**
      * Verify execute() with request containing file.
      *
-     * @test
      * @covers ::execute
      */
-    public function executePostWithFile()
+    public function testExecutePostWithFile()
     {
         $guzzleResponse = $this->getValidResponse();
-        $mockHandler = new MockHandler(array($guzzleResponse));
+        $mockHandler = new MockHandler([$guzzleResponse]);
 
-        $container = array();
+        $container = [];
         $history = Middleware::history($container);
 
         $stack = HandlerStack::create($mockHandler);
         $stack->push($history);
 
-        $adapter = new GuzzleAdapter(array('handler' => $stack));
+        $adapter = new GuzzleAdapter(['handler' => $stack]);
 
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
@@ -104,11 +103,11 @@ final class GuzzleTest extends TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ),
+            ],
             $response->getHeaders()
         );
         $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
@@ -122,21 +121,20 @@ final class GuzzleTest extends TestCase
     /**
      * Verify execute() with request containing raw body.
      *
-     * @test
      * @covers ::execute
      */
-    public function executePostWithRawBody()
+    public function testExecutePostWithRawBody()
     {
         $guzzleResponse = $this->getValidResponse();
-        $mockHandler = new MockHandler(array($guzzleResponse));
+        $mockHandler = new MockHandler([$guzzleResponse]);
 
-        $container = array();
+        $container = [];
         $history = Middleware::history($container);
 
         $stack = HandlerStack::create($mockHandler);
         $stack->push($history);
 
-        $adapter = new GuzzleAdapter(array('handler' => $stack));
+        $adapter = new GuzzleAdapter(['handler' => $stack]);
 
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
@@ -151,11 +149,11 @@ final class GuzzleTest extends TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ),
+            ],
             $response->getHeaders()
         );
         $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
@@ -176,15 +174,15 @@ final class GuzzleTest extends TestCase
     public function executeGetWithAuthentication()
     {
         $guzzleResponse = $this->getValidResponse();
-        $mockHandler = new MockHandler(array($guzzleResponse));
+        $mockHandler = new MockHandler([$guzzleResponse]);
 
-        $container = array();
+        $container = [];
         $history = Middleware::history($container);
 
         $stack = HandlerStack::create($mockHandler);
         $stack->push($history);
 
-        $adapter = new GuzzleAdapter(array('handler' => $stack));
+        $adapter = new GuzzleAdapter(['handler' => $stack]);
 
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
@@ -198,11 +196,11 @@ final class GuzzleTest extends TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ),
+            ],
             $response->getHeaders()
         );
         $this->assertSame((string) $guzzleResponse->getBody(), $response->getBody());
@@ -219,12 +217,9 @@ final class GuzzleTest extends TestCase
     /**
      * Verify execute() with GET when guzzle throws an exception.
      *
-     * @test
      * @covers ::execute
-     * @expectedException \Solarium\Exception\HttpException
-     * @expectedExceptionMessage HTTP request failed
      */
-    public function executeRequestException()
+    public function testExecuteRequestException()
     {
         $adapter = new GuzzleAdapter();
 
@@ -232,11 +227,14 @@ final class GuzzleTest extends TestCase
         $request->setMethod(Request::METHOD_GET);
 
         $endpoint = new Endpoint(
-            array(
+            [
                 'scheme' => 'silly', //invalid protocol
-            )
+            ]
         );
         $endpoint->setTimeout(10);
+
+        $this->expectException(HttpException::class);
+        $this->expectExceptionMessage('HTTP request failed');
 
         $adapter->execute($request, $endpoint);
     }
@@ -249,12 +247,12 @@ final class GuzzleTest extends TestCase
     private function getValidResponse()
     {
         $body = json_encode(
-            array(
-                'response' => array(
+            [
+                'response' => [
                     'numFound' => 10,
                     'start' => 0,
-                    'docs' => array(
-                        array(
+                    'docs' => [
+                        [
                             'id' => '58339e95d5200',
                             'author' => 'Gambardella, Matthew',
                             'title' => "XML Developer's Guide",
@@ -262,13 +260,13 @@ final class GuzzleTest extends TestCase
                             'price' => 44.95,
                             'published' => 970372800,
                             'description' => 'An in-depth look at creating applications with XML.',
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
 
-        $headers = array('Content-Type' => 'application/json', 'X-PHPUnit' => 'response value');
+        $headers = ['Content-Type' => 'application/json', 'X-PHPUnit' => 'response value'];
 
         return new Response(200, $headers, $body);
     }

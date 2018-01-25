@@ -24,7 +24,7 @@ class QueryTest extends TestCase
 
     public function testSetAndGetQueryWithBind()
     {
-        $this->query->setQuery('id:%1%', array(678));
+        $this->query->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->query->getQuery());
     }
 

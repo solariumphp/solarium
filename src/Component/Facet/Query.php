@@ -8,7 +8,7 @@ use Solarium\Core\Query\Helper;
 /**
  * Facet query.
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
+ * @see http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
  */
 class Query extends AbstractFacet
 {
@@ -17,9 +17,9 @@ class Query extends AbstractFacet
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'query' => '*:*',
-    );
+    ];
 
     /**
      * Get the facet type.
@@ -43,7 +43,7 @@ class Query extends AbstractFacet
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $helper = new Helper();
             $query = $helper->assemble($query, $bind);
         }

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\Guzzle3 as GuzzleAdapter;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
-use Solarium\Core\Exception;
+use Solarium\Exception\HttpException;
 
 /**
  * @coversDefaultClass \Solarium\Core\Client\Adapter\Guzzle3
@@ -18,7 +18,7 @@ use Solarium\Core\Exception;
 final class Guzzle3Test extends TestCase
 {
     /**
-     * @var Guzzle3Adapter
+     * @var GuzzleAdapter
      */
     private $adapter;
 
@@ -37,10 +37,9 @@ final class Guzzle3Test extends TestCase
     /**
      * Verify basic behavior of execute().
      *
-     * @test
      * @covers ::execute
      */
-    public function executeGet()
+    public function testExecuteGet()
     {
         $guzzleResponse = $this->getValidResponse();
         $plugin = new MockPlugin();
@@ -58,11 +57,11 @@ final class Guzzle3Test extends TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ),
+            ],
             $response->getHeaders()
         );
         $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
@@ -81,10 +80,9 @@ final class Guzzle3Test extends TestCase
     /**
      * Verify execute() with request containing file.
      *
-     * @test
      * @covers ::execute
      */
-    public function executePostWithFile()
+    public function testExecutePostWithFile()
     {
         $guzzleResponse = $this->getValidResponse();
         $plugin = new MockPlugin();
@@ -103,11 +101,11 @@ final class Guzzle3Test extends TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ),
+            ],
             $response->getHeaders()
         );
         $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
@@ -127,10 +125,9 @@ final class Guzzle3Test extends TestCase
     /**
      * Verify execute() with request containing raw body.
      *
-     * @test
      * @covers ::execute
      */
-    public function executePostWithRawBody()
+    public function testExecutePostWithRawBody()
     {
         $guzzleResponse = $this->getValidResponse();
         $plugin = new MockPlugin();
@@ -150,11 +147,11 @@ final class Guzzle3Test extends TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ),
+            ],
             $response->getHeaders()
         );
         $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
@@ -178,10 +175,9 @@ final class Guzzle3Test extends TestCase
     /**
      * Verify execute() with GET request containing Authentication.
      *
-     * @test
      * @covers ::execute
      */
-    public function executeGetWithAuthentication()
+    public function testExecuteGetWithAuthentication()
     {
         $guzzleResponse = $this->getValidResponse();
         $plugin = new MockPlugin();
@@ -200,11 +196,11 @@ final class Guzzle3Test extends TestCase
         $this->assertSame('OK', $response->getStatusMessage());
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'X-PHPUnit: response value',
-            ),
+            ],
             $response->getHeaders()
         );
         $this->assertSame($guzzleResponse->getBody(true), $response->getBody());
@@ -228,22 +224,21 @@ final class Guzzle3Test extends TestCase
     /**
      * Verify execute() with GET when guzzle throws an exception.
      *
-     * @test
      * @covers ::execute
-     * @expectedException \Solarium\Exception\HttpException
-     * @expectedExceptionMessage HTTP request failed
      */
-    public function executeRequestException()
+    public function testExecuteRequestException()
     {
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
 
         $endpoint = new Endpoint(
-            array(
+            [
                 'scheme' => 'silly', //invalid protocol
-            )
+            ]
         );
 
+        $this->expectException(HttpException::class);
+        $this->expectExceptionMessage('HTTP request failed');
         $this->adapter->execute($request, $endpoint);
     }
 
@@ -255,12 +250,12 @@ final class Guzzle3Test extends TestCase
     private function getValidResponse()
     {
         $body = json_encode(
-            array(
-                'response' => array(
+            [
+                'response' => [
                     'numFound' => 10,
                     'start' => 0,
-                    'docs' => array(
-                        array(
+                    'docs' => [
+                        [
                             'id' => '58339e95d5200',
                             'author' => 'Gambardella, Matthew',
                             'title' => "XML Developer's Guide",
@@ -268,13 +263,13 @@ final class Guzzle3Test extends TestCase
                             'price' => 44.95,
                             'published' => 970372800,
                             'description' => 'An in-depth look at creating applications with XML.',
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
 
-        $headers = array('Content-Type' => 'application/json', 'X-PHPUnit' => 'response value');
+        $headers = ['Content-Type' => 'application/json', 'X-PHPUnit' => 'response value'];
 
         return new Response(200, $headers, $body);
     }

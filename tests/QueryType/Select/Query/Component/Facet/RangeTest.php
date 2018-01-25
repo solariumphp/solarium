@@ -20,9 +20,9 @@ class RangeTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'key' => 'myKey',
-            'exclude' => array('e1', 'e2'),
+            'exclude' => ['e1', 'e2'],
             'field' => 'content',
             'start' => 1,
             'end' => 100,
@@ -30,7 +30,7 @@ class RangeTest extends TestCase
             'hardend' => true,
             'other' => 'all',
             'include' => 'lower',
-        );
+        ];
 
         $this->facet->setOptions($options);
 
@@ -41,8 +41,8 @@ class RangeTest extends TestCase
         $this->assertSame($options['end'], $this->facet->getEnd());
         $this->assertSame($options['gap'], $this->facet->getGap());
         $this->assertSame($options['hardend'], $this->facet->getHardend());
-        $this->assertSame(array($options['other']), $this->facet->getOther());
-        $this->assertSame(array($options['include']), $this->facet->getInclude());
+        $this->assertSame([$options['other']], $this->facet->getOther());
+        $this->assertSame([$options['include']], $this->facet->getInclude());
     }
 
     public function testGetType()
@@ -93,24 +93,24 @@ class RangeTest extends TestCase
     public function testSetAndGetOther()
     {
         $this->facet->setOther('all');
-        $this->assertSame(array('all'), $this->facet->getOther());
+        $this->assertSame(['all'], $this->facet->getOther());
     }
 
     public function testSetAndGetOtherArray()
     {
-        $this->facet->setOther(array('before', 'after'));
-        $this->assertSame(array('before', 'after'), $this->facet->getOther());
+        $this->facet->setOther(['before', 'after']);
+        $this->assertSame(['before', 'after'], $this->facet->getOther());
     }
 
     public function testSetAndGetInclude()
     {
         $this->facet->setInclude('all');
-        $this->assertSame(array('all'), $this->facet->getInclude());
+        $this->assertSame(['all'], $this->facet->getInclude());
     }
 
     public function testSetAndGetIncludeArray()
     {
-        $this->facet->setInclude(array('lower', 'upper'));
-        $this->assertSame(array('lower', 'upper'), $this->facet->getInclude());
+        $this->facet->setInclude(['lower', 'upper']);
+        $this->assertSame(['lower', 'upper'], $this->facet->getInclude());
     }
 }

@@ -16,25 +16,25 @@ class StatsTest extends TestCase
 
     public function testParse()
     {
-        $data = array(
-            'stats' => array(
-                'stats_fields' => array(
-                    'fieldA' => array(
+        $data = [
+            'stats' => [
+                'stats_fields' => [
+                    'fieldA' => [
                         'min' => 3,
-                    ),
-                    'fieldB' => array(
+                    ],
+                    'fieldB' => [
                         'min' => 4,
-                        'facets' => array(
-                            'fieldC' => array(
-                                'value1' => array(
+                        'facets' => [
+                            'fieldC' => [
+                                'value1' => [
                                     'min' => 5,
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $result = $this->parser->parse(null, null, $data);
 
@@ -47,7 +47,7 @@ class StatsTest extends TestCase
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse(null, null, array());
+        $result = $this->parser->parse(null, null, []);
         $this->assertCount(0, $result);
     }
 }

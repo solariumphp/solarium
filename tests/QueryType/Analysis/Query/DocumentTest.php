@@ -42,21 +42,21 @@ class DocumentTest extends TestCase
 
     public function testAddAndGetDocument()
     {
-        $doc = new ReadOnlyDocument(array('id' => 1));
+        $doc = new ReadOnlyDocument(['id' => 1]);
         $this->query->addDocument($doc);
         $this->assertSame(
-            array($doc),
+            [$doc],
             $this->query->getDocuments()
         );
     }
 
     public function testAddAndGetDocuments()
     {
-        $doc1 = new ReadOnlyDocument(array('id' => 1));
-        $doc2 = new ReadOnlyDocument(array('id' => 2));
-        $this->query->addDocuments(array($doc1, $doc2));
+        $doc1 = new ReadOnlyDocument(['id' => 1]);
+        $doc2 = new ReadOnlyDocument(['id' => 2]);
+        $this->query->addDocuments([$doc1, $doc2]);
         $this->assertSame(
-            array($doc1, $doc2),
+            [$doc1, $doc2],
             $this->query->getDocuments()
         );
     }

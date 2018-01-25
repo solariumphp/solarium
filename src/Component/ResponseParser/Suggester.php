@@ -2,9 +2,9 @@
 
 namespace Solarium\Component\ResponseParser;
 
-use Solarium\Core\Query\AbstractQuery;
-use Solarium\Component\Suggester as SuggesterComponent;
 use Solarium\Component\Result\Suggester\Result;
+use Solarium\Component\Suggester as SuggesterComponent;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractResponseParser;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
@@ -17,9 +17,9 @@ class Suggester extends AbstractResponseParser implements ComponentParserInterfa
     /**
      * Parse result data into result objects.
      *
-     * @param AbstractQuery       $query
-     * @param SuggesterComponent  $suggester
-     * @param array               $data
+     * @param AbstractQuery      $query
+     * @param SuggesterComponent $suggester
+     * @param array              $data
      *
      * @return Result|null
      */
@@ -37,6 +37,7 @@ class Suggester extends AbstractResponseParser implements ComponentParserInterfa
                 }
                 $dictionaries[$dictionary] = $this->createDictionary($terms);
             }
+
             return new Result($dictionaries, $allSuggestions);
         }
 

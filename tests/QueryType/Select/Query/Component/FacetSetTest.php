@@ -25,11 +25,11 @@ class FacetSetTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
-            'facet' => array(
-                array('type' => 'query', 'key' => 'f1', 'query' => 'category:1'),
-                'f2' => array('type' => 'query', 'query' => 'category:2'),
-            ),
+        $options = [
+            'facet' => [
+                ['type' => 'query', 'key' => 'f1', 'query' => 'category:1'],
+                'f2' => ['type' => 'query', 'query' => 'category:2'],
+            ],
             'prefix' => 'pr',
             'sort' => 'index',
             'mincount' => 10,
@@ -37,7 +37,7 @@ class FacetSetTest extends TestCase
             'extractfromresponse' => true,
             'contains' => 'foobar',
             'containsignorecase' => true,
-        );
+        ];
 
         $this->facetSet->setOptions($options);
         $facets = $this->facetSet->getFacets();
@@ -152,7 +152,7 @@ class FacetSetTest extends TestCase
         $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
+        $facets = ['f1' => $fq1, 'f2' => $fq2];
 
         $this->facetSet->addFacets($facets);
         $this->assertSame(
@@ -163,10 +163,10 @@ class FacetSetTest extends TestCase
 
     public function testAddFacetsWithConfig()
     {
-        $facets = array(
-            array('type' => 'query', 'key' => 'f1', 'query' => 'category:1'),
-            'f2' => array('type' => 'query', 'query' => 'category:2'),
-        );
+        $facets = [
+            ['type' => 'query', 'key' => 'f1', 'query' => 'category:1'],
+            'f2' => ['type' => 'query', 'query' => 'category:2'],
+        ];
 
         $this->facetSet->addFacets($facets);
 
@@ -184,12 +184,12 @@ class FacetSetTest extends TestCase
         $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
+        $facets = ['f1' => $fq1, 'f2' => $fq2];
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->removeFacet('f1');
         $this->assertSame(
-            array('f2' => $fq2),
+            ['f2' => $fq2],
             $this->facetSet->getFacets()
         );
     }
@@ -202,12 +202,12 @@ class FacetSetTest extends TestCase
         $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
+        $facets = ['f1' => $fq1, 'f2' => $fq2];
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->removeFacet($fq1);
         $this->assertSame(
-            array('f2' => $fq2),
+            ['f2' => $fq2],
             $this->facetSet->getFacets()
         );
     }
@@ -220,7 +220,7 @@ class FacetSetTest extends TestCase
         $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
+        $facets = ['f1' => $fq1, 'f2' => $fq2];
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->removeFacet('f3'); //continue silently
@@ -238,12 +238,12 @@ class FacetSetTest extends TestCase
         $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
+        $facets = ['f1' => $fq1, 'f2' => $fq2];
 
         $this->facetSet->addFacets($facets);
         $this->facetSet->clearFacets();
         $this->assertSame(
-            array(),
+            [],
             $this->facetSet->getFacets()
         );
     }
@@ -256,7 +256,7 @@ class FacetSetTest extends TestCase
         $fq2 = new FacetQuery();
         $fq2->setKey('f2')->setQuery('category:2');
 
-        $facets = array('f1' => $fq1, 'f2' => $fq2);
+        $facets = ['f1' => $fq1, 'f2' => $fq2];
 
         $this->facetSet->addFacets($facets);
 
@@ -266,7 +266,7 @@ class FacetSetTest extends TestCase
         $fq4 = new FacetQuery();
         $fq4->setKey('f4')->setQuery('category:4');
 
-        $facets = array('f3' => $fq3, 'f4' => $fq4);
+        $facets = ['f3' => $fq3, 'f4' => $fq4];
 
         $this->facetSet->setFacets($facets);
 
@@ -279,7 +279,7 @@ class FacetSetTest extends TestCase
     public function testCreateFacet()
     {
         $type = FacetSet::FACET_FIELD;
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
         $facet = $this->facetSet->createFacet($type, $options);
 
         // check class mapping
@@ -299,7 +299,7 @@ class FacetSetTest extends TestCase
     public function testCreateFacetAdd()
     {
         $type = FacetSet::FACET_FIELD;
-        $options = array('key' => 'mykey', 'optionA' => 1, 'optionB' => 2);
+        $options = ['key' => 'mykey', 'optionA' => 1, 'optionB' => 2];
         $facet = $this->facetSet->createFacet($type, $options);
 
         $this->assertSame($facet, $this->facetSet->getFacet('mykey'));
@@ -322,10 +322,10 @@ class FacetSetTest extends TestCase
 
     public function createFacetAddProvider()
     {
-        return array(
-            array(true),
-            array(false),
-        );
+        return [
+            [true],
+            [false],
+        ];
     }
 
     /**
@@ -335,7 +335,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetField(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
 
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetField($options, $add);
@@ -357,7 +357,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetQuery(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetQuery($options, $add);
 
@@ -378,7 +378,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetMultiQuery(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetMultiQuery($options, $add);
 
@@ -398,7 +398,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetRange(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetRange($options, $add);
 
@@ -418,7 +418,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetPivot(bool $add)
     {
-        $options = array('optionA' => 1, 'optionB' => 2, 'key' => 'key');
+        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetPivot($options, $add);
 

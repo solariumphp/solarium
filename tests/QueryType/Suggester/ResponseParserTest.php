@@ -13,48 +13,48 @@ class ResponseParserTest extends TestCase
 {
     public function testParse()
     {
-        $data = array(
-            'responseHeader' => array(
+        $data = [
+            'responseHeader' => [
                 'status' => 1,
                 'QTime' => 13,
-            ),
-            'suggest' => array(
-                'dictionary1' => array(
-                    'foo' => array(
+            ],
+            'suggest' => [
+                'dictionary1' => [
+                    'foo' => [
                         'numFound' => 2,
-                        'suggestions' => array(
-                            array(
+                        'suggestions' => [
+                            [
                                 'term' => 'foo',
-                            ),
-                            array(
+                            ],
+                            [
                                 'term' => 'foobar',
-                            ),
-                        ),
-                    ),
-                    'zoo' => array(
+                            ],
+                        ],
+                    ],
+                    'zoo' => [
                         'numFound' => 1,
-                        'suggestions' => array(
-                            array(
+                        'suggestions' => [
+                            [
                                 'term' => 'zoo keeper',
-                            ),
-                        ),
-                    ),
-                ),
-                'dictionary2' => array(
-                    'free' => array(
+                            ],
+                        ],
+                    ],
+                ],
+                'dictionary2' => [
+                    'free' => [
                         'numFound' => 2,
-                        'suggestions' => array(
-                            array(
+                        'suggestions' => [
+                            [
                                 'term' => 'free beer',
-                            ),
-                            array(
+                            ],
+                            [
                                 'term' => 'free software',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $query = new Query();
 
@@ -69,7 +69,7 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
-        $expected = array(
+        $expected = [
             'dictionary1' => new Dictionary([
                 'foo' => new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),
                 'zoo' => new Term(1, [['term' => 'zoo keeper']]),
@@ -77,12 +77,12 @@ class ResponseParserTest extends TestCase
             'dictionary2' => new Dictionary([
                 'free' => new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
             ]),
-        );
-        $allExpected = array(
+        ];
+        $allExpected = [
             new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),
             new Term(1, [['term' => 'zoo keeper']]),
             new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
-        );
+        ];
 
         $this->assertEquals($expected, $result['results']);
         $this->assertEquals($allExpected, $result['all']);

@@ -11,6 +11,7 @@ use Solarium\QueryType\Suggester\Result\Term;
 class SuggesterTest extends TestCase
 {
     protected $parser;
+
     protected $query;
 
     public function setUp()
@@ -41,64 +42,64 @@ class SuggesterTest extends TestCase
 
         $this->assertEquals($expected, $result->getDictionary('dictionary2'));
 
-        $allExpected = array(
+        $allExpected = [
             new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),
             new Term(1, [['term' => 'zoo keeper']]),
             new Term(2, [['term' => 'free beer'], ['term' => 'free software']]),
-        );
+        ];
 
         $this->assertEquals($allExpected, $result->getAll());
     }
 
     public function providerParse()
     {
-        return array(
-            0 => array(
-                'data' => array(
-                    'suggest' => array(
-                        'dictionary1' => array(
-                            'foo' => array(
+        return [
+            0 => [
+                'data' => [
+                    'suggest' => [
+                        'dictionary1' => [
+                            'foo' => [
                                 'numFound' => 2,
-                                'suggestions' => array(
-                                    array(
+                                'suggestions' => [
+                                    [
                                         'term' => 'foo',
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'term' => 'foobar',
-                                    ),
-                                ),
-                            ),
-                            'zoo' => array(
+                                    ],
+                                ],
+                            ],
+                            'zoo' => [
                                 'numFound' => 1,
-                                'suggestions' => array(
-                                    array(
+                                'suggestions' => [
+                                    [
                                         'term' => 'zoo keeper',
-                                    ),
-                                ),
-                            ),
-                        ),
-                        'dictionary2' => array(
-                            'free' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'dictionary2' => [
+                            'free' => [
                                 'numFound' => 2,
-                                'suggestions' => array(
-                                    array(
+                                'suggestions' => [
+                                    [
                                         'term' => 'free beer',
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'term' => 'free software',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse($this->query, null, array());
+        $result = $this->parser->parse($this->query, null, []);
 
         $this->assertNull($result);
     }

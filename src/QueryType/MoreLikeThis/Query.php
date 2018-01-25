@@ -1,50 +1,9 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer.
- * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
-
-/**
- * @namespace
- */
 
 namespace Solarium\QueryType\MoreLikeThis;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Client;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 /**
  * MoreLikeThis Query.
@@ -60,20 +19,20 @@ class Query extends SelectQuery
      *
      * @var array
      */
-    protected $options = array(
-        'handler'       => 'mlt',
-        'resultclass'   => 'Solarium\QueryType\MoreLikeThis\Result',
+    protected $options = [
+        'handler' => 'mlt',
+        'resultclass' => 'Solarium\QueryType\MoreLikeThis\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
+        'query' => '*:*',
+        'start' => 0,
+        'rows' => 10,
+        'fields' => '*,score',
         'interestingTerms' => 'none',
-        'matchinclude'  => false,
-        'matchoffset'   => 0,
-        'stream'        => false,
-        'omitheader'    => true,
-    );
+        'matchinclude' => false,
+        'matchoffset' => 0,
+        'stream' => false,
+        'omitheader' => true,
+    ];
 
     /**
      * Get type for this query.
@@ -110,9 +69,9 @@ class Query extends SelectQuery
      *
      * Set to true to post query content instead of using the URL param
      *
-     * @link http://wiki.apache.org/solr/ContentStream ContentStream
+     * @see http://wiki.apache.org/solr/ContentStream ContentStream
      *
-     * @param boolean $stream
+     * @param bool $stream
      *
      * @return self Provides fluent interface
      */
@@ -124,7 +83,7 @@ class Query extends SelectQuery
     /**
      * Get stream option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getQueryStream()
     {
@@ -160,7 +119,7 @@ class Query extends SelectQuery
      *
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
      *
-     * @param boolean $include
+     * @param bool $include
      *
      * @return self Provides fluent interface
      */
@@ -234,8 +193,8 @@ class Query extends SelectQuery
     public function getMltFields()
     {
         $value = $this->getOption('mltfields');
-        if ($value === null) {
-            $value = array();
+        if (null === $value) {
+            $value = [];
         }
 
         return $value;
@@ -259,7 +218,7 @@ class Query extends SelectQuery
     /**
      * Get minimumtermfrequency option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumTermFrequency()
     {
@@ -284,7 +243,7 @@ class Query extends SelectQuery
     /**
      * Get minimumdocumentfrequency option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumDocumentFrequency()
     {
@@ -308,7 +267,7 @@ class Query extends SelectQuery
     /**
      * Get minimumwordlength option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumWordLength()
     {
@@ -332,7 +291,7 @@ class Query extends SelectQuery
     /**
      * Get maximumwordlength option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumWordLength()
     {
@@ -357,7 +316,7 @@ class Query extends SelectQuery
     /**
      * Get maximumqueryterms option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumQueryTerms()
     {
@@ -382,7 +341,7 @@ class Query extends SelectQuery
     /**
      * Get maximumnumberoftokens option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumNumberOfTokens()
     {
@@ -394,7 +353,7 @@ class Query extends SelectQuery
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @param boolean $boost
+     * @param bool $boost
      *
      * @return self Provides fluent interface
      */
@@ -406,7 +365,7 @@ class Query extends SelectQuery
     /**
      * Get boost option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getBoost()
     {
@@ -443,8 +402,8 @@ class Query extends SelectQuery
     public function getQueryFields()
     {
         $value = $this->getOption('queryfields');
-        if ($value === null) {
-            $value = array();
+        if (null === $value) {
+            $value = [];
         }
 
         return $value;

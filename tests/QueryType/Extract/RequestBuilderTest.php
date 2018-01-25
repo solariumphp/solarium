@@ -70,14 +70,14 @@ class RequestBuilderTest extends TestCase
 
     public function testDocumentFieldAndBoostParams()
     {
-        $fields = array('field1' => 'value1', 'field2' => 'value2');
-        $boosts = array('field1' => 1, 'field2' => 5);
+        $fields = ['field1' => 'value1', 'field2' => 'value2'];
+        $boosts = ['field1' => 1, 'field2' => 5];
         $document = $this->query->createDocument($fields, $boosts);
         $this->query->setDocument($document);
 
         $request = $this->builder->build($this->query);
         $this->assertEquals(
-            array(
+            [
                 'boost.field1' => 1,
                 'boost.field2' => 5,
                 'fmap.from-field' => 'to-field',
@@ -89,7 +89,7 @@ class RequestBuilderTest extends TestCase
                 'resource.name' => 'RequestBuilderTest.php',
                 'wt' => 'json',
                 'json.nl' => 'flat',
-            ),
+            ],
             $request->getParams()
         );
     }
@@ -106,9 +106,9 @@ class RequestBuilderTest extends TestCase
 
     public function testContentTypeHeader()
     {
-        $headers = array(
+        $headers = [
             'Content-Type: multipart/form-data',
-        );
+        ];
         $request = $this->builder->build($this->query);
         $this->assertSame($headers, $request->getHeaders());
     }

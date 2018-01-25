@@ -37,7 +37,7 @@ class HttpTest extends TestCase
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
-             ->will($this->returnValue(array($data, array('HTTP 1.1 200 OK'))));
+             ->will($this->returnValue([$data, ['HTTP 1.1 200 OK']]));
 
         $mock->execute($request, $endpoint);
     }
@@ -57,7 +57,7 @@ class HttpTest extends TestCase
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
-             ->will($this->returnValue(array($data, array('HTTP 1.1 200 OK'))));
+             ->will($this->returnValue([$data, ['HTTP 1.1 200 OK']]));
         $mock->expects($this->once())
              ->method('check')
              ->will($this->throwException(new HttpException('HTTP request failed')));
@@ -69,12 +69,12 @@ class HttpTest extends TestCase
     public function testCheckError()
     {
         $this->expectException(HttpException::class);
-        $this->adapter->check(false, array());
+        $this->adapter->check(false, []);
     }
 
     public function testCheckOk()
     {
-        $value = $this->adapter->check('dummydata', array('HTTP 1.1 200 OK'));
+        $value = $this->adapter->check('dummydata', ['HTTP 1.1 200 OK']);
 
         $this->assertNull(
             $value
@@ -94,7 +94,7 @@ class HttpTest extends TestCase
         $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertSame(
-            array('http' => array('method' => $method, 'timeout' => $timeout)),
+            ['http' => ['method' => $method, 'timeout' => $timeout]],
             stream_context_get_options($context)
         );
     }
@@ -116,7 +116,7 @@ class HttpTest extends TestCase
         $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertSame(
-            array('http' => array('method' => $method, 'timeout' => $timeout, 'header' => $header1."\r\n".$header2)),
+            ['http' => ['method' => $method, 'timeout' => $timeout, 'header' => $header1."\r\n".$header2]],
             stream_context_get_options($context)
         );
     }
@@ -136,14 +136,14 @@ class HttpTest extends TestCase
         $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertSame(
-            array(
-                'http' => array(
+            [
+                'http' => [
                     'method' => $method,
                     'timeout' => $timeout,
                     'content' => $data,
                     'header' => 'Content-Type: text/xml; charset=UTF-8',
-                ),
-            ),
+                ],
+            ],
             stream_context_get_options($context)
         );
     }
@@ -165,16 +165,15 @@ class HttpTest extends TestCase
         // Remove content from comparison, since we can't determine the
         // random boundary string.
         $stream_context_get_options = stream_context_get_options($context);
-        unset($stream_context_get_options['http']['content']);
-        unset($stream_context_get_options['http']['header']);
+        unset($stream_context_get_options['http']['content'], $stream_context_get_options['http']['header']);
 
         $this->assertSame(
-            array(
-                'http' => array(
+            [
+                'http' => [
                     'method' => $method,
                     'timeout' => $timeout,
-                ),
-            ),
+                ],
+            ],
             $stream_context_get_options
         );
     }
@@ -194,13 +193,13 @@ class HttpTest extends TestCase
         $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertSame(
-            array(
-                'http' => array(
+            [
+                'http' => [
                     'method' => $method,
                     'timeout' => $timeout,
                     'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==',
-                ),
-            ),
+                ],
+            ],
             stream_context_get_options($context)
         );
     }

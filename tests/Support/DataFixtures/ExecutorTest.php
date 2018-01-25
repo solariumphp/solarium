@@ -13,10 +13,10 @@ class ExecutorTest extends TestCase
     {
         $client = $this->createMock(ClientInterface::class);
 
-        $mockFixtures = array(
+        $mockFixtures = [
             $this->getMockFixture($client),
             $this->getMockFixture($client),
-        );
+        ];
 
         $executor = new Executor($client);
         $executor->execute($mockFixtures);

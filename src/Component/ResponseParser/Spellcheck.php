@@ -1,50 +1,12 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
-
-/**
- * @namespace
- */
 
 namespace Solarium\Component\ResponseParser;
 
-use Solarium\Core\Query\AbstractQuery;
-use Solarium\Component\Spellcheck as SpellcheckComponent;
-use Solarium\Component\Result\Spellcheck\Result;
 use Solarium\Component\Result\Spellcheck\Collation;
+use Solarium\Component\Result\Spellcheck\Result;
 use Solarium\Component\Result\Spellcheck\Suggestion;
+use Solarium\Component\Spellcheck as SpellcheckComponent;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 
 /**
@@ -72,8 +34,8 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                 $spellcheckResults = $this->convertToKeyValueArray($spellcheckResults);
             }
 
-            $suggestions = array();
-            $collations = array();
+            $suggestions = [];
+            $collations = [];
             $correctlySpelled = false;
 
             foreach ($spellcheckResults as $key => $value) {
@@ -103,14 +65,14 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
             if (isset($data['spellcheck']['collations']) &&
                 is_array($data['spellcheck']['collations'])
             ) {
-              foreach ($this->convertToKeyValueArray($data['spellcheck']['collations']) as $collationResult) {
-                $collations = array_merge($collations, $this->parseCollation($query, $collationResult ));
-              }
+                foreach ($this->convertToKeyValueArray($data['spellcheck']['collations']) as $collationResult) {
+                    $collations = array_merge($collations, $this->parseCollation($query, $collationResult));
+                }
             }
 
             if (isset($data['spellcheck']['correctlySpelled'])
             ) {
-              $correctlySpelled = $data['spellcheck']['correctlySpelled'];
+                $correctlySpelled = $data['spellcheck']['correctlySpelled'];
             }
 
             return new Result($suggestions, $collations, $correctlySpelled);
@@ -123,18 +85,18 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      * Parse collation data into a result object.
      *
      * @param AbstractQuery $queryObject
-     * @param array $values
+     * @param array         $values
      *
      * @return Collation[]
      */
     protected function parseCollation($queryObject, $values)
     {
-        $collations = array();
+        $collations = [];
         if (is_string($values)) {
-            $collations[] = new Collation($values, null, array());
-        } elseif (is_array($values) && isset($values[0]) && is_string($values[0]) && $values[0] !== 'collationQuery') {
+            $collations[] = new Collation($values, null, []);
+        } elseif (is_array($values) && isset($values[0]) && is_string($values[0]) && 'collationQuery' !== $values[0]) {
             foreach ($values as $value) {
-                $collations[] = new Collation($value, null, array());
+                $collations[] = new Collation($value, null, []);
             }
         } else {
             if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
@@ -148,9 +110,9 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                     }
                 } else {
                     if (array_key_exists('collationQuery', $values)) {
-                        $values = array($values);
+                        $values = [$values];
                     } else {
-                        $values = array($this->convertToKeyValueArray($values));
+                        $values = [$this->convertToKeyValueArray($values)];
                     }
                 }
             }
@@ -174,8 +136,8 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                     }
                 }
 
-                $corrections = array();
-                if ($correctionResult !== null) {
+                $corrections = [];
+                if (null !== $correctionResult) {
                     if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
                         $correctionResult = $this->convertToKeyValueArray($correctionResult);
                     }
@@ -207,14 +169,14 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
         $endOffset = (isset($value['endOffset'])) ? $value['endOffset'] : null;
         $originalFrequency = (isset($value['origFreq'])) ? $value['origFreq'] : null;
 
-        $words = array();
+        $words = [];
         if (isset($value['suggestion']) && is_array($value['suggestion'])) {
             foreach ($value['suggestion'] as $suggestion) {
                 if (is_string($suggestion)) {
-                    $suggestion = array(
+                    $suggestion = [
                         'word' => $suggestion,
                         'freq' => null,
-                    );
+                    ];
                 }
                 $words[] = $suggestion;
             }

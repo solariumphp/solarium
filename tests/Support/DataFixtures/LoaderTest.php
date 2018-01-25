@@ -18,10 +18,10 @@ class LoaderTest extends TestCase
     {
         $loader = new Loader();
 
-        $fixtures = array(
+        $fixtures = [
             $this->createMock(FixtureInterface::class),
             $this->createMock(FixtureInterface::class),
-        );
+        ];
 
         foreach ($fixtures as $fixture) {
             $loader->addFixture($fixture);
@@ -30,12 +30,10 @@ class LoaderTest extends TestCase
         $this->assertSame($fixtures, $loader->getFixtures());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testLoadFromInvalidDir()
     {
         $loader = new Loader();
+        $this->expectException(\InvalidArgumentException::class);
         $loader->loadFromDirectory('bla');
     }
 

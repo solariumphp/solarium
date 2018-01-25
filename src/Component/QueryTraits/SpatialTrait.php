@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait SpatialTrait
 {
-
     /**
      * Get a Spatial component instance.
      *
@@ -21,5 +20,4 @@ trait SpatialTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_SPATIAL, true);
     }
-
 }

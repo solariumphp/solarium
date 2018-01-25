@@ -1,52 +1,14 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
-
-/**
- * @namespace
- */
 
 namespace Solarium\Core\Client\Adapter;
 
-use Solarium\Core\Configurable;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Configurable;
+use Solarium\Exception\HttpException;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
-use Solarium\Exception\HttpException;
 
 /**
  * cURL HTTP adapter.
@@ -79,13 +41,13 @@ class Curl extends Configurable implements AdapterInterface
     public function getResponse($handle, $httpResponse)
     {
         // @codeCoverageIgnoreStart
-        if ($httpResponse !== false && $httpResponse !== null) {
+        if (false !== $httpResponse && null !== $httpResponse) {
             $data = $httpResponse;
             $info = curl_getinfo($handle);
-            $headers = array();
+            $headers = [];
             $headers[] = 'HTTP/1.1 '.$info['http_code'].' OK';
         } else {
-            $headers = array();
+            $headers = [];
             $data = '';
         }
 
@@ -99,10 +61,11 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Create curl handle for a request.
      *
-     * @throws InvalidArgumentException
      *
      * @param Request  $request
      * @param Endpoint $endpoint
+     *
+     * @throws InvalidArgumentException
      *
      * @return resource
      */
@@ -127,7 +90,7 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         if (!isset($options['headers']['Content-Type'])) {
-            if($method == Request::METHOD_GET){
+            if (Request::METHOD_GET == $method) {
                 $options['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
             } else {
                 $options['headers']['Content-Type'] = 'application/xml; charset=utf-8';
@@ -146,29 +109,29 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         if (count($options['headers'])) {
-            $headers = array();
+            $headers = [];
             foreach ($options['headers'] as $key => $value) {
-                $headers[] = $key.": ".$value;
+                $headers[] = $key.': '.$value;
             }
             curl_setopt($handler, CURLOPT_HTTPHEADER, $headers);
         }
 
-        if ($method == Request::METHOD_POST) {
+        if (Request::METHOD_POST == $method) {
             curl_setopt($handler, CURLOPT_POST, true);
 
             if ($request->getFileUpload()) {
                 if (version_compare(PHP_VERSION, '5.5.0') >= 0) {
                     $curlFile = curl_file_create($request->getFileUpload());
-                    curl_setopt($handler, CURLOPT_POSTFIELDS, array('content' => $curlFile));
+                    curl_setopt($handler, CURLOPT_POSTFIELDS, ['content' => $curlFile]);
                 } else {
-                    curl_setopt($handler, CURLOPT_POSTFIELDS, array('content' => '@'.$request->getFileUpload()));
+                    curl_setopt($handler, CURLOPT_POSTFIELDS, ['content' => '@'.$request->getFileUpload()]);
                 }
             } else {
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
             }
-        } elseif ($method == Request::METHOD_GET) {
+        } elseif (Request::METHOD_GET == $method) {
             curl_setopt($handler, CURLOPT_HTTPGET, true);
-        } elseif ($method == Request::METHOD_HEAD) {
+        } elseif (Request::METHOD_HEAD == $method) {
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'HEAD');
         } else {
             throw new InvalidArgumentException("unsupported method: $method");
@@ -181,17 +144,18 @@ class Curl extends Configurable implements AdapterInterface
     /**
      * Check result of a request.
      *
-     * @throws HttpException
      *
      * @param string   $data
      * @param array    $headers
      * @param resource $handle
+     *
+     * @throws HttpException
      */
     public function check($data, $headers, $handle)
     {
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
-        if (empty($data) && count($headers) == 0) {
+        if (empty($data) && 0 == count($headers)) {
             throw new HttpException('HTTP request failed, '.curl_error($handle));
         }
     }
@@ -243,9 +207,9 @@ class Curl extends Configurable implements AdapterInterface
     protected function createOptions($request, $endpoint)
     {
         // @codeCoverageIgnoreStart
-        $options = array(
+        $options = [
             'timeout' => $endpoint->getTimeout(),
-        );
+        ];
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);
             if ($header = trim($header)) {

@@ -19,22 +19,22 @@ class ResultTest extends TestCase
 
     public function setUp()
     {
-        $this->data = array(
-            'fieldA' => array(
+        $this->data = [
+            'fieldA' => [
                 'term1',
                 11,
                 'term2',
                 5,
                 'term3',
                 2,
-            ),
-            'fieldB' => array(
+            ],
+            'fieldB' => [
                 'term4',
                 4,
                 'term5',
                 1,
-            ),
-        );
+            ],
+        ];
 
         $this->result = new TermsDummy($this->data);
     }
@@ -67,7 +67,7 @@ class ResultTest extends TestCase
 
     public function testGetTermsWithInvalidFieldName()
     {
-        $this->assertSame(array(), $this->result->getTerms('fieldX'));
+        $this->assertSame([], $this->result->getTerms('fieldX'));
     }
 
     public function testCount()
@@ -77,7 +77,7 @@ class ResultTest extends TestCase
 
     public function testIterator()
     {
-        $results = array();
+        $results = [];
         foreach ($this->result as $key => $doc) {
             $results[$key] = $doc;
         }

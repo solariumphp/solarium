@@ -13,10 +13,15 @@ class SuggestionTest extends TestCase
     protected $result;
 
     protected $numFound;
+
     protected $startOffset;
+
     protected $endOffset;
+
     protected $originalFrequency;
+
     protected $words;
+
     protected $frequency;
 
     public function setUp()
@@ -25,16 +30,16 @@ class SuggestionTest extends TestCase
         $this->startOffset = 2;
         $this->endOffset = 3;
         $this->originalFrequency = 4;
-        $this->words = array(
-            array(
+        $this->words = [
+            [
                 'word' => 'dummyword',
                 'freq' => 5,
-            ),
-            array(
+            ],
+            [
                 'word' => 'secondword',
                 'freq' => 1,
-            ),
-        );
+            ],
+        ];
 
         $this->result = new Suggestion(
             $this->numFound,

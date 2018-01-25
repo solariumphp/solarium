@@ -16,18 +16,18 @@ class FilterQueryTest extends TestCase
 
     public function testConfigMode()
     {
-        $fq = new FilterQuery(array('tag' => array('t1', 't2'), 'key' => 'k1', 'query' => 'id:[10 TO 20]'));
+        $fq = new FilterQuery(['tag' => ['t1', 't2'], 'key' => 'k1', 'query' => 'id:[10 TO 20]']);
 
-        $this->assertSame(array('t1', 't2'), $fq->getTags());
+        $this->assertSame(['t1', 't2'], $fq->getTags());
         $this->assertSame('k1', $fq->getKey());
         $this->assertSame('id:[10 TO 20]', $fq->getQuery());
     }
 
     public function testConfigModeWithSingleValueTag()
     {
-        $fq = new FilterQuery(array('tag' => 't1', 'key' => 'k1', 'query' => 'id:[10 TO 20]'));
+        $fq = new FilterQuery(['tag' => 't1', 'key' => 'k1', 'query' => 'id:[10 TO 20]']);
 
-        $this->assertSame(array('t1'), $fq->getTags());
+        $this->assertSame(['t1'], $fq->getTags());
         $this->assertSame('k1', $fq->getKey());
         $this->assertSame('id:[10 TO 20]', $fq->getQuery());
     }
@@ -46,40 +46,40 @@ class FilterQueryTest extends TestCase
 
     public function testSetAndGetQueryWithBind()
     {
-        $this->filterQuery->setQuery('id:%1%', array(678));
+        $this->filterQuery->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->filterQuery->getQuery());
     }
 
     public function testAddTag()
     {
         $this->filterQuery->addTag('testtag');
-        $this->assertSame(array('testtag'), $this->filterQuery->getTags());
+        $this->assertSame(['testtag'], $this->filterQuery->getTags());
     }
 
     public function testAddTags()
     {
-        $this->filterQuery->addTags(array('t1', 't2'));
-        $this->assertSame(array('t1', 't2'), $this->filterQuery->getTags());
+        $this->filterQuery->addTags(['t1', 't2']);
+        $this->assertSame(['t1', 't2'], $this->filterQuery->getTags());
     }
 
     public function testRemoveTag()
     {
-        $this->filterQuery->addTags(array('t1', 't2'));
+        $this->filterQuery->addTags(['t1', 't2']);
         $this->filterQuery->removeTag('t1');
-        $this->assertSame(array('t2'), $this->filterQuery->getTags());
+        $this->assertSame(['t2'], $this->filterQuery->getTags());
     }
 
     public function testClearTags()
     {
-        $this->filterQuery->addTags(array('t1', 't2'));
+        $this->filterQuery->addTags(['t1', 't2']);
         $this->filterQuery->clearTags();
-        $this->assertSame(array(), $this->filterQuery->getTags());
+        $this->assertSame([], $this->filterQuery->getTags());
     }
 
     public function testSetTags()
     {
-        $this->filterQuery->addTags(array('t1', 't2'));
-        $this->filterQuery->setTags(array('t3', 't4'));
-        $this->assertSame(array('t3', 't4'), $this->filterQuery->getTags());
+        $this->filterQuery->addTags(['t1', 't2']);
+        $this->filterQuery->setTags(['t3', 't4']);
+        $this->assertSame(['t3', 't4'], $this->filterQuery->getTags());
     }
 }

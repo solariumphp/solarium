@@ -25,7 +25,7 @@ class SuggesterTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'suggest' => 'true',
                 'suggest.dictionary' => 'suggest',
                 'suggest.q' => 'ap ip',
@@ -33,7 +33,7 @@ class SuggesterTest extends TestCase
                 'suggest.cfq' => 'foo bar',
                 'suggest.build' => 'true',
                 'suggest.reload' => 'false',
-            ),
+            ],
             $request->getParams()
         );
     }

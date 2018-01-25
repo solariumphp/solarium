@@ -7,7 +7,7 @@ use Solarium\Component\FacetSet;
 /**
  * Facet pivot.
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting
+ * @see http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting
  */
 class Pivot extends AbstractFacet
 {
@@ -16,17 +16,17 @@ class Pivot extends AbstractFacet
      *
      * @var array
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
-     * Optional stats
+     * Optional stats.
      *
      * @var array
      */
-    protected $stats = array();
+    protected $stats = [];
 
     /**
-     * Get the facet type
+     * Get the facet type.
      *
      * @return string
      */
@@ -116,7 +116,7 @@ class Pivot extends AbstractFacet
      */
     public function clearFields()
     {
-        $this->fields = array();
+        $this->fields = [];
 
         return $this;
     }
@@ -149,10 +149,11 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Add stat
+     * Add stat.
      *
      * @param string $stat
-     * @return self  Provides fluent interface
+     *
+     * @return self Provides fluent interface
      */
     public function addStat($stat)
     {
@@ -162,10 +163,10 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Specify multiple Stats
+     * Specify multiple Stats.
      *
      * @param string|array $stats can be an array or string with comma
-     *                             separated statnames
+     *                            separated statnames
      *
      * @return self Provides fluent interface
      */
@@ -184,10 +185,11 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Remove a stat from the stats list
+     * Remove a stat from the stats list.
      *
-     * @param  string $stat
-     * @return self   Provides fluent interface
+     * @param string $stat
+     *
+     * @return self Provides fluent interface
      */
     public function removeStat($stat)
     {
@@ -205,13 +207,13 @@ class Pivot extends AbstractFacet
      */
     public function clearStats()
     {
-        $this->stats = array();
+        $this->stats = [];
 
         return $this;
     }
 
     /**
-     * Get the list of stats
+     * Get the list of stats.
      *
      * @return array
      */
@@ -221,12 +223,13 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Set multiple stats
+     * Set multiple stats.
      *
      * This overwrites any existing stats
      *
-     * @param  array $stats
-     * @return self  Provides fluent interface
+     * @param array $stats
+     *
+     * @return self Provides fluent interface
      */
     public function setStats($stats)
     {
@@ -237,9 +240,7 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Initialize options
-     *
-     * @return void
+     * Initialize options.
      */
     protected function init()
     {

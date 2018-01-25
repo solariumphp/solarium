@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait DebugTrait
 {
-
     /**
      * Get a Debug component instance.
      *
@@ -21,5 +20,4 @@ trait DebugTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_DEBUG, true);
     }
-
 }

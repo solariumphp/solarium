@@ -24,7 +24,7 @@ class Loader
      */
     public function __construct()
     {
-        $this->fixtures = array();
+        $this->fixtures = [];
     }
 
     /**
@@ -54,7 +54,7 @@ class Loader
             throw new \InvalidArgumentException(sprintf('"%s" does not exist', $dir));
         }
 
-        $includedFiles = array();
+        $includedFiles = [];
 
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($dir),
@@ -77,7 +77,7 @@ class Loader
             $reflClass = new \ReflectionClass($className);
             $sourceFile = $reflClass->getFileName();
 
-            if (in_array($sourceFile, $includedFiles)) {
+            if (in_array($sourceFile, $includedFiles, true)) {
                 $fixture = new $className();
 
                 $this->addFixture($fixture);

@@ -14,10 +14,10 @@ class StatsTest extends TestCase
 
     public function setUp()
     {
-        $this->data = array(
+        $this->data = [
             'key1' => 'value1',
             'key2' => 'value2',
-        );
+        ];
         $this->result = new Stats($this->data);
     }
 
@@ -38,7 +38,7 @@ class StatsTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }

@@ -17,12 +17,12 @@ class HighlightingTest extends TestCase
 
     public function testParse()
     {
-        $highlights = array('key1' => 'dummy1', 'key2' => 'dummy2');
-        $data = array('highlighting' => $highlights);
-        $expected = array(
+        $highlights = ['key1' => 'dummy1', 'key2' => 'dummy2'];
+        $data = ['highlighting' => $highlights];
+        $expected = [
             'key1' => new Result('dummy1'),
             'key2' => new Result('dummy2'),
-        );
+        ];
 
         $result = $this->parser->parse(null, null, $data);
 
@@ -31,8 +31,8 @@ class HighlightingTest extends TestCase
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse(null, null, array());
+        $result = $this->parser->parse(null, null, []);
 
-        $this->assertEquals(array(), $result->getResults());
+        $this->assertEquals([], $result->getResults());
     }
 }

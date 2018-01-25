@@ -63,7 +63,7 @@ class HighlightingTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'hl' => 'true',
                 'hl.fl' => 'fieldA,fieldB',
                 'hl.snippets' => 2,
@@ -105,7 +105,7 @@ class HighlightingTest extends TestCase
                 'hl.bs.type' => 'WORD',
                 'hl.bs.country' => 'be',
                 'hl.bs.language' => 'en',
-            ),
+            ],
             $request->getParams()
         );
     }
@@ -150,7 +150,7 @@ class HighlightingTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-                array(
+                [
                     'hl' => 'true',
                     'hl.snippets' => 2,
                     'hl.fragsize' => 3,
@@ -181,7 +181,7 @@ class HighlightingTest extends TestCase
                     'hl.bs.type' => 'WORD',
                     'hl.bs.country' => 'be',
                     'hl.bs.language' => 'en',
-                ),
+                ],
                 $request->getParams()
             );
     }

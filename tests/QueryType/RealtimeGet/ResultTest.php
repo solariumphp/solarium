@@ -9,12 +9,13 @@ use Solarium\QueryType\Select\Result\Document;
 class ResultTest extends TestCase
 {
     protected $doc;
+
     protected $result;
 
     public function setUp()
     {
-        $this->doc = new Document(array('id' => 1, 'title' => 'doc1'));
-        $this->result = new ResultDummy(array($this->doc));
+        $this->doc = new Document(['id' => 1, 'title' => 'doc1']);
+        $this->result = new ResultDummy([$this->doc]);
     }
 
     public function testGetDocument()

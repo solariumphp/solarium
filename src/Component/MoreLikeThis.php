@@ -1,42 +1,4 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
-
-/**
- * @namespace
- */
 
 namespace Solarium\Component;
 
@@ -46,7 +8,7 @@ use Solarium\Component\ResponseParser\MoreLikeThis as ResponseParser;
 /**
  * MoreLikeThis component.
  *
- * @link http://wiki.apache.org/solr/MoreLikeThis
+ * @see http://wiki.apache.org/solr/MoreLikeThis
  */
 class MoreLikeThis extends AbstractComponent
 {
@@ -110,8 +72,8 @@ class MoreLikeThis extends AbstractComponent
     public function getFields()
     {
         $fields = $this->getOption('fields');
-        if ($fields === null) {
-            $fields = array();
+        if (null === $fields) {
+            $fields = [];
         }
 
         return $fields;
@@ -135,7 +97,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get minimumtermfrequency option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumTermFrequency()
     {
@@ -160,7 +122,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get minimumdocumentfrequency option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumDocumentFrequency()
     {
@@ -184,7 +146,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get minimumwordlength option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumWordLength()
     {
@@ -208,7 +170,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get maximumwordlength option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumWordLength()
     {
@@ -233,7 +195,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get maximumqueryterms option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumQueryTerms()
     {
@@ -258,7 +220,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get maximumnumberoftokens option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumNumberOfTokens()
     {
@@ -270,7 +232,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @param boolean $boost
+     * @param bool $boost
      *
      * @return self Provides fluent interface
      */
@@ -282,7 +244,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Get boost option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getBoost()
     {
@@ -319,8 +281,8 @@ class MoreLikeThis extends AbstractComponent
     public function getQueryFields()
     {
         $queryfields = $this->getOption('queryfields');
-        if ($queryfields === null) {
-            $queryfields = array();
+        if (null === $queryfields) {
+            $queryfields = [];
         }
 
         return $queryfields;

@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait SpellcheckTrait
 {
-
     /**
      * Get a spellcheck component instance.
      *
@@ -21,5 +20,4 @@ trait SpellcheckTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_SPELLCHECK, true);
     }
-
 }
