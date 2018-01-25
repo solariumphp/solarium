@@ -20,11 +20,11 @@ class SpatialTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'sfield' => 'geo',
             'd' => 50,
             'pt' => '48.2233,16.3161',
-        );
+        ];
 
         $this->spatial->setOptions($options);
 

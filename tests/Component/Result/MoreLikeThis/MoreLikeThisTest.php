@@ -18,15 +18,15 @@ class MoreLikeThisTest extends TestCase
 
     public function setUp()
     {
-        $docs = array(
-            new Document(array('id' => 1, 'name' => 'test1')),
-            new Document(array('id' => 2, 'name' => 'test2')),
-        );
+        $docs = [
+            new Document(['id' => 1, 'name' => 'test1']),
+            new Document(['id' => 2, 'name' => 'test2']),
+        ];
 
-        $this->results = array(
+        $this->results = [
             'key1' => new Result(2, 5.13, $docs),
             'key2' => new Result(2, 2.3, $docs),
-        );
+        ];
 
         $this->mlt = new MoreLikeThis($this->results);
     }
@@ -53,7 +53,7 @@ class MoreLikeThisTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->mlt as $key => $item) {
             $items[$key] = $item;
         }

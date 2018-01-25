@@ -2,13 +2,12 @@
 
 namespace Solarium\Component;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Component\RequestBuilder\EdisMax as RequestBuilder;
 
 /**
  * EdisMax component.
  *
- * @link http://wiki.apache.org/solr/ExtendedDisMax
+ * @see http://wiki.apache.org/solr/ExtendedDisMax
  */
 class EdisMax extends DisMax
 {
@@ -17,9 +16,9 @@ class EdisMax extends DisMax
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'queryparser' => 'edismax',
-    );
+    ];
 
     /**
      * Get component type.

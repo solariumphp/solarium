@@ -2,15 +2,13 @@
 
 namespace Solarium\Component;
 
-use Solarium\Component\AbstractComponent;
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Component\RequestBuilder\DistributedSearch as RequestBuilder;
 
 /**
  * Distributed Search (sharding) component.
  *
- * @link http://wiki.apache.org/solr/DistributedSearch
- * @link http://wiki.apache.org/solr/SolrCloud/
+ * @see http://wiki.apache.org/solr/DistributedSearch
+ * @see http://wiki.apache.org/solr/SolrCloud/
  */
 class DistributedSearch extends AbstractComponent
 {
@@ -19,21 +17,21 @@ class DistributedSearch extends AbstractComponent
      *
      * @var array
      */
-    protected $shards = array();
+    protected $shards = [];
 
     /**
      * Requests will be distributed across collections in this list.
      *
      * @var array
      */
-    protected $collections = array();
+    protected $collections = [];
 
     /**
      * Requests will be load balanced across replicas in this list.
      *
      * @var array
      */
-    protected $replicas = array();
+    protected $replicas = [];
 
     /**
      * Get component type.
@@ -70,7 +68,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @link http://wiki.apache.org/solr/DistributedSearch
+     * @see http://wiki.apache.org/solr/DistributedSearch
      */
     public function addShard($key, $shard)
     {
@@ -130,7 +128,7 @@ class DistributedSearch extends AbstractComponent
      */
     public function clearShards()
     {
-        $this->shards = array();
+        $this->shards = [];
 
         return $this;
     }
@@ -207,7 +205,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @link http://wiki.apache.org/solr/SolrCloud/
+     * @see http://wiki.apache.org/solr/SolrCloud/
      */
     public function addCollection($key, $collection)
     {
@@ -255,7 +253,7 @@ class DistributedSearch extends AbstractComponent
      */
     public function clearCollections()
     {
-        $this->collections = array();
+        $this->collections = [];
 
         return $this;
     }
@@ -295,7 +293,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @link https://cwiki.apache.org/confluence/display/solr/Distributed+Requests
+     * @see https://cwiki.apache.org/confluence/display/solr/Distributed+Requests
      */
     public function addReplica($key, $replica)
     {
@@ -343,7 +341,7 @@ class DistributedSearch extends AbstractComponent
      */
     public function clearReplicas()
     {
-        $this->replicas = array();
+        $this->replicas = [];
 
         return $this;
     }

@@ -16,14 +16,17 @@
         "symfony/event-dispatcher": "^2.7 || ^3.0 || ^4.0"
     },
     "require-dev": {
+        "guzzlehttp/guzzle": "^3.8 || ^6.2",
         "phpunit/phpunit": "^6.5",
-        "squizlabs/php_codesniffer": "^1.4",
-        "zendframework/zendframework1": "^1.12",
         "satooshi/php-coveralls": "^1.0",
-        "guzzlehttp/guzzle": "^3.8 || ^6.2"
+        "squizlabs/php_codesniffer": "^1.4",
+        "zendframework/zendframework1": "^1.12"
     },
     "suggest": {
         "minimalcode/search": "Query builder compatible with Solarium, allows simplified solr-query handling"
+    },
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {

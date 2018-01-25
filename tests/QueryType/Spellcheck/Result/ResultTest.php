@@ -29,10 +29,10 @@ class ResultTest extends TestCase
 
     public function setUp()
     {
-        $this->data = array(
+        $this->data = [
             'term1' => 'data1',
             'term2' => 'data2',
-        );
+        ];
         $this->allData = array_values($this->data);
         $this->collation = 'collation result';
         $this->result = new SpellcheckDummy($this->data, $this->allData, $this->collation);
@@ -71,7 +71,7 @@ class ResultTest extends TestCase
 
     public function testGetTermsWithInvalidFieldName()
     {
-        $this->assertSame(array(), $this->result->getTerm('term3'));
+        $this->assertSame([], $this->result->getTerm('term3'));
     }
 
     public function testCount()
@@ -81,7 +81,7 @@ class ResultTest extends TestCase
 
     public function testIterator()
     {
-        $results = array();
+        $results = [];
         foreach ($this->result as $key => $doc) {
             $results[$key] = $doc;
         }

@@ -35,32 +35,32 @@ class QueryTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'handler' => 'myHandler',
             'resultclass' => 'myResult',
-            'command' => array(
-                'key1' => array(
+            'command' => [
+                'key1' => [
                     'type' => 'delete',
                     'query' => 'population:[* TO 1000]',
-                    'id' => array(1, 2),
-                ),
-                'key2' => array(
+                    'id' => [1, 2],
+                ],
+                'key2' => [
                     'type' => 'commit',
                     'softcommit' => true,
                     'waitsearcher' => false,
                     'expungedeletes' => true,
-                ),
-                'key3' => array(
+                ],
+                'key3' => [
                     'type' => 'optimize',
                     'softcommit' => true,
                     'waitsearcher' => false,
                     'maxsegments' => 5,
-                ),
-                'key4' => array(
+                ],
+                'key4' => [
                     'type' => 'rollback',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $this->query->setOptions($options);
         $commands = $this->query->getCommands();
 
@@ -76,11 +76,11 @@ class QueryTest extends TestCase
 
         $delete = $commands['key1'];
         $this->assertSame(
-            array(1, 2),
+            [1, 2],
             $delete->getIds()
         );
         $this->assertSame(
-            array('population:[* TO 1000]'),
+            ['population:[* TO 1000]'],
             $delete->getQueries()
         );
 
@@ -116,13 +116,13 @@ class QueryTest extends TestCase
 
     public function testConstructorWithConfigAddCommand()
     {
-        $config = array(
-            'command' => array(
-                'key1' => array(
+        $config = [
+            'command' => [
+                'key1' => [
                     'type' => 'add',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->expectException('Solarium\Exception\RuntimeException');
         new Query($config);
@@ -134,7 +134,7 @@ class QueryTest extends TestCase
         $this->query->add(null, $command);
 
         $this->assertSame(
-            array($command),
+            [$command],
             $this->query->getCommands()
         );
     }
@@ -148,7 +148,7 @@ class QueryTest extends TestCase
         $this->query->add('cm', $commit);
 
         $this->assertSame(
-            array('rb' => $rollback, 'cm' => $commit),
+            ['rb' => $rollback, 'cm' => $commit],
             $this->query->getCommands()
         );
     }
@@ -164,7 +164,7 @@ class QueryTest extends TestCase
         $this->query->remove('rb');
 
         $this->assertSame(
-            array('cm' => $commit),
+            ['cm' => $commit],
             $this->query->getCommands()
         );
     }
@@ -180,7 +180,7 @@ class QueryTest extends TestCase
         $this->query->remove($rollback);
 
         $this->assertSame(
-            array('cm' => $commit),
+            ['cm' => $commit],
             $this->query->getCommands()
         );
     }
@@ -196,7 +196,7 @@ class QueryTest extends TestCase
         $this->query->remove('invalidkey'); //should silently ignore
 
         $this->assertSame(
-            array('rb' => $rollback, 'cm' => $commit),
+            ['rb' => $rollback, 'cm' => $commit],
             $this->query->getCommands()
         );
     }
@@ -223,14 +223,14 @@ class QueryTest extends TestCase
         );
 
         $this->assertSame(
-            array('*:*'),
+            ['*:*'],
             $commands[0]->getQueries()
         );
     }
 
     public function testAddDeleteQueryWithBind()
     {
-        $this->query->addDeleteQuery('id:%1%', array(678));
+        $this->query->addDeleteQuery('id:%1%', [678]);
         $commands = $this->query->getCommands();
 
         $this->assertSame(
@@ -239,14 +239,14 @@ class QueryTest extends TestCase
         );
 
         $this->assertSame(
-            array('id:678'),
+            ['id:678'],
             $commands[0]->getQueries()
         );
     }
 
     public function testAddDeleteQueries()
     {
-        $this->query->addDeleteQueries(array('id:1', 'id:2'));
+        $this->query->addDeleteQueries(['id:1', 'id:2']);
         $commands = $this->query->getCommands();
 
         $this->assertSame(
@@ -255,7 +255,7 @@ class QueryTest extends TestCase
         );
 
         $this->assertSame(
-            array('id:1', 'id:2'),
+            ['id:1', 'id:2'],
             $commands[0]->getQueries()
         );
     }
@@ -271,14 +271,14 @@ class QueryTest extends TestCase
         );
 
         $this->assertSame(
-            array(1),
+            [1],
             $commands[0]->getIds()
         );
     }
 
     public function testAddDeleteByIds()
     {
-        $this->query->addDeleteByIds(array(1, 2));
+        $this->query->addDeleteByIds([1, 2]);
         $commands = $this->query->getCommands();
 
         $this->assertSame(
@@ -287,14 +287,14 @@ class QueryTest extends TestCase
         );
 
         $this->assertSame(
-            array(1, 2),
+            [1, 2],
             $commands[0]->getIds()
         );
     }
 
     public function testAddDocument()
     {
-        $doc = new Document(array('id' => 1));
+        $doc = new Document(['id' => 1]);
 
         $this->query->addDocument($doc);
         $commands = $this->query->getCommands();
@@ -305,17 +305,17 @@ class QueryTest extends TestCase
         );
 
         $this->assertSame(
-            array($doc),
+            [$doc],
             $commands[0]->getDocuments()
         );
     }
 
     public function testAddDocuments()
     {
-        $doc1 = new Document(array('id' => 1));
-        $doc2 = new Document(array('id' => 1));
+        $doc1 = new Document(['id' => 1]);
+        $doc2 = new Document(['id' => 1]);
 
-        $this->query->addDocuments(array($doc1, $doc2), true, 100);
+        $this->query->addDocuments([$doc1, $doc2], true, 100);
         $commands = $this->query->getCommands();
 
         $this->assertSame(
@@ -324,7 +324,7 @@ class QueryTest extends TestCase
         );
 
         $this->assertSame(
-            array($doc1, $doc2),
+            [$doc1, $doc2],
             $commands[0]->getDocuments()
         );
 
@@ -389,7 +389,7 @@ class QueryTest extends TestCase
     public function testCreateCommand()
     {
         $type = Query::COMMAND_ROLLBACK;
-        $options = array('optionA' => 1, 'optionB' => 2);
+        $options = ['optionA' => 1, 'optionB' => 2];
         $command = $this->query->createCommand($type, $options);
 
         // check command type
@@ -434,9 +434,9 @@ class QueryTest extends TestCase
 
     public function testCreateDocumentWithFieldsAndBoostsAndModifiers()
     {
-        $fields = array('id' => 1, 'name' => 'testname');
-        $boosts = array('name' => 2.7);
-        $modifiers = array('name' => 'set');
+        $fields = ['id' => 1, 'name' => 'testname'];
+        $boosts = ['name' => 2.7];
+        $modifiers = ['name' => 'set'];
 
         $doc = $this->query->createDocument($fields, $boosts, $modifiers);
         $doc->setKey('id');

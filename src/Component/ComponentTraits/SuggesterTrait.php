@@ -92,7 +92,7 @@ trait SuggesterTrait
     /**
      * Set build option.
      *
-     * @param boolean $build
+     * @param bool $build
      *
      * @return self Provides fluent interface
      */
@@ -104,7 +104,7 @@ trait SuggesterTrait
     /**
      * Get build option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getBuild()
     {
@@ -114,22 +114,23 @@ trait SuggesterTrait
     /**
      * Set reload option.
      *
-     * @param boolean $build
+     * @param bool  $build
+     * @param mixed $reload
      *
      * @return self Provides fluent interface
      */
     public function setReload($reload)
     {
-      return $this->setOption('reload', $reload);
+        return $this->setOption('reload', $reload);
     }
 
     /**
      * Get reload option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getReload()
     {
-      return $this->getOption('reload');
+        return $this->getOption('reload');
     }
 }

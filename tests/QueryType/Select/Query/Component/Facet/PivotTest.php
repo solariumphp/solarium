@@ -20,10 +20,10 @@ class PivotTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
-            'fields' => array('abc', 'def'),
+        $options = [
+            'fields' => ['abc', 'def'],
             'mincount' => 5,
-        );
+        ];
 
         $this->facet->setOptions($options);
 
@@ -58,12 +58,12 @@ class PivotTest extends TestCase
     {
         $this->facet->addField('newfield');
         $this->facet->clearFields();
-        $this->assertSame(array(), $this->facet->getFields());
+        $this->assertSame([], $this->facet->getFields());
     }
 
     public function testAddFields()
     {
-        $fields = array('field1', 'field2');
+        $fields = ['field1', 'field2'];
 
         $this->facet->clearFields();
         $this->facet->addFields($fields);
@@ -74,23 +74,23 @@ class PivotTest extends TestCase
     {
         $this->facet->clearFields();
         $this->facet->addFields('field1, field2');
-        $this->assertSame(array('field1', 'field2'), $this->facet->getFields());
+        $this->assertSame(['field1', 'field2'], $this->facet->getFields());
     }
 
     public function testRemoveField()
     {
         $this->facet->clearFields();
-        $this->facet->addFields(array('field1', 'field2'));
+        $this->facet->addFields(['field1', 'field2']);
         $this->facet->removeField('field1');
-        $this->assertSame(array('field2'), $this->facet->getFields());
+        $this->assertSame(['field2'], $this->facet->getFields());
     }
 
     public function testSetFields()
     {
         $this->facet->clearFields();
-        $this->facet->addFields(array('field1', 'field2'));
-        $this->facet->setFields(array('field3', 'field4'));
-        $this->assertSame(array('field3', 'field4'), $this->facet->getFields());
+        $this->facet->addFields(['field1', 'field2']);
+        $this->facet->setFields(['field3', 'field4']);
+        $this->assertSame(['field3', 'field4'], $this->facet->getFields());
     }
 
     public function testAddStat()
@@ -105,12 +105,12 @@ class PivotTest extends TestCase
     {
         $this->facet->addStat('newstat');
         $this->facet->clearStats();
-        $this->assertSame(array(), $this->facet->getStats());
+        $this->assertSame([], $this->facet->getStats());
     }
 
     public function testAddStats()
     {
-        $stats = array('stat1', 'stat2');
+        $stats = ['stat1', 'stat2'];
 
         $this->facet->clearStats();
         $this->facet->addStats($stats);
@@ -121,22 +121,22 @@ class PivotTest extends TestCase
     {
         $this->facet->clearStats();
         $this->facet->addStats('stat1, stat2');
-        $this->assertSame(array('stat1', 'stat2'), $this->facet->getStats());
+        $this->assertSame(['stat1', 'stat2'], $this->facet->getStats());
     }
 
     public function testRemoveStat()
     {
         $this->facet->clearStats();
-        $this->facet->addStats(array('stat1', 'stat2'));
+        $this->facet->addStats(['stat1', 'stat2']);
         $this->facet->removeStat('stat1');
-        $this->assertSame(array('stat2'), $this->facet->getStats());
+        $this->assertSame(['stat2'], $this->facet->getStats());
     }
 
     public function testSetStats()
     {
         $this->facet->clearStats();
-        $this->facet->addStats(array('stat1', 'stat2'));
-        $this->facet->setStats(array('stat3', 'stat4'));
-        $this->assertSame(array('stat3', 'stat4'), $this->facet->getStats());
+        $this->facet->addStats(['stat1', 'stat2']);
+        $this->facet->setStats(['stat3', 'stat4']);
+        $this->assertSame(['stat3', 'stat4'], $this->facet->getStats());
     }
 }

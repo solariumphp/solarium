@@ -20,11 +20,11 @@ class QueryTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'key' => 'myKey',
-            'exclude' => array('e1', 'e2'),
+            'exclude' => ['e1', 'e2'],
             'query' => 'category:1',
-        );
+        ];
 
         $this->facet->setOptions($options);
 
@@ -49,7 +49,7 @@ class QueryTest extends TestCase
 
     public function testSetAndGetQueryWithBind()
     {
-        $this->facet->setQuery('id:%1%', array(678));
+        $this->facet->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->facet->getQuery());
     }
 }

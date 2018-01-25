@@ -16,10 +16,10 @@ class ResultTest extends TestCase
 
     public function setUp()
     {
-        $this->fields = array(
+        $this->fields = [
             'field1' => 'content1',
             'field2' => 'content2',
-        );
+        ];
 
         $this->result = new Result($this->fields);
     }
@@ -40,14 +40,14 @@ class ResultTest extends TestCase
     public function testGetInvalidField()
     {
         $this->assertSame(
-            array(),
+            [],
             $this->result->getField('invalid')
         );
     }
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }

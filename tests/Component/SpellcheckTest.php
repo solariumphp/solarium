@@ -54,7 +54,7 @@ class SpellcheckTest extends TestCase
 
     public function testSetAndGetQueryWithBind()
     {
-        $this->spellCheck->setQuery('id:%1%', array(678));
+        $this->spellCheck->setQuery('id:%1%', [678]);
         $this->assertEquals('id:678', $this->spellCheck->getQuery());
     }
 

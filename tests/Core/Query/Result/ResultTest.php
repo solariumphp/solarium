@@ -19,15 +19,18 @@ class ResultTest extends TestCase
     protected $result;
 
     protected $client;
+
     protected $query;
+
     protected $response;
+
     protected $headers;
 
     public function setUp()
     {
         $this->client = new Client();
         $this->query = new SelectQuery();
-        $this->headers = array('HTTP/1.0 304 Not Modified');
+        $this->headers = ['HTTP/1.0 304 Not Modified'];
         $data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"xyz"}},'.
             '"response":{"numFound":0,"start":0,"docs":[]}}';
         $this->response = new Response($data, $this->headers);
@@ -37,7 +40,7 @@ class ResultTest extends TestCase
 
     public function testResultWithErrorResponse()
     {
-        $headers = array('HTTP/1.0 404 Not Found');
+        $headers = ['HTTP/1.0 404 Not Found'];
         $response = new Response('Error message', $headers);
 
         $this->expectException(HttpException::class);
@@ -46,7 +49,7 @@ class ResultTest extends TestCase
 
     public function testExceptionGetBody()
     {
-        $headers = array('HTTP/1.0 404 Not Found');
+        $headers = ['HTTP/1.0 404 Not Found'];
         $response = new Response('Error message', $headers);
 
         try {
@@ -68,10 +71,10 @@ class ResultTest extends TestCase
 
     public function testGetData()
     {
-        $data = array(
-            'responseHeader' => array('status' => 0, 'QTime' => 1, 'params' => array('wt' => 'json', 'q' => 'xyz')),
-            'response' => array('numFound' => 0, 'start' => 0, 'docs' => array()),
-        );
+        $data = [
+            'responseHeader' => ['status' => 0, 'QTime' => 1, 'params' => ['wt' => 'json', 'q' => 'xyz']],
+            'response' => ['numFound' => 0, 'start' => 0, 'docs' => []],
+        ];
 
         $this->assertEquals($data, $this->result->getData());
     }
@@ -83,21 +86,21 @@ class ResultTest extends TestCase
             's:3:"2.2";s:4:"rows";s:1:"0";}}s:8:"response";a:3:{s:8:"numFound";i:57;s:5:"start";i:0;s:4:"docs";'.
             'a:0:{}}}';
         $this->query->setResponseWriter('phps');
-        $resultData = array(
-            'responseHeader' => array(
+        $resultData = [
+            'responseHeader' => [
                 'status' => 0,
                 'QTime' => 0,
-                'params' => array(
+                'params' => [
                     'indent' => 'on',
                     'start' => 0,
                     'q' => '*:*',
                     'wt' => 'phps',
                     'version' => '2.2',
                     'rows' => 0,
-                ),
-            ),
-            'response' => array('numFound' => 57, 'start' => 0, 'docs' => array()),
-        );
+                ],
+            ],
+            'response' => ['numFound' => 57, 'start' => 0, 'docs' => []],
+        ];
 
         $response = new Response($phpsData, $this->headers);
         $result = new Result($this->query, $response);

@@ -15,7 +15,7 @@ class ResultTest extends TestCase
         $query = new Query();
         $query->setInterestingTerms('list');
 
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
         $result = new Result($query, $response);
         $this->assertEmpty($result->getInterestingTerms());
     }
@@ -24,7 +24,7 @@ class ResultTest extends TestCase
     {
         $query = new Query();
         $query->setInterestingTerms('none');
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
 
         $result = new Result($query, $response);
         $this->expectException(UnexpectedValueException::class);
@@ -35,7 +35,7 @@ class ResultTest extends TestCase
     {
         $query = new Query();
         $query->setMatchInclude(true);
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
         $result = new Result($query, $response);
         $this->assertEmpty($result->getMatch());
     }
@@ -44,7 +44,7 @@ class ResultTest extends TestCase
     {
         $query = new Query();
         $query->setMatchInclude(false);
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->expectException(UnexpectedValueException::class);
@@ -54,7 +54,7 @@ class ResultTest extends TestCase
     public function testGetQuery()
     {
         $query = new Query();
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
         $ping = new Result($query, $response);
         $this->assertSame($query, $ping->getQuery());
     }

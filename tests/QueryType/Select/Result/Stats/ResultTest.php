@@ -13,12 +13,13 @@ class ResultTest extends TestCase
     protected $result;
 
     protected $field;
+
     protected $stats;
 
     public function setUp()
     {
         $this->field = 'myfield';
-        $this->stats = array(
+        $this->stats = [
             'min' => 'dummyMin',
             'max' => 'dummyMax',
             'sum' => 'dummySum',
@@ -28,7 +29,7 @@ class ResultTest extends TestCase
             'mean' => 'dummyMean',
             'stddev' => 'dummyStddev',
             'facets' => 'dummyFacets',
-        );
+        ];
 
         $this->result = new Result($this->field, $this->stats);
     }

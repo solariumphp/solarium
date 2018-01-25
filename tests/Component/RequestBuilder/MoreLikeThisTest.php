@@ -29,7 +29,7 @@ class MoreLikeThisTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'mlt' => 'true',
                 'mlt.fl' => 'description,name',
                 'mlt.mintf' => 1,
@@ -39,9 +39,9 @@ class MoreLikeThisTest extends TestCase
                 'mlt.maxqt' => 4,
                 'mlt.maxntp' => 5,
                 'mlt.boost' => 'true',
-                'mlt.qf' => array('description'),
+                'mlt.qf' => ['description'],
                 'mlt.count' => 6,
-            ),
+            ],
             $request->getParams()
         );
     }
@@ -64,7 +64,7 @@ class MoreLikeThisTest extends TestCase
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
-            array(
+            [
                 'mlt' => 'true',
                 'mlt.mintf' => 1,
                 'mlt.mindf' => 3,
@@ -74,7 +74,7 @@ class MoreLikeThisTest extends TestCase
                 'mlt.maxntp' => 5,
                 'mlt.boost' => 'true',
                 'mlt.count' => 6,
-            ),
+            ],
             $request->getParams()
         );
     }

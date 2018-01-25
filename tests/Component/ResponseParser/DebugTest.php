@@ -20,75 +20,75 @@ class DebugTest extends TestCase
 
     public function testParse()
     {
-        $data = array(
-            'debug' => array(
+        $data = [
+            'debug' => [
                 'querystring' => 'dummy-qs',
                 'parsedquery' => 'dummy-pq',
                 'QParser' => 'dummy-qp',
                 'otherQuery' => 'dummy-oq',
-                'explain' => array(
-                    'MA147LL/A' => array(
+                'explain' => [
+                    'MA147LL/A' => [
                         'match' => true,
                         'value' => 0.5,
                         'description' => 'fieldWeight(text:ipod in 5), product of:',
-                        'details' => array(
-                            array(
+                        'details' => [
+                            [
                                 'match' => true,
                                 'value' => 0.5,
                                 'description' => 'sum of:',
-                                'details' => array(
-                                    array(
+                                'details' => [
+                                    [
                                         'match' => true,
                                         'value' => 0.25,
                                         'description' => 'weight(dummyfield:flachdach^250.0 in 1311) [], result of:',
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'match' => true,
                                         'value' => 0.25,
                                         'description' => 'tf(termFreq(text:ipod)=1)',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'explainOther' => array(
-                    'IW-02' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'explainOther' => [
+                    'IW-02' => [
                         'match' => true,
                         'value' => 0.6,
                         'description' => 'fieldWeight(text:ipod in 6), product of:',
-                        'details' => array(
-                            array(
+                        'details' => [
+                            [
                                 'match' => true,
                                 'value' => 0.7,
                                 'description' => 'tf(termFreq(text:ipod)=1)',
-                            ),
-                        ),
-                    ),
-                ),
-                'timing' => array(
+                            ],
+                        ],
+                    ],
+                ],
+                'timing' => [
                     'time' => 36,
-                    'prepare' => array(
+                    'prepare' => [
                         'time' => 12,
-                        'org.apache.solr.handler.component.QueryComponent' => array(
+                        'org.apache.solr.handler.component.QueryComponent' => [
                             'time' => 1,
-                        ),
-                        'org.apache.solr.handler.component.FacetComponent' => array(
+                        ],
+                        'org.apache.solr.handler.component.FacetComponent' => [
                             'time' => 11,
-                        ),
-                    ),
-                    'process' => array(
+                        ],
+                    ],
+                    'process' => [
                         'time' => 8,
-                        'org.apache.solr.handler.component.QueryComponent' => array(
+                        'org.apache.solr.handler.component.QueryComponent' => [
                             'time' => 5,
-                        ),
-                        'org.apache.solr.handler.component.MoreLikeThisComponent' => array(
+                        ],
+                        'org.apache.solr.handler.component.MoreLikeThisComponent' => [
                             'time' => 3,
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $result = $this->parser->parse(null, null, $data);
         $this->assertEquals('dummy-qs', $result->getQueryString());
@@ -104,27 +104,27 @@ class DebugTest extends TestCase
 
         $expectedDetail = new Detail(true, 0.5, 'sum of:');
         $expectedDetail->setSubDetails(
-            array(
-                array(
+            [
+                [
                     'match' => true,
                     'value' => 0.25,
                     'description' => 'weight(dummyfield:flachdach^250.0 in 1311) [], result of:',
-                ),
-                array(
+                ],
+                [
                     'match' => true,
                     'value' => 0.25,
                     'description' => 'tf(termFreq(text:ipod)=1)',
-                ),
-            )
+                ],
+            ]
         );
-        $this->assertEquals(array($expectedDetail), $doc->getDetails());
+        $this->assertEquals([$expectedDetail], $doc->getDetails());
         $this->assertCount(1, $result->getExplainOther());
         $doc = $result->getExplainOther()->getDocument('IW-02');
         $this->assertEquals(0.6, $doc->getValue());
         $this->assertTrue($doc->getMatch());
         $this->assertEquals('fieldWeight(text:ipod in 6), product of:', $doc->getDescription());
         $this->assertEquals(
-            array(new Detail(true, 0.7, 'tf(termFreq(text:ipod)=1)')),
+            [new Detail(true, 0.7, 'tf(termFreq(text:ipod)=1)')],
             $doc->getDetails()
         );
 
@@ -140,14 +140,14 @@ class DebugTest extends TestCase
 
     public function testParseNoExplainData()
     {
-        $data = array(
-            'debug' => array(
+        $data = [
+            'debug' => [
                 'querystring' => 'dummy-qs',
                 'parsedquery' => 'dummy-pq',
                 'QParser' => 'dummy-qp',
                 'otherQuery' => 'dummy-oq',
-            ),
-        );
+            ],
+        ];
 
         $result = $this->parser->parse(null, null, $data);
         $this->assertEquals('dummy-qs', $result->getQueryString());
@@ -161,7 +161,7 @@ class DebugTest extends TestCase
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse(null, null, array());
+        $result = $this->parser->parse(null, null, []);
         $this->assertNull($result);
     }
 }

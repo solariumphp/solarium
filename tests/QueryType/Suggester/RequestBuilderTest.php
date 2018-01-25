@@ -36,7 +36,7 @@ class RequestBuilderTest extends TestCase
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
-            array(
+            [
                 'suggest' => 'true',
                 'suggest.dictionary' => 'suggest',
                 'suggest.q' => 'ap ip',
@@ -47,7 +47,7 @@ class RequestBuilderTest extends TestCase
                 'wt' => 'json',
                 'json.nl' => 'flat',
                 'omitHeader' => 'true',
-            ),
+            ],
             $request->getParams()
         );
 

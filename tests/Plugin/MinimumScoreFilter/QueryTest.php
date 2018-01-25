@@ -28,7 +28,7 @@ class QueryTest extends AbstractQueryTest
     {
         $this->query->addField('newfield');
         $this->query->clearFields();
-        $this->assertSame(array('score'), $this->query->getFields());
+        $this->assertSame(['score'], $this->query->getFields());
     }
 
     public function testSetAndGetResultClass()
@@ -41,30 +41,30 @@ class QueryTest extends AbstractQueryTest
     public function testAddFields()
     {
         $this->query->clearFields();
-        $this->query->addFields(array('field1', 'field2'));
-        $this->assertSame(array('field1', 'field2', 'score'), $this->query->getFields());
+        $this->query->addFields(['field1', 'field2']);
+        $this->assertSame(['field1', 'field2', 'score'], $this->query->getFields());
     }
 
     public function testRemoveField()
     {
         $this->query->clearFields();
-        $this->query->addFields(array('field1', 'field2'));
+        $this->query->addFields(['field1', 'field2']);
         $this->query->removeField('field1');
-        $this->assertSame(array('field2', 'score'), $this->query->getFields());
+        $this->assertSame(['field2', 'score'], $this->query->getFields());
     }
 
     public function testSetFields()
     {
         $this->query->clearFields();
-        $this->query->addFields(array('field1', 'field2'));
-        $this->query->setFields(array('field3', 'field4'));
-        $this->assertSame(array('field3', 'field4', 'score'), $this->query->getFields());
+        $this->query->addFields(['field1', 'field2']);
+        $this->query->setFields(['field3', 'field4']);
+        $this->assertSame(['field3', 'field4', 'score'], $this->query->getFields());
     }
 
     public function testAddFieldsAsStringWithTrim()
     {
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
-        $this->assertSame(array('field1', 'field2', 'score'), $this->query->getFields());
+        $this->assertSame(['field1', 'field2', 'score'], $this->query->getFields());
     }
 }

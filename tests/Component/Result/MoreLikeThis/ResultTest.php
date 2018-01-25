@@ -15,10 +15,10 @@ class ResultTest extends TestCase
 
     public function setUp()
     {
-        $this->docs = array(
-            new Document(array('id' => 1, 'name' => 'test1')),
-            new Document(array('id' => 2, 'name' => 'test2')),
-        );
+        $this->docs = [
+            new Document(['id' => 1, 'name' => 'test1']),
+            new Document(['id' => 2, 'name' => 'test2']),
+        ];
 
         $this->mltResult = new Result(2, 5.13, $this->docs);
     }
@@ -40,7 +40,7 @@ class ResultTest extends TestCase
 
     public function testIterator()
     {
-        $docs = array();
+        $docs = [];
         foreach ($this->mltResult as $key => $doc) {
             $docs[$key] = $doc;
         }

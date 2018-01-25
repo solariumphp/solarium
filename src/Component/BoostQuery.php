@@ -8,7 +8,7 @@ use Solarium\Core\Query\Helper;
 /**
  * Filterquery.
  *
- * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
+ * @see http://wiki.apache.org/solr/CommonQueryParameters#fq
  */
 class BoostQuery extends Configurable
 {
@@ -53,7 +53,7 @@ class BoostQuery extends Configurable
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $helper = new Helper();
             $query = $helper->assemble($query, $bind);
         }

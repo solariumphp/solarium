@@ -20,7 +20,7 @@ class EDisMaxTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'queryparser' => 'edismax',
             'queryalternative' => '*:*',
             'queryfields' => 'title^2.0 description',
@@ -37,7 +37,7 @@ class EDisMaxTest extends TestCase
             'boostfunctions' => 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2',
             'boostfunctionsmult' => 'funcC(arg5,arg6)^4.3 funcD(arg7,arg8)^3.4',
             'userfields' => 'date *_ul',
-        );
+        ];
 
         $this->eDisMax->setOptions($options);
 

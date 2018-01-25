@@ -43,17 +43,17 @@ class FacetSetTest extends TestCase
         $request = $this->builder->buildComponent($this->component, $this->request);
 
         static::assertEquals(
-            array(),
+            [],
             $request->getParams()
         );
     }
 
     public function testBuildWithFacets()
     {
-        $this->component->addFacet(new FacetField(array('key' => 'f1', 'field' => 'owner')));
-        $this->component->addFacet(new FacetQuery(array('key' => 'f2', 'query' => 'category:23')));
+        $this->component->addFacet(new FacetField(['key' => 'f1', 'field' => 'owner']));
+        $this->component->addFacet(new FacetQuery(['key' => 'f2', 'query' => 'category:23']));
         $this->component->addFacet(
-            new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' => array('query' => 'category:40'))))
+            new FacetMultiQuery(['key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
@@ -68,7 +68,7 @@ class FacetSetTest extends TestCase
     public function testBuildWithRangeFacet()
     {
         $this->component->addFacet(new FacetRange(
-            array(
+            [
                 'key' => 'f1',
                 'field' => 'price',
                 'start' => '1',
@@ -77,7 +77,7 @@ class FacetSetTest extends TestCase
                 'other' => 'all',
                 'include' => 'outer',
                 'mincount' => 123,
-            )
+            ]
         ));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
@@ -93,13 +93,13 @@ class FacetSetTest extends TestCase
     {
         $this->component->addFacet(
             new FacetRange(
-                array(
+                [
                     'key' => 'f1',
                     'field' => 'price',
                     'start' => '1',
                     'end' => 100,
                     'gap' => 10,
-                )
+                ]
             )
         );
 
@@ -117,10 +117,10 @@ class FacetSetTest extends TestCase
     {
         $this->component->setMissing(true);
         $this->component->setLimit(10);
-        $this->component->addFacet(new FacetField(array('key' => 'f1', 'field' => 'owner')));
-        $this->component->addFacet(new FacetQuery(array('key' => 'f2', 'query' => 'category:23')));
+        $this->component->addFacet(new FacetField(['key' => 'f1', 'field' => 'owner']));
+        $this->component->addFacet(new FacetQuery(['key' => 'f2', 'query' => 'category:23']));
         $this->component->addFacet(
-            new FacetMultiQuery(array('key' => 'f3', 'query' => array('f4' => array('query' => 'category:40'))))
+            new FacetMultiQuery(['key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
@@ -139,7 +139,7 @@ class FacetSetTest extends TestCase
 
     public function testBuildUnknownFacetType()
     {
-        $this->component->addFacet(new UnknownFacet(array('key' => 'f1', 'field' => 'owner')));
+        $this->component->addFacet(new UnknownFacet(['key' => 'f1', 'field' => 'owner']));
         $this->expectException(UnexpectedValueException::class);
         $request = $this->builder->buildComponent($this->component, $this->request);
         $request->getUri();
@@ -148,11 +148,11 @@ class FacetSetTest extends TestCase
     public function testBuildWithPivotFacet()
     {
         $facet = new FacetPivot(
-            array(
+            [
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
                 'mincount' => 123,
-            )
+            ]
         );
         $facet->addExclude('owner');
         $this->component->addFacet($facet);
@@ -172,11 +172,11 @@ class FacetSetTest extends TestCase
     public function testBuildWithPivotStatFacet()
     {
         $facet = new FacetPivot(
-            array(
+            [
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
                 'stats' => 'piv1',
-            )
+            ]
         );
         $this->component->addFacet($facet);
 
@@ -193,12 +193,12 @@ class FacetSetTest extends TestCase
     public function testBuildWithContainsSettings()
     {
         $facet = new FacetField(
-            array(
+            [
                 'key' => 'f1',
                 'field' => 'owner',
                 'contains' => 'foo',
                 'containsignorecase' => true,
-            )
+            ]
         );
         $this->component->addFacet($facet);
         $this->component->setContains('bar');
@@ -217,11 +217,11 @@ class FacetSetTest extends TestCase
     public function testBuildWithIntervalFacet()
     {
         $facet = new FacetInterval(
-            array(
+            [
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
-                'set' => array(0 => 'int1', 'one' => 'int2'),
-            )
+                'set' => [0 => 'int1', 'one' => 'int2'],
+            ]
         );
 
         $this->component->addFacet($facet);

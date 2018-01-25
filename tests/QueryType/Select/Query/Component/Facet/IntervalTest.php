@@ -20,11 +20,11 @@ class IntervalTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'key' => 'myKey',
-            'exclude' => array('e1', 'e2'),
-            'set' => array('i1', 'i2'),
-        );
+            'exclude' => ['e1', 'e2'],
+            'set' => ['i1', 'i2'],
+        ];
 
         $this->facet->setOptions($options);
 
@@ -41,12 +41,12 @@ class IntervalTest extends TestCase
     public function testSetAndGetSet()
     {
         $this->facet->setSet('interval1,interval2');
-        $this->assertEquals(array('interval1', 'interval2'), $this->facet->getSet());
+        $this->assertEquals(['interval1', 'interval2'], $this->facet->getSet());
     }
 
     public function testEmptySet()
     {
-        $this->assertEquals(array(), $this->facet->getSet());
+        $this->assertEquals([], $this->facet->getSet());
     }
 
     public function testSetAndGetField()

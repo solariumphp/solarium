@@ -19,14 +19,14 @@ class QueryTypeTest extends TestCase
     public function setUp()
     {
         $query = new UpdateQuery();
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
         $this->result = new TestStubResult($query, $response);
     }
 
     public function testParseResponse()
     {
         $query = new TestStubQuery();
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', array('HTTP 1.1 200 OK'));
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
         $result = new TestStubResult($query, $response);
 
         $this->expectException(UnexpectedValueException::class);
@@ -51,7 +51,7 @@ class QueryTypeTest extends TestCase
 
     public function testMapData()
     {
-        $this->result->mapData(array('dummyvar' => 'dummyvalue'));
+        $this->result->mapData(['dummyvar' => 'dummyvalue']);
 
         $this->assertSame('dummyvalue', $this->result->getVar('dummyvar'));
     }

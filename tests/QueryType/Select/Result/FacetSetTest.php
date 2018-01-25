@@ -16,10 +16,10 @@ class FacetSetTest extends TestCase
 
     public function setUp()
     {
-        $this->facets = array(
+        $this->facets = [
             'facet1' => 'content1',
             'facet2' => 'content2',
-        );
+        ];
 
         $this->result = new FacetSet($this->facets);
     }
@@ -46,7 +46,7 @@ class FacetSetTest extends TestCase
 
     public function testIterator()
     {
-        $items = array();
+        $items = [];
         foreach ($this->result as $key => $item) {
             $items[$key] = $item;
         }

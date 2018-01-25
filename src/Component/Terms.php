@@ -2,9 +2,9 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\ComponentTraits\TermsTrait;
 use Solarium\Component\RequestBuilder\Terms as RequestBuilder;
 use Solarium\Component\ResponseParser\Terms as ResponseParser;
-use Solarium\Component\ComponentTraits\TermsTrait;
 
 /**
  * Terms component.
@@ -16,7 +16,6 @@ use Solarium\Component\ComponentTraits\TermsTrait;
  */
 class Terms extends AbstractComponent implements TermsInterface
 {
-
     use TermsTrait;
 
     /**
@@ -48,5 +47,4 @@ class Terms extends AbstractComponent implements TermsInterface
     {
         return new ResponseParser();
     }
-
 }

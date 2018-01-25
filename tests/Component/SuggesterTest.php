@@ -54,7 +54,7 @@ class SuggesterTest extends TestCase
 
     public function testSetAndGetQueryWithBind()
     {
-        $this->suggester->setQuery('id:%1%', array(678));
+        $this->suggester->setQuery('id:%1%', [678]);
         $this->assertEquals('id:678', $this->suggester->getQuery());
     }
 

@@ -2,8 +2,8 @@
 
 namespace Solarium\Component\Stats;
 
-use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\AbstractComponent;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\RequestBuilder\Stats as RequestBuilder;
 use Solarium\Component\ResponseParser\Stats as ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
@@ -11,7 +11,7 @@ use Solarium\Exception\InvalidArgumentException;
 /**
  * Stats component.
  *
- * @link http://wiki.apache.org/solr/StatsComponent
+ * @see http://wiki.apache.org/solr/StatsComponent
  */
 class Stats extends AbstractComponent
 {
@@ -20,14 +20,14 @@ class Stats extends AbstractComponent
      *
      * @var array
      */
-    protected $facets = array();
+    protected $facets = [];
 
     /**
      * Fields.
      *
      * @var array
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
      * Get component type.
@@ -82,7 +82,7 @@ class Stats extends AbstractComponent
             $fq = new Field($options);
         }
 
-        if ($fq->getKey() !== null) {
+        if (null !== $fq->getKey()) {
             $this->addField($fq);
         }
 
@@ -95,9 +95,10 @@ class Stats extends AbstractComponent
      * Supports a field instance or a config array, in that case a new
      * field instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param Field|array $field
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
@@ -197,7 +198,7 @@ class Stats extends AbstractComponent
      */
     public function clearFields()
     {
-        $this->fields = array();
+        $this->fields = [];
 
         return $this;
     }
@@ -278,7 +279,7 @@ class Stats extends AbstractComponent
      */
     public function clearFacets()
     {
-        $this->facets = array();
+        $this->facets = [];
 
         return $this;
     }

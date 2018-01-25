@@ -9,7 +9,6 @@ use Solarium\Core\ConfigurableInterface;
  */
 interface SpellcheckInterface extends ConfigurableInterface
 {
-
     /**
      * Get query option.
      *
@@ -22,7 +21,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * Build the spellcheck?
      *
-     * @param boolean $build
+     * @param bool $build
      *
      * @return self Provides fluent interface
      */
@@ -31,7 +30,7 @@ interface SpellcheckInterface extends ConfigurableInterface
     /**
      * Get build option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getBuild();
 
@@ -40,7 +39,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * Reload the dictionary?
      *
-     * @param boolean $reload
+     * @param bool $reload
      *
      * @return self Provides fluent interface
      */
@@ -49,7 +48,7 @@ interface SpellcheckInterface extends ConfigurableInterface
     /**
      * Get fragsize option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getReload();
 
@@ -94,7 +93,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * Only return suggestions that result in more hits for the query than the existing query
      *
-     * @param boolean $onlyMorePopular
+     * @param bool $onlyMorePopular
      *
      * @return self Provides fluent interface
      */
@@ -103,14 +102,14 @@ interface SpellcheckInterface extends ConfigurableInterface
     /**
      * Get onlyMorePopular option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getOnlyMorePopular();
 
     /**
      * Set extendedResults option.
      *
-     * @param boolean $extendedResults
+     * @param bool $extendedResults
      *
      * @return self Provides fluent interface
      */
@@ -119,14 +118,14 @@ interface SpellcheckInterface extends ConfigurableInterface
     /**
      * Get extendedResults option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getExtendedResults();
 
     /**
      * Set collate option.
      *
-     * @param boolean $collate
+     * @param bool $collate
      *
      * @return self Provides fluent interface
      */
@@ -135,7 +134,7 @@ interface SpellcheckInterface extends ConfigurableInterface
     /**
      * Get collate option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getCollate();
 
@@ -235,5 +234,4 @@ interface SpellcheckInterface extends ConfigurableInterface
      * @return array
      */
     public function getCollateParams();
-
 }

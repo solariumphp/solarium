@@ -9,7 +9,6 @@ use Solarium\Core\ConfigurableInterface;
  */
 interface TermsInterface extends ConfigurableInterface
 {
-
     /**
      * Set the field name(s) to get the terms from.
      *
@@ -47,7 +46,7 @@ interface TermsInterface extends ConfigurableInterface
     /**
      * Set lowerboundinclude.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -56,14 +55,14 @@ interface TermsInterface extends ConfigurableInterface
     /**
      * Get lowerboundinclude.
      *
-     * @return boolean
+     * @return bool
      */
     public function getLowerboundInclude();
 
     /**
      * Set mincount (the minimum doc frequency for terms in order to be included).
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -72,14 +71,14 @@ interface TermsInterface extends ConfigurableInterface
     /**
      * Get mincount.
      *
-     * @return integer
+     * @return int
      */
     public function getMinCount();
 
     /**
      * Set maxcount (the maximum doc frequency for terms in order to be included).
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -88,7 +87,7 @@ interface TermsInterface extends ConfigurableInterface
     /**
      * Get maxcount.
      *
-     * @return integer
+     * @return int
      */
     public function getMaxCount();
 
@@ -147,7 +146,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * If < 0 all terms are included
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -156,7 +155,7 @@ interface TermsInterface extends ConfigurableInterface
     /**
      * Get limit.
      *
-     * @return integer
+     * @return int
      */
     public function getLimit();
 
@@ -179,7 +178,7 @@ interface TermsInterface extends ConfigurableInterface
     /**
      * Set upperboundinclude.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -188,14 +187,14 @@ interface TermsInterface extends ConfigurableInterface
     /**
      * Get upperboundinclude.
      *
-     * @return boolean
+     * @return bool
      */
     public function getUpperboundInclude();
 
     /**
      * Set raw option.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -204,7 +203,7 @@ interface TermsInterface extends ConfigurableInterface
     /**
      * Get raw option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getRaw();
 
@@ -223,5 +222,4 @@ interface TermsInterface extends ConfigurableInterface
      * @return string
      */
     public function getSort();
-
 }

@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait TermsTrait
 {
-
     /**
      * Get a terms component instance.
      *
@@ -21,5 +20,4 @@ trait TermsTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_TERMS, true);
     }
-
 }

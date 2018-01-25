@@ -9,7 +9,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
  */
 trait EDisMaxTrait
 {
-
     /**
      * Get a EdisMax component instance.
      *
@@ -21,5 +20,4 @@ trait EDisMaxTrait
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_EDISMAX, true);
     }
-
 }

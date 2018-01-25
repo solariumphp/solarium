@@ -1,51 +1,11 @@
 <?php
-/**
- * Copyright 2011 Bas de Nooijer. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this listof conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of the copyright holder.
- *
- * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
- * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- *
- * @link http://www.solarium-project.org/
- */
-
-/**
- * @namespace
- */
 
 namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
-use Solarium\QueryType\Update\RequestBuilder;
-use Solarium\QueryType\Update\ResponseParser;
-use Solarium\Exception\RuntimeException;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Update\Query\Command\AbstractCommand;
 use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
@@ -53,6 +13,8 @@ use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
 use Solarium\QueryType\Update\Query\Document\DocumentInterface;
+use Solarium\QueryType\Update\RequestBuilder;
+use Solarium\QueryType\Update\ResponseParser;
 
 /**
  * Update query.
@@ -93,25 +55,25 @@ class Query extends BaseQuery
      *
      * @var array
      */
-    protected $commandTypes = array(
+    protected $commandTypes = [
         self::COMMAND_ADD => 'Solarium\QueryType\Update\Query\Command\Add',
         self::COMMAND_DELETE => 'Solarium\QueryType\Update\Query\Command\Delete',
         self::COMMAND_COMMIT => 'Solarium\QueryType\Update\Query\Command\Commit',
         self::COMMAND_OPTIMIZE => 'Solarium\QueryType\Update\Query\Command\Optimize',
         self::COMMAND_ROLLBACK => 'Solarium\QueryType\Update\Query\Command\Rollback',
-    );
+    ];
 
     /**
      * Default options.
      *
      * @var array
      */
-    protected $options = array(
-        'handler'       => 'update',
-        'resultclass'   => 'Solarium\QueryType\Update\Result',
+    protected $options = [
+        'handler' => 'update',
+        'resultclass' => 'Solarium\QueryType\Update\Result',
         'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
-        'omitheader'    => false,
-    );
+        'omitheader' => false,
+    ];
 
     /**
      * Array of commands.
@@ -121,7 +83,7 @@ class Query extends BaseQuery
      *
      * @var AbstractCommand[]
      */
-    protected $commands = array();
+    protected $commands = [];
 
     /**
      * Get type for this query.
@@ -156,10 +118,11 @@ class Query extends BaseQuery
     /**
      * Create a command instance.
      *
-     * @throws InvalidArgumentException
      *
      * @param string $type
      * @param mixed  $options
+     *
+     * @throws InvalidArgumentException
      *
      * @return AbstractCommand
      */
@@ -168,7 +131,7 @@ class Query extends BaseQuery
         $type = strtolower($type);
 
         if (!isset($this->commandTypes[$type])) {
-            throw new InvalidArgumentException("Update commandtype unknown: ".$type);
+            throw new InvalidArgumentException('Update commandtype unknown: '.$type);
         }
 
         $class = $this->commandTypes[$type];
@@ -261,7 +224,7 @@ class Query extends BaseQuery
      */
     public function addDeleteQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getHelper()->assemble($query, $bind);
         }
 
@@ -332,14 +295,14 @@ class Query extends BaseQuery
      * create you own command instance and use the add method.
      *
      * @param DocumentInterface $document
-     * @param boolean           $overwrite
+     * @param bool              $overwrite
      * @param int               $commitWithin
      *
      * @return self Provides fluent interface
      */
     public function addDocument(DocumentInterface $document, $overwrite = null, $commitWithin = null)
     {
-        return $this->addDocuments(array($document), $overwrite, $commitWithin);
+        return $this->addDocuments([$document], $overwrite, $commitWithin);
     }
 
     /**
@@ -348,9 +311,9 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param array   $documents
-     * @param boolean $overwrite
-     * @param int     $commitWithin
+     * @param array $documents
+     * @param bool  $overwrite
+     * @param int   $commitWithin
      *
      * @return self Provides fluent interface
      */
@@ -377,9 +340,9 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param boolean $softCommit
-     * @param boolean $waitSearcher
-     * @param boolean $expungeDeletes
+     * @param bool $softCommit
+     * @param bool $waitSearcher
+     * @param bool $expungeDeletes
      *
      * @return self Provides fluent interface
      */
@@ -408,9 +371,9 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param boolean $softCommit
-     * @param boolean $waitSearcher
-     * @param int     $maxSegments
+     * @param bool $softCommit
+     * @param bool $waitSearcher
+     * @param int  $maxSegments
      *
      * @return self Provides fluent interface
      */
@@ -473,7 +436,7 @@ class Query extends BaseQuery
      *
      * @return DocumentInterface
      */
-    public function createDocument($fields = array(), $boosts = array(), $modifiers = array())
+    public function createDocument($fields = [], $boosts = [], $modifiers = [])
     {
         $class = $this->getDocumentClass();
 
@@ -494,9 +457,9 @@ class Query extends BaseQuery
             foreach ($this->options['command'] as $key => $value) {
                 $type = $value['type'];
 
-                if ($type == self::COMMAND_ADD) {
+                if (self::COMMAND_ADD == $type) {
                     throw new RuntimeException(
-                        "Adding documents is not supported in configuration, use the API for this"
+                        'Adding documents is not supported in configuration, use the API for this'
                     );
                 }
 

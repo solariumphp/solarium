@@ -93,7 +93,7 @@ class HelperTest extends TestCase
         );
 
         $this->assertEquals(
-            array('sfield' => 'store', 'pt' => '45.15,-93.85', 'd' => 5),
+            ['sfield' => 'store', 'pt' => '45.15,-93.85', 'd' => 5],
             $this->query->getParams()
         );
     }
@@ -114,7 +114,7 @@ class HelperTest extends TestCase
         );
 
         $this->assertEquals(
-            array('sfield' => 'store', 'pt' => '45.15,-93.85', 'd' => 5),
+            ['sfield' => 'store', 'pt' => '45.15,-93.85', 'd' => 5],
             $this->query->getParams()
         );
     }
@@ -135,7 +135,7 @@ class HelperTest extends TestCase
         );
 
         $this->assertEquals(
-            array('sfield' => 'store', 'pt' => '45.15,-93.85'),
+            ['sfield' => 'store', 'pt' => '45.15,-93.85'],
             $this->query->getParams()
         );
     }
@@ -152,7 +152,7 @@ class HelperTest extends TestCase
     {
         $this->assertSame(
             '{!parser a=1 b=test}',
-            $this->helper->qparser('parser', array('a' => 1, 'b' => 'test'))
+            $this->helper->qparser('parser', ['a' => 1, 'b' => 'test'])
         );
     }
 
@@ -160,30 +160,30 @@ class HelperTest extends TestCase
     {
         $helper = new Helper();
         $this->expectException(InvalidArgumentException::class);
-        $helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true);
+        $helper->qparser('join', ['from' => 'manu_id', 'to' => 'id'], true);
     }
 
     public function testQparserDereferenced()
     {
         $this->assertSame(
             '{!join from=$deref_1 to=$deref_2}',
-            $this->helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true, true)
+            $this->helper->qparser('join', ['from' => 'manu_id', 'to' => 'id'], true, true)
         );
 
         $this->assertEquals(
-            array('deref_1' => 'manu_id', 'deref_2' => 'id'),
+            ['deref_1' => 'manu_id', 'deref_2' => 'id'],
             $this->query->getParams()
         );
 
         // second call, params should have updated counts
         $this->assertSame(
             '{!join from=$deref_3 to=$deref_4}',
-            $this->helper->qparser('join', array('from' => 'cat_id', 'to' => 'prod_id'), true, true)
+            $this->helper->qparser('join', ['from' => 'cat_id', 'to' => 'prod_id'], true, true)
         );
 
         // previous params should also still be there
         $this->assertEquals(
-            array('deref_1' => 'manu_id', 'deref_2' => 'id', 'deref_3' => 'cat_id', 'deref_4' => 'prod_id'),
+            ['deref_1' => 'manu_id', 'deref_2' => 'id', 'deref_3' => 'cat_id', 'deref_4' => 'prod_id'],
             $this->query->getParams()
         );
     }
@@ -195,7 +195,7 @@ class HelperTest extends TestCase
 
     public function testFunctionCall()
     {
-        $this->assertSame('sum(1,2)', $this->helper->functionCall('sum', array(1, 2)));
+        $this->assertSame('sum(1,2)', $this->helper->functionCall('sum', [1, 2]));
     }
 
     public function testEscapeTerm()
@@ -318,44 +318,44 @@ class HelperTest extends TestCase
         // test single basic placeholder
         $this->assertSame(
             'id:456 AND cat:2',
-            $this->helper->assemble('id:%1% AND cat:2', array(456))
+            $this->helper->assemble('id:%1% AND cat:2', [456])
         );
 
         // test multiple basic placeholders and placeholder repeat
         $this->assertSame(
             '(id:456 AND cat:2) OR (id:456 AND cat:1)',
-            $this->helper->assemble('(id:%1% AND cat:%2%) OR (id:%1% AND cat:%3%)', array(456, 2, 1))
+            $this->helper->assemble('(id:%1% AND cat:%2%) OR (id:%1% AND cat:%3%)', [456, 2, 1])
         );
 
         // test literal placeholder (same as basic)
         $this->assertSame(
             'id:456 AND cat:2',
-            $this->helper->assemble('id:%L1% AND cat:2', array(456))
+            $this->helper->assemble('id:%L1% AND cat:2', [456])
         );
 
         // test term placeholder
         $this->assertSame(
             'cat:2 AND content:a\\+b',
-            $this->helper->assemble('cat:2 AND content:%T1%', array('a+b'))
+            $this->helper->assemble('cat:2 AND content:%T1%', ['a+b'])
         );
 
         // test term placeholder case-insensitive
         $this->assertSame(
             'cat:2 AND content:a\\+b',
-            $this->helper->assemble('cat:2 AND content:%t1%', array('a+b'))
+            $this->helper->assemble('cat:2 AND content:%t1%', ['a+b'])
         );
 
         // test phrase placeholder
         $this->assertSame(
             'cat:2 AND content:"a+\\"b"',
-            $this->helper->assemble('cat:2 AND content:%P1%', array('a+"b'))
+            $this->helper->assemble('cat:2 AND content:%P1%', ['a+"b'])
         );
     }
 
     public function testAssembleInvalidPartNumber()
     {
         $this->expectException('Solarium\Exception\InvalidArgumentException');
-        $this->helper->assemble('cat:%1% AND content:%2%', array('value1'));
+        $this->helper->assemble('cat:%1% AND content:%2%', ['value1']);
     }
 
     public function testJoin()
@@ -374,7 +374,7 @@ class HelperTest extends TestCase
         );
 
         $this->assertEquals(
-            array('deref_1' => 'manu_id', 'deref_2' => 'id'),
+            ['deref_1' => 'manu_id', 'deref_2' => 'id'],
             $this->query->getParams()
         );
     }

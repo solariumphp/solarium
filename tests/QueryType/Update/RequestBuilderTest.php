@@ -51,7 +51,7 @@ class RequestBuilderTest extends TestCase
     public function testBuildAddXmlNoParamsSingleDocument()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(array('id' => 1)));
+        $command->addDocument(new Document(['id' => 1]));
 
         $this->assertSame(
             '<add><doc><field name="id">1</field></doc></add>',
@@ -62,7 +62,7 @@ class RequestBuilderTest extends TestCase
     public function testBuildAddXmlWithBooleanValues()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(array('id' => 1, 'visible' => true, 'forsale' => false)));
+        $command->addDocument(new Document(['id' => 1, 'visible' => true, 'forsale' => false]));
 
         $this->assertSame(
             '<add><doc><field name="id">1</field><field name="visible">true</field><field name="forsale">false</field></doc></add>',
@@ -72,8 +72,8 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlWithParams()
     {
-        $command = new AddCommand(array('overwrite' => true, 'commitwithin' => 100));
-        $command->addDocument(new Document(array('id' => 1)));
+        $command = new AddCommand(['overwrite' => true, 'commitwithin' => 100]);
+        $command->addDocument(new Document(['id' => 1]));
 
         $this->assertSame(
             '<add overwrite="true" commitWithin="100"><doc><field name="id">1</field></doc></add>',
@@ -84,7 +84,7 @@ class RequestBuilderTest extends TestCase
     public function testBuildAddXmlSpecialCharacters()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(array('id' => 1, 'text' => 'test < 123 > test')));
+        $command->addDocument(new Document(['id' => 1, 'text' => 'test < 123 > test']));
 
         $this->assertSame(
             '<add><doc><field name="id">1</field><field name="text">test &lt; 123 &gt; test</field></doc></add>',
@@ -95,7 +95,7 @@ class RequestBuilderTest extends TestCase
     public function testBuildAddXmlMultivalueField()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(array('id' => array(1, 2, 3), 'text' => 'test < 123 > test')));
+        $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => 'test < 123 > test']));
 
         $this->assertSame(
             '<add>'.
@@ -115,20 +115,20 @@ class RequestBuilderTest extends TestCase
         $command = new AddCommand();
         $command->addDocument(
             new Document(
-                array(
-                    'id' => array(
-                        array(
+                [
+                    'id' => [
+                        [
                             'nested_id' => 42,
-                            'customer_ids' => array(
+                            'customer_ids' => [
                                 15,
                                 16,
-                            ),
-                        ),
+                            ],
+                        ],
                         2,
                         'foo',
-                    ),
+                    ],
                     'text' => 'test < 123 > test',
-                )
+                ]
             )
         );
 
@@ -151,7 +151,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlSingleDocumentWithBoost()
     {
-        $doc = new Document(array('id' => 1));
+        $doc = new Document(['id' => 1]);
         $doc->setBoost(2.5);
         $command = new AddCommand();
         $command->addDocument($doc);
@@ -164,7 +164,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlSingleDocumentWithFieldBoost()
     {
-        $doc = new Document(array('id' => 1));
+        $doc = new Document(['id' => 1]);
         $doc->setFieldBoost('id', 2.1);
         $command = new AddCommand();
         $command->addDocument($doc);
@@ -178,8 +178,8 @@ class RequestBuilderTest extends TestCase
     public function testBuildAddXmlMultipleDocuments()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(array('id' => 1)));
-        $command->addDocument(new Document(array('id' => 2)));
+        $command->addDocument(new Document(['id' => 1]));
+        $command->addDocument(new Document(['id' => 2]));
 
         $this->assertSame(
             '<add><doc><field name="id">1</field></doc><doc><field name="id">2</field></doc></add>',
@@ -239,7 +239,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildAddXmlWithVersionedDocument()
     {
-        $doc = new Document(array('id' => 1));
+        $doc = new Document(['id' => 1]);
         $doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
 
         $command = new AddCommand();
@@ -255,7 +255,7 @@ class RequestBuilderTest extends TestCase
     {
         $command = new AddCommand();
         $command->addDocument(
-            new Document(array('id' => 1, 'datetime' => new \DateTime('2013-01-15 14:41:58', new \DateTimeZone('Europe/London'))))
+            new Document(['id' => 1, 'datetime' => new \DateTime('2013-01-15 14:41:58', new \DateTimeZone('Europe/London'))])
         );
 
         $this->assertSame(
@@ -378,7 +378,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildOptimizeXmlWithParams()
     {
-        $command = new OptimizeCommand(array('softcommit' => true, 'waitsearcher' => false, 'maxsegments' => 10));
+        $command = new OptimizeCommand(['softcommit' => true, 'waitsearcher' => false, 'maxsegments' => 10]);
 
         $this->assertSame(
             '<optimize softCommit="true" waitSearcher="false" maxSegments="10"/>',
@@ -398,7 +398,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildCommitXmlWithParams()
     {
-        $command = new CommitCommand(array('softcommit' => true, 'waitsearcher' => false, 'expungedeletes' => true));
+        $command = new CommitCommand(['softcommit' => true, 'waitsearcher' => false, 'expungedeletes' => true]);
 
         $this->assertSame(
             '<commit softCommit="true" waitSearcher="false" expungeDeletes="true"/>',
@@ -419,7 +419,7 @@ class RequestBuilderTest extends TestCase
         $this->query->addDeleteById(1);
         $this->query->addRollback();
         $this->query->addDeleteQuery('*:*');
-        $this->query->addDocument(new Document(array('id' => 1)));
+        $this->query->addDocument(new Document(['id' => 1]));
         $this->query->addCommit();
         $this->query->addOptimize();
 

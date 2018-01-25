@@ -16,7 +16,7 @@ class BoostQueryTest extends TestCase
 
     public function testConfigMode()
     {
-        $fq = new BoostQuery(array('key' => 'k1', 'query' => 'id:[10 TO 20]'));
+        $fq = new BoostQuery(['key' => 'k1', 'query' => 'id:[10 TO 20]']);
 
         $this->assertSame('k1', $fq->getKey());
         $this->assertSame('id:[10 TO 20]', $fq->getQuery());
@@ -36,7 +36,7 @@ class BoostQueryTest extends TestCase
 
     public function testSetAndGetQueryWithBind()
     {
-        $this->boostQuery->setQuery('id:%1%', array(678));
+        $this->boostQuery->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->boostQuery->getQuery());
     }
 }

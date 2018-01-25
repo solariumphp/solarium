@@ -64,11 +64,12 @@ trait ComponentAwareQueryTrait
      * You can optionally supply an autoload class to create a new component
      * instance if there is no registered component for the given key yet.
      *
-     * @throws OutOfBoundsException
      *
-     * @param string         $key      Use one of the constants
-     * @param string|boolean $autoload Class to autoload if component needs to be created
-     * @param array|null     $config   Configuration to use for autoload
+     * @param string      $key      Use one of the constants
+     * @param string|bool $autoload Class to autoload if component needs to be created
+     * @param array|null  $config   Configuration to use for autoload
+     *
+     * @throws OutOfBoundsException
      *
      * @return object|null
      */
@@ -76,7 +77,7 @@ trait ComponentAwareQueryTrait
     {
         if (isset($this->components[$key])) {
             return $this->components[$key];
-        } elseif ($autoload === true) {
+        } elseif (true === $autoload) {
             if (!isset($this->componentTypes[$key])) {
                 throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
             }
@@ -148,5 +149,4 @@ trait ComponentAwareQueryTrait
             $this->getComponent($type, true, $config);
         }
     }
-
 }

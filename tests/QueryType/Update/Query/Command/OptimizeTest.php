@@ -17,11 +17,11 @@ class OptimizeTest extends TestCase
 
     public function testConfigMode()
     {
-        $options = array(
+        $options = [
             'softcommit' => true,
             'waitsearcher' => false,
             'maxsegments' => 6,
-        );
+        ];
 
         $command = new Optimize($options);
 

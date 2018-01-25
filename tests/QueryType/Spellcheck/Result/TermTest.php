@@ -37,10 +37,10 @@ class TermTest extends TestCase
         $this->numFound = 5;
         $this->startOffset = 2;
         $this->endOffset = 6;
-        $this->suggestions = array(
+        $this->suggestions = [
             'suggestion1',
             'suggestion2',
-        );
+        ];
 
         $this->result = new Term($this->numFound, $this->startOffset, $this->endOffset, $this->suggestions);
     }
@@ -84,7 +84,7 @@ class TermTest extends TestCase
 
     public function testIterator()
     {
-        $results = array();
+        $results = [];
         foreach ($this->result as $key => $doc) {
             $results[$key] = $doc;
         }
