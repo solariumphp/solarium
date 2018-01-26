@@ -174,15 +174,13 @@ class Helper
     {
         if (null === $from) {
             $from = '*';
-        }
-        else {
+        } else {
             $from = $this->escapePhrase($from);
         }
 
         if (null === $to) {
             $to = '*';
-        }
-        else {
+        } else {
             $to = $this->escapePhrase($to);
         }
 
