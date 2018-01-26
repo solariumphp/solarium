@@ -23,13 +23,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Isolated search components from the select query type and made them re-usable
 - BC break: Suggester component is now compatible to Solr v6/7 (the existing one was renamed to Spellcheck)
 - BC break: Suggester query type is now compatible to Solr v6/7 (the existing one was renamed to Spellcheck)
-- Prevented query injection inside range queries
 - Lots of source code re-structuring and clean-up
 
 ### Removed
 - Phar support
 - Exclude test suite from distribution
 - Dropped support for Solr versions before 6
+
+### Security
+- Prevented query injection inside range queries
 
 
 ## [3.8.1]
