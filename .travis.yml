@@ -24,7 +24,7 @@ cache:
 before_install:
   - composer global require "hirak/prestissimo:^0.3"
   - mkdir -p solr_downloads && ls solr_downloads/
-  - wget -N --continue -nv --tries=3 --directory-prefix=solr_downloads "http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz"
+  - wget -nc --continue -nv --tries=3 --directory-prefix=solr_downloads "http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz"
   - tar -xzf solr_downloads/solr-${SOLR_VERSION}.tgz
 
 before_script:
