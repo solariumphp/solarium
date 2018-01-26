@@ -29,6 +29,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Phar support
 - Exclude test suite from distribution
 - Dropped support for Solr versions before 6
+- Obsolete Autoloader.php
+- Deprecated Solarium\Core\Plugin\Plugin in favor of Solarium\Core\Plugin\AbstractPlugin
+- Deprecated Solarium\Core\Query\Query in favor of Solarium\Core\Query\AbstractQuery
+- Deprecated Solarium\Core\Query\RequestBuilder in favor of Solarium\Core\Query\AbstractRequestBuilder
+- Deprecated Solarium\Core\Query\ResponseParser in favor of Solarium\Core\Query\AbstractResponseParser
+- Deprecated Solarium\QueryType\Analysis\Query\Query in favor of Solarium\QueryType\Analysis\Query\AbstractQuery
 
 ### Security
 - Prevented query injection inside range queries
