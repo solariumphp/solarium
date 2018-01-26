@@ -4,6 +4,9 @@ namespace Solarium\Tests\Integration\TechproductsAdapters;
 
 use Solarium\Tests\Integration\AbstractTechproductsTest;
 
+/**
+ * @group integration
+ */
 class TechproductsGuzzle3Test extends AbstractTechproductsTest
 {
     public function setUp()

@@ -5,6 +5,9 @@ namespace Solarium\Tests\Integration\TechproductsAdapters;
 use Solarium\Core\Client\Adapter\PeclHttp;
 use Solarium\Tests\Integration\AbstractTechproductsTest;
 
+/**
+ * @group integration
+ */
 class TechproductsPeclHttpTest extends AbstractTechproductsTest
 {
     public function setUp()
