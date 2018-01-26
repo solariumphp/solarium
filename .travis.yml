@@ -9,8 +9,8 @@ php:
   - nightly
 
 env:
-  - SYMFONY_VERSION=2.8.* SOLR_VERSION=6.6.2
-  - SYMFONY_VERSION=3.0.* SOLR_VERSION=6.6.2
+  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.2
+  - SYMFONY_VERSION=3.3.* SOLR_VERSION=6.6.2
   - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
   - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.1
 
@@ -21,8 +21,8 @@ cache:
 
 before_install:
   - composer global require "hirak/prestissimo:^0.3"
-  - mkdir -p solr_downloads && ls solr_downloads/
-  - wget -nc --continue -nv --tries=3 --directory-prefix=solr_downloads "http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz"
+  - ls solr_downloads/
+  - wget -nc --continue -v --tries=3 --directory-prefix=solr_downloads "http://ftp.halifax.rwth-aachen.de/apache/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz"
   - tar -xzf solr_downloads/solr-${SOLR_VERSION}.tgz
 
 before_script:
