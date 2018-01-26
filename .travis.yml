@@ -6,15 +6,13 @@ php:
   - 7.2
   - 7.1
   - 7.0
-  # hhvm removed as it is not fully compatible with php7
-  # - hhvm
   - nightly
 
 env:
   - SYMFONY_VERSION=2.8.* SOLR_VERSION=6.6.2
   - SYMFONY_VERSION=3.0.* SOLR_VERSION=6.6.2
   - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.1
 
 cache:
   directories:
@@ -41,11 +39,7 @@ matrix:
       - php: 7.0
         env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
       - php: 7.0
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
-      - php: hhvm
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
-      - php: hhvm
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.0
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.2.1
   allow_failures:
       - php: nightly
 
