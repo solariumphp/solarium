@@ -54,12 +54,12 @@ class HelperTest extends TestCase
     public function testRangeQueryInclusiveNullValues()
     {
         $this->assertSame(
-            'field:["1" TO "*"]',
+            'field:["1" TO *]',
             $this->helper->rangeQuery('field', 1, null)
         );
 
         $this->assertSame(
-            'store:["*" TO "46,-93"]',
+            'store:[* TO "46,-93"]',
             $this->helper->rangeQuery('store', null, '46,-93')
         );
     }
@@ -67,12 +67,12 @@ class HelperTest extends TestCase
     public function testRangeQueryExclusiveNullValues()
     {
         $this->assertSame(
-            'field:{"1" TO "*"}',
+            'field:{"1" TO *}',
             $this->helper->rangeQuery('field', 1, null, false)
         );
 
         $this->assertSame(
-            'store:{"*" TO "46,-93"}',
+            'store:{* TO "46,-93"}',
             $this->helper->rangeQuery('store', null, '46,-93', false)
         );
     }

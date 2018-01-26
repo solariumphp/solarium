@@ -78,6 +78,59 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $ids);
     }
 
+    public function testRangeQueries()
+    {
+        $select = $this->client->createSelect();
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', null, 80)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(6, $result->getNumFound());
+        $this->assertSame(6, $result->count());
+
+        // VS1GB400C3 costs 74.99 and is the only product in the range between 70.23 and 80.00.
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 70.23, 80)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(1, $result->getNumFound());
+        $this->assertSame(1, $result->count());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, null)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(11, $result->getNumFound());
+        $this->assertSame(10, $result->count());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, null, false)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(10, $result->getNumFound());
+        $this->assertSame(10, $result->count());
+    }
+
+    public function testSpatial()
+    {
+        $select = $this->client->createSelect();
+
+        $select->setQuery(
+            $select->getHelper()->geofilt('store', 40, -100, 100000)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(14, $result->getNumFound());
+        $this->assertSame(10, $result->count());
+
+        $select->setQuery(
+            $select->getHelper()->geofilt('store', 40, -100, 1000)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(10, $result->getNumFound());
+        $this->assertSame(10, $result->count());
+    }
+
     public function testSpellcheck()
     {
         $spellcheck = $this->client->createSpellcheck();
