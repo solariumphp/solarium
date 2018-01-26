@@ -39,6 +39,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 - Prevented query injection inside range queries
 
+### Security
+- Prevented query injection inside range queries
+
 
 ## [3.8.1]
 ### Fixed
