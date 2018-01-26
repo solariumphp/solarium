@@ -175,13 +175,20 @@ class Helper
         if (null === $from) {
             $from = '*';
         }
+        else {
+            $from = $this->escapePhrase($from);
+        }
 
         if (null === $to) {
             $to = '*';
         }
+        else {
+            $to = $this->escapePhrase($to);
+        }
 
-        $from = $this->escapePhrase($from);
-        $to = $this->escapePhrase($to);
+        if ($inclusive) {
+            return $field.':['.$from.' TO '.$to.']';
+        }
 
         if ($inclusive) {
             return $field.':['.$from.' TO '.$to.']';
