@@ -20,6 +20,7 @@ cache:
     - solr_downloads
 
 before_install:
+  - phpenv config-rm xdebug.ini
   - composer global require "hirak/prestissimo:^0.3"
   - ls solr_downloads/
   - wget -nc --continue -v --tries=3 --directory-prefix=solr_downloads "http://ftp.halifax.rwth-aachen.de/apache/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz"
