@@ -4,6 +4,20 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
 ## [4.0.0-alpha.1] 
 ### Added
 - Terms component
@@ -35,9 +49,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Deprecated Solarium\Core\Query\RequestBuilder in favor of Solarium\Core\Query\AbstractRequestBuilder
 - Deprecated Solarium\Core\Query\ResponseParser in favor of Solarium\Core\Query\AbstractResponseParser
 - Deprecated Solarium\QueryType\Analysis\Query\Query in favor of Solarium\QueryType\Analysis\Query\AbstractQuery
-
-### Security
-- Prevented query injection inside range queries
 
 ### Security
 - Prevented query injection inside range queries
