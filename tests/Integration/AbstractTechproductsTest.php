@@ -172,9 +172,6 @@ abstract class AbstractTechproductsTest extends TestCase
             ],
             $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields());
 
-        /**
-         * @var Field $facetField
-         */
         foreach ($result->getFacetSet() as $facetFieldName => $facetField) {
             $this->assertSame('stock', $facetFieldName);
             // The power cord is not in stock! In the techproducts example that is reflected by the string 'false'.
