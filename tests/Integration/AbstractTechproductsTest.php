@@ -112,6 +112,72 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(10, $result->count());
     }
 
+    public function testFacetHighlightSpellcheckComponent()
+    {
+        $select = $this->client->createSelect();
+        // In the techproducts example, the request handler "select" doesn't neither contain a spellcheck component nor
+        // a highlighter or facets. But the "browse" request handler does.
+        $select->setHandler('browse');
+        // Search for misspelled "power cort".
+        $select->setQuery('power cort');
+
+        $spellcheck = $select->getSpellcheck();
+        // Some spellcheck dictionaries needs to build first, but not on every request!
+        $spellcheck->setBuild(true);
+
+        $result = $this->client->select($select);
+        $this->assertSame(0, $result->getNumFound());
+
+        $this->assertSame([
+            'power' => 'power',
+            'cort' => 'cord',
+        ],
+        $result->getSpellcheck()->getCollations()[0]->getCorrections());
+
+        $words = [];
+        foreach ($result->getSpellcheck()->getSuggestions()[0]->getWords() as $suggestion) {
+            $words[] = $suggestion['word'];
+        }
+        $this->assertEquals([
+            'corp',
+            'cord',
+            'card',
+        ], $words);
+
+        $select->setQuery('power cord');
+        // Activate highlighting.
+        $select->getHighlighting();
+        $facetSet = $select->getFacetSet();
+        $facetSet->createFacetField('stock')->setField('inStock');
+
+        $result = $this->client->select($select);
+        $this->assertSame(1, $result->getNumFound());
+
+        foreach ($result as $document) {
+            $this->assertSame('F8V7067-APL-KIT', $document->id);
+        }
+
+        $this->assertSame(
+            ['car <b>power</b> adapter, white'],
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('features'));
+
+        $this->assertSame(
+            ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w&#x2F; Dock'],
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('name'));
+
+        $this->assertSame([
+                'features' => ['car <b>power</b> adapter, white'],
+                'name' => ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w&#x2F; Dock'],
+            ],
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields());
+
+        foreach ($result->getFacetSet() as $facetFieldName => $facetField) {
+            $this->assertSame('stock', $facetFieldName);
+            // The power cord is not in stock! In the techproducts example that is reflected by the string 'false'.
+            $this->assertSame(1, $facetField->getValues()['false']);
+        }
+    }
+
     public function testSpatial()
     {
         $select = $this->client->createSelect();
