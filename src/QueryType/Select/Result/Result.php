@@ -5,9 +5,10 @@ namespace Solarium\QueryType\Select\Result;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Result\Debug\Result as DebugResult;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
-use Solarium\Component\Result\Highlighting\Result as HighlightingResult;
+use Solarium\Component\Result\Highlighting\Highlighting;
 use Solarium\Component\Result\MoreLikeThis\Result as MoreLikeThisResult;
 use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
+use Solarium\Component\Result\Suggester\Result as SuggesterResult;
 use Solarium\Component\Result\Stats\Result as StatsResult;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
@@ -246,7 +247,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return HighlightingResult|null
+     * @return Highlighting|null
      */
     public function getHighlighting()
     {
@@ -287,6 +288,18 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     public function getSpellcheck()
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_SPELLCHECK);
+    }
+
+    /**
+     * Get suggester component result.
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return SuggesterResult|null
+     */
+    public function getSuggester()
+    {
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_SUGGESTER);
     }
 
     /**
