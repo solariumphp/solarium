@@ -16,5 +16,4 @@ class TechproductsCurlTest extends AbstractTechproductsTest
         // Set it to the PHP default of 13s.
         $this->client->getEndpoint()->setTimeout(CURLOPT_TIMEOUT);
     }
-
 }
