@@ -14,7 +14,7 @@ trait SuggesterTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\Spellcheck
+     * @return \Solarium\Component\Suggester
      */
     public function getSuggester()
     {
