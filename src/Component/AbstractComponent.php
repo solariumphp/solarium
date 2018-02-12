@@ -2,6 +2,8 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\AbstractQuery;
 
@@ -23,7 +25,7 @@ abstract class AbstractComponent extends Configurable
     abstract public function getType();
 
     /**
-     * Get the requestbuilder class for this query.
+     * Get the request builder class for this query.
      *
      * @return ComponentRequestBuilderInterface
      */

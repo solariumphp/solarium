@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Return type of Solarium\Component\QueryTraits\SuggesterTrait::getSuggester()
-
+- Type hints in Solarium\Component\AbstractComponent
 ### Security
 
 
