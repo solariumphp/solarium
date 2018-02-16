@@ -5,19 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
+## [4.0.0-beta.1]
 ### Fixed
 - Return type of Solarium\Component\QueryTraits\SuggesterTrait::getSuggester()
 - Type hints in Solarium\Component\AbstractComponent
-### Security
 
 
 ## [4.0.0-alpha.2]
