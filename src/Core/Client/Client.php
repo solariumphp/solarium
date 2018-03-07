@@ -88,6 +88,11 @@ class Client extends Configurable implements ClientInterface
     const QUERY_SUGGESTER = 'suggester';
 
     /**
+     * Querytype stream.
+     */
+    const QUERY_STREAM = 'stream';
+
+    /**
      * Querytype extract.
      */
     const QUERY_EXTRACT = 'extract';
@@ -1141,6 +1146,18 @@ class Client extends Configurable implements ClientInterface
      * @return \Solarium\QueryType\Extract\Query
      */
     public function createExtract($options = null)
+    {
+        return $this->createQuery(self::QUERY_EXTRACT, $options);
+    }
+
+    /**
+     * Create a stream query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\Stream\Query
+     */
+    public function createStream($options = null)
     {
         return $this->createQuery(self::QUERY_EXTRACT, $options);
     }
