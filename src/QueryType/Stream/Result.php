@@ -22,8 +22,7 @@ class Result extends BaseResult
     /**
      * Get Solr response body.
      *
-     * @return string
-     *   A JSON encoded string
+     * @return string A JSON encoded string
      */
     public function getBody()
     {
@@ -45,5 +44,4 @@ class Result extends BaseResult
 
         return $this->data;
     }
-
 }

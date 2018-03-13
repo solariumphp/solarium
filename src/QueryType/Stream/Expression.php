@@ -9,11 +9,11 @@ class Expression
 {
     /**
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
      * @return string
      */
     public function __call(string $name , array $arguments)
     {
-        return $name . '(' . implode(', ', $arguments) . ')';
+        return $name.'('.implode(', ', $arguments).')';
     }
 }
