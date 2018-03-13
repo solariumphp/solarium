@@ -10,9 +10,10 @@ class Expression
     /**
      * @param string $name
      * @param array  $arguments
+     *
      * @return string
      */
-    public function __call(string $name , array $arguments)
+    public function __call(string $name, array $arguments)
     {
         return $name.'('.implode(', ', $arguments).')';
     }
