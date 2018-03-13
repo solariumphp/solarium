@@ -58,4 +58,14 @@ class Query extends BaseQuery
     {
         return $this->setOption('expr', $expr);
     }
+
+    /**
+     * Get the expression.
+     *
+     * @return string
+     */
+    public function getExpression()
+    {
+        return $this->getOption('expr');
+    }
 }
