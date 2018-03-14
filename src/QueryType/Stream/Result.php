@@ -14,7 +14,7 @@ class Result extends BaseResult
      *
      * @return int
      */
-    public function getStatus()
+    public function getStatusCode()
     {
         return $this->response->getStatusCode();
     }

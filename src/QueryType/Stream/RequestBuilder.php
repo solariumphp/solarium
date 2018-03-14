@@ -24,6 +24,8 @@ class RequestBuilder implements RequestBuilderInterface
         $request->setHandler($query->getHandler());
         $request->addParam('expr', $query->getExpression());
         $request->addParams($query->getParams());
+        $request->setMethod(Request::METHOD_POST);
+        $request->addHeader('Content-Type: text/plain; charset=utf-8');
 
         return $request;
     }
