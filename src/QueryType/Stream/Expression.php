@@ -27,7 +27,7 @@ class Expression
                 $value = trim($value);
             }
             // Eliminate empty string arguments.
-            return $value !== '';
+            return '' !== $value;
         })).')';
     }
 }
