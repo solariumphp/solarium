@@ -2,13 +2,52 @@
 
 namespace Solarium\QueryType\Stream;
 
-use Solarium\Core\Query\Result\Result as BaseResult;
+use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * Stream query result.
  */
-class Result extends BaseResult
+class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
+    /**
+     * Document instances array.
+     *
+     * @var array
+     */
+    protected $documents;
+
+    /**
+     * Status code returned by Solr.
+     *
+     * @var int
+     */
+    protected $status;
+
+    /**
+     * Solr index queryTime.
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @var int
+     */
+    protected $queryTime;
+
+    /**
+     * Get Solr status code.
+     *
+     * This is not the HTTP status code! The normal value for success is 0.
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        $this->parseResponse();
+
+        return $this->status;
+    }
+
     /**
      * Get Solr status code.
      *
@@ -17,6 +56,42 @@ class Result extends BaseResult
     public function getStatusCode()
     {
         return $this->response->getStatusCode();
+    }
+
+    /**
+     * Get all documents.
+     *
+     * @return DocumentInterface[]
+     */
+    public function getDocuments()
+    {
+        $this->parseResponse();
+
+        return $this->documents;
+    }
+
+    /**
+     * IteratorAggregate implementation.
+     *
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        $this->parseResponse();
+
+        return new \ArrayIterator($this->documents);
+    }
+
+    /**
+     * Countable implementation.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        $this->parseResponse();
+
+        return count($this->documents);
     }
 
     /**

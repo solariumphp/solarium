@@ -262,30 +262,6 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     }
 
     /**
-     * Set a custom resultclass.
-     *
-     * @param string $value classname
-     *
-     * @return self Provides fluent interface
-     */
-    public function setResultClass($value)
-    {
-        return $this->setOption('resultclass', $value);
-    }
-
-    /**
-     * Get the current resultclass option.
-     *
-     * The value is a classname, not an instance
-     *
-     * @return string
-     */
-    public function getResultClass()
-    {
-        return $this->getOption('resultclass');
-    }
-
-    /**
      * Set a custom document class.
      *
      * This class should implement the document interface
