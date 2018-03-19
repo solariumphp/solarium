@@ -64,6 +64,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         return $this->addHeaderInfo(
             $data,
             [
+                'numfound' => count($documents),
                 'documents' => $documents,
             ]
         );

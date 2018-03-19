@@ -11,6 +11,15 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
+     * Solr numFound.
+     *
+     * This is NOT the number of document fetched from Solr!
+     *
+     * @var int
+     */
+    protected $numfound;
+
+    /**
      * Document instances array.
      *
      * @var array
@@ -46,6 +55,36 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
         $this->parseResponse();
 
         return $this->status;
+    }
+
+    /**
+     * Get Solr query time.
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @return int
+     */
+    public function getQueryTime()
+    {
+        $this->parseResponse();
+
+        return $this->queryTime;
+    }
+
+    /**
+     * get Solr numFound.
+     *
+     * Returns the total number of documents found by Solr (this is NOT the
+     * number of document fetched from Solr!)
+     *
+     * @return int
+     */
+    public function getNumFound()
+    {
+        $this->parseResponse();
+
+        return $this->numfound;
     }
 
     /**
@@ -102,6 +141,18 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     public function getBody()
     {
         return $this->response->getBody();
+    }
+
+    /**
+     * Get Solr response body in JSON format.
+     *
+     * More expressive convenience method that just call getBody().
+     *
+     * @return string JSON
+     */
+    public function getJson()
+    {
+        return $this->getBody();
     }
 
     /**
