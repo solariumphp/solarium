@@ -1,12 +1,13 @@
 <?php
 
-namespace Solarium\QueryType\Stream;
+namespace Solarium\QueryType\Graph;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\QueryType\Stream\RequestBuilder;
 
 /**
- * Stream query.
+ * Graph query.
  */
 class Query extends AbstractQuery
 {
@@ -16,9 +17,8 @@ class Query extends AbstractQuery
      * @var array
      */
     protected $options = [
-        'handler' => 'stream',
-        'resultclass' => 'Solarium\QueryType\Stream\Result',
-        'documentclass' => 'Solarium\QueryType\Select\Result\Document',
+        'handler' => 'graph',
+        'resultclass' => 'Solarium\QueryType\Graph\Result',
     ];
 
     /**
@@ -28,7 +28,7 @@ class Query extends AbstractQuery
      */
     public function getType()
     {
-        return Client::QUERY_STREAM;
+        return Client::QUERY_GRAPH;
     }
 
     /**
@@ -42,13 +42,10 @@ class Query extends AbstractQuery
     }
 
     /**
-     * Get a response parser for this query.
-     *
-     * @return ResponseParser
+     * No response parser required since we pass through GraphML.
      */
     public function getResponseParser()
     {
-        return new ResponseParser();
     }
 
     /**
@@ -71,31 +68,5 @@ class Query extends AbstractQuery
     public function getExpression()
     {
         return $this->getOption('expr');
-    }
-
-    /**
-     * Set a custom document class.
-     *
-     * This class should implement the document interface
-     *
-     * @param string $value classname
-     *
-     * @return self Provides fluent interface
-     */
-    public function setDocumentClass($value)
-    {
-        return $this->setOption('documentclass', $value);
-    }
-
-    /**
-     * Get the current documentclass option.
-     *
-     * The value is a classname, not an instance
-     *
-     * @return string
-     */
-    public function getDocumentClass()
-    {
-        return $this->getOption('documentclass');
     }
 }
