@@ -57,7 +57,6 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             }
             $data['responseHeader']['QTime'] = $fields['RESPONSE_TIME'];
             $data['responseHeader']['status'] = 0;
-
         } else {
             throw new StreamException('Streaming expression did not return a result-set.');
         }
