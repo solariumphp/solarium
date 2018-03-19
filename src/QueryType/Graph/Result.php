@@ -32,9 +32,9 @@ class Result extends BaseResult
     /**
      * Get Solr response data in GraphML format.
      *
-     * More expressive convenience method that just call getData()
+     * More expressive convenience method that just call getData().
      *
-     * @return string GraphML XML document.
+     * @return string GraphML XML document
      */
     public function getGraphML()
     {
