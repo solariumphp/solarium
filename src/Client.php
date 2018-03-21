@@ -34,7 +34,7 @@ class Client extends CoreClient
      *
      * @var string
      */
-    const VERSION = '3.8.0';
+    const VERSION = '4.0.0';
 
     /**
      * Check for an exact version.

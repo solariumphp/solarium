@@ -1166,6 +1166,10 @@ class Client extends Configurable implements ClientInterface
      */
     public function createStream($options = null)
     {
+        // Streaming expressions tend to be very long. Therfore we use the 'postbigrequest' plugin. The plugin needs to
+        // be loaded before the request is created.
+        $this->getPlugin('postbigrequest');
+
         return $this->createQuery(self::QUERY_STREAM, $options);
     }
 
@@ -1178,6 +1182,10 @@ class Client extends Configurable implements ClientInterface
      */
     public function createGraph($options = null)
     {
+        // Streaming expressions tend to be very long. Therfore we use the 'postbigrequest' plugin. The plugin needs to
+        // be loaded before the request is created.
+        $this->getPlugin('postbigrequest');
+
         return $this->createQuery(self::QUERY_GRAPH, $options);
     }
 
