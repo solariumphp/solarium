@@ -127,6 +127,14 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame('{!tag=t1,t2}cat:1', $request->getParam('q'));
     }
+
+    public function testWithSplitOnWhitespace()
+    {
+        $this->query->setSplitOnWhitespace(false);
+        $request = $this->builder->build($this->query);
+
+        $this->assertSame('false', $request->getParam('sow'));
+    }
 }
 
 class TestDummyComponent extends AbstractComponent
