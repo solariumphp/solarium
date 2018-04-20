@@ -40,7 +40,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             $request->addParam('facet.sort', $component->getSort());
             $request->addParam('facet.prefix', $component->getPrefix());
             $request->addParam('facet.contains', $component->getContains());
-            $request->addParam('facet.contains.ignoreCase', null === ($ignoreCase = $component->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
+            $request->addParam('facet.contains.ignoreCase', $component->getContainsIgnoreCase());
             $request->addParam('facet.missing', $component->getMissing());
             $request->addParam('facet.mincount', $component->getMinCount());
             $request->addParam('facet.limit', $component->getLimit());
@@ -96,7 +96,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $request->addParam("f.$field.facet.sort", $facet->getSort());
         $request->addParam("f.$field.facet.prefix", $facet->getPrefix());
         $request->addParam("f.$field.facet.contains", $facet->getContains());
-        $request->addParam("f.$field.facet.contains.ignoreCase", null === ($ignoreCase = $facet->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
+        $request->addParam("f.$field.facet.contains.ignoreCase", $facet->getContainsIgnoreCase());
         $request->addParam("f.$field.facet.offset", $facet->getOffset());
         $request->addParam("f.$field.facet.mincount", $facet->getMinCount());
         $request->addParam("f.$field.facet.missing", $facet->getMissing());
