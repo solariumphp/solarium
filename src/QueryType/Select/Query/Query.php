@@ -764,6 +764,33 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     }
 
     /**
+     * Set SplitOnWhitespace option.
+     *
+     * Specifies whether the query parser splits the query text on whitespace before it's sent to be analyzed.
+     *
+     * The default is to split on whitespace, equivalent to &sow=true.
+     * The sow parameter was introduced in Solr 6.5.
+     *
+     * @param bool $splitOnWhitespace
+     *
+     * @return self Provides fluent interface
+     */
+    public function setSplitOnWhitespace($splitOnWhitespace)
+    {
+        return $this->setOption('splitonwhitespace', $splitOnWhitespace);
+    }
+
+    /**
+     * Get SplitOnWhitespace option.
+     *
+     * @return bool|null
+     */
+    public function getSplitOnWhitespace()
+    {
+        return $this->getOption('splitonwhitespace');
+    }
+
+    /**
      * Initialize options.
      *
      * Several options need some extra checks or setup work, for these options
