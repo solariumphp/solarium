@@ -5,15 +5,15 @@ See the API docs for all methods. In the following sections facet types will be 
 Global facet options
 --------------------
 
-| Name               | Type    | Default value | Description                                 |
-|--------------------|---------|---------------|---------------------------------------------|
-| prefix             | string  | null          | Limit the terms for faceting by a prefix    |
-| contains           | string  | null          | Limit the terms for faceting by a substring |
-| containsignorecase | boolean | null          | Causes case to be ignored for 'contains'    |
-| sort               | string  | null          | Set the facet sort order                    |
-| limit              | int     | null          | Set the facet limit                         |
-| mincount           | int     | null          | Set the facet mincount                      |
-| missing            | boolean | null          | Set the 'count missing' option              |
+| Name               | Type    | Default value | Description                                                            |
+|--------------------|---------|---------------|------------------------------------------------------------------------|
+| prefix             | string  | null          | Limit the terms for faceting by a prefix                               |
+| contains           | string  | null          | Limit the terms for faceting by a substring (available since Solr 5.1) |
+| containsignorecase | boolean | null          | Causes case to be ignored for 'contains'                               |
+| sort               | string  | null          | Set the facet sort order                                               |
+| limit              | int     | null          | Set the facet limit                                                    |
+| mincount           | int     | null          | Set the facet mincount                                                 |
+| missing            | boolean | null          | Set the 'count missing' option                                         |
 ||
 
 Standard facet options
