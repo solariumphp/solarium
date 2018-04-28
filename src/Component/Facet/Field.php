@@ -121,8 +121,6 @@ class Field extends AbstractFacet
     /**
      * Limit the terms for faceting by a string they must contain. Since Solr 5.1.
      *
-     * This is a global value for all facets in this facetset
-     *
      * @param string $contains
      *
      * @return self Provides fluent interface
@@ -135,8 +133,6 @@ class Field extends AbstractFacet
     /**
      * Get the facet contains.
      *
-     * This is a global value for all facets in this facetset
-     *
      * @return string
      */
     public function getContains()
@@ -146,8 +142,6 @@ class Field extends AbstractFacet
 
     /**
      * Case sensitivity of matching string that facet terms must contain. Since Solr 5.1.
-     *
-     * This is a global value for all facets in this facetset
      *
      * @param bool $containsIgnoreCase
      *
@@ -160,8 +154,6 @@ class Field extends AbstractFacet
 
     /**
      * Get the case sensitivity of facet contains.
-     *
-     * This is a global value for all facets in this facetset
      *
      * @return bool
      */
