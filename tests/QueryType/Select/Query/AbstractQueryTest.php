@@ -689,6 +689,12 @@ abstract class AbstractQueryTest extends TestCase
         $this->assertSame(['t3', 't4'], $this->query->getTags());
     }
 
+    public function testSetAndGetSplitOnWhitespace()
+    {
+        $this->query->setSplitOnWhitespace(false);
+        $this->assertFalse($this->query->getSplitOnWhitespace());
+    }
+
     public function testGetSpatial()
     {
         $spatial = $this->query->getSpatial();
