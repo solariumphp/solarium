@@ -3,8 +3,8 @@
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\FacetSet;
 use Solarium\Component\Result\Debug\Result as DebugResult;
-use Solarium\Component\Result\Facet\Field;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
 use Solarium\Component\Result\Highlighting\Highlighting;
 use Solarium\Component\Result\MoreLikeThis\Result as MoreLikeThisResult;
