@@ -1,6 +1,7 @@
 <?php
 
 namespace Solarium\Component\Result;
+
 use Solarium\Component\Result\Facet\Field;
 
 /**

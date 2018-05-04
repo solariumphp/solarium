@@ -2,14 +2,12 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
-
 /**
  * Facet query.
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters#Field_Value_Faceting_Parameters
  */
-class AbstractField extends AbstractFacet
+abstract class AbstractField extends AbstractFacet
 {
     /**
      * Facet sort type index.

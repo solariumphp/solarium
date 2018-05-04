@@ -1,6 +1,7 @@
 <?php
 
 namespace Solarium\Component\Facet;
+
 use Solarium\Component\FacetSetTrait;
 use Solarium\Core\Query\Helper;
 use Solarium\Exception\InvalidArgumentException;

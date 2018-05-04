@@ -37,8 +37,8 @@ class Bucket implements \IteratorAggregate, \Countable
     /**
      * Bucket constructor.
      *
-     * @param string $value
-     * @param int $count
+     * @param string   $value
+     * @param int      $count
      * @param FacetSet $facets
      */
     public function __construct(string $value, int $count, FacetSet $facets)
@@ -91,7 +91,7 @@ class Bucket implements \IteratorAggregate, \Countable
     /**
      * Countable implementation.
      *
-     * @return int The amount of nested facets.
+     * @return int the amount of nested facets
      */
     public function count()
     {

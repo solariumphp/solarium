@@ -2,8 +2,6 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
-
 /**
  * Facet range.
  *
