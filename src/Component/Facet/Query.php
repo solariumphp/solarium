@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 use Solarium\Core\Query\Helper;
 
 /**
@@ -30,7 +30,7 @@ class Query extends AbstractFacet
      */
     public function getType()
     {
-        return FacetSet::FACET_QUERY;
+        return FacetSetInterface::FACET_QUERY;
     }
 
     /**

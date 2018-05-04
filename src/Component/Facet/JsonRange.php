@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 
 /**
  * Facet range.
@@ -12,7 +12,7 @@ use Solarium\Component\FacetSet;
 class JsonRange extends AbstractRange implements JsonFacetInterface
 {
     use JsonFacetTrait {
-        init as facetSetInit;
+        init as jsonFacetInit;
     }
 
     /**
@@ -22,7 +22,7 @@ class JsonRange extends AbstractRange implements JsonFacetInterface
      */
     public function getType()
     {
-        return FacetSet::FACET_RANGE;
+        return FacetSetInterface::JSON_FACET_RANGE;
     }
 
     /**
@@ -34,6 +34,6 @@ class JsonRange extends AbstractRange implements JsonFacetInterface
     protected function init()
     {
         parent::init();
-        $this->facetSetInit();
+        $this->jsonFacetInit();
     }
 }

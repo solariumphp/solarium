@@ -5,6 +5,9 @@ namespace Solarium\Tests\Component\RequestBuilder;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\Field as FacetField;
 use Solarium\Component\Facet\Interval as FacetInterval;
+use Solarium\Component\Facet\JsonQuery;
+use Solarium\Component\Facet\JsonRange;
+use Solarium\Component\Facet\JsonTerms;
 use Solarium\Component\Facet\MultiQuery as FacetMultiQuery;
 use Solarium\Component\Facet\Pivot as FacetPivot;
 use Solarium\Component\Facet\Query as FacetQuery;
@@ -12,6 +15,7 @@ use Solarium\Component\Facet\Range as FacetRange;
 use Solarium\Component\FacetSet as Component;
 use Solarium\Component\RequestBuilder\FacetSet as RequestBuilder;
 use Solarium\Core\Client\Request;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\UnexpectedValueException;
 
 class FacetSetTest extends TestCase
@@ -65,6 +69,61 @@ class FacetSetTest extends TestCase
         );
     }
 
+    public function testBuildWithJsonFacets()
+    {
+        $this->component->addFacet(new JsonTerms(['key' => 'f1', 'field' => 'owner']));
+        $this->component->addFacet(new JsonQuery(['key' => 'f2', 'q' => 'category:23']));
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","type":"terms"},"f2":{"q":"category:23","type":"query"}}',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithFacetsAndJsonFacets()
+    {
+        $this->component->addFacet(new FacetField(['key' => 'f1', 'field' => 'owner']));
+        $this->component->addFacet(new JsonTerms(['key' => 'f2', 'field' => 'customer']));
+        $this->component->addFacet(new JsonQuery(['key' => 'f3', 'q' => 'category:23']));
+        $this->component->addFacet(
+            new FacetMultiQuery(['key' => 'f4', 'query' => ['f5' => ['query' => 'category:40']]])
+        );
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?facet.field={!key=f1}owner&facet.query={!key=f5}category:40&facet=true&json.facet={"f2":{"field":"customer","type":"terms"},"f3":{"q":"category:23","type":"query"}}',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithNestedFacets()
+    {
+        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        // Only JSON facets could be nested.
+        $this->expectException(InvalidArgumentException::class);
+        $terms->addFacet(new FacetQuery(['key' => 'f2', 'q' => 'category:23']));
+    }
+
+    public function testBuildWithNestedJsonFacets()
+    {
+        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms->addFacet(new JsonQuery(['key' => 'f2', 'q' => 'category:23']));
+        $this->component->addFacet($terms);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","type":"terms","facet":{"f2":{"q":"category:23","type":"query"}}}}',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithRangeFacet()
     {
         $this->component->addFacet(new FacetRange(
@@ -85,6 +144,30 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
         $this->assertEquals(
             '?facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.mincount=123&f.price.facet.range.other=all&f.price.facet.range.include=outer&facet=true',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithJsonRangeFacet()
+    {
+        $this->component->addFacet(new JsonRange(
+            [
+                'key' => 'f1',
+                'field' => 'price',
+                'start' => '1',
+                'end' => 100,
+                'gap' => 10,
+                'other' => 'all',
+                'include' => 'outer',
+                'mincount' => 123,
+            ]
+        ));
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"price","start":"1","end":100,"gap":10,"other":["all"],"include":["outer"],"mincount":123,"type":"range"}}',
             urldecode($request->getUri())
         );
     }

@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 
 /**
  * Facet query.
@@ -50,7 +50,7 @@ class JsonTerms extends AbstractField implements JsonFacetInterface
      */
     public function getType()
     {
-        return FacetSet::JSON_FACET_TERMS;
+        return FacetSetInterface::JSON_FACET_TERMS;
     }
 
     /**

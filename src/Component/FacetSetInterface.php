@@ -12,6 +12,51 @@ use Solarium\Exception\OutOfBoundsException;
 interface FacetSetInterface
 {
     /**
+     * Facet type field.
+     */
+    const FACET_FIELD = 'field';
+
+    /**
+     * Facet type query.
+     */
+    const FACET_QUERY = 'query';
+
+    /**
+     * Facet type multiquery.
+     */
+    const FACET_MULTIQUERY = 'multiquery';
+
+    /**
+     * Facet type range.
+     */
+    const FACET_RANGE = 'range';
+
+    /**
+     * Facet type pivot.
+     */
+    const FACET_PIVOT = 'pivot';
+
+    /**
+     * Facet type interval.
+     */
+    const FACET_INTERVAL = 'interval';
+
+    /**
+     * Facet type field.
+     */
+    const JSON_FACET_TERMS = 'json_terms';
+
+    /**
+     * Facet type query.
+     */
+    const JSON_FACET_QUERY = 'json_query';
+
+    /**
+     * Facet type range.
+     */
+    const JSON_FACET_RANGE = 'json_range';
+
+    /**
      * Add a facet.
      *
      * @param FacetInterface|array $facet

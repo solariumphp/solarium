@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 
 /**
  * Facet query.
@@ -30,7 +30,7 @@ class Field extends AbstractField implements ExcludeTagsInterface
      */
     public function getType()
     {
-        return FacetSet::FACET_FIELD;
+        return FacetSetInterface::FACET_FIELD;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 use Solarium\Core\Query\Helper;
 
 /**
@@ -10,7 +10,7 @@ use Solarium\Core\Query\Helper;
  *
  * @see https://lucene.apache.org/solr/guide/7_3/json-facet-api.html
  */
-class JsonQuery extends AbstractFacet
+class JsonQuery extends AbstractFacet implements JsonFacetInterface
 {
     use JsonFacetTrait;
 
@@ -30,7 +30,7 @@ class JsonQuery extends AbstractFacet
      */
     public function getType()
     {
-        return FacetSet::JSON_FACET_QUERY;
+        return FacetSetInterface::JSON_FACET_QUERY;
     }
 
     /**

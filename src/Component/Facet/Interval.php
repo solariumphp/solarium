@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 
 /**
  * Facet interval.
@@ -22,7 +22,7 @@ class Interval extends AbstractFacet
      */
     public function getType()
     {
-        return FacetSet::FACET_INTERVAL;
+        return FacetSetInterface::FACET_INTERVAL;
     }
 
     /**

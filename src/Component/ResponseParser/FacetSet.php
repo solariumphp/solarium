@@ -8,6 +8,7 @@ use Solarium\Component\Facet\Pivot as QueryFacetPivot;
 use Solarium\Component\Facet\Query as QueryFacetQuery;
 use Solarium\Component\Facet\Range as QueryFacetRange;
 use Solarium\Component\FacetSet as QueryFacetSet;
+use Solarium\Component\FacetSetInterface;
 use Solarium\Component\Result\Facet\Aggregation;
 use Solarium\Component\Result\Facet\Bucket;
 use Solarium\Component\Result\Facet\Buckets;
@@ -77,22 +78,22 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         $facets = [];
         foreach ($facetSet->getFacets() as $key => $facet) {
             switch ($facet->getType()) {
-                case QueryFacetSet::FACET_FIELD:
+                case FacetSetInterface::FACET_FIELD:
                     $result = $this->facetField($query, $facet, $data);
                     break;
-                case QueryFacetSet::FACET_QUERY:
+                case FacetSetInterface::FACET_QUERY:
                     $result = $this->facetQuery($facet, $data);
                     break;
-                case QueryFacetSet::FACET_MULTIQUERY:
+                case FacetSetInterface::FACET_MULTIQUERY:
                     $result = $this->facetMultiQuery($facet, $data);
                     break;
-                case QueryFacetSet::FACET_RANGE:
+                case FacetSetInterface::FACET_RANGE:
                     $result = $this->facetRange($query, $facet, $data);
                     break;
-                case QueryFacetSet::FACET_PIVOT:
+                case FacetSetInterface::FACET_PIVOT:
                     $result = $this->facetPivot($query, $facet, $data);
                     break;
-                case QueryFacetSet::FACET_INTERVAL:
+                case FacetSetInterface::FACET_INTERVAL:
                     $result = $this->facetInterval($query, $facet, $data);
                     break;
                 default:

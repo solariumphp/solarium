@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 
 /**
  * Facet range.
@@ -22,7 +22,7 @@ class Range extends AbstractRange implements ExcludeTagsInterface
      */
     public function getType()
     {
-        return FacetSet::FACET_RANGE;
+        return FacetSetInterface::FACET_RANGE;
     }
 
     /**

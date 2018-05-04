@@ -2,6 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
+use Solarium\Component\FacetSetInterface;
 use Solarium\Component\FacetSetTrait;
 use Solarium\Core\Query\Helper;
 use Solarium\Exception\InvalidArgumentException;
@@ -25,9 +26,9 @@ trait JsonFacetTrait
      * @var array
      */
     protected $facetTypes = [
-        self::JSON_FACET_TERMS => 'Solarium\Component\Facet\JsonTerms',
-        self::JSON_FACET_QUERY => 'Solarium\Component\Facet\JsonQuery',
-        self::JSON_FACET_RANGE => 'Solarium\Component\Facet\JsonRange',
+        FacetSetInterface::JSON_FACET_TERMS => 'Solarium\Component\Facet\JsonTerms',
+        FacetSetInterface::JSON_FACET_QUERY => 'Solarium\Component\Facet\JsonQuery',
+        FacetSetInterface::JSON_FACET_RANGE => 'Solarium\Component\Facet\JsonRange',
     ];
 
     /**
@@ -67,6 +68,9 @@ trait JsonFacetTrait
      */
     public function serialize()
     {
+        // Strip 'json_' prefix.
+        $this->setOption('type', substr($this->getType(), 5));
+
         $facets = [];
         foreach ($this->getFacets() as $key => $facet) {
             $facets[$key] = $facet->serialize();
@@ -78,7 +82,7 @@ trait JsonFacetTrait
             unset($this->options['facet']);
         }
 
-        $options = $facet->getOptions();
+        $options = $this->getOptions();
         unset($options['key']);
 
         return $options;

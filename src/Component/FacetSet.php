@@ -14,65 +14,20 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     use FacetSetTrait;
 
     /**
-     * Facet type field.
-     */
-    const FACET_FIELD = 'field';
-
-    /**
-     * Facet type query.
-     */
-    const FACET_QUERY = 'query';
-
-    /**
-     * Facet type multiquery.
-     */
-    const FACET_MULTIQUERY = 'multiquery';
-
-    /**
-     * Facet type range.
-     */
-    const FACET_RANGE = 'range';
-
-    /**
-     * Facet type pivot.
-     */
-    const FACET_PIVOT = 'pivot';
-
-    /**
-     * Facet type interval.
-     */
-    const FACET_INTERVAL = 'interval';
-
-    /**
-     * Facet type field.
-     */
-    const JSON_FACET_TERMS = 'json_terms';
-
-    /**
-     * Facet type query.
-     */
-    const JSON_FACET_QUERY = 'json_query';
-
-    /**
-     * Facet type range.
-     */
-    const JSON_FACET_RANGE = 'json_range';
-
-    /**
      * Facet type mapping.
      *
      * @var array
      */
     protected $facetTypes = [
-        self::FACET_FIELD => 'Solarium\Component\Facet\Field',
-        self::FACET_QUERY => 'Solarium\Component\Facet\Query',
-        self::FACET_MULTIQUERY => 'Solarium\Component\Facet\MultiQuery',
-        self::FACET_RANGE => 'Solarium\Component\Facet\Range',
-        self::FACET_PIVOT => 'Solarium\Component\Facet\Pivot',
-        self::FACET_INTERVAL => 'Solarium\Component\Facet\Interval',
-        self::JSON_FACET_TERMS => 'Solarium\Component\Facet\JsonTerms',
-        self::JSON_FACET_QUERY => 'Solarium\Component\Facet\JsonQuery',
-        self::JSON_FACET_RANGE => 'Solarium\Component\Facet\JsonRange',
+        FacetSetInterface::FACET_FIELD => 'Solarium\Component\Facet\Field',
+        FacetSetInterface::FACET_QUERY => 'Solarium\Component\Facet\Query',
+        FacetSetInterface::FACET_MULTIQUERY => 'Solarium\Component\Facet\MultiQuery',
+        FacetSetInterface::FACET_RANGE => 'Solarium\Component\Facet\Range',
+        FacetSetInterface::FACET_PIVOT => 'Solarium\Component\Facet\Pivot',
+        FacetSetInterface::FACET_INTERVAL => 'Solarium\Component\Facet\Interval',
+        FacetSetInterface::JSON_FACET_TERMS => 'Solarium\Component\Facet\JsonTerms',
+        FacetSetInterface::JSON_FACET_QUERY => 'Solarium\Component\Facet\JsonQuery',
+        FacetSetInterface::JSON_FACET_RANGE => 'Solarium\Component\Facet\JsonRange',
     ];
 
     /**
@@ -329,7 +284,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createFacetField($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_FIELD, $options, $add);
+        return $this->createFacet(FacetSetInterface::FACET_FIELD, $options, $add);
     }
 
     /**
@@ -342,7 +297,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createFacetQuery($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_QUERY, $options, $add);
+        return $this->createFacet(FacetSetInterface::FACET_QUERY, $options, $add);
     }
 
     /**
@@ -355,7 +310,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createFacetMultiQuery($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_MULTIQUERY, $options, $add);
+        return $this->createFacet(FacetSetInterface::FACET_MULTIQUERY, $options, $add);
     }
 
     /**
@@ -368,7 +323,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createFacetRange($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_RANGE, $options, $add);
+        return $this->createFacet(FacetSetInterface::FACET_RANGE, $options, $add);
     }
 
     /**
@@ -381,7 +336,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createFacetPivot($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_PIVOT, $options, $add);
+        return $this->createFacet(FacetSetInterface::FACET_PIVOT, $options, $add);
     }
 
     /**
@@ -394,7 +349,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createFacetInterval($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_INTERVAL, $options, $add);
+        return $this->createFacet(FacetSetInterface::FACET_INTERVAL, $options, $add);
     }
 
     /**
@@ -407,7 +362,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createJsonFacetTerms($options = null, $add = true)
     {
-        return $this->createFacet(self::JSON_FACET_TERMS, $options, $add);
+        return $this->createFacet(FacetSetInterface::JSON_FACET_TERMS, $options, $add);
     }
 
     /**
@@ -420,7 +375,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createJsonFacetQuery($options = null, $add = true)
     {
-        return $this->createFacet(self::JSON_FACET_QUERY, $options, $add);
+        return $this->createFacet(FacetSetInterface::JSON_FACET_QUERY, $options, $add);
     }
 
     /**
@@ -433,6 +388,6 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createJsonFacetRange($options = null, $add = true)
     {
-        return $this->createFacet(self::JSON_FACET_RANGE, $options, $add);
+        return $this->createFacet(FacetSetInterface::JSON_FACET_RANGE, $options, $add);
     }
 }

@@ -3,7 +3,7 @@
 namespace Solarium\Component\Facet;
 
 use Solarium\Component\Facet\Query as FacetQuery;
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 use Solarium\Exception\InvalidArgumentException;
 
 /**
@@ -35,7 +35,7 @@ class MultiQuery extends AbstractFacet
      */
     public function getType()
     {
-        return FacetSet::FACET_MULTIQUERY;
+        return FacetSetInterface::FACET_MULTIQUERY;
     }
 
     /**
