@@ -272,7 +272,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Field[]|null
+     * @return FacetSet|null
      */
     public function getFacetSet()
     {
