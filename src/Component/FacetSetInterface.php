@@ -6,7 +6,6 @@ use Solarium\Component\Facet\FacetInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 
-
 /**
  * FacetSet interface.
  */
