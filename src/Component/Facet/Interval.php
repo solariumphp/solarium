@@ -11,6 +11,8 @@ use Solarium\Component\FacetSet;
  */
 class Interval extends AbstractFacet
 {
+    use ExcludeTagsTrait;
+
     /**
      * Get the facet type.
      *

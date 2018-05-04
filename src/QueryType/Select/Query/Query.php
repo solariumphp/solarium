@@ -11,6 +11,7 @@ use Solarium\Component\QueryTraits\EDisMaxTrait;
 use Solarium\Component\QueryTraits\FacetSetTrait;
 use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\HighlightingTrait;
+use Solarium\Component\QueryTraits\JsonFacetSetTrait;
 use Solarium\Component\QueryTraits\MoreLikeThisTrait;
 use Solarium\Component\QueryTraits\SpatialTrait;
 use Solarium\Component\QueryTraits\SpellcheckTrait;
@@ -38,6 +39,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     use DebugTrait;
     use SpatialTrait;
     use FacetSetTrait;
+    use JsonFacetSetTrait;
     use DisMaxTrait;
     use EDisMaxTrait;
     use HighlightingTrait;

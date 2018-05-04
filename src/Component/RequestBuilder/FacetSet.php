@@ -33,41 +33,60 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     {
         $facets = $component->getFacets();
         if (0 !== count($facets)) {
-            // enable faceting
-            $request->addParam('facet', 'true');
-
-            // global facet params
-            $request->addParam('facet.sort', $component->getSort());
-            $request->addParam('facet.prefix', $component->getPrefix());
-            $request->addParam('facet.contains', $component->getContains());
-            $request->addParam('facet.contains.ignoreCase', null === ($ignoreCase = $component->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
-            $request->addParam('facet.missing', $component->getMissing());
-            $request->addParam('facet.mincount', $component->getMinCount());
-            $request->addParam('facet.limit', $component->getLimit());
-
-            foreach ($facets as $facet) {
+            $non_json = false;
+            $json_facets = [];
+            foreach ($facets as $key => $facet) {
                 switch ($facet->getType()) {
                     case FacetsetComponent::FACET_FIELD:
                         $this->addFacetField($request, $facet);
+                        $non_json = true;
                         break;
                     case FacetsetComponent::FACET_QUERY:
                         $this->addFacetQuery($request, $facet);
+                        $non_json = true;
                         break;
                     case FacetsetComponent::FACET_MULTIQUERY:
                         $this->addFacetMultiQuery($request, $facet);
+                        $non_json = true;
                         break;
                     case FacetsetComponent::FACET_RANGE:
                         $this->addFacetRange($request, $facet);
+                        $non_json = true;
                         break;
                     case FacetsetComponent::FACET_PIVOT:
                         $this->addFacetPivot($request, $facet);
+                        $non_json = true;
                         break;
                     case FacetsetComponent::FACET_INTERVAL:
                         $this->addFacetInterval($request, $facet);
+                        $non_json = true;
+                        break;
+                    case FacetsetComponent::FACET_JSON_TERMS:
+                    case FacetsetComponent::FACET_JSON_QUERY:
+                    case FacetsetComponent::FACET_JSON_RANGE:
+                        $json_facets[$key] = $facet->serialize();
                         break;
                     default:
                         throw new UnexpectedValueException('Unknown facet type');
                 }
+            }
+
+            if ($non_json) {
+                // enable non-json faceting
+                $request->addParam('facet', 'true');
+
+                // global facet params
+                $request->addParam('facet.sort', $component->getSort());
+                $request->addParam('facet.prefix', $component->getPrefix());
+                $request->addParam('facet.contains', $component->getContains());
+                $request->addParam('facet.contains.ignoreCase', null === ($ignoreCase = $component->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
+                $request->addParam('facet.missing', $component->getMissing());
+                $request->addParam('facet.mincount', $component->getMinCount());
+                $request->addParam('facet.limit', $component->getLimit());
+            }
+
+            if ($json_facets) {
+                $request->addParam('json.facet', json_encode($json_facets));
             }
         }
 

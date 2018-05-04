@@ -14,6 +14,8 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class MultiQuery extends AbstractFacet
 {
+    use ExcludeTagsTrait;
+
     /**
      * Facet query objects.
      *

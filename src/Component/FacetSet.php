@@ -2,19 +2,17 @@
 
 namespace Solarium\Component;
 
-use Solarium\Component\Facet\AbstractFacet;
+use Solarium\Component\Facet\FacetInterface;
 use Solarium\Component\RequestBuilder\FacetSet as RequestBuilder;
 use Solarium\Component\ResponseParser\FacetSet as ResponseParser;
-use Solarium\Exception\InvalidArgumentException;
-use Solarium\Exception\OutOfBoundsException;
 
 /**
- * MoreLikeThis component.
- *
- * @see http://wiki.apache.org/solr/MoreLikeThis
+ * FacetSet component.
  */
-class FacetSet extends AbstractComponent
+class FacetSet extends AbstractComponent implements FacetSetInterface
 {
+    use FacetSetTrait;
+
     /**
      * Facet type field.
      */
@@ -46,6 +44,21 @@ class FacetSet extends AbstractComponent
     const FACET_INTERVAL = 'interval';
 
     /**
+     * Facet type field.
+     */
+    const FACET_JSON_TERMS = 'json_terms';
+
+    /**
+     * Facet type query.
+     */
+    const FACET_JSON_QUERY = 'json_query';
+
+    /**
+     * Facet type range.
+     */
+    const FACET_JSON_RANGE = 'json_range';
+
+    /**
      * Facet type mapping.
      *
      * @var array
@@ -57,19 +70,15 @@ class FacetSet extends AbstractComponent
         self::FACET_RANGE => 'Solarium\Component\Facet\Range',
         self::FACET_PIVOT => 'Solarium\Component\Facet\Pivot',
         self::FACET_INTERVAL => 'Solarium\Component\Facet\Interval',
+        self::FACET_JSON_TERMS => 'Solarium\Component\Facet\JsonTerms',
+        self::FACET_JSON_QUERY => 'Solarium\Component\Facet\JsonQuery',
+        self::FACET_JSON_RANGE => 'Solarium\Component\Facet\JsonRange',
     ];
-
-    /**
-     * Default options.
-     *
-     * @var array
-     */
-    protected $options = [];
 
     /**
      * Facets.
      *
-     * @var AbstractFacet[]
+     * @var FacetInterface[]
      */
     protected $facets = [];
 
@@ -311,174 +320,6 @@ class FacetSet extends AbstractComponent
     }
 
     /**
-     * Add a facet.
-     *
-     *
-     * @param \Solarium\Component\Facet\AbstractFacet|array $facet
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return self Provides fluent interface
-     */
-    public function addFacet($facet)
-    {
-        if (is_array($facet)) {
-            $facet = $this->createFacet($facet['type'], $facet, false);
-        }
-
-        $key = $facet->getKey();
-
-        if (0 === strlen($key)) {
-            throw new InvalidArgumentException('A facet must have a key value');
-        }
-
-        //double add calls for the same facet are ignored, but non-unique keys cause an exception
-        if (array_key_exists($key, $this->facets) && $this->facets[$key] !== $facet) {
-            throw new InvalidArgumentException('A facet must have a unique key value within a query');
-        }
-
-        $this->facets[$key] = $facet;
-
-        return $this;
-    }
-
-    /**
-     * Add multiple facets.
-     *
-     * @param array $facets
-     *
-     * @return self Provides fluent interface
-     */
-    public function addFacets(array $facets)
-    {
-        foreach ($facets as $key => $facet) {
-            // in case of a config array: add key to config
-            if (is_array($facet) && !isset($facet['key'])) {
-                $facet['key'] = $key;
-            }
-
-            $this->addFacet($facet);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get a facet.
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    public function getFacet($key)
-    {
-        if (isset($this->facets[$key])) {
-            return $this->facets[$key];
-        }
-    }
-
-    /**
-     * Get all facets.
-     *
-     * @return AbstractFacet[]
-     */
-    public function getFacets()
-    {
-        return $this->facets;
-    }
-
-    /**
-     * Remove a single facet.
-     *
-     * You can remove a facet by passing its key or the facet instance
-     *
-     * @param string|\Solarium\Component\Facet\AbstractFacet $facet
-     *
-     * @return self Provides fluent interface
-     */
-    public function removeFacet($facet)
-    {
-        if (is_object($facet)) {
-            $facet = $facet->getKey();
-        }
-
-        if (isset($this->facets[$facet])) {
-            unset($this->facets[$facet]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove all facets.
-     *
-     * @return self Provides fluent interface
-     */
-    public function clearFacets()
-    {
-        $this->facets = [];
-
-        return $this;
-    }
-
-    /**
-     * Set multiple facets.
-     *
-     * This overwrites any existing facets
-     *
-     * @param array $facets
-     */
-    public function setFacets($facets)
-    {
-        $this->clearFacets();
-        $this->addFacets($facets);
-    }
-
-    /**
-     * Create a facet instance.
-     *
-     * If you supply a string as the first arguments ($options) it will be used as the key for the facet
-     * and it will be added to this query.
-     * If you supply an options array/object that contains a key the facet will also be added to the query.
-     *
-     * When no key is supplied the facet cannot be added, in that case you will need to add it manually
-     * after setting the key, by using the addFacet method.
-     *
-     *
-     * @param string            $type
-     * @param array|object|null $options
-     * @param bool              $add
-     *
-     * @throws OutOfBoundsException
-     *
-     * @return \Solarium\Component\Facet\AbstractFacet
-     */
-    public function createFacet($type, $options = null, $add = true)
-    {
-        $type = strtolower($type);
-
-        if (!isset($this->facetTypes[$type])) {
-            throw new OutOfBoundsException('Facettype unknown: '.$type);
-        }
-
-        $class = $this->facetTypes[$type];
-
-        if (is_string($options)) {
-            /** @var \Solarium\Component\Facet\Facet $facet */
-            $facet = new $class();
-            $facet->setKey($options);
-        } else {
-            $facet = new $class($options);
-        }
-
-        if ($add && null !== $facet->getKey()) {
-            $this->addFacet($facet);
-        }
-
-        return $facet;
-    }
-
-    /**
      * Get a facet field instance.
      *
      * @param mixed $options
@@ -557,21 +398,41 @@ class FacetSet extends AbstractComponent
     }
 
     /**
-     * Initialize options.
+     * Get a json facet terms instance.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * @param mixed $options
+     * @param bool  $add
+     *
+     * @return \Solarium\Component\Facet\JsonTerms
      */
-    protected function init()
+    public function createJsonFacetTerms($options = null, $add = true)
     {
-        if (isset($this->options['facet'])) {
-            foreach ($this->options['facet'] as $key => $config) {
-                if (!isset($config['key'])) {
-                    $config['key'] = $key;
-                }
+        return $this->createFacet(self::FACET_JSON_TERMS, $options, $add);
+    }
 
-                $this->addFacet($config);
-            }
-        }
+    /**
+     * Get a json facet query instance.
+     *
+     * @param mixed $options
+     * @param bool  $add
+     *
+     * @return \Solarium\Component\Facet\JsonQuery
+     */
+    public function createJsonFacetQuery($options = null, $add = true)
+    {
+        return $this->createFacet(self::FACET_JSON_QUERY, $options, $add);
+    }
+
+    /**
+     * Get a json facet range instance.
+     *
+     * @param mixed $options
+     * @param bool  $add
+     *
+     * @return \Solarium\Component\Facet\JsonRange
+     */
+    public function createJsonFacetRange($options = null, $add = true)
+    {
+        return $this->createFacet(self::FACET_JSON_RANGE, $options, $add);
     }
 }

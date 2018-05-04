@@ -2,14 +2,12 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Core\Configurable;
-
 /**
  * Facet base class.
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters
  */
-abstract class AbstractFacet extends Configurable implements FacetInterface
+interface FacetInterface
 {
     /**
      * Must be implemented by the facet types and return one of the constants.
@@ -18,27 +16,21 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
      *
      * @return string
      */
-    abstract public function getType();
+    public function getType();
 
     /**
      * Get key value.
      *
      * @return string
      */
-    public function getKey()
-    {
-        return $this->getOption('key');
-    }
+    public function getKey();
 
     /**
      * Set key value.
      *
      * @param string $value
      *
-     * @return self Provides fluent interface
+     * @return FacetInterface
      */
-    public function setKey($value)
-    {
-        return $this->setOption('key', $value);
-    }
+    public function setKey($value);
 }

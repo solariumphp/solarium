@@ -4,11 +4,12 @@ namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\AbstractFacet;
+use Solarium\Component\Facet\FacetInterface;
 
 class FacetTest extends TestCase
 {
     /**
-     * @var AbstractFacet
+     * @var FacetInterface
      */
     protected $facet;
 

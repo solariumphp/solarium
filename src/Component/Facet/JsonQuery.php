@@ -7,11 +7,11 @@ use Solarium\Component\FacetSet;
 /**
  * Facet query.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
+ * @see https://lucene.apache.org/solr/guide/7_3/json-facet-api.html
  */
-class Query extends AbstractQuery
+class JsonQuery extends AbstractQuery
 {
-    use ExcludeTagsTrait;
+    use JsonFacetTrait;
 
     /**
      * Get the facet type.
@@ -20,6 +20,6 @@ class Query extends AbstractQuery
      */
     public function getType()
     {
-        return FacetSet::FACET_QUERY;
+        return FacetSet::FACET_JSON_QUERY;
     }
 }

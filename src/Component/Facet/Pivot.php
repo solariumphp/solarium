@@ -11,6 +11,8 @@ use Solarium\Component\FacetSet;
  */
 class Pivot extends AbstractFacet
 {
+    use ExcludeTagsTrait;
+
     /**
      * Fields to use.
      *

@@ -5,6 +5,7 @@ namespace Solarium\Tests\Component\RequestBuilder;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\Field as FacetField;
 use Solarium\Component\Facet\Interval as FacetInterval;
+use Solarium\Component\Facet\JsonTerms;
 use Solarium\Component\Facet\MultiQuery as FacetMultiQuery;
 use Solarium\Component\Facet\Pivot as FacetPivot;
 use Solarium\Component\Facet\Query as FacetQuery;

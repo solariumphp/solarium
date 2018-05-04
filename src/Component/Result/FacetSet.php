@@ -1,6 +1,7 @@
 <?php
 
 namespace Solarium\Component\Result;
+use Solarium\Component\Result\Facet\Field;
 
 /**
  * Select component facetset result.
@@ -29,7 +30,7 @@ class FacetSet implements \IteratorAggregate, \Countable
      *
      * @param mixed $key
      *
-     * @return mixed
+     * @return Field
      */
     public function getFacet($key)
     {
@@ -41,7 +42,7 @@ class FacetSet implements \IteratorAggregate, \Countable
     /**
      * Get all results.
      *
-     * @return array
+     * @return Field[]
      */
     public function getFacets()
     {

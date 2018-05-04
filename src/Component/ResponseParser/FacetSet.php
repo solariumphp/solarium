@@ -8,6 +8,9 @@ use Solarium\Component\Facet\Pivot as QueryFacetPivot;
 use Solarium\Component\Facet\Query as QueryFacetQuery;
 use Solarium\Component\Facet\Range as QueryFacetRange;
 use Solarium\Component\FacetSet as QueryFacetSet;
+use Solarium\Component\Result\Facet\Aggregation;
+use Solarium\Component\Result\Facet\Bucket;
+use Solarium\Component\Result\Facet\Buckets;
 use Solarium\Component\Result\Facet\Field as ResultFacetField;
 use Solarium\Component\Result\Facet\Interval as ResultFacetInterval;
 use Solarium\Component\Result\Facet\MultiQuery as ResultFacetMultiQuery;
@@ -101,7 +104,39 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             }
         }
 
+        if (!empty($data['facets'])) {
+            $facets += $this->parseJsonFacetSet($data['facets']);
+        }
+
         return $this->createFacetSet($facets);
+    }
+
+    /**
+     * Parse JSON facets.
+     *
+     * @param array $facets
+     *
+     * @return array
+     */
+    protected function parseJsonFacetSet($facets)
+    {
+        $buckets_and_aggregations = [];
+        foreach ($facets as $key => $values) {
+            if (is_array($values)) {
+                // Parse buckets.
+                foreach ($values['buckets'] as $bucket) {
+                    $val = $bucket['val'];
+                    $count = $bucket['count'];
+                    unset($bucket['val']);
+                    unset($bucket['count']);
+                    $buckets[] = new Bucket($val, $count, new ResultFacetSet($this->parseJsonFacetSet($bucket)));
+                }
+                $buckets_and_aggregations[$key] = new Buckets($buckets);
+            } else {
+                $buckets_and_aggregations[$key] = new Aggregation($values);
+            }
+        }
+        return $buckets_and_aggregations;
     }
 
     /**
