@@ -50,7 +50,7 @@ class JsonTerms extends AbstractField implements JsonFacetInterface
      */
     public function getType()
     {
-        return FacetSet::FACET_JSON_TERMS;
+        return FacetSet::JSON_FACET_TERMS;
     }
 
     /**

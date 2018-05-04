@@ -11,7 +11,9 @@ use Solarium\Component\FacetSet;
  */
 class Interval extends AbstractFacet
 {
-    use ExcludeTagsTrait;
+    use ExcludeTagsTrait {
+        init as excludeTagsInit;
+    }
 
     /**
      * Get the facet type.
@@ -88,7 +90,7 @@ class Interval extends AbstractFacet
      */
     protected function init()
     {
-        parent::init();
+        $this->excludeTagsInit();
 
         foreach ($this->options as $name => $value) {
             switch ($name) {

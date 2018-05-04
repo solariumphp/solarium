@@ -61,9 +61,9 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                         $this->addFacetInterval($request, $facet);
                         $non_json = true;
                         break;
-                    case FacetsetComponent::FACET_JSON_TERMS:
-                    case FacetsetComponent::FACET_JSON_QUERY:
-                    case FacetsetComponent::FACET_JSON_RANGE:
+                    case FacetsetComponent::JSON_FACET_TERMS:
+                    case FacetsetComponent::JSON_FACET_QUERY:
+                    case FacetsetComponent::JSON_FACET_RANGE:
                         $json_facets[$key] = $facet->serialize();
                         break;
                     default:

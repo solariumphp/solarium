@@ -20,6 +20,17 @@ trait JsonFacetTrait
     }
 
     /**
+     * Facet type mapping.
+     *
+     * @var array
+     */
+    protected $facetTypes = [
+        self::JSON_FACET_TERMS => 'Solarium\Component\Facet\JsonTerms',
+        self::JSON_FACET_QUERY => 'Solarium\Component\Facet\JsonQuery',
+        self::JSON_FACET_RANGE => 'Solarium\Component\Facet\JsonRange',
+    ];
+
+    /**
      * Set the domain filter query string.
      *
      * This overwrites the current value.

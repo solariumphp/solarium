@@ -12,7 +12,7 @@ use Solarium\Component\FacetSet;
 class Range extends AbstractRange implements ExcludeTagsInterface
 {
     use ExcludeTagsTrait {
-        init as exludeTagsInit;
+        init as excludeTagsInit;
     }
 
     /**
@@ -22,7 +22,7 @@ class Range extends AbstractRange implements ExcludeTagsInterface
      */
     public function getType()
     {
-        return FacetSet::FACET_JSON_RANGE;
+        return FacetSet::FACET_RANGE;
     }
 
     /**
@@ -56,6 +56,6 @@ class Range extends AbstractRange implements ExcludeTagsInterface
     protected function init()
     {
         parent::init();
-        $this->exludeTagsInit();
+        $this->excludeTagsInit();
     }
 }

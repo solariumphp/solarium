@@ -46,17 +46,17 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     /**
      * Facet type field.
      */
-    const FACET_JSON_TERMS = 'json_terms';
+    const JSON_FACET_TERMS = 'json_terms';
 
     /**
      * Facet type query.
      */
-    const FACET_JSON_QUERY = 'json_query';
+    const JSON_FACET_QUERY = 'json_query';
 
     /**
      * Facet type range.
      */
-    const FACET_JSON_RANGE = 'json_range';
+    const JSON_FACET_RANGE = 'json_range';
 
     /**
      * Facet type mapping.
@@ -70,9 +70,9 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
         self::FACET_RANGE => 'Solarium\Component\Facet\Range',
         self::FACET_PIVOT => 'Solarium\Component\Facet\Pivot',
         self::FACET_INTERVAL => 'Solarium\Component\Facet\Interval',
-        self::FACET_JSON_TERMS => 'Solarium\Component\Facet\JsonTerms',
-        self::FACET_JSON_QUERY => 'Solarium\Component\Facet\JsonQuery',
-        self::FACET_JSON_RANGE => 'Solarium\Component\Facet\JsonRange',
+        self::JSON_FACET_TERMS => 'Solarium\Component\Facet\JsonTerms',
+        self::JSON_FACET_QUERY => 'Solarium\Component\Facet\JsonQuery',
+        self::JSON_FACET_RANGE => 'Solarium\Component\Facet\JsonRange',
     ];
 
     /**
@@ -407,7 +407,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createJsonFacetTerms($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_JSON_TERMS, $options, $add);
+        return $this->createFacet(self::JSON_FACET_TERMS, $options, $add);
     }
 
     /**
@@ -420,7 +420,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createJsonFacetQuery($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_JSON_QUERY, $options, $add);
+        return $this->createFacet(self::JSON_FACET_QUERY, $options, $add);
     }
 
     /**
@@ -433,6 +433,6 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      */
     public function createJsonFacetRange($options = null, $add = true)
     {
-        return $this->createFacet(self::FACET_JSON_RANGE, $options, $add);
+        return $this->createFacet(self::JSON_FACET_RANGE, $options, $add);
     }
 }

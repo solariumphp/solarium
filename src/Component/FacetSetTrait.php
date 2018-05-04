@@ -19,13 +19,6 @@ trait FacetSetTrait
     protected $facets = [];
 
     /**
-     * Facet type mapping.
-     *
-     * @var array
-     */
-    protected $facetTypes = [];
-
-    /**
      * Add a facet.
      *
      *

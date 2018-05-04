@@ -14,7 +14,12 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class MultiQuery extends AbstractFacet
 {
-    use ExcludeTagsTrait;
+    use ExcludeTagsTrait {
+        init as excludeTagsInit;
+        addExclude as excludeTagsAddExclude;
+        removeExclude as excludeTagsRemoveExclude;
+        clearExcludes as excludeTagsClearExcludes;
+    }
 
     /**
      * Facet query objects.
@@ -209,7 +214,7 @@ class MultiQuery extends AbstractFacet
             $facetQuery->addExclude($tag);
         }
 
-        return parent::addExclude($tag);
+        return $this->excludeTagsAddExclude($tag);
     }
 
     /**
@@ -231,7 +236,7 @@ class MultiQuery extends AbstractFacet
             $facetQuery->removeExclude($exclude);
         }
 
-        return parent::removeExclude($exclude);
+        return $this->excludeTagsRemoveExclude($exclude);
     }
 
     /**
@@ -251,7 +256,7 @@ class MultiQuery extends AbstractFacet
             $facetQuery->clearExcludes();
         }
 
-        return parent::clearExcludes();
+        return $this->excludeTagsClearExcludes();
     }
 
     /**
@@ -262,7 +267,7 @@ class MultiQuery extends AbstractFacet
      */
     protected function init()
     {
-        parent::init();
+        $this->excludeTagsInit();
 
         foreach ($this->options as $name => $value) {
             switch ($name) {

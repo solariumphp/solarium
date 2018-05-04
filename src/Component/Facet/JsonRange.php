@@ -2,6 +2,8 @@
 
 namespace Solarium\Component\Facet;
 
+use Solarium\Component\FacetSet;
+
 /**
  * Facet range.
  *
@@ -11,6 +13,16 @@ class JsonRange extends AbstractRange implements JsonFacetInterface
 {
     use JsonFacetTrait {
         init as facetSetInit;
+    }
+
+    /**
+     * Get the facet type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return FacetSet::FACET_RANGE;
     }
 
     /**

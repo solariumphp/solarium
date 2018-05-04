@@ -60,7 +60,7 @@ class FacetSetTest extends TestCase
 
         $this->assertNull($request->getRawData());
         $this->assertEquals(
-            '?facet=true&facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40',
+            '?facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40&facet=true',
             urldecode($request->getUri())
         );
     }
@@ -84,7 +84,7 @@ class FacetSetTest extends TestCase
 
         $this->assertNull($request->getRawData());
         $this->assertEquals(
-            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.mincount=123&f.price.facet.range.other=all&f.price.facet.range.include=outer',
+            '?facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&f.price.facet.mincount=123&f.price.facet.range.other=all&f.price.facet.range.include=outer&facet=true',
             urldecode($request->getUri())
         );
     }
@@ -107,8 +107,7 @@ class FacetSetTest extends TestCase
 
         $this->assertNull($request->getRawData());
         $this->assertEquals(
-            '?facet=true&facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100'.
-            '&f.price.facet.range.gap=10',
+            '?facet.range={!key=f1}price&f.price.facet.range.start=1&f.price.facet.range.end=100&f.price.facet.range.gap=10&facet=true',
             urldecode($request->getUri())
         );
     }
@@ -131,8 +130,7 @@ class FacetSetTest extends TestCase
         );
 
         static::assertEquals(
-            '?facet=true&facet.missing=true&facet.limit=10&facet.field={!key=f1}owner&facet.query={!key=f2}category:23'.
-            '&facet.query={!key=f4}category:40',
+            '?facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40&facet=true&facet.missing=true&facet.limit=10',
             urldecode($request->getUri())
         );
     }
@@ -164,7 +162,7 @@ class FacetSetTest extends TestCase
         );
 
         $this->assertEquals(
-            '?facet=true&facet.pivot={!key=f1 ex=owner}cat,inStock&facet.pivot.mincount=123',
+            '?facet.pivot={!key=f1 ex=owner}cat,inStock&facet.pivot.mincount=123&facet=true',
             urldecode($request->getUri())
         );
     }
@@ -185,7 +183,7 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
 
         $this->assertEquals(
-            '?facet=true&facet.pivot={!stats=piv1}cat,inStock',
+            '?facet.pivot={!stats=piv1}cat,inStock&facet=true',
             urldecode($request->getUri())
         );
     }
@@ -209,7 +207,7 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
 
         $this->assertEquals(
-            '?facet=true&facet.contains=bar&facet.contains.ignoreCase=false&facet.field={!key=f1}owner&f.owner.facet.contains=foo&f.owner.facet.contains.ignoreCase=true',
+            '?facet.field={!key=f1}owner&f.owner.facet.contains=foo&f.owner.facet.contains.ignoreCase=true&facet=true&facet.contains=bar&facet.contains.ignoreCase=false',
             urldecode($request->getUri())
         );
     }
@@ -231,7 +229,7 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
 
         $this->assertEquals(
-            '?facet=true&facet.interval={!key=f1}&f..facet.interval.set=int1&f..facet.interval.set={!key="one"}int2',
+            '?facet.interval={!key=f1}&f..facet.interval.set=int1&f..facet.interval.set={!key="one"}int2&facet=true',
             urldecode($request->getUri())
         );
     }
