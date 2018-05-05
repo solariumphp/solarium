@@ -72,6 +72,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                     case FacetSetInterface::JSON_FACET_TERMS:
                     case FacetSetInterface::JSON_FACET_QUERY:
                     case FacetSetInterface::JSON_FACET_RANGE:
+                    case FacetSetInterface::JSON_FACET_AGGREGATION:
                         /* @var JsonFacetInterface $facet */
                         $json_facets[$key] = $facet->serialize();
                         break;

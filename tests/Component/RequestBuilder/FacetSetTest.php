@@ -5,6 +5,7 @@ namespace Solarium\Tests\Component\RequestBuilder;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\Field as FacetField;
 use Solarium\Component\Facet\Interval as FacetInterval;
+use Solarium\Component\Facet\JsonAggregation;
 use Solarium\Component\Facet\JsonQuery;
 use Solarium\Component\Facet\JsonRange;
 use Solarium\Component\Facet\JsonTerms;
@@ -101,6 +102,19 @@ class FacetSetTest extends TestCase
         );
     }
 
+    public function testBuildWithAggregationFacet()
+    {
+        $this->component->addFacet(new JsonAggregation(['key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":"avg(mul(price,popularity))"}',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithNestedFacets()
     {
         $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
@@ -112,14 +126,17 @@ class FacetSetTest extends TestCase
     public function testBuildWithNestedJsonFacets()
     {
         $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
-        $terms->addFacet(new JsonQuery(['key' => 'f2', 'q' => 'category:23']));
+        $query = new JsonQuery(['key' => 'f2', 'q' => 'category:23']);
+        $query->addFacet(new JsonAggregation(['key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
+        $query->addFacet(new JsonAggregation(['key' => 'f2', 'function' => 'unique(popularity)']));
+        $terms->addFacet($query);
         $this->component->addFacet($terms);
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
         $this->assertNull($request->getRawData());
         $this->assertEquals(
-            '?json.facet={"f1":{"field":"owner","type":"terms","facet":{"f2":{"q":"category:23","type":"query"}}}}',
+            '?json.facet={"f1":{"field":"owner","type":"terms","facet":{"f2":{"q":"category:23","type":"query","facet":{"f1":"avg(mul(price,popularity))","f2":"unique(popularity)"}}}}}',
             urldecode($request->getUri())
         );
     }

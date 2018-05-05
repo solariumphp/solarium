@@ -9,7 +9,7 @@ use Solarium\Component\FacetSetInterface;
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters#Field_Value_Faceting_Parameters
  */
-class JsonTerms extends AbstractField implements JsonFacetInterface
+class JsonTerms extends AbstractField implements JsonFacetInterface, FacetSetInterface
 {
     use JsonFacetTrait;
 

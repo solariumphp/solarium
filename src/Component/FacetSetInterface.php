@@ -57,6 +57,11 @@ interface FacetSetInterface
     const JSON_FACET_RANGE = 'json_range';
 
     /**
+     * Facet type range.
+     */
+    const JSON_FACET_AGGREGATION = 'json_aggregation';
+
+    /**
      * Add a facet.
      *
      * @param FacetInterface|array $facet

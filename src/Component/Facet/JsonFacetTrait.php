@@ -29,6 +29,7 @@ trait JsonFacetTrait
         FacetSetInterface::JSON_FACET_TERMS => 'Solarium\Component\Facet\JsonTerms',
         FacetSetInterface::JSON_FACET_QUERY => 'Solarium\Component\Facet\JsonQuery',
         FacetSetInterface::JSON_FACET_RANGE => 'Solarium\Component\Facet\JsonRange',
+        FacetSetInterface::JSON_FACET_AGGREGATION => 'Solarium\Component\Facet\JsonAggregation',
     ];
 
     /**
@@ -58,13 +59,13 @@ trait JsonFacetTrait
      */
     public function getDomainFilterQuery()
     {
-        return $this->getOption('domain_filter_query');
+        return $this->getOption('domain')['filter'];
     }
 
     /**
      * Serializes nested facets as option "facet" and returns that array structure.
      *
-     * @return array
+     * @return array|string
      */
     public function serialize()
     {

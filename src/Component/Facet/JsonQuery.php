@@ -10,7 +10,7 @@ use Solarium\Core\Query\Helper;
  *
  * @see https://lucene.apache.org/solr/guide/7_3/json-facet-api.html
  */
-class JsonQuery extends AbstractFacet implements JsonFacetInterface
+class JsonQuery extends AbstractFacet implements JsonFacetInterface, FacetSetInterface
 {
     use JsonFacetTrait;
 

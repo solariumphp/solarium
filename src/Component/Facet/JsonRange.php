@@ -9,7 +9,7 @@ use Solarium\Component\FacetSetInterface;
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range
  */
-class JsonRange extends AbstractRange implements JsonFacetInterface
+class JsonRange extends AbstractRange implements JsonFacetInterface, FacetSetInterface
 {
     use JsonFacetTrait {
         init as jsonFacetInit;
