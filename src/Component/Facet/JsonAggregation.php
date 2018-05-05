@@ -3,10 +3,9 @@
 namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
-use Solarium\Core\Query\Helper;
 
 /**
- * Facet query.
+ * JSON facet aggregation.
  *
  * @see https://lucene.apache.org/solr/guide/7_3/json-facet-api.html
  */
