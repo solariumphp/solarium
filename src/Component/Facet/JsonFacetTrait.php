@@ -89,7 +89,7 @@ trait JsonFacetTrait
         $filter = $this->getDomainFilter();
         if (!$filter) {
             return $this->setOption('domain', ['filter' => ['param' => $param]]);
-        } elseif (is_string($filter) || count($filter) == 1) {
+        } elseif (is_string($filter) || 1 == count($filter)) {
             return $this->setOption('domain', ['filter' => [$filter, ['param' => $param]]]);
         } else {
             foreach ($filter as &$param_or_query) {
