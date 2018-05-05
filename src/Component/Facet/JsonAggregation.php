@@ -54,5 +54,4 @@ class JsonAggregation extends AbstractFacet implements JsonFacetInterface
     {
         return $this->getFunction();
     }
-
 }
