@@ -33,6 +33,19 @@ trait JsonFacetTrait
     ];
 
     /**
+     * Get the domain filter.
+     *
+     * @return string
+     */
+    public function getDomainFilter()
+    {
+        $domain = $this->getOption('domain');
+        if ($domain && isset($domain['filter'])) {
+            return $domain['filter'];
+        }
+    }
+
+    /**
      * Set the domain filter query string.
      *
      * This overwrites the current value.
@@ -42,24 +55,51 @@ trait JsonFacetTrait
      *
      * @return self Provides fluent interface
      */
-    public function setDomainFilterQuery($query, $bind = null)
+    public function setDomainFilterQuery(string $query, array $bind = null)
     {
         if (null !== $bind) {
             $helper = new Helper();
             $query = $helper->assemble($query, $bind);
         }
 
-        return $this->setOption('domain', ['filter' => $query]);
+        $filter = $this->getDomainFilter();
+        if (!$filter || is_string($filter)) {
+            return $this->setOption('domain', ['filter' => $query]);
+        } else {
+            foreach ($filter as &$param_or_query) {
+                if (is_string($param_or_query)) {
+                    $param_or_query = $query;
+                    return $this->setOption('domain', ['filter' => $filter]);
+                }
+            }
+            $filter[] = $query;
+            return $this->setOption('domain', ['filter' => $filter]);
+        }
     }
 
     /**
-     * Get the domain filter query string.
+     * Adds a domain filter parameter.
      *
-     * @return string
+     * @param string $param
+     *
+     * @return self Provides fluent interface
      */
-    public function getDomainFilterQuery()
+    public function addDomainFilterParameter(string $param)
     {
-        return $this->getOption('domain')['filter'];
+        $filter = $this->getDomainFilter();
+        if (!$filter) {
+            return $this->setOption('domain', ['filter' => ['param' => $param]]);
+        } elseif (is_string($filter) || count($filter) == 1) {
+            return $this->setOption('domain', ['filter' => [$filter, ['param' => $param]]]);
+        } else {
+            foreach ($filter as &$param_or_query) {
+                if (is_array($param_or_query) && $param_or_query['param'] == $param) {
+                    return $this;
+                }
+            }
+            $filter[] = ['param' => $param];
+            return $this->setOption('domain', ['filter' => $filter]);
+        }
     }
 
     /**

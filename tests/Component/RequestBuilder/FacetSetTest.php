@@ -84,6 +84,73 @@ class FacetSetTest extends TestCase
         );
     }
 
+    public function testBuildWithJsonFacetFilterQuery()
+    {
+        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms->setDomainFilterQuery('popularity:[5 TO 10]');
+        $this->component->addFacet($terms);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","domain":{"filter":"popularity:[5 TO 10]"},"type":"terms"}}',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithJsonFacetFilterParams()
+    {
+        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms->addDomainFilterParameter('myparam1');
+        $terms->addDomainFilterParameter('myparam2');
+        $terms->addDomainFilterParameter('myparam3');
+        $terms->addDomainFilterParameter('myparam1');
+        $this->component->addFacet($terms);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","domain":{"filter":[{"param":"myparam1"},{"param":"myparam2"},{"param":"myparam3"}]},"type":"terms"}}',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithJsonFacetFilterQueryAndParams()
+    {
+        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms->setDomainFilterQuery('popularity:[5 TO 10]');
+        $terms->addDomainFilterParameter('myparam1');
+        $terms->addDomainFilterParameter('myparam2');
+        $this->component->addFacet($terms);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","domain":{"filter":["popularity:[5 TO 10]",{"param":"myparam1"},{"param":"myparam2"}]},"type":"terms"}}',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithJsonFacetFilterParamsAndQuery()
+    {
+        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms->addDomainFilterParameter('myparam1');
+        $terms->addDomainFilterParameter('myparam2');
+        $terms->setDomainFilterQuery('popularity:[5 TO 10]');
+        $this->component->addFacet($terms);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","domain":{"filter":[{"param":"myparam1"},{"param":"myparam2"},"popularity:[5 TO 10]"]},"type":"terms"}}',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithFacetsAndJsonFacets()
     {
         $this->component->addFacet(new FacetField(['key' => 'f1', 'field' => 'owner']));
