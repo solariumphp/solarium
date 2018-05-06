@@ -134,8 +134,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                         $buckets[] = new Bucket($val, $count, new ResultFacetSet($this->parseJsonFacetSet($bucket)));
                     }
                     $buckets_and_aggregations[$key] = new Buckets($buckets);
-                }
-                else {
+                } else {
                     $buckets_and_aggregations[$key] = new ResultFacetSet($this->parseJsonFacetSet($values));
                 }
             } else {
