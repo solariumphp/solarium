@@ -124,15 +124,20 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         $buckets_and_aggregations = [];
         foreach ($facets as $key => $values) {
             if (is_array($values)) {
-                // Parse buckets.
-                foreach ($values['buckets'] as $bucket) {
-                    $val = $bucket['val'];
-                    $count = $bucket['count'];
-                    unset($bucket['val']);
-                    unset($bucket['count']);
-                    $buckets[] = new Bucket($val, $count, new ResultFacetSet($this->parseJsonFacetSet($bucket)));
+                if (isset($values['buckets'])) {
+                    // Parse buckets.
+                    foreach ($values['buckets'] as $bucket) {
+                        $val = $bucket['val'];
+                        $count = $bucket['count'];
+                        unset($bucket['val']);
+                        unset($bucket['count']);
+                        $buckets[] = new Bucket($val, $count, new ResultFacetSet($this->parseJsonFacetSet($bucket)));
+                    }
+                    $buckets_and_aggregations[$key] = new Buckets($buckets);
                 }
-                $buckets_and_aggregations[$key] = new Buckets($buckets);
+                else {
+                    $buckets_and_aggregations[$key] = new ResultFacetSet($this->parseJsonFacetSet($values));
+                }
             } else {
                 $buckets_and_aggregations[$key] = new Aggregation($values);
             }

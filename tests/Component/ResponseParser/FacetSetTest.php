@@ -264,4 +264,90 @@ class FacetSetTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->parser->parse($this->query, $this->facetSet, []);
     }
+
+    public function testParseJsonFacet()
+    {
+        $data = [
+            'facets' => [
+                'top_genres' => [
+                    'buckets' => [
+                        [
+                            'val' => 'Fantasy',
+                            'count' => 5432,
+                            'top_authors' => [
+                                'buckets' => [
+                                    [
+                                        'val' => 'Mercedes Lackey',
+                                        'count' => 121,
+                                    ],
+                                    [
+                                        'val' => 'Piers Anthony',
+                                        'count' => 98,
+                                    ],
+                                ],
+                            ],
+                            'highpop' => [
+                                'count' => 876,
+                                'publishers' => [
+                                    'buckets' => [
+                                        [
+                                            'val' => 'Bantam Books',
+                                            'count' => 346,
+                                        ],
+                                        [
+                                            'val' => 'Tor',
+                                            'count' => 217,
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'val' => 'Science Fiction',
+                            'count' => 4188,
+                            'top_authors' => [
+                                'buckets' => [
+                                    [
+                                        'val' => 'Terry Pratchett',
+                                        'count' => 87,
+                                    ],
+                                ],
+                            ],
+                            'highpop' => [
+                                'count' => 876,
+                                'publishers' => [
+                                    'buckets' => [
+                                        [
+                                            'val' => 'Harper Collins',
+                                            'count' => 43,
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $result = $this->parser->parse($this->query, $this->facetSet, $data);
+        $facets = $result->getFacets();
+
+        $this->assertEquals(['top_genres'], array_keys($facets));
+
+        $buckets = $facets['top_genres']->getBuckets();
+
+        $this->assertEquals(
+            'Fantasy',
+            $buckets[0]->getValue()
+        );
+        $this->assertEquals(
+            5432,
+            $buckets[0]->getCount()
+        );
+
+        $nested_facets = $buckets[0]->getFacets();
+
+        $this->assertEquals(['top_authors', 'highpop'], array_keys($nested_facets));
+    }
 }
