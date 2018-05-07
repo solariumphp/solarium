@@ -252,7 +252,7 @@ class FacetSetTest extends TestCase
     public function testInvalidFacetType()
     {
         $facetStub = $this->createMock(Field::class);
-        $facetStub->expects($this->once())
+        $facetStub->expects($this->any())
              ->method('getType')
              ->will($this->returnValue('invalidfacettype'));
         $facetStub->expects($this->any())
