@@ -280,18 +280,6 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get jsonfacetset component result.
-     *
-     * This is a convenience method that maps presets to getComponent
-     *
-     * @return FacetSetResult|null
-     */
-    public function getJsonFacetSet()
-    {
-        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_JSONFACETSET);
-    }
-
-    /**
      * Get spellcheck component result.
      *
      * This is a convenience method that maps presets to getComponent
