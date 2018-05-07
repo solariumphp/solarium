@@ -3,7 +3,7 @@
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Component\ComponentAwareQueryInterface;
-use Solarium\Component\FacetSet;
+use Solarium\Component\Result\FacetSet;
 use Solarium\Component\Result\Debug\Result as DebugResult;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
 use Solarium\Component\Result\Highlighting\Highlighting;
