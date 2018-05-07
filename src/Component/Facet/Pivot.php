@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 
 /**
  * Facet pivot.
@@ -11,6 +11,8 @@ use Solarium\Component\FacetSet;
  */
 class Pivot extends AbstractFacet
 {
+    use ExcludeTagsTrait;
+
     /**
      * Fields to use.
      *
@@ -32,7 +34,7 @@ class Pivot extends AbstractFacet
      */
     public function getType()
     {
-        return FacetSet::FACET_PIVOT;
+        return FacetSetInterface::FACET_PIVOT;
     }
 
     /**
