@@ -8,6 +8,10 @@ use Solarium\Component\Facet\Pivot as QueryFacetPivot;
 use Solarium\Component\Facet\Query as QueryFacetQuery;
 use Solarium\Component\Facet\Range as QueryFacetRange;
 use Solarium\Component\FacetSet as QueryFacetSet;
+use Solarium\Component\FacetSetInterface;
+use Solarium\Component\Result\Facet\Aggregation;
+use Solarium\Component\Result\Facet\Bucket;
+use Solarium\Component\Result\Facet\Buckets;
 use Solarium\Component\Result\Facet\Field as ResultFacetField;
 use Solarium\Component\Result\Facet\Interval as ResultFacetInterval;
 use Solarium\Component\Result\Facet\MultiQuery as ResultFacetMultiQuery;
@@ -73,27 +77,33 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
 
         $facets = [];
         foreach ($facetSet->getFacets() as $key => $facet) {
+            $result = null;
             switch ($facet->getType()) {
-                case QueryFacetSet::FACET_FIELD:
+                case FacetSetInterface::FACET_FIELD:
                     $result = $this->facetField($query, $facet, $data);
                     break;
-                case QueryFacetSet::FACET_QUERY:
+                case FacetSetInterface::FACET_QUERY:
                     $result = $this->facetQuery($facet, $data);
                     break;
-                case QueryFacetSet::FACET_MULTIQUERY:
+                case FacetSetInterface::FACET_MULTIQUERY:
                     $result = $this->facetMultiQuery($facet, $data);
                     break;
-                case QueryFacetSet::FACET_RANGE:
+                case FacetSetInterface::FACET_RANGE:
                     $result = $this->facetRange($query, $facet, $data);
                     break;
-                case QueryFacetSet::FACET_PIVOT:
+                case FacetSetInterface::FACET_PIVOT:
                     $result = $this->facetPivot($query, $facet, $data);
                     break;
-                case QueryFacetSet::FACET_INTERVAL:
+                case FacetSetInterface::FACET_INTERVAL:
                     $result = $this->facetInterval($query, $facet, $data);
                     break;
+                case FacetSetInterface::JSON_FACET_AGGREGATION:
+                case FacetSetInterface::JSON_FACET_QUERY:
+                case FacetSetInterface::JSON_FACET_RANGE:
+                case FacetSetInterface::JSON_FACET_TERMS:
+                    break;
                 default:
-                    throw new RuntimeException('Unknown facet type');
+                    throw new RuntimeException(sprintf('Unknown facet type %s', $facet->getType()));
             }
 
             if (null !== $result) {
@@ -101,7 +111,44 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             }
         }
 
+        if (!empty($data['facets'])) {
+            $facets += $this->parseJsonFacetSet($data['facets']);
+        }
+
         return $this->createFacetSet($facets);
+    }
+
+    /**
+     * Parse JSON facets.
+     *
+     * @param array $facets
+     *
+     * @return array
+     */
+    protected function parseJsonFacetSet($facets)
+    {
+        $buckets_and_aggregations = [];
+        foreach ($facets as $key => $values) {
+            if (is_array($values)) {
+                if (isset($values['buckets'])) {
+                    $buckets = [];
+                    // Parse buckets.
+                    foreach ($values['buckets'] as $bucket) {
+                        $val = $bucket['val'];
+                        $count = $bucket['count'];
+                        unset($bucket['val']);
+                        unset($bucket['count']);
+                        $buckets[] = new Bucket($val, $count, new ResultFacetSet($this->parseJsonFacetSet($bucket)));
+                    }
+                    $buckets_and_aggregations[$key] = new Buckets($buckets);
+                } else {
+                    $buckets_and_aggregations[$key] = new ResultFacetSet($this->parseJsonFacetSet($values));
+                }
+            } else {
+                $buckets_and_aggregations[$key] = new Aggregation($values);
+            }
+        }
+        return $buckets_and_aggregations;
     }
 
     /**

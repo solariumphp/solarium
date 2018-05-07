@@ -6,7 +6,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- Support "sow" parameter (Split On Whitespace) in select queries
 
 ### Changed
 
@@ -17,6 +16,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Security
+
+
+## [4.1.0-alpha.1]
+### Added
+- Support for JSON Facet API
+
+### Changed
+- Constants FacetSet::FACET_* became FacetSetInterface::FACET_*
+
+
+## [4.0.0]
+### Added
+- Support "sow" parameter (Split On Whitespace) in select queries
 
 
 ## [4.0.0-rc.1]

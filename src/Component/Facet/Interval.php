@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Component\FacetSet;
+use Solarium\Component\FacetSetInterface;
 
 /**
  * Facet interval.
@@ -11,6 +11,10 @@ use Solarium\Component\FacetSet;
  */
 class Interval extends AbstractFacet
 {
+    use ExcludeTagsTrait {
+        init as excludeTagsInit;
+    }
+
     /**
      * Get the facet type.
      *
@@ -18,7 +22,7 @@ class Interval extends AbstractFacet
      */
     public function getType()
     {
-        return FacetSet::FACET_INTERVAL;
+        return FacetSetInterface::FACET_INTERVAL;
     }
 
     /**
@@ -86,7 +90,7 @@ class Interval extends AbstractFacet
      */
     protected function init()
     {
-        parent::init();
+        $this->excludeTagsInit();
 
         foreach ($this->options as $name => $value) {
             switch ($name) {

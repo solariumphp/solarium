@@ -8,11 +8,11 @@ use Solarium\Core\Query\Helper;
 /**
  * Facet query.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
+ * @see https://lucene.apache.org/solr/guide/7_3/json-facet-api.html
  */
-class Query extends AbstractFacet
+class JsonQuery extends AbstractFacet implements JsonFacetInterface, FacetSetInterface
 {
-    use ExcludeTagsTrait;
+    use JsonFacetTrait;
 
     /**
      * Default options.
@@ -20,7 +20,7 @@ class Query extends AbstractFacet
      * @var array
      */
     protected $options = [
-        'query' => '*:*',
+        'q' => '*:*',
     ];
 
     /**
@@ -30,7 +30,7 @@ class Query extends AbstractFacet
      */
     public function getType()
     {
-        return FacetSetInterface::FACET_QUERY;
+        return FacetSetInterface::JSON_FACET_QUERY;
     }
 
     /**
@@ -50,7 +50,7 @@ class Query extends AbstractFacet
             $query = $helper->assemble($query, $bind);
         }
 
-        return $this->setOption('query', $query);
+        return $this->setOption('q', $query);
     }
 
     /**
@@ -60,6 +60,6 @@ class Query extends AbstractFacet
      */
     public function getQuery()
     {
-        return $this->getOption('query');
+        return $this->getOption('q');
     }
 }
