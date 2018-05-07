@@ -77,6 +77,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
 
         $facets = [];
         foreach ($facetSet->getFacets() as $key => $facet) {
+            $result = null;
             switch ($facet->getType()) {
                 case FacetSetInterface::FACET_FIELD:
                     $result = $this->facetField($query, $facet, $data);
@@ -96,8 +97,13 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                 case FacetSetInterface::FACET_INTERVAL:
                     $result = $this->facetInterval($query, $facet, $data);
                     break;
+                case FacetSetInterface::JSON_FACET_AGGREGATION:
+                case FacetSetInterface::JSON_FACET_QUERY:
+                case FacetSetInterface::JSON_FACET_RANGE:
+                case FacetSetInterface::JSON_FACET_TERMS:
+                    break;
                 default:
-                    throw new RuntimeException('Unknown facet type');
+                    throw new RuntimeException(sprintf('Unknown facet type %s', $facet->getType()));
             }
 
             if (null !== $result) {
@@ -125,6 +131,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         foreach ($facets as $key => $values) {
             if (is_array($values)) {
                 if (isset($values['buckets'])) {
+                    $buckets = [];
                     // Parse buckets.
                     foreach ($values['buckets'] as $bucket) {
                         $val = $bucket['val'];
