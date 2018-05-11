@@ -327,6 +327,9 @@ class FacetSetTest extends TestCase
                         ],
                     ],
                 ],
+                'empty_buckets' => [
+                    'buckets' => [],
+                ],
             ],
         ];
 
@@ -349,5 +352,7 @@ class FacetSetTest extends TestCase
         $nested_facets = $buckets[0]->getFacets();
 
         $this->assertEquals(['top_authors', 'highpop'], array_keys($nested_facets));
+
+        $this->assertFalse(isset($facets['empty_buckets']));
     }
 }

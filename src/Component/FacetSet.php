@@ -25,6 +25,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
         FacetSetInterface::FACET_RANGE => 'Solarium\Component\Facet\Range',
         FacetSetInterface::FACET_PIVOT => 'Solarium\Component\Facet\Pivot',
         FacetSetInterface::FACET_INTERVAL => 'Solarium\Component\Facet\Interval',
+        FacetSetInterface::JSON_FACET_AGGREGATION => 'Solarium\Component\Facet\JsonAggregation',
         FacetSetInterface::JSON_FACET_TERMS => 'Solarium\Component\Facet\JsonTerms',
         FacetSetInterface::JSON_FACET_QUERY => 'Solarium\Component\Facet\JsonQuery',
         FacetSetInterface::JSON_FACET_RANGE => 'Solarium\Component\Facet\JsonRange',
@@ -350,6 +351,19 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function createFacetInterval($options = null, $add = true)
     {
         return $this->createFacet(FacetSetInterface::FACET_INTERVAL, $options, $add);
+    }
+
+    /**
+     * Get a json facet aggregation instance.
+     *
+     * @param mixed $options
+     * @param bool  $add
+     *
+     * @return \Solarium\Component\Facet\JsonAggregation
+     */
+    public function createJsonFacetAggregation($options = null, $add = true)
+    {
+        return $this->createFacet(FacetSetInterface::JSON_FACET_AGGREGATION, $options, $add);
     }
 
     /**

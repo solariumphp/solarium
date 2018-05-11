@@ -4,6 +4,10 @@ namespace Solarium\Tests\QueryType\Select\Query\Component;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\Field;
+use Solarium\Component\Facet\JsonAggregation;
+use Solarium\Component\Facet\JsonQuery;
+use Solarium\Component\Facet\JsonRange;
+use Solarium\Component\Facet\JsonTerms;
 use Solarium\Component\Facet\MultiQuery;
 use Solarium\Component\Facet\Pivot;
 use Solarium\Component\Facet\Query as FacetQuery;
@@ -343,7 +347,7 @@ class FacetSetTest extends TestCase
         $this->assertInstanceOf(Field::class, $result);
         $this->assertSame(1, $result->getOption('optionA'));
         $this->assertSame(2, $result->getOption('optionB'));
-        $this->assertSame('id', $result->getOption(FacetSet::FACET_FIELD));
+        $this->assertSame('id', $result->getOption('field'));
 
         if ($add) {
             $this->assertInstanceOf(Field::class, $facetSet->getFacet('key'));
@@ -364,7 +368,7 @@ class FacetSetTest extends TestCase
         $this->assertInstanceOf(FacetQuery::class, $result);
         $this->assertSame(1, $result->getOption('optionA'));
         $this->assertSame(2, $result->getOption('optionB'));
-        $this->assertSame('*:*', $result->getOption(FacetSet::FACET_QUERY));
+        $this->assertSame('*:*', $result->getOption('query'));
 
         if ($add) {
             $this->assertInstanceOf(FacetQuery::class, $facetSet->getFacet('key'));
@@ -428,6 +432,100 @@ class FacetSetTest extends TestCase
 
         if ($add) {
             $this->assertInstanceOf(Pivot::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
+    }
+
+    /**
+     * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
+     */
+    public function testCreateJsonFacetAggregation(bool $add)
+    {
+        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createJsonFacetAggregation($options, $add);
+
+        $this->assertInstanceOf(JsonAggregation::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
+
+        if ($add) {
+            $this->assertInstanceOf(JsonAggregation::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
+    }
+
+    /**
+     * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
+     */
+    public function testCreateJsonFacetTerms(bool $add)
+    {
+        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createJsonFacetTerms($options, $add);
+
+        $this->assertInstanceOf(JsonTerms::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
+        $this->assertSame('id', $result->getOption('field'));
+
+        if ($add) {
+            $this->assertInstanceOf(JsonTerms::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
+    }
+
+    /**
+     * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
+     */
+    public function testCreateJsonFacetQuery(bool $add)
+    {
+        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createJsonFacetQuery($options, $add);
+
+        $this->assertInstanceOf(JsonQuery::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
+        $this->assertSame('*:*', $result->getOption('q'));
+
+        if ($add) {
+            $this->assertInstanceOf(JsonQuery::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
+    }
+
+    /**
+     * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
+     */
+    public function testCreateJsonFacetRange(bool $add)
+    {
+        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createJsonFacetRange($options, $add);
+
+        $this->assertInstanceOf(JsonRange::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
+
+        if ($add) {
+            $this->assertInstanceOf(JsonRange::class, $facetSet->getFacet('key'));
         } else {
             $this->assertEmpty($facetSet->getFacet('key'));
         }
