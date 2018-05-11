@@ -143,7 +143,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                         unset($bucket['val']);
                         unset($bucket['count']);
                         $buckets[] = new Bucket($val, $count, new ResultFacetSet($this->parseJsonFacetSet($bucket,
-                            (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) ? $facets[$key] : []
+                            (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) ? $facets[$key]->getFacets() : []
                         )));
                     }
                     if ($buckets) {
@@ -151,7 +151,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     }
                 } else {
                     $buckets_and_aggregations[$key] = new ResultFacetSet($this->parseJsonFacetSet($values,
-                        (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) ? $facets[$key] : []
+                        (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) ? $facets[$key]->getFacets() : []
                     ));
                 }
             } else {
