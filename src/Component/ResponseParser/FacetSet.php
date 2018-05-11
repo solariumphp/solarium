@@ -2,7 +2,10 @@
 
 namespace Solarium\Component\ResponseParser;
 
+use Solarium\Component\Facet\FacetInterface;
 use Solarium\Component\Facet\Field as QueryFacetField;
+use Solarium\Component\Facet\JsonAggregation;
+use Solarium\Component\Facet\JsonFacetInterface;
 use Solarium\Component\Facet\MultiQuery as QueryFacetMultiQuery;
 use Solarium\Component\Facet\Pivot as QueryFacetPivot;
 use Solarium\Component\Facet\Query as QueryFacetQuery;
@@ -112,7 +115,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         }
 
         if (!empty($data['facets'])) {
-            $facets += $this->parseJsonFacetSet($data['facets']);
+            $facets += $this->parseJsonFacetSet($data['facets'], $facetSet->getFacets());
         }
 
         return $this->createFacetSet($facets);
@@ -121,14 +124,15 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Parse JSON facets.
      *
-     * @param array $facets
+     * @param array            $facet_data
+     * @param FacetInterface[] $facets
      *
      * @return array
      */
-    protected function parseJsonFacetSet($facets)
+    protected function parseJsonFacetSet($facet_data, $facets)
     {
         $buckets_and_aggregations = [];
-        foreach ($facets as $key => $values) {
+        foreach ($facet_data as $key => $values) {
             if (is_array($values)) {
                 if (isset($values['buckets'])) {
                     $buckets = [];
@@ -138,13 +142,25 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                         $count = $bucket['count'];
                         unset($bucket['val']);
                         unset($bucket['count']);
-                        $buckets[] = new Bucket($val, $count, new ResultFacetSet($this->parseJsonFacetSet($bucket)));
+                        $buckets[] = new Bucket($val, $count, new ResultFacetSet($this->parseJsonFacetSet($bucket,
+                            (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) ? $facets[$key] : []
+                        )));
                     }
-                    $buckets_and_aggregations[$key] = new Buckets($buckets);
+                    if ($buckets) {
+                        $buckets_and_aggregations[$key] = new Buckets($buckets);
+                    }
                 } else {
-                    $buckets_and_aggregations[$key] = new ResultFacetSet($this->parseJsonFacetSet($values));
+                    $buckets_and_aggregations[$key] = new ResultFacetSet($this->parseJsonFacetSet($values,
+                        (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) ? $facets[$key] : []
+                    ));
                 }
             } else {
+                if (isset($facets[$key]) && $facets[$key] instanceof JsonAggregation) {
+                    $min = $facets[$key]->getMin();
+                    if (!is_null($min) && $values < $min) {
+                        continue;
+                    }
+                }
                 $buckets_and_aggregations[$key] = new Aggregation($values);
             }
         }
