@@ -34,9 +34,7 @@ class Field extends AbstractField implements ExcludeTagsInterface
     }
 
     /**
-     * Limit the terms for faceting by a string they must contain.
-     *
-     * This is a global value for all facets in this facetset
+     * Limit the terms for faceting by a string they must contain. Since Solr 5.1.
      *
      * @param string $contains
      *
@@ -50,8 +48,6 @@ class Field extends AbstractField implements ExcludeTagsInterface
     /**
      * Get the facet contains.
      *
-     * This is a global value for all facets in this facetset
-     *
      * @return string
      */
     public function getContains()
@@ -60,9 +56,7 @@ class Field extends AbstractField implements ExcludeTagsInterface
     }
 
     /**
-     * Case sensitivity of matching string that facet terms must contain.
-     *
-     * This is a global value for all facets in this facetset
+     * Case sensitivity of matching string that facet terms must contain. Since Solr 5.1.
      *
      * @param bool $containsIgnoreCase
      *
@@ -75,8 +69,6 @@ class Field extends AbstractField implements ExcludeTagsInterface
 
     /**
      * Get the case sensitivity of facet contains.
-     *
-     * This is a global value for all facets in this facetset
      *
      * @return bool
      */

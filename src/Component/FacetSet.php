@@ -118,7 +118,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     }
 
     /**
-     * Limit the terms for faceting by a string they must contain.
+     * Limit the terms for faceting by a string they must contain. Since Solr 5.1.
      *
      * This is a global value for all facets in this facetset
      *
@@ -144,7 +144,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     }
 
     /**
-     * Case sensitivity of matching string that facet terms must contain.
+     * Case sensitivity of matching string that facet terms must contain. Since Solr 5.1.
      *
      * This is a global value for all facets in this facetset
      *
