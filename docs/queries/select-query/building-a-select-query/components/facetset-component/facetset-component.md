@@ -1,17 +1,19 @@
-The concept of a 'facetset' is doesn't exist in Solr. It was added to Solarium to have one central component for using facets of various type. You can use the facetset to create and manage facets, and also to set global facet options.
+The concept of a 'facetset' doesn't exist in Solr. It was added to Solarium to have one central component for using facets of various type. You can use the facetset to create and manage facets, and also to set global facet options.
 
 See the API docs for all methods. In the following sections facet types will be detailed. The examples used on those pages will also show the usage of the facetset component.
 
 Global facet options
 --------------------
 
-| Name     | Type    | Default value | Description                              |
-|----------|---------|---------------|------------------------------------------|
-| prefix   | string  | null          | Limit the terms for faceting by a prefix |
-| sort     | string  | null          | Set the facet sort order                 |
-| limit    | int     | null          | Set the facet limit                      |
-| mincount | int     | null          | Set the facet mincount                   |
-| missing  | boolean | null          | Set the 'count missing' option           |
+| Name               | Type    | Default value | Description                                                            |
+|--------------------|---------|---------------|------------------------------------------------------------------------|
+| prefix             | string  | null          | Limit the terms for faceting by a prefix                               |
+| contains           | string  | null          | Limit the terms for faceting by a substring (available since Solr 5.1) |
+| containsignorecase | boolean | null          | Causes case to be ignored for 'contains'                               |
+| sort               | string  | null          | Set the facet sort order                                               |
+| limit              | int     | null          | Set the facet limit                                                    |
+| mincount           | int     | null          | Set the facet mincount                                                 |
+| missing            | boolean | null          | Set the 'count missing' option                                         |
 ||
 
 Standard facet options
