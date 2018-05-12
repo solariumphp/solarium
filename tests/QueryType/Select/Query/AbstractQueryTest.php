@@ -689,6 +689,19 @@ abstract class AbstractQueryTest extends TestCase
         $this->assertSame(['t3', 't4'], $this->query->getTags());
     }
 
+    public function testSetCursormark()
+    {
+        $this->query->setCursormark('*');
+        $this->assertSame('*', $this->query->getCursormark());
+    }
+
+    public function testClearCursormark()
+    {
+        $this->query->setCursormark('*');
+        $this->query->clearCursormark();
+        $this->assertNull($this->query->getCursormark());
+    }
+
     public function testSetAndGetSplitOnWhitespace()
     {
         $this->query->setSplitOnWhitespace(false);
