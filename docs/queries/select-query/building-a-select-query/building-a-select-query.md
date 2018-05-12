@@ -19,6 +19,7 @@ The options below can be set as query option values, but also by using the set/g
 | querydefaultfield    | string           | null                          | With a null value the default of your Solr config will be used. If you want to override this supply a field name as the value.                                             |
 | responsewriter       | string           | json                          | You can set this to 'phps' for improved response parsing performance, at the cost of a (possible) security risk. Only use 'phps' for trusted Solr instances.               |
 | tag                  | array of strings | null                          | You can supply one or multiple tags for the main query string, to allow for exclusion of the main query in facets                                                          |
+| cursormark           | string           | null                          | Set to '\*' and make sure sort contains a uniqueKey field to enable cursor functionality when passing the query to the PrefetchIterator plugin. Available since Solr 4.7.  |
 | splitonwhitespace    | bool             | null                          | Specifies whether the query parser splits the query text on whitespace before it's sent to be analyzed. Available for 'lucene' and 'edismax' query parsers since Solr 6.5. |
 ||
 

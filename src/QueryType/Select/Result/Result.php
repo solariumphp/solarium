@@ -154,7 +154,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * get Solr nextcursormark.
      *
      * Returns the next cursor mark for deep paging
-     * Will only be available if 'cursormark' was set for your query
+     * Will only be available if 'cursormark' was set for your query against Solr 4.7+
      *
      * @return string
      */

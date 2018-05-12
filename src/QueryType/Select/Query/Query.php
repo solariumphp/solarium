@@ -732,7 +732,9 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     /**
      * Set the cursor mark to fetch.
      *
-     * Cursor functionality requires a sort containing a uniqueKey field tie breaker
+     * Cursor functionality requires a sort containing a uniqueKey field as tie breaker on top of your desired
+     * sorts for the query.
+     * Cursor functionality was introduced in Solr 4.7.
      *
      * @param string $cursormark
      *
