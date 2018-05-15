@@ -328,7 +328,7 @@ class QueryElevation extends AbstractComponent
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'transformers':
-                    $this->addTransformers($value);
+                    $this->setTransformers($value);
                     break;
                 case 'markExcludes':
                     $this->setMarkExcludes($value);
