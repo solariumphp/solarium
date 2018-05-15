@@ -16,7 +16,7 @@ $elevate = $query->getQueryElevation();
 // return elevated documents first
 $elevate->setForceElevation(true);
 
-// specify documents to elevate and/or exclude if you don't use elevate.xml or want to override it at runtime
+// specify documents to elevate and/or exclude if you don't use an elevation file or want to override it at request time
 $elevate->setElevateIds(array('doc1', 'doc2'));
 $elevate->setExcludeIds(array('doc3', 'doc4'));
 

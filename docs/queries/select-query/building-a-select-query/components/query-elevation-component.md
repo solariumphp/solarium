@@ -1,4 +1,4 @@
-Query Elevation is a Solr component that lets you configure the top results for a given query regardless of the normal Lucene scoring. For more info see <https://lucene.apache.org/solr/guide/the-query-elevation-component.html>.
+Query Elevation is a Solr component that lets you configure the top results for a given query regardless of the normal Lucene scoring. Elevated query results can be configured in an external XML file or at request time. For more info see <https://lucene.apache.org/solr/guide/the-query-elevation-component.html>.
 
 Options
 -------
@@ -7,12 +7,12 @@ Options
 |-----------------|---------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
 | handler         | string  | elevate       | Path to the request handler as configured in Solr.                                                                                                     |
 | transformers    | string  | [elevated]    | Comma separated list of transformers to annotate each document. The [elevated] transformer tells whether or not the document was elevated.             |
-| enableElevation | boolean | null          | For debugging it may be useful to see results with and without the elevated documents. To hide results, use false.                                     |
+| enableElevation | boolean | null          | For debugging it may be useful to see results with and without elevation applied. To get results without elevation, use false.                         |
 | forceElevation  | boolean | null          | By default, this component respects the requested sort parameter. To return elevated documents first, use true.                                        |
-| exclusive       | boolean | null          | You can force Solr to return only the results specified in the elevation configuration by using true.                                                  |
+| exclusive       | boolean | null          | You can force Solr to return only the results specified in the elevation file by using true.                                                           |
 | markExcludes    | boolean | null          | You can include documents that the elevation configuration would normally exclude by using true. The [excluded] transformer is added to each document. |
-| elevateIds      | string  | null          | Comma separated list of documents to elevate. This overrides the elevations _and_ exclusions that are configured for the query in `elevate.xml`.       |
-| excludeIds      | string  | null          | Comma separated list of documents to exclude. This overrides the elevations _and_ exclusions that are configured for the query in `elevate.xml`.       |
+| elevateIds      | string  | null          | Comma separated list of documents to elevate. This overrides the elevations _and_ exclusions that are configured for the query in the elevation file.  |
+| excludeIds      | string  | null          | Comma separated list of documents to exclude. This overrides the elevations _and_ exclusions that are configured for the query in the elevation file.  |
 ||
 
 Example
@@ -37,7 +37,7 @@ $elevate = $query->getQueryElevation();
 // return elevated documents first
 $elevate->setForceElevation(true);
 
-// specify documents to elevate and/or exclude if you don't use elevate.xml or want to override it at runtime
+// specify documents to elevate and/or exclude if you don't use an elevation file or want to override it at request time
 $elevate->setElevateIds(array('doc1', 'doc2'));
 $elevate->setExcludeIds(array('doc3', 'doc4'));
 
