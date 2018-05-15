@@ -12,6 +12,7 @@ use Solarium\Component\QueryTraits\FacetSetTrait;
 use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\HighlightingTrait;
 use Solarium\Component\QueryTraits\MoreLikeThisTrait;
+use Solarium\Component\QueryTraits\QueryElevationTrait;
 use Solarium\Component\QueryTraits\SpatialTrait;
 use Solarium\Component\QueryTraits\SpellcheckTrait;
 use Solarium\Component\QueryTraits\StatsTrait;
@@ -44,6 +45,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     use GroupingTrait;
     use DistributedSearchTrait;
     use StatsTrait;
+    use QueryElevationTrait;
 
     /**
      * Solr sort mode descending.
@@ -124,6 +126,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
             ComponentAwareQueryInterface::COMPONENT_GROUPING => 'Solarium\Component\Grouping',
             ComponentAwareQueryInterface::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\Component\DistributedSearch',
             ComponentAwareQueryInterface::COMPONENT_STATS => 'Solarium\Component\Stats\Stats',
+            ComponentAwareQueryInterface::COMPONENT_QUERYELEVATION => 'Solarium\Component\QueryElevation',
         ];
 
         parent::__construct($options);

@@ -577,6 +577,16 @@ abstract class AbstractQueryTest extends TestCase
         );
     }
 
+    public function testGetQueryElevation()
+    {
+        $queryelevation = $this->query->getQueryElevation();
+
+        $this->assertSame(
+            'Solarium\Component\QueryElevation',
+            get_class($queryelevation)
+        );
+    }
+
     public function testRegisterComponentType()
     {
         $components = $this->query->getComponentTypes();
