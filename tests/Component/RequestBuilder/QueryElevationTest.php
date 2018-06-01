@@ -24,8 +24,6 @@ class QueryElevationTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertSame($component->getHandler(), $request->getHandler());
-
         $this->assertEquals(
             [
                 'fl' => '[elevated],[excluded]',

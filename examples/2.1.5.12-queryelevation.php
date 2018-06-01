@@ -8,7 +8,10 @@ $client = new Solarium\Client($config);
 
 // get a select query instance
 $query = $client->createSelect();
-$query->setQuery('ipod');
+$query->setQuery('electronics');
+
+// set a handler that is configured with an elevator component in solrconfig.xml (or add it to your default handler)
+$query->setHandler('elevate');
 
 // get query elevation component
 $elevate = $query->getQueryElevation();
@@ -17,8 +20,8 @@ $elevate = $query->getQueryElevation();
 $elevate->setForceElevation(true);
 
 // specify documents to elevate and/or exclude if you don't use an elevation file or want to override it at request time
-$elevate->setElevateIds(array('doc1', 'doc2'));
-$elevate->setExcludeIds(array('doc3', 'doc4'));
+$elevate->setElevateIds(array('VS1GB400C3', 'VDBDB1A16'));
+$elevate->setExcludeIds(array('SP2514N', '6H500F0'));
 
 // document transformers can be omitted from the results
 //$elevate->clearTransformers();

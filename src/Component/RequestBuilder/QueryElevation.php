@@ -20,9 +20,6 @@ class QueryElevation implements ComponentRequestBuilderInterface
      */
     public function buildComponent($component, $request)
     {
-        // switch request handler
-        $request->setHandler($component->getHandler());
-
         // add document transformers to request field list
         if (null !== ($transformers = $component->getTransformers())) {
             $fl = $request->getParam('fl');

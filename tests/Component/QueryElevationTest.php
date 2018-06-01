@@ -21,7 +21,6 @@ class QueryElevationTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'handler' => 'myhandler',
             'transformers' => '[transformer]',
             'enableElevation' => false,
             'forceElevation' => true,
@@ -33,7 +32,6 @@ class QueryElevationTest extends TestCase
 
         $this->queryelevation->setOptions($options);
 
-        $this->assertSame('myhandler', $this->queryelevation->getHandler());
         $this->assertSame(['[transformer]'], $this->queryelevation->getTransformers());
         $this->assertFalse($this->queryelevation->getEnableElevation());
         $this->assertTrue($this->queryelevation->getForceElevation());
@@ -59,12 +57,6 @@ class QueryElevationTest extends TestCase
             'Solarium\Component\RequestBuilder\QueryElevation',
             $this->queryelevation->getRequestBuilder()
         );
-    }
-
-    public function testSetAndGetHandler()
-    {
-        $this->queryelevation->setHandler('myhandler');
-        $this->assertSame('myhandler', $this->queryelevation->getHandler());
     }
 
     public function testAddTransformer()

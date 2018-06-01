@@ -17,7 +17,6 @@ class QueryElevation extends AbstractComponent
      * @var array
      */
     protected $options = [
-        'handler' => 'elevate',
         'transformers' => '[elevated]',
     ];
 
@@ -53,28 +52,6 @@ class QueryElevation extends AbstractComponent
      */
     public function getResponseParser()
     {
-    }
-
-    /**
-     * Set handler option.
-     *
-     * @param string $handler
-     *
-     * @return self Provides fluent interface
-     */
-    public function setHandler($handler)
-    {
-        return $this->setOption('handler', $handler);
-    }
-
-    /**
-     * Get handler option.
-     *
-     * @return string
-     */
-    public function getHandler()
-    {
-        return $this->getOption('handler');
     }
 
     /**
