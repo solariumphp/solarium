@@ -73,6 +73,11 @@ interface ComponentAwareQueryInterface
     const COMPONENT_TERMS = 'terms';
 
     /**
+     * Query component queryelevation.
+     */
+    const COMPONENT_QUERYELEVATION = 'queryelevation';
+
+    /**
      * Get all registered component types.
      *
      * @return array

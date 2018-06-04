@@ -178,6 +178,38 @@ abstract class AbstractTechproductsTest extends TestCase
         }
     }
 
+    public function testQueryElevation()
+    {
+        $select = $this->client->createSelect();
+        // In the techproducts example, the request handler "select" doesn't contain a query elevation component.
+        // But the "elevate" request handler does.
+        $select->setHandler('elevate');
+        $select->setQuery('electronics');
+        $select->setSorts(['id' => SelectQuery::SORT_ASC]);
+
+        $elevate = $select->getQueryElevation();
+        $elevate->setForceElevation(true);
+        $elevate->setElevateIds(['VS1GB400C3', 'VDBDB1A16']);
+        $elevate->setExcludeIds(['SP2514N', '6H500F0']);
+
+        $result = $this->client->select($select);
+        // The techproducts example contains 14 'electronics', 2 of them are excluded.
+        $this->assertSame(12, $result->getNumFound());
+        // The first two results are elevated and ignore the sort order.
+        $iterator = $result->getIterator();
+        $document = $iterator->current();
+        $this->assertSame('VS1GB400C3', $document->id);
+        $this->assertTrue($document->{'[elevated]'});
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('VDBDB1A16', $document->id);
+        $this->assertTrue($document->{'[elevated]'});
+        // Further results aren't elevated.
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertFalse($document->{'[elevated]'});
+    }
+
     public function testSpatial()
     {
         $select = $this->client->createSelect();
