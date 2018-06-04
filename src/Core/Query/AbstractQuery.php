@@ -198,4 +198,54 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
 
         return $responseWriter;
     }
+
+    /**
+     * Set now option.
+     * 
+     * Instructs Solr to use an arbitrary moment in time (past or future) to override NOW for date math expressions.
+     * 
+     * Make sure to pass a string instead of an int if the code has to run on a 32-bit PHP installation.
+     * 
+     * @param string $timestamp Milliseconds since epoch
+     *
+     * @return self Provides fluent interface
+     */
+    public function setNow($timestamp)
+    {
+        return $this->setOption('now', $timestamp);
+    }
+
+    /**
+     * Get now option.
+     * 
+     * @return string Milliseconds since epoch
+     */
+    public function getNow()
+    {
+        return $this->getOption('now');
+    }
+
+    /**
+     * Set timezone option.
+     * 
+     * Forces all date based addition and rounding to be relative to the specified time zone instead of UTC.
+     * 
+     * @param string $timezone Java TimeZone ID
+     *
+     * @return self Provides fluent interface
+     */
+    public function setTimeZone($timezone)
+    {
+        return $this->setOption('timezone', $timezone);
+    }
+
+    /**
+     * Get timezone option.
+     * 
+     * @return string Java TimeZone ID
+     */
+    public function getTimeZone()
+    {
+        return $this->getOption('timezone');
+    }
 }
