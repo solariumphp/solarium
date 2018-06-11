@@ -302,14 +302,15 @@ class HelperTest extends TestCase
 
     public function testFormatDate()
     {
+        $timestamp = time();
         //check if timezone is stripped
         $expected = strtoupper('Z');
-        $actual = substr($this->helper->formatDate(time()), 19, 20);
+        $actual = substr($this->helper->formatDate($timestamp), 19, 20);
         $this->assertSame($expected, $actual, 'Expects last charachter to be uppercased Z');
 
         $this->assertSame(
-            $this->mockFormatDateOutput(time()),
-            $this->helper->formatDate(time())
+            $this->mockFormatDateOutput($timestamp),
+            $this->helper->formatDate($timestamp)
         );
     }
 
