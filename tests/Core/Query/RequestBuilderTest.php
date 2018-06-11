@@ -60,6 +60,34 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildWithNow()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
+        $query->setNow('1520997255000');
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?omitHeader=true&NOW=1520997255000&p1=v1&p2=v2&wt=json&json.nl=flat',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithTimeZone()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
+        $query->setTimeZone('Europe/Brussels');
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?omitHeader=true&TZ=Europe/Brussels&p1=v1&p2=v2&wt=json&json.nl=flat',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testRenderLocalParams()
     {
         $myParams = ['tag' => 'mytag', 'ex' => ['exclude1', 'exclude2']];

@@ -22,6 +22,8 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         $request->setHandler($query->getHandler());
         $request->addParam('omitHeader', $query->getOmitHeader());
         $request->addParam('timeAllowed', $query->getTimeAllowed());
+        $request->addParam('NOW', $query->getNow());
+        $request->addParam('TZ', $query->getTimeZone());
         $request->addParams($query->getParams());
 
         $request->addParam('wt', $query->getResponseWriter());

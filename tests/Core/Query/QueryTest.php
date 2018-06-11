@@ -70,6 +70,20 @@ class QueryTest extends TestCase
         $query->setTimeAllowed(1200);
         $this->assertSame(1200, $query->getTimeAllowed());
     }
+
+    public function testSetAndGetNow()
+    {
+        $query = new TestQuery();
+        $query->setNow('1520997255000');
+        $this->assertSame('1520997255000', $query->getNow());
+    }
+
+    public function testSetAndGetTimeZone()
+    {
+        $query = new TestQuery();
+        $query->setTimeZone('Europe/Brussels');
+        $this->assertSame('Europe/Brussels', $query->getTimeZone());
+    }
 }
 
 class TestQuery extends AbstractQuery
