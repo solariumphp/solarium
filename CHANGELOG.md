@@ -4,25 +4,20 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.1.0-alpha.2]
+## [4.1.0-beta.1]
 ### Added
 - Query Elevation Component
 - Option 'min' for JsonAggregation
+- Support for NOW and TZ parameters
 
 ### Changed
 - Test coverage and docs for cursor functionality
 - Test coverage for JSON facets
 - Branch aliases for composer
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 - Filter empty buckets from JSON facets during result parsing
 - Cover 'contains' and 'containsignorecase' in FacetSet docs
-
-### Security
 
 
 ## [4.1.0-alpha.1]
