@@ -417,6 +417,8 @@ abstract class AbstractQueryTest extends TestCase
             'resultclass' => 'MyResultClass',
             'documentclass' => 'MyDocumentClass',
             'tag' => ['t1', 't2'],
+            'cursormark' => '*',
+            'splitonwhitespace' => false,
         ];
         $query = new Query($config);
 
@@ -427,6 +429,8 @@ abstract class AbstractQueryTest extends TestCase
         $this->assertSame($config['start'], $query->getStart());
         $this->assertSame($config['documentclass'], $query->getDocumentClass());
         $this->assertSame($config['resultclass'], $query->getResultClass());
+        $this->assertSame($config['cursormark'], $query->getCursormark());
+        $this->assertSame($config['splitonwhitespace'], $query->getSplitOnWhitespace());
         $this->assertSame('published:true', $query->getFilterQuery('pub')->getQuery());
         $this->assertSame('online:true', $query->getFilterQuery('online')->getQuery());
 
