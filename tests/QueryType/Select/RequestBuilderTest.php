@@ -128,6 +128,14 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('{!tag=t1,t2}cat:1', $request->getParam('q'));
     }
 
+    public function testWithCursormark()
+    {
+        $this->query->setCursormark('*');
+        $request = $this->builder->build($this->query);
+
+        $this->assertSame('*', $request->getParam('cursorMark'));
+    }
+
     public function testWithSplitOnWhitespace()
     {
         $this->query->setSplitOnWhitespace(false);

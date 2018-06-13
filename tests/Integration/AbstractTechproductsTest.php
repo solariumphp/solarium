@@ -351,6 +351,64 @@ abstract class AbstractTechproductsTest extends TestCase
             'pc' => 3,
         ], $terms);
     }
+
+    public function testPrefetchIterator()
+    {
+        $select = $this->client->createSelect();
+        $prefetch = $this->client->getPlugin('prefetchiterator');
+        $prefetch->setPrefetch(2);
+        $prefetch->setQuery($select);
+
+        // count() uses getNumFound() on the result set and wouldn't actually test if all results are iterated
+        for ($i = 0; $prefetch->valid(); ++$i) {
+            $prefetch->next();
+        }
+
+        $this->assertSame(32, $i);
+    }
+
+    public function testPrefetchIteratorWithCursormark()
+    {
+        $select = $this->client->createSelect();
+        $select->setCursormark('*');
+        $select->addSort('id', SelectQuery::SORT_ASC);
+        $prefetch = $this->client->getPlugin('prefetchiterator');
+        $prefetch->setPrefetch(2);
+        $prefetch->setQuery($select);
+
+        // count() uses getNumFound() on the result set and wouldn't actually test if all results are iterated
+        for ($i = 0; $prefetch->valid(); ++$i) {
+            $prefetch->next();
+        }
+
+        $this->assertSame(32, $i);
+    }
+
+    public function testPrefetchIteratorWithoutAndWithCursormark()
+    {
+        $select = $this->client->createSelect();
+        $select->addSort('id', SelectQuery::SORT_ASC);
+        $prefetch = $this->client->getPlugin('prefetchiterator');
+        $prefetch->setPrefetch(2);
+        $prefetch->setQuery($select);
+
+        $without = [];
+        foreach ($prefetch as $document) {
+            $without = $document->id;
+        }
+
+        $select = $this->client->createSelect();
+        $select->setCursormark('*');
+        $select->addSort('id', SelectQuery::SORT_ASC);
+        $prefetch->setQuery($select);
+
+        $with = [];
+        foreach ($prefetch as $document) {
+            $with = $document->id;
+        }
+
+        $this->assertSame($without, $with);
+    }
 }
 
 class TestQuery extends SelectQuery
