@@ -3,6 +3,8 @@
 namespace Solarium\QueryType\Spellcheck;
 
 use Solarium\Component\ComponentTraits\SpellcheckTrait;
+use Solarium\Component\QueryInterface;
+use Solarium\Component\QueryTrait;
 use Solarium\Component\SpellcheckInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
@@ -12,9 +14,10 @@ use Solarium\Core\Query\AbstractQuery as BaseQuery;
  *
  * Can be used for an autocomplete feature. See http://wiki.apache.org/solr/SpellcheckComponent for more info.
  */
-class Query extends BaseQuery implements SpellcheckInterface
+class Query extends BaseQuery implements SpellcheckInterface, QueryInterface
 {
     use SpellcheckTrait;
+    use QueryTrait;
 
     /**
      * Default options.
@@ -57,19 +60,5 @@ class Query extends BaseQuery implements SpellcheckInterface
     public function getResponseParser()
     {
         return new ResponseParser();
-    }
-
-    /**
-     * Set query option.
-     *
-     * Query to spellcheck
-     *
-     * @param string $query
-     *
-     * @return self Provides fluent interface
-     */
-    public function setQuery($query)
-    {
-        return $this->setOption('query', $query);
     }
 }

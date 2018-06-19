@@ -6,8 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [4.1.0-rc.1]
 ### Added
+- Every component that has a 'query' option is now able to bind parameters to a query string via its setQuery() function
 
 ### Changed
+- Renamed option 'q' to 'query' in Solarium\Component\Facet\JsonQuery for consistency
 
 ### Deprecated
 

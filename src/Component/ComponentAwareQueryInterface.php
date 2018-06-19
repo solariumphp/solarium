@@ -78,6 +78,11 @@ interface ComponentAwareQueryInterface
     const COMPONENT_QUERYELEVATION = 'queryelevation';
 
     /**
+     * Query component rerank query.
+     */
+    const COMPONENT_RERANKQUERY = 'rerankquery';
+
+    /**
      * Get all registered component types.
      *
      * @return array

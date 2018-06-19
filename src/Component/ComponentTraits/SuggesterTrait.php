@@ -8,16 +8,6 @@ namespace Solarium\Component\ComponentTraits;
 trait SuggesterTrait
 {
     /**
-     * Get query option.
-     *
-     * @return string|null
-     */
-    public function getQuery()
-    {
-        return $this->getOption('query');
-    }
-
-    /**
      * Set dictionary option.
      *
      * The name of the dictionary to use

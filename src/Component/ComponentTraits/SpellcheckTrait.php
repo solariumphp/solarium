@@ -15,16 +15,6 @@ trait SpellcheckTrait
     protected $collateParams = [];
 
     /**
-     * Get query option.
-     *
-     * @return string|null
-     */
-    public function getQuery()
-    {
-        return $this->getOption('query');
-    }
-
-    /**
      * Set build option.
      *
      * Build the spellcheck?

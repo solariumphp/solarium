@@ -3,6 +3,8 @@
 namespace Solarium\QueryType\Suggester;
 
 use Solarium\Component\ComponentTraits\SuggesterTrait;
+use Solarium\Component\QueryInterface;
+use Solarium\Component\QueryTrait;
 use Solarium\Component\SuggesterInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
@@ -12,9 +14,10 @@ use Solarium\Core\Query\AbstractQuery as BaseQuery;
  *
  * Can be used for an autocomplete feature. See http://wiki.apache.org/solr/Suggester for more info.
  */
-class Query extends BaseQuery implements SuggesterInterface
+class Query extends BaseQuery implements SuggesterInterface, QueryInterface
 {
     use SuggesterTrait;
+    use QueryTrait;
 
     /**
      * Default options.
@@ -59,19 +62,5 @@ class Query extends BaseQuery implements SuggesterInterface
     public function getResponseParser()
     {
         return new ResponseParser();
-    }
-
-    /**
-     * Set query option.
-     *
-     * Query to spellcheck
-     *
-     * @param string $query
-     *
-     * @return self Provides fluent interface
-     */
-    public function setQuery($query)
-    {
-        return $this->setOption('query', $query);
     }
 }

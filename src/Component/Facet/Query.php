@@ -3,6 +3,8 @@
 namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
+use Solarium\Component\QueryInterface;
+use Solarium\Component\QueryTrait;
 use Solarium\Core\Query\Helper;
 
 /**
@@ -10,9 +12,10 @@ use Solarium\Core\Query\Helper;
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
  */
-class Query extends AbstractFacet
+class Query extends AbstractFacet implements QueryInterface
 {
     use ExcludeTagsTrait;
+    use QueryTrait;
 
     /**
      * Default options.
@@ -34,32 +37,12 @@ class Query extends AbstractFacet
     }
 
     /**
-     * Set the query string.
+     * Returns a query helper.
      *
-     * This overwrites the current value
-     *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
+     * @return \Solarium\Core\Query\Helper
      */
-    public function setQuery($query, $bind = null)
+    public function getHelper()
     {
-        if (null !== $bind) {
-            $helper = new Helper();
-            $query = $helper->assemble($query, $bind);
-        }
-
-        return $this->setOption('query', $query);
-    }
-
-    /**
-     * Get the query string.
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->getOption('query');
+        return new Helper();
     }
 }

@@ -499,7 +499,7 @@ class FacetSetTest extends TestCase
         $this->assertInstanceOf(JsonQuery::class, $result);
         $this->assertSame(1, $result->getOption('optionA'));
         $this->assertSame(2, $result->getOption('optionB'));
-        $this->assertSame('*:*', $result->getOption('q'));
+        $this->assertSame('*:*', $result->getOption('query'));
 
         if ($add) {
             $this->assertInstanceOf(JsonQuery::class, $facetSet->getFacet('key'));

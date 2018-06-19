@@ -61,4 +61,14 @@ abstract class AbstractComponent extends Configurable
     {
         return $this->queryInstance;
     }
+
+    /**
+     * Returns a query helper.
+     *
+     * @return \Solarium\Core\Query\Helper
+     */
+    public function getHelper()
+    {
+        return $this->getQueryInstance()->getHelper();
+    }
 }
