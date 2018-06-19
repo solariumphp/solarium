@@ -1,14 +1,12 @@
 <?php
 
-namespace Solarium\Component;
+namespace Solarium\Component\DisMax;
 
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Helper;
 
 /**
- * Filterquery.
- *
- * @see http://wiki.apache.org/solr/CommonQueryParameters#fq
+ * Boost query.
  */
 class BoostQuery extends Configurable
 {

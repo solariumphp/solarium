@@ -1,9 +1,9 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Select\Query\Component;
+namespace Solarium\Tests\QueryType\Select\Query\Component\DisMax;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\BoostQuery;
+use Solarium\Component\DisMax\BoostQuery;
 
 class BoostQueryTest extends TestCase
 {

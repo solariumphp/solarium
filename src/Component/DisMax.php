@@ -2,6 +2,7 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\DisMax\BoostQuery;
 use Solarium\Component\RequestBuilder\DisMax as RequestBuilder;
 use Solarium\Exception\InvalidArgumentException;
 

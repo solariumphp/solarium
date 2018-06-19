@@ -3,7 +3,7 @@
 namespace Solarium\Tests\QueryType\Select\Query\Component;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\BoostQuery;
+use Solarium\Component\DisMax\BoostQuery;
 use Solarium\Component\DisMax;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query;
