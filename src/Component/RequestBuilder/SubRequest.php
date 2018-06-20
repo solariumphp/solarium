@@ -46,12 +46,20 @@ class SubRequest implements RequestParamsInterface
     /**
      * returns the complete sub request as string.
      *
-     * @return string|null
+     * @param string $separator
+     *
+     * @return string
      */
-    public function getSubQuery()
+    public function getSubQuery($separator = ' ')
     {
-        if ($queryString = $this->getQueryString()) {
-            return '{!'.$this->getQueryParser().'+'.$this->getQueryString('+').'}';
+        $queryString = '';
+        foreach ($this->getParams() as $key => $value) {
+            $queryString .= $separator.$key.'='.$value;
         }
+        if ($queryString) {
+            $queryString = '{!'.$this->getQueryParser().$queryString.'}';
+        }
+
+        return $queryString;
     }
 }

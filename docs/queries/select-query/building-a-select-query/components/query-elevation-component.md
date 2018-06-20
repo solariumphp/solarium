@@ -30,9 +30,6 @@ $client = new Solarium\Client($config);
 $query = $client->createSelect();
 $query->setQuery('electronics');
 
-// set a handler that is configured with an elevator component in solrconfig.xml (or add it to your default handler)
-$query->setHandler('elevate');
-
 // get query elevation component
 $elevate = $query->getQueryElevation();
 

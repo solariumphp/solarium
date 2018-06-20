@@ -23,7 +23,7 @@ class ReRankQueryTest extends TestCase
 
         $this->assertEquals(
             [
-                'rq' => '{!rerank+reRankQuery=foo%3Abar+reRankDocs=42+reRankWeight=48.2233}',
+                'rq' => '{!rerank reRankQuery=foo:bar reRankDocs=42 reRankWeight=48.2233}',
             ],
             $request->getParams()
         );

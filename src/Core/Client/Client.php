@@ -810,8 +810,6 @@ class Client extends Configurable implements ClientInterface
      * $result = $client->ping($query);
      * </code>
      *
-     * @see Solarium\QueryType\Ping
-     *
      * @param QueryInterface|\Solarium\QueryType\Ping\Query $query
      * @param Endpoint|string|null                          $endpoint
      *
@@ -836,9 +834,6 @@ class Client extends Configurable implements ClientInterface
      * $result = $client->update($update);
      * </code>
      *
-     * @see Solarium\QueryType\Update
-     * @see Solarium\Result\Update
-     *
      * @param QueryInterface|\Solarium\QueryType\Update\Query\Query $query
      * @param Endpoint|string|null                                  $endpoint
      *
@@ -862,9 +857,6 @@ class Client extends Configurable implements ClientInterface
      * $result = $client->select($query);
      * </code>
      *
-     * @see Solarium\QueryType\Select
-     * @see Solarium\Result\Select
-     *
      * @param QueryInterface|\Solarium\QueryType\Select\Query\Query $query
      * @param Endpoint|string|null                                  $endpoint
      *
@@ -887,9 +879,6 @@ class Client extends Configurable implements ClientInterface
      * $query = $client->createMoreLikeThis();
      * $result = $client->moreLikeThis($query);
      * </code>
-     *
-     * @see Solarium\QueryType\MoreLikeThis
-     * @see Solarium\Result\MoreLikeThis
      *
      * @param QueryInterface|\Solarium\QueryType\MoreLikeThis\Query $query
      * @param Endpoint|string|null                                  $endpoint
