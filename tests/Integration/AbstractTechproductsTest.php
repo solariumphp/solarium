@@ -356,51 +356,34 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $select = $this->client->createSelect();
         $select->setQuery('inStock:true');
+        $select->setRows(2);
         $result = $this->client->select($select);
         $this->assertSame(17, $result->getNumFound());
-        $this->assertSame(10, $result->count());
+        $this->assertSame(2, $result->count());
 
         $ids = [];
         /** @var \Solarium\QueryType\Select\Result\Document $document */
         foreach ($result as $document) {
             $ids[] = $document->id;
         }
-        $this->assertEquals([
-            'TWINX2048-3200PRO',
-            'VS1GB400C3',
-            'VDBDB1A16',
-            'MA147LL/A',
-            '9885A004',
-            'VA902B',
-            '0579B002',
-            '3007WFP',
-            'SP2514N',
-            '6H500F0',
-        ], $ids);
 
         $reRankQuery = $select->getReRankQuery();
         $reRankQuery->setQuery('popularity:10');
         $result = $this->client->select($select);
         $this->assertSame(17, $result->getNumFound());
-        $this->assertSame(10, $result->count());
+        $this->assertSame(2, $result->count());
 
-        $ids = [];
+        $rerankedids = [];
         /** @var \Solarium\QueryType\Select\Result\Document $document */
         foreach ($result as $document) {
-            $ids[] = $document->id;
+            $rerankedids[] = $document->id;
         }
-        $this->assertEquals([
+        $this->assertNotSame($ids, $rerankedids);
+        // These two ducuments have a popularity of 10 and should ranked highest.
+        $this->assertArraySubset([
             'MA147LL/A',
             'SOLR1000',
-            'TWINX2048-3200PRO',
-            'VS1GB400C3',
-            'VDBDB1A16',
-            '9885A004',
-            'VA902B',
-            '0579B002',
-            '3007WFP',
-            'SP2514N',
-        ], $ids);
+        ], $rerankedids);
     }
 
     public function testPrefetchIterator()
