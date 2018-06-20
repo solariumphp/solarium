@@ -54,5 +54,4 @@ class SubRequest implements RequestParamsInterface
             return '{!'.$this->getQueryParser().'+'.$this->getQueryString('+').'}';
         }
     }
-
 }
