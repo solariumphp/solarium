@@ -54,13 +54,6 @@ class DistributedSearch extends AbstractComponent
     }
 
     /**
-     * This component has no response parser...
-     */
-    public function getResponseParser()
-    {
-    }
-
-    /**
      * Add a shard.
      *
      * @param string $key   unique string

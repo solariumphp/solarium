@@ -32,13 +32,6 @@ class Spatial extends AbstractComponent
     }
 
     /**
-     * This component has no response parser...
-     */
-    public function getResponseParser()
-    {
-    }
-
-    /**
      * @param string $sfield
      */
     public function setField($sfield)

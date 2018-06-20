@@ -50,13 +50,6 @@ class DisMax extends AbstractComponent
     }
 
     /**
-     * This component has no response parser...
-     */
-    public function getResponseParser()
-    {
-    }
-
-    /**
      * Set QueryAlternative option.
      *
      * If specified, this query will be used (and parsed by default using

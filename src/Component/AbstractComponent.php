@@ -6,6 +6,7 @@ use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\Helper;
 
 /**
  * Query component base class.
@@ -32,11 +33,11 @@ abstract class AbstractComponent extends Configurable
     abstract public function getRequestBuilder();
 
     /**
-     * Get the response parser class for this query.
-     *
-     * @return ComponentParserInterface
+     * This component has no response parser...
      */
-    abstract public function getResponseParser();
+    public function getResponseParser()
+    {
+    }
 
     /**
      * Set parent query instance.
@@ -69,6 +70,11 @@ abstract class AbstractComponent extends Configurable
      */
     public function getHelper()
     {
-        return $this->getQueryInstance()->getHelper();
+        if ($queryInstance = $this->getQueryInstance()) {
+            return $this->getQueryInstance()->getHelper();
+        }
+        else {
+            return new Helper();
+        }
     }
 }

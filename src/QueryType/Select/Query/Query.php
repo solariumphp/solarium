@@ -15,6 +15,7 @@ use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\HighlightingTrait;
 use Solarium\Component\QueryTraits\MoreLikeThisTrait;
 use Solarium\Component\QueryTraits\QueryElevationTrait;
+use Solarium\Component\QueryTraits\ReRankQueryTrait;
 use Solarium\Component\QueryTraits\SpatialTrait;
 use Solarium\Component\QueryTraits\SpellcheckTrait;
 use Solarium\Component\QueryTraits\StatsTrait;
@@ -48,6 +49,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     use DistributedSearchTrait;
     use StatsTrait;
     use QueryElevationTrait;
+    use ReRankQueryTrait;
     use QueryTrait;
 
     /**
@@ -130,6 +132,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
             ComponentAwareQueryInterface::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\Component\DistributedSearch',
             ComponentAwareQueryInterface::COMPONENT_STATS => 'Solarium\Component\Stats\Stats',
             ComponentAwareQueryInterface::COMPONENT_QUERYELEVATION => 'Solarium\Component\QueryElevation',
+            ComponentAwareQueryInterface::COMPONENT_RERANKQUERY => 'Solarium\Component\ReRankQuery',
         ];
 
         parent::__construct($options);
