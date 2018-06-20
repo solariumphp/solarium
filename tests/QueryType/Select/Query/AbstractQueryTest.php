@@ -680,7 +680,6 @@ abstract class AbstractQueryTest extends TestCase
         );
     }
 
-
     public function testGetReRankQuery()
     {
         $reRankQuery = $this->query->getReRankQuery();

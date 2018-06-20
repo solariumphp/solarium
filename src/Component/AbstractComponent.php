@@ -3,7 +3,6 @@
 namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
-use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Helper;
@@ -72,8 +71,7 @@ abstract class AbstractComponent extends Configurable
     {
         if ($queryInstance = $this->getQueryInstance()) {
             return $this->getQueryInstance()->getHelper();
-        }
-        else {
+        } else {
             return new Helper();
         }
     }

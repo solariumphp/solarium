@@ -2,9 +2,6 @@
 
 namespace Solarium\Component\RequestBuilder;
 
-use Solarium\Core\Configurable;
-use Solarium\Exception\RuntimeException;
-
 /**
  * Trait for handling request params.
  */

@@ -2,9 +2,6 @@
 
 namespace Solarium\Component\RequestBuilder;
 
-use Solarium\Core\Configurable;
-use Solarium\Exception\RuntimeException;
-
 /**
  * Class for describing a sub request.
  */
@@ -54,7 +51,7 @@ class SubRequest implements RequestParamsInterface
     public function getSubQuery()
     {
         if ($queryString = $this->getQueryString()) {
-            return '{!' . $this->getQueryParser() . '+' . $this->getQueryString('+') . '}';
+            return '{!'.$this->getQueryParser().'+'.$this->getQueryString('+').'}';
         }
     }
 
