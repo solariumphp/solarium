@@ -13,14 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Renamed option 'q' to 'query' in Solarium\Component\Facet\JsonQuery for consistency
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 - Random test failures caused by different timestamps
-
-### Security
 
 
 ## [4.1.0-beta.1]
