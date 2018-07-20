@@ -4,6 +4,8 @@ namespace Solarium\QueryType\Select\Query;
 
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\ComponentAwareQueryTrait;
+use Solarium\Component\QueryInterface;
+use Solarium\Component\QueryTrait;
 use Solarium\Component\QueryTraits\DebugTrait;
 use Solarium\Component\QueryTraits\DisMaxTrait;
 use Solarium\Component\QueryTraits\DistributedSearchTrait;
@@ -13,6 +15,7 @@ use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\HighlightingTrait;
 use Solarium\Component\QueryTraits\MoreLikeThisTrait;
 use Solarium\Component\QueryTraits\QueryElevationTrait;
+use Solarium\Component\QueryTraits\ReRankQueryTrait;
 use Solarium\Component\QueryTraits\SpatialTrait;
 use Solarium\Component\QueryTraits\SpellcheckTrait;
 use Solarium\Component\QueryTraits\StatsTrait;
@@ -30,7 +33,7 @@ use Solarium\QueryType\Select\ResponseParser;
  * lots of options and there are many Solarium subclasses for it.
  * See the Solr documentation and the relevant Solarium classes for more info.
  */
-class Query extends AbstractQuery implements ComponentAwareQueryInterface
+class Query extends AbstractQuery implements ComponentAwareQueryInterface, QueryInterface
 {
     use ComponentAwareQueryTrait;
     use MoreLikeThisTrait;
@@ -46,6 +49,8 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     use DistributedSearchTrait;
     use StatsTrait;
     use QueryElevationTrait;
+    use ReRankQueryTrait;
+    use QueryTrait;
 
     /**
      * Solr sort mode descending.
@@ -127,6 +132,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
             ComponentAwareQueryInterface::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\Component\DistributedSearch',
             ComponentAwareQueryInterface::COMPONENT_STATS => 'Solarium\Component\Stats\Stats',
             ComponentAwareQueryInterface::COMPONENT_QUERYELEVATION => 'Solarium\Component\QueryElevation',
+            ComponentAwareQueryInterface::COMPONENT_RERANKQUERY => 'Solarium\Component\ReRankQuery',
         ];
 
         parent::__construct($options);
@@ -160,40 +166,6 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface
     public function getResponseParser()
     {
         return new ResponseParser();
-    }
-
-    /**
-     * Set the query string.
-     *
-     * Overwrites the current value. You are responsible for the correct
-     * escaping of user input.
-     *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
-     */
-    public function setQuery($query, $bind = null)
-    {
-        if (null !== $bind) {
-            $query = $this->getHelper()->assemble($query, $bind);
-        }
-
-        if (null !== $query) {
-            $query = trim($query);
-        }
-
-        return $this->setOption('query', $query);
-    }
-
-    /**
-     * Get the query string.
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->getOption('query');
     }
 
     /**

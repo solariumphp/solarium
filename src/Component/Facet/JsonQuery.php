@@ -3,6 +3,8 @@
 namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
+use Solarium\Component\QueryInterface;
+use Solarium\Component\QueryTrait;
 use Solarium\Core\Query\Helper;
 
 /**
@@ -10,9 +12,12 @@ use Solarium\Core\Query\Helper;
  *
  * @see https://lucene.apache.org/solr/guide/7_3/json-facet-api.html
  */
-class JsonQuery extends AbstractFacet implements JsonFacetInterface, FacetSetInterface
+class JsonQuery extends AbstractFacet implements JsonFacetInterface, FacetSetInterface, QueryInterface
 {
-    use JsonFacetTrait;
+    use JsonFacetTrait {
+        serialize as jsonFacetTraitSerialize;
+    }
+    use QueryTrait;
 
     /**
      * Default options.
@@ -20,7 +25,7 @@ class JsonQuery extends AbstractFacet implements JsonFacetInterface, FacetSetInt
      * @var array
      */
     protected $options = [
-        'q' => '*:*',
+        'query' => '*:*',
     ];
 
     /**
@@ -34,32 +39,20 @@ class JsonQuery extends AbstractFacet implements JsonFacetInterface, FacetSetInt
     }
 
     /**
-     * Set the query string.
+     * Returns a query helper.
      *
-     * This overwrites the current value
-     *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
+     * @return \Solarium\Core\Query\Helper
      */
-    public function setQuery($query, $bind = null)
+    public function getHelper()
     {
-        if (null !== $bind) {
-            $helper = new Helper();
-            $query = $helper->assemble($query, $bind);
-        }
-
-        return $this->setOption('q', $query);
+        return new Helper();
     }
 
-    /**
-     * Get the query string.
-     *
-     * @return string
-     */
-    public function getQuery()
+    public function serialize()
     {
-        return $this->getOption('q');
+        $options = $this->jsonFacetTraitSerialize();
+        $options['q'] = $options['query'];
+        unset($options['query']);
+        return $options;
     }
 }

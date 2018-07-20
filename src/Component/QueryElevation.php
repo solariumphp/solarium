@@ -48,13 +48,6 @@ class QueryElevation extends AbstractComponent
     }
 
     /**
-     * This component has no response parser...
-     */
-    public function getResponseParser()
-    {
-    }
-
-    /**
      * Add a document transformer.
      *
      * @param string $transformer

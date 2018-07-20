@@ -352,6 +352,40 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $terms);
     }
 
+    public function testReRankQuery()
+    {
+        $select = $this->client->createSelect();
+        $select->setQuery('inStock:true');
+        $select->setRows(2);
+        $result = $this->client->select($select);
+        $this->assertSame(17, $result->getNumFound());
+        $this->assertSame(2, $result->count());
+
+        $ids = [];
+        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        foreach ($result as $document) {
+            $ids[] = $document->id;
+        }
+
+        $reRankQuery = $select->getReRankQuery();
+        $reRankQuery->setQuery('popularity:10');
+        $result = $this->client->select($select);
+        $this->assertSame(17, $result->getNumFound());
+        $this->assertSame(2, $result->count());
+
+        $rerankedids = [];
+        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        foreach ($result as $document) {
+            $rerankedids[] = $document->id;
+        }
+        $this->assertNotSame($ids, $rerankedids);
+        // These two ducuments have a popularity of 10 and should ranked highest.
+        $this->assertArraySubset([
+            'MA147LL/A',
+            'SOLR1000',
+        ], $rerankedids);
+    }
+
     public function testPrefetchIterator()
     {
         $select = $this->client->createSelect();

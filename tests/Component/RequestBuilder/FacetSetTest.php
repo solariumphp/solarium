@@ -73,13 +73,13 @@ class FacetSetTest extends TestCase
     public function testBuildWithJsonFacets()
     {
         $this->component->addFacet(new JsonTerms(['key' => 'f1', 'field' => 'owner']));
-        $this->component->addFacet(new JsonQuery(['key' => 'f2', 'q' => 'category:23']));
+        $this->component->addFacet(new JsonQuery(['key' => 'f2', 'query' => 'category:23']));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
         $this->assertNull($request->getRawData());
         $this->assertEquals(
-            '?json.facet={"f1":{"field":"owner","type":"terms"},"f2":{"q":"category:23","type":"query"}}',
+            '?json.facet={"f1":{"field":"owner","type":"terms"},"f2":{"type":"query","q":"category:23"}}',
             urldecode($request->getUri())
         );
     }
@@ -155,7 +155,7 @@ class FacetSetTest extends TestCase
     {
         $this->component->addFacet(new FacetField(['key' => 'f1', 'field' => 'owner']));
         $this->component->addFacet(new JsonTerms(['key' => 'f2', 'field' => 'customer']));
-        $this->component->addFacet(new JsonQuery(['key' => 'f3', 'q' => 'category:23']));
+        $this->component->addFacet(new JsonQuery(['key' => 'f3', 'query' => 'category:23']));
         $this->component->addFacet(
             new FacetMultiQuery(['key' => 'f4', 'query' => ['f5' => ['query' => 'category:40']]])
         );
@@ -164,7 +164,7 @@ class FacetSetTest extends TestCase
 
         $this->assertNull($request->getRawData());
         $this->assertEquals(
-            '?facet.field={!key=f1}owner&facet.query={!key=f5}category:40&facet=true&json.facet={"f2":{"field":"customer","type":"terms"},"f3":{"q":"category:23","type":"query"}}',
+            '?facet.field={!key=f1}owner&facet.query={!key=f5}category:40&facet=true&json.facet={"f2":{"field":"customer","type":"terms"},"f3":{"type":"query","q":"category:23"}}',
             urldecode($request->getUri())
         );
     }
@@ -193,7 +193,7 @@ class FacetSetTest extends TestCase
     public function testBuildWithNestedJsonFacets()
     {
         $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
-        $query = new JsonQuery(['key' => 'f2', 'q' => 'category:23']);
+        $query = new JsonQuery(['key' => 'f2', 'query' => 'category:23']);
         $query->addFacet(new JsonAggregation(['key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
         $query->addFacet(new JsonAggregation(['key' => 'f2', 'function' => 'unique(popularity)']));
         $terms->addFacet($query);
@@ -203,7 +203,7 @@ class FacetSetTest extends TestCase
 
         $this->assertNull($request->getRawData());
         $this->assertEquals(
-            '?json.facet={"f1":{"field":"owner","type":"terms","facet":{"f2":{"q":"category:23","type":"query","facet":{"f1":"avg(mul(price,popularity))","f2":"unique(popularity)"}}}}}',
+            '?json.facet={"f1":{"field":"owner","type":"terms","facet":{"f2":{"type":"query","facet":{"f1":"avg(mul(price,popularity))","f2":"unique(popularity)"},"q":"category:23"}}}}',
             urldecode($request->getUri())
         );
     }

@@ -1,23 +1,18 @@
 <?php
 
-namespace Solarium\Component;
+namespace Solarium\Component\DisMax;
 
+use Solarium\Component\QueryInterface;
+use Solarium\Component\QueryTrait;
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Helper;
 
 /**
- * Filterquery.
- *
- * @see http://wiki.apache.org/solr/CommonQueryParameters#fq
+ * Boost query.
  */
-class BoostQuery extends Configurable
+class BoostQuery extends Configurable implements QueryInterface
 {
-    /**
-     * Query.
-     *
-     * @var string
-     */
-    protected $query;
+    use QueryTrait;
 
     /**
      * Get key value.
@@ -42,35 +37,13 @@ class BoostQuery extends Configurable
     }
 
     /**
-     * Set the query string.
+     * Returns a query helper.
      *
-     * This overwrites the current value
-     *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
+     * @return \Solarium\Core\Query\Helper
      */
-    public function setQuery($query, $bind = null)
+    public function getHelper()
     {
-        if (null !== $bind) {
-            $helper = new Helper();
-            $query = $helper->assemble($query, $bind);
-        }
-
-        $this->query = trim($query);
-
-        return $this;
-    }
-
-    /**
-     * Get the query string.
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->query;
+        return new Helper();
     }
 
     /**

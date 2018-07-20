@@ -2,6 +2,7 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\DisMax\BoostQuery;
 use Solarium\Component\RequestBuilder\DisMax as RequestBuilder;
 use Solarium\Exception\InvalidArgumentException;
 
@@ -46,13 +47,6 @@ class DisMax extends AbstractComponent
     public function getRequestBuilder()
     {
         return new RequestBuilder();
-    }
-
-    /**
-     * This component has no response parser...
-     */
-    public function getResponseParser()
-    {
     }
 
     /**

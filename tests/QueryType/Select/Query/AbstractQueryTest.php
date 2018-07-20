@@ -670,6 +670,26 @@ abstract class AbstractQueryTest extends TestCase
         );
     }
 
+    public function testGetSpatial()
+    {
+        $spatial = $this->query->getSpatial();
+
+        $this->assertSame(
+            'Solarium\Component\Spatial',
+            get_class($spatial)
+        );
+    }
+
+    public function testGetReRankQuery()
+    {
+        $reRankQuery = $this->query->getReRankQuery();
+
+        $this->assertSame(
+            'Solarium\Component\ReRankQuery',
+            get_class($reRankQuery)
+        );
+    }
+
     public function testAddTag()
     {
         $this->query->addTag('testtag');
@@ -720,15 +740,5 @@ abstract class AbstractQueryTest extends TestCase
     {
         $this->query->setSplitOnWhitespace(false);
         $this->assertFalse($this->query->getSplitOnWhitespace());
-    }
-
-    public function testGetSpatial()
-    {
-        $spatial = $this->query->getSpatial();
-
-        $this->assertSame(
-            'Solarium\Component\Spatial',
-            get_class($spatial)
-        );
     }
 }

@@ -22,13 +22,13 @@ class JsonQueryTest extends TestCase
     {
         $options = [
             'key' => 'myKey',
-            'q' => 'category:1',
+            'query' => 'category:1',
         ];
 
         $this->facet->setOptions($options);
 
         $this->assertSame($options['key'], $this->facet->getKey());
-        $this->assertSame($options['q'], $this->facet->getQuery());
+        $this->assertSame($options['query'], $this->facet->getQuery());
     }
 
     public function testGetType()

@@ -2,6 +2,8 @@
 
 namespace Solarium\QueryType\Select\Query;
 
+use Solarium\Component\QueryInterface;
+use Solarium\Component\QueryTrait;
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Helper;
 
@@ -10,8 +12,10 @@ use Solarium\Core\Query\Helper;
  *
  * @see http://wiki.apache.org/solr/CommonQueryParameters#fq
  */
-class FilterQuery extends Configurable
+class FilterQuery extends Configurable implements QueryInterface
 {
+    use QueryTrait;
+
     /**
      * Tags for this filterquery.
      *
@@ -46,38 +50,6 @@ class FilterQuery extends Configurable
     public function setKey($value)
     {
         return $this->setOption('key', $value);
-    }
-
-    /**
-     * Set the query string.
-     *
-     * This overwrites the current value
-     *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
-     */
-    public function setQuery($query, $bind = null)
-    {
-        if (null !== $bind) {
-            $helper = new Helper();
-            $query = $helper->assemble($query, $bind);
-        }
-
-        $this->query = trim($query);
-
-        return $this;
-    }
-
-    /**
-     * Get the query string.
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->query;
     }
 
     /**
@@ -162,6 +134,16 @@ class FilterQuery extends Configurable
         $this->clearTags();
 
         return $this->addTags($tags);
+    }
+
+    /**
+     * Returns a query helper.
+     *
+     * @return \Solarium\Core\Query\Helper
+     */
+    public function getHelper()
+    {
+        return new Helper();
     }
 
     /**

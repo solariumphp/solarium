@@ -11,9 +11,10 @@ use Solarium\Component\ResponseParser\Spellcheck as ResponseParser;
  *
  * @see http://wiki.apache.org/solr/SpellcheckComponent
  */
-class Spellcheck extends AbstractComponent implements SpellcheckInterface
+class Spellcheck extends AbstractComponent implements SpellcheckInterface, QueryInterface
 {
     use SpellcheckTrait;
+    use QueryTrait;
 
     /**
      * Get component type.
@@ -43,22 +44,5 @@ class Spellcheck extends AbstractComponent implements SpellcheckInterface
     public function getResponseParser()
     {
         return new ResponseParser();
-    }
-
-    /**
-     * Set spellcheck query option.
-     *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
-     */
-    public function setQuery($query, $bind = null)
-    {
-        if (null !== $bind) {
-            $query = $this->getQueryInstance()->getHelper()->assemble($query, $bind);
-        }
-
-        return $this->setOption('query', trim($query));
     }
 }

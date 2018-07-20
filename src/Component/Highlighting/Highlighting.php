@@ -4,6 +4,8 @@ namespace Solarium\Component\Highlighting;
 
 use Solarium\Component\AbstractComponent;
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\QueryInterface;
+use Solarium\Component\QueryTrait;
 use Solarium\Component\RequestBuilder\Highlighting as RequestBuilder;
 use Solarium\Component\ResponseParser\Highlighting as ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
@@ -13,8 +15,10 @@ use Solarium\Exception\InvalidArgumentException;
  *
  * @see http://wiki.apache.org/solr/HighlightingParameters
  */
-class Highlighting extends AbstractComponent
+class Highlighting extends AbstractComponent implements QueryInterface
 {
+    use QueryTrait;
+
     /**
      * Value for fragmenter option gap.
      */
@@ -722,30 +726,6 @@ class Highlighting extends AbstractComponent
     public function getRegexMaxAnalyzedChars()
     {
         return $this->getOption('regexmaxanalyzedchars');
-    }
-
-    /**
-     * Set highlight query option.
-     *
-     * Overrides the q parameter for highlighting
-     *
-     * @param string $query
-     *
-     * @return self Provides fluent interface
-     */
-    public function setQuery($query)
-    {
-        return $this->setOption('query', $query);
-    }
-
-    /**
-     * Get query option.
-     *
-     * @return string|null
-     */
-    public function getQuery()
-    {
-        return $this->getOption('query');
     }
 
     /**
