@@ -9,10 +9,10 @@ php:
   - nightly
 
 env:
-  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.4
-  - SYMFONY_VERSION=3.3.* SOLR_VERSION=6.6.4
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.4
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.3.1
+  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.5
+  - SYMFONY_VERSION=3.3.* SOLR_VERSION=6.6.5
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.4.0
 
 cache:
   directories:
@@ -39,9 +39,9 @@ after_success:
 matrix:
   exclude:
       - php: 7.0
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.4
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5
       - php: 7.0
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.3.1
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.4.0
   allow_failures:
       - php: nightly
 
