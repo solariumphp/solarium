@@ -119,6 +119,19 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('edismax', $request->getParam('defType'));
     }
 
+    public function testWithSuggesterComponent()
+    {
+        $suggester = $this->query->getSuggester();
+        $suggester->setDictionary(['dict1', 'dict2']);
+
+        $request = $this->builder->build($this->query);
+
+        $this->assertSame(
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&suggest=true&suggest.dictionary=dict1&suggest.dictionary=dict2',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testWithTags()
     {
         $this->query->setTags(['t1', 't2']);

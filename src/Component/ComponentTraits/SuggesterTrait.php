@@ -10,9 +10,9 @@ trait SuggesterTrait
     /**
      * Set dictionary option.
      *
-     * The name of the dictionary to use
+     * The name of the dictionary or dictionaries to use
      *
-     * @param string $dictionary
+     * @param string|array $dictionary
      *
      * @return self Provides fluent interface
      */

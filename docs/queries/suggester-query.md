@@ -7,12 +7,12 @@ See the example code below.
 
 **Available options:**
 
-| Name            | Type    | Default value | Description                                                                            |
-|-----------------|---------|---------------|----------------------------------------------------------------------------------------|
-| query           | string  | null          | Query to spellcheck                                                                    |
-| dictionary      | string  | null          | The name of the dictionary to use                                                      |
-| onlymorepopular | boolean | null          | Only return suggestions that result in more hits for the query than the existing query |
-| collate         | boolean | null          |                                                                                        |
+| Name            | Type             | Default value | Description                                                                            |
+|-----------------|------------------|---------------|----------------------------------------------------------------------------------------|
+| query           | string           | null          | Query to spellcheck                                                                    |
+| dictionary      | string or array  | null          | The name(s) of the dictionary or dictionaries to use                                                      |
+| onlymorepopular | boolean          | null          | Only return suggestions that result in more hits for the query than the existing query |
+| collate         | boolean          | null          |                                                                                        |
 ||
 
 Executing a terms query
