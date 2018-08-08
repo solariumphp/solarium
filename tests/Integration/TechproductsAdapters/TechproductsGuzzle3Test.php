@@ -15,7 +15,7 @@ class TechproductsGuzzle3Test extends AbstractTechproductsTest
             $this->markTestSkipped('Guzzle 3 not installed');
         } else {
             parent::setUp();
-            $this->client->setAdapter('Solarium\Core\Client\Adapter\Guzzle');
+            $this->client->setAdapter('Solarium\Core\Client\Adapter\Guzzle3');
         }
     }
 }
