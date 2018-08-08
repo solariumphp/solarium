@@ -306,4 +306,12 @@ class Request extends Configurable implements RequestParamsInterface
             }
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+        return spl_object_hash($this);
+    }
 }
