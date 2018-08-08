@@ -120,12 +120,9 @@ class Curl extends Configurable implements AdapterInterface
             curl_setopt($handler, CURLOPT_POST, true);
 
             if ($request->getFileUpload()) {
-                if (version_compare(PHP_VERSION, '5.5.0') >= 0) {
-                    $curlFile = curl_file_create($request->getFileUpload());
-                    curl_setopt($handler, CURLOPT_POSTFIELDS, ['content' => $curlFile]);
-                } else {
-                    curl_setopt($handler, CURLOPT_POSTFIELDS, ['content' => '@'.$request->getFileUpload()]);
-                }
+                $helper = new AdapterHelper();
+                $data = $helper->buildUploadBodyFromRequest($request);
+                curl_setopt($handler, CURLOPT_POSTFIELDS, $data);
             } else {
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
             }

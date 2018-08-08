@@ -106,7 +106,8 @@ class Guzzle extends Configurable implements AdapterInterface
         }
 
         if ($request->getFileUpload()) {
-            return fopen($request->getFileUpload(), 'r');
+            $helper = new AdapterHelper();
+            return $helper->buildUploadBodyFromRequest($request);
         }
 
         return $request->getRawData();
