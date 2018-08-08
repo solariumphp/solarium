@@ -45,6 +45,22 @@ class QueryTest extends TestCase
         );
     }
 
+    public function testAddAndRemoveParam()
+    {
+        $query = new TestQuery();
+        $query->addParam('foo', 'bar');
+        $this->assertSame('bar', $query->getParams()['foo']);
+        $query->removeParam('foo');
+        $this->assertEmpty($query->getParams());
+    }
+
+    public function testRemoveUnknownParamDoesNotTriggerError()
+    {
+        $query = new TestQuery();
+        $query->removeParam('unknown');
+        $this->assertEmpty($query->getParams());
+    }
+
     public function testGetDefaultResponseWriter()
     {
         $query = new TestQuery();
