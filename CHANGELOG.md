@@ -4,6 +4,16 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.1.0]
+### Added
+- Method AbstractQuery::removeParam() to remove a custom parameter or to reset a required but modified parameter
+
+### Fixed
+- Guzzle Integration tests
+- Don't modify the time zone of DateTime objects passed by reference
+- Extract request rejected because of missing multipart boundary
+
+
 ## [4.1.0-rc.1]
 ### Added
 - Every component that has a 'query' option is now able to bind parameters to a query string via its setQuery() function
