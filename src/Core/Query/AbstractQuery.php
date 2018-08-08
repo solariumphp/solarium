@@ -157,6 +157,24 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     }
 
     /**
+     * Removes a param that was previously added by addParam.
+     *
+     * Note: This can not be used to remove known default parameters of the solarium api.
+     *
+     * @param string $name
+     *
+     * @return self Provides fluent interface
+     */
+    public function removeParam($name)
+    {
+        if (isset($this->params[$name])) {
+            unset($this->params[$name]);
+        }
+
+        return $this;
+    }
+
+    /**
      * Get extra params.
      *
      * @return array
