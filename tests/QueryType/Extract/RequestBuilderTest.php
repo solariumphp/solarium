@@ -106,10 +106,11 @@ class RequestBuilderTest extends TestCase
 
     public function testContentTypeHeader()
     {
-        $headers = [
-            'Content-Type: multipart/form-data',
-        ];
         $request = $this->builder->build($this->query);
+        $headers = [
+            'Content-Type: multipart/form-data; boundary='.$request->getHash(),
+        ];
+
         $this->assertSame($headers, $request->getHeaders());
     }
 }
