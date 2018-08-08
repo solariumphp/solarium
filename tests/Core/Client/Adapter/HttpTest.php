@@ -203,4 +203,27 @@ class HttpTest extends TestCase
             stream_context_get_options($context)
         );
     }
+
+    public function testCreateContextForDeleteRequest()
+    {
+        $timeout = 22;
+        $method = Request::METHOD_DELETE;
+
+        $request = new Request();
+        $request->setMethod($method);
+        $endpoint = new Endpoint();
+        $endpoint->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertSame(
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                ],
+            ],
+            stream_context_get_options($context)
+        );
+    }
 }
