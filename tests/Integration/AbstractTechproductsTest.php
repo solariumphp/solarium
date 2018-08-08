@@ -8,6 +8,7 @@ use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Select\Result\Document;
 
 abstract class AbstractTechproductsTest extends TestCase
 {
@@ -442,6 +443,54 @@ abstract class AbstractTechproductsTest extends TestCase
         }
 
         $this->assertSame($without, $with);
+    }
+
+    public function testExtractIntoDocument()
+    {
+        $extract = $this->client->createExtract();
+        $extract->setUprefix('attr_');
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
+        $extract->setCommit(true);
+        $extract->setCommitWithin(0);
+        $extract->setOmitHeader(false);
+
+        // add document
+        $doc = $extract->createDocument();
+        $doc->id = 'extract-test';
+        $extract->setDocument($doc);
+
+        $this->client->extract($extract);
+
+        // now get the document and check the content
+        $select = $this->client->createSelect();
+        $select->setQuery('id:extract-test');
+        $selectResult = $this->client->select($select);
+        $iterator = $selectResult->getIterator();
+
+        /** @var Document $document */
+        $document = $iterator->current();
+        $this->assertSame('PDF Test', trim($document['content'][0]), 'Written document does not contain extracted result');
+
+        // now cleanup the document the have the initial index state
+        $update = $this->client->createUpdate();
+        $update->addDeleteById('extract-test');
+        $update->addCommit(true, true);
+        $this->client->extract($update);
+    }
+
+    public function testExtractTextOnly()
+    {
+        $query = $this->client->createExtract();
+        $fileName = 'testpdf.pdf';
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
+        $query->setExtractOnly(true);
+        $query->addParam('extractFormat', 'text');
+
+        $response = $this->client->extract($query);
+        $json = json_decode($response->getResponse()->getBody());
+
+        $content = $json->{$fileName};
+        $this->assertSame('PDF Test', trim($content), 'Can not extract the plain content from the file');
     }
 }
 
