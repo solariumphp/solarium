@@ -264,6 +264,21 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildAddXmlWithDateTimeImmutable()
+    {
+        $timezone = new \DateTimeZone('Europe/London');
+        $date = new \DateTime('2013-01-15 14:41:58', $timezone);
+
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(['id' => 1, 'datetime' => $date])
+        );
+
+        $this->builder->buildAddXml($command, $this->query);
+
+        $this->assertEquals($timezone->getName(), $date->getTimezone()->getName());
+    }
+
     public function testBuildAddXmlWithFieldModifierAndNullValue()
     {
         $doc = new Document();
