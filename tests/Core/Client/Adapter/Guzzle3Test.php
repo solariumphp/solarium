@@ -115,7 +115,7 @@ final class Guzzle3Test extends TestCase
         $this->assertCount(1, $receivedRequests);
 
         $this->assertSame('POST', $receivedRequests[0]->getMethod());
-        $this->assertStringEqualsFile(__FILE__, (string) $receivedRequests[0]->getBody());
+        $this->assertContains(file_get_contents(__FILE__), (string) $receivedRequests[0]->getBody());
         $this->assertSame(
             'request value',
             (string) $receivedRequests[0]->getHeader('X-PHPUnit')
