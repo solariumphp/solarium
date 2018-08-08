@@ -127,11 +127,7 @@ class RequestBuilderTest extends TestCase
         $this->assertEquals(
             [
                 'fmap.from-field' => 'to-field',
-                'literal.date' => [
-                    '2013-01-15 14:41:58.000000',
-                    3,
-                    'UTC'
-                ],
+                'literal.date' => '2013-01-15T14:41:58Z',
                 'omitHeader' => 'true',
                 'extractOnly' => 'false',
                 'param1' => 'value1',
