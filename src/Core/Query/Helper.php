@@ -110,7 +110,7 @@ class Helper
         switch (true) {
             // input of datetime object
             case $input instanceof \DateTimeInterface:
-                // no work needed
+                $input = clone $input;
                 break;
             // input of timestamp or date/time string
             case is_string($input) || is_numeric($input):
