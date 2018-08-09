@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [4.1.0]
 ### Added
 - Method AbstractQuery::removeParam() to remove a custom parameter or to reset a required but modified parameter
+- Basic support for DELETE requests in the HttpAdapter layer
 
 ### Fixed
 - Guzzle Integration tests
