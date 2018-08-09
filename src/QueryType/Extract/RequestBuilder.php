@@ -48,6 +48,9 @@ class RequestBuilder extends BaseRequestBuilder
 
             // literal.*
             foreach ($doc->getFields() as $name => $value) {
+                if ($value instanceof \DateTime) {
+                    $value = $query->getHelper()->formatDate($value);
+                }
                 $value = (array) $value;
                 foreach ($value as $multival) {
                     $request->addParam('literal.'.$name, $multival);
