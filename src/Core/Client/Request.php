@@ -30,6 +30,11 @@ class Request extends Configurable implements RequestParamsInterface
     const METHOD_HEAD = 'HEAD';
 
     /**
+     * Request DELETE method.
+     */
+    const METHOD_DELETE = 'DELETE';
+
+    /**
      * Default options.
      *
      * @var array

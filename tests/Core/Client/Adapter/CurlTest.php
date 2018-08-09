@@ -2,6 +2,7 @@
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
+use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\Curl;
@@ -65,5 +66,18 @@ class CurlTest extends TestCase
         $response = $mock->execute($request, $endpoint);
 
         $this->assertSame($data, $response);
+    }
+
+    public function testCanCreateHandleForDeleteRequest()
+    {
+        $request = new Request();
+        $request->setMethod(Request::METHOD_DELETE);
+        $endpoint = new Endpoint();
+
+        $curlAdapter = new Curl();
+        $handler = $curlAdapter->createHandle($request, $endpoint);
+
+        $this->assertInternalType(IsType::TYPE_RESOURCE, $handler);
+        curl_close($handler);
     }
 }

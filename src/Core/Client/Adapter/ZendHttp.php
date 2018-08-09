@@ -155,6 +155,10 @@ class ZendHttp extends Configurable implements AdapterInterface
                 $client->setMethod(\Zend_Http_Client::HEAD);
                 $client->setParameterGet($request->getParams());
                 break;
+            case Request::METHOD_DELETE:
+                $client->setMethod(\Zend_Http_Client::DELETE);
+                $client->setParameterGet($request->getParams());
+                break;
             default:
                 throw new OutOfBoundsException('Unsupported method: '.$request->getMethod());
                 break;
