@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Method AbstractQuery::removeParam() to remove a custom parameter or to reset a required but modified parameter
 - Basic support for DELETE requests in the HttpAdapter layer
+- Introduced an AdapterHelper class to start unifying implementations across all HTTP adapters
+
+
+### Changed
+- To unify the file extraction across all HTTP Adapters, the filename is now always reduced to its basepath
+
 
 ### Fixed
 - Guzzle Integration tests
