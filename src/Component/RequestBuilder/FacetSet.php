@@ -117,19 +117,30 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             'facet.field',
             $this->renderLocalParams(
                 $field,
-                ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()]
+                ['key' => $facet->getKey()
+                  , 'ex' => $facet->getExcludes()
+                  , 'facet.limit' => $facet->getLimit()
+                  , 'facet.sort' => $facet->getSort()
+                  , 'facet.prefix' => $facet->getPrefix()
+                  , 'facet.contains' => $facet->getContains()
+                  , 'facet.contains.ignoreCase' => $facet->getContainsIgnoreCase()
+                  , 'facet.offset' => $facet->getOffset()
+                  , 'facet.mincount' => $facet->getMinCount()
+                  , 'facet.missing' => $facet->getMissing()
+                  , 'facet.method' => $facet->getMethod()
+                ]
             )
         );
 
-        $request->addParam("f.$field.facet.limit", $facet->getLimit());
-        $request->addParam("f.$field.facet.sort", $facet->getSort());
-        $request->addParam("f.$field.facet.prefix", $facet->getPrefix());
-        $request->addParam("f.$field.facet.contains", $facet->getContains());
-        $request->addParam("f.$field.facet.contains.ignoreCase", $facet->getContainsIgnoreCase());
-        $request->addParam("f.$field.facet.offset", $facet->getOffset());
-        $request->addParam("f.$field.facet.mincount", $facet->getMinCount());
-        $request->addParam("f.$field.facet.missing", $facet->getMissing());
-        $request->addParam("f.$field.facet.method", $facet->getMethod());
+        //$request->addParam("f.$field.facet.limit", $facet->getLimit());
+        //$request->addParam("f.$field.facet.sort", $facet->getSort());
+        //$request->addParam("f.$field.facet.prefix", $facet->getPrefix());
+        //$request->addParam("f.$field.facet.contains", $facet->getContains());
+        //$request->addParam("f.$field.facet.contains.ignoreCase", $facet->getContainsIgnoreCase());
+        //$request->addParam("f.$field.facet.offset", $facet->getOffset());
+        //$request->addParam("f.$field.facet.mincount", $facet->getMinCount());
+        //$request->addParam("f.$field.facet.missing", $facet->getMissing());
+        //$request->addParam("f.$field.facet.method", $facet->getMethod());
     }
 
     /**
