@@ -374,7 +374,7 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
 
         $this->assertEquals(
-            '?facet.field={!key=f1 facet.contains=foo facet.contains.ignoreCase=1}owner&facet=true&facet.contains=bar&facet.contains.ignoreCase=false',
+            '?facet.field={!key=f1}owner&f.owner.facet.contains=foo&f.owner.facet.contains.ignoreCase=true&facet=true&facet.contains=bar&facet.contains.ignoreCase=false',
             urldecode($request->getUri())
         );
     }
