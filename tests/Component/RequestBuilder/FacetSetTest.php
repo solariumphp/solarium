@@ -288,6 +288,7 @@ class FacetSetTest extends TestCase
         $this->component->addFacet(
             new FacetMultiQuery(['key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
+        // second use of field owner (with prefix)
         $this->component->addFacet((new FacetField(['key' => 'f5', 'field' => 'owner']))->setPrefix('X'));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
