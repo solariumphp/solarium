@@ -288,6 +288,7 @@ class FacetSetTest extends TestCase
         $this->component->addFacet(
             new FacetMultiQuery(['key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
+        $this->component->addFacet(new FacetField(['key' => 'f5', 'field' => 'owner', 'pefix'=>'X']));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -297,7 +298,7 @@ class FacetSetTest extends TestCase
         );
 
         static::assertEquals(
-            '?facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40&facet=true&facet.missing=true&facet.limit=10',
+            '?facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40&facet.field={!key=f4 facet.prefix=X}owner&facet=true&facet.missing=true&facet.limit=10',
             urldecode($request->getUri())
         );
     }
