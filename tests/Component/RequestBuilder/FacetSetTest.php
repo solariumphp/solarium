@@ -288,7 +288,7 @@ class FacetSetTest extends TestCase
         $this->component->addFacet(
             new FacetMultiQuery(['key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
-        $this->component->addFacet(new FacetField(['key' => 'f5', 'field' => 'owner', 'pefix'=>'X']));
+        $this->component->addFacet(new FacetField(['key' => 'f5', 'field' => 'owner', 'pefix' => 'X']));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
