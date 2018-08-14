@@ -120,15 +120,11 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      * @param FacetField $facet
      * @param compatible $compatible false if local parameters should be used
      */
-    public function addFacetField($request, $facet, $compatible = true)
+    public function addFacetField($request, $facet, $compatibility_mode = true)
     {
         $field = $facet->getField();
 
-        if ($compatible) {
-            $local_param = ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()];
-        } else {
-            $local_param = ['key' => $facet->getKey(), 'ex' => $facet->getExcludes(), 'facet.limit' => $facet->getLimit(), 'facet.sort' => $facet->getSort(), 'facet.prefix' => $facet->getPrefix(), 'facet.contains' => $facet->getContains(), 'facet.contains.ignoreCase' => $facet->getContainsIgnoreCase(), 'facet.offset' => $facet->getOffset(), 'facet.mincount' => $facet->getMinCount(), 'facet.missing' => $facet->getMissing(), 'facet.method' => $facet->getMethod()];
-        }
+        $local_param = $compatibility_mode ? ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()] : ['key' => $facet->getKey(), 'ex' => $facet->getExcludes(), 'facet.limit' => $facet->getLimit(), 'facet.sort' => $facet->getSort(), 'facet.prefix' => $facet->getPrefix(), 'facet.contains' => $facet->getContains(), 'facet.contains.ignoreCase' => $facet->getContainsIgnoreCase(), 'facet.offset' => $facet->getOffset(), 'facet.mincount' => $facet->getMinCount(), 'facet.missing' => $facet->getMissing(), 'facet.method' => $facet->getMethod()];
         $request->addParam(
             'facet.field',
             $this->renderLocalParams(
@@ -136,7 +132,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 $local_param
             )
         );
-        if ($compatible) {
+        if ($compatibility_mode) {
             $request->addParam("f.$field.facet.limit", $facet->getLimit());
             $request->addParam("f.$field.facet.sort", $facet->getSort());
             $request->addParam("f.$field.facet.prefix", $facet->getPrefix());
