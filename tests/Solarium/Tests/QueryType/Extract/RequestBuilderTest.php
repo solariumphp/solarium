@@ -139,4 +139,26 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($headers,
                             $request->getHeaders());
     }
+
+    public function testDocumentDateTimeField()
+    {
+        $timezone = new \DateTimeZone('Europe/London');
+        $date = new \DateTime('2013-01-15 14:41:58', $timezone);
+        $document = $this->query->createDocument(array('date' => $date));
+        $this->query->setDocument($document);
+        $request = $this->builder->build($this->query);
+        $this->assertEquals(
+            array(
+                'fmap.from-field' => 'to-field',
+                'literal.date' => '2013-01-15T14:41:58Z',
+                'omitHeader' => 'true',
+                'extractOnly' => 'false',
+                'param1' => 'value1',
+                'resource.name' => 'RequestBuilderTest.php',
+                'wt' => 'json',
+                'json.nl' => 'flat',
+            ),
+            $request->getParams()
+        );
+    }
 }
