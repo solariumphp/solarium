@@ -303,7 +303,7 @@ class FacetSetTest extends TestCase
     {
         $this->component->setMissing(true);
         $this->component->setLimit(10);
-        $this->component->addFacet(new FacetField(['key' => 'f1', 'field' => 'owner']))->setPrefix('Y');
+        $this->component->addFacet((new FacetField(['key' => 'f1', 'field' => 'owner']))->setPrefix('Y'));
 
         // second use of field owner (with prefix)
         $this->component->addFacet((new FacetField(['key' => 'f2', 'field' => 'owner']))->setPrefix('X'));
