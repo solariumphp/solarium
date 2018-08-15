@@ -135,7 +135,8 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 'facet.offset' => $facet->getOffset(),
                 'facet.mincount' => $facet->getMinCount(),
                 'facet.missing' => $facet->getMissing(),
-                'facet.method' => $facet->getMethod(), ];
+                'facet.method' => $facet->getMethod(),
+            ];
         } else {
             $local_params = ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()];
         }
