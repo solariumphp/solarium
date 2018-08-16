@@ -288,6 +288,25 @@ class FacetSetTest extends TestCase
         $this->component->addFacet(
             new FacetMultiQuery(['key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
+        $request = $this->builder->buildComponent($this->component, $this->request);
+        static::assertEquals(
+            null,
+            $request->getRawData()
+        );
+        static::assertEquals(
+            '?facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40&facet=true&facet.missing=true&facet.limit=10',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithFacetsAndSameFieldMultiplePrefix()
+    {
+        $this->component->setMissing(true);
+        $this->component->setLimit(10);
+        $this->component->addFacet((new FacetField(['key' => 'f1', 'field' => 'owner']))->setPrefix('Y'));
+
+        // second use of field owner (with prefix)
+        $this->component->addFacet((new FacetField(['key' => 'f2', 'field' => 'owner']))->setPrefix('X'));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -297,7 +316,7 @@ class FacetSetTest extends TestCase
         );
 
         static::assertEquals(
-            '?facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40&facet=true&facet.missing=true&facet.limit=10',
+            '?facet.field={!key=f1 facet.prefix=Y}owner&facet.field={!key=f2 facet.prefix=X}owner&facet=true&facet.missing=true&facet.limit=10',
             urldecode($request->getUri())
         );
     }
