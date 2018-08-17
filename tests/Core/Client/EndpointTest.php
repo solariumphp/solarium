@@ -78,25 +78,46 @@ class EndpointTest extends TestCase
         $this->assertSame('https', $this->endpoint->getScheme());
     }
 
-    public function testGetBaseUri()
+    public function testGetCoreBaseUri()
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
 
-        $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getBaseUri());
+        $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getCoreBaseUri());
     }
 
-    public function testGetBaseUriWithHttps()
+    public function testGetServerUri()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
+
+        $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getServerUri());
+    }
+
+    public function testGetCoreBaseUriWithHttps()
     {
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123);
 
-        $this->assertSame('https://myserver:123/mypath/', $this->endpoint->getBaseUri());
+        $this->assertSame('https://myserver:123/mypath/', $this->endpoint->getCoreBaseUri());
     }
 
-    public function testGetBaseUriWithCore()
+    public function testGetServerUriWithHttps()
+    {
+        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123);
+
+        $this->assertSame('https://myserver:123/mypath/', $this->endpoint->getServerUri());
+    }
+
+    public function testGetCoreBaseUriWithCore()
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('mycore');
 
-        $this->assertSame('http://myserver:123/mypath/mycore/', $this->endpoint->getBaseUri());
+        $this->assertSame('http://myserver:123/mypath/mycore/', $this->endpoint->getCoreBaseUri());
+    }
+
+    public function testServerUriDoesNotContainCoreSegment()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('mycore');
+
+        $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getServerUri());
     }
 
     public function testGetAndSetAuthentication()

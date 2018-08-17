@@ -7,6 +7,7 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
+use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 
@@ -491,6 +492,160 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $content = $json->{$fileName};
         $this->assertSame('PDF Test', trim($content), 'Can not extract the plain content from the file');
+    }
+
+    public function testCanReloadCore()
+    {
+        $coreAdminQuery = $this->client->createCoreAdmin();
+        $reloadAction = $coreAdminQuery->createReload();
+        $reloadAction->setCore('techproducts');
+        $coreAdminQuery->setAction($reloadAction);
+
+        $result = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // reloading an unexisting core should not be succesful
+        $this->expectException(HttpException::class);
+        $reloadAction2 = $coreAdminQuery->createReload();
+        $reloadAction2->setCore('nonExistingCore');
+        $coreAdminQuery->setAction($reloadAction2);
+        $this->client->coreAdmin($coreAdminQuery);
+    }
+
+    public function testCoreAdminStatus()
+    {
+        $coreAdminQuery = $this->client->createCoreAdmin();
+        $statusAction = $coreAdminQuery->createStatus();
+        $statusAction->setCore('techproducts');
+
+        $coreAdminQuery->setAction($statusAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $json = json_decode($response->getResponse()->getBody());
+        $this->assertTrue($response->getWasSuccessful());
+        $this->assertGreaterThanOrEqual(0, $json->responseHeader->QTime);
+        $this->assertNotNull($response->getStatusResult()->getUptime());
+        $this->assertGreaterThan(0, $response->getStatusResult()->getStartTime()->format('U'));
+        $this->assertGreaterThan(0, $response->getStatusResult()->getLastModified()->format('U'));
+        $this->assertSame('techproducts', $response->getStatusResult()->getCoreName());
+
+        $statusAction = $coreAdminQuery->createStatus();
+        $statusAction->setCore('unknowncore');
+
+        $coreAdminQuery->setAction($statusAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+        $this->assertSame(0, $response->getStatusResult()->getUptime());
+        $this->assertNull($response->getStatusResult()->getLastModified());
+        $this->assertNull($response->getStatusResult()->getStartTime());
+    }
+
+    public function testSplitAndMerge()
+    {
+        $coreAdminQuery = $this->client->createCoreAdmin();
+        // create core techproducts_a
+        $createAction = $coreAdminQuery->createCreate();
+        $createAction->setCore('techproducts_a');
+        $createAction->setConfigSet('sample_techproducts_configs');
+        $coreAdminQuery->setAction($createAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+
+        // create core techproducts_b
+        $createAction = $coreAdminQuery->createCreate();
+        $createAction->setCore('techproducts_b');
+        $createAction->setConfigSet('sample_techproducts_configs');
+        $coreAdminQuery->setAction($createAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+
+        // split the techproducts core into techproducts_a and techproducts_b
+        $splitAction = $coreAdminQuery->createSplit();
+        $splitAction->setCore('techproducts');
+        $splitAction->setTargetCore(['techproducts_a', 'techproducts_b']);
+        $coreAdminQuery->setAction($splitAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+
+        // reload core techproducts_a
+        $reloadAction = $coreAdminQuery->createReload();
+        $reloadAction->setCore('techproducts_a');
+        $coreAdminQuery->setAction($reloadAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+
+        // reload core techproducts_b
+        $reloadAction = $coreAdminQuery->createReload();
+        $reloadAction->setCore('techproducts_b');
+        $coreAdminQuery->setAction($reloadAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+
+        // check that we have 32 documents in techproducts 16 in techproducts_a and 16 in techproducts_b
+        $statusAction = $coreAdminQuery->createStatus();
+        $statusAction->setCore('techproducts');
+        $coreAdminQuery->setAction($statusAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+        $this->assertSame(32, $response->getStatusResult()->getNumberOfDocuments());
+
+        $statusAction = $coreAdminQuery->createStatus();
+        $statusAction->setCore('techproducts_a');
+        $coreAdminQuery->setAction($statusAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+        $this->assertSame(16, $response->getStatusResult()->getNumberOfDocuments());
+
+        $statusAction = $coreAdminQuery->createStatus();
+        $statusAction->setCore('techproducts_b');
+        $coreAdminQuery->setAction($statusAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+        $this->assertSame(16, $response->getStatusResult()->getNumberOfDocuments());
+        // now we cleanup the created cores
+        $unloadAction = $coreAdminQuery->createUnload();
+        $unloadAction->setCore('techproducts_a');
+        $unloadAction->setDeleteDataDir(true)->setDeleteIndex(true)->setDeleteInstanceDir(true);
+        $coreAdminQuery->setAction($unloadAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+
+        $unloadAction = $coreAdminQuery->createUnload();
+        $unloadAction->setCore('techproducts_b');
+        $unloadAction->setDeleteDataDir(true)->setDeleteIndex(true)->setDeleteInstanceDir(true);
+        $coreAdminQuery->setAction($unloadAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+    }
+
+    public function testGetStatusFromAllCoreWhenNoCoreNameWasSet()
+    {
+        $coreAdminQuery = $this->client->createCoreAdmin();
+
+        // create core techproducts_new
+        $createAction = $coreAdminQuery->createCreate();
+        $createAction->setCore('techproducts_new');
+        $createAction->setConfigSet('sample_techproducts_configs');
+        $coreAdminQuery->setAction($createAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+
+        // we now have two cores and when we retrieve the status for all we should have two status objects
+        $statusAction = $coreAdminQuery->createStatus();
+        $coreAdminQuery->setAction($statusAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
+
+        $statusResults = $response->getStatusResults();
+        $this->assertSame(2, count($statusResults));
+        $this->assertGreaterThan(0, $statusResults[0]->getUptime(), 'Can not get uptime of first core');
+
+        // now we unload the created core again
+        $unloadAction = $coreAdminQuery->createUnload();
+        $unloadAction->setCore('techproducts_new');
+        $unloadAction->setDeleteDataDir(true)->setDeleteIndex(true)->setDeleteInstanceDir(true);
+        $coreAdminQuery->setAction($unloadAction);
+        $response = $this->client->coreAdmin($coreAdminQuery);
+        $this->assertTrue($response->getWasSuccessful());
     }
 }
 

@@ -483,6 +483,19 @@ interface ClientInterface
     public function realtimeGet(QueryInterface $query, $endpoint = null);
 
     /**
+     * Execute a CoreAdmin query.
+     *
+     * @internal this is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API
+     *
+     * @param QueryInterface|\Solarium\QueryType\Server\CoreAdmin\Query\Query $query
+     * @param Endpoint|string|null                                            $endpoint
+     *
+     * @return \Solarium\QueryType\Server\CoreAdmin\Result\Result
+     */
+    public function coreAdmin(QueryInterface $query, $endpoint = null);
+
+    /**
      * Create a query instance.
      *
      * @param string $type
@@ -592,4 +605,11 @@ interface ClientInterface
      * @return \Solarium\QueryType\RealtimeGet\Query
      */
     public function createRealtimeGet($options = null);
+
+    /**
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\Server\CoreAdmin\Query\Query
+     */
+    public function createCoreAdmin($options = null);
 }

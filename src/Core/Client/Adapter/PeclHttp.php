@@ -63,7 +63,8 @@ class PeclHttp extends Configurable implements AdapterInterface
      */
     public function toHttpRequest($request, $endpoint)
     {
-        $url = $endpoint->getBaseUri().$request->getUri();
+        $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getCoreBaseUri();
+        $url = $baseUri.$request->getUri();
         $httpRequest = new \HttpRequest($url);
 
         $headers = [];

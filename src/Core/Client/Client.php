@@ -108,6 +108,11 @@ class Client extends Configurable implements ClientInterface
     const QUERY_REALTIME_GET = 'get';
 
     /**
+     * Querytype cores.
+     */
+    const QUERY_CORE_ADMIN = 'cores';
+
+    /**
      * Default options.
      *
      * @var array
@@ -138,6 +143,7 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_GRAPH => 'Solarium\QueryType\Graph\Query',
         self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
         self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
+        self::QUERY_CORE_ADMIN => 'Solarium\QueryType\Server\CoreAdmin\Query\Query',
     ];
 
     /**
@@ -987,6 +993,22 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
+     * Execute a CoreAdmin query.
+     *
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param QueryInterface|\Solarium\QueryType\Server\CoreAdmin\Query\Query $query
+     * @param Endpoint|string|null                                            $endpoint
+     *
+     * @return \Solarium\QueryType\Server\CoreAdmin\Result\Result
+     */
+    public function coreAdmin(QueryInterface $query, $endpoint = null)
+    {
+        return $this->execute($query, $endpoint);
+    }
+
+    /**
      * Create a query instance.
      *
      *
@@ -1188,6 +1210,18 @@ class Client extends Configurable implements ClientInterface
     public function createRealtimeGet($options = null)
     {
         return $this->createQuery(self::QUERY_REALTIME_GET, $options);
+    }
+
+    /**
+     * Create a CoreAdmin query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\Server\CoreAdmin\Query\Query
+     */
+    public function createCoreAdmin($options = null)
+    {
+        return $this->createQuery(self::QUERY_CORE_ADMIN, $options);
     }
 
     /**
