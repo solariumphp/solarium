@@ -109,6 +109,9 @@ class PeclHttp extends Configurable implements AdapterInterface
             case Request::METHOD_DELETE:
                 $method = HTTP_METH_DELETE;
                 break;
+            case Request::METHOD_PUT:
+                $method = HTTP_METH_PUT;
+                break;
             default:
                 throw new InvalidArgumentException(
                     'Unsupported method: '.$request->getMethod()
