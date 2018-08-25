@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [master]
 ### Added
+- Basic support for PUT requests in the HttpAdapter layer
 
 ### Changed
 
