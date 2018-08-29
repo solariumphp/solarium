@@ -35,6 +35,11 @@ class Request extends Configurable implements RequestParamsInterface
     const METHOD_DELETE = 'DELETE';
 
     /**
+     * Request PUT method.
+     */
+    const METHOD_PUT = 'PUT';
+
+    /**
      * Default options.
      *
      * @var array

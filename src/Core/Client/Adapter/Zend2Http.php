@@ -158,6 +158,10 @@ class Zend2Http extends Configurable implements AdapterInterface
                 $client->setMethod('DELETE');
                 $client->setParameterGet($request->getParams());
                 break;
+            case Request::METHOD_PUT:
+                $client->setMethod('PUT');
+                $client->setParameterGet($request->getParams());
+                break;
             default:
                 throw new OutOfBoundsException('Unsupported method: '.$request->getMethod());
                 break;
