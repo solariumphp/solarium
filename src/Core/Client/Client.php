@@ -108,6 +108,21 @@ class Client extends Configurable implements ClientInterface
     const QUERY_REALTIME_GET = 'get';
 
     /**
+     * Querytype managed resource.
+     */
+    const QUERY_MANAGED_RESOURCES = 'resources';
+
+    /**
+     * Querytype managed stopwords.
+     */
+    const QUERY_MANAGED_STOPWORDS = 'stopwords';
+
+    /**
+     * Querytype managed synonyms.
+     */
+    const QUERY_MANAGED_SYNONYMS = 'synonyms';
+
+    /**
      * Default options.
      *
      * @var array
@@ -138,6 +153,9 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_GRAPH => 'Solarium\QueryType\Graph\Query',
         self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
         self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
+        self::QUERY_MANAGED_RESOURCES => 'Solarium\QueryType\ManagedResources\Query\Resources',
+        self::QUERY_MANAGED_STOPWORDS => 'Solarium\QueryType\ManagedResources\Query\Stopwords',
+        self::QUERY_MANAGED_SYNONYMS => 'Solarium\QueryType\ManagedResources\Query\Synonyms',
     ];
 
     /**
