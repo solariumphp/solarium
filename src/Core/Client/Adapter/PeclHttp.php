@@ -112,6 +112,18 @@ class PeclHttp extends Configurable implements AdapterInterface
                 break;
             case Request::METHOD_PUT:
                 $method = HTTP_METH_PUT;
+                if ($request->getFileUpload()) {
+                    $httpRequest->addPostFile(
+                        'content',
+                        $request->getFileUpload(),
+                        'application/octet-stream; charset=binary'
+                    );
+                } else {
+                    $httpRequest->setBody($request->getRawData());
+                    if (!isset($headers['Content-Type'])) {
+                        $headers['Content-Type'] = 'application/json; charset=utf-8';
+                    }
+                }
                 break;
             default:
                 throw new InvalidArgumentException(
