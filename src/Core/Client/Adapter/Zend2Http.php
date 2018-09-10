@@ -160,7 +160,13 @@ class Zend2Http extends Configurable implements AdapterInterface
                 break;
             case Request::METHOD_PUT:
                 $client->setMethod('PUT');
-                $client->setParameterGet($request->getParams());
+                if ($request->getFileUpload()) {
+                    $this->prepareFileUpload($client, $request);
+                } else {
+                    $client->setParameterGet($request->getParams());
+                    $client->setRawBody($request->getRawData());
+                    $request->addHeader('Content-Type: application/json; charset=UTF-8');
+                }
                 break;
             default:
                 throw new OutOfBoundsException('Unsupported method: '.$request->getMethod());

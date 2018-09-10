@@ -134,6 +134,14 @@ class Curl extends Configurable implements AdapterInterface
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'DELETE');
         } elseif (Request::METHOD_PUT == $method) {
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'PUT');
+
+            if ($request->getFileUpload()) {
+                $helper = new AdapterHelper();
+                $data = $helper->buildUploadBodyFromRequest($request);
+                curl_setopt($handler, CURLOPT_POSTFIELDS, $data);
+            } else {
+                curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
+            }
         } else {
             throw new InvalidArgumentException("unsupported method: $method");
         }
