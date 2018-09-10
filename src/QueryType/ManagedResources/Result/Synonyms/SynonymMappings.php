@@ -2,7 +2,10 @@
 
 namespace Solarium\QueryType\ManagedResources\Result\Synonyms;
 
-class SynonymMappings implements \IteratorAggregate, \Countable
+use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\Core\Query\Result\Result;
+
+class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
      * List name.
@@ -24,10 +27,16 @@ class SynonymMappings implements \IteratorAggregate, \Countable
     protected $ignoreCase;
 
     /**
-     * Datetime when the resource was initialized
+     * Datetime when the resource was initialized.
      * @var string
      */
     protected $initializedOn;
+
+    /**
+     * Datetime when the resource was last updated.
+     * @var string
+     */
+    protected $updatedSinceInit;
 
     /**
      * List items.
@@ -39,14 +48,12 @@ class SynonymMappings implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param string $name
-     * @param array  $result
+     * @param $query
+     * @param $response
      */
-    public function __construct($result)
+    public function __construct($query, $response)
     {
-        $this->items = $result['managedMap'];
-        $this->initializedOn = $result['initializedOn'];
-        $this->ignoreCase = (bool)$result['initArgs']['ignoreCase'];
+        Result::__construct($query, $response);
     }
 
     /**
@@ -62,10 +69,11 @@ class SynonymMappings implements \IteratorAggregate, \Countable
     /**
      * Get all items.
      *
-     * @return array
+     * @return Synonyms[]
      */
     public function getItems(): array
     {
+        $this->parseResponse();
         return $this->items;
     }
 
@@ -76,6 +84,7 @@ class SynonymMappings implements \IteratorAggregate, \Countable
      */
     public function getIterator(): \ArrayIterator
     {
+        $this->parseResponse();
         return new \ArrayIterator($this->items);
     }
 
@@ -86,7 +95,8 @@ class SynonymMappings implements \IteratorAggregate, \Countable
      */
     public function count(): int
     {
-        return count($this->items);
+        $this->parseResponse();
+        return \count($this->items);
     }
 
     /**
@@ -94,6 +104,7 @@ class SynonymMappings implements \IteratorAggregate, \Countable
      */
     public function getResourceId(): string
     {
+        $this->parseResponse();
         return $this->resourceId;
     }
 
@@ -102,6 +113,7 @@ class SynonymMappings implements \IteratorAggregate, \Countable
      */
     public function isIgnoreCase(): bool
     {
+        $this->parseResponse();
         return $this->ignoreCase;
     }
 
@@ -110,6 +122,15 @@ class SynonymMappings implements \IteratorAggregate, \Countable
      */
     public function getInitializedOn(): string
     {
+        $this->parseResponse();
         return $this->initializedOn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedSinceInit(): string
+    {
+        return $this->updatedSinceInit;
     }
 }

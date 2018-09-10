@@ -21,7 +21,7 @@ class Add extends AbstractCommand
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return Stopwords::COMMAND_ADD;
     }
@@ -31,7 +31,7 @@ class Add extends AbstractCommand
      *
      * @return string
      */
-    public function getRequestMethod()
+    public function getRequestMethod(): string
     {
         return Request::METHOD_PUT;
     }

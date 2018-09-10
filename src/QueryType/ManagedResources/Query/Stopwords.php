@@ -30,7 +30,7 @@ class Stopwords extends BaseQuery {
      * Name of the stopwords resource.
      * @var string
      */
-    protected $name = "";
+    protected $name = '';
 
     /**
      * Command.
@@ -57,7 +57,7 @@ class Stopwords extends BaseQuery {
      */
     protected $options = [
         'handler' => 'schema/analysis/stopwords/',
-        'resultclass' => 'Solarium\QueryType\ManagedResources\Result\Stopwords',
+        'resultclass' => 'Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet',
         'omitheader' => true,
     ];
 
@@ -66,7 +66,8 @@ class Stopwords extends BaseQuery {
      *
      * @return string
      */
-    public function getType() {
+    public function getType(): string
+    {
         return Client::QUERY_MANAGED_STOPWORDS;
     }
 
@@ -75,7 +76,8 @@ class Stopwords extends BaseQuery {
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder() {
+    public function getRequestBuilder(): RequestBuilder
+    {
         return new RequestBuilder();
     }
 
@@ -84,7 +86,8 @@ class Stopwords extends BaseQuery {
      *
      * @return ResponseParser
      */
-    public function getResponseParser() {
+    public function getResponseParser(): ResponseParser
+    {
         return new ResponseParser();
     }
 
@@ -92,7 +95,8 @@ class Stopwords extends BaseQuery {
      * Get the name of the stopwords resource.
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
 
@@ -100,7 +104,8 @@ class Stopwords extends BaseQuery {
      * Set the name of the stopwords resource.
      * @param string $name
      */
-    public function setName(string $name) {
+    public function setName(string $name)
+    {
         $this->name = $name;
     }
 
@@ -114,7 +119,7 @@ class Stopwords extends BaseQuery {
      *
      * @return AbstractCommand
      */
-    public function createCommand($type, $options = null)
+    public function createCommand($type, $options = null): AbstractCommand
     {
         $type = strtolower($type);
 
@@ -130,7 +135,7 @@ class Stopwords extends BaseQuery {
     /**
      * Get command for this stopwords query.
      *
-     * @return AbstractCommand
+     * @return AbstractCommand|null
      */
     public function getCommand()
     {
@@ -138,13 +143,13 @@ class Stopwords extends BaseQuery {
     }
 
     /**
-     * Add a command to this stopwords query.
+     * Set a command to the stopwords query.
      *
      * @param AbstractCommand $command
      *
      * @return self Provides fluent interface
      */
-    public function addCommand(AbstractCommand $command)
+    public function setCommand(AbstractCommand $command): self
     {
         $this->command = $command;
 
@@ -156,7 +161,7 @@ class Stopwords extends BaseQuery {
      *
      * @return self Provides fluent interface
      */
-    public function removeCommand()
+    public function removeCommand(): self
     {
         $this->command = null;
 

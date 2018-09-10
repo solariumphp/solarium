@@ -14,14 +14,14 @@ class Delete extends AbstractCommand
      *
      * @var string
      */
-    protected $term;
+    protected $term = '';
 
     /**
      * Returns command type, for use in adapters.
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return Stopwords::COMMAND_DELETE;
     }
@@ -31,7 +31,7 @@ class Delete extends AbstractCommand
      *
      * @return string
      */
-    public function getRequestMethod()
+    public function getRequestMethod(): string
     {
         return Request::METHOD_DELETE;
     }
@@ -60,7 +60,6 @@ class Delete extends AbstractCommand
      * Set the term to be deleted.
      *
      * @param string $term
-     * @return string
      */
     public function setTerm(string $term)
     {

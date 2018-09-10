@@ -7,6 +7,7 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 
@@ -491,6 +492,104 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $content = $json->{$fileName};
         $this->assertSame('PDF Test', trim($content), 'Can not extract the plain content from the file');
+    }
+
+    public function testManagedStopwords()
+    {
+        $query = $this->client->createManagedStopwords();
+        $query->setName('english');
+        $term = 'the';
+
+        // Add stopwords
+        $add = new AddStopwords();
+        $add->setStopwords([$term]);
+        $query->setCommand($add);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if single stopword exist
+        $exists = new ExistsStopwords();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // List stopwords
+        $query->removeCommand();
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $items = $result->getItems();
+        $this->assertCount(1, $items);
+        $this->assertSame($term, $items[0]);
+
+        // Delete stopword
+        $delete = new DeleteStopwords();
+        $delete->setTerm($term);
+        $query->setCommand($delete);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if stopword is gone
+        $this->expectExceptionCode(404);
+        $exists = new ExistsStopwords();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $this->client->execute($query);
+    }
+
+    public function testManagedSynonyms()
+    {
+        $query = $this->client->createManagedSynonyms();
+        $query->setName('english');
+        $term = 'mad';
+
+        // Add synonyms
+        $add = new AddSynonyms();
+        $synonyms = new Synonyms();
+        $synonyms->setTerm($term);
+        $synonyms->setSynonyms(['angry', 'upset']);
+        $add->setSynonyms($synonyms);
+        $query->setCommand($add);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if single synonym exist
+        $exists = new ExistsSynonyms();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertSame(['mad' => ['angry', 'upset']], $result->getData());
+
+        // List synonyms
+        $query->removeCommand();
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $items = $result->getItems();
+        $this->assertCount(1, $items);
+        $this->assertSame($term, $items[0]->getTerm());
+
+        // Delete synonyms
+        $delete = new DeleteSynonyms();
+        $delete->setTerm($term);
+        $query->setCommand($delete);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if synonyms are gone
+        $this->expectExceptionCode(404);
+        $exists = new ExistsSynonyms();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $this->client->execute($query);
+    }
+
+    public function testManagedResources()
+    {
+        $query = $this->client->createManagedResources();
+        $result = $this->client->execute($query);
+        $items = $result->getItems();
+        $this->assertCount(2, $items);
     }
 }
 

@@ -2,7 +2,11 @@
 
 namespace Solarium\QueryType\ManagedResources\Result\Stopwords;
 
-class WordSet implements \IteratorAggregate, \Countable
+use Solarium\Core\Query\Result\Result;
+
+use Solarium\Core\Query\Result\QueryType as BaseResult;
+
+class WordSet extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
      * List name.
@@ -18,10 +22,16 @@ class WordSet implements \IteratorAggregate, \Countable
     protected $ignoreCase;
 
     /**
-     * Datetime when the resource was initialized
+     * Datetime when the resource was initialized.
      * @var string
      */
     protected $initializedOn;
+
+    /**
+     * Datetime when the resource was last updated.
+     * @var string
+     */
+    protected $updatedSinceInit;
 
     /**
      * List items.
@@ -33,14 +43,12 @@ class WordSet implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param string $name
-     * @param array $result
+     * @param $query
+     * @param $response
      */
-    public function __construct($result)
+    public function __construct($query, $response)
     {
-        $this->items = $result['managedList'];
-        $this->initializedOn = $result['initializedOn'];
-        $this->ignoreCase = (bool)$result['initArgs']['ignoreCase'];
+        Result::__construct($query, $response);
     }
 
     /**
@@ -60,6 +68,7 @@ class WordSet implements \IteratorAggregate, \Countable
      */
     public function getItems(): array
     {
+        $this->parseResponse();
         return $this->items;
     }
 
@@ -70,6 +79,7 @@ class WordSet implements \IteratorAggregate, \Countable
      */
     public function getIterator(): \ArrayIterator
     {
+        $this->parseResponse();
         return new \ArrayIterator($this->items);
     }
 
@@ -80,6 +90,7 @@ class WordSet implements \IteratorAggregate, \Countable
      */
     public function count(): int
     {
+        $this->parseResponse();
         return count($this->items);
     }
 
@@ -88,6 +99,7 @@ class WordSet implements \IteratorAggregate, \Countable
      */
     public function getResourceId(): string
     {
+        $this->parseResponse();
         return $this->resourceId;
     }
 
@@ -96,6 +108,7 @@ class WordSet implements \IteratorAggregate, \Countable
      */
     public function isIgnoreCase(): bool
     {
+        $this->parseResponse();
         return $this->ignoreCase;
     }
 
@@ -104,8 +117,16 @@ class WordSet implements \IteratorAggregate, \Countable
      */
     public function getInitializedOn(): string
     {
+        $this->parseResponse();
         return $this->initializedOn;
     }
 
+    /**
+     * @return string
+     */
+    public function getUpdatedSinceInit(): string
+    {
+        return $this->updatedSinceInit;
+    }
 
 }

@@ -25,14 +25,14 @@ class Stopwords extends BaseRequestBuilder {
         }
 
         $request = parent::build($query);
+        $request->setHandler($query->getHandler().$query->getName());
         if ($query->getCommand() !== null) {
-            $request->setHandler($query->getHandler().$query->getName());
+            $request->addHeader('Content-Type: application/json; charset=utf-8');
             $this->buildCommand($request, $query->getCommand());
         }
         else {
             // Lists all stopwords.
             $request->setMethod(Request::METHOD_GET);
-            $request->setHandler($query->getHandler().$query->getName());
         }
 
         return $request;

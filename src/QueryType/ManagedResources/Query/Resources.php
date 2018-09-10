@@ -16,7 +16,7 @@ class Resources extends AbstractQuery {
      */
     protected $options = [
         'handler' => 'schema/managed',
-        'resultclass' => 'Solarium\QueryType\ManagedResources\Result\Resources',
+        'resultclass' => 'Solarium\QueryType\ManagedResources\Result\Resources\ResourceList',
         'omitheader' => true,
     ];
 
@@ -25,7 +25,8 @@ class Resources extends AbstractQuery {
      *
      * @return string
      */
-    public function getType() {
+    public function getType(): string
+    {
         return Client::QUERY_MANAGED_RESOURCES;
     }
 
@@ -34,7 +35,8 @@ class Resources extends AbstractQuery {
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder() {
+    public function getRequestBuilder(): RequestBuilder
+    {
         return new RequestBuilder();
     }
 
@@ -43,7 +45,8 @@ class Resources extends AbstractQuery {
      *
      * @return ResponseParser
      */
-    public function getResponseParser() {
+    public function getResponseParser(): ResponseParser
+    {
         return new ResponseParser();
     }
 }

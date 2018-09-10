@@ -19,13 +19,25 @@ class Stopwords extends ResponseParserAbstract implements ResponseParserInterfac
     public function parse($result)
     {
         $data = $result->getData();
-
-        $items = [];
-
-        if (isset($data['wordSet']) && !empty($data['wordSet'])) {
-            $items = new WordSet($data['wordSet']);
+        $wordSet = null;
+        if(isset($data['wordSet'])) {
+            $wordSet = $data['wordSet'];
         }
 
-        return $this->addHeaderInfo($data, ['items' => $items]);
+        $parsed = [];
+        $items = [];
+
+        if ($wordSet !== null && !empty($wordSet)) {
+            $items = $wordSet['managedList'];
+
+            $parsed['items'] = $items;
+            $parsed['ignoreCase'] = $wordSet['initArgs']['ignoreCase'];
+            $parsed['initializedOn'] = $wordSet['initializedOn'];
+            $parsed['updatedSinceInit'] = $wordSet['updatedSinceInit'];
+        }
+
+        $this->addHeaderInfo($data, $parsed);
+
+        return $parsed;
     }
 }

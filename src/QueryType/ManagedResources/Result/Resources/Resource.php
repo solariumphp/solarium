@@ -20,6 +20,19 @@ class Resource
     protected $class;
 
     /**
+     * Resource constructor.
+     *
+     * @param array $resource
+     */
+    public function __construct(array $resource)
+    {
+       $this->resourceId = $resource['resourceId'];
+       $this->numObservers = $resource['numObservers'];
+       $this->class = $resource['class'];
+    }
+
+
+    /**
      * @return string
      */
     public function getResourceId(): string

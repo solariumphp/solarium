@@ -32,7 +32,7 @@ class Synonyms extends BaseQuery {
      *
      * @var string
      */
-    protected $name = "";
+    protected $name = '';
 
     /**
      * ResourceId looked up using the managed resources component.
@@ -80,7 +80,7 @@ class Synonyms extends BaseQuery {
      */
     protected $options = [
         'handler' => 'schema/analysis/synonyms/',
-        'resultclass' => 'Solarium\QueryType\ManagedResources\Result\Synonyms',
+        'resultclass' => 'Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings',
         'omitheader' => true,
     ];
 
@@ -89,7 +89,8 @@ class Synonyms extends BaseQuery {
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return Client::QUERY_MANAGED_SYNONYMS;
     }
 
@@ -98,7 +99,8 @@ class Synonyms extends BaseQuery {
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder() {
+    public function getRequestBuilder(): RequestBuilder
+    {
         return new RequestBuilder();
     }
 
@@ -107,7 +109,8 @@ class Synonyms extends BaseQuery {
      *
      * @return ResponseParser
      */
-    public function getResponseParser() {
+    public function getResponseParser(): ResponseParser
+    {
         return new ResponseParser();
     }
 
@@ -115,7 +118,8 @@ class Synonyms extends BaseQuery {
      * Get the name of the synonym resource.
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
 
@@ -123,7 +127,8 @@ class Synonyms extends BaseQuery {
      * Set the name of the synonym resource.
      * @param string $name
      */
-    public function setName(string $name) {
+    public function setName(string $name)
+    {
         $this->name = $name;
     }
 
@@ -137,7 +142,7 @@ class Synonyms extends BaseQuery {
      *
      * @return AbstractCommand
      */
-    public function createCommand($type, $options = null)
+    public function createCommand($type, $options = null): AbstractCommand
     {
         $type = strtolower($type);
 
@@ -153,7 +158,7 @@ class Synonyms extends BaseQuery {
     /**
      * Get command for this synonyms query.
      *
-     * @return AbstractCommand
+     * @return AbstractCommand|null
      */
     public function getCommand()
     {
@@ -161,13 +166,13 @@ class Synonyms extends BaseQuery {
     }
 
     /**
-     * Add a command to this synonyms query.
+     * Set a command for the synonyms query.
      *
      * @param AbstractCommand $command
      *
      * @return self Provides fluent interface
      */
-    public function addCommand(AbstractCommand $command)
+    public function setCommand(AbstractCommand $command): self
     {
         $this->command = $command;
 
@@ -179,7 +184,7 @@ class Synonyms extends BaseQuery {
      *
      * @return self Provides fluent interface
      */
-    public function removeCommand()
+    public function removeCommand(): self
     {
         $this->command = null;
 

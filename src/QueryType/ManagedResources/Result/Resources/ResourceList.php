@@ -2,7 +2,12 @@
 
 namespace Solarium\QueryType\ManagedResources\Result\Resources;
 
-class ResourcesList implements \IteratorAggregate, \Countable
+use Solarium\Core\Client\Response;
+use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\Core\Query\Result\Result;
+
+class ResourceList extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
      * List name.
@@ -21,12 +26,12 @@ class ResourcesList implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param string $name
-     * @param array  $items
+     * @param AbstractQuery $query
+     * @param Response      $response
      */
-    public function __construct($items)
+    public function __construct($query, $response)
     {
-        $this->items = $items;
+        Result::__construct($query, $response);
     }
 
     /**
@@ -46,6 +51,7 @@ class ResourcesList implements \IteratorAggregate, \Countable
      */
     public function getItems(): array
     {
+        $this->parseResponse();
         return $this->items;
     }
 
@@ -56,6 +62,7 @@ class ResourcesList implements \IteratorAggregate, \Countable
      */
     public function getIterator(): \ArrayIterator
     {
+        $this->parseResponse();
         return new \ArrayIterator($this->items);
     }
 
@@ -66,6 +73,7 @@ class ResourcesList implements \IteratorAggregate, \Countable
      */
     public function count(): int
     {
+        $this->parseResponse();
         return \count($this->items);
     }
 }

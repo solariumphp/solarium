@@ -67,7 +67,7 @@ class StopwordsTest extends TestCase
         $command = new AddCommand();
         $command->setStopwords($stopwords);
         $this->query->setName("dutch");
-        $this->query->addCommand($command);
+        $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
         $this->assertEquals($stopwords, $command->getStopwords());
@@ -81,7 +81,7 @@ class StopwordsTest extends TestCase
         $command = new DeleteCommand();
         $command->setTerm($term);
         $this->query->setName("dutch");
-        $this->query->addCommand($command);
+        $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
         $this->assertEquals($term, $command->getTerm());
@@ -94,7 +94,7 @@ class StopwordsTest extends TestCase
         $command = new ExistsCommand();
         $command->setTerm('de');
         $this->query->setName("dutch");
-        $this->query->addCommand($command);
+        $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
         $this->assertEquals($term, $command->getTerm());
