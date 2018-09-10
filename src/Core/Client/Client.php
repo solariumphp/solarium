@@ -1209,6 +1209,42 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
+     * Create a managed resources query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\ManagedResources\Query\Resources
+     */
+    public function createManagedResources($options = null)
+    {
+        return $this->createQuery(self::QUERY_MANAGED_RESOURCES, $options);
+    }
+
+    /**
+     * Create a managed resources query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\ManagedResources\Query\Stopwords
+     */
+    public function createManagedStopwords($options = null)
+    {
+        return $this->createQuery(self::QUERY_MANAGED_STOPWORDS, $options);
+    }
+
+    /**
+     * Create a managed resources query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\ManagedResources\Query\Synonyms
+     */
+    public function createManagedSynonyms($options = null)
+    {
+        return $this->createQuery(self::QUERY_MANAGED_SYNONYMS, $options);
+    }
+
+    /**
      * Initialization hook.
      */
     protected function init()
