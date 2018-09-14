@@ -225,14 +225,14 @@ class Endpoint extends Configurable
      *
      * Based on host, path, port and core options.
      *
-     * @deprecated Please use getCoreBaseUri or getServerUri now, will be removed in Solarium 6
+     * @deprecated Please use getCoreBaseUri or getServerUri now, will be removed in Solarium 5
      *
      * @return string
      */
     public function getBaseUri()
     {
-        $message = 'Endpoint::getBaseUri is deperacted since Solarium 5, will be removed in Solarium 6 please use '.
-            'getServerUri or getCoreBaseUri now.';
+        $message = 'Endpoint::getBaseUri is deprecated since Solarium 4.2, will be removed in Solarium 5.'.
+            'please use getServerUri or getCoreBaseUri now.';
         @trigger_error($message, E_USER_DEPRECATED);
 
         return $this->getCoreBaseUri();
