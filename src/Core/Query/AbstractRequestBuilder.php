@@ -3,6 +3,7 @@
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Server\AbstractServerQuery;
 
 /**
  * Class for building Solarium client requests.
@@ -31,6 +32,9 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
             // only one JSON format is supported
             $request->addParam('json.nl', 'flat');
         }
+
+        $isServerQuery = ($query instanceof AbstractServerQuery);
+        $request->setIsServerRequest($isServerQuery);
 
         return $request;
     }

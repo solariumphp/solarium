@@ -29,6 +29,8 @@ before_script:
 #  - pecl install pecl_http
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
   - solr-${SOLR_VERSION}/bin/solr start -e techproducts
+  # make configSet's available for techproducts instance
+  - cp -R  solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/
 
 script:
   - vendor/bin/phpunit -c phpunit.xml.travis -v

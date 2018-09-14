@@ -31,9 +31,11 @@ class Guzzle3 extends Configurable implements AdapterInterface
      */
     public function execute($request, $endpoint)
     {
+        $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getCoreBaseUri();
+        $uri = $baseUri.$request->getUri();
         $guzzleRequest = $this->getGuzzleClient()->createRequest(
             $request->getMethod(),
-            $endpoint->getBaseUri().$request->getUri(),
+            $uri,
             $this->getRequestHeaders($request),
             $this->getRequestBody($request),
             [
