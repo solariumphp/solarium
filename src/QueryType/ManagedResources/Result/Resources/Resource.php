@@ -20,6 +20,16 @@ class Resource
     protected $class;
 
     /**
+     * Resource type stopwords.
+     */
+    const TYPE_STOPWORDS = 'stopwords';
+
+    /**
+     * Resource type synonyms.
+     */
+    const TYPE_SYNONYMS = 'synonyms';
+
+    /**
      * Resource constructor.
      *
      * @param array $resource
@@ -78,5 +88,24 @@ class Resource
     public function setClass(string $class)
     {
         $this->class = $class;
+    }
+
+    /*
+     * Returns the type: 'stopwords', 'synonyms' or '' if unknown.
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        if(strncmp($this->resourceId, '/schema/analysis/stopwords', strlen('/schema/analysis/stopwords')) === 0)
+        {
+            return self::TYPE_STOPWORDS;
+        }
+        elseif (strncmp($this->resourceId, '/schema/analysis/synonyms', strlen('/schema/analysis/synonyms')) === 0)
+        {
+            return self::TYPE_SYNONYMS;
+        }
+
+        return '';
     }
 }
