@@ -12,7 +12,7 @@ env:
   - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.5
   - SYMFONY_VERSION=3.3.* SOLR_VERSION=6.6.5
   - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.4.0
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.5.0
 
 cache:
   directories:
@@ -29,6 +29,8 @@ before_script:
 #  - pecl install pecl_http
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
   - solr-${SOLR_VERSION}/bin/solr start -e techproducts
+  # make configSet's available for techproducts instance
+  - cp -R  solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/
 
 script:
   - vendor/bin/phpunit -c phpunit.xml.travis -v
@@ -41,7 +43,7 @@ matrix:
       - php: 7.0
         env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5
       - php: 7.0
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.4.0
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.5.0
   allow_failures:
       - php: nightly
 

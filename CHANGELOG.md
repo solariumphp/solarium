@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [master]
 ### Added
 - Basic support for PUT requests in the HttpAdapter layer
+- Core Admin Queries
+- Endpoint::getServerUri
+- Endpoint::getCoreBaseUri
+- Managed resources, stopwords and synonyms query types
 
 ### Changed
 
 ### Deprecated
+- Endpoint::getBaseUri is deprecated. Please use getServerUri or getCoreBaseUri now.
 
 ### Removed
 

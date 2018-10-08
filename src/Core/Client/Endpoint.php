@@ -36,7 +36,7 @@ class Endpoint extends Configurable
      */
     public function __toString()
     {
-        $output = __CLASS__.'::__toString'."\n".'base uri: '.$this->getBaseUri()."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
+        $output = __CLASS__.'::__toString'."\n".'base uri: '.$this->getCoreBaseUri()."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
 
         return $output;
     }
@@ -208,16 +208,44 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getBaseUri()
+    public function getCoreBaseUri()
     {
-        $uri = $this->getScheme().'://'.$this->getHost().':'.$this->getPort().$this->getPath().'/';
-
+        $uri = $this->getServerUri();
         $core = $this->getCore();
+
         if (!empty($core)) {
             $uri .= $core.'/';
         }
 
         return $uri;
+    }
+
+    /**
+     * Get the base url for all requests.
+     *
+     * Based on host, path, port and core options.
+     *
+     * @deprecated Please use getCoreBaseUri or getServerUri now, will be removed in Solarium 5
+     *
+     * @return string
+     */
+    public function getBaseUri()
+    {
+        $message = 'Endpoint::getBaseUri is deprecated since Solarium 4.2, will be removed in Solarium 5.'.
+            'please use getServerUri or getCoreBaseUri now.';
+        @trigger_error($message, E_USER_DEPRECATED);
+
+        return $this->getCoreBaseUri();
+    }
+
+    /**
+     * Get the server uri, required for non core/collection specific requests.
+     *
+     * @return string
+     */
+    public function getServerUri()
+    {
+        return $this->getScheme().'://'.$this->getHost().':'.$this->getPort().$this->getPath().'/';
     }
 
     /**
