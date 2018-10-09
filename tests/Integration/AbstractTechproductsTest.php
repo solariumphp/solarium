@@ -675,8 +675,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
-        // List stopwords
+        // We need to remove the current command in order to have no command. Having no command lists the items.
         $query->removeCommand();
+
+        // List stopwords
         $result = $this->client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
         $items = $result->getItems();
@@ -722,8 +724,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
         $this->assertSame(['mad' => ['angry', 'upset']], $result->getData());
 
-        // List synonyms
+        // We need to remove the current command in order to have no command. Having no command lists the items.
         $query->removeCommand();
+
+        // List synonyms
         $result = $this->client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
         $items = $result->getItems();
