@@ -21,7 +21,7 @@ class Stopwords extends BaseRequestBuilder {
     public function build(QueryInterface $query)
     {
         if (empty($query->getName())) {
-            throw new \Solarium\Exception\RuntimeException("Name of the resource is not set in the query.");
+            throw new \Solarium\Exception\RuntimeException("Name of the stopwords resource is not set in the query.");
         }
 
         $request = parent::build($query);
