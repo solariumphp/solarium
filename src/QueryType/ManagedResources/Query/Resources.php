@@ -7,7 +7,8 @@ use Solarium\QueryType\ManagedResources\RequestBuilder\Resources as RequestBuild
 use Solarium\QueryType\ManagedResources\ResponseParser\Resources as ResponseParser;
 use Solarium\Core\Query\AbstractQuery;
 
-class Resources extends AbstractQuery {
+class Resources extends AbstractQuery
+{
 
     /**
      * Default options.

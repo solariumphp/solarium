@@ -57,7 +57,7 @@ class SynonymsTest extends TestCase
     public function testNoName()
     {
         $this->expectException(\Solarium\Exception\RuntimeException::class);
-        $request = $this->builder->build($this->query);
+        $this->builder->build($this->query);
     }
 
     public function testAdd()

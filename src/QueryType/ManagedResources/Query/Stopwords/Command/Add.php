@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 
 class Add extends AbstractCommand
 {

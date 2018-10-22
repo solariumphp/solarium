@@ -9,7 +9,8 @@ use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\AbstractCommand;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Stopwords as RequestBuilder;
 use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponseParser;
 
-class Stopwords extends BaseQuery {
+class Stopwords extends BaseQuery
+{
 
     /**
      * Stopwords command add.

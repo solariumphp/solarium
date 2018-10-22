@@ -10,7 +10,8 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\AbstractCommand;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Synonyms as RequestBuilder;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
 
-class Synonyms extends BaseQuery {
+class Synonyms extends BaseQuery
+{
 
     /**
      * Synonyms command add.

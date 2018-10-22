@@ -6,7 +6,6 @@ use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponsePars
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Response;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
-use Solarium\QueryType\ManagedResources\Result\Stopwords;
 
 class StopwordsTest extends TestCase
 {

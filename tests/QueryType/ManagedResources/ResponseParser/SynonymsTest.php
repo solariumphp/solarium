@@ -6,7 +6,6 @@ use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParse
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Response;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
-use Solarium\QueryType\ManagedResources\Result\Synonyms;
 
 class SynonymsTest extends TestCase
 {

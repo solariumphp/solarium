@@ -6,9 +6,9 @@ use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\Result;
 use Solarium\QueryType\ManagedResources\Result\Resources\Resource;
-use Solarium\QueryType\ManagedResources\Result\Resources\ResourceList;
 
-class Resources extends ResponseParserAbstract implements ResponseParserInterface {
+class Resources extends ResponseParserAbstract implements ResponseParserInterface
+{
 
     /**
      * Parse response data.

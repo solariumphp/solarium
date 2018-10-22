@@ -5,9 +5,9 @@ namespace Solarium\QueryType\ManagedResources\ResponseParser;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\Result;
-use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
 
-class Stopwords extends ResponseParserAbstract implements ResponseParserInterface {
+class Stopwords extends ResponseParserAbstract implements ResponseParserInterface
+{
 
     /**
      * Parse response data.
@@ -25,7 +25,6 @@ class Stopwords extends ResponseParserAbstract implements ResponseParserInterfac
         }
 
         $parsed = [];
-        $items = [];
 
         if ($wordSet !== null && !empty($wordSet)) {
             $items = $wordSet['managedList'];
