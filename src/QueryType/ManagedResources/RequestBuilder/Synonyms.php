@@ -39,6 +39,10 @@ class Synonyms extends BaseRequestBuilder
         return $request;
     }
 
+    /**
+     * @param Request $request
+     * @param AbstractCommand $command
+     */
     protected function buildCommand(Request $request, AbstractCommand $command)
     {
         $request->setMethod($command->getRequestMethod());
