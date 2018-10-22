@@ -659,7 +659,7 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $query = $this->client->createManagedStopwords();
         $query->setName('english');
-        $term = 'the';
+        $term = 'managed_stopword_test';
 
         // Add stopwords
         $add = new AddStopwords();
@@ -682,8 +682,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
         $items = $result->getItems();
-        $this->assertCount(1, $items);
-        $this->assertSame($term, $items[0]);
+        $this->assertContains($term, $items);
 
         // Delete stopword
         $delete = new DeleteStopwords();
@@ -704,13 +703,13 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $query = $this->client->createManagedSynonyms();
         $query->setName('english');
-        $term = 'mad';
+        $term = 'managed_synonyms_test';
 
         // Add synonyms
         $add = new AddSynonyms();
         $synonyms = new Synonyms();
         $synonyms->setTerm($term);
-        $synonyms->setSynonyms(['angry', 'upset']);
+        $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
         $add->setSynonyms($synonyms);
         $query->setCommand($add);
         $result = $this->client->execute($query);
@@ -722,7 +721,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setCommand($exists);
         $result = $this->client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
-        $this->assertSame(['mad' => ['angry', 'upset']], $result->getData());
+        $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
 
         // We need to remove the current command in order to have no command. Having no command lists the items.
         $query->removeCommand();
@@ -731,8 +730,17 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
         $items = $result->getItems();
-        $this->assertCount(1, $items);
-        $this->assertSame($term, $items[0]->getTerm());
+        $success = false;
+        foreach ($items as $item) {
+            if($item->getTerm() === 'managed_synonyms_test')
+            {
+                $success = true;
+            }
+        }
+        if(!$success)
+        {
+            $this->fail('Couldn\'t find synonym.');
+        }
 
         // Delete synonyms
         $delete = new DeleteSynonyms();

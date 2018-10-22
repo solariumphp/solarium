@@ -3,8 +3,10 @@
 namespace Solarium\Tests\QueryType\ManagedResources\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Query\Result\Result;
+
+use Solarium\QueryType\ManagedResources\Query\Resources;
 use Solarium\QueryType\ManagedResources\ResponseParser\Resources as ResourcesResponseParser;
+use Solarium\QueryType\ManagedResources\Result\Resources\ResourceList;
 
 class ResourcesTest extends TestCase
 {
@@ -29,7 +31,8 @@ class ResourcesTest extends TestCase
             ],
         ];
 
-        $resultStub = $this->createMock(Result::class);
+        $query = new Resources();
+        $resultStub = $this->createMock(ResourceList::class);
         $resultStub->expects($this->once())
             ->method('getData')
             ->will($this->returnValue($data));
@@ -39,9 +42,12 @@ class ResourcesTest extends TestCase
         $result = $parser->parse($resultStub);
 
         $this->assertSame(count($data['managedResources']), count($result['items']));
-        $this->assertSame('managedResources', $result['items']->getName());
-        $this->assertSame('/schema/analysis/stopwords/dutch', $result['items']->getItems()[0]['resourceId']);
-        $this->assertSame('/schema/analysis/synonyms/dutch', $result['items']->getItems()[1]['resourceId']);
+        $this->assertSame('/schema/analysis/stopwords/dutch', $result['items'][0]->getResourceId());
+        $this->assertSame(1, $result['items'][0]->getNumObservers());
+        $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedWordSetResource', $result['items'][0]->getClass());
+        $this->assertSame('/schema/analysis/synonyms/dutch', $result['items'][1]->getResourceId());
+        $this->assertSame(1, $result['items'][1]->getNumObservers());
+        $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedSynonymFilterFactory$SynonymManager', $result['items'][1]->getClass());
     }
 
 }

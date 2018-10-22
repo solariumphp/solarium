@@ -4,7 +4,7 @@ namespace Solarium\Tests\QueryType\ManagedResources\Resources;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\ManagedResources\Query\Resources\Resources as ResourcesQuery;
+use Solarium\QueryType\ManagedResources\Query\Resources as ResourcesQuery;
 
 class QueryTest extends TestCase
 {
