@@ -9,6 +9,11 @@ use Solarium\Core\Query\AbstractQuery;
 
 class Resources extends AbstractQuery
 {
+    /**
+     * Fixed name for resources.
+     * @var string
+     */
+    private $name = 'resources';
 
     /**
      * Default options.
@@ -20,6 +25,15 @@ class Resources extends AbstractQuery
         'resultclass' => 'Solarium\QueryType\ManagedResources\Result\Resources\ResourceList',
         'omitheader' => true,
     ];
+
+    /**
+     * Get the name of resources.
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
     /**
      * Get query type.

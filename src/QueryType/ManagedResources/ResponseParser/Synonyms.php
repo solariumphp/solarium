@@ -5,14 +5,18 @@ namespace Solarium\QueryType\ManagedResources\ResponseParser;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\Result;
+use Solarium\Core\Query\Result\ResultInterface;
+use Solarium\Exception\RuntimeException;
 
 class Synonyms extends ResponseParserAbstract implements ResponseParserInterface
 {
 
     /**
-     * Parse response data.
+     * Get result data for the response.
      *
-     * @param Result $result
+     * @param ResultInterface $result
+     *
+     * @throws RuntimeException
      *
      * @return array
      */
@@ -35,7 +39,6 @@ class Synonyms extends ResponseParserAbstract implements ResponseParserInterface
             $parsed['items'] = $items;
             $parsed['ignoreCase'] = $synonymMappings['initArgs']['ignoreCase'];
             $parsed['initializedOn'] = $synonymMappings['initializedOn'];
-            $parsed['updatedSinceInit'] = $synonymMappings['updatedSinceInit'];
         }
 
         $this->addHeaderInfo($data, $parsed);

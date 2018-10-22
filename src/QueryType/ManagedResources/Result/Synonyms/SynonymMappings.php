@@ -125,12 +125,4 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
         $this->parseResponse();
         return $this->initializedOn;
     }
-
-    /**
-     * @return string
-     */
-    public function getUpdatedSinceInit(): string
-    {
-        return $this->updatedSinceInit;
-    }
 }

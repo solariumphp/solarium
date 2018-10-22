@@ -49,6 +49,7 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     public function __construct($query, $response)
     {
         Result::__construct($query, $response);
+        $this->parseResponse();
     }
 
     /**
@@ -95,15 +96,6 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return string
-     */
-    public function getResourceId(): string
-    {
-        $this->parseResponse();
-        return $this->resourceId;
-    }
-
-    /**
      * @return bool
      */
     public function isIgnoreCase(): bool
@@ -120,13 +112,4 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
         $this->parseResponse();
         return $this->initializedOn;
     }
-
-    /**
-     * @return string
-     */
-    public function getUpdatedSinceInit(): string
-    {
-        return $this->updatedSinceInit;
-    }
-
 }
