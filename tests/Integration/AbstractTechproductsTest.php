@@ -692,7 +692,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
         // Check if stopword is gone
-        $this->expectExceptionCode(404);
+        $this->expectException(HttpException::class);
         $exists = new ExistsStopwords();
         $exists->setTerm($term);
         $query->setCommand($exists);
@@ -750,7 +750,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
         // Check if synonyms are gone
-        $this->expectExceptionCode(404);
+        $this->expectException(HttpException::class);
         $exists = new ExistsSynonyms();
         $exists->setTerm($term);
         $query->setCommand($exists);
