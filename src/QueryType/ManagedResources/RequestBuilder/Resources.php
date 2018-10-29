@@ -6,5 +6,4 @@ use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 
 class Resources extends BaseRequestBuilder
 {
-
 }

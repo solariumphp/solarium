@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
-
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;

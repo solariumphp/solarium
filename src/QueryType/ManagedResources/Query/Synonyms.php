@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Solarium\QueryType\ManagedResources\Query;
 
 use InvalidArgumentException;
@@ -12,7 +11,6 @@ use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParse
 
 class Synonyms extends BaseQuery
 {
-
     /**
      * Synonyms command add.
      */
@@ -37,13 +35,15 @@ class Synonyms extends BaseQuery
 
     /**
      * ResourceId looked up using the managed resources component.
+     *
      * @var string
      */
     protected $resourceId;
 
     /**
      * Whether or not to ignore the case.
-     * @var boolean
+     *
+     * @var bool
      */
     protected $ignoreCase;
 
@@ -52,6 +52,7 @@ class Synonyms extends BaseQuery
      * The short names solr (for SolrSynonymParser) and wordnet (for
      * WordnetSynonymParser ) are supported, or you may alternatively supply
      * the name of your own SynonymMap.Builder subclass.
+     *
      * @var string
      */
     protected $format;
@@ -117,6 +118,7 @@ class Synonyms extends BaseQuery
 
     /**
      * Get the name of the synonym resource.
+     *
      * @return string
      */
     public function getName(): string
@@ -126,6 +128,7 @@ class Synonyms extends BaseQuery
 
     /**
      * Set the name of the synonym resource.
+     *
      * @param string $name
      */
     public function setName(string $name)

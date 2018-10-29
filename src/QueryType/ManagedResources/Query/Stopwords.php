@@ -11,7 +11,6 @@ use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponsePars
 
 class Stopwords extends BaseQuery
 {
-
     /**
      * Stopwords command add.
      */
@@ -29,6 +28,7 @@ class Stopwords extends BaseQuery
 
     /**
      * Name of the stopwords resource.
+     *
      * @var string
      */
     protected $name = '';
@@ -94,6 +94,7 @@ class Stopwords extends BaseQuery
 
     /**
      * Get the name of the stopwords resource.
+     *
      * @return string
      */
     public function getName(): string
@@ -103,6 +104,7 @@ class Stopwords extends BaseQuery
 
     /**
      * Set the name of the stopwords resource.
+     *
      * @param string $name
      */
     public function setName(string $name)

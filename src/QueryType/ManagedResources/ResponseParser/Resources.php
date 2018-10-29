@@ -9,7 +9,6 @@ use Solarium\QueryType\ManagedResources\Result\Resources\Resource;
 
 class Resources extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Parse response data.
      *
@@ -24,7 +23,7 @@ class Resources extends ResponseParserAbstract implements ResponseParserInterfac
         $items = [];
 
         if (isset($data['managedResources']) && !empty($data['managedResources'])) {
-            foreach($data['managedResources'] as $resource) {
+            foreach ($data['managedResources'] as $resource) {
                 $items[] = new Resource($resource);
             }
         }

@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\ManagedResources\Query\Resources as ResourcesQuery;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resources as ResourcesRequestBuilder;
 
-
 class ResourcesTest extends TestCase
 {
     /**

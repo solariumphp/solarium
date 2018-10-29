@@ -47,7 +47,7 @@ class ResourceList extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get all items.
      *
-     * @return Resource[]
+     * @return resource[]
      */
     public function getItems(): array
     {

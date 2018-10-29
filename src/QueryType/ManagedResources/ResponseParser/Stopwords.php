@@ -8,7 +8,6 @@ use Solarium\Core\Query\Result\Result;
 
 class Stopwords extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Parse response data.
      *
@@ -20,13 +19,13 @@ class Stopwords extends ResponseParserAbstract implements ResponseParserInterfac
     {
         $data = $result->getData();
         $wordSet = null;
-        if(isset($data['wordSet'])) {
+        if (isset($data['wordSet'])) {
             $wordSet = $data['wordSet'];
         }
 
         $parsed = [];
 
-        if ($wordSet !== null && !empty($wordSet)) {
+        if (null !== $wordSet && !empty($wordSet)) {
             $parsed['items'] = $wordSet['managedList'];
             $parsed['ignoreCase'] = $wordSet['initArgs']['ignoreCase'];
             $parsed['initializedOn'] = $wordSet['initializedOn'];

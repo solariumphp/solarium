@@ -3,7 +3,6 @@
 namespace Solarium\QueryType\ManagedResources\Result\Stopwords;
 
 use Solarium\Core\Query\Result\Result;
-
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 class WordSet extends BaseResult implements \IteratorAggregate, \Countable
@@ -17,18 +16,21 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
 
     /**
      * Whether or not to ignore the case.
-     * @var boolean
+     *
+     * @var bool
      */
     protected $ignoreCase;
 
     /**
      * Datetime when the resource was initialized.
+     *
      * @var string
      */
     protected $initializedOn;
 
     /**
      * Datetime when the resource was last updated.
+     *
      * @var string
      */
     protected $updatedSinceInit;

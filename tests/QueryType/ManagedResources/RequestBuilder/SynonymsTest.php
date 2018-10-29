@@ -11,7 +11,6 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete as DeleteC
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists as ExistsCommand;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Synonyms as SynonymsRequestBuilder;
 
-
 class SynonymsTest extends TestCase
 {
     /**
@@ -39,7 +38,7 @@ class SynonymsTest extends TestCase
     public function testBuild()
     {
         $handler = 'schema/analysis/synonyms/dutch';
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
@@ -67,7 +66,7 @@ class SynonymsTest extends TestCase
         $synonyms->setSynonyms(['angry', 'upset']);
         $command = new AddCommand();
         $command->setSynonyms($synonyms);
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
@@ -80,7 +79,7 @@ class SynonymsTest extends TestCase
         $synonyms->setSynonyms(['funny', 'entertaining', 'whimsical', 'jocular']);
         $command = new AddCommand();
         $command->setSynonyms($synonyms);
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
@@ -92,7 +91,7 @@ class SynonymsTest extends TestCase
         $term = 'mad';
         $command = new DeleteCommand();
         $command->setTerm($term);
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
@@ -105,7 +104,7 @@ class SynonymsTest extends TestCase
         $term = 'mad';
         $command = new ExistsCommand();
         $command->setTerm($term);
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());

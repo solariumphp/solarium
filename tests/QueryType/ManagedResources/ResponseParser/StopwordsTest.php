@@ -23,6 +23,6 @@ class StopwordsTest extends TestCase
 
         $this->assertSame('2014-03-28T20:53:53.058Z', $parsed['initializedOn']);
         $this->assertTrue($parsed['ignoreCase']);
-        $this->assertEquals([0 => 'a',1 => 'an',2 => 'and',3 => 'are'], $parsed['items']);
+        $this->assertEquals([0 => 'a', 1 => 'an', 2 => 'and', 3 => 'are'], $parsed['items']);
     }
 }

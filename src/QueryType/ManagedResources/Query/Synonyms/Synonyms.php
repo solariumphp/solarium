@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Solarium\QueryType\ManagedResources\Query\Synonyms;
 
 /**
  * To set a list of symmetric synonyms leave the term empty.
- * @package Solarium\QueryType\ManagedResources\Query\Synonyms
  */
 class Synonyms
 {
@@ -20,7 +18,8 @@ class Synonyms
     protected $synonyms = [];
 
     /**
-     * Set the term
+     * Set the term.
+     *
      * @return string
      */
     public function getTerm(): string
@@ -46,12 +45,11 @@ class Synonyms
 
     /**
      * Sets the synonyms. To set a list of symmetric synonyms leave the term empty.
+     *
      * @param array $synonyms
      */
     public function setSynonyms(array $synonyms)
     {
         $this->synonyms = $synonyms;
     }
-
-
 }

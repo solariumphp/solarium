@@ -26,22 +26,18 @@ class SynonymsTest extends TestCase
 
         $synonyms =
         [
-            0 =>
-                new Synonyms('GB',
+            0 => new Synonyms('GB',
                     [
                         0 => 'GiB',
-                        1 => 'Gigabyte'
-                    ]
-                )
-                ,
-            1 =>
-                new Synonyms('TV',
-                    [
-                        0 => 'Television'
+                        1 => 'Gigabyte',
                     ]
                 ),
-            2 =>
-                new Synonyms('happy',
+            1 => new Synonyms('TV',
+                    [
+                        0 => 'Television',
+                    ]
+                ),
+            2 => new Synonyms('happy',
                     [
                             0 => 'glad',
                             1 => 'joyful',
@@ -52,4 +48,3 @@ class SynonymsTest extends TestCase
         $this->assertEquals($synonyms, $parsed['items']);
     }
 }
-

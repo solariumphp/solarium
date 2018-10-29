@@ -36,11 +36,10 @@ class Resource
      */
     public function __construct(array $resource)
     {
-       $this->resourceId = $resource['resourceId'];
-       $this->numObservers = $resource['numObservers'];
-       $this->class = $resource['class'];
+        $this->resourceId = $resource['resourceId'];
+        $this->numObservers = $resource['numObservers'];
+        $this->class = $resource['class'];
     }
-
 
     /**
      * @return string
@@ -97,12 +96,9 @@ class Resource
      */
     public function getType(): string
     {
-        if(strncmp($this->resourceId, '/schema/analysis/stopwords', strlen('/schema/analysis/stopwords')) === 0)
-        {
+        if (0 === strncmp($this->resourceId, '/schema/analysis/stopwords', strlen('/schema/analysis/stopwords'))) {
             return self::TYPE_STOPWORDS;
-        }
-        elseif (strncmp($this->resourceId, '/schema/analysis/synonyms', strlen('/schema/analysis/synonyms')) === 0)
-        {
+        } elseif (0 === strncmp($this->resourceId, '/schema/analysis/synonyms', strlen('/schema/analysis/synonyms'))) {
             return self::TYPE_SYNONYMS;
         }
 

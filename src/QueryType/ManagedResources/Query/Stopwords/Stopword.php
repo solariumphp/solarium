@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords;
-
 
 class Stopword
 {
@@ -26,6 +24,4 @@ class Stopword
     {
         $this->term = $term;
     }
-
-
 }

@@ -10,7 +10,6 @@ use Solarium\Exception\RuntimeException;
 
 class Synonyms extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Get result data for the response.
      *
@@ -24,14 +23,14 @@ class Synonyms extends ResponseParserAbstract implements ResponseParserInterface
     {
         $data = $result->getData();
         $synonymMappings = null;
-        if(isset($data['synonymMappings'])) {
+        if (isset($data['synonymMappings'])) {
             $synonymMappings = $data['synonymMappings'];
         }
 
         $parsed = [];
         $items = [];
 
-        if ($synonymMappings !== null && !empty($synonymMappings)) {
+        if (null !== $synonymMappings && !empty($synonymMappings)) {
             foreach ($synonymMappings['managedMap'] as $term => $synonyms) {
                 $items[] = new \Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms($term, $synonyms);
             }

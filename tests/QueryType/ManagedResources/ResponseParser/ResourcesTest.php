@@ -3,7 +3,6 @@
 namespace Solarium\Tests\QueryType\ManagedResources\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
-
 use Solarium\QueryType\ManagedResources\Query\Resources;
 use Solarium\QueryType\ManagedResources\ResponseParser\Resources as ResourcesResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Resources\ResourceList;
@@ -49,5 +48,4 @@ class ResourcesTest extends TestCase
         $this->assertSame(1, $result['items'][1]->getNumObservers());
         $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedSynonymFilterFactory$SynonymManager', $result['items'][1]->getClass());
     }
-
 }

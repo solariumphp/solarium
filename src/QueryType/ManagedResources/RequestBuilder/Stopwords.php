@@ -11,7 +11,6 @@ use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\AbstractCommand;
 
 class Stopwords extends BaseRequestBuilder
 {
-    
     /**
      * Build request for a stopwords query.
      *
@@ -22,16 +21,15 @@ class Stopwords extends BaseRequestBuilder
     public function build(QueryInterface $query)
     {
         if (empty($query->getName())) {
-            throw new \Solarium\Exception\RuntimeException("Name of the stopwords resource is not set in the query.");
+            throw new \Solarium\Exception\RuntimeException('Name of the stopwords resource is not set in the query.');
         }
 
         $request = parent::build($query);
         $request->setHandler($query->getHandler().$query->getName());
-        if ($query->getCommand() !== null) {
+        if (null !== $query->getCommand()) {
             $request->addHeader('Content-Type: application/json; charset=utf-8');
             $this->buildCommand($request, $query->getCommand());
-        }
-        else {
+        } else {
             // Lists all stopwords.
             $request->setMethod(Request::METHOD_GET);
         }
@@ -40,7 +38,7 @@ class Stopwords extends BaseRequestBuilder
     }
 
     /**
-     * @param Request $request
+     * @param Request         $request
      * @param AbstractCommand $command
      */
     protected function buildCommand(Request $request, AbstractCommand $command)

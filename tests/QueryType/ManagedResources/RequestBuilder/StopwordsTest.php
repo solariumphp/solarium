@@ -10,7 +10,6 @@ use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete as Delete
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists as ExistsCommand;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Stopwords as StopwordsRequestBuilder;
 
-
 class StopwordsTest extends TestCase
 {
     /**
@@ -33,7 +32,7 @@ class StopwordsTest extends TestCase
     {
         $handler = 'schema/analysis/stopwords/dutch';
 
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
@@ -56,17 +55,17 @@ class StopwordsTest extends TestCase
 
     public function testQuery()
     {
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
     }
 
     public function testAdd()
     {
-        $stopwords = array('de');
+        $stopwords = ['de'];
         $command = new AddCommand();
         $command->setStopwords($stopwords);
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
@@ -80,7 +79,7 @@ class StopwordsTest extends TestCase
         $term = 'de';
         $command = new DeleteCommand();
         $command->setTerm($term);
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
@@ -93,7 +92,7 @@ class StopwordsTest extends TestCase
         $term = 'de';
         $command = new ExistsCommand();
         $command->setTerm('de');
-        $this->query->setName("dutch");
+        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());

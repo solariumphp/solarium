@@ -16,24 +16,28 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
 
     /**
      * ResourceId looked up using the managed resources component.
+     *
      * @var string
      */
     protected $resourceId;
 
     /**
      * Whether or not to ignore the case.
-     * @var boolean
+     *
+     * @var bool
      */
     protected $ignoreCase;
 
     /**
      * Datetime when the resource was initialized.
+     *
      * @var string
      */
     protected $initializedOn;
 
     /**
      * Datetime when the resource was last updated.
+     *
      * @var string
      */
     protected $updatedSinceInit;

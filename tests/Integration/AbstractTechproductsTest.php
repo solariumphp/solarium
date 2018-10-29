@@ -732,13 +732,11 @@ abstract class AbstractTechproductsTest extends TestCase
         $items = $result->getItems();
         $success = false;
         foreach ($items as $item) {
-            if($item->getTerm() === 'managed_synonyms_test')
-            {
+            if ('managed_synonyms_test' === $item->getTerm()) {
                 $success = true;
             }
         }
-        if(!$success)
-        {
+        if (!$success) {
             $this->fail('Couldn\'t find synonym.');
         }
 

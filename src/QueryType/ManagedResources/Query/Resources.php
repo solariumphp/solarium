@@ -11,6 +11,7 @@ class Resources extends AbstractQuery
 {
     /**
      * Fixed name for resources.
+     *
      * @var string
      */
     private $name = 'resources';
@@ -28,6 +29,7 @@ class Resources extends AbstractQuery
 
     /**
      * Get the name of resources.
+     *
      * @return string
      */
     public function getName(): string

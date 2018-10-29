@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
-
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
@@ -60,10 +58,9 @@ class Add extends AbstractCommand
      */
     public function getRawData(): string
     {
-        if($this->getSynonyms() !== null && !empty($this->getSynonyms()->getSynonyms()))
-        {
-            if(strlen(trim($this->getSynonyms()->getTerm())) != 0) {
-                return json_encode(array($this->getSynonyms()->getTerm() => $this->getSynonyms()->getSynonyms()));
+        if (null !== $this->getSynonyms() && !empty($this->getSynonyms()->getSynonyms())) {
+            if (0 != strlen(trim($this->getSynonyms()->getTerm()))) {
+                return json_encode([$this->getSynonyms()->getTerm() => $this->getSynonyms()->getSynonyms()]);
             }
 
             return json_encode($this->getSynonyms()->getSynonyms());
