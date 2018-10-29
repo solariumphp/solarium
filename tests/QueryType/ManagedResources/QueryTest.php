@@ -35,10 +35,4 @@ class QueryTest extends TestCase
             $this->query->getRequestBuilder()
         );
     }
-
-    public function testQuery()
-    {
-        // TODO implement
-        //$this->query->
-    }
 }
