@@ -44,22 +44,22 @@ class Expression
         $indentation_step = 2;
         $indented_expression = '';
         for ($c = 0; $c < strlen($expression); ++$c) {
-            if ('(' === $expression{$c}) {
-                $indented_expression .= $expression{$c}.PHP_EOL;
+            if ('(' === $expression[$c]) {
+                $indented_expression .= $expression[$c].PHP_EOL;
                 $current_indentation += $indentation_step;
                 $indented_expression .= str_pad('', $current_indentation);
-            } elseif (')' === $expression{$c}) {
+            } elseif (')' === $expression[$c]) {
                 $current_indentation -= $indentation_step;
                 $indented_expression .= PHP_EOL;
-                $indented_expression .= str_pad('', $current_indentation).$expression{$c};
-            } elseif (',' === $expression{$c}) {
-                $indented_expression .= $expression{$c}.PHP_EOL.str_pad('', $current_indentation);
+                $indented_expression .= str_pad('', $current_indentation).$expression[$c];
+            } elseif (',' === $expression[$c]) {
+                $indented_expression .= $expression[$c].PHP_EOL.str_pad('', $current_indentation);
                 // swallow space if any
-                if (@$expression{$c + 1} === ' ') {
-                    $c++;
+                if (' ' === @$expression[$c + 1]) {
+                    ++$c;
                 }
-            } else {
-                $indented_expression .= $expression{$c};
+            }    else {
+                $indented_expression .= $expression[$c];
             }
         }
         return $indented_expression;
