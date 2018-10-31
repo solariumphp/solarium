@@ -13,20 +13,22 @@ class StreamException extends \UnexpectedValueException implements ExceptionInte
     protected $expression = '';
 
     /**
-     * Set the streaming expression that caused the exception.
+     * Set the streaming expression that caused the exception
      *
      * @param string $expression
      */
-    public function setExpression(string $expression) {
+    public function setExpression(string $expression)
+    {
         $this->expression = $expression;
     }
 
     /**
-     * Get the streaming expression that caused the exception.
+     * Get the streaming expression that caused the exception
      *
      * @return string
      */
-    public function getExpression() {
+    public function getExpression()
+    {
         return $this->expression;
     }
 }
