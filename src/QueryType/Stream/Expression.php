@@ -30,4 +30,40 @@ class Expression
             return '' !== $value;
         })).')';
     }
+
+    /**
+     * Format and indent a streaming expression.
+     *
+     * @param string $expression
+     *
+     * @return string
+     */
+    static public function indent(string $expression) {
+      $current_indentation = 0;
+      $indentation_step = 2;
+      $indented_expression = '';
+      for ($c = 0; $c < strlen($expression); $c++) {
+        if ($expression{$c} === '(') {
+          $indented_expression .= $expression{$c} . "\n";
+          $current_indentation += $indentation_step;
+          $indented_expression .= str_pad('', $current_indentation);
+        }
+        elseif ($expression{$c} === ')') {
+          $current_indentation -= $indentation_step;
+          $indented_expression .= "\n";
+          $indented_expression .= str_pad('', $current_indentation) . $expression{$c};
+        }
+        elseif ($expression{$c} === ',') {
+          $indented_expression .= $expression{$c} . "\n" . str_pad('', $current_indentation);
+          // swallow space if any
+          if (@$expression{$c + 1} === ' ') {
+            $c++;
+          }
+        }
+        else {
+          $indented_expression .= $expression{$c};
+        }
+      }
+      return $indented_expression;
+    }
 }
