@@ -8,12 +8,12 @@ namespace Solarium\Exception;
 class StreamException extends \UnexpectedValueException implements ExceptionInterface
 {
     /**
-     * @var string the streaming expression.
+     * @var string the streaming expression
      */
     protected $expression = '';
 
     /**
-     * Set the streaming expression that caused the exception
+     * Set the streaming expression that caused the exception.
      *
      * @param string $expression
      */
@@ -23,7 +23,7 @@ class StreamException extends \UnexpectedValueException implements ExceptionInte
     }
 
     /**
-     * Get the streaming expression that caused the exception
+     * Get the streaming expression that caused the exception.
      *
      * @return string
      */
