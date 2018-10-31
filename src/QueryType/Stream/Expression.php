@@ -58,7 +58,7 @@ class Expression
                 if (' ' === @$expression[$c + 1]) {
                     ++$c;
                 }
-            }    else {
+            } else {
                 $indented_expression .= $expression[$c];
             }
         }
