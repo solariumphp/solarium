@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Core Admin Queries
 - Endpoint::getServerUri
 - Endpoint::getCoreBaseUri
+- Expression::indent
+- Set erroneous expression on StreamException
 - Managed resources, stopwords and synonyms query types
 
 ### Changed

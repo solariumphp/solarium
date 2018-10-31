@@ -44,7 +44,9 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
                 $fields = (array) $doc;
                 if (isset($fields['EXCEPTION'])) {
                     // Use Solr's exception as message.
-                    throw new StreamException($fields['EXCEPTION']);
+                    $e = new StreamException($fields['EXCEPTION']);
+                    $e->setExpression($query->getExpression());
+                    throw $e;
                 }
                 if (isset($fields['EOF'])) {
                     // End of stream.
@@ -53,12 +55,16 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
                 $documents[] = new $documentClass($fields);
             }
             if (!isset($fields['EOF'])) {
-                throw new StreamException('Streaming expression returned an incomplete result-set.');
+                $e = new StreamException('Streaming expression returned an incomplete result-set.');
+                $e->setExpression($query->getExpression());
+                throw $e;
             }
             $data['responseHeader']['QTime'] = $fields['RESPONSE_TIME'];
             $data['responseHeader']['status'] = 0;
         } else {
-            throw new StreamException('Streaming expression did not return a result-set.');
+            $e = new StreamException('Streaming expression did not return a result-set.');
+            $e->setExpression($query->getExpression());
+            throw $e;
         }
 
         return $this->addHeaderInfo(
