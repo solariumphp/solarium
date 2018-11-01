@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Endpoint::getCoreBaseUri
 - Expression::indent
 - Set erroneous expression on StreamException
+- BufferedAdd::setCommitWithin
+- BufferedAdd::setOverwrite
 
 ### Changed
 
