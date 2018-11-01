@@ -225,8 +225,8 @@ class BufferedAdd extends AbstractPlugin
             return false;
         }
 
-		$overwrite = is_null($overwrite) ? $this->getOverwrite() : $overwrite;
-		$commitWithin = is_null($commitWithin) ? $this->getCommitWithin() : $commitWithin;
+        $overwrite = is_null($overwrite) ? $this->getOverwrite() : $overwrite;
+        $commitWithin = is_null($commitWithin) ? $this->getCommitWithin() : $commitWithin;
 
         $event = new PreFlushEvent($this->buffer, $overwrite, $commitWithin);
         $this->client->getEventDispatcher()->dispatch(Events::PRE_FLUSH, $event);
