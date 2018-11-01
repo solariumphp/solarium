@@ -113,7 +113,7 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Set overwrite boolean option.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self
      */
@@ -125,7 +125,7 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Get overwrite boolean option value.
      *
-     * @return boolean
+     * @return bool
      */
     public function getOverwrite()
     {

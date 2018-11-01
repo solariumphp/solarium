@@ -37,13 +37,13 @@ class BufferedAddTest extends TestCase
     {
         $this->plugin->setOverwrite(true);
         $this->assertTrue($this->plugin->getOverwrite());
-	}
+    }
 
     public function testSetAndGetCommitWithin()
     {
         $this->plugin->setCommitWithin(500);
         $this->assertSame(500, $this->plugin->getCommitWithin());
-	}
+    }
 
     public function testAddDocument()
     {
