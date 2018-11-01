@@ -4,28 +4,23 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [master]
+## [4.2.0-beta.1]
 ### Added
 - Basic support for PUT requests in the HttpAdapter layer
+- Support for managed resources
 - Core Admin Queries
 - Endpoint::getServerUri
 - Endpoint::getCoreBaseUri
 - Expression::indent
-- Set erroneous expression on StreamException
 - BufferedAdd::setCommitWithin
 - BufferedAdd::setOverwrite
-
-### Changed
+- Set erroneous expression on StreamException
 
 ### Deprecated
 - Endpoint::getBaseUri is deprecated. Please use getServerUri or getCoreBaseUri now.
 
-### Removed
-
 ### Fixed
 - Allow multiple Field Facets for the same field by dynamically using local facet params if required
-
-### Security
 
 
 ## [4.1.0]
@@ -33,7 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Method AbstractQuery::removeParam() to remove a custom parameter or to reset a required but modified parameter
 - Basic support for DELETE requests in the HttpAdapter layer
 - Introduced an AdapterHelper class to start unifying implementations across all HTTP adapters
-
 
 ### Changed
 - To unify the file extraction across all HTTP Adapters, the filename is now always reduced to its basepath
