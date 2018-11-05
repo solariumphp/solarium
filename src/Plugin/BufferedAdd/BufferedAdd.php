@@ -89,6 +89,50 @@ class BufferedAdd extends AbstractPlugin
     }
 
     /**
+     * Set commitWithin time option.
+     *
+     * @param int $time
+     *
+     * @return self
+     */
+    public function setCommitWithin($time)
+    {
+        return $this->setOption('commitwithin', $time);
+    }
+
+    /**
+     * Get commitWithin time option value.
+     *
+     * @return int
+     */
+    public function getCommitWithin()
+    {
+        return $this->getOption('commitwithin');
+    }
+
+    /**
+     * Set overwrite boolean option.
+     *
+     * @param bool $value
+     *
+     * @return self
+     */
+    public function setOverwrite($value)
+    {
+        return $this->setOption('overwrite', $value);
+    }
+
+    /**
+     * Get overwrite boolean option value.
+     *
+     * @return bool
+     */
+    public function getOverwrite()
+    {
+        return $this->getOption('overwrite');
+    }
+
+    /**
      * Create a document object instance and add it to the buffer.
      *
      * @param array $fields
@@ -180,6 +224,9 @@ class BufferedAdd extends AbstractPlugin
             // nothing to do
             return false;
         }
+
+        $overwrite = is_null($overwrite) ? $this->getOverwrite() : $overwrite;
+        $commitWithin = is_null($commitWithin) ? $this->getCommitWithin() : $commitWithin;
 
         $event = new PreFlushEvent($this->buffer, $overwrite, $commitWithin);
         $this->client->getEventDispatcher()->dispatch(Events::PRE_FLUSH, $event);
