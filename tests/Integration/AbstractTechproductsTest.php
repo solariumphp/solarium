@@ -8,6 +8,13 @@ use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Exception\HttpException;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add as AddStopwords;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete as DeleteStopwords;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists as ExistsStopwords;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add as AddSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete as DeleteSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists as ExistsSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 
@@ -646,6 +653,114 @@ abstract class AbstractTechproductsTest extends TestCase
         $coreAdminQuery->setAction($unloadAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
+    }
+
+    public function testManagedStopwords()
+    {
+        $query = $this->client->createManagedStopwords();
+        $query->setName('english');
+        $term = 'managed_stopword_test';
+
+        // Add stopwords
+        $add = new AddStopwords();
+        $add->setStopwords([$term]);
+        $query->setCommand($add);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if single stopword exist
+        $exists = new ExistsStopwords();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // We need to remove the current command in order to have no command. Having no command lists the items.
+        $query->removeCommand();
+
+        // List stopwords
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $items = $result->getItems();
+        $this->assertContains($term, $items);
+
+        // Delete stopword
+        $delete = new DeleteStopwords();
+        $delete->setTerm($term);
+        $query->setCommand($delete);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if stopword is gone
+        $this->expectException(HttpException::class);
+        $exists = new ExistsStopwords();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $this->client->execute($query);
+    }
+
+    public function testManagedSynonyms()
+    {
+        $query = $this->client->createManagedSynonyms();
+        $query->setName('english');
+        $term = 'managed_synonyms_test';
+
+        // Add synonyms
+        $add = new AddSynonyms();
+        $synonyms = new Synonyms();
+        $synonyms->setTerm($term);
+        $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
+        $add->setSynonyms($synonyms);
+        $query->setCommand($add);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if single synonym exist
+        $exists = new ExistsSynonyms();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
+
+        // We need to remove the current command in order to have no command. Having no command lists the items.
+        $query->removeCommand();
+
+        // List synonyms
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $items = $result->getItems();
+        $success = false;
+        foreach ($items as $item) {
+            if ('managed_synonyms_test' === $item->getTerm()) {
+                $success = true;
+            }
+        }
+        if (!$success) {
+            $this->fail('Couldn\'t find synonym.');
+        }
+
+        // Delete synonyms
+        $delete = new DeleteSynonyms();
+        $delete->setTerm($term);
+        $query->setCommand($delete);
+        $result = $this->client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if synonyms are gone
+        $this->expectException(HttpException::class);
+        $exists = new ExistsSynonyms();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $this->client->execute($query);
+    }
+
+    public function testManagedResources()
+    {
+        $query = $this->client->createManagedResources();
+        $result = $this->client->execute($query);
+        $items = $result->getItems();
+        $this->assertCount(2, $items);
     }
 }
 

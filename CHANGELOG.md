@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - BufferedAdd::setCommitWithin
 - BufferedAdd::setOverwrite
 - Set erroneous expression on StreamException
+- Managed resources, stopwords and synonyms query types
 
 ### Deprecated
 - Endpoint::getBaseUri is deprecated. Please use getServerUri or getCoreBaseUri now.

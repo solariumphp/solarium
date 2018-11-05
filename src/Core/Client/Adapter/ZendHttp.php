@@ -162,6 +162,13 @@ class ZendHttp extends Configurable implements AdapterInterface
             case Request::METHOD_PUT:
                 $client->setMethod(\Zend_Http_Client::PUT);
                 $client->setParameterGet($request->getParams());
+                if ($request->getFileUpload()) {
+                    $this->prepareFileUpload($client, $request);
+                } else {
+                    $client->setParameterGet($request->getParams());
+                    $client->setRawData($request->getRawData());
+                    $request->addHeader('Content-Type: application/json; charset=UTF-8');
+                }
                 break;
             default:
                 throw new OutOfBoundsException('Unsupported method: '.$request->getMethod());

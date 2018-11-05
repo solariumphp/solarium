@@ -112,6 +112,17 @@ class Http extends Configurable implements AdapterInterface
                     $request->addHeader('Content-Type: text/xml; charset=UTF-8');
                 }
             }
+        } elseif (Request::METHOD_PUT == $method) {
+            $data = $request->getRawData();
+            if (null !== $data) {
+                stream_context_set_option(
+                    $context,
+                    'http',
+                    'content',
+                    $data
+                );
+                $request->addHeader('Content-Type: application/json; charset=UTF-8');
+            }
         }
 
         $headers = $request->getHeaders();
