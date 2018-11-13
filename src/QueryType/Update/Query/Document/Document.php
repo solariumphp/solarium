@@ -24,32 +24,51 @@ use Solarium\QueryType\Select\Result\AbstractDocument;
 class Document extends AbstractDocument implements DocumentInterface
 {
     /**
-     * Directive to set a value using atomic updates.
+     * Directive to set or replace the field value(s) with the specified value(s), or remove the values if 'null' or
+     * empty list is specified as the new value. May be specified as a single value, or as a list for multiValued
+     * fields.
      *
      * @var string
      */
     const MODIFIER_SET = 'set';
 
     /**
-     * Directive to increment an integer value using atomic updates.
+     * Directive to increment a numeric value by a specific amount. Must be specified as a single numeric value.
      *
      * @var string
      */
     const MODIFIER_INC = 'inc';
 
     /**
-     * Directive to append a value (e.g. multivalued fields) using atomic updates.
+     * Directive to add the specified values to a multiValued field. May be specified as a single value, or as a list.
      *
      * @var string
      */
     const MODIFIER_ADD = 'add';
 
     /**
-     * Directive to remove a value (e.g. multivalued fields) using atomic updates.
+     * Directive to add the specified values to a multiValued field, only if not already present. May be specified as a
+     * single value, or as a list.
+     *
+     * @var string
+     */
+    const MODIFIER_ADD_DISTINCT = 'add-distinct';
+
+    /**
+     * Directive to remove (all occurrences of) the specified values from a multiValued field. May be specified as a
+     * single value, or as a list.
      *
      * @var string
      */
     const MODIFIER_REMOVE = 'remove';
+
+    /**
+     * Directive to remove all occurrences of the specified regex from a multiValued field. May be specified as a single
+     * value, or as a list.
+     *
+     * @var string
+     */
+    const MODIFIER_REMOVEREGEX = 'removeregex';
 
     /**
      * This value has the same effect as not setting a version.
