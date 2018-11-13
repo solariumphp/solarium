@@ -98,6 +98,10 @@ class Guzzle3 extends Configurable implements AdapterInterface
      */
     private function getRequestBody(Request $request)
     {
+        if (Request::METHOD_PUT == $request->getMethod()) {
+            return $request->getRawData();
+        }
+
         if (Request::METHOD_POST !== $request->getMethod()) {
             return null;
         }
