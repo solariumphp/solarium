@@ -201,6 +201,7 @@ class HelperTest extends TestCase
     public function testEscapeTerm()
     {
         $this->assertSame('a\\+b\/c', $this->helper->escapeTerm('a+b/c'));
+        $this->assertSame('a\ b', $this->helper->escapeTerm('a b'));
     }
 
     public function testEscapeTermNoEscape()

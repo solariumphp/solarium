@@ -59,7 +59,7 @@ class Helper
      * If you want to use the input as a phrase please use the {@link phrase()}
      * method, because a phrase requires much less escaping.\
      *
-     * @see http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
+     * @see https://lucene.apache.org/core/7_5_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package.description
      *
      * @param string $input
      *
@@ -67,7 +67,7 @@ class Helper
      */
     public function escapeTerm($input)
     {
-        $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\/|\\\)/';
+        $pattern = '/( |\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\/|\\\)/';
 
         return preg_replace($pattern, '\\\$1', $input);
     }
