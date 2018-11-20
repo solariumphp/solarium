@@ -101,16 +101,15 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testStatus()
+    public function testClusterStatus()
     {
-        $status = $this->query->createStatus();
-        $status->setCore('statusCore');
-        $status->setIndexInfo(true);
+        $status = $this->query->createClusterStatus();
+        $status->setCollection('somecollection');
         $this->query->setAction($status);
 
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
-        $expectedUri = 'admin/cores?wt=json&json.nl=flat&action=STATUS&core=statusCore&indexInfo=true';
+        $expectedUri = 'admin/collections?wt=json&json.nl=flat&action=CLUSTERSTATUS&collection=somecollection';
         $this->assertSame($expectedUri, $request->getUri());
     }
 }
