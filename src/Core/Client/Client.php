@@ -113,6 +113,11 @@ class Client extends Configurable implements ClientInterface
     const QUERY_CORE_ADMIN = 'cores';
 
     /**
+     * Querytype collections.
+     */
+    const QUERY_COLLECTIONS = 'collections';
+
+    /**
      * Querytype managed resource.
      */
     const QUERY_MANAGED_RESOURCES = 'resources';
@@ -159,6 +164,7 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
         self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
         self::QUERY_CORE_ADMIN => 'Solarium\QueryType\Server\CoreAdmin\Query\Query',
+        self::QUERY_COLLECTIONS => 'Solarium\QueryType\Server\Collections\Query\Query',
         self::QUERY_MANAGED_RESOURCES => 'Solarium\QueryType\ManagedResources\Query\Resources',
         self::QUERY_MANAGED_STOPWORDS => 'Solarium\QueryType\ManagedResources\Query\Stopwords',
         self::QUERY_MANAGED_SYNONYMS => 'Solarium\QueryType\ManagedResources\Query\Synonyms',
@@ -1027,6 +1033,22 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
+     * Execute a Collections API query.
+     *
+     * @internal this is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API
+     *
+     * @param QueryInterface|\Solarium\QueryType\Server\Collections\Query\Query $query
+     * @param Endpoint|string|null $endpoint
+     *
+     * @return \Solarium\QueryType\Server\Collections\Result\AbstractResult
+     */
+    public function collections(QueryInterface $query, $endpoint = null)
+    {
+        return $this->execute($query, $endpoint);
+    }
+
+    /**
      * Create a query instance.
      *
      *
@@ -1276,6 +1298,18 @@ class Client extends Configurable implements ClientInterface
     public function createManagedSynonyms($options = null)
     {
         return $this->createQuery(self::QUERY_MANAGED_SYNONYMS, $options);
+    }
+
+    /**
+     * Create a Collections API query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\Server\Collections\Query\Query
+     */
+    public function createCollections($options = null)
+    {
+        return $this->createQuery(self::QUERY_COLLECTIONS, $options);
     }
 
     /**
