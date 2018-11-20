@@ -41,9 +41,9 @@ before_script:
 script:
   - |
      if [ ${SOLRCLOUD} == "true" ]; then
-       vendor/bin/phpunit -c phpunit.xml.solrcloud.travis -v
+       vendor/bin/phpunit -c phpunit.xml.solrcloud.travis -v  || travis_terminate 1;
      else
-       vendor/bin/phpunit -c phpunit.xml.travis -v
+       vendor/bin/phpunit -c phpunit.xml.travis -v  || travis_terminate 1;
      fi
 
 after_success:
