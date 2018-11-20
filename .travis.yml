@@ -29,20 +29,22 @@ before_install:
 before_script:
 #  - pecl install pecl_http
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
-  - 'if [ ${SOLRCLOUD} = "true" ]; then
+  - |
+    if [ ${SOLRCLOUD} == "true" ]; then
        solr-${SOLR_VERSION}/bin/solr start -c -e cloud -noprompt || travis_terminate 1;
      else
        solr-${SOLR_VERSION}/bin/solr start -e techproducts || travis_terminate 1;
-     fi'
-  # make configSet's available for techproducts instance
-  - cp -R  solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/
+       #make configSet's available for techproducts instance
+       cp -R solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/  || travis_terminate 1;
+    fi
 
 script:
-  - 'if [ ${SOLRCLOUD} = "true" ]; then
-       vendor/bin/phpunit -c phpunit.xml.solrcloud.travis -v
+  - |
+     if [ ${SOLRCLOUD} == "true" ]; then
+       vendor/bin/phpunit -c phpunit.xml.solrcloud.travis -v  || travis_terminate 1;
      else
-       vendor/bin/phpunit -c phpunit.xml.travis -v
-     fi'
+       vendor/bin/phpunit -c phpunit.xml.travis -v  || travis_terminate 1;
+     fi
 
 after_success:
   - travis_retry php vendor/bin/coveralls -v
