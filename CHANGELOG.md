@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Support for managed resources
 - Support for add-distinct and removeregex modifiers
+- Basic support for Collections API (create, delete, reload, clusterstatus)
 
 ## [4.2.0-beta.1]
 ### Added
