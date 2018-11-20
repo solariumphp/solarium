@@ -8,6 +8,7 @@ use Solarium\QueryType\Server\AbstractServerQuery;
 use Solarium\QueryType\Server\Collections\Query\Action\ActionInterface;
 use Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus;
 use Solarium\QueryType\Server\Collections\Query\Action\Create;
+use Solarium\QueryType\Server\Collections\Query\Action\Delete;
 use Solarium\QueryType\Server\Collections\Query\Action\Reload;
 use Solarium\QueryType\Server\Collections\RequestBuilder;
 use Solarium\QueryType\Server\Collections\ResponseParser;
@@ -305,7 +306,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Create
+     * @return Delete
      */
     public function createDelete($options = [])
     {

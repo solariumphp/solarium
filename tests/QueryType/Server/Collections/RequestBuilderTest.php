@@ -105,11 +105,35 @@ class RequestBuilderTest extends TestCase
     {
         $status = $this->query->createClusterStatus();
         $status->setCollection('somecollection');
+        $status->setRoute('test');
+        $status->setShard('test');
         $this->query->setAction($status);
 
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
-        $expectedUri = 'admin/collections?wt=json&json.nl=flat&action=CLUSTERSTATUS&collection=somecollection';
+        $expectedUri = 'admin/collections?wt=json&json.nl=flat&action=CLUSTERSTATUS&collection=somecollection&_route_=test&shard=test';
+        $this->assertSame($expectedUri, $request->getUri());
+    }
+
+    public function testDelete()
+    {
+        $delete = $this->query->createDelete();
+        $delete->setName('somecollection');
+        $this->query->setAction($delete);
+        $request = $this->builder->build($this->query);
+        $this->assertSame(Request::METHOD_GET, $request->getMethod());
+        $expectedUri = 'admin/collections?wt=json&json.nl=flat&action=DELETE&name=somecollection';
+        $this->assertSame($expectedUri, $request->getUri());
+    }
+
+    public function testReload()
+    {
+        $reload = $this->query->createReload();
+        $reload->setName('somecollection');
+        $this->query->setAction($reload);
+        $request = $this->builder->build($this->query);
+        $this->assertSame(Request::METHOD_GET, $request->getMethod());
+        $expectedUri = 'admin/collections?wt=json&json.nl=flat&action=RELOAD&name=somecollection';
         $this->assertSame($expectedUri, $request->getUri());
     }
 }
