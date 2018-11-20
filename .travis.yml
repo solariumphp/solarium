@@ -9,10 +9,11 @@ php:
   - nightly
 
 env:
-  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.5
-  - SYMFONY_VERSION=3.3.* SOLR_VERSION=6.6.5
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.5.0
+  - SYMFONY_VERSION=2.7.* SOLR_VERSION=6.6.5 SOLRCLOUD=false
+  - SYMFONY_VERSION=3.3.* SOLR_VERSION=6.6.5 SOLRCLOUD=false
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5 SOLRCLOUD=false
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.5.0 SOLRCLOUD=false
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.5.0 SOLRCLOUD=true
 
 cache:
   directories:
@@ -28,12 +29,20 @@ before_install:
 before_script:
 #  - pecl install pecl_http
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
-  - solr-${SOLR_VERSION}/bin/solr start -e techproducts
+  - 'if [ ${SOLRCLOUD} = "true" ]; then
+       solr-${SOLR_VERSION}/bin/solr start -c -e cloud -noprompt || travis_terminate 1;
+     else
+       solr-${SOLR_VERSION}/bin/solr start -e techproducts || travis_terminate 1;
+     fi'
   # make configSet's available for techproducts instance
   - cp -R  solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/
 
 script:
-  - vendor/bin/phpunit -c phpunit.xml.travis -v
+  - 'if [ ${SOLRCLOUD} = "true" ]; then
+       vendor/bin/phpunit -c phpunit.xml.solrcloud.travis -v
+     else
+       vendor/bin/phpunit -c phpunit.xml.travis -v
+     fi'
 
 after_success:
   - travis_retry php vendor/bin/coveralls -v
