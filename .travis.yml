@@ -31,13 +31,13 @@ before_script:
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
   - |
     if [ ${SOLRCLOUD} == "true" ]; then
-       solr-${SOLR_VERSION}/bin/solr start -c -e cloud -noprompt || travis_terminate 1;
+       solr_downloads/solr-${SOLR_VERSION}/bin/solr start -c -e cloud -noprompt || travis_terminate 1;
      else
-       solr-${SOLR_VERSION}/bin/solr start -e techproducts || travis_terminate 1;
+       solr_downloads/solr-${SOLR_VERSION}/bin/solr start -e techproducts || travis_terminate 1;
     fi
 
   # make configSet's available for techproducts instance
-  - cp -R  solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/
+  - cp -R  solr_downloads/solr-${SOLR_VERSION}/server/solr/configsets solr_downloads/solr-${SOLR_VERSION}/example/techproducts/solr/
 
 script:
   - |
