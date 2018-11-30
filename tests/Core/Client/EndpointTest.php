@@ -155,6 +155,7 @@ base uri: http://192.168.0.1:123/mysolr/mycore/
 host: 192.168.0.1
 port: 123
 path: /mysolr
+collection: 
 core: mycore
 timeout: 3
 authentication: Array
