@@ -10,7 +10,7 @@ $client = new Solarium\Client($config);
 $query = $client->createQuery($client::QUERY_SELECT);
 
 // Pagination example
-$resulsPerPage = 15;
+$resultsPerPage = 15;
 $currentPage = 1;
         
 // Set the number of results to return
