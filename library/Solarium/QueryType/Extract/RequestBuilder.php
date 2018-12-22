@@ -42,9 +42,9 @@
 
 namespace Solarium\QueryType\Extract;
 
-use Solarium\Core\Query\QueryInterface;
-use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
 
 /**
@@ -55,9 +55,9 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build the request.
      *
-     * @throws RuntimeException
-     *
      * @param Query|QueryInterface $query
+     *
+     * @throws RuntimeException
      *
      * @return Request
      */

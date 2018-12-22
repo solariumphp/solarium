@@ -31,9 +31,9 @@
 
 namespace Solarium\Tests\QueryType\Extract;
 
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\Extract\Query;
 use Solarium\QueryType\Extract\RequestBuilder;
-use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,11 +49,11 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->query = new Query;
+        $this->query = new Query();
         $this->query->setFile(__FILE__);
         $this->query->addParam('param1', 'value1');
         $this->query->addFieldMapping('from-field', 'to-field');
-        $this->builder = new RequestBuilder;
+        $this->builder = new RequestBuilder();
     }
 
     public function testGetMethod()
@@ -98,26 +98,26 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testDocumentFieldAndBoostParams()
     {
-        $fields = array('field1' => 'value1', 'field2' => 'value2');
-        $boosts = array('field1' => 1, 'field2' => 5);
+        $fields = ['field1' => 'value1', 'field2' => 'value2'];
+        $boosts = ['field1' => 1, 'field2' => 5];
         $document = $this->query->createDocument($fields, $boosts);
         $this->query->setDocument($document);
 
         $request = $this->builder->build($this->query);
         $this->assertEquals(
-            array(
-                'boost.field1' => 1,
-                'boost.field2' => 5,
+            [
+                'boost.field1'    => 1,
+                'boost.field2'    => 5,
                 'fmap.from-field' => 'to-field',
-                'literal.field1' => 'value1',
-                'literal.field2' => 'value2',
-                'omitHeader' => 'true',
-                'extractOnly' => 'false',
-                'param1' => 'value1',
-                'resource.name' => 'RequestBuilderTest.php',
-                'wt' => 'json',
-                'json.nl' => 'flat',
-            ),
+                'literal.field1'  => 'value1',
+                'literal.field2'  => 'value2',
+                'omitHeader'      => 'true',
+                'extractOnly'     => 'false',
+                'param1'          => 'value1',
+                'resource.name'   => 'RequestBuilderTest.php',
+                'wt'              => 'json',
+                'json.nl'         => 'flat',
+            ],
             $request->getParams()
         );
     }
@@ -134,7 +134,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testContentTypeHeader()
     {
-        $headers = array();
+        $headers = [];
         $request = $this->builder->build($this->query);
         $this->assertEquals($headers,
                             $request->getHeaders());
@@ -144,20 +144,20 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $timezone = new \DateTimeZone('Europe/London');
         $date = new \DateTime('2013-01-15 14:41:58', $timezone);
-        $document = $this->query->createDocument(array('date' => $date));
+        $document = $this->query->createDocument(['date' => $date]);
         $this->query->setDocument($document);
         $request = $this->builder->build($this->query);
         $this->assertEquals(
-            array(
+            [
                 'fmap.from-field' => 'to-field',
-                'literal.date' => '2013-01-15T14:41:58Z',
-                'omitHeader' => 'true',
-                'extractOnly' => 'false',
-                'param1' => 'value1',
-                'resource.name' => 'RequestBuilderTest.php',
-                'wt' => 'json',
-                'json.nl' => 'flat',
-            ),
+                'literal.date'    => '2013-01-15T14:41:58Z',
+                'omitHeader'      => 'true',
+                'extractOnly'     => 'false',
+                'param1'          => 'value1',
+                'resource.name'   => 'RequestBuilderTest.php',
+                'wt'              => 'json',
+                'json.nl'         => 'flat',
+            ],
             $request->getParams()
         );
     }
