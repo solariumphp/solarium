@@ -36,7 +36,7 @@ class Endpoint extends Configurable
      */
     public function __toString()
     {
-        $output = __CLASS__.'::__toString'."\n".'base uri: '.$this->getCoreBaseUri()."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
+        $output = __CLASS__.'::__toString'."\n".'base uri: '. $this->getCoreBaseUri()."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
 
         return $output;
     }
@@ -60,7 +60,8 @@ class Endpoint extends Configurable
      */
     public function setKey($value)
     {
-        return $this->setOption('key', $value);
+        $this->setOption('key', $value);
+        return $this;
     }
 
     /**
@@ -72,7 +73,8 @@ class Endpoint extends Configurable
      */
     public function setHost($host)
     {
-        return $this->setOption('host', $host);
+        $this->setOption('host', $host);
+        return $this;
     }
 
     /**
@@ -94,7 +96,8 @@ class Endpoint extends Configurable
      */
     public function setPort($port)
     {
-        return $this->setOption('port', $port);
+        $this->setOption('port', $port);
+        return $this;
     }
 
     /**
@@ -122,7 +125,8 @@ class Endpoint extends Configurable
             $path = substr($path, 0, -1);
         }
 
-        return $this->setOption('path', $path);
+        $this->setOption('path', $path);
+        return $this;
     }
 
     /**
@@ -136,6 +140,29 @@ class Endpoint extends Configurable
     }
 
     /**
+     * Set collection option.
+     *
+     * @param string $collection
+     *
+     * @return self Provides fluent interface
+     */
+    public function setCollection($collection)
+    {
+        $this->setOption('collection', $collection);
+        return $this;
+    }
+
+    /**
+     * Get collection option.
+     *
+     * @return string
+     */
+    public function getCollection()
+    {
+        return $this->getOption('collection');
+    }
+
+    /**
      * Set core option.
      *
      * @param string $core
@@ -144,7 +171,8 @@ class Endpoint extends Configurable
      */
     public function setCore($core)
     {
-        return $this->setOption('core', $core);
+        $this->setOption('core', $core);
+        return $this;
     }
 
     /**
@@ -154,6 +182,10 @@ class Endpoint extends Configurable
      */
     public function getCore()
     {
+        if($this->getOption('core') === null && $this->getOption('collection') !== null) {
+            return $this->getCollection();
+        }
+
         return $this->getOption('core');
     }
 
@@ -166,7 +198,8 @@ class Endpoint extends Configurable
      */
     public function setTimeout($timeout)
     {
-        return $this->setOption('timeout', $timeout);
+        $this->setOption('timeout', $timeout);
+        return $this;
     }
 
     /**
@@ -188,7 +221,8 @@ class Endpoint extends Configurable
      */
     public function setScheme($scheme)
     {
-        return $this->setOption('scheme', $scheme);
+        $this->setOption('scheme', $scheme);
+        return $this;
     }
 
     /**
@@ -199,6 +233,25 @@ class Endpoint extends Configurable
     public function getScheme()
     {
         return $this->getOption('scheme');
+    }
+
+    /**
+     * Get the base url for all SolrCloud requests.
+     *
+     * Based on host, path, port and collection options.
+     *
+     * @return string
+     */
+    public function getCollectionBaseUri()
+    {
+        $uri = $this->getServerUri();
+        $collection = $this->getCollection();
+
+        if (!empty($collection)) {
+            $uri .= $collection.'/';
+        }
+
+        return $uri;
     }
 
     /**
@@ -225,7 +278,7 @@ class Endpoint extends Configurable
      *
      * Based on host, path, port and core options.
      *
-     * @deprecated Please use getCoreBaseUri or getServerUri now, will be removed in Solarium 5
+     * @deprecated Please use getCollectionBaseUri, getCoreBaseUri or getServerUri now, will be removed in Solarium 5
      *
      * @return string
      */
