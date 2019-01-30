@@ -5,7 +5,7 @@ namespace Solarium\QueryType\Server\Query\Action;
 /**
  * Server query command base class.
  */
-abstract class AbstractAsyncAction extends AbstractAction implements ActionAsyncInterface
+abstract class AbstractAsyncAction extends AbstractAction implements AsyncActionInterface
 {
     public function setAsync(string $requestId)
     {
@@ -13,7 +13,7 @@ abstract class AbstractAsyncAction extends AbstractAction implements ActionAsync
         return $this;
     }
 
-    public function getAsync(): int
+    public function getAsync(): string
     {
         return (string) $this->getOption('async');
     }

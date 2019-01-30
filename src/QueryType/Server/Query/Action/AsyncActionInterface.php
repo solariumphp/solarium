@@ -2,7 +2,7 @@
 
 namespace Solarium\QueryType\Server\Query\Action;
 
-interface ActionAsyncInterface extends ActionInterface
+interface AsyncActionInterface extends ActionInterface
 {
     /**
      * Can be used to set a requestId to track this action with asynchronous processing.
@@ -16,7 +16,7 @@ interface ActionAsyncInterface extends ActionInterface
     /**
      * Get the request-id for asynchronous processing.
      *
-     * @return int
+     * @return string
      */
-    public function getAsync(): int;
+    public function getAsync(): string;
 }
