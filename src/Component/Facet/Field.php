@@ -28,7 +28,7 @@ class Field extends AbstractField implements ExcludeTagsInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return FacetSetInterface::FACET_FIELD;
     }

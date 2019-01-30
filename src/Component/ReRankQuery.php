@@ -18,7 +18,7 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return ComponentAwareQueryInterface::COMPONENT_RERANKQUERY;
     }

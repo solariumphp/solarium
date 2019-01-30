@@ -16,7 +16,7 @@ interface FacetInterface
      *
      * @return string
      */
-    public function getType();
+    public function getType(): string;
 
     /**
      * Get key value.

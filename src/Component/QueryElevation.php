@@ -32,7 +32,7 @@ class QueryElevation extends AbstractComponent
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return ComponentAwareQueryInterface::COMPONENT_QUERYELEVATION;
     }

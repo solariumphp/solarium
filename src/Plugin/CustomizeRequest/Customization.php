@@ -76,7 +76,7 @@ class Customization extends Configurable
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->getOption('type');
     }

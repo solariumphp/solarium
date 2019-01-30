@@ -18,7 +18,7 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
      *
      * @return string
      */
-    abstract public function getType();
+    abstract public function getType(): string;
 
     /**
      * Get key value.

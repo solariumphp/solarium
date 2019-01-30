@@ -33,7 +33,7 @@ class JsonQuery extends AbstractFacet implements JsonFacetInterface, FacetSetInt
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return FacetSetInterface::JSON_FACET_QUERY;
     }
