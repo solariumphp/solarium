@@ -26,7 +26,7 @@ class Delete extends AbstractCDRAction
      * The name of the collection to be deleted. This parameter is required.
      *
      * @param string $collection
-     * 
+     *
      * @return self Delete object
      */
     public function setName(string $collection): self

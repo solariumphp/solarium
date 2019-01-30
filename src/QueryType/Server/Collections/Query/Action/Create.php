@@ -26,7 +26,7 @@ class Create extends AbstractCDRAction
      * The name of the collection to be created. This parameter is required.
      *
      * @param string $collection
-     * 
+     *
      * @return self Create object
      */
     public function setName(string $collection): self
