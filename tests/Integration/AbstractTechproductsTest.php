@@ -501,6 +501,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame('PDF Test', trim($content), 'Can not extract the plain content from the file');
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testCanReloadCore()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
@@ -519,6 +522,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->client->coreAdmin($coreAdminQuery);
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testCoreAdminStatus()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
@@ -546,6 +552,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertNull($response->getStatusResult()->getStartTime());
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testSplitAndMerge()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
@@ -624,6 +633,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($response->getWasSuccessful());
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testGetStatusFromAllCoreWhenNoCoreNameWasSet()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
@@ -655,6 +667,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($response->getWasSuccessful());
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testManagedStopwords()
     {
         $query = $this->client->createManagedStopwords();
@@ -699,6 +714,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->client->execute($query);
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testManagedSynonyms()
     {
         $query = $this->client->createManagedSynonyms();
@@ -755,6 +773,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->client->execute($query);
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testManagedResources()
     {
         $query = $this->client->createManagedResources();
