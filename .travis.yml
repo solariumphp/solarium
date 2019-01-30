@@ -3,6 +3,7 @@ language: php
 dist: trusty
 
 php:
+  - 7.3
   - 7.2
   - 7.1
   - 7.0
@@ -32,18 +33,21 @@ before_script:
   - |
     if [ ${SOLRCLOUD} == "true" ]; then
        solr-${SOLR_VERSION}/bin/solr start -c -e cloud -noprompt || travis_terminate 1;
+       solr-${SOLR_VERSION}/bin/solr delete -c gettingstarted || travis_terminate 1;
+       solr-${SOLR_VERSION}/bin/solr create -c create -c techproducts -s 2 -rf 2 || travis_terminate 1;
+       solr-${SOLR_VERSION}/bin/post -c techproducts solr-${SOLR_VERSION}/example/exampledocs/* || travis_terminate 1;
      else
        solr-${SOLR_VERSION}/bin/solr start -e techproducts || travis_terminate 1;
        #make configSet's available for techproducts instance
-       cp -R solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/  || travis_terminate 1;
+       cp -R solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/ || travis_terminate 1;
     fi
 
 script:
   - |
      if [ ${SOLRCLOUD} == "true" ]; then
-       vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_no_cloud -v  || travis_terminate 1;
+       vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_no_cloud -v || travis_terminate 1;
      else
-       vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_cloud -v  || travis_terminate 1;
+       vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_cloud -v || travis_terminate 1;
      fi
 
 after_success:
