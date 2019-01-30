@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
+use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
  * @see https://lucene.apache.org/solr/guide/6_6/coreadmin-api.html#CoreAdminAPI-UNLOAD
@@ -83,5 +84,11 @@ class Unload extends AbstractAsyncAction
     public function getDeleteInstanceDir(): bool
     {
         return (string) $this->getOption('deleteInstanceDir');
+    }
+
+    public function getResultClass(): string
+    {
+        // TODO: Implement getResultClass() method.
+        return '';
     }
 }

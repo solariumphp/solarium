@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
+use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 class Swap extends AbstractAsyncAction
 {
@@ -36,5 +37,11 @@ class Swap extends AbstractAsyncAction
     public function getOther(): string
     {
         return (string) $this->getOption('other');
+    }
+
+    public function getResultClass(): string
+    {
+        // TODO: Implement getResultClass() method.
+        return '';
     }
 }
