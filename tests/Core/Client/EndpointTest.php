@@ -24,8 +24,10 @@ class EndpointTest extends TestCase
             'host' => '192.168.0.1',
             'port' => 123,
             'path' => '/mysolr/',
+            'collection' => null,
             'core' => 'mycore',
             'timeout' => 3,
+            'leader' => false,
             'username' => 'x',
             'password' => 'y',
         ];
