@@ -8,7 +8,6 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
  * Abstract class for Create, Delete and Reload actions.
- * @package Solarium\QueryType\Server\Collections\Query\Action
  */
 abstract class AbstractCDRAction extends AbstractAsyncAction
 {

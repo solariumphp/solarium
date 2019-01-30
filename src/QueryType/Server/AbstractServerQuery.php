@@ -58,5 +58,4 @@ abstract class AbstractServerQuery extends AbstractQuery implements ActionInterf
     {
         return $this->getAction()->getResultClass();
     }
-
 }

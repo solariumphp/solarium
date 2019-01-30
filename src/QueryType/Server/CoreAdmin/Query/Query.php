@@ -4,7 +4,6 @@ namespace Solarium\QueryType\Server\CoreAdmin\Query;
 
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Server\AbstractServerQuery;
-use Solarium\QueryType\Server\CoreAdmin\Query\Action\AbstractAction;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Create;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\MergeIndexes;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Reload;
@@ -107,7 +106,7 @@ class Query extends AbstractServerQuery
     /**
      * Action that should be performed on the core admin api.
      *
-     * @var AbstractAction
+     * @var ActionInterface
      */
     protected $action = null;
 

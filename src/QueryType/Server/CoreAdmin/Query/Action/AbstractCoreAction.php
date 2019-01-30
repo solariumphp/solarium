@@ -2,6 +2,8 @@
 
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
+use Solarium\QueryType\Server\Query\Action\AbstractAction;
+
 abstract class AbstractCoreAction extends AbstractAction
 {
     /**
@@ -22,5 +24,11 @@ abstract class AbstractCoreAction extends AbstractAction
     public function getCore(): string
     {
         return (string) $this->getOption('core');
+    }
+
+    public function getResultClass(): string
+    {
+        // TODO: Implement getResultClass() method.
+        return '';
     }
 }
