@@ -30,7 +30,8 @@ class RequestBuilder extends BaseRequestBuilder
 
     /**
      * @param ActionInterface $action
-     * @param Request $request
+     * @param Request         $request
+     *
      * @return Request
      */
     protected function addOptionsFromAction(ActionInterface $action, Request $request)

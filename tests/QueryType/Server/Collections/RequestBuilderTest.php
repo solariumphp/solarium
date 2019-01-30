@@ -75,28 +75,28 @@ class RequestBuilderTest extends TestCase
 
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
-        $expectedUri = 'admin/collections?wt=json&json.nl=flat' .
-            '&action=CREATE' .
-            '&name=test' .
-            '&router.name=implicit' .
-            '&numShards=3' .
-            '&shards=shard-x%2Cshard-y%2Cshard-z' .
-            '&replicationFactor=1' .
-            '&nrtReplicas=1' .
-            '&tlogReplicas=1' .
-            '&pullReplicas=1' .
-            '&maxShardsPerNode=10' .
-            '&createNodeSet=localhost%3A8983_solr%2Clocalhost%3A8984_solr' .
-            '&createNodeSet.shuffle=true' .
-            '&collection.configName=_default' .
-            '&router.field=id' .
-            '&property.name=test' .
-            '&autoAddReplicas=true' .
-            '&async=1' .
-            '&rule=' .
-            '&snitch=' .
-            '&policy=' .
-            '&waitForFinalState=false' .
+        $expectedUri = 'admin/collections?wt=json&json.nl=flat'.
+            '&action=CREATE'.
+            '&name=test'.
+            '&router.name=implicit'.
+            '&numShards=3'.
+            '&shards=shard-x%2Cshard-y%2Cshard-z'.
+            '&replicationFactor=1'.
+            '&nrtReplicas=1'.
+            '&tlogReplicas=1'.
+            '&pullReplicas=1'.
+            '&maxShardsPerNode=10'.
+            '&createNodeSet=localhost%3A8983_solr%2Clocalhost%3A8984_solr'.
+            '&createNodeSet.shuffle=true'.
+            '&collection.configName=_default'.
+            '&router.field=id'.
+            '&property.name=test'.
+            '&autoAddReplicas=true'.
+            '&async=1'.
+            '&rule='.
+            '&snitch='.
+            '&policy='.
+            '&waitForFinalState=false'.
             '&withCollection=test2';
         $this->assertSame($expectedUri, $request->getUri());
     }

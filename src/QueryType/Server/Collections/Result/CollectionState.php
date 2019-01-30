@@ -1,49 +1,24 @@
 <?php
-/**
- * BSD 2-Clause License
- *
- * Copyright (c) 2017 Jeroen Steggink
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *  Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- *
- *  Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 
 namespace Solarium\QueryType\Server\Collections\Result;
+
+use Solarium\Exception\SolrCloudException;
 
 /**
  * Class for describing a SolrCloud collection endpoint.
  */
 class CollectionState extends AbstractState
 {
-    /** @var  string Name of the collection */
+    /** @var string Name of the collection */
     protected $name;
-    /** @var  ShardState[] */
+
+    /** @var ShardState[] */
     protected $shards;
 
     /**
      * @param array $collection
      * @param array $liveNodes
      */
-
     public function __construct(array $collection, array $liveNodes)
     {
         parent::__construct($collection, $liveNodes);
@@ -79,9 +54,9 @@ class CollectionState extends AbstractState
         return $this->getState()[ZkStateReader::AUTO_ADD_REPLICAS];
     }
 
-
     /**
      * Returns collection aliases.
+     *
      * @return string[]
      */
     public function getAliases(): array
@@ -91,6 +66,7 @@ class CollectionState extends AbstractState
 
     /**
      * Returns cluster properties.
+     *
      * @return string[]
      */
     /* TODO probably doesn't exist anymore
@@ -100,7 +76,6 @@ class CollectionState extends AbstractState
     }*/
 
     /**
-     *
      * @return int
      */
     public function getMaxShardsPerNode(): int
@@ -109,7 +84,6 @@ class CollectionState extends AbstractState
     }
 
     /**
-     *
      * @return int
      */
     public function getReplicationFactor(): int
@@ -118,7 +92,6 @@ class CollectionState extends AbstractState
     }
 
     /**
-     *
      * @return string
      */
     public function getRouterName(): string
@@ -127,7 +100,7 @@ class CollectionState extends AbstractState
     }
 
     /**
-     * Return all shards
+     * Return all shards.
      *
      * @return ShardState[]
      */
@@ -137,12 +110,12 @@ class CollectionState extends AbstractState
     }
 
     /**
-     *
      * @return ReplicaState[]
      */
     public function getShardLeaders(): array
     {
-        $leaders = array();
+        $leaders = [];
+
         foreach ($this->shards as $shardName => $shard) {
             if ($shard->getShardLeader() instanceof ReplicaState) {
                 $leaders[$shardName] = $shard->getShardLeader();
@@ -158,10 +131,10 @@ class CollectionState extends AbstractState
      */
     public function getShardLeadersBaseUris(): array
     {
-        $uris = array();
+        $uris = [];
 
         foreach ($this->getShards() as $shardName => $shard) {
-            if ($shard->getState() == ShardState::ACTIVE && !empty($shard->getShardLeaderBaseUri())) {
+            if (ShardState::ACTIVE == $shard->getState()  && !empty($shard->getShardLeaderBaseUri())) {
                 $uris[$shardName] = $shard->getShardLeaderBaseUri();
             }
         }
@@ -173,6 +146,7 @@ class CollectionState extends AbstractState
      * Array with node names as keys and base URIs as values.
      *
      * @return string[]
+     *
      * @throws SolrCloudException
      */
     public function getNodesBaseUris(): array
@@ -180,7 +154,7 @@ class CollectionState extends AbstractState
         $uris = array();
 
         foreach ($this->getShards() as $shard) {
-            if ($shard->getState() == ShardState::ACTIVE) {
+            if (ShardState::ACTIVE == $shard->getState()) {
                 $uris = array_merge($shard->getNodesBaseUris(), $uris);
             }
         }
@@ -202,14 +176,12 @@ class CollectionState extends AbstractState
         return $this->stateRaw[$this->name];
     }
 
-    /**
-     *
-     */
     protected function setShards()
     {
         // Clear shards first
-        $this->shards = array();
+        $this->shards = [];
         foreach ($this->getState()[ZkStateReader::SHARDS_PROP] as $shardName => $shardState) {
+            // @todo liveNodes?
             $this->shards[$shardName] = new ShardState(array($shardName => $shardState), $this->liveNodes);
         }
     }

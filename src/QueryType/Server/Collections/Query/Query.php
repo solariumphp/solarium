@@ -20,7 +20,6 @@ use Solarium\QueryType\Server\Collections\ResponseParser;
  */
 class Query extends AbstractServerQuery
 {
-
     /**
      * Create a Collection.
      */

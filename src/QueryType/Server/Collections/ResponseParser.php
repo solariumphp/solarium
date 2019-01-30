@@ -4,9 +4,7 @@ namespace Solarium\QueryType\Server\Collections;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
-use Solarium\QueryType\Server\Collections\Query\Query;
 use Solarium\QueryType\Server\Collections\Result\AbstractResult;
-use Solarium\QueryType\Server\Collections\Result\ClusterState;
 
 /**
  * Parse Collections API response data.
@@ -29,7 +27,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     }
 
     /**
-     * @param array  $data
+     * @param array          $data
      * @param AbstractResult $result
      *
      * @return array

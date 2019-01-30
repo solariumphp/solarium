@@ -5,18 +5,8 @@ namespace Solarium\Tests\Integration\SolrCloud;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\QueryTraits\TermsTrait;
-use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
-use Solarium\Exception\HttpException;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add as AddStopwords;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete as DeleteStopwords;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists as ExistsStopwords;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add as AddSynonyms;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete as DeleteSynonyms;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists as ExistsSynonyms;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\Result\Document;
 
 abstract class AbstractSolrCloudTest extends TestCase
 {

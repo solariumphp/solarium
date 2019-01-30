@@ -27,6 +27,7 @@ class ClusterStatus extends AbstractAction
      * cluster will be returned.
      *
      * @param string $collection
+     *
      * @return self Provides fluent interface
      */
     public function setCollection(string $collection): self
@@ -49,6 +50,7 @@ class ClusterStatus extends AbstractAction
      * The shard(s) for which information is requested. Multiple shard names can be specified as a comma-separated list.
      *
      * @param string $shard
+     *
      * @return self Provides fluent interface
      */
     public function setShard(string $shard): self
@@ -72,6 +74,7 @@ class ClusterStatus extends AbstractAction
      * which shard it falls under.
      *
      * @param string $route
+     *
      * @return self Provides fluent interface
      */
     public function setRoute(string $route): self
@@ -92,6 +95,7 @@ class ClusterStatus extends AbstractAction
 
     /**
      * Returns the namespace and class of the result class for the action.
+     * 
      * @return string
      */
     public function getResultClass(): string

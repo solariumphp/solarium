@@ -6,6 +6,7 @@ class DeleteResult extends AbstractResult
 {
     /**
      * Returns status of the request and the cores that were deleted.
+     *
      * @return array status of the request and the cores that were deleted
      */
     public function getStatus(): array

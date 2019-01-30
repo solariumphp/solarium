@@ -47,6 +47,7 @@ class Create extends AbstractAction
      * Possible values are implicit or compositeId, which is the default.
      *
      * @param string $routerName
+     *
      * @return self $this
      */
     public function setRouterName(string $routerName)
@@ -58,6 +59,7 @@ class Create extends AbstractAction
 
     /**
      * Returns the router name.
+     *
      * @return mixed
      */
     public function getRouterName()
@@ -70,6 +72,7 @@ class Create extends AbstractAction
      * This is a required parameter when the router.name is compositeId.
      *
      * @param int $numShards
+     *
      * @return self $this
      */
     public function setNumShards(int $numShards)
@@ -81,6 +84,7 @@ class Create extends AbstractAction
 
     /**
      * Returns the number of shards.
+     *
      * @return mixed
      */
     public function getNumShards()
@@ -90,9 +94,10 @@ class Create extends AbstractAction
 
     /**
      * A comma separated list of shard names, e.g., shard-x,shard-y,shard-z.
-     * This is a required parameter when the router.name is implicit
+     * This is a required parameter when the router.name is implicit.
      *
      * @param string $shards
+     *
      * @return self $this
      */
     public function setShards(string $shards)
@@ -104,6 +109,7 @@ class Create extends AbstractAction
 
     /**
      * Returns the shards.
+     *
      * @return mixed
      */
     public function getShards()
@@ -115,6 +121,7 @@ class Create extends AbstractAction
      * The number of replicas to be created for each shard. The default is 1.
      *
      * @param int $replicationFactor
+     *
      * @return self Provides fluent interface
      */
     public function setReplicationFactor(int $replicationFactor)
@@ -128,6 +135,7 @@ class Create extends AbstractAction
      * The number of NRT (Near-Real-Time) replicas to create for this collection.
      *
      * @param int $nrtReplicas
+     *
      * @return self Provides fluent interface
      */
     public function setNrtReplicas(int $nrtReplicas)
@@ -141,6 +149,7 @@ class Create extends AbstractAction
      * The number of TLOG replicas to create for this collection.
      *
      * @param int $tlogReplicas
+     *
      * @return self Provides fluent interface
      */
     public function setTlogReplicas(int $tlogReplicas)
@@ -154,6 +163,7 @@ class Create extends AbstractAction
      * The number of PULL replicas to create for this collection.
      *
      * @param int $pullReplicas
+     *
      * @return self Provides fluent interface
      */
     public function setPullReplicas(int $pullReplicas)
@@ -168,6 +178,7 @@ class Create extends AbstractAction
      * two replicas of the same shard will never be on the same node.
      *
      * @param int $maxShardsPerNode
+     *
      * @return self Provides fluent interface
      */
     public function setMaxShardsPerNode(int $maxShardsPerNode)
@@ -182,6 +193,7 @@ class Create extends AbstractAction
      * node_names, such as localhost:8983_solr,localhost:8984_solr,localhost:8985_solr.
      *
      * @param string $createNodeSet
+     *
      * @return self Provides fluent interface
      */
     public function setCreateNodeSet(string $createNodeSet)
@@ -197,6 +209,7 @@ class Create extends AbstractAction
      * individual replicas.
      *
      * @param bool $shuffle
+     *
      * @return self Provides fluent interface
      */
     public function setCreateNodeSetShuffle(bool $shuffle)
@@ -236,6 +249,7 @@ class Create extends AbstractAction
      * document, the document will be rejected.
      *
      * @param string $routerField
+     *
      * @return self Provides fluent interface
      */
     public function setRouterField(string $routerField)
@@ -270,7 +284,7 @@ class Create extends AbstractAction
     {
         $option = 'property.'.$name;
 
-        return (string)$this->getOption($option);
+        return (string) $this->getOption($option);
     }
 
     /**
@@ -279,6 +293,7 @@ class Create extends AbstractAction
      * The default is false, which means new replicas will not be added.
      *
      * @param bool $autoAddReplicas
+     *
      * @return self Provides fluent interface
      */
     public function setAutoAddReplicas(bool $autoAddReplicas)
@@ -292,6 +307,7 @@ class Create extends AbstractAction
      * Request ID to track this action which will be processed asynchronously.
      *
      * @param string $id
+     *
      * @return self Provides fluent interface
      */
     public function setAsync(string $id)
@@ -305,6 +321,7 @@ class Create extends AbstractAction
      * Replica placement rules.
      *
      * @param string $rule
+     *
      * @return self Provides fluent interface
      */
     public function setRule(string $rule)
@@ -317,6 +334,7 @@ class Create extends AbstractAction
      * Details of the snitch provider.
      *
      * @param string $snitch
+     *
      * @return self Provides fluent interface
      */
     public function setSnitch(string $snitch)
@@ -329,6 +347,7 @@ class Create extends AbstractAction
      * Name of the collection-level policy.
      *
      * @param string $policy
+     *
      * @return self Provides fluent interface
      */
     public function setPolicy(string $policy)
@@ -343,6 +362,7 @@ class Create extends AbstractAction
      * and active.
      *
      * @param bool $waitForFinalState
+     *
      * @return self Provides fluent interface
      */
     public function setWaitForFinalState(bool $waitForFinalState)
@@ -356,6 +376,7 @@ class Create extends AbstractAction
      * The collection must already exist and must have a single shard named shard1.
      *
      * @param string $withCollection
+     *
      * @return self Provides fluent interface
      */
     public function setWithCollection(string $withCollection)
@@ -366,6 +387,7 @@ class Create extends AbstractAction
 
     /**
      * Returns the namespace and class of the result class for the action.
+     *
      * @return string
      */
     public function getResultClass(): string

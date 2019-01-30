@@ -26,6 +26,7 @@ class Reload extends AbstractAction
      * The name of the collection to reload. This parameter is required.
      *
      * @param string $collection
+     *
      * @return self Provides fluent interface
      */
     public function setName(string $name)
@@ -46,6 +47,7 @@ class Reload extends AbstractAction
 
     /**
      * Returns the namespace and class of the result class for the action.
+     * 
      * @return string
      */
     public function getResultClass(): string

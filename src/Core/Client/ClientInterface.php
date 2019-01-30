@@ -489,7 +489,7 @@ interface ClientInterface
      *  execute method, thus allowing for an easy to use and clean API
      *
      * @param QueryInterface|\Solarium\QueryType\Server\Collections\Query\Query $query
-     * @param Endpoint|string|null                                            $endpoint
+     * @param Endpoint|string|null                                              $endpoint
      *
      * @return \Solarium\QueryType\Server\Collections\Result\ClusterStatusResult
      */

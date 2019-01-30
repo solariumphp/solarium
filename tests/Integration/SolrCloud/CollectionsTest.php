@@ -6,8 +6,8 @@ use Solarium\QueryType\Server\Collections\Query\Query;
 use Solarium\QueryType\Server\Collections\Result\ClusterState;
 
 /**
- * Class CollectionsTest
- * @package Solarium\Tests\Integration\SolrCloud
+ * Class CollectionsTest.
+ *
  * @group integration
  */
 class CollectionsTest extends AbstractSolrCloudTest
@@ -22,9 +22,8 @@ class CollectionsTest extends AbstractSolrCloudTest
         parent::setUp();
         // The default timeout of solarium of 5s seems to be too aggressive on travis and causes random test failures.
         // Set it to the PHP default of 13s.
-        $this->client->getEndpoint()->setTimeout(CURLOPT_TIMEOUT);
+        $this->client->getEndpoint()->setTimeout(13);
         $this->query = $this->client->createCollections();
-
     }
 
     public function testCreateDelete()

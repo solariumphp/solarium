@@ -1,89 +1,96 @@
 <?php
-/**
- * BSD 2-Clause License
- *
- * Copyright (c) 2017 Jeroen Steggink
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *  Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- *
- *  Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 
 namespace Solarium\QueryType\Server\Collections\Result;
 
 use DateInterval;
 use Solarium\Cloud\Core\Client\CollectionEndpoint;
-use Solarium\Cloud\Exception\SolrCloudException;
 use Solarium\Cloud\Exception\ZookeeperException;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\SolrCloudException
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Zookeeper;
 
 /**
- * Class ZkStateReader
- * @package Solarium\Cloud\Core\Zookeeper
+ * Class ZkStateReader.
  */
 class ZkStateReader implements StateReaderInterface
 {
     const BASE_URL_PROP = 'base_url';
+
     const NODE_NAME_PROP = 'node_name';
+
     const CORE_NODE_NAME_PROP = 'core_node_name';
+
     const ROLES_PROP = 'roles';
+
     const STATE_PROP = 'state';
+
     const CORE_NAME_PROP = 'core';
+
     const COLLECTION_PROP = 'collection';
+
     const ELECTION_NODE_PROP = 'election_node';
+
     const SHARD_ID_PROP = 'shard';
+
     const SHARDS_PROP = 'shards';
+
     const STATE_ACTIVE = 'active';
+
     const REPLICA_PROP = 'replica';
+
     const REPLICAS_PROP = 'replicas';
+
     const RANGE_PROP = 'range';
+
     const SHARD_STATE_PROP = 'shard_state';
+
     const SHARD_PARENT_PROP = 'shard_parent';
+
     const NUM_SHARDS_PROP = 'numShards';
+
     const LEADER_PROP = 'leader';
+
     const ROUTER_PROP = 'router';
+
     const PROPERTY_PROP = 'property';
+
     const PROPERTY_VALUE_PROP = 'property.value';
+
     const MAX_AT_ONCE_PROP = 'maxAtOnce';
+
     const MAX_WAIT_SECONDS_PROP = 'maxWaitSeconds';
+
     const COLLECTIONS_ZKNODE = '/collections';
+
     const LIVE_NODES_ZKNODE = '/live_nodes';
+
     const ALIASES = '/aliases.json';
+
     const ALIASES_PROP = 'aliases';
+
     const CLUSTER_STATE = '/clusterstate.json';
+
     const CLUSTER_PROPS = '/clusterprops.json';
+
     const COLLECTION_STATE = 'state.json';
+
     const REJOIN_AT_HEAD_PROP = 'rejoinAtHead';
+
     const SOLR_SECURITY_CONF_PATH = '/security.json';
 
     const REPLICATION_FACTOR = 'replicationFactor';
+
     const MAX_SHARDS_PER_NODE = 'maxShardsPerNode';
+
     const AUTO_ADD_REPLICAS = 'autoAddReplicas';
+
     const MAX_CORES_PER_NODE = 'maxCoresPerNode';
 
     const ROLES = '/roles.json';
 
     const CONFIGS_ZKNODE = '/configs';
+
     const CONFIGNAME_PROP = 'configName';
 
     const LEGACY_CLOUD = 'legacyCloud';
@@ -91,46 +98,50 @@ class ZkStateReader implements StateReaderInterface
     const URL_SCHEME = 'urlScheme';
 
     const GET_LEADER_RETRY_INTERVAL_MS = 50;
+
     const GET_LEADER_RETRY_DEFAULT_TIMEOUT = 4000;
+
     const LEADER_ELECT_ZKNODE = 'leader_elect';
+
     const SHARD_LEADERS_ZKNODE = 'leaders';
+
     const ELECTION_NODE = 'election';
 
-    /** @var  array Aliases of collections */
+    /** @var array Aliases of collections */
     protected $aliases;
 
-    /** @var  array Collections */
+    /** @var array Collections */
     protected $collections;
 
     /** @var array Collections tracked in the legacy (shared) state format, reflects the contents of clusterstate.json. */
     protected $legacyCollectionStates = array();
 
-    // TODO unused, check if needed
+    // @todo unused, check if needed.
     /** @var int Last seen ZK version of clusterstate.json. */
     protected $legacyClusterStateVersion = 0;
 
-    /** @var  array Each individual collection state combined, without the legacy clusterstate.json values */
+    /** @var array Each individual collection state combined, without the legacy clusterstate.json values */
     protected $collectionStates = array();
 
     /** @var array A view of the current state of all collections; combines all the different state sources into a single view. */
     protected $clusterState;
 
-    /** @var  array Shard leaders for every collection */
+    /** @var array Shard leaders for every collection */
     protected $collectionShardLeaders;
 
-    /** @var  array All the live nodes */
+    /** @var array All the live nodes */
     protected $liveNodes = array();
 
-    /** @var  array Cluster properties from clusterproperties.json */
+    /** @var  rray Cluster properties from clusterproperties.json */
     protected $clusterProperties;
 
-    // TODO unused, check if needed
+    // @todo unused, check if needed.
     protected $collectionWatches;
 
-    // TODO unused, check if needed
+    // @todo unused, check if needed.
     protected $configManager;
 
-    /** @var  array Security information from security.json */
+    /** @var array Security information from security.json */
     protected $securityData;
 
     /**
@@ -155,10 +166,12 @@ class ZkStateReader implements StateReaderInterface
 
     /**
      * ZkStateReader constructor.
-     * @param array $zkHosts
-     * @param int $zkTimeout
-     * @param null|AdapterInterface $cache Caching object
+     *
+     * @param array                  $zkHosts
+     * @param int                    $zkTimeout
+     * @param null|AdapterInterface  $cache           Caching object
      * @param null|int|\DateInterval $cacheExpiration Seconds or date interval when cache expires
+     *
      * @throws ZookeeperException
      */
     public function __construct(array $zkHosts, int $zkTimeout = 10000)
@@ -175,7 +188,6 @@ class ZkStateReader implements StateReaderInterface
                 throw new ZookeeperException($e->getMessage());
             }
         }
-
     }
 
     /**
@@ -194,31 +206,30 @@ class ZkStateReader implements StateReaderInterface
         $this->zkClient = $zkClient;
     }
 
-
-
     /**
      * @return array
      */
     public function getCollectionAliases(): array
     {
-        if ($this->aliases !== null && isset($this->aliases[self::COLLECTION_PROP])) {
+        if (null !== $this->aliases && isset($this->aliases[self::COLLECTION_PROP])) {
             return $this->aliases[self::COLLECTION_PROP];
         }
 
-        return array();
+        return [];
     }
 
     /**
      * List of collections.
+     *
      * @return array
      */
     public function getCollectionList(): array
     {
-        if ($this->collections !== null) {
+        if (null !== $this->collections) {
             return array_keys($this->collections);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -226,11 +237,11 @@ class ZkStateReader implements StateReaderInterface
      */
     public function getClusterState(): ClusterState
     {
-        if ($this->clusterState !== null) {
+        if (null !== $this->clusterState) {
             return $this->clusterState;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -238,11 +249,11 @@ class ZkStateReader implements StateReaderInterface
      */
     public function getClusterProperties(): array
     {
-        if ($this->clusterProperties !== null) {
+        if (null !== $this->clusterProperties) {
             return $this->clusterProperties;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -254,32 +265,35 @@ class ZkStateReader implements StateReaderInterface
             return $this->liveNodes;
         }
 
-        return array();
+        return [];
     }
 
     /**
-     * Return active base URIs for all or a specific collection
+     * Return active base URIs for all or a specific collection.
+     *
      * @param string $collection
+     *
      * @return array
-     * @throws \Solarium\Cloud\Exception\SolrCloudException
+     *
+     * @throws SolrCloudException
      * @throws ZookeeperException
      */
     public function getActiveBaseUris(string $collection = null): array
     {
-        if ($collection != null) {
+        if (null != $collection) {
             $collection = $this->getCollectionName($collection);
             $states[$collection] = $this->getClusterState()->getCollectionState($collection);
         } else {
             $states = $this->clusterState;
         }
 
-        $replicas = array();
+        $replicas = [];
 
         if (!empty($states)) {
             foreach ($states as $collectionId => $state) {
                 foreach ($state[self::SHARDS_PROP] as $shardname => $shard) {
                     foreach ($shard[self::REPLICAS_PROP] as $replicaName => $replica) {
-                        if (isset($replica[self::STATE_PROP]) && $replica[self::STATE_PROP] === self::STATE_ACTIVE) {
+                        if (isset($replica[self::STATE_PROP]) && self::STATE_ACTIVE === $replica[self::STATE_PROP]) {
                             $baseUri = $replica[self::BASE_URL_PROP];
                             if (!in_array($baseUri, $replicas, true)) {
                                 $replicas[$replica[self::NODE_NAME_PROP].'_'.$collectionId] = $baseUri;
@@ -289,16 +303,19 @@ class ZkStateReader implements StateReaderInterface
                 }
             }
         } else {
-            throw new SolrCloudException("Collection '$collection' does not exist.'");
+            throw new \Solarium\Exception\SolrCloudException("Collection '$collection' does not exist.'");
         }
 
         return $replicas;
     }
 
     /**
-     * TODO This method is not relevant. leaders are specific for shards, not collections alone
+     * @todo This method is not relevant. leaders are specific for shards, not collections alone.
+     *
      * @param string $collection Collection name
+     *
      * @return array List of leaders of collection shards
+     *
      * @throws ZookeeperException
      * @throws SolrCloudException
      */
@@ -307,12 +324,12 @@ class ZkStateReader implements StateReaderInterface
         $collection = $this->getCollectionName($collection);
         $state = $this->getCollectionState($collection);
 
-        $leaders = array();
+        $leaders = [];
 
         if ($state !== null) {
             foreach ($state[self::SHARDS_PROP] as $shardname => $shard) {
                 foreach ($shard[self::REPLICAS_PROP] as $replicaName => $replica) {
-                    if (isset($replica[self::LEADER_PROP]) && $replica[self::LEADER_PROP] === 'true') {
+                    if (isset($replica[self::LEADER_PROP]) && 'true' === $replica[self::LEADER_PROP]) {
                         $baseUri = $replica[self::BASE_URL_PROP];
                         if (!in_array($baseUri, $leaders, true)) {
                             $leaders[$replica[self::NODE_NAME_PROP].'_'.$collection] = $baseUri;
@@ -327,11 +344,13 @@ class ZkStateReader implements StateReaderInterface
         return $leaders;
     }
 
-    // TODO make it setEndpoints
+    // @todo make it setEndpoints
 
     /**
-     * Return all active CollectionStates
+     * Return all active CollectionStates.
+     *
      * @return CollectionState[] An array of CollectionStates where the keys are the ids of the CollectionStates
+     *
      * @throws \Solarium\Cloud\Exception\ZookeeperException
      */
     public function getEndpoints(): array
@@ -346,9 +365,12 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     * Return all active collection CollectionStates
+     * Return all active collection CollectionStates.
+     *
      * @param string $collection Collection name
+     *
      * @return CollectionState
+     *
      * @throws ZookeeperException
      */
     public function getCollectionState(string $collection): CollectionState
@@ -358,7 +380,7 @@ class ZkStateReader implements StateReaderInterface
             if (!isset($this->clusterState[$collection])) {
                 throw new ZookeeperException("Collection '$collection' does not exist.'");
             }
-            // TODO This should be a CollectionState, not ClusterState
+            // @todo This should be a CollectionState, not ClusterState
            $this->getClusterState();
         }
 
@@ -367,22 +389,27 @@ class ZkStateReader implements StateReaderInterface
 
     /**
      * @param string $collection
+     *
      * @return CollectionEndpoint
-     * @throws \Solarium\Exception\InvalidArgumentException
+     *
+     * @throws InvalidArgumentException
      * @throws ZookeeperException
      */
     public function getCollectionEndpoint(string $collection): CollectionEndpoint
     {
         $collection = $this->getCollectionName($collection);
-        //TODO it would be great to have the CollectionEndpoint update when the state is updated
+        // @todo it would be great to have the CollectionEndpoint update when the state is updated
 
         return new CollectionEndpoint($collection, $this);
     }
 
     /**
-     * Returns the official collection name
+     * Returns the official collection name.
+     *
      * @param  string $collection Collection name
+     *
      * @return string Name of the collection. Returns an empty string if it's not found.
+     *
      * @throws SolrCloudException
      */
     public function getCollectionName(string $collection): string
@@ -401,7 +428,9 @@ class ZkStateReader implements StateReaderInterface
     /**
      * @param array  $zkHosts
      * @param string $chroot
+     *
      * @return string
+     *
      * @throws InvalidArgumentException
      */
     protected static function buildZkHostString(array $zkHosts, string $chroot = ''): string
@@ -417,7 +446,7 @@ class ZkStateReader implements StateReaderInterface
             if ($i < $lastIndexValue) {
                 $zkHostString .= ',';
             }
-            $i++;
+            ++$i;
         }
 
         if (strlen($chroot) > 0) {
@@ -432,7 +461,7 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     * Destruct ZkStateReader object
+     * Destruct ZkStateReader object.
      */
     public function __destruct()
     {
@@ -440,7 +469,8 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     * Reads data from Zookeeper
+     * Reads data from Zookeeper.
+     *
      * @throws \Solarium\Cloud\Exception\ZookeeperException
      */
     public function readState()
@@ -475,20 +505,22 @@ class ZkStateReader implements StateReaderInterface
     /**
      * Invalidates the Zookeeper state cache.
      */
-    public function invalidateCache() {
-        if(null != $this->cache) {
-            $this->cache->invalidateTags(array("zkstate"));
+    public function invalidateCache()
+    {
+        if (null != $this->cache) {
+            $this->cache->invalidateTags(["zkstate"]);
         }
     }
 
     /**
-     * Check if all the data is in cache
+     * Check if all the data is in cache.
+     *
      * @return bool
      */
     protected function getCacheData(): bool
     {
         try {
-            if ($this->cache !== null) {
+            if (null !== $this->cache) {
                 if (!$this->cache->getItem('zkstate.aliases')->isHit()) {
                     return false;
                 } else {
@@ -540,35 +572,36 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     * Updates the cache object
+     * Updates the cache object.
      *
      * @param int|DateInterval Cache will expire after this period.
+     *
      * @return bool Returns whether storing data to cache was successful or not.
      */
     protected function fillCacheData($cacheExpiresAfter = null): bool
     {
-        if ($this->cache !== null) {
+        if (null !== $this->cache) {
             try {
                 $this->cache->save($this->cache->getItem('zkstate.aliases')
-                    ->set($this->aliases)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->aliases)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
                 $this->cache->save($this->cache->getItem('zkstate.collections')
-                    ->set($this->collections)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->collections)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
                 $this->cache->save($this->cache->getItem('zkstate.legacyCollectionStates')
-                    ->set($this->legacyCollectionStates)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->legacyCollectionStates)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
                 $this->cache->save($this->cache->getItem('zkstate.collectionStates')
-                    ->set($this->collectionStates)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->collectionStates)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
                 $this->cache->save($this->cache->getItem('zkstate.clusterState')
-                    ->set($this->clusterState)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->clusterState)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
                 $this->cache->save($this->cache->getItem('zkstate.collectionShardLeaders')
-                    ->set($this->collectionShardLeaders)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->collectionShardLeaders)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
                 $this->cache->save($this->cache->getItem('zkstate.liveNodes')
-                    ->set($this->liveNodes)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->liveNodes)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
                 $this->cache->save($this->cache->getItem('zkstate.clusterProperties')
-                    ->set($this->clusterProperties)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->clusterProperties)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
                 $this->cache->save($this->cache->getItem('zkstate.securityData')
-                    ->set($this->securityData)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->securityData)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
                 $this->cache->save($this->cache->getItem('zkstate.securityData')
-                    ->set($this->securityData)->expiresAfter($cacheExpiresAfter)->tag("zkstate"));
+                    ->set($this->securityData)->expiresAfter($cacheExpiresAfter)->tag('zkstate'));
             } catch (\Psr\Cache\InvalidArgumentException $e) {
                 return false;
             }
@@ -578,7 +611,8 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     *  Read aliases and write to class property
+     *  Read aliases and write to class property.
+     *
      * @throws \Solarium\Cloud\Exception\ZookeeperException
      */
     protected function readAliases()
@@ -587,7 +621,8 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     *  Read collections and write to class property
+     *  Read collections and write to class property.
+     *
      * @throws \Solarium\Cloud\Exception\ZookeeperException
      */
     protected function readCollectionList()
@@ -596,7 +631,8 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     * Read cluster state and write to class property
+     * Read cluster state and write to class property.
+     *
      * @throws \Solarium\Cloud\Exception\ZookeeperException
      */
     protected function readClusterState()
@@ -622,19 +658,20 @@ class ZkStateReader implements StateReaderInterface
                         );
                     } else {
                         // This shard has no leader
-                        $this->collectionShardLeaders[$collection][$shard] = array();
+                        $this->collectionShardLeaders[$collection][$shard] = [];
                     }
                 }
             }
         }
 
-        // TODO instead of a merge, create ClusterState array in $this->clusterState
+        // @todo instead of a merge, create ClusterState array in $this->clusterState
         //$this->clusterState = new ClusterState();
         $this->clusterState = array_merge($this->collectionStates, $this->legacyCollectionStates);
     }
 
     /**
-     * Read cluster properties and write to class property
+     * Read cluster properties and write to class property.
+     *
      * @throws \Solarium\Cloud\Exception\ZookeeperException
      */
     protected function readClusterProperties()
@@ -643,7 +680,8 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     *  Reads the security data from Zookeeper
+     *  Reads the security data from Zookeeper.
+     *
      * @throws \Solarium\Cloud\Exception\ZookeeperException
      */
     protected function readSecurityData()
@@ -652,7 +690,8 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     * Reads the live node information from Zookeeper
+     * Reads the live node information from Zookeeper.
+     *
      * @throws \Solarium\Cloud\Exception\ZookeeperException
      */
     protected function readLiveNodes()
@@ -662,10 +701,11 @@ class ZkStateReader implements StateReaderInterface
 
     /**
      * @param string $location
+     *
      * @param $property
      * @param bool $jsonDecode
+     *
      * @throws ZookeeperException
-     * @throws \ZookeeperException
      */
     protected function readData(string $location, &$property, bool $jsonDecode = true)
     {
@@ -678,8 +718,9 @@ class ZkStateReader implements StateReaderInterface
 
     /**
      * @param string $location
+     *
      * @return array
-     * @throws \ZookeeperException
+     *
      * @throws ZookeeperException
      */
     protected function getChildren(string $location): array
@@ -692,10 +733,13 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     * Wath a given path
-     * @param string $path the path to node
+     * Wath a given path.
+     *
+     * @param string   $path     the path to node
      * @param callable $callback callback function
+     *
      * @return string|null
+     *
      * @throws \ZookeeperException
      */
     protected function watch($path, $callback)
@@ -706,7 +750,7 @@ class ZkStateReader implements StateReaderInterface
 
         if ($this->getZkClient()->exists($path)) {
             if (!isset($this->zkCallback[$path])) {
-                $this->zkCallback[$path] = array();
+                $this->zkCallback[$path] = [];
             }
             if (!in_array($callback, $this->zkCallback[$path], true)) {
                 $this->zkCallback[$path][] = $callback;
@@ -719,22 +763,25 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     * Wath event callback warper
-     * @param int $eventType
-     * @param int $stat
+     * Wath event callback warper.
+     *
+     * @param int    $eventType
+     * @param int    $stat
      * @param string $path
+     *
      * @return mixed the return of the callback or null
+     *
      * @throws \ZookeeperException
      */
     protected function watchCallback($eventType, $stat, $path)
     {
-        //TODO, eventType and stat do nothing.
+        // @todo, eventType and stat do nothing.
         if (!isset($this->zkCallback[$path])) {
             return null;
         }
 
         foreach ($this->zkCallback[$path] as $callback) {
-            $this->getZkClient()->get($path, array($this, 'watchCallback'));
+            $this->getZkClient()->get($path, [$this, 'watchCallback']);
 
             return $callback();
         }
@@ -743,10 +790,13 @@ class ZkStateReader implements StateReaderInterface
     }
 
     /**
-     * Delete watch callback on a node, delete all callback when $callback is null
-     * @param string $path
+     * Delete watch callback on a node, delete all callback when $callback is null.
+     *
+     * @param string   $path
      * @param callable $callback
-     * @return boolean|NULL
+     *
+     * @return bool|null
+     *
      * @throws \ZookeeperException
      */
     protected function cancelWatch($path, $callback = null)
@@ -760,7 +810,7 @@ class ZkStateReader implements StateReaderInterface
             }
             $key = array_search($callback, $this->zkCallback[$path], true);
 
-            if ($key !== false) {
+            if (false !== $key) {
                 unset($this->zkCallback[$path][$key]);
 
                 return true;
