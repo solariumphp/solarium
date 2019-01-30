@@ -268,7 +268,7 @@ class Create extends AbstractCDRAction
      * Get a previously added property.
      *
      * @param string $name property name
-     * 
+     *
      * @return string
      */
     public function getProperty(string $name): string

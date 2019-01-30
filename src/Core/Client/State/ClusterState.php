@@ -7,34 +7,58 @@ use Solarium\Exception\RuntimeException;
 class ClusterState
 {
     const ALIASES_PROP = 'aliases';
+
     const AUTO_CREATED = 'autoCreated';
+
     const AUTO_ADD_REPLICAS = 'autoAddReplicas';
+
     const BASE_URL_PROP = 'base_url';
+
     const COLLECTION_PROP = 'collection';
+
     const COLLECTIONS_NODE = 'collections';
+
     const CONFIG_NAME_PROP = 'configName';
+
     const CORE_NAME_PROP = 'core';
+
     const LEADER_PROP = 'leader';
+
     const LIVE_NODES_NODE = 'live_nodes';
+
     const MAX_CORES_PER_NODE = 'maxCoresPerNode';
+
     const MAX_SHARDS_PER_NODE = 'maxShardsPerNode';
+
     const NODE_NAME_PROP = 'node_name';
+
     const NRT_REPLICAS = 'nrtReplicas';
+
     const PULL_REPLICAS = 'pullReplicas';
+
     const RANGE_PROP = 'range';
+
     const REPLICAS_PROP = 'replicas';
+
     const REPLICATION_FACTOR = 'replicationFactor';
+
     const ROLES_PROP = 'roles';
+
     const ROUTER_PROP = 'router';
+
     const SHARDS_PROP = 'shards';
+
     const STATE_PROP = 'state';
+
     const TLOG_REPLICAS = 'tlogReplicas';
+
     const ZNODE_VERSION = 'znodeVersion';
 
     /**
      * @var array CLUSTERSTATUS array of parsed json
      */
     protected $clusterStatus;
+
     /*
      * @var string[]
      */
@@ -49,6 +73,7 @@ class ClusterState
      * @var string[]
      */
     protected $liveNodes;
+
     /**
      * @var string[]
      */

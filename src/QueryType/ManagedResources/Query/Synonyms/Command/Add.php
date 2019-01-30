@@ -59,7 +59,7 @@ class Add extends AbstractCommand
     public function getRawData(): string
     {
         if (null !== $this->getSynonyms() && !empty($this->getSynonyms()->getSynonyms())) {
-            if (trim($this->getSynonyms()->getTerm()) !== '') {
+            if ('' !== trim($this->getSynonyms()->getTerm())) {
                 return json_encode([$this->getSynonyms()->getTerm() => $this->getSynonyms()->getSynonyms()]);
             }
 

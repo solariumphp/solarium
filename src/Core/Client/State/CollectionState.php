@@ -63,14 +63,9 @@ class CollectionState extends AbstractState
     }
 
     /**
-<<<<<<< HEAD:src/QueryType/Server/Collections/Result/CollectionState.php
-     * Returns cluster properties.
-     *
-     * @return string[]
-=======
      * Returns the config name of the collection.
+     *
      * @return string
->>>>>>> jsteggink-collections-api:src/Core/Client/State/CollectionState.php
      */
     public function getConfigName(): string
     {
@@ -137,11 +132,7 @@ class CollectionState extends AbstractState
         $uris = [];
 
         foreach ($this->getShards() as $shardName => $shard) {
-<<<<<<< HEAD:src/QueryType/Server/Collections/Result/CollectionState.php
-            if (ShardState::ACTIVE == $shard->getState()  && !empty($shard->getShardLeaderBaseUri())) {
-=======
-            if ($shard->getState() === ShardState::ACTIVE && $shard->getShardLeaderBaseUri() !== null) {
->>>>>>> jsteggink-collections-api:src/Core/Client/State/CollectionState.php
+            if (ShardState::ACTIVE === $shard->getState() && null !== $shard->getShardLeaderBaseUri()) {
                 $uris[$shardName] = $shard->getShardLeaderBaseUri();
             }
         }
@@ -153,23 +144,15 @@ class CollectionState extends AbstractState
      * Array with node names as keys and base URIs as values.
      *
      * @return string[]
-<<<<<<< HEAD:src/QueryType/Server/Collections/Result/CollectionState.php
      *
-     * @throws SolrCloudException
-=======
      * @throws RuntimeException
->>>>>>> jsteggink-collections-api:src/Core/Client/State/CollectionState.php
      */
     public function getNodesBaseUris(): array
     {
         $uris = array();
 
         foreach ($this->getShards() as $shard) {
-<<<<<<< HEAD:src/QueryType/Server/Collections/Result/CollectionState.php
-            if (ShardState::ACTIVE == $shard->getState()) {
-=======
-            if ($shard->getState() === ShardState::ACTIVE) {
->>>>>>> jsteggink-collections-api:src/Core/Client/State/CollectionState.php
+            if (ShardState::ACTIVE === $shard->getState()) {
                 $uris = array_merge($shard->getNodesBaseUris(), $uris);
             }
         }
@@ -204,16 +187,9 @@ class CollectionState extends AbstractState
     protected function setShards()
     {
         // Clear shards first
-<<<<<<< HEAD:src/QueryType/Server/Collections/Result/CollectionState.php
         $this->shards = [];
-        foreach ($this->getState()[ZkStateReader::SHARDS_PROP] as $shardName => $shardState) {
-            // @todo liveNodes?
-            $this->shards[$shardName] = new ShardState([$shardName => $shardState], $this->liveNodes);
-=======
-        $this->shards = array();
         foreach ($this->getState()[ClusterState::SHARDS_PROP] as $shardName => $shardState) {
             $this->shards[$shardName] = new ShardState(array($shardName => $shardState), $this->liveNodes);
->>>>>>> jsteggink-collections-api:src/Core/Client/State/CollectionState.php
         }
     }
 
