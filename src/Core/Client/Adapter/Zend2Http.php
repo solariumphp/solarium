@@ -2,7 +2,6 @@
 
 namespace Solarium\Core\Client\Adapter;
 
-use Solarium\Core\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;

@@ -22,7 +22,7 @@
         "phpunit/phpunit": "^6.5",
         "php-coveralls/php-coveralls": "^1.0",
         "squizlabs/php_codesniffer": "^1.4",
-        "zendframework/zendframework": "^3.0"
+        "zendframework/zend-http": "^2.8"
     },
     "suggest": {
         "minimalcode/search": "Query builder compatible with Solarium, allows simplified solr-query handling"
