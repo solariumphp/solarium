@@ -5,8 +5,8 @@ namespace Solarium\QueryType\Server\Collections;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
-use Solarium\QueryType\Server\Collections\Query\Action\ActionInterface;
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
+use Solarium\QueryType\Server\Query\Action\ActionInterface;
 
 /**
  * Build a Collection API admin request.
