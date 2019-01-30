@@ -27,7 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Solarium\QueryType\Server\Collections\Result;
+namespace Solarium\Core\Client\State;
+
+use Solarium\Exception\RuntimeException;
 
 /**
  * Class for describing a SolrCloud collection endpoint.
@@ -38,16 +40,6 @@ class CollectionState extends AbstractState
     protected $name;
     /** @var  ShardState[] */
     protected $shards;
-
-    /**
-     * @param array $collection
-     * @param array $liveNodes
-     */
-
-    public function __construct(array $collection, array $liveNodes)
-    {
-        parent::__construct($collection, $liveNodes);
-    }
 
     /**
      * Name of the collection
@@ -76,7 +68,12 @@ class CollectionState extends AbstractState
      */
     public function isAutoAddReplicas(): bool
     {
-        return $this->getState()[ZkStateReader::AUTO_ADD_REPLICAS];
+        return $this->getState()[ClusterState::AUTO_ADD_REPLICAS] ?? false;
+    }
+
+    public function isAutoCreated(): bool
+    {
+        return $this->getState()[ClusterState::AUTO_CREATED] ?? false;
     }
 
 
@@ -86,18 +83,17 @@ class CollectionState extends AbstractState
      */
     public function getAliases(): array
     {
-        return isset($this->getState()[ZkStateReader::ALIASES_PROP]) ? $this->getState()[ZkStateReader::ALIASES_PROP] : [];
+        return $this->getState()[ClusterState::ALIASES_PROP] ?? [];
     }
 
     /**
-     * Returns cluster properties.
-     * @return string[]
+     * Returns the config name of the collection.
+     * @return string
      */
-    /* TODO probably doesn't exist anymore
-     * public function getClusterProperties(): array
+    public function getConfigName(): string
     {
-        return $this->getState()[ZkStateReader::CLUSTER_PROP];
-    }*/
+        return $this->getState()[ClusterState::CONFIG_NAME_PROP] ?? '';
+    }
 
     /**
      *
@@ -105,7 +101,7 @@ class CollectionState extends AbstractState
      */
     public function getMaxShardsPerNode(): int
     {
-        return $this->getState()[ZkStateReader::MAX_SHARDS_PER_NODE];
+        return $this->getState()[ClusterState::MAX_SHARDS_PER_NODE];
     }
 
     /**
@@ -114,7 +110,7 @@ class CollectionState extends AbstractState
      */
     public function getReplicationFactor(): int
     {
-        return $this->getState()[ZkStateReader::REPLICATION_FACTOR];
+        return $this->getState()[ClusterState::REPLICATION_FACTOR];
     }
 
     /**
@@ -123,7 +119,7 @@ class CollectionState extends AbstractState
      */
     public function getRouterName(): string
     {
-        return $this->getState()[ZkStateReader::ROUTER_PROP]['name'];
+        return $this->getState()[ClusterState::ROUTER_PROP]['name'];
     }
 
     /**
@@ -161,7 +157,7 @@ class CollectionState extends AbstractState
         $uris = array();
 
         foreach ($this->getShards() as $shardName => $shard) {
-            if ($shard->getState() == ShardState::ACTIVE && !empty($shard->getShardLeaderBaseUri())) {
+            if ($shard->getState() === ShardState::ACTIVE && $shard->getShardLeaderBaseUri() !== null) {
                 $uris[$shardName] = $shard->getShardLeaderBaseUri();
             }
         }
@@ -173,23 +169,33 @@ class CollectionState extends AbstractState
      * Array with node names as keys and base URIs as values.
      *
      * @return string[]
-     * @throws SolrCloudException
+     * @throws RuntimeException
      */
     public function getNodesBaseUris(): array
     {
         $uris = array();
 
         foreach ($this->getShards() as $shard) {
-            if ($shard->getState() == ShardState::ACTIVE) {
+            if ($shard->getState() === ShardState::ACTIVE) {
                 $uris = array_merge($shard->getNodesBaseUris(), $uris);
             }
         }
 
         if (empty($uris)) {
-            throw new SolrCloudException('No Solr nodes are available for this collection.');
+            throw new RuntimeException('No Solr nodes are available for this collection.');
         }
 
         return $uris;
+    }
+
+    public function getTlogReplicas(): string
+    {
+        return $this->getState()[ClusterState::TLOG_REPLICAS];
+    }
+
+    public function getZnodeVersion(): string
+    {
+        return $this->getState()[ClusterState::ZNODE_VERSION];
     }
 
     /**
@@ -209,7 +215,7 @@ class CollectionState extends AbstractState
     {
         // Clear shards first
         $this->shards = array();
-        foreach ($this->getState()[ZkStateReader::SHARDS_PROP] as $shardName => $shardState) {
+        foreach ($this->getState()[ClusterState::SHARDS_PROP] as $shardName => $shardState) {
             $this->shards[$shardName] = new ShardState(array($shardName => $shardState), $this->liveNodes);
         }
     }

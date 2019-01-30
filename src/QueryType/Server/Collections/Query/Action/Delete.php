@@ -4,13 +4,14 @@ namespace Solarium\QueryType\Server\Collections\Query\Action;
 
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
 use Solarium\QueryType\Server\Collections\Result\DeleteResult;
+use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
  * Class Delete.
  *
  * @see https://lucene.apache.org/solr/guide/collections-api.html#delete
  */
-class Delete extends AbstractAction
+class Delete extends AbstractCDRAction
 {
     /**
      * Returns the action type of the Collections API action.
@@ -26,10 +27,12 @@ class Delete extends AbstractAction
      * The name of the collection to be deleted. This parameter is required.
      *
      * @param string $collection
+     * @return self Delete object
      */
-    public function setName(string $collection)
+    public function setName(string $collection): self
     {
-        $this->setOption('name', $collection);
+        parent::setName($collection);
+        return $this;
     }
 
     /**
@@ -39,7 +42,7 @@ class Delete extends AbstractAction
      */
     public function getName(): string
     {
-        return $this->getOption('name');
+        return parent::getName();
     }
 
     /**

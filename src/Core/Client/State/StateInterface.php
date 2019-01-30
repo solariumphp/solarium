@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Solarium\QueryType\Server\Collections\Result;
+namespace Solarium\Core\Client\State;
 
 /**
  * Interface StateInterface

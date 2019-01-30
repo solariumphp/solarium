@@ -2,8 +2,11 @@
 
 namespace Solarium\QueryType\Server\Collections\Result;
 
+use Solarium\Core\Client\State\ClusterState;
+
 class ClusterStatusResult extends AbstractResult
 {
+
     /**
      * Returns the cluster state.
      * @return ClusterState

@@ -28,7 +28,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         $request->addParams($query->getParams());
 
         $request->addParam('wt', $query->getResponseWriter());
-        if ($query->getResponseWriter() == $query::WT_JSON) {
+        if ($query->getResponseWriter() === $query::WT_JSON) {
             // only one JSON format is supported
             $request->addParam('json.nl', 'flat');
         }

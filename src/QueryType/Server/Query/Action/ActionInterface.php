@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\QueryType\Server\Collections\Query\Action;
+namespace Solarium\QueryType\Server\Query\Action;
 
 use Solarium\Core\ConfigurableInterface;
 

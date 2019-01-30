@@ -3,6 +3,8 @@
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
+use Solarium\QueryType\Server\CoreAdmin\Result\Result;
+use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
  * Class Create.
@@ -25,11 +27,13 @@ class Create extends AbstractAsyncAction
      * Set the core name that should be reloaded.
      *
      * @param string $core
+     * @return self Provides fluent interface
      */
-    public function setCore(string $core)
+    public function setCore(string $core): self
     {
         // for some reason the core is called "name" in the create action
         $this->setOption('name', $core);
+        return $this;
     }
 
     /**
@@ -50,9 +54,10 @@ class Create extends AbstractAsyncAction
      *
      * @return self Provides fluent interface
      */
-    public function setInstanceDir(string $instanceDir)
+    public function setInstanceDir(string $instanceDir): self
     {
-        return $this->setOption('instanceDir', $instanceDir);
+        $this->setOption('instanceDir', $instanceDir);
+        return $this;
     }
 
     /**
@@ -72,9 +77,10 @@ class Create extends AbstractAsyncAction
      *
      * @return self Provides fluent interface
      */
-    public function setConfig(string $config)
+    public function setConfig(string $config): self
     {
-        return $this->setOption('config', $config);
+        $this->setOption('config', $config);
+        return $this;
     }
 
     /**
@@ -94,9 +100,10 @@ class Create extends AbstractAsyncAction
      *
      * @return self Provides fluent interface
      */
-    public function setSchema(string $schema)
+    public function setSchema(string $schema): self
     {
-        return $this->setOption('schema', $schema);
+        $this->setOption('schema', $schema);
+        return $this;
     }
 
     /**
@@ -116,9 +123,10 @@ class Create extends AbstractAsyncAction
      *
      * @return self Provides fluent interface
      */
-    public function setDataDir(string $dataDir)
+    public function setDataDir(string $dataDir): self
     {
-        return $this->setOption('dataDir', $dataDir);
+        $this->setOption('dataDir', $dataDir);
+        return $this;
     }
 
     /**
@@ -138,9 +146,10 @@ class Create extends AbstractAsyncAction
      *
      * @return self Provides fluent interface
      */
-    public function setConfigSet(string $configSet)
+    public function setConfigSet(string $configSet): self
     {
-        return $this->setOption('configSet', $configSet);
+        $this->setOption('configSet', $configSet);
+        return $this;
     }
 
     /**
@@ -160,9 +169,10 @@ class Create extends AbstractAsyncAction
      *
      * @return self Provides fluent interface
      */
-    public function setCollection(string $collection)
+    public function setCollection(string $collection): self
     {
-        return $this->setOption('collection', $collection);
+        $this->setOption('collection', $collection);
+        return $this;
     }
 
     /**
@@ -182,9 +192,10 @@ class Create extends AbstractAsyncAction
      *
      * @return self Provides fluent interface
      */
-    public function setShard($shard)
+    public function setShard($shard): self
     {
-        return $this->setOption('shard', $shard);
+        $this->setOption('shard', $shard);
+        return $this;
     }
 
     /**
@@ -205,10 +216,11 @@ class Create extends AbstractAsyncAction
      *
      * @return self Provides fluent interface
      */
-    public function setCoreProperty(string $name, string $value)
+    public function setCoreProperty(string $name, string $value): self
     {
         $option = 'property.'.$name;
-        return $this->setOption($option, $value);
+        $this->setOption($option, $value);
+        return $this;
     }
 
     /**
@@ -220,5 +232,14 @@ class Create extends AbstractAsyncAction
     {
         $option = 'property.'.$name;
         return (string) $this->getOption($option);
+    }
+
+    /**
+     * Returns the namespace and class of the result class for the action.
+     * @return string
+     */
+    public function getResultClass(): string
+    {
+        return Result::class;
     }
 }

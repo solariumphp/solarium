@@ -10,7 +10,7 @@ use Solarium\QueryType\Server\Collections\Result\ReloadResult;
  *
  * @see https://lucene.apache.org/solr/guide/collections-api.html#reload
  */
-class Reload extends AbstractAction
+class Reload extends AbstractCDRAction
 {
     /**
      * Returns the action type of the Collections API action.
@@ -25,12 +25,12 @@ class Reload extends AbstractAction
     /**
      * The name of the collection to reload. This parameter is required.
      *
-     * @param string $collection
+     * @param string $name
      * @return self Provides fluent interface
      */
-    public function setName(string $name)
+    public function setName(string $name): self
     {
-        $this->setOption('name', $name);
+        parent::setName($name);
         return $this;
     }
 
@@ -39,9 +39,9 @@ class Reload extends AbstractAction
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
-        return $this->getOption('name');
+        return parent::getName();
     }
 
     /**

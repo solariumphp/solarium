@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Solarium\QueryType\Server\Collections\Result;
+namespace Solarium\Core\Client\State;
 
 /**
  * Class ReplicaState
@@ -48,19 +48,19 @@ class ReplicaState extends AbstractState
     protected $state;
 
     /**
-     * @var The replica is ready to receive updates and queries.
+     * @var string The replica is ready to receive updates and queries.
      */
     const ACTIVE = 'active';
     /**
-     * @var The first state before recovering.
+     * @var string The first state before recovering.
      */
     const DOWN = 'down';
     /**
-     * @var The node is recovering from the leader.
+     * @var string The node is recovering from the leader.
      */
     const RECOVERING = 'recovering';
     /**
-     * @var Recovery attempts have not worked, something is not right.
+     * @var string Recovery attempts have not worked, something is not right.
      */
     const RECOVERY_FAILED = 'recovery_failed';
 
@@ -119,7 +119,7 @@ class ReplicaState extends AbstractState
      */
     public function isActive(): bool
     {
-        return $this->state == self::ACTIVE;
+        return $this->state === self::ACTIVE;
     }
 
     protected function init()
@@ -127,15 +127,15 @@ class ReplicaState extends AbstractState
         $this->name = key($this->stateRaw);
         $this->stateRaw = reset($this->stateRaw);
 
-        $this->core = $this->getStateProp(ZkStateReader::CORE_NAME_PROP, '');
-        $this->baseUri = $this->getStateProp(ZkStateReader::BASE_URL_PROP, '');
-        $this->nodeName = $this->getStateProp(ZkStateReader::NODE_NAME_PROP, '');
-        $this->leader = $this->getStateProp(ZkStateReader::LEADER_PROP, false);
+        $this->core = $this->getStateProp(ClusterState::CORE_NAME_PROP, '');
+        $this->baseUri = $this->getStateProp(ClusterState::BASE_URL_PROP, '');
+        $this->nodeName = $this->getStateProp(ClusterState::NODE_NAME_PROP, '');
+        $this->leader = $this->getStateProp(ClusterState::LEADER_PROP, false);
 
-        if (in_array($this->nodeName, $this->liveNodes, true)) {
-            $this->state = $this->getStateProp(ZkStateReader::STATE_PROP);
+        if (\in_array($this->nodeName, $this->liveNodes, true)) {
+            $this->state = $this->getStateProp(ClusterState::STATE_PROP);
         } else {
-            $this->state = ReplicaState::DOWN;
+            $this->state = self::DOWN;
         }
     }
 }

@@ -4,13 +4,14 @@ namespace Solarium\QueryType\Server\Collections\Query\Action;
 
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
 use Solarium\QueryType\Server\Collections\Result\CreateResult;
+use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
  * Class Create.
  *
  * @see https://lucene.apache.org/solr/guide/collections-api.html#create
  */
-class Create extends AbstractAction
+class Create extends AbstractCDRAction
 {
     /**
      * Returns the action type of the Collections API action.
@@ -26,10 +27,12 @@ class Create extends AbstractAction
      * The name of the collection to be created. This parameter is required.
      *
      * @param string $collection
+     * @return self Create object
      */
-    public function setName(string $collection)
+    public function setName(string $collection): self
     {
-        $this->setOption('name', $collection);
+        parent::setName($collection);
+        return $this;
     }
 
     /**
@@ -39,7 +42,7 @@ class Create extends AbstractAction
      */
     public function getName(): string
     {
-        return $this->getOption('name');
+        return parent::getName();
     }
 
     /**
@@ -49,10 +52,9 @@ class Create extends AbstractAction
      * @param string $routerName
      * @return self $this
      */
-    public function setRouterName(string $routerName)
+    public function setRouterName(string $routerName): self
     {
         $this->setOption('router.name', $routerName);
-
         return $this;
     }
 
@@ -72,10 +74,9 @@ class Create extends AbstractAction
      * @param int $numShards
      * @return self $this
      */
-    public function setNumShards(int $numShards)
+    public function setNumShards(int $numShards): self
     {
         $this->setOption('numShards', $numShards);
-
         return $this;
     }
 
@@ -95,10 +96,9 @@ class Create extends AbstractAction
      * @param string $shards
      * @return self $this
      */
-    public function setShards(string $shards)
+    public function setShards(string $shards): self
     {
         $this->setOption('shards', $shards);
-
         return $this;
     }
 
@@ -117,10 +117,9 @@ class Create extends AbstractAction
      * @param int $replicationFactor
      * @return self Provides fluent interface
      */
-    public function setReplicationFactor(int $replicationFactor)
+    public function setReplicationFactor(int $replicationFactor): self
     {
         $this->setOption('replicationFactor', $replicationFactor);
-
         return $this;
     }
 
@@ -130,10 +129,9 @@ class Create extends AbstractAction
      * @param int $nrtReplicas
      * @return self Provides fluent interface
      */
-    public function setNrtReplicas(int $nrtReplicas)
+    public function setNrtReplicas(int $nrtReplicas): self
     {
         $this->setOption('nrtReplicas', $nrtReplicas);
-
         return $this;
     }
 
@@ -143,10 +141,9 @@ class Create extends AbstractAction
      * @param int $tlogReplicas
      * @return self Provides fluent interface
      */
-    public function setTlogReplicas(int $tlogReplicas)
+    public function setTlogReplicas(int $tlogReplicas): self
     {
         $this->setOption('tlogReplicas', $tlogReplicas);
-
         return $this;
     }
 
@@ -156,10 +153,9 @@ class Create extends AbstractAction
      * @param int $pullReplicas
      * @return self Provides fluent interface
      */
-    public function setPullReplicas(int $pullReplicas)
+    public function setPullReplicas(int $pullReplicas): self
     {
         $this->setOption('pullReplicas', $pullReplicas);
-
         return $this;
     }
 
@@ -170,10 +166,9 @@ class Create extends AbstractAction
      * @param int $maxShardsPerNode
      * @return self Provides fluent interface
      */
-    public function setMaxShardsPerNode(int $maxShardsPerNode)
+    public function setMaxShardsPerNode(int $maxShardsPerNode): self
     {
         $this->setOption('maxShardsPerNode', $maxShardsPerNode);
-
         return $this;
     }
 
@@ -184,10 +179,9 @@ class Create extends AbstractAction
      * @param string $createNodeSet
      * @return self Provides fluent interface
      */
-    public function setCreateNodeSet(string $createNodeSet)
+    public function setCreateNodeSet(string $createNodeSet): self
     {
         $this->setOption('createNodeSet', $createNodeSet);
-
         return $this;
     }
 
@@ -199,10 +193,9 @@ class Create extends AbstractAction
      * @param bool $shuffle
      * @return self Provides fluent interface
      */
-    public function setCreateNodeSetShuffle(bool $shuffle)
+    public function setCreateNodeSetShuffle(bool $shuffle): self
     {
         $this->setOption('createNodeSet.shuffle', $shuffle);
-
         return $this;
     }
 
@@ -213,10 +206,9 @@ class Create extends AbstractAction
      *
      * @return self Provides fluent interface
      */
-    public function setCollectionConfigName(string $configName)
+    public function setCollectionConfigName(string $configName): self
     {
         $this->setOption('collection.configName', $configName);
-
         return $this;
     }
 
@@ -238,10 +230,9 @@ class Create extends AbstractAction
      * @param string $routerField
      * @return self Provides fluent interface
      */
-    public function setRouterField(string $routerField)
+    public function setRouterField(string $routerField): self
     {
         $this->setOption('router.field', $routerField);
-
         return $this;
     }
 
@@ -253,23 +244,21 @@ class Create extends AbstractAction
      *
      * @return self Provides fluent interface
      */
-    public function setProperty(string $name, string $value)
+    public function setProperty(string $name, string $value): self
     {
-        $option = 'property.'.$name;
-        $this->setOption($option, $value);
-
+        $this->setOption('property.'.$name, $value);
         return $this;
     }
 
     /**
      * Get a previously added property.
      *
+     * @param string $name property name
      * @return string
      */
-    public function getProperty($name): string
+    public function getProperty(string $name): string
     {
         $option = 'property.'.$name;
-
         return (string)$this->getOption($option);
     }
 
@@ -281,10 +270,9 @@ class Create extends AbstractAction
      * @param bool $autoAddReplicas
      * @return self Provides fluent interface
      */
-    public function setAutoAddReplicas(bool $autoAddReplicas)
+    public function setAutoAddReplicas(bool $autoAddReplicas): self
     {
         $this->setOption('autoAddReplicas', $autoAddReplicas);
-
         return $this;
     }
 
@@ -294,10 +282,9 @@ class Create extends AbstractAction
      * @param string $id
      * @return self Provides fluent interface
      */
-    public function setAsync(string $id)
+    public function setAsync(string $id): self
     {
         $this->setOption('async', $id);
-
         return $this;
     }
 
@@ -307,7 +294,7 @@ class Create extends AbstractAction
      * @param string $rule
      * @return self Provides fluent interface
      */
-    public function setRule(string $rule)
+    public function setRule(string $rule): self
     {
         $this->setOption('rule', $rule);
         return $this;
@@ -319,7 +306,7 @@ class Create extends AbstractAction
      * @param string $snitch
      * @return self Provides fluent interface
      */
-    public function setSnitch(string $snitch)
+    public function setSnitch(string $snitch): self
     {
         $this->setOption('snitch', $snitch);
         return $this;
@@ -331,7 +318,7 @@ class Create extends AbstractAction
      * @param string $policy
      * @return self Provides fluent interface
      */
-    public function setPolicy(string $policy)
+    public function setPolicy(string $policy): self
     {
         $this->setOption('policy', $policy);
         return $this;
@@ -345,7 +332,7 @@ class Create extends AbstractAction
      * @param bool $waitForFinalState
      * @return self Provides fluent interface
      */
-    public function setWaitForFinalState(bool $waitForFinalState)
+    public function setWaitForFinalState(bool $waitForFinalState): self
     {
         $this->setOption('waitForFinalState', $waitForFinalState);
         return $this;
@@ -358,7 +345,7 @@ class Create extends AbstractAction
      * @param string $withCollection
      * @return self Provides fluent interface
      */
-    public function setWithCollection(string $withCollection)
+    public function setWithCollection(string $withCollection): self
     {
         $this->setOption('withCollection', $withCollection);
         return $this;

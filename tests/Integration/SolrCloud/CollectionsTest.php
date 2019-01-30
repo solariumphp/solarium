@@ -2,8 +2,8 @@
 
 namespace Solarium\Tests\Integration\SolrCloud;
 
+use Solarium\Core\Client\State\ClusterState;
 use Solarium\QueryType\Server\Collections\Query\Query;
-use Solarium\QueryType\Server\Collections\Result\ClusterState;
 
 /**
  * Class CollectionsTest

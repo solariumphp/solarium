@@ -2,7 +2,9 @@
 
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
-abstract class AbstractCoreAction extends AbstractAction
+use Solarium\Core\Configurable;
+
+abstract class AbstractCoreAction extends Configurable
 {
     /**
      * Set the core name that should be reloaded.

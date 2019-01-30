@@ -3,6 +3,8 @@
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
+use Solarium\QueryType\Server\CoreAdmin\Result\Result;
+use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
  * @see https://lucene.apache.org/solr/guide/6_6/coreadmin-api.html#CoreAdminAPI-SPLIT
@@ -105,5 +107,14 @@ class Split extends AbstractAsyncAction
     public function getSplitKey(): string
     {
         return (string) $this->getOption('split.key');
+    }
+
+    /**
+     * Returns the namespace and class of the result class for the action.
+     * @return string
+     */
+    public function getResultClass(): string
+    {
+        return Result::class;
     }
 }

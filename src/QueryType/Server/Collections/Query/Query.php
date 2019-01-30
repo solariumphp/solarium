@@ -3,15 +3,16 @@
 namespace Solarium\QueryType\Server\Collections\Query;
 
 use Solarium\Core\Client\Client;
+use Solarium\Core\Client\Request;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Server\AbstractServerQuery;
-use Solarium\QueryType\Server\Collections\Query\Action\ActionInterface;
 use Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus;
 use Solarium\QueryType\Server\Collections\Query\Action\Create;
 use Solarium\QueryType\Server\Collections\Query\Action\Delete;
 use Solarium\QueryType\Server\Collections\Query\Action\Reload;
 use Solarium\QueryType\Server\Collections\RequestBuilder;
 use Solarium\QueryType\Server\Collections\ResponseParser;
+use Solarium\QueryType\Server\Query\Action\ActionInterface;
 
 /**
  * Collections query.
@@ -268,7 +269,7 @@ class Query extends AbstractServerQuery
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return Client::QUERY_COLLECTIONS;
     }
@@ -278,7 +279,7 @@ class Query extends AbstractServerQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilder
     {
         return new RequestBuilder();
     }
@@ -288,7 +289,7 @@ class Query extends AbstractServerQuery
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParser
     {
         return new ResponseParser();
     }
@@ -296,9 +297,9 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Create
+     * @return ActionInterface|Create
      */
-    public function createCreate($options = [])
+    public function createCreate($options = []): Create
     {
         return $this->createAction(self::ACTION_CREATE, $options);
     }
@@ -306,9 +307,9 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Delete
+     * @return Delete|ActionInterface
      */
-    public function createDelete($options = [])
+    public function createDelete($options = []): Delete
     {
         return $this->createAction(self::ACTION_DELETE, $options);
     }
@@ -316,9 +317,9 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Reload
+     * @return Reload|ActionInterface
      */
-    public function createReload($options = [])
+    public function createReload($options = []): Reload
     {
         return $this->createAction(self::ACTION_RELOAD, $options);
     }
@@ -326,9 +327,9 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return ClusterStatus
+     * @return ClusterStatus|ActionInterface
      */
-    public function createClusterStatus($options = [])
+    public function createClusterStatus($options = []): ClusterStatus
     {
         return $this->createAction(self::ACTION_CLUSTERSTATUS, $options);
     }
@@ -343,7 +344,7 @@ class Query extends AbstractServerQuery
      *
      * @return ActionInterface
      */
-    public function createAction($type, $options = null)
+    public function createAction($type, $options = null): ActionInterface
     {
         if (!isset($this->actionTypes[$type])) {
             throw new InvalidArgumentException('Collections API action unknown: '.$type);
@@ -367,12 +368,16 @@ class Query extends AbstractServerQuery
      *
      * @return ActionInterface
      */
-    public function getAction()
+    public function getAction(): ActionInterface
     {
         return $this->action;
     }
 
-    public function getResultClass()
+    /**
+     * Returns the result class.
+     * @return string
+     */
+    public function getResultClass(): string
     {
         return $this->getAction()->getResultClass();
     }
