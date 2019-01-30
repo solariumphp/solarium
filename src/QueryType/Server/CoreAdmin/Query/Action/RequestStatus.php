@@ -44,4 +44,10 @@ class RequestStatus extends AbstractAction
     {
         return (string) $this->getOption('requestid');
     }
+
+    public function getResultClass(): string
+    {
+        // TODO: Implement getResultClass() method.
+        return '';
+    }
 }
