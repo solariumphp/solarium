@@ -104,7 +104,7 @@ class QueryTest extends TestCase
 
 class TestQuery extends AbstractQuery
 {
-    public function getType()
+    public function getType(): string
     {
         return 'testType';
     }

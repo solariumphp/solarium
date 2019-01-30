@@ -423,7 +423,7 @@ class FacetSetTest extends TestCase
 
 class UnknownFacet extends FacetField
 {
-    public function getType()
+    public function getType(): string
     {
         return 'unknown';
     }

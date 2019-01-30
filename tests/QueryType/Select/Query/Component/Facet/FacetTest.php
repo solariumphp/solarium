@@ -76,7 +76,7 @@ class TestFacet extends AbstractFacet
 {
     use ExcludeTagsTrait;
 
-    public function getType()
+    public function getType(): string
     {
         return 'test';
     }

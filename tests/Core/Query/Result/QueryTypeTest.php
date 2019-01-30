@@ -59,7 +59,7 @@ class QueryTypeTest extends TestCase
 
 class TestStubQuery extends SelectQuery
 {
-    public function getType()
+    public function getType(): string
     {
         return 'dummy';
     }
