@@ -25,7 +25,7 @@ class Endpoint extends Configurable
         'collection' => null,
         'core' => null,
         'timeout' => 5,
-        'leader' => false
+        'leader' => false,
     ];
 
     /**

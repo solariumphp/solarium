@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Solarium\QueryType\Server\Collections\Query\Action;
-
 
 use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 

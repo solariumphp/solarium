@@ -115,7 +115,7 @@ class Query extends AbstractServerQuery
      *
      * @return string
      */
-    public function getType():string
+    public function getType(): string
     {
         return Client::QUERY_CORE_ADMIN;
     }

@@ -112,7 +112,7 @@ class ShardState extends AbstractState
     : string
     {
         if ($this->getShardLeader() instanceof ReplicaState) {
-            return $this->getShardLeader() !== null ? $this->getShardLeader()->getServerUri() : null;
+            return null !== $this->getShardLeader() ? $this->getShardLeader()->getServerUri() : null;
         }
 
         return null;

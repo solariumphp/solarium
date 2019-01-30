@@ -104,10 +104,12 @@ class ClusterStateTest extends TestCase
         self::assertSame('my_config', $collectionState->getConfigName());
         self::assertSame('collection1', $collectionState->getName());
         self::assertSame(1, $collectionState->getMaxShardsPerNode());
-        $nodeBaseUris = ['127.0.1.1:7574_solr' => 'http://127.0.1.1:7574/solr',
-    '127.0.1.1:7500_solr' => 'http://127.0.1.1:7500/solr',
-    '127.0.1.1:8983_solr' => 'http://127.0.1.1:8983/solr',
-    '127.0.1.1:8900_solr' => 'http://127.0.1.1:8900/solr'];
+        $nodeBaseUris = [
+            '127.0.1.1:7574_solr' => 'http://127.0.1.1:7574/solr',
+            '127.0.1.1:7500_solr' => 'http://127.0.1.1:7500/solr',
+            '127.0.1.1:8983_solr' => 'http://127.0.1.1:8983/solr',
+            '127.0.1.1:8900_solr' => 'http://127.0.1.1:8900/solr',
+        ];
         self::assertSame($nodeBaseUris, $collectionState->getNodesBaseUris());
         self::assertSame(1, $collectionState->getReplicationFactor());
         self::assertSame('compositeId', $collectionState->getRouterName());
@@ -127,7 +129,7 @@ class ClusterStateTest extends TestCase
             '127.0.1.1:7574_solr',
             '127.0.1.1:7500_solr',
             '127.0.1.1:8983_solr',
-            '127.0.1.1:8900_solr'
+            '127.0.1.1:8900_solr',
         ];
         self::assertEquals($liveNodes, $this->clusterState->getLiveNodes());
     }

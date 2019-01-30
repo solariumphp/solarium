@@ -4,8 +4,6 @@ namespace Solarium\Core\Client\State;
 
 use Solarium\Exception\RuntimeException;
 
-use Solarium\Exception\SolrCloudException;
-
 /**
  * Class for describing a SolrCloud collection endpoint.
  */
@@ -149,7 +147,7 @@ class CollectionState extends AbstractState
      */
     public function getNodesBaseUris(): array
     {
-        $uris = array();
+        $uris = [];
 
         foreach ($this->getShards() as $shard) {
             if (ShardState::ACTIVE === $shard->getState()) {
@@ -189,7 +187,7 @@ class CollectionState extends AbstractState
         // Clear shards first
         $this->shards = [];
         foreach ($this->getState()[ClusterState::SHARDS_PROP] as $shardName => $shardState) {
-            $this->shards[$shardName] = new ShardState(array($shardName => $shardState), $this->liveNodes);
+            $this->shards[$shardName] = new ShardState([$shardName => $shardState], $this->liveNodes);
         }
     }
 

@@ -2,8 +2,6 @@
 
 namespace Solarium\QueryType\Server\Query\Action;
 
-use Solarium\Core\ConfigurableInterface;
-
 interface ActionAsyncInterface extends ActionInterface
 {
     /**
