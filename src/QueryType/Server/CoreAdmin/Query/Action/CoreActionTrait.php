@@ -2,9 +2,7 @@
 
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
-use Solarium\QueryType\Server\Query\Action\AbstractAction;
-
-abstract class AbstractCoreAction extends AbstractAction
+trait CoreActionTrait
 {
     /**
      * Set the core name that should be reloaded.

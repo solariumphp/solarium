@@ -8,8 +8,10 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 /**
  * @see https://lucene.apache.org/solr/guide/6_6/coreadmin-api.html#CoreAdminAPI-SPLIT
  */
-class Split extends AbstractAsyncAction
+class Split extends AbstractAsyncAction implements CoreActionInterface
 {
+    use CoreActionTrait;
+
     /**
      * Returns the action type of the core admin action.
      *
