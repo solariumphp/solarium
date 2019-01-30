@@ -6,7 +6,7 @@ use DateInterval;
 use Solarium\Cloud\Core\Client\CollectionEndpoint;
 use Solarium\Cloud\Exception\ZookeeperException;
 use Solarium\Exception\InvalidArgumentException;
-use Solarium\Exception\SolrCloudException
+use Solarium\Exception\SolrCloudException;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Zookeeper;
 
