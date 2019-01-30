@@ -41,9 +41,9 @@ before_script:
 script:
   - |
      if [ ${SOLRCLOUD} == "true" ]; then
-       vendor/bin/phpunit -c phpunit.xml.solrcloud.travis -v  || travis_terminate 1;
+       vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_no_cloud -v  || travis_terminate 1;
      else
-       vendor/bin/phpunit -c phpunit.xml.travis -v  || travis_terminate 1;
+       vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_cloud -v  || travis_terminate 1;
      fi
 
 after_success:
@@ -52,9 +52,11 @@ after_success:
 matrix:
   exclude:
       - php: 7.0
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5 SOLRCLOUD=false
       - php: 7.0
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.5.0
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.5.0 SOLRCLOUD=false
+      - php: 7.0
+        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=7.5.0 SOLRCLOUD=true
   allow_failures:
       - php: nightly
 

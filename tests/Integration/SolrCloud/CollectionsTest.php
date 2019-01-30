@@ -9,6 +9,7 @@ use Solarium\QueryType\Server\Collections\Result\ClusterState;
  * Class CollectionsTest.
  *
  * @group integration
+ * @group solr_cloud
  */
 class CollectionsTest extends AbstractSolrCloudTest
 {
