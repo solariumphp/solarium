@@ -1,6 +1,9 @@
 <?php
+
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
+
 use Solarium\Core\Configurable;
+
 /**
  * CoreAdmin query command base class.
  */

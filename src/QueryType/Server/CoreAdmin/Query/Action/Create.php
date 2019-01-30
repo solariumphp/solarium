@@ -27,6 +27,7 @@ class Create extends AbstractAsyncAction
      * Set the core name that should be reloaded.
      *
      * @param string $core
+     *
      * @return self Provides fluent interface
      */
     public function setCore(string $core): self
