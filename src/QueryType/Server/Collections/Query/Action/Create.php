@@ -4,7 +4,6 @@ namespace Solarium\QueryType\Server\Collections\Query\Action;
 
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
 use Solarium\QueryType\Server\Collections\Result\CreateResult;
-use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
  * Class Create.

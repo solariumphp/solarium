@@ -3,8 +3,6 @@
 namespace Solarium\QueryType\Server\Collections\Query;
 
 use Solarium\Core\Client\Client;
-use Solarium\Core\Client\Request;
-use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Server\AbstractServerQuery;
 use Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus;
 use Solarium\QueryType\Server\Collections\Query\Action\Create;
@@ -331,53 +329,5 @@ class Query extends AbstractServerQuery
     public function createClusterStatus($options = []): ClusterStatus
     {
         return $this->createAction(self::ACTION_CLUSTERSTATUS, $options);
-    }
-
-    /**
-     * Create a command instance.
-     *
-     * @param string $type
-     * @param mixed  $options
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return ActionInterface
-     */
-    public function createAction($type, $options = null): ActionInterface
-    {
-        if (!isset($this->actionTypes[$type])) {
-            throw new InvalidArgumentException('Collections API action unknown: '.$type);
-        }
-
-        $class = $this->actionTypes[$type];
-
-        return new $class($options);
-    }
-
-    /**
-     * @param ActionInterface $action
-     */
-    public function setAction(ActionInterface $action)
-    {
-        $this->action = $action;
-    }
-
-    /**
-     * Get the active action.
-     *
-     * @return ActionInterface
-     */
-    public function getAction(): ActionInterface
-    {
-        return $this->action;
-    }
-
-    /**
-     * Returns the result class.
-     * @return string
-     */
-    public function getResultClass(): string
-    {
-        return $this->getAction()->getResultClass();
     }
 }

@@ -3,7 +3,6 @@
 namespace Solarium\QueryType\Server\CoreAdmin\Query;
 
 use Solarium\Core\Client\Client;
-use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Server\AbstractServerQuery;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\AbstractAction;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Create;
@@ -18,6 +17,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Action\Swap;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Unload;
 use Solarium\QueryType\Server\CoreAdmin\RequestBuilder;
 use Solarium\QueryType\Server\CoreAdmin\ResponseParser;
+use Solarium\QueryType\Server\Query\Action\ActionInterface;
 
 /**
  * CoreAdmin query.
@@ -116,7 +116,7 @@ class Query extends AbstractServerQuery
      *
      * @return string
      */
-    public function getType()
+    public function getType():string
     {
         return Client::QUERY_CORE_ADMIN;
     }
@@ -144,7 +144,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Create
+     * @return Create|ActionInterface
      */
     public function createCreate($options = [])
     {
@@ -154,7 +154,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return MergeIndexes
+     * @return MergeIndexes|ActionInterface
      */
     public function createMergeIndexes($options = [])
     {
@@ -164,7 +164,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Reload
+     * @return Reload|ActionInterface
      */
     public function createReload($options = [])
     {
@@ -174,7 +174,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Rename
+     * @return Rename|ActionInterface
      */
     public function createRename($options = [])
     {
@@ -184,7 +184,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return RequestRecovery
+     * @return RequestRecovery|ActionInterface
      */
     public function createRequestRecovery($options = [])
     {
@@ -194,7 +194,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return RequestStatus
+     * @return RequestStatus|ActionInterface
      */
     public function createRequestStatus($options = [])
     {
@@ -204,7 +204,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Split
+     * @return Split|ActionInterface
      */
     public function createSplit($options = [])
     {
@@ -214,7 +214,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Status
+     * @return Status|ActionInterface
      */
     public function createStatus($options = [])
     {
@@ -224,7 +224,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Swap
+     * @return Swap|ActionInterface
      */
     public function createSwap($options = [])
     {
@@ -234,49 +234,10 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Unload
+     * @return Unload|ActionInterface
      */
     public function createUnload($options = [])
     {
         return $this->createAction(self::ACTION_UNLOAD, $options);
-    }
-
-    /**
-     * Create a command instance.
-     *
-     * @param string $type
-     * @param mixed  $options
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return AbstractAction
-     */
-    public function createAction($type, $options = null)
-    {
-        if (!isset($this->actionTypes[$type])) {
-            throw new InvalidArgumentException('CoreAdmin action unknown: '.$type);
-        }
-
-        $class = $this->actionTypes[$type];
-
-        return new $class($options);
-    }
-
-    /**
-     * @param AbstractAction $action
-     */
-    public function setAction(AbstractAction $action)
-    {
-        $this->action = $action;
-    }
-
-    /**
-     * Get the active action.
-     *
-     * @return AbstractAction
-     */
-    public function getAction()
-    {
-        return $this->action;
     }
 }

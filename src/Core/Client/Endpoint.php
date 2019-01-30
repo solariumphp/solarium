@@ -317,6 +317,7 @@ class Endpoint extends Configurable
     {
         $this->setOption('username', $username);
         $this->setOption('password', $password);
+
         return $this;
     }
 
@@ -335,7 +336,9 @@ class Endpoint extends Configurable
 
     /**
      * If the shard is a leader or not. Only in SolrCloud.
+     *
      * @param bool $leader
+     *
      * @return $this
      */
     public function setLeader(bool $leader)
@@ -346,6 +349,7 @@ class Endpoint extends Configurable
 
     /**
      * If the shard is a leader or not. Only in SolrCloud.
+     *
      * @return bool
      */
     public function isLeader(): bool
