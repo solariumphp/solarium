@@ -25,10 +25,4 @@ abstract class AbstractCoreAction extends AbstractAction
     {
         return (string) $this->getOption('core');
     }
-
-    public function getResultClass(): string
-    {
-        // TODO: Implement getResultClass() method.
-        return '';
-    }
 }

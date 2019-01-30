@@ -2,12 +2,10 @@
 
 namespace Solarium\QueryType\Server\Query\Action;
 
-use Solarium\Core\Configurable;
-
 /**
  * Server query command base class.
  */
-abstract class AbstractAsyncAction extends Configurable implements ActionAsyncInterface
+abstract class AbstractAsyncAction extends AbstractAction implements ActionAsyncInterface
 {
     public function setAsync(string $requestId)
     {

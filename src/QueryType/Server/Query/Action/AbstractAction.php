@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\Server\Query\Action;
 
 use Solarium\Core\Configurable;
+use Solarium\QueryType\Server\CoreAdmin\Result\Result;
 
 /**
  * CoreAdmin query command base class.
@@ -21,5 +22,8 @@ abstract class AbstractAction extends Configurable implements ActionInterface
      *
      * @return string
      */
-    abstract public function getResultClass(): string;
+    public function getResultClass(): string
+    {
+        return Result::class;
+    }
 }

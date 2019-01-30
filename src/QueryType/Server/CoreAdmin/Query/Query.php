@@ -100,7 +100,6 @@ class Query extends AbstractServerQuery
      */
     protected $options = [
         'handler' => 'admin/cores',
-        'resultclass' => 'Solarium\QueryType\Server\CoreAdmin\Result\Result',
     ];
 
     /**

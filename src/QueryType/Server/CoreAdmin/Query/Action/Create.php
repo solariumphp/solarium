@@ -3,7 +3,6 @@
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
-use Solarium\QueryType\Server\CoreAdmin\Result\Result;
 use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
@@ -233,15 +232,5 @@ class Create extends AbstractAsyncAction
     {
         $option = 'property.'.$name;
         return (string) $this->getOption($option);
-    }
-
-    /**
-     * Returns the namespace and class of the result class for the action.
-     *
-     * @return string
-     */
-    public function getResultClass(): string
-    {
-        return Result::class;
     }
 }

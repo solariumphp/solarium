@@ -38,10 +38,4 @@ class Swap extends AbstractAsyncAction
     {
         return (string) $this->getOption('other');
     }
-
-    public function getResultClass(): string
-    {
-        // TODO: Implement getResultClass() method.
-        return '';
-    }
 }

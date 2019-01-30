@@ -85,10 +85,4 @@ class Unload extends AbstractAsyncAction
     {
         return (string) $this->getOption('deleteInstanceDir');
     }
-
-    public function getResultClass(): string
-    {
-        // TODO: Implement getResultClass() method.
-        return '';
-    }
 }
