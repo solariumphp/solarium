@@ -1,13 +1,13 @@
 <?php
 
-namespace Solarium\QueryType\Server\Collections\Query\Action;
+namespace Solarium\QueryType\Server\Query\Action;
 
 use Solarium\Core\Configurable;
 
 /**
- * Collections API query command base class.
+ * Server query command base class.
  */
-abstract class AbstractAction extends Configurable implements ActionInterface
+abstract class AbstractAsyncAction extends Configurable implements ActionAsyncInterface
 {
     public function setAsync(string $requestId)
     {

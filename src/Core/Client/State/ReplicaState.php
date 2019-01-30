@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\QueryType\Server\Collections\Result;
+namespace Solarium\Core\Client\State;
 
 /**
  * Class ReplicaState.
@@ -100,7 +100,7 @@ class ReplicaState extends AbstractState
      */
     public function isActive(): bool
     {
-        return self::ACTIVE == $this->state;
+        return self::ACTIVE === $this->state;
     }
 
     protected function init()
@@ -108,13 +108,13 @@ class ReplicaState extends AbstractState
         $this->name = key($this->stateRaw);
         $this->stateRaw = reset($this->stateRaw);
 
-        $this->core = $this->getStateProp(ZkStateReader::CORE_NAME_PROP, '');
-        $this->baseUri = $this->getStateProp(ZkStateReader::BASE_URL_PROP, '');
-        $this->nodeName = $this->getStateProp(ZkStateReader::NODE_NAME_PROP, '');
-        $this->leader = $this->getStateProp(ZkStateReader::LEADER_PROP, false);
+        $this->core = $this->getStateProp(ClusterState::CORE_NAME_PROP, '');
+        $this->baseUri = $this->getStateProp(ClusterState::BASE_URL_PROP, '');
+        $this->nodeName = $this->getStateProp(ClusterState::NODE_NAME_PROP, '');
+        $this->leader = $this->getStateProp(ClusterState::LEADER_PROP, false);
 
-        if (in_array($this->nodeName, $this->liveNodes, true)) {
-            $this->state = $this->getStateProp(ZkStateReader::STATE_PROP);
+        if (\in_array($this->nodeName, $this->liveNodes, true)) {
+            $this->state = $this->getStateProp(ClusterState::STATE_PROP);
         } else {
             $this->state = self::DOWN;
         }

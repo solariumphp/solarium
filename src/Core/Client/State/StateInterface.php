@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\QueryType\Server\Collections\Result;
+namespace Solarium\Core\Client\State;
 
 /**
  * Interface StateInterface.

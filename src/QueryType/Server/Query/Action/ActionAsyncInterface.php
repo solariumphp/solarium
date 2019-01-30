@@ -1,18 +1,11 @@
 <?php
 
-namespace Solarium\QueryType\Server\Collections\Query\Action;
+namespace Solarium\QueryType\Server\Query\Action;
 
 use Solarium\Core\ConfigurableInterface;
 
-interface ActionInterface extends ConfigurableInterface
+interface ActionAsyncInterface extends ActionInterface
 {
-    /**
-     * Returns command type, for use in adapters.
-     *
-     * @return string
-     */
-    public function getType(): string;
-
     /**
      * Can be used to set a requestId to track this action with asynchronous processing.
      *
@@ -28,11 +21,4 @@ interface ActionInterface extends ConfigurableInterface
      * @return int
      */
     public function getAsync(): int;
-
-    /**
-     * Returns the namespace and class of the result class for the action.
-     *
-     * @return string
-     */
-    public function getResultClass(): string;
 }

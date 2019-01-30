@@ -1,12 +1,15 @@
 <?php
 
-namespace Solarium\QueryType\Server\Collections\Result;
+namespace Solarium\Core\Client\State;
 
 /**
  * Class State.
  */
 abstract class AbstractState implements StateInterface
 {
+    /** @var array List of live nodes */
+    protected $liveNodes;
+
     /** @var array State array retrieved by ZkStateReader */
     protected $stateRaw;
 

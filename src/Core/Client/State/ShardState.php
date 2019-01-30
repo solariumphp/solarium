@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\QueryType\Server\Collections\Result;
+namespace Solarium\Core\Client\State;
 
 /**
  * Class ShardState.
@@ -112,7 +112,7 @@ class ShardState extends AbstractState
     : string
     {
         if ($this->getShardLeader() instanceof ReplicaState) {
-            return $this->getShardLeader()->getServerUri();
+            return $this->getShardLeader() !== null ? $this->getShardLeader()->getServerUri() : null;
         }
 
         return null;
@@ -127,7 +127,7 @@ class ShardState extends AbstractState
     {
         $uris = [];
         foreach ($this->getReplicas() as $replica) {
-            if (ReplicaState::ACTIVE == $replica->getState()) {
+            if (ReplicaState::ACTIVE === $replica->getState()) {
                 $uris[$replica->getNodeName()] = $replica->getServerUri();
             }
         }
@@ -154,10 +154,10 @@ class ShardState extends AbstractState
     {
         $this->name = key($this->stateRaw);
         $this->stateRaw = reset($this->stateRaw);
-        $this->range = $this->getStateProp(ZkStateReader::RANGE_PROP);
-        $this->state = $this->getStateProp(ZkStateReader::STATE_PROP);
+        $this->range = $this->getStateProp(ClusterState::RANGE_PROP);
+        $this->state = $this->getStateProp(ClusterState::STATE_PROP);
 
-        $replicas = $this->getStateProp(ZkStateReader::REPLICAS_PROP);
+        $replicas = $this->getStateProp(ClusterState::REPLICAS_PROP);
         // Reset replicas property
         $this->replicas = [];
 

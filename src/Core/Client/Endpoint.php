@@ -22,8 +22,10 @@ class Endpoint extends Configurable
         'host' => '127.0.0.1',
         'port' => 8983,
         'path' => '/solr',
+        'collection' => null,
         'core' => null,
         'timeout' => 5,
+        'leader' => false
     ];
 
     /**
@@ -121,7 +123,7 @@ class Endpoint extends Configurable
      */
     public function setPath($path)
     {
-        if ('/' == substr($path, -1)) {
+        if ('/' === substr($path, -1)) {
             $path = substr($path, 0, -1);
         }
 
@@ -155,7 +157,7 @@ class Endpoint extends Configurable
     /**
      * Get collection option.
      *
-     * @return string
+     * @return string|null
      */
     public function getCollection()
     {
@@ -196,7 +198,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setTimeout($timeout)
+    public function setTimeout($timeout): self
     {
         $this->setOption('timeout', $timeout);
         return $this;
@@ -207,7 +209,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getTimeout()
+    public function getTimeout(): string
     {
         return $this->getOption('timeout');
     }
@@ -219,7 +221,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setScheme($scheme)
+    public function setScheme($scheme): self
     {
         $this->setOption('scheme', $scheme);
         return $this;
@@ -242,12 +244,12 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getCollectionBaseUri()
+    public function getCollectionBaseUri(): string
     {
         $uri = $this->getServerUri();
         $collection = $this->getCollection();
 
-        if (!empty($collection)) {
+        if (null !== $collection) {
             $uri .= $collection.'/';
         }
 
@@ -315,7 +317,6 @@ class Endpoint extends Configurable
     {
         $this->setOption('username', $username);
         $this->setOption('password', $password);
-
         return $this;
     }
 
@@ -330,6 +331,26 @@ class Endpoint extends Configurable
             'username' => $this->getOption('username'),
             'password' => $this->getOption('password'),
         ];
+    }
+
+    /**
+     * If the shard is a leader or not. Only in SolrCloud.
+     * @param bool $leader
+     * @return $this
+     */
+    public function setLeader(bool $leader)
+    {
+        $this->setOption('leader', $leader);
+        return $this;
+    }
+
+    /**
+     * If the shard is a leader or not. Only in SolrCloud.
+     * @return bool
+     */
+    public function isLeader(): bool
+    {
+        return $this->getOption('leader');
     }
 
     /**

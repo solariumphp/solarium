@@ -4,13 +4,14 @@ namespace Solarium\QueryType\Server\Collections\Query\Action;
 
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
 use Solarium\QueryType\Server\Collections\Result\ClusterStatusResult;
+use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
  * Class ClusterStatus.
  *
  * @see https://lucene.apache.org/solr/guide/collections-api.html#clusterstatus
  */
-class ClusterStatus extends AbstractAction
+class ClusterStatus extends AbstractAsyncAction
 {
     /**
      * Returns the action type of the Collections API action.
