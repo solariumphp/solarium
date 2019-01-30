@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Experimental support for collection API
 
+### Removed
+- Symfony 2.x support
+
 ### Fixed
 - Support for add-distinct and removeregex modifiers in Document::setFieldModifier
 
