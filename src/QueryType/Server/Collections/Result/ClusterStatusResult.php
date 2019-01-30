@@ -12,7 +12,7 @@ class ClusterStatusResult extends AbstractResult
     public function getClusterState(): ClusterState
     {
         $this->parseResponse();
-        if(isset($this->getData()['cluster']))
+        if (isset($this->getData()['cluster']))
             return new ClusterState($this->getData()['cluster']);
 
         return new ClusterState([]);

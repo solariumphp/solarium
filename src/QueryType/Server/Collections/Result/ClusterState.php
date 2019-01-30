@@ -22,7 +22,7 @@ class ClusterState
     public function __construct(array $clusterStatus)
     {
         $this->aliases = isset($clusterStatus['aliases']) ? $clusterStatus['aliases'] : [];
-        if(isset($clusterStatus['collections'])) {
+        if (isset($clusterStatus['collections'])) {
             foreach ($clusterStatus['collections'] as $collectionName => $collectionState) {
                 $this->collections[$collectionName] = new CollectionState(
                     [$collectionName => $collectionState],

@@ -95,7 +95,7 @@ class ClusterStatus extends AbstractAction
 
     /**
      * Returns the namespace and class of the result class for the action.
-     * 
+     *
      * @return string
      */
     public function getResultClass(): string

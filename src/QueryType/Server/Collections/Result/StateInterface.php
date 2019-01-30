@@ -3,11 +3,10 @@
 namespace Solarium\QueryType\Server\Collections\Result;
 
 /**
- * Interface StateInterface
+ * Interface StateInterface.
  */
 interface StateInterface
 {
-
     /**
      * @param array $state     State array received from Zookeeper or Solr
      * @param array $liveNodes

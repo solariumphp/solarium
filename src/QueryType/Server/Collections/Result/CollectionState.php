@@ -25,7 +25,7 @@ class CollectionState extends AbstractState
     }
 
     /**
-     * Name of the collection
+     * Name of the collection.
      *
      * @return string
      */
@@ -127,6 +127,7 @@ class CollectionState extends AbstractState
 
     /**
      * Array with shard names as keys and base URIs as values.
+     *
      * @return string[]
      */
     public function getShardLeadersBaseUris(): array
@@ -167,7 +168,7 @@ class CollectionState extends AbstractState
     }
 
     /**
-     * Get state array without the collection name key
+     * Get state array without the collection name key.
      *
      * @return mixed
      */
@@ -182,7 +183,7 @@ class CollectionState extends AbstractState
         $this->shards = [];
         foreach ($this->getState()[ZkStateReader::SHARDS_PROP] as $shardName => $shardState) {
             // @todo liveNodes?
-            $this->shards[$shardName] = new ShardState(array($shardName => $shardState), $this->liveNodes);
+            $this->shards[$shardName] = new ShardState([$shardName => $shardState], $this->liveNodes);
         }
     }
 

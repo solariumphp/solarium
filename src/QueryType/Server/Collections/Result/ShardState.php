@@ -48,7 +48,7 @@ class ShardState extends AbstractState
      * Sub-shards of a split shard are put in that state when the split is deemed failed by the overseer even though all
      * replicas are active because either the leader node is no longer live or has a different ephemeral owner (zk
      * session id).
-    */
+     */
     const RECOVERY_FAILED = 'recovery_failed';
 
     /**
