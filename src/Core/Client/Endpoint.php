@@ -46,9 +46,9 @@ class Endpoint extends Configurable
     /**
      * Get key value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getKey(): string
+    public function getKey(): ?string
     {
         return $this->getOption('key');
     }
