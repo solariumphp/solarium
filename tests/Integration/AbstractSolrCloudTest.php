@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\Integration\SolrCloud;
+namespace Solarium\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
@@ -15,7 +15,7 @@ abstract class AbstractSolrCloudTest extends TestCase
      */
     protected $client;
 
-    protected $collection = 'gettingstarted';
+    protected $collection = 'techproducts';
 
     public function setUp()
     {
@@ -25,7 +25,7 @@ abstract class AbstractSolrCloudTest extends TestCase
                     'host' => '127.0.0.1',
                     'port' => 8983,
                     'path' => '/solr/',
-                    'core' => $this->collection,
+                    'collection' => $this->collection,
                 ],
             ],
             // Curl is the default adapter.
@@ -38,7 +38,7 @@ abstract class AbstractSolrCloudTest extends TestCase
             $ping = $this->client->createPing();
             $this->client->ping($ping);
         } catch (\Exception $e) {
-            $this->markTestSkipped('SolrCloud gettingstarted example not reachable.');
+            $this->markTestSkipped('SolrCloud techproducts example not reachable.');
         }
     }
 

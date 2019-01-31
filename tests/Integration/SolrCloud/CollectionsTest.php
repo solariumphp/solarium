@@ -4,6 +4,7 @@ namespace Solarium\Tests\Integration\SolrCloud;
 
 use Solarium\Core\Client\State\ClusterState;
 use Solarium\QueryType\Server\Collections\Query\Query;
+use Solarium\Tests\Integration\AbstractSolrCloudTest;
 
 /**
  * Class CollectionsTest.
@@ -62,6 +63,6 @@ class CollectionsTest extends AbstractSolrCloudTest
         $this->assertSame(ClusterState::class, get_class($clusterState));
         $this->assertCount(2, $clusterState->getLiveNodes());
         $this->assertCount(1, $clusterState->getCollections());
-        $this->assertTrue($clusterState->collectionExists('gettingstarted'));
+        $this->assertTrue($clusterState->collectionExists('techproducts'));
     }
 }
