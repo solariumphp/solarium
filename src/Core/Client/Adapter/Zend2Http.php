@@ -228,11 +228,6 @@ class Zend2Http extends Configurable implements AdapterInterface
     {
         $helper = new AdapterHelper();
         $data = $helper->buildUploadBodyFromRequest($request);
-
-        $client->setFileUpload(
-            'content',
-            'content',
-            $data
-        );
+        $client->setRawBody($data);
     }
 }
