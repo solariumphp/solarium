@@ -7,12 +7,9 @@ use Solarium\QueryType\Server\Collections\Query\Query;
 use Solarium\Tests\Integration\AbstractSolrCloudTest;
 
 /**
- * Class CollectionsTest.
- *
- * @group integration
- * @group solr_cloud
+ * Abstract base class CollectionsTest.
  */
-class CollectionsTest extends AbstractSolrCloudTest
+abstract class AbstractCollectionsTest extends AbstractSolrCloudTest
 {
     /**
      * @var Query
@@ -22,9 +19,6 @@ class CollectionsTest extends AbstractSolrCloudTest
     public function setUp()
     {
         parent::setUp();
-        // The default timeout of solarium of 5s seems to be too aggressive on travis and causes random test failures.
-        // Set it to the PHP default of 13s.
-        $this->client->getEndpoint()->setTimeout(13);
         $this->query = $this->client->createCollections();
     }
 
