@@ -48,7 +48,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->getOption('key');
     }
@@ -60,7 +60,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setKey($value)
+    public function setKey($value): self
     {
         $this->setOption('key', $value);
         return $this;
@@ -73,7 +73,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setHost($host)
+    public function setHost($host): self
     {
         $this->setOption('host', $host);
         return $this;
@@ -84,7 +84,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getHost()
+    public function getHost(): string
     {
         return $this->getOption('host');
     }
@@ -96,7 +96,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setPort($port)
+    public function setPort($port): self
     {
         $this->setOption('port', $port);
         return $this;
@@ -107,7 +107,7 @@ class Endpoint extends Configurable
      *
      * @return int
      */
-    public function getPort()
+    public function getPort(): int
     {
         return $this->getOption('port');
     }
@@ -121,7 +121,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setPath($path)
+    public function setPath($path): self
     {
         if ('/' === substr($path, -1)) {
             $path = substr($path, 0, -1);
@@ -136,7 +136,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->getOption('path');
     }
@@ -148,7 +148,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setCollection($collection)
+    public function setCollection($collection): self
     {
         $this->setOption('collection', $collection);
         return $this;
@@ -159,7 +159,7 @@ class Endpoint extends Configurable
      *
      * @return string|null
      */
-    public function getCollection()
+    public function getCollection(): ?string
     {
         return $this->getOption('collection');
     }
@@ -171,7 +171,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setCore($core)
+    public function setCore($core): self
     {
         $this->setOption('core', $core);
         return $this;
@@ -180,9 +180,9 @@ class Endpoint extends Configurable
     /**
      * Get core option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getCore()
+    public function getCore(): ?string
     {
         if (null === $this->getOption('core') && null !== $this->getOption('collection')) {
             return $this->getCollection();
@@ -207,9 +207,9 @@ class Endpoint extends Configurable
     /**
      * Get timeout option.
      *
-     * @return string
+     * @return int
      */
-    public function getTimeout(): string
+    public function getTimeout(): int
     {
         return $this->getOption('timeout');
     }
@@ -232,7 +232,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getScheme()
+    public function getScheme(): string
     {
         return $this->getOption('scheme');
     }
@@ -263,7 +263,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getCoreBaseUri()
+    public function getCoreBaseUri(): string
     {
         $uri = $this->getServerUri();
         $core = $this->getCore();
@@ -284,7 +284,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getBaseUri()
+    public function getBaseUri(): string
     {
         $message = 'Endpoint::getBaseUri is deprecated since Solarium 4.2, will be removed in Solarium 5.'.
             'please use getServerUri or getCoreBaseUri now.';
@@ -298,7 +298,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function getServerUri()
+    public function getServerUri(): string
     {
         return $this->getScheme().'://'.$this->getHost().':'.$this->getPort().$this->getPath().'/';
     }
@@ -313,7 +313,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setAuthentication($username, $password)
+    public function setAuthentication($username, $password): self
     {
         $this->setOption('username', $username);
         $this->setOption('password', $password);
@@ -326,7 +326,7 @@ class Endpoint extends Configurable
      *
      * @return array
      */
-    public function getAuthentication()
+    public function getAuthentication(): array
     {
         return [
             'username' => $this->getOption('username'),
@@ -341,7 +341,7 @@ class Endpoint extends Configurable
      *
      * @return $this
      */
-    public function setLeader(bool $leader)
+    public function setLeader(bool $leader): self
     {
         $this->setOption('leader', $leader);
         return $this;

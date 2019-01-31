@@ -96,7 +96,7 @@ class ShardState extends AbstractState
      *
      * @return ReplicaState|null
      */
-    public function getShardLeader()//: ?ReplicaState // @todo can return null, wait for PHP 7.1 for this to work
+    public function getShardLeader(): ?ReplicaState
     {
         if (isset($this->replicas[$this->shardLeader]) && $this->replicas[$this->shardLeader]->isActive()) {
             return $this->replicas[$this->shardLeader];
@@ -108,8 +108,7 @@ class ShardState extends AbstractState
     /**
      * @return string|null
      */
-    public function getShardLeaderBaseUri()//: ?string // @todo wait for PHP 7.1 to support this
-    : string
+    public function getShardLeaderBaseUri(): ?string
     {
         if ($this->getShardLeader() instanceof ReplicaState) {
             return null !== $this->getShardLeader() ? $this->getShardLeader()->getServerUri() : null;
