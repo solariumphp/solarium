@@ -3,10 +3,7 @@
 namespace Solarium\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\ComponentAwareQueryInterface;
-use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Core\Client\ClientInterface;
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 abstract class AbstractSolrCloudTest extends TestCase
 {
@@ -50,18 +47,5 @@ abstract class AbstractSolrCloudTest extends TestCase
         $ping = $this->client->createPing();
         $result = $this->client->ping($ping);
         $this->assertSame(0, $result->getStatus());
-    }
-}
-
-class TestQuery extends SelectQuery
-{
-    use TermsTrait;
-
-    public function __construct($options = null)
-    {
-        parent::__construct($options);
-        $this->componentTypes[ComponentAwareQueryInterface::COMPONENT_TERMS] = 'Solarium\Component\Terms';
-        // Unfortunately the terms request Handler is the only one containing a terms component.
-        $this->setHandler('terms');
     }
 }
