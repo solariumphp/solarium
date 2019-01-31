@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 - Symfony 2.x support
+- PHP 7.0 support
 
 ### Fixed
 - Support for add-distinct and removeregex modifiers in Document::setFieldModifier
