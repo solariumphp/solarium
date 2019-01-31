@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 - Symfony 2.x support
+- Zend 1.x support
 - PHP 7.0 support
 
 ### Fixed

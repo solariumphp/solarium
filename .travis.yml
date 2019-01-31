@@ -9,10 +9,10 @@ php:
   - nightly
 
 env:
-  - SYMFONY_VERSION=3.3.* SOLR_VERSION=6.6.5 SOLRCLOUD=false
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5 SOLRCLOUD=false
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.6.0 SOLRCLOUD=false
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.6.0 SOLRCLOUD=true
+  - SYMFONY_VERSION=3.3.* SOLR_VERSION=6.6.5 SOLR_CLOUD=false
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5 SOLR_CLOUD=false
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.6.0 SOLR_CLOUD=false
+  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.6.0 SOLR_CLOUD=true
 
 cache:
   directories:
@@ -29,20 +29,20 @@ before_script:
 #  - pecl install pecl_http
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
   - |
-    if [ ${SOLRCLOUD} == "true" ]; then
+    if [ ${SOLR_CLOUD} == "true" ]; then
        solr-${SOLR_VERSION}/bin/solr start -c -e cloud -noprompt || travis_terminate 1;
        solr-${SOLR_VERSION}/bin/solr delete -c gettingstarted || travis_terminate 1;
-       solr-${SOLR_VERSION}/bin/solr create -c techproducts -s 2 -rf 2 -n sample_techproducts_configs || travis_terminate 1;
-       solr-${SOLR_VERSION}/bin/post -c techproducts solr-${SOLR_VERSION}/example/exampledocs/* || travis_terminate 1;
+       solr-${SOLR_VERSION}/bin/solr create -c techproducts -s 2 -rf 2 -d solr-${SOLR_VERSION}/server/solr/configsets/sample_techproducts_configs/conf -n sample_techproducts_configs || travis_terminate 1;
+       solr-${SOLR_VERSION}/bin/post -c techproducts solr-${SOLR_VERSION}/example/exampledocs/*.xml || travis_terminate 1;
      else
        solr-${SOLR_VERSION}/bin/solr start -e techproducts || travis_terminate 1;
-       #make configSet's available for techproducts instance
+       # make configSet's available for techproducts instance
        cp -R solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/ || travis_terminate 1;
     fi
 
 script:
   - |
-     if [ ${SOLRCLOUD} == "true" ]; then
+     if [ ${SOLR_CLOUD} == "true" ]; then
        vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_no_cloud -v || travis_terminate 1;
      else
        vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_cloud -v || travis_terminate 1;
