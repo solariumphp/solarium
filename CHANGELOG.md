@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Experimental support for collection API
 
+### Changed
+- Deprecation of Endpoint::getBaseUri is revoked! It transparently forwards to getCollectionBaseUri or getCoreBaseUri now.
 ### Removed
 - Symfony 2.x support
 - Zend 1.x support

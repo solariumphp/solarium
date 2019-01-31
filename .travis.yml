@@ -30,7 +30,7 @@ before_script:
   - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
   - |
     if [ ${SOLR_CLOUD} == "true" ]; then
-       solr-${SOLR_VERSION}/bin/solr start -c -e cloud -noprompt || travis_terminate 1;
+       solr-${SOLR_VERSION}/bin/solr start -e cloud -noprompt || travis_terminate 1;
        solr-${SOLR_VERSION}/bin/solr delete -c gettingstarted || travis_terminate 1;
        solr-${SOLR_VERSION}/bin/solr create -c techproducts -s 2 -rf 2 -d solr-${SOLR_VERSION}/server/solr/configsets/sample_techproducts_configs/conf -n sample_techproducts_configs || travis_terminate 1;
        solr-${SOLR_VERSION}/bin/post -c techproducts solr-${SOLR_VERSION}/example/exampledocs/*.xml || travis_terminate 1;

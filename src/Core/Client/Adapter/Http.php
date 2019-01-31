@@ -27,7 +27,7 @@ class Http extends Configurable implements AdapterInterface
     public function execute($request, $endpoint)
     {
         $context = $this->createContext($request, $endpoint);
-        $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getCoreBaseUri();
+        $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getBaseUri();
         $uri = $baseUri.$request->getUri();
 
         list($data, $headers) = $this->getData($uri, $context);

@@ -3,6 +3,7 @@
 namespace Solarium\Core\Client;
 
 use Solarium\Core\Configurable;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Class for describing an endpoint.
@@ -38,7 +39,7 @@ class Endpoint extends Configurable
      */
     public function __toString()
     {
-        $output = __CLASS__.'::__toString'."\n".'base uri: '.$this->getCoreBaseUri()."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
+        $output = __CLASS__.'::__toString'."\n".'base uri: '.$this->getBaseUri()."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
 
         return $output;
     }
@@ -184,10 +185,6 @@ class Endpoint extends Configurable
      */
     public function getCore(): ?string
     {
-        if (null === $this->getOption('core') && null !== $this->getOption('collection')) {
-            return $this->getCollection();
-        }
-
         return $this->getOption('core');
     }
 
@@ -243,14 +240,19 @@ class Endpoint extends Configurable
      * Based on host, path, port and collection options.
      *
      * @return string
+     *
+     * @throws UnexpectedValueException
      */
     public function getCollectionBaseUri(): string
     {
         $uri = $this->getServerUri();
         $collection = $this->getCollection();
 
-        if (null !== $collection) {
+        if ($collection) {
             $uri .= $collection.'/';
+        }
+        else {
+            throw new UnexpectedValueException();
         }
 
         return $uri;
@@ -262,14 +264,19 @@ class Endpoint extends Configurable
      * Based on host, path, port and core options.
      *
      * @return string
+     *
+     * @throws UnexpectedValueException
      */
     public function getCoreBaseUri(): string
     {
         $uri = $this->getServerUri();
         $core = $this->getCore();
 
-        if (!empty($core)) {
+        if ($core) {
             $uri .= $core.'/';
+        }
+        else {
+            throw new UnexpectedValueException();
         }
 
         return $uri;
@@ -278,19 +285,18 @@ class Endpoint extends Configurable
     /**
      * Get the base url for all requests.
      *
-     * Based on host, path, port and core options.
-     *
-     * @deprecated Please use getCollectionBaseUri, getCoreBaseUri or getServerUri now, will be removed in Solarium 5
-     *
      * @return string
+     *
+     * @throws UnexpectedValueException
      */
     public function getBaseUri(): string
     {
-        $message = 'Endpoint::getBaseUri is deprecated since Solarium 4.2, will be removed in Solarium 5.'.
-            'please use getServerUri or getCoreBaseUri now.';
-        @trigger_error($message, E_USER_DEPRECATED);
-
-        return $this->getCoreBaseUri();
+        try {
+            return $this->getCollectionBaseUri();
+        }
+        catch (UnexpectedValueException $e) {
+            return $this->getCoreBaseUri();
+        }
     }
 
     /**

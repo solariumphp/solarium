@@ -172,7 +172,7 @@ class Zend2Http extends Configurable implements AdapterInterface
                 break;
         }
 
-        $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getCoreBaseUri();
+        $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getBaseUri();
         $uri = $baseUri.$request->getUri();
         $client->setUri($uri);
         $client->setHeaders($request->getHeaders());

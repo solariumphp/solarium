@@ -235,8 +235,8 @@ class Client extends Configurable implements ClientInterface
      *
      * If an EventDispatcher instance is provided this will be used instead of creating a new instance
      *
-     * @param array|\Zend_Config $options
-     * @param EventDispatcher    $eventDispatcher
+     * @param array           $options
+     * @param EventDispatcher $eventDispatcher
      */
     public function __construct($options = null, $eventDispatcher = null)
     {

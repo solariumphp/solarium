@@ -2,6 +2,8 @@
 
 namespace Solarium\Tests\Integration\SolrCloud;
 
+use Solarium\Core\Client\Adapter\Guzzle;
+
 /**
  * @group integration
  * @group solr_cloud
@@ -14,7 +16,7 @@ class CollectionsGuzzleTest extends AbstractCollectionsTest
             $this->markTestSkipped('Guzzle 6 not installed');
         } else {
             parent::setUp();
-            $this->client->setAdapter('Solarium\Core\Client\Adapter\Guzzle');
+            $this->client->setAdapter(Guzzle::class);
         }
     }
 }
