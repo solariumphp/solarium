@@ -226,12 +226,13 @@ class Zend2Http extends Configurable implements AdapterInterface
      */
     protected function prepareFileUpload($client, $request)
     {
-        $filename = $request->getFileUpload();
+        $helper = new AdapterHelper();
+        $data = $helper->buildUploadBodyFromRequest($request);
+
         $client->setFileUpload(
             'content',
             'content',
-            file_get_contents($filename),
-            'application/octet-stream; charset=binary'
+            $data
         );
     }
 }

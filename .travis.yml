@@ -36,7 +36,7 @@ before_script:
        solr-${SOLR_VERSION}/bin/post -c techproducts solr-${SOLR_VERSION}/example/exampledocs/*.xml || travis_terminate 1;
      else
        solr-${SOLR_VERSION}/bin/solr start -e techproducts || travis_terminate 1;
-       # make configSet's available for techproducts instance
+       # make configsets available for techproducts instance for core admin tests
        cp -R solr-${SOLR_VERSION}/server/solr/configsets solr-${SOLR_VERSION}/example/techproducts/solr/ || travis_terminate 1;
     fi
 
