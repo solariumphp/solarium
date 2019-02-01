@@ -21,7 +21,7 @@ class Suggester extends AbstractComponent implements SuggesterInterface, QueryIn
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return ComponentAwareQueryInterface::COMPONENT_SUGGESTER;
     }

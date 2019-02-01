@@ -90,7 +90,7 @@ class Query extends BaseQuery
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return Client::QUERY_UPDATE;
     }

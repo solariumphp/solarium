@@ -31,7 +31,7 @@ class Query extends AbstractFacet implements QueryInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return FacetSetInterface::FACET_QUERY;
     }

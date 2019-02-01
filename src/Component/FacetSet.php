@@ -43,7 +43,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return ComponentAwareQueryInterface::COMPONENT_FACETSET;
     }

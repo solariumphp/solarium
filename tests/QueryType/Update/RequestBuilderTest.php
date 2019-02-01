@@ -462,7 +462,7 @@ class RequestBuilderTest extends TestCase
 
 class InvalidCommand extends \stdClass
 {
-    public function getType()
+    public function getType(): string
     {
         return 'invalid';
     }

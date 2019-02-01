@@ -27,7 +27,7 @@ class Field extends AbstractQuery
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return Client::QUERY_ANALYSIS_FIELD;
     }

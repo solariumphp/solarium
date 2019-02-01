@@ -20,7 +20,7 @@ class Interval extends AbstractFacet
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return FacetSetInterface::FACET_INTERVAL;
     }

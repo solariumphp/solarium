@@ -4,9 +4,23 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.2.1]
+## [4.3.0-alpha.1]
+### Added
+- Experimental support for collection API
+
+### Changed
+- Deprecation of Endpoint::getBaseUri is revoked! It transparently forwards to getCollectionBaseUri or getCoreBaseUri now
+- Endpoint::getBaseUri, ::getBaseCoreUri and ::getBaseCollectionUri throw UnexpectedValueException if no core or collection has been set
+
+### Removed
+- Symfony 2.x support
+- Zend 1.x support
+- PECL::Http adapter
+- PHP 7.0 support
+
 ### Fixed
 - Support for add-distinct and removeregex modifiers in Document::setFieldModifier
+- Zend2Http adapter caused duplicate request parameters
 
 
 ## [4.2.0]
@@ -19,6 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Support for managed resources
 - Support for add-distinct and removeregex modifiers
+- Basic support for Collections API (create, delete, reload, clusterstatus)
 
 ## [4.2.0-beta.1]
 ### Added
@@ -34,7 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Managed resources, stopwords and synonyms query types
 
 ### Deprecated
-- Endpoint::getBaseUri is deprecated. Please use getServerUri or getCoreBaseUri now.
+- Endpoint::getBaseUri is deprecated. Please use getServerUri or getCoreBaseUri now
 
 ### Fixed
 - Allow multiple Field Facets for the same field by dynamically using local facet params if required

@@ -21,7 +21,7 @@ class Spellcheck extends AbstractComponent implements SpellcheckInterface, Query
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return ComponentAwareQueryInterface::COMPONENT_SPELLCHECK;
     }

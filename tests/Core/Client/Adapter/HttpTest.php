@@ -27,6 +27,7 @@ class HttpTest extends TestCase
 
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
+        $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
         /** @var Http|MockObject $mock */
@@ -47,6 +48,7 @@ class HttpTest extends TestCase
         $data = 'test123';
 
         $request = new Request();
+        $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
         /** @var Http|MockObject $mock */
@@ -88,6 +90,7 @@ class HttpTest extends TestCase
 
         $request = new Request();
         $request->setMethod($method);
+        $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
         $endpoint->setTimeout($timeout);
 
@@ -110,6 +113,7 @@ class HttpTest extends TestCase
         $request->setMethod($method);
         $request->addHeader($header1);
         $request->addHeader($header2);
+        $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
         $endpoint->setTimeout($timeout);
 
@@ -130,6 +134,7 @@ class HttpTest extends TestCase
         $request = new Request();
         $request->setMethod($method);
         $request->setRawData($data);
+        $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
         $endpoint->setTimeout($timeout);
 
@@ -152,11 +157,11 @@ class HttpTest extends TestCase
     {
         $timeout = 13;
         $method = Request::METHOD_POST;
-        $data = 'test123';
 
         $request = new Request();
         $request->setMethod($method);
         $request->setFileUpload(__FILE__);
+        $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
         $endpoint->setTimeout($timeout);
 
@@ -186,6 +191,7 @@ class HttpTest extends TestCase
         $request = new Request();
         $request->setMethod($method);
         $request->setAuthentication('someone', 'S0M3p455');
+        $request->setIsServerRequest(true);
 
         $endpoint = new Endpoint();
         $endpoint->setTimeout($timeout);
@@ -211,6 +217,7 @@ class HttpTest extends TestCase
 
         $request = new Request();
         $request->setMethod($method);
+        $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
         $endpoint->setTimeout($timeout);
 

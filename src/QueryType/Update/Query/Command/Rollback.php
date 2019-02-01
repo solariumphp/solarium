@@ -16,7 +16,7 @@ class Rollback extends AbstractCommand
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return UpdateQuery::COMMAND_ROLLBACK;
     }

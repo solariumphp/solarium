@@ -49,6 +49,7 @@ final class Guzzle3Test extends TestCase
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
         $request->addHeader('X-PHPUnit: request value');
+        $request->setIsServerRequest(true);
 
         $endpoint = new Endpoint();
         $endpoint->setTimeout(10);
@@ -92,6 +93,7 @@ final class Guzzle3Test extends TestCase
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
         $request->addHeader('X-PHPUnit: request value');
+        $request->setIsServerRequest(true);
         $request->setFileUpload(__FILE__);
 
         $endpoint = new Endpoint();
@@ -137,6 +139,7 @@ final class Guzzle3Test extends TestCase
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
         $request->addHeader('X-PHPUnit: request value');
+        $request->setIsServerRequest(true);
         $xml = '<root><parent><child>some data</child></parent></root>';
         $request->setRawData($xml);
 
@@ -187,6 +190,7 @@ final class Guzzle3Test extends TestCase
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
         $request->addHeader('X-PHPUnit: request value');
+        $request->setIsServerRequest(true);
         $request->setAuthentication('username', 's3cr3t');
 
         $endpoint = new Endpoint();
@@ -230,6 +234,7 @@ final class Guzzle3Test extends TestCase
     {
         $request = new Request();
         $request->setMethod(Request::METHOD_GET);
+        $request->setIsServerRequest(true);
 
         $endpoint = new Endpoint(
             [

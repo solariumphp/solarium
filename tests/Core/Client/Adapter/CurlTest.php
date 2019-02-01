@@ -72,6 +72,7 @@ class CurlTest extends TestCase
     {
         $request = new Request();
         $request->setMethod(Request::METHOD_DELETE);
+        $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
         $curlAdapter = new Curl();

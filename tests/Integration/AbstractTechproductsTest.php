@@ -121,6 +121,11 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(10, $result->count());
     }
 
+    /**
+     * @todo this test should pass on Solr Cloud!
+     *
+     * @group solr_no_cloud
+     */
     public function testFacetHighlightSpellcheckComponent()
     {
         $select = $this->client->createSelect();
@@ -259,6 +264,11 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $words);
     }
 
+    /**
+     * @todo this test should pass on Solr Cloud!
+     *
+     * @group solr_no_cloud
+     */
     public function testSuggester()
     {
         $suggester = $this->client->createSuggester();
@@ -285,6 +295,11 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $phrases);
     }
 
+    /**
+     * @todo this test should pass on Solr Cloud!
+     *
+     * @group solr_no_cloud
+     */
     public function testTerms()
     {
         $terms = $this->client->createTerms();
@@ -305,6 +320,11 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $result->getTerms('name'));
     }
 
+    /**
+     * @todo this test should pass on Solr Cloud!
+     *
+     * @group solr_no_cloud
+     */
     public function testTermsComponent()
     {
         $this->client->registerQueryType('test', '\Solarium\Tests\Integration\TestQuery');
@@ -501,6 +521,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame('PDF Test', trim($content), 'Can not extract the plain content from the file');
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testCanReloadCore()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
@@ -519,6 +542,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->client->coreAdmin($coreAdminQuery);
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testCoreAdminStatus()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
@@ -546,6 +572,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertNull($response->getStatusResult()->getStartTime());
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testSplitAndMerge()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
@@ -624,6 +653,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($response->getWasSuccessful());
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testGetStatusFromAllCoreWhenNoCoreNameWasSet()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
@@ -655,6 +687,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($response->getWasSuccessful());
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testManagedStopwords()
     {
         $query = $this->client->createManagedStopwords();
@@ -699,6 +734,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->client->execute($query);
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testManagedSynonyms()
     {
         $query = $this->client->createManagedSynonyms();
@@ -755,6 +793,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->client->execute($query);
     }
 
+    /**
+     * @group solr_no_cloud
+     */
     public function testManagedResources()
     {
         $query = $this->client->createManagedResources();

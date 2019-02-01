@@ -63,11 +63,11 @@ class Zend2HttpTest extends TestCase
         $request = new Request();
         $request->setMethod($requestMethod);
         $request->addParams($passedGetParameters);
+        $request->setIsServerRequest(true);
 
         $endpoint = new Endpoint();
 
         $this->zendClientMock->expects($this->once())->method('setMethod')->with($passedHttpMethodString);
-        $this->zendClientMock->expects($this->once())->method('setParameterGet')->with($passedGetParameters);
 
         $this->adapter->execute($request, $endpoint);
     }

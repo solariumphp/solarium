@@ -43,58 +43,11 @@ As this is the default adapter you don't need any settings or API calls to use i
 The curl adapter support the use of a proxy. Use the adapter option `proxy` to enable this.
 
 
-PeclHttp adapter
-================
+Guzzle adapter
+==============
 
-The PeclHttp adapter makes use of the [pecl\_http package](http://pecl.php.net/package/pecl_http). So to use this adapter you need to have Pecl Http installed.
+todo
 
-The functionality offered by this adapter is the same as the default adapter, but the HTTP requests are executed using Pecl Http.
-
-```php
-<?php
-
-require_once 'Zend/Loader/Autoloader.php';
-$loader = Zend_Loader_Autoloader::getInstance();
-
-require(__DIR__.'/init.php');
-htmlHeader();
-
-// create a client instance
-$client = new Solarium\Client($config);
-
-// set the adapter to peclhttp
-$client->setAdapter('Solarium\Core\Client\Adapter\PeclHttp');
-
-// get a select query instance
-$query = $client->createSelect();
-
-// this executes the query and returns the result
-$resultset = $client->select($query);
-
-// display the total number of documents found by solr
-echo 'NumFound: '.$resultset->getNumFound();
-
-// show documents using the resultset iterator
-foreach ($resultset as $document) {
-
-    echo '<hr/><table>';
-
-    // the documents are also iterable, to get all fields
-    foreach ($document as $field => $value) {
-        // this converts multivalue fields to a comma-separated string
-        if (is_array($value)) {
-            $value = implode(', ', $value);
-        }
-
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
-    }
-
-    echo '</table>';
-}
-
-htmlFooter();
-
-```
 
 HttpAdapter
 ===========
@@ -147,10 +100,10 @@ htmlFooter();
 
 ```
 
-ZendHttp adapter
+Zend2Http adapter
 ================
 
-The ZendHttp adapter makes use of the Zend\_Http component in Zend Framework (version 1). So to use this adapter you need to have ZF available. By using Zend\_Http all the features of this component are available:
+The ZendHttp adapter makes use of the Zend\_Http component in Zend Framework (version 3). So to use this adapter you need to have ZF available. By using Zend\_Http all the features of this component are available:
 
 -   multiple adapter implementations
 -   keepalive
@@ -164,9 +117,6 @@ The base functionality is the same as the default adapter. The only difference i
 ```php
 <?php
 
-require_once 'Zend/Loader/Autoloader.php';
-$loader = Zend_Loader_Autoloader::getInstance();
-
 require(__DIR__.'/init.php');
 htmlHeader();
 
@@ -174,38 +124,7 @@ htmlHeader();
 $client = new Solarium\Client($config);
 
 // set the adapter to zendhttp and get a zendhttp client instance reference
-$client->setAdapter('Solarium\Core\Client\Adapter\ZendHttp');
-$zendHttp = $client->getAdapter()->getZendHttp();
-
-// you can use any of the zend_http features, like http-authentication
-$zendHttp->setAuth('user', 'password!', Zend_Http_Client::AUTH_BASIC);
-
-// get a select query instance
-$query = $client->createSelect();
-
-// this executes the query and returns the result
-$resultset = $client->select($query);
-
-// display the total number of documents found by solr
-echo 'NumFound: '.$resultset->getNumFound();
-
-// show documents using the resultset iterator
-foreach ($resultset as $document) {
-
-    echo '<hr/><table>';
-
-    // the documents are also iterable, to get all fields
-    foreach ($document as $field => $value) {
-        // this converts multivalue fields to a comma-separated string
-        if (is_array($value)) {
-            $value = implode(', ', $value);
-        }
-
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
-    }
-
-    echo '</table>';
-}
+$client->setAdapter('Solarium\Core\Client\Adapter\Zend2Http');
 
 htmlFooter();
 

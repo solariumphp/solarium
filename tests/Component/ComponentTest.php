@@ -25,7 +25,7 @@ class ComponentTest extends TestCase
 
 class TestComponent extends AbstractComponent
 {
-    public function getType()
+    public function getType(): string
     {
         return 'testtype';
     }

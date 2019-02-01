@@ -160,7 +160,7 @@ class RequestBuilderTest extends TestCase
 
 class TestDummyComponent extends AbstractComponent
 {
-    public function getType()
+    public function getType(): string
     {
         return 'testcomponent';
     }

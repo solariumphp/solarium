@@ -14,7 +14,7 @@ interface QueryInterface extends ConfigurableInterface
      *
      * @return string
      */
-    public function getType();
+    public function getType(): string;
 
     /**
      * Get the requestbuilder class for this query.

@@ -27,7 +27,7 @@ abstract class AbstractResponseParser
             $key = $data[$i];
             $value = $data[$i + 1];
             if (array_key_exists($key, $keys)) {
-                if (1 == $keys[$key]) {
+                if (1 === $keys[$key]) {
                     $result[$key] = [$result[$key]];
                 }
                 $result[$key][] = $value;
