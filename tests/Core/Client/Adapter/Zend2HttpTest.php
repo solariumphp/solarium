@@ -63,6 +63,7 @@ class Zend2HttpTest extends TestCase
         $request = new Request();
         $request->setMethod($requestMethod);
         $request->addParams($passedGetParameters);
+        $request->setIsServerRequest(true);
 
         $endpoint = new Endpoint();
 

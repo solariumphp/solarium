@@ -4,6 +4,7 @@ namespace Solarium\Tests\Core\Client;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Exception\UnexpectedValueException;
 
 class EndpointTest extends TestCase
 {
@@ -62,6 +63,12 @@ class EndpointTest extends TestCase
         $this->assertSame('/mysolr', $this->endpoint->getPath());
     }
 
+    public function testSetAndGetCollection()
+    {
+        $this->endpoint->setCollection('collection1');
+        $this->assertSame('collection1', $this->endpoint->getCollection());
+    }
+
     public function testSetAndGetCore()
     {
         $this->endpoint->setCore('core1');
@@ -80,11 +87,37 @@ class EndpointTest extends TestCase
         $this->assertSame('https', $this->endpoint->getScheme());
     }
 
+    public function testGetCollectionBaseUri()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
+        $this->expectException(UnexpectedValueException::class);
+        $this->assertSame('http://myserver:123/mypath/collection1', $this->endpoint->getCollectionBaseUri());
+
+        $this->endpoint->setCollection('collection1');
+        $this->assertSame('http://myserver:123/mypath/collection1', $this->endpoint->getCollectionBaseUri());
+    }
+
     public function testGetCoreBaseUri()
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
+        $this->expectException(UnexpectedValueException::class);
+        $this->assertSame('http://myserver:123/mypath/core1', $this->endpoint->getCoreBaseUri());
 
-        $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getCoreBaseUri());
+        $this->endpoint->setCore('core1');
+        $this->assertSame('http://myserver:123/mypath/core1', $this->endpoint->getCoreBaseUri());
+    }
+
+    public function testGetBaseUri()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
+        $this->expectException(UnexpectedValueException::class);
+        $this->assertSame('http://myserver:123/mypath/core1', $this->endpoint->getCoreBaseUri());
+
+        $this->endpoint->setCore('core1');
+        $this->assertSame('http://myserver:123/mypath/core1', $this->endpoint->getCoreBaseUri());
+
+        $this->endpoint->setCollection('collection1');
+        $this->assertSame('http://myserver:123/mypath/collection1', $this->endpoint->getCollectionBaseUri());
     }
 
     public function testGetServerUri()
@@ -96,7 +129,7 @@ class EndpointTest extends TestCase
 
     public function testGetCoreBaseUriWithHttps()
     {
-        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123);
+        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('core1');
 
         $this->assertSame('https://myserver:123/mypath/', $this->endpoint->getCoreBaseUri());
     }
@@ -106,13 +139,6 @@ class EndpointTest extends TestCase
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123);
 
         $this->assertSame('https://myserver:123/mypath/', $this->endpoint->getServerUri());
-    }
-
-    public function testGetCoreBaseUriWithCore()
-    {
-        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('mycore');
-
-        $this->assertSame('http://myserver:123/mypath/mycore/', $this->endpoint->getCoreBaseUri());
     }
 
     public function testServerUriDoesNotContainCoreSegment()
