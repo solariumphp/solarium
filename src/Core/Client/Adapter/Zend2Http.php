@@ -137,32 +137,27 @@ class Zend2Http extends Configurable implements AdapterInterface
         switch ($request->getMethod()) {
             case Request::METHOD_GET:
                 $client->setMethod('GET');
-                $client->setParameterGet($request->getParams());
                 break;
             case Request::METHOD_POST:
                 $client->setMethod('POST');
                 if ($request->getFileUpload()) {
                     $this->prepareFileUpload($client, $request);
                 } else {
-                    $client->setParameterGet($request->getParams());
                     $client->setRawBody($request->getRawData());
                     $request->addHeader('Content-Type: text/xml; charset=UTF-8');
                 }
                 break;
             case Request::METHOD_HEAD:
                 $client->setMethod('HEAD');
-                $client->setParameterGet($request->getParams());
                 break;
             case Request::METHOD_DELETE:
                 $client->setMethod('DELETE');
-                $client->setParameterGet($request->getParams());
                 break;
             case Request::METHOD_PUT:
                 $client->setMethod('PUT');
                 if ($request->getFileUpload()) {
                     $this->prepareFileUpload($client, $request);
                 } else {
-                    $client->setParameterGet($request->getParams());
                     $client->setRawBody($request->getRawData());
                     $request->addHeader('Content-Type: application/json; charset=UTF-8');
                 }
@@ -174,6 +169,7 @@ class Zend2Http extends Configurable implements AdapterInterface
 
         $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getBaseUri();
         $uri = $baseUri.$request->getUri();
+
         $client->setUri($uri);
         $client->setHeaders($request->getHeaders());
         $this->timeout = $endpoint->getTimeout();
