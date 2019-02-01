@@ -48,6 +48,7 @@ class HttpTest extends TestCase
         $data = 'test123';
 
         $request = new Request();
+        $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
         /** @var Http|MockObject $mock */

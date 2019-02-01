@@ -32,8 +32,6 @@ class PluginTest extends TestCase
 
     public function testEventHooksEmpty()
     {
-        $this->markTestSkipped('This test is currently skipped for unknown reasons.');
-
         $this->assertNull($this->plugin->preCreateRequest(null));
         $this->assertNull($this->plugin->postCreateRequest(null, null));
         $this->assertNull($this->plugin->preExecuteRequest(null));
