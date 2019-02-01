@@ -250,8 +250,7 @@ class Endpoint extends Configurable
 
         if ($collection) {
             $uri .= $collection.'/';
-        }
-        else {
+        } else {
             throw new UnexpectedValueException('No collection set.');
         }
 
@@ -274,8 +273,7 @@ class Endpoint extends Configurable
 
         if ($core) {
             $uri .= $core.'/';
-        }
-        else {
+        } else {
             throw new UnexpectedValueException('No core set.');
         }
 
@@ -293,12 +291,10 @@ class Endpoint extends Configurable
     {
         try {
             return $this->getCollectionBaseUri();
-        }
-        catch (UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             try {
                 return $this->getCoreBaseUri();
-            }
-            catch (UnexpectedValueException $e) {
+            } catch (UnexpectedValueException $e) {
                 throw new UnexpectedValueException('Neither collection nor core set.');
             }
         }
