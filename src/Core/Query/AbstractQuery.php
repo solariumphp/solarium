@@ -211,7 +211,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     {
         $responseWriter = $this->getOption('responsewriter');
         if (null === $responseWriter) {
-            $responseWriter = self::WT_JSON;
+            $responseWriter = self::WT_PHPS;
         }
 
         return $responseWriter;
@@ -265,5 +265,27 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     public function getTimeZone()
     {
         return $this->getOption('timezone');
+    }
+
+    /**
+     * Set distrib option.
+     *
+     * @param bool $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setDistrib($value): self
+    {
+        return $this->setOption('distrib', $value);
+    }
+
+    /**
+     * Get distrib option.
+     *
+     * @return bool
+     */
+    public function getDistrib(): bool
+    {
+        return $this->getOption('distrib');
     }
 }

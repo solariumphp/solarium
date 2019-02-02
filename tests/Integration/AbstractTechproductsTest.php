@@ -264,11 +264,6 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $words);
     }
 
-    /**
-     * @todo this test should pass on Solr Cloud!
-     *
-     * @group solr_no_cloud
-     */
     public function testSuggester()
     {
         $suggester = $this->client->createSuggester();
@@ -295,11 +290,6 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $phrases);
     }
 
-    /**
-     * @todo this test should pass on Solr Cloud!
-     *
-     * @group solr_no_cloud
-     */
     public function testTerms()
     {
         $terms = $this->client->createTerms();
@@ -320,11 +310,6 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $result->getTerms('name'));
     }
 
-    /**
-     * @todo this test should pass on Solr Cloud!
-     *
-     * @group solr_no_cloud
-     */
     public function testTermsComponent()
     {
         $this->client->registerQueryType('test', '\Solarium\Tests\Integration\TestQuery');
@@ -515,10 +500,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->addParam('extractFormat', 'text');
 
         $response = $this->client->extract($query);
-        $json = json_decode($response->getResponse()->getBody());
-
-        $content = $json->{$fileName};
-        $this->assertSame('PDF Test', trim($content), 'Can not extract the plain content from the file');
+        $this->assertSame('PDF Test', trim($response->getData()["testpdf.pdf"]), 'Can not extract the plain content from the file');
     }
 
     /**
