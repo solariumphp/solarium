@@ -1,24 +1,52 @@
 <?php
 
-namespace Solarium\Tests\Integration\SolrCloud;
+namespace Solarium\Tests\Integration;
 
+use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\State\ClusterState;
 use Solarium\QueryType\Server\Collections\Query\Query;
-use Solarium\Tests\Integration\AbstractSolrCloudTest;
 
 /**
  * Abstract base class CollectionsTest.
  */
-abstract class AbstractCollectionsTest extends AbstractSolrCloudTest
+abstract class AbstractCollectionsTest extends AbstractTechproductsTest
 {
     /**
      * @var Query
      */
     protected $query;
 
+    /**
+     * @var ClientInterface
+     */
+    protected $client;
+
+    protected $collection = 'techproducts';
+
     public function setUp()
     {
-        parent::setUp();
+        $config = [
+            'endpoint' => [
+                'localhost' => [
+                    'host' => '127.0.0.1',
+                    'port' => 8983,
+                    'path' => '/solr/',
+                    'collection' => $this->collection,
+                ],
+            ],
+            // Curl is the default adapter.
+            //'adapter' => 'Solarium\Core\Client\Adapter\Curl',
+        ];
+
+        $this->client = new \Solarium\Client($config);
+
+        try {
+            $ping = $this->client->createPing();
+            $this->client->ping($ping);
+        } catch (\Exception $e) {
+            $this->markTestSkipped('SolrCloud techproducts example not reachable.');
+        }
+
         $this->query = $this->client->createCollections();
     }
 

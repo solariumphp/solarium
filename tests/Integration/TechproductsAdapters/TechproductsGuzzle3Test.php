@@ -2,12 +2,13 @@
 
 namespace Solarium\Tests\Integration\TechproductsAdapters;
 
-use Solarium\Tests\Integration\AbstractTechproductsTest;
+use Solarium\Tests\Integration\AbstractCoreTest;
 
 /**
  * @group integration
+ * @group solr_no_cloud
  */
-class TechproductsGuzzle3Test extends AbstractTechproductsTest
+class TechproductsGuzzle3Test extends AbstractCoreTest
 {
     public function setUp()
     {

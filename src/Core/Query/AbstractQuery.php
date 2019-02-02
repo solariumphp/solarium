@@ -266,4 +266,26 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     {
         return $this->getOption('timezone');
     }
+
+    /**
+     * Set distrib option.
+     *
+     * @param bool $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setDistrib($value): self
+    {
+        return $this->setOption('distrib', $value);
+    }
+
+    /**
+     * Get distrib option.
+     *
+     * @return bool|null
+     */
+    public function getDistrib(): ?bool
+    {
+        return $this->getOption('distrib');
+    }
 }
