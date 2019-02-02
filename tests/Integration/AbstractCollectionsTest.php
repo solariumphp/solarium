@@ -5,7 +5,6 @@ namespace Solarium\Tests\Integration;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\State\ClusterState;
 use Solarium\QueryType\Server\Collections\Query\Query;
-use Solarium\Tests\Integration\AbstractTechproductsTest;
 
 /**
  * Abstract base class CollectionsTest.
