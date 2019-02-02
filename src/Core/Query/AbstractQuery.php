@@ -282,9 +282,9 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     /**
      * Get distrib option.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getDistrib(): bool
+    public function getDistrib(): ?bool
     {
         return $this->getOption('distrib');
     }
