@@ -817,6 +817,8 @@ class Client extends Configurable implements ClientInterface
             $endpoint = $this->getEndpoint($endpoint);
         }
 
+        $request->setSupportDistributedRequest((bool) $endpoint->getCollection());
+
         $event = new PreExecuteRequestEvent($request, $endpoint);
         $this->eventDispatcher->dispatch(Events::PRE_EXECUTE_REQUEST, $event);
         if (null !== $event->getResponse()) {

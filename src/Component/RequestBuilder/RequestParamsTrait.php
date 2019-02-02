@@ -148,6 +148,10 @@ trait RequestParamsTrait
      */
     public function getQueryString(string $separator = '&')
     {
+        if (!$this->getSupportDistributedRequest()) {
+            $this->removeParam('distrib');
+        }
+
         $queryString = '';
         if (count($this->params) > 0) {
             $queryString = http_build_query($this->params, null, $separator);

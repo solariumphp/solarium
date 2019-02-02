@@ -312,6 +312,26 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
+     * Execute a request inside a Solr Distributed.
+     *
+     * @param bool $supportDistributedRequest
+     */
+    public function setSupportDistributedRequest(bool $supportDistributedRequest = false)
+    {
+        $this->setOption('supportdistributedrequest', $supportDistributedRequest);
+    }
+
+    /**
+     * Indicates if a request is a Solr Distributed request.
+     *
+     * @return bool|null
+     */
+    public function getSupportDistributedRequest(): ?bool
+    {
+        return $this->getOption('supportdistributedrequest') ?? false;
+    }
+
+    /**
      * Initialization hook.
      */
     protected function init()
