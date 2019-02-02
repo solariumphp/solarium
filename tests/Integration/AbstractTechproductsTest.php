@@ -313,7 +313,12 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $this->client->registerQueryType('test', '\Solarium\Tests\Integration\TestQuery');
         $select = $this->client->createQuery('test');
-        $select->setDistrib(true);
+
+        // Setting distrib to true in a non cloud setup causes exceptions.
+        if (isset($this->collection)) {
+            $select->setDistrib(true);
+        }
+
         $terms = $select->getTerms();
         $terms->setFields('name');
         $result = $this->client->select($select);
