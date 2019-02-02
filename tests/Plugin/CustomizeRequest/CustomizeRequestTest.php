@@ -85,6 +85,7 @@ class CustomizeRequestTest extends TestCase
         $originalRequest = new Request();
         $expectedRequest = new Request();
         $expectedRequest->addParam('xid', 123); // this should be the effect of the customization
+        $expectedRequest->setSupportDistributedRequest(false);
 
         $adapter = $this->createMock(AdapterInterface::class);
         $response = new Response('', ['HTTP 1.0 200 OK']);

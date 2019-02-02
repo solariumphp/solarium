@@ -294,6 +294,7 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $terms = $this->client->createTerms();
         $terms->setFields('name');
+        $terms->setDistrib(true);
         $result = $this->client->terms($terms);
 
         $this->assertEquals([

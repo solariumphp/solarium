@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Zend 1.x support
 - PECL::Http adapter
 - PHP 7.0 support
+- Solr 1.4 result parser
 
 ### Fixed
 - Support for add-distinct and removeregex modifiers in Document::setFieldModifier

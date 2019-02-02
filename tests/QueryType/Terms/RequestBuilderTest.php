@@ -65,6 +65,7 @@ class RequestBuilderTest extends TestCase
                 'terms.sort' => 'index',
                 'terms.upper' => 'x',
                 'terms.upper.incl' => 'false',
+                'distrib' => 'true',
                 'wt' => 'json',
                 'json.nl' => 'flat',
                 'omitHeader' => 'true',
