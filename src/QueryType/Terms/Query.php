@@ -28,7 +28,6 @@ class Query extends BaseQuery implements TermsInterface
         'resultclass' => 'Solarium\QueryType\Terms\Result',
         'handler' => 'terms',
         'omitheader' => true,
-        'distrib' => true,
     ];
 
     /**

@@ -148,11 +148,6 @@ trait RequestParamsTrait
      */
     public function getQueryString(string $separator = '&')
     {
-        // Sending the distrib parameter to a single core causes a Solr exception.
-        if (!$this->getSupportDistributedRequest()) {
-            $this->removeParam('distrib');
-        }
-
         $queryString = '';
         if (count($this->params) > 0) {
             $queryString = http_build_query($this->params, null, $separator);

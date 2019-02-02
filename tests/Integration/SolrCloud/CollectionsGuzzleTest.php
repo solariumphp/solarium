@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Integration\SolrCloud;
 
 use Solarium\Core\Client\Adapter\Guzzle;
+use Solarium\Tests\Integration\AbstractCollectionsTest;
 
 /**
  * @group integration
