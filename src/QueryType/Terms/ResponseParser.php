@@ -33,14 +33,12 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
             if (isset($data['terms'][$field])) {
                 $terms = $data['terms'][$field];
-                if ($query->getResponseWriter() == $query::WT_JSON) {
-                    // There seems to be a bug in Solr that json.nl=flat is ignored in a distributed search on Solr
-                    // Cloud. In that case the "map" format is returned which doesn't need to be converted. But we don't
-                    // use it in general because it has limitations for some components.
-                    if (isset($terms[0])) {
-                        // We have a "flat" json result.
-                        $terms = $this->convertToKeyValueArray($terms);
-                    }
+                // There seems to be a bug in Solr that json.nl=flat is ignored in a distributed search on Solr
+                // Cloud. In that case the "map" format is returned which doesn't need to be converted. But we don't
+                // use it in general because it has limitations for some components.
+                if ($query->getResponseWriter() == $query::WT_JSON && isset($terms[0])) {
+                    // We have a "flat" json result.
+                    $terms = $this->convertToKeyValueArray($terms);
                 }
                 $termResults[$field] = $terms;
             }
