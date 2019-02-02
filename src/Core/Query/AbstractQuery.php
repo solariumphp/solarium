@@ -211,7 +211,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     {
         $responseWriter = $this->getOption('responsewriter');
         if (null === $responseWriter) {
-            $responseWriter = self::WT_PHPS;
+            $responseWriter = self::WT_JSON;
         }
 
         return $responseWriter;
