@@ -22,7 +22,7 @@ class Endpoint extends Configurable
         'scheme' => 'http',
         'host' => '127.0.0.1',
         'port' => 8983,
-        'path' => '/solr',
+        'path' => '/',
         'collection' => null,
         'core' => null,
         'timeout' => 5,
