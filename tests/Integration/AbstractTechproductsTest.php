@@ -7,6 +7,7 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 
@@ -482,20 +483,38 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testV2Api()
     {
-        $query = $this->client->createV2Api(['handler' => 'node/system']);
+        $query = $this->client->createApi([
+            'version' => Request::API_V1,
+            'handler' => 'admin/info/system',
+        ]);
         $response = $this->client->execute($query);
-        $this->assertArrayHasKey('lucene', $response->getData());
-        $this->assertArrayHasKey('jvm', $response->getData());
-        $this->assertArrayHasKey('system', $response->getData());
+        if (version_compare($response->getData()['lucene']['solr-spec-version'], '7', '>=')) {
+            $query = $this->client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/system',
+            ]);
+            $response = $this->client->execute($query);
+            $this->assertArrayHasKey('lucene', $response->getData());
+            $this->assertArrayHasKey('jvm', $response->getData());
+            $this->assertArrayHasKey('system', $response->getData());
 
-        $query = $this->client->createV2Api(['handler' => 'node/properties']);
-        $response = $this->client->execute($query);
-        $this->assertArrayHasKey('system.properties', $response->getData());
+            $query = $this->client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/properties',
+            ]);
+            $response = $this->client->execute($query);
+            $this->assertArrayHasKey('system.properties', $response->getData());
 
-        $query = $this->client->createV2Api(['handler' => 'node/logging']);
-        $response = $this->client->execute($query);
-        $this->assertArrayHasKey('levels', $response->getData());
-        $this->assertArrayHasKey('loggers', $response->getData());
+            $query = $this->client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/logging',
+            ]);
+            $response = $this->client->execute($query);
+            $this->assertArrayHasKey('levels', $response->getData());
+            $this->assertArrayHasKey('loggers', $response->getData());
+        } else {
+            $this->markTestSkipped('V2 API requires Solr 7.');
+        }
     }
 }
 

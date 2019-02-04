@@ -15,7 +15,7 @@ class AdapterHelper
         if (Request::API_V2 == $request->getApi()) {
             $baseUri = $endpoint->getV2BaseUri();
         } elseif ($request->getIsServerRequest()) {
-            $baseUri = $endpoint->getServerUri().'solr/';
+            $baseUri = $endpoint->getV1BaseUri();
         } else {
             $baseUri = $endpoint->getBaseUri();
         }

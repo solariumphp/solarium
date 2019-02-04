@@ -636,7 +636,7 @@ interface ClientInterface
     /**
      * @param mixed $options
      *
-     * @return \Solarium\QueryType\Server\V2Api\Query
+     * @return \Solarium\QueryType\Server\Api\Query
      */
-    public function createV2Api($options = null);
+    public function createApi($options = null);
 }

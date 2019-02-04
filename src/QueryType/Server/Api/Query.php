@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\QueryType\Server\V2Api;
+namespace Solarium\QueryType\Server\Api;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
@@ -18,6 +18,7 @@ class Query extends AbstractQuery
      * @var array
      */
     protected $options = [
+        'version' => Request::API_V2,
         'method' => Request::METHOD_GET,
         'resultclass' => QueryType::class,
     ];
@@ -29,7 +30,30 @@ class Query extends AbstractQuery
      */
     public function getType(): string
     {
-        return Client::QUERY_V2_API;
+        return Client::QUERY_API;
+    }
+
+    /**
+     * Set version option.
+     *
+     * @param string $version
+     *
+     * @return self Provides fluent interface
+     */
+    public function setVersion($version): self
+    {
+        $this->setOption('version', $version);
+        return $this;
+    }
+
+    /**
+     * Get version option.
+     *
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return $this->getOption('version');
     }
 
     /**

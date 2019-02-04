@@ -1,21 +1,21 @@
 <?php
 
-namespace Solarium\QueryType\Server\V2Api;
+namespace Solarium\QueryType\Server\Api;
 
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
-use Solarium\QueryType\Server\V2Api\Query as V2ApiQuery;
+use Solarium\QueryType\Server\Api\Query as ApiQuery;
 
 /**
- * Build a V2 API request.
+ * Build an API request.
  */
 class RequestBuilder extends BaseRequestBuilder
 {
     /**
-     * Build request for a V2 API query.
+     * Build request for a API query.
      *
-     * @param QueryInterface|V2ApiQuery $query
+     * @param QueryInterface|ApiQuery $query
      *
      * @return Request
      */
@@ -23,7 +23,8 @@ class RequestBuilder extends BaseRequestBuilder
     {
         $request = parent::build($query);
         $request->setMethod($query->getMethod());
-        $request->setApi(Request::API_V2);
+        $request->setApi($query->getVersion());
+        $request->setIsServerRequest(true);
         return $request;
     }
 }

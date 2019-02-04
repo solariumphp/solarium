@@ -1,13 +1,13 @@
 <?php
 
-namespace Solarium\QueryType\Server\V2Api;
+namespace Solarium\QueryType\Server\Api;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Server\CoreAdmin\Result\Result;
 
 /**
- * Parse V2 API response data.
+ * Parse API response data.
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {

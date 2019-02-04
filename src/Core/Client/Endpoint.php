@@ -302,6 +302,18 @@ class Endpoint extends Configurable
     }
 
     /**
+     * Get the base url for all V1 API requests.
+     *
+     * @return string
+     *
+     * @throws UnexpectedValueException
+     */
+    public function getV1BaseUri(): string
+    {
+        return $this->getServerUri().'solr/';
+    }
+
+    /**
      * Get the base url for all V2 API requests.
      *
      * @return string
