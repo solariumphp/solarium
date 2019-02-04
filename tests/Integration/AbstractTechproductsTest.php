@@ -17,31 +17,6 @@ abstract class AbstractTechproductsTest extends TestCase
      */
     protected $client;
 
-    public function setUp()
-    {
-        $config = [
-            'endpoint' => [
-                'localhost' => [
-                    'host' => '127.0.0.1',
-                    'port' => 8983,
-                    'path' => '/solr/',
-                    'core' => 'techproducts',
-                ],
-            ],
-            // Curl is the default adapter.
-            //'adapter' => 'Solarium\Core\Client\Adapter\Curl',
-        ];
-
-        $this->client = new \Solarium\Client($config);
-
-        try {
-            $ping = $this->client->createPing();
-            $this->client->ping($ping);
-        } catch (\Exception $e) {
-            $this->markTestSkipped('Solr techproducts example not reachable.');
-        }
-    }
-
     /**
      * The ping test succeeds if no exception is thrown.
      */
@@ -503,6 +478,24 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $response = $this->client->extract($query);
         $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the file');
+    }
+
+    public function testV2Api()
+    {
+        $query = $this->client->createV2Api(['handler' => 'node/system']);
+        $response = $this->client->execute($query);
+        $this->assertArrayHasKey('lucene', $response->getData());
+        $this->assertArrayHasKey('jvm', $response->getData());
+        $this->assertArrayHasKey('system', $response->getData());
+
+        $query = $this->client->createV2Api(['handler' => 'node/properties']);
+        $response = $this->client->execute($query);
+        $this->assertArrayHasKey('system.properties', $response->getData());
+
+        $query = $this->client->createV2Api(['handler' => 'node/logging']);
+        $response = $this->client->execute($query);
+        $this->assertArrayHasKey('levels', $response->getData());
+        $this->assertArrayHasKey('loggers', $response->getData());
     }
 }
 

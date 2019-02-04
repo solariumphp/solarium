@@ -40,12 +40,23 @@ class Request extends Configurable implements RequestParamsInterface
     const METHOD_PUT = 'PUT';
 
     /**
+     * V1 API.
+     */
+    const API_V1 = 'v1';
+
+    /**
+     * V2 API.
+     */
+    const API_V2 = 'v2';
+
+    /**
      * Default options.
      *
      * @var array
      */
     protected $options = [
         'method' => self::METHOD_GET,
+        'api' => self::API_V1,
     ];
 
     /**
@@ -295,9 +306,11 @@ class Request extends Configurable implements RequestParamsInterface
      *
      * @param bool $isServerRequest
      */
-    public function setIsServerRequest($isServerRequest = false)
+    public function setIsServerRequest($isServerRequest = false): self
     {
         $this->setOption('isserverrequest', $isServerRequest);
+
+        return $this;
     }
 
     /**
@@ -309,6 +322,28 @@ class Request extends Configurable implements RequestParamsInterface
     public function getIsServerRequest(): bool
     {
         return $this->getOption('isserverrequest') ?? false;
+    }
+
+    /**
+     * Set Solr API version.
+     *
+     * @param string $api
+     */
+    public function setApi($api): self
+    {
+        $this->setOption('api', $api);
+
+        return $this;
+    }
+
+    /**
+     * Returns Solr API version.
+     *
+     * @return string
+     */
+    public function getApi(): string
+    {
+        return $this->getOption('api');
     }
 
     /**

@@ -235,7 +235,7 @@ class Endpoint extends Configurable
     }
 
     /**
-     * Get the base url for all SolrCloud requests.
+     * Get the V1 base url for all SolrCloud requests.
      *
      * Based on host, path, port and collection options.
      *
@@ -249,7 +249,7 @@ class Endpoint extends Configurable
         $collection = $this->getCollection();
 
         if ($collection) {
-            $uri .= $collection.'/';
+            $uri .= 'solr/'.$collection.'/';
         } else {
             throw new UnexpectedValueException('No collection set.');
         }
@@ -258,7 +258,7 @@ class Endpoint extends Configurable
     }
 
     /**
-     * Get the base url for all requests.
+     * Get the V1 base url for all requests.
      *
      * Based on host, path, port and core options.
      *
@@ -272,7 +272,8 @@ class Endpoint extends Configurable
         $core = $this->getCore();
 
         if ($core) {
-            $uri .= $core.'/';
+            // V1 API
+            $uri .= 'solr/'.$core.'/';
         } else {
             throw new UnexpectedValueException('No core set.');
         }
@@ -281,7 +282,7 @@ class Endpoint extends Configurable
     }
 
     /**
-     * Get the base url for all requests.
+     * Get the base url for all V1 API requests.
      *
      * @return string
      *
@@ -298,6 +299,18 @@ class Endpoint extends Configurable
                 throw new UnexpectedValueException('Neither collection nor core set.');
             }
         }
+    }
+
+    /**
+     * Get the base url for all V2 API requests.
+     *
+     * @return string
+     *
+     * @throws UnexpectedValueException
+     */
+    public function getV2BaseUri(): string
+    {
+        return $this->getServerUri().'api/';
     }
 
     /**

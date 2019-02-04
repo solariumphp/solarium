@@ -2,6 +2,7 @@
 
 namespace Solarium\Core\Client\Adapter;
 
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 
 /**
@@ -9,6 +10,18 @@ use Solarium\Core\Client\Request;
  */
 class AdapterHelper
 {
+    public static function buildUri(Request $request, Endpoint $endpoint): string
+    {
+        if (Request::API_V2 == $request->getApi()) {
+            $baseUri = $endpoint->getV2BaseUri();
+        } elseif ($request->getIsServerRequest()) {
+            $baseUri = $endpoint->getServerUri();
+        } else {
+            $baseUri = $endpoint->getBaseUri();
+        }
+        return $baseUri.$request->getUri();
+    }
+
     /**
      * This method is used to build the upload body for a file upload with the boundary markers.
      *
@@ -16,7 +29,7 @@ class AdapterHelper
      *
      * @return string
      */
-    public function buildUploadBodyFromRequest(Request $request)
+    public static function buildUploadBodyFromRequest(Request $request): string
     {
         $baseName = basename($request->getFileUpload());
         $body = "--{$request->getHash()}\r\n";

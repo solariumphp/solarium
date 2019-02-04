@@ -56,8 +56,7 @@ class Guzzle extends Configurable implements AdapterInterface
         }
 
         try {
-            $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getBaseUri();
-            $uri = $baseUri.$request->getUri();
+            $uri = AdapterHelper::buildUri($request, $endpoint);
 
             $guzzleResponse = $this->getGuzzleClient()->request(
                 $request->getMethod(),
@@ -113,8 +112,7 @@ class Guzzle extends Configurable implements AdapterInterface
         }
 
         if ($request->getFileUpload()) {
-            $helper = new AdapterHelper();
-            return $helper->buildUploadBodyFromRequest($request);
+            return AdapterHelper::buildUploadBodyFromRequest($request);
         }
 
         return $request->getRawData();

@@ -167,8 +167,7 @@ class Zend2Http extends Configurable implements AdapterInterface
                 break;
         }
 
-        $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getBaseUri();
-        $uri = $baseUri.$request->getUri();
+        $uri = AdapterHelper::buildUri($request, $endpoint);
 
         $client->setUri($uri);
         $client->setHeaders($request->getHeaders());
@@ -222,8 +221,7 @@ class Zend2Http extends Configurable implements AdapterInterface
      */
     protected function prepareFileUpload($client, $request)
     {
-        $helper = new AdapterHelper();
-        $data = $helper->buildUploadBodyFromRequest($request);
+        $data = AdapterHelper::buildUploadBodyFromRequest($request);
         $client->setRawBody($data);
     }
 }

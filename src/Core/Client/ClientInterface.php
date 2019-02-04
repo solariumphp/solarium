@@ -632,4 +632,11 @@ interface ClientInterface
      * @return \Solarium\QueryType\Server\Collections\Query\Query
      */
     public function createCollections($options = null);
+
+    /**
+     * @param mixed $options
+     *
+     * @return \Solarium\QueryType\Server\V2Api\Query
+     */
+    public function createV2Api($options = null);
 }

@@ -118,6 +118,11 @@ class Client extends Configurable implements ClientInterface
     const QUERY_COLLECTIONS = 'collections';
 
     /**
+     * Querytype V2 API.
+     */
+    const QUERY_V2_API = 'v2api';
+
+    /**
      * Querytype managed resource.
      */
     const QUERY_MANAGED_RESOURCES = 'resources';
@@ -165,6 +170,7 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
         self::QUERY_CORE_ADMIN => 'Solarium\QueryType\Server\CoreAdmin\Query\Query',
         self::QUERY_COLLECTIONS => 'Solarium\QueryType\Server\Collections\Query\Query',
+        self::QUERY_V2_API => 'Solarium\QueryType\Server\V2Api\Query',
         self::QUERY_MANAGED_RESOURCES => 'Solarium\QueryType\ManagedResources\Query\Resources',
         self::QUERY_MANAGED_STOPWORDS => 'Solarium\QueryType\ManagedResources\Query\Stopwords',
         self::QUERY_MANAGED_SYNONYMS => 'Solarium\QueryType\ManagedResources\Query\Synonyms',
@@ -1315,6 +1321,18 @@ class Client extends Configurable implements ClientInterface
     public function createCollections($options = null)
     {
         return $this->createQuery(self::QUERY_COLLECTIONS, $options);
+    }
+
+    /**
+     * Create a V2 API query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\V2Api\Query
+     */
+    public function createV2Api($options = null)
+    {
+        return $this->createQuery(self::QUERY_V2_API, $options);
     }
 
     /**
