@@ -26,5 +26,4 @@ class RequestBuilder extends BaseRequestBuilder
         $request->setApi(Request::API_V2);
         return $request;
     }
-
 }
