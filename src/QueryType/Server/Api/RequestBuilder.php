@@ -22,9 +22,21 @@ class RequestBuilder extends BaseRequestBuilder
     public function build(QueryInterface $query)
     {
         $request = parent::build($query);
+
         $request->setMethod($query->getMethod());
         $request->setApi($query->getVersion());
         $request->setIsServerRequest(true);
+
+        if ($accept = $query->getAccept()) {
+            $request->addHeader('Accept: '.$accept);
+        }
+        if ($contentType = $query->getContentType()) {
+            $request->addHeader('Content-Type: '.$contentType);
+        }
+        if ($rawData = $query->getRawData()) {
+            $request->setRawData($rawData);
+        }
+
         return $request;
     }
 }
