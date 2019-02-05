@@ -18,7 +18,7 @@ class Query extends AbstractQuery
      * @var array
      */
     protected $options = [
-        'version' => Request::API_V2,
+        'version' => Request::API_V1,
         'method' => Request::METHOD_GET,
         'resultclass' => QueryType::class,
     ];
