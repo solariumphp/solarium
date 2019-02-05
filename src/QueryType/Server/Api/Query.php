@@ -18,7 +18,7 @@ class Query extends AbstractQuery
      * @var array
      */
     protected $options = [
-        'version' => Request::API_V2,
+        'version' => Request::API_V1,
         'method' => Request::METHOD_GET,
         'resultclass' => QueryType::class,
     ];
@@ -77,6 +77,75 @@ class Query extends AbstractQuery
     public function getMethod(): string
     {
         return $this->getOption('method');
+    }
+
+    /**
+     * Set accept option.
+     *
+     * @param string $accept
+     *
+     * @return self Provides fluent interface
+     */
+    public function setAccept($accept): self
+    {
+        $this->setOption('accept', $accept);
+        return $this;
+    }
+
+    /**
+     * Get accept option.
+     *
+     * @return string|null
+     */
+    public function getAccept(): ?string
+    {
+        return $this->getOption('accept');
+    }
+
+    /**
+     * Set contenttype option.
+     *
+     * @param string $contentType
+     *
+     * @return self Provides fluent interface
+     */
+    public function setContentType($contentType): self
+    {
+        $this->setOption('contenttype', $contentType);
+        return $this;
+    }
+
+    /**
+     * Get contenttype option.
+     *
+     * @return string|null
+     */
+    public function getContentType(): ?string
+    {
+        return $this->getOption('contenttype');
+    }
+
+    /**
+     * Set rawdata option.
+     *
+     * @param string $rawData
+     *
+     * @return self Provides fluent interface
+     */
+    public function setRawData($rawData): self
+    {
+        $this->setOption('rawdata', $rawData);
+        return $this;
+    }
+
+    /**
+     * Get method option.
+     *
+     * @return string|null
+     */
+    public function getRawData(): ?string
+    {
+        return $this->getOption('rawdata');
     }
 
     /**
