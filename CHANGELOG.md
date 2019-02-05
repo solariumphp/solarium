@@ -4,6 +4,18 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.3.0-alpha.2]
+### Added
+- Basic V2 API support
+- Endpoint::getV2BaseUri
+
+### Changed
+- AdapterHelper functions are static
+
+### Fixed
+- In the past, the V1 API endpoint `solr` was not added automatically, so most users set it as path on the endpoint. This bug was discovered with the addition of V2 API support. In almost every setup, the path has to be set to `/` instead of `/solr` with this release!
+
+
 ## [4.3.0-alpha.1]
 ### Added
 - Experimental support for collection API

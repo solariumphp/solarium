@@ -91,33 +91,42 @@ class EndpointTest extends TestCase
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
         $this->expectException(UnexpectedValueException::class);
-        $this->assertSame('http://myserver:123/mypath/collection1/', $this->endpoint->getCollectionBaseUri());
+        $this->assertSame('http://myserver:123/mypath/solr/collection1/', $this->endpoint->getCollectionBaseUri());
 
         $this->endpoint->setCollection('collection1');
-        $this->assertSame('http://myserver:123/mypath/collection1/', $this->endpoint->getCollectionBaseUri());
+        $this->assertSame('http://myserver:123/mypath/solr/collection1/', $this->endpoint->getCollectionBaseUri());
     }
 
     public function testGetCoreBaseUri()
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
         $this->expectException(UnexpectedValueException::class);
-        $this->assertSame('http://myserver:123/mypath/core1/', $this->endpoint->getCoreBaseUri());
+        $this->assertSame('http://myserver:123/mypath/solr/core1/', $this->endpoint->getCoreBaseUri());
 
         $this->endpoint->setCore('core1');
-        $this->assertSame('http://myserver:123/mypath/core1/', $this->endpoint->getCoreBaseUri());
+        $this->assertSame('http://myserver:123/mypath/solr/core1/', $this->endpoint->getCoreBaseUri());
     }
 
     public function testGetBaseUri()
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
         $this->expectException(UnexpectedValueException::class);
-        $this->assertSame('http://myserver:123/mypath/core1/', $this->endpoint->getCoreBaseUri());
+        $this->assertSame('http://myserver:123/mypath/solr/core1/', $this->endpoint->getBaseUri());
 
         $this->endpoint->setCore('core1');
-        $this->assertSame('http://myserver:123/mypath/core1/', $this->endpoint->getCoreBaseUri());
+        $this->assertSame('http://myserver:123/mypath/solr/core1/', $this->endpoint->getBaseUri());
 
         $this->endpoint->setCollection('collection1');
-        $this->assertSame('http://myserver:123/mypath/collection1/', $this->endpoint->getCollectionBaseUri());
+        $this->assertSame('http://myserver:123/mypath/solr/collection1/', $this->endpoint->getBaseUri());
+    }
+
+    public function testGetV2BaseUri()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
+        $this->assertSame('http://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
+
+        $this->endpoint->setCollection('collection1');
+        $this->assertSame('http://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
     }
 
     public function testGetServerUri()
@@ -131,7 +140,7 @@ class EndpointTest extends TestCase
     {
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('core1');
 
-        $this->assertSame('https://myserver:123/mypath/core1/', $this->endpoint->getCoreBaseUri());
+        $this->assertSame('https://myserver:123/mypath/solr/core1/', $this->endpoint->getCoreBaseUri());
     }
 
     public function testGetServerUriWithHttps()
@@ -186,7 +195,7 @@ class EndpointTest extends TestCase
 
         $endpoint = <<<EOF
 Solarium\Core\Client\Endpoint::__toString
-base uri: http://192.168.0.1:123/mysolr/mycore/
+base uri: http://192.168.0.1:123/mysolr/solr/mycore/
 host: 192.168.0.1
 port: 123
 path: /mysolr

@@ -7,6 +7,7 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 
@@ -16,31 +17,6 @@ abstract class AbstractTechproductsTest extends TestCase
      * @var ClientInterface
      */
     protected $client;
-
-    public function setUp()
-    {
-        $config = [
-            'endpoint' => [
-                'localhost' => [
-                    'host' => '127.0.0.1',
-                    'port' => 8983,
-                    'path' => '/solr/',
-                    'core' => 'techproducts',
-                ],
-            ],
-            // Curl is the default adapter.
-            //'adapter' => 'Solarium\Core\Client\Adapter\Curl',
-        ];
-
-        $this->client = new \Solarium\Client($config);
-
-        try {
-            $ping = $this->client->createPing();
-            $this->client->ping($ping);
-        } catch (\Exception $e) {
-            $this->markTestSkipped('Solr techproducts example not reachable.');
-        }
-    }
 
     /**
      * The ping test succeeds if no exception is thrown.
@@ -503,6 +479,42 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $response = $this->client->extract($query);
         $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the file');
+    }
+
+    public function testV2Api()
+    {
+        $query = $this->client->createApi([
+            'version' => Request::API_V1,
+            'handler' => 'admin/info/system',
+        ]);
+        $response = $this->client->execute($query);
+        if (version_compare($response->getData()['lucene']['solr-spec-version'], '7', '>=')) {
+            $query = $this->client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/system',
+            ]);
+            $response = $this->client->execute($query);
+            $this->assertArrayHasKey('lucene', $response->getData());
+            $this->assertArrayHasKey('jvm', $response->getData());
+            $this->assertArrayHasKey('system', $response->getData());
+
+            $query = $this->client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/properties',
+            ]);
+            $response = $this->client->execute($query);
+            $this->assertArrayHasKey('system.properties', $response->getData());
+
+            $query = $this->client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/logging',
+            ]);
+            $response = $this->client->execute($query);
+            $this->assertArrayHasKey('levels', $response->getData());
+            $this->assertArrayHasKey('loggers', $response->getData());
+        } else {
+            $this->markTestSkipped('V2 API requires Solr 7.');
+        }
     }
 }
 

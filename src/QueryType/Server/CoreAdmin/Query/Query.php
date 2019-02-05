@@ -14,9 +14,9 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Action\Split;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Status;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Swap;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Unload;
-use Solarium\QueryType\Server\CoreAdmin\RequestBuilder;
 use Solarium\QueryType\Server\CoreAdmin\ResponseParser;
 use Solarium\QueryType\Server\Query\Action\ActionInterface;
+use Solarium\QueryType\Server\Query\RequestBuilder;
 
 /**
  * CoreAdmin query.

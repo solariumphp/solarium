@@ -72,8 +72,7 @@ class Curl extends Configurable implements AdapterInterface
     public function createHandle($request, $endpoint)
     {
         // @codeCoverageIgnoreStart
-        $baseUri = $request->getIsServerRequest() ? $endpoint->getServerUri() : $endpoint->getBaseUri();
-        $uri = $baseUri.$request->getUri();
+        $uri = AdapterHelper::buildUri($request, $endpoint);
 
         $method = $request->getMethod();
         $options = $this->createOptions($request, $endpoint);
@@ -122,8 +121,7 @@ class Curl extends Configurable implements AdapterInterface
             curl_setopt($handler, CURLOPT_POST, true);
 
             if ($request->getFileUpload()) {
-                $helper = new AdapterHelper();
-                $data = $helper->buildUploadBodyFromRequest($request);
+                $data = AdapterHelper::buildUploadBodyFromRequest($request);
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $data);
             } else {
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
@@ -138,8 +136,7 @@ class Curl extends Configurable implements AdapterInterface
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'PUT');
 
             if ($request->getFileUpload()) {
-                $helper = new AdapterHelper();
-                $data = $helper->buildUploadBodyFromRequest($request);
+                $data = AdapterHelper::buildUploadBodyFromRequest($request);
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $data);
             } else {
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());

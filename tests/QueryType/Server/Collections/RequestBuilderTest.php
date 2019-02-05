@@ -5,7 +5,7 @@ namespace Solarium\Tests\QueryType\Server\Collections;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Server\Collections\Query\Query;
-use Solarium\QueryType\Server\Collections\RequestBuilder;
+use Solarium\QueryType\Server\Query\RequestBuilder;
 
 class RequestBuilderTest extends TestCase
 {

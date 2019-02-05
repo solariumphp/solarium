@@ -1,0 +1,30 @@
+<?php
+
+namespace Solarium\QueryType\Server\Api;
+
+use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\QueryInterface;
+use Solarium\QueryType\Server\Api\Query as ApiQuery;
+
+/**
+ * Build an API request.
+ */
+class RequestBuilder extends BaseRequestBuilder
+{
+    /**
+     * Build request for a API query.
+     *
+     * @param QueryInterface|ApiQuery $query
+     *
+     * @return Request
+     */
+    public function build(QueryInterface $query)
+    {
+        $request = parent::build($query);
+        $request->setMethod($query->getMethod());
+        $request->setApi($query->getVersion());
+        $request->setIsServerRequest(true);
+        return $request;
+    }
+}
