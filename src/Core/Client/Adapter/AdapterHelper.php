@@ -30,7 +30,7 @@ class AdapterHelper
             } else {
                 $baseUri = $endpoint->getBaseUri();
             }
-            return $baseUri . $request->getUri();
+            return $baseUri.$request->getUri();
         } catch (UnexpectedValueException $e) {
             // Backward compatibility: getBaseUri() now throws an UnexpectedValueException and we don't send a request.
             // In previous version we sent the request which resulted in HttpException.
