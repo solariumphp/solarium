@@ -40,7 +40,6 @@ class Curl extends Configurable implements AdapterInterface
      */
     public function getResponse($handle, $httpResponse)
     {
-        // @codeCoverageIgnoreStart
         if (false !== $httpResponse && null !== $httpResponse) {
             $data = $httpResponse;
             $info = curl_getinfo($handle);
@@ -55,7 +54,6 @@ class Curl extends Configurable implements AdapterInterface
         curl_close($handle);
 
         return new Response($data, $headers);
-        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -71,7 +69,6 @@ class Curl extends Configurable implements AdapterInterface
      */
     public function createHandle($request, $endpoint)
     {
-        // @codeCoverageIgnoreStart
         $uri = AdapterHelper::buildUri($request, $endpoint);
 
         $method = $request->getMethod();
@@ -146,7 +143,6 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         return $handler;
-        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -178,12 +174,10 @@ class Curl extends Configurable implements AdapterInterface
      */
     protected function getData($request, $endpoint)
     {
-        // @codeCoverageIgnoreStart
         $handle = $this->createHandle($request, $endpoint);
         $httpResponse = curl_exec($handle);
 
         return $this->getResponse($handle, $httpResponse);
-        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -195,13 +189,11 @@ class Curl extends Configurable implements AdapterInterface
      */
     protected function init()
     {
-        // @codeCoverageIgnoreStart
         if (!function_exists('curl_init')) {
             throw new RuntimeException('cURL is not available, install it to use the CurlHttp adapter');
         }
 
         parent::init();
-        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -214,7 +206,6 @@ class Curl extends Configurable implements AdapterInterface
      */
     protected function createOptions($request, $endpoint)
     {
-        // @codeCoverageIgnoreStart
         $options = [
             'timeout' => $endpoint->getTimeout(),
         ];
@@ -226,6 +217,5 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         return $options;
-        // @codeCoverageIgnoreEnd
     }
 }

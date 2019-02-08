@@ -31,6 +31,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
      */
     public function execute($request, $endpoint)
     {
+        // @codeCoverageIgnoreStart
         $uri = AdapterHelper::buildUri($request, $endpoint);
         $guzzleRequest = $this->getGuzzleClient()->createRequest(
             $request->getMethod(),
@@ -72,6 +73,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
 
             throw new HttpException("HTTP request failed, {$error}");
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -81,11 +83,13 @@ class Guzzle3 extends Configurable implements AdapterInterface
      */
     public function getGuzzleClient()
     {
+        // @codeCoverageIgnoreStart
         if (null === $this->guzzleClient) {
             $this->guzzleClient = new GuzzleClient(null, $this->options);
         }
 
         return $this->guzzleClient;
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -97,6 +101,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
      */
     private function getRequestBody(Request $request)
     {
+        // @codeCoverageIgnoreStart
         if (Request::METHOD_PUT == $request->getMethod()) {
             return $request->getRawData();
         }
@@ -111,6 +116,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
         }
 
         return $request->getRawData();
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -123,6 +129,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
      */
     private function getRequestHeaders(Request $request)
     {
+        // @codeCoverageIgnoreStart
         $headers = [];
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);
@@ -140,5 +147,6 @@ class Guzzle3 extends Configurable implements AdapterInterface
         }
 
         return $headers;
+        // @codeCoverageIgnoreEnd
     }
 }
