@@ -55,9 +55,9 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build the request.
      *
-     * @throws RuntimeException
-     *
      * @param Query|QueryInterface $query
+     *
+     * @throws RuntimeException
      *
      * @return Request
      */
@@ -107,7 +107,7 @@ class RequestBuilder extends BaseRequestBuilder
         } elseif (is_readable($file)) {
             $request->setFileUpload($file);
             $request->addParam('resource.name', basename($query->getFile()));
-            $request->addHeader('Content-Type: multipart/form-data; boundary=' . $request->getHash());
+            $request->addHeader('Content-Type: multipart/form-data; boundary='.$request->getHash());
         } else {
             throw new RuntimeException('Extract query file path/url invalid or not available');
         }
