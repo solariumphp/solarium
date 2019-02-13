@@ -88,7 +88,8 @@ class Guzzle extends Configurable implements AdapterInterface
         }
 
         try {
-            $guzzleResponse = $this->getGuzzleClient()->request(
+            $guzzleClient = $this->getGuzzleClient();
+            $guzzleResponse = $guzzleClient->request(
                 $request->getMethod(),
                 $endpoint->getBaseUri() . $request->getUri(),
                 $requestOptions
@@ -138,7 +139,8 @@ class Guzzle extends Configurable implements AdapterInterface
         }
 
         if ($request->getFileUpload()) {
-            return fopen($request->getFileUpload(), 'r');
+          $helper = new AdapterHelper();
+          return $helper->buildUploadBodyFromRequest($request);
         }
 
         return $request->getRawData();

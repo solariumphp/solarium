@@ -493,4 +493,12 @@ class Request extends Configurable
             }
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+        return spl_object_hash($this);
+    }
 }
