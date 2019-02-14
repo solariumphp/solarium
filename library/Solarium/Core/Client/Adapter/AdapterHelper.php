@@ -9,22 +9,22 @@ use Solarium\Core\Client\Request;
  */
 class AdapterHelper
 {
-  /**
-   * This method is used to build the upload body for a file upload with the boundary markers.
-   *
-   * @param Request $request
-   *
-   * @return string
-   */
-  public function buildUploadBodyFromRequest(Request $request)
-  {
-    $filename = $request->getFileUpload();
-    $body = "--{$request->getHash()}\r\n";
-    $body .= 'Content-Disposition: form-data; name="file"; filename="' . $filename . '"';
-    $body .= "\r\nContent-Type: application/octet-stream\r\n\r\n";
-    $body .= file_get_contents($request->getFileUpload(), 'r');
-    $body .= "\r\n--{$request->getHash()}--\r\n";
+    /**
+     * This method is used to build the upload body for a file upload with the boundary markers.
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function buildUploadBodyFromRequest(Request $request)
+    {
+        $filename = $request->getFileUpload();
+        $body = "--{$request->getHash()}\r\n";
+        $body .= 'Content-Disposition: form-data; name="file"; filename="'.$filename.'"';
+        $body .= "\r\nContent-Type: application/octet-stream\r\n\r\n";
+        $body .= file_get_contents($request->getFileUpload(), 'r');
+        $body .= "\r\n--{$request->getHash()}--\r\n";
 
-    return $body;
-  }
+        return $body;
+    }
 }
