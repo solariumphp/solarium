@@ -319,6 +319,42 @@ class Range extends AbstractFacet
     }
 
     /**
+     * @param string $tag
+     *
+     * @return \Solarium\Core\Configurable
+     */
+    public function setTag($tag)
+    {
+        return $this->setOption('tag', $tag);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->getOption('tag');
+    }
+
+    /**
+     * @param mixed $pivot
+     *
+     * @return \Solarium\Core\Configurable
+     */
+    public function setPivot($pivot)
+    {
+        return $this->setOption('pivot', $pivot);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPivot()
+    {
+        return $this->getOption('pivot');
+    }
+
+    /**
      * Initialize options.
      *
      * Several options need some extra checks or setup work, for these options

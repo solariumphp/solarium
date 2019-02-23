@@ -233,7 +233,30 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      */
     protected function facetRange($query, $facet, $data)
     {
+        $pivot = null;
+
+        if (null !== $pivot = $facet->getPivot()) {
+            $key = is_array($pivot) ? implode(',', $pivot) : $pivot;
+
+            if (isset($data['facet_counts']['facet_pivot'][$key])) {
+                $pivot = $data['facet_counts']['facet_pivot'][$key];
+
+                foreach ($pivot as $pivotKey => $piv) {
+                    if (isset($piv['ranges'])) {
+                        foreach ($piv['ranges'] as $rangeKey => $range) {
+                            if (isset($range['counts'])) {
+                                $pivot[$pivotKey]['ranges'][$rangeKey]['counts'] = $this->convertToKeyValueArray($range['counts']);
+                            }
+                        }
+                    }
+                }
+            }
+
+            $pivot = new ResultFacetPivot($pivot);
+        }
+
         $key = $facet->getKey();
+
         if (!isset($data['facet_counts']['facet_ranges'][$key])) {
             return;
         }
@@ -250,7 +273,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             $data['counts'] = $this->convertToKeyValueArray($data['counts']);
         }
 
-        return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap);
+        return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap, $pivot);
     }
     
     /**
@@ -283,10 +306,10 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     protected function facetPivot($query, $facet, $data)
     {
         $key = $facet->getKey();
+
         if (!isset($data['facet_counts']['facet_pivot'][$key])) {
             return;
         }
-
         return new ResultFacetPivot($data['facet_counts']['facet_pivot'][$key]);
     }
 }

@@ -95,6 +95,11 @@ class Range extends Field
     protected $gap;
 
     /**
+     * @var \Solarium\QueryType\Select\Result\Facet\Pivot\Pivot
+     */
+    protected $pivot;
+
+    /**
      * Constructor.
      *
      * @param array $values
@@ -104,8 +109,9 @@ class Range extends Field
      * @param int   $start
      * @param int   $end
      * @param int   $gap
+     * @param null  $pivot
      */
-    public function __construct($values, $before, $after, $between, $start, $end, $gap)
+    public function __construct($values, $before, $after, $between, $start, $end, $gap, $pivot = null)
     {
         $this->values = $values;
         $this->before = $before;
@@ -114,6 +120,7 @@ class Range extends Field
         $this->start = $start;
         $this->end = $end;
         $this->gap = $gap;
+        $this->pivot = $pivot;
     }
 
     /**
@@ -189,5 +196,13 @@ class Range extends Field
     public function getGap()
     {
         return $this->gap;
+    }
+
+    /**
+     * @return \Solarium\QueryType\Select\Result\Facet\Pivot\Pivot|null
+     */
+    public function getPivot()
+    {
+        return $this->pivot;
     }
 }
