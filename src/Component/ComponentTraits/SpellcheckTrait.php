@@ -247,7 +247,7 @@ trait SpellcheckTrait
     /**
      * Set collateExtendedResults option.
      *
-     * @param string $collateExtendedResults
+     * @param bool $collateExtendedResults
      *
      * @return self Provides fluent interface
      */
@@ -259,7 +259,7 @@ trait SpellcheckTrait
     /**
      * Get collateExtendedResults option.
      *
-     * @return string|null
+     * @return bool|null
      */
     public function getCollateExtendedResults()
     {
