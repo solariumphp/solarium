@@ -171,6 +171,6 @@ class ResponseParserTest extends TestCase
 
         $this->assertSame(1, $result['status']);
         $this->assertSame(13, $result['queryTime']);
-        $this->assertNull(null, $result['numfound']);
+        $this->assertNull($result['numfound']);
     }
 }

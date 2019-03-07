@@ -146,7 +146,6 @@ class Http extends Configurable implements AdapterInterface
      */
     protected function getData($uri, $context)
     {
-        // @codeCoverageIgnoreStart
         $data = @file_get_contents($uri, false, $context);
 
         $headers = [];
@@ -156,6 +155,5 @@ class Http extends Configurable implements AdapterInterface
         }
 
         return [$data, $headers];
-        // @codeCoverageIgnoreEnd
     }
 }
