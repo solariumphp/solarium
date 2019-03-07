@@ -9,9 +9,9 @@ php:
   - nightly
 
 env:
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.6.0 SOLR_CLOUD=true
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=7.6.0 SOLR_CLOUD=false
-  - SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.5 SOLR_CLOUD=false
+  - SYMFONY_VERSION=4.2.* SOLR_VERSION=7.6.0 SOLR_CLOUD=true
+  - SYMFONY_VERSION=4.2.* SOLR_VERSION=7.6.0 SOLR_CLOUD=false
+  - SYMFONY_VERSION=4.2.* SOLR_VERSION=6.6.5 SOLR_CLOUD=false
   - SYMFONY_VERSION=3.3.* SOLR_VERSION=6.6.5 SOLR_CLOUD=false
 
 cache:
@@ -49,7 +49,7 @@ script:
      fi
 
 after_success:
-  - travis_retry php vendor/bin/coveralls -v
+  - travis_retry php vendor/bin/php-coveralls -v
 
 matrix:
   allow_failures:
