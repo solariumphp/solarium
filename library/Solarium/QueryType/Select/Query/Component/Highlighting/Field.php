@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -45,7 +45,7 @@ use Solarium\Core\Configurable;
 /**
  * Highlighting per-field settings.
  *
- * @link http://wiki.apache.org/solr/HighlightingParameters
+ * @see http://wiki.apache.org/solr/HighlightingParameters
  */
 class Field extends Configurable
 {
@@ -134,7 +134,7 @@ class Field extends Configurable
      *
      * Collapse contiguous fragments into a single fragment
      *
-     * @param boolean $merge
+     * @param bool $merge
      *
      * @return self Provides fluent interface
      */
@@ -146,7 +146,7 @@ class Field extends Configurable
     /**
      * Get mergeContiguous option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getMergeContiguous()
     {
@@ -178,7 +178,7 @@ class Field extends Configurable
     /**
      * Set preserveMulti option.
      *
-     * @param boolean $preservemulti
+     * @param bool $preservemulti
      *
      * @return self Provides fluent interface
      */
@@ -190,7 +190,7 @@ class Field extends Configurable
     /**
      * Get preserveMulti option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getPreserveMulti()
     {
@@ -298,7 +298,7 @@ class Field extends Configurable
     /**
      * Set useFastVectorHighlighter option.
      *
-     * @param boolean $use
+     * @param bool $use
      *
      * @return self Provides fluent interface
      */
@@ -310,7 +310,7 @@ class Field extends Configurable
     /**
      * Get useFastVectorHighlighter option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getUseFastVectorHighlighter()
     {

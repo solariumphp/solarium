@@ -34,7 +34,7 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -43,8 +43,8 @@
 
 namespace Solarium\QueryType\MoreLikeThis;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Client;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 /**
  * MoreLikeThis Query.
@@ -61,18 +61,18 @@ class Query extends SelectQuery
      * @var array
      */
     protected $options = array(
-        'handler'       => 'mlt',
-        'resultclass'   => 'Solarium\QueryType\MoreLikeThis\Result',
+        'handler' => 'mlt',
+        'resultclass' => 'Solarium\QueryType\MoreLikeThis\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
+        'query' => '*:*',
+        'start' => 0,
+        'rows' => 10,
+        'fields' => '*,score',
         'interestingTerms' => 'none',
-        'matchinclude'  => false,
-        'matchoffset'   => 0,
-        'stream'        => false,
-        'omitheader'    => true,
+        'matchinclude' => false,
+        'matchoffset' => 0,
+        'stream' => false,
+        'omitheader' => true,
     );
 
     /**
@@ -110,9 +110,9 @@ class Query extends SelectQuery
      *
      * Set to true to post query content instead of using the URL param
      *
-     * @link http://wiki.apache.org/solr/ContentStream ContentStream
+     * @see http://wiki.apache.org/solr/ContentStream ContentStream
      *
-     * @param boolean $stream
+     * @param bool $stream
      *
      * @return self Provides fluent interface
      */
@@ -124,7 +124,7 @@ class Query extends SelectQuery
     /**
      * Get stream option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getQueryStream()
     {
@@ -160,7 +160,7 @@ class Query extends SelectQuery
      *
      * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
      *
-     * @param boolean $include
+     * @param bool $include
      *
      * @return self Provides fluent interface
      */
@@ -218,7 +218,7 @@ class Query extends SelectQuery
      */
     public function setMltFields($fields)
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
@@ -234,7 +234,7 @@ class Query extends SelectQuery
     public function getMltFields()
     {
         $value = $this->getOption('mltfields');
-        if ($value === null) {
+        if (null === $value) {
             $value = array();
         }
 
@@ -259,7 +259,7 @@ class Query extends SelectQuery
     /**
      * Get minimumtermfrequency option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumTermFrequency()
     {
@@ -284,7 +284,7 @@ class Query extends SelectQuery
     /**
      * Get minimumdocumentfrequency option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumDocumentFrequency()
     {
@@ -308,7 +308,7 @@ class Query extends SelectQuery
     /**
      * Get minimumwordlength option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMinimumWordLength()
     {
@@ -332,7 +332,7 @@ class Query extends SelectQuery
     /**
      * Get maximumwordlength option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumWordLength()
     {
@@ -357,7 +357,7 @@ class Query extends SelectQuery
     /**
      * Get maximumqueryterms option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumQueryTerms()
     {
@@ -382,7 +382,7 @@ class Query extends SelectQuery
     /**
      * Get maximumnumberoftokens option.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getMaximumNumberOfTokens()
     {
@@ -394,7 +394,7 @@ class Query extends SelectQuery
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @param boolean $boost
+     * @param bool $boost
      *
      * @return self Provides fluent interface
      */
@@ -406,7 +406,7 @@ class Query extends SelectQuery
     /**
      * Get boost option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getBoost()
     {
@@ -427,7 +427,7 @@ class Query extends SelectQuery
      */
     public function setQueryFields($queryFields)
     {
-        if (is_string($queryFields)) {
+        if (\is_string($queryFields)) {
             $queryFields = explode(',', $queryFields);
             $queryFields = array_map('trim', $queryFields);
         }
@@ -443,7 +443,7 @@ class Query extends SelectQuery
     public function getQueryFields()
     {
         $value = $this->getOption('queryfields');
-        if ($value === null) {
+        if (null === $value) {
             $value = array();
         }
 

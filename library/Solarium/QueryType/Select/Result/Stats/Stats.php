@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -73,8 +73,6 @@ class Stats implements \IteratorAggregate, \Countable
     {
         if (isset($this->results[$key])) {
             return $this->results[$key];
-        } else {
-            return;
         }
     }
 
@@ -105,6 +103,6 @@ class Stats implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->results);
+        return \count($this->results);
     }
 }

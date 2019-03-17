@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -115,9 +115,9 @@ class Suggestion
         $word = reset($this->words);
         if (isset($word['word'])) {
             return $word['word'];
-        } else {
-            return $word;
         }
+
+        return $word;
     }
 
     /**
@@ -142,8 +142,6 @@ class Suggestion
         $word = reset($this->words);
         if (isset($word['freq'])) {
             return $word['freq'];
-        } else {
-            return;
         }
     }
 }

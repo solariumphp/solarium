@@ -32,7 +32,7 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -68,7 +68,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $query = $result->getQuery();
 
         // Special case to handle Solr 1.4 data
-        if (isset($data['terms']) && count($data['terms']) == count($query->getFields()) * 2) {
+        if (isset($data['terms']) && \count($data['terms']) == \count($query->getFields()) * 2) {
             $data['terms'] = $this->convertToKeyValueArray($data['terms']);
         }
 

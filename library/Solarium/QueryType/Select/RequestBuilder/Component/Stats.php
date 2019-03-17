@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\Stats\Stats as StatsComponent;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Query\Component\Stats\Stats as StatsComponent;
 
 /**
  * Add select component stats to the request.
@@ -65,8 +65,8 @@ class Stats implements ComponentRequestBuilderInterface
         foreach ($component->getFields() as $field) {
             $pivots = $field->getPivots();
 
-            $prefix = (count($pivots) > 0) ? '{!tag='.implode(',', $pivots).'}' : '';
-            $request->addParam('stats.field', $prefix . $field->getKey());
+            $prefix = (\count($pivots) > 0) ? '{!tag='.implode(',', $pivots).'}' : '';
+            $request->addParam('stats.field', $prefix.$field->getKey());
 
             // add field specific facet stats
             foreach ($field->getFacets() as $facet) {

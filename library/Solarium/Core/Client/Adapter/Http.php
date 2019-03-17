@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\Core\Client\Adapter;
 
-use Solarium\Core\Configurable;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Configurable;
 use Solarium\Exception\HttpException;
 
 /**
@@ -54,10 +54,11 @@ class Http extends Configurable implements AdapterInterface
     /**
      * Handle Solr communication.
      *
-     * @throws HttpException
      *
      * @param Request  $request
      * @param Endpoint $endpoint
+     *
+     * @throws HttpException
      *
      * @return Response
      */
@@ -76,17 +77,18 @@ class Http extends Configurable implements AdapterInterface
     /**
      * Check result of a request.
      *
-     * @throws HttpException
      *
      * @param string $data
      * @param array  $headers
+     *
+     * @throws HttpException
      */
     public function check($data, $headers)
     {
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
-        if (false === $data && count($headers) == 0) {
-            throw new HttpException("HTTP request failed");
+        if (false === $data && 0 == \count($headers)) {
+            throw new HttpException('HTTP request failed');
         }
     }
 
@@ -108,25 +110,25 @@ class Http extends Configurable implements AdapterInterface
             ),
         ));
 
-        if ($method == Request::METHOD_POST) {
+        if (Request::METHOD_POST == $method) {
             if ($request->getFileUpload()) {
-                $boundary = '----------' . md5(time());
+                $boundary = '----------'.md5(time());
                 $CRLF = "\r\n";
                 $file = $request->getFileUpload();
                 // Add the proper boundary to the Content-Type header
                 $headers = $request->getHeaders();
                 // Remove the Content-Type header, because we will replace it with something else.
-                if (($key = array_search("Content-Type: multipart/form-data", $headers)) !== false) {
+                if (false !== ($key = array_search('Content-Type: multipart/form-data', $headers, true))) {
                     unset($headers[$key]);
                 }
                 $request->setHeaders($headers);
                 $request->addHeader("Content-Type: multipart/form-data; boundary={$boundary}");
-                $data =  "--{$boundary}" . $CRLF;
-                $data .= 'Content-Disposition: form-data; name="upload"; filename=' . $file . $CRLF;
-                $data .= 'Content-Type: application/octet-stream' . $CRLF . $CRLF;
-                $data .= file_get_contents($file) . $CRLF;
-                $data .= '--' . $boundary . '--';
-                $content_length = strlen($data);
+                $data = "--{$boundary}".$CRLF;
+                $data .= 'Content-Disposition: form-data; name="upload"; filename='.$file.$CRLF;
+                $data .= 'Content-Type: application/octet-stream'.$CRLF.$CRLF;
+                $data .= file_get_contents($file).$CRLF;
+                $data .= '--'.$boundary.'--';
+                $content_length = \strlen($data);
                 $request->addHeader("Content-Length: $content_length\r\n");
                 stream_context_set_option(
                     $context,
@@ -162,7 +164,7 @@ class Http extends Configurable implements AdapterInterface
         }
 
         $headers = $request->getHeaders();
-        if (count($headers) > 0) {
+        if (\count($headers) > 0) {
             stream_context_set_option(
                 $context,
                 'http',

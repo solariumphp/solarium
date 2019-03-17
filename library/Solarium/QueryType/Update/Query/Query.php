@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,10 +42,8 @@ namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
-use Solarium\QueryType\Update\RequestBuilder;
-use Solarium\QueryType\Update\ResponseParser;
-use Solarium\Exception\RuntimeException;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Update\Query\Command\AbstractCommand;
 use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
@@ -53,6 +51,8 @@ use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
 use Solarium\QueryType\Update\Query\Document\DocumentInterface;
+use Solarium\QueryType\Update\RequestBuilder;
+use Solarium\QueryType\Update\ResponseParser;
 
 /**
  * Update query.
@@ -107,10 +107,10 @@ class Query extends BaseQuery
      * @var array
      */
     protected $options = array(
-        'handler'       => 'update',
-        'resultclass'   => 'Solarium\QueryType\Update\Result',
+        'handler' => 'update',
+        'resultclass' => 'Solarium\QueryType\Update\Result',
         'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
-        'omitheader'    => false,
+        'omitheader' => false,
     );
 
     /**
@@ -156,10 +156,11 @@ class Query extends BaseQuery
     /**
      * Create a command instance.
      *
-     * @throws InvalidArgumentException
      *
      * @param string $type
      * @param mixed  $options
+     *
+     * @throws InvalidArgumentException
      *
      * @return AbstractCommand
      */
@@ -168,7 +169,7 @@ class Query extends BaseQuery
         $type = strtolower($type);
 
         if (!isset($this->commandTypes[$type])) {
-            throw new InvalidArgumentException("Update commandtype unknown: ".$type);
+            throw new InvalidArgumentException('Update commandtype unknown: '.$type);
         }
 
         $class = $this->commandTypes[$type];
@@ -199,7 +200,7 @@ class Query extends BaseQuery
      */
     public function add($key, $command)
     {
-        if (0 !== strlen($key)) {
+        if (0 !== \strlen($key)) {
             $this->commands[$key] = $command;
         } else {
             $this->commands[] = $command;
@@ -219,7 +220,7 @@ class Query extends BaseQuery
      */
     public function remove($command)
     {
-        if (is_object($command)) {
+        if (\is_object($command)) {
             foreach ($this->commands as $key => $instance) {
                 if ($instance === $command) {
                     unset($this->commands[$key]);
@@ -261,7 +262,7 @@ class Query extends BaseQuery
      */
     public function addDeleteQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getHelper()->assemble($query, $bind);
         }
 
@@ -332,7 +333,7 @@ class Query extends BaseQuery
      * create you own command instance and use the add method.
      *
      * @param DocumentInterface $document
-     * @param boolean           $overwrite
+     * @param bool              $overwrite
      * @param int               $commitWithin
      *
      * @return self Provides fluent interface
@@ -348,9 +349,9 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param array   $documents
-     * @param boolean $overwrite
-     * @param int     $commitWithin
+     * @param array $documents
+     * @param bool  $overwrite
+     * @param int   $commitWithin
      *
      * @return self Provides fluent interface
      */
@@ -377,9 +378,9 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param boolean $softCommit
-     * @param boolean $waitSearcher
-     * @param boolean $expungeDeletes
+     * @param bool $softCommit
+     * @param bool $waitSearcher
+     * @param bool $expungeDeletes
      *
      * @return self Provides fluent interface
      */
@@ -408,9 +409,9 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param boolean $softCommit
-     * @param boolean $waitSearcher
-     * @param int     $maxSegments
+     * @param bool $softCommit
+     * @param bool $waitSearcher
+     * @param int  $maxSegments
      *
      * @return self Provides fluent interface
      */
@@ -494,9 +495,9 @@ class Query extends BaseQuery
             foreach ($this->options['command'] as $key => $value) {
                 $type = $value['type'];
 
-                if ($type == self::COMMAND_ADD) {
+                if (self::COMMAND_ADD == $type) {
                     throw new RuntimeException(
-                        "Adding documents is not supported in configuration, use the API for this"
+                        'Adding documents is not supported in configuration, use the API for this'
                     );
                 }
 

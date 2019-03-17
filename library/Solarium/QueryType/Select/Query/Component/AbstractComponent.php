@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,8 +42,8 @@ namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\AbstractQuery;
-use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;
 use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderInterface;
+use Solarium\QueryType\Select\ResponseParser\Component\ComponentParserInterface;
 
 /**
  * Query component base class.

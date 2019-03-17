@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
-use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
+use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisResult;
+use Solarium\QueryType\Select\Result\MoreLikeThis\Result;
 
 /**
  * Parse select component MoreLikeThis result from the data.

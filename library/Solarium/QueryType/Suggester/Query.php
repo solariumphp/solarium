@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Suggester;
 
-use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 
 /**
  * Suggester Query.
@@ -56,10 +56,10 @@ class Query extends BaseQuery
      * @var array
      */
     protected $options = array(
-        'handler'       => 'suggest',
-        'resultclass'   => 'Solarium\QueryType\Suggester\Result\Result',
-        'termclass'     => 'Solarium\QueryType\Suggester\Result\Term',
-        'omitheader'    => true,
+        'handler' => 'suggest',
+        'resultclass' => 'Solarium\QueryType\Suggester\Result\Result',
+        'termclass' => 'Solarium\QueryType\Suggester\Result\Term',
+        'omitheader' => true,
     );
 
     /**
@@ -169,7 +169,7 @@ class Query extends BaseQuery
      *
      * Only return suggestions that result in more hits for the query than the existing query
      *
-     * @param boolean $onlyMorePopular
+     * @param bool $onlyMorePopular
      *
      * @return self Provides fluent interface
      */
@@ -181,7 +181,7 @@ class Query extends BaseQuery
     /**
      * Get onlyMorePopular option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getOnlyMorePopular()
     {
@@ -191,7 +191,7 @@ class Query extends BaseQuery
     /**
      * Set collate option.
      *
-     * @param boolean $collate
+     * @param bool $collate
      *
      * @return self Provides fluent interface
      */
@@ -203,7 +203,7 @@ class Query extends BaseQuery
     /**
      * Get collate option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getCollate()
     {

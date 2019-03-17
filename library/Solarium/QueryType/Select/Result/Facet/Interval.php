@@ -30,16 +30,18 @@
  *
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
- * @link http://www.solarium-project.org/
+ *
+ * @see http://www.solarium-project.org/
  */
 
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Facet;
 
 /**
- * Select interval facet result
+ * Select interval facet result.
  *
  * A interval facet will usually return a dataset of multiple rows, in each row a
  * value and its count. You can access the values as an array using
@@ -47,5 +49,4 @@ namespace Solarium\QueryType\Select\Result\Facet;
  */
 class Interval extends Field
 {
-   
 }

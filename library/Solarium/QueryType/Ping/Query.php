@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Ping;
 
-use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 
 /**
  * Ping query.
@@ -60,7 +60,7 @@ class Query extends BaseQuery
     protected $options = array(
         'resultclass' => 'Solarium\QueryType\Ping\Result',
         'handler' => 'admin/ping',
-        'omitheader'    => true,
+        'omitheader' => true,
     );
 
     /**

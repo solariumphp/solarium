@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,13 +40,13 @@
 
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Debug as DebugComponent;
-use Solarium\QueryType\Select\Result\Debug\Result;
-use Solarium\QueryType\Select\Result\Debug\DocumentSet;
-use Solarium\QueryType\Select\Result\Debug\Timing;
+use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Debug\Detail;
 use Solarium\QueryType\Select\Result\Debug\Document;
+use Solarium\QueryType\Select\Result\Debug\DocumentSet;
+use Solarium\QueryType\Select\Result\Debug\Result;
+use Solarium\QueryType\Select\Result\Debug\Timing;
 use Solarium\QueryType\Select\Result\Debug\TimingPhase;
 
 /**
@@ -77,14 +77,14 @@ class Debug implements ComponentParserInterface
             $otherQuery = (isset($debug['otherQuery'])) ? $debug['otherQuery'] : '';
 
             // parse explain data
-            if (isset($debug['explain']) && is_array($debug['explain'])) {
+            if (isset($debug['explain']) && \is_array($debug['explain'])) {
                 $explain = $this->parseDocumentSet($debug['explain']);
             } else {
                 $explain = new DocumentSet(array());
             }
 
             // parse explainOther data
-            if (isset($debug['explainOther']) && is_array($debug['explainOther'])) {
+            if (isset($debug['explainOther']) && \is_array($debug['explainOther'])) {
                 $explainOther = $this->parseDocumentSet($debug['explainOther']);
             } else {
                 $explainOther = new DocumentSet(array());
@@ -92,7 +92,7 @@ class Debug implements ComponentParserInterface
 
             // parse timing data
             $timing = null;
-            if (isset($debug['timing']) && is_array($debug['timing'])) {
+            if (isset($debug['timing']) && \is_array($debug['timing'])) {
                 $time = null;
                 $timingPhases = array();
                 foreach ($debug['timing'] as $key => $timingData) {
@@ -136,7 +136,7 @@ class Debug implements ComponentParserInterface
         $docs = array();
         foreach ($data as $key => $documentData) {
             $details = array();
-            if (isset($documentData['details']) && is_array($documentData['details'])) {
+            if (isset($documentData['details']) && \is_array($documentData['details'])) {
                 foreach ($documentData['details'] as $detailData) {
                     $detail = new Detail(
                         $detailData['match'],
@@ -144,7 +144,7 @@ class Debug implements ComponentParserInterface
                         $detailData['description']
                     );
 
-                    if (isset($detailData['details']) && is_array($detailData['details'])) {
+                    if (isset($detailData['details']) && \is_array($detailData['details'])) {
                         $detail->setSubDetails($detailData['details']);
                     }
                     $details[] = $detail;

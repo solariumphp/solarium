@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -101,8 +101,6 @@ class TimingPhase implements \IteratorAggregate, \Countable
     {
         if (isset($this->timings[$key])) {
             return $this->timings[$key];
-        } else {
-            return;
         }
     }
 
@@ -133,6 +131,6 @@ class TimingPhase implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->timings);
+        return \count($this->timings);
     }
 }

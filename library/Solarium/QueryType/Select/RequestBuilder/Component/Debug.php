@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\Debug as DebugComponent;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Query\Component\Debug as DebugComponent;
 
 /**
  * Add select component debug to the request.

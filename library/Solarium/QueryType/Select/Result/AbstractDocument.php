@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -51,16 +51,6 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      * @var array
      */
     protected $fields;
-
-    /**
-     * Get all fields.
-     *
-     * @return array
-     */
-    public function getFields()
-    {
-        return $this->fields;
-    }
 
     /**
      * Get field value by name.
@@ -89,11 +79,21 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     public function __isset($name)
     {
         return isset($this->fields[$name]);
+    }
+
+    /**
+     * Get all fields.
+     *
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
     }
 
     /**
@@ -113,7 +113,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      */
     public function count()
     {
-        return count($this->fields);
+        return \count($this->fields);
     }
 
     /**
@@ -136,7 +136,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      */
     public function offsetExists($offset)
     {
-        return ($this->__get($offset) !== null);
+        return null !== $this->__get($offset);
     }
 
     /**

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,11 +40,11 @@
 
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Stats\Stats as StatsComponent;
-use Solarium\QueryType\Select\Result\Stats\Stats as ResultStats;
-use Solarium\QueryType\Select\Result\Stats\Result as ResultStatsResult;
+use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Stats\FacetValue as ResultStatsFacetValue;
+use Solarium\QueryType\Select\Result\Stats\Result as ResultStatsResult;
+use Solarium\QueryType\Select\Result\Stats\Stats as ResultStats;
 
 /**
  * Parse select component Stats result from the data.

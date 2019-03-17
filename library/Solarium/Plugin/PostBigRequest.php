@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\Plugin;
 
-use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
+use Solarium\Core\Plugin\AbstractPlugin;
 
 /**
  * PostBigRequest plugin.
@@ -69,7 +69,7 @@ class PostBigRequest extends AbstractPlugin
     /**
      * Set maxquerystringlength enabled option.
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -81,7 +81,7 @@ class PostBigRequest extends AbstractPlugin
     /**
      * Get maxquerystringlength option.
      *
-     * @return integer
+     * @return int
      */
     public function getMaxQueryStringLength()
     {
@@ -97,8 +97,8 @@ class PostBigRequest extends AbstractPlugin
     {
         $request = $event->getRequest();
         $queryString = $request->getQueryString();
-        if ($request->getMethod() == Request::METHOD_GET &&
-            strlen($queryString) > $this->getMaxQueryStringLength()) {
+        if (Request::METHOD_GET == $request->getMethod() &&
+            \strlen($queryString) > $this->getMaxQueryStringLength()) {
             $request->setMethod(Request::METHOD_POST);
             $request->setRawData($queryString);
             $request->clearParams();

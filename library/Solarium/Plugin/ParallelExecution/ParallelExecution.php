@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,13 +40,13 @@
 
 namespace Solarium\Plugin\ParallelExecution;
 
-use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Client\Endpoint;
-use Solarium\Exception\HttpException;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Exception\HttpException;
 use Solarium\Plugin\ParallelExecution\Event\Events;
-use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
+use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
 
 /**
  * ParallelExecution plugin.
@@ -82,17 +82,17 @@ class ParallelExecution extends AbstractPlugin
      *
      * @param string               $key
      * @param AbstractQuery        $query
-     * @param null|string|Endpoint $endpoint
+     * @param string|Endpoint|null $endpoint
      *
      * @return self Provides fluent interface
      */
     public function addQuery($key, $query, $endpoint = null)
     {
-        if (is_object($endpoint)) {
+        if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
         }
 
-        if ($endpoint === null) {
+        if (null === $endpoint) {
             $endpoint = $this->client->getEndpoint()->getKey();
         }
 
@@ -152,17 +152,17 @@ class ParallelExecution extends AbstractPlugin
 
         do {
             $mrc = curl_multi_exec($multiHandle, $active);
-        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+        } while (CURLM_CALL_MULTI_PERFORM == $mrc);
 
         $timeout = $this->getOption('curlmultiselecttimeout');
-        while ($active && $mrc == CURLM_OK) {
-            if (curl_multi_select($multiHandle, $timeout) == -1) {
+        while ($active && CURLM_OK == $mrc) {
+            if (-1 == curl_multi_select($multiHandle, $timeout)) {
                 usleep(100);
             }
 
             do {
                 $mrc = curl_multi_exec($multiHandle, $active);
-            } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            } while (CURLM_CALL_MULTI_PERFORM == $mrc);
         }
 
         $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_END, new ExecuteEndEvent());

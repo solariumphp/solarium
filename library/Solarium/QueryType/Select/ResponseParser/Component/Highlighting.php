@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting as HighlightingComponent;
+use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Highlighting\Highlighting as HighlightingResult;
 use Solarium\QueryType\Select\Result\Highlighting\Result;
 

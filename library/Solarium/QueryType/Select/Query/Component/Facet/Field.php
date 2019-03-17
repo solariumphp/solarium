@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -45,7 +45,7 @@ use Solarium\QueryType\Select\Query\Component\FacetSet;
 /**
  * Facet query.
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters#Field_Value_Faceting_Parameters
+ * @see http://wiki.apache.org/solr/SimpleFacetParameters#Field_Value_Faceting_Parameters
  */
 class Field extends AbstractFacet
 {
@@ -157,12 +157,13 @@ class Field extends AbstractFacet
     }
 
     /**
-     * Limit the terms for faceting by a string they must contain
+     * Limit the terms for faceting by a string they must contain.
      *
      * This is a global value for all facets in this facetset
      *
-     * @param  string $contains
-     * @return self   Provides fluent interface
+     * @param string $contains
+     *
+     * @return self Provides fluent interface
      */
     public function setContains($contains)
     {
@@ -170,7 +171,7 @@ class Field extends AbstractFacet
     }
 
     /**
-     * Get the facet contains
+     * Get the facet contains.
      *
      * This is a global value for all facets in this facetset
      *
@@ -181,14 +182,14 @@ class Field extends AbstractFacet
         return $this->getOption('contains');
     }
 
-
     /**
-     * Case sensitivity of matching string that facet terms must contain
+     * Case sensitivity of matching string that facet terms must contain.
      *
      * This is a global value for all facets in this facetset
      *
-     * @param  boolean $containsIgnoreCase
-     * @return self    Provides fluent interface
+     * @param bool $containsIgnoreCase
+     *
+     * @return self Provides fluent interface
      */
     public function setContainsIgnoreCase($containsIgnoreCase)
     {
@@ -196,11 +197,11 @@ class Field extends AbstractFacet
     }
 
     /**
-     * Get the case sensitivity of facet contains
+     * Get the case sensitivity of facet contains.
      *
      * This is a global value for all facets in this facetset
      *
-     * @return boolean
+     * @return bool
      */
     public function getContainsIgnoreCase()
     {
@@ -208,7 +209,9 @@ class Field extends AbstractFacet
     }
 
     /**
-     * Set the facet limit
+     * Set the facet limit.
+     *
+     * @param mixed $limit
      *
      * @return self Provides fluent interface
      */
@@ -274,7 +277,7 @@ class Field extends AbstractFacet
     /**
      * Set the missing count option.
      *
-     * @param boolean $missing
+     * @param bool $missing
      *
      * @return self Provides fluent interface
      */
@@ -286,7 +289,7 @@ class Field extends AbstractFacet
     /**
      * Get the facet missing option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getMissing()
     {

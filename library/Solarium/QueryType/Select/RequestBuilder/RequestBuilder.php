@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 /**
  * Build a select request.
@@ -80,13 +80,13 @@ class RequestBuilder extends BaseRequestBuilder
         foreach ($query->getSorts() as $field => $order) {
             $sort[] = $field.' '.$order;
         }
-        if (count($sort) !== 0) {
+        if (0 !== \count($sort)) {
             $request->addParam('sort', implode(',', $sort));
         }
 
         // add filterqueries to request
         $filterQueries = $query->getFilterQueries();
-        if (count($filterQueries) !== 0) {
+        if (0 !== \count($filterQueries)) {
             foreach ($filterQueries as $filterQuery) {
                 $fq = $this->renderLocalParams(
                     $filterQuery->getQuery(),

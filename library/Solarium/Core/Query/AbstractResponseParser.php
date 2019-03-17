@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -59,17 +59,17 @@ abstract class AbstractResponseParser
         // key counter to convert values to arrays when keys are re-used
         $keys = array();
 
-        $dataCount = count($data);
+        $dataCount = \count($data);
         $result = array();
         for ($i = 0; $i < $dataCount; $i += 2) {
-            $key  = $data[$i];
-            $value = $data[$i+1];
-            if (array_key_exists($key, $keys)) {
-                if ($keys[$key] == 1) {
+            $key = $data[$i];
+            $value = $data[$i + 1];
+            if (\array_key_exists($key, $keys)) {
+                if (1 == $keys[$key]) {
                     $result[$key] = array($result[$key]);
                 }
                 $result[$key][] = $value;
-                $keys[$key]++;
+                ++$keys[$key];
             } else {
                 $keys[$key] = 1;
                 $result[$key] = $value;

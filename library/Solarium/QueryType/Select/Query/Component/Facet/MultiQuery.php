@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,9 +40,9 @@
 
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
-use Solarium\QueryType\Select\Query\Component\FacetSet;
-use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
+use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 /**
  * Facet MultiQuery.
@@ -100,25 +100,26 @@ class MultiQuery extends AbstractFacet
      * Supports a facetquery instance or a config array, in that case a new
      * facetquery instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param Query|array $facetQuery
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
     public function addQuery($facetQuery)
     {
-        if (is_array($facetQuery)) {
+        if (\is_array($facetQuery)) {
             $facetQuery = new Query($facetQuery);
         }
 
         $key = $facetQuery->getKey();
 
-        if (0 === strlen($key)) {
+        if (0 === \strlen($key)) {
             throw new InvalidArgumentException('A facetquery must have a key value');
         }
 
-        if (array_key_exists($key, $this->facetQueries)) {
+        if (\array_key_exists($key, $this->facetQueries)) {
             throw new InvalidArgumentException('A query must have a unique key value within a multiquery facet');
         }
 
@@ -141,7 +142,7 @@ class MultiQuery extends AbstractFacet
     {
         foreach ($facetQueries as $key => $facetQuery) {
             // in case of a config array: add key to config
-            if (is_array($facetQuery) && !isset($facetQuery['key'])) {
+            if (\is_array($facetQuery) && !isset($facetQuery['key'])) {
                 $facetQuery['key'] = $key;
             }
 
@@ -162,8 +163,6 @@ class MultiQuery extends AbstractFacet
     {
         if (isset($this->facetQueries[$key])) {
             return $this->facetQueries[$key];
-        } else {
-            return;
         }
     }
 
@@ -188,7 +187,7 @@ class MultiQuery extends AbstractFacet
      */
     public function removeQuery($query)
     {
-        if (is_object($query)) {
+        if (\is_object($query)) {
             $query = $query->getKey();
         }
 
@@ -304,7 +303,7 @@ class MultiQuery extends AbstractFacet
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'query':
-                    if (!is_array($value)) {
+                    if (!\is_array($value)) {
                         $value = array(array('query' => $value));
                     }
                     $this->addQueries($value);

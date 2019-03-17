@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\Plugin\MinimumScoreFilter;
 
-use Solarium\QueryType\Select\Result\DocumentInterface;
 use Solarium\Exception\RuntimeException;
+use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * Minimum score filter query result document.
@@ -60,7 +60,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * Is this document marked as a low score?
      *
-     * @var boolean
+     * @var bool
      */
     protected $marked;
 
@@ -74,16 +74,6 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     {
         $this->document = $document;
         $this->marked = $threshold > $document->score;
-    }
-
-    /**
-     * Get markedAsLowScore status.
-     *
-     * @return bool
-     */
-    public function markedAsLowScore()
-    {
-        return $this->marked;
     }
 
     /**
@@ -116,11 +106,38 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     public function __isset($name)
     {
         return $this->document->__isset($name);
+    }
+
+    /**
+     * Set field value.
+     *
+     * Magic method for setting a field as property of this object. Since this
+     * is a readonly document an exception will be thrown to prevent this.
+     *
+     *
+     * @param string $name
+     * @param string $value
+     *
+     * @throws RuntimeException
+     */
+    public function __set($name, $value)
+    {
+        throw new RuntimeException('A readonly document cannot be altered');
+    }
+
+    /**
+     * Get markedAsLowScore status.
+     *
+     * @return bool
+     */
+    public function markedAsLowScore()
+    {
+        return $this->marked;
     }
 
     /**
@@ -175,22 +192,6 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     public function offsetGet($offset)
     {
         return $this->document->offsetGet($offset);
-    }
-
-    /**
-     * Set field value.
-     *
-     * Magic method for setting a field as property of this object. Since this
-     * is a readonly document an exception will be thrown to prevent this.
-     *
-     * @throws RuntimeException
-     *
-     * @param string $name
-     * @param string $value
-     */
-    public function __set($name, $value)
-    {
-        throw new RuntimeException('A readonly document cannot be altered');
     }
 
     /**

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,9 +42,9 @@ namespace Solarium\QueryType\Select\ResponseParser;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
-use Solarium\QueryType\Select\Result\Result;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Result\Result;
 
 /**
  * Parse select response data.
@@ -54,9 +54,10 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     /**
      * Get result data for the response.
      *
-     * @throws RuntimeException
      *
      * @param Result $result
+     *
+     * @throws RuntimeException
      *
      * @return array
      */
@@ -72,8 +73,8 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         // create document instances
         $documentClass = $query->getOption('documentclass');
         $classes = class_implements($documentClass);
-        if (!in_array('Solarium\QueryType\Select\Result\DocumentInterface', $classes) &&
-            !in_array('Solarium\QueryType\Update\Query\Document\DocumentInterface', $classes)
+        if (!\in_array('Solarium\QueryType\Select\Result\DocumentInterface', $classes, true) &&
+            !\in_array('Solarium\QueryType\Update\Query\Document\DocumentInterface', $classes, true)
         ) {
             throw new RuntimeException('The result document class must implement a document interface');
         }

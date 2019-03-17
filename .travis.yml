@@ -6,7 +6,7 @@ php:
   - 7.1
   - 7.0
   - 5.6
-  - hhvm
+  - hhvm-3.3
   - nightly
 
 env:
@@ -26,8 +26,8 @@ before_install:
   - tar -xzf solr-${SOLR_VERSION}.tgz
 
 before_script:
-#  - pecl install pecl_http
-  - composer require --prefer-source --dev symfony/event-dispatcher:${SYMFONY_VERSION}
+  #  - pecl install pecl_http
+  - COMPOSER_MEMORY_LIMIT=-1 composer require --prefer-source symfony/event-dispatcher:${SYMFONY_VERSION}
   - solr-${SOLR_VERSION}/bin/solr start -e techproducts
 
 script: vendor/bin/phpunit -c phpunit.xml.travis -v
@@ -37,13 +37,13 @@ after_success:
 
 matrix:
   exclude:
-      - php: 7.0
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
-      - php: 5.6
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
-      - php: hhvm
-        env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+    - php: 7.0
+      env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+    - php: 5.6
+      env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
+    - php: hhvm-3.3
+      env: SYMFONY_VERSION=4.0.* SOLR_VERSION=6.6.2
   allow_failures:
-      - php: nightly
+    - php: nightly
 
 sudo: false

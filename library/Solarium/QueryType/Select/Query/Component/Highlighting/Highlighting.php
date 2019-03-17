@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,16 +40,16 @@
 
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Component\AbstractComponent;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\Highlighting as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Highlighting as ResponseParser;
-use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Highlighting component.
  *
- * @link http://wiki.apache.org/solr/HighlightingParameters
+ * @see http://wiki.apache.org/solr/HighlightingParameters
  */
 class Highlighting extends AbstractComponent
 {
@@ -123,8 +123,8 @@ class Highlighting extends AbstractComponent
     /**
      * Get a field options object.
      *
-     * @param string  $name
-     * @param boolean $autocreate
+     * @param string $name
+     * @param bool   $autocreate
      *
      * @return Field
      */
@@ -136,31 +136,30 @@ class Highlighting extends AbstractComponent
             $this->addField($name);
 
             return $this->fields[$name];
-        } else {
-            return;
         }
     }
 
     /**
      * Add a field for highlighting.
      *
-     * @throws InvalidArgumentException
      *
      * @param string|array|Field $field
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
     public function addField($field)
     {
         // autocreate object for string input
-        if (is_string($field)) {
+        if (\is_string($field)) {
             $field = new Field(array('name' => $field));
-        } elseif (is_array($field)) {
+        } elseif (\is_array($field)) {
             $field = new Field($field);
         }
 
         // validate field
-        if ($field->getName() === null) {
+        if (null === $field->getName()) {
             throw new InvalidArgumentException(
                 'To add a highlighting field it needs to have at least a "name" setting'
             );
@@ -181,14 +180,14 @@ class Highlighting extends AbstractComponent
      */
     public function addFields($fields)
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
 
         foreach ($fields as $key => $field) {
             // in case of a config array without key: add key to config
-            if (is_array($field) && !isset($field['name'])) {
+            if (\is_array($field) && !isset($field['name'])) {
                 $field['name'] = $key;
             }
 
@@ -306,7 +305,7 @@ class Highlighting extends AbstractComponent
      *
      * Collapse contiguous fragments into a single fragment
      *
-     * @param boolean $merge
+     * @param bool $merge
      *
      * @return self Provides fluent interface
      */
@@ -318,7 +317,7 @@ class Highlighting extends AbstractComponent
     /**
      * Get mergeContiguous option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getMergeContiguous()
     {
@@ -328,7 +327,7 @@ class Highlighting extends AbstractComponent
     /**
      * Set requireFieldMatch option.
      *
-     * @param boolean $require
+     * @param bool $require
      *
      * @return self Provides fluent interface
      */
@@ -340,7 +339,7 @@ class Highlighting extends AbstractComponent
     /**
      * Get requireFieldMatch option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getRequireFieldMatch()
     {
@@ -418,7 +417,7 @@ class Highlighting extends AbstractComponent
     /**
      * Set preserveMulti option.
      *
-     * @param boolean $preservemulti
+     * @param bool $preservemulti
      *
      * @return self Provides fluent interface
      */
@@ -430,7 +429,7 @@ class Highlighting extends AbstractComponent
     /**
      * Get preserveMulti option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getPreserveMulti()
     {
@@ -634,7 +633,7 @@ class Highlighting extends AbstractComponent
     /**
      * Set useFastVectorHighlighter option.
      *
-     * @param boolean $use
+     * @param bool $use
      *
      * @return self Provides fluent interface
      */
@@ -646,7 +645,7 @@ class Highlighting extends AbstractComponent
     /**
      * Get useFastVectorHighlighter option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getUseFastVectorHighlighter()
     {
@@ -656,7 +655,7 @@ class Highlighting extends AbstractComponent
     /**
      * Set usePhraseHighlighter option.
      *
-     * @param boolean $use
+     * @param bool $use
      *
      * @return self Provides fluent interface
      */
@@ -668,7 +667,7 @@ class Highlighting extends AbstractComponent
     /**
      * Get usePhraseHighlighter option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getUsePhraseHighlighter()
     {
@@ -678,7 +677,7 @@ class Highlighting extends AbstractComponent
     /**
      * Set HighlightMultiTerm option.
      *
-     * @param boolean $highlight
+     * @param bool $highlight
      *
      * @return self Provides fluent interface
      */
@@ -690,7 +689,7 @@ class Highlighting extends AbstractComponent
     /**
      * Get HighlightMultiTerm option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getHighlightMultiTerm()
     {

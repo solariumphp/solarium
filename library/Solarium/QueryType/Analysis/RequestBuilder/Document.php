@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 
-use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
-use Solarium\QueryType\Analysis\Query\Document as QueryDocument;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
+use Solarium\QueryType\Analysis\Query\Document as QueryDocument;
 
 /**
  * Build a document analysis request.
@@ -81,7 +81,7 @@ class Document extends BaseRequestBuilder
             $xml .= '<doc>';
 
             foreach ($doc->getFields() as $name => $value) {
-                if (is_array($value)) {
+                if (\is_array($value)) {
                     foreach ($value as $multival) {
                         $xml .= $this->buildFieldXml($name, $multival);
                     }

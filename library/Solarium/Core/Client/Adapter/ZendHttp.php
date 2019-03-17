@@ -33,7 +33,7 @@
  * @copyright Copyright 2012 Alexander Brausewetter <alex@helpdeskhq.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,11 +42,11 @@
 
 namespace Solarium\Core\Client\Adapter;
 
-use Solarium\Core\Configurable;
 use Solarium\Core\Client;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Configurable;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\OutOfBoundsException;
 
@@ -86,7 +86,7 @@ class ZendHttp extends Configurable implements AdapterInterface
      * method, like Zend_Config
      *
      * @param array|object $options
-     * @param boolean      $overwrite
+     * @param bool         $overwrite
      *
      * @return self Provides fluent interface
      */
@@ -162,11 +162,12 @@ class ZendHttp extends Configurable implements AdapterInterface
     /**
      * Execute a Solr request using the Zend_Http_Client instance.
      *
-     * @throws HttpException
-     * @throws OutOfBoundsException
      *
      * @param Request  $request
      * @param Endpoint $endpoint
+     *
+     * @throws HttpException
+     * @throws OutOfBoundsException
      *
      * @return Response
      */
@@ -215,10 +216,11 @@ class ZendHttp extends Configurable implements AdapterInterface
      * Prepare a solarium response from the given request and client
      * response.
      *
-     * @throws HttpException
      *
      * @param Request             $request
      * @param \Zend_Http_Response $response
+     *
+     * @throws HttpException
      *
      * @return Response
      */
@@ -231,7 +233,7 @@ class ZendHttp extends Configurable implements AdapterInterface
             );
         }
 
-        if ($request->getMethod() == Request::METHOD_HEAD) {
+        if (Request::METHOD_HEAD == $request->getMethod()) {
             $data = '';
         } else {
             $data = $response->getBody();

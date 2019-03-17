@@ -2,7 +2,7 @@
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  * * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * modification, are permitted provided that the following conditions are met:.
  *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
@@ -30,7 +30,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 namespace Solarium\Core\Client\Adapter;
 
 use Guzzle\Http\Client as GuzzleClient;
-use Solarium\Core\Configurable;
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Configurable;
 use Solarium\Exception\HttpException;
 
 /**
@@ -70,7 +70,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
     {
         $guzzleRequest = $this->getGuzzleClient()->createRequest(
             $request->getMethod(),
-            $endpoint->getBaseUri() . $request->getUri(),
+            $endpoint->getBaseUri().$request->getUri(),
             $this->getRequestHeaders($request),
             $this->getRequestBody($request),
             array(
@@ -99,7 +99,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
                 $guzzleResponse->getHeaderLines()
             );
 
-             return new Response($guzzleResponse->getBody(true), $responseHeaders);
+            return new Response($guzzleResponse->getBody(true), $responseHeaders);
         } catch (\Guzzle\Http\Exception\RequestException $e) {
             $error = $e->getMessage();
             if ($e instanceof \Guzzle\Http\Exception\CurlException) {
@@ -117,7 +117,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
      */
     public function getGuzzleClient()
     {
-        if ($this->guzzleClient === null) {
+        if (null === $this->guzzleClient) {
             $this->guzzleClient = new GuzzleClient(null, $this->options);
         }
 
@@ -127,13 +127,13 @@ class Guzzle3 extends Configurable implements AdapterInterface
     /**
      * Helper method to create a request body suitable for a guzzle 3 request.
      *
-     * @param Request $request The incoming solarium request.
+     * @param Request $request the incoming solarium request
      *
-     * @return null|resource|string
+     * @return resource|string|null
      */
     private function getRequestBody(Request $request)
     {
-        if ($request->getMethod() !== Request::METHOD_POST) {
+        if (Request::METHOD_POST !== $request->getMethod()) {
             return null;
         }
 
@@ -148,7 +148,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
      * Helper method to extract headers from the incoming solarium request and put them in a format
      * suitable for a guzzle 3 request.
      *
-     * @param Request $request The incoming solarium request.
+     * @param Request $request the incoming solarium request
      *
      * @return array
      */
@@ -163,7 +163,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
         }
 
         if (!isset($headers['Content-Type'])) {
-            if ($request->getMethod() == Request::METHOD_GET) {
+            if (Request::METHOD_GET == $request->getMethod()) {
                 $headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
             } else {
                 $headers['Content-Type'] = 'application/xml; charset=utf-8';

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,16 +40,16 @@
 
 namespace Solarium\QueryType\Select\Query\Component\Stats;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Component\AbstractComponent;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\Stats as RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser\Component\Stats as ResponseParser;
-use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Stats component.
  *
- * @link http://wiki.apache.org/solr/StatsComponent
+ * @see http://wiki.apache.org/solr/StatsComponent
  */
 class Stats extends AbstractComponent
 {
@@ -113,14 +113,14 @@ class Stats extends AbstractComponent
      */
     public function createField($options = null)
     {
-        if (is_string($options)) {
+        if (\is_string($options)) {
             $fq = new Field();
             $fq->setKey($options);
         } else {
             $fq = new Field($options);
         }
 
-        if ($fq->getKey() !== null) {
+        if (null !== $fq->getKey()) {
             $this->addField($fq);
         }
 
@@ -133,30 +133,30 @@ class Stats extends AbstractComponent
      * Supports a field instance or a config array, in that case a new
      * field instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param Field|array $field
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
     public function addField($field)
     {
-        if (is_array($field)) {
+        if (\is_array($field)) {
             $field = new Field($field);
         }
 
         $key = $field->getKey();
 
-        if (0 === strlen($key)) {
+        if (0 === \strlen($key)) {
             throw new InvalidArgumentException('A field must have a key value');
         }
 
         //double add calls for the same field are ignored, but non-unique keys cause an exception
-        if (array_key_exists($key, $this->fields) && $this->fields[$key] !== $field) {
+        if (\array_key_exists($key, $this->fields) && $this->fields[$key] !== $field) {
             throw new InvalidArgumentException('A field must have a unique key value');
-        } else {
-            $this->fields[$key] = $field;
         }
+        $this->fields[$key] = $field;
 
         return $this;
     }
@@ -172,7 +172,7 @@ class Stats extends AbstractComponent
     {
         foreach ($fields as $key => $field) {
             // in case of a config array: add key to config
-            if (is_array($field) && !isset($field['key'])) {
+            if (\is_array($field) && !isset($field['key'])) {
                 $field['key'] = $key;
             }
 
@@ -193,8 +193,6 @@ class Stats extends AbstractComponent
     {
         if (isset($this->fields[$key])) {
             return $this->fields[$key];
-        } else {
-            return;
         }
     }
 
@@ -219,7 +217,7 @@ class Stats extends AbstractComponent
      */
     public function removeField($field)
     {
-        if (is_object($field)) {
+        if (\is_object($field)) {
             $field = $field->getKey();
         }
 
@@ -283,7 +281,7 @@ class Stats extends AbstractComponent
      */
     public function addFacets($facets)
     {
-        if (is_string($facets)) {
+        if (\is_string($facets)) {
             $facets = explode(',', $facets);
             $facets = array_map('trim', $facets);
         }

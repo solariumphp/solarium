@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -81,14 +81,14 @@ class Autoloader
      */
     public static function load($class)
     {
-        if (substr($class, 0, 8) == 'Solarium') {
+        if ('Solarium' == substr($class, 0, 8)) {
             $class = str_replace(
                 array('Solarium', '\\'),
                 array('', '/'),
                 $class
             );
 
-            $file = dirname(__FILE__).$class.'.php';
+            $file = __DIR__.$class.'.php';
 
             require $file;
         }

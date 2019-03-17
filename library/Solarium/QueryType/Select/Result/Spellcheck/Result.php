@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -62,16 +62,16 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Correctly spelled?
      *
-     * @var boolean
+     * @var bool
      */
     protected $correctlySpelled;
 
     /**
      * Constructor.
      *
-     * @param array   $suggestions
-     * @param array   $collations
-     * @param boolean $correctlySpelled
+     * @param array $suggestions
+     * @param array $collations
+     * @param bool  $correctlySpelled
      */
     public function __construct($suggestions, $collations, $correctlySpelled)
     {
@@ -89,16 +89,15 @@ class Result implements \IteratorAggregate, \Countable
      */
     public function getCollation($key = null)
     {
-        $nrOfCollations = count($this->collations);
-        if ($nrOfCollations == 0) {
+        $nrOfCollations = \count($this->collations);
+        if (0 == $nrOfCollations) {
             return;
-        } else {
-            if ($key === null) {
-                return reset($this->collations);
-            }
-
-            return $this->collations[$key];
         }
+        if (null === $key) {
+            return reset($this->collations);
+        }
+
+        return $this->collations[$key];
     }
 
     /**
@@ -134,8 +133,6 @@ class Result implements \IteratorAggregate, \Countable
     {
         if (isset($this->suggestions[$key])) {
             return $this->suggestions[$key];
-        } else {
-            return;
         }
     }
 
@@ -166,6 +163,6 @@ class Result implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->suggestions);
+        return \count($this->suggestions);
     }
 }

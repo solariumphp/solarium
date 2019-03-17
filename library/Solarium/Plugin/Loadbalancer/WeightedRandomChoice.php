@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -74,9 +74,10 @@ class WeightedRandomChoice
     /**
      * Constructor.
      *
-     * @throws InvalidArgumentException
      *
      * @param array $choices
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct($choices)
     {
@@ -90,22 +91,23 @@ class WeightedRandomChoice
             $this->lookup[$i] = $this->totalWeight;
             $this->values[$i] = $key;
 
-            $i++;
+            ++$i;
         }
     }
 
     /**
      * Get a (weighted) random entry.
      *
-     * @throws RuntimeException
      *
      * @param array $excludes Keys to exclude
+     *
+     * @throws RuntimeException
      *
      * @return string
      */
     public function getRandom($excludes = array())
     {
-        if (count($excludes) == count($this->values)) {
+        if (\count($excludes) == \count($this->values)) {
             throw new RuntimeException('No more server entries available');
         }
 
@@ -113,7 +115,7 @@ class WeightedRandomChoice
         $result = null;
         while (1) {
             $result = $this->values[$this->getKey()];
-            if (!in_array($result, $excludes)) {
+            if (!\in_array($result, $excludes, true)) {
                 break;
             }
         }
@@ -129,7 +131,7 @@ class WeightedRandomChoice
     protected function getKey()
     {
         $random = mt_rand(1, $this->totalWeight);
-        $high = count($this->lookup)-1;
+        $high = \count($this->lookup) - 1;
         $low = 0;
 
         while ($low < $high) {
@@ -145,8 +147,8 @@ class WeightedRandomChoice
 
         if ($this->lookup[$low] >= $random) {
             return $low;
-        } else {
-            return $low+1;
         }
+
+        return $low + 1;
     }
 }

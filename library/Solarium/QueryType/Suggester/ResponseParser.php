@@ -32,7 +32,7 @@
  * @copyright Copyright 2011 Gasol Wu <gasol.wu@gmail.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -66,7 +66,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $allSuggestions = array();
         $collation = null;
 
-        if (isset($data['spellcheck']['suggestions']) && is_array($data['spellcheck']['suggestions'])) {
+        if (isset($data['spellcheck']['suggestions']) && \is_array($data['spellcheck']['suggestions'])) {
             $suggestResults = $data['spellcheck']['suggestions'];
             $termClass = $query->getOption('termclass');
 
@@ -75,17 +75,17 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             }
 
             foreach ($suggestResults as $term => $termData) {
-                if ($term == 'collation') {
+                if ('collation' == $term) {
                     $collation = $termData;
                 } else {
-                    if (!array_key_exists(0, $termData)) {
+                    if (!\array_key_exists(0, $termData)) {
                         $termData = array($termData);
                     }
 
                     foreach ($termData as $currentTermData) {
                         $allSuggestions[] = $this->createTerm($termClass, $currentTermData);
 
-                        if (!array_key_exists($term, $suggestions)) {
+                        if (!\array_key_exists($term, $suggestions)) {
                             $suggestions[$term] = $this->createTerm($termClass, $currentTermData);
                         }
                     }

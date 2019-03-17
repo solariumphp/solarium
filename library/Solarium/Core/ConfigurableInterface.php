@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -58,11 +58,12 @@ interface ConfigurableInterface
      * it's toArray method. This is compatible with the Zend_Config classes in
      * Zend Framework, but can also easily be implemented in any other object.
      *
-     * @throws InvalidArgumentException
      *
      * @param array|\Zend_Config $options
-     * @param boolean            $overwrite True for overwriting existing options, false
+     * @param bool               $overwrite True for overwriting existing options, false
      *                                      for merging (new values overwrite old ones if needed)
+     *
+     * @throws InvalidArgumentException
      */
     public function setOptions($options, $overwrite = false);
 

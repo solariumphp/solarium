@@ -33,7 +33,7 @@
  * @copyright Copyright 2012 Alexander Brausewetter <alex@helpdeskhq.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,9 +42,9 @@
 
 namespace Solarium\QueryType\Extract;
 
-use Solarium\Core\Query\QueryInterface;
-use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
 
 /**
@@ -55,9 +55,10 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build the request.
      *
-     * @throws RuntimeException
      *
      * @param Query|QueryInterface $query
+     *
+     * @throws RuntimeException
      *
      * @return Request
      */
@@ -80,8 +81,8 @@ class RequestBuilder extends BaseRequestBuilder
         }
 
         // add document settings to request
-        if (($doc = $query->getDocument()) !== null) {
-            if ($doc->getBoost() !== null) {
+        if (null !== ($doc = $query->getDocument())) {
+            if (null !== $doc->getBoost()) {
                 throw new RuntimeException('Extract does not support document-level boosts, use field boosts instead.');
             }
 

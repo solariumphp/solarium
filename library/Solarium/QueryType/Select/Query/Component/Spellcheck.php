@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -47,7 +47,7 @@ use Solarium\QueryType\Select\ResponseParser\Component\Spellcheck as ResponsePar
 /**
  * Spellcheck component.
  *
- * @link http://wiki.apache.org/solr/SpellCheckComponent
+ * @see http://wiki.apache.org/solr/SpellCheckComponent
  */
 class Spellcheck extends AbstractComponent
 {
@@ -98,7 +98,7 @@ class Spellcheck extends AbstractComponent
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getQueryInstance()->getHelper()->assemble($query, $bind);
         }
 
@@ -120,7 +120,7 @@ class Spellcheck extends AbstractComponent
      *
      * Build the spellcheck?
      *
-     * @param boolean $build
+     * @param bool $build
      *
      * @return self Provides fluent interface
      */
@@ -132,7 +132,7 @@ class Spellcheck extends AbstractComponent
     /**
      * Get build option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getBuild()
     {
@@ -144,7 +144,7 @@ class Spellcheck extends AbstractComponent
      *
      * Reload the dictionary?
      *
-     * @param boolean $reload
+     * @param bool $reload
      *
      * @return self Provides fluent interface
      */
@@ -156,7 +156,7 @@ class Spellcheck extends AbstractComponent
     /**
      * Get fragsize option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getReload()
     {
@@ -216,7 +216,7 @@ class Spellcheck extends AbstractComponent
      *
      * Only return suggestions that result in more hits for the query than the existing query
      *
-     * @param boolean $onlyMorePopular
+     * @param bool $onlyMorePopular
      *
      * @return self Provides fluent interface
      */
@@ -228,7 +228,7 @@ class Spellcheck extends AbstractComponent
     /**
      * Get onlyMorePopular option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getOnlyMorePopular()
     {
@@ -238,7 +238,7 @@ class Spellcheck extends AbstractComponent
     /**
      * Set extendedResults option.
      *
-     * @param boolean $extendedResults
+     * @param bool $extendedResults
      *
      * @return self Provides fluent interface
      */
@@ -250,7 +250,7 @@ class Spellcheck extends AbstractComponent
     /**
      * Get extendedResults option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getExtendedResults()
     {
@@ -260,7 +260,7 @@ class Spellcheck extends AbstractComponent
     /**
      * Set collate option.
      *
-     * @param boolean $collate
+     * @param bool $collate
      *
      * @return self Provides fluent interface
      */
@@ -272,7 +272,7 @@ class Spellcheck extends AbstractComponent
     /**
      * Get collate option.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getCollate()
     {

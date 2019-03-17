@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -45,7 +45,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query delete command.
  *
- * @link http://wiki.apache.org/solr/UpdateXmlMessages#A.22delete.22_by_ID_and_by_Query
+ * @see http://wiki.apache.org/solr/UpdateXmlMessages#A.22delete.22_by_ID_and_by_Query
  */
 class Delete extends AbstractCommand
 {
@@ -156,7 +156,7 @@ class Delete extends AbstractCommand
     {
         $id = $this->getOption('id');
         if (null !== $id) {
-            if (is_array($id)) {
+            if (\is_array($id)) {
                 $this->addIds($id);
             } else {
                 $this->addId($id);
@@ -165,7 +165,7 @@ class Delete extends AbstractCommand
 
         $queries = $this->getOption('query');
         if (null !== $queries) {
-            if (is_array($queries)) {
+            if (\is_array($queries)) {
                 $this->addQueries($queries);
             } else {
                 $this->addQuery($queries);

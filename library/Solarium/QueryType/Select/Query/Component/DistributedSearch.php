@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -46,8 +46,8 @@ use Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch as Requ
 /**
  * Distributed Search (sharding) component.
  *
- * @link http://wiki.apache.org/solr/DistributedSearch
- * @link http://wiki.apache.org/solr/SolrCloud/
+ * @see http://wiki.apache.org/solr/DistributedSearch
+ * @see http://wiki.apache.org/solr/SolrCloud/
  */
 class DistributedSearch extends AbstractComponent
 {
@@ -107,7 +107,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @link http://wiki.apache.org/solr/DistributedSearch
+     * @see http://wiki.apache.org/solr/DistributedSearch
      */
     public function addShard($key, $shard)
     {
@@ -244,7 +244,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @link http://wiki.apache.org/solr/SolrCloud/
+     * @see http://wiki.apache.org/solr/SolrCloud/
      */
     public function addCollection($key, $collection)
     {
@@ -332,7 +332,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @link https://cwiki.apache.org/confluence/display/solr/Distributed+Requests
+     * @see https://cwiki.apache.org/confluence/display/solr/Distributed+Requests
      */
     public function addReplica($key, $replica)
     {

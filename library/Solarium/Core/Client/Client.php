@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,27 +40,27 @@
 
 namespace Solarium\Core\Client;
 
+use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Configurable;
+use Solarium\Core\Event\Events;
+use Solarium\Core\Event\PostCreateQuery as PostCreateQueryEvent;
+use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
+use Solarium\Core\Event\PostCreateResult as PostCreateResultEvent;
+use Solarium\Core\Event\PostExecute as PostExecuteEvent;
+use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
+use Solarium\Core\Event\PreCreateQuery as PreCreateQueryEvent;
+use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
+use Solarium\Core\Event\PreCreateResult as PreCreateResultEvent;
+use Solarium\Core\Event\PreExecute as PreExecuteEvent;
+use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Plugin\PluginInterface;
 use Solarium\Core\Query\QueryInterface;
-use Solarium\Core\Query\Result\ResultInterface;
-use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\UnexpectedValueException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Solarium\Core\Event\Events;
-use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
-use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
-use Solarium\Core\Event\PreCreateQuery as PreCreateQueryEvent;
-use Solarium\Core\Event\PostCreateQuery as PostCreateQueryEvent;
-use Solarium\Core\Event\PreCreateResult as PreCreateResultEvent;
-use Solarium\Core\Event\PostCreateResult as PostCreateResultEvent;
-use Solarium\Core\Event\PreExecute as PreExecuteEvent;
-use Solarium\Core\Event\PostExecute as PostExecuteEvent;
-use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
-use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -226,7 +226,7 @@ class Client extends Configurable implements ClientInterface
      * If an EventDispatcher instance is provided this will be used instead of creating a new instance
      *
      * @param array|\Zend_Config $options
-     * @param EventDispatcher $eventDispatcher
+     * @param EventDispatcher    $eventDispatcher
      */
     public function __construct($options = null, $eventDispatcher = null)
     {
@@ -244,23 +244,23 @@ class Client extends Configurable implements ClientInterface
      * When no key is supplied the endpoint cannot be registered, in that case you will need to do this manually
      * after setting the key, by using the addEndpoint method.
      *
-     * @param mixed   $options
-     * @param boolean $setAsDefault
+     * @param mixed $options
+     * @param bool  $setAsDefault
      *
      * @return Endpoint
      */
     public function createEndpoint($options = null, $setAsDefault = false)
     {
-        if (is_string($options)) {
+        if (\is_string($options)) {
             $endpoint = new Endpoint();
             $endpoint->setKey($options);
         } else {
             $endpoint = new Endpoint($options);
         }
 
-        if ($endpoint->getKey() !== null) {
+        if (null !== $endpoint->getKey()) {
             $this->addEndpoint($endpoint);
-            if ($setAsDefault === true) {
+            if (true === $setAsDefault) {
                 $this->setDefaultEndpoint($endpoint);
             }
         }
@@ -274,34 +274,34 @@ class Client extends Configurable implements ClientInterface
      * Supports a endpoint instance or a config array as input.
      * In case of options a new endpoint instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param Endpoint|array $endpoint
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
     public function addEndpoint($endpoint)
     {
-        if (is_array($endpoint)) {
+        if (\is_array($endpoint)) {
             $endpoint = new Endpoint($endpoint);
         }
 
         $key = $endpoint->getKey();
 
-        if (0 === strlen($key)) {
+        if (0 === \strlen($key)) {
             throw new InvalidArgumentException('An endpoint must have a key value');
         }
 
         //double add calls for the same endpoint are ignored, but non-unique keys cause an exception
-        if (array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
+        if (\array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
             throw new InvalidArgumentException('An endpoint must have a unique key');
-        } else {
-            $this->endpoints[$key] = $endpoint;
+        }
+        $this->endpoints[$key] = $endpoint;
 
-            // if no default endpoint is set do so now
-            if (null === $this->defaultEndpoint) {
-                $this->defaultEndpoint = $key;
-            }
+        // if no default endpoint is set do so now
+        if (null === $this->defaultEndpoint) {
+            $this->defaultEndpoint = $key;
         }
 
         return $this;
@@ -318,7 +318,7 @@ class Client extends Configurable implements ClientInterface
     {
         foreach ($endpoints as $key => $endpoint) {
             // in case of a config array: add key to config
-            if (is_array($endpoint) && !isset($endpoint['key'])) {
+            if (\is_array($endpoint) && !isset($endpoint['key'])) {
                 $endpoint['key'] = $key;
             }
 
@@ -331,9 +331,10 @@ class Client extends Configurable implements ClientInterface
     /**
      * Get an endpoint by key.
      *
-     * @throws OutOfBoundsException
      *
      * @param string $key
+     *
+     * @throws OutOfBoundsException
      *
      * @return Endpoint
      */
@@ -371,7 +372,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function removeEndpoint($endpoint)
     {
-        if (is_object($endpoint)) {
+        if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
         }
 
@@ -415,13 +416,13 @@ class Client extends Configurable implements ClientInterface
      *
      * @param string|Endpoint $endpoint
      *
-     * @return self Provides fluent interface
-     *
      * @throws OutOfBoundsException
+     *
+     * @return self Provides fluent interface
      */
     public function setDefaultEndpoint($endpoint)
     {
-        if (is_object($endpoint)) {
+        if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
         }
 
@@ -449,15 +450,16 @@ class Client extends Configurable implements ClientInterface
      * If an adapter instance is passed it will replace the current adapter
      * immediately, bypassing the lazy loading.
      *
-     * @throws InvalidArgumentException
      *
      * @param string|Adapter\AdapterInterface $adapter
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
     public function setAdapter($adapter)
     {
-        if (is_string($adapter)) {
+        if (\is_string($adapter)) {
             $this->adapter = null;
 
             return $this->setOption('adapter', $adapter);
@@ -468,9 +470,8 @@ class Client extends Configurable implements ClientInterface
             $this->adapter = $adapter;
 
             return $this;
-        } else {
-            throw new InvalidArgumentException('Invalid adapter input for setAdapter');
         }
+        throw new InvalidArgumentException('Invalid adapter input for setAdapter');
     }
 
     /**
@@ -479,7 +480,7 @@ class Client extends Configurable implements ClientInterface
      * If {@see $adapter} doesn't hold an instance a new one will be created by
      * calling {@see createAdapter()}
      *
-     * @param boolean $autoload
+     * @param bool $autoload
      *
      * @return AdapterInterface
      */
@@ -522,7 +523,7 @@ class Client extends Configurable implements ClientInterface
     {
         foreach ($queryTypes as $type => $class) {
             // support both "key=>value" and "(no-key) => array(key=>x,query=>y)" formats
-            if (is_array($class)) {
+            if (\is_array($class)) {
                 if (isset($class['type'])) {
                     $type = $class['type'];
                 }
@@ -574,17 +575,18 @@ class Client extends Configurable implements ClientInterface
      * This requires the availability of the class through autoloading
      * or a manual require.
      *
-     * @throws InvalidArgumentException
      *
      * @param string                 $key
      * @param string|PluginInterface $plugin
      * @param array                  $options
      *
+     * @throws InvalidArgumentException
+     *
      * @return self Provides fluent interface
      */
     public function registerPlugin($key, $plugin, $options = array())
     {
-        if (is_string($plugin)) {
+        if (\is_string($plugin)) {
             $plugin = class_exists($plugin) ? $plugin : $plugin.strrchr($plugin, '\\');
             $plugin = new $plugin();
         }
@@ -637,10 +639,11 @@ class Client extends Configurable implements ClientInterface
     /**
      * Get a plugin instance.
      *
-     * @throws OutOfBoundsException
      *
-     * @param string  $key
-     * @param boolean $autocreate
+     * @param string $key
+     * @param bool   $autocreate
+     *
+     * @throws OutOfBoundsException
      *
      * @return PluginInterface|null
      */
@@ -649,15 +652,12 @@ class Client extends Configurable implements ClientInterface
         if (isset($this->pluginInstances[$key])) {
             return $this->pluginInstances[$key];
         } elseif ($autocreate) {
-            if (array_key_exists($key, $this->pluginTypes)) {
+            if (\array_key_exists($key, $this->pluginTypes)) {
                 $this->registerPlugin($key, $this->pluginTypes[$key]);
 
                 return $this->pluginInstances[$key];
-            } else {
-                throw new OutOfBoundsException('Cannot autoload plugin of unknown type: '.$key);
             }
-        } else {
-            return;
+            throw new OutOfBoundsException('Cannot autoload plugin of unknown type: '.$key);
         }
     }
 
@@ -672,7 +672,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function removePlugin($plugin)
     {
-        if (is_object($plugin)) {
+        if (\is_object($plugin)) {
             foreach ($this->pluginInstances as $key => $instance) {
                 if ($instance === $plugin) {
                     unset($this->pluginInstances[$key]);
@@ -691,9 +691,10 @@ class Client extends Configurable implements ClientInterface
     /**
      * Creates a request based on a query instance.
      *
-     * @throws UnexpectedValueException
      *
      * @param QueryInterface $query
+     *
+     * @throws UnexpectedValueException
      *
      * @return Request
      */
@@ -701,7 +702,7 @@ class Client extends Configurable implements ClientInterface
     {
         $event = new PreCreateRequestEvent($query);
         $this->eventDispatcher->dispatch(Events::PRE_CREATE_REQUEST, $event);
-        if ($event->getRequest() !== null) {
+        if (null !== $event->getRequest()) {
             return $event->getRequest();
         }
 
@@ -723,10 +724,11 @@ class Client extends Configurable implements ClientInterface
     /**
      * Creates a result object.
      *
-     * @throws UnexpectedValueException;
      *
      * @param QueryInterface $query
      * @param array Response $response
+     *
+     * @throws UnexpectedValueException;
      *
      * @return ResultInterface
      */
@@ -734,7 +736,7 @@ class Client extends Configurable implements ClientInterface
     {
         $event = new PreCreateResultEvent($query, $response);
         $this->eventDispatcher->dispatch(Events::PRE_CREATE_RESULT, $event);
-        if ($event->getResult() !== null) {
+        if (null !== $event->getResult()) {
             return $event->getResult();
         }
 
@@ -765,7 +767,7 @@ class Client extends Configurable implements ClientInterface
     {
         $event = new PreExecuteEvent($query);
         $this->eventDispatcher->dispatch(Events::PRE_EXECUTE, $event);
-        if ($event->getResult() !== null) {
+        if (null !== $event->getResult()) {
             return $event->getResult();
         }
 
@@ -798,7 +800,7 @@ class Client extends Configurable implements ClientInterface
 
         $event = new PreExecuteRequestEvent($request, $endpoint);
         $this->eventDispatcher->dispatch(Events::PRE_EXECUTE_REQUEST, $event);
-        if ($event->getResponse() !== null) {
+        if (null !== $event->getResponse()) {
             $response = $event->getResponse(); //a plugin result overrules the standard execution result
         } else {
             $response = $this->getAdapter()->execute($request, $endpoint);
@@ -999,10 +1001,11 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a query instance.
      *
-     * @throws InvalidArgumentException|UnexpectedValueException
      *
      * @param string $type
      * @param array  $options
+     *
+     * @throws InvalidArgumentException|UnexpectedValueException
      *
      * @return \Solarium\Core\Query\AbstractQuery
      */
@@ -1012,7 +1015,7 @@ class Client extends Configurable implements ClientInterface
 
         $event = new PreCreateQueryEvent($type, $options);
         $this->eventDispatcher->dispatch(Events::PRE_CREATE_QUERY, $event);
-        if ($event->getQuery() !== null) {
+        if (null !== $event->getQuery()) {
             return $event->getQuery();
         }
 
@@ -1160,7 +1163,7 @@ class Client extends Configurable implements ClientInterface
      */
     protected function init()
     {
-        if ($this->eventDispatcher === null) {
+        if (null === $this->eventDispatcher) {
             $this->eventDispatcher = new EventDispatcher();
         }
 

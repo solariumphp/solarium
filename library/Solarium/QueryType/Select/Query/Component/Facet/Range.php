@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -45,7 +45,7 @@ use Solarium\QueryType\Select\Query\Component\FacetSet;
 /**
  * Facet range.
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range
+ * @see http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range
  */
 class Range extends AbstractFacet
 {
@@ -207,7 +207,7 @@ class Range extends AbstractFacet
      * A Boolean parameter instructing Solr what to do in the event that facet.range.gap
      * does not divide evenly between facet.range.start and facet.range.end
      *
-     * @param boolean $hardend
+     * @param bool $hardend
      *
      * @return self Provides fluent interface
      */
@@ -219,7 +219,7 @@ class Range extends AbstractFacet
     /**
      * Get hardend option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getHardend()
     {
@@ -238,7 +238,7 @@ class Range extends AbstractFacet
      */
     public function setOther($other)
     {
-        if (is_string($other)) {
+        if (\is_string($other)) {
             $other = explode(',', $other);
             $other = array_map('trim', $other);
         }
@@ -254,7 +254,7 @@ class Range extends AbstractFacet
     public function getOther()
     {
         $other = $this->getOption('other');
-        if ($other === null) {
+        if (null === $other) {
             $other = array();
         }
 
@@ -273,7 +273,7 @@ class Range extends AbstractFacet
      */
     public function setInclude($include)
     {
-        if (is_string($include)) {
+        if (\is_string($include)) {
             $include = explode(',', $include);
             $include = array_map('trim', $include);
         }
@@ -289,7 +289,7 @@ class Range extends AbstractFacet
     public function getInclude()
     {
         $include = $this->getOption('include');
-        if ($include === null) {
+        if (null === $include) {
             $include = array();
         }
 

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -45,7 +45,7 @@ use Solarium\Core\Configurable;
 /**
  * Facet base class.
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters
+ * @see http://wiki.apache.org/solr/SimpleFacetParameters
  */
 abstract class AbstractFacet extends Configurable
 {
@@ -179,7 +179,7 @@ abstract class AbstractFacet extends Configurable
                     $this->setKey($value);
                     break;
                 case 'exclude':
-                    if (!is_array($value)) {
+                    if (!\is_array($value)) {
                         $value = explode(',', $value);
                     }
                     $this->setExcludes($value);

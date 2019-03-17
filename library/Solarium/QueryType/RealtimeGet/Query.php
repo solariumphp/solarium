@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\RealtimeGet;
 
-use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 
 /**
@@ -62,7 +62,7 @@ class Query extends BaseQuery
         'resultclass' => 'Solarium\QueryType\RealtimeGet\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
         'handler' => 'get',
-        'omitheader'    => true,
+        'omitheader' => true,
     );
 
     /**
@@ -125,7 +125,7 @@ class Query extends BaseQuery
      */
     public function addIds($ids)
     {
-        if (is_string($ids)) {
+        if (\is_string($ids)) {
             $ids = explode(',', $ids);
             $ids = array_map('trim', $ids);
         }

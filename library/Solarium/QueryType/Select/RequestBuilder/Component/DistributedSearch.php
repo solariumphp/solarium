@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\DistributedSearch as DistributedSearchComponent;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Query\Component\DistributedSearch as DistributedSearchComponent;
 
 /**
  * Add select component distributedsearch to the request.
@@ -60,13 +60,13 @@ class DistributedSearch implements ComponentRequestBuilderInterface
     {
         // add shards to request
         $shards = array_values($component->getShards());
-        if (count($shards)) {
+        if (\count($shards)) {
             $request->addParam('shards', implode(',', $shards));
         }
 
         $replicas = array_values($component->getReplicas());
 
-        if (count($replicas)) {
+        if (\count($replicas)) {
             $value = ($request->getParam('shards')) ? $request->getParam('shards').','.implode('|', $replicas) : implode('|', $replicas);
 
             $request->addParam('shards', $value, true);
@@ -76,7 +76,7 @@ class DistributedSearch implements ComponentRequestBuilderInterface
 
         // add collections to request
         $collections = array_values($component->getCollections());
-        if (count($collections)) {
+        if (\count($collections)) {
             $request->addParam('collection', implode(',', $collections));
         }
 

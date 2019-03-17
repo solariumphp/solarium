@@ -33,7 +33,7 @@
  * @copyright Copyright 2012 Alexander Brausewetter <alex@helpdeskhq.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,10 +42,10 @@
 
 namespace Solarium\QueryType\Extract;
 
-use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\QueryType\Update\Query\Document\DocumentInterface;
+use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
 
 /**
  * Extract query.
@@ -64,10 +64,10 @@ class Query extends BaseQuery
      * @var array
      */
     protected $options = array(
-        'handler'     => 'update/extract',
+        'handler' => 'update/extract',
         'resultclass' => 'Solarium\QueryType\Extract\Result',
         'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
-        'omitheader'  => true,
+        'omitheader' => true,
         'extractonly' => false,
     );
 
@@ -396,7 +396,7 @@ class Query extends BaseQuery
     /**
      * Get the ExtractOnly parameter of SOLR Extraction Handler.
      *
-     * @return boolean
+     * @return bool
      */
     public function getExtractOnly()
     {

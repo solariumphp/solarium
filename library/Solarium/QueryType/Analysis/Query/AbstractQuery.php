@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -59,7 +59,7 @@ abstract class AbstractQuery extends BaseQuery
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getHelper()->assemble($query, $bind);
         }
 
@@ -79,7 +79,7 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * Set the showmatch option.
      *
-     * @param boolean $show
+     * @param bool $show
      *
      * @return self Provides fluent interface
      */

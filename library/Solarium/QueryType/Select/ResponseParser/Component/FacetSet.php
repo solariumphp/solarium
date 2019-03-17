@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,22 +40,22 @@
 
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Query\Component\FacetSet as QueryFacetSet;
-use Solarium\QueryType\Select\Query\Component\Facet\Field as QueryFacetField;
-use Solarium\QueryType\Select\Query\Component\Facet\Query as QueryFacetQuery;
-use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as QueryFacetMultiQuery;
-use Solarium\QueryType\Select\Query\Component\Facet\Range as QueryFacetRange;
-use Solarium\QueryType\Select\Query\Component\Facet\Pivot as QueryFacetPivot;
-use Solarium\QueryType\Select\Result\FacetSet as ResultFacetSet;
-use Solarium\QueryType\Select\Result\Facet\Field as ResultFacetField;
-use Solarium\QueryType\Select\Result\Facet\Query as ResultFacetQuery;
-use Solarium\QueryType\Select\Result\Facet\MultiQuery as ResultFacetMultiQuery;
-use Solarium\QueryType\Select\Result\Facet\Range as ResultFacetRange;
-use Solarium\QueryType\Select\Result\Facet\Pivot\Pivot as ResultFacetPivot;
-use Solarium\QueryType\Select\Result\Facet\Interval as ResultFacetInterval;
-use Solarium\Exception\RuntimeException;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
+use Solarium\Exception\RuntimeException;
+use Solarium\QueryType\Select\Query\Component\Facet\Field as QueryFacetField;
+use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as QueryFacetMultiQuery;
+use Solarium\QueryType\Select\Query\Component\Facet\Pivot as QueryFacetPivot;
+use Solarium\QueryType\Select\Query\Component\Facet\Query as QueryFacetQuery;
+use Solarium\QueryType\Select\Query\Component\Facet\Range as QueryFacetRange;
+use Solarium\QueryType\Select\Query\Component\FacetSet as QueryFacetSet;
+use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Result\Facet\Field as ResultFacetField;
+use Solarium\QueryType\Select\Result\Facet\Interval as ResultFacetInterval;
+use Solarium\QueryType\Select\Result\Facet\MultiQuery as ResultFacetMultiQuery;
+use Solarium\QueryType\Select\Result\Facet\Pivot\Pivot as ResultFacetPivot;
+use Solarium\QueryType\Select\Result\Facet\Query as ResultFacetQuery;
+use Solarium\QueryType\Select\Result\Facet\Range as ResultFacetRange;
+use Solarium\QueryType\Select\Result\FacetSet as ResultFacetSet;
 
 /**
  * Parse select component FacetSet result from the data.
@@ -65,18 +65,19 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Parse result data into result objects.
      *
-     * @throws RuntimeException
      *
      * @param Query         $query
      * @param QueryFacetSet $facetSet
      * @param array         $data
      *
+     * @throws RuntimeException
+     *
      * @return ResultFacetSet
      */
     public function parse($query, $facetSet, $data)
     {
-        if ($facetSet->getExtractFromResponse() === true) {
-            if (empty($data['facet_counts']) === false) {
+        if (true === $facetSet->getExtractFromResponse()) {
+            if (false === empty($data['facet_counts'])) {
                 foreach ($data['facet_counts'] as $key => $facets) {
                     switch ($key) {
                         case 'facet_fields':
@@ -99,7 +100,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     }
                     foreach ($facets as $k => $facet) {
                         $facetObject = $facetSet->$method($k);
-                        if ($key == 'facet_pivot') {
+                        if ('facet_pivot' == $key) {
                             /* @var \Solarium\QueryType\Select\Query\Component\Facet\Pivot $facetObject */
                             $facetObject->setFields($k);
                         }
@@ -133,7 +134,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     throw new RuntimeException('Unknown facet type');
             }
 
-            if ($result !== null) {
+            if (null !== $result) {
                 $facets[$key] = $result;
             }
         }
@@ -215,7 +216,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             }
         }
 
-        if (count($values) <= 0) {
+        if (\count($values) <= 0) {
             return;
         }
 
@@ -252,13 +253,14 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
 
         return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap);
     }
-    
+
     /**
-     * Add a facet result for a interval facet
+     * Add a facet result for a interval facet.
      *
-     * @param  Query                    $query
-     * @param  QueryFacetInterval       $facet
-     * @param  array                    $data
+     * @param Query              $query
+     * @param QueryFacetInterval $facet
+     * @param array              $data
+     *
      * @return ResultFacetInterval|null
      */
     protected function facetInterval($query, $facet, $data)
@@ -267,7 +269,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         if (!isset($data['facet_counts']['facet_intervals'][$key])) {
             return null;
         }
-        
+
         return new ResultFacetInterval($data['facet_counts']['facet_intervals'][$key]);
     }
 

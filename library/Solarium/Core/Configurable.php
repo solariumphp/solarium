@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -66,9 +66,10 @@ class Configurable implements ConfigurableInterface
      *
      * After handling the options the {@link _init()} method is called.
      *
-     * @throws InvalidArgumentException
      *
      * @param array|\Zend_Config $options
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct($options = null)
     {
@@ -88,19 +89,20 @@ class Configurable implements ConfigurableInterface
      * If $options does not have the toArray method, the internal method will
      * be used instead.
      *
-     * @throws InvalidArgumentException
      *
      * @param array|\Zend_Config $options
-     * @param boolean            $overwrite True for overwriting existing options, false
+     * @param bool               $overwrite True for overwriting existing options, false
      *                                      for merging (new values overwrite old ones if needed)
+     *
+     * @throws InvalidArgumentException
      */
     public function setOptions($options, $overwrite = false)
     {
         if (null !== $options) {
             // first convert to array if needed
-            if (!is_array($options)) {
-                if (is_object($options)) {
-                    $options = (! method_exists($options, 'toArray') ? $this->toArray($options) : $options->toArray());
+            if (!\is_array($options)) {
+                if (\is_object($options)) {
+                    $options = (!method_exists($options, 'toArray') ? $this->toArray($options) : $options->toArray());
                 } else {
                     throw new InvalidArgumentException(
                         'Options value given to the setOptions() method must be an array or a Zend_Config object'
@@ -132,8 +134,6 @@ class Configurable implements ConfigurableInterface
     {
         if (isset($this->options[$name])) {
             return $this->options[$name];
-        } else {
-            return;
         }
     }
 
@@ -189,10 +189,10 @@ class Configurable implements ConfigurableInterface
      */
     protected function toArray($object)
     {
-        if (is_object($object)) {
+        if (\is_object($object)) {
             // get_object_vars() does not handle recursive objects well,
             // so use set-type without scope operator instead
-            settype($object, 'array');
+            $object = (array) $object;
         }
 
         /*
@@ -200,7 +200,7 @@ class Configurable implements ConfigurableInterface
         * Using __METHOD__ (Magic constant)
         * for recursive call
         */
-        if (is_array($object)) {
+        if (\is_array($object)) {
             return array_map(__METHOD__, $object);
         }
 

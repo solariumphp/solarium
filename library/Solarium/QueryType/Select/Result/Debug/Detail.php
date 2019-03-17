@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -55,7 +55,7 @@ class Detail
     /**
      * Match.
      *
-     * @var boolean
+     * @var bool
      */
     protected $match;
 
@@ -74,9 +74,9 @@ class Detail
     /**
      * Constructor.
      *
-     * @param boolean $match
-     * @param float   $value
-     * @param string  $description
+     * @param bool   $match
+     * @param float  $value
+     * @param string $description
      */
     public function __construct($match, $value, $description)
     {

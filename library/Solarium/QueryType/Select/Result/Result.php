@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Select\Result;
 
-use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 /**
  * Select query result.
@@ -204,7 +204,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     {
         $this->parseResponse();
 
-        return count($this->documents);
+        return \count($this->documents);
     }
 
     /**
@@ -232,8 +232,6 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
 
         if (isset($this->components[$key])) {
             return $this->components[$key];
-        } else {
-            return;
         }
     }
 

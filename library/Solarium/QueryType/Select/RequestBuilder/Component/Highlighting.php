@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,9 +40,9 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting as HighlightingComponent;
-use Solarium\QueryType\Select\Query\Component\Highlighting\Field as HighlightingField;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Query\Component\Highlighting\Field as HighlightingField;
+use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting as HighlightingComponent;
 
 /**
  * Add select component Highlighting to the request.
@@ -63,7 +63,7 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam('hl', 'true');
 
         // set global highlighting params
-        if (count($component->getFields()) > 0) {
+        if (\count($component->getFields()) > 0) {
             $request->addParam('hl.fl', implode(',', array_keys($component->getFields())));
         }
         $request->addParam('hl.snippets', $component->getSnippets());

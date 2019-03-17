@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -46,7 +46,7 @@ use Solarium\Core\Query\Helper;
 /**
  * Filterquery.
  *
- * @link http://wiki.apache.org/solr/CommonQueryParameters#fq
+ * @see http://wiki.apache.org/solr/CommonQueryParameters#fq
  */
 class FilterQuery extends Configurable
 {
@@ -98,7 +98,7 @@ class FilterQuery extends Configurable
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $helper = new Helper();
             $query = $helper->assemble($query, $bind);
         }
@@ -210,7 +210,7 @@ class FilterQuery extends Configurable
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'tag':
-                    if (!is_array($value)) {
+                    if (!\is_array($value)) {
                         $value = array($value);
                     }
                     $this->addTags($value);

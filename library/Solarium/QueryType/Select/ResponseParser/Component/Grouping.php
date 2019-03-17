@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,10 +40,10 @@
 
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Grouping as GroupingComponent;
-use Solarium\QueryType\Select\Result\Grouping\Result;
+use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Grouping\FieldGroup;
+use Solarium\QueryType\Select\Result\Grouping\Result;
 
 /**
  * Parse select component Grouping result from the data.
@@ -81,7 +81,7 @@ class Grouping implements ComponentParserInterface
 
             $matches = (isset($result['matches'])) ? $result['matches'] : null;
             $groupCount = (isset($result['ngroups'])) ? $result['ngroups'] : null;
-            if ($grouping->getFormat() === GroupingComponent::FORMAT_SIMPLE) {
+            if (GroupingComponent::FORMAT_SIMPLE === $grouping->getFormat()) {
                 $valueGroups = array($this->extractValueGroup($valueResultClass, $documentClass, $result, $query));
                 $groups[$field] = new FieldGroup($matches, $groupCount, $valueGroups);
                 continue;
@@ -110,7 +110,7 @@ class Grouping implements ComponentParserInterface
                 // create document instances
                 $documentClass = $query->getOption('documentclass');
                 $documents = array();
-                if (isset($result['doclist']['docs']) && is_array($result['doclist']['docs'])) {
+                if (isset($result['doclist']['docs']) && \is_array($result['doclist']['docs'])) {
                     foreach ($result['doclist']['docs'] as $doc) {
                         $documents[] = new $documentClass($doc);
                     }
@@ -128,10 +128,10 @@ class Grouping implements ComponentParserInterface
     /**
      * Helper method to extract a ValueGroup object from the given value group result array.
      *
-     * @param string $valueResultClass The grouping resultvaluegroupclass option.
-     * @param string $documentClass    The name of the solr document class to use.
-     * @param array  $valueGroupResult The group result from the solr response.
-     * @param Query  $query            The current solr query.
+     * @param string $valueResultClass the grouping resultvaluegroupclass option
+     * @param string $documentClass    the name of the solr document class to use
+     * @param array  $valueGroupResult the group result from the solr response
+     * @param Query  $query            the current solr query
      *
      * @return object
      */
@@ -152,7 +152,7 @@ class Grouping implements ComponentParserInterface
         // create document instances
         $documents = array();
         if (isset($valueGroupResult['doclist']['docs']) &&
-            is_array($valueGroupResult['doclist']['docs'])) {
+            \is_array($valueGroupResult['doclist']['docs'])) {
             foreach ($valueGroupResult['doclist']['docs'] as $doc) {
                 $documents[] = new $documentClass($doc);
             }

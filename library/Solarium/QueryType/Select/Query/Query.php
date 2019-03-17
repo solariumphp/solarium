@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -42,11 +42,11 @@ namespace Solarium\QueryType\Select\Query;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
-use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
-use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\QueryType\Select\Query\Component\AbstractComponent as AbstractComponent;
+use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
+use Solarium\QueryType\Select\ResponseParser\ResponseParser;
 
 /**
  * Select Query.
@@ -138,14 +138,14 @@ class Query extends BaseQuery
      * @var array
      */
     protected $options = array(
-        'handler'       => 'select',
-        'resultclass'   => 'Solarium\QueryType\Select\Result\Result',
+        'handler' => 'select',
+        'resultclass' => 'Solarium\QueryType\Select\Result\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
-        'omitheader'    => true,
+        'query' => '*:*',
+        'start' => 0,
+        'rows' => 10,
+        'fields' => '*,score',
+        'omitheader' => true,
     );
 
     /**
@@ -161,17 +161,17 @@ class Query extends BaseQuery
      * @var array
      */
     protected $componentTypes = array(
-        self::COMPONENT_FACETSET          => 'Solarium\QueryType\Select\Query\Component\FacetSet',
-        self::COMPONENT_DISMAX            => 'Solarium\QueryType\Select\Query\Component\DisMax',
-        self::COMPONENT_EDISMAX           => 'Solarium\QueryType\Select\Query\Component\EdisMax',
-        self::COMPONENT_MORELIKETHIS      => 'Solarium\QueryType\Select\Query\Component\MoreLikeThis',
-        self::COMPONENT_HIGHLIGHTING      => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
-        self::COMPONENT_GROUPING          => 'Solarium\QueryType\Select\Query\Component\Grouping',
-        self::COMPONENT_SPELLCHECK        => 'Solarium\QueryType\Select\Query\Component\Spellcheck',
+        self::COMPONENT_FACETSET => 'Solarium\QueryType\Select\Query\Component\FacetSet',
+        self::COMPONENT_DISMAX => 'Solarium\QueryType\Select\Query\Component\DisMax',
+        self::COMPONENT_EDISMAX => 'Solarium\QueryType\Select\Query\Component\EdisMax',
+        self::COMPONENT_MORELIKETHIS => 'Solarium\QueryType\Select\Query\Component\MoreLikeThis',
+        self::COMPONENT_HIGHLIGHTING => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
+        self::COMPONENT_GROUPING => 'Solarium\QueryType\Select\Query\Component\Grouping',
+        self::COMPONENT_SPELLCHECK => 'Solarium\QueryType\Select\Query\Component\Spellcheck',
         self::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\QueryType\Select\Query\Component\DistributedSearch',
-        self::COMPONENT_STATS             => 'Solarium\QueryType\Select\Query\Component\Stats\Stats',
-        self::COMPONENT_DEBUG             => 'Solarium\QueryType\Select\Query\Component\Debug',
-        self::COMPONENT_SPATIAL           => 'Solarium\QueryType\Select\Query\Component\Spatial',
+        self::COMPONENT_STATS => 'Solarium\QueryType\Select\Query\Component\Stats\Stats',
+        self::COMPONENT_DEBUG => 'Solarium\QueryType\Select\Query\Component\Debug',
+        self::COMPONENT_SPATIAL => 'Solarium\QueryType\Select\Query\Component\Spatial',
     );
 
     /**
@@ -245,11 +245,11 @@ class Query extends BaseQuery
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $query = $this->getHelper()->assemble($query, $bind);
         }
 
-        if (!is_null($query)) {
+        if (null !== $query) {
             $query = trim($query);
         }
 
@@ -283,7 +283,7 @@ class Query extends BaseQuery
     /**
      * Get the default query operator.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getQueryDefaultOperator()
     {
@@ -305,7 +305,7 @@ class Query extends BaseQuery
     /**
      * Get the default query field.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getQueryDefaultField()
     {
@@ -315,7 +315,7 @@ class Query extends BaseQuery
     /**
      * Set the start offset.
      *
-     * @param integer $start
+     * @param int $start
      *
      * @return self Provides fluent interface
      */
@@ -327,7 +327,7 @@ class Query extends BaseQuery
     /**
      * Get the start offset.
      *
-     * @return integer
+     * @return int
      */
     public function getStart()
     {
@@ -387,7 +387,7 @@ class Query extends BaseQuery
     /**
      * Set the number of rows to fetch.
      *
-     * @param integer $rows
+     * @param int $rows
      *
      * @return self Provides fluent interface
      */
@@ -399,7 +399,7 @@ class Query extends BaseQuery
     /**
      * Get the number of rows.
      *
-     * @return integer
+     * @return int
      */
     public function getRows()
     {
@@ -430,7 +430,7 @@ class Query extends BaseQuery
      */
     public function addFields($fields)
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
@@ -601,14 +601,14 @@ class Query extends BaseQuery
      */
     public function createFilterQuery($options = null)
     {
-        if (is_string($options)) {
+        if (\is_string($options)) {
             $fq = new FilterQuery();
             $fq->setKey($options);
         } else {
             $fq = new FilterQuery($options);
         }
 
-        if ($fq->getKey() !== null) {
+        if (null !== $fq->getKey()) {
             $this->addFilterQuery($fq);
         }
 
@@ -621,30 +621,30 @@ class Query extends BaseQuery
      * Supports a filterquery instance or a config array, in that case a new
      * filterquery instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param FilterQuery|array $filterQuery
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
     public function addFilterQuery($filterQuery)
     {
-        if (is_array($filterQuery)) {
+        if (\is_array($filterQuery)) {
             $filterQuery = new FilterQuery($filterQuery);
         }
 
         $key = $filterQuery->getKey();
 
-        if (0 === strlen($key)) {
+        if (0 === \strlen($key)) {
             throw new InvalidArgumentException('A filterquery must have a key value');
         }
 
         //double add calls for the same FQ are ignored, but non-unique keys cause an exception
-        if (array_key_exists($key, $this->filterQueries) && $this->filterQueries[$key] !== $filterQuery) {
+        if (\array_key_exists($key, $this->filterQueries) && $this->filterQueries[$key] !== $filterQuery) {
             throw new InvalidArgumentException('A filterquery must have a unique key value within a query');
-        } else {
-            $this->filterQueries[$key] = $filterQuery;
         }
+        $this->filterQueries[$key] = $filterQuery;
 
         return $this;
     }
@@ -660,7 +660,7 @@ class Query extends BaseQuery
     {
         foreach ($filterQueries as $key => $filterQuery) {
             // in case of a config array: add key to config
-            if (is_array($filterQuery) && !isset($filterQuery['key'])) {
+            if (\is_array($filterQuery) && !isset($filterQuery['key'])) {
                 $filterQuery['key'] = $key;
             }
 
@@ -681,8 +681,6 @@ class Query extends BaseQuery
     {
         if (isset($this->filterQueries[$key])) {
             return $this->filterQueries[$key];
-        } else {
-            return;
         }
     }
 
@@ -707,7 +705,7 @@ class Query extends BaseQuery
      */
     public function removeFilterQuery($filterQuery)
     {
-        if (is_object($filterQuery)) {
+        if (\is_object($filterQuery)) {
             $filterQuery = $filterQuery->getKey();
         }
 
@@ -784,11 +782,12 @@ class Query extends BaseQuery
      * You can optionally supply an autoload class to create a new component
      * instance if there is no registered component for the given key yet.
      *
-     * @throws OutOfBoundsException
      *
-     * @param string         $key      Use one of the constants
-     * @param string|boolean $autoload Class to autoload if component needs to be created
-     * @param array|null     $config   Configuration to use for autoload
+     * @param string      $key      Use one of the constants
+     * @param string|bool $autoload Class to autoload if component needs to be created
+     * @param array|null  $config   Configuration to use for autoload
+     *
+     * @throws OutOfBoundsException
      *
      * @return object|null
      */
@@ -796,21 +795,18 @@ class Query extends BaseQuery
     {
         if (isset($this->components[$key])) {
             return $this->components[$key];
-        } else {
-            if ($autoload === true) {
-                if (!isset($this->componentTypes[$key])) {
-                    throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
-                }
-
-                $className = $this->componentTypes[$key];
-                $className = class_exists($className) ? $className : $className.strrchr($className, '\\');
-                $component = new $className($config);
-                $this->setComponent($key, $component);
-
-                return $component;
+        }
+        if (true === $autoload) {
+            if (!isset($this->componentTypes[$key])) {
+                throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
             }
 
-            return;
+            $className = $this->componentTypes[$key];
+            $className = class_exists($className) ? $className : $className.strrchr($className, '\\');
+            $component = new $className($config);
+            $this->setComponent($key, $component);
+
+            return $component;
         }
     }
 
@@ -843,7 +839,7 @@ class Query extends BaseQuery
      */
     public function removeComponent($component)
     {
-        if (is_object($component)) {
+        if (\is_object($component)) {
             foreach ($this->components as $key => $instance) {
                 if ($instance === $component) {
                     unset($this->components[$key]);
@@ -1107,7 +1103,7 @@ class Query extends BaseQuery
                     $this->createComponents($value);
                     break;
                 case 'tag':
-                    if (!is_array($value)) {
+                    if (!\is_array($value)) {
                         $value = explode(',', $value);
                     }
                     $this->addTags($value);

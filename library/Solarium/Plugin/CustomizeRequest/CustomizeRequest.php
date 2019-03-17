@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,11 +40,11 @@
 
 namespace Solarium\Plugin\CustomizeRequest;
 
+use Solarium\Core\Event\Events;
+use Solarium\Core\Event\PreExecuteRequest as preExecuteRequestEvent;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
-use Solarium\Core\Event\Events;
-use Solarium\Core\Event\PreExecuteRequest as preExecuteRequestEvent;
 
 /**
  * CustomizeRequest plugin.
@@ -77,14 +77,14 @@ class CustomizeRequest extends AbstractPlugin
      */
     public function createCustomization($options = null)
     {
-        if (is_string($options)) {
+        if (\is_string($options)) {
             $fq = new Customization();
             $fq->setKey($options);
         } else {
             $fq = new Customization($options);
         }
 
-        if ($fq->getKey() !== null) {
+        if (null !== $fq->getKey()) {
             $this->addCustomization($fq);
         }
 
@@ -97,27 +97,28 @@ class CustomizeRequest extends AbstractPlugin
      * Supports a Customization instance or a config array, in that case a new
      * Customization instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param Customization|array $customization
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
     public function addCustomization($customization)
     {
-        if (is_array($customization)) {
+        if (\is_array($customization)) {
             $customization = new Customization($customization);
         }
 
         $key = $customization->getKey();
 
         // check for non-empty key
-        if (0 === strlen($key)) {
+        if (0 === \strlen($key)) {
             throw new InvalidArgumentException('A Customization must have a key value');
         }
 
         // check for a unique key
-        if (array_key_exists($key, $this->customizations)) {
+        if (\array_key_exists($key, $this->customizations)) {
             //double add calls for the same customization are ignored, others cause an exception
             if ($this->customizations[$key] !== $customization) {
                 throw new InvalidArgumentException('A Customization must have a unique key value');
@@ -140,7 +141,7 @@ class CustomizeRequest extends AbstractPlugin
     {
         foreach ($customizations as $key => $customization) {
             // in case of a config array: add key to config
-            if (is_array($customization) && !isset($customization['key'])) {
+            if (\is_array($customization) && !isset($customization['key'])) {
                 $customization['key'] = $key;
             }
 
@@ -161,8 +162,6 @@ class CustomizeRequest extends AbstractPlugin
     {
         if (isset($this->customizations[$key])) {
             return $this->customizations[$key];
-        } else {
-            return;
         }
     }
 
@@ -187,7 +186,7 @@ class CustomizeRequest extends AbstractPlugin
      */
     public function removeCustomization($customization)
     {
-        if (is_object($customization)) {
+        if (\is_object($customization)) {
             $customization = $customization->getKey();
         }
 
@@ -226,9 +225,10 @@ class CustomizeRequest extends AbstractPlugin
     /**
      * Event hook to customize the request object.
      *
-     * @throws RuntimeException
      *
      * @param preExecuteRequestEvent $event
+     *
+     * @throws RuntimeException
      */
     public function preExecuteRequest(preExecuteRequestEvent $event)
     {

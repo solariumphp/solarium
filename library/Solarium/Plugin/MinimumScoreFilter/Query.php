@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -65,16 +65,16 @@ class Query extends SelectQuery
      * @var array
      */
     protected $options = array(
-        'handler'       => 'select',
-        'resultclass'   => 'Solarium\QueryType\Select\Result\Result',
+        'handler' => 'select',
+        'resultclass' => 'Solarium\QueryType\Select\Result\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
-        'omitheader'    => true,
-        'filterratio'  => 0.1,
-        'filter_mode'   => self::FILTER_MODE_REMOVE,
+        'query' => '*:*',
+        'start' => 0,
+        'rows' => 10,
+        'fields' => '*,score',
+        'omitheader' => true,
+        'filterratio' => 0.1,
+        'filter_mode' => self::FILTER_MODE_REMOVE,
     );
 
     /**
@@ -131,7 +131,7 @@ class Query extends SelectQuery
     public function getFields()
     {
         $fields = parent::getFields();
-        if (!in_array('score', $fields)) {
+        if (!\in_array('score', $fields, true)) {
             $fields[] = 'score';
         }
 

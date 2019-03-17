@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,13 +40,13 @@
 
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
-use Solarium\QueryType\Select\Query\Component\FacetSet;
 use Solarium\Core\Query\Helper;
+use Solarium\QueryType\Select\Query\Component\FacetSet;
 
 /**
  * Facet query.
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
+ * @see http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
  */
 class Query extends AbstractFacet
 {
@@ -81,7 +81,7 @@ class Query extends AbstractFacet
      */
     public function setQuery($query, $bind = null)
     {
-        if (!is_null($bind)) {
+        if (null !== $bind) {
             $helper = new Helper();
             $query = $helper->assemble($query, $bind);
         }

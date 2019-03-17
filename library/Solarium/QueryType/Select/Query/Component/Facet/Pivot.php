@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -45,7 +45,7 @@ use Solarium\QueryType\Select\Query\Component\FacetSet;
 /**
  * Facet pivot.
  *
- * @link http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting
+ * @see http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting
  */
 class Pivot extends AbstractFacet
 {
@@ -57,14 +57,14 @@ class Pivot extends AbstractFacet
     protected $fields = array();
 
     /**
-     * Optional stats
+     * Optional stats.
      *
      * @var array
      */
     protected $stats = array();
 
     /**
-     * Get the facet type
+     * Get the facet type.
      *
      * @return string
      */
@@ -120,7 +120,7 @@ class Pivot extends AbstractFacet
      */
     public function addFields($fields)
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
         }
 
@@ -187,10 +187,11 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Add stat
+     * Add stat.
      *
      * @param string $stat
-     * @return self  Provides fluent interface
+     *
+     * @return self Provides fluent interface
      */
     public function addStat($stat)
     {
@@ -200,16 +201,16 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Specify multiple Stats
+     * Specify multiple Stats.
      *
      * @param string|array $stats can be an array or string with comma
-     *                             separated statnames
+     *                            separated statnames
      *
      * @return self Provides fluent interface
      */
     public function addStats($stats)
     {
-        if (is_string($stats)) {
+        if (\is_string($stats)) {
             $stats = explode(',', $stats);
             $stats = array_map('trim', $stats);
         }
@@ -222,10 +223,11 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Remove a stat from the stats list
+     * Remove a stat from the stats list.
      *
-     * @param  string $stat
-     * @return self   Provides fluent interface
+     * @param string $stat
+     *
+     * @return self Provides fluent interface
      */
     public function removeStat($stat)
     {
@@ -249,7 +251,7 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Get the list of stats
+     * Get the list of stats.
      *
      * @return array
      */
@@ -259,12 +261,13 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Set multiple stats
+     * Set multiple stats.
      *
      * This overwrites any existing stats
      *
-     * @param  array $stats
-     * @return self  Provides fluent interface
+     * @param array $stats
+     *
+     * @return self Provides fluent interface
      */
     public function setStats($stats)
     {
@@ -275,9 +278,7 @@ class Pivot extends AbstractFacet
     }
 
     /**
-     * Initialize options
-     *
-     * @return void
+     * Initialize options.
      */
     protected function init()
     {

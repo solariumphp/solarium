@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Query\Component\MoreLikeThis as MoreLikeThisComponent;
 
 /**
  * Add select component morelikethis to the request.
@@ -61,7 +61,7 @@ class MoreLikeThis implements ComponentRequestBuilderInterface
         // enable morelikethis
         $request->addParam('mlt', 'true');
 
-        $request->addParam('mlt.fl', count($component->getFields()) ? implode(',', $component->getFields()) : null);
+        $request->addParam('mlt.fl', \count($component->getFields()) ? implode(',', $component->getFields()) : null);
         $request->addParam('mlt.mintf', $component->getMinimumTermFrequency());
         $request->addParam('mlt.mindf', $component->getMinimumDocumentFrequency());
         $request->addParam('mlt.minwl', $component->getMinimumWordLength());
@@ -71,7 +71,7 @@ class MoreLikeThis implements ComponentRequestBuilderInterface
         $request->addParam('mlt.boost', $component->getBoost());
         $request->addParam(
             'mlt.qf',
-            count($component->getQueryFields()) ? $component->getQueryFields() : null
+            \count($component->getQueryFields()) ? $component->getQueryFields() : null
         );
         $request->addParam('mlt.count', $component->getCount());
 

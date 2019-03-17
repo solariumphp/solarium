@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -62,11 +62,11 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param string  $key
-     * @param boolean $match
-     * @param float   $value
-     * @param string  $description
-     * @param array   $details
+     * @param string $key
+     * @param bool   $match
+     * @param float  $value
+     * @param string $description
+     * @param array  $details
      */
     public function __construct($key, $match, $value, $description, $details)
     {
@@ -112,6 +112,6 @@ class Document extends Detail implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->details);
+        return \count($this->details);
     }
 }

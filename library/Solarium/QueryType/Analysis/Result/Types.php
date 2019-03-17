@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -60,7 +60,7 @@ class Types extends ResultList
     public function getIndexAnalysis()
     {
         foreach ($this->items as $item) {
-            if ($item->getName() == 'index') {
+            if ('index' == $item->getName()) {
                 return $item;
             }
         }
@@ -74,7 +74,7 @@ class Types extends ResultList
     public function getQueryAnalysis()
     {
         foreach ($this->items as $item) {
-            if ($item->getName() == 'query') {
+            if ('query' == $item->getName()) {
                 return $item;
             }
         }

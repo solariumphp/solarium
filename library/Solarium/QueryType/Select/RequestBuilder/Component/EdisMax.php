@@ -31,7 +31,7 @@
  * @copyright Copyright 2012 Marc Morera <yuhu@mmoreram.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,8 +40,8 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\EdisMax as EdismaxComponent;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Query\Component\EdisMax as EdismaxComponent;
 
 /**
  * Add select component edismax to the request.
@@ -75,7 +75,7 @@ class EdisMax implements ComponentRequestBuilderInterface
 
         // add boostqueries to request
         $boostQueries = $component->getBoostQueries();
-        if (count($boostQueries) !== 0) {
+        if (0 !== \count($boostQueries)) {
             foreach ($boostQueries as $boostQuery) {
                 $request->addParam('bq', $boostQuery->getQuery());
             }

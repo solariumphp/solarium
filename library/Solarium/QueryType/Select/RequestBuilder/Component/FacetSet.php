@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -41,15 +41,15 @@
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\Core\Client\Request;
-use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
-use Solarium\QueryType\Select\Query\Component\FacetSet as FacetsetComponent;
+use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\Select\Query\Component\Facet\Field as FacetField;
+use Solarium\QueryType\Select\Query\Component\Facet\Interval as FacetInterval;
 use Solarium\QueryType\Select\Query\Component\Facet\MultiQuery as FacetMultiQuery;
+use Solarium\QueryType\Select\Query\Component\Facet\Pivot as FacetPivot;
 use Solarium\QueryType\Select\Query\Component\Facet\Query as FacetQuery;
 use Solarium\QueryType\Select\Query\Component\Facet\Range as FacetRange;
-use Solarium\QueryType\Select\Query\Component\Facet\Pivot as FacetPivot;
-use Solarium\QueryType\Select\Query\Component\Facet\Interval as FacetInterval;
-use Solarium\Exception\UnexpectedValueException;
+use Solarium\QueryType\Select\Query\Component\FacetSet as FacetsetComponent;
+use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 
 /**
  * Add select component FacetSet to the request.
@@ -59,17 +59,18 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     /**
      * Add request settings for FacetSet.
      *
-     * @throws UnexpectedValueException
      *
      * @param FacetsetComponent $component
      * @param Request           $request
+     *
+     * @throws UnexpectedValueException
      *
      * @return Request
      */
     public function buildComponent($component, $request)
     {
         $facets = $component->getFacets();
-        if (count($facets) !== 0) {
+        if (0 !== \count($facets)) {
             // enable faceting
             $request->addParam('facet', 'true');
 
@@ -77,7 +78,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             $request->addParam('facet.sort', $component->getSort());
             $request->addParam('facet.prefix', $component->getPrefix());
             $request->addParam('facet.contains', $component->getContains());
-            $request->addParam('facet.contains.ignoreCase', is_null($ignoreCase = $component->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
+            $request->addParam('facet.contains.ignoreCase', null === ($ignoreCase = $component->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
             $request->addParam('facet.missing', $component->getMissing());
             $request->addParam('facet.mincount', $component->getMinCount());
             $request->addParam('facet.limit', $component->getLimit());
@@ -133,7 +134,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $request->addParam("f.$field.facet.sort", $facet->getSort());
         $request->addParam("f.$field.facet.prefix", $facet->getPrefix());
         $request->addParam("f.$field.facet.contains", $facet->getContains());
-        $request->addParam("f.$field.facet.contains.ignoreCase", is_null($ignoreCase = $facet->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
+        $request->addParam("f.$field.facet.contains.ignoreCase", null === ($ignoreCase = $facet->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
         $request->addParam("f.$field.facet.offset", $facet->getOffset());
         $request->addParam("f.$field.facet.mincount", $facet->getMinCount());
         $request->addParam("f.$field.facet.missing", $facet->getMissing());
@@ -213,7 +214,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     {
         $stats = $facet->getStats();
 
-        if (count($stats) > 0) {
+        if (\count($stats) > 0) {
             $key = array('stats' => implode('', $stats));
 
             // when specifying stats, solr sets the field as key
@@ -233,11 +234,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     }
 
     /**
-     * Add params for a interval facet to request
+     * Add params for a interval facet to request.
      *
-     * @param  Request    $request
-     * @param  FacetInterval $facet
-     * @return void
+     * @param Request       $request
+     * @param FacetInterval $facet
      */
     public function addFacetInterval($request, $facet)
     {
@@ -252,7 +252,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         );
 
         foreach ($facet->getSet() as $key => $setValue) {
-            if(is_string($key)) {
+            if (\is_string($key)) {
                 $setValue = '{!key="'.$key.'"}'.$setValue;
             }
             $request->addParam("f.$field.facet.interval.set", $setValue);

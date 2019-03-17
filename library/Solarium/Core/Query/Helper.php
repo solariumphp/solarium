@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -97,7 +97,7 @@ class Helper
      * If you want to use the input as a phrase please use the {@link phrase()}
      * method, because a phrase requires much less escaping.\
      *
-     * @link http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
+     * @see http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
      *
      * @param string $input
      *
@@ -141,22 +141,20 @@ class Helper
      *
      * @param int|string|\DateTime $input accepted formats: timestamp, date string or DateTime
      *
-     * @return string|boolean false is returned in case of invalid input
+     * @return string|bool false is returned in case of invalid input
      */
     public function formatDate($input)
     {
         switch (true) {
-
             // input of datetime object
             case $input instanceof \DateTime:
                 // no work needed
                 break;
-
             // input of timestamp or date/time string
-            case is_string($input) || is_numeric($input):
+            case \is_string($input) || is_numeric($input):
 
                 // if date/time string: convert to timestamp first
-                if (is_string($input)) {
+                if (\is_string($input)) {
                     $input = strtotime($input);
                 }
 
@@ -167,7 +165,6 @@ class Helper
                     $input = false;
                 }
                 break;
-
             // any other input formats can be added in additional cases here...
             // case $input instanceof Zend_Date:
 
@@ -186,10 +183,9 @@ class Helper
             $iso8601 .= 'Z';
 
             return $iso8601;
-        } else {
-            // unsupported input
-            return false;
         }
+        // unsupported input
+        return false;
     }
 
     /**
@@ -204,28 +200,28 @@ class Helper
      * Example: rangeQuery('store', '5', '*', false)
      * Returns: store:{5 TO *}
      *
-     * @param string  $field
-     * @param string  $from
-     * @param string  $to
-     * @param boolean $inclusive
+     * @param string $field
+     * @param string $from
+     * @param string $to
+     * @param bool   $inclusive
      *
      * @return string
      */
     public function rangeQuery($field, $from, $to, $inclusive = true)
     {
-        if ($from === null) {
+        if (null === $from) {
             $from = '*';
         }
 
-        if ($to === null) {
+        if (null === $to) {
             $to = '*';
         }
 
         if ($inclusive) {
             return $field.':['.$from.' TO '.$to.']';
-        } else {
-            return $field.':{'.$from.' TO '.$to.'}';
         }
+
+        return $field.':{'.$from.' TO '.$to.'}';
     }
 
     /**
@@ -233,11 +229,11 @@ class Helper
      *
      * Find all entries within the distance of a certain point.
      *
-     * @param string  $field
-     * @param string  $pointX
-     * @param string  $pointY
-     * @param string  $distance
-     * @param boolean $dereferenced
+     * @param string $field
+     * @param string $pointX
+     * @param string $pointY
+     * @param string $distance
+     * @param bool   $dereferenced
      *
      * @return string
      */
@@ -262,11 +258,11 @@ class Helper
      * guaranteed to encompass all of the points of interest, but it may also
      * include other points that are slightly outside of the required distance.
      *
-     * @param string  $field
-     * @param string  $pointX
-     * @param string  $pointY
-     * @param string  $distance
-     * @param boolean $dereferenced
+     * @param string $field
+     * @param string $pointX
+     * @param string $pointY
+     * @param string $distance
+     * @param bool   $dereferenced
      *
      * @return string
      */
@@ -292,10 +288,10 @@ class Helper
      * or combining the distance with the relevancy score,
      * such as boosting by the inverse of the distance.
      *
-     * @param string  $field
-     * @param string  $pointX
-     * @param string  $pointY
-     * @param boolean $dereferenced
+     * @param string $field
+     * @param string $pointX
+     * @param string $pointY
+     * @param bool   $dereferenced
      *
      * @return string
      */
@@ -311,12 +307,13 @@ class Helper
     /**
      * Render a qparser plugin call.
      *
-     * @throws InvalidArgumentException
      *
-     * @param string  $name
-     * @param array   $params
-     * @param boolean $dereferenced
-     * @param boolean $forceKeys
+     * @param string $name
+     * @param array  $params
+     * @param bool   $dereferenced
+     * @param bool   $forceKeys
+     *
+     * @throws InvalidArgumentException
      *
      * @return string
      */
@@ -330,8 +327,8 @@ class Helper
             }
 
             foreach ($params as $paramKey => $paramValue) {
-                if (is_int($paramKey) || $forceKeys) {
-                    $this->derefencedParamsLastKey++;
+                if (\is_int($paramKey) || $forceKeys) {
+                    ++$this->derefencedParamsLastKey;
                     $derefKey = 'deref_'.$this->derefencedParamsLastKey;
                 } else {
                     $derefKey = $paramKey;
@@ -343,7 +340,7 @@ class Helper
 
         $output = '{!'.$name;
         foreach ($params as $key => $value) {
-            if (!$dereferenced || $forceKeys || is_int($key)) {
+            if (!$dereferenced || $forceKeys || \is_int($key)) {
                 $output .= ' '.$key.'='.$value;
             }
         }
@@ -355,9 +352,9 @@ class Helper
     /**
      * Render a functionCall.
      *
-     * @param string  $name
-     * @param array   $params
-     * @param boolean $dereferenced
+     * @param string $name
+     * @param array  $params
+     * @param bool   $dereferenced
      *
      * @return string
      */
@@ -369,9 +366,9 @@ class Helper
             }
 
             return $name.'()';
-        } else {
-            return $name.'('.implode($params, ',').')';
         }
+
+        return $name.'('.implode(',', $params).')';
     }
 
     /**
@@ -415,9 +412,9 @@ class Helper
      * @see http://wiki.apache.org/solr/Join
      * @since 2.4.0
      *
-     * @param string  $from
-     * @param string  $to
-     * @param boolean $dereferenced
+     * @param string $from
+     * @param string $to
+     * @param bool   $dereferenced
      *
      * @return string
      */
@@ -453,7 +450,7 @@ class Helper
      *
      * @see http://wiki.apache.org/solr/CommonQueryParameters#Caching_of_filters
      *
-     * @param boolean    $useCache
+     * @param bool       $useCache
      * @param float|null $cost
      *
      * @return string
@@ -462,7 +459,7 @@ class Helper
     {
         $cache = 'false';
 
-        if ($useCache === true) {
+        if (true === $useCache) {
             $cache = 'true';
         }
 
@@ -492,9 +489,10 @@ class Helper
     /**
      * Render placeholders in a querystring.
      *
-     * @throws InvalidArgumentException
      *
      * @param array $matches
+     *
+     * @throws InvalidArgumentException
      *
      * @return string
      */
@@ -503,8 +501,8 @@ class Helper
         $partNumber = $matches[2];
         $partMode = strtoupper($matches[1]);
 
-        if (isset($this->assembleParts[$partNumber-1])) {
-            $value = $this->assembleParts[$partNumber-1];
+        if (isset($this->assembleParts[$partNumber - 1])) {
+            $value = $this->assembleParts[$partNumber - 1];
         } else {
             throw new InvalidArgumentException('No value supplied for part #'.$partNumber.' in query assembler');
         }

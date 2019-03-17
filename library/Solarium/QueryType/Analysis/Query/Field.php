@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -41,8 +41,8 @@
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Client\Client;
-use Solarium\QueryType\Analysis\ResponseParser\Field as ResponseParser;
 use Solarium\QueryType\Analysis\RequestBuilder\Field as RequestBuilder;
+use Solarium\QueryType\Analysis\ResponseParser\Field as ResponseParser;
 
 /**
  * Analysis document query.
@@ -55,9 +55,9 @@ class Field extends AbstractQuery
      * @var array
      */
     protected $options = array(
-        'handler'       => 'analysis/field',
-        'resultclass'   => 'Solarium\QueryType\Analysis\Result\Field',
-        'omitheader'    => true,
+        'handler' => 'analysis/field',
+        'resultclass' => 'Solarium\QueryType\Analysis\Result\Field',
+        'omitheader' => true,
     );
 
     /**

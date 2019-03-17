@@ -31,13 +31,13 @@
  * @copyright Copyright 2015 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 namespace Solarium\Core\Plugin;
 
 /**
- * This class is for backwards compatibility, will be removed in 4.x releases in favor of AbstractPlugin
+ * This class is for backwards compatibility, will be removed in 4.x releases in favor of AbstractPlugin.
  *
  * @deprecated
  */

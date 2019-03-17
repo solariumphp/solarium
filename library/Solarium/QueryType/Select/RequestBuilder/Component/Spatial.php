@@ -2,8 +2,8 @@
 
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
-use Solarium\QueryType\Select\Query\Component\Spatial as SpatialComponent;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Select\Query\Component\Spatial as SpatialComponent;
 
 /**
  * Add select component spatial to the request.
@@ -14,7 +14,7 @@ class Spatial implements ComponentRequestBuilderInterface
      * Add request settings for Spatial.
      *
      * @param SpatialComponent $component
-     * @param Request         $request
+     * @param Request          $request
      *
      * @return Request
      */

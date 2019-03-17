@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -93,6 +93,6 @@ class Field implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->values);
+        return \count($this->values);
     }
 }

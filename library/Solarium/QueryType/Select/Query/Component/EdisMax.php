@@ -31,7 +31,7 @@
  * @copyright Copyright 2012 Marc Morera <yuhu@mmoreram.com>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -46,7 +46,7 @@ use Solarium\QueryType\Select\RequestBuilder\Component\EdisMax as RequestBuilder
 /**
  * EdisMax component.
  *
- * @link http://wiki.apache.org/solr/ExtendedDisMax
+ * @see http://wiki.apache.org/solr/ExtendedDisMax
  */
 class EdisMax extends DisMax
 {

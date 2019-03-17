@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -69,14 +69,14 @@ class PivotItem extends Pivot
     protected $count;
 
     /**
-     * Field stats
+     * Field stats.
      *
      * @var mixed
      */
     protected $stats;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $data
      */
@@ -88,7 +88,7 @@ class PivotItem extends Pivot
 
         if (isset($data['pivot'])) {
             foreach ($data['pivot'] as $pivotData) {
-                $this->pivot[] = new PivotItem($pivotData);
+                $this->pivot[] = new self($pivotData);
             }
         }
 
@@ -128,8 +128,8 @@ class PivotItem extends Pivot
     }
 
     /**
-     * Get stats
-     * 
+     * Get stats.
+     *
      * @return Stats
      */
     public function getStats()

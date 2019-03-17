@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -108,6 +108,6 @@ class ResultList implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->items);
+        return \count($this->items);
     }
 }

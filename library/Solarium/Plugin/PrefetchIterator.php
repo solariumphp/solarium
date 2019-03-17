@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,11 +40,11 @@
 
 namespace Solarium\Plugin;
 
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\QueryType\Select\Result\DocumentInterface;
-use Solarium\Core\Client\Endpoint;
+use Solarium\QueryType\Select\Result\Result as SelectResult;
 
 /**
  * Prefetch plugin.
@@ -101,7 +101,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     /**
      * Set prefetch option.
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -115,7 +115,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     /**
      * Get prefetch option.
      *
-     * @return integer
+     * @return int
      */
     public function getPrefetch()
     {
@@ -232,14 +232,14 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     /**
      * Iterator implementation.
      *
-     * @return boolean
+     * @return bool
      */
     public function valid()
     {
         $adjustedIndex = $this->position % $this->options['prefetch'];
 
         // this condition prevent useless re-fetching of data if a count is done before the iterator is used
-        if ($adjustedIndex === 0 && ($this->position !== 0 || null === $this->result)) {
+        if (0 === $adjustedIndex && (0 !== $this->position || null === $this->result)) {
             $this->fetchNext();
         }
 

@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -41,15 +41,15 @@
 namespace Solarium\Plugin\BufferedAdd;
 
 use Solarium\Core\Plugin\AbstractPlugin;
-use Solarium\QueryType\Update\Result as UpdateResult;
-use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
 use Solarium\Plugin\BufferedAdd\Event\Events;
-use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
+use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as PreCommitEvent;
-use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
-use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
+use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
+use Solarium\QueryType\Update\Result as UpdateResult;
 
 /**
  * Buffered add plugin.
@@ -156,7 +156,7 @@ class BufferedAdd extends AbstractPlugin
         $event = new AddDocumentEvent($document);
         $this->client->getEventDispatcher()->dispatch(Events::ADD_DOCUMENT, $event);
 
-        if (count($this->buffer) == $this->options['buffersize']) {
+        if (\count($this->buffer) == $this->options['buffersize']) {
             $this->flush();
         }
 
@@ -207,14 +207,14 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Flush any buffered documents to Solr.
      *
-     * @param boolean $overwrite
-     * @param int     $commitWithin
+     * @param bool $overwrite
+     * @param int  $commitWithin
      *
-     * @return boolean|UpdateResult
+     * @return bool|UpdateResult
      */
     public function flush($overwrite = null, $commitWithin = null)
     {
-        if (count($this->buffer) == 0) {
+        if (0 == \count($this->buffer)) {
             // nothing to do
             return false;
         }
@@ -237,10 +237,10 @@ class BufferedAdd extends AbstractPlugin
      *
      * Any remaining documents in the buffer will also be flushed
      *
-     * @param boolean $overwrite
-     * @param boolean $softCommit
-     * @param boolean $waitSearcher
-     * @param boolean $expungeDeletes
+     * @param bool $overwrite
+     * @param bool $softCommit
+     * @param bool $waitSearcher
+     * @param bool $expungeDeletes
      *
      * @return UpdateResult
      */

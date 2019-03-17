@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -60,8 +60,8 @@ class Query extends BaseQuery
      */
     protected $options = array(
         'resultclass' => 'Solarium\QueryType\Terms\Result',
-        'handler'     => 'terms',
-        'omitheader'  => true,
+        'handler' => 'terms',
+        'omitheader' => true,
     );
 
     /**
@@ -105,7 +105,7 @@ class Query extends BaseQuery
      */
     public function setFields($value)
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             $value = explode(',', $value);
             $value = array_map('trim', $value);
         }
@@ -121,7 +121,7 @@ class Query extends BaseQuery
     public function getFields()
     {
         $value = $this->getOption('fields');
-        if ($value === null) {
+        if (null === $value) {
             $value = array();
         }
 
@@ -153,7 +153,7 @@ class Query extends BaseQuery
     /**
      * Set lowerboundinclude.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -165,7 +165,7 @@ class Query extends BaseQuery
     /**
      * Get lowerboundinclude.
      *
-     * @return boolean
+     * @return bool
      */
     public function getLowerboundInclude()
     {
@@ -175,7 +175,7 @@ class Query extends BaseQuery
     /**
      * Set mincount (the minimum doc frequency for terms in order to be included).
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -187,7 +187,7 @@ class Query extends BaseQuery
     /**
      * Get mincount.
      *
-     * @return integer
+     * @return int
      */
     public function getMinCount()
     {
@@ -197,7 +197,7 @@ class Query extends BaseQuery
     /**
      * Set maxcount (the maximum doc frequency for terms in order to be included).
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -209,7 +209,7 @@ class Query extends BaseQuery
     /**
      * Get maxcount.
      *
-     * @return integer
+     * @return int
      */
     public function getMaxCount()
     {
@@ -271,7 +271,7 @@ class Query extends BaseQuery
      */
     public function setRegexFlags($value)
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             $value = explode(',', $value);
             $value = array_map('trim', $value);
         }
@@ -287,7 +287,7 @@ class Query extends BaseQuery
     public function getRegexFlags()
     {
         $value = $this->getOption('regexflags');
-        if ($value === null) {
+        if (null === $value) {
             $value = array();
         }
 
@@ -299,7 +299,7 @@ class Query extends BaseQuery
      *
      * If < 0 all terms are included
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return self Provides fluent interface
      */
@@ -311,7 +311,7 @@ class Query extends BaseQuery
     /**
      * Get limit.
      *
-     * @return integer
+     * @return int
      */
     public function getLimit()
     {
@@ -343,7 +343,7 @@ class Query extends BaseQuery
     /**
      * Set upperboundinclude.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -355,7 +355,7 @@ class Query extends BaseQuery
     /**
      * Get upperboundinclude.
      *
-     * @return boolean
+     * @return bool
      */
     public function getUpperboundInclude()
     {
@@ -365,7 +365,7 @@ class Query extends BaseQuery
     /**
      * Set raw option.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return self Provides fluent interface
      */
@@ -377,7 +377,7 @@ class Query extends BaseQuery
     /**
      * Get raw option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getRaw()
     {

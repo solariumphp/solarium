@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -40,13 +40,13 @@
 
 namespace Solarium\QueryType\Analysis\ResponseParser;
 
-use Solarium\Core\Query\Result\Result;
-use Solarium\QueryType\Analysis\Result as AnalysisResult;
-use Solarium\QueryType\Analysis\Result\ResultList;
-use Solarium\QueryType\Analysis\Result\Item;
-use Solarium\QueryType\Analysis\Result\Types;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
+use Solarium\Core\Query\Result\Result;
+use Solarium\QueryType\Analysis\Result as AnalysisResult;
+use Solarium\QueryType\Analysis\Result\Item;
+use Solarium\QueryType\Analysis\Result\ResultList;
+use Solarium\QueryType\Analysis\Result\Types;
 
 /**
  * Parse document analysis response data.
@@ -110,7 +110,7 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
             foreach ($fieldData as $typeKey => $typeData) {
                 if ($query->getResponseWriter() == $query::WT_JSON) {
                     // fix for extra level for key fields
-                    if (count($typeData) == 1) {
+                    if (1 == \count($typeData)) {
                         $typeData = current($typeData);
                     }
                     $typeData = $this->convertToKeyValueArray($typeData);
@@ -118,7 +118,7 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
 
                 $classes = array();
                 foreach ($typeData as $class => $analysis) {
-                    if (is_string($analysis)) {
+                    if (\is_string($analysis)) {
                         $item = new Item(
                             array(
                                 'text' => $analysis,

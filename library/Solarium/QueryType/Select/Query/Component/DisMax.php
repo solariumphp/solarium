@@ -31,7 +31,7 @@
  * @copyright Copyright 2011 Bas de Nooijer <solarium@raspberry.nl>
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  *
- * @link http://www.solarium-project.org/
+ * @see http://www.solarium-project.org/
  */
 
 /**
@@ -47,7 +47,7 @@ use Solarium\QueryType\Select\RequestBuilder\Component\DisMax as RequestBuilder;
 /**
  * DisMax component.
  *
- * @link http://wiki.apache.org/solr/DisMaxQParserPlugin
+ * @see http://wiki.apache.org/solr/DisMaxQParserPlugin
  */
 class DisMax extends AbstractComponent
 {
@@ -300,16 +300,16 @@ class DisMax extends AbstractComponent
      */
     public function getBoostQuery($key = null)
     {
-        if ($key !== null) {
-            if (array_key_exists($key, $this->boostQueries)) {
+        if (null !== $key) {
+            if (\array_key_exists($key, $this->boostQueries)) {
                 return $this->boostQueries[$key]->getQuery();
             }
-        } else if (!empty($this->boostQueries)) {
+        } elseif (!empty($this->boostQueries)) {
             /** @var BoostQuery[] $boostQueries */
             $boostQueries = array_values($this->boostQueries);
 
             return $boostQueries[0]->getQuery();
-        } else if (array_key_exists('boostquery', $this->options)) {
+        } elseif (\array_key_exists('boostquery', $this->options)) {
             return $this->options['boostquery'];
         }
 
@@ -322,30 +322,30 @@ class DisMax extends AbstractComponent
      * Supports a boostquery instance or a config array, in that case a new
      * boostquery instance wil be created based on the options.
      *
-     * @throws InvalidArgumentException
      *
      * @param BoostQuery|array $boostQuery
+     *
+     * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
     public function addBoostQuery($boostQuery)
     {
-        if (is_array($boostQuery)) {
+        if (\is_array($boostQuery)) {
             $boostQuery = new BoostQuery($boostQuery);
         }
 
         $key = $boostQuery->getKey();
 
-        if (0 === strlen($key)) {
+        if (0 === \strlen($key)) {
             throw new InvalidArgumentException('A boostquery must have a key value');
         }
 
         //double add calls for the same BQ are ignored, but non-unique keys cause an exception
-        if (array_key_exists($key, $this->boostQueries) && $this->boostQueries[$key] !== $boostQuery) {
+        if (\array_key_exists($key, $this->boostQueries) && $this->boostQueries[$key] !== $boostQuery) {
             throw new InvalidArgumentException('A boostquery must have a unique key value within a query');
-        } else {
-            $this->boostQueries[$key] = $boostQuery;
         }
+        $this->boostQueries[$key] = $boostQuery;
 
         return $this;
     }
@@ -361,7 +361,7 @@ class DisMax extends AbstractComponent
     {
         foreach ($boostQueries as $key => $boostQuery) {
             // in case of a config array: add key to config
-            if (is_array($boostQuery) && !isset($boostQuery['key'])) {
+            if (\is_array($boostQuery) && !isset($boostQuery['key'])) {
                 $boostQuery['key'] = $key;
             }
 
@@ -392,7 +392,7 @@ class DisMax extends AbstractComponent
      */
     public function removeBoostQuery($boostQuery)
     {
-        if (is_object($boostQuery)) {
+        if (\is_object($boostQuery)) {
             $boostQuery = $boostQuery->getKey();
         }
 
