@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [4.3.0-beta.1]
 ### Changed
 - Updated dev and test environments to newer package versions, for example PHPUnit 7.5
-
+- Increased the number of PHP 7.1 style argument and return type declarations (transition not completed yet)
 
 ## [4.3.0-alpha.2]
 ### Added
