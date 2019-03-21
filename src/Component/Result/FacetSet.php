@@ -41,11 +41,11 @@ class FacetSet implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get all results.
+     * Get all facet results.
      *
-     * @return FacetInterface[]
+     * @return array
      */
-    public function getFacets()
+    public function getFacets(): array
     {
         return $this->facets;
     }
