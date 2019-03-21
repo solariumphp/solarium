@@ -90,13 +90,14 @@ class Configurable implements ConfigurableInterface
      *
      * @param string $name
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function getOption($name)
     {
         if (isset($this->options[$name])) {
             return $this->options[$name];
         }
+        return null;
     }
 
     /**

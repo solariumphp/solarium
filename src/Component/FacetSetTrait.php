@@ -28,7 +28,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addFacet($facet): self
+    public function addFacet($facet): FacetSetInterface
     {
         if (is_array($facet)) {
             $facet = $this->createFacet($facet['type'], $facet, false);
@@ -57,7 +57,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addFacets(array $facets): self
+    public function addFacets(array $facets): FacetSetInterface
     {
         foreach ($facets as $key => $facet) {
             // in case of a config array: add key to config
@@ -76,13 +76,14 @@ trait FacetSetTrait
      *
      * @param string $key
      *
-     * @return FacetInterface
+     * @return FacetInterface|null
      */
     public function getFacet($key): ?FacetInterface
     {
         if (isset($this->facets[$key])) {
             return $this->facets[$key];
         }
+        return null;
     }
 
     /**
@@ -90,7 +91,7 @@ trait FacetSetTrait
      *
      * @return FacetInterface[]
      */
-    public function getFacets()
+    public function getFacets(): array
     {
         return $this->facets;
     }
@@ -104,7 +105,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function removeFacet($facet): self
+    public function removeFacet($facet): FacetSetInterface
     {
         if (is_object($facet)) {
             $facet = $facet->getKey();
@@ -122,7 +123,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function clearFacets(): self
+    public function clearFacets(): FacetSetInterface
     {
         $this->facets = [];
 
@@ -136,7 +137,7 @@ trait FacetSetTrait
      *
      * @param array $facets
      */
-    public function setFacets($facets): self
+    public function setFacets($facets): FacetSetInterface
     {
         $this->clearFacets();
         $this->addFacets($facets);

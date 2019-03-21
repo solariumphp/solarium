@@ -276,7 +276,8 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      */
     public function setDistrib($value): self
     {
-        return $this->setOption('distrib', $value);
+        $this->setOption('distrib', $value);
+        return $this;
     }
 
     /**
