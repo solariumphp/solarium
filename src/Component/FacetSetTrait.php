@@ -28,7 +28,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addFacet($facet) : self
+    public function addFacet($facet): self
     {
         if (is_array($facet)) {
             $facet = $this->createFacet($facet['type'], $facet, false);
@@ -57,7 +57,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addFacets(array $facets) : self
+    public function addFacets(array $facets): self
     {
         foreach ($facets as $key => $facet) {
             // in case of a config array: add key to config
@@ -104,7 +104,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function removeFacet($facet) : self
+    public function removeFacet($facet): self
     {
         if (is_object($facet)) {
             $facet = $facet->getKey();
@@ -122,7 +122,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function clearFacets() : self
+    public function clearFacets(): self
     {
         $this->facets = [];
 
@@ -136,7 +136,7 @@ trait FacetSetTrait
      *
      * @param array $facets
      */
-    public function setFacets($facets) : self
+    public function setFacets($facets): self
     {
         $this->clearFacets();
         $this->addFacets($facets);
@@ -163,7 +163,7 @@ trait FacetSetTrait
      *
      * @return \Solarium\Component\Facet\FacetInterface
      */
-    public function createFacet(string $type, $options = null, bool $add = true) : FacetInterface
+    public function createFacet(string $type, $options = null, bool $add = true): FacetInterface
     {
         $type = strtolower($type);
 
