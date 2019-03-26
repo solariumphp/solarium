@@ -1,7 +1,6 @@
 <?php
 
-require(__DIR__.'/init.php');
-htmlHeader();
+require('./vendor/autoload.php');
 
 // create a client instance
 $client = new Solarium\Client($config);
@@ -22,12 +21,12 @@ $query->setStart(($currentPage - 1) * $resultsPerPage);
 $resultset = $client->execute($query);
 
 // display the total number of documents found by solr
-echo 'NumFound: '.$resultset->getNumFound();
+echo 'NumFound: '.$resultset->getNumFound() . PHP_EOL;
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
 
-    echo '<hr/><table>';
+    echo str_repeat('=', 50) . PHP_EOL;
 
     // the documents are also iterable, to get all fields
     foreach ($document as $field => $value) {
@@ -36,10 +35,8 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo $field . ': ' . $value . PHP_EOL;
+        echo str_repeat('=', 50) . PHP_EOL;
     }
 
-    echo '</table>';
 }
-
-htmlFooter();
