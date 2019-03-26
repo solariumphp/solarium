@@ -1,10 +1,11 @@
 <?php
 
-require(__DIR__.'/init.php');
-htmlHeader();
+require(__DIR__ . '/vendor/autoload.php');
 
 // check solarium version available
-echo 'Solarium library version: ' . Solarium\Client::VERSION . ' - ';
+echo 'Solarium library version: ' . Solarium\Client::VERSION . PHP_EOL;
+
+$config = null;
 
 // create a client instance
 $client = new Solarium\Client($config);
@@ -15,12 +16,8 @@ $ping = $client->createPing();
 // execute the ping query
 try {
     $result = $client->ping($ping);
-    echo 'Ping query successful';
-    echo '<br/><pre>';
+    echo 'Ping query successful' . PHP_EOL;
     var_dump($result->getData());
-    echo '</pre>';
 } catch (Solarium\Exception $e) {
-    echo 'Ping query failed';
+    echo 'Ping query failed' . PHP_EOL;
 }
-
-htmlFooter();
