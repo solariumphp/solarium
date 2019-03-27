@@ -23,8 +23,53 @@ The preferred way to install Solarium is by using Composer. Solarium is availabl
 
 Example:
 ```
- composer require solarium/solarium
+composer require solarium/solarium
 ```
+
+## Run the examples
+
+This needs a git checkout using composer.
+
+### Add repository section
+
+```
+    "repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:solariumphp/solarium.git"
+		}
+	]
+```
+
+### Reinstall
+
+You need to fetch the newly configured git checkout. This will fetch the examples too.
+
+```
+composer install
+```
+
+### Make a copy of settings.dist.php
+
+You must copy this file into your project root.
+
+```
+cp ./vendor/solarium/solarium/examples/config.dist.php ./config.php
+```
+
+Now you can change the `./config.php` if you are not using the default solr settings.
+
+### Start webserver
+
+Start the webserver from within the project root.
+
+```
+php -S localhost:8888
+```
+
+### Run the examples
+
+Open http://localhost:8888/vendor/solarium/solarium/examples/
 
 ## More information
 
