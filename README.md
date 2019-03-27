@@ -32,13 +32,15 @@ This needs a git checkout using composer.
 
 ### Add repository section
 
+Add or update the repository sections in your `composer.json` file.
+
 ```
     "repositories": [
-		{
-			"type": "vcs",
-			"url": "git@github.com:solariumphp/solarium.git"
-		}
-	]
+        {
+            "type": "vcs",
+            "url": "git@github.com:solariumphp/solarium.git"
+        }
+    ]
 ```
 
 ### Reinstall
