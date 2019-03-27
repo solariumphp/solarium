@@ -22,7 +22,7 @@ abstract class AbstractComponent extends Configurable
      *
      * @return string
      */
-    abstract public function getType();
+    abstract public function getType(): string;
 
     /**
      * Get the request builder class for this query.

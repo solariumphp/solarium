@@ -3,9 +3,12 @@
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
+use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
-class Rename extends AbstractAsyncAction
+class Rename extends AbstractAsyncAction implements CoreActionInterface
 {
+    use CoreActionTrait;
+
     /**
      * Returns the action type of the core admin action.
      *
@@ -23,9 +26,10 @@ class Rename extends AbstractAsyncAction
      *
      * @return self Provides fluent interface
      */
-    public function setOther($other)
+    public function setOther($other): self
     {
-        return $this->setOption('other', $other);
+        $this->setOption('other', $other);
+        return $this;
     }
 
     /**

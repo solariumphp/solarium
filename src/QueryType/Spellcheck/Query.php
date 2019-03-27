@@ -37,7 +37,7 @@ class Query extends BaseQuery implements SpellcheckInterface, QueryInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return Client::QUERY_SPELLCHECK;
     }

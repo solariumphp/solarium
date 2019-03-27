@@ -14,7 +14,7 @@ abstract class AbstractCommand extends Configurable
      *
      * @return string
      */
-    abstract public function getType();
+    abstract public function getType(): string;
 
     /**
      * Returns request method.

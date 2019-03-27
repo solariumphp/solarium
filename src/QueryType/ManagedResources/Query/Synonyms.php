@@ -91,7 +91,7 @@ class Synonyms extends BaseQuery
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return Client::QUERY_MANAGED_SYNONYMS;
     }

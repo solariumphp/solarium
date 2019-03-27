@@ -16,7 +16,7 @@ class JsonAggregation extends AbstractFacet implements JsonFacetInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return FacetSetInterface::JSON_FACET_AGGREGATION;
     }

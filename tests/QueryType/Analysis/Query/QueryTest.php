@@ -39,7 +39,7 @@ class QueryTest extends TestCase
 
 class TestAnalysisQuery extends AbstractQuery
 {
-    public function getType()
+    public function getType(): string
     {
         return null;
     }

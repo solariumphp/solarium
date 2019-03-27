@@ -20,7 +20,7 @@ class Range extends AbstractRange implements ExcludeTagsInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return FacetSetInterface::FACET_RANGE;
     }

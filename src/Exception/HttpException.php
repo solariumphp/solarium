@@ -39,7 +39,7 @@ class HttpException extends \RuntimeException implements ExceptionInterface
      * Exception constructor.
      *
      * The input message is a HTTP status message. Because an exception with the
-     * message 'Not Found' is not very clear it this message is tranformed to a
+     * message 'Not Found' is not very clear this message is transformed to a
      * more descriptive text. The original message is available using the
      * {@link getStatusMessage} method.
      *

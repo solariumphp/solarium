@@ -37,7 +37,7 @@ class FacetSetTest extends TestCase
             'prefix' => 'pr',
             'sort' => 'index',
             'mincount' => 10,
-            'missing' => 5,
+            'missing' => true,
             'extractfromresponse' => true,
             'contains' => 'foobar',
             'containsignorecase' => true,

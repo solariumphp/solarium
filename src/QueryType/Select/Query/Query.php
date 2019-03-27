@@ -143,7 +143,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return Client::QUERY_SELECT;
     }

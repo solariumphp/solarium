@@ -21,6 +21,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     {
         $request = new Request();
         $request->setHandler($query->getHandler());
+        $request->addParam('distrib', $query->getDistrib());
         $request->addParam('omitHeader', $query->getOmitHeader());
         $request->addParam('timeAllowed', $query->getTimeAllowed());
         $request->addParam('NOW', $query->getNow());
@@ -28,8 +29,8 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         $request->addParams($query->getParams());
 
         $request->addParam('wt', $query->getResponseWriter());
-        if ($query->getResponseWriter() == $query::WT_JSON) {
-            // only one JSON format is supported
+        if ($query::WT_JSON === $query->getResponseWriter()) {
+            // Only flat JSON format is supported. Other JSON formats are easier to handle but might loose information.
             $request->addParam('json.nl', 'flat');
         }
 
