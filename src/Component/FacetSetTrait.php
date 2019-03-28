@@ -137,7 +137,7 @@ trait FacetSetTrait
      *
      * @param array $facets
      */
-    public function setFacets($facets): FacetSetInterface
+    public function setFacets(array $facets): FacetSetInterface
     {
         $this->clearFacets();
         $this->addFacets($facets);

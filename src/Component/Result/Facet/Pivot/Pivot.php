@@ -19,7 +19,7 @@ class Pivot implements \IteratorAggregate, \Countable
      *
      * @param array $data
      */
-    public function __construct($data)
+    public function __construct(array $data)
     {
         foreach ($data as $pivotData) {
             $this->pivot[] = new PivotItem($pivotData);
@@ -31,7 +31,7 @@ class Pivot implements \IteratorAggregate, \Countable
      *
      * @return Pivot[]
      */
-    public function getPivot()
+    public function getPivot(): array
     {
         return $this->pivot;
     }
@@ -41,7 +41,7 @@ class Pivot implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->pivot);
     }
@@ -51,7 +51,7 @@ class Pivot implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->pivot);
     }

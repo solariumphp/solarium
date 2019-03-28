@@ -16,7 +16,7 @@ class Suggestion
      * @param int   $originalFrequency
      * @param array $words
      */
-    public function __construct($numFound, $startOffset, $endOffset, $originalFrequency, $words)
+    public function __construct(int $numFound, int $startOffset, int $endOffset, int $originalFrequency, array $words)
     {
         $this->numFound = $numFound;
         $this->startOffset = $startOffset;
@@ -30,7 +30,7 @@ class Suggestion
      *
      * @return int
      */
-    public function getNumFound()
+    public function getNumFound(): int
     {
         return $this->numFound;
     }
@@ -40,7 +40,7 @@ class Suggestion
      *
      * @return int
      */
-    public function getStartOffset()
+    public function getStartOffset(): int
     {
         return $this->startOffset;
     }
@@ -50,7 +50,7 @@ class Suggestion
      *
      * @return int
      */
-    public function getEndOffset()
+    public function getEndOffset(): int
     {
         return $this->endOffset;
     }
@@ -62,7 +62,7 @@ class Suggestion
      *
      * @return int
      */
-    public function getOriginalFrequency()
+    public function getOriginalFrequency(): int
     {
         return $this->originalFrequency;
     }
@@ -72,7 +72,7 @@ class Suggestion
      *
      * @return string|null
      */
-    public function getWord()
+    public function getWord(): ?string
     {
         $word = reset($this->words);
         if (isset($word['word'])) {
@@ -87,7 +87,7 @@ class Suggestion
      *
      * @return array
      */
-    public function getWords()
+    public function getWords(): array
     {
         return $this->words;
     }
@@ -99,7 +99,7 @@ class Suggestion
      *
      * @return int
      */
-    public function getFrequency()
+    public function getFrequency(): int
     {
         $word = reset($this->words);
         if (isset($word['freq'])) {

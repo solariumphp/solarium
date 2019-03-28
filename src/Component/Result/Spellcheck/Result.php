@@ -49,7 +49,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return Collation
      */
-    public function getCollation($key = null)
+    public function getCollation($key = null): Collation
     {
         $nrOfCollations = count($this->collations);
         if (0 == $nrOfCollations) {
@@ -68,7 +68,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return Collation[]
      */
-    public function getCollations()
+    public function getCollations(): array
     {
         return $this->collations;
     }
@@ -80,7 +80,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return bool
      */
-    public function getCorrectlySpelled()
+    public function getCorrectlySpelled(): bool
     {
         return $this->correctlySpelled;
     }
@@ -92,11 +92,12 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return Suggestion|null
      */
-    public function getSuggestion($key)
+    public function getSuggestion($key): ?Suggestion
     {
         if (isset($this->suggestions[$key])) {
             return $this->suggestions[$key];
         }
+        return null;
     }
 
     /**
@@ -104,7 +105,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return Suggestion[]
      */
-    public function getSuggestions()
+    public function getSuggestions(): array
     {
         return $this->suggestions;
     }
@@ -114,7 +115,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->suggestions);
     }
@@ -124,7 +125,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->suggestions);
     }

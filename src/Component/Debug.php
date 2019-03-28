@@ -49,7 +49,7 @@ class Debug extends AbstractComponent
      *
      * @return string|null
      */
-    public function getExplainOther()
+    public function getExplainOther(): ?string
     {
         return $this->getOption('explainother');
     }
@@ -61,8 +61,9 @@ class Debug extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setExplainOther($query)
+    public function setExplainOther(string $query): self
     {
-        return $this->setOption('explainother', $query);
+        $this->setOption('explainother', $query);
+        return $this;
     }
 }

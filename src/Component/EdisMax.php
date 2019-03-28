@@ -53,9 +53,10 @@ class EdisMax extends DisMax
      *
      * @return self Provides fluent interface
      */
-    public function setBoostFunctionsMult($boostFunctionsMult)
+    public function setBoostFunctionsMult(string $boostFunctionsMult): self
     {
-        return $this->setOption('boostfunctionsmult', $boostFunctionsMult);
+        $this->setOption('boostfunctionsmult', $boostFunctionsMult);
+        return $this;
     }
 
     /**
@@ -63,7 +64,7 @@ class EdisMax extends DisMax
      *
      * @return string|null
      */
-    public function getBoostFunctionsMult()
+    public function getBoostFunctionsMult(): ?string
     {
         return $this->getOption('boostfunctionsmult');
     }
@@ -80,9 +81,10 @@ class EdisMax extends DisMax
      *
      * @return self Provides fluent interface
      */
-    public function setPhraseBigramFields($phraseBigramFields)
+    public function setPhraseBigramFields(string $phraseBigramFields): self
     {
-        return $this->setOption('phrasebigramfields', $phraseBigramFields);
+        $this->setOption('phrasebigramfields', $phraseBigramFields);
+        return $this;
     }
 
     /**
@@ -90,7 +92,7 @@ class EdisMax extends DisMax
      *
      * @return string|null
      */
-    public function getPhraseBigramFields()
+    public function getPhraseBigramFields(): ?string
     {
         return $this->getOption('phrasebigramfields');
     }
@@ -105,9 +107,10 @@ class EdisMax extends DisMax
      *
      * @return self Provides fluent interface
      */
-    public function setPhraseBigramSlop($phraseBigramSlop)
+    public function setPhraseBigramSlop(string $phraseBigramSlop): self
     {
-        return $this->setOption('phrasebigramslop', $phraseBigramSlop);
+        $this->setOption('phrasebigramslop', $phraseBigramSlop);
+        return $this;
     }
 
     /**
@@ -115,7 +118,7 @@ class EdisMax extends DisMax
      *
      * @return string|null
      */
-    public function getPhraseBigramSlop()
+    public function getPhraseBigramSlop(): ?string
     {
         return $this->getOption('phrasebigramslop');
     }
@@ -132,9 +135,10 @@ class EdisMax extends DisMax
      *
      * @return self Provides fluent interface
      */
-    public function setPhraseTrigramFields($phraseTrigramFields)
+    public function setPhraseTrigramFields(string $phraseTrigramFields): self
     {
-        return $this->setOption('phrasetrigramfields', $phraseTrigramFields);
+        $this->setOption('phrasetrigramfields', $phraseTrigramFields);
+        return $this;
     }
 
     /**
@@ -142,7 +146,7 @@ class EdisMax extends DisMax
      *
      * @return string|null
      */
-    public function getPhraseTrigramFields()
+    public function getPhraseTrigramFields(): ?string
     {
         return $this->getOption('phrasetrigramfields');
     }
@@ -157,9 +161,10 @@ class EdisMax extends DisMax
      *
      * @return self Provides fluent interface
      */
-    public function setPhraseTrigramSlop($phraseTrigramSlop)
+    public function setPhraseTrigramSlop(string $phraseTrigramSlop): self
     {
-        return $this->setOption('phrasetrigramslop', $phraseTrigramSlop);
+        $this->setOption('phrasetrigramslop', $phraseTrigramSlop);
+        return $this;
     }
 
     /**
@@ -167,7 +172,7 @@ class EdisMax extends DisMax
      *
      * @return string|null
      */
-    public function getPhraseTrigramSlop()
+    public function getPhraseTrigramSlop(): ?string
     {
         return $this->getOption('phrasetrigramslop');
     }
@@ -187,9 +192,10 @@ class EdisMax extends DisMax
      *
      * @return self Provides fluent interface
      */
-    public function setUserFields($userFields)
+    public function setUserFields(string $userFields): self
     {
-        return $this->setOption('userfields', $userFields);
+        $this->setOption('userfields', $userFields);
+        return $this;
     }
 
     /**
@@ -197,7 +203,7 @@ class EdisMax extends DisMax
      *
      * @return string|null
      */
-    public function getUserFields()
+    public function getUserFields(): ?string
     {
         return $this->getOption('userfields');
     }

@@ -28,7 +28,7 @@ class Field extends Configurable
      *
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->getOption('key');
     }
@@ -40,9 +40,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setKey($value)
+    public function setKey(string $value): self
     {
-        return $this->setOption('key', $value);
+        $this->setOption('key', $value);
+        return $this;
     }
 
     /**
@@ -52,7 +53,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function addFacet($facet)
+    public function addFacet(string $facet): self
     {
         $this->facets[$facet] = true;
 
@@ -67,7 +68,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function addFacets($facets)
+    public function addFacets($facets): self
     {
         if (is_string($facets)) {
             $facets = explode(',', $facets);
@@ -88,7 +89,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function removeFacet($facet)
+    public function removeFacet(string  $facet): self
     {
         if (isset($this->facets[$facet])) {
             unset($this->facets[$facet]);
@@ -102,7 +103,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function clearFacets()
+    public function clearFacets(): self
     {
         $this->facets = [];
 
@@ -114,7 +115,7 @@ class Field extends Configurable
      *
      * @return array
      */
-    public function getFacets()
+    public function getFacets(): array
     {
         return array_keys($this->facets);
     }
@@ -128,7 +129,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setFacets($facets)
+    public function setFacets(array $facets): self
     {
         $this->clearFacets();
         $this->addFacets($facets);
@@ -143,7 +144,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function addPivot($pivot)
+    public function addPivot(string $pivot): self
     {
         $this->pivots[$pivot] = true;
 
@@ -158,7 +159,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function addPivots($pivots)
+    public function addPivots($pivots): self
     {
         if (is_string($pivots)) {
             $pivots = explode(',', $pivots);
@@ -179,7 +180,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function removePivot($pivot)
+    public function removePivot(string $pivot): self
     {
         if (isset($this->pivots[$pivot])) {
             unset($this->pivots[$pivot]);
@@ -193,7 +194,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function clearPivots()
+    public function clearPivots(): self
     {
         $this->pivots = [];
 
@@ -205,7 +206,7 @@ class Field extends Configurable
      *
      * @return array
      */
-    public function getPivots()
+    public function getPivots(): array
     {
         return array_keys($this->pivots);
     }
@@ -219,7 +220,7 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setPivots($pivots)
+    public function setPivots(array $pivots): self
     {
         $this->clearPivots();
         $this->addPivots($pivots);

@@ -47,7 +47,7 @@ abstract class AbstractComponent extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setQueryInstance(AbstractQuery $instance)
+    public function setQueryInstance(AbstractQuery $instance): self
     {
         $this->queryInstance = $instance;
 
@@ -59,7 +59,7 @@ abstract class AbstractComponent extends Configurable
      *
      * @return AbstractQuery
      */
-    public function getQueryInstance()
+    public function getQueryInstance(): AbstractQuery
     {
         return $this->queryInstance;
     }
@@ -69,7 +69,7 @@ abstract class AbstractComponent extends Configurable
      *
      * @return \Solarium\Core\Query\Helper
      */
-    public function getHelper()
+    public function getHelper(): Helper
     {
         if ($queryInstance = $this->getQueryInstance()) {
             return $this->getQueryInstance()->getHelper();

@@ -21,7 +21,7 @@ class FacetSet implements \IteratorAggregate, \Countable
      *
      * @param array $facets
      */
-    public function __construct($facets)
+    public function __construct(array $facets)
     {
         $this->facets = $facets;
     }
@@ -31,13 +31,14 @@ class FacetSet implements \IteratorAggregate, \Countable
      *
      * @param mixed $key
      *
-     * @return FacetInterface
+     * @return FacetInterface|null
      */
-    public function getFacet($key)
+    public function getFacet($key): ?FacetInterface
     {
         if (isset($this->facets[$key])) {
             return $this->facets[$key];
         }
+        return null;
     }
 
     /**

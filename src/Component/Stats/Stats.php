@@ -75,7 +75,7 @@ class Stats extends AbstractComponent
      *
      * @return Field
      */
-    public function createField($options = null)
+    public function createField($options = null): Field
     {
         if (is_string($options)) {
             $fq = new Field();
@@ -104,7 +104,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function addField($field)
+    public function addField($field): self
     {
         if (is_array($field)) {
             $field = new Field($field);
@@ -133,7 +133,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function addFields(array $fields)
+    public function addFields(array $fields): self
     {
         foreach ($fields as $key => $field) {
             // in case of a config array: add key to config
@@ -152,13 +152,14 @@ class Stats extends AbstractComponent
      *
      * @param string $key
      *
-     * @return string
+     * @return string|null
      */
-    public function getField($key)
+    public function getField(string $key): ?string
     {
         if (isset($this->fields[$key])) {
             return $this->fields[$key];
         }
+        return null;
     }
 
     /**
@@ -166,7 +167,7 @@ class Stats extends AbstractComponent
      *
      * @return Field[]
      */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }
@@ -180,7 +181,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function removeField($field)
+    public function removeField($field): self
     {
         if (is_object($field)) {
             $field = $field->getKey();
@@ -198,7 +199,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function clearFields()
+    public function clearFields(): self
     {
         $this->fields = [];
 
@@ -214,7 +215,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setFields($fields)
+    public function setFields(array $fields): self
     {
         $this->clearFields();
         $this->addFields($fields);
@@ -229,7 +230,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function addFacet($facet)
+    public function addFacet(string $facet): self
     {
         $this->facets[$facet] = true;
 
@@ -244,7 +245,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function addFacets($facets)
+    public function addFacets($facets): self
     {
         if (is_string($facets)) {
             $facets = explode(',', $facets);
@@ -265,7 +266,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function removeFacet($facet)
+    public function removeFacet(string $facet): self
     {
         if (isset($this->facets[$facet])) {
             unset($this->facets[$facet]);
@@ -279,7 +280,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function clearFacets()
+    public function clearFacets(): self
     {
         $this->facets = [];
 
@@ -291,7 +292,7 @@ class Stats extends AbstractComponent
      *
      * @return array
      */
-    public function getFacets()
+    public function getFacets(): array
     {
         return array_keys($this->facets);
     }
@@ -305,7 +306,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setFacets($facets)
+    public function setFacets(array $facets): self
     {
         $this->clearFacets();
         $this->addFacets($facets);
