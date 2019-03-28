@@ -22,12 +22,12 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @param string $name
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function __get($name)
     {
         if (!isset($this->fields[$name])) {
-            return;
+            return null;
         }
 
         return $this->fields[$name];
@@ -46,6 +46,29 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     public function __isset($name)
     {
         return isset($this->fields[$name]);
+    }
+
+    /**
+     * Set field value.
+     *
+     * @param string      $name
+     * @param string|null $value
+     */
+    public function __set($name, $value)
+    {
+        $this->fields[$name] = $value;
+    }
+
+    /**
+     * Unset field value.
+     *
+     * Magic method for removing fields by unsetting object properties
+     *
+     * @param string $name
+     */
+    public function __unset($name)
+    {
+        unset($this->fields[$name]);
     }
 
     /**

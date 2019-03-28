@@ -77,7 +77,9 @@ trait ComponentAwareQueryTrait
     {
         if (isset($this->components[$key])) {
             return $this->components[$key];
-        } elseif (true === $autoload) {
+        }
+
+        if (true === $autoload) {
             if (!isset($this->componentTypes[$key])) {
                 throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
             }

@@ -66,16 +66,19 @@ trait JsonFacetTrait
         $filter = $this->getDomainFilter();
         if (!$filter || is_string($filter)) {
             return $this->setOption('domain', ['filter' => $query]);
-        } else {
-            foreach ($filter as &$param_or_query) {
-                if (is_string($param_or_query)) {
-                    $param_or_query = $query;
-                    return $this->setOption('domain', ['filter' => $filter]);
-                }
-            }
-            $filter[] = $query;
-            return $this->setOption('domain', ['filter' => $filter]);
         }
+
+        foreach ($filter as &$param_or_query) {
+            if (is_string($param_or_query)) {
+                $param_or_query = $query;
+                return $this->setOption('domain', ['filter' => $filter]);
+            }
+        }
+        unset($param_or_query);
+
+        /** @noinspection UnsupportedStringOffsetOperationsInspection */
+        $filter[] = $query;
+        return $this->setOption('domain', ['filter' => $filter]);
     }
 
     /**
@@ -90,17 +93,22 @@ trait JsonFacetTrait
         $filter = $this->getDomainFilter();
         if (!$filter) {
             return $this->setOption('domain', ['filter' => ['param' => $param]]);
-        } elseif (is_string($filter) || 1 == count($filter)) {
-            return $this->setOption('domain', ['filter' => [$filter, ['param' => $param]]]);
-        } else {
-            foreach ($filter as &$param_or_query) {
-                if (is_array($param_or_query) && $param_or_query['param'] == $param) {
-                    return $this;
-                }
-            }
-            $filter[] = ['param' => $param];
-            return $this->setOption('domain', ['filter' => $filter]);
         }
+
+        if (is_string($filter) || 1 == count($filter)) {
+            return $this->setOption('domain', ['filter' => [$filter, ['param' => $param]]]);
+        }
+
+        foreach ($filter as &$param_or_query) {
+            if (is_array($param_or_query) && $param_or_query['param'] == $param) {
+                return $this;
+            }
+        }
+        unset($param_or_query);
+
+        /** @noinspection UnsupportedStringOffsetOperationsInspection */
+        $filter[] = ['param' => $param];
+        return $this->setOption('domain', ['filter' => $filter]);
     }
 
     /**

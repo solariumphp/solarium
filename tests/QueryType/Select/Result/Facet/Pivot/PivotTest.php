@@ -10,6 +10,9 @@ class PivotTest extends TestCase
 {
     protected $values;
 
+    /**
+     * @var Pivot
+     */
     protected $facet;
 
     public function setUp()

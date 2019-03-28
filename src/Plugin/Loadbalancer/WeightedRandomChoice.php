@@ -92,6 +92,8 @@ class WeightedRandomChoice
      */
     protected function getKey()
     {
+        // We don't need cryptographically secure values, therefore mt_rand is the better choice over random_int().
+        /** @noinspection RandomApiMigrationInspection */
         $random = mt_rand(1, $this->totalWeight);
         $high = count($this->lookup) - 1;
         $low = 0;

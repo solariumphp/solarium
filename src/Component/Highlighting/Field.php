@@ -38,9 +38,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setName($name)
+    public function setName(string $name): self
     {
-        return $this->setOption('name', $name);
+        $this->setOption('name', $name);
+        return $this;
     }
 
     /**
@@ -52,9 +53,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setSnippets($maximum)
+    public function setSnippets(int $maximum): self
     {
-        return $this->setOption('snippets', $maximum);
+        $this->setOption('snippets', $maximum);
+        return $this;
     }
 
     /**
@@ -62,7 +64,7 @@ class Field extends Configurable
      *
      * @return int|null
      */
-    public function getSnippets()
+    public function getSnippets(): ?int
     {
         return $this->getOption('snippets');
     }
@@ -76,9 +78,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setFragSize($size)
+    public function setFragSize(int $size): self
     {
-        return $this->setOption('fragsize', $size);
+        $this->setOption('fragsize', $size);
+        return $this;
     }
 
     /**
@@ -86,7 +89,7 @@ class Field extends Configurable
      *
      * @return int|null
      */
-    public function getFragSize()
+    public function getFragSize(): ?int
     {
         return $this->getOption('fragsize');
     }
@@ -100,9 +103,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setMergeContiguous($merge)
+    public function setMergeContiguous(bool $merge): self
     {
-        return $this->setOption('mergecontiguous', $merge);
+        $this->setOption('mergecontiguous', $merge);
+        return $this;
     }
 
     /**
@@ -110,7 +114,7 @@ class Field extends Configurable
      *
      * @return bool|null
      */
-    public function getMergeContiguous()
+    public function getMergeContiguous(): ?bool
     {
         return $this->getOption('mergecontiguous');
     }
@@ -122,9 +126,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setAlternateField($field)
+    public function setAlternateField(string $field): self
     {
-        return $this->setOption('alternatefield', $field);
+        $this->setOption('alternatefield', $field);
+        return $this;
     }
 
     /**
@@ -132,7 +137,7 @@ class Field extends Configurable
      *
      * @return string|null
      */
-    public function getAlternateField()
+    public function getAlternateField(): ?string
     {
         return $this->getOption('alternatefield');
     }
@@ -144,9 +149,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setPreserveMulti($preservemulti)
+    public function setPreserveMulti(bool $preservemulti): self
     {
-        return $this->setOption('preservemulti', $preservemulti);
+        $this->setOption('preservemulti', $preservemulti);
+        return $this;
     }
 
     /**
@@ -154,7 +160,7 @@ class Field extends Configurable
      *
      * @return bool|null
      */
-    public function getPreserveMulti()
+    public function getPreserveMulti(): ?bool
     {
         return $this->getOption('preservemulti');
     }
@@ -166,9 +172,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setFormatter($formatter = 'simple')
+    public function setFormatter(string $formatter = 'simple'): self
     {
-        return $this->setOption('formatter', $formatter);
+        $this->setOption('formatter', $formatter);
+        return $this;
     }
 
     /**
@@ -176,7 +183,7 @@ class Field extends Configurable
      *
      * @return string|null
      */
-    public function getFormatter()
+    public function getFormatter(): ?string
     {
         return $this->getOption('formatter');
     }
@@ -190,9 +197,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setSimplePrefix($prefix)
+    public function setSimplePrefix(string $prefix): self
     {
-        return $this->setOption('simpleprefix', $prefix);
+        $this->setOption('simpleprefix', $prefix);
+        return $this;
     }
 
     /**
@@ -202,7 +210,7 @@ class Field extends Configurable
      *
      * @return string|null
      */
-    public function getSimplePrefix()
+    public function getSimplePrefix(): ?string
     {
         return $this->getOption('simpleprefix');
     }
@@ -216,9 +224,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setSimplePostfix($postfix)
+    public function setSimplePostfix(string $postfix): self
     {
-        return $this->setOption('simplepostfix', $postfix);
+        $this->setOption('simplepostfix', $postfix);
+        return $this;
     }
 
     /**
@@ -228,7 +237,7 @@ class Field extends Configurable
      *
      * @return string|null
      */
-    public function getSimplePostfix()
+    public function getSimplePostfix(): ?string
     {
         return $this->getOption('simplepostfix');
     }
@@ -242,9 +251,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setFragmenter($fragmenter)
+    public function setFragmenter(string $fragmenter): self
     {
-        return $this->setOption('fragmenter', $fragmenter);
+        $this->setOption('fragmenter', $fragmenter);
+        return $this;
     }
 
     /**
@@ -252,7 +262,7 @@ class Field extends Configurable
      *
      * @return string|null
      */
-    public function getFragmenter()
+    public function getFragmenter(): ?string
     {
         return $this->getOption('fragmenter');
     }
@@ -264,9 +274,10 @@ class Field extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setUseFastVectorHighlighter($use)
+    public function setUseFastVectorHighlighter(bool $use): self
     {
-        return $this->setOption('usefastvectorhighlighter', $use);
+        $this->setOption('usefastvectorhighlighter', $use);
+        return $this;
     }
 
     /**
@@ -274,7 +285,7 @@ class Field extends Configurable
      *
      * @return bool|null
      */
-    public function getUseFastVectorHighlighter()
+    public function getUseFastVectorHighlighter(): ?bool
     {
         return $this->getOption('usefastvectorhighlighter');
     }

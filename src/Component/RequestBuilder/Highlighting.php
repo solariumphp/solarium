@@ -5,6 +5,7 @@ namespace Solarium\Component\RequestBuilder;
 use Solarium\Component\Highlighting\Field as HighlightingField;
 use Solarium\Component\Highlighting\Highlighting as HighlightingComponent;
 use Solarium\Core\Client\Request;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * Add select component Highlighting to the request.
@@ -19,7 +20,7 @@ class Highlighting implements ComponentRequestBuilderInterface
      *
      * @return Request
      */
-    public function buildComponent($component, $request)
+    public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         // enable highlighting
         $request->addParam('hl', 'true');

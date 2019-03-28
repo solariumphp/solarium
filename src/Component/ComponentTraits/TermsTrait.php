@@ -21,7 +21,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setFields($value)
+    public function setFields($value): self
     {
         if (is_string($value)) {
             $value = explode(',', $value);
@@ -36,7 +36,7 @@ trait TermsTrait
      *
      * @return array
      */
-    public function getFields()
+    public function getFields(): array
     {
         $value = $this->getOption('fields');
         if (null === $value) {
@@ -53,7 +53,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setLowerbound($value)
+    public function setLowerbound(string $value): self
     {
         return $this->setOption('lowerbound', $value);
     }
@@ -61,9 +61,9 @@ trait TermsTrait
     /**
      * Get the lowerbound term to start at.
      *
-     * @return string
+     * @return string|null
      */
-    public function getLowerbound()
+    public function getLowerbound(): ?string
     {
         return $this->getOption('lowerbound');
     }
@@ -75,7 +75,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setLowerboundInclude($value)
+    public function setLowerboundInclude(bool $value): self
     {
         return $this->setOption('lowerboundinclude', $value);
     }
@@ -83,9 +83,9 @@ trait TermsTrait
     /**
      * Get lowerboundinclude.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getLowerboundInclude()
+    public function getLowerboundInclude(): ?bool
     {
         return $this->getOption('lowerboundinclude');
     }
@@ -97,7 +97,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMinCount($value)
+    public function setMinCount(int $value): self
     {
         return $this->setOption('mincount', $value);
     }
@@ -105,9 +105,9 @@ trait TermsTrait
     /**
      * Get mincount.
      *
-     * @return int
+     * @return int|null
      */
-    public function getMinCount()
+    public function getMinCount(): ?int
     {
         return $this->getOption('mincount');
     }
@@ -119,7 +119,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMaxCount($value)
+    public function setMaxCount(int $value): self
     {
         return $this->setOption('maxcount', $value);
     }
@@ -127,9 +127,9 @@ trait TermsTrait
     /**
      * Get maxcount.
      *
-     * @return int
+     * @return int|null
      */
-    public function getMaxCount()
+    public function getMaxCount(): ?int
     {
         return $this->getOption('maxcount');
     }
@@ -141,17 +141,17 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setPrefix($value)
+    public function setPrefix(string $value): self
     {
         return $this->setOption('prefix', $value);
     }
 
     /**
-     * Get maxcount.
+     * Get prefix for terms.
      *
-     * @return string
+     * @return string|null
      */
-    public function getPrefix()
+    public function getPrefix(): ?string
     {
         return $this->getOption('prefix');
     }
@@ -163,7 +163,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setRegex($value)
+    public function setRegex(string $value): self
     {
         return $this->setOption('regex', $value);
     }
@@ -171,9 +171,9 @@ trait TermsTrait
     /**
      * Get regex.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRegex()
+    public function getRegex(): ?string
     {
         return $this->getOption('regex');
     }
@@ -187,7 +187,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setRegexFlags($value)
+    public function setRegexFlags($value): self
     {
         if (is_string($value)) {
             $value = explode(',', $value);
@@ -202,7 +202,7 @@ trait TermsTrait
      *
      * @return array
      */
-    public function getRegexFlags()
+    public function getRegexFlags(): array
     {
         $value = $this->getOption('regexflags');
         if (null === $value) {
@@ -221,7 +221,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setLimit($value)
+    public function setLimit(int $value): self
     {
         return $this->setOption('limit', $value);
     }
@@ -229,9 +229,9 @@ trait TermsTrait
     /**
      * Get limit.
      *
-     * @return int
+     * @return int|null
      */
-    public function getLimit()
+    public function getLimit(): ?int
     {
         return $this->getOption('limit');
     }
@@ -243,7 +243,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setUpperbound($value)
+    public function setUpperbound(string $value): self
     {
         return $this->setOption('upperbound', $value);
     }
@@ -251,9 +251,9 @@ trait TermsTrait
     /**
      * Get the upperbound term to start at.
      *
-     * @return string
+     * @return string|null
      */
-    public function getUpperbound()
+    public function getUpperbound(): ?string
     {
         return $this->getOption('upperbound');
     }
@@ -265,7 +265,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setUpperboundInclude($value)
+    public function setUpperboundInclude(bool $value): self
     {
         return $this->setOption('upperboundinclude', $value);
     }
@@ -273,9 +273,9 @@ trait TermsTrait
     /**
      * Get upperboundinclude.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getUpperboundInclude()
+    public function getUpperboundInclude(): ?bool
     {
         return $this->getOption('upperboundinclude');
     }
@@ -287,7 +287,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setRaw($value)
+    public function setRaw(bool $value): self
     {
         return $this->setOption('raw', $value);
     }
@@ -295,9 +295,9 @@ trait TermsTrait
     /**
      * Get raw option.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getRaw()
+    public function getRaw(): ?bool
     {
         return $this->getOption('raw');
     }
@@ -309,7 +309,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setSort($value)
+    public function setSort(string $value): self
     {
         return $this->setOption('sort', $value);
     }
@@ -317,9 +317,9 @@ trait TermsTrait
     /**
      * Get sort option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getSort()
+    public function getSort(): ?string
     {
         return $this->getOption('sort');
     }

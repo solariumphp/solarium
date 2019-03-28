@@ -58,16 +58,16 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
      * Parse analysis types and items.
      *
      * @param Result $result
-     * @param array  $typeData
+     * @param array  $data
      *
      * @return Types[]
      */
-    protected function parseTypes($result, $typeData)
+    protected function parseTypes($result, $data)
     {
         $query = $result->getQuery();
 
         $results = [];
-        foreach ($typeData as $fieldKey => $fieldData) {
+        foreach ($data as $fieldKey => $fieldData) {
             $types = [];
             foreach ($fieldData as $typeKey => $typeData) {
                 if ($query->getResponseWriter() == $query::WT_JSON) {

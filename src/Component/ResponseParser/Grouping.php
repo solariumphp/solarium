@@ -2,9 +2,12 @@
 
 namespace Solarium\Component\ResponseParser;
 
+use Solarium\Component\AbstractComponent;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Grouping as GroupingComponent;
 use Solarium\Component\Result\Grouping\FieldGroup;
 use Solarium\Component\Result\Grouping\Result;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\QueryType\Select\Query\Query;
 
 /**
@@ -21,7 +24,7 @@ class Grouping implements ComponentParserInterface
      *
      * @return Result
      */
-    public function parse($query, $grouping, $data)
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $grouping, array $data): Result
     {
         if (!isset($data['grouped'])) {
             return new Result([]);
@@ -97,7 +100,7 @@ class Grouping implements ComponentParserInterface
      *
      * @return object
      */
-    private function extractValueGroup($valueResultClass, $documentClass, $valueGroupResult, $query)
+    private function extractValueGroup(string $valueResultClass, string $documentClass, array $valueGroupResult, AbstractQuery $query)
     {
         $value = (isset($valueGroupResult['groupValue'])) ?
                 $valueGroupResult['groupValue'] : null;

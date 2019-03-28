@@ -2,6 +2,7 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\Spatial as RequestBuilder;
 
 /**
@@ -26,7 +27,7 @@ class Spatial extends AbstractComponent
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return new RequestBuilder();
     }

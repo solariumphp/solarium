@@ -9,9 +9,9 @@ use Solarium\Core\Configurable;
  */
 abstract class AbstractQuery extends Configurable implements QueryInterface
 {
-    const WT_JSON = 'json';
+    public const WT_JSON = 'json';
 
-    const WT_PHPS = 'phps';
+    public const WT_PHPS = 'phps';
 
     /**
      * Helper instance.

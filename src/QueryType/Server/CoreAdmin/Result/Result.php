@@ -12,7 +12,7 @@ class Result extends BaseResult
     /**
      * StatusResult collection when multiple statuses have been requested.
      *
-     * @var StatusResult[]
+     * @var StatusResult[]|null
      */
     protected $statusResults = null;
 
@@ -21,7 +21,7 @@ class Result extends BaseResult
      *
      * @var StatusResult
      */
-    protected $statusResult = null;
+    protected $statusResult;
 
     /**
      * @var bool

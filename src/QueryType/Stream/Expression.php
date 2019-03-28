@@ -43,7 +43,8 @@ class Expression
         $current_indentation = 0;
         $indentation_step = 2;
         $indented_expression = '';
-        for ($c = 0; $c < strlen($expression); ++$c) {
+        $len = strlen($expression);
+        for ($c = 0; $c < $len; ++$c) {
             if ('(' === $expression[$c]) {
                 $indented_expression .= $expression[$c].PHP_EOL;
                 $current_indentation += $indentation_step;

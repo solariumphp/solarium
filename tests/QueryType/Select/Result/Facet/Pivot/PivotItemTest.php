@@ -9,6 +9,9 @@ class PivotItemTest extends TestCase
 {
     protected $values;
 
+    /**
+     * @var PivotItem
+     */
     protected $pivotItem;
 
     public function setUp()

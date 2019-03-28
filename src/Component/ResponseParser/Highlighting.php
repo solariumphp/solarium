@@ -2,6 +2,8 @@
 
 namespace Solarium\Component\ResponseParser;
 
+use Solarium\Component\AbstractComponent;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Highlighting\Highlighting as HighlightingComponent;
 use Solarium\Component\Result\Highlighting\Highlighting as HighlightingResult;
 use Solarium\Component\Result\Highlighting\Result;
@@ -21,7 +23,7 @@ class Highlighting implements ComponentParserInterface
      *
      * @return HighlightingResult
      */
-    public function parse($query, $highlighting, $data)
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $highlighting, array $data): HighlightingResult
     {
         $results = [];
         if (isset($data['highlighting'])) {

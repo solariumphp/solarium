@@ -16,7 +16,7 @@ interface ExcludeTagsInterface
      *
      * @return self Provides fluent interface
      */
-    public function addExclude($tag);
+    public function addExclude(string $tag): ExcludeTagsInterface;
 
     /**
      * Add multiple exclude tags.
@@ -25,14 +25,14 @@ interface ExcludeTagsInterface
      *
      * @return self Provides fluent interface
      */
-    public function addExcludes(array $excludes);
+    public function addExcludes(array $excludes): ExcludeTagsInterface;
 
     /**
      * Get all excludes.
      *
      * @return array
      */
-    public function getExcludes();
+    public function getExcludes(): array;
 
     /**
      * Remove a single exclude tag.
@@ -41,14 +41,14 @@ interface ExcludeTagsInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeExclude($exclude);
+    public function removeExclude(string $exclude): ExcludeTagsInterface;
 
     /**
      * Remove all excludes.
      *
      * @return self Provides fluent interface
      */
-    public function clearExcludes();
+    public function clearExcludes(): ExcludeTagsInterface;
 
     /**
      * Set multiple excludes.
@@ -57,5 +57,5 @@ interface ExcludeTagsInterface
      *
      * @param array $excludes
      */
-    public function setExcludes($excludes);
+    public function setExcludes(array $excludes): ExcludeTagsInterface;
 }

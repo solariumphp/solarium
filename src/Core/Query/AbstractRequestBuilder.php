@@ -87,9 +87,9 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     public function boolAttrib($name, $value)
     {
         if (null !== $value) {
-            $value = (true === (bool) $value) ? 'true' : 'false';
+            $stringValue = (true === (bool) $value) ? 'true' : 'false';
 
-            return $this->attrib($name, $value);
+            return $this->attrib($name, $stringValue);
         }
 
         return '';

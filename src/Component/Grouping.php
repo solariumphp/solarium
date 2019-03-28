@@ -2,7 +2,9 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\Grouping as RequestBuilder;
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\Grouping as ResponseParser;
 
 /**
@@ -72,7 +74,7 @@ class Grouping extends AbstractComponent
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -82,7 +84,7 @@ class Grouping extends AbstractComponent
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ?ComponentParserInterface
     {
         return new ResponseParser();
     }

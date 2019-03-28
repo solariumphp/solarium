@@ -2,7 +2,9 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\Debug as RequestBuilder;
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\Debug as ResponseParser;
 
 /**
@@ -27,7 +29,7 @@ class Debug extends AbstractComponent
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -37,7 +39,7 @@ class Debug extends AbstractComponent
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ?ComponentParserInterface
     {
         return new ResponseParser();
     }

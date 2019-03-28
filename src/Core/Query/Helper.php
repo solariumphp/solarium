@@ -16,7 +16,7 @@ class Helper
      *
      * @var string
      */
-    protected $placeHolderPattern = '/%(L|P|T|)([0-9]+)%/i';
+    protected $placeHolderPattern = '/%(L|P|T|)(\d+)%/i';
 
     /**
      * Array of parts to use for assembling a query string.
@@ -140,6 +140,8 @@ class Helper
         if ($input) {
             // when we get here the input is always a datetime object
             $input = $input->setTimezone(new \DateTimeZone('UTC'));
+            // Solr seems to require the format PHP erroneously declares as ISO8601.
+            /** @noinspection DateTimeConstantsUsageInspection */
             $iso8601 = $input->format(\DateTime::ISO8601);
             $iso8601 = strstr($iso8601, '+', true); //strip timezone
             $iso8601 .= 'Z';

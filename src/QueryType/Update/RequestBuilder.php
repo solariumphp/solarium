@@ -120,10 +120,10 @@ class RequestBuilder extends BaseRequestBuilder
     {
         $xml = '<delete>';
         foreach ($command->getIds() as $id) {
-            $xml .= '<id>'.htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8').'</id>';
+            $xml .= '<id>'.htmlspecialchars($id, ENT_NOQUOTES).'</id>';
         }
         foreach ($command->getQueries() as $query) {
-            $xml .= '<query>'.htmlspecialchars($query, ENT_NOQUOTES, 'UTF-8').'</query>';
+            $xml .= '<query>'.htmlspecialchars($query, ENT_NOQUOTES).'</query>';
         }
         $xml .= '</delete>';
 
@@ -203,7 +203,7 @@ class RequestBuilder extends BaseRequestBuilder
         } elseif ($value instanceof \DateTime) {
             $value = $query->getHelper()->formatDate($value);
         } else {
-            $value = htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
+            $value = htmlspecialchars($value, ENT_NOQUOTES);
         }
 
         $xml .= '>'.$value.'</field>';

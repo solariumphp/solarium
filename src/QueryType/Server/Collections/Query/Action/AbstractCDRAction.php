@@ -9,13 +9,25 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
  */
 abstract class AbstractCDRAction extends AbstractAsyncAction
 {
-    public function setName(string $collection)
+    /**
+     * Set the name of the collection. This parameter is required.
+     *
+     * @param string $collection
+     *
+     * @return self
+     */
+    public function setName(string $collection): self
     {
         $this->setOption('name', $collection);
 
         return $this;
     }
 
+    /**
+     * Get the name of the collection.
+     *
+     * @return string
+     */
     public function getName(): string
     {
         return $this->getOption('name');

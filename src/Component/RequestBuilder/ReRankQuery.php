@@ -4,6 +4,7 @@ namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Component\ReRankQuery as ReRankQueryComponent;
 use Solarium\Core\Client\Request;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * Add select component spatial to the request.
@@ -18,7 +19,7 @@ class ReRankQuery implements ComponentRequestBuilderInterface
      *
      * @return Request
      */
-    public function buildComponent($component, $request)
+    public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         $subRequest = new SubRequest();
         $subRequest->addParam('reRankQuery', $component->getQuery());

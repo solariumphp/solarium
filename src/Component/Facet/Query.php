@@ -41,7 +41,7 @@ class Query extends AbstractFacet implements QueryInterface
      *
      * @return \Solarium\Core\Query\Helper
      */
-    public function getHelper()
+    public function getHelper(): Helper
     {
         return new Helper();
     }

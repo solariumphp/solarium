@@ -2,6 +2,7 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\ReRankQuery as RequestBuilder;
 
 /**
@@ -28,7 +29,7 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return new RequestBuilder();
     }

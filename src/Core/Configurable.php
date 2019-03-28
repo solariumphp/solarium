@@ -51,14 +51,14 @@ class Configurable implements ConfigurableInterface
      * If $options does not have the toArray method, the internal method will
      * be used instead.
      *
-     *
      * @param array|\Zend_Config $options
      * @param bool               $overwrite True for overwriting existing options, false
      *                                      for merging (new values overwrite old ones if needed)
+     * @return self
      *
      * @throws InvalidArgumentException
      */
-    public function setOptions($options, $overwrite = false)
+    public function setOptions($options, bool $overwrite = false): ConfigurableInterface
     {
         if (null !== $options) {
             // first convert to array if needed
@@ -81,6 +81,8 @@ class Configurable implements ConfigurableInterface
             // re-init for new options
             $this->init();
         }
+
+        return $this;
     }
 
     /**
@@ -92,7 +94,7 @@ class Configurable implements ConfigurableInterface
      *
      * @return mixed|null
      */
-    public function getOption($name)
+    public function getOption(string $name)
     {
         if (isset($this->options[$name])) {
             return $this->options[$name];
@@ -105,7 +107,7 @@ class Configurable implements ConfigurableInterface
      *
      * @return array
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -136,7 +138,7 @@ class Configurable implements ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    protected function setOption($name, $value)
+    protected function setOption($name, $value): self
     {
         $this->options[$name] = $value;
 
@@ -146,16 +148,14 @@ class Configurable implements ConfigurableInterface
     /**
      * Turns an object array into an associative multidimensional array.
      *
-     * @param $object
+     * @param $object object|object[]
      *
-     * @return array|object
+     * @return array
      */
-    protected function toArray($object)
+    protected function toArray($object): array
     {
         if (is_object($object)) {
-            // get_object_vars() does not handle recursive objects well,
-            // so use set-type without scope operator instead
-            settype($object, 'array');
+            return (array) $object;
         }
 
         /*
@@ -163,10 +163,6 @@ class Configurable implements ConfigurableInterface
         * Using __METHOD__ (Magic constant)
         * for recursive call
         */
-        if (is_array($object)) {
-            return array_map(__METHOD__, $object);
-        }
-
-        return $object;
+        return array_map(__METHOD__, $object);
     }
 }

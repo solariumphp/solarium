@@ -16,7 +16,7 @@ trait SuggesterTrait
      *
      * @return self Provides fluent interface
      */
-    public function setDictionary($dictionary)
+    public function setDictionary($dictionary): self
     {
         return $this->setOption('dictionary', $dictionary);
     }
@@ -26,7 +26,7 @@ trait SuggesterTrait
      *
      * @return string|null
      */
-    public function getDictionary()
+    public function getDictionary(): ?string
     {
         return $this->getOption('dictionary');
     }
@@ -40,7 +40,7 @@ trait SuggesterTrait
      *
      * @return self Provides fluent interface
      */
-    public function setCount($count)
+    public function setCount(int $count): self
     {
         return $this->setOption('count', $count);
     }
@@ -50,7 +50,7 @@ trait SuggesterTrait
      *
      * @return int|null
      */
-    public function getCount()
+    public function getCount(): ?int
     {
         return $this->getOption('count');
     }
@@ -64,7 +64,7 @@ trait SuggesterTrait
      *
      * @return self Provides fluent interface
      */
-    public function setContextFilterQuery($cfq)
+    public function setContextFilterQuery(string $cfq): self
     {
         return $this->setOption('cfq', $cfq);
     }
@@ -74,7 +74,7 @@ trait SuggesterTrait
      *
      * @return string|null
      */
-    public function getContextFilterQuery()
+    public function getContextFilterQuery(): ?string
     {
         return $this->getOption('cfq');
     }
@@ -86,7 +86,7 @@ trait SuggesterTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBuild($build)
+    public function setBuild(bool $build): self
     {
         return $this->setOption('build', $build);
     }
@@ -96,7 +96,7 @@ trait SuggesterTrait
      *
      * @return bool|null
      */
-    public function getBuild()
+    public function getBuild(): ?bool
     {
         return $this->getOption('build');
     }
@@ -109,7 +109,7 @@ trait SuggesterTrait
      *
      * @return self Provides fluent interface
      */
-    public function setReload($reload)
+    public function setReload(bool $reload): self
     {
         return $this->setOption('reload', $reload);
     }
@@ -119,7 +119,7 @@ trait SuggesterTrait
      *
      * @return bool|null
      */
-    public function getReload()
+    public function getReload(): ?bool
     {
         return $this->getOption('reload');
     }

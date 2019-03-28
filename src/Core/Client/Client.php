@@ -478,18 +478,18 @@ class Client extends Configurable implements ClientInterface
     {
         if (is_string($adapter)) {
             $this->adapter = null;
+            $this->setOption('adapter', $adapter);
 
-            return $this->setOption('adapter', $adapter);
         } elseif ($adapter instanceof AdapterInterface) {
             // forward options
             $adapter->setOptions($this->getOption('adapteroptions'));
             // overwrite existing adapter
             $this->adapter = $adapter;
-
-            return $this;
+        } else {
+            throw new InvalidArgumentException('Invalid adapter input for setAdapter');
         }
 
-        throw new InvalidArgumentException('Invalid adapter input for setAdapter');
+        return $this;
     }
 
     /**

@@ -150,10 +150,6 @@ class Http extends Configurable implements AdapterInterface
 
         $headers = [];
 
-        if (isset($http_response_header)) {
-            $headers = $http_response_header;
-        }
-
         return [$data, $headers];
     }
 }

@@ -366,7 +366,7 @@ class Request extends Configurable implements RequestParamsInterface
                     $this->setHeaders($value);
                     break;
                 case 'authentication':
-                    if (isset($value['username']) && isset($value['password'])) {
+                    if (isset($value['username'], $value['password'])) {
                         $this->setAuthentication($value['username'], $value['password']);
                     }
             }

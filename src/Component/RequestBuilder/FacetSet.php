@@ -12,6 +12,7 @@ use Solarium\Component\Facet\Range as FacetRange;
 use Solarium\Component\FacetSet as FacetsetComponent;
 use Solarium\Component\FacetSetInterface;
 use Solarium\Core\Client\Request;
+use Solarium\Core\ConfigurableInterface;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\Select\RequestBuilder;
 
@@ -31,7 +32,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      *
      * @return Request
      */
-    public function buildComponent($component, $request)
+    public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         $facets = $component->getFacets();
         if (0 !== count($facets)) {

@@ -3,6 +3,7 @@
 namespace Solarium\Component\QueryTraits;
 
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\FacetSet;
 
 /**
  * Trait query types supporting components.
@@ -16,7 +17,7 @@ trait FacetSetTrait
      *
      * @return \Solarium\Component\FacetSet
      */
-    public function getFacetSet()
+    public function getFacetSet(): FacetSet
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_FACETSET, true);
     }

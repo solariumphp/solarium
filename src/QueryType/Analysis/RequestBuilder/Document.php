@@ -70,6 +70,6 @@ class Document extends BaseRequestBuilder
      */
     protected function buildFieldXml($name, $value)
     {
-        return '<field name="'.$name.'">'.htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8').'</field>';
+        return '<field name="'.$name.'">'.htmlspecialchars($value, ENT_NOQUOTES).'</field>';
     }
 }

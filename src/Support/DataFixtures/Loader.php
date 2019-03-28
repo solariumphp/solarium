@@ -63,7 +63,7 @@ class Loader
 
         /** @var $file \DirectoryIterator */
         foreach ($iterator as $file) {
-            if (($fileName = $file->getBasename($this->fileExtension)) == $file->getBasename()) {
+            if ($file->getBasename($this->fileExtension) == $file->getBasename()) {
                 continue;
             }
             $sourceFile = realpath($file->getPathname());

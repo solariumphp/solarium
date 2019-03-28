@@ -10,7 +10,7 @@ use Solarium\QueryType\Select\Result\Result as BaseResult;
  *
  * Extends the standard select result with a accessor method for the first document
  */
-class Result extends BaseResult implements \IteratorAggregate, \Countable
+class Result extends BaseResult
 {
     /**
      * Get first document in set.

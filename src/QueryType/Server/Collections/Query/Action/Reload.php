@@ -23,29 +23,6 @@ class Reload extends AbstractCDRAction
     }
 
     /**
-     * The name of the collection to reload. This parameter is required.
-     *
-     * @param string $name
-     *
-     * @return self Provides fluent interface
-     */
-    public function setName(string $name): self
-    {
-        parent::setName($name);
-        return $this;
-    }
-
-    /**
-     * Get collection name.
-     *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return parent::getName();
-    }
-
-    /**
      * Returns the namespace and class of the result class for the action.
      *
      * @return string

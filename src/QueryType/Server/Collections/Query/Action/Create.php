@@ -23,29 +23,6 @@ class Create extends AbstractCDRAction
     }
 
     /**
-     * The name of the collection to be created. This parameter is required.
-     *
-     * @param string $collection
-     *
-     * @return self Create object
-     */
-    public function setName(string $collection): self
-    {
-        parent::setName($collection);
-        return $this;
-    }
-
-    /**
-     * Get the name of the collection to be created.
-     *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return parent::getName();
-    }
-
-    /**
      * The router name that will be used. The router defines how documents will be distributed among the shards.
      * Possible values are implicit or compositeId, which is the default.
      *

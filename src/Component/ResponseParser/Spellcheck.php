@@ -2,6 +2,8 @@
 
 namespace Solarium\Component\ResponseParser;
 
+use Solarium\Component\AbstractComponent;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Result\Spellcheck\Collation;
 use Solarium\Component\Result\Spellcheck\Result;
 use Solarium\Component\Result\Spellcheck\Suggestion;
@@ -23,7 +25,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      *
      * @return Result|null
      */
-    public function parse($query, $spellcheck, $data)
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $spellcheck, array $data): ?Result
     {
         if (isset($data['spellcheck']['suggestions']) &&
             is_array($data['spellcheck']['suggestions']) &&
@@ -49,10 +51,10 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                     default:
                         if (array_key_exists(0, $value)) {
                             foreach ($value as $currentValue) {
-                                $suggestions[] = $this->parseSuggestion($key, $currentValue);
+                                $suggestions[] = $this->parseSuggestion($currentValue);
                             }
                         } else {
-                            $suggestions[] = $this->parseSuggestion($key, $value);
+                            $suggestions[] = $this->parseSuggestion($value);
                         }
                 }
             }
@@ -65,9 +67,11 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
             if (isset($data['spellcheck']['collations']) &&
                 is_array($data['spellcheck']['collations'])
             ) {
+                $collations = [$collations];
                 foreach ($this->convertToKeyValueArray($data['spellcheck']['collations']) as $collationResult) {
-                    $collations = array_merge($collations, $this->parseCollation($query, $collationResult));
+                    $collations[] = $this->parseCollation($query, $collationResult);
                 }
+                $collations = array_merge(... $collations);
             }
 
             if (isset($data['spellcheck']['correctlySpelled'])
@@ -85,11 +89,11 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      * Parse collation data into a result object.
      *
      * @param AbstractQuery $queryObject
-     * @param array         $values
+     * @param array|string  $values
      *
      * @return Collation[]
      */
-    protected function parseCollation($queryObject, $values)
+    protected function parseCollation(AbstractQuery $queryObject, $values): array
     {
         $collations = [];
         if (is_string($values)) {
@@ -157,12 +161,11 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     /**
      * Parse suggestion data into a result object.
      *
-     * @param string $key
-     * @param array  $value
+     * @param array $value
      *
      * @return Suggestion
      */
-    protected function parseSuggestion($key, $value)
+    protected function parseSuggestion(array $value): Suggestion
     {
         $numFound = (isset($value['numFound'])) ? $value['numFound'] : null;
         $startOffset = (isset($value['startOffset'])) ? $value['startOffset'] : null;

@@ -107,7 +107,7 @@ class Query extends AbstractServerQuery
      *
      * @var ActionInterface
      */
-    protected $action = null;
+    protected $action;
 
     /**
      * Get type for this query.

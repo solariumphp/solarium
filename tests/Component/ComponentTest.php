@@ -4,6 +4,8 @@ namespace Solarium\Tests\Component;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\AbstractComponent;
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\QueryType\Select\Query\Query;
 
 class ComponentTest extends TestCase
@@ -30,12 +32,12 @@ class TestComponent extends AbstractComponent
         return 'testtype';
     }
 
-    public function getRequestBuilder()
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return null;
     }
 
-    public function getResponseParser()
+    public function getResponseParser(): ?ComponentParserInterface
     {
         return null;
     }

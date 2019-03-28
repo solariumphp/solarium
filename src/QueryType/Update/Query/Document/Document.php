@@ -94,7 +94,9 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Document boost value.
      *
-     * @var float
+     * Null menas no boost which is something different than a boost by '0.0'.
+     *
+     * @var float|null
      */
     protected $boost = null;
 
@@ -414,7 +416,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function getFields()
     {
-        if (count($this->modifiers) > 0 && (null === $this->key || !isset($this->fields[$this->key]))) {
+        if ((null === $this->key || !isset($this->fields[$this->key])) && count($this->modifiers) > 0) {
             throw new RuntimeException(
                 'A document that uses modifiers (atomic updates) must have a key defined before it is used'
             );
