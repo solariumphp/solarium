@@ -43,7 +43,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setReload(bool $reload): SpellcheckInterface;;
+    public function setReload(bool $reload): SpellcheckInterface;
 
     /**
      * Get fragsize option.
@@ -61,7 +61,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setDictionary(string $dictionary): SpellcheckInterface;;
+    public function setDictionary(string $dictionary): SpellcheckInterface;
 
     /**
      * Get dictionary option.
@@ -79,7 +79,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setCount(int $count): SpellcheckInterface;;
+    public function setCount(int $count): SpellcheckInterface;
 
     /**
      * Get count option.
@@ -97,7 +97,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setOnlyMorePopular(bool $onlyMorePopular): SpellcheckInterface;;
+    public function setOnlyMorePopular(bool $onlyMorePopular): SpellcheckInterface;
 
     /**
      * Get onlyMorePopular option.
@@ -113,7 +113,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setExtendedResults(bool $extendedResults): SpellcheckInterface;;
+    public function setExtendedResults(bool $extendedResults): SpellcheckInterface;
 
     /**
      * Get extendedResults option.
@@ -129,7 +129,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setCollate(bool $collate): SpellcheckInterface;;
+    public function setCollate(bool $collate): SpellcheckInterface;
 
     /**
      * Get collate option.
@@ -145,7 +145,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMaxCollations(int $maxCollations): SpellcheckInterface;;
+    public function setMaxCollations(int $maxCollations): SpellcheckInterface;
 
     /**
      * Get maxCollations option.
@@ -161,7 +161,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMaxCollationTries(string $maxCollationTries): SpellcheckInterface;;
+    public function setMaxCollationTries(string $maxCollationTries): SpellcheckInterface;
 
     /**
      * Get maxCollationTries option.
@@ -177,7 +177,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMaxCollationEvaluations(int $maxCollationEvaluations): SpellcheckInterface;;
+    public function setMaxCollationEvaluations(int $maxCollationEvaluations): SpellcheckInterface;
 
     /**
      * Get maxCollationEvaluations option.
@@ -193,7 +193,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setCollateExtendedResults(string $collateExtendedResults): SpellcheckInterface;;
+    public function setCollateExtendedResults(string $collateExtendedResults): SpellcheckInterface;
 
     /**
      * Get collateExtendedResults option.
@@ -209,7 +209,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setAccuracy(float $accuracy): SpellcheckInterface;;
+    public function setAccuracy(float $accuracy): SpellcheckInterface;
 
     /**
      * Get accuracy option.
@@ -226,7 +226,7 @@ interface SpellcheckInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setCollateParam(string $param, $value): SpellcheckInterface;;
+    public function setCollateParam(string $param, $value): SpellcheckInterface;
 
     /**
      * Returns the array of collate params.

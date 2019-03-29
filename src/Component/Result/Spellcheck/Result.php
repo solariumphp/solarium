@@ -47,13 +47,13 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @param int $key
      *
-     * @return Collation
+     * @return Collation|null
      */
-    public function getCollation($key = null): Collation
+    public function getCollation($key = null): ?Collation
     {
         $nrOfCollations = count($this->collations);
         if (0 == $nrOfCollations) {
-            return;
+            return null;
         }
 
         if (null === $key) {

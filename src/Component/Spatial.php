@@ -34,26 +34,37 @@ class Spatial extends AbstractComponent
 
     /**
      * @param string $sfield
+     *
+     * @return self Provides fluent interface
      */
-    public function setField($sfield)
+    public function setField(string $sfield): self
     {
         $this->setOption('sfield', $sfield);
+        return $this;
     }
 
     /**
      * @param int $distance
+     *
+     * @return self Provides fluent interface
      */
-    public function setDistance($distance)
+    public function setDistance(int $distance): self
     {
         $this->setOption('d', $distance);
+        return $this;
     }
 
     /**
      * @param string $point
+     *   The center point using the format "lat,lon" if latitude & longitude. Otherwise, "x,y" for PointType or "x y"
+     *   for RPT field types.
+     *
+     * @return self Provides fluent interface
      */
-    public function setPoint($point)
+    public function setPoint(string $point)
     {
         $this->setOption('pt', $point);
+        return $this;
     }
 
     /**
@@ -61,7 +72,7 @@ class Spatial extends AbstractComponent
      *
      * @return string|null
      */
-    public function getField()
+    public function getField(): ?string
     {
         return $this->getOption('sfield');
     }
@@ -71,7 +82,7 @@ class Spatial extends AbstractComponent
      *
      * @return int|null
      */
-    public function getDistance()
+    public function getDistance(): ?int
     {
         return $this->getOption('d');
     }
@@ -79,9 +90,9 @@ class Spatial extends AbstractComponent
     /**
      * Get pt option.
      *
-     * @return int|null
+     * @return string|null
      */
-    public function getPoint()
+    public function getPoint(): ?string
     {
         return $this->getOption('pt');
     }

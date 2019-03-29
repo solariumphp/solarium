@@ -2,6 +2,8 @@
 
 namespace Solarium\Component\ComponentTraits;
 
+use Solarium\Component\SuggesterInterface;
+
 /**
  * Suggester Query Trait.
  */
@@ -16,7 +18,7 @@ trait SuggesterTrait
      *
      * @return self Provides fluent interface
      */
-    public function setDictionary($dictionary): self
+    public function setDictionary($dictionary): SuggesterInterface
     {
         return $this->setOption('dictionary', $dictionary);
     }
@@ -40,7 +42,7 @@ trait SuggesterTrait
      *
      * @return self Provides fluent interface
      */
-    public function setCount(int $count): self
+    public function setCount(int $count): SuggesterInterface
     {
         return $this->setOption('count', $count);
     }
@@ -64,7 +66,7 @@ trait SuggesterTrait
      *
      * @return self Provides fluent interface
      */
-    public function setContextFilterQuery(string $cfq): self
+    public function setContextFilterQuery(string $cfq): SuggesterInterface
     {
         return $this->setOption('cfq', $cfq);
     }
@@ -86,7 +88,7 @@ trait SuggesterTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBuild(bool $build): self
+    public function setBuild(bool $build): SuggesterInterface
     {
         return $this->setOption('build', $build);
     }
@@ -104,12 +106,11 @@ trait SuggesterTrait
     /**
      * Set reload option.
      *
-     * @param bool  $build
-     * @param mixed $reload
+     * @param bool $reload
      *
      * @return self Provides fluent interface
      */
-    public function setReload(bool $reload): self
+    public function setReload(bool $reload): SuggesterInterface
     {
         return $this->setOption('reload', $reload);
     }
