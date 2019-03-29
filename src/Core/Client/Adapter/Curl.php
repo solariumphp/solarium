@@ -25,7 +25,7 @@ class Curl extends Configurable implements AdapterInterface
      *
      * @return Response
      */
-    public function execute($request, $endpoint)
+    public function execute(Request $request, Endpoint $endpoint): Response
     {
         return $this->getData($request, $endpoint);
     }

@@ -13,11 +13,11 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     /**
      * Build request for a select query.
      *
-     * @param QueryInterface|Query $query
+     * @param AbstractQuery|QueryInterface $query
      *
      * @return Request
      */
-    public function build(QueryInterface $query)
+    public function build(AbstractQuery $query): Request
     {
         $request = new Request();
         $request->setHandler($query->getHandler());
@@ -52,7 +52,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * @return string with Solr localparams syntax
      */
-    public function renderLocalParams($value, $localParams = [])
+    public function renderLocalParams(string $value, array $localParams = []): string
     {
         $params = '';
         foreach ($localParams as $paramName => $paramValue) {
@@ -84,7 +84,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * @return string
      */
-    public function boolAttrib($name, $value)
+    public function boolAttrib(string $name, bool $value): string
     {
         if (null !== $value) {
             $stringValue = (true === (bool) $value) ? 'true' : 'false';
@@ -105,7 +105,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * @return string
      */
-    public function attrib($name, $value)
+    public function attrib(string $name, string $value): string
     {
         if (null !== $value) {
             return ' '.$name.'="'.$value.'"';

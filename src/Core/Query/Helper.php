@@ -36,16 +36,16 @@ class Helper
      * Solarium Query instance, optional.
      * Used for dereferenced params.
      *
-     * @var AbstractQuery
+     * @var QueryInterface
      */
     protected $query;
 
     /**
      * Constructor.
      *
-     * @param AbstractQuery $query
+     * @param QueryInterface $query
      */
-    public function __construct($query = null)
+    public function __construct(QueryInterface $query = null)
     {
         $this->query = $query;
     }
@@ -65,7 +65,7 @@ class Helper
      *
      * @return string
      */
-    public function escapeTerm($input)
+    public function escapeTerm(string $input): string
     {
         $pattern = '/( |\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\/|\\\)/';
 
@@ -88,7 +88,7 @@ class Helper
      *
      * @return string
      */
-    public function escapePhrase($input)
+    public function escapePhrase(string $input): string
     {
         return '"'.preg_replace('/("|\\\)/', '\\\$1', $input).'"';
     }
@@ -172,7 +172,7 @@ class Helper
      *
      * @return string
      */
-    public function rangeQuery($field, $from, $to, $inclusive = true)
+    public function rangeQuery(string $field, string $from, string $to, bool $inclusive = true): string
     {
         if (null === $from) {
             $from = '*';
@@ -210,7 +210,7 @@ class Helper
      *
      * @return string
      */
-    public function geofilt($field, $pointX, $pointY, $distance, $dereferenced = false)
+    public function geofilt(string $field, string $pointX, string $pointY, string $distance, bool $dereferenced = false): string
     {
         return $this->qparser(
             'geofilt',
@@ -239,7 +239,7 @@ class Helper
      *
      * @return string
      */
-    public function bbox($field, $pointX, $pointY, $distance, $dereferenced = false)
+    public function bbox(string $field, string $pointX, string $pointY, string $distance, bool $dereferenced = false): string
     {
         return $this->qparser(
             'bbox',
@@ -268,7 +268,7 @@ class Helper
      *
      * @return string
      */
-    public function geodist($field, $pointX, $pointY, $dereferenced = false)
+    public function geodist(string $field, string $pointX, string $pointY, bool $dereferenced = false): string
     {
         return $this->functionCall(
             'geodist',
@@ -290,7 +290,7 @@ class Helper
      *
      * @return string
      */
-    public function qparser($name, $params = [], $dereferenced = false, $forceKeys = false)
+    public function qparser(string $name, array $params = [], bool $dereferenced = false, bool $forceKeys = false): string
     {
         if ($dereferenced) {
             if (!$this->query) {
@@ -331,7 +331,7 @@ class Helper
      *
      * @return string
      */
-    public function functionCall($name, $params = [], $dereferenced = false)
+    public function functionCall(string $name, array $params = [], bool $dereferenced = false): string
     {
         if ($dereferenced) {
             foreach ($params as $key => $value) {
@@ -368,7 +368,7 @@ class Helper
      *
      * @return string
      */
-    public function assemble($query, $parts)
+    public function assemble(string $query, array $parts): string
     {
         $this->assembleParts = $parts;
 
@@ -391,7 +391,7 @@ class Helper
      *
      * @return string
      */
-    public function join($from, $to, $dereferenced = false)
+    public function join(string $from, string $to, $dereferenced = false): string
     {
         return $this->qparser('join', ['from' => $from, 'to' => $to], $dereferenced, $dereferenced);
     }
@@ -411,7 +411,7 @@ class Helper
      *
      * @return string
      */
-    public function qparserTerm($field, $weight)
+    public function qparserTerm(string $field, float $weight): string
     {
         return $this->qparser('term', ['f' => $field]).$weight;
     }
@@ -428,7 +428,7 @@ class Helper
      *
      * @return string
      */
-    public function cacheControl($useCache, $cost = null)
+    public function cacheControl(bool $useCache, float $cost = null): string
     {
         $cache = 'false';
 
@@ -452,9 +452,9 @@ class Helper
      *
      * @param string $data
      *
-     * @return mixed
+     * @return string
      */
-    public function filterControlCharacters($data)
+    public function filterControlCharacters(string $data): string
     {
         return preg_replace('@[\x00-\x08\x0B\x0C\x0E-\x1F]@', ' ', $data);
     }
@@ -469,7 +469,7 @@ class Helper
      *
      * @return string
      */
-    protected function renderPlaceHolder($matches)
+    protected function renderPlaceHolder(array $matches): string
     {
         $partNumber = $matches[2];
         $partMode = strtoupper($matches[1]);

@@ -21,7 +21,7 @@ class PostFlush extends Event
      *
      * @param Result $result
      */
-    public function __construct($result)
+    public function __construct(Result $result)
     {
         $this->result = $result;
     }
@@ -31,7 +31,7 @@ class PostFlush extends Event
      *
      * @return DocumentInterface[]
      */
-    public function getResult()
+    public function getResult(): Result
     {
         return $this->result;
     }

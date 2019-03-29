@@ -48,7 +48,7 @@ class Result implements ResultInterface
      *
      * @throws HttpException
      */
-    public function __construct($query, $response)
+    public function __construct(AbstractQuery $query, Response $response)
     {
         $this->query = $query;
         $this->response = $response;
@@ -71,7 +71,7 @@ class Result implements ResultInterface
      *
      * @return Response
      */
-    public function getResponse()
+    public function getResponse(): Response
     {
         return $this->response;
     }
@@ -81,7 +81,7 @@ class Result implements ResultInterface
      *
      * @return AbstractQuery
      */
-    public function getQuery()
+    public function getQuery(): AbstractQuery
     {
         return $this->query;
     }
@@ -96,7 +96,7 @@ class Result implements ResultInterface
      *
      * @return array
      */
-    public function getData()
+    public function getData(): array
     {
         if (null === $this->data) {
             switch ($this->query->getResponseWriter()) {

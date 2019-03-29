@@ -29,7 +29,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
      *
      * @return Response
      */
-    public function execute($request, $endpoint)
+    public function execute(Request $request, Endpoint $endpoint): Response
     {
         // @codeCoverageIgnoreStart
         $uri = AdapterHelper::buildUri($request, $endpoint);

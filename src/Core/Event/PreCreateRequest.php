@@ -36,7 +36,7 @@ class PreCreateRequest extends Event
      *
      * @return QueryInterface
      */
-    public function getQuery()
+    public function getQuery(): QueryInterface
     {
         return $this->query;
     }
@@ -48,7 +48,7 @@ class PreCreateRequest extends Event
      *
      * @param Request $request
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
     }
@@ -58,7 +58,7 @@ class PreCreateRequest extends Event
      *
      * @return null|Request
      */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->request;
     }

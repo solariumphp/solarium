@@ -43,10 +43,9 @@ class Response
      * @param string $body
      * @param array  $headers
      */
-    public function __construct($body, $headers = [])
+    public function __construct(string $body, array $headers = [])
     {
         $this->body = $body;
-        $this->headers = $headers;
 
         $this->setHeaders($headers);
     }
@@ -56,7 +55,7 @@ class Response
      *
      * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
         return $this->body;
     }
@@ -66,7 +65,7 @@ class Response
      *
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -76,7 +75,7 @@ class Response
      *
      * @return int
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }
@@ -86,7 +85,7 @@ class Response
      *
      * @return string
      */
-    public function getStatusMessage()
+    public function getStatusMessage(): string
     {
         return $this->statusMessage;
     }
@@ -97,9 +96,11 @@ class Response
      *
      * @param array $headers
      *
+     * @return self Provides fluent interface
+     *
      * @throws HttpException
      */
-    public function setHeaders($headers)
+    public function setHeaders(array $headers): self
     {
         $this->headers = $headers;
 
@@ -122,5 +123,7 @@ class Response
         $statusInfo = explode(' ', $statusHeader, 3);
         $this->statusCode = (int) $statusInfo[1];
         $this->statusMessage = $statusInfo[2];
+
+        return $this;
     }
 }

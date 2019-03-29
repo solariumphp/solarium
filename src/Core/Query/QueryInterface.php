@@ -21,14 +21,14 @@ interface QueryInterface extends ConfigurableInterface
      *
      * @return RequestBuilderInterface
      */
-    public function getRequestBuilder();
+    public function getRequestBuilder(): RequestBuilderInterface;
 
     /**
      * Get the response parser class for this query.
      *
      * @return ResponseParserInterface
      */
-    public function getResponseParser();
+    public function getResponseParser(): ResponseParserInterface;
 
     /**
      * Set handler option.
@@ -37,14 +37,14 @@ interface QueryInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setHandler($handler);
+    public function setHandler(string $handler): QueryInterface;
 
     /**
      * Get handler option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getHandler();
+    public function getHandler(): ?string;
 
     /**
      * Set resultclass option.
@@ -59,21 +59,21 @@ interface QueryInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setResultClass($classname);
+    public function setResultClass(string $classname): QueryInterface;
 
     /**
      * Get resultclass option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getResultClass();
+    public function getResultClass(): ?string;
 
     /**
      * Get a helper instance.
      *
      * @return Helper
      */
-    public function getHelper();
+    public function getHelper(): Helper;
 
     /**
      * Add extra params to the request.
@@ -86,12 +86,12 @@ interface QueryInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function addParam($name, $value);
+    public function addParam(string $name, string $value): QueryInterface;
 
     /**
      * Get extra params.
      *
      * @return array
      */
-    public function getParams();
+    public function getParams(): array;
 }

@@ -8,6 +8,7 @@ use Solarium\Core\Client\Adapter\Http as HttpAdapter;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Response;
 use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Exception\HttpException;
@@ -450,7 +451,7 @@ class TestLoadbalancer extends Loadbalancer
     /**
      * Get options array for a randomized endpoint.
      *
-     * @return array
+     * @return Endpoint
      */
     protected function getRandomEndpoint()
     {
@@ -475,13 +476,13 @@ class TestAdapterForFailover extends HttpAdapter
         $this->failCount = $count;
     }
 
-    public function execute($request, $endpoint)
+    public function execute(Request $request, Endpoint $endpoint): Response
     {
         ++$this->counter;
         if ($this->counter <= $this->failCount) {
             throw new HttpException('failover exception');
         }
 
-        return 'dummyvalue';
+        return new Response('dummyvalue');
     }
 }

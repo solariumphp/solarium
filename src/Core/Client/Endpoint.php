@@ -61,7 +61,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setKey($value): self
+    public function setKey(string $value): self
     {
         $this->setOption('key', $value);
         return $this;
@@ -74,7 +74,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setHost($host): self
+    public function setHost(string $host): self
     {
         $this->setOption('host', $host);
         return $this;
@@ -83,9 +83,9 @@ class Endpoint extends Configurable
     /**
      * Get host option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getHost(): string
+    public function getHost(): ?string
     {
         return $this->getOption('host');
     }
@@ -97,7 +97,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setPort($port): self
+    public function setPort(int $port): self
     {
         $this->setOption('port', $port);
         return $this;
@@ -106,9 +106,9 @@ class Endpoint extends Configurable
     /**
      * Get port option.
      *
-     * @return int
+     * @return int|null
      */
-    public function getPort(): int
+    public function getPort(): ?int
     {
         return $this->getOption('port');
     }
@@ -122,7 +122,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setPath($path): self
+    public function setPath(string $path): self
     {
         if ('/' === substr($path, -1)) {
             $path = substr($path, 0, -1);
@@ -135,9 +135,9 @@ class Endpoint extends Configurable
     /**
      * Get path option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getPath(): string
+    public function getPath(): ?string
     {
         return $this->getOption('path');
     }
@@ -149,7 +149,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setCollection($collection): self
+    public function setCollection(string $collection): self
     {
         $this->setOption('collection', $collection);
         return $this;
@@ -172,7 +172,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setCore($core): self
+    public function setCore(string $core): self
     {
         $this->setOption('core', $core);
         return $this;
@@ -195,7 +195,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setTimeout($timeout): self
+    public function setTimeout(int $timeout): self
     {
         $this->setOption('timeout', $timeout);
         return $this;
@@ -204,9 +204,9 @@ class Endpoint extends Configurable
     /**
      * Get timeout option.
      *
-     * @return int
+     * @return int|null
      */
-    public function getTimeout(): int
+    public function getTimeout(): ?int
     {
         return $this->getOption('timeout');
     }
@@ -218,7 +218,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setScheme($scheme): self
+    public function setScheme(string $scheme): self
     {
         $this->setOption('scheme', $scheme);
         return $this;
@@ -227,9 +227,9 @@ class Endpoint extends Configurable
     /**
      * Get scheme option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getScheme(): string
+    public function getScheme(): ?string
     {
         return $this->getOption('scheme');
     }
@@ -345,7 +345,7 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setAuthentication($username, $password): self
+    public function setAuthentication(string $username, string $password): self
     {
         $this->setOption('username', $username);
         $this->setOption('password', $password);
@@ -371,7 +371,7 @@ class Endpoint extends Configurable
      *
      * @param bool $leader
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setLeader(bool $leader): self
     {
@@ -382,9 +382,9 @@ class Endpoint extends Configurable
     /**
      * If the shard is a leader or not. Only in SolrCloud.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function isLeader(): bool
+    public function isLeader(): ?bool
     {
         return $this->getOption('leader');
     }

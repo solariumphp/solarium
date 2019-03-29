@@ -6,6 +6,7 @@ use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Configurable;
+use Solarium\Core\ConfigurableInterface;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\OutOfBoundsException;
 
@@ -49,7 +50,7 @@ class Zend2Http extends Configurable implements AdapterInterface
      *
      * @return self Provides fluent interface
      */
-    public function setOptions($options, $overwrite = false)
+    public function setOptions($options, bool $overwrite = false): ConfigurableInterface
     {
         parent::setOptions($options, $overwrite);
 
@@ -129,7 +130,7 @@ class Zend2Http extends Configurable implements AdapterInterface
      *
      * @return Response
      */
-    public function execute($request, $endpoint)
+    public function execute(Request $request, Endpoint $endpoint): Response
     {
         $client = $this->getZendHttp();
         $client->resetParameters();

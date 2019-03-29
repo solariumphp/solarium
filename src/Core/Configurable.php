@@ -138,7 +138,7 @@ class Configurable implements ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    protected function setOption($name, $value): self
+    protected function setOption(string $name, $value): self
     {
         $this->options[$name] = $value;
 

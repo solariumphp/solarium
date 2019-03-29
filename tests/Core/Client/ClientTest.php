@@ -1332,7 +1332,7 @@ class ClientTest extends TestCase
 
 class MyAdapter extends ClientAdapterHttp
 {
-    public function execute($request, $endpoint)
+    public function execute(Request $request, Endpoint $endpoint): Response
     {
         return new Response('{}', ['HTTP/1.1 200 OK']);
     }
