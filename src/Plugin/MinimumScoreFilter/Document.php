@@ -32,7 +32,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      * @param DocumentInterface $document
      * @param int               $threshold
      */
-    public function __construct(DocumentInterface $document, $threshold)
+    public function __construct(DocumentInterface $document, int $threshold)
     {
         $this->document = $document;
         $this->marked = $threshold > $document->score;
@@ -46,7 +46,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return mixed
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         return $this->document->$name($arguments);
     }
@@ -58,7 +58,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return mixed
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         return $this->document->__get($name);
     }
@@ -70,7 +70,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return bool
      */
-    public function __isset($name)
+    public function __isset(string $name): bool
     {
         return $this->document->__isset($name);
     }
@@ -87,7 +87,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @throws RuntimeException
      */
-    public function __set($name, $value)
+    public function __set(string $name, string $value)
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }
@@ -97,7 +97,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return bool
      */
-    public function markedAsLowScore()
+    public function markedAsLowScore(): bool
     {
         return $this->marked;
     }
@@ -107,7 +107,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return $this->document->getIterator();
     }
@@ -117,7 +117,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return $this->document->count();
     }
@@ -129,7 +129,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->document->offsetExists($offset);
     }

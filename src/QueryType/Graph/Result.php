@@ -14,7 +14,7 @@ class Result extends BaseResult
      *
      * @return int
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->response->getStatusCode();
     }
@@ -24,7 +24,7 @@ class Result extends BaseResult
      *
      * @return string The response body
      */
-    public function getData()
+    public function getData(): string
     {
         return $this->response->getBody();
     }
@@ -36,7 +36,7 @@ class Result extends BaseResult
      *
      * @return string GraphML XML document
      */
-    public function getGraphML()
+    public function getGraphML(): string
     {
         return $this->getData();
     }

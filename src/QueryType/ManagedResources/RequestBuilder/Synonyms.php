@@ -4,10 +4,11 @@ namespace Solarium\QueryType\ManagedResources\RequestBuilder;
 
 use RuntimeException;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
+use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\AbstractCommand;
 
 class Synonyms extends BaseRequestBuilder
 {
@@ -18,7 +19,7 @@ class Synonyms extends BaseRequestBuilder
      *
      * @return Request
      */
-    public function build(QueryInterface $query)
+    public function build(AbstractQuery $query): Request
     {
         if (empty($query->getName())) {
             throw new \Solarium\Exception\RuntimeException('Name of the synonym resource is not set in the query.');
@@ -40,8 +41,10 @@ class Synonyms extends BaseRequestBuilder
     /**
      * @param Request         $request
      * @param AbstractCommand $command
+     *
+     * @return self
      */
-    protected function buildCommand(Request $request, AbstractCommand $command)
+    protected function buildCommand(Request $request, AbstractCommand $command): self
     {
         $request->setMethod($command->getRequestMethod());
 
@@ -61,5 +64,7 @@ class Synonyms extends BaseRequestBuilder
         }
 
         $request->setMethod($command->getRequestMethod());
+
+        return $this;
     }
 }

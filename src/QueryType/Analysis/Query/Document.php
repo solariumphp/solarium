@@ -3,6 +3,8 @@
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as RequestBuilder;
 use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
@@ -51,7 +53,7 @@ class Document extends AbstractQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -61,7 +63,7 @@ class Document extends AbstractQuery
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }
@@ -75,7 +77,7 @@ class Document extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function addDocument($document)
+    public function addDocument(DocumentInterface $document): self
     {
         if (!($document instanceof ReadOnlyDocumentInterface) && !($document instanceof DocumentInterface)) {
             throw new RuntimeException(sprintf(static::DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE, get_class($document)));
@@ -95,7 +97,7 @@ class Document extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function addDocuments($documents)
+    public function addDocuments(array $documents): self
     {
         foreach ($documents as $document) {
             if (!($document instanceof ReadOnlyDocumentInterface) && !($document instanceof DocumentInterface)) {
@@ -113,7 +115,7 @@ class Document extends AbstractQuery
      *
      * @return ReadOnlyDocumentInterface[]|DocumentInterface[]
      */
-    public function getDocuments()
+    public function getDocuments(): array
     {
         return $this->documents;
     }

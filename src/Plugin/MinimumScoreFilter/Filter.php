@@ -19,7 +19,7 @@ class Filter
      *
      * @return array
      */
-    public function filterDocuments($documents, $maxScore, $ratio, $mode)
+    public function filterDocuments(array $documents, float $maxScore, float $ratio, string $mode): array
     {
         $threshold = $maxScore * $ratio;
 

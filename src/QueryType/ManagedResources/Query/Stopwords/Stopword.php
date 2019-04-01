@@ -2,6 +2,8 @@
 
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords;
 
+use Solarium\QueryType\Extract\Query;
+
 class Stopword
 {
     /**
@@ -19,9 +21,12 @@ class Stopword
 
     /**
      * @param string $term
+     *
+     * @return self
      */
-    public function setTerm(string $term)
+    public function setTerm(string $term): self
     {
         $this->term = $term;
+        return $this;
     }
 }

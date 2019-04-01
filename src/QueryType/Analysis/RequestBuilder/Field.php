@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\QueryType\Analysis\Query\Field as QueryField;
 
@@ -18,7 +19,7 @@ class Field extends RequestBuilder
      *
      * @return Request
      */
-    public function build(QueryInterface $query)
+    public function build(AbstractQuery $query): Request
     {
         $request = parent::build($query);
 

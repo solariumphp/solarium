@@ -19,7 +19,7 @@ class ResourceList extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * List items.
      *
-     * @var Resoure[]
+     * @var Resource[]
      */
     protected $items = [];
 
@@ -47,7 +47,7 @@ class ResourceList extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get all items.
      *
-     * @return resource[]
+     * @return Resource[]
      */
     public function getItems(): array
     {
