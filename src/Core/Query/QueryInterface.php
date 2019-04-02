@@ -26,9 +26,9 @@ interface QueryInterface extends ConfigurableInterface
     /**
      * Get the response parser class for this query.
      *
-     * @return ResponseParserInterface
+     * @return ResponseParserInterface|null
      */
-    public function getResponseParser(): ResponseParserInterface;
+    public function getResponseParser(): ?ResponseParserInterface;
 
     /**
      * Set handler option.

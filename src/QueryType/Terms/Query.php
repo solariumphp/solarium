@@ -6,6 +6,8 @@ use Solarium\Component\ComponentTraits\TermsTrait;
 use Solarium\Component\TermsInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 
 /**
  * Terms query.
@@ -25,7 +27,7 @@ class Query extends BaseQuery implements TermsInterface
      * @var array
      */
     protected $options = [
-        'resultclass' => 'Solarium\QueryType\Terms\Result',
+        'resultclass' => Result::class,
         'handler' => 'terms',
         'omitheader' => true,
     ];
@@ -45,7 +47,7 @@ class Query extends BaseQuery implements TermsInterface
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -55,7 +57,7 @@ class Query extends BaseQuery implements TermsInterface
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }

@@ -4,6 +4,7 @@ namespace Solarium\QueryType\Select;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
+use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Result\Result;
 
@@ -21,7 +22,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
      *
      * @return array
      */
-    public function parse($result)
+    public function parse(ResultInterface $result): array
     {
         $data = $result->getData();
 

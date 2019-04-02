@@ -41,7 +41,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @throws RuntimeException
      */
-    public function __set($name, $value)
+    public function __set(string $name, string $value): AbstractDocument
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }

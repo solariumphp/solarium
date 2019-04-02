@@ -56,7 +56,7 @@ class Result extends BaseResult
      *
      * @return StatusResult[]|null
      */
-    public function getStatusResults()
+    public function getStatusResults(): ?array
     {
         $this->parseResponse();
         return $this->statusResults;
@@ -67,7 +67,7 @@ class Result extends BaseResult
      *
      * @return StatusResult|null
      */
-    public function getStatusResult()
+    public function getStatusResult(): ?StatusResult
     {
         $this->parseResponse();
         return $this->statusResult;
@@ -78,7 +78,7 @@ class Result extends BaseResult
      *
      * @return null|StatusResult
      */
-    public function getStatusResultByCoreName($coreName)
+    public function getStatusResultByCoreName(string $coreName): ?StatusResult
     {
         return $this->statusResults[$coreName] ?? null;
     }

@@ -17,7 +17,7 @@ class Expression
      *
      * @throws InvalidArgumentException
      */
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments): string
     {
         return $name.'('.implode(', ', array_filter($arguments, function ($value) {
             if (is_array($value) || (is_object($value) && !method_exists($value, '__toString'))) {
@@ -38,7 +38,7 @@ class Expression
      *
      * @return string
      */
-    public static function indent(string $expression)
+    public static function indent(string $expression): string
     {
         $current_indentation = 0;
         $indentation_step = 2;

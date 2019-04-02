@@ -4,6 +4,8 @@ namespace Solarium\QueryType\Server\CoreAdmin;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\Core\Query\Result\ResultInterface;
+use Solarium\QueryType\Server\CoreAdmin\Query\Action\CoreActionInterface;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query;
 use Solarium\QueryType\Server\CoreAdmin\Result\Result;
 use Solarium\QueryType\Server\CoreAdmin\Result\StatusResult;
@@ -16,11 +18,11 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     /**
      * Parse response data.
      *
-     * @param Result $result
+     * @param Result|ResultInterface $result
      *
      * @return array
      */
-    public function parse($result)
+    public function parse(ResultInterface $result): array
     {
         $data = $result->getData();
         $data = $this->parseStatus($data, $result);
@@ -34,9 +36,12 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
      *
      * @return array
      */
-    protected function parseStatus(array $data, Result $result)
+    protected function parseStatus(array $data, Result $result): array
     {
-        $action = $result->getQuery()->getAction();
+        /** @var Query $query */
+        $query = $result->getQuery();
+        /** @var CoreActionInterface $action */
+        $action = $query->getAction();
         $type = $action->getType();
 
         $data['wasSuccessful'] = 200 === $result->getResponse()->getStatusCode();

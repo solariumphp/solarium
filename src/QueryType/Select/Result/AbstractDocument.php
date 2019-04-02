@@ -24,7 +24,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return mixed|null
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         if (!isset($this->fields[$name])) {
             return null;
@@ -43,7 +43,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return bool
      */
-    public function __isset($name)
+    public function __isset(string $name): bool
     {
         return isset($this->fields[$name]);
     }
@@ -53,10 +53,13 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @param string      $name
      * @param string|null $value
+     *
+     * @return self
      */
-    public function __set($name, $value)
+    public function __set(string $name, string $value): self
     {
         $this->fields[$name] = $value;
+        return $this;
     }
 
     /**
@@ -65,10 +68,14 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      * Magic method for removing fields by unsetting object properties
      *
      * @param string $name
+     *
+     * @return self
      */
-    public function __unset($name)
+    public function __unset(string $name): self
     {
         unset($this->fields[$name]);
+
+        return $this;
     }
 
     /**
@@ -76,7 +83,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return array
      */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }
@@ -86,7 +93,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->fields);
     }
@@ -96,7 +103,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->fields);
     }

@@ -4,6 +4,7 @@ namespace Solarium\QueryType\Suggester;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
+use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Suggester\Result\Result;
 
 /**
@@ -14,11 +15,11 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     /**
      * Get result data for the response.
      *
-     * @param Result $result
+     * @param Result|ResultInterface $result
      *
      * @return array
      */
-    public function parse($result)
+    public function parse(ResultInterface $result): array
     {
         $data = $result->getData();
         $query = $result->getQuery();

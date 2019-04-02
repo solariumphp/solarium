@@ -2,6 +2,7 @@
 
 namespace Solarium\QueryType\MoreLikeThis;
 
+use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Select\ResponseParser as SelectResponseParser;
 
 /**
@@ -16,15 +17,16 @@ class ResponseParser extends SelectResponseParser
      *
      * @return array
      */
-    public function parse($result)
+    public function parse(ResultInterface $result): array
     {
         $data = $result->getData();
+        /** @var Query $query */
         $query = $result->getQuery();
 
         $parseResult = parent::parse($result);
-        if (isset($data['interestingTerms']) && 'none' != $query->getInterestingTerms()) {
+        if (isset($data['interestingTerms']) && 'none' !== $query->getInterestingTerms()) {
             $terms = $data['interestingTerms'];
-            if ('details' == $query->getInterestingTerms()) {
+            if ('details' === $query->getInterestingTerms()) {
                 if ($query->getResponseWriter() == $query::WT_JSON) {
                     $terms = $this->convertToKeyValueArray($terms);
                 }

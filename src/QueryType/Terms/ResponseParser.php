@@ -3,7 +3,8 @@
 namespace Solarium\QueryType\Terms;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
-use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
+use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\Core\Query\Result\ResultInterface;
 
 /**
  * Parse Terms response data.
@@ -17,15 +18,13 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
      *
      * @return array
      */
-    public function parse($result)
+    public function parse(ResultInterface $result): array
     {
         $termResults = [];
 
         $data = $result->getData();
 
-        /*
-         * @var Query
-         */
+        /** @var Query $query */
         $query = $result->getQuery();
 
         foreach ($query->getFields() as $field) {

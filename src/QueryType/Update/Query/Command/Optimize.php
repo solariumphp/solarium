@@ -24,9 +24,9 @@ class Optimize extends AbstractCommand
     /**
      * Get softCommit option.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getSoftCommit()
+    public function getSoftCommit(): ?bool
     {
         return $this->getOption('softcommit');
     }
@@ -38,17 +38,18 @@ class Optimize extends AbstractCommand
      *
      * @return self Provides fluent interface
      */
-    public function setSoftCommit($softCommit)
+    public function setSoftCommit(bool $softCommit): self
     {
-        return $this->setOption('softcommit', $softCommit);
+        $this->setOption('softcommit', $softCommit);
+        return $this;
     }
 
     /**
      * Get waitSearcher option.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getWaitSearcher()
+    public function getWaitSearcher(): ?bool
     {
         return $this->getOption('waitsearcher');
     }
@@ -60,17 +61,18 @@ class Optimize extends AbstractCommand
      *
      * @return self Provides fluent interface
      */
-    public function setWaitSearcher($waitSearcher)
+    public function setWaitSearcher(bool $waitSearcher): self
     {
-        return $this->setOption('waitsearcher', $waitSearcher);
+        $this->setOption('waitsearcher', $waitSearcher);
+        return $this;
     }
 
     /**
      * Get maxSegments option.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getMaxSegments()
+    public function getMaxSegments(): ?bool
     {
         return $this->getOption('maxsegments');
     }
@@ -82,8 +84,9 @@ class Optimize extends AbstractCommand
      *
      * @return self Provides fluent interface
      */
-    public function setMaxSegments($maxSegments)
+    public function setMaxSegments(bool $maxSegments): self
     {
-        return $this->setOption('maxsegments', $maxSegments);
+        $this->setOption('maxsegments', $maxSegments);
+        return $this;
     }
 }

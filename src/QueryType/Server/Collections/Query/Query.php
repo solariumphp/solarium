@@ -3,6 +3,8 @@
 namespace Solarium\QueryType\Server\Collections\Query;
 
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Server\AbstractServerQuery;
 use Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus;
 use Solarium\QueryType\Server\Collections\Query\Action\Create;
@@ -195,16 +197,16 @@ class Query extends AbstractServerQuery
     const ACTION_UTILIZENODE = 'UTILIZENODE';
 
     /**
-     * Update command types.
+     * Action types.
      *
      * @var array
      */
     protected $actionTypes = [
-        self::ACTION_CREATE => 'Solarium\QueryType\Server\Collections\Query\Action\Create',
+        self::ACTION_CREATE => Create::class,
         /*
         self::ACTION_MODIFYCOLLECTION => 'Solarium\QueryType\Server\Collections\Query\Action\ModifyCollection',
         */
-        self::ACTION_RELOAD => 'Solarium\QueryType\Server\Collections\Query\Action\Reload',
+        self::ACTION_RELOAD => Reload::class,
         /*
         self::ACTION_SPLITSHARD => 'Solarium\QueryType\Server\Collections\Query\Action\SplitShard',
         self::ACTION_CREATESHARD => 'Solarium\QueryType\Server\Collections\Query\Action\SplitShard',
@@ -214,7 +216,7 @@ class Query extends AbstractServerQuery
         self::ACTION_ALIASPROP => 'Solarium\QueryType\Server\Collections\Query\Action\AliasProp',
         self::ACTION_DELETEALIAS => 'Solarium\QueryType\Server\Collections\Query\Action\DeleteAlias',
         */
-        self::ACTION_DELETE => 'Solarium\QueryType\Server\Collections\Query\Action\Delete',
+        self::ACTION_DELETE => Delete::class,
         /*
         self::ACTION_DELETEREPLICA => 'Solarium\QueryType\Server\Collections\Query\Action\DeleteReplica',
         self::ACTION_ADDREPLICA => 'Solarium\QueryType\Server\Collections\Query\Action\AddReplica',
@@ -225,7 +227,7 @@ class Query extends AbstractServerQuery
         self::ACTION_REMOVEROLE => 'Solarium\QueryType\Server\Collections\Query\Action\RemoveRole',
         self::ACTION_OVERSEERSTATUS => 'Solarium\QueryType\Server\Collections\Query\Action\OverseerStatus',
         */
-        self::ACTION_CLUSTERSTATUS => 'Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus',
+        self::ACTION_CLUSTERSTATUS => ClusterStatus::class,
         /*
         self::ACTION_REQUESTSTATUS => 'Solarium\QueryType\Server\Collections\Query\Action\RequestsStatus',
         self::ACTION_DELETESTATUS => 'Solarium\QueryType\Server\Collections\Query\Action\DeleteStatus',
@@ -255,13 +257,6 @@ class Query extends AbstractServerQuery
     ];
 
     /**
-     * Action that should be performed on the Collections API.
-     *
-     * @var ActionInterface
-     */
-    protected $action;
-
-    /**
      * Get type for this query.
      *
      * @return string
@@ -276,7 +271,7 @@ class Query extends AbstractServerQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder(): RequestBuilder
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -286,7 +281,7 @@ class Query extends AbstractServerQuery
      *
      * @return ResponseParser
      */
-    public function getResponseParser(): ResponseParser
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }
@@ -296,7 +291,7 @@ class Query extends AbstractServerQuery
      *
      * @return ActionInterface|Create
      */
-    public function createCreate($options = []): Create
+    public function createCreate(array $options = []): Create
     {
         return $this->createAction(self::ACTION_CREATE, $options);
     }
@@ -306,7 +301,7 @@ class Query extends AbstractServerQuery
      *
      * @return Delete|ActionInterface
      */
-    public function createDelete($options = []): Delete
+    public function createDelete(array $options = []): Delete
     {
         return $this->createAction(self::ACTION_DELETE, $options);
     }
@@ -316,7 +311,7 @@ class Query extends AbstractServerQuery
      *
      * @return Reload|ActionInterface
      */
-    public function createReload($options = []): Reload
+    public function createReload(array $options = []): Reload
     {
         return $this->createAction(self::ACTION_RELOAD, $options);
     }
@@ -326,7 +321,7 @@ class Query extends AbstractServerQuery
      *
      * @return ClusterStatus|ActionInterface
      */
-    public function createClusterStatus($options = []): ClusterStatus
+    public function createClusterStatus(array $options = []): ClusterStatus
     {
         return $this->createAction(self::ACTION_CLUSTERSTATUS, $options);
     }

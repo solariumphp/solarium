@@ -453,7 +453,7 @@ class TestLoadbalancer extends Loadbalancer
      *
      * @return Endpoint
      */
-    protected function getRandomEndpoint()
+    protected function getRandomEndpoint(): Endpoint
     {
         ++$this->counter;
         $endpointKey = 'server'.$this->counter;

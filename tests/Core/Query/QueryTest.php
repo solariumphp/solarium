@@ -4,6 +4,8 @@ namespace Solarium\Tests\Core\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 
 class QueryTest extends TestCase
 {
@@ -109,12 +111,12 @@ class TestQuery extends AbstractQuery
         return 'testType';
     }
 
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return null;
     }
 
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return null;
     }

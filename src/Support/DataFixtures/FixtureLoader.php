@@ -40,7 +40,7 @@ class FixtureLoader
      * @param string $dir
      * @param bool   $append
      */
-    public function loadFixturesFromDir($dir, $append = true)
+    public function loadFixturesFromDir(string $dir, bool $append = true)
     {
         if (!$append) {
             $this->purger->purge();

@@ -40,7 +40,7 @@ class Add extends AbstractCommand
      *
      * @return self Provides fluent interface
      */
-    public function addDocument(DocumentInterface $document)
+    public function addDocument(DocumentInterface $document): self
     {
         $this->documents[] = $document;
 
@@ -56,7 +56,7 @@ class Add extends AbstractCommand
      *
      * @return self Provides fluent interface
      */
-    public function addDocuments($documents)
+    public function addDocuments($documents): self
     {
         //only check documents for type if in an array (iterating a Traversable may do unnecessary work)
         if (is_array($documents)) {
@@ -92,7 +92,7 @@ class Add extends AbstractCommand
      *
      * @return DocumentInterface[]
      */
-    public function getDocuments()
+    public function getDocuments(): array
     {
         return $this->documents;
     }
@@ -104,17 +104,18 @@ class Add extends AbstractCommand
      *
      * @return self Provides fluent interface
      */
-    public function setOverwrite($overwrite)
+    public function setOverwrite(bool $overwrite): self
     {
-        return $this->setOption('overwrite', $overwrite);
+        $this->setOption('overwrite', $overwrite);
+        return $this;
     }
 
     /**
      * Get overwrite option.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getOverwrite()
+    public function getOverwrite(): ?bool
     {
         return $this->getOption('overwrite');
     }
@@ -126,17 +127,18 @@ class Add extends AbstractCommand
      *
      * @return self Provides fluent interface
      */
-    public function setCommitWithin($commitWithin)
+    public function setCommitWithin(bool $commitWithin): self
     {
-        return $this->setOption('commitwithin', $commitWithin);
+        $this->setOption('commitwithin', $commitWithin);
+        return $this;
     }
 
     /**
      * Set commitWithin option.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getCommitWithin()
+    public function getCommitWithin(): ?bool
     {
         return $this->getOption('commitwithin');
     }

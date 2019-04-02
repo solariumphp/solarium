@@ -22,7 +22,7 @@ interface ResponseParserInterface
      *
      * @param ResultInterface $result
      *
-     * @return mixed
+     * @return array
      */
-    public function parse(ResultInterface $result);
+    public function parse(ResultInterface $result): array;
 }

@@ -30,7 +30,7 @@ class Purger
     /**
      * @return bool
      */
-    public function purge()
+    public function purge(): bool
     {
         $update = $this->client->createUpdate();
 

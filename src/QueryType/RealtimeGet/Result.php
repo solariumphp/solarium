@@ -17,7 +17,7 @@ class Result extends BaseResult
      *
      * @return DocumentInterface
      */
-    public function getDocument()
+    public function getDocument(): DocumentInterface
     {
         $docs = $this->getDocuments();
 

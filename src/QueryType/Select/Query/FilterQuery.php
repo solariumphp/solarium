@@ -33,9 +33,9 @@ class FilterQuery extends Configurable implements QueryInterface
     /**
      * Get key value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getKey()
+    public function getKey(): ?string
     {
         return $this->getOption('key');
     }
@@ -47,9 +47,10 @@ class FilterQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setKey($value)
+    public function setKey(string $value): self
     {
-        return $this->setOption('key', $value);
+        $this->setOption('key', $value);
+        return $this;
     }
 
     /**
@@ -59,7 +60,7 @@ class FilterQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function addTag($tag)
+    public function addTag(string $tag): self
     {
         $this->tags[$tag] = true;
 
@@ -73,7 +74,7 @@ class FilterQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function addTags($tags)
+    public function addTags(array $tags): self
     {
         foreach ($tags as $tag) {
             $this->addTag($tag);
@@ -87,7 +88,7 @@ class FilterQuery extends Configurable implements QueryInterface
      *
      * @return array
      */
-    public function getTags()
+    public function getTags(): array
     {
         return array_keys($this->tags);
     }
@@ -99,7 +100,7 @@ class FilterQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeTag($tag)
+    public function removeTag(string $tag): self
     {
         if (isset($this->tags[$tag])) {
             unset($this->tags[$tag]);
@@ -113,7 +114,7 @@ class FilterQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function clearTags()
+    public function clearTags(): self
     {
         $this->tags = [];
 
@@ -129,7 +130,7 @@ class FilterQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setTags($tags)
+    public function setTags(array $tags): self
     {
         $this->clearTags();
 
@@ -141,7 +142,7 @@ class FilterQuery extends Configurable implements QueryInterface
      *
      * @return \Solarium\Core\Query\Helper
      */
-    public function getHelper()
+    public function getHelper(): Helper
     {
         return new Helper();
     }

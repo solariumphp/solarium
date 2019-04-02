@@ -2,6 +2,7 @@
 
 namespace Solarium\QueryType\Server\Collections\ResponseParser;
 
+use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Server\Collections\ResponseParser;
 use Solarium\QueryType\Server\Collections\Result\AbstractResult;
 
@@ -13,11 +14,11 @@ class ClusterStatus extends ResponseParser
     /**
      * Parse response data.
      *
-     * @param AbstractResult $result
+     * @param ResultInterface|AbstractResult $result
      *
      * @return array
      */
-    public function parse($result)
+    public function parse(ResultInterface $result): array
     {
         $data = $result->getData();
 

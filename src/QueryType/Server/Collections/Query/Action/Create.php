@@ -4,6 +4,7 @@ namespace Solarium\QueryType\Server\Collections\Query\Action;
 
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
 use Solarium\QueryType\Server\Collections\Result\CreateResult;
+use Solarium\QueryType\Server\Query\Action\AsyncActionInterface;
 
 /**
  * Class Create.
@@ -39,9 +40,9 @@ class Create extends AbstractCDRAction
     /**
      * Returns the router name.
      *
-     * @return mixed
+     * @return string|null
      */
-    public function getRouterName()
+    public function getRouterName(): ?string
     {
         return $this->getOption('router.name');
     }
@@ -63,9 +64,9 @@ class Create extends AbstractCDRAction
     /**
      * Returns the number of shards.
      *
-     * @return mixed
+     * @return int|null
      */
-    public function getNumShards()
+    public function getNumShards(): ?int
     {
         return $this->getOption('numShards');
     }
@@ -87,9 +88,9 @@ class Create extends AbstractCDRAction
     /**
      * Returns the shards.
      *
-     * @return mixed
+     * @return string|null
      */
-    public function getShards()
+    public function getShards(): ?string
     {
         return $this->getOption('shards');
     }
@@ -205,9 +206,9 @@ class Create extends AbstractCDRAction
     /**
      * Get the collection config name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getCollectionConfigName(): string
+    public function getCollectionConfigName(): ?string
     {
         return $this->getOption('collection.configName');
     }
@@ -246,11 +247,11 @@ class Create extends AbstractCDRAction
      *
      * @param string $name property name
      *
-     * @return string
+     * @return string|null
      */
-    public function getProperty(string $name): string
+    public function getProperty(string $name): ?string
     {
-        return (string) $this->getOption('property.'.$name);
+        return $this->getOption('property.'.$name);
     }
 
     /**
@@ -275,7 +276,7 @@ class Create extends AbstractCDRAction
      *
      * @return self Provides fluent interface
      */
-    public function setAsync(string $id): self
+    public function setAsync(string $id): AsyncActionInterface
     {
         $this->setOption('async', $id);
         return $this;

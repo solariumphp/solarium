@@ -7,12 +7,4 @@ namespace Solarium\QueryType\Update\Query\Document;
  */
 interface DocumentInterface
 {
-    /**
-     * Constructor.
-     *
-     * @param array $fields
-     * @param array $boosts
-     * @param array $modifiers
-     */
-    public function __construct(array $fields = [], array $boosts = [], array $modifiers = []);
 }

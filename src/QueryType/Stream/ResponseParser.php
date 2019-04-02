@@ -4,6 +4,7 @@ namespace Solarium\QueryType\Stream;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
+use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\StreamException;
 use Solarium\QueryType\Select\Result\Result;
@@ -16,19 +17,17 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     /**
      * Get result data for the response.
      *
-     * @param Result $result
+     * @param Result|ResultInterface $result
      *
      * @throws RuntimeException
      *
      * @return array
      */
-    public function parse($result)
+    public function parse(ResultInterface $result): array
     {
         $data = $result->getData();
 
-        /*
-         * @var Query
-         */
+        /** @var Query $query */
         $query = $result->getQuery();
 
         // create document instances

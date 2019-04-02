@@ -10,13 +10,15 @@ interface CoreActionInterface extends ActionInterface
      * Set the core name that should be reloaded.
      *
      * @param string $core
+     *
+     * @return CoreActionInterface
      */
-    public function setCore(string $core);
+    public function setCore(string $core): CoreActionInterface;
 
     /**
      * Get the related core name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getCore(): string;
+    public function getCore(): ?string;
 }
