@@ -35,7 +35,7 @@ class QueryType extends Result
             }
 
             $this->mapData($responseParser->parse($this));
-
+    
             $this->parsed = true;
         }
     }

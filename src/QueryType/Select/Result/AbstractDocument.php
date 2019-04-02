@@ -14,6 +14,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      */
     protected $fields;
 
+    abstract public function __set($name, $value): self;
     /**
      * Get field value by name.
      *
@@ -24,7 +25,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return mixed|null
      */
-    public function __get(string $name)
+    public function __get($name)
     {
         if (!isset($this->fields[$name])) {
             return null;
@@ -43,39 +44,9 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return bool
      */
-    public function __isset(string $name): bool
+    public function __isset($name): bool
     {
         return isset($this->fields[$name]);
-    }
-
-    /**
-     * Set field value.
-     *
-     * @param string      $name
-     * @param string|null $value
-     *
-     * @return self
-     */
-    public function __set(string $name, string $value): self
-    {
-        $this->fields[$name] = $value;
-        return $this;
-    }
-
-    /**
-     * Unset field value.
-     *
-     * Magic method for removing fields by unsetting object properties
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function __unset(string $name): self
-    {
-        unset($this->fields[$name]);
-
-        return $this;
     }
 
     /**

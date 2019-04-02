@@ -13,7 +13,7 @@ class JsonTermsTest extends TestCase
      */
     protected $facet;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->facet = new JsonTerms();
     }

@@ -28,7 +28,7 @@ class DebugTest extends TestCase
 
     protected $timing;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->queryString = 'dummy-querystring';
         $this->parsedQuery = 'dummy-parsed-qs';

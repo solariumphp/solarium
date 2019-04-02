@@ -19,7 +19,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
      */
     protected $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $config = [
             'endpoint' => [

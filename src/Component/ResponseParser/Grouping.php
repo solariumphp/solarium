@@ -24,7 +24,7 @@ class Grouping implements ComponentParserInterface
      *
      * @return Result
      */
-    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $grouping, array $data): Result
+    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $grouping, array $data): Result
     {
         if (!isset($data['grouped'])) {
             return new Result([]);

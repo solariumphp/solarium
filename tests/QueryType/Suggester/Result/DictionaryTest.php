@@ -18,7 +18,7 @@ class DictionaryTest extends TestCase
      */
     protected $dictionary;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->terms = [
             'foo' => new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),

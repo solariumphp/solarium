@@ -40,9 +40,9 @@ class PreCreateQuery extends Event
     /**
      * Get the query object for this event.
      *
-     * @return QueryInterface
+     * @return QueryInterface|null
      */
-    public function getQuery(): QueryInterface
+    public function getQuery(): ?QueryInterface
     {
         return $this->query;
     }

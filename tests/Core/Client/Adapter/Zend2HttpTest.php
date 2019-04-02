@@ -26,7 +26,7 @@ class Zend2HttpTest extends TestCase
      */
     protected $zendResponseMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = new Zend2Http();
         $this->zendClientMock = $this->getMockBuilder(ZendClient::class)->setMethods([])->disableOriginalConstructor()->getMock();

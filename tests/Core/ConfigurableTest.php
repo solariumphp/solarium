@@ -54,7 +54,7 @@ class ConfigurableTest extends TestCase
 
     public function testConstructorWithInvalidConfig()
     {
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException('Argument 1 passed to Solarium\Core\Client\Client::__construct() must be of the type array or null, string given');
         new Client('invalid');
     }
 

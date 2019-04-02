@@ -36,7 +36,7 @@ abstract class AbstractResultTest extends TestCase
 
     protected $spellcheck;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->numFound = 11;
         $this->maxScore = 0.91;

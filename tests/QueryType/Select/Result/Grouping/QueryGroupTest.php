@@ -22,7 +22,7 @@ class QueryGroupTest extends TestCase
 
     protected $items;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->matches = 12;
         $this->numFound = 6;

@@ -14,7 +14,7 @@ class DocumentSetTest extends TestCase
 
     protected $docs;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->docs = ['key1' => 'dummy1', 'key2' => 'dummy2'];
         $this->result = new DocumentSet($this->docs);

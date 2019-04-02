@@ -31,16 +31,16 @@ use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\MoreLikeThis\Query as MoreLikeThisQuery;
 use Solarium\QueryType\Ping\Query as PingQuery;
-use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Suggester\Query as SuggesterQuery;
 use Solarium\QueryType\Terms\Query as TermsQuery;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Solarium\Component\QueryInterface;
+
 /*
  * @coversDefaultClass \Solarium\Core\Client\Client
  */
-use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 class ClientTest extends TestCase
 {
     /**
@@ -48,7 +48,7 @@ class ClientTest extends TestCase
      */
     protected $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = new Client();
     }
@@ -513,7 +513,7 @@ class ClientTest extends TestCase
 
     public function testCreateRequest()
     {
-        $queryStub = $this->createMock(Query::class);
+        $queryStub = $this->createMock(SelectQuery::class);
 
         $observer = $this->createMock(AbstractRequestBuilder::class, ['build']);
         $observer->expects($this->once())
@@ -528,13 +528,13 @@ class ClientTest extends TestCase
              ->method('getRequestBuilder')
              ->will($this->returnValue($observer));
 
-        $this->client->registerQueryType('testquerytype', Query::class);
+        $this->client->registerQueryType('testquerytype', SelectQuery::class);
         $this->client->createRequest($queryStub);
     }
 
     public function testCreateRequestInvalidQueryType()
     {
-        $queryStub = $this->createMock(Query::class);
+        $queryStub = $this->createMock(SelectQuery::class);
         $queryStub->expects($this->any())
              ->method('getType')
              ->will($this->returnValue('testquerytype'));
@@ -721,7 +721,7 @@ class ClientTest extends TestCase
         $overrideValue = '\\stdClass';
         $response = new Response('', ['HTTP 1.0 200 OK']);
 
-        $mockQuery = $this->getMockBuilder(Query::class)
+        $mockQuery = $this->getMockBuilder(SelectQuery::class)
             ->setMethods(['getResultClass'])
             ->getMock();
         $mockQuery->expects($this->once())

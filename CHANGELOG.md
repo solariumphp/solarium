@@ -4,10 +4,14 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.3.0-beta.1]
+## [5.0.0-alpha.1]
 ### Changed
-- Updated dev and test environments to newer package versions, for example PHPUnit 7.5
-- Increased the number of PHP 7.1 style argument and return type declarations (transition not completed yet)
+- Updated dev and test environments to newer package versions, for example PHPUnit 8.0
+- Use PHP 7.1 style argument and return type declarations
+- PHP 7.1 or higher required 
+
+### Removed
+- PHP 7.0 support
 
 ## [4.3.0-alpha.2]
 ### Added

@@ -14,7 +14,7 @@ class FacetSetTest extends TestCase
 
     protected $facets;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->facets = [
             'facet1' => 'content1',

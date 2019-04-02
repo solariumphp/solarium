@@ -16,7 +16,7 @@ class FixtureLoaderTest extends TestCase
 
     private $client;
 
-    protected function setUp()
+    public function setUp(): void
     {
         $this->client = $this->createMock(ClientInterface::class);
         $this->fixturePath = __DIR__.'/Fixtures/';

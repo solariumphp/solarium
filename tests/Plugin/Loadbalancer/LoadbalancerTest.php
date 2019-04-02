@@ -29,7 +29,7 @@ class LoadbalancerTest extends TestCase
      */
     protected $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->plugin = new Loadbalancer();
 

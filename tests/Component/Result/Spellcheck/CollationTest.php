@@ -18,7 +18,7 @@ class CollationTest extends TestCase
 
     protected $query;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->corrections = [
             'key1' => 'content1',

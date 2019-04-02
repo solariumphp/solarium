@@ -23,7 +23,7 @@ class Highlighting implements ComponentParserInterface
      *
      * @return HighlightingResult
      */
-    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $highlighting, array $data): HighlightingResult
+    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $highlighting, array $data): HighlightingResult
     {
         $results = [];
         if (isset($data['highlighting'])) {

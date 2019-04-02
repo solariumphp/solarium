@@ -22,7 +22,7 @@ class FacetSetTest extends TestCase
      */
     protected $facetSet;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->facetSet = new FacetSet();
     }

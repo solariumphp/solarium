@@ -23,7 +23,7 @@ class ResultTest extends TestCase
      */
     protected $allData;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data = [
             'dictionary1' => new Dictionary([

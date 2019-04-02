@@ -47,7 +47,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      *
      * @return ResultFacetSet
      */
-    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $facetSet, array $data): ?ResultFacetSet
+    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $facetSet, array $data): ?ResultFacetSet
     {
         if (true === $facetSet->getExtractFromResponse()) {
             if (false === empty($data['facet_counts'])) {

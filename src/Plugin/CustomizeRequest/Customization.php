@@ -40,7 +40,7 @@ class Customization extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setKey($value): self
+    public function setKey(string $value): self
     {
         $this->setOption('key', $value);
 
@@ -88,7 +88,7 @@ class Customization extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setName(string $value): slef
+    public function setName(string $value): self
     {
         $this->setOption('name', $value);
 
@@ -122,9 +122,9 @@ class Customization extends Configurable
     /**
      * Get value.
      *
-     * @return string|null
+     * @return mixed|null
      */
-    public function getValue(): ?string
+    public function getValue()
     {
         return $this->getOption('value');
     }

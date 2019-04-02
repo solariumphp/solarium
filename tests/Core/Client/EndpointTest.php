@@ -13,7 +13,7 @@ class EndpointTest extends TestCase
      */
     protected $endpoint;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->endpoint = new Endpoint();
     }

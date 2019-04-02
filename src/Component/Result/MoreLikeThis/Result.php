@@ -39,7 +39,7 @@ class Result implements \IteratorAggregate, \Countable
      * @param float $maxScore
      * @param array $documents
      */
-    public function __construct(int $numFound, float $maxScore, array $documents)
+    public function __construct(int $numFound, float $maxScore = null, array $documents = [])
     {
         $this->numFound = $numFound;
         $this->maximumScore = $maxScore;
@@ -64,7 +64,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return float
      */
-    public function getMaximumScore(): float
+    public function getMaximumScore(): ?float
     {
         return $this->maximumScore;
     }

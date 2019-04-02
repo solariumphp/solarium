@@ -137,9 +137,9 @@ class Query extends SelectQuery
     /**
      * Get the match.include parameter.
      *
-     * @return string|null
+     * @return bool|null
      */
-    public function getMatchInclude(): ?string
+    public function getMatchInclude(): ?bool
     {
         return $this->getOption('matchinclude');
     }

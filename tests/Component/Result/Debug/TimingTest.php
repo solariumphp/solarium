@@ -16,7 +16,7 @@ class TimingTest extends TestCase
 
     protected $phases;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->time = 14;
         $this->phases = ['key1' => 'dummy1', 'key2' => 'dummy2'];

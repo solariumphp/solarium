@@ -26,7 +26,7 @@ class FacetSetTest extends TestCase
      */
     protected $query;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->parser = new Parser();
 

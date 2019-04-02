@@ -116,7 +116,7 @@ class Stats extends AbstractComponent
             throw new InvalidArgumentException('A field must have a key value');
         }
 
-        //double add calls for the same field are ignored, but non-unique keys cause an exception
+        // Double add calls for the same field are ignored, but non-unique keys cause an exception.
         if (array_key_exists($key, $this->fields) && $this->fields[$key] !== $field) {
             throw new InvalidArgumentException('A field must have a unique key value');
         }

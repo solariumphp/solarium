@@ -23,7 +23,7 @@ class MoreLikeThis implements ComponentParserInterface
      *
      * @return MoreLikeThisResult
      */
-    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $moreLikeThis, array $data): MoreLikeThisResult
+    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $moreLikeThis, array $data): MoreLikeThisResult
     {
         $results = [];
         if (isset($data['moreLikeThis'])) {

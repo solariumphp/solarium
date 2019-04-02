@@ -38,36 +38,36 @@ class Range extends Field
     /**
      * The lower bound of the ranges.
      *
-     * @var string
+     * @var string|int
      */
     protected $start;
 
     /**
      * The upper bound of all ranges.
      *
-     * @var string
+     * @var string|int
      */
     protected $end;
 
     /**
      * The gap between each range.
      *
-     * @var string
+     * @var string|int
      */
     protected $gap;
 
     /**
      * Constructor.
      *
-     * @param array $values
-     * @param int   $before
-     * @param int   $after
-     * @param int   $between
-     * @param int   $start
-     * @param int   $end
-     * @param int   $gap
+     * @param array      $values
+     * @param int        $before
+     * @param int        $after
+     * @param int        $between
+     * @param string|int $start
+     * @param string|int $end
+     * @param string|int $gap
      */
-    public function __construct(array $values, int $before, int $after, int $between, int $start, int $end, int $gap)
+    public function __construct(array $values, int $before, int $after, int $between, $start, $end, $gap)
     {
         parent::__construct($values);
         $this->before = $before;
@@ -124,9 +124,9 @@ class Range extends Field
      *
      * @return string
      */
-    public function getStart(): int
+    public function getStart(): string
     {
-        return $this->start;
+        return (string) $this->start;
     }
 
     /**
@@ -136,9 +136,9 @@ class Range extends Field
      *
      * @return string
      */
-    public function getEnd(): int
+    public function getEnd(): string
     {
-        return $this->end;
+        return (string) $this->end;
     }
 
     /**
@@ -148,8 +148,8 @@ class Range extends Field
      *
      * @return string
      */
-    public function getGap(): int
+    public function getGap(): string
     {
-        return $this->gap;
+        return (string) $this->gap;
     }
 }

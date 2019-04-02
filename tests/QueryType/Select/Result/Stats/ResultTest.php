@@ -16,14 +16,14 @@ class ResultTest extends TestCase
 
     protected $stats;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->field = 'myfield';
         $this->stats = [
             'min' => 'dummyMin',
             'max' => 'dummyMax',
             'sum' => 'dummySum',
-            'count' => 'dummyCount',
+            'count' => -1,
             'missing' => 'dummyMissing',
             'sumOfSquares' => 'dummySos',
             'mean' => 'dummyMean',

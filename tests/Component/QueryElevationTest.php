@@ -13,7 +13,7 @@ class QueryElevationTest extends TestCase
      */
     protected $queryelevation;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->queryelevation = new QueryElevation();
     }

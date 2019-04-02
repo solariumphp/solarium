@@ -12,7 +12,7 @@ class ResultTest extends TestCase
 
     protected $result;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->doc = new Document(['id' => 1, 'title' => 'doc1']);
         $this->result = new ResultDummy([$this->doc]);

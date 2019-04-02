@@ -8,6 +8,9 @@ use Solarium\Core\Client\State\CollectionState;
 
 class ClusterStateTest extends TestCase
 {
+    /**
+     * @var ClusterState
+     */
     private $clusterState;
 
     private $json = '{
@@ -85,7 +88,7 @@ class ClusterStateTest extends TestCase
   }
 }';
 
-    public function setUp()
+    public function setUp(): void
     {
         $state = json_decode($this->json, true);
         $this->clusterState = new ClusterState($state['cluster']);
@@ -105,10 +108,10 @@ class ClusterStateTest extends TestCase
         self::assertSame('collection1', $collectionState->getName());
         self::assertSame(1, $collectionState->getMaxShardsPerNode());
         $nodeBaseUris = [
-            '127.0.1.1:7574_solr' => 'http://127.0.1.1:7574/solr',
-            '127.0.1.1:7500_solr' => 'http://127.0.1.1:7500/solr',
             '127.0.1.1:8983_solr' => 'http://127.0.1.1:8983/solr',
             '127.0.1.1:8900_solr' => 'http://127.0.1.1:8900/solr',
+            '127.0.1.1:7574_solr' => 'http://127.0.1.1:7574/solr',
+            '127.0.1.1:7500_solr' => 'http://127.0.1.1:7500/solr',
         ];
         self::assertSame($nodeBaseUris, $collectionState->getNodesBaseUris());
         self::assertSame(1, $collectionState->getReplicationFactor());

@@ -17,7 +17,7 @@ class QueryTypeTest extends TestCase
      */
     protected $result;
 
-    public function setUp()
+    public function setUp(): void
     {
         $query = new UpdateQuery();
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
@@ -65,7 +65,7 @@ class TestStubQuery extends SelectQuery
         return 'dummy';
     }
 
-    public function getResponseParser(): ResponseParserInterface
+    public function getResponseParser(): ?ResponseParserInterface
     {
         return null;
     }

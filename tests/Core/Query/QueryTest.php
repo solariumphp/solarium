@@ -92,8 +92,8 @@ class QueryTest extends TestCase
     public function testSetAndGetNow()
     {
         $query = new TestQuery();
-        $query->setNow('1520997255000');
-        $this->assertSame('1520997255000', $query->getNow());
+        $query->setNow(1520997255000);
+        $this->assertSame(1520997255000, $query->getNow());
     }
 
     public function testSetAndGetTimeZone()

@@ -20,12 +20,6 @@ use Solarium\QueryType\Select\Result\AbstractDocument;
  * Solr. Always update from the original data source.
  *
  * Atomic updates are also support, using the field modifiers.
- *
- * Using the magic setter:
- *
- * If you supply NULL as the value the field will be removed
- * If you supply an array a multivalue field will be created.
- * In all cases any existing (multi)value will be overwritten.
  */
 class Document extends AbstractDocument implements DocumentInterface
 {
@@ -159,6 +153,44 @@ class Document extends AbstractDocument implements DocumentInterface
         $this->fields = $fields;
         $this->fieldBoosts = $boosts;
         $this->modifiers = $modifiers;
+    }
+
+    /**
+     * Set field value.
+     *
+     * Magic method for setting fields as properties of this document
+     * object, by field name.
+     *
+     * If you supply NULL as the value the field will be removed
+     * If you supply an array a multivalue field will be created.
+     * In all cases any existing (multi)value will be overwritten.
+     *
+     * @param string      $name
+     * @param string|null $value
+     *
+     * @return self
+     */
+    public function __set($name, $value): AbstractDocument
+    {
+        $this->setField($name, $value);
+
+        return $this;
+    }
+
+    /**
+     * Unset field value.
+     *
+     * Magic method for removing fields by un-setting object properties
+     *
+     * @param string $name
+     *
+     * @return self
+     */
+    public function __unset($name): self
+    {
+        $this->removeField($name);
+
+        return $this;
     }
 
     /**

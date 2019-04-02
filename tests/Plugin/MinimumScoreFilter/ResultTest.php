@@ -9,7 +9,7 @@ use Solarium\Tests\QueryType\Select\Result\AbstractResultTest;
 
 class ResultTest extends AbstractResultTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

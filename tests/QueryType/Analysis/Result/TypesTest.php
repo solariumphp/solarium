@@ -16,7 +16,7 @@ class TypesTest extends TestCase
 
     protected $name;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->name = 'testname';
         $this->items = [

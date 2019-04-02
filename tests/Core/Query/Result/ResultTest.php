@@ -26,7 +26,7 @@ class ResultTest extends TestCase
 
     protected $headers;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = new Client();
         $this->query = new SelectQuery();

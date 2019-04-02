@@ -18,7 +18,7 @@ class SpellcheckTest extends TestCase
 
     protected $correctlySpelled;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->suggestions = [
             'key1' => 'content1',

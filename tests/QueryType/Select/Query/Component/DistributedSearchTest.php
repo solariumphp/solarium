@@ -13,7 +13,7 @@ class DistributedSearchTest extends TestCase
      */
     protected $distributedSearch;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->distributedSearch = new DistributedSearch();
     }

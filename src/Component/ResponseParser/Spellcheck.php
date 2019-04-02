@@ -25,7 +25,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      *
      * @return Result|null
      */
-    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $spellcheck, array $data): ?Result
+    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $spellcheck, array $data): ?Result
     {
         if (isset($data['spellcheck']['suggestions']) &&
             is_array($data['spellcheck']['suggestions']) &&

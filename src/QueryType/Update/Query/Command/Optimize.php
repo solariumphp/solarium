@@ -70,9 +70,9 @@ class Optimize extends AbstractCommand
     /**
      * Get maxSegments option.
      *
-     * @return bool|null
+     * @return int|null
      */
-    public function getMaxSegments(): ?bool
+    public function getMaxSegments(): ?int
     {
         return $this->getOption('maxsegments');
     }
@@ -80,11 +80,11 @@ class Optimize extends AbstractCommand
     /**
      * Set maxSegments option.
      *
-     * @param bool $maxSegments
+     * @param int $maxSegments
      *
      * @return self Provides fluent interface
      */
-    public function setMaxSegments(bool $maxSegments): self
+    public function setMaxSegments(int $maxSegments): self
     {
         $this->setOption('maxsegments', $maxSegments);
         return $this;

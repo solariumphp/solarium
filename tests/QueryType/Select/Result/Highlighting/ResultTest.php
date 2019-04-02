@@ -14,7 +14,7 @@ class ResultTest extends TestCase
 
     protected $fields;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fields = [
             'field1' => 'content1',

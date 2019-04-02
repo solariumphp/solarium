@@ -12,7 +12,7 @@ class RequestTest extends TestCase
      */
     protected $request;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->request = new Request();
     }

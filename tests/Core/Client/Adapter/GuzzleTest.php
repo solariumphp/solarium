@@ -23,7 +23,7 @@ final class GuzzleTest extends TestCase
     /**
      * Prepare each test.
      */
-    public function setUp()
+    public function setUp(): void
     {
         if (!class_exists('\\GuzzleHttp\\Client')) {
             $this->markTestSkipped('Guzzle 6 not installed');

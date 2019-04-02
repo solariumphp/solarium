@@ -24,7 +24,7 @@ class Terms extends AbstractResponseParser implements ComponentParserInterface
      *
      * @return Result|null
      */
-    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $terms, array $data): ?Result
+    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $terms, array $data): ?Result
     {
         $allTerms = [];
 

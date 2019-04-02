@@ -207,8 +207,7 @@ class MoreLikeThis extends AbstractComponent
      */
     public function getMaximumQueryTerms(): ?int
     {
-        $this->getOption('maximumqueryterms');
-        return $this;
+        return $this->getOption('maximumqueryterms');
     }
 
     /**
@@ -270,11 +269,11 @@ class MoreLikeThis extends AbstractComponent
      *
      * When using string input you can separate multiple fields with commas.
      *
-     * @param string $queryFields
+     * @param string|array $queryFields
      *
      * @return self Provides fluent interface
      */
-    public function setQueryFields(string $queryFields): self
+    public function setQueryFields($queryFields): self
     {
         if (is_string($queryFields)) {
             $queryFields = explode(',', $queryFields);
@@ -323,5 +322,22 @@ class MoreLikeThis extends AbstractComponent
     public function getCount(): ?int
     {
         return $this->getOption('count');
+    }
+
+    /**
+     * Initialize options.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'fields':
+                    $this->setFields($value);
+                    break;
+                case 'queryfields':
+                    $this->setQueryFields($value);
+                    break;
+            }
+        }
     }
 }

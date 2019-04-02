@@ -12,14 +12,16 @@ class MoreLikeThisTest extends TestCase
 {
     protected $parser;
 
-    public function setUp()
+    protected $query;
+
+    public function setUp(): void
     {
         $this->parser = new Parser();
+        $this->query = new Query();
     }
 
     public function testParse()
     {
-        $query = new Query();
         $data = [
             'moreLikeThis' => [
                 'id1' => [
@@ -37,21 +39,20 @@ class MoreLikeThisTest extends TestCase
             'id1' => new Result(12, 1.75, $docs),
         ];
 
-        $result = $this->parser->parse($query, null, $data);
+        $result = $this->parser->parse($this->query, null, $data);
 
         $this->assertEquals($expected, $result->getResults());
     }
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse(null, null, []);
+        $result = $this->parser->parse($this->query, null, []);
 
         $this->assertEquals([], $result->getResults());
     }
 
     public function testParseWithoutMaxScore()
     {
-        $query = new Query();
         $data = [
             'moreLikeThis' => [
                 'id1' => [
@@ -68,7 +69,7 @@ class MoreLikeThisTest extends TestCase
             'id1' => new Result(12, null, $docs),
         ];
 
-        $result = $this->parser->parse($query, null, $data);
+        $result = $this->parser->parse($this->query, null, $data);
 
         $this->assertEquals($expected, $result->getResults());
     }

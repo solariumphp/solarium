@@ -13,7 +13,7 @@ class EDisMaxTest extends TestCase
      */
     protected $eDisMax;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->eDisMax = new EdisMax();
     }

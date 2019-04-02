@@ -123,11 +123,11 @@ class Add extends AbstractCommand
     /**
      * Get commitWithin option.
      *
-     * @param bool $commitWithin
+     * @param int $commitWithin
      *
      * @return self Provides fluent interface
      */
-    public function setCommitWithin(bool $commitWithin): self
+    public function setCommitWithin(int $commitWithin): self
     {
         $this->setOption('commitwithin', $commitWithin);
         return $this;
@@ -136,9 +136,9 @@ class Add extends AbstractCommand
     /**
      * Set commitWithin option.
      *
-     * @return bool|null
+     * @return int|null
      */
-    public function getCommitWithin(): ?bool
+    public function getCommitWithin(): ?int
     {
         return $this->getOption('commitwithin');
     }

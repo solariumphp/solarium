@@ -13,7 +13,7 @@ class SpatialTest extends TestCase
      */
     protected $spatial;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->spatial = new Spatial();
     }

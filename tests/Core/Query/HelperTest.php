@@ -19,7 +19,7 @@ class HelperTest extends TestCase
      */
     protected $query;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new SelectQuery();
         $this->helper = new Helper($this->query);

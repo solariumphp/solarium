@@ -14,7 +14,7 @@ class HighlightingTest extends TestCase
      */
     protected $hlt;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->hlt = new Highlighting();
     }

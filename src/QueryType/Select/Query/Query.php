@@ -182,7 +182,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @return ResponseParser
      */
-    public function getResponseParser(): ResponseParserInterface
+    public function getResponseParser(): ?ResponseParserInterface
     {
         return new ResponseParser();
     }

@@ -104,9 +104,9 @@ class QueryGroup implements \IteratorAggregate, \Countable
     /**
      * Get maximumScore value.
      *
-     * @return int
+     * @return float
      */
-    public function getMaximumScore(): int
+    public function getMaximumScore(): float
     {
         return $this->maximumScore;
     }

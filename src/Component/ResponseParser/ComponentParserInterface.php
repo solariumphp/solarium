@@ -19,5 +19,5 @@ interface ComponentParserInterface
      *
      * @return object|null
      */
-    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $component, array $data);
+    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $component, array $data);
 }

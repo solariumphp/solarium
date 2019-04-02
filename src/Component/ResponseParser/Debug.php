@@ -20,13 +20,13 @@ class Debug implements ComponentParserInterface
     /**
      * Parse result data into result objects.
      *
-     * @param ComponentAwareQueryInterface $query
-     * @param DebugComponent               $component
-     * @param array                        $data
+     * @param ComponentAwareQueryInterface     $query
+     * @param DebugComponent|AbstractComponent $component
+     * @param array                            $data
      *
      * @return Result|null
      */
-    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $component, array $data): ?Result
+    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $component, array $data): ?Result
     {
         $result = null;
 
@@ -34,10 +34,10 @@ class Debug implements ComponentParserInterface
             $debug = $data['debug'];
 
             // get basic values from data
-            $queryString = (isset($debug['querystring'])) ? $debug['querystring'] : '';
-            $parsedQuery = (isset($debug['parsedquery'])) ? $debug['parsedquery'] : '';
-            $queryParser = (isset($debug['QParser'])) ? $debug['QParser'] : '';
-            $otherQuery = (isset($debug['otherQuery'])) ? $debug['otherQuery'] : '';
+            $queryString = $debug['querystring'] ?? '';
+            $parsedQuery = $debug['parsedquery'] ?? '';
+            $queryParser = $debug['QParser'] ?? '';
+            $otherQuery = $debug['otherQuery'] ?? '';
 
             // parse explain data
             if (isset($debug['explain']) && is_array($debug['explain'])) {

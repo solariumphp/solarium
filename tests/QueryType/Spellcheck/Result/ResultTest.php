@@ -27,7 +27,7 @@ class ResultTest extends TestCase
      */
     protected $collation;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data = [
             'term1' => 'data1',

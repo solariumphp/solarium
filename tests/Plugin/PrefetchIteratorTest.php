@@ -26,7 +26,7 @@ class PrefetchIteratorTest extends TestCase
      */
     protected $query;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->plugin = new PrefetchIterator();
 

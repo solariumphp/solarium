@@ -36,7 +36,7 @@ class FacetSetTest extends TestCase
      */
     protected $component;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = new RequestBuilder();
         $this->request = new Request();

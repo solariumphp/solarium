@@ -58,7 +58,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return mixed
      */
-    public function __get(string $name)
+    public function __get($name)
     {
         return $this->document->__get($name);
     }
@@ -70,7 +70,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return bool
      */
-    public function __isset(string $name): bool
+    public function __isset($name): bool
     {
         return $this->document->__isset($name);
     }
@@ -87,7 +87,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @throws RuntimeException
      */
-    public function __set(string $name, string $value)
+    public function __set($name, $value): self
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }

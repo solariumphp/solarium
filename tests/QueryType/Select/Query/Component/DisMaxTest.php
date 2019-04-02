@@ -15,7 +15,7 @@ class DisMaxTest extends TestCase
      */
     protected $disMax;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->disMax = new DisMax();
     }

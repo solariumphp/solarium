@@ -12,7 +12,7 @@ class StatsTest extends TestCase
      */
     protected $result;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data = [
             'key1' => 'value1',

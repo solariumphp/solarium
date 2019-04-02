@@ -16,7 +16,7 @@ class PluginTest extends TestCase
 
     protected $options;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = 'dummy';
         $this->options = ['option1' => 1];

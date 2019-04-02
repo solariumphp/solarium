@@ -16,7 +16,7 @@ class HttpTest extends TestCase
      */
     protected $adapter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = new Http();
     }
