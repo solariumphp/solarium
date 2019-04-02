@@ -539,7 +539,7 @@ class ClientTest extends TestCase
              ->method('getType')
              ->will($this->returnValue('testquerytype'));
 
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\TypeError::class);
         $this->client->createRequest($queryStub);
     }
 
@@ -728,7 +728,7 @@ class ClientTest extends TestCase
                  ->method('getResultClass')
                  ->will($this->returnValue($overrideValue));
 
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\TypeError::class);
         $this->client->createResult($mockQuery, $response);
     }
 
