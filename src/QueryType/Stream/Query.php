@@ -74,8 +74,7 @@ class Query extends AbstractQuery
      */
     public function getExpression(): ?string
     {
-        $this->getOption('expr');
-        return $this;
+        return $this->getOption('expr');
     }
 
     /**

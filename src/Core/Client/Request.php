@@ -89,11 +89,11 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Set request handler.
      *
-     * @param string $handler
+     * @param string|null $handler
      *
      * @return self Provides fluent interface
      */
-    public function setHandler(string $handler): self
+    public function setHandler(?string $handler): self
     {
         $this->setOption('handler', $handler);
 
@@ -139,9 +139,9 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Get raw POST data.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRawData(): string
+    public function getRawData(): ?string
     {
         return $this->rawData;
     }

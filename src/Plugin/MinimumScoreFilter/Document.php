@@ -3,7 +3,7 @@
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\Exception\RuntimeException;
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Select\Result\Document as SelectDocument;
 
 /**
  * Minimum score filter query result document.
@@ -15,7 +15,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * Original document.
      *
-     * @var array
+     * @var SelectDocument
      */
     protected $document;
 
@@ -29,13 +29,13 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * Constructor.
      *
-     * @param DocumentInterface $document
-     * @param int               $threshold
+     * @param SelectDocument $document
+     * @param float            $threshold
      */
-    public function __construct(DocumentInterface $document, int $threshold)
+    public function __construct(SelectDocument $document, float $threshold)
     {
         $this->document = $document;
-        $this->marked = $threshold > $document->score;
+        $this->marked = ($threshold > ($document->score ?? 0.0));
     }
 
     /**

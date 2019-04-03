@@ -78,7 +78,7 @@ class CurlTest extends TestCase
         $curlAdapter = new Curl();
         $handler = $curlAdapter->createHandle($request, $endpoint);
 
-        $this->assertInternalType(IsType::TYPE_RESOURCE, $handler);
+        $this->assertIsResource($handler);
         curl_close($handler);
     }
 }

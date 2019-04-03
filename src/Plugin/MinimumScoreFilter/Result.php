@@ -27,7 +27,7 @@ class Result extends SelectResult
                 $ratio = $query->getFilterRatio();
                 $data = $filter->filterDocuments($data, $mapData['maxscore'], $ratio, $mode);
             }
-            $this->$key = $data;
+            $this->{$key} = $data;
         }
     }
 }

@@ -104,11 +104,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     {
         $this->parseResponse();
 
-        if (isset($this->results[$dictionary])) {
-            return $this->results[$dictionary];
-        }
-
-        return null;
+        return $this->results[$dictionary] ?? null;
     }
 
     /**

@@ -58,7 +58,7 @@ class PreCreateRequest extends Event
      *
      * @return null|Request
      */
-    public function getRequest(): Request
+    public function getRequest(): ?Request
     {
         return $this->request;
     }

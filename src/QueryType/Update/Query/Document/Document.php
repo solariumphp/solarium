@@ -199,14 +199,14 @@ class Document extends AbstractDocument implements DocumentInterface
      * If a field already has a value it will be converted
      * to a multivalue field.
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param float  $boost
-     * @param string $modifier
+     * @param string      $key
+     * @param mixed       $value
+     * @param float|null  $boost
+     * @param string|null $modifier
      *
      * @return self Provides fluent interface
      */
-    public function addField(string $key, $value, float $boost = null, string $modifier = null): self
+    public function addField(string $key, $value, ?float $boost = null, ?string $modifier = null): self
     {
         if (!isset($this->fields[$key])) {
             $this->setField($key, $value, $boost, $modifier);
@@ -221,7 +221,9 @@ class Document extends AbstractDocument implements DocumentInterface
             }
 
             $this->fields[$key][] = $value;
-            $this->setFieldBoost($key, $boost);
+            if (null !== $boost) {
+                $this->setFieldBoost($key, $boost);
+            }
             if (null !== $modifier) {
                 $this->setFieldModifier($key, $modifier);
             }
@@ -237,14 +239,14 @@ class Document extends AbstractDocument implements DocumentInterface
      * this method for a multivalue field.
      * If you supply NULL as the value the field will be removed
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param float  $boost
-     * @param string $modifier
+     * @param string      $key
+     * @param mixed       $value
+     * @param float|null  $boost
+     * @param string|null $modifier
      *
      * @return self Provides fluent interface
      */
-    public function setField(string $key, $value, float $boost = null, string $modifier = null): self
+    public function setField(string $key, $value, ?float $boost = null, ?string $modifier = null): self
     {
         if (null === $value && null === $modifier) {
             $this->removeField($key);
@@ -254,7 +256,9 @@ class Document extends AbstractDocument implements DocumentInterface
             }
 
             $this->fields[$key] = $value;
-            $this->setFieldBoost($key, $boost);
+            if (null !== $boost) {
+                $this->setFieldBoost($key, $boost);
+            }
             if (null !== $modifier) {
                 $this->setFieldModifier($key, $modifier);
             }
@@ -292,10 +296,7 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function getFieldBoost(string $key): ?float
     {
-        if (isset($this->fieldBoosts[$key])) {
-            return $this->fieldBoosts[$key];
-        }
-        return null;
+        return $this->fieldBoosts[$key] ?? null;
     }
 
     /**
@@ -342,11 +343,11 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Get the document boost value.
      *
-     * @return float
+     * @return float|null
      *
      * @deprecated No longer supported since Solr 7
      */
-    public function getBoost(): float
+    public function getBoost(): ?float
     {
         return $this->boost;
     }
@@ -455,9 +456,9 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Get version.
      *
-     * @return int
+     * @return int|null
      */
-    public function getVersion(): int
+    public function getVersion(): ?int
     {
         return $this->version;
     }

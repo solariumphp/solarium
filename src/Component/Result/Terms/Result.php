@@ -62,11 +62,7 @@ class Result implements \IteratorAggregate, \Countable
      */
     public function getField($field): ?Field
     {
-        if (isset($this->results[$field])) {
-            return $this->results[$field];
-        }
-
-        return null;
+        return $this->results[$field] ?? null;
     }
 
     /**

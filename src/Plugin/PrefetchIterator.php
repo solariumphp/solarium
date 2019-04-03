@@ -252,7 +252,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      *
      * @return self Provides fluent interface
      */
-    protected function resetData(): $self
+    protected function resetData(): self
     {
         $this->position = null;
         $this->result = null;
@@ -260,6 +260,6 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
         $this->start = 0;
         $this->cursormark = null;
 
-        retrun $this;
+        return $this;
     }
 }

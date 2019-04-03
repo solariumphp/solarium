@@ -64,11 +64,7 @@ class Result implements \IteratorAggregate, \Countable
      */
     public function getDictionary(string $dictionary): ?Dictionary
     {
-        if (isset($this->results[$dictionary])) {
-            return $this->results[$dictionary];
-        }
-
-        return null;
+        return $this->results[$dictionary] ?? null;
     }
 
     /**

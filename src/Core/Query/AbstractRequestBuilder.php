@@ -11,6 +11,13 @@ use Solarium\QueryType\Server\AbstractServerQuery;
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
     /**
+     * Helper instance.
+     *
+     * @var Helper
+     */
+    protected $helper;
+
+    /**
      * Build request for a select query.
      *
      * @param AbstractQuery|QueryInterface $query
@@ -79,12 +86,12 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * For use in building XML messages
      *
-     * @param string $name
-     * @param bool   $value
+     * @param string    $name
+     * @param bool|null $value
      *
      * @return string
      */
-    public function boolAttrib(string $name, bool $value): string
+    public function boolAttrib(string $name, ?bool $value): string
     {
         if (null !== $value) {
             $stringValue = (true === (bool) $value) ? 'true' : 'false';
@@ -100,17 +107,33 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * For use in building XML messages
      *
-     * @param string $name
-     * @param string $value
+     * @param string      $name
+     * @param string|null $value
      *
      * @return string
      */
-    public function attrib(string $name, string $value): string
+    public function attrib(string $name, ?string $value): string
     {
         if (null !== $value) {
             return ' '.$name.'="'.$value.'"';
         }
 
         return '';
+    }
+
+    /**
+     * Get a helper instance.
+     *
+     * Uses lazy loading: the helper is instantiated on first use
+     *
+     * @return Helper
+     */
+    public function getHelper(): Helper
+    {
+        if (null === $this->helper) {
+            $this->helper = new Helper();
+        }
+
+        return $this->helper;
     }
 }

@@ -132,27 +132,11 @@ class QueryElevationTest extends TestCase
         $this->assertContains('[excluded]', $this->queryelevation->getTransformers());
     }
 
-    public function testSetMarkExcludesTrueAsString()
-    {
-        $this->queryelevation->removeTransformer('[excluded]');
-        $this->queryelevation->setMarkExcludes('true');
-        $this->assertSame('true', $this->queryelevation->getMarkExcludes());
-        $this->assertContains('[excluded]', $this->queryelevation->getTransformers());
-    }
-
     public function testSetMarkExcludesFalse()
     {
         $this->queryelevation->addTransformer('[excluded]');
         $this->queryelevation->setMarkExcludes(false);
         $this->assertFalse($this->queryelevation->getMarkExcludes());
-        $this->assertNotContains('[excluded]', $this->queryelevation->getTransformers());
-    }
-
-    public function testSetMarkExcludesFalseAsString()
-    {
-        $this->queryelevation->addTransformer('[excluded]');
-        $this->queryelevation->setMarkExcludes('false');
-        $this->assertSame('false', $this->queryelevation->getMarkExcludes());
         $this->assertNotContains('[excluded]', $this->queryelevation->getTransformers());
     }
 

@@ -64,7 +64,7 @@ class DisMax extends AbstractComponent
     public function setQueryAlternative($queryAlternative): self
     {
         $this->setOption('queryalternative', $queryAlternative);
-        return  $this,
+        return $this;
     }
 
     /**
@@ -165,11 +165,11 @@ class DisMax extends AbstractComponent
      * Amount of slop on phrase queries built for "pf" fields
      * (affects boosting)
      *
-     * @param string $phraseSlop
+     * @param int $phraseSlop
      *
      * @return self Provides fluent interface
      */
-    public function setPhraseSlop(string $phraseSlop): self
+    public function setPhraseSlop(int $phraseSlop): self
     {
         $this->setOption('phraseslop', $phraseSlop);
         return $this;
@@ -178,9 +178,9 @@ class DisMax extends AbstractComponent
     /**
      * Get PhraseSlop option.
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getPhraseSlop(): ?string
+    public function getPhraseSlop(): ?int
     {
         return $this->getOption('phraseslop');
     }
@@ -191,11 +191,11 @@ class DisMax extends AbstractComponent
      * Amount of slop on phrase queries explicitly included in the user's
      * query string (in qf fields; affects matching)
      *
-     * @param string $queryPhraseSlop
+     * @param int $queryPhraseSlop
      *
      * @return self Provides fluent interface
      */
-    public function setQueryPhraseSlop(string $queryPhraseSlop): self
+    public function setQueryPhraseSlop(int $queryPhraseSlop): self
     {
         $this->setOption('queryphraseslop', $queryPhraseSlop);
         return $this;
@@ -204,9 +204,9 @@ class DisMax extends AbstractComponent
     /**
      * Get QueryPhraseSlop option.
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getQueryPhraseSlop(): ?string
+    public function getQueryPhraseSlop(): ?int
     {
         return $this->getOption('queryphraseslop');
     }

@@ -156,10 +156,7 @@ class Stats extends AbstractComponent
      */
     public function getField(string $key): ?string
     {
-        if (isset($this->fields[$key])) {
-            return $this->fields[$key];
-        }
-        return null;
+        return $this->fields[$key] ?? null;
     }
 
     /**

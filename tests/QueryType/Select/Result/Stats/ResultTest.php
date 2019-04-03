@@ -28,7 +28,7 @@ class ResultTest extends TestCase
             'sumOfSquares' => 'dummySos',
             'mean' => 'dummyMean',
             'stddev' => 'dummyStddev',
-            'facets' => 'dummyFacets',
+            'facets' => ['dummyFacets'],
         ];
 
         $this->result = new Result($this->field, $this->stats);

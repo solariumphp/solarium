@@ -19,8 +19,8 @@ class SuggesterTest extends TestCase
         $component->setQuery('ap ip');
         $component->setCount(13);
         $component->setContextFilterQuery('foo bar');
-        $component->setBuild('true');
-        $component->setReload('false');
+        $component->setBuild(true);
+        $component->setReload(false);
 
         $request = $builder->buildComponent($component, $request);
 
@@ -48,8 +48,8 @@ class SuggesterTest extends TestCase
         $component->setQuery('ap ip');
         $component->setCount(13);
         $component->setContextFilterQuery('foo bar');
-        $component->setBuild('true');
-        $component->setReload('false');
+        $component->setBuild(true);
+        $component->setReload(false);
 
         $request = $builder->buildComponent($component, $request);
 

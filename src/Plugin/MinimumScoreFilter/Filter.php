@@ -12,10 +12,10 @@ class Filter
     /**
      * Apply filter to document array.
      *
-     * @param array  $documents
-     * @param float  $maxScore
-     * @param float  $ratio
-     * @param string $mode
+     * @param \Solarium\QueryType\Select\Result\Document[]  $documents
+     * @param float                                         $maxScore
+     * @param float                                         $ratio
+     * @param string                                        $mode
      *
      * @return array
      */
@@ -26,7 +26,7 @@ class Filter
         switch ($mode) {
             case Query::FILTER_MODE_REMOVE:
                 foreach ($documents as $key => $document) {
-                    if ($document->score < $threshold) {
+                    if (($document->score ?? 0.0) < $threshold) {
                         unset($documents[$key]);
                     }
                 }

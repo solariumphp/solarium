@@ -156,9 +156,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * Returns the next cursor mark for deep paging
      * Will only be available if 'cursormark' was set for your query against Solr 4.7+
      *
-     * @return string
+     * @return string|null
      */
-    public function getNextCursorMark(): string
+    public function getNextCursorMark(): ?string
     {
         $this->parseResponse();
 
@@ -224,11 +224,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     {
         $this->parseResponse();
 
-        if (isset($this->components[$key])) {
-            return $this->components[$key];
-        }
-
-        return null;
+        return $this->components[$key] ?? null;
     }
 
     /**

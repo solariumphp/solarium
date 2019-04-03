@@ -103,11 +103,11 @@ class EdisMax extends DisMax
      * As with 'ps' but sets default slop factor for 'pf2'.
      * If not specified, 'ps' will be used.
      *
-     * @param string $phraseBigramSlop
+     * @param int $phraseBigramSlop
      *
      * @return self Provides fluent interface
      */
-    public function setPhraseBigramSlop(string $phraseBigramSlop): self
+    public function setPhraseBigramSlop(int $phraseBigramSlop): self
     {
         $this->setOption('phrasebigramslop', $phraseBigramSlop);
         return $this;
@@ -116,9 +116,9 @@ class EdisMax extends DisMax
     /**
      * Get PhraseBigramSlop option.
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getPhraseBigramSlop(): ?string
+    public function getPhraseBigramSlop(): ?int
     {
         return $this->getOption('phrasebigramslop');
     }
@@ -157,11 +157,11 @@ class EdisMax extends DisMax
      * As with 'ps' but sets default slop factor for 'pf3'.
      * If not specified, 'ps' will be used.
      *
-     * @param string $phraseTrigramSlop
+     * @param int $phraseTrigramSlop
      *
      * @return self Provides fluent interface
      */
-    public function setPhraseTrigramSlop(string $phraseTrigramSlop): self
+    public function setPhraseTrigramSlop(int $phraseTrigramSlop): self
     {
         $this->setOption('phrasetrigramslop', $phraseTrigramSlop);
         return $this;
@@ -170,9 +170,9 @@ class EdisMax extends DisMax
     /**
      * Get PhraseTrigramSlop option.
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getPhraseTrigramSlop(): ?string
+    public function getPhraseTrigramSlop(): ?int
     {
         return $this->getOption('phrasetrigramslop');
     }

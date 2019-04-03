@@ -35,7 +35,7 @@ class QueryType extends Result
             }
 
             $this->mapData($responseParser->parse($this));
-    
+
             $this->parsed = true;
         }
     }
@@ -48,7 +48,7 @@ class QueryType extends Result
     protected function mapData(array $mapData)
     {
         foreach ($mapData as $key => $data) {
-            $this->$key = $data;
+            $this->{$key} = $data;
         }
     }
 }

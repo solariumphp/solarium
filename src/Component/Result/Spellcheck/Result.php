@@ -45,11 +45,11 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get the collation result.
      *
-     * @param int $key
+     * @param int|null $key
      *
      * @return Collation|null
      */
-    public function getCollation($key = null): ?Collation
+    public function getCollation(?int $key = null): ?Collation
     {
         $nrOfCollations = count($this->collations);
         if (0 == $nrOfCollations) {
@@ -94,10 +94,7 @@ class Result implements \IteratorAggregate, \Countable
      */
     public function getSuggestion($key): ?Suggestion
     {
-        if (isset($this->suggestions[$key])) {
-            return $this->suggestions[$key];
-        }
-        return null;
+        return $this->suggestions[$key] ?? null;
     }
 
     /**

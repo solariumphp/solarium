@@ -148,10 +148,10 @@ class Result
      *
      * @param mixed $name
      *
-     * @return string|array
+     * @return string|array|null
      */
     protected function getValue($name)
     {
-        return isset($this->stats[$name]) ? $this->stats[$name] : null;
+        return $this->stats[$name] ?? null;
     }
 }

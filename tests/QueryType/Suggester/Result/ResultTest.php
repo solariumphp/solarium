@@ -5,6 +5,7 @@ namespace Solarium\Tests\QueryType\Suggester\Result;
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Result;
+use Solarium\QueryType\Suggester\Result\Term;
 
 class ResultTest extends TestCase
 {
@@ -27,14 +28,19 @@ class ResultTest extends TestCase
     {
         $this->data = [
             'dictionary1' => new Dictionary([
-                'term1' => 'data1',
-                'term2' => 'data2',
+                'term1' => new Term(1, [['term' => 'data1']]),
+                'term2' => new Term(1, [['term' => 'data2']]),
             ]),
             'dictionary2' => new Dictionary([
-                'term3' => 'data3',
+                'term3' => new Term(1, [['term' => 'data3']]),
             ]),
         ];
-        $this->allData = ['data1', 'data2', 'data3'];
+        $this->allData = [
+            new Term(1, [['term' => 'data1']]),
+            new Term(1, [['term' => 'data2']]),
+            new Term(1, [['term' => 'data3']]),
+        ];
+
         $this->result = new SuggesterDummy($this->data, $this->allData);
     }
 
@@ -67,7 +73,7 @@ class ResultTest extends TestCase
     public function testGetDictionary()
     {
         $dictionary = $this->result->getDictionary('dictionary1');
-        $this->assertSame('data1', $dictionary->getTerm('term1'));
+        $this->assertSame('data1', $dictionary->getTerm('term1')->getSuggestions()[0][0]);
     }
 
     public function testGetDictionaryWithInvalidFieldName()

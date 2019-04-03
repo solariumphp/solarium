@@ -260,7 +260,7 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             '<add><doc><field name="id">1</field><field name="datetime">2013-01-15T14:41:58Z</field></doc></add>',
-            $this->builder->buildAddXml($command, $this->query)
+            $this->builder->buildAddXml($command)
         );
     }
 
@@ -274,7 +274,7 @@ class RequestBuilderTest extends TestCase
             new Document(['id' => 1, 'datetime' => $date])
         );
 
-        $this->builder->buildAddXml($command, $this->query);
+        $this->builder->buildAddXml($command);
 
         $this->assertEquals($timezone->getName(), $date->getTimezone()->getName());
     }
@@ -449,21 +449,5 @@ class RequestBuilderTest extends TestCase
             .'</update>',
             $this->builder->getRawData($this->query)
         );
-    }
-
-    public function testInvalidCommandInRequest()
-    {
-        $this->query->add('invalidcommand', new InvalidCommand());
-
-        $this->expectException('Solarium\Exception\RuntimeException');
-        $this->builder->build($this->query);
-    }
-}
-
-class InvalidCommand extends \stdClass
-{
-    public function getType(): string
-    {
-        return 'invalid';
     }
 }

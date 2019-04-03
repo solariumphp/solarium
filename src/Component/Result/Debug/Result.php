@@ -67,7 +67,7 @@ class Result implements \IteratorAggregate, \Countable
      * @param DocumentSet $explainOther
      * @param Timing      $timing
      */
-    public function __construct(string $queryString, string $parsedQuery, string $queryParser, string $otherQuery, DocumentSet $explain, DocumentSet $explainOther, Timing $timing)
+    public function __construct(string $queryString, string $parsedQuery, string $queryParser, string $otherQuery, DocumentSet $explain, ?DocumentSet $explainOther, Timing $timing)
     {
         $this->queryString = $queryString;
         $this->parsedQuery = $parsedQuery;
@@ -131,9 +131,9 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get explain other document set (only available if otherquery was set in query).
      *
-     * @return DocumentSet
+     * @return DocumentSet|null
      */
-    public function getExplainOther(): DocumentSet
+    public function getExplainOther(): ?DocumentSet
     {
         return $this->explainOther;
     }

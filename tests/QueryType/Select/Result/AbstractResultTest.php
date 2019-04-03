@@ -46,13 +46,14 @@ abstract class AbstractResultTest extends TestCase
             new Document(['id' => 1, 'title' => 'doc1']),
         ];
 
-        $this->facetSet = 'dummy-facetset-value';
-        $this->moreLikeThis = 'dummy-facetset-value';
-        $this->highlighting = 'dummy-highlighting-value';
-        $this->grouping = 'dummy-grouping-value';
-        $this->spellcheck = 'dummy-grouping-value';
-        $this->stats = 'dummy-stats-value';
-        $this->debug = 'dummy-debug-value';
+        // @todo use dummy classes
+        $this->facetSet = null;
+        $this->moreLikeThis = null;
+        $this->highlighting = null;
+        $this->grouping = null;
+        $this->spellcheck = null;
+        $this->stats = null;
+        $this->debug = null;
 
         $this->components = [
             ComponentAwareQueryInterface::COMPONENT_FACETSET => $this->facetSet,
@@ -89,7 +90,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->docs), count($this->result));
+        $this->assertCount(count($this->docs), $this->result);
     }
 
     public function testGetComponents()

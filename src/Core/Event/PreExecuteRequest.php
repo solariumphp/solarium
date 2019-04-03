@@ -75,9 +75,9 @@ class PreExecuteRequest extends Event
     /**
      * Get the response object for this event.
      *
-     * @return Response
+     * @return Response|null
      */
-    public function getResponse(): Response
+    public function getResponse(): ?Response
     {
         return $this->response;
     }

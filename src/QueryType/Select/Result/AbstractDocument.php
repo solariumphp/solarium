@@ -27,11 +27,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      */
     public function __get($name)
     {
-        if (!isset($this->fields[$name])) {
-            return null;
-        }
-
-        return $this->fields[$name];
+        return $this->fields[$name] ?? null;
     }
 
     /**

@@ -109,15 +109,11 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return array
      */
-    public function getTerm(string $term): array
+    public function getTerm(string $term): ?Term
     {
         $this->parseResponse();
 
-        if (isset($this->results[$term])) {
-            return $this->results[$term];
-        }
-
-        return [];
+        return $this->results[$term] ?? null;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Solarium\Plugin\BufferedAdd;
 
+use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
 use Solarium\Plugin\BufferedAdd\Event\Events;
@@ -48,11 +49,11 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Set the endpoint for the documents.
      *
-     * @param string $endpoint The endpoint to set
+     * @param Endpoint $endpoint The endpoint to set
      *
      * @return self Provides fluent interface
      */
-    public function setEndpoint(string $endpoint): self
+    public function setEndpoint(Endpoint $endpoint): self
     {
         $this->setOption('endpoint', $endpoint);
         return $this;
@@ -61,9 +62,9 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Return the endpoint.
      *
-     * @return string|null
+     * @return Endpoint|null
      */
-    public function getEndpoint(): ?string
+    public function getEndpoint(): ?Endpoint
     {
         return $this->getOption('endpoint');
     }

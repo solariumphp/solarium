@@ -28,7 +28,7 @@ class FacetValueTest extends TestCase
             'sumOfSquares' => 'dummySos',
             'mean' => 'dummyMean',
             'stddev' => 'dummyStddev',
-            'facets' => 'dummyFacets',
+            'facets' => ['dummyFacets'],
         ];
 
         $this->result = new FacetValue($this->value, $this->stats);

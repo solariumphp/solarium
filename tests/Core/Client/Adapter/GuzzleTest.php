@@ -117,7 +117,7 @@ final class GuzzleTest extends TestCase
         $this->assertCount(1, $container);
         $this->assertSame('POST', $container[0]['request']->getMethod());
         $this->assertSame('request value', $container[0]['request']->getHeaderline('X-PHPUnit'));
-        $this->assertContains(file_get_contents(__FILE__), (string) $container[0]['request']->getBody());
+        $this->assertStringContainsString(file_get_contents(__FILE__), (string) $container[0]['request']->getBody());
     }
 
     /**

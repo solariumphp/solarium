@@ -96,10 +96,7 @@ class Configurable implements ConfigurableInterface
      */
     public function getOption(string $name)
     {
-        if (isset($this->options[$name])) {
-            return $this->options[$name];
-        }
-        return null;
+        return $this->options[$name] ?? null;
     }
 
     /**

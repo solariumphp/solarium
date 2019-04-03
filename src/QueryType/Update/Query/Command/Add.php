@@ -58,29 +58,21 @@ class Add extends AbstractCommand
      */
     public function addDocuments($documents): self
     {
-        //only check documents for type if in an array (iterating a Traversable may do unnecessary work)
-        if (is_array($documents)) {
-            foreach ($documents as $document) {
-                if (!($document instanceof DocumentInterface)) {
-                    throw new RuntimeException('Documents must implement DocumentInterface.');
-                }
-            }
-        }
-
-        //if we don't have documents so far, accept arrays or Traversable objects as-is
-        if (empty($this->documents)) {
-            $this->documents = $documents;
-
-            return $this;
-        }
-
-        //if something Traversable is passed in, and there are existing documents, convert all to arrays before merging
         if ($documents instanceof \Traversable) {
             $documents = iterator_to_array($documents);
         }
-        if ($this->documents instanceof \Traversable) {
-            $this->documents = array_merge(iterator_to_array($this->documents), $documents);
-        } else {
+
+        foreach ($documents as $document) {
+            if (!($document instanceof DocumentInterface)) {
+                throw new RuntimeException('Documents must implement DocumentInterface.');
+            }
+        }
+
+
+        if (empty($this->documents)) {
+            $this->documents = $documents;
+        }
+        else {
             $this->documents = array_merge($this->documents, $documents);
         }
 

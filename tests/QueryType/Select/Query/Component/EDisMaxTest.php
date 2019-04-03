@@ -116,6 +116,14 @@ class EDisMaxTest extends TestCase
             $value,
             $this->eDisMax->getMinimumMatch()
         );
+
+        $value = '30%';
+        $this->eDisMax->setMinimumMatch($value);
+
+        $this->assertSame(
+            $value,
+            $this->eDisMax->getMinimumMatch()
+        );
     }
 
     public function testSetAndGetPhraseFields()
@@ -131,7 +139,7 @@ class EDisMaxTest extends TestCase
 
     public function testSetAndGetPhraseSlop()
     {
-        $value = '2';
+        $value = 2;
         $this->eDisMax->setPhraseSlop($value);
 
         $this->assertSame(
@@ -186,7 +194,7 @@ class EDisMaxTest extends TestCase
 
     public function testSetAndGetQueryPhraseSlop()
     {
-        $value = '3';
+        $value = 3;
         $this->eDisMax->setQueryPhraseSlop($value);
 
         $this->assertSame(

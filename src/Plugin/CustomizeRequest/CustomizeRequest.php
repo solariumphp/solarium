@@ -122,11 +122,7 @@ class CustomizeRequest extends AbstractPlugin
      */
     public function getCustomization(string $key): ?string
     {
-        if (isset($this->customizations[$key])) {
-            return $this->customizations[$key];
-        }
-
-        return null;
+        return $this->customizations[$key] ?? null;
     }
 
     /**

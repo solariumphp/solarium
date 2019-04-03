@@ -5,6 +5,7 @@ namespace Solarium\QueryType\Update;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\Helper;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Update\Query\Command\Add;
@@ -51,7 +52,7 @@ class RequestBuilder extends BaseRequestBuilder
         foreach ($query->getCommands() as $command) {
             switch ($command->getType()) {
                 case UpdateQuery::COMMAND_ADD:
-                    $xml .= $this->buildAddXml($command, $query);
+                    $xml .= $this->buildAddXml($command);
                     break;
                 case UpdateQuery::COMMAND_DELETE:
                     $xml .= $this->buildDeleteXml($command);
@@ -78,12 +79,11 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for an add command.
      *
-     * @param Add         $command
-     * @param UpdateQuery $query
+     * @param Add $command
      *
      * @return string
      */
-    public function buildAddXml(Add $command, UpdateQuery $query = null): string
+    public function buildAddXml(Add $command): string
     {
         $xml = '<add';
         $xml .= $this->boolAttrib('overwrite', $command->getOverwrite());
@@ -98,7 +98,7 @@ class RequestBuilder extends BaseRequestBuilder
             foreach ($doc->getFields() as $name => $value) {
                 $boost = $doc->getFieldBoost($name);
                 $modifier = $doc->getFieldModifier($name);
-                $xml .= $this->buildFieldsXml($name, $boost, $value, $modifier, $query);
+                $xml .= $this->buildFieldsXml($name, $boost, $value, $modifier);
             }
 
             $version = $doc->getVersion();
@@ -187,14 +187,13 @@ class RequestBuilder extends BaseRequestBuilder
      * Used in the add command
      *
      * @param string      $name
-     * @param float       $boost
+     * @param float|null  $boost
      * @param mixed       $value
-     * @param string      $modifier
-     * @param UpdateQuery $query
+     * @param string|null $modifier
      *
      * @return string
      */
-    protected function buildFieldXml(string $name, float $boost, $value, string $modifier = null, UpdateQuery $query = null): string
+    protected function buildFieldXml(string $name, ?float $boost, $value, ?string $modifier = null): string
     {
         $xml = '<field name="'.$name.'"';
         $xml .= $this->attrib('boost', $boost);
@@ -206,7 +205,7 @@ class RequestBuilder extends BaseRequestBuilder
         } elseif (true === $value) {
             $value = 'true';
         } elseif ($value instanceof \DateTime) {
-            $value = $query->getHelper()->formatDate($value);
+            $value = $this->getHelper()->formatDate($value);
         } else {
             $value = htmlspecialchars($value, ENT_NOQUOTES);
         }
@@ -217,15 +216,14 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * @param string      $key
-     * @param float       $boost
-     * @param mixed       $value
-     * @param string      $modifier
-     * @param UpdateQuery $query
+     * @param string           $key
+     * @param float|null       $boost
+     * @param mixed            $value
+     * @param string|null      $modifier
      *
      * @return string
      */
-    private function buildFieldsXml(string $key, float $boost, $value, string $modifier, UpdateQuery $query): string
+    private function buildFieldsXml(string $key, ?float $boost, $value, ?string $modifier): string
     {
         $xml = '';
         if (is_array($value)) {
@@ -233,15 +231,15 @@ class RequestBuilder extends BaseRequestBuilder
                 if (is_array($multival)) {
                     $xml .= '<doc>';
                     foreach ($multival as $k => $v) {
-                        $xml .= $this->buildFieldsXml($k, $boost, $v, $modifier, $query);
+                        $xml .= $this->buildFieldsXml($k, $boost, $v, $modifier);
                     }
                     $xml .= '</doc>';
                 } else {
-                    $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier, $query);
+                    $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier);
                 }
             }
         } else {
-            $xml .= $this->buildFieldXml($key, $boost, $value, $modifier, $query);
+            $xml .= $this->buildFieldXml($key, $boost, $value, $modifier);
         }
 
         return $xml;

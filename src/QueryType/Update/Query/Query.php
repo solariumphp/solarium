@@ -159,14 +159,14 @@ class Query extends BaseQuery
      * The command must be an instance of one of the Solarium\QueryType\Update_*
      * classes.
      *
-     * @param string          $key
+     * @param string|null     $key
      * @param AbstractCommand $command
      *
      * @return self Provides fluent interface
      */
-    public function add(string $key, AbstractCommand $command): self
+    public function add(?string $key, AbstractCommand $command): self
     {
-        if (0 !== strlen($key)) {
+        if ($key) {
             $this->commands[$key] = $command;
         } else {
             $this->commands[] = $command;

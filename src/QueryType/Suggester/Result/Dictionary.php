@@ -43,11 +43,7 @@ class Dictionary implements \IteratorAggregate, \Countable
      */
     public function getTerm(string $term): ?Term
     {
-        if (isset($this->terms[$term])) {
-            return $this->terms[$term];
-        }
-
-        return null;
+        return $this->terms[$term] ?? null;
     }
 
     /**

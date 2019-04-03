@@ -44,9 +44,9 @@ class PreExecute extends Event
     /**
      * Get the result object for this event.
      *
-     * @return ResultInterface
+     * @return ResultInterface|null
      */
-    public function getResult(): ResultInterface
+    public function getResult(): ?ResultInterface
     {
         return $this->result;
     }

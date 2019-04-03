@@ -40,10 +40,7 @@ trait JsonFacetTrait
     public function getDomainFilter()
     {
         $domain = $this->getOption('domain');
-        if ($domain && isset($domain['filter'])) {
-            return $domain['filter'];
-        }
-        return null;
+        return $domain['filter'] ?? null;
     }
 
     /**

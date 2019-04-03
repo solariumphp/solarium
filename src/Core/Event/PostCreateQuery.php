@@ -23,16 +23,16 @@ class PostCreateQuery extends Event
     /**
      * @var array
      */
-    protected $options;
+    protected $options = null;
 
     /**
      * Event constructor.
      *
      * @param string         $type
-     * @param array          $options
+     * @param array|null     $options
      * @param QueryInterface $query
      */
-    public function __construct(string $type, array $options, QueryInterface $query)
+    public function __construct(string $type, ?array $options, QueryInterface $query)
     {
         $this->type = $type;
         $this->options = $options;
@@ -62,9 +62,9 @@ class PostCreateQuery extends Event
     /**
      * Get the options for this event.
      *
-     * @return array
+     * @return array|null
      */
-    public function getOptions(): array
+    public function getOptions(): ?array
     {
         return $this->options;
     }

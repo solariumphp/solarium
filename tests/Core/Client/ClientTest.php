@@ -534,7 +534,7 @@ class ClientTest extends TestCase
 
     public function testCreateRequestInvalidQueryType()
     {
-        $queryStub = $this->createMock(SelectQuery::class);
+        $queryStub = $this->createMock(\stdClass::class);
         $queryStub->expects($this->any())
              ->method('getType')
              ->will($this->returnValue('testquerytype'));
@@ -714,22 +714,6 @@ class ClientTest extends TestCase
             $expectedResult,
             $returnedResult
         );
-    }
-
-    public function testCreateResultWithInvalidResult()
-    {
-        $overrideValue = '\\stdClass';
-        $response = new Response('', ['HTTP 1.0 200 OK']);
-
-        $mockQuery = $this->getMockBuilder(SelectQuery::class)
-            ->setMethods(['getResultClass'])
-            ->getMock();
-        $mockQuery->expects($this->once())
-                 ->method('getResultClass')
-                 ->will($this->returnValue($overrideValue));
-
-        $this->expectException(\TypeError::class);
-        $this->client->createResult($mockQuery, $response);
     }
 
     public function testExecute()

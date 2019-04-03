@@ -61,10 +61,7 @@ class TimingPhase implements \IteratorAggregate, \Countable
      */
     public function getTiming($key): ?float
     {
-        if (isset($this->timings[$key])) {
-            return $this->timings[$key];
-        }
-        return null;
+        return $this->timings[$key] ?? null;
     }
 
     /**

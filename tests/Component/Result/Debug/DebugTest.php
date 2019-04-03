@@ -3,7 +3,9 @@
 namespace Solarium\Tests\Component\Result\Debug;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Debug\DocumentSet;
 use Solarium\Component\Result\Debug\Result;
+use Solarium\Component\Result\Debug\Timing;
 
 class DebugTest extends TestCase
 {
@@ -35,9 +37,9 @@ class DebugTest extends TestCase
         $this->queryParser = 'dummy-parser';
         $this->otherQuery = 'id:67';
         $this->explainData = ['a' => 'dummy1', 'b' => 'dummy2'];
-        $this->explain = new \ArrayIterator($this->explainData);
-        $this->explainOther = 'dummy-other';
-        $this->timing = 'dummy-timing';
+        $this->explain = new DocumentSet($this->explainData);
+        $this->explainOther = new DocumentSet(['dummy-other']);
+        $this->timing = new Timing(1.23, ['dummy-timing']);
 
         $this->result = new Result(
             $this->queryString,

@@ -205,11 +205,11 @@ trait SpellcheckTrait
     /**
      * Set maxCollationTries option.
      *
-     * @param string $maxCollationTries
+     * @param int $maxCollationTries
      *
      * @return self Provides fluent interface
      */
-    public function setMaxCollationTries(string $maxCollationTries): SpellcheckInterface
+    public function setMaxCollationTries(int $maxCollationTries): SpellcheckInterface
     {
         return $this->setOption('maxcollationtries', $maxCollationTries);
     }
@@ -217,9 +217,9 @@ trait SpellcheckTrait
     /**
      * Get maxCollationTries option.
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getMaxCollationTries(): ?string
+    public function getMaxCollationTries(): ?int
     {
         return $this->getOption('maxcollationtries');
     }
@@ -249,11 +249,11 @@ trait SpellcheckTrait
     /**
      * Set collateExtendedResults option.
      *
-     * @param string $collateExtendedResults
+     * @param bool $collateExtendedResults
      *
      * @return self Provides fluent interface
      */
-    public function setCollateExtendedResults(string $collateExtendedResults): SpellcheckInterface
+    public function setCollateExtendedResults(bool $collateExtendedResults): SpellcheckInterface
     {
         return $this->setOption('collateextendedresults', $collateExtendedResults);
     }
@@ -261,9 +261,9 @@ trait SpellcheckTrait
     /**
      * Get collateExtendedResults option.
      *
-     * @return string|null
+     * @return bool|null
      */
-    public function getCollateExtendedResults(): ?string
+    public function getCollateExtendedResults(): ?bool
     {
         return $this->getOption('collateextendedresults');
     }

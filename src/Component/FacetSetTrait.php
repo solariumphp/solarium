@@ -80,10 +80,7 @@ trait FacetSetTrait
      */
     public function getFacet($key): ?FacetInterface
     {
-        if (isset($this->facets[$key])) {
-            return $this->facets[$key];
-        }
-        return null;
+        return $this->facets[$key] ?? null;
     }
 
     /**

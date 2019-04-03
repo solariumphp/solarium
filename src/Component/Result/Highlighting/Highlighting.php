@@ -33,10 +33,7 @@ class Highlighting implements \IteratorAggregate, \Countable
      */
     public function getResult($key): ?Result
     {
-        if (isset($this->results[$key])) {
-            return $this->results[$key];
-        }
-        return null;
+        return $this->results[$key] ?? null;
     }
 
     /**

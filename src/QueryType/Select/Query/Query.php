@@ -578,15 +578,11 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param string $key
      *
-     * @return string|null
+     * @return FilterQuery|null
      */
-    public function getFilterQuery(string $key): ?string
+    public function getFilterQuery(string $key): ?FilterQuery
     {
-        if (isset($this->filterQueries[$key])) {
-            return $this->filterQueries[$key];
-        }
-
-        return null;
+        return $this->filterQueries[$key] ?? null;
     }
 
     /**
