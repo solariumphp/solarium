@@ -2,7 +2,7 @@
 
 namespace Solarium\Plugin\BufferedAdd\Event;
 
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Select\Result\ResultDocumentInterface as DocumentInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -32,7 +32,7 @@ class PreFlush extends Event
      * @param bool                $overwrite
      * @param int                 $commitWithin
      */
-    public function __construct(array $buffer, bool $overwrite, int $commitWithin)
+    public function __construct(array $buffer, ?bool $overwrite, ?int $commitWithin)
     {
         $this->buffer = $buffer;
         $this->overwrite = $overwrite;
@@ -76,9 +76,9 @@ class PreFlush extends Event
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getCommitWithin(): int
+    public function getCommitWithin(): ?int
     {
         return $this->commitWithin;
     }
@@ -97,9 +97,9 @@ class PreFlush extends Event
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getOverwrite(): bool
+    public function getOverwrite(): ?bool
     {
         return $this->overwrite;
     }

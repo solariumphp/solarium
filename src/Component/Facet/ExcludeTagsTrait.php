@@ -90,6 +90,8 @@ trait ExcludeTagsTrait
      * This overwrites any existing excludes
      *
      * @param array $excludes
+     *
+     * @return self Provides fluent interface
      */
     public function setExcludes(array $excludes): ExcludeTagsInterface
     {

@@ -12,8 +12,8 @@ class DocumentTest extends TestCase
     {
         $data = [
             'analysis' => [
-                'key1' => 'data1',
-                'key2' => 'data2',
+                'key1' => ['data1'],
+                'key2' => ['data2'],
             ],
             'responseHeader' => [
                 'status' => 1,
@@ -31,7 +31,7 @@ class DocumentTest extends TestCase
             ->getMock();
         $parserStub->expects($this->exactly(2))
              ->method('parseTypes')
-             ->will($this->returnValue('dummy'));
+             ->will($this->returnValue(['dummy']));
 
         $result = $parserStub->parse($resultStub);
 

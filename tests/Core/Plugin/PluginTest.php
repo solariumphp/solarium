@@ -3,12 +3,13 @@
 namespace Solarium\Tests\Core\Plugin;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
 use Solarium\Core\Plugin\AbstractPlugin;
 
 class PluginTest extends TestCase
 {
     /**
-     * @var AbstractPlugin
+     * @var MyPlugin
      */
     protected $plugin;
 
@@ -18,7 +19,7 @@ class PluginTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = 'dummy';
+        $this->client = new Client();
         $this->options = ['option1' => 1];
         $this->plugin = new MyPlugin();
         $this->plugin->initPlugin($this->client, $this->options);

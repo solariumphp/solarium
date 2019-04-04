@@ -165,14 +165,14 @@ class Helper
      * Example: rangeQuery('store', '5', '*', false)
      * Returns: store:{5 TO *}
      *
-     * @param string $field
-     * @param string $from
-     * @param string $to
-     * @param bool   $inclusive
+     * @param string      $field
+     * @param string|null $from
+     * @param string|null $to
+     * @param bool        $inclusive
      *
      * @return string
      */
-    public function rangeQuery(string $field, string $from, string $to, bool $inclusive = true): string
+    public function rangeQuery(string $field, ?string $from, ?string $to, bool $inclusive = true): string
     {
         if (null === $from) {
             $from = '*';

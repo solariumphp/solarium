@@ -139,11 +139,12 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
      *
      * This overwrites any existing fields
      *
-     * @param array $fields
+     * @param array|string $fields can be an array or string with comma
+     *                             separated fieldnames
      *
      * @return self Provides fluent interface
      */
-    public function setFields(array $fields): self
+    public function setFields($fields): self
     {
         $this->clearFields();
         $this->addFields($fields);

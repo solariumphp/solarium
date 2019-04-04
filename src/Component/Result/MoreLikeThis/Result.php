@@ -2,7 +2,7 @@
 
 namespace Solarium\Component\Result\MoreLikeThis;
 
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Select\Result\ResultDocumentInterface as DocumentInterface;
 
 /**
  * Select component morelikethis result item.

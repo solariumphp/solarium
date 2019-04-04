@@ -3,6 +3,7 @@
 namespace Solarium\Tests\QueryType\Select\Result;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Facet\AbstractFacet;
 use Solarium\Component\Result\FacetSet;
 
 class FacetSetTest extends TestCase
@@ -17,8 +18,8 @@ class FacetSetTest extends TestCase
     public function setUp(): void
     {
         $this->facets = [
-            'facet1' => 'content1',
-            'facet2' => 'content2',
+            'facet1' => new DummyFacet(),
+            'facet2' => new DummyFacet(),
         ];
 
         $this->result = new FacetSet($this->facets);
@@ -57,5 +58,18 @@ class FacetSetTest extends TestCase
     public function testCount()
     {
         $this->assertSame(count($this->facets), count($this->result));
+    }
+}
+
+class DummyFacet extends AbstractFacet
+{
+    /**
+     * Get the facet type.
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return 'dummy';
     }
 }

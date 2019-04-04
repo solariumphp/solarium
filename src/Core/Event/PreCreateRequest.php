@@ -51,6 +51,7 @@ class PreCreateRequest extends Event
     public function setRequest(Request $request): self
     {
         $this->request = $request;
+        return $this;
     }
 
     /**

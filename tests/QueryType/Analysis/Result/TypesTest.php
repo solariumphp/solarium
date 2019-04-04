@@ -3,6 +3,7 @@
 namespace Solarium\Tests\QueryType\Analysis\Result;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\QueryType\Analysis\Result\ResultList;
 use Solarium\QueryType\Analysis\Result\Types;
 
 class TypesTest extends TestCase
@@ -20,8 +21,8 @@ class TypesTest extends TestCase
     {
         $this->name = 'testname';
         $this->items = [
-            'index' => new TestAnalysisTypeIndexDummy(),
-            'query' => new TestAnalysisTypeQueryDummy(),
+            'index' => new TestAnalysisTypeValidDummy('index', []),
+            'query' => new TestAnalysisTypeValidDummy('query', []),
         ];
         $this->result = new Types($this->name, $this->items);
     }
@@ -66,7 +67,7 @@ class TypesTest extends TestCase
     {
         $items = [
             'index' => new TestAnalysisTypeInvalidDummy(),
-            'query' => new TestAnalysisTypeQueryDummy(),
+            'query' => new TestAnalysisTypeValidDummy('query', []),
         ];
 
         $result = new Types($this->name, $items);
@@ -86,7 +87,7 @@ class TypesTest extends TestCase
     public function testGetQueryAnalysisNoData()
     {
         $items = [
-            'index' => new TestAnalysisTypeIndexDummy(),
+            'index' => new TestAnalysisTypeValidDummy('index', []),
             'query' => new TestAnalysisTypeInvalidDummy(),
         ];
 
@@ -97,25 +98,13 @@ class TypesTest extends TestCase
     }
 }
 
-class TestAnalysisTypeIndexDummy
+class TestAnalysisTypeValidDummy extends ResultList
 {
-    public function getName()
-    {
-        return 'index';
-    }
-}
-
-class TestAnalysisTypeQueryDummy
-{
-    public function getName()
-    {
-        return 'query';
-    }
 }
 
 class TestAnalysisTypeInvalidDummy
 {
-    public function getName()
+    public function getName(): string
     {
         return 'invalid';
     }

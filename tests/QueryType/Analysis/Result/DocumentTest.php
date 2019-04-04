@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Analysis\Result;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Analysis\Result\Document;
+use Solarium\QueryType\Analysis\Result\ResultList;
 
 class DocumentTest extends TestCase
 {
@@ -16,7 +17,11 @@ class DocumentTest extends TestCase
 
     public function setUp(): void
     {
-        $this->items = ['key1' => 'dummy1', 'key2' => 'dummy2', 'key3' => 'dummy3'];
+        $this->items = [
+            'key1' => new ResultList('dummy1', []),
+            'key2' => new ResultList('dummy2', []),
+            'key3' => new ResultList('dummy3', []),
+        ];
         $this->result = new DocumentDummy(1, 12, $this->items);
     }
 

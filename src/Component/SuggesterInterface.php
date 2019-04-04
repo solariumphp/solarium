@@ -21,18 +21,18 @@ interface SuggesterInterface extends ConfigurableInterface
      *
      * The name of the dictionary to use
      *
-     * @param string $dictionary
+     * @param string|array $dictionary
      *
      * @return self Provides fluent interface
      */
-    public function setDictionary(string $dictionary): SuggesterInterface;
+    public function setDictionary($dictionary): SuggesterInterface;
 
     /**
      * Get dictionary option.
      *
-     * @return string|null
+     * @return array|null
      */
-    public function getDictionary(): ?string;
+    public function getDictionary(): ?array;
 
     /**
      * Set count option.

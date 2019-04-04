@@ -25,14 +25,14 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      *
      * @return Result|null
      */
-    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $spellcheck, array $data): ?Result
+    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $spellcheck, array $data): ?Result
     {
         if (isset($data['spellcheck']['suggestions']) &&
             is_array($data['spellcheck']['suggestions']) &&
             count($data['spellcheck']['suggestions']) > 0
         ) {
             $spellcheckResults = $data['spellcheck']['suggestions'];
-            if ($query->getResponseWriter() == $query::WT_JSON) {
+            if ($query && $query->getResponseWriter() == $query::WT_JSON) {
                 $spellcheckResults = $this->convertToKeyValueArray($spellcheckResults);
             }
 
@@ -93,7 +93,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
      *
      * @return Collation[]
      */
-    protected function parseCollation(AbstractQuery $queryObject, $values): array
+    protected function parseCollation(?AbstractQuery $queryObject, $values): array
     {
         $collations = [];
         if (is_string($values)) {
@@ -103,7 +103,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                 $collations[] = new Collation($value, null, []);
             }
         } else {
-            if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
+            if ($queryObject && $queryObject->getResponseWriter() === $queryObject::WT_JSON) {
                 if (is_array(current($values))) {
                     foreach ($values as $key => $value) {
                         if (array_key_exists('collationQuery', $value)) {
@@ -142,7 +142,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
 
                 $corrections = [];
                 if (null !== $correctionResult) {
-                    if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
+                    if ($queryObject && $queryObject->getResponseWriter() === $queryObject::WT_JSON) {
                         $correctionResult = $this->convertToKeyValueArray($correctionResult);
                     }
 

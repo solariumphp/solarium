@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Facet\FacetInterface;
 use Solarium\Component\Facet\Field;
 use Solarium\Component\FacetSet;
 use Solarium\Component\ResponseParser\FacetSet as Parser;
@@ -183,6 +184,7 @@ class FacetSetTest extends TestCase
         $facetSet->setExtractFromResponse(true);
 
         $result = $this->parser->parse($this->query, $facetSet, $data);
+        /** @var FacetInterface[] $facets */
         $facets = $result->getFacets();
 
         $this->assertEquals(['keyA', 'keyB', 'keyC_A', 'keyC_B', 'keyD', 'cat,price'], array_keys($facets));
@@ -228,16 +230,16 @@ class FacetSetTest extends TestCase
             $facets['keyD']->getAfter()
         );
 
-        $this->assertEquals(
+        $this->assertCount(
             1,
-            count($facets['cat,price'])
+            $facets['cat,price']
         );
 
         $pivots = $facets['cat,price']->getPivot();
 
-        $this->assertEquals(
+        $this->assertCount(
             2,
-            count($pivots[0]->getStats())
+            $pivots[0]->getStats()
         );
 
         $this->query = new Query();

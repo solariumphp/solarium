@@ -26,7 +26,7 @@ class Debug implements ComponentParserInterface
      *
      * @return Result|null
      */
-    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $component, array $data): ?Result
+    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $component, array $data): ?Result
     {
         $result = null;
 

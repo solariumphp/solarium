@@ -95,14 +95,13 @@ class RequestBuilderTest extends TestCase
 
     public function testWithComponentNoBuilder()
     {
-        $request = $this->builder->build($this->query);
-
+        $this->builder->build($this->query);
         $this->query->registerComponentType('testcomponent', __NAMESPACE__.'\\TestDummyComponent');
         $this->query->getComponent('testcomponent', true);
 
-        $requestWithNoBuilderComponent = $this->builder->build($this->query);
+        $this->expectException(\TypeError::class);
+        $this->builder->build($this->query);
 
-        $this->assertEquals($request, $requestWithNoBuilderComponent);
     }
 
     public function testWithComponent()

@@ -2,7 +2,7 @@
 
 namespace Solarium\Plugin\BufferedAdd\Event;
 
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Select\Result\ResultDocumentInterface as DocumentInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**

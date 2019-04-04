@@ -359,7 +359,7 @@ class FacetSetTest extends TestCase
             [
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
-                'stats' => 'piv1',
+                'stats' => ['piv1'],
             ]
         );
         $this->component->addFacet($facet);
@@ -403,7 +403,7 @@ class FacetSetTest extends TestCase
         $facet = new FacetInterval(
             [
                 'key' => 'f1',
-                'fields' => 'cat,inStock',
+                'field' => 'cat',
                 'set' => [0 => 'int1', 'one' => 'int2'],
             ]
         );
@@ -415,7 +415,7 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
 
         $this->assertEquals(
-            '?facet.interval={!key=f1}&f..facet.interval.set=int1&f..facet.interval.set={!key="one"}int2&facet=true',
+            '?facet.interval={!key=f1}cat&f.cat.facet.interval.set=int1&f.cat.facet.interval.set={!key="one"}int2&facet=true',
             urldecode($request->getUri())
         );
     }

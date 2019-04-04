@@ -73,7 +73,7 @@ class ResultTest extends TestCase
     public function testGetDictionary()
     {
         $dictionary = $this->result->getDictionary('dictionary1');
-        $this->assertSame('data1', $dictionary->getTerm('term1')->getSuggestions()[0][0]);
+        $this->assertSame('data1', $dictionary->getTerm('term1')->getSuggestions()[0]['term']);
     }
 
     public function testGetDictionaryWithInvalidFieldName()

@@ -65,5 +65,6 @@ class Exists extends AbstractCommand
     public function setTerm(string $term): self
     {
         $this->term = $term;
+        return $this;
     }
 }

@@ -50,6 +50,17 @@ class QueryTest extends TestCase
         $this->query->setDictionary($value);
 
         $this->assertSame(
+            [$value],
+            $this->query->getDictionary()
+        );
+    }
+
+    public function testSetAndGetDictionaries()
+    {
+        $value = ['myDictionary1', 'myDictionary1'];
+        $this->query->setDictionary($value);
+
+        $this->assertSame(
             $value,
             $this->query->getDictionary()
         );

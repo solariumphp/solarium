@@ -28,7 +28,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Start position.
      *
-     * @var int
+     * @var int|null
      */
     protected $start;
 
@@ -56,12 +56,12 @@ class ValueGroup implements \IteratorAggregate, \Countable
      *
      * @param string         $value
      * @param int            $numFound
-     * @param int            $start
+     * @param int|null       $start
      * @param array          $documents
      * @param float          $maxScore
      * @param AbstractQuery  $query
      */
-    public function __construct(string $value, int $numFound, int $start, array $documents, float $maxScore = null, AbstractQuery $query = null)
+    public function __construct(string $value, int $numFound, ?int $start, array $documents, float $maxScore = null, AbstractQuery $query = null)
     {
         $this->value = $value;
         $this->numFound = $numFound;
@@ -94,9 +94,9 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Get start.
      *
-     * @return int
+     * @return ?int
      */
-    public function getStart(): int
+    public function getStart(): ?int
     {
         return $this->start;
     }

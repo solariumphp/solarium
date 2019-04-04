@@ -10,8 +10,8 @@ use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as PreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
-use Solarium\QueryType\Select\Result\DocumentInterface as ResultDocumentInterface;
-use Solarium\QueryType\Update\Query\Document\DocumentInterface as UpdateDocumentInterface;
+use Solarium\QueryType\Select\Result\ResultDocumentInterface;
+use Solarium\QueryType\Update\Query\Document\UpdateDocumentInterface;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
 
@@ -219,12 +219,12 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Flush any buffered documents to Solr.
      *
-     * @param bool $overwrite
-     * @param int  $commitWithin
+     * @param bool|null $overwrite
+     * @param int|null  $commitWithin
      *
      * @return bool|UpdateResult
      */
-    public function flush(bool $overwrite = null, int $commitWithin = null)
+    public function flush(?bool $overwrite = null, ?int $commitWithin = null)
     {
         if (0 == count($this->buffer)) {
             // nothing to do

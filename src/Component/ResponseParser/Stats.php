@@ -24,7 +24,7 @@ class Stats implements ComponentParserInterface
      *
      * @return ResultStats;
      */
-    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $statsComponent, array $data): ResultStats
+    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $statsComponent, array $data): ResultStats
     {
         $results = [];
         if (isset($data['stats']['stats_fields'])) {

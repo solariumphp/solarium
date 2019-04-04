@@ -184,9 +184,9 @@ class DistributedSearch extends AbstractComponent
     /**
      * Get a shard request handler (shards.qt).
      *
-     * @return self Provides fluent interface
+     * @return ?string
      */
-    public function getShardRequestHandler(): self
+    public function getShardRequestHandler(): ?string
     {
         return $this->getOption('shardhandler');
     }

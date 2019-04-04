@@ -42,7 +42,6 @@ use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser;
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\QueryType\Select\Result\DocumentInterface;
 use Solarium\QueryType\Select\Result\Result;
 
 /**

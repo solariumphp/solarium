@@ -67,7 +67,7 @@ class Result implements \IteratorAggregate, \Countable
      * @param DocumentSet $explainOther
      * @param Timing      $timing
      */
-    public function __construct(string $queryString, string $parsedQuery, string $queryParser, string $otherQuery, DocumentSet $explain, ?DocumentSet $explainOther, Timing $timing)
+    public function __construct(string $queryString, string $parsedQuery, string $queryParser, string $otherQuery, DocumentSet $explain, ?DocumentSet $explainOther, ?Timing $timing)
     {
         $this->queryString = $queryString;
         $this->parsedQuery = $parsedQuery;
@@ -141,9 +141,9 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get timing object.
      *
-     * @return Timing
+     * @return Timing|null
      */
-    public function getTiming(): Timing
+    public function getTiming(): ?Timing
     {
         return $this->timing;
     }

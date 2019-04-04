@@ -21,7 +21,7 @@ use Solarium\QueryType\Select\Result\AbstractDocument;
  *
  * Atomic updates are also support, using the field modifiers.
  */
-class Document extends AbstractDocument implements DocumentInterface
+class Document extends AbstractDocument implements UpdateDocumentInterface
 {
     /**
      * Directive to set or replace the field value(s) with the specified value(s), or remove the values if 'null' or

@@ -101,7 +101,7 @@ class Result implements ResultInterface
         if (null === $this->data) {
             switch ($this->query->getResponseWriter()) {
                 case AbstractQuery::WT_PHPS:
-                    $this->data = unserialize($this->response->getBody(), false);
+                    $this->data = unserialize($this->response->getBody(), [false]);
                     break;
                 case AbstractQuery::WT_JSON:
                     $this->data = json_decode($this->response->getBody(), true);

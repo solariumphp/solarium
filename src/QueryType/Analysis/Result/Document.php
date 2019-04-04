@@ -109,8 +109,6 @@ class Document extends BaseResult implements \IteratorAggregate, \Countable
     {
         $this->parseResponse();
 
-        if (isset($this->items[$key])) {
-            return $this->items[$key];
-        }
+        return $this->items[$key] ?? null;
     }
 }

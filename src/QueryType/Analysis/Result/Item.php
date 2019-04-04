@@ -101,9 +101,9 @@ class Item
      *
      * This values is not available in all cases
      *
-     * @return string
+     * @return string|null
      */
-    public function getRawText(): string
+    public function getRawText(): ?string
     {
         return $this->rawText;
     }
@@ -165,9 +165,9 @@ class Item
     /**
      * Get match value.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getMatch(): bool
+    public function getMatch(): ?bool
     {
         return $this->match;
     }

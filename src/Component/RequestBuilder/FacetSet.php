@@ -100,7 +100,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 $request->addParam('facet.sort', $component->getSort());
                 $request->addParam('facet.prefix', $component->getPrefix());
                 $request->addParam('facet.contains', $component->getContains());
-                $request->addParam('facet.contains.ignoreCase', null === ($ignoreCase = $component->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
+                $request->addParam('facet.contains.ignoreCase', $component->getContainsIgnoreCase());
                 $request->addParam('facet.missing', $component->getMissing());
                 $request->addParam('facet.mincount', $component->getMinCount());
                 $request->addParam('facet.limit', $component->getLimit());

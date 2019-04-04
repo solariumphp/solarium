@@ -3,7 +3,7 @@
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\Exception\RuntimeException;
-use Solarium\QueryType\Update\Query\Document\DocumentInterface;
+use Solarium\QueryType\Update\Query\Document\UpdateDocumentInterface as DocumentInterface;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**

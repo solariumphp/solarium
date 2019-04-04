@@ -25,7 +25,7 @@ class Suggester extends AbstractResponseParser implements ComponentParserInterfa
      *
      * @return Result|null
      */
-    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $suggester, array $data): ?Result
+    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $suggester, array $data): ?Result
     {
         $dictionaries = [];
         $allSuggestions = [];

@@ -57,9 +57,9 @@ abstract class AbstractComponent extends Configurable
     /**
      * Get parent query instance.
      *
-     * @return AbstractQuery
+     * @return AbstractQuery|null
      */
-    public function getQueryInstance(): AbstractQuery
+    public function getQueryInstance(): ?AbstractQuery
     {
         return $this->queryInstance;
     }
@@ -72,7 +72,7 @@ abstract class AbstractComponent extends Configurable
     public function getHelper(): Helper
     {
         if ($queryInstance = $this->getQueryInstance()) {
-            return $this->getQueryInstance()->getHelper();
+            return $queryInstance->getHelper();
         }
 
         return new Helper();

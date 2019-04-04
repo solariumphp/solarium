@@ -7,6 +7,7 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\MoreLikeThis as MoreLikeThisComponent;
 use Solarium\Component\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisResult;
 use Solarium\Component\Result\MoreLikeThis\Result;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Analysis\Query\AbstractQuery;
 
 /**
@@ -22,11 +23,16 @@ class MoreLikeThis implements ComponentParserInterface
      * @param array                 $data
      *
      * @return MoreLikeThisResult
+     *
+     * @throws InvalidArgumentException
      */
-    public function parse(ComponentAwareQueryInterface $query, ?AbstractComponent $moreLikeThis, array $data): MoreLikeThisResult
+    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $moreLikeThis, array $data): MoreLikeThisResult
     {
         $results = [];
         if (isset($data['moreLikeThis'])) {
+            if (!$query) {
+                throw new InvalidArgumentException('A valid query object needs to be provided.');
+            }
             $documentClass = $query->getOption('documentclass');
 
             $searchResults = $data['moreLikeThis'];

@@ -97,6 +97,17 @@ class SuggesterTest extends TestCase
         $this->suggester->setDictionary($value);
 
         $this->assertEquals(
+            [$value],
+            $this->suggester->getDictionary()
+        );
+    }
+
+    public function testSetAndGetDictionaries()
+    {
+        $value = ['myDictionary1', 'myDictionary2'];
+        $this->suggester->setDictionary($value);
+
+        $this->assertEquals(
             $value,
             $this->suggester->getDictionary()
         );

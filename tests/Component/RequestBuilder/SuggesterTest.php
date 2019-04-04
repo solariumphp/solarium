@@ -27,7 +27,7 @@ class SuggesterTest extends TestCase
         $this->assertEquals(
             [
                 'suggest' => 'true',
-                'suggest.dictionary' => 'suggest',
+                'suggest.dictionary' => ['suggest'],
                 'suggest.q' => 'ap ip',
                 'suggest.count' => 13,
                 'suggest.cfq' => 'foo bar',

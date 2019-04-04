@@ -17,8 +17,8 @@ class ResultTest extends TestCase
     public function setUp(): void
     {
         $this->fields = [
-            'field1' => 'content1',
-            'field2' => 'content2',
+            'field1' => ['content1'],
+            'field2' => ['content2'],
         ];
 
         $this->result = new Result($this->fields);

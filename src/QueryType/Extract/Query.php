@@ -7,7 +7,7 @@ use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Update\Query\Document\Document;
-use Solarium\QueryType\Update\Query\Document\DocumentInterface;
+use Solarium\QueryType\Update\Query\Document\UpdateDocumentInterface as DocumentInterface;
 use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
 
 /**

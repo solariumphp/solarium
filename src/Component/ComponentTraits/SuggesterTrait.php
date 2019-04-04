@@ -16,19 +16,22 @@ trait SuggesterTrait
      *
      * @param string|array $dictionary
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
     public function setDictionary($dictionary): SuggesterInterface
     {
+        if (is_string($dictionary)) {
+            $dictionary = [$dictionary];
+        }
         return $this->setOption('dictionary', $dictionary);
     }
 
     /**
      * Get dictionary option.
      *
-     * @return string|null
+     * @return array|null
      */
-    public function getDictionary(): ?string
+    public function getDictionary(): ?array
     {
         return $this->getOption('dictionary');
     }
@@ -40,7 +43,7 @@ trait SuggesterTrait
      *
      * @param int $count
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
     public function setCount(int $count): SuggesterInterface
     {
@@ -64,7 +67,7 @@ trait SuggesterTrait
      *
      * @param string $cfq
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
     public function setContextFilterQuery(string $cfq): SuggesterInterface
     {
@@ -86,7 +89,7 @@ trait SuggesterTrait
      *
      * @param bool $build
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
     public function setBuild(bool $build): SuggesterInterface
     {
@@ -108,7 +111,7 @@ trait SuggesterTrait
      *
      * @param bool $reload
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
     public function setReload(bool $reload): SuggesterInterface
     {

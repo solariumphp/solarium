@@ -5,7 +5,7 @@ namespace Solarium\Plugin;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Select\Result\ResultDocumentInterface as DocumentInterface;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 
 /**

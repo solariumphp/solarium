@@ -8,8 +8,8 @@ use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as RequestBuilder;
 use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
-use Solarium\QueryType\Select\Result\DocumentInterface as ReadOnlyDocumentInterface;
-use Solarium\QueryType\Update\Query\Document\DocumentInterface as DocumentInterface;
+use Solarium\QueryType\Select\Result\ResultDocumentInterface;
+use Solarium\QueryType\Update\Query\Document\UpdateDocumentInterface;
 
 /**
  * Analysis document query.
@@ -23,7 +23,7 @@ class Document extends AbstractQuery
     /**
      * Documents to analyze.
      *
-     * @var ReadOnlyDocumentInterface[]|DocumentInterface[]
+     * @var ResultDocumentInterface[]|UpdateDocumentInterface[]
      */
     protected $documents = [];
 
@@ -71,15 +71,15 @@ class Document extends AbstractQuery
     /**
      * Add a single document.
      *
-     * @param ReadOnlyDocumentInterface|DocumentInterface $document
+     * @param ResultDocumentInterface|UpdateDocumentInterface $document
      *
      * @throws RuntimeException If the given document doesn't have the right interface
      *
      * @return self Provides fluent interface
      */
-    public function addDocument(DocumentInterface $document): self
+    public function addDocument($document): self
     {
-        if (!($document instanceof ReadOnlyDocumentInterface) && !($document instanceof DocumentInterface)) {
+        if (!($document instanceof ResultDocumentInterface) && !($document instanceof UpdateDocumentInterface)) {
             throw new RuntimeException(sprintf(static::DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE, get_class($document)));
         }
 
@@ -91,7 +91,7 @@ class Document extends AbstractQuery
     /**
      * Add multiple documents.
      *
-     * @param ReadOnlyDocumentInterface[]|DocumentInterface[] $documents
+     * @param ResultDocumentInterface[]|UpdateDocumentInterface[] $documents
      *
      * @throws RuntimeException If the given documents doesn't have the right interface
      *
@@ -100,7 +100,7 @@ class Document extends AbstractQuery
     public function addDocuments(array $documents): self
     {
         foreach ($documents as $document) {
-            if (!($document instanceof ReadOnlyDocumentInterface) && !($document instanceof DocumentInterface)) {
+            if (!($document instanceof ResultDocumentInterface) && !($document instanceof UpdateDocumentInterface)) {
                 throw new RuntimeException(sprintf(static::DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE, get_class($document)));
             }
         }
@@ -113,7 +113,7 @@ class Document extends AbstractQuery
     /**
      * Get all documents.
      *
-     * @return ReadOnlyDocumentInterface[]|DocumentInterface[]
+     * @return ResultDocumentInterface[]|UpdateDocumentInterface[]
      */
     public function getDocuments(): array
     {

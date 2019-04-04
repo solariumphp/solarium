@@ -20,6 +20,9 @@ class ResultTest extends TestCase
 
     protected $client;
 
+    /**
+     * @var SelectQuery
+     */
     protected $query;
 
     protected $response;

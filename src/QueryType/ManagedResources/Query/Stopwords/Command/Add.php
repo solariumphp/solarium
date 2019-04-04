@@ -55,6 +55,7 @@ class Add extends AbstractCommand
     public function setStopwords(array $stopwords): self
     {
         $this->stopwords = $stopwords;
+        return $this;
     }
 
     /**

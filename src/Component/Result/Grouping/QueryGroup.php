@@ -28,7 +28,7 @@ class QueryGroup implements \IteratorAggregate, \Countable
     /**
      * Start offset.
      *
-     * @var int
+     * @var int|null
      */
     protected $start;
 
@@ -56,12 +56,12 @@ class QueryGroup implements \IteratorAggregate, \Countable
      *
      * @param int           $matches
      * @param int           $numFound
-     * @param int           $start
+     * @param int|null      $start
      * @param float         $maximumScore
      * @param array         $documents
      * @param AbstractQuery $query
      */
-    public function __construct(int $matches, int $numFound, int $start, float $maximumScore, array $documents, AbstractQuery $query = null)
+    public function __construct(int $matches, int $numFound, ?int $start, float $maximumScore, array $documents, AbstractQuery $query = null)
     {
         $this->matches = $matches;
         $this->numFound = $numFound;
@@ -94,9 +94,9 @@ class QueryGroup implements \IteratorAggregate, \Countable
     /**
      * Get start value.
      *
-     * @return int
+     * @return int|null
      */
-    public function getStart(): int
+    public function getStart(): ?int
     {
         return $this->start;
     }
