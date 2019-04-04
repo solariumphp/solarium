@@ -9,7 +9,7 @@ use Solarium\Component\FacetSetInterface;
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting
  */
-class Pivot extends AbstractFacet
+class Pivot extends AbstractFacet implements ExcludeTagsInterface
 {
     use ExcludeTagsTrait;
 

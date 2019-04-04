@@ -9,7 +9,7 @@ use Solarium\Component\FacetSetInterface;
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters#Interval_Faceting
  */
-class Interval extends AbstractFacet
+class Interval extends AbstractFacet implements ExcludeTagsInterface
 {
     use ExcludeTagsTrait {
         init as excludeTagsInit;

@@ -44,9 +44,9 @@ class ResponseTest extends TestCase
         $this->assertSame($this->data, $this->response->getBody());
     }
 
-    public function testMissingHeader()
+    public function testMissingStatusCode()
     {
-        $headers = [];
+        $headers = ['dummy'];
 
         $this->expectException('Solarium\Exception\HttpException');
         new Response($this->data, $headers);

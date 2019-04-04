@@ -18,15 +18,16 @@ class StatsTest extends TestCase
     public function setUp(): void
     {
         $this->data = [
-            'key1' => new Result('field1', ['value1']),
-            'key2' => new Result('field2', ['value2']),
+            'key1' => new Result('field1', ['mean' => 'value1']),
+            'key2' => new Result('field2', ['mean' => 'value2']),
         ];
         $this->stats = new Stats($this->data);
     }
 
     public function testGetResult()
     {
-        $this->assertSame('value1', $this->stats->getResult('key1')['stats'][0]);
+        $this->assertSame('field1', $this->stats->getResult('key1')->getName());
+        $this->assertSame('value1', $this->stats->getResult('key1')->getMean());
     }
 
     public function testGetInvalidResult()

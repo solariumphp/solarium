@@ -218,7 +218,7 @@ class QueryElevation extends AbstractComponent
      */
     public function setMarkExcludes(bool $mark): self
     {
-        if (true === $mark || 'true' === $mark) {
+        if ($mark) {
             $this->addTransformer('[excluded]');
         } else {
             $this->removeTransformer('[excluded]');

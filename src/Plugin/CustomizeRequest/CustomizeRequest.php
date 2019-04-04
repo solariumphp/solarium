@@ -118,9 +118,9 @@ class CustomizeRequest extends AbstractPlugin
      *
      * @param string $key
      *
-     * @return string
+     * @return Customization|null
      */
-    public function getCustomization(string $key): ?string
+    public function getCustomization(string $key): ?Customization
     {
         return $this->customizations[$key] ?? null;
     }

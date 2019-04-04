@@ -12,7 +12,7 @@ use Solarium\Exception\InvalidArgumentException;
  * This is a 'virtual' querytype that combines multiple facet queries into a
  * single resultset
  */
-class MultiQuery extends AbstractFacet
+class MultiQuery extends AbstractFacet implements ExcludeTagsInterface
 {
     use ExcludeTagsTrait {
         init as excludeTagsInit;
@@ -126,13 +126,11 @@ class MultiQuery extends AbstractFacet
      *
      * @param string $key
      *
-     * @return string|null
+     * @return Query|null
      */
-    public function getQuery($key): ?string
+    public function getQuery($key): ?Query
     {
-        if (isset($this->facetQueries[$key])) {
-            return $this->facetQueries[$key];
-        }
+        return $this->facetQueries[$key] ?? null;
     }
 
     /**
@@ -208,7 +206,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function addExclude(string $tag): self
+    public function addExclude(string $tag): ExcludeTagsInterface
     {
         foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->addExclude($tag);
@@ -230,7 +228,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function removeExclude(string $exclude): self
+    public function removeExclude(string $exclude): ExcludeTagsInterface
     {
         foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->removeExclude($exclude);
@@ -250,7 +248,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function clearExcludes(): self
+    public function clearExcludes(): ExcludeTagsInterface
     {
         foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->clearExcludes();

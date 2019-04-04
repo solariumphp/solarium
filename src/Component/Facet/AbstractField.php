@@ -175,7 +175,7 @@ abstract class AbstractField extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function setMissing(bool $missing): ?bool
+    public function setMissing(bool $missing): self
     {
         $this->setOption('missing', $missing);
         return $this;

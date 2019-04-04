@@ -48,7 +48,7 @@ class LoadbalancerTest extends TestCase
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->any())
             ->method('execute')
-            ->willReturn('dummyresult');
+            ->willReturn(new Response('dummyresult'));
         $this->client->setAdapter($adapter);
         $this->plugin->initPlugin($this->client, []);
     }

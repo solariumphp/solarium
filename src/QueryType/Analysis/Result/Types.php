@@ -26,6 +26,7 @@ class Types extends ResultList
                 return $item;
             }
         }
+        return null;
     }
 
     /**
@@ -40,5 +41,6 @@ class Types extends ResultList
                 return $item;
             }
         }
+        return null;
     }
 }

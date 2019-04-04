@@ -140,14 +140,6 @@ class QueryElevationTest extends TestCase
         $this->assertNotContains('[excluded]', $this->queryelevation->getTransformers());
     }
 
-    public function testSetMarkExcludesNull()
-    {
-        $this->queryelevation->addTransformer('[excluded]');
-        $this->queryelevation->setMarkExcludes(null);
-        $this->assertNull($this->queryelevation->getMarkExcludes());
-        $this->assertNotContains('[excluded]', $this->queryelevation->getTransformers());
-    }
-
     public function testSetAndGetElevateIds()
     {
         $ids = ['doc1', 'doc2'];

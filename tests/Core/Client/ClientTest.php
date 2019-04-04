@@ -535,9 +535,6 @@ class ClientTest extends TestCase
     public function testCreateRequestInvalidQueryType()
     {
         $queryStub = $this->createMock(\stdClass::class);
-        $queryStub->expects($this->any())
-             ->method('getType')
-             ->will($this->returnValue('testquerytype'));
 
         $this->expectException(\TypeError::class);
         $this->client->createRequest($queryStub);
