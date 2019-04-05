@@ -68,7 +68,6 @@ class Add extends AbstractCommand
             }
         }
 
-
         if (empty($this->documents)) {
             $this->documents = $documents;
         } else {

@@ -23,11 +23,12 @@ interface ConfigurableInterface
      * @param array|\Zend_Config $options
      * @param bool               $overwrite True for overwriting existing options, false
      *                                      for merging (new values overwrite old ones if needed)
-     * @return ConfigurableInterface
+     *
+     * @return self
      *
      * @throws InvalidArgumentException
      */
-    public function setOptions($options, bool $overwrite = false): ConfigurableInterface;
+    public function setOptions($options, bool $overwrite = false): self;
 
     /**
      * Get an option value by name.
