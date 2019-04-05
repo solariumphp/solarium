@@ -35,7 +35,7 @@ class Collation implements \IteratorAggregate, \Countable
      * @param int    $hits
      * @param array  $corrections
      */
-    public function __construct(string $query, int $hits, array $corrections)
+    public function __construct(string $query, ?int $hits, array $corrections)
     {
         $this->query = $query;
         $this->hits = $hits;

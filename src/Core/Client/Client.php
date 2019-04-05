@@ -218,7 +218,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * EventDispatcher.
      *
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
@@ -265,10 +265,10 @@ class Client extends Configurable implements ClientInterface
      *
      * If an EventDispatcher instance is provided this will be used instead of creating a new instance
      *
-     * @param array           $options
-     * @param EventDispatcher $eventDispatcher
+     * @param array                    $options
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(array $options = null, EventDispatcher $eventDispatcher = null)
+    public function __construct(array $options = null, EventDispatcherInterface $eventDispatcher = null)
     {
         $this->eventDispatcher = $eventDispatcher;
         parent::__construct($options);

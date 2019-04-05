@@ -52,10 +52,10 @@ class FieldTest extends TestCase
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
-             ->will($this->returnValue($data));
+             ->willReturn($data);
         $resultStub->expects($this->once())
                      ->method('getQuery')
-                     ->will($this->returnValue(new Query()));
+                     ->willReturn(new Query());
 
         $parser = new FieldParser();
         $result = $parser->parse($resultStub);
@@ -82,7 +82,7 @@ class FieldTest extends TestCase
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
-             ->will($this->returnValue($data));
+             ->willReturn($data);
 
         $parser = new FieldParser();
         $result = $parser->parse($resultStub);

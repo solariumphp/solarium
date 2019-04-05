@@ -96,10 +96,10 @@ class BufferedAddTest extends TestCase
 
         $client->expects($this->exactly(3))
             ->method('createUpdate')
-            ->will($this->returnValue($updateQuery));
+            ->willReturn($updateQuery);
         $client->expects($this->exactly(2))
             ->method('update')
-            ->will($this->returnValue($mockResult));
+            ->willReturn($mockResult);
 
         $doc1 = new Document();
         $doc1->id = '123';
@@ -147,8 +147,8 @@ class BufferedAddTest extends TestCase
         $mockResult = $this->createMock(Result:: class);
 
         $mockClient = $this->getClient();
-        $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
-        $mockClient->expects($this->once())->method('update')->will($this->returnValue($mockResult));
+        $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
+        $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
 
         $plugin = new BufferedAdd();
         $plugin->initPlugin($mockClient, []);
@@ -173,8 +173,8 @@ class BufferedAddTest extends TestCase
         $mockResult = $this->createMock(Result:: class);
 
         $mockClient = $this->getClient();
-        $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
-        $mockClient->expects($this->once())->method('update')->will($this->returnValue($mockResult));
+        $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
+        $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
 
         $plugin = new BufferedAdd();
         $plugin->initPlugin($mockClient, []);

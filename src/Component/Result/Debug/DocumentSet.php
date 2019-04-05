@@ -33,9 +33,7 @@ class DocumentSet implements \IteratorAggregate, \Countable
      */
     public function getDocument($key): ?Document
     {
-        if (isset($this->docs[$key])) {
-            return $this->docs[$key];
-        }
+        return $this->docs[$key] ?? null;
     }
 
     /**

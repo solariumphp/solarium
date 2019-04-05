@@ -256,10 +256,10 @@ class FacetSetTest extends TestCase
         $facetStub = $this->createMock(Field::class);
         $facetStub->expects($this->any())
              ->method('getType')
-             ->will($this->returnValue('invalidfacettype'));
+             ->willReturn('invalidfacettype');
         $facetStub->expects($this->any())
              ->method('getKey')
-             ->will($this->returnValue('facetkey'));
+             ->willReturn('facetkey');
 
         $this->facetSet->addFacet($facetStub);
 

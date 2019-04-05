@@ -33,11 +33,11 @@ class FieldGroup implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param int   $matches
-     * @param int   $numberOfGroups
-     * @param array $groups
+     * @param int|null $matches
+     * @param int|null $numberOfGroups
+     * @param array    $groups
      */
-    public function __construct(int $matches, int $numberOfGroups, array $groups)
+    public function __construct(?int $matches, ?int $numberOfGroups, array $groups)
     {
         $this->matches = $matches;
         $this->numberOfGroups = $numberOfGroups;

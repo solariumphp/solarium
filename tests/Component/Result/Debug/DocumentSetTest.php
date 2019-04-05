@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Component\Result\Debug;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Debug\Document;
 use Solarium\Component\Result\Debug\DocumentSet;
 
 class DocumentSetTest extends TestCase
@@ -16,7 +17,10 @@ class DocumentSetTest extends TestCase
 
     public function setUp(): void
     {
-        $this->docs = ['key1' => 'dummy1', 'key2' => 'dummy2'];
+        $this->docs = [
+            'key1' => new Document('dummy1', true, 0.1, '', []),
+            'key2' => new Document('dummy2', false, 0.1, '', []),
+        ];
         $this->result = new DocumentSet($this->docs);
     }
 

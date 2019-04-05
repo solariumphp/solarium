@@ -35,7 +35,7 @@ class TimingPhase implements \IteratorAggregate, \Countable
      * @param float  $time
      * @param array  $timings
      */
-    public function __construct(string $name, float $time, array $timings)
+    public function __construct(string $name, ?float $time, array $timings)
     {
         $this->name = $name;
         $this->time = $time;

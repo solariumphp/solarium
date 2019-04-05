@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
 
 class CurlTest extends TestCase
@@ -48,7 +49,7 @@ class CurlTest extends TestCase
     {
         $headers = ['HTTP/1.0 200 OK'];
         $body = 'data';
-        $data = [$body, $headers];
+        $data = new Response($body, $headers);
 
         $request = new Request();
         $endpoint = new Endpoint();
@@ -61,7 +62,7 @@ class CurlTest extends TestCase
         $mock->expects($this->once())
              ->method('getData')
              ->with($request, $endpoint)
-             ->will($this->returnValue($data));
+             ->willReturn($data);
 
         $response = $mock->execute($request, $endpoint);
 

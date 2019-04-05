@@ -4,6 +4,7 @@ namespace Solarium\Tests\Component\Result\Debug;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Result\Debug\Timing;
+use Solarium\Component\Result\Debug\TimingPhase;
 
 class TimingTest extends TestCase
 {
@@ -19,7 +20,10 @@ class TimingTest extends TestCase
     public function setUp(): void
     {
         $this->time = 14;
-        $this->phases = ['key1' => 'dummy1', 'key2' => 'dummy2'];
+        $this->phases = [
+            'key1' => new TimingPhase('dummy1', null, []),
+            'key2' => new TimingPhase('dummy2', null, []),
+        ];
         $this->result = new Timing($this->time, $this->phases);
     }
 

@@ -53,7 +53,7 @@ class PrefetchIteratorTest extends TestCase
         $mockClient->expects($this->exactly(1))
                    ->method('execute')
                    ->with($this->equalTo($this->query), $this->equalTo(null))
-                   ->will($this->returnValue($result));
+                   ->willReturn($result);
 
         $this->plugin->initPlugin($mockClient, []);
         $this->plugin->setQuery($this->query);
@@ -66,7 +66,7 @@ class PrefetchIteratorTest extends TestCase
         $mockClient = $this->createMock(Client::class);
 
         // Important: if prefetch or query settings are not changed, the query should be executed only once!
-        $mockClient->expects($this->exactly(1))->method('execute')->will($this->returnValue($result));
+        $mockClient->expects($this->exactly(1))->method('execute')->willReturn($result);
 
         $this->plugin->initPlugin($mockClient, []);
         $this->plugin->setQuery($this->query);
@@ -90,7 +90,7 @@ class PrefetchIteratorTest extends TestCase
     {
         $result = $this->getResult();
         $mockClient = $this->createMock(Client::class);
-        $mockClient->expects($this->exactly(2))->method('execute')->will($this->returnValue($result));
+        $mockClient->expects($this->exactly(2))->method('execute')->willReturn($result);
 
         $this->plugin->initPlugin($mockClient, []);
         $this->plugin->setQuery($this->query);
@@ -116,7 +116,7 @@ class PrefetchIteratorTest extends TestCase
     {
         $result = $this->getResult();
         $mockClient = $this->createMock(Client::class);
-        $mockClient->expects($this->exactly(2))->method('execute')->will($this->returnValue($result));
+        $mockClient->expects($this->exactly(2))->method('execute')->willReturn($result);
 
         $this->plugin->initPlugin($mockClient, []);
         $this->plugin->setQuery($this->query);
@@ -167,7 +167,7 @@ class PrefetchIteratorTest extends TestCase
         $mockClient->expects($this->exactly(1))
                    ->method('execute')
                    ->with($this->equalTo($this->query), $this->equalTo('s2'))
-                   ->will($this->returnValue($result));
+                   ->willReturn($result);
 
         $this->plugin->initPlugin($mockClient, []);
         $this->plugin->setQuery($this->query)->setEndpoint('s2');
@@ -181,7 +181,7 @@ class PrefetchIteratorTest extends TestCase
         $mockClient->expects($this->exactly(1))
                    ->method('execute')
                    ->with($this->equalTo($this->query), $this->equalTo('s3'))
-                   ->will($this->returnValue($result));
+                   ->willReturn($result);
 
         $this->plugin->initPlugin($mockClient, ['endpoint' => 's3']);
         $this->plugin->setQuery($this->query);

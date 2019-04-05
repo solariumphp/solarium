@@ -20,7 +20,7 @@ class HighlightingTest extends TestCase
 
     public function testParse()
     {
-        $highlights = ['key1' => 'dummy1', 'key2' => 'dummy2'];
+        $highlights = ['key1' => ['dummy1'], 'key2' => ['dummy2']];
         $data = ['highlighting' => $highlights];
         $expected = [
             'key1' => new Result(['dummy1']),

@@ -54,14 +54,14 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param string         $value
-     * @param int            $numFound
+     * @param string|null    $value
+     * @param int|null       $numFound
      * @param int|null       $start
      * @param array          $documents
-     * @param float          $maxScore
+     * @param float|null     $maxScore
      * @param AbstractQuery  $query
      */
-    public function __construct(string $value, int $numFound, ?int $start, array $documents, float $maxScore = null, AbstractQuery $query = null)
+    public function __construct(?string $value, ?int $numFound, ?int $start, array $documents, ?float $maxScore = null, ?AbstractQuery $query = null)
     {
         $this->value = $value;
         $this->numFound = $numFound;

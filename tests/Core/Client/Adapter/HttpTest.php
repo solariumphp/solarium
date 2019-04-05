@@ -38,7 +38,7 @@ class HttpTest extends TestCase
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
-             ->will($this->returnValue([$data, ['HTTP 1.1 200 OK']]));
+             ->willReturn([$data, ['HTTP 1.1 200 OK']]);
 
         $mock->execute($request, $endpoint);
     }
@@ -59,7 +59,7 @@ class HttpTest extends TestCase
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/?'), $this->isType('resource'))
-             ->will($this->returnValue([$data, ['HTTP 1.1 200 OK']]));
+             ->willReturn([$data, ['HTTP 1.1 200 OK']]);
         $mock->expects($this->once())
              ->method('check')
              ->will($this->throwException(new HttpException('HTTP request failed')));

@@ -36,7 +36,6 @@ use Solarium\QueryType\Suggester\Query as SuggesterQuery;
 use Solarium\QueryType\Terms\Query as TermsQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Solarium\Component\QueryInterface;
 
 /*
  * @coversDefaultClass \Solarium\Core\Client\Client
@@ -519,14 +518,14 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('build')
                  ->with($this->equalTo($queryStub))
-                 ->will($this->returnValue(new Request()));
+                 ->willReturn(new Request());
 
         $queryStub->expects($this->any())
              ->method('getType')
-             ->will($this->returnValue('testquerytype'));
+             ->willReturn('testquerytype');
         $queryStub->expects($this->any())
              ->method('getRequestBuilder')
-             ->will($this->returnValue($observer));
+             ->willReturn($observer);
 
         $this->client->registerQueryType('testquerytype', SelectQuery::class);
         $this->client->createRequest($queryStub);
@@ -716,6 +715,7 @@ class ClientTest extends TestCase
     public function testExecute()
     {
         $query = new PingQuery();
+        $request = new Request();
         $response = new Response('', ['HTTP 1.0 200 OK']);
         $result = new Result($query, $response);
 
@@ -726,17 +726,17 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('createRequest')
                  ->with($this->equalTo($query))
-                 ->will($this->returnValue('dummyrequest'));
+                 ->willReturn($request);
 
         $observer->expects($this->once())
                  ->method('executeRequest')
-                 ->with($this->equalTo('dummyrequest'))
-                 ->will($this->returnValue('dummyresponse'));
+                 ->with($this->equalTo($request))
+                 ->willReturn($response);
 
         $observer->expects($this->once())
                  ->method('createResult')
-                 ->with($this->equalTo($query), $this->equalTo('dummyresponse'))
-                 ->will($this->returnValue($result));
+                 ->with($this->equalTo($query), $this->equalTo($response))
+                 ->willReturn($result);
 
         $observer->execute($query);
     }
@@ -754,15 +754,15 @@ class ClientTest extends TestCase
 
         $mock->expects($this->once())
              ->method('createRequest')
-             ->will($this->returnValue('dummyrequest'));
+             ->willReturn(new Request());
 
         $mock->expects($this->once())
              ->method('executeRequest')
-             ->will($this->returnValue('dummyresponse'));
+             ->willReturn(new Response('dummyresponse'));
 
         $mock->expects($this->once())
              ->method('createResult')
-             ->will($this->returnValue($result));
+             ->willReturn($result);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->setMethods(['preExecute'])
@@ -794,15 +794,15 @@ class ClientTest extends TestCase
 
         $mock->expects($this->once())
              ->method('createRequest')
-             ->will($this->returnValue('dummyrequest'));
+             ->willReturn(new Request());
 
         $mock->expects($this->once())
              ->method('executeRequest')
-             ->will($this->returnValue('dummyresponse'));
+             ->willReturn(new Response('dummyresponse'));
 
         $mock->expects($this->once())
              ->method('createResult')
-             ->will($this->returnValue($result));
+             ->willReturn($result);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->setMethods(['postExecute'])
@@ -860,7 +860,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($request))
-                 ->will($this->returnValue($response));
+                 ->willReturn($response);
 
         $this->client->setAdapter($observer);
         $returnedResponse = $this->client->executeRequest($request);
@@ -888,7 +888,7 @@ class ClientTest extends TestCase
         $mockAdapter->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($request))
-                 ->will($this->returnValue($response));
+                 ->willReturn($response);
         $this->client->setAdapter($mockAdapter);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
@@ -922,7 +922,7 @@ class ClientTest extends TestCase
         $mockAdapter->expects($this->any())
                  ->method('execute')
                  ->with($this->equalTo($request))
-                 ->will($this->returnValue($response));
+                 ->willReturn($response);
         $this->client->setAdapter($mockAdapter);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
@@ -976,7 +976,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
-                 ->with($this->equalTo($query));
+                 ->with($this->equalTo($query))
+                 ->willReturn(new \Solarium\QueryType\Ping\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->ping($query);
     }
@@ -990,7 +991,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
-                 ->with($this->equalTo($query));
+                 ->with($this->equalTo($query))
+                 ->willReturn(new \Solarium\QueryType\Select\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->select($query);
     }
@@ -1004,7 +1006,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
-                 ->with($this->equalTo($query));
+                 ->with($this->equalTo($query))
+                 ->willReturn(new \Solarium\QueryType\Update\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->update($query);
     }
@@ -1018,7 +1021,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
-                 ->with($this->equalTo($query));
+                 ->with($this->equalTo($query))
+                 ->willReturn(new \Solarium\QueryType\MoreLikeThis\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->moreLikeThis($query);
     }
@@ -1032,7 +1036,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
-                 ->with($this->equalTo($query));
+                 ->with($this->equalTo($query))
+                 ->willReturn(new Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->analyze($query);
     }
@@ -1046,7 +1051,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
-                 ->with($this->equalTo($query));
+                 ->with($this->equalTo($query))
+            ->willReturn(new \Solarium\QueryType\Terms\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->terms($query);
     }
@@ -1060,7 +1066,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
-                 ->with($this->equalTo($query));
+                 ->with($this->equalTo($query))
+                 ->willReturn(new \Solarium\QueryType\Suggester\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->suggester($query);
     }
@@ -1074,7 +1081,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
-                 ->with($this->equalTo($query));
+                 ->with($this->equalTo($query))
+            ->willReturn(new \Solarium\QueryType\Extract\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->extract($query);
     }
@@ -1193,7 +1201,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
-                 ->with($this->equalTo(Client::QUERY_SELECT), $this->equalTo($options));
+                 ->with($this->equalTo(Client::QUERY_SELECT), $this->equalTo($options))
+                 ->willReturn(new SelectQuery());
 
         $observer->createSelect($options);
     }
@@ -1207,7 +1216,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
-                 ->with($this->equalTo(Client::QUERY_UPDATE), $this->equalTo($options));
+                 ->with($this->equalTo(Client::QUERY_UPDATE), $this->equalTo($options))
+                 ->willReturn(new UpdateQuery());
 
         $observer->createUpdate($options);
     }
@@ -1221,7 +1231,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
-                 ->with($this->equalTo(Client::QUERY_PING), $this->equalTo($options));
+                 ->with($this->equalTo(Client::QUERY_PING), $this->equalTo($options))
+                 ->willReturn(new PingQuery());
 
         $observer->createPing($options);
     }
@@ -1235,7 +1246,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
-                 ->with($this->equalTo(Client::QUERY_MORELIKETHIS), $this->equalTo($options));
+                 ->with($this->equalTo(Client::QUERY_MORELIKETHIS), $this->equalTo($options))
+                 ->willReturn(new MoreLikeThisQuery());
 
         $observer->createMoreLikeThis($options);
     }
@@ -1249,7 +1261,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
-                 ->with($this->equalTo(Client::QUERY_ANALYSIS_FIELD), $this->equalTo($options));
+                 ->with($this->equalTo(Client::QUERY_ANALYSIS_FIELD), $this->equalTo($options))
+                 ->willReturn(new AnalysisQueryField());
 
         $observer->createAnalysisField($options);
     }
@@ -1263,7 +1276,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
-                 ->with($this->equalTo(Client::QUERY_ANALYSIS_DOCUMENT), $this->equalTo($options));
+                 ->with($this->equalTo(Client::QUERY_ANALYSIS_DOCUMENT), $this->equalTo($options))
+                 ->willReturn(new \Solarium\QueryType\Analysis\Query\Document());
 
         $observer->createAnalysisDocument($options);
     }
@@ -1277,7 +1291,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
-                 ->with($this->equalTo(Client::QUERY_TERMS), $this->equalTo($options));
+                 ->with($this->equalTo(Client::QUERY_TERMS), $this->equalTo($options))
+                 ->willReturn(new TermsQuery());
 
         $observer->createTerms($options);
     }
@@ -1291,7 +1306,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
-                 ->with($this->equalTo(Client::QUERY_SUGGESTER), $this->equalTo($options));
+                 ->with($this->equalTo(Client::QUERY_SUGGESTER), $this->equalTo($options))
+                 ->willReturn(new SuggesterQuery());
 
         $observer->createSuggester($options);
     }
@@ -1305,7 +1321,8 @@ class ClientTest extends TestCase
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
-                 ->with($this->equalTo(Client::QUERY_EXTRACT), $this->equalTo($options));
+                 ->with($this->equalTo(Client::QUERY_EXTRACT), $this->equalTo($options))
+                 ->willReturn(new ExtractQuery());
 
         $observer->createExtract($options);
     }
