@@ -128,7 +128,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         }
 
         if (!empty($data['facets'])) {
-            /** @noinspection AdditionOperationOnArraysInspection */
+            /* @noinspection AdditionOperationOnArraysInspection */
             $facets += $this->parseJsonFacetSet($data['facets'], $facetSet->getFacets());
         }
 
@@ -171,7 +171,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             } else {
                 if (isset($facets[$key]) && $facets[$key] instanceof JsonAggregation) {
                     $min = $facets[$key]->getMin();
-                    if (NULL !== $min && $values < $min) {
+                    if (null !== $min && $values < $min) {
                         continue;
                     }
                 }
@@ -275,7 +275,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     {
         $key = $facet->getKey();
         if (!isset($data['facet_counts']['facet_ranges'][$key])) {
-            return null ;
+            return null;
         }
 
         $data = $data['facet_counts']['facet_ranges'][$key];
@@ -323,7 +323,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     {
         $key = $facet->getKey();
         if (!isset($data['facet_counts']['facet_pivot'][$key])) {
-            return null ;
+            return null;
         }
 
         return new ResultFacetPivot($data['facet_counts']['facet_pivot'][$key]);

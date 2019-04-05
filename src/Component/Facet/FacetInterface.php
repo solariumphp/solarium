@@ -30,7 +30,7 @@ interface FacetInterface
      *
      * @param string $key
      *
-     * @return FacetInterface
+     * @return self
      */
-    public function setKey(string $key): FacetInterface;
+    public function setKey(string $key): self;
 }

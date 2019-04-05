@@ -507,7 +507,6 @@ class Client extends Configurable implements ClientInterface
         if (is_string($adapter)) {
             $this->adapter = null;
             $this->setOption('adapter', $adapter);
-
         } elseif ($adapter instanceof AdapterInterface) {
             // forward options
             $adapter->setOptions($this->getOption('adapteroptions'));

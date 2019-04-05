@@ -5,7 +5,6 @@ namespace Solarium\QueryType\Update;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
-use Solarium\Core\Query\Helper;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Update\Query\Command\Add;
@@ -216,10 +215,10 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * @param string           $key
-     * @param float|null       $boost
-     * @param mixed            $value
-     * @param string|null      $modifier
+     * @param string      $key
+     * @param float|null  $boost
+     * @param mixed       $value
+     * @param string|null $modifier
      *
      * @return string
      */

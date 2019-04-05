@@ -202,7 +202,6 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     public function next()
     {
         ++$this->position;
-
     }
 
     /**

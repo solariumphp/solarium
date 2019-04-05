@@ -73,7 +73,7 @@ trait JsonFacetTrait
         }
         unset($param_or_query);
 
-        /** @noinspection UnsupportedStringOffsetOperationsInspection */
+        /* @noinspection UnsupportedStringOffsetOperationsInspection */
         $filter[] = $query;
         return $this->setOption('domain', ['filter' => $filter]);
     }
@@ -103,7 +103,7 @@ trait JsonFacetTrait
         }
         unset($param_or_query);
 
-        /** @noinspection UnsupportedStringOffsetOperationsInspection */
+        /* @noinspection UnsupportedStringOffsetOperationsInspection */
         $filter[] = ['param' => $param];
         return $this->setOption('domain', ['filter' => $filter]);
     }
@@ -152,9 +152,9 @@ trait JsonFacetTrait
             $this->serialize();
 
             return $this;
-        } else {
-            throw new InvalidArgumentException('Only JSON facets can be nested.');
         }
+
+        throw new InvalidArgumentException('Only JSON facets can be nested.');
     }
 
     /**

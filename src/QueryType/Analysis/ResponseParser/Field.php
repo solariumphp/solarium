@@ -4,7 +4,6 @@ namespace Solarium\QueryType\Analysis\ResponseParser;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
-use Solarium\Core\Query\Result\Result;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Analysis\Result as AnalysisResult;
 use Solarium\QueryType\Analysis\Result\Item;

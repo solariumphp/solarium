@@ -115,7 +115,7 @@ class DisMax extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setMinimumMatch(string$minimumMatch): self
+    public function setMinimumMatch(string $minimumMatch): self
     {
         $this->setOption('minimummatch', $minimumMatch);
         return $this;

@@ -5,10 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [5.0.0-alpha.1]
+### Added
+- Solr 8 support
+
 ### Changed
 - Updated dev and test environments to newer package versions, for example PHPUnit 8.0
 - Use PHP 7.1 style argument and return type declarations
-- PHP 7.1 or higher required 
+- PHP 7.1 or higher required
+- Renamed the two variants of DocumentInterface to ResultDocumentInterface and UpdateDocumentInterface to reduce confusion
 
 ### Removed
 - PHP 7.0 support

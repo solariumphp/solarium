@@ -25,7 +25,7 @@ interface SuggesterInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setDictionary($dictionary): SuggesterInterface;
+    public function setDictionary($dictionary): self;
 
     /**
      * Get dictionary option.
@@ -43,7 +43,7 @@ interface SuggesterInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setCount(int $count): SuggesterInterface;
+    public function setCount(int $count): self;
 
     /**
      * Get count option.
@@ -61,7 +61,7 @@ interface SuggesterInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setContextFilterQuery(string $cfq): SuggesterInterface;
+    public function setContextFilterQuery(string $cfq): self;
 
     /**
      * Get cfq option.
@@ -77,7 +77,7 @@ interface SuggesterInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setBuild(bool $build): SuggesterInterface;
+    public function setBuild(bool $build): self;
 
     /**
      * Get build option.
@@ -93,7 +93,7 @@ interface SuggesterInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setReload(bool $reload): SuggesterInterface;
+    public function setReload(bool $reload): self;
 
     /**
      * Get reload option.

@@ -28,7 +28,6 @@ class Configurable implements ConfigurableInterface
      *
      * After handling the options the {@link _init()} method is called.
      *
-     *
      * @param array|\Zend_Config $options
      *
      * @throws InvalidArgumentException
@@ -54,11 +53,12 @@ class Configurable implements ConfigurableInterface
      * @param array|\Zend_Config $options
      * @param bool               $overwrite True for overwriting existing options, false
      *                                      for merging (new values overwrite old ones if needed)
+     *
      * @return self
      *
      * @throws InvalidArgumentException
      */
-    public function setOptions($options, bool $overwrite = false): ConfigurableInterface
+    public function setOptions($options, bool $overwrite = false): self
     {
         if (null !== $options) {
             // first convert to array if needed

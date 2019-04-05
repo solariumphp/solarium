@@ -71,8 +71,7 @@ class Add extends AbstractCommand
 
         if (empty($this->documents)) {
             $this->documents = $documents;
-        }
-        else {
+        } else {
             $this->documents = array_merge($this->documents, $documents);
         }
 

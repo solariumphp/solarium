@@ -30,7 +30,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      * Constructor.
      *
      * @param SelectDocument $document
-     * @param float            $threshold
+     * @param float          $threshold
      */
     public function __construct(SelectDocument $document, float $threshold)
     {

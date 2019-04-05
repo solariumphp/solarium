@@ -133,7 +133,7 @@ interface ComponentAwareQueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setComponent(string $key, AbstractComponent $component): ComponentAwareQueryInterface;
+    public function setComponent(string $key, AbstractComponent $component): self;
 
     /**
      * Remove a component instance.
@@ -144,5 +144,5 @@ interface ComponentAwareQueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeComponent($component): ComponentAwareQueryInterface;
+    public function removeComponent($component): self;
 }

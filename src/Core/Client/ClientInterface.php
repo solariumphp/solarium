@@ -81,7 +81,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function addEndpoint($endpoint): ClientInterface;
+    public function addEndpoint($endpoint): self;
 
     /**
      * Add multiple endpoints.
@@ -90,7 +90,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function addEndpoints(array $endpoints): ClientInterface;
+    public function addEndpoints(array $endpoints): self;
 
     /**
      * Get an endpoint by key.
@@ -119,14 +119,14 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeEndpoint($endpoint): ClientInterface;
+    public function removeEndpoint($endpoint): self;
 
     /**
      * Remove all endpoints.
      *
      * @return self Provides fluent interface
      */
-    public function clearEndpoints(): ClientInterface;
+    public function clearEndpoints(): self;
 
     /**
      * Set multiple endpoints.
@@ -137,7 +137,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function setEndpoints(array $endpoints): ClientInterface;
+    public function setEndpoints(array $endpoints): self;
 
     /**
      * Set a default endpoint.
@@ -150,7 +150,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function setDefaultEndpoint($endpoint): ClientInterface;
+    public function setDefaultEndpoint($endpoint): self;
 
     /**
      * Set the adapter.
@@ -173,7 +173,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function setAdapter($adapter): ClientInterface;
+    public function setAdapter($adapter): self;
 
     /**
      * Get the adapter instance.
@@ -199,7 +199,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerQueryType(string $type, string $queryClass): ClientInterface;
+    public function registerQueryType(string $type, string $queryClass): self;
 
     /**
      * Register multiple querytypes.
@@ -208,7 +208,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerQueryTypes(array $queryTypes): ClientInterface;
+    public function registerQueryTypes(array $queryTypes): self;
 
     /**
      * Get all registered querytypes.
@@ -231,7 +231,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): ClientInterface;
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): self;
 
     /**
      * Register a plugin.
@@ -248,7 +248,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerPlugin(string $key, $plugin, array $options = []): ClientInterface;
+    public function registerPlugin(string $key, $plugin, array $options = []): self;
 
     /**
      * Register multiple plugins.
@@ -257,7 +257,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerPlugins(array $plugins): ClientInterface;
+    public function registerPlugins(array $plugins): self;
 
     /**
      * Get all registered plugins.
@@ -287,7 +287,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function removePlugin($plugin): ClientInterface;
+    public function removePlugin($plugin): self;
 
     /**
      * Creates a request based on a query instance.

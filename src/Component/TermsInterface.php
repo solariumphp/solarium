@@ -18,7 +18,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFields($value): TermsInterface;
+    public function setFields($value): self;
 
     /**
      * Get the field name(s) to get the terms from.
@@ -34,7 +34,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setLowerbound(string $value): TermsInterface;
+    public function setLowerbound(string $value): self;
 
     /**
      * Get the lowerbound term to start at.
@@ -50,7 +50,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setLowerboundInclude(bool $value): TermsInterface;
+    public function setLowerboundInclude(bool $value): self;
 
     /**
      * Get lowerboundinclude.
@@ -66,7 +66,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMinCount(int $value): TermsInterface;
+    public function setMinCount(int $value): self;
 
     /**
      * Get mincount.
@@ -82,7 +82,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMaxCount(int $value): TermsInterface;
+    public function setMaxCount(int $value): self;
 
     /**
      * Get maxcount.
@@ -98,7 +98,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setPrefix(string $value): TermsInterface;
+    public function setPrefix(string $value): self;
 
     /**
      * Get maxcount.
@@ -114,7 +114,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setRegex(string $value): TermsInterface;
+    public function setRegex(string $value): self;
 
     /**
      * Get regex.
@@ -132,7 +132,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setRegexFlags($value): TermsInterface;
+    public function setRegexFlags($value): self;
 
     /**
      * Get regex flags.
@@ -150,7 +150,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setLimit(int $value): TermsInterface;
+    public function setLimit(int $value): self;
 
     /**
      * Get limit.
@@ -166,7 +166,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setUpperbound(string $value): TermsInterface;
+    public function setUpperbound(string $value): self;
 
     /**
      * Get the upperbound term to start at.
@@ -182,7 +182,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setUpperboundInclude(bool $value): TermsInterface;
+    public function setUpperboundInclude(bool $value): self;
 
     /**
      * Get upperboundinclude.
@@ -198,7 +198,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setRaw(bool $value): TermsInterface;
+    public function setRaw(bool $value): self;
 
     /**
      * Get raw option.
@@ -214,7 +214,7 @@ interface TermsInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setSort(string $value): TermsInterface;
+    public function setSort(string $value): self;
 
     /**
      * Get sort option.

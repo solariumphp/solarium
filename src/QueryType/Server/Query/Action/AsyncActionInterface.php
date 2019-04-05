@@ -11,7 +11,7 @@ interface AsyncActionInterface extends ActionInterface
      *
      * @return self Provides fluent interface
      */
-    public function setAsync(string $async): AsyncActionInterface;
+    public function setAsync(string $async): self;
 
     /**
      * Get the request-id for asynchronous processing.

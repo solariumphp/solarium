@@ -55,9 +55,8 @@ class Spatial extends AbstractComponent
     }
 
     /**
-     * @param string $point
-     *   The center point using the format "lat,lon" if latitude & longitude. Otherwise, "x,y" for PointType or "x y"
-     *   for RPT field types.
+     * @param string $point The center point using the format "lat,lon" if latitude & longitude. Otherwise, "x,y" for
+     *                      PointType or "x y" for RPT field types.
      *
      * @return self Provides fluent interface
      */

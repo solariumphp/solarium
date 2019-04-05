@@ -31,6 +31,7 @@ class Guzzle extends Configurable implements AdapterInterface
      *
      * @throws HttpException thrown if solr request connot be made
      * @throws
+     *
      * @return Response
      *
      * @codingStandardsIgnoreStart AdapterInterface does not declare type-hints

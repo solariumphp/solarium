@@ -21,7 +21,7 @@ class Synonyms
      * Synonyms constructor.
      *
      * @param string $term
-     * @param array $synonyms
+     * @param array  $synonyms
      */
     public function __construct(string $term, array $synonyms)
     {

@@ -13,7 +13,7 @@ interface CoreActionInterface extends ActionInterface
      *
      * @return CoreActionInterface
      */
-    public function setCore(string $core): CoreActionInterface;
+    public function setCore(string $core): self;
 
     /**
      * Get the related core name.

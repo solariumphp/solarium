@@ -12,10 +12,10 @@ class Filter
     /**
      * Apply filter to document array.
      *
-     * @param \Solarium\QueryType\Select\Result\Document[]  $documents
-     * @param float                                         $maxScore
-     * @param float                                         $ratio
-     * @param string                                        $mode
+     * @param \Solarium\QueryType\Select\Result\Document[] $documents
+     * @param float                                        $maxScore
+     * @param float                                        $ratio
+     * @param string                                       $mode
      *
      * @return array
      */

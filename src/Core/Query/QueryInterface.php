@@ -37,7 +37,7 @@ interface QueryInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setHandler(string $handler): QueryInterface;
+    public function setHandler(string $handler): self;
 
     /**
      * Get handler option.
@@ -59,7 +59,7 @@ interface QueryInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function setResultClass(string $classname): QueryInterface;
+    public function setResultClass(string $classname): self;
 
     /**
      * Get resultclass option.
@@ -86,7 +86,7 @@ interface QueryInterface extends ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    public function addParam(string $name, string $value): QueryInterface;
+    public function addParam(string $name, string $value): self;
 
     /**
      * Get extra params.

@@ -2,7 +2,6 @@
 
 namespace Solarium\Tests\Core\Client\Adapter;
 
-use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\Curl;

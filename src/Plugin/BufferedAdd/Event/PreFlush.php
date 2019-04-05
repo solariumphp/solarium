@@ -69,7 +69,7 @@ class PreFlush extends Event
      *
      * @return self Provides fluent interface
      */
-    public function setCommitWithin(int$commitWithin): self
+    public function setCommitWithin(int $commitWithin): self
     {
         $this->commitWithin = $commitWithin;
         return $this;

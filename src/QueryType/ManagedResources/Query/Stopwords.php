@@ -7,7 +7,6 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
-use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists;

@@ -101,7 +101,6 @@ class RequestBuilderTest extends TestCase
 
         $this->expectException(\TypeError::class);
         $this->builder->build($this->query);
-
     }
 
     public function testWithComponent()

@@ -2,8 +2,6 @@
 
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords;
 
-use Solarium\QueryType\Extract\Query;
-
 class Stopword
 {
     /**
