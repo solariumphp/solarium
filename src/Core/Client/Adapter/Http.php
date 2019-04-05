@@ -148,8 +148,7 @@ class Http extends Configurable implements AdapterInterface
     {
         $data = @file_get_contents($uri, false, $context);
 
-        $headers = [];
-
-        return [$data, $headers];
+        // @ see https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
+        return [$data, $http_response_header];
     }
 }
