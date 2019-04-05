@@ -50,6 +50,8 @@ class Loader
     /**
      * @param string $dir
      *
+     * @return self
+     *
      * @throws \InvalidArgumentException
      * @throws \ReflectionException
      */

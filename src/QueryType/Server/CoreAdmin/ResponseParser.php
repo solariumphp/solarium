@@ -21,6 +21,8 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
      * @param Result|ResultInterface $result
      *
      * @return array
+     *
+     * @throws \Exception
      */
     public function parse(ResultInterface $result): array
     {
@@ -35,6 +37,8 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
      * @param Result $result
      *
      * @return array
+     *
+     * @throws \Exception
      */
     protected function parseStatus(array $data, Result $result): array
     {

@@ -47,6 +47,8 @@ class PreCreateRequest extends Event
      * If you set this request value the default execution is skipped and this request is directly returned
      *
      * @param Request $request
+     *
+     * @return self
      */
     public function setRequest(Request $request): self
     {

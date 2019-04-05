@@ -16,7 +16,7 @@ class Add extends AbstractCommand
     /**
      * Documents to add.
      *
-     * @var \Solarium\QueryType\Update\Query\Document\DocumentInterface[]
+     * @var DocumentInterface[]
      */
     protected $documents = [];
 

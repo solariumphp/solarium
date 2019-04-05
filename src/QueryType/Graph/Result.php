@@ -22,11 +22,11 @@ class Result extends BaseResult
     /**
      * Get Solr response body.
      *
-     * @return string The response body
+     * @return array The response body
      */
-    public function getData(): string
+    public function getData(): array
     {
-        return $this->response->getBody();
+        return ['body' => $this->response->getBody()];
     }
 
     /**
@@ -38,6 +38,6 @@ class Result extends BaseResult
      */
     public function getGraphML(): string
     {
-        return $this->getData();
+        return $this->response->getBody();
     }
 }

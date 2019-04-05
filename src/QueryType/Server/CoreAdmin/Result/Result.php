@@ -14,7 +14,7 @@ class Result extends BaseResult
      *
      * @var StatusResult[]|null
      */
-    protected $statusResults = null;
+    protected $statusResults;
 
     /**
      * Status result when the status only for one core as requested.

@@ -30,12 +30,12 @@ class StatusResult
     /**
      * @var \DateTime|null
      */
-    protected $startTime = null;
+    protected $startTime;
 
     /**
      * @var \DateTime|null
      */
-    protected $lastModified = null;
+    protected $lastModified;
 
     /**
      * @return string

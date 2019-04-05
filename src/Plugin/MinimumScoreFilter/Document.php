@@ -81,9 +81,10 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      * Magic method for setting a field as property of this object. Since this
      * is a readonly document an exception will be thrown to prevent this.
      *
-     *
      * @param string $name
      * @param string $value
+     *
+     * @return self
      *
      * @throws RuntimeException
      */

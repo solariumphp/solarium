@@ -98,7 +98,7 @@ class Document extends AbstractDocument implements UpdateDocumentInterface
      *
      * @var float|null
      */
-    protected $boost = null;
+    protected $boost;
 
     /**
      * Allows us to determine what kind of atomic update we want to set.

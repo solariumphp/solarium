@@ -21,7 +21,7 @@ class Buckets implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param Bucket[] $values
+     * @param Bucket[] $buckets
      */
     public function __construct(array $buckets)
     {

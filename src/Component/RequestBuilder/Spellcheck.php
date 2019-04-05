@@ -4,7 +4,7 @@ namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Core\Client\Request;
 use Solarium\Core\ConfigurableInterface;
-use Solarium\QueryType\Spellcheck\SpellcheckInterface;
+use Solarium\Component\SpellcheckInterface;
 
 /**
  * Add select component Spellcheck to the request.

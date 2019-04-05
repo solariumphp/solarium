@@ -8,6 +8,31 @@ namespace Solarium\Component\Result\Spellcheck;
 class Suggestion
 {
     /**
+     * @var int
+     */
+    private $numFound;
+
+    /**
+     * @var int
+     */
+    private $startOffset;
+
+    /**
+     * @var int
+     */
+    private $endOffset;
+
+    /**
+     * @var int
+     */
+    private $originalFrequency;
+
+    /**
+     * @var array
+     */
+    private $words;
+
+    /**
      * Constructor.
      *
      * @param int      $numFound

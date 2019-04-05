@@ -168,7 +168,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get all documents.
      *
-     * @return DocumentInterface[]
+     * @return ResultDocumentInterface[]
      */
     public function getDocuments(): array
     {

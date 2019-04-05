@@ -133,6 +133,8 @@ trait FacetSetTrait
      * This overwrites any existing facets
      *
      * @param array $facets
+     *
+     * @return self
      */
     public function setFacets(array $facets): FacetSetInterface
     {

@@ -117,11 +117,11 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     /**
      * Add params for a field facet to request.
      *
-     * @param Request          $request
-     * @param FacetField       $facet
-     * @param use_local_params $use_local_params TRUE, if local params instead of global field params should be used. Must be set if the same field is used in different facets. Default is keeping the global field params (https://issues.apache.org/jira/browse/SOLR-6193)
+     * @param Request    $request
+     * @param FacetField $facet
+     * @param bool       $use_local_params TRUE, if local params instead of global field params should be used. Must be set if the same field is used in different facets. Default is keeping the global field params (https://issues.apache.org/jira/browse/SOLR-6193)
      */
-    public function addFacetField($request, $facet, $use_local_params = false)
+    public function addFacetField(Request $request, FacetField $facet, bool $use_local_params = false)
     {
         $field = $facet->getField();
 

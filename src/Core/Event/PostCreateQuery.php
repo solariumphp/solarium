@@ -23,7 +23,7 @@ class PostCreateQuery extends Event
     /**
      * @var array
      */
-    protected $options = null;
+    protected $options;
 
     /**
      * Event constructor.

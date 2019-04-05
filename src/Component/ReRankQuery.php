@@ -48,6 +48,8 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
      * Set reRankDocs value.
      *
      * @param int $value
+     *
+     * @return self
      */
     public function setDocs(int $value): self
     {

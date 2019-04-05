@@ -48,7 +48,7 @@ class Add extends AbstractCommand
     /**
      * Set stopwords.
      *
-     * @param array $synonyms
+     * @param array $stopwords
      *
      * @return self
      */
