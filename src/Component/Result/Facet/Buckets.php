@@ -21,7 +21,7 @@ class Buckets implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param Bucket[] $values
+     * @param Bucket[] $buckets
      */
     public function __construct(array $buckets)
     {
@@ -33,7 +33,7 @@ class Buckets implements \IteratorAggregate, \Countable
      *
      * @return Bucket[]
      */
-    public function getBuckets()
+    public function getBuckets(): array
     {
         return $this->buckets;
     }
@@ -43,7 +43,7 @@ class Buckets implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->buckets);
     }
@@ -53,7 +53,7 @@ class Buckets implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->buckets);
     }

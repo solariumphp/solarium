@@ -21,24 +21,25 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
     abstract public function getType(): string;
 
     /**
-     * Get key value.
+     * Get key.
      *
-     * @return string
+     * @return string|null
      */
-    public function getKey()
+    public function getKey(): ?string
     {
         return $this->getOption('key');
     }
 
     /**
-     * Set key value.
+     * Set key.
      *
-     * @param string $value
+     * @param string $key
      *
      * @return self Provides fluent interface
      */
-    public function setKey($value)
+    public function setKey(string $key): FacetInterface
     {
-        return $this->setOption('key', $value);
+        $this->setOption('key', $key);
+        return $this;
     }
 }

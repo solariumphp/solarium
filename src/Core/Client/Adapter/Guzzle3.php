@@ -29,7 +29,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
      *
      * @return Response
      */
-    public function execute($request, $endpoint)
+    public function execute(Request $request, Endpoint $endpoint): Response
     {
         // @codeCoverageIgnoreStart
         $uri = AdapterHelper::buildUri($request, $endpoint);
@@ -111,8 +111,7 @@ class Guzzle3 extends Configurable implements AdapterInterface
         }
 
         if ($request->getFileUpload()) {
-            $body = AdapterHelper::buildUploadBodyFromRequest($request);
-            return $body;
+            return AdapterHelper::buildUploadBodyFromRequest($request);
         }
 
         return $request->getRawData();

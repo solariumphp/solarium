@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
 
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
 
 class Delete extends AbstractCommand
@@ -58,9 +59,12 @@ class Delete extends AbstractCommand
      * Set the term to be deleted.
      *
      * @param string $term
+     *
+     * @return self
      */
-    public function setTerm(string $term)
+    public function setTerm(string $term): self
     {
         $this->term = $term;
+        return $this;
     }
 }

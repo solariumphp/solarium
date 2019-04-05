@@ -2,6 +2,8 @@
 
 namespace Solarium\Component\ResponseParser;
 
+use Solarium\Component\AbstractComponent;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Result\Terms\Field;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Component\Terms as TermsComponent;
@@ -17,12 +19,12 @@ class Terms extends AbstractResponseParser implements ComponentParserInterface
      * Parse result data into result objects.
      *
      * @param AbstractQuery  $query
-     * @param TermsComponent $terms
+     * @param TermsComponent $component
      * @param array          $data
      *
      * @return Result|null
      */
-    public function parse($query, $terms, $data)
+    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $component, array $data): ?Result
     {
         $allTerms = [];
 
@@ -32,7 +34,7 @@ class Terms extends AbstractResponseParser implements ComponentParserInterface
                 // There seems to be a bug in Solr that json.nl=flat is ignored in a distributed search on Solr
                 // Cloud. In that case the "map" format is returned which doesn't need to be converted. But we don't
                 // use it in general because it has limitations for some components.
-                if ($query->getResponseWriter() == $query::WT_JSON && isset($termData[0])) {
+                if (isset($termData[0]) && $query && $query->getResponseWriter() === $query::WT_JSON) {
                     // We have a "flat" json result.
                     $termData = $this->convertToKeyValueArray($termData);
                 }

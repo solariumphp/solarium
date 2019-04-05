@@ -9,7 +9,7 @@ class BoostQueryTest extends TestCase
 {
     protected $boostQuery;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->boostQuery = new BoostQuery();
     }

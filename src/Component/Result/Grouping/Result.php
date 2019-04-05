@@ -21,7 +21,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @param array $groups
      */
-    public function __construct($groups)
+    public function __construct(array $groups)
     {
         $this->groups = $groups;
     }
@@ -31,7 +31,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return array
      */
-    public function getGroups()
+    public function getGroups(): array
     {
         return $this->groups;
     }
@@ -43,7 +43,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return FieldGroup|QueryGroup
      */
-    public function getGroup($key)
+    public function getGroup(string $key)
     {
         if (isset($this->groups[$key])) {
             return $this->groups[$key];
@@ -55,7 +55,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->groups);
     }
@@ -65,7 +65,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->groups);
     }

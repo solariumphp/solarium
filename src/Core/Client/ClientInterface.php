@@ -11,8 +11,28 @@ use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\Analysis\Query\Document as AnalysisQueryDocument;
 use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
-use Solarium\QueryType\Analysis\Result\Document as AnalysisResultDocument;
-use Solarium\QueryType\Analysis\Result\Field as AnalysisResultField;
+use Solarium\QueryType\Extract\Query as ExtractQuery;
+use Solarium\QueryType\Extract\Result as ExtractResult;
+use Solarium\QueryType\MorelikeThis\Query as MorelikeThisQuery;
+use Solarium\QueryType\MoreLikeThis\Result as MoreLikeThisResult;
+use Solarium\QueryType\Ping\Query as PingQuery;
+use Solarium\QueryType\Ping\Result as PingResult;
+use Solarium\QueryType\RealtimeGet\Query as RealtimeGetQuery;
+use Solarium\QueryType\RealtimeGet\Result as RealtimeGetResult;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Select\Result\Result as SelectResult;
+use Solarium\QueryType\Server\Api\Query as ApiQuery;
+use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
+use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
+use Solarium\QueryType\Server\CoreAdmin\Result\Result as CoreAdminResult;
+use Solarium\QueryType\Spellcheck\Query as SpellcheckQuery;
+use Solarium\QueryType\Spellcheck\Result\Result as SpellcheckResult;
+use Solarium\QueryType\Suggester\Query as SuggesterQuery;
+use Solarium\QueryType\Suggester\Result\Result as SuggesterResult;
+use Solarium\QueryType\Terms\Query as TermsQuery;
+use Solarium\QueryType\Terms\Result as TermsResult;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
+use Solarium\QueryType\Update\Result as UpdateResult;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -47,7 +67,7 @@ interface ClientInterface
      *
      * @return Endpoint
      */
-    public function createEndpoint($options = null, $setAsDefault = false);
+    public function createEndpoint($options = null, bool $setAsDefault = false): Endpoint;
 
     /**
      * Add an endpoint.
@@ -61,7 +81,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function addEndpoint($endpoint);
+    public function addEndpoint($endpoint): self;
 
     /**
      * Add multiple endpoints.
@@ -70,7 +90,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function addEndpoints(array $endpoints);
+    public function addEndpoints(array $endpoints): self;
 
     /**
      * Get an endpoint by key.
@@ -81,14 +101,14 @@ interface ClientInterface
      *
      * @return Endpoint
      */
-    public function getEndpoint($key = null);
+    public function getEndpoint(string $key = null): Endpoint;
 
     /**
      * Get all endpoints.
      *
      * @return Endpoint[]
      */
-    public function getEndpoints();
+    public function getEndpoints(): array;
 
     /**
      * Remove a single endpoint.
@@ -99,14 +119,14 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeEndpoint($endpoint);
+    public function removeEndpoint($endpoint): self;
 
     /**
      * Remove all endpoints.
      *
      * @return self Provides fluent interface
      */
-    public function clearEndpoints();
+    public function clearEndpoints(): self;
 
     /**
      * Set multiple endpoints.
@@ -114,8 +134,10 @@ interface ClientInterface
      * This overwrites any existing endpoints
      *
      * @param array $endpoints
+     *
+     * @return self Provides fluent interface
      */
-    public function setEndpoints($endpoints);
+    public function setEndpoints(array $endpoints): self;
 
     /**
      * Set a default endpoint.
@@ -128,7 +150,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function setDefaultEndpoint($endpoint);
+    public function setDefaultEndpoint($endpoint): self;
 
     /**
      * Set the adapter.
@@ -151,7 +173,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function setAdapter($adapter);
+    public function setAdapter($adapter): self;
 
     /**
      * Get the adapter instance.
@@ -163,7 +185,7 @@ interface ClientInterface
      *
      * @return AdapterInterface
      */
-    public function getAdapter($autoload = true);
+    public function getAdapter(bool $autoload = true): AdapterInterface;
 
     /**
      * Register a querytype.
@@ -177,7 +199,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerQueryType($type, $queryClass);
+    public function registerQueryType(string $type, string $queryClass): self;
 
     /**
      * Register multiple querytypes.
@@ -186,21 +208,21 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerQueryTypes($queryTypes);
+    public function registerQueryTypes(array $queryTypes): self;
 
     /**
      * Get all registered querytypes.
      *
      * @return array
      */
-    public function getQueryTypes();
+    public function getQueryTypes(): array;
 
     /**
      * Gets the event dispatcher.
      *
      * @return EventDispatcherInterface
      */
-    public function getEventDispatcher();
+    public function getEventDispatcher(): EventDispatcherInterface;
 
     /**
      * Sets the event dispatcher.
@@ -209,7 +231,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher);
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): self;
 
     /**
      * Register a plugin.
@@ -226,7 +248,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerPlugin($key, $plugin, $options = []);
+    public function registerPlugin(string $key, $plugin, array $options = []): self;
 
     /**
      * Register multiple plugins.
@@ -235,14 +257,14 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerPlugins($plugins);
+    public function registerPlugins(array $plugins): self;
 
     /**
      * Get all registered plugins.
      *
      * @return PluginInterface[]
      */
-    public function getPlugins();
+    public function getPlugins(): array;
 
     /**
      * Get a plugin instance.
@@ -254,7 +276,7 @@ interface ClientInterface
      *
      * @return PluginInterface|null
      */
-    public function getPlugin($key, $autocreate = true);
+    public function getPlugin(string $key, bool $autocreate = true): ?PluginInterface;
 
     /**
      * Remove a plugin instance.
@@ -265,7 +287,7 @@ interface ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function removePlugin($plugin);
+    public function removePlugin($plugin): self;
 
     /**
      * Creates a request based on a query instance.
@@ -276,19 +298,19 @@ interface ClientInterface
      *
      * @return Request
      */
-    public function createRequest(QueryInterface $query);
+    public function createRequest(QueryInterface $query): Request;
 
     /**
      * Creates a result object.
      *
      * @param QueryInterface $query
-     * @param array Response $response
+     * @param array|Response $response
      *
      * @throws UnexpectedValueException;
      *
      * @return ResultInterface
      */
-    public function createResult(QueryInterface $query, $response);
+    public function createResult(QueryInterface $query, $response): ResultInterface;
 
     /**
      * Execute a query.
@@ -298,19 +320,17 @@ interface ClientInterface
      *
      * @return ResultInterface
      */
-    public function execute(QueryInterface $query, $endpoint = null);
+    public function execute(QueryInterface $query, $endpoint = null): ResultInterface;
 
     /**
      * Execute a request and return the response.
      *
-     * @param Request
-     * @param Endpoint|string|null
-     * @param mixed      $request
-     * @param null|mixed $endpoint
+     * @param Request              $request
+     * @param Endpoint|string|null $endpoint
      *
      * @return Response
      */
-    public function executeRequest($request, $endpoint = null);
+    public function executeRequest(Request $request, $endpoint = null): Response;
 
     /**
      * Execute a ping query.
@@ -330,9 +350,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\Ping\Query $query
      * @param Endpoint|string|null                          $endpoint
      *
-     * @return \Solarium\QueryType\Ping\Result
+     * @return ResultInterface|\Solarium\QueryType\Ping\Result
      */
-    public function ping(QueryInterface $query, $endpoint = null);
+    public function ping(QueryInterface $query, $endpoint = null): PingResult;
 
     /**
      * Execute an update query.
@@ -354,9 +374,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\Update\Query\Query $query
      * @param Endpoint|string|null                                  $endpoint
      *
-     * @return \Solarium\QueryType\Update\Result
+     * @return ResultInterface|\Solarium\QueryType\Update\Result
      */
-    public function update(QueryInterface $query, $endpoint = null);
+    public function update(QueryInterface $query, $endpoint = null): UpdateResult;
 
     /**
      * Execute a select query.
@@ -377,9 +397,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\Select\Query\Query $query
      * @param Endpoint|string|null                                  $endpoint
      *
-     * @return \Solarium\QueryType\Select\Result\Result
+     * @return ResultInterface|\Solarium\QueryType\Select\Result\Result
      */
-    public function select(QueryInterface $query, $endpoint = null);
+    public function select(QueryInterface $query, $endpoint = null): SelectResult;
 
     /**
      * Execute a MoreLikeThis query.
@@ -400,9 +420,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\MoreLikeThis\Query $query
      * @param Endpoint|string|null                                  $endpoint
      *
-     * @return \Solarium\QueryType\MoreLikeThis\Result
+     * @return ResultInterface|\Solarium\QueryType\MoreLikeThis\Result
      */
-    public function moreLikeThis(QueryInterface $query, $endpoint = null);
+    public function moreLikeThis(QueryInterface $query, $endpoint = null): MoreLikeThisResult;
 
     /**
      * Execute an analysis query.
@@ -413,9 +433,9 @@ interface ClientInterface
      * @param QueryInterface|AnalysisQueryDocument|AnalysisQueryField $query
      * @param Endpoint|string|null                                    $endpoint
      *
-     * @return AnalysisResultDocument|AnalysisResultField
+     * @return ResultInterface|\Solarium\QueryType\Analysis\Result\Document|\Solarium\QueryType\Analysis\Result\Field
      */
-    public function analyze(QueryInterface $query, $endpoint = null);
+    public function analyze(QueryInterface $query, $endpoint = null): ResultInterface;
 
     /**
      * Execute a terms query.
@@ -426,9 +446,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\Terms\Query $query
      * @param Endpoint|string|null                           $endpoint
      *
-     * @return \Solarium\QueryType\Terms\Result
+     * @return ResultInterface|\Solarium\QueryType\Terms\Result
      */
-    public function terms(QueryInterface $query, $endpoint = null);
+    public function terms(QueryInterface $query, $endpoint = null): TermsResult;
 
     /**
      * Execute a spellcheck query.
@@ -439,9 +459,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\Spellcheck\Query $query
      * @param Endpoint|string|null                                $endpoint
      *
-     * @return \Solarium\QueryType\Spellcheck\Result\Result
+     * @return ResultInterface|\Solarium\QueryType\Spellcheck\Result\Result
      */
-    public function spellcheck(QueryInterface $query, $endpoint = null);
+    public function spellcheck(QueryInterface $query, $endpoint = null): SpellcheckResult;
 
     /**
      * Execute a suggester query.
@@ -452,9 +472,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\Suggester\Query $query
      * @param Endpoint|string|null                               $endpoint
      *
-     * @return \Solarium\QueryType\Suggester\Result\Result
+     * @return ResultInterface|\Solarium\QueryType\Suggester\Result\Result
      */
-    public function suggester(QueryInterface $query, $endpoint = null);
+    public function suggester(QueryInterface $query, $endpoint = null): SuggesterResult;
 
     /**
      * Execute an extract query.
@@ -465,9 +485,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\Extract\Query $query
      * @param Endpoint|string|null                             $endpoint
      *
-     * @return \Solarium\QueryType\Extract\Result
+     * @return ResultInterface|\Solarium\QueryType\Extract\Result
      */
-    public function extract(QueryInterface $query, $endpoint = null);
+    public function extract(QueryInterface $query, $endpoint = null): ExtractResult;
 
     /**
      * Execute a RealtimeGet query.
@@ -478,9 +498,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\RealtimeGet\Query $query
      * @param Endpoint|string|null                                 $endpoint
      *
-     * @return \Solarium\QueryType\RealtimeGet\Result
+     * @return ResultInterface|\Solarium\QueryType\RealtimeGet\Result
      */
-    public function realtimeGet(QueryInterface $query, $endpoint = null);
+    public function realtimeGet(QueryInterface $query, $endpoint = null): RealtimeGetResult;
 
     /**
      * Execute a Collections API query.
@@ -491,9 +511,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\Server\Collections\Query\Query $query
      * @param Endpoint|string|null                                              $endpoint
      *
-     * @return \Solarium\QueryType\Server\Collections\Result\ClusterStatusResult
+     * @return ResultInterface|\Solarium\QueryType\Server\Collections\Result\ClusterStatusResult
      */
-    public function collections(QueryInterface $query, $endpoint = null);
+    public function collections(QueryInterface $query, $endpoint = null): ResultInterface;
 
     /**
      * Execute a CoreAdmin query.
@@ -504,9 +524,9 @@ interface ClientInterface
      * @param QueryInterface|\Solarium\QueryType\Server\CoreAdmin\Query\Query $query
      * @param Endpoint|string|null                                            $endpoint
      *
-     * @return \Solarium\QueryType\Server\CoreAdmin\Result\Result
+     * @return ResultInterface|\Solarium\QueryType\Server\CoreAdmin\Result\Result
      */
-    public function coreAdmin(QueryInterface $query, $endpoint = null);
+    public function coreAdmin(QueryInterface $query, $endpoint = null): CoreAdminResult;
 
     /**
      * Create a query instance.
@@ -516,127 +536,127 @@ interface ClientInterface
      *
      * @throws InvalidArgumentException|UnexpectedValueException
      *
-     * @return \Solarium\Core\Query\Query
+     * @return \Solarium\Core\Query\AbstractQuery|QueryInterface
      */
-    public function createQuery($type, $options = null);
+    public function createQuery(string $type, array $options = null): QueryInterface;
 
     /**
      * Create a select query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Select\Query\Query
      */
-    public function createSelect($options = null);
+    public function createSelect(array $options = null): SelectQuery;
 
     /**
      * Create a MoreLikeThis query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\MorelikeThis\Query
      */
-    public function createMoreLikeThis($options = null);
+    public function createMoreLikeThis(array $options = null): MorelikeThisQuery;
 
     /**
      * Create an update query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Update\Query\Query
      */
-    public function createUpdate($options = null);
+    public function createUpdate(array $options = null): UpdateQuery;
 
     /**
      * Create a ping query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Ping\Query
      */
-    public function createPing($options = null);
+    public function createPing(array $options = null): PingQuery;
 
     /**
      * Create an analysis field query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return AnalysisQueryField
      */
-    public function createAnalysisField($options = null);
+    public function createAnalysisField(array $options = null): AnalysisQueryField;
 
     /**
      * Create an analysis document query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return AnalysisQueryDocument
      */
-    public function createAnalysisDocument($options = null);
+    public function createAnalysisDocument(array $options = null): AnalysisQueryDocument;
 
     /**
      * Create a terms query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Terms\Query
      */
-    public function createTerms($options = null);
+    public function createTerms(array $options = null): TermsQuery;
 
     /**
      * Create a spellcheck query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Spellcheck\Query
      */
-    public function createSpellcheck($options = null);
+    public function createSpellcheck(array $options = null): SpellcheckQuery;
 
     /**
      * Create a suggester query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Suggester\Query
      */
-    public function createSuggester($options = null);
+    public function createSuggester(array $options = null): SuggesterQuery;
 
     /**
      * Create an extract query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Extract\Query
      */
-    public function createExtract($options = null);
+    public function createExtract(array $options = null): ExtractQuery;
 
     /**
      * Create a RealtimeGet query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\RealtimeGet\Query
      */
-    public function createRealtimeGet($options = null);
+    public function createRealtimeGet(array $options = null): RealtimeGetQuery;
 
     /**
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Server\CoreAdmin\Query\Query
      */
-    public function createCoreAdmin($options = null);
+    public function createCoreAdmin(array $options = null): CoreAdminQuery;
 
     /**
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Server\Collections\Query\Query
      */
-    public function createCollections($options = null);
+    public function createCollections(array $options = null): CollectionsQuery;
 
     /**
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\QueryType\Server\Api\Query
      */
-    public function createApi($options = null);
+    public function createApi(array $options = null): ApiQuery;
 }

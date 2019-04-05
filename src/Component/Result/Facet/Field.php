@@ -33,7 +33,7 @@ class Field implements \IteratorAggregate, \Countable
      *
      * @return array
      */
-    public function getValues()
+    public function getValues(): array
     {
         return $this->values;
     }
@@ -43,7 +43,7 @@ class Field implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->values);
     }
@@ -53,7 +53,7 @@ class Field implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->values);
     }

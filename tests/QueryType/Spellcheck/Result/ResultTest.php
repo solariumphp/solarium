@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Spellcheck\Result;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Spellcheck\Result\Result;
+use Solarium\QueryType\Spellcheck\Result\Term;
 
 class ResultTest extends TestCase
 {
@@ -27,13 +28,13 @@ class ResultTest extends TestCase
      */
     protected $collation;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data = [
-            'term1' => 'data1',
-            'term2' => 'data2',
+            'term1' => new Term(1, 2, 3, ['data1']),
+            'term2' => new Term(1, 2, 3, ['data2']),
         ];
-        $this->allData = array_values($this->data);
+        $this->allData = ['data1', 'data2'];
         $this->collation = 'collation result';
         $this->result = new SpellcheckDummy($this->data, $this->allData, $this->collation);
     }
@@ -71,7 +72,7 @@ class ResultTest extends TestCase
 
     public function testGetTermsWithInvalidFieldName()
     {
-        $this->assertSame([], $this->result->getTerm('term3'));
+        $this->assertNull($this->result->getTerm('term3'));
     }
 
     public function testCount()

@@ -22,7 +22,7 @@ class TermTest extends TestCase
      */
     protected $suggestions;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->numFound = 5;
         $this->suggestions = [

@@ -36,7 +36,7 @@ class PreExecute extends Event
      *
      * @return QueryInterface
      */
-    public function getQuery()
+    public function getQuery(): QueryInterface
     {
         return $this->query;
     }
@@ -44,9 +44,9 @@ class PreExecute extends Event
     /**
      * Get the result object for this event.
      *
-     * @return ResultInterface
+     * @return ResultInterface|null
      */
-    public function getResult()
+    public function getResult(): ?ResultInterface
     {
         return $this->result;
     }
@@ -55,9 +55,12 @@ class PreExecute extends Event
      * Set the result object for this event, overrides default execution.
      *
      * @param ResultInterface $result
+     *
+     * @return self Provides fluent interface
      */
-    public function setResult($result)
+    public function setResult(ResultInterface $result): self
     {
         $this->result = $result;
+        return $this;
     }
 }

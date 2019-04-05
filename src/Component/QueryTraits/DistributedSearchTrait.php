@@ -3,6 +3,7 @@
 namespace Solarium\Component\QueryTraits;
 
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\DistributedSearch;
 
 /**
  * Trait query types supporting components.
@@ -16,7 +17,7 @@ trait DistributedSearchTrait
      *
      * @return \Solarium\Component\DistributedSearch
      */
-    public function getDistributedSearch()
+    public function getDistributedSearch(): DistributedSearch
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_DISTRIBUTEDSEARCH, true);
     }

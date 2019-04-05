@@ -40,7 +40,7 @@ class Customization extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setKey($value)
+    public function setKey(string $value): self
     {
         $this->setOption('key', $value);
 
@@ -50,9 +50,9 @@ class Customization extends Configurable
     /**
      * Get key value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getKey()
+    public function getKey(): ?string
     {
         return $this->getOption('key');
     }
@@ -62,9 +62,9 @@ class Customization extends Configurable
      *
      * @param string $value
      *
-     * @return Customization
+     * @return self Provides fluent interface
      */
-    public function setType($value)
+    public function setType(string $value): self
     {
         $this->setOption('type', $value);
 
@@ -74,9 +74,9 @@ class Customization extends Configurable
     /**
      * Get type value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->getOption('type');
     }
@@ -86,9 +86,9 @@ class Customization extends Configurable
      *
      * @param string $value
      *
-     * @return Customization
+     * @return self Provides fluent interface
      */
-    public function setName($value)
+    public function setName(string $value): self
     {
         $this->setOption('name', $value);
 
@@ -98,9 +98,9 @@ class Customization extends Configurable
     /**
      * Get name value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->getOption('name');
     }
@@ -110,9 +110,9 @@ class Customization extends Configurable
      *
      * @param string $value
      *
-     * @return Customization
+     * @return self Provides fluent interface
      */
-    public function setValue($value)
+    public function setValue(string $value): self
     {
         $this->setOption('value', $value);
 
@@ -122,7 +122,7 @@ class Customization extends Configurable
     /**
      * Get value.
      *
-     * @return string
+     * @return mixed|null
      */
     public function getValue()
     {
@@ -134,9 +134,9 @@ class Customization extends Configurable
      *
      * @param bool $value
      *
-     * @return Customization
+     * @return self Provides fluent interface
      */
-    public function setPersistent($value)
+    public function setPersistent(bool $value): self
     {
         $this->setOption('persistent', $value);
 
@@ -146,9 +146,9 @@ class Customization extends Configurable
     /**
      * Get persistent setting.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getPersistent()
+    public function getPersistent(): ?bool
     {
         return $this->getOption('persistent');
     }
@@ -158,9 +158,9 @@ class Customization extends Configurable
      *
      * @param bool $value
      *
-     * @return Customization
+     * @return self Provides fluent interface
      */
-    public function setOverwrite($value)
+    public function setOverwrite(bool $value): self
     {
         $this->setOption('overwrite', $value);
 
@@ -170,9 +170,9 @@ class Customization extends Configurable
     /**
      * Get overwrite option value.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getOverwrite()
+    public function getOverwrite(): ?bool
     {
         return $this->getOption('overwrite');
     }
@@ -182,7 +182,7 @@ class Customization extends Configurable
      *
      * @return bool
      */
-    public function isValid()
+    public function isValid(): bool
     {
         $type = $this->getType();
         if (self::TYPE_PARAM !== $type && self::TYPE_HEADER !== $type) {

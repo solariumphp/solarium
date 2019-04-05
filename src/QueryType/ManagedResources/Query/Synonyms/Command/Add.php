@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
 
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms as SynonymsData;
 
@@ -47,10 +48,13 @@ class Add extends AbstractCommand
      * Set synonyms.
      *
      * @param SynonymsData $synonyms
+     *
+     * @return self
      */
-    public function setSynonyms(SynonymsData $synonyms)
+    public function setSynonyms(SynonymsData $synonyms): self
     {
         $this->synonyms = $synonyms;
+        return $this;
     }
 
     /**

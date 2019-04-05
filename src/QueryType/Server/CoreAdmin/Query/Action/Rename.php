@@ -35,10 +35,10 @@ class Rename extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get the other core that should be the new name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getOther(): string
+    public function getOther(): ?string
     {
-        return (string) $this->getOption('other');
+        return $this->getOption('other');
     }
 }

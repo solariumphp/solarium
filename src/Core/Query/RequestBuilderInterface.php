@@ -12,9 +12,9 @@ interface RequestBuilderInterface
     /**
      * Build request for a select query.
      *
-     * @param QueryInterface $query
+     * @param AbstractQuery $query
      *
      * @return Request
      */
-    public function build(QueryInterface $query);
+    public function build(AbstractQuery $query): Request;
 }

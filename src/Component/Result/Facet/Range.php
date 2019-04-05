@@ -38,36 +38,36 @@ class Range extends Field
     /**
      * The lower bound of the ranges.
      *
-     * @var string
+     * @var string|int
      */
     protected $start;
 
     /**
      * The upper bound of all ranges.
      *
-     * @var string
+     * @var string|int
      */
     protected $end;
 
     /**
      * The gap between each range.
      *
-     * @var string
+     * @var string|int
      */
     protected $gap;
 
     /**
      * Constructor.
      *
-     * @param array $values
-     * @param int   $before
-     * @param int   $after
-     * @param int   $between
-     * @param int   $start
-     * @param int   $end
-     * @param int   $gap
+     * @param array      $values
+     * @param int        $before
+     * @param int        $after
+     * @param int        $between
+     * @param string|int $start
+     * @param string|int $end
+     * @param string|int $gap
      */
-    public function __construct($values, $before, $after, $between, $start, $end, $gap)
+    public function __construct(array $values, int $before, int $after, int $between, $start, $end, $gap)
     {
         parent::__construct($values);
         $this->before = $before;
@@ -86,7 +86,7 @@ class Range extends Field
      *
      * @return int
      */
-    public function getBefore()
+    public function getBefore(): int
     {
         return $this->before;
     }
@@ -99,7 +99,7 @@ class Range extends Field
      *
      * @return int
      */
-    public function getAfter()
+    public function getAfter(): int
     {
         return $this->after;
     }
@@ -112,7 +112,7 @@ class Range extends Field
      *
      * @return int
      */
-    public function getBetween()
+    public function getBetween(): int
     {
         return $this->between;
     }
@@ -124,9 +124,9 @@ class Range extends Field
      *
      * @return string
      */
-    public function getStart()
+    public function getStart(): string
     {
-        return $this->start;
+        return (string) $this->start;
     }
 
     /**
@@ -136,9 +136,9 @@ class Range extends Field
      *
      * @return string
      */
-    public function getEnd()
+    public function getEnd(): string
     {
-        return $this->end;
+        return (string) $this->end;
     }
 
     /**
@@ -148,8 +148,8 @@ class Range extends Field
      *
      * @return string
      */
-    public function getGap()
+    public function getGap(): string
     {
-        return $this->gap;
+        return (string) $this->gap;
     }
 }

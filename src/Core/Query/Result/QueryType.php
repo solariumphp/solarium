@@ -45,10 +45,10 @@ class QueryType extends Result
      *
      * @param array $mapData
      */
-    protected function mapData($mapData)
+    protected function mapData(array $mapData)
     {
         foreach ($mapData as $key => $data) {
-            $this->$key = $data;
+            $this->{$key} = $data;
         }
     }
 }

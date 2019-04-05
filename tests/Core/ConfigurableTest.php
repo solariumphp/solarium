@@ -54,7 +54,7 @@ class ConfigurableTest extends TestCase
 
     public function testConstructorWithInvalidConfig()
     {
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(\TypeError::class);
         new Client('invalid');
     }
 

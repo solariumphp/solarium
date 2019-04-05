@@ -39,7 +39,7 @@ class QueryGroupResult extends StandardQueryGroupResult
      * @param array $documents
      * @param Query $query
      */
-    public function __construct($matches, $numFound, $start, $maximumScore, $documents, $query)
+    public function __construct(int $matches, int $numFound, int $start, float $maximumScore, array $documents, Query $query)
     {
         $this->filterMode = $query->getFilterMode();
         $this->filterRatio = $query->getFilterRatio();
@@ -57,7 +57,7 @@ class QueryGroupResult extends StandardQueryGroupResult
      *
      * @return array
      */
-    public function getDocuments()
+    public function getDocuments(): array
     {
         if (!$this->filtered) {
             $filter = new Filter();

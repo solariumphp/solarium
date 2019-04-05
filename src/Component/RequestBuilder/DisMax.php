@@ -4,6 +4,7 @@ namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Component\DisMax as DismaxComponent;
 use Solarium\Core\Client\Request;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * Add select component dismax to the request.
@@ -18,7 +19,7 @@ class DisMax implements ComponentRequestBuilderInterface
      *
      * @return Request
      */
-    public function buildComponent($component, $request)
+    public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         // enable dismax
         $request->addParam('defType', $component->getQueryParser());

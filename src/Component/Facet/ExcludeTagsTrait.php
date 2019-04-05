@@ -23,7 +23,7 @@ trait ExcludeTagsTrait
      *
      * @return self Provides fluent interface
      */
-    public function addExclude($tag)
+    public function addExclude(string $tag): ExcludeTagsInterface
     {
         $this->excludes[$tag] = true;
 
@@ -37,7 +37,7 @@ trait ExcludeTagsTrait
      *
      * @return self Provides fluent interface
      */
-    public function addExcludes(array $excludes)
+    public function addExcludes(array $excludes): ExcludeTagsInterface
     {
         foreach ($excludes as $exclude) {
             $this->addExclude($exclude);
@@ -51,7 +51,7 @@ trait ExcludeTagsTrait
      *
      * @return array
      */
-    public function getExcludes()
+    public function getExcludes(): array
     {
         return array_keys($this->excludes);
     }
@@ -63,7 +63,7 @@ trait ExcludeTagsTrait
      *
      * @return self Provides fluent interface
      */
-    public function removeExclude($exclude)
+    public function removeExclude(string $exclude): ExcludeTagsInterface
     {
         if (isset($this->excludes[$exclude])) {
             unset($this->excludes[$exclude]);
@@ -77,7 +77,7 @@ trait ExcludeTagsTrait
      *
      * @return self Provides fluent interface
      */
-    public function clearExcludes()
+    public function clearExcludes(): ExcludeTagsInterface
     {
         $this->excludes = [];
 
@@ -90,11 +90,14 @@ trait ExcludeTagsTrait
      * This overwrites any existing excludes
      *
      * @param array $excludes
+     *
+     * @return self Provides fluent interface
      */
-    public function setExcludes($excludes)
+    public function setExcludes(array $excludes): ExcludeTagsInterface
     {
         $this->clearExcludes();
         $this->addExcludes($excludes);
+        return $this;
     }
 
     /**

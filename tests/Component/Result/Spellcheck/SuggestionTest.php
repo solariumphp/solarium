@@ -24,7 +24,7 @@ class SuggestionTest extends TestCase
 
     protected $frequency;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->numFound = 1;
         $this->startOffset = 2;

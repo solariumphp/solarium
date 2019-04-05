@@ -17,14 +17,14 @@ interface ResultInterface
      *
      * @return Response
      */
-    public function getResponse();
+    public function getResponse(): Response;
 
     /**
      * Get query instance.
      *
      * @return AbstractQuery
      */
-    public function getQuery();
+    public function getQuery(): AbstractQuery;
 
     /**
      * Get Solr response data.
@@ -33,5 +33,5 @@ interface ResultInterface
      *
      * @return array
      */
-    public function getData();
+    public function getData(): array;
 }

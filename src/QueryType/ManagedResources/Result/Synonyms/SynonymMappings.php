@@ -2,6 +2,8 @@
 
 namespace Solarium\QueryType\ManagedResources\Result\Synonyms;
 
+use Solarium\Core\Client\Response;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 use Solarium\Core\Query\Result\Result;
 
@@ -52,10 +54,10 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     /**
      * Constructor.
      *
-     * @param $query
-     * @param $response
+     * @param AbstractQuery $query
+     * @param Response      $response
      */
-    public function __construct($query, $response)
+    public function __construct(AbstractQuery $query, Response $response)
     {
         Result::__construct($query, $response);
     }

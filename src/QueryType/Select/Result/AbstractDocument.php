@@ -14,6 +14,8 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      */
     protected $fields;
 
+    abstract public function __set($name, $value): self;
+
     /**
      * Get field value by name.
      *
@@ -22,15 +24,11 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @param string $name
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function __get($name)
     {
-        if (!isset($this->fields[$name])) {
-            return;
-        }
-
-        return $this->fields[$name];
+        return $this->fields[$name] ?? null;
     }
 
     /**
@@ -43,7 +41,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return bool
      */
-    public function __isset($name)
+    public function __isset($name): bool
     {
         return isset($this->fields[$name]);
     }
@@ -53,7 +51,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return array
      */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }
@@ -63,7 +61,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->fields);
     }
@@ -73,7 +71,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->fields);
     }

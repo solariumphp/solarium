@@ -46,7 +46,7 @@ class PostExecuteRequest extends Event
      *
      * @return Endpoint
      */
-    public function getEndpoint()
+    public function getEndpoint(): Endpoint
     {
         return $this->endpoint;
     }
@@ -56,7 +56,7 @@ class PostExecuteRequest extends Event
      *
      * @return Response
      */
-    public function getResponse()
+    public function getResponse(): Response
     {
         return $this->response;
     }
@@ -66,7 +66,7 @@ class PostExecuteRequest extends Event
      *
      * @return Request
      */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->request;
     }

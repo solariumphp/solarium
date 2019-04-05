@@ -32,7 +32,7 @@ class GroupingTest extends TestCase
      */
     protected $result;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->parser = new Parser();
         $this->query = new Query();

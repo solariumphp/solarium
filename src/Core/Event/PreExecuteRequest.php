@@ -44,7 +44,7 @@ class PreExecuteRequest extends Event
      *
      * @return Endpoint
      */
-    public function getEndpoint()
+    public function getEndpoint(): Endpoint
     {
         return $this->endpoint;
     }
@@ -54,7 +54,7 @@ class PreExecuteRequest extends Event
      *
      * @return Request
      */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->request;
     }
@@ -63,18 +63,21 @@ class PreExecuteRequest extends Event
      * Get the request object for this event.
      *
      * @param Request $request
+     *
+     * @return self Provides fluent interface
      */
-    public function setRequest($request)
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
+        return $this;
     }
 
     /**
      * Get the response object for this event.
      *
-     * @return Response
+     * @return Response|null
      */
-    public function getResponse()
+    public function getResponse(): ?Response
     {
         return $this->response;
     }
@@ -83,9 +86,12 @@ class PreExecuteRequest extends Event
      * Set the response object for this event, overrides default execution.
      *
      * @param Response $response
+     *
+     * @return self Provides fluent interface
      */
-    public function setResponse($response)
+    public function setResponse(Response $response): self
     {
         $this->response = $response;
+        return $this;
     }
 }

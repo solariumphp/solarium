@@ -4,7 +4,9 @@ namespace Solarium\Component\Stats;
 
 use Solarium\Component\AbstractComponent;
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\Stats as RequestBuilder;
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\Stats as ResponseParser;
 use Solarium\Exception\InvalidArgumentException;
 
@@ -15,12 +17,7 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Stats extends AbstractComponent
 {
-    /**
-     * Stats facets for all fields.
-     *
-     * @var array
-     */
-    protected $facets = [];
+    use FacetsTrait;
 
     /**
      * Fields.
@@ -44,7 +41,7 @@ class Stats extends AbstractComponent
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -54,7 +51,7 @@ class Stats extends AbstractComponent
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ?ComponentParserInterface
     {
         return new ResponseParser();
     }
@@ -73,7 +70,7 @@ class Stats extends AbstractComponent
      *
      * @return Field
      */
-    public function createField($options = null)
+    public function createField($options = null): Field
     {
         if (is_string($options)) {
             $fq = new Field();
@@ -102,7 +99,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function addField($field)
+    public function addField($field): self
     {
         if (is_array($field)) {
             $field = new Field($field);
@@ -114,7 +111,7 @@ class Stats extends AbstractComponent
             throw new InvalidArgumentException('A field must have a key value');
         }
 
-        //double add calls for the same field are ignored, but non-unique keys cause an exception
+        // Double add calls for the same field are ignored, but non-unique keys cause an exception.
         if (array_key_exists($key, $this->fields) && $this->fields[$key] !== $field) {
             throw new InvalidArgumentException('A field must have a unique key value');
         }
@@ -131,7 +128,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function addFields(array $fields)
+    public function addFields(array $fields): self
     {
         foreach ($fields as $key => $field) {
             // in case of a config array: add key to config
@@ -150,13 +147,11 @@ class Stats extends AbstractComponent
      *
      * @param string $key
      *
-     * @return string
+     * @return Field|null
      */
-    public function getField($key)
+    public function getField(string $key): ?Field
     {
-        if (isset($this->fields[$key])) {
-            return $this->fields[$key];
-        }
+        return $this->fields[$key] ?? null;
     }
 
     /**
@@ -164,7 +159,7 @@ class Stats extends AbstractComponent
      *
      * @return Field[]
      */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }
@@ -178,13 +173,13 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function removeField($field)
+    public function removeField($field): self
     {
         if (is_object($field)) {
             $field = $field->getKey();
         }
 
-        if (isset($this->fields[$field])) {
+        if ($field && isset($this->fields[$field])) {
             unset($this->fields[$field]);
         }
 
@@ -196,7 +191,7 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function clearFields()
+    public function clearFields(): self
     {
         $this->fields = [];
 
@@ -212,101 +207,10 @@ class Stats extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setFields($fields)
+    public function setFields(array $fields): self
     {
         $this->clearFields();
         $this->addFields($fields);
-
-        return $this;
-    }
-
-    /**
-     * Specify a facet to return in the resultset.
-     *
-     * @param string $facet
-     *
-     * @return self Provides fluent interface
-     */
-    public function addFacet($facet)
-    {
-        $this->facets[$facet] = true;
-
-        return $this;
-    }
-
-    /**
-     * Specify multiple facets to return in the resultset.
-     *
-     * @param string|array $facets can be an array or string with comma
-     *                             separated facetnames
-     *
-     * @return self Provides fluent interface
-     */
-    public function addFacets($facets)
-    {
-        if (is_string($facets)) {
-            $facets = explode(',', $facets);
-            $facets = array_map('trim', $facets);
-        }
-
-        foreach ($facets as $facet) {
-            $this->addFacet($facet);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove a facet from the facet list.
-     *
-     * @param string $facet
-     *
-     * @return self Provides fluent interface
-     */
-    public function removeFacet($facet)
-    {
-        if (isset($this->facets[$facet])) {
-            unset($this->facets[$facet]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove all facets from the facet list.
-     *
-     * @return self Provides fluent interface
-     */
-    public function clearFacets()
-    {
-        $this->facets = [];
-
-        return $this;
-    }
-
-    /**
-     * Get the list of facets.
-     *
-     * @return array
-     */
-    public function getFacets()
-    {
-        return array_keys($this->facets);
-    }
-
-    /**
-     * Set multiple facets.
-     *
-     * This overwrites any existing facets
-     *
-     * @param array $facets
-     *
-     * @return self Provides fluent interface
-     */
-    public function setFacets($facets)
-    {
-        $this->clearFacets();
-        $this->addFacets($facets);
 
         return $this;
     }

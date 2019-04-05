@@ -12,7 +12,7 @@ class FieldTest extends TestCase
      */
     protected $field;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->field = new Field();
     }

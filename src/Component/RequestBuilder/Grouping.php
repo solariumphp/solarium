@@ -4,6 +4,7 @@ namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Component\Grouping as GroupingComponent;
 use Solarium\Core\Client\Request;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * Add select component Grouping to the request.
@@ -18,7 +19,7 @@ class Grouping implements ComponentRequestBuilderInterface
      *
      * @return Request
      */
-    public function buildComponent($component, $request)
+    public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         // enable grouping
         $request->addParam('group', 'true');

@@ -97,14 +97,14 @@ interface ComponentAwareQueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerComponentType($key, $component);
+    public function registerComponentType(string $key, string $component);
 
     /**
      * Get all registered components.
      *
      * @return AbstractComponent[]
      */
-    public function getComponents();
+    public function getComponents(): array;
 
     /**
      * Get a component instance by key.
@@ -121,7 +121,7 @@ interface ComponentAwareQueryInterface
      *
      * @return object|null
      */
-    public function getComponent($key, $autoload = false, $config = null);
+    public function getComponent(string $key, $autoload = false, array $config = null);
 
     /**
      * Set a component instance.
@@ -133,7 +133,7 @@ interface ComponentAwareQueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setComponent($key, $component);
+    public function setComponent(string $key, AbstractComponent $component): self;
 
     /**
      * Remove a component instance.
@@ -144,5 +144,5 @@ interface ComponentAwareQueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeComponent($component);
+    public function removeComponent($component): self;
 }

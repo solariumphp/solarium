@@ -23,29 +23,6 @@ class Delete extends AbstractCDRAction
     }
 
     /**
-     * The name of the collection to be deleted. This parameter is required.
-     *
-     * @param string $collection
-     *
-     * @return self Delete object
-     */
-    public function setName(string $collection): self
-    {
-        parent::setName($collection);
-        return $this;
-    }
-
-    /**
-     * Get the name of the collection to be deleted.
-     *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return parent::getName();
-    }
-
-    /**
      * Returns the namespace and class of the result class for the action.
      *
      * @return string

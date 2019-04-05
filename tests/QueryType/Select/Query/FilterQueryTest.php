@@ -9,7 +9,7 @@ class FilterQueryTest extends TestCase
 {
     protected $filterQuery;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->filterQuery = new FilterQuery();
     }

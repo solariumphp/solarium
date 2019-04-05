@@ -29,19 +29,20 @@ class Unload extends AbstractAsyncAction implements CoreActionInterface
      *
      * @return self Provides fluent interface
      */
-    public function setDeleteIndex(bool $deleteIndex)
+    public function setDeleteIndex(bool $deleteIndex): self
     {
-        return $this->setOption('deleteIndex', $deleteIndex);
+        $this->setOption('deleteIndex', $deleteIndex);
+        return $this;
     }
 
     /**
      * Indicates if a deletion was forced.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getDeleteIndex(): bool
+    public function getDeleteIndex(): ?bool
     {
-        return (string) $this->getOption('deleteIndex');
+        return $this->getOption('deleteIndex');
     }
 
     /**
@@ -51,19 +52,20 @@ class Unload extends AbstractAsyncAction implements CoreActionInterface
      *
      * @return self Provides fluent interface
      */
-    public function setDeleteDataDir(bool $deleteDataDir)
+    public function setDeleteDataDir(bool $deleteDataDir): self
     {
-        return $this->setOption('deleteDataDir', $deleteDataDir);
+        $this->setOption('deleteDataDir', $deleteDataDir);
+        return $this;
     }
 
     /**
      * Indicates if a deletion of the dataDir was forced.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getDeleteDataDir(): bool
+    public function getDeleteDataDir(): ?bool
     {
-        return (string) $this->getOption('deleteDataDir');
+        return $this->getOption('deleteDataDir');
     }
 
     /**
@@ -73,18 +75,19 @@ class Unload extends AbstractAsyncAction implements CoreActionInterface
      *
      * @return self Provides fluent interface
      */
-    public function setDeleteInstanceDir(bool $deleteInstanceDir)
+    public function setDeleteInstanceDir(bool $deleteInstanceDir): self
     {
-        return $this->setOption('deleteInstanceDir', $deleteInstanceDir);
+        $this->setOption('deleteInstanceDir', $deleteInstanceDir);
+        return $this;
     }
 
     /**
      * Indicates if a deletion of the instanceDir was forced.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getDeleteInstanceDir(): bool
+    public function getDeleteInstanceDir(): ?bool
     {
-        return (string) $this->getOption('deleteInstanceDir');
+        return $this->getOption('deleteInstanceDir');
     }
 }

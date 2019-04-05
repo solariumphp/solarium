@@ -13,7 +13,7 @@ class ResultTest extends TestCase
      */
     protected $mltResult;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->docs = [
             new Document(['id' => 1, 'name' => 'test1']),

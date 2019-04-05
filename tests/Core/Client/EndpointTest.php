@@ -13,7 +13,7 @@ class EndpointTest extends TestCase
      */
     protected $endpoint;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->endpoint = new Endpoint();
     }
@@ -195,7 +195,6 @@ class EndpointTest extends TestCase
 
         $endpoint = <<<EOF
 Solarium\Core\Client\Endpoint::__toString
-base uri: http://192.168.0.1:123/mysolr/solr/mycore/
 host: 192.168.0.1
 port: 123
 path: /mysolr

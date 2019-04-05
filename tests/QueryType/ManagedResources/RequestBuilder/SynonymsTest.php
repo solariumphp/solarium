@@ -28,7 +28,7 @@ class SynonymsTest extends TestCase
      */
     protected $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new SynonymsQuery();
         $this->builder = new SynonymsRequestBuilder();

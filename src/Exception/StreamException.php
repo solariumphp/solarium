@@ -27,7 +27,7 @@ class StreamException extends \UnexpectedValueException implements ExceptionInte
      *
      * @return string
      */
-    public function getExpression()
+    public function getExpression(): string
     {
         return $this->expression;
     }

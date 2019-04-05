@@ -7,7 +7,7 @@ namespace Solarium\QueryType\Server\Query\Action;
  */
 abstract class AbstractAsyncAction extends AbstractAction implements AsyncActionInterface
 {
-    public function setAsync(string $requestId)
+    public function setAsync(string $requestId): AsyncActionInterface
     {
         $this->setOption('async', $requestId);
         return $this;

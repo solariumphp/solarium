@@ -12,7 +12,7 @@ use Solarium\Exception\InvalidArgumentException;
  * This is a 'virtual' querytype that combines multiple facet queries into a
  * single resultset
  */
-class MultiQuery extends AbstractFacet
+class MultiQuery extends AbstractFacet implements ExcludeTagsInterface
 {
     use ExcludeTagsTrait {
         init as excludeTagsInit;
@@ -50,7 +50,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function createQuery($key, $query, $excludes = [])
+    public function createQuery(string $key, string $query, array $excludes = []): self
     {
         // merge excludes with shared excludes
         $excludes = array_merge($this->getExcludes(), $excludes);
@@ -76,7 +76,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function addQuery($facetQuery)
+    public function addQuery($facetQuery): self
     {
         if (is_array($facetQuery)) {
             $facetQuery = new Query($facetQuery);
@@ -107,7 +107,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function addQueries(array $facetQueries)
+    public function addQueries(array $facetQueries): self
     {
         foreach ($facetQueries as $key => $facetQuery) {
             // in case of a config array: add key to config
@@ -126,13 +126,11 @@ class MultiQuery extends AbstractFacet
      *
      * @param string $key
      *
-     * @return string
+     * @return Query|null
      */
-    public function getQuery($key)
+    public function getQuery($key): ?Query
     {
-        if (isset($this->facetQueries[$key])) {
-            return $this->facetQueries[$key];
-        }
+        return $this->facetQueries[$key] ?? null;
     }
 
     /**
@@ -140,7 +138,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return Query[]
      */
-    public function getQueries()
+    public function getQueries(): array
     {
         return $this->facetQueries;
     }
@@ -154,7 +152,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function removeQuery($query)
+    public function removeQuery($query): self
     {
         if (is_object($query)) {
             $query = $query->getKey();
@@ -172,7 +170,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function clearQueries()
+    public function clearQueries(): self
     {
         $this->facetQueries = [];
 
@@ -188,7 +186,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function setQueries($facetQueries)
+    public function setQueries(array $facetQueries): self
     {
         $this->clearQueries();
 
@@ -208,7 +206,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function addExclude($tag)
+    public function addExclude(string $tag): ExcludeTagsInterface
     {
         foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->addExclude($tag);
@@ -230,7 +228,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function removeExclude($exclude)
+    public function removeExclude(string $exclude): ExcludeTagsInterface
     {
         foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->removeExclude($exclude);
@@ -250,7 +248,7 @@ class MultiQuery extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function clearExcludes()
+    public function clearExcludes(): ExcludeTagsInterface
     {
         foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->clearExcludes();

@@ -34,7 +34,7 @@ class ResourcesTest extends TestCase
         $resultStub = $this->createMock(ResourceList::class);
         $resultStub->expects($this->once())
             ->method('getData')
-            ->will($this->returnValue($data));
+            ->willReturn($data);
 
         $parser = new ResourcesResponseParser();
 

@@ -11,13 +11,20 @@ use Solarium\QueryType\Server\AbstractServerQuery;
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
     /**
+     * Helper instance.
+     *
+     * @var Helper
+     */
+    protected $helper;
+
+    /**
      * Build request for a select query.
      *
-     * @param QueryInterface|Query $query
+     * @param AbstractQuery|QueryInterface $query
      *
      * @return Request
      */
-    public function build(QueryInterface $query)
+    public function build(AbstractQuery $query): Request
     {
         $request = new Request();
         $request->setHandler($query->getHandler());
@@ -52,7 +59,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * @return string with Solr localparams syntax
      */
-    public function renderLocalParams($value, $localParams = [])
+    public function renderLocalParams(string $value, array $localParams = []): string
     {
         $params = '';
         foreach ($localParams as $paramName => $paramValue) {
@@ -79,17 +86,17 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * For use in building XML messages
      *
-     * @param string $name
-     * @param bool   $value
+     * @param string    $name
+     * @param bool|null $value
      *
      * @return string
      */
-    public function boolAttrib($name, $value)
+    public function boolAttrib(string $name, ?bool $value): string
     {
         if (null !== $value) {
-            $value = (true === (bool) $value) ? 'true' : 'false';
+            $stringValue = (true === (bool) $value) ? 'true' : 'false';
 
-            return $this->attrib($name, $value);
+            return $this->attrib($name, $stringValue);
         }
 
         return '';
@@ -100,17 +107,33 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * For use in building XML messages
      *
-     * @param string $name
-     * @param string $value
+     * @param string      $name
+     * @param string|null $value
      *
      * @return string
      */
-    public function attrib($name, $value)
+    public function attrib(string $name, ?string $value): string
     {
         if (null !== $value) {
             return ' '.$name.'="'.$value.'"';
         }
 
         return '';
+    }
+
+    /**
+     * Get a helper instance.
+     *
+     * Uses lazy loading: the helper is instantiated on first use
+     *
+     * @return Helper
+     */
+    public function getHelper(): Helper
+    {
+        if (null === $this->helper) {
+            $this->helper = new Helper();
+        }
+
+        return $this->helper;
     }
 }

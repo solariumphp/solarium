@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\Stream;
 
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
 
@@ -18,7 +19,7 @@ class RequestBuilder implements RequestBuilderInterface
      *
      * @return Request
      */
-    public function build(QueryInterface $query)
+    public function build(AbstractQuery $query): Request
     {
         $request = new Request();
         $request->setHandler($query->getHandler());

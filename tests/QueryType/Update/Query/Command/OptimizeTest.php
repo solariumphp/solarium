@@ -10,7 +10,7 @@ class OptimizeTest extends TestCase
 {
     protected $command;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->command = new Optimize();
     }

@@ -19,9 +19,12 @@ class Stopword
 
     /**
      * @param string $term
+     *
+     * @return self
      */
-    public function setTerm(string $term)
+    public function setTerm(string $term): self
     {
         $this->term = $term;
+        return $this;
     }
 }

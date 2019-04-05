@@ -47,7 +47,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function getStatus()
+    public function getStatus(): int
     {
         $this->parseResponse();
 
@@ -62,7 +62,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function getQueryTime()
+    public function getQueryTime(): int
     {
         $this->parseResponse();
 
@@ -74,7 +74,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return array
      */
-    public function getResults()
+    public function getResults(): array
     {
         $this->parseResponse();
 
@@ -86,7 +86,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return array
      */
-    public function getAll()
+    public function getAll(): array
     {
         $this->parseResponse();
 
@@ -100,15 +100,11 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return Dictionary|null
      */
-    public function getDictionary($dictionary)
+    public function getDictionary($dictionary): ?Dictionary
     {
         $this->parseResponse();
 
-        if (isset($this->results[$dictionary])) {
-            return $this->results[$dictionary];
-        }
-
-        return null;
+        return $this->results[$dictionary] ?? null;
     }
 
     /**
@@ -116,7 +112,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         $this->parseResponse();
 
@@ -128,7 +124,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         $this->parseResponse();
 

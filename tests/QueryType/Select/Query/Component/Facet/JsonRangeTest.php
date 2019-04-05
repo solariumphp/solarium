@@ -13,7 +13,7 @@ class JsonRangeTest extends TestCase
      */
     protected $facet;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->facet = new JsonRange();
     }
@@ -35,9 +35,9 @@ class JsonRangeTest extends TestCase
 
         $this->assertSame($options['key'], $this->facet->getKey());
         $this->assertSame($options['field'], $this->facet->getField());
-        $this->assertSame($options['start'], $this->facet->getStart());
-        $this->assertSame($options['end'], $this->facet->getEnd());
-        $this->assertSame($options['gap'], $this->facet->getGap());
+        $this->assertSame((string) $options['start'], $this->facet->getStart());
+        $this->assertSame((string) $options['end'], $this->facet->getEnd());
+        $this->assertSame((string) $options['gap'], $this->facet->getGap());
         $this->assertSame($options['hardend'], $this->facet->getHardend());
         $this->assertSame([$options['other']], $this->facet->getOther());
         $this->assertSame([$options['include']], $this->facet->getInclude());
@@ -60,19 +60,27 @@ class JsonRangeTest extends TestCase
     public function testSetAndGetStart()
     {
         $this->facet->setStart(1);
-        $this->assertSame(1, $this->facet->getStart());
+        $this->assertSame('1', $this->facet->getStart());
+        $this->facet->setStart('1.0');
+        $this->assertSame('1.0', $this->facet->getStart());
+        $this->facet->setStart('NOW');
+        $this->assertSame('NOW', $this->facet->getStart());
     }
 
     public function testSetAndGetEnd()
     {
         $this->facet->setEnd(100);
-        $this->assertSame(100, $this->facet->getEnd());
+        $this->assertSame('100', $this->facet->getEnd());
+        $this->facet->setEnd('100.0');
+        $this->assertSame('100.0', $this->facet->getEnd());
+        $this->facet->setEnd('NOW');
+        $this->assertSame('NOW', $this->facet->getEnd());
     }
 
     public function testSetAndGetGap()
     {
         $this->facet->setGap(10);
-        $this->assertSame(10, $this->facet->getGap());
+        $this->assertSame('10', $this->facet->getGap());
     }
 
     public function testSetAndGetHardend()

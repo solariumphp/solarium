@@ -19,9 +19,9 @@ use Solarium\QueryType\Select\Result\AbstractDocument;
  * stored. You will loose that data because it is impossible to retrieve it from
  * Solr. Always update from the original data source.
  *
- * Atomic updates are also support, using the field modifiers
+ * Atomic updates are also support, using the field modifiers.
  */
-class Document extends AbstractDocument implements DocumentInterface
+class Document extends AbstractDocument implements UpdateDocumentInterface
 {
     /**
      * Directive to set or replace the field value(s) with the specified value(s), or remove the values if 'null' or
@@ -94,9 +94,11 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Document boost value.
      *
-     * @var float
+     * Null menas no boost which is something different than a boost by '0.0'.
+     *
+     * @var float|null
      */
-    protected $boost = null;
+    protected $boost;
 
     /**
      * Allows us to determine what kind of atomic update we want to set.
@@ -165,22 +167,30 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @param string      $name
      * @param string|null $value
+     *
+     * @return self
      */
-    public function __set($name, $value)
+    public function __set($name, $value): AbstractDocument
     {
         $this->setField($name, $value);
+
+        return $this;
     }
 
     /**
      * Unset field value.
      *
-     * Magic method for removing fields by unsetting object properties
+     * Magic method for removing fields by un-setting object properties
      *
      * @param string $name
+     *
+     * @return self
      */
-    public function __unset($name)
+    public function __unset($name): self
     {
         $this->removeField($name);
+
+        return $this;
     }
 
     /**
@@ -189,14 +199,14 @@ class Document extends AbstractDocument implements DocumentInterface
      * If a field already has a value it will be converted
      * to a multivalue field.
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param float  $boost
-     * @param string $modifier
+     * @param string      $key
+     * @param mixed       $value
+     * @param float|null  $boost
+     * @param string|null $modifier
      *
      * @return self Provides fluent interface
      */
-    public function addField($key, $value, $boost = null, $modifier = null)
+    public function addField(string $key, $value, ?float $boost = null, ?string $modifier = null): self
     {
         if (!isset($this->fields[$key])) {
             $this->setField($key, $value, $boost, $modifier);
@@ -211,7 +221,9 @@ class Document extends AbstractDocument implements DocumentInterface
             }
 
             $this->fields[$key][] = $value;
-            $this->setFieldBoost($key, $boost);
+            if (null !== $boost) {
+                $this->setFieldBoost($key, $boost);
+            }
             if (null !== $modifier) {
                 $this->setFieldModifier($key, $modifier);
             }
@@ -227,14 +239,14 @@ class Document extends AbstractDocument implements DocumentInterface
      * this method for a multivalue field.
      * If you supply NULL as the value the field will be removed
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param float  $boost
-     * @param string $modifier
+     * @param string      $key
+     * @param mixed       $value
+     * @param float|null  $boost
+     * @param string|null $modifier
      *
      * @return self Provides fluent interface
      */
-    public function setField($key, $value, $boost = null, $modifier = null)
+    public function setField(string $key, $value, ?float $boost = null, ?string $modifier = null): self
     {
         if (null === $value && null === $modifier) {
             $this->removeField($key);
@@ -244,7 +256,9 @@ class Document extends AbstractDocument implements DocumentInterface
             }
 
             $this->fields[$key] = $value;
-            $this->setFieldBoost($key, $boost);
+            if (null !== $boost) {
+                $this->setFieldBoost($key, $boost);
+            }
             if (null !== $modifier) {
                 $this->setFieldModifier($key, $modifier);
             }
@@ -260,7 +274,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeField($key)
+    public function removeField(string $key): self
     {
         if (isset($this->fields[$key])) {
             unset($this->fields[$key]);
@@ -280,11 +294,9 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return float
      */
-    public function getFieldBoost($key)
+    public function getFieldBoost(string $key): ?float
     {
-        if (isset($this->fieldBoosts[$key])) {
-            return $this->fieldBoosts[$key];
-        }
+        return $this->fieldBoosts[$key] ?? null;
     }
 
     /**
@@ -295,7 +307,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFieldBoost($key, $boost)
+    public function setFieldBoost(string $key, float $boost): self
     {
         $this->fieldBoosts[$key] = $boost;
 
@@ -307,7 +319,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return array
      */
-    public function getFieldBoosts()
+    public function getFieldBoosts(): array
     {
         return $this->fieldBoosts;
     }
@@ -318,8 +330,10 @@ class Document extends AbstractDocument implements DocumentInterface
      * @param float $boost
      *
      * @return self Provides fluent interface
+     *
+     * @deprecated No longer supported since Solr 7
      */
-    public function setBoost($boost)
+    public function setBoost(float $boost): self
     {
         $this->boost = $boost;
 
@@ -329,9 +343,11 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Get the document boost value.
      *
-     * @return float
+     * @return float|null
+     *
+     * @deprecated No longer supported since Solr 7
      */
-    public function getBoost()
+    public function getBoost(): ?float
     {
         return $this->boost;
     }
@@ -341,7 +357,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return self Provides fluent interface
      **/
-    public function clear()
+    public function clear(): self
     {
         $this->fields = [];
         $this->fieldBoosts = [];
@@ -361,7 +377,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return self Provides fluent interface
      */
-    public function setKey($key, $value = null)
+    public function setKey(string $key, $value = null): self
     {
         $this->key = $key;
         if (null !== $value) {
@@ -381,7 +397,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return self
      */
-    public function setFieldModifier($key, $modifier = null)
+    public function setFieldModifier(string $key, string $modifier = null): self
     {
         if (!in_array($modifier, [self::MODIFIER_ADD, self::MODIFIER_ADD_DISTINCT, self::MODIFIER_REMOVE, self::MODIFIER_REMOVEREGEX, self::MODIFIER_INC, self::MODIFIER_SET], true)) {
             throw new RuntimeException('Attempt to set an atomic update modifier that is not supported');
@@ -398,7 +414,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return null|string
      */
-    public function getFieldModifier($key)
+    public function getFieldModifier(string $key): ?string
     {
         return isset($this->modifiers[$key]) ? $this->modifiers[$key] : null;
     }
@@ -412,9 +428,9 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return array
      */
-    public function getFields()
+    public function getFields(): array
     {
-        if (count($this->modifiers) > 0 && (null === $this->key || !isset($this->fields[$this->key]))) {
+        if ((null === $this->key || !isset($this->fields[$this->key])) && count($this->modifiers) > 0) {
             throw new RuntimeException(
                 'A document that uses modifiers (atomic updates) must have a key defined before it is used'
             );
@@ -430,7 +446,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return self
      */
-    public function setVersion($version)
+    public function setVersion(int $version): self
     {
         $this->version = $version;
 
@@ -440,9 +456,9 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Get version.
      *
-     * @return int
+     * @return int|null
      */
-    public function getVersion()
+    public function getVersion(): ?int
     {
         return $this->version;
     }
@@ -454,10 +470,10 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return Helper
      */
-    public function getHelper()
+    public function getHelper(): Helper
     {
         if (null === $this->helper) {
-            $this->helper = new Helper($this);
+            $this->helper = new Helper();
         }
 
         return $this->helper;
@@ -467,10 +483,14 @@ class Document extends AbstractDocument implements DocumentInterface
      * Whether values should be filtered for control characters automatically.
      *
      * @param bool $filterControlCharacters
+     *
+     * @return self
      */
-    public function setFilterControlCharacters($filterControlCharacters)
+    public function setFilterControlCharacters(bool $filterControlCharacters): self
     {
         $this->filterControlCharacters = $filterControlCharacters;
+
+        return $this;
     }
 
     /**
@@ -478,7 +498,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * @return bool
      */
-    public function getFilterControlCharacters()
+    public function getFilterControlCharacters(): bool
     {
         return $this->filterControlCharacters;
     }

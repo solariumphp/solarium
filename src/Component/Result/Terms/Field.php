@@ -29,7 +29,7 @@ class Field implements \IteratorAggregate, \Countable
      *
      * @return array
      */
-    public function getTerms()
+    public function getTerms(): array
     {
         return array_keys($this->terms);
     }
@@ -39,7 +39,7 @@ class Field implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->terms);
     }
@@ -49,7 +49,7 @@ class Field implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->terms);
     }

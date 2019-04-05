@@ -2,6 +2,8 @@
 
 namespace Solarium\QueryType\ManagedResources\Result\Stopwords;
 
+use Solarium\Core\Client\Response;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Result\Result;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
@@ -45,10 +47,10 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param $query
-     * @param $response
+     * @param AbstractQuery $query
+     * @param Response      $response
      */
-    public function __construct($query, $response)
+    public function __construct(AbstractQuery $query, Response $response)
     {
         Result::__construct($query, $response);
         $this->parseResponse();

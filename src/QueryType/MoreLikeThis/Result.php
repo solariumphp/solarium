@@ -36,16 +36,6 @@ class Result extends SelectResult
     protected $match;
 
     /**
-     * Get query instance.
-     *
-     * @return Query
-     */
-    public function getQuery()
-    {
-        return $this->query;
-    }
-
-    /**
      * Get MLT interesting terms.
      *
      * this will show what "interesting" terms are used for the MoreLikeThis

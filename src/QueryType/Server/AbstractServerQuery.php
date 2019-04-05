@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\Server;
 
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Server\Query\Action\ActionInterface;
 
 /**
@@ -10,6 +11,20 @@ use Solarium\QueryType\Server\Query\Action\ActionInterface;
  */
 abstract class AbstractServerQuery extends AbstractQuery implements ActionInterface
 {
+    /**
+     * Action that should be performed on the core admin api.
+     *
+     * @var ActionInterface
+     */
+    protected $action;
+
+    /**
+     * Action types.
+     *
+     * @var array
+     */
+    protected $actionTypes = [];
+
     /**
      * Create a command instance.
      *

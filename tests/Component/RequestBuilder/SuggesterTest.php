@@ -19,15 +19,15 @@ class SuggesterTest extends TestCase
         $component->setQuery('ap ip');
         $component->setCount(13);
         $component->setContextFilterQuery('foo bar');
-        $component->setBuild('true');
-        $component->setReload('false');
+        $component->setBuild(true);
+        $component->setReload(false);
 
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             [
                 'suggest' => 'true',
-                'suggest.dictionary' => 'suggest',
+                'suggest.dictionary' => ['suggest'],
                 'suggest.q' => 'ap ip',
                 'suggest.count' => 13,
                 'suggest.cfq' => 'foo bar',
@@ -48,8 +48,8 @@ class SuggesterTest extends TestCase
         $component->setQuery('ap ip');
         $component->setCount(13);
         $component->setContextFilterQuery('foo bar');
-        $component->setBuild('true');
-        $component->setReload('false');
+        $component->setBuild(true);
+        $component->setReload(false);
 
         $request = $builder->buildComponent($component, $request);
 

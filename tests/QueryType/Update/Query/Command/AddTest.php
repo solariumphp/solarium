@@ -9,9 +9,12 @@ use Solarium\QueryType\Update\Query\Query;
 
 class AddTest extends TestCase
 {
+    /**
+     * @var Add
+     */
     protected $command;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->command = new Add();
     }
@@ -70,11 +73,7 @@ class AddTest extends TestCase
 
         $this->command->addDocuments($it);
 
-        if ($this->command->getDocuments() instanceof \Traversable) {
-            $command_documents = iterator_to_array($this->command->getDocuments());
-        } else {
-            $command_documents = $this->command->getDocuments();
-        }
+        $command_documents = $this->command->getDocuments();
 
         $this->assertSame(
             [$doc1, $doc2],
@@ -90,11 +89,7 @@ class AddTest extends TestCase
 
         $this->command->addDocuments($it2);
 
-        if ($this->command->getDocuments() instanceof \Traversable) {
-            $command_documents = iterator_to_array($this->command->getDocuments());
-        } else {
-            $command_documents = $this->command->getDocuments();
-        }
+        $command_documents = $this->command->getDocuments();
 
         $this->assertSame(
             [$doc1, $doc2, $doc3, $doc4, $doc5],
@@ -117,11 +112,7 @@ class AddTest extends TestCase
 
         $this->command->addDocument($doc3);
 
-        if ($this->command->getDocuments() instanceof \Traversable) {
-            $command_documents = iterator_to_array($this->command->getDocuments());
-        } else {
-            $command_documents = $this->command->getDocuments();
-        }
+        $command_documents = $this->command->getDocuments();
 
         $this->assertSame(
             [$doc1, $doc2, $doc3],

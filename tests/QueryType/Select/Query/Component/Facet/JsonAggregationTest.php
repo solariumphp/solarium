@@ -13,7 +13,7 @@ class JsonAggregationTest extends TestCase
      */
     protected $facet;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->facet = new JsonAggregation();
     }

@@ -12,7 +12,7 @@ class ReloadTest extends TestCase
      */
     protected $action;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->action = new Reload();
     }
