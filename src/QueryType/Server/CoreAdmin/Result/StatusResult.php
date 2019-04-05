@@ -126,7 +126,7 @@ class StatusResult
      *
      * @return self
      */
-    public function setStartTime(\DateTime $startTime): self
+    public function setStartTime(?\DateTime $startTime): self
     {
         $this->startTime = $startTime;
         return $this;
@@ -145,7 +145,7 @@ class StatusResult
      *
      * @return $this
      */
-    public function setLastModified(\DateTime $lastModified): self
+    public function setLastModified(?\DateTime $lastModified): self
     {
         $this->lastModified = $lastModified;
         return $this;

@@ -10,13 +10,13 @@ class Suggestion
     /**
      * Constructor.
      *
-     * @param int   $numFound
-     * @param int   $startOffset
-     * @param int   $endOffset
-     * @param int   $originalFrequency
-     * @param array $words
+     * @param int      $numFound
+     * @param int      $startOffset
+     * @param int      $endOffset
+     * @param int|null $originalFrequency
+     * @param array    $words
      */
-    public function __construct(int $numFound, int $startOffset, int $endOffset, int $originalFrequency, array $words)
+    public function __construct(int $numFound, int $startOffset, int $endOffset, ?int $originalFrequency, array $words)
     {
         $this->numFound = $numFound;
         $this->startOffset = $startOffset;
@@ -60,9 +60,9 @@ class Suggestion
      *
      * Only available if CollateExtendedResults was enabled in your query
      *
-     * @return int
+     * @return int|null
      */
-    public function getOriginalFrequency(): int
+    public function getOriginalFrequency(): ?int
     {
         return $this->originalFrequency;
     }

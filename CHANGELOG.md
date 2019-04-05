@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - PHP 7.0 support
 
+### Fixed
+- Status codes of the HTTPAdapter
+
+
 ## [4.3.0-alpha.2]
 ### Added
 - Basic V2 API support
