@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Analysis\Query\Document;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as DocumentBuilder;
-use Solarium\QueryType\Update\Query\Document\Document as InputDocument;
+use Solarium\QueryType\Update\Query\Document as InputDocument;
 
 class DocumentTest extends TestCase
 {

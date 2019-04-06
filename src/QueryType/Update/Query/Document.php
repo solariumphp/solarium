@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\QueryType\Update\Query\Document;
+namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Query\Helper;
 use Solarium\Core\Query\AbstractDocument;

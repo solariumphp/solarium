@@ -42,7 +42,7 @@ class RequestBuilder extends BaseRequestBuilder
         }
 
         // add document settings to request
-        /** @var \Solarium\QueryType\Update\Query\Document\Document $doc */
+        /** @var \Solarium\QueryType\Update\Query\Document $doc */
         if (null !== ($doc = $query->getDocument())) {
             if (null !== $doc->getBoost()) {
                 throw new RuntimeException('Extract does not support document-level boosts, use field boosts instead.');

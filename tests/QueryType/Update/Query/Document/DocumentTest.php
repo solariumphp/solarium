@@ -3,7 +3,7 @@
 namespace Solarium\Tests\QueryType\Update\Query\Document;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 
 class DocumentTest extends TestCase
 {
