@@ -2,7 +2,7 @@
 
 namespace Solarium\QueryType\RealtimeGet;
 
-use Solarium\QueryType\Select\Result\ResultDocumentInterface as DocumentInterface;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Select\Result\Result as BaseResult;
 
 /**

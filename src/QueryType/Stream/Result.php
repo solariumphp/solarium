@@ -3,7 +3,7 @@
 namespace Solarium\QueryType\Stream;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
-use Solarium\QueryType\Select\Result\ResultDocumentInterface as DocumentInterface;
+use Solarium\Core\Query\DocumentInterface;
 
 /**
  * Stream query result.

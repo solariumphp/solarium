@@ -10,8 +10,7 @@ use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as PreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
-use Solarium\QueryType\Select\Result\ResultDocumentInterface;
-use Solarium\QueryType\Update\Query\Document\UpdateDocumentInterface;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
 
@@ -42,7 +41,7 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Buffered documents.
      *
-     * @var ResultDocumentInterface[]
+     * @var DocumentInterface[]
      */
     protected $buffer = [];
 
@@ -157,11 +156,11 @@ class BufferedAdd extends AbstractPlugin
     /**
      * Add a document.
      *
-     * @param UpdateDocumentInterface $document
+     * @param DocumentInterface $document
      *
      * @return self Provides fluent interface
      */
-    public function addDocument(UpdateDocumentInterface $document): self
+    public function addDocument(DocumentInterface $document): self
     {
         $this->buffer[] = $document;
 
@@ -196,7 +195,7 @@ class BufferedAdd extends AbstractPlugin
      *
      * Any previously flushed documents will not be included!
      *
-     * @return ResultDocumentInterface[]
+     * @return DocumentInterface[]
      */
     public function getDocuments(): array
     {

@@ -3,8 +3,9 @@
 namespace Solarium\QueryType\Update\Query\Document;
 
 use Solarium\Core\Query\Helper;
+use Solarium\Core\Query\AbstractDocument;
 use Solarium\Exception\RuntimeException;
-use Solarium\QueryType\Select\Result\AbstractDocument;
+use Solarium\Core\Query\DocumentInterface;
 
 /**
  * Read/Write Solr document.
@@ -21,7 +22,7 @@ use Solarium\QueryType\Select\Result\AbstractDocument;
  *
  * Atomic updates are also support, using the field modifiers.
  */
-class Document extends AbstractDocument implements UpdateDocumentInterface
+class Document extends AbstractDocument
 {
     /**
      * Directive to set or replace the field value(s) with the specified value(s), or remove the values if 'null' or
@@ -170,7 +171,7 @@ class Document extends AbstractDocument implements UpdateDocumentInterface
      *
      * @return self
      */
-    public function __set($name, $value): AbstractDocument
+    public function __set($name, $value): DocumentInterface
     {
         $this->setField($name, $value);
 
