@@ -4,7 +4,7 @@ namespace Solarium\Tests\QueryType\Update\Query\Command;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Update\Query\Command\Add;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
 
 class AddTest extends TestCase

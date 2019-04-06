@@ -8,7 +8,7 @@ use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\ResponseParser;
 use Solarium\QueryType\Select\Result\Result;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 
 class ResponseParserTest extends TestCase
 {

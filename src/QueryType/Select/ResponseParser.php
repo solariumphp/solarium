@@ -8,8 +8,7 @@ use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Result;
-use Solarium\QueryType\Select\Result\ResultDocumentInterface;
-use Solarium\QueryType\Update\Query\Document\UpdateDocumentInterface;
+use Solarium\Core\Query\DocumentInterface;
 
 /**
  * Parse select response data.
@@ -35,9 +34,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         // create document instances
         $documentClass = $query->getOption('documentclass');
         $classes = class_implements($documentClass);
-        if (!in_array(ResultDocumentInterface::class, $classes, true) &&
-            !in_array(UpdateDocumentInterface::class, $classes, true)
-        ) {
+        if (!in_array(DocumentInterface::class, $classes, true)) {
             throw new RuntimeException('The result document class must implement a document interface');
         }
 

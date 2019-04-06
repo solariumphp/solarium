@@ -1,11 +1,11 @@
 <?php
 
-namespace Solarium\QueryType\Select\Result;
+namespace Solarium\Core\Query;
 
 /**
  * Document base functionality, used by readonly and readwrite documents.
  */
-abstract class AbstractDocument implements \IteratorAggregate, \Countable, \ArrayAccess
+abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**
      * All fields in this document.
@@ -14,7 +14,7 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
      */
     protected $fields;
 
-    abstract public function __set($name, $value): self;
+    abstract public function __set($name, $value): DocumentInterface;
 
     /**
      * Get field value by name.

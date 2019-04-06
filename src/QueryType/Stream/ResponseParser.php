@@ -8,7 +8,7 @@ use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\StreamException;
 use Solarium\QueryType\Select\Result\Result;
-use Solarium\QueryType\Select\Result\ResultDocumentInterface;
+use Solarium\Core\Query\DocumentInterface;
 
 /**
  * Parse streaming expression response data.
@@ -34,8 +34,8 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         // create document instances
         $documentClass = $query->getOption('documentclass');
         $classes = class_implements($documentClass);
-        if (!in_array(ResultDocumentInterface::class, $classes, true)) {
-            throw new RuntimeException('The result document class must implement ResultDocumentInterface');
+        if (!in_array(DocumentInterface::class, $classes, true)) {
+            throw new RuntimeException('The result document class must implement DocumentInterface');
         }
 
         $documents = [];
