@@ -14,7 +14,6 @@ use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
-use Solarium\QueryType\Update\Query\Document;
 use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
