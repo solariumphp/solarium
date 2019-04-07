@@ -78,7 +78,7 @@ trait FacetSetTrait
      *
      * @return FacetInterface|null
      */
-    public function getFacet($key): ?FacetInterface
+    public function getFacet(string $key): ?FacetInterface
     {
         return $this->facets[$key] ?? null;
     }
