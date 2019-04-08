@@ -10,8 +10,9 @@ use Solarium\Core\Client\Endpoint;
 use Solarium\Plugin\BufferedAdd\BufferedAdd;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument;
 use Solarium\Plugin\BufferedAdd\Event\Events;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
+use Solarium\QueryType\Update\Result;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class BufferedAddTest extends TestCase
@@ -21,7 +22,7 @@ class BufferedAddTest extends TestCase
      */
     protected $plugin;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->plugin = new BufferedAdd();
         $this->plugin->initPlugin(new Client(), []);
@@ -89,14 +90,16 @@ class BufferedAddTest extends TestCase
         $updateQuery->expects($this->exactly(2))
             ->method('addDocuments');
 
+        $mockResult = $this->createMock(Result:: class);
+
         $client = $this->getClient();
 
         $client->expects($this->exactly(3))
             ->method('createUpdate')
-            ->will($this->returnValue($updateQuery));
+            ->willReturn($updateQuery);
         $client->expects($this->exactly(2))
             ->method('update')
-            ->will($this->returnValue('dummyResult'));
+            ->willReturn($mockResult);
 
         $doc1 = new Document();
         $doc1->id = '123';
@@ -141,15 +144,17 @@ class BufferedAddTest extends TestCase
             ->method('addDocuments')
             ->with($this->equalTo([$doc]), $this->equalTo(true), $this->equalTo(12));
 
+        $mockResult = $this->createMock(Result:: class);
+
         $mockClient = $this->getClient();
-        $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
-        $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
+        $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
+        $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
 
         $plugin = new BufferedAdd();
         $plugin->initPlugin($mockClient, []);
         $plugin->addDocument($doc);
 
-        $this->assertSame('dummyResult', $plugin->flush(true, 12));
+        $this->assertSame($mockResult, $plugin->flush(true, 12));
     }
 
     public function testCommit()
@@ -165,15 +170,17 @@ class BufferedAddTest extends TestCase
             ->method('addCommit')
             ->with($this->equalTo(false), $this->equalTo(true), $this->equalTo(false));
 
+        $mockResult = $this->createMock(Result:: class);
+
         $mockClient = $this->getClient();
-        $mockClient->expects($this->exactly(2))->method('createUpdate')->will($this->returnValue($mockUpdate));
-        $mockClient->expects($this->once())->method('update')->will($this->returnValue('dummyResult'));
+        $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
+        $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
 
         $plugin = new BufferedAdd();
         $plugin->initPlugin($mockClient, []);
         $plugin->addDocument($doc);
 
-        $this->assertSame('dummyResult', $plugin->commit(true, false, true, false));
+        $this->assertSame($mockResult, $plugin->commit(true, false, true, false));
     }
 
     public function testAddDocumentEventIsTriggered()

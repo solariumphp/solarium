@@ -6,7 +6,7 @@ use Solarium\QueryType\Update\Result as UpdateResult;
 
 class ResultTest extends AbstractResultTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->result = new UpdateDummy();
     }

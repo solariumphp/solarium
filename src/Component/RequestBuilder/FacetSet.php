@@ -12,6 +12,7 @@ use Solarium\Component\Facet\Range as FacetRange;
 use Solarium\Component\FacetSet as FacetsetComponent;
 use Solarium\Component\FacetSetInterface;
 use Solarium\Core\Client\Request;
+use Solarium\Core\ConfigurableInterface;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\Select\RequestBuilder;
 
@@ -31,7 +32,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      *
      * @return Request
      */
-    public function buildComponent($component, $request)
+    public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         $facets = $component->getFacets();
         if (0 !== count($facets)) {
@@ -99,7 +100,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 $request->addParam('facet.sort', $component->getSort());
                 $request->addParam('facet.prefix', $component->getPrefix());
                 $request->addParam('facet.contains', $component->getContains());
-                $request->addParam('facet.contains.ignoreCase', null === ($ignoreCase = $component->getContainsIgnoreCase()) ? null : ($ignoreCase ? 'true' : 'false'));
+                $request->addParam('facet.contains.ignoreCase', $component->getContainsIgnoreCase());
                 $request->addParam('facet.missing', $component->getMissing());
                 $request->addParam('facet.mincount', $component->getMinCount());
                 $request->addParam('facet.limit', $component->getLimit());
@@ -116,11 +117,11 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     /**
      * Add params for a field facet to request.
      *
-     * @param Request          $request
-     * @param FacetField       $facet
-     * @param use_local_params $use_local_params TRUE, if local params instead of global field params should be used. Must be set if the same field is used in different facets. Default is keeping the global field params (https://issues.apache.org/jira/browse/SOLR-6193)
+     * @param Request    $request
+     * @param FacetField $facet
+     * @param bool       $use_local_params TRUE, if local params instead of global field params should be used. Must be set if the same field is used in different facets. Default is keeping the global field params (https://issues.apache.org/jira/browse/SOLR-6193)
      */
-    public function addFacetField($request, $facet, $use_local_params = false)
+    public function addFacetField(Request $request, FacetField $facet, bool $use_local_params = false)
     {
         $field = $facet->getField();
 

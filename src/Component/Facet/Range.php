@@ -32,17 +32,18 @@ class Range extends AbstractRange implements ExcludeTagsInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMinCount($minCount)
+    public function setMinCount(int $minCount): self
     {
-        return $this->setOption('mincount', $minCount);
+        $this->setOption('mincount', $minCount);
+        return $this;
     }
 
     /**
      * Get the facet mincount.
      *
-     * @return int
+     * @return int|null
      */
-    public function getMinCount()
+    public function getMinCount(): ?int
     {
         return $this->getOption('mincount');
     }

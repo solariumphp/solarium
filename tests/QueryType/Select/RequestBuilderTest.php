@@ -4,6 +4,8 @@ namespace Solarium\Tests\QueryType\Select;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\AbstractComponent;
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\Query\FilterQuery;
 use Solarium\QueryType\Select\Query\Query;
@@ -21,7 +23,7 @@ class RequestBuilderTest extends TestCase
      */
     protected $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new Query();
         $this->builder = new RequestBuilder();
@@ -93,14 +95,12 @@ class RequestBuilderTest extends TestCase
 
     public function testWithComponentNoBuilder()
     {
-        $request = $this->builder->build($this->query);
-
+        $this->builder->build($this->query);
         $this->query->registerComponentType('testcomponent', __NAMESPACE__.'\\TestDummyComponent');
         $this->query->getComponent('testcomponent', true);
 
-        $requestWithNoBuilderComponent = $this->builder->build($this->query);
-
-        $this->assertEquals($request, $requestWithNoBuilderComponent);
+        $this->expectException(\TypeError::class);
+        $this->builder->build($this->query);
     }
 
     public function testWithComponent()
@@ -165,12 +165,12 @@ class TestDummyComponent extends AbstractComponent
         return 'testcomponent';
     }
 
-    public function getRequestBuilder()
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return null;
     }
 
-    public function getResponseParser()
+    public function getResponseParser(): ?ComponentParserInterface
     {
         return null;
     }

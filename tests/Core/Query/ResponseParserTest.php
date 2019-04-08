@@ -12,7 +12,7 @@ class ResponseParserTest extends TestCase
      */
     protected $parser;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->parser = new TestResponseParser();
     }

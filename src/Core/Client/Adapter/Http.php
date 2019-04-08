@@ -24,7 +24,7 @@ class Http extends Configurable implements AdapterInterface
      *
      * @return Response
      */
-    public function execute($request, $endpoint)
+    public function execute(Request $request, Endpoint $endpoint): Response
     {
         $context = $this->createContext($request, $endpoint);
         $uri = AdapterHelper::buildUri($request, $endpoint);
@@ -148,12 +148,7 @@ class Http extends Configurable implements AdapterInterface
     {
         $data = @file_get_contents($uri, false, $context);
 
-        $headers = [];
-
-        if (isset($http_response_header)) {
-            $headers = $http_response_header;
-        }
-
-        return [$data, $headers];
+        // @ see https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
+        return [$data, $http_response_header];
     }
 }

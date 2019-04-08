@@ -12,8 +12,6 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
  */
 class Create extends AbstractAsyncAction implements CoreActionInterface
 {
-    use CoreActionTrait;
-
     /**
      * Returns the action type of the core admin action.
      *
@@ -31,7 +29,7 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
      *
      * @return self Provides fluent interface
      */
-    public function setCore(string $core): self
+    public function setCore(string $core): CoreActionInterface
     {
         // for some reason the core is called "name" in the create action
         $this->setOption('name', $core);
@@ -41,9 +39,9 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get the related core name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getCore(): string
+    public function getCore(): ?string
     {
         // for some reason the core is called "name" in the create action
         return $this->getOption('name');
@@ -65,9 +63,9 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get the instanceDir.
      *
-     * @return string
+     * @return string|null
      */
-    public function getInstanceDir(): string
+    public function getInstanceDir(): ?string
     {
         return (string) $this->getOption('instanceDir');
     }
@@ -88,9 +86,9 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get the config.
      *
-     * @return string
+     * @return string|null
      */
-    public function getConfig(): string
+    public function getConfig(): ?string
     {
         return $this->getOption('config');
     }
@@ -111,11 +109,11 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get the schema.
      *
-     * @return string
+     * @return string|null
      */
-    public function getSchema(): string
+    public function getSchema(): ?string
     {
-        return (string) $this->getOption('schema');
+        return $this->getOption('schema');
     }
 
     /**
@@ -134,11 +132,11 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get the schema.
      *
-     * @return string
+     * @return string|null
      */
-    public function getDataDir(): string
+    public function getDataDir(): ?string
     {
-        return (string) $this->getOption('dataDir');
+        return $this->getOption('dataDir');
     }
 
     /**
@@ -157,11 +155,11 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get the configSet.
      *
-     * @return string
+     * @return string|null
      */
-    public function getConfigSet(): string
+    public function getConfigSet(): ?string
     {
-        return (string) $this->getOption('configSet');
+        return $this->getOption('configSet');
     }
 
     /**
@@ -180,11 +178,11 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get the collection.
      *
-     * @return string
+     * @return string|null
      */
-    public function getCollection(): string
+    public function getCollection(): ?string
     {
-        return (string) $this->getOption('collection');
+        return $this->getOption('collection');
     }
 
     /**
@@ -203,11 +201,11 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get the collection.
      *
-     * @return string
+     * @return string|null
      */
-    public function getShard(): string
+    public function getShard(): ?string
     {
-        return (string) $this->getOption('shard');
+        return $this->getOption('shard');
     }
 
     /**
@@ -233,6 +231,6 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     public function getCoreProperty($name): string
     {
         $option = 'property.'.$name;
-        return (string) $this->getOption($option);
+        return $this->getOption($option);
     }
 }

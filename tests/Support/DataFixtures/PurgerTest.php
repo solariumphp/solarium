@@ -24,16 +24,16 @@ class PurgerTest extends TestCase
         $queryResult = $this->createMock(Result::class);
         $queryResult->expects($this->once())
             ->method('getStatus')
-            ->will($this->returnValue(0));
+            ->willReturn(0);
 
         $client->expects($this->once())
             ->method('createUpdate')
-            ->will($this->returnValue($update));
+            ->willReturn($update);
 
         $client->expects($this->once())
             ->method('update')
             ->with($update)
-            ->will($this->returnValue($queryResult));
+            ->willReturn($queryResult);
 
         $purger = new Purger($client);
         $purger->purge();

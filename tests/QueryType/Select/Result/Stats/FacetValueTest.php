@@ -16,19 +16,19 @@ class FacetValueTest extends TestCase
 
     protected $stats;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->value = 'myvalue';
         $this->stats = [
             'min' => 'dummyMin',
             'max' => 'dummyMax',
             'sum' => 'dummySum',
-            'count' => 'dummyCount',
+            'count' => -1,
             'missing' => 'dummyMissing',
             'sumOfSquares' => 'dummySos',
             'mean' => 'dummyMean',
             'stddev' => 'dummyStddev',
-            'facets' => 'dummyFacets',
+            'facets' => ['dummyFacets'],
         ];
 
         $this->result = new FacetValue($this->value, $this->stats);

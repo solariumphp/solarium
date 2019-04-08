@@ -14,7 +14,7 @@ class ItemTest extends TestCase
 
     protected $data;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data = [
             'text' => 'dummytest',

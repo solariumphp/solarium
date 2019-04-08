@@ -9,14 +9,17 @@ class PivotItemTest extends TestCase
 {
     protected $values;
 
+    /**
+     * @var PivotItem
+     */
     protected $pivotItem;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->values = [
             'field' => 'cat',
             'value' => 'abc',
-            'count' => '123',
+            'count' => 123,
             'pivot' => [
                 ['field' => 'cat', 'value' => 1, 'count' => 12],
                 ['field' => 'cat', 'value' => 2, 'count' => 8],

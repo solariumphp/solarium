@@ -5,8 +5,8 @@ namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Query\Result\Result;
 use Solarium\Plugin\BufferedAdd\Event\PostCommit;
+use Solarium\QueryType\Update\Result;
 
 class PostCommitTest extends TestCase
 {

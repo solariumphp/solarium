@@ -4,6 +4,9 @@ namespace Solarium\QueryType\Stream;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\QueryType\Select\Result\Document;
 
 /**
  * Stream query.
@@ -17,8 +20,8 @@ class Query extends AbstractQuery
      */
     protected $options = [
         'handler' => 'stream',
-        'resultclass' => 'Solarium\QueryType\Stream\Result',
-        'documentclass' => 'Solarium\QueryType\Select\Result\Document',
+        'resultclass' => Result::class,
+        'documentclass' => Document::class,
     ];
 
     /**
@@ -36,7 +39,7 @@ class Query extends AbstractQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -46,7 +49,7 @@ class Query extends AbstractQuery
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }
@@ -58,17 +61,18 @@ class Query extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setExpression($expr)
+    public function setExpression(string $expr): self
     {
-        return $this->setOption('expr', $expr);
+        $this->setOption('expr', $expr);
+        return $this;
     }
 
     /**
      * Get the expression.
      *
-     * @return string
+     * @return string|null
      */
-    public function getExpression()
+    public function getExpression(): ?string
     {
         return $this->getOption('expr');
     }
@@ -82,9 +86,10 @@ class Query extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setDocumentClass($value)
+    public function setDocumentClass(string $value): self
     {
-        return $this->setOption('documentclass', $value);
+        $this->setOption('documentclass', $value);
+        return $this;
     }
 
     /**
@@ -92,9 +97,9 @@ class Query extends AbstractQuery
      *
      * The value is a classname, not an instance
      *
-     * @return string
+     * @return string|null
      */
-    public function getDocumentClass()
+    public function getDocumentClass(): ?string
     {
         return $this->getOption('documentclass');
     }

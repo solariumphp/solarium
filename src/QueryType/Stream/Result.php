@@ -3,7 +3,7 @@
 namespace Solarium\QueryType\Stream;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\Core\Query\DocumentInterface;
 
 /**
  * Stream query result.
@@ -50,7 +50,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function getStatus()
+    public function getStatus(): int
     {
         $this->parseResponse();
 
@@ -65,7 +65,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function getQueryTime()
+    public function getQueryTime(): int
     {
         $this->parseResponse();
 
@@ -80,7 +80,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function getNumFound()
+    public function getNumFound(): int
     {
         $this->parseResponse();
 
@@ -92,7 +92,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->response->getStatusCode();
     }
@@ -102,7 +102,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return DocumentInterface[]
      */
-    public function getDocuments()
+    public function getDocuments(): array
     {
         $this->parseResponse();
 
@@ -114,7 +114,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         $this->parseResponse();
 
@@ -126,7 +126,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         $this->parseResponse();
 
@@ -138,7 +138,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return string A JSON encoded string
      */
-    public function getBody()
+    public function getBody(): string
     {
         return $this->response->getBody();
     }
@@ -150,7 +150,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return string JSON
      */
-    public function getJson()
+    public function getJson(): string
     {
         return $this->getBody();
     }
@@ -162,7 +162,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @return array
      */
-    public function getData()
+    public function getData(): array
     {
         if (null === $this->data) {
             $this->data = json_decode($this->response->getBody(), true);

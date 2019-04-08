@@ -12,8 +12,8 @@ class DocumentTest extends TestCase
     {
         $data = [
             'analysis' => [
-                'key1' => 'data1',
-                'key2' => 'data2',
+                'key1' => ['data1'],
+                'key2' => ['data2'],
             ],
             'responseHeader' => [
                 'status' => 1,
@@ -24,14 +24,14 @@ class DocumentTest extends TestCase
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
-             ->will($this->returnValue($data));
+             ->willReturn($data);
 
         $parserStub = $this->getMockBuilder(Document::class)
             ->setMethods(['parseTypes'])
             ->getMock();
         $parserStub->expects($this->exactly(2))
              ->method('parseTypes')
-             ->will($this->returnValue('dummy'));
+             ->willReturn(['dummy']);
 
         $result = $parserStub->parse($resultStub);
 

@@ -3,7 +3,9 @@
 namespace Solarium\Tests\Component\Result\Spellcheck;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Spellcheck\Collation;
 use Solarium\Component\Result\Spellcheck\Result;
+use Solarium\Component\Result\Spellcheck\Suggestion;
 
 class SpellcheckTest extends TestCase
 {
@@ -18,16 +20,16 @@ class SpellcheckTest extends TestCase
 
     protected $correctlySpelled;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->suggestions = [
-            'key1' => 'content1',
-            'key2' => 'content2',
+            'key1' => new Suggestion(1, 2, 3, 4, ['content1']),
+            'key2' => new Suggestion(1, 2, 3, 4, ['content2']),
         ];
 
         $this->collations = [
-            'dummy1',
-            'dummy2',
+            new Collation('dummy1', null, []),
+            new Collation('dummy2', null, []),
         ];
         $this->correctlySpelled = false;
 

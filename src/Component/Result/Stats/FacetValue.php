@@ -27,7 +27,7 @@ class FacetValue
      * @param string $value
      * @param array  $stats
      */
-    public function __construct($value, $stats)
+    public function __construct(string $value, array $stats)
     {
         $this->value = $value;
         $this->stats = $stats;
@@ -38,7 +38,7 @@ class FacetValue
      *
      * @return string
      */
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->value;
     }
@@ -48,7 +48,7 @@ class FacetValue
      *
      * @return string
      */
-    public function getMin()
+    public function getMin(): string
     {
         return $this->stats['min'];
     }
@@ -58,7 +58,7 @@ class FacetValue
      *
      * @return string
      */
-    public function getMax()
+    public function getMax(): string
     {
         return $this->stats['max'];
     }
@@ -68,7 +68,7 @@ class FacetValue
      *
      * @return string
      */
-    public function getSum()
+    public function getSum(): string
     {
         return $this->stats['sum'];
     }
@@ -76,11 +76,11 @@ class FacetValue
     /**
      * Get count value.
      *
-     * @return string
+     * @return int
      */
-    public function getCount()
+    public function getCount(): int
     {
-        return $this->stats['count'];
+        return (int) $this->stats['count'];
     }
 
     /**
@@ -88,7 +88,7 @@ class FacetValue
      *
      * @return string
      */
-    public function getMissing()
+    public function getMissing(): string
     {
         return $this->stats['missing'];
     }
@@ -98,7 +98,7 @@ class FacetValue
      *
      * @return string
      */
-    public function getSumOfSquares()
+    public function getSumOfSquares(): string
     {
         return $this->stats['sumOfSquares'];
     }
@@ -108,7 +108,7 @@ class FacetValue
      *
      * @return string
      */
-    public function getMean()
+    public function getMean(): string
     {
         return $this->stats['mean'];
     }
@@ -118,7 +118,7 @@ class FacetValue
      *
      * @return string
      */
-    public function getStddev()
+    public function getStddev(): string
     {
         return $this->stats['stddev'];
     }
@@ -128,7 +128,7 @@ class FacetValue
      *
      * @return array
      */
-    public function getFacets()
+    public function getFacets(): array
     {
         return $this->stats['facets'];
     }

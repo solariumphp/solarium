@@ -3,7 +3,7 @@
 namespace Solarium\Tests\QueryType\Update\Query\Document;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 
 class DocumentTest extends TestCase
 {
@@ -18,7 +18,7 @@ class DocumentTest extends TestCase
         'categories' => [1, 2, 3],
     ];
 
-    protected function setUp()
+    public function setUp(): void
     {
         $this->doc = new Document($this->fields);
     }

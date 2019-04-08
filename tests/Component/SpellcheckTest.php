@@ -14,7 +14,7 @@ class SpellcheckTest extends TestCase
      */
     protected $spellCheck;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->spellCheck = new Spellcheck();
         $this->spellCheck->setQueryInstance(new Query());

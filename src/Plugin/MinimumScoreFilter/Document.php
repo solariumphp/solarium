@@ -3,7 +3,7 @@
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\Exception\RuntimeException;
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\QueryType\Select\Result\Document as SelectDocument;
 
 /**
  * Minimum score filter query result document.
@@ -15,7 +15,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * Original document.
      *
-     * @var array
+     * @var SelectDocument
      */
     protected $document;
 
@@ -29,13 +29,13 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     /**
      * Constructor.
      *
-     * @param DocumentInterface $document
-     * @param int               $threshold
+     * @param SelectDocument $document
+     * @param float          $threshold
      */
-    public function __construct(DocumentInterface $document, $threshold)
+    public function __construct(SelectDocument $document, float $threshold)
     {
         $this->document = $document;
-        $this->marked = $threshold > $document->score;
+        $this->marked = ($threshold > ($document->score ?? 0.0));
     }
 
     /**
@@ -46,7 +46,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return mixed
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         return $this->document->$name($arguments);
     }
@@ -70,7 +70,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return bool
      */
-    public function __isset($name)
+    public function __isset($name): bool
     {
         return $this->document->__isset($name);
     }
@@ -81,13 +81,14 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      * Magic method for setting a field as property of this object. Since this
      * is a readonly document an exception will be thrown to prevent this.
      *
-     *
      * @param string $name
      * @param string $value
      *
+     * @return self
+     *
      * @throws RuntimeException
      */
-    public function __set($name, $value)
+    public function __set($name, $value): self
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }
@@ -97,7 +98,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return bool
      */
-    public function markedAsLowScore()
+    public function markedAsLowScore(): bool
     {
         return $this->marked;
     }
@@ -107,7 +108,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return $this->document->getIterator();
     }
@@ -117,7 +118,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return $this->document->count();
     }
@@ -129,7 +130,7 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->document->offsetExists($offset);
     }

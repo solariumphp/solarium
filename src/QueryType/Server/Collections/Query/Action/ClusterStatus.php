@@ -63,9 +63,9 @@ class ClusterStatus extends AbstractAsyncAction
     /**
      * Get shard.
      *
-     * @return string
+     * @return string|null
      */
-    public function getShard(): string
+    public function getShard(): ?string
     {
         return $this->getOption('shard');
     }

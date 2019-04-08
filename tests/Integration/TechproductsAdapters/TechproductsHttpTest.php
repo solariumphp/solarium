@@ -10,7 +10,7 @@ use Solarium\Tests\Integration\AbstractCoreTest;
  */
 class TechproductsHttpTest extends AbstractCoreTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->client->setAdapter('Solarium\Core\Client\Adapter\Http');

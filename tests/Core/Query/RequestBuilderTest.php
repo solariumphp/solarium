@@ -13,7 +13,7 @@ class RequestBuilderTest extends TestCase
      */
     protected $builder;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->builder = new TestRequestBuilder();
     }

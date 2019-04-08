@@ -3,7 +3,9 @@
 namespace Solarium\Component;
 
 use Solarium\Component\Facet\FacetInterface;
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\FacetSet as RequestBuilder;
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\FacetSet as ResponseParser;
 
 /**
@@ -32,13 +34,6 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     ];
 
     /**
-     * Facets.
-     *
-     * @var FacetInterface[]
-     */
-    protected $facets = [];
-
-    /**
      * Get component type.
      *
      * @return string
@@ -53,7 +48,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder(): RequestBuilder
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -63,7 +58,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      *
      * @return ResponseParser
      */
-    public function getResponseParser(): ResponseParser
+    public function getResponseParser(): ?ComponentParserInterface
     {
         return new ResponseParser();
     }

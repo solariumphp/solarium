@@ -39,8 +39,12 @@ class FixtureLoader
     /**
      * @param string $dir
      * @param bool   $append
+     *
+     * @return self
+     *
+     * @throws \ReflectionException
      */
-    public function loadFixturesFromDir($dir, $append = true)
+    public function loadFixturesFromDir(string $dir, bool $append = true)
     {
         if (!$append) {
             $this->purger->purge();
@@ -49,5 +53,7 @@ class FixtureLoader
         $this->loader->loadFromDirectory($dir);
 
         $this->executor->execute($this->loader->getFixtures());
+
+        return $this;
     }
 }

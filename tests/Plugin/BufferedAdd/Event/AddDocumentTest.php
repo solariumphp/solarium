@@ -4,7 +4,7 @@ namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 
 class AddDocumentTest extends TestCase
 {

@@ -46,7 +46,7 @@ class PostCreateResult extends Event
      *
      * @return QueryInterface
      */
-    public function getQuery()
+    public function getQuery(): QueryInterface
     {
         return $this->query;
     }
@@ -56,7 +56,7 @@ class PostCreateResult extends Event
      *
      * @return Response
      */
-    public function getResponse()
+    public function getResponse(): Response
     {
         return $this->response;
     }
@@ -66,7 +66,7 @@ class PostCreateResult extends Event
      *
      * @return ResultInterface
      */
-    public function getResult()
+    public function getResult(): ResultInterface
     {
         return $this->result;
     }

@@ -6,7 +6,7 @@ use Solarium\QueryType\Select\Result\Document;
 
 class DocumentTest extends AbstractDocumentTest
 {
-    protected function setUp()
+    public function setUp(): void
     {
         $this->doc = new Document($this->fields);
     }

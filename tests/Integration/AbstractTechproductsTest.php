@@ -372,7 +372,7 @@ abstract class AbstractTechproductsTest extends TestCase
         }
         $this->assertNotSame($ids, $rerankedids);
         // These two ducuments have a popularity of 10 and should ranked highest.
-        $this->assertArraySubset([
+        $this->assertSame([
             'MA147LL/A',
             'SOLR1000',
         ], $rerankedids);
@@ -466,7 +466,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update = $this->client->createUpdate();
         $update->addDeleteById('extract-test');
         $update->addCommit(true, true);
-        $this->client->extract($update);
+        $this->client->update($update);
     }
 
     public function testExtractTextOnly()

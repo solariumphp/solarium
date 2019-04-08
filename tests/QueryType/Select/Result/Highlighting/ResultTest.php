@@ -14,11 +14,11 @@ class ResultTest extends TestCase
 
     protected $fields;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fields = [
-            'field1' => 'content1',
-            'field2' => 'content2',
+            'field1' => ['content1'],
+            'field2' => ['content2'],
         ];
 
         $this->result = new Result($this->fields);

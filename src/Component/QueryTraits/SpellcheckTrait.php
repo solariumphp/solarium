@@ -3,6 +3,7 @@
 namespace Solarium\Component\QueryTraits;
 
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\Spellcheck;
 
 /**
  * Trait query types supporting components.
@@ -16,7 +17,7 @@ trait SpellcheckTrait
      *
      * @return \Solarium\Component\Spellcheck
      */
-    public function getSpellcheck()
+    public function getSpellcheck(): Spellcheck
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_SPELLCHECK, true);
     }

@@ -18,7 +18,7 @@ class FieldTest extends TestCase
      */
     protected $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new FieldQuery();
         $this->builder = new FieldBuilder();

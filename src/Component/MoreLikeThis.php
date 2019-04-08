@@ -2,7 +2,9 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\MoreLikeThis as RequestBuilder;
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\MoreLikeThis as ResponseParser;
 
 /**
@@ -27,7 +29,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -37,7 +39,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ?ComponentParserInterface
     {
         return new ResponseParser();
     }
@@ -54,14 +56,15 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setFields($fields)
+    public function setFields($fields): self
     {
         if (is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
 
-        return $this->setOption('fields', $fields);
+        $this->setOption('fields', $fields);
+        return $this;
     }
 
     /**
@@ -69,7 +72,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return array
      */
-    public function getFields()
+    public function getFields(): array
     {
         $fields = $this->getOption('fields');
         if (null === $fields) {
@@ -89,9 +92,10 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setMinimumTermFrequency($minimum)
+    public function setMinimumTermFrequency(int $minimum): self
     {
-        return $this->setOption('minimumtermfrequency', $minimum);
+        $this->setOption('minimumtermfrequency', $minimum);
+        return $this;
     }
 
     /**
@@ -99,7 +103,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return int|null
      */
-    public function getMinimumTermFrequency()
+    public function getMinimumTermFrequency(): ?int
     {
         return $this->getOption('minimumtermfrequency');
     }
@@ -114,9 +118,10 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setMinimumDocumentFrequency($minimum)
+    public function setMinimumDocumentFrequency(int $minimum): self
     {
-        return $this->setOption('minimumdocumentfrequency', $minimum);
+        $this->setOption('minimumdocumentfrequency', $minimum);
+        return $this;
     }
 
     /**
@@ -124,7 +129,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return int|null
      */
-    public function getMinimumDocumentFrequency()
+    public function getMinimumDocumentFrequency(): ?int
     {
         return $this->getOption('minimumdocumentfrequency');
     }
@@ -138,9 +143,10 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setMinimumWordLength($minimum)
+    public function setMinimumWordLength(int $minimum): self
     {
-        return $this->setOption('minimumwordlength', $minimum);
+        $this->setOption('minimumwordlength', $minimum);
+        return $this;
     }
 
     /**
@@ -148,7 +154,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return int|null
      */
-    public function getMinimumWordLength()
+    public function getMinimumWordLength(): ?int
     {
         return $this->getOption('minimumwordlength');
     }
@@ -162,9 +168,10 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setMaximumWordLength($maximum)
+    public function setMaximumWordLength(int $maximum): self
     {
-        return $this->setOption('maximumwordlength', $maximum);
+        $this->setOption('maximumwordlength', $maximum);
+        return $this;
     }
 
     /**
@@ -172,7 +179,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return int|null
      */
-    public function getMaximumWordLength()
+    public function getMaximumWordLength(): ?int
     {
         return $this->getOption('maximumwordlength');
     }
@@ -187,9 +194,10 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setMaximumQueryTerms($maximum)
+    public function setMaximumQueryTerms(int $maximum): self
     {
-        return $this->setOption('maximumqueryterms', $maximum);
+        $this->setOption('maximumqueryterms', $maximum);
+        return $this;
     }
 
     /**
@@ -197,7 +205,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return int|null
      */
-    public function getMaximumQueryTerms()
+    public function getMaximumQueryTerms(): ?int
     {
         return $this->getOption('maximumqueryterms');
     }
@@ -212,9 +220,10 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setMaximumNumberOfTokens($maximum)
+    public function setMaximumNumberOfTokens(int $maximum): self
     {
-        return $this->setOption('maximumnumberoftokens', $maximum);
+        $this->setOption('maximumnumberoftokens', $maximum);
+        return $this;
     }
 
     /**
@@ -222,7 +231,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return int|null
      */
-    public function getMaximumNumberOfTokens()
+    public function getMaximumNumberOfTokens(): ?int
     {
         return $this->getOption('maximumnumberoftokens');
     }
@@ -236,9 +245,10 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setBoost($boost)
+    public function setBoost(bool $boost): self
     {
-        return $this->setOption('boost', $boost);
+        $this->setOption('boost', $boost);
+        return $this;
     }
 
     /**
@@ -246,7 +256,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return bool|null
      */
-    public function getBoost()
+    public function getBoost(): ?bool
     {
         return $this->getOption('boost');
     }
@@ -259,18 +269,19 @@ class MoreLikeThis extends AbstractComponent
      *
      * When using string input you can separate multiple fields with commas.
      *
-     * @param string $queryFields
+     * @param string|array $queryFields
      *
      * @return self Provides fluent interface
      */
-    public function setQueryFields($queryFields)
+    public function setQueryFields($queryFields): self
     {
         if (is_string($queryFields)) {
             $queryFields = explode(',', $queryFields);
             $queryFields = array_map('trim', $queryFields);
         }
 
-        return $this->setOption('queryfields', $queryFields);
+        $this->setOption('queryfields', $queryFields);
+        return $this;
     }
 
     /**
@@ -278,7 +289,7 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return array
      */
-    public function getQueryFields()
+    public function getQueryFields(): array
     {
         $queryfields = $this->getOption('queryfields');
         if (null === $queryfields) {
@@ -297,9 +308,10 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setCount($count)
+    public function setCount(int $count): self
     {
-        return $this->setOption('count', $count);
+        $this->setOption('count', $count);
+        return $this;
     }
 
     /**
@@ -307,8 +319,25 @@ class MoreLikeThis extends AbstractComponent
      *
      * @return int|null
      */
-    public function getCount()
+    public function getCount(): ?int
     {
         return $this->getOption('count');
+    }
+
+    /**
+     * Initialize options.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'fields':
+                    $this->setFields($value);
+                    break;
+                case 'queryfields':
+                    $this->setQueryFields($value);
+                    break;
+            }
+        }
     }
 }

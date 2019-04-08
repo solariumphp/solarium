@@ -3,6 +3,7 @@
 namespace Solarium\Component\QueryTraits;
 
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\DisMax;
 
 /**
  * Trait query types supporting components.
@@ -16,7 +17,7 @@ trait DisMaxTrait
      *
      * @return \Solarium\Component\DisMax
      */
-    public function getDisMax()
+    public function getDisMax(): DisMax
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_DISMAX, true);
     }

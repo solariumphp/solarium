@@ -78,12 +78,9 @@ trait FacetSetTrait
      *
      * @return FacetInterface|null
      */
-    public function getFacet($key): ?FacetInterface
+    public function getFacet(string $key): ?FacetInterface
     {
-        if (isset($this->facets[$key])) {
-            return $this->facets[$key];
-        }
-        return null;
+        return $this->facets[$key] ?? null;
     }
 
     /**
@@ -136,8 +133,10 @@ trait FacetSetTrait
      * This overwrites any existing facets
      *
      * @param array $facets
+     *
+     * @return self
      */
-    public function setFacets($facets): FacetSetInterface
+    public function setFacets(array $facets): FacetSetInterface
     {
         $this->clearFacets();
         $this->addFacets($facets);

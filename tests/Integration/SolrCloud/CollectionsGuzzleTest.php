@@ -11,7 +11,7 @@ use Solarium\Tests\Integration\AbstractCollectionsTest;
  */
 class CollectionsGuzzleTest extends AbstractCollectionsTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (!class_exists('\\GuzzleHttp\\Client')) {
             $this->markTestSkipped('Guzzle 6 not installed');

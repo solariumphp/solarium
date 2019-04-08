@@ -16,7 +16,7 @@ class MoreLikeThisTest extends TestCase
 
     protected $results;
 
-    public function setUp()
+    public function setUp(): void
     {
         $docs = [
             new Document(['id' => 1, 'name' => 'test1']),

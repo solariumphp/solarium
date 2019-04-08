@@ -7,9 +7,12 @@ use Solarium\Component\ResponseParser\Stats as Parser;
 
 class StatsTest extends TestCase
 {
+    /**
+     * @var Parser
+     */
     protected $parser;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->parser = new Parser();
     }

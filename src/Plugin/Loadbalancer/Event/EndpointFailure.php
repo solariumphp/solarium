@@ -36,7 +36,7 @@ class EndpointFailure extends Event
     /**
      * @return Endpoint
      */
-    public function getEndpoint()
+    public function getEndpoint(): Endpoint
     {
         return $this->endpoint;
     }
@@ -44,7 +44,7 @@ class EndpointFailure extends Event
     /**
      * @return HttpException
      */
-    public function getException()
+    public function getException(): HttpException
     {
         return $this->exception;
     }

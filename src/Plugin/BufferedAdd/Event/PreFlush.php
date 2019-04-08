@@ -2,7 +2,7 @@
 
 namespace Solarium\Plugin\BufferedAdd\Event;
 
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\Core\Query\DocumentInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -28,11 +28,11 @@ class PreFlush extends Event
     /**
      * Event constructor.
      *
-     * @param array $buffer
-     * @param bool  $overwrite
-     * @param int   $commitWithin
+     * @param DocumentInterface[] $buffer
+     * @param bool                $overwrite
+     * @param int                 $commitWithin
      */
-    public function __construct($buffer, $overwrite, $commitWithin)
+    public function __construct(array $buffer, ?bool $overwrite, ?int $commitWithin)
     {
         $this->buffer = $buffer;
         $this->overwrite = $overwrite;
@@ -44,7 +44,7 @@ class PreFlush extends Event
      *
      * @return DocumentInterface[]
      */
-    public function getBuffer()
+    public function getBuffer(): array
     {
         return $this->buffer;
     }
@@ -52,27 +52,33 @@ class PreFlush extends Event
     /**
      * Set the buffer for this event, this way you can alter the buffer before it is committed to Solr.
      *
-     * @param array $buffer
+     * @param DocumentInterface[] $buffer
+     *
+     * @return self Provides fluent interface
      */
-    public function setBuffer($buffer)
+    public function setBuffer(array $buffer): self
     {
         $this->buffer = $buffer;
+        return $this;
     }
 
     /**
      * Optionally override the value.
      *
      * @param int $commitWithin
+     *
+     * @return self Provides fluent interface
      */
-    public function setCommitWithin($commitWithin)
+    public function setCommitWithin(int $commitWithin): self
     {
         $this->commitWithin = $commitWithin;
+        return $this;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getCommitWithin()
+    public function getCommitWithin(): ?int
     {
         return $this->commitWithin;
     }
@@ -81,16 +87,19 @@ class PreFlush extends Event
      * Optionally override the value.
      *
      * @param bool $overwrite
+     *
+     * @return self Provides fluent interface
      */
-    public function setOverwrite($overwrite)
+    public function setOverwrite(bool $overwrite): self
     {
         $this->overwrite = $overwrite;
+        return $this;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getOverwrite()
+    public function getOverwrite(): ?bool
     {
         return $this->overwrite;
     }

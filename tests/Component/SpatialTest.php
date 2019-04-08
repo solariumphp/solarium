@@ -13,7 +13,7 @@ class SpatialTest extends TestCase
      */
     protected $spatial;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->spatial = new Spatial();
     }
@@ -64,7 +64,7 @@ class SpatialTest extends TestCase
 
     public function testSetAndGetDistance()
     {
-        $value = 'distance';
+        $value = 5;
         $this->spatial->setDistance($value);
 
         $this->assertEquals($value, $this->spatial->getDistance());

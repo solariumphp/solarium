@@ -19,7 +19,7 @@ class RequestBuilderTest extends TestCase
      */
     protected $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new Query();
         $this->builder = new RequestBuilder();
@@ -38,7 +38,7 @@ class RequestBuilderTest extends TestCase
         $this->assertEquals(
             [
                 'suggest' => 'true',
-                'suggest.dictionary' => 'suggest',
+                'suggest.dictionary' => ['suggest'],
                 'suggest.q' => 'ap ip',
                 'suggest.count' => 13,
                 'suggest.cfq' => 'foo bar',

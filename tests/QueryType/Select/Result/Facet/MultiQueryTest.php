@@ -11,7 +11,7 @@ class MultiQueryTest extends TestCase
 
     protected $facet;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->values = [
             'a' => 12,

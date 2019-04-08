@@ -22,7 +22,7 @@ class DocumentTest extends TestCase
 
     protected $details;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->key = 'dummy-key';
         $this->value = 1.5;

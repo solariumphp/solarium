@@ -26,7 +26,7 @@ class RangeTest extends TestCase
 
     protected $gap;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->values = [
             '10.0' => 12,

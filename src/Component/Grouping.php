@@ -2,7 +2,9 @@
 
 namespace Solarium\Component;
 
+use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\Grouping as RequestBuilder;
+use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\Grouping as ResponseParser;
 
 /**
@@ -72,7 +74,7 @@ class Grouping extends AbstractComponent
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -82,7 +84,7 @@ class Grouping extends AbstractComponent
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ?ComponentParserInterface
     {
         return new ResponseParser();
     }
@@ -96,7 +98,7 @@ class Grouping extends AbstractComponent
      *
      * @return self fluent interface
      */
-    public function addField($field)
+    public function addField(string $field): self
     {
         $this->fields[] = $field;
 
@@ -112,7 +114,7 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function addFields($fields)
+    public function addFields($fields): self
     {
         if (is_string($fields)) {
             $fields = explode(',', $fields);
@@ -129,7 +131,7 @@ class Grouping extends AbstractComponent
      *
      * @return array
      */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }
@@ -139,7 +141,7 @@ class Grouping extends AbstractComponent
      *
      * @return self fluent interface
      */
-    public function clearFields()
+    public function clearFields(): self
     {
         $this->fields = [];
 
@@ -151,11 +153,11 @@ class Grouping extends AbstractComponent
      *
      * This overwrites any existing fields
      *
-     * @param array $fields
+     * @param string|array $fields
      *
      * @return self Provides fluent interface
      */
-    public function setFields($fields)
+    public function setFields($fields): self
     {
         $this->clearFields();
         $this->addFields($fields);
@@ -172,7 +174,7 @@ class Grouping extends AbstractComponent
      *
      * @return self fluent interface
      */
-    public function addQuery($query)
+    public function addQuery(string $query): self
     {
         $this->queries[] = $query;
 
@@ -186,7 +188,7 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function addQueries($queries)
+    public function addQueries($queries): self
     {
         if (!is_array($queries)) {
             $queries = [$queries];
@@ -202,7 +204,7 @@ class Grouping extends AbstractComponent
      *
      * @return array
      */
-    public function getQueries()
+    public function getQueries(): array
     {
         return $this->queries;
     }
@@ -212,7 +214,7 @@ class Grouping extends AbstractComponent
      *
      * @return self fluent interface
      */
-    public function clearQueries()
+    public function clearQueries(): self
     {
         $this->queries = [];
 
@@ -225,11 +227,15 @@ class Grouping extends AbstractComponent
      * This overwrites any existing queries
      *
      * @param array $queries
+     *
+     * @return self Provides fluent interface
      */
-    public function setQueries($queries)
+    public function setQueries($queries): self
     {
         $this->clearQueries();
         $this->addQueries($queries);
+
+        return $this;
     }
 
     /**
@@ -241,17 +247,18 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setLimit($limit)
+    public function setLimit(int $limit): self
     {
-        return $this->setOption('limit', $limit);
+        $this->setOption('limit', $limit);
+        return $this;
     }
 
     /**
      * Get limit option.
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getLimit()
+    public function getLimit(): ?int
     {
         return $this->getOption('limit');
     }
@@ -265,17 +272,18 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setOffset($offset)
+    public function setOffset(int $offset): self
     {
-        return $this->setOption('offset', $offset);
+        $this->setOption('offset', $offset);
+        return $this;
     }
 
     /**
      * Get offset option.
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getOffset()
+    public function getOffset(): ?int
     {
         return $this->getOption('offset');
     }
@@ -289,9 +297,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setSort($sort)
+    public function setSort(string $sort): self
     {
-        return $this->setOption('sort', $sort);
+        $this->setOption('sort', $sort);
+        return $this;
     }
 
     /**
@@ -299,7 +308,7 @@ class Grouping extends AbstractComponent
      *
      * @return string|null
      */
-    public function getSort()
+    public function getSort(): ?string
     {
         return $this->getOption('sort');
     }
@@ -314,9 +323,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setMainResult($value)
+    public function setMainResult(bool $value): self
     {
-        return $this->setOption('mainresult', $value);
+        $this->setOption('mainresult', $value);
+        return $this;
     }
 
     /**
@@ -324,7 +334,7 @@ class Grouping extends AbstractComponent
      *
      * @return bool|null
      */
-    public function getMainResult()
+    public function getMainResult(): ?bool
     {
         return $this->getOption('mainresult');
     }
@@ -338,9 +348,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setNumberOfGroups($value)
+    public function setNumberOfGroups(bool $value): self
     {
-        return $this->setOption('numberofgroups', $value);
+        $this->setOption('numberofgroups', $value);
+        return $this;
     }
 
     /**
@@ -348,7 +359,7 @@ class Grouping extends AbstractComponent
      *
      * @return bool|null
      */
-    public function getNumberOfGroups()
+    public function getNumberOfGroups(): ?bool
     {
         return $this->getOption('numberofgroups');
     }
@@ -367,9 +378,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setCachePercentage($value)
+    public function setCachePercentage(int $value): self
     {
-        return $this->setOption('cachepercentage', $value);
+        $this->setOption('cachepercentage', $value);
+        return $this;
     }
 
     /**
@@ -377,7 +389,7 @@ class Grouping extends AbstractComponent
      *
      * @return int|null
      */
-    public function getCachePercentage()
+    public function getCachePercentage(): ?int
     {
         return $this->getOption('cachepercentage');
     }
@@ -392,9 +404,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setTruncate($value)
+    public function setTruncate(bool $value): self
     {
-        return $this->setOption('truncate', $value);
+        $this->setOption('truncate', $value);
+        return $this;
     }
 
     /**
@@ -402,7 +415,7 @@ class Grouping extends AbstractComponent
      *
      * @return bool|null
      */
-    public function getTruncate()
+    public function getTruncate(): ?bool
     {
         return $this->getOption('truncate');
     }
@@ -416,9 +429,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setFunction($value)
+    public function setFunction(string $value): self
     {
-        return $this->setOption('function', $value);
+        $this->setOption('function', $value);
+        return $this;
     }
 
     /**
@@ -426,7 +440,7 @@ class Grouping extends AbstractComponent
      *
      * @return string|null
      */
-    public function getFunction()
+    public function getFunction(): ?string
     {
         return $this->getOption('function');
     }
@@ -442,9 +456,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setFacet($value)
+    public function setFacet(bool $value): self
     {
-        return $this->setOption('facet', $value);
+        $this->setOption('facet', $value);
+        return $this;
     }
 
     /**
@@ -452,7 +467,7 @@ class Grouping extends AbstractComponent
      *
      * @return bool|null
      */
-    public function getFacet()
+    public function getFacet(): ?bool
     {
         return $this->getOption('facet');
     }
@@ -467,9 +482,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setFormat($value)
+    public function setFormat(string $value): self
     {
-        return $this->setOption('format', $value);
+        $this->setOption('format', $value);
+        return $this;
     }
 
     /**
@@ -477,7 +493,7 @@ class Grouping extends AbstractComponent
      *
      * @return string|null
      */
-    public function getFormat()
+    public function getFormat(): ?string
     {
         return $this->getOption('format');
     }
@@ -489,9 +505,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setResultQueryGroupClass($value)
+    public function setResultQueryGroupClass(string $value): self
     {
-        return $this->setOption('resultquerygroupclass', $value);
+        $this->setOption('resultquerygroupclass', $value);
+        return $this;
     }
 
     /**
@@ -499,9 +516,9 @@ class Grouping extends AbstractComponent
      *
      * The value is a classname, not an instance
      *
-     * @return string
+     * @return string|null
      */
-    public function getResultQueryGroupClass()
+    public function getResultQueryGroupClass(): ?string
     {
         return $this->getOption('resultquerygroupclass');
     }
@@ -513,9 +530,10 @@ class Grouping extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setResultValueGroupClass($value)
+    public function setResultValueGroupClass(string $value): self
     {
-        return $this->setOption('resultvaluegroupclass', $value);
+        $this->setOption('resultvaluegroupclass', $value);
+        return  $this;
     }
 
     /**
@@ -523,9 +541,9 @@ class Grouping extends AbstractComponent
      *
      * The value is a classname, not an instance
      *
-     * @return string
+     * @return string|null
      */
-    public function getResultValueGroupClass()
+    public function getResultValueGroupClass(): ?string
     {
         return $this->getOption('resultvaluegroupclass');
     }

@@ -3,7 +3,7 @@
 namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Core\Client\Request;
-use Solarium\QueryType\Suggester\SuggesterInterface;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * Add select component Spellcheck to the request.
@@ -13,12 +13,12 @@ class Suggester implements ComponentRequestBuilderInterface
     /**
      * Add request settings for Spellcheck.
      *
-     * @param SuggesterInterface $component
-     * @param Request            $request
+     * @param \Solarium\Component\SuggesterInterface $component
+     * @param Request                                $request
      *
      * @return Request
      */
-    public function buildComponent($component, $request)
+    public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         $request->addParam('suggest', 'true');
         $request->addParam('suggest.dictionary', $component->getDictionary());

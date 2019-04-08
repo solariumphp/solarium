@@ -5,7 +5,7 @@ namespace Solarium\Tests\QueryType\Extract;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Extract\Query;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 
 class QueryTest extends TestCase
 {
@@ -14,7 +14,7 @@ class QueryTest extends TestCase
      */
     protected $query;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new Query();
     }

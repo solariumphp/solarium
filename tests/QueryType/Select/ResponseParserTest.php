@@ -8,7 +8,7 @@ use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\ResponseParser;
 use Solarium\QueryType\Select\Result\Result;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document;
 
 class ResponseParserTest extends TestCase
 {
@@ -35,10 +35,10 @@ class ResponseParserTest extends TestCase
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
-             ->will($this->returnValue($data));
+             ->willReturn($data);
         $resultStub->expects($this->once())
              ->method('getQuery')
-             ->will($this->returnValue($query));
+             ->willReturn($query);
 
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
@@ -82,10 +82,10 @@ class ResponseParserTest extends TestCase
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
-             ->will($this->returnValue($data));
+             ->willReturn($data);
         $resultStub->expects($this->once())
              ->method('getQuery')
-             ->will($this->returnValue($query));
+             ->willReturn($query);
 
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
@@ -129,10 +129,10 @@ class ResponseParserTest extends TestCase
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
-             ->will($this->returnValue($data));
+             ->willReturn($data);
         $resultStub->expects($this->once())
              ->method('getQuery')
-             ->will($this->returnValue($query));
+             ->willReturn($query);
 
         $parser = new ResponseParser();
 
@@ -161,10 +161,10 @@ class ResponseParserTest extends TestCase
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->once())
              ->method('getData')
-             ->will($this->returnValue($data));
+             ->willReturn($data);
         $resultStub->expects($this->once())
              ->method('getQuery')
-             ->will($this->returnValue($query));
+             ->willReturn($query);
 
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);

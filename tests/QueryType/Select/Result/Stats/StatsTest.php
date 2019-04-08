@@ -3,43 +3,47 @@
 namespace Solarium\Tests\QueryType\Select\Result\Stats;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Stats\Result;
 use Solarium\Component\Result\Stats\Stats;
 
 class StatsTest extends TestCase
 {
+    protected $data;
+
     /**
      * @var Stats
      */
-    protected $result;
+    protected $stats;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data = [
-            'key1' => 'value1',
-            'key2' => 'value2',
+            'key1' => new Result('field1', ['mean' => 'value1']),
+            'key2' => new Result('field2', ['mean' => 'value2']),
         ];
-        $this->result = new Stats($this->data);
+        $this->stats = new Stats($this->data);
     }
 
     public function testGetResult()
     {
-        $this->assertSame($this->data['key1'], $this->result->getResult('key1'));
+        $this->assertSame('field1', $this->stats->getResult('key1')->getName());
+        $this->assertSame('value1', $this->stats->getResult('key1')->getMean());
     }
 
     public function testGetInvalidResult()
     {
-        $this->assertNull($this->result->getResult('key3'));
+        $this->assertNull($this->stats->getResult('key3'));
     }
 
     public function testGetResults()
     {
-        $this->assertSame($this->data, $this->result->getResults());
+        $this->assertSame($this->data, $this->stats->getResults());
     }
 
     public function testIterator()
     {
         $items = [];
-        foreach ($this->result as $key => $item) {
+        foreach ($this->stats as $key => $item) {
             $items[$key] = $item;
         }
 
@@ -48,6 +52,6 @@ class StatsTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->data), count($this->result));
+        $this->assertSame(count($this->data), count($this->stats));
     }
 }

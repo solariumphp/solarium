@@ -13,7 +13,7 @@ class QueryTest extends TestCase
      */
     protected $query;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new Query();
     }
@@ -47,6 +47,17 @@ class QueryTest extends TestCase
     public function testSetAndGetDictionary()
     {
         $value = 'myDictionary';
+        $this->query->setDictionary($value);
+
+        $this->assertSame(
+            [$value],
+            $this->query->getDictionary()
+        );
+    }
+
+    public function testSetAndGetDictionaries()
+    {
+        $value = ['myDictionary1', 'myDictionary1'];
         $this->query->setDictionary($value);
 
         $this->assertSame(

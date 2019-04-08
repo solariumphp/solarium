@@ -14,7 +14,7 @@ class StatsTest extends TestCase
      */
     protected $stats;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->stats = new Stats();
     }

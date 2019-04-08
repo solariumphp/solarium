@@ -23,7 +23,7 @@ class AdapterHelper
     public static function buildUri(Request $request, Endpoint $endpoint): string
     {
         try {
-            if (Request::API_V2 == $request->getApi()) {
+            if (Request::API_V2 === $request->getApi()) {
                 $baseUri = $endpoint->getV2BaseUri();
             } elseif ($request->getIsServerRequest()) {
                 $baseUri = $endpoint->getV1BaseUri();

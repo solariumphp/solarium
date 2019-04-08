@@ -13,7 +13,7 @@ class MoreLikeThisTest extends TestCase
      */
     protected $mlt;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mlt = new MoreLikeThis();
     }
@@ -35,14 +35,14 @@ class MoreLikeThisTest extends TestCase
 
         $this->mlt->setOptions($options);
 
-        $this->assertEquals($options['fields'], $this->mlt->getFields());
+        $this->assertEquals(explode(',', $options['fields']), $this->mlt->getFields());
         $this->assertEquals($options['minimumtermfrequency'], $this->mlt->getMinimumTermFrequency());
         $this->assertEquals($options['minimumdocumentfrequency'], $this->mlt->getMinimumDocumentFrequency());
         $this->assertEquals($options['minimumwordlength'], $this->mlt->getMinimumWordLength());
         $this->assertEquals($options['maximumwordlength'], $this->mlt->getMaximumWordLength());
         $this->assertEquals($options['maximumqueryterms'], $this->mlt->getMaximumQueryTerms());
         $this->assertEquals($options['boost'], $this->mlt->getBoost());
-        $this->assertEquals($options['queryfields'], $this->mlt->getQueryFields());
+        $this->assertEquals(explode(',', $options['queryfields']), $this->mlt->getQueryFields());
         $this->assertEquals($options['count'], $this->mlt->getCount());
     }
 

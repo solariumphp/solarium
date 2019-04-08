@@ -6,7 +6,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class QueryTest extends AbstractQueryTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new Query();
     }

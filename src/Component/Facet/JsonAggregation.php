@@ -30,17 +30,18 @@ class JsonAggregation extends AbstractFacet implements JsonFacetInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFunction(string $function)
+    public function setFunction(string $function): self
     {
-        return $this->setOption('function', $function);
+        $this->setOption('function', $function);
+        return $this;
     }
 
     /**
      * Get the function string.
      *
-     * @return string
+     * @return string|null
      */
-    public function getFunction()
+    public function getFunction(): ?string
     {
         return $this->getOption('function');
     }
@@ -56,9 +57,10 @@ class JsonAggregation extends AbstractFacet implements JsonFacetInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMin(int $min)
+    public function setMin(int $min): self
     {
-        return $this->setOption('min', $min);
+        $this->setOption('min', $min);
+        return $this;
     }
 
     /**
@@ -67,9 +69,9 @@ class JsonAggregation extends AbstractFacet implements JsonFacetInterface
      * This option doesn't exist in Solr originally, but it's useful to filter
      * the aggregations returned by Solr.
      *
-     * @return int
+     * @return int|null
      */
-    public function getMin()
+    public function getMin(): ?int
     {
         return $this->getOption('min');
     }

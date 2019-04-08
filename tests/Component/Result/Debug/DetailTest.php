@@ -18,7 +18,7 @@ class DetailTest extends TestCase
 
     protected $description;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->value = 1.5;
         $this->match = true;

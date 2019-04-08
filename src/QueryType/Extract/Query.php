@@ -4,7 +4,10 @@ namespace Solarium\QueryType\Extract;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
-use Solarium\QueryType\Update\Query\Document\DocumentInterface;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\QueryType\Update\Query\Document;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
 
 /**
@@ -25,8 +28,8 @@ class Query extends BaseQuery
      */
     protected $options = [
         'handler' => 'update/extract',
-        'resultclass' => 'Solarium\QueryType\Extract\Result',
-        'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
+        'resultclass' => Result::class,
+        'documentclass' => Document::class,
         'omitheader' => true,
         'extractonly' => false,
     ];
@@ -53,7 +56,7 @@ class Query extends BaseQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -63,7 +66,7 @@ class Query extends BaseQuery
      *
      * @return UpdateResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return new UpdateResponseParser();
     }
@@ -78,9 +81,10 @@ class Query extends BaseQuery
      *
      * @return self
      */
-    public function setDocument(DocumentInterface $document)
+    public function setDocument(DocumentInterface $document): self
     {
-        return $this->setOption('document', $document);
+        $this->setOption('document', $document);
+        return $this;
     }
 
     /**
@@ -88,7 +92,7 @@ class Query extends BaseQuery
      *
      * @return DocumentInterface|null
      */
-    public function getDocument()
+    public function getDocument(): ?DocumentInterface
     {
         return $this->getOption('document');
     }
@@ -100,9 +104,10 @@ class Query extends BaseQuery
      *
      * @return self
      */
-    public function setFile($filename)
+    public function setFile(string $filename): self
     {
-        return $this->setOption('file', $filename);
+        $this->setOption('file', $filename);
+        return $this;
     }
 
     /**
@@ -110,7 +115,7 @@ class Query extends BaseQuery
      *
      * @return string|null
      */
-    public function getFile()
+    public function getFile(): ?string
     {
         return $this->getOption('file');
     }
@@ -122,9 +127,10 @@ class Query extends BaseQuery
      *
      * @return self
      */
-    public function setUprefix($uprefix)
+    public function setUprefix(string $uprefix): self
     {
-        return $this->setOption('uprefix', $uprefix);
+        $this->setOption('uprefix', $uprefix);
+        return $this;
     }
 
     /**
@@ -132,7 +138,7 @@ class Query extends BaseQuery
      *
      * @return string|null
      */
-    public function getUprefix()
+    public function getUprefix(): ?string
     {
         return $this->getOption('uprefix');
     }
@@ -145,9 +151,10 @@ class Query extends BaseQuery
      *
      * @return self
      */
-    public function setDefaultField($defaultField)
+    public function setDefaultField(string $defaultField): self
     {
-        return $this->setOption('defaultField', $defaultField);
+        $this->setOption('defaultField', $defaultField);
+        return  $this;
     }
 
     /**
@@ -156,7 +163,7 @@ class Query extends BaseQuery
      *
      * @return string|null
      */
-    public function getDefaultField()
+    public function getDefaultField(): ?string
     {
         return $this->getOption('defaultField');
     }
@@ -169,9 +176,10 @@ class Query extends BaseQuery
      *
      * @return self
      */
-    public function setLowernames($lowerNames)
+    public function setLowernames(bool $lowerNames): self
     {
-        return $this->setOption('lowernames', (bool) $lowerNames);
+        $this->setOption('lowernames', (bool) $lowerNames);
+        return $this;
     }
 
     /**
@@ -179,7 +187,7 @@ class Query extends BaseQuery
      *
      * @return bool
      */
-    public function getLowernames()
+    public function getLowernames(): ?bool
     {
         return $this->getOption('lowernames');
     }
@@ -191,17 +199,18 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function setCommit($commit)
+    public function setCommit(bool $commit): self
     {
-        return $this->setOption('commit', (bool) $commit);
+        $this->setOption('commit', (bool) $commit);
+        return $this;
     }
 
     /**
      * Get if the extract should be committed immediately.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getCommit()
+    public function getCommit(): ?bool
     {
         return $this->getOption('commit');
     }
@@ -213,9 +222,10 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function setCommitWithin($commitWithin)
+    public function setCommitWithin(int $commitWithin): self
     {
-        return $this->setOption('commitWithin', $commitWithin);
+        $this->setOption('commitWithin', $commitWithin);
+        return $this;
     }
 
     /**
@@ -223,7 +233,7 @@ class Query extends BaseQuery
      *
      * @return int
      */
-    public function getCommitWithin()
+    public function getCommitWithin(): ?int
     {
         return $this->getOption('commitWithin');
     }
@@ -234,12 +244,12 @@ class Query extends BaseQuery
      * Example: fmap.content=text will cause the content field normally
      * generated by Tika to be moved to the "text" field.
      *
-     * @param string      $fromField Original field name
-     * @param mixed|array $toField   New field name
+     * @param string $fromField Original field name
+     * @param string $toField   New field name
      *
      * @return self Provides fluent interface
      */
-    public function addFieldMapping($fromField, $toField)
+    public function addFieldMapping(string $fromField, string $toField): self
     {
         $this->fieldMappings[$fromField] = $toField;
 
@@ -253,7 +263,7 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function addFieldMappings($mappings)
+    public function addFieldMappings(array $mappings): self
     {
         foreach ($mappings as $fromField => $toField) {
             $this->addFieldMapping($fromField, $toField);
@@ -269,7 +279,7 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function removeFieldMapping($fromField)
+    public function removeFieldMapping(string $fromField): self
     {
         if (isset($this->fieldMappings[$fromField])) {
             unset($this->fieldMappings[$fromField]);
@@ -283,7 +293,7 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function clearFieldMappings()
+    public function clearFieldMappings(): self
     {
         $this->fieldMappings = [];
 
@@ -295,7 +305,7 @@ class Query extends BaseQuery
      *
      * @return array
      */
-    public function getFieldMappings()
+    public function getFieldMappings(): array
     {
         return $this->fieldMappings;
     }
@@ -307,7 +317,7 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function setFieldMappings($mappings)
+    public function setFieldMappings(array $mappings): self
     {
         $this->clearFieldMappings();
         $this->addFieldMappings($mappings);
@@ -324,9 +334,10 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function setDocumentClass($value)
+    public function setDocumentClass(string $value): self
     {
-        return $this->setOption('documentclass', $value);
+        $this->setOption('documentclass', $value);
+        return $this;
     }
 
     /**
@@ -334,9 +345,9 @@ class Query extends BaseQuery
      *
      * The value is a classname, not an instance
      *
-     * @return string
+     * @return string|null
      */
-    public function getDocumentClass()
+    public function getDocumentClass(): ?string
     {
         return $this->getOption('documentclass');
     }
@@ -348,17 +359,18 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function setExtractOnly($value)
+    public function setExtractOnly(bool $value): self
     {
-        return $this->setOption('extractonly', (bool) $value);
+        $this->setOption('extractonly', (bool) $value);
+        return $this;
     }
 
     /**
      * Get the ExtractOnly parameter of SOLR Extraction Handler.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getExtractOnly()
+    public function getExtractOnly(): ?bool
     {
         return $this->getOption('extractonly');
     }
@@ -374,7 +386,7 @@ class Query extends BaseQuery
      *
      * @return DocumentInterface
      */
-    public function createDocument($fields = [], $boosts = [])
+    public function createDocument(array $fields = [], array $boosts = []): DocumentInterface
     {
         $class = $this->getDocumentClass();
 

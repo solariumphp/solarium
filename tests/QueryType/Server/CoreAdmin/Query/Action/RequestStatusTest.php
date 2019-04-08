@@ -12,7 +12,7 @@ class RequestStatusTest extends TestCase
      */
     protected $action;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->action = new RequestStatus();
     }

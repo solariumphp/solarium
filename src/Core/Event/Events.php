@@ -5,7 +5,7 @@ namespace Solarium\Core\Event;
 /**
  * Event definitions.
  */
-class Events
+interface Events
 {
     /**
      * The preCreateRequest event is thrown just before a request is created based on a query object, using the
