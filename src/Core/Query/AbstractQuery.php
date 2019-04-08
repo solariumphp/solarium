@@ -149,11 +149,11 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      * Therefore the params are limited in functionality. Only add and get
      *
      * @param string $name
-     * @param string $value
+     * @param mixed  $value
      *
      * @return self Provides fluent interface
      */
-    public function addParam(string $name, string $value): QueryInterface
+    public function addParam(string $name, $value): QueryInterface
     {
         $this->params[$name] = $value;
 
