@@ -88,6 +88,20 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildWithDistributed()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
+        $query->setDistrib(true);
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?distrib=true&omitHeader=true&p1=v1&p2=v2&wt=json&json.nl=flat',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testRenderLocalParams()
     {
         $myParams = ['tag' => 'mytag', 'ex' => ['exclude1', 'exclude2']];
