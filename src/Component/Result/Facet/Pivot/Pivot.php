@@ -2,10 +2,12 @@
 
 namespace Solarium\Component\Result\Facet\Pivot;
 
+use Solarium\Component\Result\Facet\FacetResultInterface;
+
 /**
  * Select field pivot result.
  */
-class Pivot implements \IteratorAggregate, \Countable
+class Pivot implements FacetResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * Value array.

@@ -9,7 +9,7 @@ namespace Solarium\Component\Result\Facet;
  * value and its count. You can access the values as an array using
  * {@link getValues()} or iterate this object.
  */
-class Field implements \IteratorAggregate, \Countable
+class Field implements FacetResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * Value array.
