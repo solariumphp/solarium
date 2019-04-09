@@ -82,11 +82,11 @@ interface QueryInterface extends ConfigurableInterface
      * Therefore the params are limited in functionality. Only add and get
      *
      * @param string $name
-     * @param string $value
+     * @param mixed  $value
      *
      * @return self Provides fluent interface
      */
-    public function addParam(string $name, string $value): self;
+    public function addParam(string $name, $value): self;
 
     /**
      * Get extra params.
