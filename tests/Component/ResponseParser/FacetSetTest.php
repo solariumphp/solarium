@@ -125,7 +125,7 @@ class FacetSetTest extends TestCase
         $this->assertEquals(5, $facets['keyD']->getAfter());
         $this->assertEquals(1, count($facets['keyE']));
 
-        $this->query = new Query();
+        $this->assertEquals(23, $result->getFacet('keyB')->getValue());
     }
 
     public function testParseExtractFromResponse()
@@ -241,8 +241,6 @@ class FacetSetTest extends TestCase
             2,
             $pivots[0]->getStats()
         );
-
-        $this->query = new Query();
     }
 
     public function testParseNoData()
@@ -356,5 +354,7 @@ class FacetSetTest extends TestCase
         $this->assertEquals(['top_authors', 'highpop'], array_keys($nested_facets));
 
         $this->assertFalse(isset($facets['empty_buckets']));
+
+        $this->assertEquals('Fantasy', $result->getFacet('top_genres')->getBuckets()[0]->getValue());
     }
 }

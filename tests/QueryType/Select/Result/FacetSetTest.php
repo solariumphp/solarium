@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Select\Result;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\AbstractFacet;
+use Solarium\Component\Result\Facet\FacetResultInterface;
 use Solarium\Component\Result\FacetSet;
 
 class FacetSetTest extends TestCase
@@ -61,7 +62,7 @@ class FacetSetTest extends TestCase
     }
 }
 
-class DummyFacet extends AbstractFacet
+class DummyFacet extends AbstractFacet implements FacetResultInterface
 {
     /**
      * Get the facet type.

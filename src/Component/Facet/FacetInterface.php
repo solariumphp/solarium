@@ -3,7 +3,7 @@
 namespace Solarium\Component\Facet;
 
 /**
- * Facet base class.
+ * Facet interface.
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters
  */
