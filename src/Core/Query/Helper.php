@@ -168,10 +168,10 @@ class Helper
      * @param string      $field
      * @param string|null $from
      * @param string|null $to
-     * @param bool        $inclusive TRUE if the the range should include the boundaries, FALSE otherwise.
+     * @param bool        $inclusive TRUE if the the range should include the boundaries, FALSE otherwise
      * @param bool        $escape    Whether the values should be escaped as phrase or not. Default is TRUE because
      *                               escaping is correct for security reasons. But for location searches (point values),
-     *                               escaping would break the functionality.
+     *                               escaping would break the functionality
      *
      * @return string
      */
