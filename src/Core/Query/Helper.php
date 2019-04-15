@@ -159,30 +159,33 @@ class Helper
      * From and to can be any type of data. For instance int, string or point.
      * If they are null, then '*' will be used.
      *
-     * Example: rangeQuery('store', '45,-94', '46,-93')
+     * Example: rangeQuery('store', '45,-94', '46,-93', true, false)
      * Returns: store:[45,-94 TO 46,-93]
      *
      * Example: rangeQuery('store', '5', '*', false)
-     * Returns: store:{5 TO *}
+     * Returns: store:{"5" TO *}
      *
      * @param string      $field
      * @param string|null $from
      * @param string|null $to
-     * @param bool        $inclusive
+     * @param bool        $inclusive TRUE if the the range should include the boundaries, FALSE otherwise
+     * @param bool        $escape    Whether the values should be escaped as phrase or not. Default is TRUE because
+     *                               escaping is correct for security reasons. But for location searches (point values),
+     *                               escaping would break the functionality
      *
      * @return string
      */
-    public function rangeQuery(string $field, ?string $from, ?string $to, bool $inclusive = true): string
+    public function rangeQuery(string $field, ?string $from, ?string $to, bool $inclusive = true, bool $escape = true): string
     {
         if (null === $from) {
             $from = '*';
-        } else {
+        } elseif ($escape) {
             $from = $this->escapePhrase($from);
         }
 
         if (null === $to) {
             $to = '*';
-        } else {
+        } elseif ($escape) {
             $to = $this->escapePhrase($to);
         }
 

@@ -87,6 +87,20 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->select($select);
         $this->assertSame(10, $result->getNumFound());
         $this->assertSame(10, $result->count());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('store', '-90,-90', '90,90', true, false)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $this->assertSame(2, $result->count());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('store', '-90,-180', '90,180', true, false)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(14, $result->getNumFound());
+        $this->assertSame(10, $result->count());
     }
 
     /**
