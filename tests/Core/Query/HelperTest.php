@@ -33,8 +33,8 @@ class HelperTest extends TestCase
         );
 
         $this->assertSame(
-            'store:["45,-94" TO "46,-93"]',
-            $this->helper->rangeQuery('store', '45,-94', '46,-93')
+            'store:[45,-94 TO 46,-93]',
+            $this->helper->rangeQuery('store', '45,-94', '46,-93', true, false)
         );
     }
 
@@ -46,8 +46,8 @@ class HelperTest extends TestCase
         );
 
         $this->assertSame(
-            'store:{"45,-94" TO "46,-93"}',
-            $this->helper->rangeQuery('store', '45,-94', '46,-93', false)
+            'store:{45,-94 TO 46,-93}',
+            $this->helper->rangeQuery('store', '45,-94', '46,-93', false, false)
         );
     }
 
@@ -59,8 +59,8 @@ class HelperTest extends TestCase
         );
 
         $this->assertSame(
-            'store:[* TO "46,-93"]',
-            $this->helper->rangeQuery('store', null, '46,-93')
+            'store:[* TO 46,-93]',
+            $this->helper->rangeQuery('store', null, '46,-93', true, false)
         );
     }
 
@@ -72,8 +72,8 @@ class HelperTest extends TestCase
         );
 
         $this->assertSame(
-            'store:{* TO "46,-93"}',
-            $this->helper->rangeQuery('store', null, '46,-93', false)
+            'store:{* TO 46,-93}',
+            $this->helper->rangeQuery('store', null, '46,-93', false, false)
         );
     }
 

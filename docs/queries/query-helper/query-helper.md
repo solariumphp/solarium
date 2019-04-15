@@ -7,7 +7,7 @@ Two special types of helper methods are
 Helper methods for general use
 ------------------------------
 
--   rangeQuery($field, $from, $to, $inclusive = true)
+-   rangeQuery($field, $from, $to, $inclusive = true, $escape = true)
 -   qparser($name, $params = array())
 -   functionCall($name, $params = array())
 -   join($from, $to, $dereferenced = false)
