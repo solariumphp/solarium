@@ -86,7 +86,7 @@ class SpellcheckTest extends TestCase
         $this->spellCheck->setDictionary($value);
 
         $this->assertEquals(
-            $value,
+            [$value],
             $this->spellCheck->getDictionary()
         );
     }

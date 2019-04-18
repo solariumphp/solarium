@@ -140,6 +140,17 @@ abstract class AbstractTechproductsTest extends TestCase
             'card',
         ], $words);
 
+        $spellcheck->setDictionary(['default', 'wordbreak']);
+
+        $result = $this->client->select($select);
+        $this->assertSame(0, $result->getNumFound());
+
+        $this->assertSame([
+            'power' => 'power',
+            'cort' => 'cord',
+        ],
+        $result->getSpellcheck()->getCollations()[0]->getCorrections());
+
         $select->setQuery('power cord');
         // Activate highlighting.
         $select->getHighlighting();
