@@ -193,10 +193,6 @@ class Helper
             return $field.':['.$from.' TO '.$to.']';
         }
 
-        if ($inclusive) {
-            return $field.':['.$from.' TO '.$to.']';
-        }
-
         return $field.':{'.$from.' TO '.$to.'}';
     }
 

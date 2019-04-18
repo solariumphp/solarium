@@ -67,23 +67,26 @@ trait SpellcheckTrait
     /**
      * Set dictionary option.
      *
-     * The name of the dictionary to use
+     * The name of the dictionary or dictionaries to use
      *
-     * @param string $dictionary
+     * @param string|array $dictionary
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
-    public function setDictionary(string $dictionary): SpellcheckInterface
+    public function setDictionary($dictionary): SpellcheckInterface
     {
+        if (is_string($dictionary)) {
+            $dictionary = [$dictionary];
+        }
         return $this->setOption('dictionary', $dictionary);
     }
 
     /**
      * Get dictionary option.
      *
-     * @return string|null
+     * @return array|null
      */
-    public function getDictionary(): ?string
+    public function getDictionary(): ?array
     {
         return $this->getOption('dictionary');
     }
@@ -95,7 +98,7 @@ trait SpellcheckTrait
      *
      * @param int $count
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
     public function setCount(int $count): SpellcheckInterface
     {
@@ -119,7 +122,7 @@ trait SpellcheckTrait
      *
      * @param bool $onlyMorePopular
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
     public function setOnlyMorePopular(bool $onlyMorePopular): SpellcheckInterface
     {
@@ -141,7 +144,7 @@ trait SpellcheckTrait
      *
      * @param bool $extendedResults
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
     public function setExtendedResults(bool $extendedResults): SpellcheckInterface
     {
@@ -163,7 +166,7 @@ trait SpellcheckTrait
      *
      * @param bool $collate
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
     public function setCollate(bool $collate): SpellcheckInterface
     {
@@ -185,7 +188,7 @@ trait SpellcheckTrait
      *
      * @param int $maxCollations
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
     public function setMaxCollations(int $maxCollations): SpellcheckInterface
     {
@@ -207,7 +210,7 @@ trait SpellcheckTrait
      *
      * @param int $maxCollationTries
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
     public function setMaxCollationTries(int $maxCollationTries): SpellcheckInterface
     {
@@ -251,7 +254,7 @@ trait SpellcheckTrait
      *
      * @param bool $collateExtendedResults
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
     public function setCollateExtendedResults(bool $collateExtendedResults): SpellcheckInterface
     {
@@ -273,7 +276,7 @@ trait SpellcheckTrait
      *
      * @param float $accuracy
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
     public function setAccuracy(float $accuracy): SpellcheckInterface
     {
@@ -296,7 +299,7 @@ trait SpellcheckTrait
      * @param string $param
      * @param mixed  $value
      *
-     * @return self Provides fluent interface
+     * @return SpellcheckInterface Provides fluent interface
      */
     public function setCollateParam(string $param, $value): SpellcheckInterface
     {

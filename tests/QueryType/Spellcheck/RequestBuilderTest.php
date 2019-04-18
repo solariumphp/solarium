@@ -40,7 +40,7 @@ class RequestBuilderTest extends TestCase
             [
                 'spellcheck' => 'true',
                 'spellcheck.q' => 'ap ip',
-                'spellcheck.dictionary' => 'suggest',
+                'spellcheck.dictionary' => ['suggest'],
                 'spellcheck.count' => 13,
                 'spellcheck.onlyMorePopular' => 'true',
                 'spellcheck.collate' => 'true',

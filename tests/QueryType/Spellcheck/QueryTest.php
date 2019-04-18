@@ -50,7 +50,7 @@ class QueryTest extends TestCase
         $this->query->setDictionary($value);
 
         $this->assertSame(
-            $value,
+            [$value],
             $this->query->getDictionary()
         );
     }
