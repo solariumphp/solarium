@@ -14,7 +14,7 @@ class SuggesterTest extends TestCase
 
     protected $query;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new Query();
         $this->parser = new Suggester();

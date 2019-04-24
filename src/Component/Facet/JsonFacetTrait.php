@@ -35,14 +35,12 @@ trait JsonFacetTrait
     /**
      * Get the domain filter.
      *
-     * @return string
+     * @return array|string|null
      */
     public function getDomainFilter()
     {
         $domain = $this->getOption('domain');
-        if ($domain && isset($domain['filter'])) {
-            return $domain['filter'];
-        }
+        return $domain['filter'] ?? null;
     }
 
     /**
@@ -55,7 +53,7 @@ trait JsonFacetTrait
      *
      * @return self Provides fluent interface
      */
-    public function setDomainFilterQuery(string $query, array $bind = null)
+    public function setDomainFilterQuery(string $query, array $bind = null): FacetSetInterface
     {
         if (null !== $bind) {
             $helper = new Helper();
@@ -65,16 +63,19 @@ trait JsonFacetTrait
         $filter = $this->getDomainFilter();
         if (!$filter || is_string($filter)) {
             return $this->setOption('domain', ['filter' => $query]);
-        } else {
-            foreach ($filter as &$param_or_query) {
-                if (is_string($param_or_query)) {
-                    $param_or_query = $query;
-                    return $this->setOption('domain', ['filter' => $filter]);
-                }
-            }
-            $filter[] = $query;
-            return $this->setOption('domain', ['filter' => $filter]);
         }
+
+        foreach ($filter as &$param_or_query) {
+            if (is_string($param_or_query)) {
+                $param_or_query = $query;
+                return $this->setOption('domain', ['filter' => $filter]);
+            }
+        }
+        unset($param_or_query);
+
+        /* @noinspection UnsupportedStringOffsetOperationsInspection */
+        $filter[] = $query;
+        return $this->setOption('domain', ['filter' => $filter]);
     }
 
     /**
@@ -84,22 +85,27 @@ trait JsonFacetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addDomainFilterParameter(string $param)
+    public function addDomainFilterParameter(string $param): FacetSetInterface
     {
         $filter = $this->getDomainFilter();
         if (!$filter) {
             return $this->setOption('domain', ['filter' => ['param' => $param]]);
-        } elseif (is_string($filter) || 1 == count($filter)) {
-            return $this->setOption('domain', ['filter' => [$filter, ['param' => $param]]]);
-        } else {
-            foreach ($filter as &$param_or_query) {
-                if (is_array($param_or_query) && $param_or_query['param'] == $param) {
-                    return $this;
-                }
-            }
-            $filter[] = ['param' => $param];
-            return $this->setOption('domain', ['filter' => $filter]);
         }
+
+        if (is_string($filter) || 1 == count($filter)) {
+            return $this->setOption('domain', ['filter' => [$filter, ['param' => $param]]]);
+        }
+
+        foreach ($filter as &$param_or_query) {
+            if (is_array($param_or_query) && $param_or_query['param'] == $param) {
+                return $this;
+            }
+        }
+        unset($param_or_query);
+
+        /* @noinspection UnsupportedStringOffsetOperationsInspection */
+        $filter[] = ['param' => $param];
+        return $this->setOption('domain', ['filter' => $filter]);
     }
 
     /**
@@ -139,16 +145,16 @@ trait JsonFacetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addFacet($facet)
+    public function addFacet($facet): FacetSetInterface
     {
         if ($facet instanceof JsonFacetInterface) {
             $this->facetSetAddFacet($facet);
             $this->serialize();
 
             return $this;
-        } else {
-            throw new InvalidArgumentException('Only JSON facets can be nested.');
         }
+
+        throw new InvalidArgumentException('Only JSON facets can be nested.');
     }
 
     /**
@@ -160,7 +166,7 @@ trait JsonFacetTrait
      *
      * @return self Provides fluent interface
      */
-    public function removeFacet($facet)
+    public function removeFacet($facet): FacetSetInterface
     {
         $this->facetSetRemoveFacet($facet);
         $this->serialize();
@@ -173,7 +179,7 @@ trait JsonFacetTrait
      *
      * @return self Provides fluent interface
      */
-    public function clearFacets()
+    public function clearFacets(): FacetSetInterface
     {
         $this->facetSetClearFacets();
         $this->serialize();

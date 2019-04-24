@@ -18,7 +18,7 @@ class ResourcesTest extends TestCase
      */
     protected $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new ResourcesQuery();
         $this->builder = new ResourcesRequestBuilder();

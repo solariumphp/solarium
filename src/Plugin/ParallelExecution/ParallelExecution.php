@@ -2,10 +2,13 @@
 
 namespace Solarium\Plugin\ParallelExecution;
 
+use Solarium\Component\QueryInterface;
+use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Exception\HttpException;
+use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\ParallelExecution\Event\Events;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
@@ -48,7 +51,7 @@ class ParallelExecution extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function addQuery($key, $query, $endpoint = null)
+    public function addQuery(string $key, QueryInterface $query, $endpoint = null)
     {
         if (is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
@@ -69,9 +72,9 @@ class ParallelExecution extends AbstractPlugin
     /**
      * Get queries (and coupled client instances).
      *
-     * @return AbstractQuery[]
+     * @return QueryInterface[]
      */
-    public function getQueries()
+    public function getQueries(): array
     {
         return $this->queries;
     }
@@ -81,7 +84,7 @@ class ParallelExecution extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function clearQueries()
+    public function clearQueries(): self
     {
         $this->queries = [];
 
@@ -94,11 +97,16 @@ class ParallelExecution extends AbstractPlugin
      * Execute queries parallel.
      *
      * @return \Solarium\Core\Query\Result\Result[]
+     *
+     * @throws RuntimeException
      */
-    public function execute()
+    public function execute(): array
     {
         // create handles and add all handles to the multihandle
         $adapter = $this->client->getAdapter();
+        if (!($adapter instanceof Curl)) {
+            throw new RuntimeException('Parallel execution requires the CurlAdapter');
+        }
         $multiHandle = curl_multi_init();
         $handles = [];
         foreach ($this->queries as $key => $data) {

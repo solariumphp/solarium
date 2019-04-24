@@ -51,10 +51,13 @@ class Resource
 
     /**
      * @param string $resourceId
+     *
+     * @return self
      */
-    public function setResourceId(string $resourceId)
+    public function setResourceId(string $resourceId): self
     {
         $this->resourceId = $resourceId;
+        return $this;
     }
 
     /**
@@ -67,10 +70,13 @@ class Resource
 
     /**
      * @param int $numObservers
+     *
+     * @return self
      */
-    public function setNumObservers(int $numObservers)
+    public function setNumObservers(int $numObservers): self
     {
         $this->numObservers = $numObservers;
+        return $this;
     }
 
     /**
@@ -83,10 +89,13 @@ class Resource
 
     /**
      * @param string $class
+     *
+     * @return self
      */
-    public function setClass(string $class)
+    public function setClass(string $class): self
     {
         $this->class = $class;
+        return $this;
     }
 
     /*

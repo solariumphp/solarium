@@ -15,7 +15,7 @@ class DisMaxTest extends TestCase
      */
     protected $disMax;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->disMax = new DisMax();
     }
@@ -115,7 +115,7 @@ class DisMaxTest extends TestCase
 
     public function testSetAndGetPhraseSlop()
     {
-        $value = '2';
+        $value = 2;
         $this->disMax->setPhraseSlop($value);
 
         $this->assertSame(
@@ -126,7 +126,7 @@ class DisMaxTest extends TestCase
 
     public function testSetAndGetQueryPhraseSlop()
     {
-        $value = '3';
+        $value = 3;
         $this->disMax->setQueryPhraseSlop($value);
 
         $this->assertSame(

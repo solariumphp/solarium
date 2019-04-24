@@ -4,6 +4,8 @@ namespace Solarium\Tests\Core\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 
 class QueryTest extends TestCase
 {
@@ -90,8 +92,8 @@ class QueryTest extends TestCase
     public function testSetAndGetNow()
     {
         $query = new TestQuery();
-        $query->setNow('1520997255000');
-        $this->assertSame('1520997255000', $query->getNow());
+        $query->setNow(1520997255000);
+        $this->assertSame(1520997255000, $query->getNow());
     }
 
     public function testSetAndGetTimeZone()
@@ -109,12 +111,12 @@ class TestQuery extends AbstractQuery
         return 'testType';
     }
 
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return null;
     }
 
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return null;
     }

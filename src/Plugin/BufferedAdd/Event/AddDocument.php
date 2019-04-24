@@ -2,7 +2,7 @@
 
 namespace Solarium\Plugin\BufferedAdd\Event;
 
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\Core\Query\DocumentInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -20,7 +20,7 @@ class AddDocument extends Event
      *
      * @param DocumentInterface $document
      */
-    public function __construct($document)
+    public function __construct(DocumentInterface $document)
     {
         $this->document = $document;
     }
@@ -30,7 +30,7 @@ class AddDocument extends Event
      *
      * @return DocumentInterface
      */
-    public function getDocument()
+    public function getDocument(): DocumentInterface
     {
         return $this->document;
     }

@@ -20,14 +20,15 @@ interface ConfigurableInterface
      * it's toArray method. This is compatible with the Zend_Config classes in
      * Zend Framework, but can also easily be implemented in any other object.
      *
-     *
      * @param array|\Zend_Config $options
      * @param bool               $overwrite True for overwriting existing options, false
      *                                      for merging (new values overwrite old ones if needed)
      *
+     * @return self
+     *
      * @throws InvalidArgumentException
      */
-    public function setOptions($options, $overwrite = false);
+    public function setOptions($options, bool $overwrite = false): self;
 
     /**
      * Get an option value by name.
@@ -38,12 +39,12 @@ interface ConfigurableInterface
      *
      * @return mixed
      */
-    public function getOption($name);
+    public function getOption(string $name);
 
     /**
      * Get all options.
      *
      * @return array
      */
-    public function getOptions();
+    public function getOptions(): array;
 }

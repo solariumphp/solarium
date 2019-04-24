@@ -5,9 +5,14 @@ namespace Solarium\QueryType\ManagedResources\Query;
 use InvalidArgumentException;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\AbstractCommand;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Synonyms as RequestBuilder;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
+use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
 
 class Synonyms extends BaseQuery
 {
@@ -70,9 +75,9 @@ class Synonyms extends BaseQuery
      * @var array
      */
     protected $commandTypes = [
-        self::COMMAND_ADD => 'Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add',
-        self::COMMAND_DELETE => 'Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete',
-        self::COMMAND_EXISTS => 'Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists',
+        self::COMMAND_ADD => Add::class,
+        self::COMMAND_DELETE => Delete::class,
+        self::COMMAND_EXISTS => Exists::class,
     ];
 
     /**
@@ -82,7 +87,7 @@ class Synonyms extends BaseQuery
      */
     protected $options = [
         'handler' => 'schema/analysis/synonyms/',
-        'resultclass' => 'Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings',
+        'resultclass' => SynonymMappings::class,
         'omitheader' => true,
     ];
 
@@ -101,7 +106,7 @@ class Synonyms extends BaseQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder(): RequestBuilder
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -111,7 +116,7 @@ class Synonyms extends BaseQuery
      *
      * @return ResponseParser
      */
-    public function getResponseParser(): ResponseParser
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }
@@ -130,10 +135,14 @@ class Synonyms extends BaseQuery
      * Set the name of the synonym resource.
      *
      * @param string $name
+     *
+     * @return self
      */
-    public function setName(string $name)
+    public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -164,7 +173,7 @@ class Synonyms extends BaseQuery
      *
      * @return AbstractCommand|null
      */
-    public function getCommand()
+    public function getCommand(): ?AbstractCommand
     {
         return $this->command;
     }

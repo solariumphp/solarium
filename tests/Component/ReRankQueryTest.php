@@ -13,7 +13,7 @@ class ReRankQueryTest extends TestCase
      */
     protected $reRankQuery;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->reRankQuery = new ReRankQuery();
     }

@@ -10,9 +10,12 @@ class PivotTest extends TestCase
 {
     protected $values;
 
+    /**
+     * @var Pivot
+     */
     protected $facet;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->values = [
             ['field' => 'cat', 'value' => 1, 'count' => 12],

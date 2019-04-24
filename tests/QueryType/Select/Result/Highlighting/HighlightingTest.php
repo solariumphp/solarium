@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Select\Result\Highlighting;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Result\Highlighting\Highlighting;
+use Solarium\Component\Result\Highlighting\Result;
 
 class HighlightingTest extends TestCase
 {
@@ -14,11 +15,11 @@ class HighlightingTest extends TestCase
 
     protected $items;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->items = [
-            'key1' => 'content1',
-            'key2' => 'content2',
+            'key1' => new Result(['content1']),
+            'key2' => new Result(['content2']),
         ];
 
         $this->result = new Highlighting($this->items);

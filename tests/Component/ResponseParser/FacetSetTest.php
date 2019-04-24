@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Facet\FacetInterface;
 use Solarium\Component\Facet\Field;
 use Solarium\Component\FacetSet;
 use Solarium\Component\ResponseParser\FacetSet as Parser;
@@ -26,7 +27,7 @@ class FacetSetTest extends TestCase
      */
     protected $query;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->parser = new Parser();
 
@@ -124,7 +125,7 @@ class FacetSetTest extends TestCase
         $this->assertEquals(5, $facets['keyD']->getAfter());
         $this->assertEquals(1, count($facets['keyE']));
 
-        $this->query = new Query();
+        $this->assertEquals(23, $result->getFacet('keyB')->getValue());
     }
 
     public function testParseExtractFromResponse()
@@ -183,6 +184,7 @@ class FacetSetTest extends TestCase
         $facetSet->setExtractFromResponse(true);
 
         $result = $this->parser->parse($this->query, $facetSet, $data);
+        /** @var FacetInterface[] $facets */
         $facets = $result->getFacets();
 
         $this->assertEquals(['keyA', 'keyB', 'keyC_A', 'keyC_B', 'keyD', 'cat,price'], array_keys($facets));
@@ -228,19 +230,17 @@ class FacetSetTest extends TestCase
             $facets['keyD']->getAfter()
         );
 
-        $this->assertEquals(
+        $this->assertCount(
             1,
-            count($facets['cat,price'])
+            $facets['cat,price']
         );
 
         $pivots = $facets['cat,price']->getPivot();
 
-        $this->assertEquals(
+        $this->assertCount(
             2,
-            count($pivots[0]->getStats())
+            $pivots[0]->getStats()
         );
-
-        $this->query = new Query();
     }
 
     public function testParseNoData()
@@ -254,10 +254,10 @@ class FacetSetTest extends TestCase
         $facetStub = $this->createMock(Field::class);
         $facetStub->expects($this->any())
              ->method('getType')
-             ->will($this->returnValue('invalidfacettype'));
+             ->willReturn('invalidfacettype');
         $facetStub->expects($this->any())
              ->method('getKey')
-             ->will($this->returnValue('facetkey'));
+             ->willReturn('facetkey');
 
         $this->facetSet->addFacet($facetStub);
 
@@ -354,5 +354,7 @@ class FacetSetTest extends TestCase
         $this->assertEquals(['top_authors', 'highpop'], array_keys($nested_facets));
 
         $this->assertFalse(isset($facets['empty_buckets']));
+
+        $this->assertEquals('Fantasy', $result->getFacet('top_genres')->getBuckets()[0]->getValue());
     }
 }

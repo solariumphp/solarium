@@ -14,7 +14,7 @@ class FieldTest extends TestCase
 
     protected $items;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->items = ['key1' => 'dummy1', 'key2' => 'dummy2', 'key3' => 'dummy3'];
         $this->result = new FieldDummy(1, 12, $this->items);

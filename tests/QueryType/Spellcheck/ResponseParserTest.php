@@ -58,10 +58,10 @@ class ResponseParserTest extends TestCase
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->any())
             ->method('getData')
-            ->will($this->returnValue($data));
+            ->willReturn($data);
         $resultStub->expects($this->any())
             ->method('getQuery')
-            ->will($this->returnValue($query));
+            ->willReturn($query);
 
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);

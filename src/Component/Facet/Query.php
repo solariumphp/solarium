@@ -12,7 +12,7 @@ use Solarium\Core\Query\Helper;
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters#facet.query_:_Arbitrary_Query_Faceting
  */
-class Query extends AbstractFacet implements QueryInterface
+class Query extends AbstractFacet implements QueryInterface, ExcludeTagsInterface
 {
     use ExcludeTagsTrait;
     use QueryTrait;
@@ -41,7 +41,7 @@ class Query extends AbstractFacet implements QueryInterface
      *
      * @return \Solarium\Core\Query\Helper
      */
-    public function getHelper()
+    public function getHelper(): Helper
     {
         return new Helper();
     }

@@ -20,13 +20,16 @@ class ResultTest extends TestCase
 
     protected $client;
 
+    /**
+     * @var SelectQuery
+     */
     protected $query;
 
     protected $response;
 
     protected $headers;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = new Client();
         $this->query = new SelectQuery();

@@ -4,6 +4,7 @@ namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Component\EdisMax as EdismaxComponent;
 use Solarium\Core\Client\Request;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * Add select component edismax to the request.
@@ -18,7 +19,7 @@ class EdisMax implements ComponentRequestBuilderInterface
      *
      * @return Request
      */
-    public function buildComponent($component, $request)
+    public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         // enable edismax
         $request->addParam('defType', $component->getQueryParser());

@@ -8,7 +8,7 @@ use Solarium\Tests\QueryType\Select\Result\AbstractDocumentTest;
 
 class DocumentTest extends AbstractDocumentTest
 {
-    protected function setUp()
+    public function setUp(): void
     {
         $doc = new Document($this->fields);
         $this->doc = new FilterDocument($doc, true);

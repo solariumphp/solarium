@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\AbstractFacet;
+use Solarium\Component\Facet\ExcludeTagsInterface;
 use Solarium\Component\Facet\ExcludeTagsTrait;
 use Solarium\Component\Facet\FacetInterface;
 
@@ -14,7 +15,7 @@ class FacetTest extends TestCase
      */
     protected $facet;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->facet = new TestFacet();
     }
@@ -72,7 +73,7 @@ class FacetTest extends TestCase
     }
 }
 
-class TestFacet extends AbstractFacet
+class TestFacet extends AbstractFacet implements ExcludeTagsInterface
 {
     use ExcludeTagsTrait;
 

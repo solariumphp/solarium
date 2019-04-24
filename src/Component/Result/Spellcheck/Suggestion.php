@@ -8,15 +8,40 @@ namespace Solarium\Component\Result\Spellcheck;
 class Suggestion
 {
     /**
+     * @var int
+     */
+    private $numFound;
+
+    /**
+     * @var int
+     */
+    private $startOffset;
+
+    /**
+     * @var int
+     */
+    private $endOffset;
+
+    /**
+     * @var int
+     */
+    private $originalFrequency;
+
+    /**
+     * @var array
+     */
+    private $words;
+
+    /**
      * Constructor.
      *
-     * @param int   $numFound
-     * @param int   $startOffset
-     * @param int   $endOffset
-     * @param int   $originalFrequency
-     * @param array $words
+     * @param int      $numFound
+     * @param int      $startOffset
+     * @param int      $endOffset
+     * @param int|null $originalFrequency
+     * @param array    $words
      */
-    public function __construct($numFound, $startOffset, $endOffset, $originalFrequency, $words)
+    public function __construct(int $numFound, int $startOffset, int $endOffset, ?int $originalFrequency, array $words)
     {
         $this->numFound = $numFound;
         $this->startOffset = $startOffset;
@@ -30,7 +55,7 @@ class Suggestion
      *
      * @return int
      */
-    public function getNumFound()
+    public function getNumFound(): int
     {
         return $this->numFound;
     }
@@ -40,7 +65,7 @@ class Suggestion
      *
      * @return int
      */
-    public function getStartOffset()
+    public function getStartOffset(): int
     {
         return $this->startOffset;
     }
@@ -50,7 +75,7 @@ class Suggestion
      *
      * @return int
      */
-    public function getEndOffset()
+    public function getEndOffset(): int
     {
         return $this->endOffset;
     }
@@ -60,9 +85,9 @@ class Suggestion
      *
      * Only available if CollateExtendedResults was enabled in your query
      *
-     * @return int
+     * @return int|null
      */
-    public function getOriginalFrequency()
+    public function getOriginalFrequency(): ?int
     {
         return $this->originalFrequency;
     }
@@ -72,7 +97,7 @@ class Suggestion
      *
      * @return string|null
      */
-    public function getWord()
+    public function getWord(): ?string
     {
         $word = reset($this->words);
         if (isset($word['word'])) {
@@ -87,7 +112,7 @@ class Suggestion
      *
      * @return array
      */
-    public function getWords()
+    public function getWords(): array
     {
         return $this->words;
     }
@@ -99,7 +124,7 @@ class Suggestion
      *
      * @return int
      */
-    public function getFrequency()
+    public function getFrequency(): int
     {
         $word = reset($this->words);
         if (isset($word['freq'])) {

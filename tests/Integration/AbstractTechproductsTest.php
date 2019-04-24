@@ -87,6 +87,20 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->select($select);
         $this->assertSame(10, $result->getNumFound());
         $this->assertSame(10, $result->count());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('store', '-90,-90', '90,90', true, false)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $this->assertSame(2, $result->count());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('store', '-90,-180', '90,180', true, false)
+        );
+        $result = $this->client->select($select);
+        $this->assertSame(14, $result->getNumFound());
+        $this->assertSame(10, $result->count());
     }
 
     /**
@@ -125,6 +139,17 @@ abstract class AbstractTechproductsTest extends TestCase
             'cord',
             'card',
         ], $words);
+
+        $spellcheck->setDictionary(['default', 'wordbreak']);
+
+        $result = $this->client->select($select);
+        $this->assertSame(0, $result->getNumFound());
+
+        $this->assertSame([
+            'power' => 'power',
+            'cort' => 'cord',
+        ],
+        $result->getSpellcheck()->getCollations()[0]->getCorrections());
 
         $select->setQuery('power cord');
         // Activate highlighting.
@@ -372,7 +397,7 @@ abstract class AbstractTechproductsTest extends TestCase
         }
         $this->assertNotSame($ids, $rerankedids);
         // These two ducuments have a popularity of 10 and should ranked highest.
-        $this->assertArraySubset([
+        $this->assertSame([
             'MA147LL/A',
             'SOLR1000',
         ], $rerankedids);
@@ -466,7 +491,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update = $this->client->createUpdate();
         $update->addDeleteById('extract-test');
         $update->addCommit(true, true);
-        $this->client->extract($update);
+        $this->client->update($update);
     }
 
     public function testExtractTextOnly()

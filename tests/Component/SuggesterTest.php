@@ -14,7 +14,7 @@ class SuggesterTest extends TestCase
      */
     protected $suggester;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->suggester = new Suggester();
         $this->suggester->setQueryInstance(new Query());
@@ -94,6 +94,17 @@ class SuggesterTest extends TestCase
     public function testSetAndGetDictionary()
     {
         $value = 'myDictionary';
+        $this->suggester->setDictionary($value);
+
+        $this->assertEquals(
+            [$value],
+            $this->suggester->getDictionary()
+        );
+    }
+
+    public function testSetAndGetDictionaries()
+    {
+        $value = ['myDictionary1', 'myDictionary2'];
         $this->suggester->setDictionary($value);
 
         $this->assertEquals(

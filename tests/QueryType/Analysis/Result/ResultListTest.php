@@ -16,7 +16,7 @@ class ResultListTest extends TestCase
 
     protected $name;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->name = 'testname';
         $this->items = ['key1' => 'dummy1', 'key2' => 'dummy2', 'key3' => 'dummy3'];

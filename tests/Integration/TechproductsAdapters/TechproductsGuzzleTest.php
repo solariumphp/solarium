@@ -10,7 +10,7 @@ use Solarium\Tests\Integration\AbstractCoreTest;
  */
 class TechproductsGuzzleTest extends AbstractCoreTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (!class_exists('\\GuzzleHttp\\Client')) {
             $this->markTestSkipped('Guzzle 6 not installed');

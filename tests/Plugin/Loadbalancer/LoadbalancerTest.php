@@ -8,6 +8,7 @@ use Solarium\Core\Client\Adapter\Http as HttpAdapter;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Response;
 use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Exception\HttpException;
@@ -28,7 +29,7 @@ class LoadbalancerTest extends TestCase
      */
     protected $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->plugin = new Loadbalancer();
 
@@ -47,7 +48,7 @@ class LoadbalancerTest extends TestCase
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->any())
             ->method('execute')
-            ->willReturn('dummyresult');
+            ->willReturn(new Response('dummyresult'));
         $this->client->setAdapter($adapter);
         $this->plugin->initPlugin($this->client, []);
     }
@@ -450,9 +451,9 @@ class TestLoadbalancer extends Loadbalancer
     /**
      * Get options array for a randomized endpoint.
      *
-     * @return array
+     * @return Endpoint
      */
-    protected function getRandomEndpoint()
+    protected function getRandomEndpoint(): Endpoint
     {
         ++$this->counter;
         $endpointKey = 'server'.$this->counter;
@@ -475,13 +476,13 @@ class TestAdapterForFailover extends HttpAdapter
         $this->failCount = $count;
     }
 
-    public function execute($request, $endpoint)
+    public function execute(Request $request, Endpoint $endpoint): Response
     {
         ++$this->counter;
         if ($this->counter <= $this->failCount) {
             throw new HttpException('failover exception');
         }
 
-        return 'dummyvalue';
+        return new Response('dummyvalue');
     }
 }

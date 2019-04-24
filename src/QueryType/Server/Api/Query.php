@@ -5,6 +5,8 @@ namespace Solarium\QueryType\Server\Api;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\QueryType;
 
 /**
@@ -40,7 +42,7 @@ class Query extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setVersion($version): self
+    public function setVersion(string $version): self
     {
         $this->setOption('version', $version);
         return $this;
@@ -49,9 +51,9 @@ class Query extends AbstractQuery
     /**
      * Get version option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getVersion(): string
+    public function getVersion(): ?string
     {
         return $this->getOption('version');
     }
@@ -63,7 +65,7 @@ class Query extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMethod($method): self
+    public function setMethod(string $method): self
     {
         $this->setOption('method', $method);
         return $this;
@@ -72,9 +74,9 @@ class Query extends AbstractQuery
     /**
      * Get method option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getMethod(): string
+    public function getMethod(): ?string
     {
         return $this->getOption('method');
     }
@@ -86,7 +88,7 @@ class Query extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setAccept($accept): self
+    public function setAccept(string $accept): self
     {
         $this->setOption('accept', $accept);
         return $this;
@@ -109,7 +111,7 @@ class Query extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setContentType($contentType): self
+    public function setContentType(string $contentType): self
     {
         $this->setOption('contenttype', $contentType);
         return $this;
@@ -132,7 +134,7 @@ class Query extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setRawData($rawData): self
+    public function setRawData(string $rawData): self
     {
         $this->setOption('rawdata', $rawData);
         return $this;
@@ -153,7 +155,7 @@ class Query extends AbstractQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder(): RequestBuilder
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -163,7 +165,7 @@ class Query extends AbstractQuery
      *
      * @return ResponseParser
      */
-    public function getResponseParser(): ResponseParser
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }

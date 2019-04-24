@@ -13,7 +13,7 @@ class GroupingTest extends TestCase
      */
     protected $grouping;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->grouping = new Grouping();
     }
@@ -32,7 +32,7 @@ class GroupingTest extends TestCase
             'truncate' => true,
             'function' => 'log(foo)',
             'format' => 'grouped',
-            'facet' => 'true',
+            'facet' => true,
         ];
 
         $this->grouping->setOptions($options);
@@ -154,7 +154,7 @@ class GroupingTest extends TestCase
 
     public function testSetAndGetLimit()
     {
-        $value = '12';
+        $value = 12;
         $this->grouping->setLimit($value);
 
         $this->assertSame(
@@ -165,7 +165,7 @@ class GroupingTest extends TestCase
 
     public function testSetAndGetOffset()
     {
-        $value = '2';
+        $value = 2;
         $this->grouping->setOffset($value);
 
         $this->assertSame(

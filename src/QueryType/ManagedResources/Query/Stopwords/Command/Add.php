@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
 
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
 
 class Add extends AbstractCommand
@@ -47,11 +48,14 @@ class Add extends AbstractCommand
     /**
      * Set stopwords.
      *
-     * @param array $synonyms
+     * @param array $stopwords
+     *
+     * @return self
      */
-    public function setStopwords(array $stopwords)
+    public function setStopwords(array $stopwords): self
     {
         $this->stopwords = $stopwords;
+        return $this;
     }
 
     /**

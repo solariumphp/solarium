@@ -28,7 +28,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addFacet($facet)
+    public function addFacet($facet): FacetSetInterface
     {
         if (is_array($facet)) {
             $facet = $this->createFacet($facet['type'], $facet, false);
@@ -57,7 +57,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addFacets(array $facets)
+    public function addFacets(array $facets): FacetSetInterface
     {
         foreach ($facets as $key => $facet) {
             // in case of a config array: add key to config
@@ -76,13 +76,11 @@ trait FacetSetTrait
      *
      * @param string $key
      *
-     * @return FacetInterface
+     * @return FacetInterface|null
      */
-    public function getFacet($key)
+    public function getFacet(string $key): ?FacetInterface
     {
-        if (isset($this->facets[$key])) {
-            return $this->facets[$key];
-        }
+        return $this->facets[$key] ?? null;
     }
 
     /**
@@ -90,7 +88,7 @@ trait FacetSetTrait
      *
      * @return FacetInterface[]
      */
-    public function getFacets()
+    public function getFacets(): array
     {
         return $this->facets;
     }
@@ -104,7 +102,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function removeFacet($facet)
+    public function removeFacet($facet): FacetSetInterface
     {
         if (is_object($facet)) {
             $facet = $facet->getKey();
@@ -122,7 +120,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function clearFacets()
+    public function clearFacets(): FacetSetInterface
     {
         $this->facets = [];
 
@@ -135,11 +133,15 @@ trait FacetSetTrait
      * This overwrites any existing facets
      *
      * @param array $facets
+     *
+     * @return self
      */
-    public function setFacets($facets)
+    public function setFacets(array $facets): FacetSetInterface
     {
         $this->clearFacets();
         $this->addFacets($facets);
+
+        return $this;
     }
 
     /**
@@ -161,7 +163,7 @@ trait FacetSetTrait
      *
      * @return \Solarium\Component\Facet\FacetInterface
      */
-    public function createFacet(string $type, $options = null, bool $add = true)
+    public function createFacet(string $type, $options = null, bool $add = true): FacetInterface
     {
         $type = strtolower($type);
 

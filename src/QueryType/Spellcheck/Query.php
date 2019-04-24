@@ -8,6 +8,10 @@ use Solarium\Component\QueryTrait;
 use Solarium\Component\SpellcheckInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\QueryType\Spellcheck\Result\Result;
+use Solarium\QueryType\Spellcheck\Result\Term;
 
 /**
  * Spellcheck Query.
@@ -26,8 +30,8 @@ class Query extends BaseQuery implements SpellcheckInterface, QueryInterface
      */
     protected $options = [
         'handler' => 'spell',
-        'resultclass' => 'Solarium\QueryType\Spellcheck\Result\Result',
-        'termclass' => 'Solarium\QueryType\Spellcheck\Result\Term',
+        'resultclass' => Result::class,
+        'termclass' => Term::class,
         'omitheader' => true,
         'build' => false,
     ];
@@ -47,7 +51,7 @@ class Query extends BaseQuery implements SpellcheckInterface, QueryInterface
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -57,7 +61,7 @@ class Query extends BaseQuery implements SpellcheckInterface, QueryInterface
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }

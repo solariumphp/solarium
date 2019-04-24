@@ -3,6 +3,7 @@
 namespace Solarium\Component\QueryTraits;
 
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\QueryElevation;
 
 /**
  * Trait query types supporting components.
@@ -16,7 +17,7 @@ trait QueryElevationTrait
      *
      * @return \Solarium\Component\QueryElevation
      */
-    public function getQueryElevation()
+    public function getQueryElevation(): QueryElevation
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_QUERYELEVATION, true);
     }

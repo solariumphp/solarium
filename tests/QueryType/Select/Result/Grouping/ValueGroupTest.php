@@ -20,7 +20,7 @@ class ValueGroupTest extends TestCase
 
     protected $items;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->value = 'test value';
         $this->numFound = 6;

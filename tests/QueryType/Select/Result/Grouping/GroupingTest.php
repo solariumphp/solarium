@@ -14,7 +14,7 @@ class GroupingTest extends TestCase
 
     protected $items;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->items = [
             'key1' => 'content1',

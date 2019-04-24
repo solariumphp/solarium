@@ -8,7 +8,7 @@ namespace Solarium\Component\Result\Facet;
  * Since a query facet has only a single result, the count for the query, this
  * is a very simple object.
  */
-class Query
+class Query implements FacetResultInterface
 {
     /**
      * Value (count).

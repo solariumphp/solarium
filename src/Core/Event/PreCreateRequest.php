@@ -36,7 +36,7 @@ class PreCreateRequest extends Event
      *
      * @return QueryInterface
      */
-    public function getQuery()
+    public function getQuery(): QueryInterface
     {
         return $this->query;
     }
@@ -47,10 +47,13 @@ class PreCreateRequest extends Event
      * If you set this request value the default execution is skipped and this request is directly returned
      *
      * @param Request $request
+     *
+     * @return self
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
+        return $this;
     }
 
     /**
@@ -58,7 +61,7 @@ class PreCreateRequest extends Event
      *
      * @return null|Request
      */
-    public function getRequest()
+    public function getRequest(): ?Request
     {
         return $this->request;
     }

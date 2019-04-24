@@ -8,6 +8,11 @@ use Solarium\Component\QueryTrait;
 use Solarium\Component\SuggesterInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\QueryType\Suggester\Result\Dictionary;
+use Solarium\QueryType\Suggester\Result\Result;
+use Solarium\QueryType\Suggester\Result\Term;
 
 /**
  * Suggester Query.
@@ -26,9 +31,9 @@ class Query extends BaseQuery implements SuggesterInterface, QueryInterface
      */
     protected $options = [
         'handler' => 'suggest',
-        'resultclass' => 'Solarium\QueryType\Suggester\Result\Result',
-        'dictionaryclass' => 'Solarium\QueryType\Suggester\Result\Dictionary',
-        'termclass' => 'Solarium\QueryType\Suggester\Result\Term',
+        'resultclass' => Result::class,
+        'dictionaryclass' => Dictionary::class,
+        'termclass' => Term::class,
         'omitheader' => true,
         'build' => false,
         'reload' => false,
@@ -49,7 +54,7 @@ class Query extends BaseQuery implements SuggesterInterface, QueryInterface
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -59,7 +64,7 @@ class Query extends BaseQuery implements SuggesterInterface, QueryInterface
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }

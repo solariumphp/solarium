@@ -15,7 +15,7 @@ class DebugTest extends TestCase
      */
     protected $debug;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->debug = new Debug();
     }

@@ -19,7 +19,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
      */
     protected $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $config = [
             'endpoint' => [
@@ -54,7 +54,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $result = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($result->getWasSuccessful());
 
-        // reloading an unexisting core should not be succesful
+        // reloading a non existing core should not be successful
         $this->expectException(HttpException::class);
         $reloadAction2 = $coreAdminQuery->createReload();
         $reloadAction2->setCore('nonExistingCore');

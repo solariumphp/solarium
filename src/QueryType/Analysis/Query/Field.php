@@ -3,6 +3,8 @@
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Analysis\RequestBuilder\Field as RequestBuilder;
 use Solarium\QueryType\Analysis\ResponseParser\Field as ResponseParser;
 
@@ -37,7 +39,7 @@ class Field extends AbstractQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -47,7 +49,7 @@ class Field extends AbstractQuery
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }
@@ -61,17 +63,18 @@ class Field extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setFieldValue($value)
+    public function setFieldValue(string $value): self
     {
-        return $this->setOption('fieldvalue', $value);
+        $this->setOption('fieldvalue', $value);
+        return  $this;
     }
 
     /**
      * Get the field value option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getFieldValue()
+    public function getFieldValue(): ?string
     {
         return $this->getOption('fieldvalue');
     }
@@ -85,17 +88,18 @@ class Field extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setFieldType($type)
+    public function setFieldType(string $type): self
     {
-        return $this->setOption('fieldtype', $type);
+        $this->setOption('fieldtype', $type);
+        return $this;
     }
 
     /**
      * Get the fieldtype option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getFieldType()
+    public function getFieldType(): ?string
     {
         return $this->getOption('fieldtype');
     }
@@ -109,17 +113,18 @@ class Field extends AbstractQuery
      *
      * @return self Provides fluent interface
      */
-    public function setFieldName($name)
+    public function setFieldName(string $name): self
     {
-        return $this->setOption('fieldname', $name);
+        $this->setOption('fieldname', $name);
+        return $this;
     }
 
     /**
      * Get the fieldname option.
      *
-     * @return string
+     * @return string|null
      */
-    public function getFieldName()
+    public function getFieldName(): ?string
     {
         return $this->getOption('fieldname');
     }

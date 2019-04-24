@@ -22,7 +22,7 @@ class StopwordsTest extends TestCase
      */
     protected $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new StopwordsQuery();
         $this->builder = new StopwordsRequestBuilder();

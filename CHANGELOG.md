@@ -4,9 +4,37 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.3.0-beta.1]
+## [5.0.0-beta.1]
+### Added
+- Support multiple spellcheck dictionaries
+
+### Fixed
+- Helper::rangeQuery() must not escape point values. Added a new parameter to turn off escaping.
+
+
+## [5.0.0-alpha.2]
+### Added
+- Introduced FacetResultInterface
+
+### Fixed
+- TypeError: Return value of Solarium\Component\Result\FacetSet::getFacet()
+
+
+## [5.0.0-alpha.1]
+### Added
+- Solr 8 support
+
 ### Changed
-- Updated dev and test environments to newer package versions, for example PHPUnit 7.5
+- Updated dev and test environments to newer package versions, for example PHPUnit 8.0
+- Use PHP 7.1 style argument and return type declarations
+- PHP 7.1 or higher required
+- Refactored the two variants of DocumentInterface to become one to reduce confusion
+
+### Removed
+- PHP 7.0 support
+
+### Fixed
+- Status codes of the HTTPAdapter
 
 
 ## [4.3.0-alpha.2]

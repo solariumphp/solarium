@@ -3,7 +3,10 @@
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Select\Result\Document;
 
 /**
  * MoreLikeThis Query.
@@ -21,8 +24,8 @@ class Query extends SelectQuery
      */
     protected $options = [
         'handler' => 'mlt',
-        'resultclass' => 'Solarium\QueryType\MoreLikeThis\Result',
-        'documentclass' => 'Solarium\QueryType\Select\Result\Document',
+        'resultclass' => Result::class,
+        'documentclass' => Document::class,
         'query' => '*:*',
         'start' => 0,
         'rows' => 10,
@@ -49,7 +52,7 @@ class Query extends SelectQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -59,7 +62,7 @@ class Query extends SelectQuery
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }
@@ -75,17 +78,18 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setQueryStream($stream)
+    public function setQueryStream(bool $stream): self
     {
-        return $this->setOption('stream', $stream);
+        $this->setOption('stream', $stream);
+        return $this;
     }
 
     /**
      * Get stream option.
      *
-     * @return bool
+     * @return bool|null
      */
-    public function getQueryStream()
+    public function getQueryStream(): ?bool
     {
         return $this->getOption('stream');
     }
@@ -99,17 +103,18 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setInterestingTerms($term)
+    public function setInterestingTerms(string $term): self
     {
-        return $this->setOption('interestingTerms', $term);
+        $this->setOption('interestingTerms', $term);
+        return $this;
     }
 
     /**
      * Get the interestingTerm parameter.
      *
-     * @return string
+     * @return string|null
      */
-    public function getInterestingTerms()
+    public function getInterestingTerms(): ?string
     {
         return $this->getOption('interestingTerms');
     }
@@ -123,17 +128,18 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMatchInclude($include)
+    public function setMatchInclude(bool $include): self
     {
-        return $this->setOption('matchinclude', $include);
+        $this->setOption('matchinclude', $include);
+        return $this;
     }
 
     /**
      * Get the match.include parameter.
      *
-     * @return string
+     * @return bool|null
      */
-    public function getMatchInclude()
+    public function getMatchInclude(): ?bool
     {
         return $this->getOption('matchinclude');
     }
@@ -148,17 +154,18 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMatchOffset($offset)
+    public function setMatchOffset(int $offset): self
     {
-        return $this->setOption('matchoffset', $offset);
+        $this->setOption('matchoffset', $offset);
+        return $this;
     }
 
     /**
      * Get the mlt.match.offset parameter.
      *
-     * @return int
+     * @return int|null
      */
-    public function getMatchOffset()
+    public function getMatchOffset(): ?int
     {
         return $this->getOption('matchoffset');
     }
@@ -175,14 +182,15 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMltFields($fields)
+    public function setMltFields($fields): self
     {
         if (is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
 
-        return $this->setOption('mltfields', $fields);
+        $this->setOption('mltfields', $fields);
+        return $this;
     }
 
     /**
@@ -190,7 +198,7 @@ class Query extends SelectQuery
      *
      * @return array
      */
-    public function getMltFields()
+    public function getMltFields(): array
     {
         $value = $this->getOption('mltfields');
         if (null === $value) {
@@ -210,9 +218,10 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMinimumTermFrequency($minimum)
+    public function setMinimumTermFrequency(int $minimum): self
     {
-        return $this->setOption('minimumtermfrequency', $minimum);
+        $this->setOption('minimumtermfrequency', $minimum);
+        return $this;
     }
 
     /**
@@ -220,7 +229,7 @@ class Query extends SelectQuery
      *
      * @return int|null
      */
-    public function getMinimumTermFrequency()
+    public function getMinimumTermFrequency(): ?int
     {
         return $this->getOption('minimumtermfrequency');
     }
@@ -235,9 +244,10 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMinimumDocumentFrequency($minimum)
+    public function setMinimumDocumentFrequency(int $minimum): self
     {
-        return $this->setOption('minimumdocumentfrequency', $minimum);
+        $this->setOption('minimumdocumentfrequency', $minimum);
+        return $this;
     }
 
     /**
@@ -245,7 +255,7 @@ class Query extends SelectQuery
      *
      * @return int|null
      */
-    public function getMinimumDocumentFrequency()
+    public function getMinimumDocumentFrequency(): ?int
     {
         return $this->getOption('minimumdocumentfrequency');
     }
@@ -259,9 +269,10 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMinimumWordLength($minimum)
+    public function setMinimumWordLength(int $minimum): self
     {
-        return $this->setOption('minimumwordlength', $minimum);
+        $this->setOption('minimumwordlength', $minimum);
+        return $this;
     }
 
     /**
@@ -269,7 +280,7 @@ class Query extends SelectQuery
      *
      * @return int|null
      */
-    public function getMinimumWordLength()
+    public function getMinimumWordLength(): ?int
     {
         return $this->getOption('minimumwordlength');
     }
@@ -283,9 +294,10 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMaximumWordLength($maximum)
+    public function setMaximumWordLength(int $maximum): self
     {
-        return $this->setOption('maximumwordlength', $maximum);
+        $this->setOption('maximumwordlength', $maximum);
+        return $this;
     }
 
     /**
@@ -293,7 +305,7 @@ class Query extends SelectQuery
      *
      * @return int|null
      */
-    public function getMaximumWordLength()
+    public function getMaximumWordLength(): ?int
     {
         return $this->getOption('maximumwordlength');
     }
@@ -308,9 +320,10 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMaximumQueryTerms($maximum)
+    public function setMaximumQueryTerms(int $maximum): self
     {
-        return $this->setOption('maximumqueryterms', $maximum);
+        $this->setOption('maximumqueryterms', $maximum);
+        return $this;
     }
 
     /**
@@ -318,7 +331,7 @@ class Query extends SelectQuery
      *
      * @return int|null
      */
-    public function getMaximumQueryTerms()
+    public function getMaximumQueryTerms(): ?int
     {
         return $this->getOption('maximumqueryterms');
     }
@@ -333,9 +346,10 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setMaximumNumberOfTokens($maximum)
+    public function setMaximumNumberOfTokens(int $maximum): self
     {
-        return $this->setOption('maximumnumberoftokens', $maximum);
+        $this->setOption('maximumnumberoftokens', $maximum);
+        return $this;
     }
 
     /**
@@ -343,7 +357,7 @@ class Query extends SelectQuery
      *
      * @return int|null
      */
-    public function getMaximumNumberOfTokens()
+    public function getMaximumNumberOfTokens(): ?int
     {
         return $this->getOption('maximumnumberoftokens');
     }
@@ -357,9 +371,10 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setBoost($boost)
+    public function setBoost($boost): ?self
     {
-        return $this->setOption('boost', $boost);
+        $this->setOption('boost', $boost);
+        return $this;
     }
 
     /**
@@ -367,7 +382,7 @@ class Query extends SelectQuery
      *
      * @return bool|null
      */
-    public function getBoost()
+    public function getBoost(): ?bool
     {
         return $this->getOption('boost');
     }
@@ -384,14 +399,15 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function setQueryFields($queryFields)
+    public function setQueryFields($queryFields): self
     {
         if (is_string($queryFields)) {
             $queryFields = explode(',', $queryFields);
             $queryFields = array_map('trim', $queryFields);
         }
 
-        return $this->setOption('queryfields', $queryFields);
+        $this->setOption('queryfields', $queryFields);
+        return $this;
     }
 
     /**
@@ -399,7 +415,7 @@ class Query extends SelectQuery
      *
      * @return array
      */
-    public function getQueryFields()
+    public function getQueryFields(): array
     {
         $value = $this->getOption('queryfields');
         if (null === $value) {

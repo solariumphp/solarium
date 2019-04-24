@@ -23,7 +23,7 @@ abstract class AbstractCollectionsTest extends AbstractTechproductsTest
 
     protected $collection = 'techproducts';
 
-    public function setUp()
+    public function setUp(): void
     {
         $config = [
             'endpoint' => [

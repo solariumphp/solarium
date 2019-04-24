@@ -10,7 +10,7 @@ use Solarium\Tests\Integration\AbstractCollectionsTest;
  */
 class CollectionsCurlTest extends AbstractCollectionsTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         // The default timeout of solarium of 5s seems to be too aggressive on travis and causes random test failures.

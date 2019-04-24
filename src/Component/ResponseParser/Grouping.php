@@ -2,9 +2,13 @@
 
 namespace Solarium\Component\ResponseParser;
 
+use Solarium\Component\AbstractComponent;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Grouping as GroupingComponent;
 use Solarium\Component\Result\Grouping\FieldGroup;
 use Solarium\Component\Result\Grouping\Result;
+use Solarium\Core\Query\AbstractQuery;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query;
 
 /**
@@ -15,16 +19,25 @@ class Grouping implements ComponentParserInterface
     /**
      * Parse result data into result objects.
      *
-     * @param Query             $query
-     * @param GroupingComponent $grouping
-     * @param array             $data
+     * @param ComponentAwareQueryInterface|Query  $query
+     * @param GroupingComponent|AbstractComponent $grouping
+     * @param array                               $data
      *
      * @return Result
+     *
+     * @throws InvalidArgumentException
      */
-    public function parse($query, $grouping, $data)
+    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $grouping, array $data): Result
     {
         if (!isset($data['grouped'])) {
             return new Result([]);
+        }
+
+        if (!$query) {
+            throw new InvalidArgumentException('A valid query object needs to be provided.');
+        }
+        if (!$grouping) {
+            throw new InvalidArgumentException('A valid grouping component needs to be provided.');
         }
 
         $groups = [];
@@ -41,8 +54,8 @@ class Grouping implements ComponentParserInterface
 
             $result = $data['grouped'][$field];
 
-            $matches = (isset($result['matches'])) ? $result['matches'] : null;
-            $groupCount = (isset($result['ngroups'])) ? $result['ngroups'] : null;
+            $matches = $result['matches'] ?? null;
+            $groupCount = $result['ngroups'] ?? null;
             if (GroupingComponent::FORMAT_SIMPLE === $grouping->getFormat()) {
                 $valueGroups = [$this->extractValueGroup($valueResultClass, $documentClass, $result, $query)];
                 $groups[$field] = new FieldGroup($matches, $groupCount, $valueGroups);
@@ -64,10 +77,10 @@ class Grouping implements ComponentParserInterface
                 $result = $data['grouped'][$groupQuery];
 
                 // get statistics
-                $matches = (isset($result['matches'])) ? $result['matches'] : null;
-                $numFound = (isset($result['doclist']['numFound'])) ? $result['doclist']['numFound'] : null;
-                $start = (isset($result['doclist']['start'])) ? $result['doclist']['start'] : null;
-                $maxScore = (isset($result['doclist']['maxScore'])) ? $result['doclist']['maxScore'] : null;
+                $matches = $result['matches'] ?? null;
+                $numFound = $result['doclist']['numFound'] ?? null;
+                $start = $result['doclist']['start'] ?? null;
+                $maxScore = $result['doclist']['maxScore'] ?? null;
 
                 // create document instances
                 $documentClass = $query->getOption('documentclass');
@@ -90,26 +103,19 @@ class Grouping implements ComponentParserInterface
     /**
      * Helper method to extract a ValueGroup object from the given value group result array.
      *
-     * @param string $valueResultClass the grouping resultvaluegroupclass option
-     * @param string $documentClass    the name of the solr document class to use
-     * @param array  $valueGroupResult the group result from the solr response
-     * @param Query  $query            the current solr query
+     * @param string        $valueResultClass the grouping resultvaluegroupclass option
+     * @param string        $documentClass    the name of the solr document class to use
+     * @param array         $valueGroupResult the group result from the solr response
+     * @param AbstractQuery $query            the current solr query
      *
      * @return object
      */
-    private function extractValueGroup($valueResultClass, $documentClass, $valueGroupResult, $query)
+    private function extractValueGroup(string $valueResultClass, string $documentClass, array $valueGroupResult, AbstractQuery $query)
     {
-        $value = (isset($valueGroupResult['groupValue'])) ?
-                $valueGroupResult['groupValue'] : null;
-
-        $numFound = (isset($valueGroupResult['doclist']['numFound'])) ?
-                $valueGroupResult['doclist']['numFound'] : null;
-
-        $start = (isset($valueGroupResult['doclist']['start'])) ?
-                $valueGroupResult['doclist']['start'] : null;
-
-        $maxScore = (isset($valueGroupResult['doclist']['maxScore'])) ?
-                $valueGroupResult['doclist']['maxScore'] : null;
+        $value = $valueGroupResult['groupValue'] ?? null;
+        $numFound = $valueGroupResult['doclist']['numFound'] ?? null;
+        $start = $valueGroupResult['doclist']['start'] ?? null;
+        $maxScore = $valueGroupResult['doclist']['maxScore'] ?? null;
 
         // create document instances
         $documents = [];

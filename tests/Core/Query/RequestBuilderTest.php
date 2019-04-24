@@ -13,7 +13,7 @@ class RequestBuilderTest extends TestCase
      */
     protected $builder;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->builder = new TestRequestBuilder();
     }
@@ -28,6 +28,36 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             'select?omitHeader=true&p1=v1&p2=v2&wt=xyz',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithBoolean()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', true);
+        $query->addParam('p3', false);
+        $query->setResponseWriter('xyz');
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?omitHeader=true&p1=v1&p2=true&p3=false&wt=xyz',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithInteger()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 1);
+        $query->addParam('p3', 0);
+        $query->setResponseWriter('xyz');
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?omitHeader=true&p1=v1&p2=1&p3=0&wt=xyz',
             urldecode($request->getUri())
         );
     }
@@ -84,6 +114,20 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             'select?omitHeader=true&TZ=Europe/Brussels&p1=v1&p2=v2&wt=json&json.nl=flat',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithDistributed()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
+        $query->setDistrib(true);
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?distrib=true&omitHeader=true&p1=v1&p2=v2&wt=json&json.nl=flat',
             urldecode($request->getUri())
         );
     }

@@ -7,7 +7,7 @@ use Solarium\Tests\QueryType\Update\AbstractResultTest;
 
 class ResultTest extends AbstractResultTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->result = new ExtractResultDummy();
     }

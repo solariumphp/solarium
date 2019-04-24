@@ -1,11 +1,11 @@
 <?php
 
-namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
+namespace Solarium\QueryType\ManagedResources\Query;
 
 use Solarium\Core\Configurable;
 
 /**
- * Stopwords query command base class.
+ * Command base class.
  */
 abstract class AbstractCommand extends Configurable
 {
@@ -21,7 +21,7 @@ abstract class AbstractCommand extends Configurable
      *
      * @return string
      */
-    abstract public function getRequestMethod();
+    abstract public function getRequestMethod(): string;
 
     /**
      * Returns the data to be send to Solr.

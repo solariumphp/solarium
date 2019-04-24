@@ -2,7 +2,7 @@
 
 namespace Solarium\Plugin\BufferedAdd\Event;
 
-use Solarium\QueryType\Select\Result\DocumentInterface;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\Result;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -21,7 +21,7 @@ class PostFlush extends Event
      *
      * @param Result $result
      */
-    public function __construct($result)
+    public function __construct(Result $result)
     {
         $this->result = $result;
     }
@@ -31,7 +31,7 @@ class PostFlush extends Event
      *
      * @return DocumentInterface[]
      */
-    public function getResult()
+    public function getResult(): Result
     {
         return $this->result;
     }

@@ -2,6 +2,8 @@
 
 namespace Solarium\Component\ResponseParser;
 
+use Solarium\Component\AbstractComponent;
+use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Result\Suggester\Result;
 use Solarium\Component\Suggester as SuggesterComponent;
 use Solarium\Core\Query\AbstractQuery;
@@ -23,7 +25,7 @@ class Suggester extends AbstractResponseParser implements ComponentParserInterfa
      *
      * @return Result|null
      */
-    public function parse($query, $suggester, $data)
+    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $suggester, array $data): ?Result
     {
         $dictionaries = [];
         $allSuggestions = [];
@@ -44,14 +46,14 @@ class Suggester extends AbstractResponseParser implements ComponentParserInterfa
         return null;
     }
 
-    private function createDictionary(array $terms)
+    private function createDictionary(array $terms): Dictionary
     {
         return new Dictionary(
             $terms
         );
     }
 
-    private function createTerm(array $termData)
+    private function createTerm(array $termData): Term
     {
         return new Term(
             $termData['numFound'],

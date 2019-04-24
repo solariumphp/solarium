@@ -38,7 +38,7 @@ class PostExecute extends Event
      *
      * @return QueryInterface
      */
-    public function getQuery()
+    public function getQuery(): QueryInterface
     {
         return $this->query;
     }
@@ -48,7 +48,7 @@ class PostExecute extends Event
      *
      * @return ResultInterface
      */
-    public function getResult()
+    public function getResult(): ResultInterface
     {
         return $this->result;
     }

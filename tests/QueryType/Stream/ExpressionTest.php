@@ -13,7 +13,7 @@ class ExpressionTest extends TestCase
      */
     protected $exp;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->exp = new Expression();
     }

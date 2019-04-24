@@ -4,6 +4,7 @@ namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Component\Spatial as SpatialComponent;
 use Solarium\Core\Client\Request;
+use Solarium\Core\ConfigurableInterface;
 
 /**
  * Add select component spatial to the request.
@@ -18,7 +19,7 @@ class Spatial implements ComponentRequestBuilderInterface
      *
      * @return Request
      */
-    public function buildComponent($component, $request)
+    public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         $request->addParam('sfield', $component->getField());
         $request->addParam('pt', $component->getPoint());

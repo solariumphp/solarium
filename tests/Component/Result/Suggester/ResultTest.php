@@ -14,7 +14,7 @@ class ResultTest extends TestCase
      */
     protected $result;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->docs = [
             'dictionary1' => new Dictionary([

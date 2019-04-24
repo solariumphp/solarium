@@ -25,7 +25,7 @@ class Curl extends Configurable implements AdapterInterface
      *
      * @return Response
      */
-    public function execute($request, $endpoint)
+    public function execute(Request $request, Endpoint $endpoint): Response
     {
         return $this->getData($request, $endpoint);
     }
@@ -38,7 +38,7 @@ class Curl extends Configurable implements AdapterInterface
      *
      * @return Response
      */
-    public function getResponse($handle, $httpResponse)
+    public function getResponse($handle, $httpResponse): Response
     {
         if (false !== $httpResponse && null !== $httpResponse) {
             $data = $httpResponse;
@@ -172,7 +172,7 @@ class Curl extends Configurable implements AdapterInterface
      *
      * @return Response
      */
-    protected function getData($request, $endpoint)
+    protected function getData($request, $endpoint): Response
     {
         $handle = $this->createHandle($request, $endpoint);
         $httpResponse = curl_exec($handle);

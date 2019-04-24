@@ -2,6 +2,8 @@
 
 namespace Solarium\Component\ComponentTraits;
 
+use Solarium\Component\SuggesterInterface;
+
 /**
  * Suggester Query Trait.
  */
@@ -14,19 +16,22 @@ trait SuggesterTrait
      *
      * @param string|array $dictionary
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
-    public function setDictionary($dictionary)
+    public function setDictionary($dictionary): SuggesterInterface
     {
+        if (is_string($dictionary)) {
+            $dictionary = [$dictionary];
+        }
         return $this->setOption('dictionary', $dictionary);
     }
 
     /**
      * Get dictionary option.
      *
-     * @return string|null
+     * @return array|null
      */
-    public function getDictionary()
+    public function getDictionary(): ?array
     {
         return $this->getOption('dictionary');
     }
@@ -38,9 +43,9 @@ trait SuggesterTrait
      *
      * @param int $count
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
-    public function setCount($count)
+    public function setCount(int $count): SuggesterInterface
     {
         return $this->setOption('count', $count);
     }
@@ -50,7 +55,7 @@ trait SuggesterTrait
      *
      * @return int|null
      */
-    public function getCount()
+    public function getCount(): ?int
     {
         return $this->getOption('count');
     }
@@ -62,9 +67,9 @@ trait SuggesterTrait
      *
      * @param string $cfq
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
-    public function setContextFilterQuery($cfq)
+    public function setContextFilterQuery(string $cfq): SuggesterInterface
     {
         return $this->setOption('cfq', $cfq);
     }
@@ -74,7 +79,7 @@ trait SuggesterTrait
      *
      * @return string|null
      */
-    public function getContextFilterQuery()
+    public function getContextFilterQuery(): ?string
     {
         return $this->getOption('cfq');
     }
@@ -84,9 +89,9 @@ trait SuggesterTrait
      *
      * @param bool $build
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
-    public function setBuild($build)
+    public function setBuild(bool $build): SuggesterInterface
     {
         return $this->setOption('build', $build);
     }
@@ -96,7 +101,7 @@ trait SuggesterTrait
      *
      * @return bool|null
      */
-    public function getBuild()
+    public function getBuild(): ?bool
     {
         return $this->getOption('build');
     }
@@ -104,12 +109,11 @@ trait SuggesterTrait
     /**
      * Set reload option.
      *
-     * @param bool  $build
-     * @param mixed $reload
+     * @param bool $reload
      *
-     * @return self Provides fluent interface
+     * @return SuggesterInterface Provides fluent interface
      */
-    public function setReload($reload)
+    public function setReload(bool $reload): SuggesterInterface
     {
         return $this->setOption('reload', $reload);
     }
@@ -119,7 +123,7 @@ trait SuggesterTrait
      *
      * @return bool|null
      */
-    public function getReload()
+    public function getReload(): ?bool
     {
         return $this->getOption('reload');
     }

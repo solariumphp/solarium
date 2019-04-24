@@ -44,7 +44,7 @@ class PreCreateResult extends Event
      *
      * @return QueryInterface
      */
-    public function getQuery()
+    public function getQuery(): QueryInterface
     {
         return $this->query;
     }
@@ -54,7 +54,7 @@ class PreCreateResult extends Event
      *
      * @return Response
      */
-    public function getResponse()
+    public function getResponse(): Response
     {
         return $this->response;
     }
@@ -62,9 +62,9 @@ class PreCreateResult extends Event
     /**
      * Get the result object for this event.
      *
-     * @return ResultInterface
+     * @return ResultInterface|null
      */
-    public function getResult()
+    public function getResult(): ?ResultInterface
     {
         return $this->result;
     }
@@ -73,9 +73,12 @@ class PreCreateResult extends Event
      * Set the result object for this event, overrides default execution.
      *
      * @param ResultInterface $result
+     *
+     * @return self Provides fluent interface
      */
-    public function setResult($result)
+    public function setResult(ResultInterface $result): self
     {
         $this->result = $result;
+        return $this;
     }
 }

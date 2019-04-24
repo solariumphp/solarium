@@ -38,10 +38,10 @@ class RequestStatus extends AbstractAction
     /**
      * Get the requestId where that status should be retrieved for.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRequestId(): string
+    public function getRequestId(): ?string
     {
-        return (string) $this->getOption('requestid');
+        return $this->getOption('requestid');
     }
 }

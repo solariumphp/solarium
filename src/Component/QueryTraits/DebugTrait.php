@@ -3,6 +3,7 @@
 namespace Solarium\Component\QueryTraits;
 
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\Debug;
 
 /**
  * Trait query types supporting components.
@@ -16,7 +17,7 @@ trait DebugTrait
      *
      * @return \Solarium\Component\Debug
      */
-    public function getDebug()
+    public function getDebug(): Debug
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_DEBUG, true);
     }

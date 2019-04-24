@@ -70,7 +70,7 @@ interface FacetSetInterface
      *
      * @return \Solarium\Component\FacetSet
      */
-    public function addFacet($facet);
+    public function addFacet($facet): self;
 
     /**
      * Add multiple facets.
@@ -79,23 +79,23 @@ interface FacetSetInterface
      *
      * @return \Solarium\Component\FacetSet
      */
-    public function addFacets(array $facets);
+    public function addFacets(array $facets): self;
 
     /**
      * Get a facet.
      *
      * @param string $key
      *
-     * @return FacetInterface
+     * @return FacetInterface|null
      */
-    public function getFacet($key);
+    public function getFacet(string $key): ?FacetInterface;
 
     /**
      * Get all facets.
      *
      * @return FacetInterface[]
      */
-    public function getFacets();
+    public function getFacets(): array;
 
     /**
      * Remove a single facet.
@@ -106,14 +106,14 @@ interface FacetSetInterface
      *
      * @return \Solarium\Component\FacetSet
      */
-    public function removeFacet($facet);
+    public function removeFacet($facet): self;
 
     /**
      * Remove all facets.
      *
      * @return \Solarium\Component\FacetSet
      */
-    public function clearFacets();
+    public function clearFacets(): self;
 
     /**
      * Set multiple facets.
@@ -121,8 +121,10 @@ interface FacetSetInterface
      * This overwrites any existing facets
      *
      * @param FacetInterface[] $facets
+     *
+     * @return \Solarium\Component\FacetSet
      */
-    public function setFacets($facets);
+    public function setFacets(array $facets): self;
 
     /**
      * Create a facet instance.
@@ -143,5 +145,5 @@ interface FacetSetInterface
      *
      * @return FacetInterface
      */
-    public function createFacet(string $type, $options = null, bool $add = true);
+    public function createFacet(string $type, $options = null, bool $add = true): FacetInterface;
 }

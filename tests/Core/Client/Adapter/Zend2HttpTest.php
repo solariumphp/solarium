@@ -26,11 +26,11 @@ class Zend2HttpTest extends TestCase
      */
     protected $zendResponseMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = new Zend2Http();
         $this->zendClientMock = $this->getMockBuilder(ZendClient::class)->setMethods([])->disableOriginalConstructor()->getMock();
-        $this->zendResponseMock = $this->getMockBuilder(ZendResponse::class)->setMethods([])->disableOriginalConstructor()->getMock();
+        $this->zendResponseMock = $this->getMockBuilder(ZendResponse::class)->setMethods(['renderStatusLine', 'getBody'])->disableOriginalConstructor()->getMock();
         $this->zendClientMock->expects($this->any())->method('send')->willReturn($this->zendResponseMock);
         $this->adapter->setZendHttp($this->zendClientMock);
     }
@@ -38,6 +38,7 @@ class Zend2HttpTest extends TestCase
     protected function fakeValidResponseHeader()
     {
         $this->zendResponseMock->expects($this->any())->method('renderStatusLine')->willReturn('HTTP/1.1 200 OK');
+        $this->zendResponseMock->expects($this->any())->method('getBody')->willReturn('dummy');
     }
 
     public function getAllowedHttpMethods()

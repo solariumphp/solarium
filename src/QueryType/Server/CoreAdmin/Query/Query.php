@@ -3,6 +3,8 @@
 namespace Solarium\QueryType\Server\CoreAdmin\Query;
 
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Server\AbstractServerQuery;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Create;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\MergeIndexes;
@@ -76,21 +78,21 @@ class Query extends AbstractServerQuery
     const ACTION_UNLOAD = 'UNLOAD';
 
     /**
-     * Update command types.
+     * Action types.
      *
      * @var array
      */
     protected $actionTypes = [
-        self::ACTION_CREATE => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\Create',
-        self::ACTION_MERGE_INDEXES => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\MergeIndexes',
-        self::ACTION_RELOAD => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\Reload',
-        self::ACTION_RENAME => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\Rename',
-        self::ACTION_REQUEST_RECOVERY => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\RequestRecovery',
-        self::ACTION_REQUEST_STATUS => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\RequestStatus',
-        self::ACTION_SPLIT => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\Split',
-        self::ACTION_STATUS => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\Status',
-        self::ACTION_SWAP => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\Swap',
-        self::ACTION_UNLOAD => 'Solarium\QueryType\Server\CoreAdmin\Query\Action\Unload',
+        self::ACTION_CREATE => Create::class,
+        self::ACTION_MERGE_INDEXES => MergeIndexes::class,
+        self::ACTION_RELOAD => Reload::class,
+        self::ACTION_RENAME => Rename::class,
+        self::ACTION_REQUEST_RECOVERY => RequestRecovery::class,
+        self::ACTION_REQUEST_STATUS => RequestStatus::class,
+        self::ACTION_SPLIT => Split::class,
+        self::ACTION_STATUS => Status::class,
+        self::ACTION_SWAP => Swap::class,
+        self::ACTION_UNLOAD => Unload::class,
     ];
 
     /**
@@ -101,13 +103,6 @@ class Query extends AbstractServerQuery
     protected $options = [
         'handler' => 'admin/cores',
     ];
-
-    /**
-     * Action that should be performed on the core admin api.
-     *
-     * @var ActionInterface
-     */
-    protected $action = null;
 
     /**
      * Get type for this query.
@@ -124,7 +119,7 @@ class Query extends AbstractServerQuery
      *
      * @return RequestBuilder
      */
-    public function getRequestBuilder()
+    public function getRequestBuilder(): RequestBuilderInterface
     {
         return new RequestBuilder();
     }
@@ -134,7 +129,7 @@ class Query extends AbstractServerQuery
      *
      * @return ResponseParser
      */
-    public function getResponseParser()
+    public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
     }
@@ -144,7 +139,7 @@ class Query extends AbstractServerQuery
      *
      * @return Create|ActionInterface
      */
-    public function createCreate($options = [])
+    public function createCreate($options = []): Create
     {
         return $this->createAction(self::ACTION_CREATE, $options);
     }
@@ -154,7 +149,7 @@ class Query extends AbstractServerQuery
      *
      * @return MergeIndexes|ActionInterface
      */
-    public function createMergeIndexes($options = [])
+    public function createMergeIndexes($options = []): MergeIndexes
     {
         return $this->createAction(self::ACTION_MERGE_INDEXES, $options);
     }
@@ -164,7 +159,7 @@ class Query extends AbstractServerQuery
      *
      * @return Reload|ActionInterface
      */
-    public function createReload($options = [])
+    public function createReload($options = []): Reload
     {
         return $this->createAction(self::ACTION_RELOAD, $options);
     }
@@ -174,7 +169,7 @@ class Query extends AbstractServerQuery
      *
      * @return Rename|ActionInterface
      */
-    public function createRename($options = [])
+    public function createRename($options = []): Rename
     {
         return $this->createAction(self::ACTION_RENAME, $options);
     }
@@ -194,7 +189,7 @@ class Query extends AbstractServerQuery
      *
      * @return RequestStatus|ActionInterface
      */
-    public function createRequestStatus($options = [])
+    public function createRequestStatus($options = []): RequestStatus
     {
         return $this->createAction(self::ACTION_REQUEST_STATUS, $options);
     }
@@ -204,7 +199,7 @@ class Query extends AbstractServerQuery
      *
      * @return Split|ActionInterface
      */
-    public function createSplit($options = [])
+    public function createSplit($options = []): Split
     {
         return $this->createAction(self::ACTION_SPLIT, $options);
     }
@@ -214,7 +209,7 @@ class Query extends AbstractServerQuery
      *
      * @return Status|ActionInterface
      */
-    public function createStatus($options = [])
+    public function createStatus($options = []): Status
     {
         return $this->createAction(self::ACTION_STATUS, $options);
     }
@@ -224,7 +219,7 @@ class Query extends AbstractServerQuery
      *
      * @return Swap|ActionInterface
      */
-    public function createSwap($options = [])
+    public function createSwap($options = []): Swap
     {
         return $this->createAction(self::ACTION_SWAP, $options);
     }
@@ -234,7 +229,7 @@ class Query extends AbstractServerQuery
      *
      * @return Unload|ActionInterface
      */
-    public function createUnload($options = [])
+    public function createUnload($options = []): Unload
     {
         return $this->createAction(self::ACTION_UNLOAD, $options);
     }

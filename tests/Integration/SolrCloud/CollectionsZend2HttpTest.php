@@ -10,7 +10,7 @@ use Solarium\Tests\Integration\AbstractCollectionsTest;
  */
 class CollectionsZend2HttpTest extends AbstractCollectionsTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->client->setAdapter('Solarium\Core\Client\Adapter\Zend2Http');
