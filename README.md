@@ -11,7 +11,7 @@ Please see the docs for a more detailed description.
 
 ## Requirements
 
-Solarium only supports PHP 7.0 and up.
+Solarium only supports PHP 7.1 and up.
 
 It's highly recommended to have Curl enabled in your PHP environment. However if you don't have Curl available you can
 switch from using Curl (the default) to another client adapter. The other adapters don't support all the features of the
@@ -90,8 +90,7 @@ Open http://localhost:8888/vendor/solarium/solarium/examples/
 
 ## Continuous Integration status
 
-* 4.x branch (master) [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=master)](http://travis-ci.org/solariumphp/solarium?branch=master) [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=master)](https://coveralls.io/r/solariumphp/solarium?branch=master)
-* 3.x branch [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=3.x)](http://travis-ci.org/solariumphp/solarium?branch=3.x) [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=3.x)](https://coveralls.io/r/solariumphp/solarium?branch=3.x)
+* [![Develop build status](https://secure.travis-ci.org/solariumphp/solarium.png?branch=master)](http://travis-ci.org/solariumphp/solarium?branch=master) [![Coverage Status](https://coveralls.io/repos/solariumphp/solarium/badge.png?branch=master)](https://coveralls.io/r/solariumphp/solarium?branch=master)
 * [![SensioLabsInsight](https://insight.sensiolabs.com/projects/292e29f7-10a9-4685-b9ac-37925ebef9ae/small.png)](https://insight.sensiolabs.com/projects/292e29f7-10a9-4685-b9ac-37925ebef9ae)
 * [![Total Downloads](https://poser.pugx.org/solarium/solarium/downloads.svg)](https://packagist.org/packages/solarium/solarium)
 
