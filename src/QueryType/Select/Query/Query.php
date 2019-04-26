@@ -386,11 +386,11 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * This overwrites any existing fields
      *
-     * @param array $fields
+     * @param string|array $fields can be an array or string with comma separated field names
      *
      * @return self Provides fluent interface
      */
-    public function setFields(array $fields): self
+    public function setFields($fields): self
     {
         $this->clearFields();
         $this->addFields($fields);
