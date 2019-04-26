@@ -33,21 +33,28 @@ class Suggestion
     private $words;
 
     /**
+     * @var string
+     */
+    private $originalTerm;
+
+    /**
      * Constructor.
      *
-     * @param int      $numFound
-     * @param int      $startOffset
-     * @param int      $endOffset
-     * @param int|null $originalFrequency
-     * @param array    $words
+     * @param int         $numFound
+     * @param int         $startOffset
+     * @param int         $endOffset
+     * @param int|null    $originalFrequency
+     * @param array       $words
+     * @param string|null $originalTerm
      */
-    public function __construct(int $numFound, int $startOffset, int $endOffset, ?int $originalFrequency, array $words)
+    public function __construct(int $numFound, int $startOffset, int $endOffset, ?int $originalFrequency, array $words, ?string $originalTerm = null)
     {
         $this->numFound = $numFound;
         $this->startOffset = $startOffset;
         $this->endOffset = $endOffset;
         $this->originalFrequency = $originalFrequency;
         $this->words = $words;
+        $this->originalTerm = $originalTerm;
     }
 
     /**
@@ -130,5 +137,15 @@ class Suggestion
         if (isset($word['freq'])) {
             return $word['freq'];
         }
+    }
+
+    /**
+     * Get original term.
+     *
+     * @return string|null
+     */
+    public function getOriginalTerm(): ?string
+    {
+        return $this->originalTerm;
     }
 }

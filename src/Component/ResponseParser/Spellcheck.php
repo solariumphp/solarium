@@ -51,10 +51,10 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                     default:
                         if (array_key_exists(0, $value)) {
                             foreach ($value as $currentValue) {
-                                $suggestions[] = $this->parseSuggestion($currentValue);
+                                $suggestions[] = $this->parseSuggestion($currentValue, $key);
                             }
                         } else {
-                            $suggestions[] = $this->parseSuggestion($value);
+                            $suggestions[] = $this->parseSuggestion($value, $key);
                         }
                 }
             }
@@ -161,11 +161,12 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     /**
      * Parse suggestion data into a result object.
      *
-     * @param array $value
+     * @param array  $value
+     * @param string $originalTerm
      *
      * @return Suggestion
      */
-    protected function parseSuggestion(array $value): Suggestion
+    protected function parseSuggestion(array $value, string $originalTerm): Suggestion
     {
         $numFound = (isset($value['numFound'])) ? $value['numFound'] : null;
         $startOffset = (isset($value['startOffset'])) ? $value['startOffset'] : null;
@@ -185,6 +186,6 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
             }
         }
 
-        return new Suggestion($numFound, $startOffset, $endOffset, $originalFrequency, $words);
+        return new Suggestion($numFound, $startOffset, $endOffset, $originalFrequency, $words, $originalTerm);
     }
 }
