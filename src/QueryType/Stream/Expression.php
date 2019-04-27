@@ -3,7 +3,8 @@
 namespace Solarium\QueryType\Stream;
 
 /**
- * @deprecated Use ExpressionBuilder instead.
+ * @deprecated use ExpressionBuilder instead
  */
 class Expression extends ExpressionBuilder
-{}
+{
+}
