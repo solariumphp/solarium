@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [5.0.0-rc.1]
 ### Added
 - Spellcheck\Suggestion::getOriginalTerm()
+- QueryType\Stream\ExpressionBuilder
 
 ### Changed
 - Usage of composer and autoloader in examples.
@@ -14,6 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Query::setFields() should accept comma separated string, too.
 - Readthedocs theme
+
+### Deprecated
+- QueryType\Stream\Expression is deprecated. Use QueryType\Stream\ExpressionBuilder instead.
 
 
 ## [5.0.0-beta.1]

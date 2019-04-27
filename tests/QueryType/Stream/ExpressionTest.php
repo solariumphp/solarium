@@ -4,18 +4,18 @@ namespace Solarium\Tests\QueryType\Stream\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Exception\InvalidArgumentException;
-use Solarium\QueryType\Stream\Expression;
+use Solarium\QueryType\Stream\ExpressionBuilder;
 
 class ExpressionTest extends TestCase
 {
     /**
-     * @var Expression
+     * @var ExpressionBuilder
      */
     protected $exp;
 
     public function setUp(): void
     {
-        $this->exp = new Expression();
+        $this->exp = new ExpressionBuilder();
     }
 
     public function testExpression()
