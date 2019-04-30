@@ -80,6 +80,16 @@ class Bucket implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Get nested facet set.
+     *
+     * @return FacetSet
+     */
+    public function getFacetSet(): FacetSet
+    {
+        return $this->facetSet;
+    }
+
+    /**
      * IteratorAggregate implementation.
      *
      * @return \ArrayIterator
