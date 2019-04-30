@@ -33,6 +33,7 @@ use Solarium\Exception\InvalidArgumentException;
  * @method string columnCount(...$args)
  * @method string commit(...$args)
  * @method string complement(...$args)
+ * @method string concat(...$args)
  * @method string constantDistribution(...$args)
  * @method string conv(...$args)
  * @method string convexHull(...$args)
