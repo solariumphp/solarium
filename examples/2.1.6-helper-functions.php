@@ -14,7 +14,7 @@ $helper = $query->getHelper();
 $query->createFilterQuery('price')->setQuery($helper->rangeQuery('price', 10, 300));
 
 // add a filterquery to find products in a range of 5km, using the helper to generate the 'geofilt' filter
-$query->createFilterQuery('region')->setQuery($helper->geofilt(45.15, -93.85, 'store', 5));
+$query->createFilterQuery('region')->setQuery($helper->geofilt('store',45.15, -93.85, 5));
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
