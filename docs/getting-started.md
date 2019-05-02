@@ -9,9 +9,9 @@ Installation
 
 ### Requirements
 
-For installing Solarium a minimal PHP version 5.3 is required. While previous Solarium versions with any PHP5 version, Solarium 3 uses interfaces so 5.3+ is a hard requirement.
+For installing Solarium a minimal PHP version 7.1 is required.
 
-There is no Solr version requirement. Solr versions 1.4 and upwards have been tested with Solarium. Ofcourse, if you want to use version specific features like spatial search you need the right Solr version. For spatial search you will need at least 3.1.
+There is no Solr version requirement. But it's highly recommended that you use at least 6.6.6.
 
 ### Getting Solarium
 
@@ -28,7 +28,7 @@ See [<https://packagist.org>](https://packagist.org) for other packages.
 ```json
 {
     "require": {
-        "solarium/solarium": "3.6.0"
+        "solarium/solarium": "~5.0.0"
     }
 }
 ```
@@ -75,6 +75,25 @@ htmlFooter();
 
 ```
 
+### Pitfall when upgrading from earlier versions to 5.x
+
+In the past, the V1 API endpoint **_solr_** was not added automatically, so most users set it as path on the endpoint.
+This bug was discovered with the addition of V2 API support. In almost every setup, the path has to be set to `/`
+instead of `/solr` with this release!
+
+For the same reason it is a must to explicit configure the _core_ or _collection_.
+
+So an old setting like
+```
+'path' => '/solr/xxxx/'
+```
+has to be changed to something like
+```
+'path' => '/',
+'collection' => 'xxxx',
+```
+
+
 ### Available integrations
 
 Some users of Solarium have been nice enough to create easy ways of integrating Solarium:
@@ -105,11 +124,13 @@ $config = array(
         'localhost' => array(
             'host' => '127.0.0.1',
             'port' => 8983,
-            'path' => '/solr/',
+            'path' => '/',
+            'core' => 'techproducts',
+            // For Solr Cloud you need to provide a collection instead of core:
+            // 'collection' => 'techproducts',
         )
     )
 );
-
 ```
 
 ### Selecting documents

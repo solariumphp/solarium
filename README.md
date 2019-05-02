@@ -7,11 +7,11 @@ Solarium is a PHP Solr client library that accurately model Solr concepts. Where
 the communication with Solr, Solarium also relieves you of handling all the complex Solr query parameters using a
 well documented API.
 
-Please see the docs for a more detailed description.
+Please see the [docs](http://solarium.readthedocs.io/en/stable/) for a more detailed description.
 
 ## Requirements
 
-Solarium only supports PHP 7.1 and up.
+Solarium 5.x only supports PHP 7.1 and up.
 
 It's highly recommended to have Curl enabled in your PHP environment. However if you don't have Curl available you can
 switch from using Curl (the default) to another client adapter. The other adapters don't support all the features of the
@@ -19,12 +19,32 @@ Curl adapter.
 
 ## Getting started
 
-The preferred way to install Solarium is by using Composer. Solarium is available on Packagist.
+The preferred way to install Solarium is by using Composer. Solarium is available on
+[Packagist](https://packagist.org/packages/solarium/solarium).
 
 Example:
 ```
 composer require solarium/solarium
 ```
+
+### Pitfall when upgrading from earlier versions to 5.x
+
+In the past, the V1 API endpoint **_solr_** was not added automatically, so most users set it as path on the endpoint.
+This bug was discovered with the addition of V2 API support. In almost every setup, the path has to be set to `/`
+instead of `/solr` with this release!
+
+For the same reason it is a must to explicit configure the _core_ or _collection_.
+
+So an old setting like
+```
+'path' => '/solr/xxxx/'
+```
+has to be changed to something like
+```
+'path' => '/',
+'collection' => 'xxxx',
+```
+
 
 ## Run the examples
 
