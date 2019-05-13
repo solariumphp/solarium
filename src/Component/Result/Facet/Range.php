@@ -59,15 +59,15 @@ class Range extends Field
     /**
      * Constructor.
      *
-     * @param array      $values
-     * @param int        $before
-     * @param int        $after
-     * @param int        $between
-     * @param string|int $start
-     * @param string|int $end
-     * @param string|int $gap
+     * @param array           $values
+     * @param int|null        $before
+     * @param int|null        $after
+     * @param int|null        $between
+     * @param string|int|null $start
+     * @param string|int|null $end
+     * @param string|int|null $gap
      */
-    public function __construct(array $values, int $before, int $after, int $between, $start, $end, $gap)
+    public function __construct(array $values, ?int $before, ?int $after, ?int $between, $start, $end, $gap)
     {
         parent::__construct($values);
         $this->before = $before;

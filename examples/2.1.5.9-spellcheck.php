@@ -3,6 +3,8 @@
 require(__DIR__.'/init.php');
 htmlHeader();
 
+echo "<h2>Note: The /select handler of the techproducts example doesn't contain a spellcheck component anymore!</h2>";
+
 // create a client instance
 $client = new Solarium\Client($config);
 

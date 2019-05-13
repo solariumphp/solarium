@@ -6,6 +6,8 @@ use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\Grouping as RequestBuilder;
 use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\Grouping as ResponseParser;
+use Solarium\Component\Result\Grouping\QueryGroup;
+use Solarium\Component\Result\Grouping\ValueGroup;
 
 /**
  * Grouping component.
@@ -41,8 +43,8 @@ class Grouping extends AbstractComponent
      * @var array
      */
     protected $options = [
-        'resultquerygroupclass' => 'Solarium\Component\Result\Grouping\QueryGroup',
-        'resultvaluegroupclass' => 'Solarium\Component\Result\Grouping\ValueGroup',
+        'resultquerygroupclass' => QueryGroup::class,
+        'resultvaluegroupclass' => ValueGroup::class,
     ];
 
     /**

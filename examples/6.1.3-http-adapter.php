@@ -1,8 +1,5 @@
 <?php
 
-require_once 'Zend/Loader/Autoloader.php';
-$loader = Zend_Loader_Autoloader::getInstance();
-
 require(__DIR__.'/init.php');
 htmlHeader();
 
@@ -10,7 +7,7 @@ htmlHeader();
 $client = new Solarium\Client($config);
 
 // set the adapter to curl
-$client->setAdapter('Solarium\Core\Client\Adapter\Http');
+$client->setAdapter(\Solarium\Core\Client\Adapter\Http::class);
 
 // get a select query instance
 $query = $client->createSelect();

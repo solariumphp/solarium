@@ -1,16 +1,15 @@
 <?php
 
-require_once 'Zend/Loader/Autoloader.php';
-$loader = Zend_Loader_Autoloader::getInstance();
-
 require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
 $client = new Solarium\Client($config);
 
-// set the adapter to peclhttp
-$client->setAdapter('Solarium\Core\Client\Adapter\PeclHttp');
+// set the adapter to curl
+// note that this is only shown for documentation purposes, normally you don't need
+// to do this as curl is the default adapter
+$client->setAdapter(\Solarium\Core\Client\Adapter\Curl::class);
 
 // get a select query instance
 $query = $client->createSelect();

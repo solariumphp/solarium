@@ -46,9 +46,9 @@ class FacetValue
     /**
      * Get min value.
      *
-     * @return string
+     * @return float|null
      */
-    public function getMin(): string
+    public function getMin(): ?float
     {
         return $this->stats['min'];
     }
@@ -56,9 +56,9 @@ class FacetValue
     /**
      * Get max value.
      *
-     * @return string
+     * @return float|null
      */
-    public function getMax(): string
+    public function getMax(): ?float
     {
         return $this->stats['max'];
     }
@@ -66,9 +66,9 @@ class FacetValue
     /**
      * Get sum value.
      *
-     * @return string
+     * @return float
      */
-    public function getSum(): string
+    public function getSum(): float
     {
         return $this->stats['sum'];
     }
@@ -96,9 +96,9 @@ class FacetValue
     /**
      * Get sumOfSquares value.
      *
-     * @return string
+     * @return float
      */
-    public function getSumOfSquares(): string
+    public function getSumOfSquares(): float
     {
         return $this->stats['sumOfSquares'];
     }
@@ -106,9 +106,9 @@ class FacetValue
     /**
      * Get mean value.
      *
-     * @return string
+     * @return string|float
      */
-    public function getMean(): string
+    public function getMean()
     {
         return $this->stats['mean'];
     }
@@ -116,9 +116,9 @@ class FacetValue
     /**
      * Get stddev value.
      *
-     * @return string
+     * @return float
      */
-    public function getStddev(): string
+    public function getStddev(): float
     {
         return $this->stats['stddev'];
     }

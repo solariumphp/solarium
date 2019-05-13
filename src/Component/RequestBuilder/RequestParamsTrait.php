@@ -73,7 +73,7 @@ trait RequestParamsTrait
      */
     public function addParam(string $key, $value, bool $overwrite = false): RequestParamsInterface
     {
-        if (null !== $value) {
+        if (null !== $value && [] !== $value) {
             if (!$overwrite && isset($this->params[$key])) {
                 if (!is_array($this->params[$key])) {
                     $this->params[$key] = [$this->params[$key]];

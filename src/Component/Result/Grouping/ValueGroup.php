@@ -74,9 +74,9 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Get value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getValue(): string
+    public function getValue(): ?string
     {
         return $this->value;
     }
@@ -84,9 +84,9 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Get numFound.
      *
-     * @return int
+     * @return int|null
      */
-    public function getNumFound(): int
+    public function getNumFound(): ?int
     {
         return $this->numFound;
     }
@@ -94,7 +94,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Get start.
      *
-     * @return ?int
+     * @return int|null
      */
     public function getStart(): ?int
     {
@@ -104,9 +104,9 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Get maximumScore value.
      *
-     * @return int
+     * @return float|null
      */
-    public function getMaximumScore(): int
+    public function getMaximumScore(): ?float
     {
         return $this->maximumScore;
     }

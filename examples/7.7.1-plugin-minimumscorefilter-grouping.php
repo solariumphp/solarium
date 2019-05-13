@@ -35,7 +35,8 @@ foreach ($groups as $groupKey => $fieldGroup) {
 
     foreach ($fieldGroup as $valueGroup) {
 
-        echo '<h2>'.(int)$valueGroup->getValue().'</h2>';
+        $value = $valueGroup->getValue();
+        echo '<h2>'.(null !== $value ? (int) $value : 'NULL').'</h2>';
 
         foreach ($valueGroup as $document) {
 

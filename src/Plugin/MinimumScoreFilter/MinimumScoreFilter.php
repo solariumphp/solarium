@@ -23,6 +23,6 @@ class MinimumScoreFilter extends AbstractPlugin
      */
     protected function initPluginType()
     {
-        $this->client->registerQueryType(self::QUERY_TYPE, 'Solarium\Plugin\MinimumScoreFilter\Query');
+        $this->client->registerQueryType(self::QUERY_TYPE, Query::class);
     }
 }

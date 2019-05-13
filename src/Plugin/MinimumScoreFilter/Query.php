@@ -29,8 +29,8 @@ class Query extends SelectQuery
      */
     protected $options = [
         'handler' => 'select',
-        'resultclass' => 'Solarium\QueryType\Select\Result\Result',
-        'documentclass' => 'Solarium\QueryType\Select\Result\Document',
+        'resultclass' => Result::class,
+        'documentclass' => \Solarium\QueryType\Select\Result\Document::class,
         'query' => '*:*',
         'start' => 0,
         'rows' => 10,
@@ -101,16 +101,6 @@ class Query extends SelectQuery
         }
 
         return $fields;
-    }
-
-    /**
-     * Make sure the filtering result class is always used.
-     *
-     * @return string
-     */
-    public function getResultClass(): string
-    {
-        return Result::class;
     }
 
     /**

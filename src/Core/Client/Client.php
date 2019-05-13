@@ -3,6 +3,7 @@
 namespace Solarium\Core\Client;
 
 use Solarium\Core\Client\Adapter\AdapterInterface;
+use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Configurable;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateQuery as PostCreateQueryEvent;
@@ -22,10 +23,21 @@ use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\UnexpectedValueException;
+use Solarium\Plugin\BufferedAdd\BufferedAdd;
+use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
+use Solarium\Plugin\Loadbalancer\Loadbalancer;
+use Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter;
+use Solarium\Plugin\ParallelExecution\ParallelExecution;
+use Solarium\Plugin\PostBigRequest;
+use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\Analysis\Query\Document as AnalysisQueryDocument;
 use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\Extract\Result as ExtractResult;
+use Solarium\QueryType\Graph\Query as GraphQuery;
+use Solarium\QueryType\ManagedResources\Query\Resources;
+use Solarium\QueryType\ManagedResources\Query\Stopwords;
+use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\MorelikeThis\Query as MorelikeThisQuery;
 use Solarium\QueryType\MoreLikeThis\Result as MoreLikeThisResult;
 use Solarium\QueryType\Ping\Query as PingQuery;
@@ -40,6 +52,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 use Solarium\QueryType\Server\CoreAdmin\Result\Result as CoreAdminResult;
 use Solarium\QueryType\Spellcheck\Query as SpellcheckQuery;
 use Solarium\QueryType\Spellcheck\Result\Result as SpellcheckResult;
+use Solarium\QueryType\Stream\Query as StreamQuery;
 use Solarium\QueryType\Suggester\Query as SuggesterQuery;
 use Solarium\QueryType\Suggester\Result\Result as SuggesterResult;
 use Solarium\QueryType\Terms\Query as TermsQuery;
@@ -167,7 +180,7 @@ class Client extends Configurable implements ClientInterface
      * @var array
      */
     protected $options = [
-        'adapter' => 'Solarium\Core\Client\Adapter\Curl',
+        'adapter' => Curl::class,
         'endpoint' => [
             'localhost' => [],
         ],
@@ -179,25 +192,25 @@ class Client extends Configurable implements ClientInterface
      * These can be customized using {@link registerQueryType()}
      */
     protected $queryTypes = [
-        self::QUERY_SELECT => 'Solarium\QueryType\Select\Query\Query',
-        self::QUERY_UPDATE => 'Solarium\QueryType\Update\Query\Query',
-        self::QUERY_PING => 'Solarium\QueryType\Ping\Query',
-        self::QUERY_MORELIKETHIS => 'Solarium\QueryType\MoreLikeThis\Query',
-        self::QUERY_ANALYSIS_DOCUMENT => 'Solarium\QueryType\Analysis\Query\Document',
-        self::QUERY_ANALYSIS_FIELD => 'Solarium\QueryType\Analysis\Query\Field',
-        self::QUERY_TERMS => 'Solarium\QueryType\Terms\Query',
-        self::QUERY_SPELLCHECK => 'Solarium\QueryType\Spellcheck\Query',
-        self::QUERY_SUGGESTER => 'Solarium\QueryType\Suggester\Query',
-        self::QUERY_STREAM => 'Solarium\QueryType\Stream\Query',
-        self::QUERY_GRAPH => 'Solarium\QueryType\Graph\Query',
-        self::QUERY_EXTRACT => 'Solarium\QueryType\Extract\Query',
-        self::QUERY_REALTIME_GET => 'Solarium\QueryType\RealtimeGet\Query',
-        self::QUERY_CORE_ADMIN => 'Solarium\QueryType\Server\CoreAdmin\Query\Query',
-        self::QUERY_COLLECTIONS => 'Solarium\QueryType\Server\Collections\Query\Query',
-        self::QUERY_API => 'Solarium\QueryType\Server\Api\Query',
-        self::QUERY_MANAGED_RESOURCES => 'Solarium\QueryType\ManagedResources\Query\Resources',
-        self::QUERY_MANAGED_STOPWORDS => 'Solarium\QueryType\ManagedResources\Query\Stopwords',
-        self::QUERY_MANAGED_SYNONYMS => 'Solarium\QueryType\ManagedResources\Query\Synonyms',
+        self::QUERY_SELECT => SelectQuery::class,
+        self::QUERY_UPDATE => UpdateQuery::class,
+        self::QUERY_PING => PingQuery::class,
+        self::QUERY_MORELIKETHIS => MorelikeThisQuery::class,
+        self::QUERY_ANALYSIS_DOCUMENT => AnalysisQueryDocument::class,
+        self::QUERY_ANALYSIS_FIELD => AnalysisQueryField::class,
+        self::QUERY_TERMS => TermsQuery::class,
+        self::QUERY_SPELLCHECK => SpellcheckQuery::class,
+        self::QUERY_SUGGESTER => SuggesterQuery::class,
+        self::QUERY_STREAM => StreamQuery::class,
+        self::QUERY_GRAPH => GraphQuery::class,
+        self::QUERY_EXTRACT => ExtractQuery::class,
+        self::QUERY_REALTIME_GET => RealtimeGetQuery::class,
+        self::QUERY_CORE_ADMIN => CoreAdminQuery::class,
+        self::QUERY_COLLECTIONS => CollectionsQuery::class,
+        self::QUERY_API => ApiQuery::class,
+        self::QUERY_MANAGED_RESOURCES => Resources::class,
+        self::QUERY_MANAGED_STOPWORDS => Stopwords::class,
+        self::QUERY_MANAGED_SYNONYMS => Synonyms::class,
     ];
 
     /**
@@ -206,13 +219,13 @@ class Client extends Configurable implements ClientInterface
      * @var array
      */
     protected $pluginTypes = [
-        'loadbalancer' => 'Solarium\Plugin\Loadbalancer\Loadbalancer',
-        'postbigrequest' => 'Solarium\Plugin\PostBigRequest',
-        'customizerequest' => 'Solarium\Plugin\CustomizeRequest\CustomizeRequest',
-        'parallelexecution' => 'Solarium\Plugin\ParallelExecution\ParallelExecution',
-        'bufferedadd' => 'Solarium\Plugin\BufferedAdd\BufferedAdd',
-        'prefetchiterator' => 'Solarium\Plugin\PrefetchIterator',
-        'minimumscorefilter' => 'Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter',
+        'loadbalancer' => Loadbalancer::class,
+        'postbigrequest' => PostBigRequest::class,
+        'customizerequest' => CustomizeRequest::class,
+        'parallelexecution' => ParallelExecution::class,
+        'bufferedadd' => BufferedAdd::class,
+        'prefetchiterator' => PrefetchIterator::class,
+        'minimumscorefilter' => MinimumScoreFilter::class,
     ];
 
     /**

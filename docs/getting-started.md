@@ -103,6 +103,8 @@ Some users of Solarium have been nice enough to create easy ways of integrating 
 -   Lithium <https://github.com/joseym/li3_solr>
 -   Fuel PHP <https://github.com/bgrimes/fuelphp-solarium>
 -   Yii <https://github.com/estahn/YiiSolarium>
+-   Drupal <https://www.drupal.org/project/search_api_solr>
+-   Typo3 <https://extensions.typo3.org/extension/solr/>
 -   Magento <https://github.com/jeroenvermeulen/magento-solarium>
 -   Wordpress <https://github.com/pantheon-systems/solr-for-wordpress>
 
@@ -339,13 +341,19 @@ For all options (like boosting) see the docs.
 Example code
 ============
 
-With Solarium a set of examples is included to demonstrate the usage and to test your Solr environment. To get the examples working you need to do the following:
+With Solarium a set of examples is available to demonstrate the usage and to test your Solr environment. But since the
+examples are not included in the distribution you need a git checkout of solarium and install the dependencies:
+```
+git clone https://github.com/solariumphp/solarium.git
+cd solarium
+composer install
+```
 
-1.  make the /examples folder browseable on your (test)webserver.
-2.  download a standard Solr release and start the included Jetty example (see the Solr example/README.txt file)
-3.  load the demo data into the example index (again see the Solr example/README.txt file)
-4.  open the example dir in a browser, the index.html file listing all available examples should show up
+Afterwards you need to configure a web server to use the `examples` folder as docroot. But the easiest way is to use the
+built-in web server of PHP. To do so continue like this:
+```
+cd examples
+php -S localhost:8888
+```
 
-That's all! The default config file of the examples was made for the standard Solr example included with a Solr release. If you want to use a custom Solr environment you can copy the file 'config.dist.php' in the example dir to 'config.php' and correct the settings. Your environment needs to have the default Solr example schema and data for the examples to work.
-
-If examples for some Solarium functionality are missing please request them by opening an issue in the issue tracker: [<http://github.com/solariumphp/solarium/issues>](http://github.com/solariumphp/solarium/issues)
+Now open `http://localhost:8888/` in your browser and follow the instructions.

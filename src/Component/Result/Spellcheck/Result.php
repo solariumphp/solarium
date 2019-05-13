@@ -86,7 +86,7 @@ class Result implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get a result by key.
+     * Get a suggestion by key.
      *
      * @param mixed $key
      *
