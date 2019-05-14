@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Spellchecker result isn't NULL in case of no suggestions and correctly spelled
 - RangeFacet Result
-- Solarium\QueryType\Select\Result Component return types
+- Solarium\QueryType\Select\Result and Component return types
 - Solarium\Component\Highlighting::setFields() should accept comma separated string, too
 - Solarium\Component\Result\Grouping\ValueGroup various return types
 - Solarium\Component\RequestBuilder\RequestParamsTrait::addParam should not add empty arrays

@@ -127,9 +127,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * Returns the total number of documents found by Solr (this is NOT the
      * number of document fetched from Solr!)
      *
-     * @return int
+     * @return int|null
      */
-    public function getNumFound(): int
+    public function getNumFound(): ?int
     {
         $this->parseResponse();
 
@@ -142,9 +142,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * Returns the highest score of the documents in the total result for your current query (ignoring paging)
      * Will only be available if 'score' was one of the requested fields in your query
      *
-     * @return float
+     * @return float|null
      */
-    public function getMaxScore(): float
+    public function getMaxScore(): ?float
     {
         $this->parseResponse();
 
