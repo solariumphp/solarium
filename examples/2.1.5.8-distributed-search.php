@@ -3,6 +3,8 @@
 require(__DIR__.'/init.php');
 htmlHeader();
 
+echo "<h2>Note: The techproducts isn't distributed by default!</h2>";
+
 // create a client instance
 $client = new Solarium\Client($config);
 

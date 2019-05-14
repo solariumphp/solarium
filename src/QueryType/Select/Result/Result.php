@@ -6,11 +6,12 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Result\Debug\Result as DebugResult;
 use Solarium\Component\Result\FacetSet as FacetSetResult;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
-use Solarium\Component\Result\Highlighting\Highlighting as HighlightingResult;
-use Solarium\Component\Result\MoreLikeThis\Result as MoreLikeThisResult;
+use Solarium\Component\Result\Highlighting\Highlighting;
+use Solarium\Component\Result\MoreLikeThis\MoreLikeThis;
 use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
 use Solarium\Component\Result\Suggester\Result as SuggesterResult;
-use Solarium\Component\Result\Stats\Result as StatsResult;
+use Solarium\Component\Result\Stats\Stats;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**
@@ -126,9 +127,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * Returns the total number of documents found by Solr (this is NOT the
      * number of document fetched from Solr!)
      *
-     * @return int
+     * @return int|null
      */
-    public function getNumFound(): int
+    public function getNumFound(): ?int
     {
         $this->parseResponse();
 
@@ -141,9 +142,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * Returns the highest score of the documents in the total result for your current query (ignoring paging)
      * Will only be available if 'score' was one of the requested fields in your query
      *
-     * @return float
+     * @return float|null
      */
-    public function getMaxScore(): float
+    public function getMaxScore(): ?float
     {
         $this->parseResponse();
 
@@ -232,9 +233,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return MoreLikeThisResult|null
+     * @return MoreLikeThis|null
      */
-    public function getMoreLikeThis(): ?MoreLikeThisResult
+    public function getMoreLikeThis(): ?MoreLikeThis
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS);
     }
@@ -244,9 +245,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return HighlightingResult|null
+     * @return Highlighting|null
      */
-    public function getHighlighting(): ?HighlightingResult
+    public function getHighlighting(): ?Highlighting
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING);
     }
@@ -304,9 +305,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return StatsResult|null
+     * @return Stats|null
      */
-    public function getStats(): ?StatsResult
+    public function getStats(): ?Stats
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_STATS);
     }

@@ -211,11 +211,12 @@ class Highlighting extends AbstractComponent implements QueryInterface
      *
      * This overwrites any existing fields
      *
-     * @param array $fields
+     * @param string|array $fields can be an array of object instances or a string with comma
+     *                             separated fieldnames
      *
      * @return self Provides fluent interface
      */
-    public function setFields(array $fields): self
+    public function setFields($fields): self
     {
         $this->clearFields();
         $this->addFields($fields);

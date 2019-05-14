@@ -20,14 +20,14 @@ class FacetValueTest extends TestCase
     {
         $this->value = 'myvalue';
         $this->stats = [
-            'min' => 'dummyMin',
-            'max' => 'dummyMax',
-            'sum' => 'dummySum',
+            'min' => 0.1,
+            'max' => 3.5,
+            'sum' => 3.333,
             'count' => -1,
             'missing' => 'dummyMissing',
-            'sumOfSquares' => 'dummySos',
+            'sumOfSquares' => 17.23,
             'mean' => 'dummyMean',
-            'stddev' => 'dummyStddev',
+            'stddev' => 1.11,
             'facets' => ['dummyFacets'],
         ];
 

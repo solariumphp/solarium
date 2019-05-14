@@ -33,8 +33,8 @@ foreach ($statsResult as $field) {
     echo 'Stddev: ' . $field->getStddev() . '<br/>';
 
     echo '<h2>Field facets</h2>';
-    foreach ($field->getFacets() as $field => $facet) {
-        echo '<h3>Facet ' . $field . '</h3>';
+    foreach ($field->getFacets() as $facetName => $facet) {
+        echo '<h3>Facet ' . $facetName . '</h3>';
         foreach ($facet as $facetStats) {
             echo '<h4>Value: ' . $facetStats->getValue() . '</h4>';
             echo 'Min: ' . $facetStats->getMin() . '<br/>';

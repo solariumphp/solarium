@@ -21,11 +21,7 @@ class MyClient extends Client
      * Querytype mappings
      */
     protected $queryTypes = array(
-        self::QUERY_SELECT => array(
-            'query'          => 'MyQuery',
-            'requestbuilder' => 'Solarium\QueryType\Select\RequestBuilder',
-            'responseparser' => 'Solarium\QueryType\Select\ResponseParser'
-        ),
+        self::QUERY_SELECT => MyQuery::class,
     );
 }
 

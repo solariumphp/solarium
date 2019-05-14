@@ -22,6 +22,9 @@ class MoreLikeThisTest extends TestCase
     {
         $options = [
             'fields' => 'fieldA,fieldB',
+            'interestingTerms' => 'none',
+            'matchinclude' => true,
+            'matchoffset' => 5,
             'minimumtermfrequency' => 10,
             'minimumdocumentfrequency' => 2,
             'minimumwordlength' => 3,
@@ -36,6 +39,9 @@ class MoreLikeThisTest extends TestCase
         $this->mlt->setOptions($options);
 
         $this->assertEquals(explode(',', $options['fields']), $this->mlt->getFields());
+        $this->assertEquals($options['interestingTerms'], $this->mlt->getInterestingTerms());
+        $this->assertEquals($options['matchinclude'], $this->mlt->getMatchInclude());
+        $this->assertEquals($options['matchoffset'], $this->mlt->getMatchOffset());
         $this->assertEquals($options['minimumtermfrequency'], $this->mlt->getMinimumTermFrequency());
         $this->assertEquals($options['minimumdocumentfrequency'], $this->mlt->getMinimumDocumentFrequency());
         $this->assertEquals($options['minimumwordlength'], $this->mlt->getMinimumWordLength());
@@ -86,6 +92,39 @@ class MoreLikeThisTest extends TestCase
         $this->assertEquals(
             $value,
             $this->mlt->getFields()
+        );
+    }
+
+    public function testSetAndGetInterestingTerms()
+    {
+        $value = 'details';
+        $this->mlt->setInterestingTerms($value);
+
+        $this->assertEquals(
+            $value,
+            $this->mlt->getInterestingTerms()
+        );
+    }
+
+    public function testSetAndMatchInclude()
+    {
+        $value = false;
+        $this->mlt->setMatchInclude($value);
+
+        $this->assertEquals(
+            $value,
+            $this->mlt->getMatchInclude()
+        );
+    }
+
+    public function testSetAndGetMatchOffset()
+    {
+        $value = 17;
+        $this->mlt->setMatchOffset($value);
+
+        $this->assertEquals(
+            $value,
+            $this->mlt->getMatchOffset()
         );
     }
 

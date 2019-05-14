@@ -13,7 +13,7 @@ use Solarium\QueryType\Analysis\Query\Document as AnalysisQueryDocument;
 use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\Extract\Result as ExtractResult;
-use Solarium\QueryType\MorelikeThis\Query as MorelikeThisQuery;
+use Solarium\QueryType\MoreLikeThis\Query as MoreLikeThisQuery;
 use Solarium\QueryType\MoreLikeThis\Result as MoreLikeThisResult;
 use Solarium\QueryType\Ping\Query as PingQuery;
 use Solarium\QueryType\Ping\Result as PingResult;
@@ -554,9 +554,9 @@ interface ClientInterface
      *
      * @param array $options
      *
-     * @return \Solarium\QueryType\MorelikeThis\Query
+     * @return \Solarium\QueryType\MoreLikeThis\Query
      */
-    public function createMoreLikeThis(array $options = null): MorelikeThisQuery;
+    public function createMoreLikeThis(array $options = null): MoreLikeThisQuery;
 
     /**
      * Create an update query instance.

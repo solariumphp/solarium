@@ -1,8 +1,5 @@
 <?php
 
-require_once 'Zend/Loader/Autoloader.php';
-$loader = Zend_Loader_Autoloader::getInstance();
-
 require(__DIR__.'/init.php');
 htmlHeader();
 
@@ -10,11 +7,7 @@ htmlHeader();
 $client = new Solarium\Client($config);
 
 // set the adapter to zendhttp and get a zendhttp client instance reference
-$client->setAdapter('Solarium\Core\Client\Adapter\ZendHttp');
-$zendHttp = $client->getAdapter()->getZendHttp();
-
-// you can use any of the zend_http features, like http-authentication
-$zendHttp->setAuth('user', 'password!', Zend_Http_Client::AUTH_BASIC);
+$client->setAdapter(\Solarium\Core\Client\Adapter\Zend2Http::class);
 
 // get a select query instance
 $query = $client->createSelect();

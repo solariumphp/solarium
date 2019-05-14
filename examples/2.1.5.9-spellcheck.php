@@ -7,17 +7,23 @@ htmlHeader();
 $client = new Solarium\Client($config);
 
 // get a select query instance
-$query = $client->createSelect();
-$query->setRows(0);
+$query = $client->createSelect()
+    // Unfortunately the /select handler of the techproducts examlpe doesn't contain a spellchecker anymore.
+    // Therefore we have to use the /browse handler and turn of velocity by forcing json as response writer.
+    ->setHandler('browse')
+    ->setResponseWriter(\Solarium\Core\Query\AbstractQuery::WT_JSON)
+    // Normally we would use 'spellcheck.q'. But the /browse handler checks 'q'.
+    ->setQuery('memori')
+    ->setRows(0);
 
 // add spellcheck settings
-$spellcheck = $query->getSpellcheck();
-$spellcheck->setQuery('tes');
-$spellcheck->setCount(10);
-$spellcheck->setBuild(true);
-$spellcheck->setCollate(true);
-$spellcheck->setExtendedResults(true);
-$spellcheck->setCollateExtendedResults(true);
+$spellcheck = $query->getSpellcheck()
+    ->setCount(10)
+    ->setBuild(true)
+    ->setCollate(true)
+    ->setExtendedResults(true)
+    ->setCollateExtendedResults(true)
+    ->setDictionary('default');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

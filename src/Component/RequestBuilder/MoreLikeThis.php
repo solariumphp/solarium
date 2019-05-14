@@ -24,6 +24,9 @@ class MoreLikeThis implements ComponentRequestBuilderInterface
         // enable morelikethis
         $request->addParam('mlt', 'true');
 
+        $request->addParam('mlt.interestingTerms', $component->getInterestingTerms());
+        $request->addParam('mlt.match.include', $component->getMatchInclude());
+        $request->addParam('mlt.match.offset', $component->getMatchOffset());
         $request->addParam('mlt.fl', count($component->getFields()) ? implode(',', $component->getFields()) : null);
         $request->addParam('mlt.mintf', $component->getMinimumTermFrequency());
         $request->addParam('mlt.mindf', $component->getMinimumDocumentFrequency());

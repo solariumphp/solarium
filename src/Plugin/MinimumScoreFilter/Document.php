@@ -2,6 +2,7 @@
 
 namespace Solarium\Plugin\MinimumScoreFilter;
 
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Result\Document as SelectDocument;
 
@@ -10,7 +11,7 @@ use Solarium\QueryType\Select\Result\Document as SelectDocument;
  *
  * Decorates the original document with a filter indicator
  */
-class Document implements \IteratorAggregate, \Countable, \ArrayAccess
+class Document implements DocumentInterface, \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**
      * Original document.
@@ -166,5 +167,15 @@ class Document implements \IteratorAggregate, \Countable, \ArrayAccess
     public function offsetSet($offset, $value)
     {
         $this->__set($offset, $value);
+    }
+
+    /**
+     * Get all fields.
+     *
+     * @return array
+     */
+    public function getFields(): array
+    {
+        return $this->document->getFields();
     }
 }

@@ -6,18 +6,30 @@
         <h1>Solarium examples</h1>
 
         <p>
-            In this folder you can find various examples for the Solarium PHP Solr client library, to be used on a Solr 'example' index as distributed with Solr.<br/>
-            Only the code is included, for more details about the examples and how to get them working please see the manual on the project website: <a href="http://www.solarium-project.org" target="_blank">http://www.solarium-project.org</a>
+            In this folder you can find various examples for the Solarium PHP Solr client library, to be used on a Solr 'techproducts' index as distributed with Solr.<br/>
         </p>
         <p>
-            If examples for some Solarium functionality are missing please request them by opening an issue in the issue tracker: <a href="http://github.com/basdenooijer/solarium/issues" target="_blank">http://github.com/basdenooijer/solarium/issues</a>
+            Only the code is included, for more details about the examples and how to get them working please see the manual at <a href="https://solarium.readthedocs.io/en/stable/" target="_blank">https://solarium.readthedocs.io/en/stable/</a>.
+        </p>
+        <p>
+            If examples for some Solarium functionality are missing please request them by opening an issue in the issue tracker: <a href="https://github.com/solariumphp/solarium/issues" target="_blank">https://github.com/solariumphp/solarium/issues</a>.
         </p>
         <p>
             <b>Important:</b> This code is intended to demonstrate the usage of Solarium. It is not intended for real-world use. For instance user input validation is missing or very limited, as the best way to do this will depend on your application and is not Solarium functionality.<br>
             It's advised not to deploy the examples to a public environment, or at least make sure the example directory is not available via your webserver.
         </p>
 
+        <h2>Prepare your environment</h2>
+        <p>
+            Download Solr and run the techproducts example index by
+        </p>
+        <pre>bin/solr -e techproducts</pre>
 
+        <p>
+            If you don't run the Solr techproducts example out of the box you might need to adjust <em>examples/config.php</em> to your needs!
+        </p>
+
+        <h2>Examples</h2>
         <ul style="list-style:none;">
             <li>1. Basic usage</li>
             <ul style="list-style:none;">
@@ -117,9 +129,8 @@
                 <li>6.1 Client adapters</li>
                 <ul style="list-style:none;">
                     <li><a href="6.1.1-zend-http-adapter.php">6.1.1 Zend_Http adapter</a></li>
-                    <li><a href="6.1.2-pecl-http-adapter.php">6.1.2 Pecl_Http adapter</a></li>
-                    <li><a href="6.1.3-curl-adapter.php">6.1.3 Curl adapter</a></li>
-                    <li><a href="6.1.4-http-adapter.php">6.1.4 Http adapter (PHP stream)</a></li>
+                    <li><a href="6.1.2-curl-adapter.php">6.1.2 Curl adapter</a></li>
+                    <li><a href="6.1.3-http-adapter.php">6.1.3 Http adapter (PHP stream)</a></li>
                 </ul>
                 <li><a href="6.2-escaping.php">6.2 Escaping</a></li>
                 <li><a href="6.3-placeholder-syntax.php">6.3 Placeholder syntax</a></li>

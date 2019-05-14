@@ -19,7 +19,7 @@ class Result extends SelectResult
     protected function mapData(array $mapData)
     {
         foreach ($mapData as $key => $data) {
-            if ('documents' === $key) {
+            if ('documents' === $key && $data) {
                 $filter = new Filter();
                 /** @var Query $query */
                 $query = $this->getQuery();

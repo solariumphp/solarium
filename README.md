@@ -48,50 +48,9 @@ has to be changed to something like
 
 ## Run the examples
 
-This needs a git checkout using composer.
+To run the examples read through the _Example code_ section of
+https://solarium.readthedocs.io/en/stable/getting-started/
 
-### Add repository section
-
-Add or update the repository sections in your `composer.json` file.
-
-```
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:solariumphp/solarium.git"
-        }
-    ]
-```
-
-### Reinstall
-
-You need to fetch the newly configured git checkout. This will fetch the examples too.
-
-```
-composer install
-```
-
-### Make a copy of settings.dist.php
-
-You must copy this file into your project root.
-
-```
-cp ./vendor/solarium/solarium/examples/config.dist.php ./config.php
-```
-
-Now you can change the `./config.php` if you are not using the default solr settings.
-
-### Start webserver
-
-Start the webserver from within the project root.
-
-```
-php -S localhost:8888
-```
-
-### Run the examples
-
-Open http://localhost:8888/vendor/solarium/solarium/examples/
 
 ## More information
 

@@ -4,6 +4,23 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [5.0.2]
+### Fixed
+- Spellchecker result isn't NULL in case of no suggestions and correctly spelled
+- RangeFacet Result
+- Solarium\QueryType\Select\Result and Component return types
+- Solarium\Component\Highlighting::setFields() should accept comma separated string, too
+- Solarium\Component\Result\Grouping\ValueGroup various return types
+- Solarium\Component\RequestBuilder\RequestParamsTrait::addParam should not add empty arrays
+- MinimumScoreFilterPlugin
+- Running the examples
+
+### Added
+- Solarium\Component\MoreLikeThis::setInterestingTerms()
+- Solarium\Component\MoreLikeThis::setMatchInclude()
+- Solarium\Component\MoreLikeThis::setMatchOffset()
+
+
 ## [5.0.1]
 ### Fixed
 - Getting started documentation

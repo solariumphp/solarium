@@ -33,9 +33,8 @@ class QueryTest extends AbstractQueryTest
 
     public function testSetAndGetResultClass()
     {
-        // Should be ignored
         $this->query->setResultClass('MyResult');
-        $this->assertSame('Solarium\Plugin\MinimumScoreFilter\Result', $this->query->getResultClass());
+        $this->assertSame('MyResult', $this->query->getResultClass());
     }
 
     public function testAddFields()

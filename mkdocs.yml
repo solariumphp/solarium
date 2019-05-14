@@ -2,3 +2,11 @@ site_name: Solarium PHP Solr client library
 repo_url: https://github.com/solariumphp/solarium/
 theme:
   name: readthedocs
+nav:
+  - 'Solarium': 'index.md'
+  - 'Getting Started': 'getting-started.md'
+  - 'Solarium Concepts': 'solarium-concepts.md'
+  - 'Client and Adapters': 'client-and-adapters.md'
+  - 'Documents': 'documents.md'
+  - 'Customizing': 'customizing-solarium.md'
+  - 'Plugins': 'plugins.md'

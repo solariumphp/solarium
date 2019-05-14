@@ -5,9 +5,15 @@ htmlHeader();
 
 // create a client instance and create endpoints
 $client = new Solarium\Client($config);
-$endpoint1 = $client->createEndpoint('local1'); //normally you would add endpoint specific settings...
+// copy the default endpoint core for the demo
+$core = $client->getEndpoint()->getCore();
+
+$endpoint1 = $client->createEndpoint('local1');
+$endpoint1->setCore($core); //normally you would add endpoint specific settings...
 $endpoint2 = $client->createEndpoint('local2');
+$endpoint2->setCore($core); //normally you would add endpoint specific settings...
 $endpoint3 = $client->createEndpoint('local3');
+$endpoint3->setCore($core); //normally you would add endpoint specific settings...
 
 // get loadbalancer plugin instance and add endpoints
 $loadbalancer = $client->getPlugin('loadbalancer');
