@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - MinimumScoreFilterPlugin
 - Running the examples
 
+### Added
+- Solarium\Component\MoreLikeThis::setInterestingTerms()
+- Solarium\Component\MoreLikeThis::setMatchInclude()
+- Solarium\Component\MoreLikeThis::setMatchOffset()
+
 
 ## [5.0.1]
 ### Fixed

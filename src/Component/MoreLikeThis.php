@@ -83,6 +83,82 @@ class MoreLikeThis extends AbstractComponent
     }
 
     /**
+     * Set the interestingTerms parameter.  Must be one of: none, list, details.
+     *
+     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     *
+     * @param string $term
+     *
+     * @return self Provides fluent interface
+     */
+    public function setInterestingTerms(string $term): self
+    {
+        $this->setOption('interestingTerms', $term);
+        return $this;
+    }
+
+    /**
+     * Get the interestingTerm parameter.
+     *
+     * @return string|null
+     */
+    public function getInterestingTerms(): ?string
+    {
+        return $this->getOption('interestingTerms');
+    }
+
+    /**
+     * Set the match.include parameter, which is either 'true' or 'false'.
+     *
+     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     *
+     * @param bool $include
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMatchInclude(bool $include): self
+    {
+        $this->setOption('matchinclude', $include);
+        return $this;
+    }
+
+    /**
+     * Get the match.include parameter.
+     *
+     * @return bool|null
+     */
+    public function getMatchInclude(): ?bool
+    {
+        return $this->getOption('matchinclude');
+    }
+
+    /**
+     * Set the mlt.match.offset parameter, which determines the which result from the query should be used for MLT
+     * For paging of MLT use setStart / setRows.
+     *
+     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     *
+     * @param int $offset
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMatchOffset(int $offset): self
+    {
+        $this->setOption('matchoffset', $offset);
+        return $this;
+    }
+
+    /**
+     * Get the mlt.match.offset parameter.
+     *
+     * @return int|null
+     */
+    public function getMatchOffset(): ?int
+    {
+        return $this->getOption('matchoffset');
+    }
+
+    /**
      * Set minimumtermfrequency option.
      *
      * Minimum Term Frequency - the frequency below which terms will be ignored
