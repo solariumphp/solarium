@@ -3,7 +3,7 @@
 namespace Solarium\QueryType\Spellcheck;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
-use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Spellcheck\Result\Result;
 
@@ -37,7 +37,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             }
 
             foreach ($suggestResults as $term => $termData) {
-                if ('collation' == $term) {
+                if ('collation' === $term) {
                     $collation = $termData;
                 } else {
                     if (!array_key_exists(0, $termData)) {
