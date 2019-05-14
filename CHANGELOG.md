@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [5.0.2]
 ### Fixed
+- Spellchecker result isn't NULL in case of no suggestions and correctly spelled
 - RangeFacet Result
 - Solarium\QueryType\Select\Result Component return types
 - Solarium\Component\Highlighting::setFields() should accept comma separated string, too

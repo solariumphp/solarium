@@ -38,7 +38,7 @@ use Solarium\QueryType\Graph\Query as GraphQuery;
 use Solarium\QueryType\ManagedResources\Query\Resources;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
-use Solarium\QueryType\MorelikeThis\Query as MorelikeThisQuery;
+use Solarium\QueryType\MoreLikeThis\Query as MoreLikeThisQuery;
 use Solarium\QueryType\MoreLikeThis\Result as MoreLikeThisResult;
 use Solarium\QueryType\Ping\Query as PingQuery;
 use Solarium\QueryType\Ping\Result as PingResult;
@@ -195,7 +195,7 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_SELECT => SelectQuery::class,
         self::QUERY_UPDATE => UpdateQuery::class,
         self::QUERY_PING => PingQuery::class,
-        self::QUERY_MORELIKETHIS => MorelikeThisQuery::class,
+        self::QUERY_MORELIKETHIS => MoreLikeThisQuery::class,
         self::QUERY_ANALYSIS_DOCUMENT => AnalysisQueryDocument::class,
         self::QUERY_ANALYSIS_FIELD => AnalysisQueryField::class,
         self::QUERY_TERMS => TermsQuery::class,
@@ -1156,9 +1156,9 @@ class Client extends Configurable implements ClientInterface
      *
      * @param mixed $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\MorelikeThis\Query
+     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\MoreLikeThis\Query
      */
-    public function createMoreLikeThis(array $options = null): MorelikeThisQuery
+    public function createMoreLikeThis(array $options = null): MoreLikeThisQuery
     {
         return $this->createQuery(self::QUERY_MORELIKETHIS, $options);
     }
