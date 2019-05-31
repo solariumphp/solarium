@@ -371,7 +371,7 @@ class Query extends SelectQuery
      *
      * @return self Provides fluent interface
      */
-    public function (bool $boost): self
+    public function setBoost(bool $boost): self
     {
         $this->setOption('boost', $boost);
         return $this;
