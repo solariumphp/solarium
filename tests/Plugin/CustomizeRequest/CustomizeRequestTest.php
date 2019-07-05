@@ -4,7 +4,6 @@ namespace Solarium\Tests\Plugin\CustomizeRequest;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\AdapterInterface;
-use Solarium\Core\Client\Adapter\Http;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;

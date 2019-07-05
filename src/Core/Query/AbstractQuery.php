@@ -254,20 +254,24 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * Forces all date based addition and rounding to be relative to the specified time zone instead of UTC.
      *
-     * @param string $timezone Java TimeZone ID
+     * @param string|\DateTimeZone $timezone Java TimeZone ID as string or PHP \DateTimeZone object
      *
      * @return self Provides fluent interface
      */
-    public function setTimeZone(string $timezone): self
+    public function setTimeZone($timezone): self
     {
-        $this->setOption('timezone', $timezone);
+        if ($timezone instanceof \DateTimeZone) {
+            $this->setOption('timezone', $timezone->getName());
+        } else {
+            $this->setOption('timezone', $timezone);
+        }
         return $this;
     }
 
     /**
      * Get timezone option.
      *
-     * @return string|null Java TimeZone ID
+     * @return string|null Java TimeZone ID as string or PHP DateTimeZone object
      */
     public function getTimeZone(): ?string
     {

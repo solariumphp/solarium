@@ -99,6 +99,13 @@ class QueryTest extends TestCase
     public function testSetAndGetTimeZone()
     {
         $query = new TestQuery();
+        $query->setTimeZone(new \DateTimeZone('Europe/Brussels'));
+        $this->assertSame('Europe/Brussels', $query->getTimeZone());
+    }
+
+    public function testSetAndGetTimeZoneAsString()
+    {
+        $query = new TestQuery();
         $query->setTimeZone('Europe/Brussels');
         $this->assertSame('Europe/Brussels', $query->getTimeZone());
     }
