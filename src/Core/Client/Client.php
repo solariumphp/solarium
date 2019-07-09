@@ -768,11 +768,11 @@ class Client extends Configurable implements ClientInterface
     {
         $event = new PreCreateRequestEvent($query);
         if (Kernel::VERSION_ID >= 40300) {
-        	// Support for symfony listeners which are using the old event name.
-        	$this->eventDispatcher->dispatch($event, Events::PRE_CREATE_REQUEST);
-        	$this->eventDispatcher->dispatch($event);
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::PRE_CREATE_REQUEST);
+            $this->eventDispatcher->dispatch($event);
         } else {
-        	$this->eventDispatcher->dispatch(Events::PRE_CREATE_REQUEST, $event);
+            $this->eventDispatcher->dispatch(Events::PRE_CREATE_REQUEST, $event);
         }
         if (null !== $event->getRequest()) {
             return $event->getRequest();
@@ -787,11 +787,11 @@ class Client extends Configurable implements ClientInterface
 
 		$event = new PostCreateRequestEvent($query, $request);
         if (Kernel::VERSION_ID >= 40300) {
-        	// Support for symfony listeners which are using the old event name.
-        	$this->eventDispatcher->dispatch($event, Events::POST_CREATE_REQUEST);
-        	$this->eventDispatcher->dispatch($event);
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::POST_CREATE_REQUEST);
+            $this->eventDispatcher->dispatch($event);
         } else {
-        	$this->eventDispatcher->dispatch(Events::POST_CREATE_REQUEST, $event);
+            $this->eventDispatcher->dispatch(Events::POST_CREATE_REQUEST, $event);
         }
 
         return $request;
@@ -812,11 +812,11 @@ class Client extends Configurable implements ClientInterface
     {
         $event = new PreCreateResultEvent($query, $response);
         if (Kernel::VERSION_ID >= 40300) {
-        	// Support for symfony listeners which are using the old event name.
-        	$this->eventDispatcher->dispatch($event, Events::PRE_CREATE_RESULT);
-        	$this->eventDispatcher->dispatch($event);
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::PRE_CREATE_RESULT);
+            $this->eventDispatcher->dispatch($event);
         } else {
-        	$this->eventDispatcher->dispatch(Events::PRE_CREATE_RESULT, $event);
+            $this->eventDispatcher->dispatch(Events::PRE_CREATE_RESULT, $event);
         }
         if (null !== $event->getResult()) {
             return $event->getResult();
@@ -831,11 +831,11 @@ class Client extends Configurable implements ClientInterface
 
 		$event = new PostCreateResultEvent($query, $response, $result);
         if (Kernel::VERSION_ID >= 40300) {
-        	// Support for symfony listeners which are using the old event name.
-        	$this->eventDispatcher->dispatch($event, Events::POST_CREATE_RESULT);
-        	$this->eventDispatcher->dispatch($event);
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::POST_CREATE_RESULT);
+            $this->eventDispatcher->dispatch($event);
         } else {
-        	$this->eventDispatcher->dispatch(Events::POST_CREATE_RESULT, $event);
+            $this->eventDispatcher->dispatch(Events::POST_CREATE_RESULT, $event);
         }
 
         return $result;
@@ -853,11 +853,11 @@ class Client extends Configurable implements ClientInterface
     {
         $event = new PreExecuteEvent($query);
         if (Kernel::VERSION_ID >= 40300) {
-        	// Support for symfony listeners which are using the old event name.
-        	$this->eventDispatcher->dispatch($event, Events::PRE_EXECUTE);
-        	$this->eventDispatcher->dispatch($event);
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::PRE_EXECUTE);
+            $this->eventDispatcher->dispatch($event);
         } else {
-        	$this->eventDispatcher->dispatch(Events::PRE_EXECUTE, $event);
+            $this->eventDispatcher->dispatch(Events::PRE_EXECUTE, $event);
         }
         if (null !== $event->getResult()) {
             return $event->getResult();
@@ -869,11 +869,11 @@ class Client extends Configurable implements ClientInterface
 
 		$event = new PostExecuteEvent($query, $result);
 		if (Kernel::VERSION_ID >= 40300) {
-        	// Support for symfony listeners which are using the old event name.
-        	$this->eventDispatcher->dispatch($event, Events::POST_EXECUTE);
-        	$this->eventDispatcher->dispatch($event);
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE);
+            $this->eventDispatcher->dispatch($event);
         } else {
-        	$this->eventDispatcher->dispatch(Events::POST_EXECUTE, $event);
+            $this->eventDispatcher->dispatch(Events::POST_EXECUTE, $event);
         }
 
         return $result;
@@ -896,11 +896,11 @@ class Client extends Configurable implements ClientInterface
 
         $event = new PreExecuteRequestEvent($request, $endpoint);
 		if (Kernel::VERSION_ID >= 40300) {
-        	// Support for symfony listeners which are using the old event name.
-        	$this->eventDispatcher->dispatch($event, Events::PRE_EXECUTE_REQUEST);
-        	$this->eventDispatcher->dispatch($event);
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::PRE_EXECUTE_REQUEST);
+            $this->eventDispatcher->dispatch($event);
         } else {
-        	$this->eventDispatcher->dispatch(Events::PRE_EXECUTE_REQUEST, $event);
+            $this->eventDispatcher->dispatch(Events::PRE_EXECUTE_REQUEST, $event);
         }
         if (null !== $event->getResponse()) {
             $response = $event->getResponse(); //a plugin result overrules the standard execution result
@@ -910,11 +910,11 @@ class Client extends Configurable implements ClientInterface
 
 		$event = new PostExecuteRequestEvent($request, $endpoint, $response);
 		if (Kernel::VERSION_ID >= 40300) {
-        	// Support for symfony listeners which are using the old event name.
-        	$this->eventDispatcher->dispatch($event, Events::POST_EXECUTE_REQUEST);
-        	$this->eventDispatcher->dispatch($event);
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE_REQUEST);
+            $this->eventDispatcher->dispatch($event);
         } else {
-        	$this->eventDispatcher->dispatch(Events::POST_EXECUTE_REQUEST, $event);
+            $this->eventDispatcher->dispatch(Events::POST_EXECUTE_REQUEST, $event);
         }
 
         return $response;
