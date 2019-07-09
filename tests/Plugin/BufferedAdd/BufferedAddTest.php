@@ -197,8 +197,8 @@ class BufferedAddTest extends TestCase
                 ->expects($this->exactly(2))
                 ->method('dispatch')
                 ->withConsecutive(
-                    [$this->equalTo($expectedEvent)],
-                    [$this->equalTo($expectedEvent), $this->equalTo(Events::ADD_DOCUMENT)]);
+                    [$this->equalTo($expectedEvent), $this->equalTo(Events::ADD_DOCUMENT)],
+                    [$this->equalTo($expectedEvent)]);
         } else {
             $mockEventDispatcher
                 ->expects($this->once())
