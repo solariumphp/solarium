@@ -201,7 +201,7 @@ class BufferedAddTest extends TestCase
                     [$this->equalTo($expectedEvent), $this->equalTo(Events::ADD_DOCUMENT)]);
         } else {
             $mockEventDispatcher
-                ->expects($this->once()
+                ->expects($this->once())
                 ->method('dispatch')
                 ->with($this->equalTo(Events::ADD_DOCUMENT), $this->equalTo($expectedEvent));
         }
