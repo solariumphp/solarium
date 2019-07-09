@@ -16,6 +16,7 @@ use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as EndpointFailureEvent;
 use Solarium\Plugin\Loadbalancer\Event\Events;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Loadbalancer plugin.
@@ -463,10 +464,14 @@ class Loadbalancer extends AbstractPlugin
                 } catch (HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
-                    $this->client->getEventDispatcher()->dispatch(
-                        Events::ENDPOINT_FAILURE,
-                        new EndpointFailureEvent($endpoint, $e)
-                    );
+                    $event = new EndpointFailureEvent($endpoint, $e);
+                    if(Kernel::VERSION_ID >= 40300) {
+                        // Support for symfony listeners which are using the old event name.
+                        $this->client->getEventDispatcher()->dispatch($event, Events::ENDPOINT_FAILURE);
+                        $this->client->getEventDispatcher()->dispatch($event);
+                    } else {
+                        $this->client->getEventDispatcher()->dispatch(Events::ENDPOINT_FAILURE, $event);
+                    }
                 }
             }
 
