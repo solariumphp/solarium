@@ -785,7 +785,7 @@ class Client extends Configurable implements ClientInterface
 
         $request = $requestBuilder->build($query);
 
-	    $event = new PostCreateRequestEvent($query, $request);
+        $event = new PostCreateRequestEvent($query, $request);
         if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->eventDispatcher->dispatch($event, Events::POST_CREATE_REQUEST);
@@ -829,7 +829,7 @@ class Client extends Configurable implements ClientInterface
             throw new UnexpectedValueException('Result class must implement the ResultInterface');
         }
 
-	    $event = new PostCreateResultEvent($query, $response, $result);
+        $event = new PostCreateResultEvent($query, $response, $result);
         if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->eventDispatcher->dispatch($event, Events::POST_CREATE_RESULT);
@@ -867,7 +867,7 @@ class Client extends Configurable implements ClientInterface
         $response = $this->executeRequest($request, $endpoint);
         $result = $this->createResult($query, $response);
 
-	    $event = new PostExecuteEvent($query, $result);
+        $event = new PostExecuteEvent($query, $result);
 	    if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE);
