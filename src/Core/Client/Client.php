@@ -868,7 +868,7 @@ class Client extends Configurable implements ClientInterface
         $result = $this->createResult($query, $response);
 
         $event = new PostExecuteEvent($query, $result);
-	    if (Kernel::VERSION_ID >= 40300) {
+        if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE);
             $this->eventDispatcher->dispatch($event);
