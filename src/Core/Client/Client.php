@@ -785,7 +785,7 @@ class Client extends Configurable implements ClientInterface
 
         $request = $requestBuilder->build($query);
 
-		$event = new PostCreateRequestEvent($query, $request);
+	    $event = new PostCreateRequestEvent($query, $request);
         if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->eventDispatcher->dispatch($event, Events::POST_CREATE_REQUEST);
@@ -829,7 +829,7 @@ class Client extends Configurable implements ClientInterface
             throw new UnexpectedValueException('Result class must implement the ResultInterface');
         }
 
-		$event = new PostCreateResultEvent($query, $response, $result);
+	    $event = new PostCreateResultEvent($query, $response, $result);
         if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->eventDispatcher->dispatch($event, Events::POST_CREATE_RESULT);
@@ -867,8 +867,8 @@ class Client extends Configurable implements ClientInterface
         $response = $this->executeRequest($request, $endpoint);
         $result = $this->createResult($query, $response);
 
-		$event = new PostExecuteEvent($query, $result);
-		if (Kernel::VERSION_ID >= 40300) {
+	    $event = new PostExecuteEvent($query, $result);
+	    if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE);
             $this->eventDispatcher->dispatch($event);
@@ -895,7 +895,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PreExecuteRequestEvent($request, $endpoint);
-		if (Kernel::VERSION_ID >= 40300) {
+        if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->eventDispatcher->dispatch($event, Events::PRE_EXECUTE_REQUEST);
             $this->eventDispatcher->dispatch($event);
@@ -908,8 +908,8 @@ class Client extends Configurable implements ClientInterface
             $response = $this->getAdapter()->execute($request, $endpoint);
         }
 
-		$event = new PostExecuteRequestEvent($request, $endpoint, $response);
-		if (Kernel::VERSION_ID >= 40300) {
+        $event = new PostExecuteRequestEvent($request, $endpoint, $response);
+        if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE_REQUEST);
             $this->eventDispatcher->dispatch($event);
