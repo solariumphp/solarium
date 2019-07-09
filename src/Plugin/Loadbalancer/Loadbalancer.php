@@ -465,7 +465,7 @@ class Loadbalancer extends AbstractPlugin
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
                     $event = new EndpointFailureEvent($endpoint, $e);
-                    if(Kernel::VERSION_ID >= 40300) {
+                    if (Kernel::VERSION_ID >= 40300) {
                         // Support for symfony listeners which are using the old event name.
                         $this->client->getEventDispatcher()->dispatch($event, Events::ENDPOINT_FAILURE);
                         $this->client->getEventDispatcher()->dispatch($event);

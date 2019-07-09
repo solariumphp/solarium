@@ -120,7 +120,7 @@ class ParallelExecution extends AbstractPlugin
 
         // executing multihandle (all requests)
         $event = new ExecuteStartEvent();
-        if(Kernel::VERSION_ID >= 40300) {
+        if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->client->getEventDispatcher()->dispatch($event, Events::EXECUTE_START);
             $this->client->getEventDispatcher()->dispatch($event);
@@ -144,7 +144,7 @@ class ParallelExecution extends AbstractPlugin
         }
 
         $event = new ExecuteEndEvent();
-        if(Kernel::VERSION_ID >= 40300) {
+        if (Kernel::VERSION_ID >= 40300) {
             // Support for symfony listeners which are using the old event name.
             $this->client->getEventDispatcher()->dispatch($event, Events::EXECUTE_END);
             $this->client->getEventDispatcher()->dispatch($event);

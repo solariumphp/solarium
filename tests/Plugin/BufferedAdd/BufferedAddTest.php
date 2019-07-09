@@ -192,7 +192,7 @@ class BufferedAddTest extends TestCase
         $expectedEvent = new AddDocument($doc);
 
         $mockEventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        if(Kernel::VERSION_ID >= 40300) {
+        if (Kernel::VERSION_ID >= 40300) {
             $mockEventDispatcher
                 ->expects($this->exactly(2))
                 ->method('dispatch')
@@ -200,7 +200,10 @@ class BufferedAddTest extends TestCase
                     [$this->equalTo($expectedEvent)],
                     [$this->equalTo($expectedEvent), $this->equalTo(Events::ADD_DOCUMENT)]);
         } else {
-
+            $mockEventDispatcher
+                ->expects($this->once()
+                ->method('dispatch')
+                ->with($this->equalTo(Events::ADD_DOCUMENT), $this->equalTo($expectedEvent));
         }
 
         $mockClient = $this->getClient($mockEventDispatcher);
