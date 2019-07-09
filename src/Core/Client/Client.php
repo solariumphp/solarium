@@ -1156,7 +1156,13 @@ class Client extends Configurable implements ClientInterface
         $type = strtolower($type);
 
         $event = new PreCreateQueryEvent($type, $options);
-        $this->eventDispatcher->dispatch(Events::PRE_CREATE_QUERY, $event);
+        if (Kernel::VERSION_ID >= 40300) {
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::PRE_CREATE_QUERY);
+            $this->eventDispatcher->dispatch($event);
+        } else {
+            $this->eventDispatcher->dispatch(Events::PRE_CREATE_QUERY, $event);
+        }
         if (null !== $event->getQuery()) {
             return $event->getQuery();
         }
@@ -1172,10 +1178,14 @@ class Client extends Configurable implements ClientInterface
             throw new UnexpectedValueException('All query classes must implement the QueryInterface');
         }
 
-        $this->eventDispatcher->dispatch(
-            Events::POST_CREATE_QUERY,
-            new PostCreateQueryEvent($type, $options, $query)
-        );
+        $event = new PostCreateQueryEvent($type, $options, $query);
+        if (Kernel::VERSION_ID >= 40300) {
+            // Support for symfony listeners which are using the old event name.
+            $this->eventDispatcher->dispatch($event, Events::POST_CREATE_QUERY);
+            $this->eventDispatcher->dispatch($event);
+        } else {
+            $this->eventDispatcher->dispatch(Events::POST_CREATE_QUERY, $event);
+        }
 
         return $query;
     }
