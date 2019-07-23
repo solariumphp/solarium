@@ -76,7 +76,7 @@ class Guzzle extends Configurable implements AdapterInterface
 
             return new Response((string) $guzzleResponse->getBody(), $responseHeaders);
         } catch (GuzzleException $e) {
-            $error = $e->getMessage();
+            $error = $e->getResponse()->getBody()->getContents();
             throw new HttpException("HTTP request failed, {$error}");
         }
     }
