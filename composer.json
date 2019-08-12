@@ -39,10 +39,5 @@
         "psr-4": {
             "Solarium\\Tests\\": "tests/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.1.x-dev"
-        }
     }
 }
