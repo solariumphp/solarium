@@ -203,7 +203,7 @@ class RequestBuilder extends BaseRequestBuilder
             $value = 'false';
         } elseif (true === $value) {
             $value = 'true';
-        } elseif ($value instanceof \DateTime) {
+        } elseif ($value instanceof \DateTimeInterface) {
             $value = $this->getHelper()->formatDate($value);
         } else {
             $value = htmlspecialchars($value, ENT_NOQUOTES);
