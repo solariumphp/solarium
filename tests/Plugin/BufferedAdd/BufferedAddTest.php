@@ -14,7 +14,7 @@ use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\Result;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 
 class BufferedAddTest extends TestCase
 {
@@ -192,19 +192,12 @@ class BufferedAddTest extends TestCase
         $expectedEvent = new AddDocument($doc);
 
         $mockEventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        if (Kernel::VERSION_ID >= 40300) {
-            $mockEventDispatcher
-                ->expects($this->exactly(2))
-                ->method('dispatch')
-                ->withConsecutive(
-                    [$this->equalTo($expectedEvent), $this->equalTo(Events::ADD_DOCUMENT)],
-                    [$this->equalTo($expectedEvent)]);
-        } else {
-            $mockEventDispatcher
-                ->expects($this->once())
-                ->method('dispatch')
-                ->with($this->equalTo(Events::ADD_DOCUMENT), $this->equalTo($expectedEvent));
-        }
+        $mockEventDispatcher
+            ->expects($this->exactly(1))
+            ->method('dispatch')
+            ->with(
+                $this->equalTo($expectedEvent), $this->equalTo(Events::ADD_DOCUMENT));
+        $mockEventDispatcher = LegacyEventDispatcherProxy::decorate($mockEventDispatcher);
 
         $mockClient = $this->getClient($mockEventDispatcher);
         $plugin = new BufferedAdd();

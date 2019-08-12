@@ -12,7 +12,6 @@ use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\ParallelExecution\Event\Events;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
-use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * ParallelExecution plugin.
@@ -120,13 +119,7 @@ class ParallelExecution extends AbstractPlugin
 
         // executing multihandle (all requests)
         $event = new ExecuteStartEvent();
-        if (Kernel::VERSION_ID >= 40300) {
-            // Support for symfony listeners which are using the old event name.
-            $this->client->getEventDispatcher()->dispatch($event, Events::EXECUTE_START);
-            $this->client->getEventDispatcher()->dispatch($event);
-        } else {
-            $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_START, $event);
-        }
+        $this->client->getEventDispatcher()->dispatch($event, Events::EXECUTE_START);
 
         do {
             $mrc = curl_multi_exec($multiHandle, $active);
@@ -144,13 +137,7 @@ class ParallelExecution extends AbstractPlugin
         }
 
         $event = new ExecuteEndEvent();
-        if (Kernel::VERSION_ID >= 40300) {
-            // Support for symfony listeners which are using the old event name.
-            $this->client->getEventDispatcher()->dispatch($event, Events::EXECUTE_END);
-            $this->client->getEventDispatcher()->dispatch($event);
-        } else {
-            $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_END, $event);
-        }
+        $this->client->getEventDispatcher()->dispatch($event, Events::EXECUTE_END);
 
         // get the results
         $results = [];
