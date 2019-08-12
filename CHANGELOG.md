@@ -5,12 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [5.0.4]
+### Added
+- Solarium\Core\Query\Helper::formatDate() now handles DateTimeImmutable
+
+### Changed
+- Try to capture complete response body as error message when using guzzle instead of using guzzle's truncated message 
+
 ### Fixed
 - Complex ReRank queries should not cause Solr parse errors
 - Update request builders format \DateTimeImmutable correctly
 
-### Added
-- Solarium\Core\Query\Helper::formatDate() now handles DateTimeImmutable
 
 ## [5.0.3]
 ### Fixed
