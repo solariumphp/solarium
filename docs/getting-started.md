@@ -356,4 +356,4 @@ cd examples
 php -S localhost:8888
 ```
 
-Now open `http://localhost:8888/` in your browser and follow the instructions.
+Now open `http://localhost:8888/examples` in your browser and follow the instructions.
