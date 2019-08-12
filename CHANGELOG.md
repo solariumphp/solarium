@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Solarium\Core\Query\Helper::formatDate() now handles DateTimeImmutable
 
 ### Changed
-- Try to capture complete response body as error message when using guzzle instead of using guzzle's truncated message 
+- Try to capture complete response body as error message when using guzzle instead of using guzzle's truncated message
 
 ### Fixed
 - Complex ReRank queries should not cause Solr parse errors
