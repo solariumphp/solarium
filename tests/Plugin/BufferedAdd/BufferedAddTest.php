@@ -194,7 +194,7 @@ class BufferedAddTest extends TestCase
         $mockEventDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with($this->equalTo(Events::ADD_DOCUMENT), $this->equalTo($expectedEvent));
+            ->with($this->equalTo($expectedEvent), $this->equalTo(Events::ADD_DOCUMENT));
 
         $mockClient = $this->getClient($mockEventDispatcher);
         $plugin = new BufferedAdd();
