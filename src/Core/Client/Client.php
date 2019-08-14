@@ -847,7 +847,7 @@ class Client extends Configurable implements ClientInterface
         $result = $this->createResult($query, $response);
 
         $event = new PostExecuteEvent($query, $result);
-        $this->dispatchEvent($event, Events::POST_EXECUTE, );
+        $this->dispatchEvent($event, Events::POST_EXECUTE);
 
         return $result;
     }
@@ -868,7 +868,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PreExecuteRequestEvent($request, $endpoint);
-        $this->dispatchEvent($event, Events::PRE_EXECUTE_REQUEST, );
+        $this->dispatchEvent($event, Events::PRE_EXECUTE_REQUEST);
         if (null !== $event->getResponse()) {
             $response = $event->getResponse(); //a plugin result overrules the standard execution result
         } else {
@@ -876,7 +876,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PostExecuteRequestEvent($request, $endpoint, $response);
-        $this->dispatchEvent($event, Events::POST_EXECUTE_REQUEST, );
+        $this->dispatchEvent($event, Events::POST_EXECUTE_REQUEST);
 
         return $response;
     }
@@ -1117,7 +1117,7 @@ class Client extends Configurable implements ClientInterface
         $type = strtolower($type);
 
         $event = new PreCreateQueryEvent($type, $options);
-        $this->dispatchEvent($event, Events::PRE_CREATE_QUERY, );
+        $this->dispatchEvent($event, Events::PRE_CREATE_QUERY);
         if (null !== $event->getQuery()) {
             return $event->getQuery();
         }
@@ -1134,7 +1134,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PostCreateQueryEvent($type, $options, $query);
-        $this->dispatchEvent($event, Events::POST_CREATE_QUERY, );
+        $this->dispatchEvent($event, Events::POST_CREATE_QUERY);
 
         return $query;
     }
