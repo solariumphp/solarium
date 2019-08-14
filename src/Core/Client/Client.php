@@ -285,11 +285,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function __construct(array $options = null, EventDispatcherInterface $eventDispatcher = null)
     {
-        if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
-            $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
-        } else {
-            $this->eventDispatcher = $eventDispatcher;
-        }
+        $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
         parent::__construct($options);
     }
 
@@ -629,11 +625,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): ClientInterface
     {
-        if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
-            $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
-        } else {
-            $this->eventDispatcher = $eventDispatcher;
-        }
+        $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
 
         return $this;
     }
@@ -776,7 +768,7 @@ class Client extends Configurable implements ClientInterface
     public function createRequest(QueryInterface $query): Request
     {
         $event = new PreCreateRequestEvent($query);
-        $this->dispatchEvent($event, Events::PRE_CREATE_REQUEST);
+        $this->eventDispatcher->dispatch($event, Events::PRE_CREATE_REQUEST);
         if (null !== $event->getRequest()) {
             return $event->getRequest();
         }
@@ -789,7 +781,7 @@ class Client extends Configurable implements ClientInterface
         $request = $requestBuilder->build($query);
 
         $event = new PostCreateRequestEvent($query, $request);
-        $this->dispatchEvent($event, Events::POST_CREATE_REQUEST);
+        $this->eventDispatcher->dispatch($event, Events::POST_CREATE_REQUEST);
 
         return $request;
     }
@@ -808,7 +800,7 @@ class Client extends Configurable implements ClientInterface
     public function createResult(QueryInterface $query, $response): ResultInterface
     {
         $event = new PreCreateResultEvent($query, $response);
-        $this->dispatchEvent($event, Events::PRE_CREATE_RESULT);
+        $this->eventDispatcher->dispatch($event, Events::PRE_CREATE_RESULT);
         if (null !== $event->getResult()) {
             return $event->getResult();
         }
@@ -821,7 +813,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PostCreateResultEvent($query, $response, $result);
-        $this->dispatchEvent($event, Events::POST_CREATE_RESULT);
+        $this->eventDispatcher->dispatch($event, Events::POST_CREATE_RESULT);
 
         return $result;
     }
@@ -837,7 +829,7 @@ class Client extends Configurable implements ClientInterface
     public function execute(QueryInterface $query, $endpoint = null): ResultInterface
     {
         $event = new PreExecuteEvent($query);
-        $this->dispatchEvent($event, Events::PRE_EXECUTE);
+        $this->eventDispatcher->dispatch($event, Events::PRE_EXECUTE);
         if (null !== $event->getResult()) {
             return $event->getResult();
         }
@@ -847,7 +839,7 @@ class Client extends Configurable implements ClientInterface
         $result = $this->createResult($query, $response);
 
         $event = new PostExecuteEvent($query, $result);
-        $this->dispatchEvent($event, Events::POST_EXECUTE);
+        $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE);
 
         return $result;
     }
@@ -868,7 +860,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PreExecuteRequestEvent($request, $endpoint);
-        $this->dispatchEvent($event, Events::PRE_EXECUTE_REQUEST);
+        $this->eventDispatcher->dispatch($event, Events::PRE_EXECUTE_REQUEST);
         if (null !== $event->getResponse()) {
             $response = $event->getResponse(); //a plugin result overrules the standard execution result
         } else {
@@ -876,7 +868,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PostExecuteRequestEvent($request, $endpoint, $response);
-        $this->dispatchEvent($event, Events::POST_EXECUTE_REQUEST);
+        $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE_REQUEST);
 
         return $response;
     }
@@ -1117,7 +1109,7 @@ class Client extends Configurable implements ClientInterface
         $type = strtolower($type);
 
         $event = new PreCreateQueryEvent($type, $options);
-        $this->dispatchEvent($event, Events::PRE_CREATE_QUERY);
+        $this->eventDispatcher->dispatch($event, Events::PRE_CREATE_QUERY);
         if (null !== $event->getQuery()) {
             return $event->getQuery();
         }
@@ -1134,7 +1126,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PostCreateQueryEvent($type, $options, $query);
-        $this->dispatchEvent($event, Events::POST_CREATE_QUERY);
+        $this->eventDispatcher->dispatch($event, Events::POST_CREATE_QUERY);
 
         return $query;
     }
@@ -1424,14 +1416,5 @@ class Client extends Configurable implements ClientInterface
 
         $adapter->setOptions($this->getOption('adapteroptions'));
         $this->adapter = $adapter;
-    }
-
-    private function dispatchEvent(Event $event, string $name)
-    {
-        if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
-            $this->eventDispatcher->dispatch($event, $name);
-        } else {
-            $this->eventDispatcher->dispatch($name, $event);
-        }
     }
 }

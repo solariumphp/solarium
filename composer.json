@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "symfony/event-dispatcher": "^3.1 || ^4.0",
+        "symfony/event-dispatcher": "^4.0",
         "symfony/cache": "^3.1 || ^4.0",
         "ext-json": "*"
     },
