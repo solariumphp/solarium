@@ -192,7 +192,7 @@ class BufferedAddTest extends TestCase
         $expectedEvent = new AddDocument($doc);
 
         $mockEventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        if(class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
+        if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
             $mockEventDispatcher
                 ->expects($this->once())
                 ->method('dispatch')

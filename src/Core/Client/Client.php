@@ -285,7 +285,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function __construct(array $options = null, EventDispatcherInterface $eventDispatcher = null)
     {
-        if(class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
+        if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
             $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
         } else {
             $this->eventDispatcher = $eventDispatcher;
@@ -629,7 +629,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): ClientInterface
     {
-        if(class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
+        if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
             $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
         } else {
             $this->eventDispatcher = $eventDispatcher;
@@ -1428,7 +1428,7 @@ class Client extends Configurable implements ClientInterface
 
     private function dispatchEvent(Event $event, string $name)
     {
-        if(class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
+        if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
             $this->eventDispatcher->dispatch($event, $name);
         } else {
             $this->eventDispatcher->dispatch($name, $event);

@@ -464,7 +464,7 @@ class Loadbalancer extends AbstractPlugin
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
                     $event = new EndpointFailureEvent($endpoint, $e);
-                    if(class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
+                    if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
                         $this->client->getEventDispatcher()->dispatch($event, Events::ENDPOINT_FAILURE);
                     } else {
                         $this->client->getEventDispatcher()->dispatch(Events::ENDPOINT_FAILURE, $event);

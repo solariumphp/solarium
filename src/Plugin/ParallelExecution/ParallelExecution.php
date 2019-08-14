@@ -119,7 +119,7 @@ class ParallelExecution extends AbstractPlugin
 
         // executing multihandle (all requests)
         $event = new ExecuteStartEvent();
-        if(class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
+        if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
             $this->client->getEventDispatcher()->dispatch($event, Events::EXECUTE_START);
         } else {
             $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_START, $event);

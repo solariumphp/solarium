@@ -165,7 +165,7 @@ class BufferedAdd extends AbstractPlugin
         $this->buffer[] = $document;
 
         $event = new AddDocumentEvent($document);
-        if(class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
+        if (class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
             $this->client->getEventDispatcher()->dispatch($event, Events::ADD_DOCUMENT);
         } else {
             $this->client->getEventDispatcher()->dispatch(Events::ADD_DOCUMENT, $event);
