@@ -463,10 +463,8 @@ class Loadbalancer extends AbstractPlugin
                 } catch (HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
-                    $this->client->getEventDispatcher()->dispatch(
-                        Events::ENDPOINT_FAILURE,
-                        new EndpointFailureEvent($endpoint, $e)
-                    );
+                    $event = new EndpointFailureEvent($endpoint, $e);
+                    $this->client->getEventDispatcher()->dispatch($event, Events::ENDPOINT_FAILURE);
                 }
             }
 

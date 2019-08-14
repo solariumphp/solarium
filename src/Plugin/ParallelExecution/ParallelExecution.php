@@ -118,7 +118,8 @@ class ParallelExecution extends AbstractPlugin
         }
 
         // executing multihandle (all requests)
-        $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_START, new ExecuteStartEvent());
+        $event = new ExecuteStartEvent();
+        $this->client->getEventDispatcher()->dispatch($event, Events::EXECUTE_START);
 
         do {
             $mrc = curl_multi_exec($multiHandle, $active);
@@ -135,7 +136,8 @@ class ParallelExecution extends AbstractPlugin
             } while (CURLM_CALL_MULTI_PERFORM == $mrc);
         }
 
-        $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_END, new ExecuteEndEvent());
+        $event = new ExecuteEndEvent();
+        $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_END, $event);
 
         // get the results
         $results = [];

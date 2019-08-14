@@ -165,7 +165,7 @@ class BufferedAdd extends AbstractPlugin
         $this->buffer[] = $document;
 
         $event = new AddDocumentEvent($document);
-        $this->client->getEventDispatcher()->dispatch(Events::ADD_DOCUMENT, $event);
+        $this->client->getEventDispatcher()->dispatch($event, Events::ADD_DOCUMENT);
 
         if (count($this->buffer) == $this->options['buffersize']) {
             $this->flush();

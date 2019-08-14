@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "symfony/event-dispatcher": "^3.1 || ^4.0",
+        "symfony/event-dispatcher": "^4.3",
         "symfony/cache": "^3.1 || ^4.0",
         "ext-json": "*"
     },
@@ -24,6 +24,8 @@
         "squizlabs/php_codesniffer": "^3.4",
         "zendframework/zend-http": "^2.8"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "suggest": {
         "minimalcode/search": "Query builder compatible with Solarium, allows simplified solr-query handling"
     },
