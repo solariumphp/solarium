@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Try to capture complete response body as error message when using guzzle instead of using guzzle's truncated message
+- Adapted to Symfony >=4.3 event dispatching, backward compatible to >=3.4, <=4.2
 
 ### Fixed
 - Complex ReRank queries should not cause Solr parse errors
