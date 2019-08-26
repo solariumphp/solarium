@@ -4,6 +4,11 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [5.1.0]
+### Fixed
+- BufferedAdd::commit() type hints
+- Symfony >=4.3 event dispatcher deprecation warnings
+
 ## [5.1.0-rc.1]
 ### Added
 - Solarium\Core\Query\Helper::formatDate() now handles DateTimeImmutable

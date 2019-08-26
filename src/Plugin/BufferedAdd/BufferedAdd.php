@@ -251,14 +251,14 @@ class BufferedAdd extends AbstractPlugin
      *
      * Any remaining documents in the buffer will also be flushed
      *
-     * @param bool $overwrite
-     * @param bool $softCommit
-     * @param bool $waitSearcher
-     * @param bool $expungeDeletes
+     * @param bool|null $overwrite
+     * @param bool|null $softCommit
+     * @param bool|null $waitSearcher
+     * @param bool|null $expungeDeletes
      *
      * @return UpdateResult
      */
-    public function commit(bool $overwrite = null, bool $softCommit = null, bool $waitSearcher = null, bool $expungeDeletes = null)
+    public function commit(?bool $overwrite = null, ?bool $softCommit = null, ?bool $waitSearcher = null, ?bool $expungeDeletes = null)
     {
         $event = new PreCommitEvent($this->buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
         $this->client->getEventDispatcher()->dispatch(Events::PRE_COMMIT, $event);
