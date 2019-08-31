@@ -166,8 +166,8 @@ class Document extends AbstractDocument
      * If you supply an array a multivalue field will be created.
      * In all cases any existing (multi)value will be overwritten.
      *
-     * @param string      $name
-     * @param string|null $value
+     * @param string $name
+     * @param mixed  $value
      *
      * @return self
      */
