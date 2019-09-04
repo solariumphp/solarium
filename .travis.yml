@@ -5,7 +5,8 @@ dist: trusty
 php:
   - 7.3
   - 7.2
-  - 7.1
+  # phpunit/phpunit 8.0.0 requires php ^7.2 -> your PHP version (7.1.11) does not satisfy that requirement.
+  #- 7.1
   - nightly
 
 env:
