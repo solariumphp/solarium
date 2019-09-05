@@ -2,7 +2,7 @@
 
 namespace Solarium\Plugin\ParallelExecution\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * ExecuteEnd event, see Events for details.

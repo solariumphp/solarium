@@ -5,7 +5,7 @@ namespace Solarium\Core\Event;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * PreExecuteRequest event, see Events for details.

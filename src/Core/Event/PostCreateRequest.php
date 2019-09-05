@@ -4,7 +4,7 @@ namespace Solarium\Core\Event;
 
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\QueryInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * PostCreateRequest event, see Events for details.
