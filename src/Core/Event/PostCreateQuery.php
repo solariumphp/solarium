@@ -3,7 +3,7 @@
 namespace Solarium\Core\Event;
 
 use Solarium\Core\Query\QueryInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * PostCreateQuery event, see Events for details.

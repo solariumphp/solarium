@@ -4,7 +4,7 @@ namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\Result;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * PostFlush event, see Events for details.

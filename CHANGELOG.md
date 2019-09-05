@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [5.1.1]
 ### Fixed
 - PHP 7.1 compatibility issue: date constants are not available as part of DateTimeInterface before PHP 7.2.0
+- Use Symfony\Contracts\EventDispatcher\Event instead of deprecated Symfony\Component\EventDispatcher\Event
 
 ## [5.1.0]
 ### Fixed
