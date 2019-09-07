@@ -137,7 +137,7 @@ class ParallelExecution extends AbstractPlugin
         }
 
         $event = new ExecuteEndEvent();
-        $this->client->getEventDispatcher()->dispatch(Events::EXECUTE_END, $event);
+        $this->client->getEventDispatcher()->dispatch($event, Events::EXECUTE_END);
 
         // get the results
         $results = [];
