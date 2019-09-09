@@ -193,6 +193,8 @@ class RequestBuilderTest extends TestCase
         $doc->setKey('id', 1);
         $doc->addField('category', 123, null, Document::MODIFIER_ADD);
         $doc->addField('name', 'test', 2.5, Document::MODIFIER_SET);
+        $doc->setField('skills', null, null, Document::MODIFIER_SET);
+        $doc->setField('parts', [], null, Document::MODIFIER_SET);
         $doc->setField('stock', 2, null, Document::MODIFIER_INC);
 
         $command = new AddCommand();
@@ -204,6 +206,8 @@ class RequestBuilderTest extends TestCase
             '<field name="id">1</field>'.
             '<field name="category" update="add">123</field>'.
             '<field name="name" boost="2.5" update="set">test</field>'.
+            '<field name="skills" update="set" null="true"></field>'.
+            '<field name="parts" update="set" null="true"></field>'.
             '<field name="stock" update="inc">2</field>'.
             '</doc>'.
             '</add>',

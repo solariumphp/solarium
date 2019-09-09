@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [5.1.2]
 ### Fixed
 - BufferedAdd does not support Symfony event dispatcher
+- An empty array as value in combination with the `set` modifier should remove a field when performing Atomic Updates
 
 ## [5.1.1]
 ### Fixed
