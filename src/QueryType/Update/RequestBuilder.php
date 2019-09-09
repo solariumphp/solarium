@@ -11,6 +11,7 @@ use Solarium\QueryType\Update\Query\Command\Add;
 use Solarium\QueryType\Update\Query\Command\Commit;
 use Solarium\QueryType\Update\Query\Command\Delete;
 use Solarium\QueryType\Update\Query\Command\Optimize;
+use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
@@ -225,6 +226,13 @@ class RequestBuilder extends BaseRequestBuilder
     private function buildFieldsXml(string $key, ?float $boost, $value, ?string $modifier): string
     {
         $xml = '';
+
+        // Remove the values if 'null' or empty list is specified as the new value
+        // @see https://lucene.apache.org/solr/guide/8_1/updating-parts-of-documents.html
+        if (Document::MODIFIER_SET === $modifier && is_array($value) && empty($value)) {
+            $value = null;
+        }
+
         if (is_array($value)) {
             foreach ($value as $multival) {
                 if (is_array($multival)) {
