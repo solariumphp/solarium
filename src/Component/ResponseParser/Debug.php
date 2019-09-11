@@ -63,8 +63,9 @@ class Debug implements ComponentParserInterface
                         case 'time':
                             $time = $timingData;
                             break;
-                        default:
+                        case is_array($timingData):
                             $timingPhases[$key] = $this->parseTimingPhase($key, $timingData);
+                            break;
                     }
                 }
                 $timing = new Timing($time, $timingPhases);
