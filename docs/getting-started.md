@@ -107,6 +107,7 @@ Some users of Solarium have been nice enough to create easy ways of integrating 
 -   Typo3 <https://extensions.typo3.org/extension/solr/>
 -   Magento <https://github.com/jeroenvermeulen/magento-solarium>
 -   Wordpress <https://github.com/pantheon-systems/solr-for-wordpress>
+-   SilverStripe <https://github.com/firesphere/silverstripe-solr-search>
 
 If you know of any other integrations please let it know!
 
