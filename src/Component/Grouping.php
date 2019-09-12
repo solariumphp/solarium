@@ -15,7 +15,7 @@ use Solarium\Component\Result\Grouping\ValueGroup;
  * Also known as Result Grouping or Field Collapsing.
  * See the Solr wiki for more info about this functionality
  *
- * @see  http://wiki.apache.org/solr/FieldCollapsing
+ * @see https://lucene.apache.org/solr/guide/8_1/result-grouping.html
  * @since 2.1.0
  */
 class Grouping extends AbstractComponent
