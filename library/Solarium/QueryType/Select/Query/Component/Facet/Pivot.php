@@ -94,6 +94,29 @@ class Pivot extends AbstractFacet
     {
         return $this->getOption('mincount');
     }
+    
+        /**
+     * Set the facet limit.
+     *
+     * @param int $limit
+     *
+     * @return self Provides fluent interface
+     */
+    public function setLimit($limit)
+    {
+        return $this->setOption('limit', $limit);
+    }
+
+
+    /**
+     * Get the facet limit.
+     *
+     * @return int
+     */
+    public function getLimit()
+    {
+        return $this->getOption('limit');
+    }
 
     /**
      * Specify a field to return in the resultset.
