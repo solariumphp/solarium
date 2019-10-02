@@ -4,24 +4,33 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [5.1.4]
+### Fixed
+-  Client::checkExact() checks against wrong version number
+
+
 ## [5.1.3]
 ### Fixed
 - Solarium\Component\ResponseParser\Debug fails on Solr Cloud 6.x during extracting timing phases
+
 
 ## [5.1.2]
 ### Fixed
 - BufferedAdd does not support Symfony event dispatcher
 - An empty array as value in combination with the `set` modifier should remove a field when performing Atomic Updates
 
+
 ## [5.1.1]
 ### Fixed
 - PHP 7.1 compatibility issue: date constants are not available as part of DateTimeInterface before PHP 7.2.0
 - Use Symfony\Contracts\EventDispatcher\Event instead of deprecated Symfony\Component\EventDispatcher\Event
 
+
 ## [5.1.0]
 ### Fixed
 - BufferedAdd::commit() type hints
 - Symfony >=4.3 event dispatcher deprecation warnings
+
 
 ## [5.1.0-rc.1]
 ### Added
@@ -46,6 +55,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Solarium\Core\Query\AbstractQuery::setTimeZone() now accepts \DateTimeZone objects as parameter
+
 
 ## [5.0.2]
 ### Fixed
