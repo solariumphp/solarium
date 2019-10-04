@@ -23,7 +23,7 @@ class Query extends SelectQuery
      * @var array
      */
     protected $options = [
-        'handler' => 'mlt',
+        'handler' => 'select',
         'resultclass' => Result::class,
         'documentclass' => Document::class,
         'query' => '*:*',
