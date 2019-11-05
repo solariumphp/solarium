@@ -21,30 +21,30 @@ class PreCommit extends Event
     protected $overwrite;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $softCommit;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $waitSearcher;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $expungeDeletes;
 
     /**
      * Event constructor.
      *
-     * @param array $buffer
-     * @param bool  $overwrite
-     * @param bool  $softCommit
-     * @param bool  $waitSearcher
-     * @param bool  $expungeDeletes
+     * @param array     $buffer
+     * @param bool      $overwrite
+     * @param bool|null $softCommit
+     * @param bool|null $waitSearcher
+     * @param bool|null $expungeDeletes
      */
-    public function __construct(array $buffer, bool $overwrite, bool $softCommit, bool $waitSearcher, bool $expungeDeletes)
+    public function __construct(array $buffer, bool $overwrite, ?bool $softCommit, ?bool $waitSearcher, ?bool $expungeDeletes)
     {
         $this->buffer = $buffer;
         $this->overwrite = $overwrite;
@@ -90,9 +90,9 @@ class PreCommit extends Event
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getExpungeDeletes(): bool
+    public function getExpungeDeletes(): ?bool
     {
         return $this->expungeDeletes;
     }
@@ -132,9 +132,9 @@ class PreCommit extends Event
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getSoftCommit(): bool
+    public function getSoftCommit(): ?bool
     {
         return $this->softCommit;
     }
@@ -153,9 +153,9 @@ class PreCommit extends Event
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getWaitSearcher(): bool
+    public function getWaitSearcher(): ?bool
     {
         return $this->waitSearcher;
     }
