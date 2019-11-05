@@ -7,6 +7,7 @@ use Solarium\Component\Facet\FacetInterface;
 use Solarium\Component\Facet\Field;
 use Solarium\Component\FacetSet;
 use Solarium\Component\ResponseParser\FacetSet as Parser;
+use Solarium\Component\Result\Stats\Result;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Query\Query;
 
@@ -356,5 +357,77 @@ class FacetSetTest extends TestCase
         $this->assertFalse(isset($facets['empty_buckets']));
 
         $this->assertEquals('Fantasy', $result->getFacet('top_genres')->getBuckets()[0]->getValue());
+    }
+
+    public function testParseFacetPivotStats(): void
+    {
+        $key = 'cat,country,inStock';
+
+        $data = [
+            'facet_counts' => [
+                'facet_pivot' => [
+                    $key => [
+                        [
+                            'field' => 'cat',
+                            'value' => 'electronics',
+                            'count' => 12,
+                            'pivot' => [
+                                [
+                                    'field' => 'country',
+                                    'value' => 'nl',
+                                    'count' => 8,
+                                    'stats' => [
+                                        'stats_fields' => [
+                                            'price' => [
+                                                'min' => 74.98,
+                                                'max' => 399.0,
+                                            ],
+                                        ],
+                                    ],
+                                    'pivot' => [
+                                        [
+                                            'field' => 'inStock',
+                                            'value' => true,
+                                            'count' => 4,
+                                            'stats' => [
+                                                'stats_fields' => [
+                                                    'price' => [
+                                                        'min' => 128.98,
+                                                        'max' => 240.65,
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'stats' => [
+                                'stats_fields' => [
+                                    'price' => [
+                                        'min' => 12.32,
+                                        'max' => 1024.20,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $facetSet = new FacetSet();
+        $facetSet->setExtractFromResponse(true);
+
+        $result = $this->parser->parse($this->query, $facetSet, $data);
+        $pivot = $result->getFacets()[$key];
+
+        $first = $pivot->getPivot()[0];
+        $this->assertInstanceOf(Result::class, $first->getStats()->getResult('stats_fields'));
+
+        $second = $first->getPivot()[0];
+        $this->assertInstanceOf(Result::class, $second->getStats()->getResult('stats_fields'));
+
+        $third = $first->getPivot()[0];
+        $this->assertInstanceOf(Result::class, $third->getStats()->getResult('stats_fields'));
     }
 }

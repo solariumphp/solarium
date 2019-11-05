@@ -33,7 +33,7 @@ class PivotItem extends Pivot
     /**
      * Field stats.
      *
-     * @var mixed
+     * @var Stats|null
      */
     protected $stats;
 
@@ -94,9 +94,9 @@ class PivotItem extends Pivot
     /**
      * Get stats.
      *
-     * @return Stats
+     * @return Stats|null
      */
-    public function getStats(): Stats
+    public function getStats(): ?Stats
     {
         return $this->stats;
     }
