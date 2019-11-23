@@ -7,6 +7,7 @@ php:
   - 7.2
   # phpunit/phpunit 8.0.0 requires php ^7.2 -> your PHP version (7.1.11) does not satisfy that requirement.
   #- 7.1
+  - 7.4snapshot
   - nightly
 
 env:
@@ -55,6 +56,7 @@ after_success:
 
 matrix:
   allow_failures:
+      - php: 7.4snapshot
       - php: nightly
 
 sudo: false
