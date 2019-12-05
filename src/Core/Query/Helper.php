@@ -343,7 +343,7 @@ class Helper
             return $name.'()';
         }
 
-        return $name.'('.implode($params, ',').')';
+        return $name.'('.implode(',', $params).')';
     }
 
     /**
