@@ -297,7 +297,8 @@ class Helper
         if ($dereferenced) {
             if (!$this->query) {
                 throw new InvalidArgumentException(
-                    'Dereferenced params can only be used in a Solarium query helper instance retrieved from the query '.'by using the getHelper() method, this instance was manually created'
+                    'Dereferenced params can only be used in a Solarium query helper instance retrieved from the query '
+                    .'by using the getHelper() method, this instance was manually created'
                 );
             }
 
