@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [5.1.5]
 ### Security
-- Raised version requirements for symfony/cache because of https://github.com/advisories/GHSA-79gr-58r3-pwm3
+- Remove explicit requirements for symfony/cache because of CVE-2019-18889
+
+### Added
+- Symfony 5 support
 
 ### Fixed
 - PHP 7.4 compatibility issue: deprecated parameter order of implode()
