@@ -36,9 +36,9 @@ class Result
     /**
      * Get field name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->field;
     }
@@ -46,9 +46,9 @@ class Result
     /**
      * Get min value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getMin(): string
+    public function getMin(): ?string
     {
         return $this->getValue('min');
     }
@@ -56,9 +56,9 @@ class Result
     /**
      * Get max value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getMax(): string
+    public function getMax(): ?string
     {
         return $this->getValue('max');
     }
@@ -66,9 +66,9 @@ class Result
     /**
      * Get sum value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getSum(): string
+    public function getSum(): ?string
     {
         return $this->getValue('sum');
     }
@@ -76,9 +76,9 @@ class Result
     /**
      * Get count value.
      *
-     * @return int
+     * @return int|null
      */
-    public function getCount(): int
+    public function getCount(): ?int
     {
         return (int) $this->getValue('count');
     }
@@ -86,9 +86,9 @@ class Result
     /**
      * Get missing value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getMissing(): string
+    public function getMissing(): ?string
     {
         return $this->getValue('missing');
     }
@@ -96,9 +96,9 @@ class Result
     /**
      * Get sumOfSquares value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getSumOfSquares(): string
+    public function getSumOfSquares(): ?string
     {
         return $this->getValue('sumOfSquares');
     }
@@ -106,9 +106,9 @@ class Result
     /**
      * Get mean value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getMean(): string
+    public function getMean(): ?string
     {
         return $this->getValue('mean');
     }
@@ -116,9 +116,9 @@ class Result
     /**
      * Get stddev value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getStddev(): string
+    public function getStddev(): ?string
     {
         return $this->getValue('stddev');
     }
@@ -126,9 +126,9 @@ class Result
     /**
      * Get facet stats.
      *
-     * @return array
+     * @return array|null
      */
-    public function getFacets(): array
+    public function getFacets(): ?array
     {
         return $this->getValue('facets');
     }
@@ -136,9 +136,9 @@ class Result
     /**
      * Get percentile stats.
      *
-     * @return array
+     * @return array|null
      */
-    public function getPercentiles(): array
+    public function getPercentiles(): ?array
     {
         return $this->getValue('percentiles');
     }
