@@ -54,13 +54,8 @@ class Result implements ResultInterface
         $this->response = $response;
 
         // check status for error (range of 400 and 500)
-        $statusNum = floor($response->getStatusCode() / 100);
-        if (4 == $statusNum || 5 == $statusNum) {
-            throw new HttpException(
-                $response->getStatusMessage(),
-                $response->getStatusCode(),
-                $response->getBody()
-            );
+        if ($response->getStatusCode() >= 400) {
+            throw new HttpException($response->getStatusMessage(), $response->getStatusCode(), $response->getBody());
         }
     }
 
@@ -111,9 +106,7 @@ class Result implements ResultInterface
             }
 
             if (null === $this->data) {
-                throw new UnexpectedValueException(
-                    'Solr JSON response could not be decoded'
-                );
+                throw new UnexpectedValueException('Solr JSON response could not be decoded');
             }
         }
 

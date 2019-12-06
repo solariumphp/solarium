@@ -462,9 +462,7 @@ class Query extends BaseQuery
                 $type = $value['type'];
 
                 if (self::COMMAND_ADD == $type) {
-                    throw new RuntimeException(
-                        'Adding documents is not supported in configuration, use the API for this'
-                    );
+                    throw new RuntimeException('Adding documents is not supported in configuration, use the API for this');
                 }
 
                 $this->add($key, $this->createCommand($type, $value));

@@ -131,9 +131,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
 
         // validate field
         if (null === $field->getName()) {
-            throw new InvalidArgumentException(
-                'To add a highlighting field it needs to have at least a "name" setting'
-            );
+            throw new InvalidArgumentException('To add a highlighting field it needs to have at least a "name" setting');
         }
 
         $this->fields[$field->getName()] = $field;
