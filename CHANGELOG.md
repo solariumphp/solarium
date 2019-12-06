@@ -4,6 +4,18 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [5.1.5]
+### Security
+- Remove explicit requirements for symfony/cache because of CVE-2019-18889
+
+### Added
+- Symfony 5 support
+
+### Fixed
+- PHP 7.4 compatibility issue: deprecated parameter order of implode()
+- PHP 7.4 test coverage
+
+
 ## [5.1.4]
 ### Added
 - Solarium\Component\Facet\Pivot::setLimit()
