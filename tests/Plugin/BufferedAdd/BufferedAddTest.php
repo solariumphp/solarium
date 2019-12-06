@@ -170,7 +170,7 @@ class BufferedAddTest extends TestCase
             ->method('addCommit')
             ->with($this->equalTo(false), $this->equalTo(true), $this->equalTo(false));
 
-        $mockResult = $this->createMock(Result:: class);
+        $mockResult = $this->createMock(Result::class);
 
         $mockClient = $this->getClient();
         $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
@@ -181,6 +181,33 @@ class BufferedAddTest extends TestCase
         $plugin->addDocument($doc);
 
         $this->assertSame($mockResult, $plugin->commit(true, false, true, false));
+    }
+
+    public function testCommitWithOptionalValues()
+    {
+        $data = ['id' => '123', 'name' => 'test'];
+        $doc = new Document($data);
+
+        $mockUpdate = $this->createMock(Query::class); //, array('addDocuments', 'addCommit'));
+        $mockUpdate->expects($this->once())
+            ->method('addDocuments')
+            ->with($this->equalTo([$doc]), $this->equalTo(true));
+        $mockUpdate->expects($this->once())
+            ->method('addCommit')
+            ->with($this->equalTo(null), $this->equalTo(null), $this->equalTo(null));
+
+        $mockResult = $this->createMock(Result::class);
+
+        $mockClient = $this->getClient();
+        $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
+        $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
+
+        $plugin = new BufferedAdd();
+        $plugin->initPlugin($mockClient, []);
+        $plugin->addDocument($doc);
+        $plugin->setOverwrite(true);
+
+        $this->assertSame($mockResult, $plugin->commit(null, null, null, null));
     }
 
     public function testAddDocumentEventIsTriggered()

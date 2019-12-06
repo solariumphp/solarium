@@ -230,8 +230,8 @@ class BufferedAdd extends AbstractPlugin
             return false;
         }
 
-        $overwrite = null === $overwrite ? $this->getOverwrite() : $overwrite;
-        $commitWithin = null === $commitWithin ? $this->getCommitWithin() : $commitWithin;
+        $overwrite = $overwrite ?? $this->getOverwrite();
+        $commitWithin = $commitWithin ?? $this->getCommitWithin();
 
         $event = new PreFlushEvent($this->buffer, $overwrite, $commitWithin);
         $this->client->getEventDispatcher()->dispatch($event, Events::PRE_FLUSH);
@@ -260,6 +260,8 @@ class BufferedAdd extends AbstractPlugin
      */
     public function commit(?bool $overwrite = null, ?bool $softCommit = null, ?bool $waitSearcher = null, ?bool $expungeDeletes = null)
     {
+        $overwrite = $overwrite ?? $this->getOverwrite();
+
         $event = new PreCommitEvent($this->buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
         $this->client->getEventDispatcher()->dispatch($event, Events::PRE_COMMIT);
 
