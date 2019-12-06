@@ -76,6 +76,10 @@ $query->createFilterQuery('stock')->setQuery('inStock:true');
 $query->setInterestingTerms('details');
 $query->setMatchInclude(true);
 
+// enable mlt component
+$mlt = $query->getMoreLikeThis();
+$mlt->setCount(10);
+
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
