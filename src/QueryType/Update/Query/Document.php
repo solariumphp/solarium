@@ -432,9 +432,7 @@ class Document extends AbstractDocument
     public function getFields(): array
     {
         if ((null === $this->key || !isset($this->fields[$this->key])) && count($this->modifiers) > 0) {
-            throw new RuntimeException(
-                'A document that uses modifiers (atomic updates) must have a key defined before it is used'
-            );
+            throw new RuntimeException('A document that uses modifiers (atomic updates) must have a key defined before it is used');
         }
 
         return parent::getFields();
