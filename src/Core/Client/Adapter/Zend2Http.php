@@ -196,10 +196,7 @@ class Zend2Http extends Configurable implements AdapterInterface
     protected function prepareResponse(Request $request, \Zend\Http\Response $response)
     {
         if ($response->isClientError()) {
-            throw new HttpException(
-                $response->getReasonPhrase(),
-                $response->getStatusCode()
-            );
+            throw new HttpException($response->getReasonPhrase(), $response->getStatusCode());
         }
 
         if (Request::METHOD_HEAD == $request->getMethod()) {

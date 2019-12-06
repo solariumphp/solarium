@@ -66,9 +66,7 @@ class Configurable implements ConfigurableInterface
                 if (is_object($options)) {
                     $options = (!method_exists($options, 'toArray') ? $this->toArray($options) : $options->toArray());
                 } else {
-                    throw new InvalidArgumentException(
-                        'Options value given to the setOptions() method must be an array or a Zend_Config object'
-                    );
+                    throw new InvalidArgumentException('Options value given to the setOptions() method must be an array or a Zend_Config object');
                 }
             }
 

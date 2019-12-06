@@ -57,7 +57,7 @@ trait FacetsTrait
      *
      * @return self Provides fluent interface
      */
-    public function removeFacet(string  $facet): self
+    public function removeFacet(string $facet): self
     {
         if (isset($this->facets[$facet])) {
             unset($this->facets[$facet]);
