@@ -1,4 +1,4 @@
-The helper offers two types of escaping: term and phrase. Term escaping will escape more characters than phrase escaping. Use phrase escaping when you want to escape a whole phrase and treat is a search string. It will be enclosed in quotes so any special characters lose their meaning and also the search will be done on the whole string as a single phrase. In all other cases use term escaping.
+The helper offers two types of escaping: term and phrase. Term escaping will escape more characters than phrase escaping. Use phrase escaping when you want to escape a whole phrase and treat it as a search string. It will be enclosed in quotes so any special characters lose their meaning and also the search will be done on the whole string as a single phrase. In all other cases use term escaping.
 
 An example of term escaping in use for a query that would fail without escaping:
 
