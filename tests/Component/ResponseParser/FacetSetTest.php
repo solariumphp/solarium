@@ -46,7 +46,9 @@ class FacetSetTest extends TestCase
             ]
         );
         $this->facetSet->createFacet('range', ['key' => 'keyD']);
+        $this->facetSet->createFacet('range', ['key' => 'keyD_A', 'pivot' => 'keyF']);
         $this->facetSet->createFacet('pivot', ['key' => 'keyE', 'fields' => 'cat,price']);
+        $this->facetSet->createFacet('pivot', ['key' => 'keyF', 'fields' => 'cat']);
 
         $this->query = new Query();
     }
@@ -82,6 +84,19 @@ class FacetSetTest extends TestCase
                             1,
                         ],
                     ],
+                    'keyD_A' => [
+                        'before' => 3,
+                        'after' => 5,
+                        'between' => 4,
+                        'counts' => [
+                            '1.0',
+                            1,
+                            '101.0',
+                            2,
+                            '201.0',
+                            1,
+                        ],
+                    ],
                 ],
                 'facet_pivot' => [
                     'keyE' => [
@@ -95,6 +110,26 @@ class FacetSetTest extends TestCase
                             ],
                         ],
                     ],
+                    'keyF' => [
+                        [
+                            'field' => 'cat',
+                            'value' => 'abc',
+                            'count' => 2,
+                            'ranges' => [
+                                [
+                                    'gap' => '+1YEAR',
+                                    'start' => '2016-01-01T00:00:00Z',
+                                    'end' => '2020-01-01T00:00:00Z',
+                                    'counts' => [
+                                        '2018-01-01T00:00:00Z',
+                                        0,
+                                        '2019-01-01T00:00:00Z',
+                                        1,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -102,7 +137,7 @@ class FacetSetTest extends TestCase
         $result = $this->parser->parse($this->query, $this->facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(['keyA', 'keyB', 'keyC', 'keyD', 'keyE'], array_keys($facets));
+        $this->assertEquals(['keyA', 'keyB', 'keyC', 'keyD', 'keyD_A', 'keyE', 'keyF'], array_keys($facets));
 
         $this->assertEquals(
             ['value1' => 12, 'value2' => 3],
@@ -127,6 +162,20 @@ class FacetSetTest extends TestCase
         $this->assertEquals(1, count($facets['keyE']));
 
         $this->assertEquals(23, $result->getFacet('keyB')->getValue());
+
+        $facet = $result->getFacet('keyD_A')->getPivot()->getPivot()[0];
+
+        $this->assertEquals('cat', $facet->getField());
+        $this->assertEquals('abc', $facet->getValue());
+        $this->assertEquals(2, $facet->getCount());
+
+        $range = $facet->getRanges()[0];
+
+        $this->assertEquals('2016-01-01T00:00:00Z', $range->getStart());
+        $this->assertEquals('2020-01-01T00:00:00Z', $range->getEnd());
+        $this->assertEquals('+1YEAR', $range->getGap());
+
+        $this->assertEquals(['2018-01-01T00:00:00Z' => 0, '2019-01-01T00:00:00Z' => 1], $range->getValues());
     }
 
     public function testParseExtractFromResponse()

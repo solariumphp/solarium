@@ -7,19 +7,21 @@ The options below can be set as query option values, but also by using the set/g
 
 Only the facet-type specific options are listed. See [Facetset component](V3:Facetset_component "wikilink") for the option shared by all facet types.
 
-| Name    | Type   | Default value | Description                                                                                                                                             |
-|---------|--------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| field   | string | null          | This param indicates what field to create range facets for                                                                                              |
-| start   | string | null          | The lower bound of the ranges.                                                                                                                          |
-| end     | string | null          | The upper bound of the ranges.                                                                                                                          |
-| gap     | string | null          | The size of each range expressed as a value to be added to the lower bound.                                                                             |
-| hardend | string | null          | A Boolean parameter instructing Solr what to do in the event that facet.range.gap does not divide evenly between facet.range.start and facet.range.end. |
-| other   | string | null          | This param indicates what to count in addition to the counts for each range constraint between facet.range.start and facet.range.en                     |
-| include | string | null          | Specify count bounds                                                                                                                                    |
+| Name    | Type           | Default value | Description                                                                                                                                             |
+|---------|----------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| field   | string         | null          | This param indicates what field to create range facets for                                                                                              |
+| start   | string         | null          | The lower bound of the ranges.                                                                                                                          |
+| end     | string         | null          | The upper bound of the ranges.                                                                                                                          |
+| gap     | string         | null          | The size of each range expressed as a value to be added to the lower bound.                                                                             |
+| hardend | string         | null          | A Boolean parameter instructing Solr what to do in the event that facet.range.gap does not divide evenly between facet.range.start and facet.range.end. |
+| other   | string         | null          | This param indicates what to count in addition to the counts for each range constraint between facet.range.start and facet.range.en                     |
+| include | string         | null          | Specify count bounds                                                                                                                                    |
+| tag     | string         | null          | When defined, it's used as the identifier in the select query. Required when specifying pivot fields                                                    |
+| pivot   | string / array | null          | One or more fields which should be used to create pivot values                                                                                          |
 ||
 
-Example
--------
+Examples
+--------
 
 ```php
 <?php
@@ -64,6 +66,52 @@ foreach ($resultset as $document) {
     echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
     echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
     echo '</table>';
+}
+
+htmlFooter();
+
+```
+or when specifying pivot fields:
+
+```php
+<?php
+
+require(__DIR__.'/init.php');
+htmlHeader();
+
+// create a client instance
+$client = new Solarium\Client($config);
+
+// get a select query instance
+$query = $client->createSelect();
+
+// get the facetset component
+$facetSet = $query->getFacetSet();
+
+// create a facet field instance and set options
+$facet = $facetSet->createFacetRange(['key' => 'manufacturedate_dt', 'tag' => 'r1']);
+
+$facet->setField('manufacturedate_dt');
+$facet->setStart('2006-01-01T00:00:00Z');
+$facet->setEnd('NOW/YEAR'));
+$facet->setGap('+1YEAR');
+$facet->setPivot(['inStock']);
+
+// this executes the query and returns the result
+$resultset = $client->select($query);
+
+// display the total number of documents found by solr
+echo 'NumFound: '.$resultset->getNumFound();
+
+// display pivot facet counts
+echo '<hr/>Facet ranges:<br/>';
+$facets = $resultset->getFacetSet()->getFacet('manufacturedate_dt');
+foreach ($facets as $facet) {
+    foreach ($facet->getRanges() as $range) {
+        foreach ($range->getValues() as $date => $count) {
+            echo $date . ' [' . $count . ']<br/>';
+        }
+    }
 }
 
 htmlFooter();

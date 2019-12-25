@@ -46,6 +46,24 @@ class Range extends AbstractRange
     }
 
     /**
+     * @param string $tag
+     *
+     * @return \Solarium\Core\Configurable
+     */
+    public function setTag($tag)
+    {
+        return $this->setOption('tag', $tag);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->getOption('tag');
+    }
+
+    /**
      * Initialize options.
      *
      * Several options need some extra checks or setup work, for these options

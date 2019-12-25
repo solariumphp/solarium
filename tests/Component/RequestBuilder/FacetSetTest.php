@@ -279,6 +279,31 @@ class FacetSetTest extends TestCase
         );
     }
 
+    public function testBuildWithRangeFacetAndPivot()
+    {
+        $this->component->addFacet(
+            new FacetRange(
+                [
+                    'key' => 'key',
+                    'tag' => 'r1',
+                    'field' => 'manufacturedate_dt',
+                    'start' => '2006-01-01T00:00:00Z',
+                    'end' => 'NOW/YEAR',
+                    'gap' => '+1YEAR',
+                    'pivot' => ['cat', 'inStock'],
+                ]
+            )
+        );
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?facet.range={!tag=r1}manufacturedate_dt&f.manufacturedate_dt.facet.range.start=2006-01-01T00:00:00Z&f.manufacturedate_dt.facet.range.end=NOW/YEAR&f.manufacturedate_dt.facet.range.gap=+1YEAR&facet.pivot={!range=r1}cat,inStock&facet=true',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithFacetsAndGlobalFacetSettings()
     {
         $this->component->setMissing(true);
