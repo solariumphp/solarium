@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Raw XML from file in update query
 - Set input encoding for select and update queries
 - Create and configure Managed Resources
+- Addition of the analytic component
 
 ### Changed
 - More strict types and type hinting
