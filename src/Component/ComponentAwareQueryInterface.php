@@ -83,6 +83,11 @@ interface ComponentAwareQueryInterface
     const COMPONENT_RERANKQUERY = 'rerankquery';
 
     /**
+     * Query component analytics.
+     */
+    const COMPONENT_ANALYTICS = 'analytics';
+
+    /**
      * Get all registered component types.
      *
      * @return array

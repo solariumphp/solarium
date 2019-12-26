@@ -175,7 +175,6 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Set the file to upload via "multipart/form-data" POST request.
      *
-     *
      * @param string $filename Name of file to upload
      *
      * @throws RuntimeException
@@ -204,6 +203,24 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
+     * @param string $headerName
+     *
+     * @return string|null
+     */
+    public function getHeader(string $headerName): ?string
+    {
+        foreach ($this->headers as $header) {
+            list($name) = explode(':', $header);
+
+            if ($name === $headerName) {
+                return $header;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Set request headers.
      *
      * @param array $headers
@@ -219,15 +236,24 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
-     * Add a request header.
+     * Add request header;
+     * Overwrites previously set of the same type.
      *
-     * @param string|array $value
+     * @param string $header
      *
-     * @return self Provides fluent interface
+     * @return $this
      */
-    public function addHeader($value): self
+    public function addHeader(string $header): self
     {
-        $this->headers[] = $value;
+        list($name) = explode(':', $header);
+
+        if ((null !== $current = $this->getHeader($name)) &&
+            false !== $key = array_search($current, $this->headers, true)
+        ) {
+            $this->headers[$key] = $header;
+        } else {
+            $this->headers[] = $header;
+        }
 
         return $this;
     }
@@ -351,6 +377,14 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return spl_object_hash($this);
+    }
+
+    /**
      * Initialization hook.
      */
     protected function init()
@@ -375,13 +409,5 @@ class Request extends Configurable implements RequestParamsInterface
                     }
             }
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getHash(): string
-    {
-        return spl_object_hash($this);
     }
 }
