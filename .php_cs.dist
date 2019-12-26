@@ -9,7 +9,7 @@ return PhpCsFixer\Config::create()
        'array_syntax' => ['syntax' => 'short'],
        'class_attributes_separation' => ['elements' => ['const', 'method', 'property']],
        'combine_consecutive_unsets' => true,
-       // one should use PHPUnit methods to set up expected exception instead of annotations
+        // one should use PHPUnit methods to set up expected exception instead of annotations
        'general_phpdoc_annotation_remove' => ['expectedException', 'expectedExceptionMessage', 'expectedExceptionMessageRegExp'],
        'heredoc_to_nowdoc' => true,
        'list_syntax' => ['syntax' => 'long'],
@@ -29,6 +29,7 @@ return PhpCsFixer\Config::create()
        // 'strict_comparison' => true,
        'strict_param' => true,
        'implode_call' => true,
+       'no_superfluous_phpdoc_tags' => false,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
