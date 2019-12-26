@@ -3,6 +3,7 @@
 namespace Solarium\Tests\QueryType\Select\Query;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Analytics\Analytics;
 use Solarium\Component\MoreLikeThis;
 use Solarium\Core\Client\Client;
 use Solarium\Exception\InvalidArgumentException;
@@ -690,6 +691,11 @@ abstract class AbstractQueryTest extends TestCase
             'Solarium\Component\ReRankQuery',
             \get_class($reRankQuery)
         );
+    }
+
+    public function testGetAnalytics(): void
+    {
+        $this->assertInstanceOf(Analytics::class, $this->query->getAnalytics());
     }
 
     public function testAddTag()

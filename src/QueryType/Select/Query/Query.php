@@ -2,6 +2,7 @@
 
 namespace Solarium\QueryType\Select\Query;
 
+use Solarium\Component\Analytics\Analytics;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\ComponentAwareQueryTrait;
 use Solarium\Component\Debug;
@@ -15,6 +16,7 @@ use Solarium\Component\MoreLikeThis;
 use Solarium\Component\QueryElevation;
 use Solarium\Component\QueryInterface;
 use Solarium\Component\QueryTrait;
+use Solarium\Component\QueryTraits\AnalyticsTrait;
 use Solarium\Component\QueryTraits\DebugTrait;
 use Solarium\Component\QueryTraits\DisMaxTrait;
 use Solarium\Component\QueryTraits\DistributedSearchTrait;
@@ -70,6 +72,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     use QueryElevationTrait;
     use ReRankQueryTrait;
     use QueryTrait;
+    use AnalyticsTrait;
 
     /**
      * Solr sort mode descending.
@@ -152,6 +155,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
             ComponentAwareQueryInterface::COMPONENT_STATS => Stats::class,
             ComponentAwareQueryInterface::COMPONENT_QUERYELEVATION => QueryElevation::class,
             ComponentAwareQueryInterface::COMPONENT_RERANKQUERY => ReRankQuery::class,
+            ComponentAwareQueryInterface::COMPONENT_ANALYTICS => Analytics::class,
         ];
 
         parent::__construct($options);
