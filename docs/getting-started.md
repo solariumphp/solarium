@@ -37,7 +37,7 @@ See [<https://packagist.org>](https://packagist.org) for other packages.
 
 - Make sure to use the composer autoloader, and Solarium should be available.
 
-**Only if you don't use composer:** you need to use a PSR-0 autoloader, or the supplied autoloader: ```php
+**Only if you don't use composer:** you need to use a PSR-0 autoloader, or the supplied autoloader.
 
 Also you need to make sure the the Symfony Event Dispatcher component is available.
 
