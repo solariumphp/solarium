@@ -251,6 +251,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             )
         );
         $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
+        $request->addParam('facet.pivot.limit', $facet->getLimit(), true);
     }
 
     /**

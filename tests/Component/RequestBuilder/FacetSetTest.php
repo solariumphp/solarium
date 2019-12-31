@@ -336,6 +336,7 @@ class FacetSetTest extends TestCase
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
                 'mincount' => 123,
+                'limit' => -1,
             ]
         );
         $facet->addExclude('owner');
@@ -348,7 +349,7 @@ class FacetSetTest extends TestCase
         );
 
         $this->assertEquals(
-            '?facet.pivot={!key=f1 ex=owner}cat,inStock&facet.pivot.mincount=123&facet=true',
+            '?facet.pivot={!key=f1 ex=owner}cat,inStock&facet.pivot.mincount=123&facet.pivot.limit=-1&facet=true',
             urldecode($request->getUri())
         );
     }
