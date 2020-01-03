@@ -94,6 +94,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [5.1.6]
 ### Added
+- Analytics expression builder
 - Range facet pivot support
 - Support for useConfiguredElevatedOrder
 - FilterQuery::setCache and FilterQuery::setCost()
