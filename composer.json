@@ -17,9 +17,10 @@
         "ext-json": "*"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
         "guzzlehttp/guzzle": "^3.8 || ^6.2",
-        "phpunit/phpunit": "^8.0",
         "php-coveralls/php-coveralls": "^2.1",
+        "phpunit/phpunit": "^8.0",
         "squizlabs/php_codesniffer": "^3.4",
         "zendframework/zend-http": "^2.8"
     },
