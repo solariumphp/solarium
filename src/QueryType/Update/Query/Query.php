@@ -4,6 +4,7 @@ namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\InvalidArgumentException;
@@ -14,7 +15,6 @@ use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
-use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
 use Solarium\QueryType\Update\Result;
@@ -121,7 +121,6 @@ class Query extends BaseQuery
     /**
      * Create a command instance.
      *
-     *
      * @param string $type
      * @param array  $options
      *
@@ -185,7 +184,7 @@ class Query extends BaseQuery
      */
     public function remove($keyOrCommand): self
     {
-        if (is_object($keyOrCommand)) {
+        if (\is_object($keyOrCommand)) {
             foreach ($this->commands as $key => $instance) {
                 if ($instance === $keyOrCommand) {
                     unset($this->commands[$key]);
@@ -411,6 +410,7 @@ class Query extends BaseQuery
     public function setDocumentClass(string $value): self
     {
         $this->setOption('documentclass', $value);
+
         return $this;
     }
 
@@ -457,6 +457,8 @@ class Query extends BaseQuery
      */
     protected function init()
     {
+        parent::init();
+
         if (isset($this->options['command'])) {
             foreach ($this->options['command'] as $key => $value) {
                 $type = $value['type'];

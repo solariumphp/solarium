@@ -27,10 +27,7 @@ class RequestBuilder extends BaseRequestBuilder
         // add basic params to request
         $request->addParam(
             'q',
-            $this->renderLocalParams(
-                $query->getQuery(),
-                ['tag' => $query->getTags()]
-            )
+            sprintf('%s%s', $query->getLocalParameters()->render(), $query->getQuery())
         );
         $request->addParam('start', $query->getStart());
         $request->addParam('rows', $query->getRows());
@@ -45,18 +42,16 @@ class RequestBuilder extends BaseRequestBuilder
         foreach ($query->getSorts() as $field => $order) {
             $sort[] = $field.' '.$order;
         }
-        if (0 !== count($sort)) {
+        if (0 !== \count($sort)) {
             $request->addParam('sort', implode(',', $sort));
         }
 
         // add filterqueries to request
         $filterQueries = $query->getFilterQueries();
-        if (0 !== count($filterQueries)) {
+        if (0 !== \count($filterQueries)) {
             foreach ($filterQueries as $filterQuery) {
-                $fq = $this->renderLocalParams(
-                    $filterQuery->getQuery(),
-                    ['tag' => $filterQuery->getTags()]
-                );
+                $fq = sprintf('%s%s', $filterQuery->getLocalParameters()->render(), $filterQuery->getQuery());
+
                 $request->addParam('fq', $fq);
             }
         }

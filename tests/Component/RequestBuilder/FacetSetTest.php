@@ -289,8 +289,7 @@ class FacetSetTest extends TestCase
             new FacetMultiQuery(['key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
         $request = $this->builder->buildComponent($this->component, $this->request);
-        static::assertEquals(
-            null,
+        static::assertNull(
             $request->getRawData()
         );
         static::assertEquals(
@@ -310,8 +309,7 @@ class FacetSetTest extends TestCase
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        static::assertEquals(
-            null,
+        static::assertNull(
             $request->getRawData()
         );
 
@@ -360,7 +358,7 @@ class FacetSetTest extends TestCase
             [
                 'key' => 'f1',
                 'fields' => 'cat,inStock',
-                'stats' => ['piv1'],
+                'stats' => 'piv1',
             ]
         );
         $this->component->addFacet($facet);
@@ -370,7 +368,7 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
 
         $this->assertEquals(
-            '?facet.pivot={!stats=piv1}cat,inStock&facet=true',
+            '?facet.pivot={!key=cat,inStock stats=piv1}cat,inStock&facet=true',
             urldecode($request->getUri())
         );
     }
