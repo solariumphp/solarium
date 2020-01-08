@@ -261,7 +261,7 @@ abstract class AbstractRange extends AbstractFacet
     }
 
     /**
-     * @param string|array $pivot
+     * @param \Solarium\Component\Facet\Pivot|array $pivot
      *
      * @return \Solarium\Core\Configurable
      */
@@ -271,7 +271,7 @@ abstract class AbstractRange extends AbstractFacet
     }
 
     /**
-     * @return string|array|null
+     * @return \Solarium\Component\Facet\Pivot|array|null
      */
     public function getPivot()
     {

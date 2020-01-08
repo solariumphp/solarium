@@ -285,12 +285,12 @@ class FacetSetTest extends TestCase
             new FacetRange(
                 [
                     'key' => 'key',
-                    'tag' => 'r1',
+                    'local_tag' => 'r1',
                     'field' => 'manufacturedate_dt',
                     'start' => '2006-01-01T00:00:00Z',
                     'end' => 'NOW/YEAR',
                     'gap' => '+1YEAR',
-                    'pivot' => ['cat', 'inStock'],
+                    'pivot' => ['fields' => ['cat', 'inStock'], 'local_range' => 'r1'],
                 ]
             )
         );
@@ -299,7 +299,7 @@ class FacetSetTest extends TestCase
 
         $this->assertNull($request->getRawData());
         $this->assertEquals(
-            '?facet.range={!tag=r1}manufacturedate_dt&f.manufacturedate_dt.facet.range.start=2006-01-01T00:00:00Z&f.manufacturedate_dt.facet.range.end=NOW/YEAR&f.manufacturedate_dt.facet.range.gap=+1YEAR&facet.pivot={!range=r1}cat,inStock&facet=true',
+            '?facet.range={!key=key tag=r1}manufacturedate_dt&f.manufacturedate_dt.facet.range.start=2006-01-01T00:00:00Z&f.manufacturedate_dt.facet.range.end=NOW/YEAR&f.manufacturedate_dt.facet.range.gap=+1YEAR&facet.pivot={!range=r1}cat,inStock&facet=true',
             urldecode($request->getUri())
         );
     }

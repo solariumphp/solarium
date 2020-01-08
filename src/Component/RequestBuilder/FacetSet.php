@@ -199,7 +199,6 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     public function addFacetRange($request, $facet)
     {
         $field = $facet->getField();
-        $key = (null !== $facet->getTag()) ? ['tag' => $facet->getTag()] : ['key' => $facet->getKey()];
 
         $request->addParam(
             'facet.range',
@@ -221,15 +220,9 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         }
 
         if (null !== $pivot = $facet->getPivot()) {
-            $link = $facet->getTag() ?: $facet->getKey();
-            $pivot = is_array($pivot) ? $pivot : [$pivot];
-
             $request->addParam(
                 'facet.pivot',
-                $this->renderLocalParams(
-                    implode(',', $pivot),
-                    [FacetsetComponent::FACET_RANGE => $link]
-                )
+                sprintf('%s%s', $pivot->getLocalParameters()->render(), implode(',', $pivot->getFields()))
             );
         }
     }

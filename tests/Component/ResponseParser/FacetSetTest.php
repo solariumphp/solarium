@@ -46,7 +46,7 @@ class FacetSetTest extends TestCase
             ]
         );
         $this->facetSet->createFacet('range', ['key' => 'keyD']);
-        $this->facetSet->createFacet('range', ['key' => 'keyD_A', 'pivot' => 'keyF']);
+        $this->facetSet->createFacet('range', ['key' => 'keyD_A', 'pivot' => ['key' => 'keyF']]);
         $this->facetSet->createFacet('pivot', ['key' => 'keyE', 'fields' => 'cat,price']);
         $this->facetSet->createFacet('pivot', ['key' => 'keyF', 'fields' => 'cat']);
 
@@ -159,7 +159,7 @@ class FacetSetTest extends TestCase
         $this->assertEquals(3, $facets['keyD']->getBefore());
         $this->assertEquals(4, $facets['keyD']->getBetween());
         $this->assertEquals(5, $facets['keyD']->getAfter());
-        $this->assertEquals(1, count($facets['keyE']));
+        $this->assertEquals(1, \count($facets['keyE']));
 
         $this->assertEquals(23, $result->getFacet('keyB')->getValue());
 

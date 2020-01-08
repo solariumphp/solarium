@@ -116,12 +116,6 @@ class RangeTest extends TestCase
         $this->assertSame(['lower', 'upper'], $this->facet->getInclude());
     }
 
-    public function testSetAndGetTag()
-    {
-        $this->facet->setTag('t1');
-        $this->assertSame('t1', $this->facet->getTag());
-    }
-
     public function testSetAndGetPivot()
     {
         $this->facet->setPivot(['pivot', 'fields']);
