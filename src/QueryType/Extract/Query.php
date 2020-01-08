@@ -4,10 +4,10 @@ namespace Solarium\QueryType\Extract;
 
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Update\Query\Document;
-use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
 
 /**
@@ -84,6 +84,7 @@ class Query extends BaseQuery
     public function setDocument(DocumentInterface $document): self
     {
         $this->setOption('document', $document);
+
         return $this;
     }
 
@@ -107,6 +108,7 @@ class Query extends BaseQuery
     public function setFile(string $filename): self
     {
         $this->setOption('file', $filename);
+
         return $this;
     }
 
@@ -130,6 +132,7 @@ class Query extends BaseQuery
     public function setUprefix(string $uprefix): self
     {
         $this->setOption('uprefix', $uprefix);
+
         return $this;
     }
 
@@ -154,6 +157,7 @@ class Query extends BaseQuery
     public function setDefaultField(string $defaultField): self
     {
         $this->setOption('defaultField', $defaultField);
+
         return  $this;
     }
 
@@ -179,6 +183,7 @@ class Query extends BaseQuery
     public function setLowernames(bool $lowerNames): self
     {
         $this->setOption('lowernames', (bool) $lowerNames);
+
         return $this;
     }
 
@@ -202,6 +207,7 @@ class Query extends BaseQuery
     public function setCommit(bool $commit): self
     {
         $this->setOption('commit', (bool) $commit);
+
         return $this;
     }
 
@@ -225,6 +231,7 @@ class Query extends BaseQuery
     public function setCommitWithin(int $commitWithin): self
     {
         $this->setOption('commitWithin', $commitWithin);
+
         return $this;
     }
 
@@ -337,6 +344,7 @@ class Query extends BaseQuery
     public function setDocumentClass(string $value): self
     {
         $this->setOption('documentclass', $value);
+
         return $this;
     }
 
@@ -362,6 +370,7 @@ class Query extends BaseQuery
     public function setExtractOnly(bool $value): self
     {
         $this->setOption('extractonly', (bool) $value);
+
         return $this;
     }
 
@@ -401,6 +410,8 @@ class Query extends BaseQuery
      */
     protected function init()
     {
+        parent::init();
+
         if (isset($this->options['fmap'])) {
             $this->setFieldMappings($this->options['fmap']);
         }

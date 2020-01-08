@@ -285,6 +285,7 @@ class Client extends Configurable implements ClientInterface
     public function __construct(array $options = null, EventDispatcherInterface $eventDispatcher = null)
     {
         $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
+
         parent::__construct($options);
     }
 
@@ -305,7 +306,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function createEndpoint($options = null, bool $setAsDefault = false): Endpoint
     {
-        if (is_string($options)) {
+        if (\is_string($options)) {
             $endpoint = new Endpoint();
             $endpoint->setKey($options);
         } else {
@@ -328,7 +329,6 @@ class Client extends Configurable implements ClientInterface
      * Supports a endpoint instance or a config array as input.
      * In case of options a new endpoint instance wil be created based on the options.
      *
-     *
      * @param Endpoint|array $endpoint
      *
      * @throws InvalidArgumentException
@@ -337,18 +337,18 @@ class Client extends Configurable implements ClientInterface
      */
     public function addEndpoint($endpoint): ClientInterface
     {
-        if (is_array($endpoint)) {
+        if (\is_array($endpoint)) {
             $endpoint = new Endpoint($endpoint);
         }
 
         $key = $endpoint->getKey();
 
-        if (0 === strlen($key)) {
+        if (0 === \strlen($key)) {
             throw new InvalidArgumentException('An endpoint must have a key value');
         }
 
         //double add calls for the same endpoint are ignored, but non-unique keys cause an exception
-        if (array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
+        if (\array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
             throw new InvalidArgumentException('An endpoint must have a unique key');
         }
 
@@ -373,7 +373,7 @@ class Client extends Configurable implements ClientInterface
     {
         foreach ($endpoints as $key => $endpoint) {
             // in case of a config array: add key to config
-            if (is_array($endpoint) && !isset($endpoint['key'])) {
+            if (\is_array($endpoint) && !isset($endpoint['key'])) {
                 $endpoint['key'] = $key;
             }
 
@@ -385,7 +385,6 @@ class Client extends Configurable implements ClientInterface
 
     /**
      * Get an endpoint by key.
-     *
      *
      * @param string $key
      *
@@ -427,7 +426,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function removeEndpoint($endpoint): ClientInterface
     {
-        if (is_object($endpoint)) {
+        if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
         }
 
@@ -481,7 +480,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function setDefaultEndpoint($endpoint): ClientInterface
     {
-        if (is_object($endpoint)) {
+        if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
         }
 
@@ -509,7 +508,6 @@ class Client extends Configurable implements ClientInterface
      * If an adapter instance is passed it will replace the current adapter
      * immediately, bypassing the lazy loading.
      *
-     *
      * @param string|Adapter\AdapterInterface $adapter
      *
      * @throws InvalidArgumentException
@@ -518,7 +516,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function setAdapter($adapter): ClientInterface
     {
-        if (is_string($adapter)) {
+        if (\is_string($adapter)) {
             $this->adapter = null;
             $this->setOption('adapter', $adapter);
         } elseif ($adapter instanceof AdapterInterface) {
@@ -582,7 +580,7 @@ class Client extends Configurable implements ClientInterface
     {
         foreach ($queryTypes as $type => $class) {
             // support both "key=>value" and "(no-key) => array(key=>x,query=>y)" formats
-            if (is_array($class)) {
+            if (\is_array($class)) {
                 if (isset($class['type'])) {
                     $type = $class['type'];
                 }
@@ -636,7 +634,6 @@ class Client extends Configurable implements ClientInterface
      * This requires the availability of the class through autoloading
      * or a manual require.
      *
-     *
      * @param string                 $key
      * @param string|PluginInterface $plugin
      * @param array                  $options
@@ -647,7 +644,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function registerPlugin(string $key, $plugin, array $options = []): ClientInterface
     {
-        if (is_string($plugin)) {
+        if (\is_string($plugin)) {
             $plugin = class_exists($plugin) ? $plugin : $plugin.strrchr($plugin, '\\');
             $plugin = new $plugin();
         }
@@ -700,7 +697,6 @@ class Client extends Configurable implements ClientInterface
     /**
      * Get a plugin instance.
      *
-     *
      * @param string $key
      * @param bool   $autocreate
      *
@@ -715,7 +711,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         if ($autocreate) {
-            if (array_key_exists($key, $this->pluginTypes)) {
+            if (\array_key_exists($key, $this->pluginTypes)) {
                 $this->registerPlugin($key, $this->pluginTypes[$key]);
 
                 return $this->pluginInstances[$key];
@@ -738,7 +734,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function removePlugin($plugin): ClientInterface
     {
-        if (is_object($plugin)) {
+        if (\is_object($plugin)) {
             foreach ($this->pluginInstances as $key => $instance) {
                 if ($instance === $plugin) {
                     unset($this->pluginInstances[$key]);
@@ -756,7 +752,6 @@ class Client extends Configurable implements ClientInterface
 
     /**
      * Creates a request based on a query instance.
-     *
      *
      * @param QueryInterface $query
      *
@@ -787,7 +782,6 @@ class Client extends Configurable implements ClientInterface
 
     /**
      * Creates a result object.
-     *
      *
      * @param QueryInterface $query
      * @param array|Response $response

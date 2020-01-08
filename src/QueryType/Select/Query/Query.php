@@ -198,13 +198,14 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function setQueryDefaultOperator(string $operator): self
     {
         $this->setOption('querydefaultoperator', $operator);
+
         return $this;
     }
 
     /**
      * Get the default query operator.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getQueryDefaultOperator(): ?string
     {
@@ -221,13 +222,14 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function setQueryDefaultField(string $field): self
     {
         $this->setOption('querydefaultfield', $field);
+
         return $this;
     }
 
     /**
      * Get the default query field.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getQueryDefaultField(): ?string
     {
@@ -244,6 +246,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function setStart(int $start): self
     {
         $this->setOption('start', $start);
+
         return $this;
     }
 
@@ -269,6 +272,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function setDocumentClass(string $value): self
     {
         $this->setOption('documentclass', $value);
+
         return $this;
     }
 
@@ -294,6 +298,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function setRows(int $rows): self
     {
         $this->setOption('rows', $rows);
+
         return $this;
     }
 
@@ -331,7 +336,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      */
     public function addFields($fields): self
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
@@ -502,7 +507,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      */
     public function createFilterQuery($options = null): FilterQuery
     {
-        if (is_string($options)) {
+        if (\is_string($options)) {
             $fq = new FilterQuery();
             $fq->setKey($options);
         } else {
@@ -522,7 +527,6 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      * Supports a filterquery instance or a config array, in that case a new
      * filterquery instance wil be created based on the options.
      *
-     *
      * @param FilterQuery|array $filterQuery
      *
      * @throws InvalidArgumentException
@@ -531,18 +535,18 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      */
     public function addFilterQuery($filterQuery): self
     {
-        if (is_array($filterQuery)) {
+        if (\is_array($filterQuery)) {
             $filterQuery = new FilterQuery($filterQuery);
         }
 
         $key = $filterQuery->getKey();
 
-        if (0 === strlen($key)) {
+        if (0 === \strlen($key)) {
             throw new InvalidArgumentException('A filterquery must have a key value');
         }
 
         //double add calls for the same FQ are ignored, but non-unique keys cause an exception
-        if (array_key_exists($key, $this->filterQueries) && $this->filterQueries[$key] !== $filterQuery) {
+        if (\array_key_exists($key, $this->filterQueries) && $this->filterQueries[$key] !== $filterQuery) {
             throw new InvalidArgumentException('A filterquery must have a unique key value within a query');
         }
 
@@ -562,7 +566,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     {
         foreach ($filterQueries as $key => $filterQuery) {
             // in case of a config array: add key to config
-            if (is_array($filterQuery) && !isset($filterQuery['key'])) {
+            if (\is_array($filterQuery) && !isset($filterQuery['key'])) {
                 $filterQuery['key'] = $key;
             }
 
@@ -605,7 +609,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      */
     public function removeFilterQuery($filterQuery): self
     {
-        if (is_object($filterQuery)) {
+        if (\is_object($filterQuery)) {
             $filterQuery = $filterQuery->getKey();
         }
 
@@ -650,11 +654,16 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param string $tag
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return self Provides fluent interface
      */
     public function addTag(string $tag): self
     {
-        $this->tags[$tag] = true;
+        $this
+            ->getLocalParameters()
+            ->addTags([$tag])
+        ;
 
         return $this;
     }
@@ -664,13 +673,16 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param array $tags
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return self Provides fluent interface
      */
     public function addTags(array $tags): self
     {
-        foreach ($tags as $tag) {
-            $this->addTag($tag);
-        }
+        $this
+            ->getLocalParameters()
+            ->addTags($tags)
+        ;
 
         return $this;
     }
@@ -678,11 +690,16 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * Get all tagss.
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return array
      */
     public function getTags(): array
     {
-        return array_keys($this->tags);
+        return $this
+            ->getLocalParameters()
+            ->getTags()
+        ;
     }
 
     /**
@@ -690,13 +707,16 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param string $tag
      *
-     * @return self Provides fluent interface
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
      */
     public function removeTag(string $tag): self
     {
-        if (isset($this->tags[$tag])) {
-            unset($this->tags[$tag]);
-        }
+        $this
+            ->getLocalParameters()
+            ->removeTag($tag)
+        ;
 
         return $this;
     }
@@ -704,11 +724,16 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * Remove all tags.
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return self Provides fluent interface
      */
     public function clearTags(): self
     {
-        $this->tags = [];
+        $this
+            ->getLocalParameters()
+            ->clearTags()
+        ;
 
         return $this;
     }
@@ -720,13 +745,19 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param array $tags
      *
-     * @return self Provides fluent interface
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
      */
     public function setTags(array $tags): self
     {
-        $this->clearTags();
+        $this
+            ->getLocalParameters()
+            ->clearTags()
+            ->addTags($tags)
+        ;
 
-        return $this->addTags($tags);
+        return $this;
     }
 
     /**
@@ -743,6 +774,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function setCursormark(string $cursormark): self
     {
         $this->setOption('cursormark', $cursormark);
+
         return $this;
     }
 
@@ -764,6 +796,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function clearCursormark(): self
     {
         $this->setOption('cursormark', null);
+
         return $this;
     }
 
@@ -782,6 +815,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function setSplitOnWhitespace(bool $splitOnWhitespace): self
     {
         $this->setOption('splitonwhitespace', $splitOnWhitespace);
+
         return $this;
     }
 
@@ -825,12 +859,6 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
                     break;
                 case 'component':
                     $this->createComponents($value);
-                    break;
-                case 'tag':
-                    if (!is_array($value)) {
-                        $value = explode(',', $value);
-                    }
-                    $this->addTags($value);
                     break;
                 case 'cursormark':
                     $this->setCursormark($value);

@@ -6,6 +6,7 @@ use Solarium\Component\QueryInterface;
 use Solarium\Component\QueryTrait;
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\Helper;
+use Solarium\Core\Query\LocalParameters\LocalParametersTrait;
 
 /**
  * Filterquery.
@@ -15,6 +16,7 @@ use Solarium\Core\Query\Helper;
 class FilterQuery extends Configurable implements QueryInterface
 {
     use QueryTrait;
+    use LocalParametersTrait;
 
     /**
      * Tags for this filterquery.
@@ -37,7 +39,7 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function getKey(): ?string
     {
-        return $this->getOption('key');
+        return $this->getLocalParameters()->getKeys()[0] ?? null;
     }
 
     /**
@@ -49,7 +51,8 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function setKey(string $value): self
     {
-        $this->setOption('key', $value);
+        $this->getLocalParameters()->setKey($value);
+
         return $this;
     }
 
@@ -62,7 +65,7 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function addTag(string $tag): self
     {
-        $this->tags[$tag] = true;
+        $this->getLocalParameters()->setTag($tag);
 
         return $this;
     }
@@ -76,9 +79,7 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function addTags(array $tags): self
     {
-        foreach ($tags as $tag) {
-            $this->addTag($tag);
-        }
+        $this->getLocalParameters()->addTags($tags);
 
         return $this;
     }
@@ -90,7 +91,7 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function getTags(): array
     {
-        return array_keys($this->tags);
+        return $this->getLocalParameters()->getTags();
     }
 
     /**
@@ -102,9 +103,7 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function removeTag(string $tag): self
     {
-        if (isset($this->tags[$tag])) {
-            unset($this->tags[$tag]);
-        }
+        $this->getLocalParameters()->removeTag($tag);
 
         return $this;
     }
@@ -116,7 +115,7 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function clearTags(): self
     {
-        $this->tags = [];
+        $this->getLocalParameters()->clearTags();
 
         return $this;
     }
@@ -132,9 +131,9 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function setTags(array $tags): self
     {
-        $this->clearTags();
+        $this->getLocalParameters()->clearTags()->addTags($tags);
 
-        return $this->addTags($tags);
+        return $this;
     }
 
     /**
@@ -154,15 +153,6 @@ class FilterQuery extends Configurable implements QueryInterface
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {
-                case 'tag':
-                    if (!is_array($value)) {
-                        $value = [$value];
-                    }
-                    $this->addTags($value);
-                    break;
-                case 'key':
-                    $this->setKey($value);
-                    break;
                 case 'query':
                     $this->setQuery($value);
                     break;

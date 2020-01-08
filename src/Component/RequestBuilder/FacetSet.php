@@ -24,7 +24,6 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     /**
      * Add request settings for FacetSet.
      *
-     *
      * @param FacetsetComponent $component
      * @param Request           $request
      *
@@ -35,7 +34,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         $facets = $component->getFacets();
-        if (0 !== count($facets)) {
+        if (0 !== \count($facets)) {
             $non_json = false;
             $json_facets = [];
 
@@ -138,17 +137,20 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 'facet.missing' => $facet->getMissing(),
                 'facet.method' => $facet->getMethod(),
             ];
+
+            $request->addParam(
+                'facet.field',
+                $this->renderLocalParams(
+                    $field,
+                    $local_params
+                )
+            );
         } else {
-            $local_params = ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()];
-        }
-        $request->addParam(
-            'facet.field',
-            $this->renderLocalParams(
-                $field,
-                $local_params
-            )
-        );
-        if (!$use_local_params) {
+            $request->addParam(
+                'facet.field',
+                sprintf('%s%s', $facet->getLocalParameters()->render(), $field)
+            );
+
             $request->addParam("f.$field.facet.limit", $facet->getLimit());
             $request->addParam("f.$field.facet.sort", $facet->getSort());
             $request->addParam("f.$field.facet.prefix", $facet->getPrefix());
@@ -171,10 +173,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     {
         $request->addParam(
             'facet.query',
-            $this->renderLocalParams(
-                $facet->getQuery(),
-                ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()]
-            )
+            sprintf('%s%s', $facet->getLocalParameters()->render(), $facet->getQuery())
         );
     }
 
@@ -203,10 +202,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
 
         $request->addParam(
             'facet.range',
-            $this->renderLocalParams(
-                $field,
-                ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()]
-            )
+            sprintf('%s%s', $facet->getLocalParameters()->render(), $field)
         );
 
         $request->addParam("f.$field.facet.range.start", $facet->getStart());
@@ -234,7 +230,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     {
         $stats = $facet->getStats();
 
-        if (count($stats) > 0) {
+        if (\count($stats) > 0) {
             $key = ['stats' => implode('', $stats)];
 
             // when specifying stats, solr sets the field as key
@@ -245,10 +241,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
 
         $request->addParam(
             'facet.pivot',
-            $this->renderLocalParams(
-                implode(',', $facet->getFields()),
-                array_merge($key, ['ex' => $facet->getExcludes()])
-            )
+            sprintf('%s%s', $facet->getLocalParameters()->render(), implode(',', $facet->getFields()))
         );
         $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
         $request->addParam('facet.pivot.limit', $facet->getLimit(), true);
@@ -266,14 +259,11 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
 
         $request->addParam(
             'facet.interval',
-            $this->renderLocalParams(
-                $field,
-                ['key' => $facet->getKey(), 'ex' => $facet->getExcludes()]
-            )
+            sprintf('%s%s', $facet->getLocalParameters()->render(), $field)
         );
 
         foreach ($facet->getSet() as $key => $setValue) {
-            if (is_string($key)) {
+            if (\is_string($key)) {
                 $setValue = '{!key="'.$key.'"}'.$setValue;
             }
             $request->addParam("f.$field.facet.interval.set", $setValue);

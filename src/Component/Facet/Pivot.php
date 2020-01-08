@@ -9,23 +9,14 @@ use Solarium\Component\FacetSetInterface;
  *
  * @see http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting
  */
-class Pivot extends AbstractFacet implements ExcludeTagsInterface
+class Pivot extends AbstractFacet
 {
-    use ExcludeTagsTrait;
-
     /**
      * Fields to use.
      *
      * @var array
      */
     protected $fields = [];
-
-    /**
-     * Optional stats.
-     *
-     * @var array
-     */
-    protected $stats = [];
 
     /**
      * Get the facet type.
@@ -69,6 +60,7 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
     public function setMinCount($minCount): self
     {
         $this->setOption('mincount', $minCount);
+
         return $this;
     }
 
@@ -107,7 +99,7 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
      */
     public function addFields($fields): self
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
         }
 
@@ -179,11 +171,16 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
      *
      * @param string $stat
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return self Provides fluent interface
      */
     public function addStat(string $stat): self
     {
-        $this->stats[$stat] = true;
+        $this
+            ->getLocalParameters()
+            ->setStat($stat)
+        ;
 
         return $this;
     }
@@ -194,18 +191,20 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
      * @param string|array $stats can be an array or string with comma
      *                            separated statnames
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return self Provides fluent interface
      */
     public function addStats($stats): self
     {
-        if (is_string($stats)) {
-            $stats = explode(',', $stats);
-            $stats = array_map('trim', $stats);
+        if (false === \is_array($stats)) {
+            $stats = array_map('trim', explode(',', $stats));
         }
 
-        foreach ($stats as $stat) {
-            $this->addStat($stat);
-        }
+        $this
+            ->getLocalParameters()
+            ->addStats($stats)
+        ;
 
         return $this;
     }
@@ -215,13 +214,16 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
      *
      * @param string $stat
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return self Provides fluent interface
      */
     public function removeStat($stat): self
     {
-        if (isset($this->stats[$stat])) {
-            unset($this->stats[$stat]);
-        }
+        $this
+            ->getLocalParameters()
+            ->removeStat($stat)
+        ;
 
         return $this;
     }
@@ -229,11 +231,16 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
     /**
      * Remove all stats from the stats list.
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return self Provides fluent interface
      */
     public function clearStats(): self
     {
-        $this->stats = [];
+        $this
+            ->getLocalParameters()
+            ->clearStats()
+        ;
 
         return $this;
     }
@@ -241,11 +248,16 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
     /**
      * Get the list of stats.
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return array
      */
     public function getStats(): array
     {
-        return array_keys($this->stats);
+        return $this
+            ->getLocalParameters()
+            ->getStats()
+        ;
     }
 
     /**
@@ -255,12 +267,17 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
      *
      * @param array $stats
      *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
      * @return self Provides fluent interface
      */
     public function setStats(array $stats): self
     {
-        $this->clearStats();
-        $this->addStats($stats);
+        $this
+            ->getLocalParameters()
+            ->clearStats()
+            ->addStats($stats)
+        ;
 
         return $this;
     }
@@ -274,9 +291,6 @@ class Pivot extends AbstractFacet implements ExcludeTagsInterface
             switch ($name) {
                 case 'fields':
                     $this->addFields($value);
-                    break;
-                case 'stats':
-                    $this->setStats($value);
                     break;
             }
         }

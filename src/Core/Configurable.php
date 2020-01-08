@@ -54,16 +54,16 @@ class Configurable implements ConfigurableInterface
      * @param bool               $overwrite True for overwriting existing options, false
      *                                      for merging (new values overwrite old ones if needed)
      *
-     * @return self
-     *
      * @throws InvalidArgumentException
+     *
+     * @return self
      */
     public function setOptions($options, bool $overwrite = false): ConfigurableInterface
     {
         if (null !== $options) {
             // first convert to array if needed
-            if (!is_array($options)) {
-                if (is_object($options)) {
+            if (!\is_array($options)) {
+                if (\is_object($options)) {
                     $options = (!method_exists($options, 'toArray') ? $this->toArray($options) : $options->toArray());
                 } else {
                     throw new InvalidArgumentException('Options value given to the setOptions() method must be an array or a Zend_Config object');
@@ -76,6 +76,9 @@ class Configurable implements ConfigurableInterface
                 $this->options = array_merge($this->options, $options);
             }
 
+            if (true === \is_callable([$this, 'initLocalParameters'])) {
+                $this->initLocalParameters();
+            }
             // re-init for new options
             $this->init();
         }
@@ -149,7 +152,7 @@ class Configurable implements ConfigurableInterface
      */
     protected function toArray($object): array
     {
-        if (is_object($object)) {
+        if (\is_object($object)) {
             return (array) $object;
         }
 

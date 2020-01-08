@@ -455,7 +455,7 @@ abstract class AbstractQueryTest extends TestCase
 
     public function testConfigModeWithSingleValueTag()
     {
-        $query = $query = new Query(['tag' => 't1']);
+        $query = new Query(['tag' => 't1']);
         $this->assertSame(['t1'], $query->getTags());
     }
 
@@ -547,7 +547,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\MoreLikeThis',
-            get_class($mlt)
+            \get_class($mlt)
         );
     }
 
@@ -557,7 +557,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\DisMax',
-            get_class($dismax)
+            \get_class($dismax)
         );
     }
 
@@ -567,7 +567,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Highlighting\Highlighting',
-            get_class($hlt)
+            \get_class($hlt)
         );
     }
 
@@ -577,7 +577,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Grouping',
-            get_class($grouping)
+            \get_class($grouping)
         );
     }
 
@@ -587,7 +587,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\QueryElevation',
-            get_class($queryelevation)
+            \get_class($queryelevation)
         );
     }
 
@@ -626,7 +626,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Spellcheck',
-            get_class($spellcheck)
+            \get_class($spellcheck)
         );
     }
 
@@ -636,7 +636,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Suggester',
-            get_class($suggester)
+            \get_class($suggester)
         );
     }
 
@@ -646,7 +646,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\DistributedSearch',
-            get_class($spellcheck)
+            \get_class($spellcheck)
         );
     }
 
@@ -656,7 +656,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Stats\Stats',
-            get_class($stats)
+            \get_class($stats)
         );
     }
 
@@ -666,7 +666,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Debug',
-            get_class($stats)
+            \get_class($stats)
         );
     }
 
@@ -676,7 +676,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Spatial',
-            get_class($spatial)
+            \get_class($spatial)
         );
     }
 
@@ -686,7 +686,7 @@ abstract class AbstractQueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\ReRankQuery',
-            get_class($reRankQuery)
+            \get_class($reRankQuery)
         );
     }
 
