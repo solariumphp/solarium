@@ -2,6 +2,8 @@
 
 namespace Solarium\Component\Result\Facet;
 
+use Solarium\Component\Result\Facet\Pivot\Pivot;
+
 /**
  * Select range facet result.
  *
@@ -57,6 +59,11 @@ class Range extends Field
     protected $gap;
 
     /**
+     * @var \Solarium\Component\Result\Facet\Pivot\Pivot|null
+     */
+    protected $pivot;
+
+    /**
      * Constructor.
      *
      * @param array           $values
@@ -66,16 +73,19 @@ class Range extends Field
      * @param string|int|null $start
      * @param string|int|null $end
      * @param string|int|null $gap
+     * @param Pivot|null      $pivot
      */
-    public function __construct(array $values, ?int $before, ?int $after, ?int $between, $start, $end, $gap)
+    public function __construct(array $values, ?int $before, ?int $after, ?int $between, $start, $end, $gap, ?Pivot $pivot = null)
     {
         parent::__construct($values);
+
         $this->before = $before;
         $this->after = $after;
         $this->between = $between;
         $this->start = $start;
         $this->end = $end;
         $this->gap = $gap;
+        $this->pivot = $pivot;
     }
 
     /**
@@ -151,5 +161,13 @@ class Range extends Field
     public function getGap(): string
     {
         return (string) $this->gap;
+    }
+
+    /**
+     * @return \Solarium\Component\Result\Facet\Pivot\Pivot|null
+     */
+    public function getPivot(): ?Pivot
+    {
+        return $this->pivot;
     }
 }

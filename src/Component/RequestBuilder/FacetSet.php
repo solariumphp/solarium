@@ -218,6 +218,13 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         foreach ($facet->getInclude() as $includeValue) {
             $request->addParam("f.$field.facet.range.include", $includeValue);
         }
+
+        if (null !== $pivot = $facet->getPivot()) {
+            $request->addParam(
+                'facet.pivot',
+                sprintf('%s%s', $pivot->getLocalParameters()->render(), implode(',', $pivot->getFields()))
+            );
+        }
     }
 
     /**

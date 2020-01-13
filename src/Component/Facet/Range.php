@@ -60,6 +60,8 @@ class Range extends AbstractRange
                 case 'exclude':
                     $this->getLocalParameters()->addExcludes($value);
                     break;
+                case 'pivot':
+                    $this->setPivot(new Pivot($value));
             }
         }
     }

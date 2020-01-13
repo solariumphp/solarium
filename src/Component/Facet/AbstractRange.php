@@ -261,6 +261,24 @@ abstract class AbstractRange extends AbstractFacet
     }
 
     /**
+     * @param \Solarium\Component\Facet\Pivot|array $pivot
+     *
+     * @return \Solarium\Core\Configurable
+     */
+    public function setPivot($pivot)
+    {
+        return $this->setOption('pivot', $pivot);
+    }
+
+    /**
+     * @return \Solarium\Component\Facet\Pivot|array|null
+     */
+    public function getPivot()
+    {
+        return $this->getOption('pivot');
+    }
+
+    /**
      * Initialize options.
      *
      * Several options need some extra checks or setup work, for these options

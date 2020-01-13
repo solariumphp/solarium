@@ -30,6 +30,8 @@ class RangeTest extends TestCase
             'hardend' => true,
             'other' => 'all',
             'include' => 'lower',
+            'tag' => 'myTag',
+            'pivot' => ['pivot', 'fields'],
         ];
 
         $this->facet->setOptions($options);
@@ -112,5 +114,11 @@ class RangeTest extends TestCase
     {
         $this->facet->setInclude(['lower', 'upper']);
         $this->assertSame(['lower', 'upper'], $this->facet->getInclude());
+    }
+
+    public function testSetAndGetPivot()
+    {
+        $this->facet->setPivot(['pivot', 'fields']);
+        $this->assertSame(['pivot', 'fields'], $this->facet->getPivot());
     }
 }

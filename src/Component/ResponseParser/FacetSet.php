@@ -40,7 +40,6 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Parse result data into result objects.
      *
-     *
      * @param ComponentAwareQueryInterface|AbstractQuery $query
      * @param AbstractComponent|QueryFacetSet            $facetSet
      * @param array                                      $data
@@ -148,15 +147,15 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     {
         $buckets_and_aggregations = [];
         foreach ($facet_data as $key => $values) {
-            if (is_array($values)) {
+            if (\is_array($values)) {
                 if (isset($values['buckets'])) {
                     $buckets = [];
                     // Parse buckets.
                     foreach ($values['buckets'] as $bucket) {
                         $val = $bucket['val'];
                         $count = $bucket['count'];
-                        unset($bucket['val']);
-                        unset($bucket['count']);
+                        unset($bucket['val'], $bucket['count']);
+
                         $buckets[] = new Bucket($val, $count, new ResultFacetSet($this->parseJsonFacetSet($bucket,
                             (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) ? $facets[$key]->getFacets() : []
                         )));
@@ -179,6 +178,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                 $buckets_and_aggregations[$key] = new Aggregation($values);
             }
         }
+
         return $buckets_and_aggregations;
     }
 
@@ -256,7 +256,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             }
         }
 
-        if (count($values) <= 0) {
+        if (\count($values) <= 0) {
             return null;
         }
 
@@ -274,6 +274,28 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      */
     protected function facetRange(AbstractQuery $query, FacetInterface $facet, array $data): ?ResultFacetRange
     {
+        if (null !== $pivot = $facet->getPivot()) {
+            foreach ($pivot->getLocalParameters()->getKeys() as $key) {
+                if (isset($data['facet_counts']['facet_pivot'][$key])) {
+                    $pivot = $data['facet_counts']['facet_pivot'][$key];
+
+                    foreach ($pivot as $pivotKey => $piv) {
+                        if (isset($piv['ranges'])) {
+                            foreach ($piv['ranges'] as $rangeKey => $range) {
+                                if (isset($range['counts'])) {
+                                    $pivot[$pivotKey]['ranges'][$rangeKey]['counts'] = $this->convertToKeyValueArray($range['counts']);
+                                }
+                            }
+                        }
+                    }
+
+                    $pivot = new ResultFacetPivot($pivot);
+                } else {
+                    $pivot = null;
+                }
+            }
+        }
+
         $key = $facet->getKey();
         if (!isset($data['facet_counts']['facet_ranges'][$key])) {
             return null;
@@ -291,7 +313,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             $data['counts'] = $this->convertToKeyValueArray($data['counts']);
         }
 
-        return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap);
+        return new ResultFacetRange($data['counts'], $before, $after, $between, $start, $end, $gap, $pivot);
     }
 
     /**
@@ -350,7 +372,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
 
         if (null !== $stats = $pivotItem->getStats()) {
             foreach ($stats->getResults() as $key => $result) {
-                if ($result instanceof Result || false === is_array($result)) {
+                if ($result instanceof Result || false === \is_array($result)) {
                     continue;
                 }
 

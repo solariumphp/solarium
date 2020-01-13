@@ -3,6 +3,7 @@
 namespace Solarium\Component\Result\Facet\Pivot;
 
 use Solarium\Component\Result\Stats\Stats;
+use Solarium\Component\Result\Facet\Range;
 
 /**
  * Select field pivot result.
@@ -38,6 +39,11 @@ class PivotItem extends Pivot
     protected $stats;
 
     /**
+     * @var \Solarium\Component\Result\Facet\Range[]
+     */
+    protected $ranges;
+
+    /**
      * Constructor.
      *
      * @param array $data
@@ -58,6 +64,18 @@ class PivotItem extends Pivot
 
         if (isset($data['stats'])) {
             $this->stats = new Stats($data['stats']);
+        }
+
+        if (isset($data['ranges'])) {
+            foreach ($data['ranges'] as $range) {
+                $before = $range['before'] ?? null;
+                $after = $range['after'] ?? null;
+                $between = $range['between'] ?? null;
+                $start = $range['start'] ?? null;
+                $end = $range['end'] ?? null;
+                $gap = $range['gap'] ?? null;
+                $this->ranges[] = new Range($range['counts'], $before, $after, $between, $start, $end, $gap);
+            }
         }
     }
 
@@ -99,5 +117,15 @@ class PivotItem extends Pivot
     public function getStats(): ?Stats
     {
         return $this->stats;
+    }
+
+    /**
+     * Get ranges.
+     *
+     * @return \Solarium\Component\Result\Facet\Range[]
+     */
+    public function getRanges(): array
+    {
+        return $this->ranges;
     }
 }
