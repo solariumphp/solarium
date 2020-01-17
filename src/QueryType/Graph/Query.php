@@ -46,8 +46,9 @@ class Query extends AbstractQuery
     /**
      * No response parser required since we pass through GraphML.
      */
-    public function getResponseParser(): ResponseParserInterface
+    public function getResponseParser(): ?ResponseParserInterface
     {
+        return null;
     }
 
     /**
