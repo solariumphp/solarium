@@ -17,7 +17,7 @@ interface QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setQuery(string $query, array $bind = null): self;
+    public function setQuery(string $query, array $bind = null): QueryInterface;
 
     /**
      * Get query option.

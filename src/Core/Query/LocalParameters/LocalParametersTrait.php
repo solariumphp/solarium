@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Solarium\Core\Query\LocalParameters;
 
+use Solarium\QueryType\Select\Query\FilterQuery;
+
 /**
  * Local Parameters Trait.
  *
@@ -141,15 +143,6 @@ trait LocalParametersTrait
             switch ($name) {
                 case 'exclude':
                     @trigger_error('setting local parameter using the "exclude" option is deprecated in Solarium 5 and will be removed in Solarium 6. Use "local_exclude" instead', E_USER_DEPRECATED);
-
-                    if (!\is_array($value)) {
-                        $value = explode(',', $value);
-                    }
-
-                    $this->getLocalParameters()->addExcludes($value);
-                    unset($this->options[$name]);
-
-                    break;
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_EXCLUDE]:
                     if (!\is_array($value)) {
                         $value = explode(',', $value);
@@ -160,6 +153,10 @@ trait LocalParametersTrait
 
                     break;
                 case 'key':
+                    if ($this instanceof FilterQuery) {
+                        break;
+                    }
+                    @trigger_error('setting local parameter using the "key" option is deprecated in Solarium 5 and will be removed in Solarium 6. Use "local_key" instead', E_USER_DEPRECATED);
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_KEY]:
                     $this->getLocalParameters()->setKey($value);
                     unset($this->options[$name]);
@@ -167,15 +164,6 @@ trait LocalParametersTrait
                     break;
                 case 'tag':
                     @trigger_error('setting local parameter using the "tag" option is deprecated in Solarium 5 and will be removed in Solarium 6. Use "local_tag" instead', E_USER_DEPRECATED);
-
-                    if (!\is_array($value)) {
-                        $value = explode(',', $value);
-                    }
-
-                    $this->getLocalParameters()->addTags($value);
-                    unset($this->options[$name]);
-
-                    break;
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_TAG]:
                     if (!\is_array($value)) {
                         $value = explode(',', $value);
@@ -196,15 +184,6 @@ trait LocalParametersTrait
                     break;
                 case 'stats':
                     @trigger_error('setting local parameter using the "stats" option is deprecated in Solarium 5 and will be removed in Solarium 6. Use "local_stats" instead', E_USER_DEPRECATED);
-
-                    if (!\is_array($value)) {
-                        $value = explode(',', $value);
-                    }
-
-                    $this->getLocalParameters()->addStats($value);
-                    unset($this->options[$name]);
-
-                    break;
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_STAT]:
                     if (!\is_array($value)) {
                         $value = explode(',', $value);
