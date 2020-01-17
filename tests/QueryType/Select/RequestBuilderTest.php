@@ -88,7 +88,7 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc'.
-            '&fq={!key=f1}published:true&fq={!key=f2 tag=t1,t2}category:23',
+            '&fq=published:true&fq={!tag=t1,t2}category:23',
             urldecode($request->getUri())
         );
     }
