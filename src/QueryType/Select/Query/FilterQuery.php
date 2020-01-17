@@ -52,6 +52,7 @@ class FilterQuery extends Configurable implements QueryInterface
     public function setKey(string $value): self
     {
         $this->setOption('key', $value);
+
         return $this;
     }
 
