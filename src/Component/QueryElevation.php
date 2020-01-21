@@ -210,6 +210,29 @@ class QueryElevation extends AbstractComponent
     }
 
     /**
+     * Set use configured elevated order.
+     *
+     * @param bool $useConfiguredElevatedOrder
+     *
+     * @return self Provides fluent interface
+     */
+    public function setUseConfiguredElevatedOrder(bool $useConfiguredElevatedOrder): self
+    {
+        $this->setOption('useConfiguredElevatedOrder', $useConfiguredElevatedOrder);
+        return $this;
+    }
+
+    /**
+     * Get use configured elevated order.
+     *
+     * @return bool|null
+     */
+    public function getUseConfiguredElevatedOrder(): ?bool
+    {
+        return $this->getOption('useConfiguredElevatedOrder');
+    }
+
+    /**
      * Set mark excludes.
      *
      * @param bool $mark

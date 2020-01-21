@@ -32,6 +32,7 @@ class QueryElevation implements ComponentRequestBuilderInterface
         $request->addParam('enableElevation', $component->getEnableElevation());
         $request->addParam('forceElevation', $component->getForceElevation());
         $request->addParam('exclusive', $component->getExclusive());
+        $request->addParam('useConfiguredElevatedOrder', $component->getUseConfiguredElevatedOrder());
         $request->addParam('markExcludes', $component->getMarkExcludes());
 
         // add overrides for pre-configured elevations
