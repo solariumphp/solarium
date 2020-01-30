@@ -25,6 +25,7 @@ class QueryElevationTest extends TestCase
             'enableElevation' => false,
             'forceElevation' => true,
             'exclusive' => true,
+            'useConfiguredElevatedOrder' => false,
             'markExcludes' => false,
             'elevateIds' => 'doc1,doc2',
             'excludeIds' => 'doc3,doc4',
@@ -36,6 +37,7 @@ class QueryElevationTest extends TestCase
         $this->assertFalse($this->queryelevation->getEnableElevation());
         $this->assertTrue($this->queryelevation->getForceElevation());
         $this->assertTrue($this->queryelevation->getExclusive());
+        $this->assertFalse($this->queryelevation->getUseConfiguredElevatedOrder());
         $this->assertFalse($this->queryelevation->getMarkExcludes());
         $this->assertSame(['doc1', 'doc2'], $this->queryelevation->getElevateIds());
         $this->assertSame(['doc3', 'doc4'], $this->queryelevation->getExcludeIds());
@@ -122,6 +124,12 @@ class QueryElevationTest extends TestCase
     {
         $this->queryelevation->setExclusive(true);
         $this->assertTrue($this->queryelevation->getExclusive());
+    }
+
+    public function testSetAndGetUseConfiguredElevatedOrder()
+    {
+        $this->queryelevation->setUseConfiguredElevatedOrder(false);
+        $this->assertFalse($this->queryelevation->getUseConfiguredElevatedOrder());
     }
 
     public function testSetMarkExcludesTrue()
