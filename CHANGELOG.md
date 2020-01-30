@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [unreleased]
 ### Added
 - Range facet pivot support
+- Support for useConfiguredElevatedOrder
 
 ### Fixed
 - setting limit for pivot facets
+
 
 ## [5.1.5]
 ### Security
