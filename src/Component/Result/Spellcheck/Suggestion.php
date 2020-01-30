@@ -129,14 +129,17 @@ class Suggestion
      *
      * Only available if CollateExtendedResults was enabled in your query
      *
-     * @return int
+     * @return int|null
      */
     public function getFrequency(): int
     {
         $word = reset($this->words);
-        if (isset($word['freq'])) {
-            return $word['freq'];
+
+        if (false === isset($word['freq'])) {
+            return null;
         }
+
+        return $word['freq'];
     }
 
     /**
