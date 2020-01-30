@@ -9,9 +9,11 @@ use Solarium\Core\Configurable;
 use Solarium\Core\ConfigurableInterface;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\OutOfBoundsException;
+use Laminas\Http\Client;
+use Laminas\Http\Response as LaminasResponse;
 
 /**
- * Adapter that uses a ZF2 Zend\Http\Client.
+ * Adapter that uses a ZF2 Laminas\Http\Client.
  *
  * The Zend Framework HTTP client has many great features and has lots of
  * configuration options. For more info see the manual at
@@ -22,9 +24,9 @@ use Solarium\Exception\OutOfBoundsException;
 class Zend2Http extends Configurable implements AdapterInterface
 {
     /**
-     * Zend Http instance for communication with Solr.
+     * Laminas Http instance for communication with Solr.
      *
-     * @var \Zend\Http\Client
+     * @var \Laminas\Http\Client
      */
     protected $zendHttp;
 
@@ -39,7 +41,7 @@ class Zend2Http extends Configurable implements AdapterInterface
      * Overrides any existing values.
      *
      * If the options array has an 'options' entry it is forwarded to the
-     * Zend\Http\Client. See the Zend\Http\Client docs for the many config
+     * Laminas\Http\Client. See the Laminas\Http\Client docs for the many config
      * options available.
      *
      * The $options param should be an array or an object that has a toArray
@@ -71,13 +73,13 @@ class Zend2Http extends Configurable implements AdapterInterface
     }
 
     /**
-     * Set the Zend\Http\Client instance.
+     * Set the Laminas\Http\Client instance.
      *
      * This method is optional, if you don't set a client it will be created
      * upon first use, using default and/or custom options (the most common use
      * case)
      *
-     * @param \Zend\Http\Client $zendHttp
+     * @param \Laminas\Http\Client $zendHttp
      *
      * @return self Provides fluent interface
      */
@@ -89,16 +91,16 @@ class Zend2Http extends Configurable implements AdapterInterface
     }
 
     /**
-     * Get the Zend\Http\Client instance.
+     * Get the Laminas\Http\Client instance.
      *
      * If no instance is available yet it will be created automatically based on
      * options.
      *
      * You can use this method to get a reference to the client instance to set
      * options, get the last response and use many other features offered by the
-     * Zend\Http\Client API.
+     * Laminas\Http\Client API.
      *
-     * @return \Zend\Http\Client
+     * @return \Laminas\Http\Client
      */
     public function getZendHttp()
     {
@@ -113,14 +115,14 @@ class Zend2Http extends Configurable implements AdapterInterface
                 );
             }
 
-            $this->zendHttp = new \Zend\Http\Client(null, $options);
+            $this->zendHttp = new Client(null, $options);
         }
 
         return $this->zendHttp;
     }
 
     /**
-     * Execute a Solr request using the Zend\Http\Client instance.
+     * Execute a Solr request using the Laminas\Http\Client instance.
      *
      * @param Request  $request
      * @param Endpoint $endpoint
@@ -186,20 +188,20 @@ class Zend2Http extends Configurable implements AdapterInterface
      * Prepare a solarium response from the given request and client
      * response.
      *
-     * @param Request             $request
-     * @param \Zend\Http\Response $response
-     *
-     * @throws HttpException
+     * @param Request                $request
+     * @param \Laminas\Http\Response $response
      *
      * @return Response
+     *
+     * @throws \Solarium\Exception\HttpException
      */
-    protected function prepareResponse(Request $request, \Zend\Http\Response $response)
+    protected function prepareResponse(Request $request, LaminasResponse $response)
     {
         if ($response->isClientError()) {
             throw new HttpException($response->getReasonPhrase(), $response->getStatusCode());
         }
 
-        if (Request::METHOD_HEAD == $request->getMethod()) {
+        if (Request::METHOD_HEAD === $request->getMethod()) {
             $data = '';
         } else {
             $data = $response->getBody();
@@ -214,7 +216,7 @@ class Zend2Http extends Configurable implements AdapterInterface
     /**
      * Prepare the client to send the file and params in request.
      *
-     * @param \Zend\Http\Client $client
+     * @param \Laminas\Http\Client $client
      * @param Request           $request
      */
     protected function prepareFileUpload($client, $request)
