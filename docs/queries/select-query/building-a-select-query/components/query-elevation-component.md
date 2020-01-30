@@ -3,15 +3,16 @@ Query Elevation is a Solr component that lets you configure the top results for 
 Options
 -------
 
-| Name            | Type    | Default value | Description                                                                                                                                            |
-|-----------------|---------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| transformers    | string  | [elevated]    | Comma separated list of transformers to annotate each document. The [elevated] transformer tells whether or not the document was elevated.             |
-| enableElevation | boolean | null          | For debugging it may be useful to see results with and without elevation applied. To get results without elevation, use false.                         |
-| forceElevation  | boolean | null          | By default, this component respects the requested sort parameter. To return elevated documents first, use true.                                        |
-| exclusive       | boolean | null          | You can force Solr to return only the results specified in the elevation file by using true.                                                           |
-| markExcludes    | boolean | null          | You can include documents that the elevation configuration would normally exclude by using true. The [excluded] transformer is added to each document. |
-| elevateIds      | string  | null          | Comma separated list of documents to elevate. This overrides the elevations _and_ exclusions that are configured for the query in the elevation file.  |
-| excludeIds      | string  | null          | Comma separated list of documents to exclude. This overrides the elevations _and_ exclusions that are configured for the query in the elevation file.  |
+| Name                       | Type    | Default value | Description                                                                                                                                            |
+|----------------------------|---------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| transformers               | string  | [elevated]    | Comma separated list of transformers to annotate each document. The [elevated] transformer tells whether or not the document was elevated.             |
+| enableElevation            | boolean | null          | For debugging it may be useful to see results with and without elevation applied. To get results without elevation, use false.                         |
+| forceElevation             | boolean | null          | By default, this component respects the requested sort parameter. To return elevated documents first, use true.                                        |
+| exclusive                  | boolean | null          | You can force Solr to return only the results specified in the elevation file by using true.                                                           |
+| useConfiguredElevatedOrder | boolean | null          | By default, this component sorts elevated documents in the configured order. To respect the requested sort parameter, use false.                       |
+| markExcludes               | boolean | null          | You can include documents that the elevation configuration would normally exclude by using true. The [excluded] transformer is added to each document. |
+| elevateIds                 | string  | null          | Comma separated list of documents to elevate. This overrides the elevations _and_ exclusions that are configured for the query in the elevation file.  |
+| excludeIds                 | string  | null          | Comma separated list of documents to exclude. This overrides the elevations _and_ exclusions that are configured for the query in the elevation file.  |
 ||
 
 Example

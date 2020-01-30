@@ -18,6 +18,7 @@ class QueryElevationTest extends TestCase
         $component->setEnableElevation(false);
         $component->setForceElevation(true);
         $component->setExclusive(true);
+        $component->setUseConfiguredElevatedOrder(false);
         $component->setMarkExcludes(true);
         $component->setElevateIds(['doc1', 'doc2']);
         $component->setExcludeIds(['doc3', 'doc4']);
@@ -30,6 +31,7 @@ class QueryElevationTest extends TestCase
                 'enableElevation' => 'false',
                 'forceElevation' => 'true',
                 'exclusive' => 'true',
+                'useConfiguredElevatedOrder' => 'false',
                 'markExcludes' => 'true',
                 'elevateIds' => 'doc1,doc2',
                 'excludeIds' => 'doc3,doc4',
