@@ -99,4 +99,30 @@ class StopwordsTest extends TestCase
         $this->assertEquals($term, $command->getTerm());
         $this->assertEquals('', $command->getRawData());
     }
+
+    public function testReservedCharacters()
+    {
+        // reserved characters in a REST resource name need to be encoded twice to make it through the servlet
+        $encoded = '%253A%252F%253F%2523%255B%255D%2540';
+        $command = new ExistsCommand();
+        $command->setTerm(':/?#[]@');
+        $this->query->setName('dutch');
+        $this->query->setCommand($command);
+        $request = $this->builder->build($this->query);
+        $this->assertStringEndsWith($encoded, $request->getHandler());
+    }
+
+    public function testSpace()
+    {
+        $command = new ExistsCommand();
+        $command->setTerm(' ');
+        $this->query->setName('dutch');
+        $this->query->setCommand($command);
+        $request = $this->builder->build($this->query);
+        // SPACE works single or double encoded, but not unencoded
+        $this->assertThat($request->getHandler(), $this->logicalOr(
+            $this->stringEndsWith('%20'),
+            $this->stringEndsWith('%2520')
+        ));
+    }
 }

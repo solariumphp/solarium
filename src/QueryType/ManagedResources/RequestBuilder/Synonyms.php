@@ -53,10 +53,11 @@ class Synonyms extends BaseRequestBuilder
                 $request->setRawData($command->getRawData());
                 break;
             case SynonymsQuery::COMMAND_DELETE:
-                $request->setHandler($request->getHandler().'/'.$command->getTerm());
+                // reserved characters in a REST resource name need to be encoded twice to make it through the servlet
+                $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($command->getTerm())));
                 break;
             case SynonymsQuery::COMMAND_EXISTS:
-                $request->setHandler($request->getHandler().'/'.$command->getTerm());
+                $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($command->getTerm())));
                 break;
             default:
                 throw new RuntimeException('Unsupported command type');
