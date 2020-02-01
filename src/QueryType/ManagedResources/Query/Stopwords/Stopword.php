@@ -10,6 +10,8 @@ class Stopword
     protected $term;
 
     /**
+     * Get the term.
+     *
      * @return string
      */
     public function getTerm(): string
@@ -18,6 +20,8 @@ class Stopword
     }
 
     /**
+     * Set the term.
+     *
      * @param string $term
      *
      * @return self

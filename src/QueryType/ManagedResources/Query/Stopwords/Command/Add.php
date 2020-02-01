@@ -59,7 +59,7 @@ class Add extends AbstractCommand
     }
 
     /**
-     * Returns the data to be send to Solr.
+     * Returns the data to be sent to Solr.
      *
      * @return string
      */
@@ -69,7 +69,7 @@ class Add extends AbstractCommand
     }
 
     /**
-     * Returns the term to be send to Solr.
+     * Returns the term to be sent to Solr.
      *
      * @return string
      */

@@ -30,7 +30,7 @@ class Synonyms
     }
 
     /**
-     * Set the term.
+     * Get the term.
      *
      * @return string
      */
@@ -40,6 +40,8 @@ class Synonyms
     }
 
     /**
+     * Set the term.
+     *
      * @param string $term
      *
      * @return self
@@ -51,6 +53,8 @@ class Synonyms
     }
 
     /**
+     * Get the synonyms.
+     *
      * @return array
      */
     public function getSynonyms(): array
