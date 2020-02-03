@@ -40,7 +40,7 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     /**
      * Datetime when the resource was last updated.
      *
-     * @var string
+     * @var string|null
      */
     protected $updatedSinceInit;
 
@@ -130,5 +130,14 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     {
         $this->parseResponse();
         return $this->initializedOn;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUpdatedSinceInit(): ?string
+    {
+        $this->parseResponse();
+        return $this->updatedSinceInit;
     }
 }
