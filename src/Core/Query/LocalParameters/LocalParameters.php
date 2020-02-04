@@ -32,6 +32,23 @@ class LocalParameters implements \ArrayAccess
         return sprintf('{!%s}', $value);
     }
 
+    public function setCache(string $cache): self
+    {
+        return $this->clearCache()->addValue(LocalParameter::TYPE_CACHE, $cache);
+    }
+
+    public function getCache(): array
+    {
+        return $this->getValues(LocalParameter::TYPE_CACHE);
+    }
+
+    public function clearCache(): self
+    {
+        $this->clearValues(LocalParameter::TYPE_CACHE);
+
+        return $this;
+    }
+
     /**
      * @param string $key
      *
@@ -856,7 +873,7 @@ class LocalParameters implements \ArrayAccess
      */
     private function getParameter(string $type): LocalParameterInterface
     {
-        if (false === isset($this->parameters[$type])) {
+        if (!isset($this->parameters[$type])) {
             $this->parameters[$type] = new LocalParameter($type);
         }
 

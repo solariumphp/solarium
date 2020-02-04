@@ -372,6 +372,22 @@ class LocalParametersTest extends TestCase
         $this->assertSame('{!v=valueTwo}', $parameters->render());
         $this->assertSame(['valueTwo'], $parameters->getLocalValues());
     }
+
+    public function testCache(): void
+    {
+        $parameters = new LocalParameters();
+
+        $this->assertSame([], $parameters->getCache());
+
+        $parameters->setCache('false');
+        $this->assertSame(['false'], $parameters->getCache());
+
+        $parameters->setCache('true');
+        $this->assertSame(['true'], $parameters->getCache());
+
+        $parameters->clearCache();
+        $this->assertSame([], $parameters->getCache());
+    }
 }
 
 /**

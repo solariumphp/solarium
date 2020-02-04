@@ -39,6 +39,8 @@ class LocalParameter implements LocalParameterInterface
 
     public const TYPE_VALUE = 'v';
 
+    public const TYPE_CACHE = 'cache';
+
     public const PARAMETER_MAP = [
         self::TYPE_KEY => 'local_key',
         self::TYPE_EXCLUDE => 'local_exclude',

@@ -147,6 +147,30 @@ class FilterQuery extends Configurable implements QueryInterface
     }
 
     /**
+     * this can be used to disable caching for this FilterQuery.
+     *
+     * By default any FilterQuery can be cached.
+     * If this is set to false then a local parameter {!cache=false} will be added to the query.
+     */
+    public function setCache(bool $value): self
+    {
+        if ($value) {
+            $this->getLocalParameters()->clearCache();
+        } else {
+            $this->getLocalParameters()->setCache('false');
+        }
+
+        return $this;
+    }
+
+    public function getCache(): bool
+    {
+        $cacheValues = $this->getLocalParameters()->getCache();
+
+        return ($cacheValues[0] ?? null) !== 'false';
+    }
+
+    /**
      * Initialize options.
      */
     protected function init()
