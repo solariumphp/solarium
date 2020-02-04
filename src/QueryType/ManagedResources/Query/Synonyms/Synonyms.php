@@ -18,7 +18,7 @@ class Synonyms
     protected $synonyms = [];
 
     /**
-     * Set the term.
+     * Get the term.
      *
      * @return string
      */
@@ -28,6 +28,8 @@ class Synonyms
     }
 
     /**
+     * Set the term.
+     *
      * @param string $term
      *
      * @return self
