@@ -86,9 +86,9 @@ class FilterQueryTest extends TestCase
     public function testSetAndGetCache()
     {
         $this->assertTrue($this->filterQuery->getCache());
-        $this->filterQuery->setCache(FALSE);
+        $this->filterQuery->setCache(false);
         $this->assertFalse($this->filterQuery->getCache());
-        $this->filterQuery->setCache(TRUE);
+        $this->filterQuery->setCache(true);
         $this->assertTrue($this->filterQuery->getCache());
     }
 
