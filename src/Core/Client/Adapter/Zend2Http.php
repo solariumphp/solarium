@@ -217,7 +217,7 @@ class Zend2Http extends Configurable implements AdapterInterface
      * Prepare the client to send the file and params in request.
      *
      * @param \Laminas\Http\Client $client
-     * @param Request           $request
+     * @param Request              $request
      */
     protected function prepareFileUpload($client, $request)
     {
