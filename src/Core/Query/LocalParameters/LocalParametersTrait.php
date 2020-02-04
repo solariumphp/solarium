@@ -150,8 +150,8 @@ trait LocalParametersTrait
 
                     $this->getLocalParameters()->addExcludes($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case 'key':
                     if ($this instanceof FilterQuery) {
                         break;
@@ -160,8 +160,8 @@ trait LocalParametersTrait
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_KEY]:
                     $this->getLocalParameters()->setKey($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case 'tag':
                     @trigger_error('setting local parameter using the "tag" option is deprecated in Solarium 5 and will be removed in Solarium 6. Use "local_tag" instead', E_USER_DEPRECATED);
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_TAG]:
@@ -171,8 +171,8 @@ trait LocalParametersTrait
 
                     $this->getLocalParameters()->addTags($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_RANGE]:
                     if (!\is_array($value)) {
                         $value = explode(',', $value);
@@ -180,8 +180,8 @@ trait LocalParametersTrait
 
                     $this->getLocalParameters()->addRanges($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case 'stats':
                     @trigger_error('setting local parameter using the "stats" option is deprecated in Solarium 5 and will be removed in Solarium 6. Use "local_stats" instead', E_USER_DEPRECATED);
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_STAT]:
@@ -191,8 +191,8 @@ trait LocalParametersTrait
 
                     $this->getLocalParameters()->addStats($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_TERM]:
                     if (!\is_array($value)) {
                         $value = explode(',', $value);
@@ -200,47 +200,56 @@ trait LocalParametersTrait
 
                     $this->getLocalParameters()->addTerms($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_TYPE]:
                     $this->getLocalParameters()->setType($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_QUERY]:
                     $this->getLocalParameters()->setQuery($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_QUERY_FIELD]:
                     $this->getLocalParameters()->setQueryField($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_DEFAULT_FIELD]:
                     $this->getLocalParameters()->setDefaultField($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_MAX]:
                     $this->getLocalParameters()->setMax($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_MEAN]:
                     $this->getLocalParameters()->setMean($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_MIN]:
                     $this->getLocalParameters()->setMin($value);
                     unset($this->options[$name]);
-
                     break;
+
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_VALUE]:
                     $this->getLocalParameters()->setLocalValue($value);
                     unset($this->options[$name]);
+                    break;
 
+                case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_CACHE]:
+                    $this->getLocalParameters()->setCache($value);
+                    unset($this->options[$name]);
+                    break;
+
+                case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_COST]:
+                    $this->getLocalParameters()->setCost($value);
+                    unset($this->options[$name]);
                     break;
             }
         }

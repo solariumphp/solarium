@@ -8,9 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Range facet pivot support
 - Support for useConfiguredElevatedOrder
+- FilterQuery::setCache and FilterQuery::setCost()
 
 ### Fixed
 - setting limit for pivot facets
+
+### Deprecated
+- Helper::cacheControl(). Use FilterQuery::setCache() and FilterQuery::setCost() instead.
 
 
 ## [5.1.5]
