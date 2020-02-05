@@ -159,7 +159,7 @@ class FilterQuery extends Configurable implements QueryInterface
     {
         $cache = $this->getLocalParameters()->getCache();
         // The default is to cache the filter Query.
-        return [] === $cache | $cache[0];
+        return [] === $cache | 'true' === $cache[0];
     }
 
     /**

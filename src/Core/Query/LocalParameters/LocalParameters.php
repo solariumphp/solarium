@@ -753,7 +753,7 @@ class LocalParameters implements \ArrayAccess
      */
     public function setCache(bool $cache): self
     {
-        return $this->clearCache()->addValue(LocalParameter::TYPE_CACHE, (int) $cache);
+        return $this->clearCache()->addValue(LocalParameter::TYPE_CACHE, $cache ? 'true' : 'false');
     }
 
     /**
