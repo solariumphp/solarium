@@ -184,8 +184,8 @@ class FilterQuery extends Configurable implements QueryInterface
     public function getCost(): int
     {
         $cost = $this->getLocalParameters()->getCost();
-        // The default is to cache the filter Query.
-        return [] === $cost ? 0 : (int) reset($cost);
+        // The default cost for filter queries is 0.
+        return (int) reset($cost);
     }
 
     /**
