@@ -97,5 +97,7 @@ class FilterQueryTest extends TestCase
         $this->assertSame(0, $this->filterQuery->getCost());
         $this->filterQuery->setCost(123);
         $this->assertSame(123, $this->filterQuery->getCost());
+        $this->filterQuery->setCost(99);
+        $this->assertSame(99, $this->filterQuery->getCost());
     }
 }

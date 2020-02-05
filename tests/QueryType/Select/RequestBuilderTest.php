@@ -96,10 +96,10 @@ class RequestBuilderTest extends TestCase
     public function testSelectUrlWithCachedFilters()
     {
         $this->query->addFilterQuery(
-            new FilterQuery(['key' => 'f1', 'query' => 'published:true', 'local_cache' => true, 'local_cost' => 95])
+            new FilterQuery(['key' => 'f1', 'query' => 'published:true', 'local_cache' => false, 'local_cost' => 95])
         );
         $this->query->addFilterQuery(
-            new FilterQuery(['key' => 'f2', 'local_tag' => ['t1', 't2'], 'query' => 'category:23', 'local_cache' => false])
+            new FilterQuery(['key' => 'f2', 'local_tag' => ['t1', 't2'], 'query' => 'category:23', 'local_cache' => true])
         );
         $request = $this->builder->build($this->query);
 
@@ -107,7 +107,7 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score'.
-            '&fq={!cache=true cost=95}published:true&fq={!tag=t1,t2 cache=false}category:23',
+            '&fq={!cache=false cost=95}published:true&fq={!tag=t1,t2 cache=true}category:23',
             urldecode($request->getUri())
         );
     }

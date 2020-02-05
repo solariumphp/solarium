@@ -159,7 +159,7 @@ class FilterQuery extends Configurable implements QueryInterface
     {
         $cache = $this->getLocalParameters()->getCache();
         // The default is to cache the filter Query.
-        return ([] === $cache || 'true' === key($cache)) ? true : false;
+        return [] === $cache | $cache[0];
     }
 
     /**
@@ -183,9 +183,9 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function getCost(): int
     {
-        $cache = $this->getLocalParameters()->getCache();
+        $cost = $this->getLocalParameters()->getCost();
         // The default is to cache the filter Query.
-        return [] === $cache ? 0 : (int) key($cache);
+        return [] === $cost ? 0 : (int) reset($cost);
     }
 
     /**
