@@ -1,6 +1,6 @@
 language: php
 
-dist: bionic
+dist: trusty
 
 php:
   - 7.4
