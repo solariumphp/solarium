@@ -1,6 +1,7 @@
 language: php
 
-dist: xenial
+# Solr 6.x doesn't work with the Java versions included in "xenial" or "bionic".
+dist: trusty
 
 php:
   - 7.4
