@@ -137,6 +137,58 @@ class FilterQuery extends Configurable implements QueryInterface
     }
 
     /**
+     * Cache the filter query or not.
+     *
+     * @param bool $cache
+     *
+     * @return self Provides fluent interface
+     */
+    public function setCache(bool $cache): self
+    {
+        $this->getLocalParameters()->setCache($cache);
+
+        return $this;
+    }
+
+    /**
+     * Get the information if the filter query should be cached or not.
+     *
+     * @return bool
+     */
+    public function getCache(): bool
+    {
+        $cache = $this->getLocalParameters()->getCache();
+        // The default is to cache the filter Query.
+        return 'false' !== reset($cache);
+    }
+
+    /**
+     * Set the cost to cache the filter query.
+     *
+     * @param int $cost
+     *
+     * @return self Provides fluent interface
+     */
+    public function setCost(int $cost): self
+    {
+        $this->getLocalParameters()->setCost($cost);
+
+        return $this;
+    }
+
+    /**
+     * Get the cost of the filter query to be cached or not.
+     *
+     * @return int
+     */
+    public function getCost(): int
+    {
+        $cost = $this->getLocalParameters()->getCost();
+        // The default cost for filter queries is 0.
+        return (int) reset($cost);
+    }
+
+    /**
      * Returns a query helper.
      *
      * @return \Solarium\Core\Query\Helper

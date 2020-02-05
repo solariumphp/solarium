@@ -82,4 +82,22 @@ class FilterQueryTest extends TestCase
         $this->filterQuery->setTags(['t3', 't4']);
         $this->assertSame(['t3', 't4'], $this->filterQuery->getTags());
     }
+
+    public function testSetAndGetCache()
+    {
+        $this->assertTrue($this->filterQuery->getCache());
+        $this->filterQuery->setCache(false);
+        $this->assertFalse($this->filterQuery->getCache());
+        $this->filterQuery->setCache(true);
+        $this->assertTrue($this->filterQuery->getCache());
+    }
+
+    public function testSetAndGetCost()
+    {
+        $this->assertSame(0, $this->filterQuery->getCost());
+        $this->filterQuery->setCost(123);
+        $this->assertSame(123, $this->filterQuery->getCost());
+        $this->filterQuery->setCost(99);
+        $this->assertSame(99, $this->filterQuery->getCost());
+    }
 }
