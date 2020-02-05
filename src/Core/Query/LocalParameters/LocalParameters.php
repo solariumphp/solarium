@@ -745,6 +745,70 @@ class LocalParameters implements \ArrayAccess
     }
 
     /**
+     * @param bool $cache
+     *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
+    public function setCache(bool $cache): self
+    {
+        return $this->clearCache()->addValue(LocalParameter::TYPE_CACHE, $cache ? 'true' : 'false');
+    }
+
+    /**
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
+    public function clearCache(): self
+    {
+        return $this->clearValues(LocalParameter::TYPE_CACHE);
+    }
+
+    /**
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return array
+     */
+    public function getCache(): array
+    {
+        return $this->getValues(LocalParameter::TYPE_CACHE);
+    }
+
+    /**
+     * @param int $cost
+     *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
+    public function setCost(int $cost): self
+    {
+        return $this->clearCost()->addValue(LocalParameter::TYPE_COST, $cost);
+    }
+
+    /**
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
+    public function clearCost(): self
+    {
+        return $this->clearValues(LocalParameter::TYPE_COST);
+    }
+
+    /**
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return array
+     */
+    public function getCost(): array
+    {
+        return $this->getValues(LocalParameter::TYPE_COST);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function offsetExists($offset): bool

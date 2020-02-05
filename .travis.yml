@@ -1,20 +1,20 @@
 language: php
 
+# Solr 6.x doesn't work with the Java versions included in "xenial" or "bionic".
 dist: trusty
 
 php:
+  - 7.4
   - 7.3
   - 7.2
   # phpunit/phpunit 8.0.0 requires php ^7.2 -> your PHP version (7.1.11) does not satisfy that requirement.
   #- 7.1
-  - 7.4snapshot
-  - nightly
 
 env:
-  - SYMFONY_VERSION=5.0.* SOLR_VERSION=8.4.0 SOLR_CLOUD=true
-  - SYMFONY_VERSION=5.0.* SOLR_VERSION=8.4.0 SOLR_CLOUD=false
-  - SYMFONY_VERSION=4.4.* SOLR_VERSION=8.4.0 SOLR_CLOUD=true
-  - SYMFONY_VERSION=4.3.* SOLR_VERSION=8.4.0 SOLR_CLOUD=false
+  - SYMFONY_VERSION=5.0.* SOLR_VERSION=8.4.1 SOLR_CLOUD=true
+  - SYMFONY_VERSION=5.0.* SOLR_VERSION=8.4.1 SOLR_CLOUD=false
+  - SYMFONY_VERSION=4.4.* SOLR_VERSION=8.4.1 SOLR_CLOUD=true
+  - SYMFONY_VERSION=4.3.* SOLR_VERSION=8.4.1 SOLR_CLOUD=false
   - SYMFONY_VERSION=4.4.* SOLR_VERSION=7.7.2 SOLR_CLOUD=true
   - SYMFONY_VERSION=4.3.* SOLR_VERSION=6.6.6 SOLR_CLOUD=false
 
@@ -54,10 +54,5 @@ script:
 
 after_success:
   - travis_retry php vendor/bin/php-coveralls -v
-
-matrix:
-  allow_failures:
-      - php: 7.4snapshot
-      - php: nightly
 
 sudo: false

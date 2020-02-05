@@ -37,6 +37,10 @@ class Synonyms extends ResponseParserAbstract implements ResponseParserInterface
             $parsed['items'] = $items;
             $parsed['ignoreCase'] = $synonymMappings['initArgs']['ignoreCase'];
             $parsed['initializedOn'] = $synonymMappings['initializedOn'];
+
+            if (isset($synonymMappings['updatedSinceInit'])) {
+                $parsed['updatedSinceInit'] = $synonymMappings['updatedSinceInit'];
+            }
         }
 
         $this->addHeaderInfo($data, $parsed);

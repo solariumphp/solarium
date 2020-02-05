@@ -39,6 +39,10 @@ class LocalParameter implements LocalParameterInterface
 
     public const TYPE_VALUE = 'v';
 
+    public const TYPE_CACHE = 'cache';
+
+    public const TYPE_COST = 'cost';
+
     public const PARAMETER_MAP = [
         self::TYPE_KEY => 'local_key',
         self::TYPE_EXCLUDE => 'local_exclude',
@@ -54,6 +58,8 @@ class LocalParameter implements LocalParameterInterface
         self::TYPE_MEAN => 'local_mean',
         self::TYPE_MIN => 'local_min',
         self::TYPE_VALUE => 'local_value',
+        self::TYPE_CACHE => 'local_cache',
+        self::TYPE_COST => 'local_cost',
     ];
 
     /**

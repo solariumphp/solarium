@@ -12,7 +12,7 @@ class StopwordsTest extends TestCase
 {
     public function testParse()
     {
-        $data = '{ "responseHeader":{ "status":0, "QTime":1 }, "wordSet":{ "initArgs":{"ignoreCase":true}, "initializedOn":"2014-03-28T20:53:53.058Z", "managedList":[ "a", "an", "and", "are" ]}}';
+        $data = '{ "responseHeader":{ "status":0, "QTime":1 }, "wordSet":{ "initArgs":{"ignoreCase":true}, "initializedOn":"2014-03-28T20:53:53.058Z", "updatedSinceInit":"2020-02-03T15:00:25.558Z", "managedList":[ "a", "an", "and", "are" ]}}';
 
         $query = new StopwordsQuery();
         $result = new WordSet($query, new Response($data, ['HTTP 1.1 200 OK']));
@@ -22,6 +22,7 @@ class StopwordsTest extends TestCase
         $parsed = $parser->parse($result);
 
         $this->assertSame('2014-03-28T20:53:53.058Z', $parsed['initializedOn']);
+        $this->assertSame('2020-02-03T15:00:25.558Z', $parsed['updatedSinceInit']);
         $this->assertTrue($parsed['ignoreCase']);
         $this->assertEquals([0 => 'a', 1 => 'an', 2 => 'and', 3 => 'are'], $parsed['items']);
     }
