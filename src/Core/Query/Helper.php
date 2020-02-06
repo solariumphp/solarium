@@ -427,6 +427,8 @@ class Helper
      * @param float|null $cost
      *
      * @return string
+     *
+     * @deprecated Will be removed in Solarium 6. Use FilterQuery::setCache() and FilterQuery::setCost() instead.
      */
     public function cacheControl(bool $useCache, float $cost = null): string
     {
