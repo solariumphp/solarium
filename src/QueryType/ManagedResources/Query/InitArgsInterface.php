@@ -12,7 +12,7 @@ interface InitArgsInterface
      *
      * @param array $initArgs
      *
-     * @return self  Provides fluent interface
+     * @return self Provides fluent interface
      */
     public function setInitArgs(array $initArgs): self;
 

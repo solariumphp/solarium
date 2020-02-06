@@ -38,7 +38,7 @@ class Config extends AbstractCommand
 
     /**
      * Returns configuration parameters.
-     * 
+     *
      * @return InitArgsInterface
      */
     public function getInitArgs(): InitArgsInterface
