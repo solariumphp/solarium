@@ -4,8 +4,11 @@ namespace Solarium\Tests\QueryType\ManagedResources\Query;
 
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use PHPUnit\Framework\TestCase;
 
 class SynonymsTest extends TestCase
@@ -22,6 +25,15 @@ class SynonymsTest extends TestCase
         $this->assertEquals('synonyms', $this->query->getType());
     }
 
+    public function testCommand()
+    {
+        $command = $this->query->createCommand(Synonyms::COMMAND_ADD);
+        $this->query->setCommand($command);
+        $this->assertInstanceOf(Add::class, $this->query->getCommand());
+        $this->query->removeCommand();
+        $this->assertNull($this->query->getCommand());
+    }
+
     public function testAddCommand()
     {
         $command = $this->query->createCommand(Synonyms::COMMAND_ADD);
@@ -35,6 +47,18 @@ class SynonymsTest extends TestCase
         $this->assertEquals(['angry', 'upset'], $command->getSynonyms()->getSynonyms());
     }
 
+    public function testConfigCommand()
+    {
+        $command = $this->query->createCommand(Synonyms::COMMAND_CONFIG);
+        $this->assertInstanceOf(Config::class, $command);
+    }
+
+    public function testCreateCommand()
+    {
+        $command = $this->query->createCommand(Synonyms::COMMAND_CREATE);
+        $this->assertInstanceOf(Create::class, $command);
+    }
+
     public function testDeleteCommand()
     {
         $command = $this->query->createCommand(Synonyms::COMMAND_DELETE);
@@ -45,5 +69,40 @@ class SynonymsTest extends TestCase
     {
         $command = $this->query->createCommand(Synonyms::COMMAND_EXISTS);
         $this->assertInstanceOf(Exists::class, $command);
+    }
+
+    public function testUnknownCommand()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $command = $this->query->createCommand('unknowncommand');
+    }
+
+    public function testInitArgsIgnoreCase()
+    {
+        $initArgs = new InitArgs();
+        $initArgs->setIgnoreCase(true);
+        $this->assertTrue($initArgs->getIgnoreCase());
+    }
+
+    public function testInitArgsFormat()
+    {
+        $initArgs = new InitArgs();
+        $initArgs->setFormat(InitArgs::FORMAT_SOLR);
+        $this->assertSame(InitArgs::FORMAT_SOLR, $initArgs->getFormat());
+    }
+
+    public function testInitArgsUnknownFormat()
+    {
+        $initArgs = new InitArgs();
+        $this->expectException(\Solarium\Exception\UnexpectedValueException::class);
+        $initArgs->setFormat('unknownformat');
+    }
+
+    public function testInitArgs()
+    {
+        $config = ['ignoreCase' => true, 'format' => InitArgs::FORMAT_SOLR];
+        $initArgs = new InitArgs();
+        $initArgs->setInitArgs($config);
+        $this->assertEquals($config, $initArgs->getInitArgs());
     }
 }

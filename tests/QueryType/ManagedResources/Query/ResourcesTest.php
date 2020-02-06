@@ -14,6 +14,11 @@ class ResourcesTest extends TestCase
         $this->query = new Query();
     }
 
+    public function testName()
+    {
+        $this->assertEquals('resources', $this->query->getName());
+    }
+
     public function testQuery()
     {
         $this->assertEquals('resources', $this->query->getType());

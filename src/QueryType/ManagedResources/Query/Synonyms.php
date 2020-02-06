@@ -8,6 +8,8 @@ use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Synonyms as RequestBuilder;
@@ -20,6 +22,16 @@ class Synonyms extends BaseQuery
      * Synonyms command add.
      */
     const COMMAND_ADD = 'add';
+
+    /**
+     * Synonyms command config.
+     */
+    const COMMAND_CONFIG = 'config';
+
+    /**
+     * Synonyms command create.
+     */
+    const COMMAND_CREATE = 'create';
 
     /**
      * Synonyms command delete.
@@ -76,6 +88,8 @@ class Synonyms extends BaseQuery
      */
     protected $commandTypes = [
         self::COMMAND_ADD => Add::class,
+        self::COMMAND_CONFIG => Config::class,
+        self::COMMAND_CREATE => Create::class,
         self::COMMAND_DELETE => Delete::class,
         self::COMMAND_EXISTS => Exists::class,
     ];

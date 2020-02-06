@@ -52,6 +52,12 @@ class Stopwords extends BaseRequestBuilder
             case StopwordsQuery::COMMAND_ADD:
                 $request->setRawData($command->getRawData());
                 break;
+            case StopwordsQuery::COMMAND_CONFIG:
+                $request->setRawData($command->getRawData());
+                break;
+            case StopwordsQuery::COMMAND_CREATE:
+                $request->setRawData($command->getRawData());
+                break;
             case StopwordsQuery::COMMAND_DELETE:
                 $request->setHandler($request->getHandler().'/'.$command->getTerm());
                 break;
@@ -60,7 +66,6 @@ class Stopwords extends BaseRequestBuilder
                 break;
             default:
                 throw new RuntimeException('Unsupported command type');
-                break;
         }
 
         $request->setMethod($command->getRequestMethod());

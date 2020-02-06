@@ -52,6 +52,12 @@ class Synonyms extends BaseRequestBuilder
             case SynonymsQuery::COMMAND_ADD:
                 $request->setRawData($command->getRawData());
                 break;
+            case SynonymsQuery::COMMAND_CONFIG:
+                $request->setRawData($command->getRawData());
+                break;
+            case SynonymsQuery::COMMAND_CREATE:
+                $request->setRawData($command->getRawData());
+                break;
             case SynonymsQuery::COMMAND_DELETE:
                 $request->setHandler($request->getHandler().'/'.$command->getTerm());
                 break;
@@ -60,7 +66,6 @@ class Synonyms extends BaseRequestBuilder
                 break;
             default:
                 throw new RuntimeException('Unsupported command type');
-                break;
         }
 
         $request->setMethod($command->getRequestMethod());
