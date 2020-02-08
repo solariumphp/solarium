@@ -263,8 +263,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
         // Whatever happens next ...
-        try
-        {
+        try {
             // Configure the new list to be case sensitive
             $initArgs = new InitArgsStopwords();
             $initArgs->setIgnoreCase(false);
@@ -301,8 +300,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
             $this->client->execute($query);
         }
         // ... we have to remove the created resource!
-        finally
-        {
+        finally {
             // Remove the stopword list
             $remove = new RemoveStopwords();
             $query->setCommand($remove);
@@ -385,8 +383,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
         // Whatever happens next ...
-        try
-        {
+        try {
             // Configure the new map to be case sensitive and use the 'solr' format
             $initArgs = new InitArgsSynonyms();
             $initArgs->setIgnoreCase(false);
@@ -429,8 +426,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
             $this->client->execute($query);
         }
         // ... we have to remove the created resource!
-        finally
-        {
+        finally {
             // Remove the synonym map
             $remove = new RemoveSynonyms();
             $query->setCommand($remove);
