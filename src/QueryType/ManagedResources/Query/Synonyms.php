@@ -12,6 +12,7 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Remove;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Synonyms as RequestBuilder;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
@@ -42,6 +43,11 @@ class Synonyms extends BaseQuery
      * Synonyms command delete.
      */
     const COMMAND_EXISTS = 'exists';
+
+    /**
+     * Synonyms command delete.
+     */
+    const COMMAND_REMOVE = 'remove';
 
     /**
      * Name of the synonyms resource.
@@ -92,6 +98,7 @@ class Synonyms extends BaseQuery
         self::COMMAND_CREATE => Create::class,
         self::COMMAND_DELETE => Delete::class,
         self::COMMAND_EXISTS => Exists::class,
+        self::COMMAND_REMOVE => Remove::class,
     ];
 
     /**

@@ -11,6 +11,7 @@ use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Config as Config
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create as CreateCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete as DeleteCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists as ExistsCommand;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Remove as RemoveCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Stopwords as StopwordsRequestBuilder;
 
@@ -140,6 +141,17 @@ class StopwordsTest extends TestCase
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
         $this->assertEquals($term, $command->getTerm());
+        $this->assertEquals('', $command->getRawData());
+    }
+
+    public function testRemove()
+    {
+        $command = new RemoveCommand();
+        $this->query->setName('dutch');
+        $this->query->setCommand($command);
+        $request = $this->builder->build($this->query);
+        $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
+        $this->assertEquals('', $command->getTerm());
         $this->assertEquals('', $command->getRawData());
     }
 }

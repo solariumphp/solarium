@@ -8,6 +8,7 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use PHPUnit\Framework\TestCase;
 
@@ -69,6 +70,12 @@ class SynonymsTest extends TestCase
     {
         $command = $this->query->createCommand(Synonyms::COMMAND_EXISTS);
         $this->assertInstanceOf(Exists::class, $command);
+    }
+
+    public function testRemoveCommand()
+    {
+        $command = $this->query->createCommand(Synonyms::COMMAND_REMOVE);
+        $this->assertInstanceOf(Remove::class, $command);
     }
 
     public function testUnknownCommand()

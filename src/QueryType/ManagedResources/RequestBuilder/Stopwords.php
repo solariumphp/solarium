@@ -64,6 +64,8 @@ class Stopwords extends BaseRequestBuilder
             case StopwordsQuery::COMMAND_EXISTS:
                 $request->setHandler($request->getHandler().'/'.$command->getTerm());
                 break;
+            case StopwordsQuery::COMMAND_REMOVE:
+                break;
             default:
                 throw new RuntimeException('Unsupported command type');
         }

@@ -64,6 +64,8 @@ class Synonyms extends BaseRequestBuilder
             case SynonymsQuery::COMMAND_EXISTS:
                 $request->setHandler($request->getHandler().'/'.$command->getTerm());
                 break;
+            case SynonymsQuery::COMMAND_REMOVE:
+                break;
             default:
                 throw new RuntimeException('Unsupported command type');
         }

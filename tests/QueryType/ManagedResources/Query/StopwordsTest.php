@@ -8,6 +8,7 @@ use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Config;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
 use PHPUnit\Framework\TestCase;
 
@@ -62,6 +63,12 @@ class StopwordsTest extends TestCase
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_EXISTS);
         $this->assertInstanceOf(Exists::class, $command);
+    }
+
+    public function testRemoveCommand()
+    {
+        $command = $this->query->createCommand(Stopwords::COMMAND_REMOVE);
+        $this->assertInstanceOf(Remove::class, $command);
     }
 
     public function testUnknownCommand()
