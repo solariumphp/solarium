@@ -306,7 +306,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
             $query->setCommand($remove);
             $result = $this->client->execute($query);
             $this->assertEquals(200, $result->getResponse()->getStatusCode());
-            
+
             // Check if stopword list is gone
             $this->expectException(HttpException::class);
             $query->removeCommand();
@@ -432,7 +432,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
             $query->setCommand($remove);
             $result = $this->client->execute($query);
             $this->assertEquals(200, $result->getResponse()->getStatusCode());
-            
+
             // Check if synonym map is gone
             $this->expectException(HttpException::class);
             $query->removeCommand();
