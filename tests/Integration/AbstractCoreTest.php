@@ -253,7 +253,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
     public function testManagedStopwordsCreation()
     {
         $query = $this->client->createManagedStopwords();
-        $query->setName('testlist');
+        $query->setName(uniqid());
         $term = 'managed_stopword_test';
 
         // Create a new stopword list
@@ -373,7 +373,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
     public function testManagedSynonymsCreation()
     {
         $query = $this->client->createManagedSynonyms();
-        $query->setName('testmap');
+        $query->setName(uniqid());
         $term = 'managed_synonyms_test';
 
         // Create a new synonym map
@@ -442,9 +442,11 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
 
     public function testManagedResources()
     {
+        // Check if we can find the 2 default managed resources
+        // (and account for additional resources we might have created while testing)
         $query = $this->client->createManagedResources();
         $result = $this->client->execute($query);
         $items = $result->getItems();
-        $this->assertCount(2, $items);
+        $this->assertGreaterThanOrEqual(2, count($items));
     }
 }
