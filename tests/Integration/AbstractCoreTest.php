@@ -19,22 +19,64 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
      */
     protected $client;
 
-    public function setUp(): void
+    /**
+     * @var string
+     */
+    private static $core;
+
+    /**
+     * @var array
+     */
+    private static $config;
+
+    public static function setUpBeforeClass(): void
     {
-        $config = [
+        self::$core = uniqid();
+
+        self::$config = [
             'endpoint' => [
                 'localhost' => [
                     'host' => '127.0.0.1',
                     'port' => 8983,
                     'path' => '/',
-                    'core' => 'techproducts',
+                    'core' => self::$core,
                 ],
             ],
             // Curl is the default adapter.
             //'adapter' => 'Solarium\Core\Client\Adapter\Curl',
         ];
 
-        $this->client = new \Solarium\Client($config);
+        $client = new \Solarium\Client(self::$config);
+
+        try {
+            $coreAdminQuery = $client->createCoreAdmin();
+
+            // create core with unique name using the techproducts configset
+            $createAction = $coreAdminQuery->createCreate();
+            $createAction->setCore(self::$core);
+            $createAction->setConfigSet('sample_techproducts_configs');
+            $coreAdminQuery->setAction($createAction);
+            $response = $client->coreAdmin($coreAdminQuery);
+            static::assertTrue($response->getWasSuccessful());
+
+            // merge techproducts index into our new core
+            $mergeAction = $coreAdminQuery->createMergeIndexes();
+            $mergeAction->setCore(self::$core);
+            $mergeAction->setSrcCore(['techproducts']);
+            $coreAdminQuery->setAction($mergeAction);
+            $response = $client->coreAdmin($coreAdminQuery);
+            self::assertTrue($response->getWasSuccessful());
+
+            $ping = $client->createPing();
+            $client->ping($ping);
+        } catch (\Exception $e) {
+            static::markTestSkipped('Solr techproducts example not reachable.');
+        }
+    }
+
+    public function setUp(): void
+    {
+        $this->client = new \Solarium\Client(self::$config);
 
         try {
             $ping = $this->client->createPing();
@@ -48,7 +90,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
         $reloadAction = $coreAdminQuery->createReload();
-        $reloadAction->setCore('techproducts');
+        $reloadAction->setCore(self::$core);
         $coreAdminQuery->setAction($reloadAction);
 
         $result = $this->client->coreAdmin($coreAdminQuery);
@@ -66,7 +108,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
         $statusAction = $coreAdminQuery->createStatus();
-        $statusAction->setCore('techproducts');
+        $statusAction->setCore(self::$core);
 
         $coreAdminQuery->setAction($statusAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
@@ -75,8 +117,12 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $this->assertGreaterThanOrEqual(0, $json->responseHeader->QTime);
         $this->assertNotNull($response->getStatusResult()->getUptime());
         $this->assertGreaterThan(0, $response->getStatusResult()->getStartTime()->format('U'));
-        $this->assertGreaterThan(0, $response->getStatusResult()->getLastModified()->format('U'));
-        $this->assertSame('techproducts', $response->getStatusResult()->getCoreName());
+        // lastModified is either null for a very fresh core or a valid DateTime
+        $this->assertThat($response->getStatusResult()->getLastModified(), $this->logicalOr(
+            $this->isNull(),
+            $this->isInstanceOf(\DateTime::class)
+        ));
+        $this->assertSame(self::$core, $response->getStatusResult()->getCoreName());
 
         $statusAction = $coreAdminQuery->createStatus();
         $statusAction->setCore('unknowncore');
@@ -92,75 +138,75 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
     public function testSplitAndMerge()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
-        // create core techproducts_a
+        // create core *_a
         $createAction = $coreAdminQuery->createCreate();
-        $createAction->setCore('techproducts_a');
+        $createAction->setCore(self::$core.'_a');
         $createAction->setConfigSet('sample_techproducts_configs');
         $coreAdminQuery->setAction($createAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
-        // create core techproducts_b
+        // create core *_b
         $createAction = $coreAdminQuery->createCreate();
-        $createAction->setCore('techproducts_b');
+        $createAction->setCore(self::$core.'_b');
         $createAction->setConfigSet('sample_techproducts_configs');
         $coreAdminQuery->setAction($createAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
-        // split the techproducts core into techproducts_a and techproducts_b
+        // split the original core into *_a and *_b
         $splitAction = $coreAdminQuery->createSplit();
-        $splitAction->setCore('techproducts');
-        $splitAction->setTargetCore(['techproducts_a', 'techproducts_b']);
+        $splitAction->setCore(self::$core);
+        $splitAction->setTargetCore([self::$core.'_a', self::$core.'_b']);
         $coreAdminQuery->setAction($splitAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
-        // reload core techproducts_a
+        // reload core *_a
         $reloadAction = $coreAdminQuery->createReload();
-        $reloadAction->setCore('techproducts_a');
+        $reloadAction->setCore(self::$core.'_a');
         $coreAdminQuery->setAction($reloadAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
-        // reload core techproducts_b
+        // reload core *_b
         $reloadAction = $coreAdminQuery->createReload();
-        $reloadAction->setCore('techproducts_b');
+        $reloadAction->setCore(self::$core.'_b');
         $coreAdminQuery->setAction($reloadAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
-        // check that we have 32 documents in techproducts 16 in techproducts_a and 16 in techproducts_b
+        // check that we have 32 documents in the original core, 16 in *_a and 16 in *_b
         $statusAction = $coreAdminQuery->createStatus();
-        $statusAction->setCore('techproducts');
+        $statusAction->setCore(self::$core);
         $coreAdminQuery->setAction($statusAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
         $this->assertSame(32, $response->getStatusResult()->getNumberOfDocuments());
 
         $statusAction = $coreAdminQuery->createStatus();
-        $statusAction->setCore('techproducts_a');
+        $statusAction->setCore(self::$core.'_a');
         $coreAdminQuery->setAction($statusAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
         $this->assertSame(16, $response->getStatusResult()->getNumberOfDocuments());
 
         $statusAction = $coreAdminQuery->createStatus();
-        $statusAction->setCore('techproducts_b');
+        $statusAction->setCore(self::$core.'_b');
         $coreAdminQuery->setAction($statusAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
         $this->assertSame(16, $response->getStatusResult()->getNumberOfDocuments());
         // now we cleanup the created cores
         $unloadAction = $coreAdminQuery->createUnload();
-        $unloadAction->setCore('techproducts_a');
+        $unloadAction->setCore(self::$core.'_a');
         $unloadAction->setDeleteDataDir(true)->setDeleteIndex(true)->setDeleteInstanceDir(true);
         $coreAdminQuery->setAction($unloadAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
         $unloadAction = $coreAdminQuery->createUnload();
-        $unloadAction->setCore('techproducts_b');
+        $unloadAction->setCore(self::$core.'_b');
         $unloadAction->setDeleteDataDir(true)->setDeleteIndex(true)->setDeleteInstanceDir(true);
         $coreAdminQuery->setAction($unloadAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
@@ -171,27 +217,28 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
 
-        // create core techproducts_new
+        // create new core using the techproducts config set
         $createAction = $coreAdminQuery->createCreate();
-        $createAction->setCore('techproducts_new');
+        $createAction->setCore(self::$core.'_new');
         $createAction->setConfigSet('sample_techproducts_configs');
         $coreAdminQuery->setAction($createAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
-        // we now have two cores and when we retrieve the status for all we should have two status objects
+        // we now have three cores and when we retrieve the status for all we should have three status objects
+        // (the original techproducts, the core we created in setUpBeforeClass() and the one we created just now)
         $statusAction = $coreAdminQuery->createStatus();
         $coreAdminQuery->setAction($statusAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
         $statusResults = $response->getStatusResults();
-        $this->assertSame(2, count($statusResults));
+        $this->assertSame(3, count($statusResults));
         $this->assertGreaterThan(0, $statusResults[0]->getUptime(), 'Can not get uptime of first core');
 
         // now we unload the created core again
         $unloadAction = $coreAdminQuery->createUnload();
-        $unloadAction->setCore('techproducts_new');
+        $unloadAction->setCore(self::$core.'_new');
         $unloadAction->setDeleteDataDir(true)->setDeleteIndex(true)->setDeleteInstanceDir(true);
         $coreAdminQuery->setAction($unloadAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
@@ -211,7 +258,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $result = $this->client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
-        // Check if single stopword exist
+        // Check if single stopword exists
         $exists = new ExistsStopwords();
         $exists->setTerm($term);
         $query->setCommand($exists);
@@ -258,7 +305,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $result = $this->client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
-        // Check if single synonym exist
+        // Check if single synonym exists
         $exists = new ExistsSynonyms();
         $exists->setTerm($term);
         $query->setCommand($exists);
@@ -304,5 +351,20 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $result = $this->client->execute($query);
         $items = $result->getItems();
         $this->assertCount(2, $items);
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        $client = new \Solarium\Client(self::$config);
+
+        $coreAdminQuery = $client->createCoreAdmin();
+
+        // now we unload the core we created in setUpBeforeClass()
+        $unloadAction = $coreAdminQuery->createUnload();
+        $unloadAction->setCore(self::$core);
+        $unloadAction->setDeleteDataDir(true)->setDeleteIndex(true)->setDeleteInstanceDir(true);
+        $coreAdminQuery->setAction($unloadAction);
+        $response = $client->coreAdmin($coreAdminQuery);
+        static::assertTrue($response->getWasSuccessful());
     }
 }
