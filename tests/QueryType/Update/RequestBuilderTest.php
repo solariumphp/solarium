@@ -8,6 +8,7 @@ use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
+use Solarium\QueryType\Update\Query\Command\Raw as RawCommand;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\RequestBuilder;
@@ -433,12 +434,49 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildRawXmlSingleCommand()
+    {
+        $command = new RawCommand();
+        $command->addCommand('<add><doc><field name="id">1</field></doc></add>');
+
+        $this->assertSame(
+            '<add><doc><field name="id">1</field></doc></add>',
+            $this->builder->buildRawXml($command)
+        );
+    }
+
+    public function testBuildRawXmlMultipleCommands()
+    {
+        $command = new RawCommand();
+        $command->addCommand('<add><doc><field name="id">1</field></doc></add>');
+        $command->addCommand('<add><doc><field name="id">2</field></doc></add>');
+
+        $this->assertSame(
+            '<add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add>',
+            $this->builder->buildRawXml($command)
+        );
+    }
+
+    public function testBuildRawXmlGroupedCommands()
+    {
+        $command = new RawCommand();
+        $command->addCommand('<update><add><doc><field name="id">1</field></doc></add></update>');
+        $command->addCommand(' <update ><add><doc><field name="id">2</field></doc></add></update> ');
+        $command->addCommand('<!-- comment --><update><add><doc><field name="id">3</field></doc></add></update>');
+
+        $this->assertSame(
+            '<add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add><add><doc><field name="id">3</field></doc></add>',
+            $this->builder->buildRawXml($command)
+        );
+    }
+
     public function testCompleteRequest()
     {
         $this->query->addDeleteById(1);
         $this->query->addRollback();
         $this->query->addDeleteQuery('*:*');
         $this->query->addDocument(new Document(['id' => 1]));
+        $this->query->addRawCommand('<add><doc><field name="id">2</field></doc></add>');
         $this->query->addCommit();
         $this->query->addOptimize();
 
@@ -448,6 +486,7 @@ class RequestBuilderTest extends TestCase
             .'<rollback/>'
             .'<delete><query>*:*</query></delete>'
             .'<add><doc><field name="id">1</field></doc></add>'
+            .'<add><doc><field name="id">2</field></doc></add>'
             .'<commit/>'
             .'<optimize/>'
             .'</update>',

@@ -368,7 +368,6 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             Query::COMMAND_OPTIMIZE,
-            Query::COMMAND_OPTIMIZE,
             $commands[0]->getType()
         );
 
@@ -383,6 +382,38 @@ class QueryTest extends TestCase
         $this->assertSame(
             10,
             $commands[0]->getMaxSegments()
+        );
+    }
+
+    public function testAddRawCommand()
+    {
+        $this->query->addRawCommand('<add><doc><field name="id">1</field></doc></add>');
+        $commands = $this->query->getCommands();
+
+        $this->assertSame(
+            Query::COMMAND_RAW,
+            $commands[0]->getType()
+        );
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>'],
+            $commands[0]->getCommands()
+        );
+    }
+
+    public function testAddRawCommands()
+    {
+        $this->query->addRawCommands(['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>']);
+        $commands = $this->query->getCommands();
+
+        $this->assertSame(
+            Query::COMMAND_RAW,
+            $commands[0]->getType()
+        );
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>'],
+            $commands[0]->getCommands()
         );
     }
 

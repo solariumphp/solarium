@@ -14,6 +14,7 @@ use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
+use Solarium\QueryType\Update\Query\Command\Raw as RawCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
 use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
@@ -44,14 +45,19 @@ class Query extends BaseQuery
     const COMMAND_COMMIT = 'commit';
 
     /**
-     * Update command rollback.
+     * Update command optimize.
      */
-    const COMMAND_ROLLBACK = 'rollback';
+    const COMMAND_OPTIMIZE = 'optimize';
 
     /**
      * Update command optimize.
      */
-    const COMMAND_OPTIMIZE = 'optimize';
+    const COMMAND_RAW = 'raw';
+
+    /**
+     * Update command rollback.
+     */
+    const COMMAND_ROLLBACK = 'rollback';
 
     /**
      * Update command types.
@@ -63,6 +69,7 @@ class Query extends BaseQuery
         self::COMMAND_DELETE => DeleteCommand::class,
         self::COMMAND_COMMIT => CommitCommand::class,
         self::COMMAND_OPTIMIZE => OptimizeCommand::class,
+        self::COMMAND_RAW => RawCommand::class,
         self::COMMAND_ROLLBACK => RollbackCommand::class,
     ];
 
@@ -201,7 +208,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Convenience method for adding a rollback command.
+     * Convenience method to add a rollback command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
@@ -214,7 +221,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Convenience method for adding a delete query command.
+     * Convenience method to add a delete query command.
      *
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
@@ -396,6 +403,44 @@ class Query extends BaseQuery
         }
 
         return $this->add(null, $optimize);
+    }
+
+    /**
+     * Convenience method for adding a raw XML command.
+     *
+     * If you need more control, like choosing a key for the command you need to
+     * create you own command instance and use the add method.
+     *
+     * @param string $command
+     *
+     * @return self Provides fluent interface
+     */
+    public function addRawCommand(string $command): self
+    {
+        $raw = new RawCommand();
+
+        $raw->addCommand($command);
+
+        return $this->add(null, $raw);
+    }
+
+    /**
+     * Convenience method for adding raw XML commands.
+     *
+     * If you need more control, like choosing a key for the command you need to
+     * create you own command instance and use the add method.
+     *
+     * @param array $commands
+     *
+     * @return self Provides fluent interface
+     */
+    public function addRawCommands(array $commands): self
+    {
+        $raw = new RawCommand();
+
+        $raw->addCommands($commands);
+
+        return $this->add(null, $raw);
     }
 
     /**
