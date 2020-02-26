@@ -29,8 +29,8 @@ class PreFlush extends Event
      * Event constructor.
      *
      * @param DocumentInterface[] $buffer
-     * @param bool                $overwrite
-     * @param int                 $commitWithin
+     * @param bool|null           $overwrite
+     * @param int|null            $commitWithin
      */
     public function __construct(array $buffer, ?bool $overwrite, ?int $commitWithin)
     {

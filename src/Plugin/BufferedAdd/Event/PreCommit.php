@@ -39,12 +39,12 @@ class PreCommit extends Event
      * Event constructor.
      *
      * @param array     $buffer
-     * @param bool      $overwrite
+     * @param bool|null $overwrite
      * @param bool|null $softCommit
      * @param bool|null $waitSearcher
      * @param bool|null $expungeDeletes
      */
-    public function __construct(array $buffer, bool $overwrite, ?bool $softCommit, ?bool $waitSearcher, ?bool $expungeDeletes)
+    public function __construct(array $buffer, ?bool $overwrite, ?bool $softCommit, ?bool $waitSearcher, ?bool $expungeDeletes)
     {
         $this->buffer = $buffer;
         $this->overwrite = $overwrite;
@@ -111,9 +111,9 @@ class PreCommit extends Event
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getOverwrite(): bool
+    public function getOverwrite(): ?bool
     {
         return $this->overwrite;
     }
