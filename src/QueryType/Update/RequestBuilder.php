@@ -11,7 +11,7 @@ use Solarium\QueryType\Update\Query\Command\Add;
 use Solarium\QueryType\Update\Query\Command\Commit;
 use Solarium\QueryType\Update\Query\Command\Delete;
 use Solarium\QueryType\Update\Query\Command\Optimize;
-use Solarium\QueryType\Update\Query\Command\RawXML;
+use Solarium\QueryType\Update\Query\Command\RawXml;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
@@ -187,11 +187,11 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for a raw command.
      *
-     * @param RawXML $command
+     * @param RawXml $command
      *
      * @return string
      */
-    public function buildRawXmlXml(RawXML $command): string
+    public function buildRawXmlXml(RawXml $command): string
     {
         $xml = '';
 

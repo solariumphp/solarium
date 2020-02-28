@@ -14,7 +14,7 @@ use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
-use Solarium\QueryType\Update\Query\Command\RawXML as RawXMLCommand;
+use Solarium\QueryType\Update\Query\Command\RawXml as RawXmlCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
 use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
@@ -69,7 +69,7 @@ class Query extends BaseQuery
         self::COMMAND_COMMIT => CommitCommand::class,
         self::COMMAND_DELETE => DeleteCommand::class,
         self::COMMAND_OPTIMIZE => OptimizeCommand::class,
-        self::COMMAND_RAWXML => RawXMLCommand::class,
+        self::COMMAND_RAWXML => RawXmlCommand::class,
         self::COMMAND_ROLLBACK => RollbackCommand::class,
     ];
 
@@ -417,7 +417,7 @@ class Query extends BaseQuery
      */
     public function addRawXmlCommand(string $command): self
     {
-        $raw = new RawXMLCommand();
+        $raw = new RawXmlCommand();
 
         $raw->addCommand($command);
 
@@ -436,7 +436,7 @@ class Query extends BaseQuery
      */
     public function addRawXmlCommands(array $commands): self
     {
-        $raw = new RawXMLCommand();
+        $raw = new RawXmlCommand();
 
         $raw->addCommands($commands);
 

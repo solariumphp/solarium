@@ -8,7 +8,7 @@ use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
-use Solarium\QueryType\Update\Query\Command\RawXML as RawXMLCommand;
+use Solarium\QueryType\Update\Query\Command\RawXml as RawXmlCommand;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\RequestBuilder;
@@ -436,7 +436,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildRawXmlXmlSingleCommand()
     {
-        $command = new RawXMLCommand();
+        $command = new RawXmlCommand();
         $command->addCommand('<add><doc><field name="id">1</field></doc></add>');
 
         $this->assertSame(
@@ -447,7 +447,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildRawXmlXmlMultipleCommands()
     {
-        $command = new RawXMLCommand();
+        $command = new RawXmlCommand();
         $command->addCommand('<add><doc><field name="id">1</field></doc></add>');
         $command->addCommand('<add><doc><field name="id">2</field></doc></add>');
 
@@ -459,7 +459,7 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildRawXmlXmlGroupedCommands()
     {
-        $command = new RawXMLCommand();
+        $command = new RawXmlCommand();
         $command->addCommand('<update><add><doc><field name="id">1</field></doc></add></update>');
         $command->addCommand(' <update ><add><doc><field name="id">2</field></doc></add></update> ');
         $command->addCommand('<!-- comment --><update><add><doc><field name="id">3</field></doc></add></update>');

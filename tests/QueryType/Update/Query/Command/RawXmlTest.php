@@ -3,16 +3,16 @@
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\QueryType\Update\Query\Command\RawXML;
+use Solarium\QueryType\Update\Query\Command\RawXml;
 use Solarium\QueryType\Update\Query\Query;
 
-class RawXMLTest extends TestCase
+class RawXmlTest extends TestCase
 {
     protected $command;
 
     public function setUp(): void
     {
-        $this->command = new RawXML();
+        $this->command = new RawXml();
     }
 
     public function testGetType()
@@ -29,7 +29,7 @@ class RawXMLTest extends TestCase
             'command' => '<add><doc><field name="id">1</field></doc></add>',
         ];
 
-        $command = new RawXML($options);
+        $command = new RawXml($options);
 
         $this->assertSame(
             ['<add><doc><field name="id">1</field></doc></add>'],
@@ -43,7 +43,7 @@ class RawXMLTest extends TestCase
             'command' => ['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>'],
         ];
 
-        $command = new RawXML($options);
+        $command = new RawXml($options);
 
         $this->assertSame(
             ['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>'],
