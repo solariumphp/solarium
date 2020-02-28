@@ -265,7 +265,7 @@ class BufferedAdd extends AbstractPlugin
         $event = new PreCommitEvent($this->buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
         $this->client->getEventDispatcher()->dispatch($event, Events::PRE_COMMIT);
 
-        $this->updateQuery->addDocuments($this->buffer, $event->getOverwrite());
+        $this->updateQuery->addDocuments($event->getBuffer(), $event->getOverwrite());
         $this->updateQuery->addCommit($event->getSoftCommit(), $event->getWaitSearcher(), $event->getExpungeDeletes());
         $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();

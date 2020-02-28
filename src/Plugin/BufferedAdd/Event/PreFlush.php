@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Solarium\Core\Query\DocumentInterface;
@@ -16,12 +18,12 @@ class PreFlush extends Event
     protected $buffer;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $overwrite;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $commitWithin;
 
@@ -29,8 +31,8 @@ class PreFlush extends Event
      * Event constructor.
      *
      * @param DocumentInterface[] $buffer
-     * @param bool                $overwrite
-     * @param int                 $commitWithin
+     * @param bool|null           $overwrite
+     * @param int|null            $commitWithin
      */
     public function __construct(array $buffer, ?bool $overwrite, ?int $commitWithin)
     {
@@ -59,19 +61,21 @@ class PreFlush extends Event
     public function setBuffer(array $buffer): self
     {
         $this->buffer = $buffer;
+
         return $this;
     }
 
     /**
      * Optionally override the value.
      *
-     * @param int $commitWithin
+     * @param int|null $commitWithin
      *
      * @return self Provides fluent interface
      */
-    public function setCommitWithin(int $commitWithin): self
+    public function setCommitWithin(?int $commitWithin): self
     {
         $this->commitWithin = $commitWithin;
+
         return $this;
     }
 
@@ -86,13 +90,14 @@ class PreFlush extends Event
     /**
      * Optionally override the value.
      *
-     * @param bool $overwrite
+     * @param bool|null $overwrite
      *
      * @return self Provides fluent interface
      */
-    public function setOverwrite(bool $overwrite): self
+    public function setOverwrite(?bool $overwrite): self
     {
         $this->overwrite = $overwrite;
+
         return $this;
     }
 
