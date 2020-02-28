@@ -16,7 +16,7 @@ class PreCommit extends Event
     protected $buffer;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $overwrite;
 
