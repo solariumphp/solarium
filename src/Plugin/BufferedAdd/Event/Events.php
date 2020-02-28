@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 /**
@@ -14,7 +16,7 @@ interface Events
      *
      * @var string
      */
-    const PRE_FLUSH = 'solarium.bufferedAdd.preFlush';
+    public const PRE_FLUSH = 'solarium.bufferedAdd.preFlush';
 
     /**
      * This event is called after a buffer flush.
@@ -23,7 +25,7 @@ interface Events
      *
      * @var string
      */
-    const POST_FLUSH = 'solarium.bufferedAdd.postFlush';
+    public const POST_FLUSH = 'solarium.bufferedAdd.postFlush';
 
     /**
      * This event is called before a buffer commit.
@@ -32,7 +34,7 @@ interface Events
      *
      * @var string
      */
-    const PRE_COMMIT = 'solarium.bufferedAdd.preCommit';
+    public const PRE_COMMIT = 'solarium.bufferedAdd.preCommit';
 
     /**
      * This event is called after a buffer commit.
@@ -41,7 +43,7 @@ interface Events
      *
      * @var string
      */
-    const POST_COMMIT = 'solarium.bufferedAdd.postCommit';
+    public const POST_COMMIT = 'solarium.bufferedAdd.postCommit';
 
     /**
      * This event is called when a new document is added.
@@ -50,5 +52,5 @@ interface Events
      *
      * @var string
      */
-    const ADD_DOCUMENT = 'solarium.bufferedAdd.addDocument';
+    public const ADD_DOCUMENT = 'solarium.bufferedAdd.addDocument';
 }
