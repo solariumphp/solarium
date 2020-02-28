@@ -62,6 +62,7 @@ class PostBigRequest extends AbstractPlugin
     {
         $request = $event->getRequest();
         $queryString = $request->getQueryString();
+
         if (Request::METHOD_GET == $request->getMethod() &&
             strlen($queryString) > $this->getMaxQueryStringLength()) {
             $request->setMethod(Request::METHOD_POST);

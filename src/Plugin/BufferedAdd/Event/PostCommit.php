@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Solarium\QueryType\Update\Result;
