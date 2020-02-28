@@ -39,7 +39,7 @@ $xml = '
 ';
 
 // add the XML string and a commit command to the update query
-$update->addRawCommand($xml);
+$update->addRawXmlCommand($xml);
 $update->addCommit();
 
 // this executes the query and returns the result

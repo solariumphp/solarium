@@ -385,13 +385,13 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddRawCommand()
+    public function testAddRawXmlCommand()
     {
-        $this->query->addRawCommand('<add><doc><field name="id">1</field></doc></add>');
+        $this->query->addRawXmlCommand('<add><doc><field name="id">1</field></doc></add>');
         $commands = $this->query->getCommands();
 
         $this->assertSame(
-            Query::COMMAND_RAW,
+            Query::COMMAND_RAWXML,
             $commands[0]->getType()
         );
 
@@ -401,13 +401,13 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddRawCommands()
+    public function testAddRawXmlCommands()
     {
-        $this->query->addRawCommands(['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>']);
+        $this->query->addRawXmlCommands(['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>']);
         $commands = $this->query->getCommands();
 
         $this->assertSame(
-            Query::COMMAND_RAW,
+            Query::COMMAND_RAWXML,
             $commands[0]->getType()
         );
 

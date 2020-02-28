@@ -9,7 +9,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
  *
  * @see http://wiki.apache.org/solr/UpdateXmlMessages
  */
-class Raw extends AbstractCommand
+class RawXML extends AbstractCommand
 {
     /**
      * XML command strings to send.
@@ -25,7 +25,7 @@ class Raw extends AbstractCommand
      */
     public function getType(): string
     {
-        return UpdateQuery::COMMAND_RAW;
+        return UpdateQuery::COMMAND_RAWXML;
     }
 
     /**
@@ -35,7 +35,7 @@ class Raw extends AbstractCommand
      *
      * @return self Provides fluent interface
      */
-    public function addCommand($command): self
+    public function addCommand(string $command): self
     {
         $this->commands[] = $command;
 

@@ -11,7 +11,7 @@ use Solarium\QueryType\Update\Query\Command\Add;
 use Solarium\QueryType\Update\Query\Command\Commit;
 use Solarium\QueryType\Update\Query\Command\Delete;
 use Solarium\QueryType\Update\Query\Command\Optimize;
-use Solarium\QueryType\Update\Query\Command\Raw;
+use Solarium\QueryType\Update\Query\Command\RawXML;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
@@ -67,8 +67,8 @@ class RequestBuilder extends BaseRequestBuilder
                 case UpdateQuery::COMMAND_ROLLBACK:
                     $xml .= $this->buildRollbackXml();
                     break;
-                case UpdateQuery::COMMAND_RAW:
-                    $xml .= $this->buildRawXml($command);
+                case UpdateQuery::COMMAND_RAWXML:
+                    $xml .= $this->buildRawXmlXml($command);
                     break;
                 default:
                     throw new RuntimeException('Unsupported command type');
@@ -187,11 +187,11 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build XML for a raw command.
      *
-     * @param Raw $command
+     * @param RawXML $command
      *
      * @return string
      */
-    public function buildRawXml(Raw $command): string
+    public function buildRawXmlXml(RawXML $command): string
     {
         $xml = '';
 

@@ -14,7 +14,7 @@ use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
-use Solarium\QueryType\Update\Query\Command\Raw as RawCommand;
+use Solarium\QueryType\Update\Query\Command\RawXML as RawXMLCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
 use Solarium\QueryType\Update\RequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
@@ -35,14 +35,14 @@ class Query extends BaseQuery
     const COMMAND_ADD = 'add';
 
     /**
-     * Update command delete.
-     */
-    const COMMAND_DELETE = 'delete';
-
-    /**
      * Update command commit.
      */
     const COMMAND_COMMIT = 'commit';
+
+    /**
+     * Update command delete.
+     */
+    const COMMAND_DELETE = 'delete';
 
     /**
      * Update command optimize.
@@ -50,9 +50,9 @@ class Query extends BaseQuery
     const COMMAND_OPTIMIZE = 'optimize';
 
     /**
-     * Update command optimize.
+     * Update command raw XML.
      */
-    const COMMAND_RAW = 'raw';
+    const COMMAND_RAWXML = 'rawxml';
 
     /**
      * Update command rollback.
@@ -66,10 +66,10 @@ class Query extends BaseQuery
      */
     protected $commandTypes = [
         self::COMMAND_ADD => AddCommand::class,
-        self::COMMAND_DELETE => DeleteCommand::class,
         self::COMMAND_COMMIT => CommitCommand::class,
+        self::COMMAND_DELETE => DeleteCommand::class,
         self::COMMAND_OPTIMIZE => OptimizeCommand::class,
-        self::COMMAND_RAW => RawCommand::class,
+        self::COMMAND_RAWXML => RawXMLCommand::class,
         self::COMMAND_ROLLBACK => RollbackCommand::class,
     ];
 
@@ -415,9 +415,9 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function addRawCommand(string $command): self
+    public function addRawXmlCommand(string $command): self
     {
-        $raw = new RawCommand();
+        $raw = new RawXMLCommand();
 
         $raw->addCommand($command);
 
@@ -434,9 +434,9 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function addRawCommands(array $commands): self
+    public function addRawXmlCommands(array $commands): self
     {
-        $raw = new RawCommand();
+        $raw = new RawXMLCommand();
 
         $raw->addCommands($commands);
 

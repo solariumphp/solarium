@@ -8,7 +8,7 @@ use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
-use Solarium\QueryType\Update\Query\Command\Raw as RawCommand;
+use Solarium\QueryType\Update\Query\Command\RawXML as RawXMLCommand;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\RequestBuilder;
@@ -434,39 +434,39 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildRawXmlSingleCommand()
+    public function testBuildRawXmlXmlSingleCommand()
     {
-        $command = new RawCommand();
+        $command = new RawXMLCommand();
         $command->addCommand('<add><doc><field name="id">1</field></doc></add>');
 
         $this->assertSame(
             '<add><doc><field name="id">1</field></doc></add>',
-            $this->builder->buildRawXml($command)
+            $this->builder->buildRawXmlXml($command)
         );
     }
 
-    public function testBuildRawXmlMultipleCommands()
+    public function testBuildRawXmlXmlMultipleCommands()
     {
-        $command = new RawCommand();
+        $command = new RawXMLCommand();
         $command->addCommand('<add><doc><field name="id">1</field></doc></add>');
         $command->addCommand('<add><doc><field name="id">2</field></doc></add>');
 
         $this->assertSame(
             '<add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add>',
-            $this->builder->buildRawXml($command)
+            $this->builder->buildRawXmlXml($command)
         );
     }
 
-    public function testBuildRawXmlGroupedCommands()
+    public function testBuildRawXmlXmlGroupedCommands()
     {
-        $command = new RawCommand();
+        $command = new RawXMLCommand();
         $command->addCommand('<update><add><doc><field name="id">1</field></doc></add></update>');
         $command->addCommand(' <update ><add><doc><field name="id">2</field></doc></add></update> ');
         $command->addCommand('<!-- comment --><update><add><doc><field name="id">3</field></doc></add></update>');
 
         $this->assertSame(
             '<add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add><add><doc><field name="id">3</field></doc></add>',
-            $this->builder->buildRawXml($command)
+            $this->builder->buildRawXmlXml($command)
         );
     }
 
@@ -476,7 +476,7 @@ class RequestBuilderTest extends TestCase
         $this->query->addRollback();
         $this->query->addDeleteQuery('*:*');
         $this->query->addDocument(new Document(['id' => 1]));
-        $this->query->addRawCommand('<add><doc><field name="id">2</field></doc></add>');
+        $this->query->addRawXmlCommand('<add><doc><field name="id">2</field></doc></add>');
         $this->query->addCommit();
         $this->query->addOptimize();
 
