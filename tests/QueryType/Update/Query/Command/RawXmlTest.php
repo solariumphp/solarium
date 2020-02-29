@@ -3,6 +3,7 @@
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Update\Query\Command\RawXml;
 use Solarium\QueryType\Update\Query\Query;
 
@@ -68,5 +69,71 @@ class RawXmlTest extends TestCase
             ['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>', '<add><doc><field name="id">3</field></doc></add>'],
             $this->command->getCommands()
         );
+    }
+
+    public function testAddCommandFromFile()
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
+        file_put_contents($tmpfname, '<add><doc><field name="id">1</field></doc></add>');
+
+        $this->command->addCommandFromFile($tmpfname);
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>'],
+            $this->command->getCommands()
+        );
+
+        unlink($tmpfname);
+    }
+
+    public function testAddCommandFromFileWithUtf8Bom()
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
+        file_put_contents($tmpfname, pack('CCC', 0xEF, 0xBB, 0xBF).'<add><doc><field name="id">1</field></doc></add>');
+
+        $this->command->addCommandFromFile($tmpfname);
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>'],
+            $this->command->getCommands()
+        );
+
+        unlink($tmpfname);
+    }
+
+    public function testAddCommandFromFileWithXmlDeclaration()
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
+        file_put_contents($tmpfname, '<?xml version="1.0" encoding="UTF-8"?><add><doc><field name="id">1</field></doc></add>');
+
+        $this->command->addCommandFromFile($tmpfname);
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>'],
+            $this->command->getCommands()
+        );
+
+        unlink($tmpfname);
+    }
+
+    public function testAddCommandFromFileWithUtf8BomAndXmlDeclaration()
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
+        file_put_contents($tmpfname, pack('CCC', 0xEF, 0xBB, 0xBF).'<?xml version="1.0" encoding="UTF-8"?><add><doc><field name="id">1</field></doc></add>');
+
+        $this->command->addCommandFromFile($tmpfname);
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>'],
+            $this->command->getCommands()
+        );
+
+        unlink($tmpfname);
+    }
+
+    public function testAddCommandFromFileFailure()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->command->addCommandFromFile('nonexistent.xml');
     }
 }

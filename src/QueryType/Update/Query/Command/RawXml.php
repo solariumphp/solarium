@@ -2,6 +2,7 @@
 
 namespace Solarium\QueryType\Update\Query\Command;
 
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
@@ -52,6 +53,38 @@ class RawXml extends AbstractCommand
     public function addCommands(array $commands): self
     {
         $this->commands = array_merge($this->commands, $commands);
+
+        return $this;
+    }
+
+    /**
+     * Add an XML command string from a file to the command.
+     *
+     * @param string $filename
+     *
+     * @throws RuntimeException
+     *
+     * @return self Provides fluent interface
+     */
+    public function addCommandFromFile(string $filename): self
+    {
+        $command = @file_get_contents($filename);
+
+        if (false === $command) {
+            throw new RuntimeException('Update query raw XML file path/url invalid or not available');
+        }
+
+        // discard UTF-8 Byte Order Marker
+        if (pack('CCC', 0xEF, 0xBB, 0xBF) === substr($command, 0, 3)) {
+            $command = substr($command, 3);
+        }
+
+        // discard XML declaration
+        if ('<?xml' === substr($command, 0, 5)) {
+            $command = substr($command, strpos($command, '?>') + 2);
+        }
+
+        $this->addCommand($command);
 
         return $this;
     }
