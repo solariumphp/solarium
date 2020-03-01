@@ -10,6 +10,8 @@ use Solarium\Exception\HttpException;
 
 /**
  * Basic HTTP adapter using a stream.
+ *
+ * @deprecated since Solarium 5.2 and will be removed in Solarium 6. Use Psr18Adapter instead.
  */
 class Http extends Configurable implements AdapterInterface
 {
