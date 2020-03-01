@@ -64,10 +64,9 @@ class Psr18Adapter extends Configurable implements AdapterInterface
             $psr7Request = $psr7Request->withBody($this->streamFactory->createStream($body));
         }
 
-        foreach ($request->getHeaders() as $headerLine) {
-            [$header, $value] = explode(':', $headerLine);
-            if ($header = trim($header)) {
-                $psr7Request = $psr7Request->withAddedHeader($header, $value);
+        foreach ($this->getRequestHeaders($request) as $name => $values) {
+            foreach ($values as $value) {
+                $psr7Request = $psr7Request->withAddedHeader($name, $value);
             }
         }
 
@@ -107,5 +106,27 @@ class Psr18Adapter extends Configurable implements AdapterInterface
         }
 
         return $request->getRawData();
+    }
+
+    private function getRequestHeaders(Request $request): array
+    {
+        $headers = [];
+
+        foreach ($request->getHeaders() as $headerLine) {
+            [$header, $value] = explode(':', $headerLine);
+            if ($header = trim($header)) {
+                $headers[$header][] = $value;
+            }
+        }
+
+        if (!isset($headers['Content-Type'])) {
+            if (Request::METHOD_GET == $request->getMethod()) {
+                $headers['Content-Type'] = ['application/x-www-form-urlencoded; charset=utf-8'];
+            } else {
+                $headers['Content-Type'] = ['application/xml; charset=utf-8'];
+            }
+        }
+
+        return $headers;
     }
 }

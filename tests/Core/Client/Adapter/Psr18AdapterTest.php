@@ -25,6 +25,7 @@ class Psr18AdapterTest extends TestCase
                 $this->assertSame([
                     'Host' => ['127.0.0.1:8983'],
                     'X-Request-Header' => ['some value', 'and another one'],
+                    'Content-Type' => ['application/x-www-form-urlencoded; charset=utf-8'],
                 ], $request->getHeaders());
 
                 return true;
