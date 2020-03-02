@@ -1444,12 +1444,14 @@ class Client extends Configurable implements ClientInterface
      */
     public function setOptions($options, bool $overwrite = false): ConfigurableInterface
     {
-        if (array_key_exists('adapter', $options)) {
-            @trigger_error('The Client option "adapter" is deprecated since Solarium 5.2 and will be removed in Solarium 6. Pass an instance of AdapterInterface to the constructor instead.', E_USER_DEPRECATED);
-        }
+        if (is_array($options)) {
+            if (array_key_exists('adapter', $options)) {
+                @trigger_error('The Client option "adapter" is deprecated since Solarium 5.2 and will be removed in Solarium 6. Pass an instance of AdapterInterface to the constructor instead.', E_USER_DEPRECATED);
+            }
 
-        if (array_key_exists('adapteroptions', $options)) {
-            @trigger_error('The Client option "adapteroptions" is deprecated since Solarium 5.2 and will be removed in Solarium 6. Pass an instance of AdapterInterface to the constructor instead.', E_USER_DEPRECATED);
+            if (array_key_exists('adapteroptions', $options)) {
+                @trigger_error('The Client option "adapteroptions" is deprecated since Solarium 5.2 and will be removed in Solarium 6. Pass an instance of AdapterInterface to the constructor instead.', E_USER_DEPRECATED);
+            }
         }
 
         return parent::setOptions($options, $overwrite);
