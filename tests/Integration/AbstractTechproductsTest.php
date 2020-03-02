@@ -387,7 +387,7 @@ abstract class AbstractTechproductsTest extends TestCase
                 'updateHandler.autoCommit.maxTime' => -1,
                 'updateHandler.autoSoftCommit.maxDocs' => -1,
                 'updateHandler.autoSoftCommit.maxTime' => -1,
-            ]
+            ],
         ]));
         $response = $this->client->executeRequest($request);
         $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
@@ -507,7 +507,7 @@ abstract class AbstractTechproductsTest extends TestCase
                 'updateHandler.autoCommit.maxTime',
                 'updateHandler.autoSoftCommit.maxDocs',
                 'updateHandler.autoSoftCommit.maxTime',
-            ]
+            ],
         ]));
         $response = $this->client->executeRequest($request);
         $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
