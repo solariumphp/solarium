@@ -135,7 +135,7 @@ class Psr18Adapter extends Configurable implements AdapterInterface
             }
 
             if (!empty($authData['username']) && !empty($authData['password'])) {
-                $headers['Authorization'] = [sprintf('Basic %s', base64_encode($authData['username'].':'.$authData['password']))];
+                $headers['Authorization'] = ['Basic '.base64_encode($authData['username'].':'.$authData['password'])];
             }
         }
 
