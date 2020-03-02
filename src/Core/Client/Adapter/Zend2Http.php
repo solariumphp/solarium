@@ -19,7 +19,7 @@ use Solarium\Exception\OutOfBoundsException;
  *
  * To use this adapter you need to have the Zend Framework available (autoloading)
  *
- * @deprecated since Solarium 5.2 and will be removed in Solarium 6. Use Psr18Adapter instead.
+ * @deprecated Deprecated since Solarium 5.2 and will be removed in Solarium 6. Use Psr18Adapter instead.
  */
 class Zend2Http extends Configurable implements AdapterInterface
 {

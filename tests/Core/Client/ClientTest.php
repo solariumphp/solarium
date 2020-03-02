@@ -1326,6 +1326,26 @@ class ClientTest extends TestCase
 
         $observer->createExtract($options);
     }
+
+    public function testNewConstructorSignature(): void
+    {
+        $defaultOptions = ['endpoint' => ['localhost' => []]];
+
+        $adapter = new MyAdapter();
+        $client = new Client($adapter);
+        $this->assertSame($adapter, $client->getAdapter());
+        $this->assertSame($defaultOptions, $client->getOptions());
+
+        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+
+        $client = new Client($adapter, null, $eventDispatcher);
+        $this->assertSame($eventDispatcher, $client->getEventDispatcher());
+        $this->assertSame($defaultOptions, $client->getOptions());
+
+        $client = new Client($adapter, ['foo' => 'bar'], $eventDispatcher);
+        $this->assertSame($eventDispatcher, $client->getEventDispatcher());
+        $this->assertSame($defaultOptions + ['foo' => 'bar'], $client->getOptions());
+    }
 }
 
 class MyAdapter extends ClientAdapterHttp
