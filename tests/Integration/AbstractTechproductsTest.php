@@ -10,7 +10,6 @@ use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\Tests\Integration\AbstractCoreTest;
 
 abstract class AbstractTechproductsTest extends TestCase
 {
@@ -457,8 +456,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(0, $response->getStatus());
 
         // rollback is currently not supported in SolrCloud mode (SOLR-4895)
-        if ($this instanceof AbstractCoreTest)
-        {
+        if ($this instanceof AbstractCoreTest) {
             // add, rollback, commit
             $update = $this->client->createUpdate();
             $doc1 = $update->createDocument();
