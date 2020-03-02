@@ -30,11 +30,9 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
                     'core' => 'techproducts',
                 ],
             ],
-            // Curl is the default adapter.
-            //'adapter' => 'Solarium\Core\Client\Adapter\Curl',
         ];
 
-        $this->client = new \Solarium\Client($config);
+        $this->client = ClientFactory::createWithPsr18Adapter($config);
 
         try {
             $ping = $this->client->createPing();
