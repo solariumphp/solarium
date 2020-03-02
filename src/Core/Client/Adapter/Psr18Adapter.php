@@ -64,7 +64,7 @@ class Psr18Adapter extends Configurable implements AdapterInterface
             $psr7Request = $psr7Request->withBody($this->streamFactory->createStream($body));
         }
 
-        foreach ($this->getRequestHeaders($request) as $name => $values) {
+        foreach ($this->getRequestHeaders($request, $endpoint) as $name => $values) {
             foreach ($values as $value) {
                 $psr7Request = $psr7Request->withAddedHeader($name, $value);
             }
@@ -108,7 +108,7 @@ class Psr18Adapter extends Configurable implements AdapterInterface
         return $request->getRawData();
     }
 
-    private function getRequestHeaders(Request $request): array
+    private function getRequestHeaders(Request $request, Endpoint $endpoint): array
     {
         $headers = [];
 
@@ -124,6 +124,18 @@ class Psr18Adapter extends Configurable implements AdapterInterface
                 $headers['Content-Type'] = ['application/x-www-form-urlencoded; charset=utf-8'];
             } else {
                 $headers['Content-Type'] = ['application/xml; charset=utf-8'];
+            }
+        }
+
+        if (!isset($headers['Authorization'])) {
+            // Try endpoint authentication first, fallback to request for backwards compatibility
+            $authData = $endpoint->getAuthentication();
+            if (empty($authData['username'])) {
+                $authData = $request->getAuthentication();
+            }
+
+            if (!empty($authData['username']) && !empty($authData['password'])) {
+                $headers['Authorization'] = [sprintf('Basic %s', base64_encode($authData['username'].':'.$authData['password']))];
             }
         }
 

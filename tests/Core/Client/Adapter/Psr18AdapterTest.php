@@ -50,4 +50,75 @@ class Psr18AdapterTest extends TestCase
         ], $response->getHeaders());
         $this->assertSame('some nice body', $response->getBody());
     }
+
+    public function testExecutePostRequestWithBody(): void
+    {
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())
+            ->method('sendRequest')
+            ->with($this->callback(function (RequestInterface $request) {
+                $this->assertSame(Request::METHOD_POST, $request->getMethod());
+                $this->assertSame('some data', (string) $request->getBody());
+                $this->assertSame([
+                    'Host' => ['127.0.0.1:8983'],
+                    'Content-Type' => ['application/xml; charset=utf-8'],
+                ], $request->getHeaders());
+
+                return true;
+            }))
+            ->willReturn(new Response(400, [], 'some nice body'))
+        ;
+
+        $psr17Factory = new Psr17Factory();
+        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        $request->setRawData('some data');
+        $request->setIsServerRequest(true);
+
+        $response = $adapter->execute($request, new Endpoint());
+        $this->assertSame(400, $response->getStatusCode());
+        $this->assertSame('some nice body', $response->getBody());
+    }
+
+    /**
+     * @testWith [true]
+     *           [false]
+     */
+    public function testExecuteRequestWithHttpBasicAuthentication(bool $useRequestAuth): void
+    {
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())
+            ->method('sendRequest')
+            ->with($this->callback(function (RequestInterface $request) {
+                $this->assertSame([
+                    'Host' => ['127.0.0.1:8983'],
+                    'Content-Type' => ['application/xml'],
+                    'Authorization' => [sprintf('Basic %s', base64_encode('foo:bar'))],
+                ], $request->getHeaders());
+
+                return true;
+            }))
+            ->willReturn(new Response(200))
+        ;
+
+        $psr17Factory = new Psr17Factory();
+        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+
+        $request = new Request();
+        $request->setMethod(Request::METHOD_GET);
+        $request->addHeader('Content-Type: application/xml');
+        $request->setIsServerRequest(true);
+
+        $endpoint = new Endpoint();
+
+        if ($useRequestAuth) {
+            $endpoint->setAuthentication('foo', 'bar');
+        } else {
+            $request->setAuthentication('foo', 'bar');
+        }
+
+        $adapter->execute($request, $endpoint);
+    }
 }
