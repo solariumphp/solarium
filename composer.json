@@ -25,6 +25,7 @@
         "php-coveralls/php-coveralls": "^2.1",
         "phpunit/phpunit": "^8.0",
         "squizlabs/php_codesniffer": "^3.4",
+        "symfony/phpunit-bridge": "^5.0",
         "zendframework/zend-http": "^2.8"
     },
     "minimum-stability": "dev",
