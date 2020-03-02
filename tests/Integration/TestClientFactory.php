@@ -8,7 +8,7 @@ use Http\Adapter\Guzzle6\Client as GuzzlePsrClient;
 use Solarium\Core\Client\Adapter\Psr18Adapter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-final class ClientFactory
+final class TestClientFactory
 {
     public static function createWithPsr18Adapter(array $options = null, EventDispatcherInterface $eventDispatcher = null): Client
     {

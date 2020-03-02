@@ -32,7 +32,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
             ],
         ];
 
-        $this->client = ClientFactory::createWithPsr18Adapter($config);
+        $this->client = TestClientFactory::createWithPsr18Adapter($config);
 
         try {
             $ping = $this->client->createPing();
