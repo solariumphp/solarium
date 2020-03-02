@@ -302,6 +302,7 @@ class Client extends Configurable implements ClientInterface
 
         if ($options instanceof EventDispatcherInterface) {
             $eventDispatcher = $options;
+            $options = $adapter;
         }
 
         $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
