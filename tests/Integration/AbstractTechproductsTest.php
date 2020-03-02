@@ -455,17 +455,6 @@ abstract class AbstractTechproductsTest extends TestCase
         $response = $this->client->update($update);
         $this->assertSame(0, $response->getStatus());
 
-        // add, rollback, commit
-        $update = $this->client->createUpdate();
-        $update->addDocument($doc1);
-        $this->client->update($update);
-        $update = $this->client->createUpdate();
-        $update->addRollback();
-        $update->addCommit(true, true);
-        $this->client->update($update);
-        $result = $this->client->select($select);
-        $this->assertSame(0, $result->count());
-
         // raw add and raw commit
         $update = $this->client->createUpdate();
         $update->addRawXmlCommand('<add><doc><field name="id">solarium-test-1</field><field name="name">Solarium Test 1</field><field name="cat">solarium-test</field><field name="price">3.14</field></doc></add>');
@@ -495,6 +484,61 @@ abstract class AbstractTechproductsTest extends TestCase
         // raw delete and regular commit
         $update = $this->client->createUpdate();
         $update->addRawXmlCommand('<delete><query>cat:solarium-test</query></delete>');
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(0, $result->count());
+
+        // reset automatic commits to the configuration in solrconfig.xml
+        $request->setRawData(json_encode([
+            'unset-property' => [
+                'updateHandler.autoCommit.maxDocs',
+                'updateHandler.autoCommit.maxTime',
+                'updateHandler.autoSoftCommit.maxDocs',
+                'updateHandler.autoSoftCommit.maxTime',
+            ],
+        ]));
+        $response = $this->client->executeRequest($request);
+        $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
+    }
+
+    /**
+     * @group solr_no_cloud
+     */
+    public function testUpdateRollback()
+    {
+        $select = $this->client->createSelect();
+        $select->setQuery('cat:solarium-test');
+        $select->addSort('id', $select::SORT_ASC);
+        $select->setFields('id,name,price');
+
+        // disable automatic commits for commit and rollback tests
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        $request->setHandler('config');
+        $request->addHeader('Content-Type: application/json');
+        $request->setRawData(json_encode([
+            'set-property' => [
+                'updateHandler.autoCommit.maxDocs' => -1,
+                'updateHandler.autoCommit.maxTime' => -1,
+                'updateHandler.autoSoftCommit.maxDocs' => -1,
+                'updateHandler.autoSoftCommit.maxTime' => -1,
+            ],
+        ]));
+        $response = $this->client->executeRequest($request);
+        $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
+
+        // add, rollback, commit
+        $update = $this->client->createUpdate();
+        $doc1 = $update->createDocument();
+        $doc1->setField('id', 'solarium-test-1');
+        $doc1->setField('name', 'Solarium Test 1');
+        $doc1->setField('cat', 'solarium-test');
+        $doc1->setField('price', 3.14);
+        $update->addDocument($doc1);
+        $this->client->update($update);
+        $update = $this->client->createUpdate();
+        $update->addRollback();
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);
