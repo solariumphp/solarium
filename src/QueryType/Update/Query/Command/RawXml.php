@@ -74,7 +74,7 @@ class RawXml extends AbstractCommand
             throw new RuntimeException('Update query raw XML file path/url invalid or not available');
         }
 
-        // discard UTF-8 Byte Order Marker
+        // discard UTF-8 Byte Order Mark
         if (pack('CCC', 0xEF, 0xBB, 0xBF) === substr($command, 0, 3)) {
             $command = substr($command, 3);
         }
