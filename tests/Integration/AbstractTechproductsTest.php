@@ -510,8 +510,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // add from files without and with Byte Order Mark and XML declaration
         $update = $this->client->createUpdate();
-        foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml[1234]-add*.xml') as $file)
-        {
+        foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml[1234]-add*.xml') as $file) {
             $update->addRawXmlFile($file);
         }
         $update->addCommit(true, true);
