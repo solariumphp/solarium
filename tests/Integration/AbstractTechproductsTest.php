@@ -369,6 +369,158 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $terms);
     }
 
+    public function testUpdate()
+    {
+        $select = $this->client->createSelect();
+        $select->setQuery('cat:solarium-test');
+        $select->addSort('id', $select::SORT_ASC);
+        $select->setFields('id,name,price');
+
+        // disable automatic commits for commit and rollback tests
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        $request->setHandler('config');
+        $request->addHeader('Content-Type: application/json');
+        $request->setRawData(json_encode([
+            'set-property' => [
+                'updateHandler.autoCommit.maxDocs' => -1,
+                'updateHandler.autoCommit.maxTime' => -1,
+                'updateHandler.autoSoftCommit.maxDocs' => -1,
+                'updateHandler.autoSoftCommit.maxTime' => -1,
+            ],
+        ]));
+        $response = $this->client->executeRequest($request);
+        $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
+
+        // add, but don't commit
+        $update = $this->client->createUpdate();
+        $doc1 = $update->createDocument();
+        $doc1->setField('id', 'solarium-test-1');
+        $doc1->setField('name', 'Solarium Test 1');
+        $doc1->setField('cat', 'solarium-test');
+        $doc1->setField('price', 3.14);
+        $doc2 = $update->createDocument();
+        $doc2->setField('id', 'solarium-test-2');
+        $doc2->setField('name', 'Solarium Test 2');
+        $doc2->setField('cat', 'solarium-test');
+        $doc2->setField('price', 42.0);
+        $update->addDocuments([$doc1, $doc2]);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(0, $result->count());
+
+        // commit
+        $update = $this->client->createUpdate();
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(2, $result->count());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Solarium Test 1',
+            'price' => 3.14,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-2',
+            'name' => 'Solarium Test 2',
+            'price' => 42.0,
+        ], $iterator->current()->getFields());
+
+        // delete by id and commit
+        $update = $this->client->createUpdate();
+        $update->addDeleteById('solarium-test-1');
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(1, $result->count());
+        $this->assertSame([
+            'id' => 'solarium-test-2',
+            'name' => 'Solarium Test 2',
+            'price' => 42.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // delete by query and commit
+        $update = $this->client->createUpdate();
+        $update->addDeleteQuery('cat:solarium-test');
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(0, $result->count());
+
+        // optimize
+        $update = $this->client->createUpdate();
+        $update->addOptimize(true, false);
+        $response = $this->client->update($update);
+        $this->assertSame(0, $response->getStatus());
+
+        // rollback is currently not supported in SolrCloud mode (SOLR-4895)
+        if ($this instanceof AbstractCoreTest) {
+            // add, rollback, commit
+            $update = $this->client->createUpdate();
+            $doc1 = $update->createDocument();
+            $doc1->setField('id', 'solarium-test-1');
+            $doc1->setField('name', 'Solarium Test 1');
+            $doc1->setField('cat', 'solarium-test');
+            $doc1->setField('price', 3.14);
+            $update->addDocument($doc1);
+            $this->client->update($update);
+            $update = $this->client->createUpdate();
+            $update->addRollback();
+            $update->addCommit(true, true);
+            $this->client->update($update);
+            $result = $this->client->select($select);
+            $this->assertSame(0, $result->count());
+        }
+
+        // raw add and raw commit
+        $update = $this->client->createUpdate();
+        $update->addRawXmlCommand('<add><doc><field name="id">solarium-test-1</field><field name="name">Solarium Test 1</field><field name="cat">solarium-test</field><field name="price">3.14</field></doc></add>');
+        $update->addRawXmlCommand('<commit softCommit="true" waitSearcher="true"/>');
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(1, $result->count());
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Solarium Test 1',
+            'price' => 3.14,
+        ], $result->getIterator()->current()->getFields());
+
+        // grouped mixed raw commands
+        $update = $this->client->createUpdate();
+        $update->addRawXmlCommand('<update><add><doc><field name="id">solarium-test-2</field><field name="name">Solarium Test 2</field><field name="cat">solarium-test</field><field name="price">42</field></doc></add></update>');
+        $update->addRawXmlCommand('<update><delete><id>solarium-test-1</id></delete><commit softCommit="true" waitSearcher="true"/></update>');
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(1, $result->count());
+        $this->assertSame([
+            'id' => 'solarium-test-2',
+            'name' => 'Solarium Test 2',
+            'price' => 42.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // raw delete and regular commit
+        $update = $this->client->createUpdate();
+        $update->addRawXmlCommand('<delete><query>cat:solarium-test</query></delete>');
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(0, $result->count());
+
+        // reset automatic commits to the configuration in solrconfig.xml
+        $request->setRawData(json_encode([
+            'unset-property' => [
+                'updateHandler.autoCommit.maxDocs',
+                'updateHandler.autoCommit.maxTime',
+                'updateHandler.autoSoftCommit.maxDocs',
+                'updateHandler.autoSoftCommit.maxTime',
+            ],
+        ]));
+        $response = $this->client->executeRequest($request);
+        $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
+    }
+
     public function testReRankQuery()
     {
         $select = $this->client->createSelect();
