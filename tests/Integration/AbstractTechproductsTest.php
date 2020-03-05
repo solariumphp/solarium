@@ -508,6 +508,49 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->select($select);
         $this->assertSame(0, $result->count());
 
+        // add from files without and with Byte Order Mark and XML declaration
+        $update = $this->client->createUpdate();
+        foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml[1234]-add*.xml') as $file)
+        {
+            $update->addRawXmlFile($file);
+        }
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(4, $result->count());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Solarium Test 1',
+            'price' => 3.14,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-2',
+            'name' => 'Solarium Test 2',
+            'price' => 42.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-3',
+            'name' => 'Solarium Test 3',
+            'price' => 17.01,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-4',
+            'name' => 'Solarium Test 4',
+            'price' => 3.59,
+        ], $iterator->current()->getFields());
+
+        // delete from file with grouped delete commands
+        $update = $this->client->createUpdate();
+        $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml5-delete.xml');
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(0, $result->count());
+
         // reset automatic commits to the configuration in solrconfig.xml
         $request->setRawData(json_encode([
             'unset-property' => [
