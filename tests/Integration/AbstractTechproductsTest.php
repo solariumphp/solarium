@@ -124,11 +124,13 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->select($select);
         $this->assertSame(0, $result->getNumFound());
 
-        $this->assertSame([
-            'power' => 'power',
-            'cort' => 'cord',
-        ],
-        $result->getSpellcheck()->getCollations()[0]->getCorrections());
+        $this->assertSame(
+            [
+                'power' => 'power',
+                'cort' => 'cord',
+            ],
+            $result->getSpellcheck()->getCollations()[0]->getCorrections()
+        );
 
         $words = [];
         foreach ($result->getSpellcheck()->getSuggestions()[0]->getWords() as $suggestion) {
@@ -145,11 +147,13 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->select($select);
         $this->assertSame(0, $result->getNumFound());
 
-        $this->assertSame([
-            'power' => 'power',
-            'cort' => 'cord',
-        ],
-        $result->getSpellcheck()->getCollations()[0]->getCorrections());
+        $this->assertSame(
+            [
+                'power' => 'power',
+                'cort' => 'cord',
+            ],
+            $result->getSpellcheck()->getCollations()[0]->getCorrections()
+        );
 
         $select->setQuery('power cord');
         // Activate highlighting.
@@ -166,17 +170,21 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $this->assertSame(
             ['car <b>power</b> adapter, white'],
-            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('features'));
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('features')
+        );
 
         $this->assertSame(
             ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w&#x2F; Dock'],
-            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('name'));
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('name')
+        );
 
-        $this->assertSame([
+        $this->assertSame(
+            [
                 'features' => ['car <b>power</b> adapter, white'],
                 'name' => ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w&#x2F; Dock'],
             ],
-            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields());
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields()
+        );
 
         foreach ($result->getFacetSet() as $facetFieldName => $facetField) {
             $this->assertSame('stock', $facetFieldName);
