@@ -124,11 +124,13 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->select($select);
         $this->assertSame(0, $result->getNumFound());
 
-        $this->assertSame([
-            'power' => 'power',
-            'cort' => 'cord',
-        ],
-        $result->getSpellcheck()->getCollations()[0]->getCorrections());
+        $this->assertSame(
+            [
+                'power' => 'power',
+                'cort' => 'cord',
+            ],
+            $result->getSpellcheck()->getCollations()[0]->getCorrections()
+        );
 
         $words = [];
         foreach ($result->getSpellcheck()->getSuggestions()[0]->getWords() as $suggestion) {
@@ -145,11 +147,13 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->select($select);
         $this->assertSame(0, $result->getNumFound());
 
-        $this->assertSame([
-            'power' => 'power',
-            'cort' => 'cord',
-        ],
-        $result->getSpellcheck()->getCollations()[0]->getCorrections());
+        $this->assertSame(
+            [
+                'power' => 'power',
+                'cort' => 'cord',
+            ],
+            $result->getSpellcheck()->getCollations()[0]->getCorrections()
+        );
 
         $select->setQuery('power cord');
         // Activate highlighting.
@@ -166,17 +170,21 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $this->assertSame(
             ['car <b>power</b> adapter, white'],
-            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('features'));
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('features')
+        );
 
         $this->assertSame(
             ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w&#x2F; Dock'],
-            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('name'));
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('name')
+        );
 
-        $this->assertSame([
+        $this->assertSame(
+            [
                 'features' => ['car <b>power</b> adapter, white'],
                 'name' => ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w&#x2F; Dock'],
             ],
-            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields());
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields()
+        );
 
         foreach ($result->getFacetSet() as $facetFieldName => $facetField) {
             $this->assertSame('stock', $facetFieldName);
@@ -503,6 +511,48 @@ abstract class AbstractTechproductsTest extends TestCase
         // raw delete and regular commit
         $update = $this->client->createUpdate();
         $update->addRawXmlCommand('<delete><query>cat:solarium-test</query></delete>');
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(0, $result->count());
+
+        // add from files without and with Byte Order Mark and XML declaration
+        $update = $this->client->createUpdate();
+        foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml[1234]-add*.xml') as $file) {
+            $update->addRawXmlFile($file);
+        }
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertSame(4, $result->count());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Solarium Test 1',
+            'price' => 3.14,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-2',
+            'name' => 'Solarium Test 2',
+            'price' => 42.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-3',
+            'name' => 'Solarium Test 3',
+            'price' => 17.01,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-4',
+            'name' => 'Solarium Test 4',
+            'price' => 3.59,
+        ], $iterator->current()->getFields());
+
+        // delete from file with grouped delete commands
+        $update = $this->client->createUpdate();
+        $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml5-delete.xml');
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);

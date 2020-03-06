@@ -444,6 +444,25 @@ class Query extends BaseQuery
     }
 
     /**
+     * Convenience method for adding a raw XML command from a file.
+     *
+     * If you need more control, like choosing a key for the command you need to
+     * create you own command instance and use the add method.
+     *
+     * @param string $filename
+     *
+     * @return self Provides fluent interface
+     */
+    public function addRawXmlFile(string $filename): self
+    {
+        $raw = new RawXmlCommand();
+
+        $raw->addCommandFromFile($filename);
+
+        return $this->add(null, $raw);
+    }
+
+    /**
      * Set a custom document class for use in the createDocument method.
      *
      * This class should implement the document interface
