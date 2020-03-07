@@ -417,6 +417,27 @@ class QueryTest extends TestCase
         );
     }
 
+    public function testAddRawXmlFile()
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
+        file_put_contents($tmpfname, '<add><doc><field name="id">1</field></doc></add>');
+
+        $this->query->addRawXmlFile($tmpfname);
+        $commands = $this->query->getCommands();
+
+        $this->assertSame(
+            Query::COMMAND_RAWXML,
+            $commands[0]->getType()
+        );
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>'],
+            $commands[0]->getCommands()
+        );
+
+        unlink($tmpfname);
+    }
+
     public function testCreateCommand()
     {
         $type = Query::COMMAND_ROLLBACK;

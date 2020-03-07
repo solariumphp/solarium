@@ -1,0 +1,14 @@
+﻿<!--
+ test addRawXmlFile with
+ - UTF-8 Byte Order Mark (U+FEFF)
+ - no XML declaration
+-->
+
+<add>
+	<doc>
+		<field name="id">solarium-test-2</field>
+		<field name="name">Solarium Test 2</field>
+		<field name="cat">solarium-test</field>
+		<field name="price">42.0</field>
+	</doc>
+</add>
