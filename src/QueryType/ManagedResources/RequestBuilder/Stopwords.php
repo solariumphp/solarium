@@ -70,8 +70,6 @@ class Stopwords extends BaseRequestBuilder
                 throw new RuntimeException('Unsupported command type');
         }
 
-        $request->setMethod($command->getRequestMethod());
-
         return $this;
     }
 }
