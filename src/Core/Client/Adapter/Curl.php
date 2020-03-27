@@ -14,8 +14,6 @@ use Solarium\Exception\RuntimeException;
  * cURL HTTP adapter.
  *
  * @author Intervals <info@myintervals.com>
- *
- * @deprecated Deprecated since Solarium 5.2 and will be removed in Solarium 6. Use Psr18Adapter instead.
  */
 class Curl extends Configurable implements AdapterInterface
 {

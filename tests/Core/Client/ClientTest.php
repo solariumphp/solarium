@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Core\Client;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Core\Client\Adapter\Http as ClientAdapterHttp;
 use Solarium\Core\Client\Client;
@@ -1345,6 +1346,9 @@ class ClientTest extends TestCase
         $client = new Client($adapter, ['foo' => 'bar'], $eventDispatcher);
         $this->assertSame($eventDispatcher, $client->getEventDispatcher());
         $this->assertSame($defaultOptions + ['foo' => 'bar'], $client->getOptions());
+
+        $client = new Client(null, ['foo' => 'bar'], $eventDispatcher);
+        $this->assertInstanceOf(Curl::class, $client->getAdapter());
     }
 }
 

@@ -10,8 +10,6 @@ use Solarium\Exception\HttpException;
 
 /**
  * Basic HTTP adapter using a stream.
- *
- * @deprecated Deprecated since Solarium 5.2 and will be removed in Solarium 6. Use Psr18Adapter instead.
  */
 class Http extends Configurable implements AdapterInterface
 {
@@ -31,7 +29,7 @@ class Http extends Configurable implements AdapterInterface
         $context = $this->createContext($request, $endpoint);
         $uri = AdapterHelper::buildUri($request, $endpoint);
 
-        list($data, $headers) = $this->getData($uri, $context);
+        [$data, $headers] = $this->getData($uri, $context);
 
         $this->check($data, $headers);
 

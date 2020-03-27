@@ -9,8 +9,6 @@ use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Helper class for shared adapter functionality.
- *
- * @deprecated Deprecated since Solarium 5.2 and will be removed in Solarium 6.
  */
 class AdapterHelper
 {
