@@ -14,7 +14,7 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Configurable;
 use Solarium\Exception\HttpException;
 
-class Psr18Adapter extends Configurable implements AdapterInterface
+final class Psr18Adapter extends Configurable implements AdapterInterface
 {
     /**
      * @var ClientInterface
