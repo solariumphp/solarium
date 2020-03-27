@@ -280,7 +280,7 @@ class Client extends Configurable implements ClientInterface
      *
      * If an EventDispatcher instance is provided this will be used instead of creating a new instance
      *
-     * @param AdapterInterface|null         $adapter
+     * @param AdapterInterface              $adapter
      * @param array|null                    $options
      * @param EventDispatcherInterface|null $eventDispatcher
      */
@@ -289,12 +289,15 @@ class Client extends Configurable implements ClientInterface
         // BC layer for changed constructor signature
         if (is_array($adapter)) {
             $options = $adapter;
-            @trigger_error('Passing an array as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.', E_USER_DEPRECATED);
         } elseif ($adapter instanceof AdapterInterface) {
             $this->adapter = $adapter;
             unset($this->options['adapter']);
         } elseif (null !== $adapter) {
             throw new \TypeError('first argument must be null, array or AdapterInterface');
+        }
+
+        if (null === $this->adapter) {
+            @trigger_error('Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.', E_USER_DEPRECATED);
         }
 
         if ($options instanceof EventDispatcherInterface) {
