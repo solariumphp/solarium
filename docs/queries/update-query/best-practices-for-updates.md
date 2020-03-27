@@ -27,3 +27,7 @@ If you need to use rollbacks (outside of testing) that usually indicates there i
 ### Optimizing
 
 While 'optimizing' sounds like it's always a good thing to do, you should use it with care, as it can have a negative performance impact *during the optimize process*. If possible use try to use it outside peak hours / at intervals.
+
+### Raw XML update commands
+
+Solarium makes it easy to build update commands without having to know the underlying XML structure. If you already have XML formatted update commands, you can add them directly to an update query. Make sure they are valid as Solarium will not check this.

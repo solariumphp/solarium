@@ -456,4 +456,11 @@ class DocumentTest extends TestCase
 
         $this->assertSame([$value1, $value2], $this->doc->foo);
     }
+
+    public function testSetAndGetFilterControlCharacters()
+    {
+        $this->doc->setFilterControlCharacters(false);
+
+        $this->assertFalse($this->doc->getFilterControlCharacters());
+    }
 }

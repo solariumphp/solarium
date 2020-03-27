@@ -11,6 +11,7 @@ use Solarium\QueryType\Update\Query\Command\Add;
 use Solarium\QueryType\Update\Query\Command\Commit;
 use Solarium\QueryType\Update\Query\Command\Delete;
 use Solarium\QueryType\Update\Query\Command\Optimize;
+use Solarium\QueryType\Update\Query\Command\RawXml;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
@@ -66,9 +67,11 @@ class RequestBuilder extends BaseRequestBuilder
                 case UpdateQuery::COMMAND_ROLLBACK:
                     $xml .= $this->buildRollbackXml();
                     break;
+                case UpdateQuery::COMMAND_RAWXML:
+                    $xml .= $this->buildRawXmlXml($command);
+                    break;
                 default:
                     throw new RuntimeException('Unsupported command type');
-                    break;
             }
         }
         $xml .= '</update>';
@@ -172,13 +175,37 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * Build XMl for a rollback command.
+     * Build XML for a rollback command.
      *
      * @return string
      */
     public function buildRollbackXml(): string
     {
         return '<rollback/>';
+    }
+
+    /**
+     * Build XML for a raw command.
+     *
+     * @param RawXml $command
+     *
+     * @return string
+     */
+    public function buildRawXmlXml(RawXml $command): string
+    {
+        $xml = '';
+
+        foreach ($command->getCommands() as $raw) {
+            // unwrap grouped commands, they must be consolidated in a single <update>
+            if (false !== ($pos = strpos($raw, '<update'))) {
+                $start = strpos($raw, '>', $pos) + 1;
+                $raw = substr($raw, $start, strrpos($raw, '</update>') - $start);
+            }
+
+            $xml .= $raw;
+        }
+
+        return $xml;
     }
 
     /**
