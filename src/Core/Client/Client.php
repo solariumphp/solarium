@@ -300,7 +300,7 @@ class Client extends Configurable implements ClientInterface
             @trigger_error('Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.', E_USER_DEPRECATED);
         }
 
-        if ($eventDispatcher === null) {
+        if (null === $eventDispatcher) {
             @trigger_error('Not passing an instance of EventDispatcherInterface as the second constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.', E_USER_DEPRECATED);
         }
 
