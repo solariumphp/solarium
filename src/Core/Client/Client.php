@@ -278,13 +278,13 @@ class Client extends Configurable implements ClientInterface
      * If options are passed they will be merged with {@link $options} using
      * the {@link setOptions()} method.
      *
-     * If an EventDispatcher instance is provided this will be used instead of creating a new instance
+     * Deprecated behavior: If an EventDispatcher instance is provided this will be used instead of creating a new instance
      *
-     * @param AdapterInterface              $adapter
-     * @param array|null                    $options
-     * @param EventDispatcherInterface|null $eventDispatcher
+     * @param AdapterInterface         $adapter
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param array|null               $options
      */
-    public function __construct($adapter = null, $options = null, $eventDispatcher = null)
+    public function __construct($adapter = null, EventDispatcherInterface $eventDispatcher = null, array $options = null)
     {
         // BC layer for changed constructor signature
         if (is_array($adapter)) {
@@ -300,9 +300,8 @@ class Client extends Configurable implements ClientInterface
             @trigger_error('Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.', E_USER_DEPRECATED);
         }
 
-        if ($options instanceof EventDispatcherInterface) {
-            $eventDispatcher = $options;
-            $options = $adapter;
+        if ($eventDispatcher === null) {
+            @trigger_error('Not passing an instance of EventDispatcherInterface as the second constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.', E_USER_DEPRECATED);
         }
 
         $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
