@@ -103,7 +103,7 @@ class HttpTest extends TestCase
                     'timeout' => $timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
-                ]
+                ],
             ],
             stream_context_get_options($context)
         );
@@ -133,8 +133,8 @@ class HttpTest extends TestCase
                     'timeout' => $timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
-                    'header' => $header1."\r\n".$header2
-                ]
+                    'header' => $header1."\r\n".$header2,
+                ],
             ],
             stream_context_get_options($context)
         );
