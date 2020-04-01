@@ -69,6 +69,8 @@ class Http extends Configurable implements AdapterInterface
             ['http' => [
                     'method' => $method,
                     'timeout' => $endpoint->getTimeout(),
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
                 ],
             ]
         );
@@ -107,7 +109,7 @@ class Http extends Configurable implements AdapterInterface
                         $data
                     );
 
-                    $request->addHeader('Content-Type: text/xml; charset=UTF-8');
+                    $request->addHeader('Content-Type: text/xml; charset=utf-8');
                 }
             }
         } elseif (Request::METHOD_PUT == $method) {
@@ -119,7 +121,9 @@ class Http extends Configurable implements AdapterInterface
                     'content',
                     $data
                 );
-                $request->addHeader('Content-Type: application/json; charset=UTF-8');
+                $request->addHeader('Content-Type: application/json; charset=utf-8');
+                // The stream context automatically adds a "Connection: close" header which fails on Solr 8.5.0
+                $request->addHeader('Connection: Keep-Alive');
             }
         }
 
