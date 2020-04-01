@@ -106,7 +106,7 @@ class HttpTest extends TestCase
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
-        $header1 = 'Content-Type: text/xml; charset=UTF-8';
+        $header1 = 'Content-Type: text/xml; charset=utf-8';
         $header2 = 'X-MyHeader: dummyvalue';
 
         $request = new Request();
@@ -146,7 +146,7 @@ class HttpTest extends TestCase
                     'method' => $method,
                     'timeout' => $timeout,
                     'content' => $data,
-                    'header' => 'Content-Type: text/xml; charset=UTF-8',
+                    'header' => 'Content-Type: text/xml; charset=utf-8',
                 ],
             ],
             stream_context_get_options($context)
