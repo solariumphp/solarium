@@ -28,20 +28,20 @@ class SynonymsTest extends TestCase
         $synonyms =
         [
             0 => new Synonyms(
-            'GB',
+                'GB',
                 [
                     0 => 'GiB',
                     1 => 'Gigabyte',
                 ]
             ),
             1 => new Synonyms(
-            'TV',
+                'TV',
                 [
                     0 => 'Television',
                 ]
             ),
             2 => new Synonyms(
-            'happy',
+                'happy',
                 [
                         0 => 'glad',
                         1 => 'joyful',
