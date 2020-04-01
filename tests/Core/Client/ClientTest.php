@@ -3,7 +3,6 @@
 namespace Solarium\Tests\Core\Client;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Core\Client\Adapter\Http as ClientAdapterHttp;
 use Solarium\Core\Client\Client;
@@ -354,69 +353,11 @@ class ClientTest extends TestCase
         $this->client->setDefaultEndpoint('invalidkey');
     }
 
-    /**
-     * @group legacy
-     */
-    public function testSetAndGetAdapterWithDefaultAdapter()
-    {
-        $client = new Client();
-        $defaultAdapter = $client->getOption('adapter');
-        $adapter = $client->getAdapter();
-        $this->assertThat($adapter, $this->isInstanceOf($defaultAdapter));
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testSetAndGetAdapterWithString()
-    {
-        $adapterClass = MyAdapter::class;
-        $this->client->setAdapter($adapterClass);
-        $this->assertThat($this->client->getAdapter(), $this->isInstanceOf($adapterClass));
-    }
-
     public function testSetAndGetAdapterWithObject()
     {
         $adapterClass = MyAdapter::class;
         $this->client->setAdapter(new $adapterClass());
         $this->assertThat($this->client->getAdapter(), $this->isInstanceOf($adapterClass));
-    }
-
-    public function testSetAndGetAdapterWithInvalidObject()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->client->setAdapter(new \stdClass());
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testSetAndGetAdapterWithInvalidString()
-    {
-        $adapterClass = '\\stdClass';
-        $this->client->setAdapter($adapterClass);
-        $this->expectException(InvalidArgumentException::class);
-        $this->client->getAdapter();
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testSetAdapterWithOptions()
-    {
-        $adapterOptions = [
-            'host' => 'myhost',
-            'port' => 8080,
-            'customOption' => 'foobar',
-        ];
-
-        $observer = $this->createMock(Http::class, ['setOptions', 'execute']);
-        $observer->expects($this->once())
-                 ->method('setOptions')
-                 ->with($this->equalTo($adapterOptions));
-
-        $this->client->setOptions(['adapteroptions' => $adapterOptions]);
-        $this->client->setAdapter($observer);
     }
 
     public function testRegisterQueryTypeAndGetQueryTypes()
@@ -1358,28 +1299,6 @@ class ClientTest extends TestCase
                  ->willReturn(new ExtractQuery());
 
         $observer->createExtract($options);
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.
-     * @expectedDeprecation Not passing an instance of EventDispatcherInterface as the second constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.
-     */
-    public function testDeprecatedConstructorSignatureNoArgs(): void
-    {
-        $client = new Client();
-        $this->assertInstanceOf(Curl::class, $client->getAdapter());
-        $this->assertInstanceOf(EventDispatcher::class, $client->getEventDispatcher());
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.
-     */
-    public function testDeprecatedConstructorSignatureOptionsFirst(): void
-    {
-        $client = new Client([], new EventDispatcher());
-        $this->assertInstanceOf(Curl::class, $client->getAdapter());
     }
 }
 

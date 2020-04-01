@@ -13,6 +13,7 @@ use Solarium\Plugin\BufferedAdd\Event\Events;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\Result;
+use Solarium\Tests\Integration\TestClientFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class BufferedAddTest extends TestCase
@@ -25,7 +26,7 @@ class BufferedAddTest extends TestCase
     public function setUp(): void
     {
         $this->plugin = new BufferedAdd();
-        $this->plugin->initPlugin(new Client(), []);
+        $this->plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), []);
     }
 
     public function testSetAndGetBufferSize()

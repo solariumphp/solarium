@@ -165,6 +165,6 @@ class ParallelExecution extends AbstractPlugin
      */
     protected function initPluginType()
     {
-        $this->client->setAdapter('Solarium\Core\Client\Adapter\Curl');
+        $this->client->setAdapter(new Curl());
     }
 }

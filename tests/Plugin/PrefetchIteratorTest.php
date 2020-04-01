@@ -8,6 +8,7 @@ use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Result\Result;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class PrefetchIteratorTest extends TestCase
 {
@@ -30,7 +31,7 @@ class PrefetchIteratorTest extends TestCase
     {
         $this->plugin = new PrefetchIterator();
 
-        $this->client = new Client();
+        $this->client = TestClientFactory::createWithCurlAdapter();
         $this->query = $this->client->createSelect();
     }
 

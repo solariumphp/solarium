@@ -16,6 +16,7 @@ use Solarium\Exception\InvalidArgumentException;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class LoadbalancerTest extends TestCase
 {
@@ -44,7 +45,7 @@ class LoadbalancerTest extends TestCase
             ],
         ];
 
-        $this->client = new Client($options);
+        $this->client = TestClientFactory::createWithCurlAdapter($options);
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->any())
             ->method('execute')
