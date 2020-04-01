@@ -97,7 +97,14 @@ class HttpTest extends TestCase
         $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertSame(
-            ['http' => ['method' => $method, 'timeout' => $timeout]],
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                ],
+            ],
             stream_context_get_options($context)
         );
     }
@@ -106,7 +113,7 @@ class HttpTest extends TestCase
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
-        $header1 = 'Content-Type: text/xml; charset=UTF-8';
+        $header1 = 'Content-Type: text/xml; charset=utf-8';
         $header2 = 'X-MyHeader: dummyvalue';
 
         $request = new Request();
@@ -120,7 +127,15 @@ class HttpTest extends TestCase
         $context = $this->adapter->createContext($request, $endpoint);
 
         $this->assertSame(
-            ['http' => ['method' => $method, 'timeout' => $timeout, 'header' => $header1."\r\n".$header2]],
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                    'header' => $header1."\r\n".$header2,
+                ],
+            ],
             stream_context_get_options($context)
         );
     }
@@ -145,8 +160,10 @@ class HttpTest extends TestCase
                 'http' => [
                     'method' => $method,
                     'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
                     'content' => $data,
-                    'header' => 'Content-Type: text/xml; charset=UTF-8',
+                    'header' => 'Content-Type: text/xml; charset=utf-8',
                 ],
             ],
             stream_context_get_options($context)
@@ -177,6 +194,8 @@ class HttpTest extends TestCase
                 'http' => [
                     'method' => $method,
                     'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
                 ],
             ],
             $stream_context_get_options
@@ -203,6 +222,8 @@ class HttpTest extends TestCase
                 'http' => [
                     'method' => $method,
                     'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
                     'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==',
                 ],
             ],
@@ -228,6 +249,8 @@ class HttpTest extends TestCase
                 'http' => [
                     'method' => $method,
                     'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
                 ],
             ],
             stream_context_get_options($context)

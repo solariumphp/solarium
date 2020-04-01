@@ -145,7 +145,7 @@ class Zend2Http extends Configurable implements AdapterInterface
                     $this->prepareFileUpload($client, $request);
                 } else {
                     $client->setRawBody($request->getRawData());
-                    $request->addHeader('Content-Type: text/xml; charset=UTF-8');
+                    $request->addHeader('Content-Type: text/xml; charset=utf-8');
                 }
                 break;
             case Request::METHOD_HEAD:
@@ -160,7 +160,9 @@ class Zend2Http extends Configurable implements AdapterInterface
                     $this->prepareFileUpload($client, $request);
                 } else {
                     $client->setRawBody($request->getRawData());
-                    $request->addHeader('Content-Type: application/json; charset=UTF-8');
+                    $request->addHeader('Content-Type: application/json; charset=utf-8');
+                    // The Zend adapter automatically adds a "Connection: close" header which fails on Solr 8.5.0
+                    $request->addHeader('Connection: Keep-Alive');
                 }
                 break;
             default:
