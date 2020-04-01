@@ -29,7 +29,7 @@ class Http extends Configurable implements AdapterInterface
         $context = $this->createContext($request, $endpoint);
         $uri = AdapterHelper::buildUri($request, $endpoint);
 
-        list($data, $headers) = $this->getData($uri, $context);
+        [$data, $headers] = $this->getData($uri, $context);
 
         $this->check($data, $headers);
 

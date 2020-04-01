@@ -11,6 +11,8 @@ use Solarium\Exception\HttpException;
 
 /**
  * Guzzle3 HTTP adapter.
+ *
+ * @deprecated Deprecated since Solarium 5.2 and will be removed in Solarium 6. Use Psr18Adapter instead.
  */
 class Guzzle3 extends Configurable implements AdapterInterface
 {

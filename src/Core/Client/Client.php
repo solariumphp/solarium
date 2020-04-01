@@ -5,6 +5,7 @@ namespace Solarium\Core\Client;
 use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Configurable;
+use Solarium\Core\ConfigurableInterface;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateQuery as PostCreateQueryEvent;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
@@ -277,13 +278,32 @@ class Client extends Configurable implements ClientInterface
      * If options are passed they will be merged with {@link $options} using
      * the {@link setOptions()} method.
      *
-     * If an EventDispatcher instance is provided this will be used instead of creating a new instance
+     * Deprecated behavior: If an EventDispatcher instance is provided this will be used instead of creating a new instance
      *
-     * @param array                    $options
+     * @param AdapterInterface         $adapter
      * @param EventDispatcherInterface $eventDispatcher
+     * @param array|null               $options
      */
-    public function __construct(array $options = null, EventDispatcherInterface $eventDispatcher = null)
+    public function __construct($adapter = null, EventDispatcherInterface $eventDispatcher = null, array $options = null)
     {
+        // BC layer for changed constructor signature
+        if (is_array($adapter)) {
+            $options = $adapter;
+        } elseif ($adapter instanceof AdapterInterface) {
+            $this->adapter = $adapter;
+            unset($this->options['adapter']);
+        } elseif (null !== $adapter) {
+            throw new \TypeError('first argument must be null, array or AdapterInterface');
+        }
+
+        if (null === $this->adapter) {
+            @trigger_error('Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.', E_USER_DEPRECATED);
+        }
+
+        if (null === $eventDispatcher) {
+            @trigger_error('Not passing an instance of EventDispatcherInterface as the second constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.', E_USER_DEPRECATED);
+        }
+
         $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
 
         parent::__construct($options);
@@ -519,6 +539,7 @@ class Client extends Configurable implements ClientInterface
         if (\is_string($adapter)) {
             $this->adapter = null;
             $this->setOption('adapter', $adapter);
+            @trigger_error('Passing a string to Client::setAdapter is deprecated since Solarium 5.2 and will cause an error in Solarium 6. Pass an instance of AdapterInterface instead.', E_USER_DEPRECATED);
         } elseif ($adapter instanceof AdapterInterface) {
             // forward options
             $adapter->setOptions($this->getOption('adapteroptions'));
@@ -543,6 +564,10 @@ class Client extends Configurable implements ClientInterface
      */
     public function getAdapter(bool $autoload = true): AdapterInterface
     {
+        if (func_num_args() > 0) {
+            @trigger_error('Passing a boolean argument to Client::getAdapter is deprecated since Solarium 5.2. The argument and lazy loading logic  will be removed in Solarium 6.');
+        }
+
         if (null === $this->adapter && $autoload) {
             $this->createAdapter();
         }
@@ -1396,6 +1421,8 @@ class Client extends Configurable implements ClientInterface
      * {@link getAdapter()}
      *
      * @throws InvalidArgumentException
+     *
+     * @deprecated Deprecated since Solarium 5.2 and will be removed in Solarium 6. Pass an instance of AdapterInterface to the constructor instead.
      */
     protected function createAdapter()
     {
@@ -1409,5 +1436,39 @@ class Client extends Configurable implements ClientInterface
 
         $adapter->setOptions($this->getOption('adapteroptions'));
         $this->adapter = $adapter;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOptions($options, bool $overwrite = false): ConfigurableInterface
+    {
+        if (is_array($options)) {
+            if (array_key_exists('adapter', $options)) {
+                @trigger_error('The Client option "adapter" is deprecated since Solarium 5.2 and will be removed in Solarium 6. Pass an instance of AdapterInterface to the constructor instead.', E_USER_DEPRECATED);
+            }
+
+            if (array_key_exists('adapteroptions', $options)) {
+                @trigger_error('The Client option "adapteroptions" is deprecated since Solarium 5.2 and will be removed in Solarium 6. Pass an instance of AdapterInterface to the constructor instead.', E_USER_DEPRECATED);
+            }
+        }
+
+        return parent::setOptions($options, $overwrite);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setOption(string $name, $value): Configurable
+    {
+        if ('adapter' === $name) {
+            @trigger_error('The Client option "adapter" is deprecated since Solarium 5.2 and will be removed in Solarium 6. Pass an instance of AdapterInterface to the constructor instead.', E_USER_DEPRECATED);
+        }
+
+        if ('adapteroptions' === $name) {
+            @trigger_error('The Client option "adapteroptions" is deprecated since Solarium 5.2 and will be removed in Solarium 6. Pass an instance of AdapterInterface to the constructor instead.', E_USER_DEPRECATED);
+        }
+
+        return parent::setOption($name, $value);
     }
 }

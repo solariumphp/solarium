@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Core\Client;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Core\Client\Adapter\Http as ClientAdapterHttp;
 use Solarium\Core\Client\Client;
@@ -35,6 +36,7 @@ use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Suggester\Query as SuggesterQuery;
 use Solarium\QueryType\Terms\Query as TermsQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /*
@@ -49,13 +51,12 @@ class ClientTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = new Client();
+        $this->client = new Client(new MyAdapter(), new EventDispatcher());
     }
 
     public function testConfigMode()
     {
         $options = [
-            'adapter' => MyAdapter::class,
             'endpoint' => [
                 'myhost' => [
                     'host' => 'myhost',
@@ -106,14 +107,13 @@ class ClientTest extends TestCase
     public function testEventDispatcherInjection()
     {
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $client = new Client(null, $eventDispatcher);
+        $client = new Client(new MyAdapter(), $eventDispatcher);
         $this->assertSame($eventDispatcher, $client->getEventDispatcher());
     }
 
     public function testConfigModeWithoutKeys()
     {
         $options = [
-            'adapter' => MyAdapter::class,
             'endpoint' => [
                 [
                     'key' => 'myhost',
@@ -354,13 +354,20 @@ class ClientTest extends TestCase
         $this->client->setDefaultEndpoint('invalidkey');
     }
 
+    /**
+     * @group legacy
+     */
     public function testSetAndGetAdapterWithDefaultAdapter()
     {
-        $defaultAdapter = $this->client->getOption('adapter');
-        $adapter = $this->client->getAdapter();
+        $client = new Client();
+        $defaultAdapter = $client->getOption('adapter');
+        $adapter = $client->getAdapter();
         $this->assertThat($adapter, $this->isInstanceOf($defaultAdapter));
     }
 
+    /**
+     * @group legacy
+     */
     public function testSetAndGetAdapterWithString()
     {
         $adapterClass = MyAdapter::class;
@@ -381,6 +388,9 @@ class ClientTest extends TestCase
         $this->client->setAdapter(new \stdClass());
     }
 
+    /**
+     * @group legacy
+     */
     public function testSetAndGetAdapterWithInvalidString()
     {
         $adapterClass = '\\stdClass';
@@ -389,6 +399,9 @@ class ClientTest extends TestCase
         $this->client->getAdapter();
     }
 
+    /**
+     * @group legacy
+     */
     public function testSetAdapterWithOptions()
     {
         $adapterOptions = [
@@ -721,6 +734,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createRequest', 'executeRequest', 'createResult'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
 
         $observer->expects($this->once())
@@ -750,6 +764,7 @@ class ClientTest extends TestCase
 
         $mock = $this->getMockBuilder(Client::class)
             ->setMethods(['createRequest', 'executeRequest', 'createResult'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
 
         $mock->expects($this->once())
@@ -790,6 +805,7 @@ class ClientTest extends TestCase
 
         $mock = $this->getMockBuilder(Client::class)
             ->setMethods(['createRequest', 'executeRequest', 'createResult'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
 
         $mock->expects($this->once())
@@ -973,6 +989,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -988,6 +1005,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1003,6 +1021,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1018,6 +1037,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1033,6 +1053,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1048,6 +1069,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1063,6 +1085,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1078,6 +1101,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -1198,6 +1222,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1213,6 +1238,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1228,6 +1254,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1243,6 +1270,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1258,6 +1286,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1273,6 +1302,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1288,6 +1318,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1303,6 +1334,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1318,6 +1350,7 @@ class ClientTest extends TestCase
 
         $observer = $this->getMockBuilder(Client::class)
             ->setMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
                  ->method('createQuery')
@@ -1325,6 +1358,28 @@ class ClientTest extends TestCase
                  ->willReturn(new ExtractQuery());
 
         $observer->createExtract($options);
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.
+     * @expectedDeprecation Not passing an instance of EventDispatcherInterface as the second constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.
+     */
+    public function testDeprecatedConstructorSignatureNoArgs(): void
+    {
+        $client = new Client();
+        $this->assertInstanceOf(Curl::class, $client->getAdapter());
+        $this->assertInstanceOf(EventDispatcher::class, $client->getEventDispatcher());
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.
+     */
+    public function testDeprecatedConstructorSignatureOptionsFirst(): void
+    {
+        $client = new Client([], new EventDispatcher());
+        $this->assertInstanceOf(Curl::class, $client->getAdapter());
     }
 }
 
