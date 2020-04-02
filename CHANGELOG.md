@@ -4,7 +4,18 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [5.2.0]
+### Added
+- PSR-18 http adapter
+
+### Fixed
+- PUT requests against Solr 8.5.0 using the Zend2Http and Http adapters
+
+### Deprecated
+- Zend2HttpAdapter, use PSR-18 http adapter instead
+- GuzzleAdapter, use PSR-18 http adapter instead
+- Guzzle3Adapter, use PSR-18 http adapter instead
+- AdapterHelper
 
 
 ## [5.1.6]
@@ -20,7 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Internal handling of Solr local parameters
 
 ### Deprecated
-- Helper::cacheControl(). Use FilterQuery::setCache() and FilterQuery::setCost() instead.
+- Helper::cacheControl(). Use FilterQuery::setCache() and FilterQuery::setCost() instead
 
 
 ## [5.1.5]
