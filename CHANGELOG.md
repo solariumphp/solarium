@@ -4,6 +4,21 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [unreleased]
+### Added
+- Raw XML commands to update query
+- Raw XML from file in update query
+
+## Changed
+- More strict types and type hinting
+
+### Removed
+- Zend2HttpAdapter
+- GuzzleAdapter
+- Guzzle3Adapter
+- AdapterHelper
+
+
 ## [5.2.0]
 ### Added
 - PSR-18 http adapter
