@@ -3,8 +3,8 @@
 namespace Solarium\Tests\Core\Plugin;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Plugin\AbstractPlugin;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class PluginTest extends TestCase
 {
@@ -19,7 +19,7 @@ class PluginTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = new Client();
+        $this->client = TestClientFactory::createWithCurlAdapter();
         $this->options = ['option1' => 1];
         $this->plugin = new MyPlugin();
         $this->plugin->initPlugin($this->client, $this->options);
