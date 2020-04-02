@@ -15,8 +15,10 @@ use Solarium\Exception\RuntimeException;
  *
  * @author Intervals <info@myintervals.com>
  */
-class Curl extends Configurable implements AdapterInterface
+class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterface
 {
+    use TimeoutAwareTrait;
+
     /**
      * Execute a Solr request using the cURL Http.
      *
@@ -207,10 +209,10 @@ class Curl extends Configurable implements AdapterInterface
     protected function createOptions($request, $endpoint)
     {
         $options = [
-            'timeout' => $endpoint->getTimeout(),
+            'timeout' => $this->timeout ?? $endpoint->getTimeout(),
         ];
         foreach ($request->getHeaders() as $headerLine) {
-            list($header, $value) = explode(':', $headerLine);
+            [$header, $value] = explode(':', $headerLine);
             if ($header = trim($header)) {
                 $options['headers'][$header] = trim($value);
             }
