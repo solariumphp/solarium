@@ -200,7 +200,7 @@ class Request extends Configurable implements RequestParamsInterface
      */
     public function getHeaders(): array
     {
-        return $this->headers;
+        return array_unique($this->headers);
     }
 
     /**

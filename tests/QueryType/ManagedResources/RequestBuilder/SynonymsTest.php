@@ -15,6 +15,7 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists as ExistsC
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Remove as RemoveCommand;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Synonyms as SynonymsRequestBuilder;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class SynonymsTest extends TestCase
 {
@@ -37,7 +38,7 @@ class SynonymsTest extends TestCase
     {
         $this->query = new SynonymsQuery();
         $this->builder = new SynonymsRequestBuilder();
-        $this->client = new Client();
+        $this->client = TestClientFactory::createWithCurlAdapter();
     }
 
     public function testBuild()

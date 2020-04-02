@@ -3,13 +3,13 @@
 namespace Solarium\Tests\Core\Query\Result;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class ResultTest extends TestCase
 {
@@ -31,7 +31,7 @@ class ResultTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = new Client();
+        $this->client = TestClientFactory::createWithCurlAdapter();
         $this->query = new SelectQuery();
         $this->headers = ['HTTP/1.0 304 Not Modified'];
         $data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"xyz"}},'.

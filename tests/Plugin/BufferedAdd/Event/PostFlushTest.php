@@ -3,16 +3,16 @@
 namespace Solarium\Tests\Plugin\BufferedAdd\Event;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush;
 use Solarium\QueryType\Update\Result;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class PostFlushTest extends TestCase
 {
     public function testConstructorAndGetter()
     {
-        $client = new Client();
+        $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();
         $query->setQuery('test123');
         $response = new Response('', ['HTTP 1.0 200 OK']);

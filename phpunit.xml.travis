@@ -6,6 +6,10 @@
     backupStaticAttributes="false"
     colors="true"
 >
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=999999"/>
+    </php>
+
     <testsuites>
        <testsuite name="Solarium">
          <directory suffix="Test.php">tests</directory>
@@ -21,5 +25,9 @@
         <directory suffix=".php">src</directory>
       </whitelist>
     </filter>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+    </listeners>
 
 </phpunit>
