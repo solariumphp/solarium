@@ -17,6 +17,8 @@ use Solarium\Exception\HttpException;
  * @coversDefaultClass \Solarium\Core\Client\Adapter\Guzzle
  * @covers ::<private>
  * @covers ::getGuzzleClient
+ *
+ * @group legacy
  */
 final class GuzzleTest extends TestCase
 {
