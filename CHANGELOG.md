@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Zend2HttpAdapter, use PSR-18 http adapter instead
 - GuzzleAdapter, use PSR-18 http adapter instead
 - Guzzle3Adapter, use PSR-18 http adapter instead
-- AdapterHelper
 
 
 ## [5.1.6]
