@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Core\Client;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Core\Client\Adapter\Http as ClientAdapterHttp;
 use Solarium\Core\Client\Client;
@@ -1299,6 +1300,28 @@ class ClientTest extends TestCase
                  ->willReturn(new ExtractQuery());
 
         $observer->createExtract($options);
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.
+     * @expectedDeprecation Not passing an instance of EventDispatcherInterface as the second constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.
+     */
+    public function testDeprecatedConstructorSignatureNoArgs(): void
+    {
+        $client = new Client();
+        $this->assertInstanceOf(Curl::class, $client->getAdapter());
+        $this->assertInstanceOf(EventDispatcher::class, $client->getEventDispatcher());
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Not passing an instance of AdapterInterface as the first constructor argument is deprecated in Solarium 5.2 and will cause an error in Solarium 6.
+     */
+    public function testDeprecatedConstructorSignatureOptionsFirst(): void
+    {
+        $client = new Client([], new EventDispatcher());
+        $this->assertInstanceOf(Curl::class, $client->getAdapter());
     }
 }
 

@@ -4,20 +4,6 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
-### Added
-- Raw XML commands to update query
-- Raw XML from file in update query
-
-## Changed
-- More strict types and type hinting
-
-### Removed
-- Zend2HttpAdapter
-- GuzzleAdapter
-- Guzzle3Adapter
-
-
 ## [5.2.0]
 ### Added
 - PSR-18 http adapter
@@ -29,7 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Zend2HttpAdapter, use PSR-18 http adapter instead
 - GuzzleAdapter, use PSR-18 http adapter instead
 - Guzzle3Adapter, use PSR-18 http adapter instead
-- AdapterHelper
+- Endpoint::setTimeout and Endpoint::getTimeout, configure the timeout on the http adapter instead
 
 
 ## [5.1.6]

@@ -92,7 +92,7 @@ class HttpTest extends TestCase
         $request->setMethod($method);
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
-        $endpoint->setTimeout($timeout);
+        $this->adapter->setTimeout($timeout);
 
         $context = $this->adapter->createContext($request, $endpoint);
 
@@ -122,7 +122,7 @@ class HttpTest extends TestCase
         $request->addHeader($header2);
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
-        $endpoint->setTimeout($timeout);
+        $this->adapter->setTimeout($timeout);
 
         $context = $this->adapter->createContext($request, $endpoint);
 
@@ -151,7 +151,7 @@ class HttpTest extends TestCase
         $request->setRawData($data);
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
-        $endpoint->setTimeout($timeout);
+        $this->adapter->setTimeout($timeout);
 
         $context = $this->adapter->createContext($request, $endpoint);
 
@@ -180,7 +180,7 @@ class HttpTest extends TestCase
         $request->setFileUpload(__FILE__);
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
-        $endpoint->setTimeout($timeout);
+        $this->adapter->setTimeout($timeout);
 
         $context = $this->adapter->createContext($request, $endpoint);
 
@@ -213,7 +213,7 @@ class HttpTest extends TestCase
         $request->setIsServerRequest(true);
 
         $endpoint = new Endpoint();
-        $endpoint->setTimeout($timeout);
+        $this->adapter->setTimeout($timeout);
 
         $context = $this->adapter->createContext($request, $endpoint);
 
