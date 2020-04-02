@@ -16,7 +16,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Zend2HttpAdapter
 - GuzzleAdapter
 - Guzzle3Adapter
-- AdapterHelper
 
 
 ## [5.2.0]
