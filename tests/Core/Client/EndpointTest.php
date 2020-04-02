@@ -75,6 +75,9 @@ class EndpointTest extends TestCase
         $this->assertSame('core1', $this->endpoint->getCore());
     }
 
+    /**
+     * @group legacy
+     */
     public function testSetAndGetTimeout()
     {
         $this->endpoint->setTimeout(7);

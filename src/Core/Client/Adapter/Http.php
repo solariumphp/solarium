@@ -11,8 +11,10 @@ use Solarium\Exception\HttpException;
 /**
  * Basic HTTP adapter using a stream.
  */
-class Http extends Configurable implements AdapterInterface
+class Http extends Configurable implements AdapterInterface, TimeoutAwareInterface
 {
+    use TimeoutAwareTrait;
+
     /**
      * Handle Solr communication.
      *
@@ -68,7 +70,7 @@ class Http extends Configurable implements AdapterInterface
         $context = stream_context_create(
             ['http' => [
                     'method' => $method,
-                    'timeout' => $endpoint->getTimeout(),
+                    'timeout' => $this->timeout ?? $endpoint->getTimeout(),
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
                 ],
