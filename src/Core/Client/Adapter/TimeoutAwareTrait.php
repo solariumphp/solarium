@@ -8,9 +8,9 @@ namespace Solarium\Core\Client\Adapter;
 trait TimeoutAwareTrait
 {
     /**
-     * @var int|null
+     * @var int
      */
-    private $timeout;
+    private $timeout = TimeoutAwareInterface::DEFAULT_TIMEOUT;
 
     public function setTimeout(int $timeoutInSeconds): void
     {
@@ -19,6 +19,6 @@ trait TimeoutAwareTrait
 
     public function getTimeout(): int
     {
-        return $this->timeout ?? TimeoutAwareInterface::DEFAULT_TIMEOUT;
+        return $this->timeout;
     }
 }

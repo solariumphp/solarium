@@ -25,7 +25,6 @@ class Endpoint extends Configurable
         'path' => '/',
         'collection' => null,
         'core' => null,
-        'timeout' => 5,
         'leader' => false,
     ];
 
@@ -39,7 +38,7 @@ class Endpoint extends Configurable
      */
     public function __toString()
     {
-        $output = __CLASS__.'::__toString'."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
+        $output = __CLASS__.'::__toString'."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
 
         return $output;
     }
@@ -186,37 +185,6 @@ class Endpoint extends Configurable
     public function getCore(): ?string
     {
         return $this->getOption('core');
-    }
-
-    /**
-     * Set timeout option.
-     *
-     * @param int $timeout
-     *
-     * @return self Provides fluent interface
-     *
-     * @deprecated Endpoint::setTimeout is deprecated since Solarium 5.2 and will be removed in Solarium 6. Configure the timeout on the HTTP Client used by the Adapter instead.
-     */
-    public function setTimeout(int $timeout): self
-    {
-        @trigger_error('Endpoint::setTimeout is deprecated since Solarium 5.2 and will be removed in Solarium 6. Configure the timeout on the HTTP Client used by the Adapter instead.', E_USER_DEPRECATED);
-
-        $this->setOption('timeout', $timeout);
-        return $this;
-    }
-
-    /**
-     * Get timeout option.
-     *
-     * @return int|null
-     *
-     * @deprecated Endpoint::getTimeout is deprecated since Solarium 5.2 and will be removed in Solarium 6. Configure the timeout on the HTTP Client used by the Adapter instead.
-     */
-    public function getTimeout(): ?int
-    {
-        @trigger_error('Endpoint::getTimeout is deprecated since Solarium 5.2 and will be removed in Solarium 6. Configure the timeout on the HTTP Client used by the Adapter instead.', E_USER_DEPRECATED);
-
-        return $this->getOption('timeout');
     }
 
     /**

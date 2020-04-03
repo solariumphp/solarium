@@ -27,7 +27,6 @@ class EndpointTest extends TestCase
             'path' => '/mysolr/',
             'collection' => null,
             'core' => 'mycore',
-            'timeout' => 3,
             'leader' => false,
             'username' => 'x',
             'password' => 'y',
@@ -73,15 +72,6 @@ class EndpointTest extends TestCase
     {
         $this->endpoint->setCore('core1');
         $this->assertSame('core1', $this->endpoint->getCore());
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testSetAndGetTimeout()
-    {
-        $this->endpoint->setTimeout(7);
-        $this->assertSame(7, $this->endpoint->getTimeout());
     }
 
     public function testSetAndGetScheme()
@@ -190,7 +180,6 @@ class EndpointTest extends TestCase
             'port' => 123,
             'path' => '/mysolr/',
             'core' => 'mycore',
-            'timeout' => 3,
             'username' => 'x',
             'password' => 'y',
         ];
@@ -203,7 +192,6 @@ port: 123
 path: /mysolr
 collection: 
 core: mycore
-timeout: 3
 authentication: Array
 (
     [username] => x

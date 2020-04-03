@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Zend2HttpAdapter
 - GuzzleAdapter
 - Guzzle3Adapter
-
+- Endpoint::setTimeout and Endpoint::getTimeout
 
 ## [5.2.0]
 ### Added
