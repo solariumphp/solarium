@@ -8,8 +8,10 @@ An example of term escaping in use for a query that would fail without escaping:
 require(__DIR__.'/init.php');
 htmlHeader();
 
+// ...
+
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();

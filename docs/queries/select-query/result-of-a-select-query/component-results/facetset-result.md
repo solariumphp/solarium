@@ -17,8 +17,10 @@ You can also use the `Countable` interface to get the number of counts.
 require(__DIR__.'/init.php');
 htmlHeader();
 
+// ...
+
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
@@ -69,8 +71,10 @@ A facet query result is really simple. It has just one value: the count. You can
 require(__DIR__.'/init.php');
 htmlHeader();
 
+// ...
+
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
@@ -118,8 +122,10 @@ A multiquery facet is basically a combination of multiple facet query instances.
 require(__DIR__.'/init.php');
 htmlHeader();
 
+// ...
+
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
@@ -174,8 +180,10 @@ A range facet is also similar to a facet field, but instead of field value count
 require(__DIR__.'/init.php');
 htmlHeader();
 
+// ...
+
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();

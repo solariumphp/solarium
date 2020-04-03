@@ -34,8 +34,10 @@ Example
 require(__DIR__.'/init.php');
 htmlHeader();
 
+// ...
+
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get an analysis document query
 $query = $client->createAnalysisDocument();
