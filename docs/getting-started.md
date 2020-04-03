@@ -28,7 +28,7 @@ See [<https://packagist.org>](https://packagist.org) for other packages.
 ```json
 {
     "require": {
-        "solarium/solarium": "~5.0.0"
+        "solarium/solarium": "^5.2"
     }
 }
 ```
@@ -55,7 +55,11 @@ htmlHeader();
 echo 'Solarium library version: ' . Solarium\Client::VERSION . ' - ';
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client(
+    new Solarium\Core\Client\Adapter\Curl(), // or any other adapter implementing AdapterInterface
+    new Symfony\Component\EventDispatcher\EventDispatcher(),
+    $config
+);
 
 // create a ping query
 $ping = $client->createPing();
@@ -147,7 +151,11 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client(
+    new Solarium\Core\Client\Adapter\Curl(), // or any other adapter implementing AdapterInterface
+    new Symfony\Component\EventDispatcher\EventDispatcher(),
+    $config
+);
 
 // get a select query instance
 $query = $client->createQuery($client::QUERY_SELECT);
@@ -193,7 +201,11 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client(
+    new Solarium\Core\Client\Adapter\Curl(), // or any other adapter implementing AdapterInterface
+    new Symfony\Component\EventDispatcher\EventDispatcher(),
+    $config
+);
 
 // get a select query instance
 $query = $client->createSelect();
@@ -242,7 +254,11 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client(
+    new Solarium\Core\Client\Adapter\Curl(), // or any other adapter implementing AdapterInterface
+    new Symfony\Component\EventDispatcher\EventDispatcher(),
+    $config
+);
 
 // get an update query instance
 $update = $client->createUpdate();
@@ -271,7 +287,11 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client(
+    new Solarium\Core\Client\Adapter\Curl(), // or any other adapter implementing AdapterInterface
+    new Symfony\Component\EventDispatcher\EventDispatcher(),
+    $config
+);
 
 // get an update query instance
 $update = $client->createUpdate();
@@ -304,7 +324,11 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client(
+    new Solarium\Core\Client\Adapter\Curl(), // or any other adapter implementing AdapterInterface
+    new Symfony\Component\EventDispatcher\EventDispatcher(),
+    $config
+);
 
 // get an update query instance
 $update = $client->createUpdate();

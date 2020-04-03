@@ -17,7 +17,16 @@ The adapters are the actual implementations for communication with Solr. They ha
 
 ### Authentication
 
-The Http, Curl and Pecl adapter support authentication. To use this set the authentication on the request object using the setAuthentication() method. For the ZendHttp adapter you set the authentication using the ZendHttp api or config.
+The Http and Curl adapter support authentication. To use this set the authentication on the request object using the setAuthentication() method.
+
+### HTTP request timeout handling
+
+Setting a timeout for the HTTP request handling is the responsibility of the Adapters.
+The two build-in Adapters `Curl` and `Http` are implementing `TimeoutAwareInterface` and expose a `setTimeout`
+method to give you control over the timeout value that is used.
+
+If you are using any other adapter like the build-in `Psr18Adapter` you need to take care of handling
+the timeouts yourself and configure the HTTP client properly that is used to perform the requests.
 
 Endpoints
 ---------
@@ -43,13 +52,7 @@ As this is the default adapter you don't need any settings or API calls to use i
 The curl adapter support the use of a proxy. Use the adapter option `proxy` to enable this.
 
 
-Guzzle adapter
-==============
-
-todo
-
-
-HttpAdapter
+Http adapter
 ===========
 
 This adapter has no dependencies on other classes or any special PHP extensions as it uses basic PHP streams. This makes it a safe choice, but it has no extra options. If you need detailed control over your request or response you should probably use another adapter, but for most standard cases it will do just fine.
@@ -64,10 +67,11 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
-
-// set the adapter to curl
-$client->setAdapter('Solarium\Core\Client\Adapter\Http');
+$client = new Solarium\Client(
+    new Solarium\Core\Client\Adapter\Http(), 
+    new Symfony\Component\EventDispatcher\EventDispatcher(),
+    $config
+);
 
 // get a select query instance
 $query = $client->createSelect();
@@ -100,34 +104,29 @@ htmlFooter();
 
 ```
 
-Zend2Http adapter
-================
+Psr-18 adapter
+============
 
-The ZendHttp adapter makes use of the Zend\_Http component in Zend Framework (version 3). So to use this adapter you need to have ZF available. By using Zend\_Http all the features of this component are available:
+Since Solarium 5.2 there is also a `Psr18Adapter` which can be used with any PSR-18 compliant HTTP client.
 
--   multiple adapter implementations
--   keepalive
--   cookies / sessions
--   redirection support
--   http authentication
--   and much more, see the [http://framework.zend.com/manual/en/zend.http.html Zend Http manual](http://framework.zend.com/manual/en/zend.http.html_Zend_Http_manual "wikilink")
-
-The base functionality is the same as the default adapter. The only difference is that this adapter allows you to set Zend\_Http options and also offers access to the Zend\_Http instance.
+Example:
 
 ```php
 <?php
 
-require(__DIR__.'/init.php');
-htmlHeader();
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Solarium\Client;
+use Http\Adapter\Guzzle6\Client as GuzzlePsrClient;
+use Solarium\Core\Client\Adapter\Psr18Adapter;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
-// create a client instance
-$client = new Solarium\Client($config);
+$adapter = new Psr18Adapter(
+    new GuzzlePsrClient(),
+    new Psr17Factory(),
+    new Psr17Factory()
+);
 
-// set the adapter to zendhttp and get a zendhttp client instance reference
-$client->setAdapter('Solarium\Core\Client\Adapter\Zend2Http');
-
-htmlFooter();
-
+$client = new Client($adapter, new EventDispatcher());
 ```
 
 Custom adapter
@@ -138,6 +137,5 @@ You can also use a custom adapter, with these steps:
 -   Create your custom adapter class. It should implement Solarium\\Core\\Client\\Adapter\\AdapterInterface.
 -   You can take a look at the existing implementations as an example.
 -   Make sure your class is available to Solarium, by including it manually or through autoloading.
--   Call the 'setAdapter' method on your Solarium client instance with your own adapters' classname as argument (or use the 'adapter' config setting)
+-   Inject your custom adapter instance into the constructor of the Client
 -   Now use Solarium as you normally would, all communication to Solr will be done using your adapter. The adapter class will only be instantiated on the first communication to Solr, not directly after calling 'setAdapter' (lazy loading)
-
