@@ -209,7 +209,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     protected function createOptions($request, $endpoint)
     {
         $options = [
-            'timeout' => $this->timeout ?? $endpoint->getTimeout(),
+            'timeout' => $this->timeout,
         ];
         foreach ($request->getHeaders() as $headerLine) {
             [$header, $value] = explode(':', $headerLine);

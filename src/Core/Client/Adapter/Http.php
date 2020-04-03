@@ -70,7 +70,7 @@ class Http extends Configurable implements AdapterInterface, TimeoutAwareInterfa
         $context = stream_context_create(
             ['http' => [
                     'method' => $method,
-                    'timeout' => $this->timeout ?? $endpoint->getTimeout(),
+                    'timeout' => $this->timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
                 ],

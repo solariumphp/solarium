@@ -240,7 +240,7 @@ class HttpTest extends TestCase
         $request->setMethod($method);
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
-        $endpoint->setTimeout($timeout);
+        $this->adapter->setTimeout($timeout);
 
         $context = $this->adapter->createContext($request, $endpoint);
 
