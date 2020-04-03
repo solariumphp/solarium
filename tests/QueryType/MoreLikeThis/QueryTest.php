@@ -399,13 +399,13 @@ class QueryTest extends TestCase
             'rows' => 100,
             'start' => 200,
             'filterquery' => [
-                ['key' => 'pub', 'tag' => ['pub'], 'query' => 'published:true'],
-                'online' => ['tag' => 'onl', 'query' => 'online:true'],
+                ['local_key' => 'pub', 'local_tag' => ['pub'], 'query' => 'published:true'],
+                'online' => ['local_tag' => 'onl', 'query' => 'online:true'],
             ],
             'component' => [
                 'facetset' => [
                     'facet' => [
-                        ['type' => 'field', 'key' => 'categories', 'field' => 'category'],
+                        ['type' => 'field', 'local_key' => 'categories', 'field' => 'category'],
                         'category13' => ['type' => 'query', 'query' => 'category:13'],
                     ],
                 ],

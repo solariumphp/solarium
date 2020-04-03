@@ -110,8 +110,8 @@ class MultiQuery extends AbstractFacet
     {
         foreach ($facetQueries as $key => $facetQuery) {
             // in case of a config array: add key to config
-            if (\is_array($facetQuery) && !isset($facetQuery['key'])) {
-                $facetQuery['key'] = (string) $key;
+            if (\is_array($facetQuery) && !isset($facetQuery['local_key'])) {
+                $facetQuery['local_key'] = (string) $key;
             }
 
             $this->addQuery($facetQuery);

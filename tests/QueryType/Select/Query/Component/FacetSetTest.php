@@ -31,7 +31,7 @@ class FacetSetTest extends TestCase
     {
         $options = [
             'facet' => [
-                ['type' => 'query', 'key' => 'f1', 'query' => 'category:1'],
+                ['type' => 'query', 'local_key' => 'f1', 'query' => 'category:1'],
                 'f2' => ['type' => 'query', 'query' => 'category:2'],
             ],
             'prefix' => 'pr',
@@ -168,7 +168,7 @@ class FacetSetTest extends TestCase
     public function testAddFacetsWithConfig()
     {
         $facets = [
-            ['type' => 'query', 'key' => 'f1', 'query' => 'category:1'],
+            ['type' => 'query', 'local_key' => 'f1', 'query' => 'category:1'],
             'f2' => ['type' => 'query', 'query' => 'category:2'],
         ];
 
@@ -303,7 +303,7 @@ class FacetSetTest extends TestCase
     public function testCreateFacetAdd()
     {
         $type = FacetSet::FACET_FIELD;
-        $options = ['key' => 'mykey', 'optionA' => 1, 'optionB' => 2];
+        $options = ['local_key' => 'mykey', 'optionA' => 1, 'optionB' => 2];
         $facet = $this->facetSet->createFacet($type, $options);
 
         $this->assertSame($facet, $this->facetSet->getFacet('mykey'));
@@ -339,7 +339,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetField(bool $add)
     {
-        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetField($options, $add);
@@ -361,7 +361,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetQuery(bool $add)
     {
-        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetQuery($options, $add);
 
@@ -382,7 +382,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetMultiQuery(bool $add)
     {
-        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetMultiQuery($options, $add);
 
@@ -402,7 +402,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetRange(bool $add)
     {
-        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetRange($options, $add);
 
@@ -422,7 +422,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateFacetPivot(bool $add)
     {
-        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
         $facetSet = new FacetSet([]);
         $result = $facetSet->createFacetPivot($options, $add);
 
@@ -444,7 +444,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateJsonFacetAggregation(bool $add)
     {
-        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
         $facetSet = new FacetSet([]);
         $result = $facetSet->createJsonFacetAggregation($options, $add);
@@ -467,7 +467,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateJsonFacetTerms(bool $add)
     {
-        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
         $facetSet = new FacetSet([]);
         $result = $facetSet->createJsonFacetTerms($options, $add);
@@ -491,7 +491,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateJsonFacetQuery(bool $add)
     {
-        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
         $facetSet = new FacetSet([]);
         $result = $facetSet->createJsonFacetQuery($options, $add);
@@ -515,7 +515,7 @@ class FacetSetTest extends TestCase
      */
     public function testCreateJsonFacetRange(bool $add)
     {
-        $options = ['optionA' => 1, 'optionB' => 2, 'key' => 'key'];
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
         $facetSet = new FacetSet([]);
         $result = $facetSet->createJsonFacetRange($options, $add);

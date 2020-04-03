@@ -21,15 +21,15 @@ class IntervalTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'key' => 'myKey',
-            'exclude' => ['e1', 'e2'],
+            'local_key' => 'myKey',
+            'local_exclude' => ['e1', 'e2'],
             'set' => ['i1', 'i2'],
         ];
 
         $this->facet->setOptions($options);
 
-        $this->assertSame($options['key'], $this->facet->getKey());
-        $this->assertSame($options['exclude'], $this->facet->getExcludes());
+        $this->assertSame($options['local_key'], $this->facet->getKey());
+        $this->assertSame($options['local_exclude'], $this->facet->getLocalParameters()->getExcludes());
         $this->assertSame($options['set'], $this->facet->getSet());
     }
 

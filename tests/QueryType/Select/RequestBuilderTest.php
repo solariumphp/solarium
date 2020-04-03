@@ -78,9 +78,9 @@ class RequestBuilderTest extends TestCase
     {
         $this->query->addSort('id', Query::SORT_ASC);
         $this->query->addSort('name', Query::SORT_DESC);
-        $this->query->addFilterQuery(new FilterQuery(['key' => 'f1', 'query' => 'published:true']));
+        $this->query->addFilterQuery(new FilterQuery(['local_key' => 'f1', 'query' => 'published:true']));
         $this->query->addFilterQuery(
-            new FilterQuery(['key' => 'f2', 'tag' => ['t1', 't2'], 'query' => 'category:23'])
+            new FilterQuery(['local_key' => 'f2', 'local_tag' => ['t1', 't2'], 'query' => 'category:23'])
         );
         $request = $this->builder->build($this->query);
 
@@ -88,7 +88,7 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&sort=id asc,name desc'.
-            '&fq=published:true&fq={!tag=t1,t2}category:23',
+            '&fq={!key=f1}published:true&fq={!key=f2 tag=t1,t2}category:23',
             urldecode($request->getUri())
         );
     }
@@ -96,10 +96,10 @@ class RequestBuilderTest extends TestCase
     public function testSelectUrlWithCachedFilters()
     {
         $this->query->addFilterQuery(
-            new FilterQuery(['key' => 'f1', 'query' => 'published:true', 'local_cache' => false, 'local_cost' => 95])
+            new FilterQuery(['local_key' => 'f1', 'query' => 'published:true', 'local_cache' => false, 'local_cost' => 95])
         );
         $this->query->addFilterQuery(
-            new FilterQuery(['key' => 'f2', 'local_tag' => ['t1', 't2'], 'query' => 'category:23', 'local_cache' => true])
+            new FilterQuery(['local_key' => 'f2', 'local_tag' => ['t1', 't2'], 'query' => 'category:23', 'local_cache' => true])
         );
         $request = $this->builder->build($this->query);
 
@@ -107,7 +107,7 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score'.
-            '&fq={!cache=false cost=95}published:true&fq={!tag=t1,t2 cache=true}category:23',
+            '&fq={!key=f1 cache=false cost=95}published:true&fq={!key=f2 tag=t1,t2 cache=true}category:23',
             urldecode($request->getUri())
         );
     }

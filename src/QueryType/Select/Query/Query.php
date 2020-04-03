@@ -566,8 +566,8 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     {
         foreach ($filterQueries as $key => $filterQuery) {
             // in case of a config array: add key to config
-            if (\is_array($filterQuery) && !isset($filterQuery['key'])) {
-                $filterQuery['key'] = $key;
+            if (\is_array($filterQuery) && !isset($filterQuery['local_key'])) {
+                $filterQuery['local_key'] = $key;
             }
 
             $this->addFilterQuery($filterQuery);

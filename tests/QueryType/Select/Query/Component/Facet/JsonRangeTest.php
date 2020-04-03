@@ -21,7 +21,7 @@ class JsonRangeTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'key' => 'myKey',
+            'local_key' => 'myKey',
             'field' => 'content',
             'start' => 1,
             'end' => 100,
@@ -33,7 +33,7 @@ class JsonRangeTest extends TestCase
 
         $this->facet->setOptions($options);
 
-        $this->assertSame($options['key'], $this->facet->getKey());
+        $this->assertSame($options['local_key'], $this->facet->getKey());
         $this->assertSame($options['field'], $this->facet->getField());
         $this->assertSame((string) $options['start'], $this->facet->getStart());
         $this->assertSame((string) $options['end'], $this->facet->getEnd());
