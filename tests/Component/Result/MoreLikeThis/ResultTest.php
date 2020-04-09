@@ -11,7 +11,12 @@ class ResultTest extends TestCase
     /**
      * @var Result
      */
-    protected $mltResult;
+    private $mltResult;
+
+    /**
+     * @var array
+     */
+    private $docs;
 
     public function setUp(): void
     {

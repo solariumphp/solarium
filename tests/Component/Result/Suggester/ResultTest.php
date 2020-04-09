@@ -12,7 +12,12 @@ class ResultTest extends TestCase
     /**
      * @var Result
      */
-    protected $result;
+    private $result;
+
+    /**
+     * @var array
+     */
+    private $docs;
 
     public function setUp(): void
     {

@@ -45,6 +45,7 @@ before_script:
     fi
 
 script:
+  - vendor/bin/phpstan analyze src/ tests/ --level=1
   - |
      if [ ${SOLR_CLOUD} == "true" ]; then
        vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_no_cloud -v || travis_terminate 1;
