@@ -5,13 +5,12 @@ namespace Solarium\Core\Client\Adapter;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Configurable;
 use Solarium\Exception\HttpException;
 
 /**
  * Basic HTTP adapter using a stream.
  */
-class Http extends Configurable implements AdapterInterface, TimeoutAwareInterface
+class Http implements AdapterInterface, TimeoutAwareInterface
 {
     use TimeoutAwareTrait;
 
