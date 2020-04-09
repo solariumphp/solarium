@@ -39,7 +39,7 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function getKey(): ?string
     {
-        return $this->getLocalParameters()->getKeys()[0] ?? null;
+        return $this->getOption('key');
     }
 
     /**
@@ -51,7 +51,7 @@ class FilterQuery extends Configurable implements QueryInterface
      */
     public function setKey(string $value): self
     {
-        $this->getLocalParameters()->setKey($value);
+        $this->setOption('key', $value);
 
         return $this;
     }
@@ -205,7 +205,7 @@ class FilterQuery extends Configurable implements QueryInterface
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {
-                case 'local_key':
+                case 'key':
                     $this->setKey($value);
                     break;
                 case 'query':

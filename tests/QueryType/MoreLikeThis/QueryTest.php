@@ -399,7 +399,7 @@ class QueryTest extends TestCase
             'rows' => 100,
             'start' => 200,
             'filterquery' => [
-                ['local_key' => 'pub', 'local_tag' => ['pub'], 'query' => 'published:true'],
+                ['key' => 'pub', 'local_tag' => ['pub'], 'query' => 'published:true'],
                 'online' => ['local_tag' => 'onl', 'query' => 'online:true'],
             ],
             'component' => [
@@ -522,7 +522,7 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\MoreLikeThis',
-            get_class($mlt)
+            \get_class($mlt)
         );
     }
 
@@ -532,7 +532,7 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\DisMax',
-            get_class($dismax)
+            \get_class($dismax)
         );
     }
 
@@ -542,7 +542,7 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Highlighting\Highlighting',
-            get_class($hlt)
+            \get_class($hlt)
         );
     }
 
@@ -552,7 +552,7 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Grouping',
-            get_class($grouping)
+            \get_class($grouping)
         );
     }
 
@@ -591,7 +591,7 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Spellcheck',
-            get_class($spellcheck)
+            \get_class($spellcheck)
         );
     }
 
@@ -601,7 +601,7 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\DistributedSearch',
-            get_class($spellcheck)
+            \get_class($spellcheck)
         );
     }
 
@@ -611,7 +611,7 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Stats\Stats',
-            get_class($stats)
+            \get_class($stats)
         );
     }
 
@@ -621,7 +621,7 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             'Solarium\Component\Debug',
-            get_class($stats)
+            \get_class($stats)
         );
     }
 

@@ -16,7 +16,7 @@ class FilterQueryTest extends TestCase
 
     public function testConfigMode()
     {
-        $fq = new FilterQuery(['local_tag' => ['t1', 't2'], 'local_key' => 'k1', 'query' => 'id:[10 TO 20]']);
+        $fq = new FilterQuery(['local_tag' => ['t1', 't2'], 'key' => 'k1', 'query' => 'id:[10 TO 20]']);
 
         $this->assertSame(['t1', 't2'], $fq->getTags());
         $this->assertSame('k1', $fq->getKey());
@@ -25,7 +25,7 @@ class FilterQueryTest extends TestCase
 
     public function testConfigModeWithSingleValueTag()
     {
-        $fq = new FilterQuery(['local_tag' => 't1', 'local_key' => 'k1', 'query' => 'id:[10 TO 20]']);
+        $fq = new FilterQuery(['local_tag' => 't1', 'key' => 'k1', 'query' => 'id:[10 TO 20]']);
 
         $this->assertSame(['t1'], $fq->getTags());
         $this->assertSame('k1', $fq->getKey());

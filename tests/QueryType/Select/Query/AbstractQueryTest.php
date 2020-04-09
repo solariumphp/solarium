@@ -403,7 +403,7 @@ abstract class AbstractQueryTest extends TestCase
             'rows' => 100,
             'start' => 200,
             'filterquery' => [
-                ['local_key' => 'pub', 'tag' => ['pub'], 'query' => 'published:true'],
+                ['key' => 'pub', 'local_tag' => ['pub'], 'query' => 'published:true'],
                 'online' => ['local_tag' => 'onl', 'query' => 'online:true'],
             ],
             'component' => [
