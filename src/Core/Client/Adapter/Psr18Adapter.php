@@ -11,10 +11,9 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Configurable;
 use Solarium\Exception\HttpException;
 
-final class Psr18Adapter extends Configurable implements AdapterInterface
+final class Psr18Adapter implements AdapterInterface
 {
     /**
      * @var ClientInterface
@@ -36,7 +35,6 @@ final class Psr18Adapter extends Configurable implements AdapterInterface
         RequestFactoryInterface $requestFactory,
         StreamFactoryInterface $streamFactory
     ) {
-        parent::__construct();
         $this->httpClient = $httpClient;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
