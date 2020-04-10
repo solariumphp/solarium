@@ -57,6 +57,6 @@ class HighlightingTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->items), count($this->result));
+        $this->assertCount(count($this->items), $this->result);
     }
 }

@@ -46,14 +46,14 @@ class FacetSetTest extends TestCase
         $this->facetSet->setOptions($options);
         $facets = $this->facetSet->getFacets();
 
-        $this->assertSame(2, count($facets));
+        $this->assertCount(2, $facets);
         $this->assertSame($options['prefix'], $this->facetSet->getPrefix());
         $this->assertSame($options['sort'], $this->facetSet->getSort());
         $this->assertSame($options['mincount'], $this->facetSet->getMinCount());
-        $this->assertSame($options['missing'], $this->facetSet->getMissing());
-        $this->assertSame($options['extractfromresponse'], $this->facetSet->getExtractFromResponse());
+        $this->assertTrue($this->facetSet->getMissing());
+        $this->assertTrue($this->facetSet->getExtractFromResponse());
         $this->assertSame($options['contains'], $this->facetSet->getContains());
-        $this->assertSame($options['containsignorecase'], $this->facetSet->getContainsIgnoreCase());
+        $this->assertTrue($this->facetSet->getContainsIgnoreCase());
     }
 
     public function testGetType()
@@ -174,10 +174,7 @@ class FacetSetTest extends TestCase
 
         $this->facetSet->addFacets($facets);
 
-        $this->assertSame(
-            2,
-            count($this->facetSet->getFacets())
-        );
+        $this->assertCount(2, $this->facetSet->getFacets());
     }
 
     public function testRemoveFacet()

@@ -47,16 +47,14 @@ class CustomizationTest extends TestCase
 
     public function testSetAndGetPersistence()
     {
-        $value = true;
-        $this->instance->setPersistent($value);
-        $this->assertSame($value, $this->instance->getPersistent());
+        $this->instance->setPersistent(true);
+        $this->assertTrue($this->instance->getPersistent());
     }
 
     public function testSetAndGetOverwrite()
     {
-        $value = false;
-        $this->instance->setOverwrite($value);
-        $this->assertSame($value, $this->instance->getOverwrite());
+        $this->instance->setOverwrite(false);
+        $this->assertFalse($this->instance->getOverwrite());
     }
 
     public function testIsValid()

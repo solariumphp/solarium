@@ -55,6 +55,6 @@ class ResultTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->docs), count($this->mltResult));
+        $this->assertCount(count($this->docs), $this->mltResult);
     }
 }

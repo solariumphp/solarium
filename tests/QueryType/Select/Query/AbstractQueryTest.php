@@ -430,7 +430,7 @@ abstract class AbstractQueryTest extends TestCase
         $this->assertSame($config['documentclass'], $query->getDocumentClass());
         $this->assertSame($config['resultclass'], $query->getResultClass());
         $this->assertSame($config['cursormark'], $query->getCursormark());
-        $this->assertSame($config['splitonwhitespace'], $query->getSplitOnWhitespace());
+        $this->assertFalse($query->getSplitOnWhitespace());
         $this->assertSame('published:true', $query->getFilterQuery('pub')->getQuery());
         $this->assertSame('online:true', $query->getFilterQuery('online')->getQuery());
 

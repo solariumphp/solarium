@@ -627,13 +627,8 @@ class QueryTest extends TestCase
 
     public function testSetAndGetMatchInclude()
     {
-        $value = true;
-        $this->query->setMatchInclude($value);
-
-        $this->assertSame(
-            $value,
-            $this->query->getMatchInclude()
-        );
+        $this->query->setMatchInclude(true);
+        $this->assertTrue($this->query->getMatchInclude());
     }
 
     public function testSetAndGetMatchOffset()
@@ -682,13 +677,8 @@ class QueryTest extends TestCase
 
     public function testSetAndGetQueryStream()
     {
-        $value = true;
-        $this->query->setQueryStream($value);
-
-        $this->assertSame(
-            $value,
-            $this->query->getQueryStream()
-        );
+        $this->query->setQueryStream(true);
+        $this->assertTrue($this->query->getQueryStream());
     }
 
     public function testSetAndGetMinimumTermFrequency()
@@ -759,13 +749,8 @@ class QueryTest extends TestCase
 
     public function testSetAndGetBoost()
     {
-        $value = true;
-        $this->query->setBoost($value);
-
-        $this->assertSame(
-            $value,
-            $this->query->getBoost()
-        );
+        $this->query->setBoost(true);
+        $this->assertTrue($this->query->getBoost());
     }
 
     public function testSetAndGetQueryFields()

@@ -18,10 +18,10 @@ class PreCommitTest extends TestCase
         $event = new PreCommit($buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
 
         $this->assertSame($buffer, $event->getBuffer());
-        $this->assertSame($overwrite, $event->getOverwrite());
-        $this->assertSame($softCommit, $event->getSoftCommit());
-        $this->assertSame($waitSearcher, $event->getWaitSearcher());
-        $this->assertSame($expungeDeletes, $event->getExpungeDeletes());
+        $this->assertTrue($event->getOverwrite());
+        $this->assertFalse($event->getSoftCommit());
+        $this->assertTrue($event->getWaitSearcher());
+        $this->assertFalse($event->getExpungeDeletes());
 
         return $event;
     }
@@ -45,9 +45,8 @@ class PreCommitTest extends TestCase
      */
     public function testSetAndGetExpungeDeletes($event)
     {
-        $expungeDeletes = true;
-        $event->setExpungeDeletes($expungeDeletes);
-        $this->assertSame($expungeDeletes, $event->getExpungeDeletes());
+        $event->setExpungeDeletes(true);
+        $this->assertTrue($event->getExpungeDeletes());
     }
 
     /**
@@ -57,9 +56,8 @@ class PreCommitTest extends TestCase
      */
     public function testSetAndGetOverwrite($event)
     {
-        $overwrite = false;
-        $event->setOverwrite($overwrite);
-        $this->assertSame($overwrite, $event->getOverwrite());
+        $event->setOverwrite(false);
+        $this->assertFalse($event->getOverwrite());
     }
 
     /**
@@ -69,9 +67,8 @@ class PreCommitTest extends TestCase
      */
     public function testSetAndGetSoftCommit($event)
     {
-        $softCommit = true;
-        $event->setSoftCommit($softCommit);
-        $this->assertSame($softCommit, $event->getSoftCommit());
+        $event->setSoftCommit(true);
+        $this->assertTrue($event->getSoftCommit());
     }
 
     /**
@@ -81,8 +78,7 @@ class PreCommitTest extends TestCase
      */
     public function testSetAndGetWaitSearcher($event)
     {
-        $waitSearcher = false;
-        $event->setWaitSearcher($waitSearcher);
-        $this->assertSame($waitSearcher, $event->getWaitSearcher());
+        $event->setWaitSearcher(false);
+        $this->assertFalse($event->getWaitSearcher());
     }
 }
