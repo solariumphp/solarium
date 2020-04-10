@@ -90,7 +90,7 @@ class QueryTest extends TestCase
 
     public function testSetAndBuild()
     {
-        $this->assertFalse( $this->query->getBuild());
+        $this->assertFalse($this->query->getBuild());
         $this->query->setBuild(true);
         $this->assertTrue($this->query->getBuild());
     }

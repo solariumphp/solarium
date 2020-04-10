@@ -195,7 +195,6 @@ class GroupingTest extends TestCase
     {
         $this->grouping->setNumberOfGroups(true);
         $this->assertTrue($this->grouping->getNumberOfGroups());
-
     }
 
     public function testSetAndGetCachePercentage()
