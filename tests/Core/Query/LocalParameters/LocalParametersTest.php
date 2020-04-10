@@ -140,6 +140,19 @@ class LocalParametersTest extends TestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \Solarium\Exception\OutOfBoundsException
      */
+    public function testReplaceExcludes(): void
+    {
+        $parameters = new LocalParameters();
+        $parameters->setExcludes(['exclude1', 'exclude2']);
+        $parameters->setExcludes(['excludeOne', 'excludeTwo']);
+
+        $this->assertSame('{!ex=excludeOne,excludeTwo}', $parameters->render());
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\OutOfBoundsException
+     */
     public function testRange(): void
     {
         $parameters = new LocalParameters();
@@ -155,6 +168,20 @@ class LocalParametersTest extends TestCase
         $parameters->removeRange('rangeOne');
         $this->assertSame('{!range=rangeTwo}', $parameters->render());
         $this->assertSame(['rangeTwo'], $parameters->getRanges());
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\OutOfBoundsException
+     */
+    public function testReplaceRange(): void
+    {
+        $parameters = new LocalParameters();
+
+        $parameters->setRanges(['range1', 'range2']);
+        $parameters->setRanges(['rangeOne', 'rangeTwo']);
+
+        $this->assertSame('{!range=rangeOne,rangeTwo}', $parameters->render());
     }
 
     /**
@@ -182,6 +209,19 @@ class LocalParametersTest extends TestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \Solarium\Exception\OutOfBoundsException
      */
+    public function testReplaceTags(): void
+    {
+        $parameters = new LocalParameters();
+        $parameters->setTags(['tag1', 'tag2']);
+        $parameters->setTags(['tagOne', 'tagTwo']);
+
+        $this->assertSame('{!tag=tagOne,tagTwo}', $parameters->render());
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\OutOfBoundsException
+     */
     public function testTerms(): void
     {
         $parameters = new LocalParameters();
@@ -203,6 +243,20 @@ class LocalParametersTest extends TestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \Solarium\Exception\OutOfBoundsException
      */
+    public function testReplaceRanges(): void
+    {
+        $parameters = new LocalParameters();
+
+        $parameters->setTerms(['terms1', 'terms2']);
+        $parameters->setTerms(['termsOne', 'termsTwo']);
+
+        $this->assertSame('{!terms=termsOne,termsTwo}', $parameters->render());
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\OutOfBoundsException
+     */
     public function testQuery(): void
     {
         $parameters = new LocalParameters();
@@ -218,6 +272,20 @@ class LocalParametersTest extends TestCase
         $parameters->removeQuery('queryOne');
         $this->assertSame('{!query=queryTwo}', $parameters->render());
         $this->assertSame(['queryTwo'], $parameters->getQueries());
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\OutOfBoundsException
+     */
+    public function testReplaceQueries(): void
+    {
+        $parameters = new LocalParameters();
+
+        $parameters->setQueries(['query1', 'query2']);
+        $parameters->setQueries(['queryOne', 'queryTwo']);
+
+        $this->assertSame('{!query=queryOne,queryTwo}', $parameters->render());
     }
 
     /**

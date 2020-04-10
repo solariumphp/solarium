@@ -55,10 +55,10 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithFacets()
     {
-        $this->component->addFacet(new FacetField(['key' => 'f1', 'field' => 'owner']));
-        $this->component->addFacet(new FacetQuery(['key' => 'f2', 'query' => 'category:23']));
+        $this->component->addFacet(new FacetField(['local_key' => 'f1', 'field' => 'owner']));
+        $this->component->addFacet(new FacetQuery(['local_key' => 'f2', 'query' => 'category:23']));
         $this->component->addFacet(
-            new FacetMultiQuery(['key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
+            new FacetMultiQuery(['local_key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
@@ -72,8 +72,8 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithJsonFacets()
     {
-        $this->component->addFacet(new JsonTerms(['key' => 'f1', 'field' => 'owner']));
-        $this->component->addFacet(new JsonQuery(['key' => 'f2', 'query' => 'category:23']));
+        $this->component->addFacet(new JsonTerms(['local_key' => 'f1', 'field' => 'owner']));
+        $this->component->addFacet(new JsonQuery(['local_key' => 'f2', 'query' => 'category:23']));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -86,7 +86,7 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithJsonFacetFilterQuery()
     {
-        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->setDomainFilterQuery('popularity:[5 TO 10]');
         $this->component->addFacet($terms);
 
@@ -101,7 +101,7 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithJsonFacetFilterParams()
     {
-        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->addDomainFilterParameter('myparam1');
         $terms->addDomainFilterParameter('myparam2');
         $terms->addDomainFilterParameter('myparam3');
@@ -119,7 +119,7 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithJsonFacetFilterQueryAndParams()
     {
-        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->setDomainFilterQuery('popularity:[5 TO 10]');
         $terms->addDomainFilterParameter('myparam1');
         $terms->addDomainFilterParameter('myparam2');
@@ -136,7 +136,7 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithJsonFacetFilterParamsAndQuery()
     {
-        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->addDomainFilterParameter('myparam1');
         $terms->addDomainFilterParameter('myparam2');
         $terms->setDomainFilterQuery('popularity:[5 TO 10]');
@@ -153,11 +153,11 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithFacetsAndJsonFacets()
     {
-        $this->component->addFacet(new FacetField(['key' => 'f1', 'field' => 'owner']));
-        $this->component->addFacet(new JsonTerms(['key' => 'f2', 'field' => 'customer']));
-        $this->component->addFacet(new JsonQuery(['key' => 'f3', 'query' => 'category:23']));
+        $this->component->addFacet(new FacetField(['local_key' => 'f1', 'field' => 'owner']));
+        $this->component->addFacet(new JsonTerms(['local_key' => 'f2', 'field' => 'customer']));
+        $this->component->addFacet(new JsonQuery(['local_key' => 'f3', 'query' => 'category:23']));
         $this->component->addFacet(
-            new FacetMultiQuery(['key' => 'f4', 'query' => ['f5' => ['query' => 'category:40']]])
+            new FacetMultiQuery(['local_key' => 'f4', 'query' => ['f5' => ['query' => 'category:40']]])
         );
 
         $request = $this->builder->buildComponent($this->component, $this->request);
@@ -171,7 +171,7 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithAggregationFacet()
     {
-        $this->component->addFacet(new JsonAggregation(['key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
+        $this->component->addFacet(new JsonAggregation(['local_key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -184,18 +184,18 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithNestedFacets()
     {
-        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         // Only JSON facets could be nested.
         $this->expectException(InvalidArgumentException::class);
-        $terms->addFacet(new FacetQuery(['key' => 'f2', 'q' => 'category:23']));
+        $terms->addFacet(new FacetQuery(['local_key' => 'f2', 'q' => 'category:23']));
     }
 
     public function testBuildWithNestedJsonFacets()
     {
-        $terms = new JsonTerms(['key' => 'f1', 'field' => 'owner']);
-        $query = new JsonQuery(['key' => 'f2', 'query' => 'category:23']);
-        $query->addFacet(new JsonAggregation(['key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
-        $query->addFacet(new JsonAggregation(['key' => 'f2', 'function' => 'unique(popularity)']));
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
+        $query = new JsonQuery(['local_key' => 'f2', 'query' => 'category:23']);
+        $query->addFacet(new JsonAggregation(['local_key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
+        $query->addFacet(new JsonAggregation(['local_key' => 'f2', 'function' => 'unique(popularity)']));
         $terms->addFacet($query);
         $this->component->addFacet($terms);
 
@@ -212,7 +212,7 @@ class FacetSetTest extends TestCase
     {
         $this->component->addFacet(new FacetRange(
             [
-                'key' => 'f1',
+                'local_key' => 'f1',
                 'field' => 'price',
                 'start' => '1',
                 'end' => 100,
@@ -236,7 +236,7 @@ class FacetSetTest extends TestCase
     {
         $this->component->addFacet(new JsonRange(
             [
-                'key' => 'f1',
+                'local_key' => 'f1',
                 'field' => 'price',
                 'start' => '1',
                 'end' => 100,
@@ -261,7 +261,7 @@ class FacetSetTest extends TestCase
         $this->component->addFacet(
             new FacetRange(
                 [
-                    'key' => 'f1',
+                    'local_key' => 'f1',
                     'field' => 'price',
                     'start' => '1',
                     'end' => 100,
@@ -284,7 +284,7 @@ class FacetSetTest extends TestCase
         $this->component->addFacet(
             new FacetRange(
                 [
-                    'key' => 'key',
+                    'local_key' => 'key',
                     'local_tag' => 'r1',
                     'field' => 'manufacturedate_dt',
                     'start' => '2006-01-01T00:00:00Z',
@@ -308,10 +308,10 @@ class FacetSetTest extends TestCase
     {
         $this->component->setMissing(true);
         $this->component->setLimit(10);
-        $this->component->addFacet(new FacetField(['key' => 'f1', 'field' => 'owner']));
-        $this->component->addFacet(new FacetQuery(['key' => 'f2', 'query' => 'category:23']));
+        $this->component->addFacet(new FacetField(['local_key' => 'f1', 'field' => 'owner']));
+        $this->component->addFacet(new FacetQuery(['local_key' => 'f2', 'query' => 'category:23']));
         $this->component->addFacet(
-            new FacetMultiQuery(['key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
+            new FacetMultiQuery(['local_key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
         $request = $this->builder->buildComponent($this->component, $this->request);
         static::assertNull(
@@ -327,10 +327,10 @@ class FacetSetTest extends TestCase
     {
         $this->component->setMissing(true);
         $this->component->setLimit(10);
-        $this->component->addFacet((new FacetField(['key' => 'f1', 'field' => 'owner']))->setPrefix('Y'));
+        $this->component->addFacet((new FacetField(['local_key' => 'f1', 'field' => 'owner']))->setPrefix('Y'));
 
         // second use of field owner (with prefix)
-        $this->component->addFacet((new FacetField(['key' => 'f2', 'field' => 'owner']))->setPrefix('X'));
+        $this->component->addFacet((new FacetField(['local_key' => 'f2', 'field' => 'owner']))->setPrefix('X'));
 
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -346,7 +346,7 @@ class FacetSetTest extends TestCase
 
     public function testBuildUnknownFacetType()
     {
-        $this->component->addFacet(new UnknownFacet(['key' => 'f1', 'field' => 'owner']));
+        $this->component->addFacet(new UnknownFacet(['local_key' => 'f1', 'field' => 'owner']));
         $this->expectException(UnexpectedValueException::class);
         $request = $this->builder->buildComponent($this->component, $this->request);
         $request->getUri();
@@ -356,13 +356,13 @@ class FacetSetTest extends TestCase
     {
         $facet = new FacetPivot(
             [
-                'key' => 'f1',
+                'local_key' => 'f1',
                 'fields' => 'cat,inStock',
                 'mincount' => 123,
                 'limit' => -1,
             ]
         );
-        $facet->addExclude('owner');
+        $facet->getLocalParameters()->setExclude('owner');
         $this->component->addFacet($facet);
 
         $request = $this->builder->buildComponent($this->component, $this->request);
@@ -381,9 +381,9 @@ class FacetSetTest extends TestCase
     {
         $facet = new FacetPivot(
             [
-                'key' => 'f1',
+                'local_key' => 'f1',
                 'fields' => 'cat,inStock',
-                'stats' => 'piv1',
+                'local_stats' => 'piv1',
             ]
         );
         $this->component->addFacet($facet);
@@ -402,7 +402,7 @@ class FacetSetTest extends TestCase
     {
         $facet = new FacetField(
             [
-                'key' => 'f1',
+                'local_key' => 'f1',
                 'field' => 'owner',
                 'contains' => 'foo',
                 'containsignorecase' => true,
@@ -426,7 +426,7 @@ class FacetSetTest extends TestCase
     {
         $facet = new FacetInterval(
             [
-                'key' => 'f1',
+                'local_key' => 'f1',
                 'field' => 'cat',
                 'set' => [0 => 'int1', 'one' => 'int2'],
             ]

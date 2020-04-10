@@ -403,20 +403,20 @@ abstract class AbstractQueryTest extends TestCase
             'rows' => 100,
             'start' => 200,
             'filterquery' => [
-                ['key' => 'pub', 'tag' => ['pub'], 'query' => 'published:true'],
-                'online' => ['tag' => 'onl', 'query' => 'online:true'],
+                ['key' => 'pub', 'local_tag' => ['pub'], 'query' => 'published:true'],
+                'online' => ['local_tag' => 'onl', 'query' => 'online:true'],
             ],
             'component' => [
                 'facetset' => [
                     'facet' => [
-                        ['type' => 'field', 'key' => 'categories', 'field' => 'category'],
+                        ['type' => 'field', 'local_key' => 'categories', 'field' => 'category'],
                         'category13' => ['type' => 'query', 'query' => 'category:13'],
                     ],
                 ],
             ],
             'resultclass' => 'MyResultClass',
             'documentclass' => 'MyDocumentClass',
-            'tag' => ['t1', 't2'],
+            'local_tag' => ['t1', 't2'],
             'cursormark' => '*',
             'splitonwhitespace' => false,
         ];
@@ -450,13 +450,13 @@ abstract class AbstractQueryTest extends TestCase
             array_pop($components),
             $this->isInstanceOf('Solarium\Component\FacetSet')
         );
-        $this->assertSame(['t1', 't2'], $query->getTags());
+        $this->assertSame(['t1', 't2'], $query->getLocalParameters()->getTags());
     }
 
     public function testConfigModeWithSingleValueTag()
     {
-        $query = new Query(['tag' => 't1']);
-        $this->assertSame(['t1'], $query->getTags());
+        $query = new Query(['local_tag' => 't1']);
+        $this->assertSame(['t1'], $query->getLocalParameters()->getTags());
     }
 
     public function testSetAndGetComponents()

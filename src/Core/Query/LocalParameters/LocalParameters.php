@@ -107,6 +107,18 @@ class LocalParameters implements \ArrayAccess
      *
      * @return $this
      */
+    public function setExcludes(array $excludes): self
+    {
+        return $this->setValues(LocalParameter::TYPE_EXCLUDE, $excludes);
+    }
+
+    /**
+     * @param array $excludes
+     *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
     public function addExcludes(array $excludes): self
     {
         return $this->addValues(LocalParameter::TYPE_EXCLUDE, $excludes);
@@ -154,6 +166,18 @@ class LocalParameters implements \ArrayAccess
     public function setRange(string $range): self
     {
         return $this->addValue(LocalParameter::TYPE_RANGE, $range);
+    }
+
+    /**
+     * @param array $ranges
+     *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
+    public function setRanges(array $ranges): self
+    {
+        return $this->setValues(LocalParameter::TYPE_RANGE, $ranges);
     }
 
     /**
@@ -219,6 +243,18 @@ class LocalParameters implements \ArrayAccess
      *
      * @return $this
      */
+    public function setTags(array $tags): self
+    {
+        return $this->setValues(LocalParameter::TYPE_TAG, $tags);
+    }
+
+    /**
+     * @param array $tags
+     *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
     public function addTags(array $tags): self
     {
         return $this->addValues(LocalParameter::TYPE_TAG, $tags);
@@ -257,15 +293,27 @@ class LocalParameters implements \ArrayAccess
     }
 
     /**
-     * @param string $terms
+     * @param string $term
+     *
+     *@throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
+    public function setTerm(string $term): self
+    {
+        return $this->addValue(LocalParameter::TYPE_TERM, $term);
+    }
+
+    /**
+     * @param array $terms
      *
      * @throws \Solarium\Exception\OutOfBoundsException
      *
      * @return $this
      */
-    public function setTerm(string $terms): self
+    public function setTerms(array $terms): self
     {
-        return $this->addValue(LocalParameter::TYPE_TERM, $terms);
+        return $this->setValues(LocalParameter::TYPE_TERM, $terms);
     }
 
     /**
@@ -331,6 +379,18 @@ class LocalParameters implements \ArrayAccess
      *
      * @return $this
      */
+    public function setQueries(array $queries): self
+    {
+        return $this->setValues(LocalParameter::TYPE_QUERY, $queries);
+    }
+
+    /**
+     * @param array $queries
+     *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
     public function addQueries(array $queries): self
     {
         return $this->addValues(LocalParameter::TYPE_QUERY, $queries);
@@ -369,27 +429,32 @@ class LocalParameters implements \ArrayAccess
     }
 
     /**
-     * @param string $stats
+     * @param string $stat
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     *@throws \Solarium\Exception\OutOfBoundsException
      *
      * @return $this
      */
-    public function setStat(string $stats): self
+    public function setStat(string $stat): self
     {
-        return $this->addValue(LocalParameter::TYPE_STAT, $stats);
+        return $this->addValue(LocalParameter::TYPE_STAT, $stat);
+    }
+
+    public function setStats(array $stats): self
+    {
+        return $this->setValues(LocalParameter::TYPE_STAT, $stats);
     }
 
     /**
-     * @param array $statss
+     * @param array $stats
      *
      * @throws \Solarium\Exception\OutOfBoundsException
      *
      * @return $this
      */
-    public function addStats(array $statss): self
+    public function addStats(array $stats): self
     {
-        return $this->addValues(LocalParameter::TYPE_STAT, $statss);
+        return $this->addValues(LocalParameter::TYPE_STAT, $stats);
     }
 
     /**
@@ -909,6 +974,21 @@ class LocalParameters implements \ArrayAccess
     private function getValues(string $type): array
     {
         return $this->getParameter($type)->getValues();
+    }
+
+    /**
+     * @param string $type
+     * @param array  $values
+     *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
+    private function setValues(string $type, array $values): self
+    {
+        $this->getParameter($type)->setValues($values);
+
+        return $this;
     }
 
     /**
