@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - GuzzleAdapter
 - Guzzle3Adapter
 - Endpoint::setTimeout and Endpoint::getTimeout
+- Passing local parameter options (e.g. ``key``, ``tag``, ``exclude``) without the ``local_`` prefix 
 
 ## [5.2.0]
 ### Added

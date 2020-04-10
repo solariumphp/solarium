@@ -21,7 +21,7 @@ class JsonTermsTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'key' => 'myKey',
+            'local_key' => 'myKey',
             'field' => 'text',
             'sort' => 'index',
             'limit' => 10,
@@ -37,7 +37,7 @@ class JsonTermsTest extends TestCase
 
         $this->facet->setOptions($options);
 
-        $this->assertSame($options['key'], $this->facet->getKey());
+        $this->assertSame($options['local_key'], $this->facet->getKey());
         $this->assertSame($options['field'], $this->facet->getField());
         $this->assertSame($options['sort'], $this->facet->getSort());
         $this->assertSame($options['limit'], $this->facet->getLimit());

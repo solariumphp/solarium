@@ -21,8 +21,8 @@ class FieldTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'key' => 'myKey',
-            'exclude' => ['e1', 'e2'],
+            'local_key' => 'myKey',
+            'local_exclude' => ['e1', 'e2'],
             'field' => 'text',
             'sort' => 'index',
             'limit' => 10,
@@ -36,8 +36,8 @@ class FieldTest extends TestCase
 
         $this->facet->setOptions($options);
 
-        $this->assertSame($options['key'], $this->facet->getKey());
-        $this->assertSame($options['exclude'], $this->facet->getExcludes());
+        $this->assertSame($options['local_key'], $this->facet->getKey());
+        $this->assertSame($options['local_exclude'], $this->facet->getLocalParameters()->getExcludes());
         $this->assertSame($options['field'], $this->facet->getField());
         $this->assertSame($options['sort'], $this->facet->getSort());
         $this->assertSame($options['limit'], $this->facet->getLimit());
