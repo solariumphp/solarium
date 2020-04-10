@@ -57,6 +57,6 @@ class ResultTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->fields), count($this->result));
+        $this->assertCount(count($this->fields), $this->result);
     }
 }

@@ -38,7 +38,7 @@ class JsonRangeTest extends TestCase
         $this->assertSame((string) $options['start'], $this->facet->getStart());
         $this->assertSame((string) $options['end'], $this->facet->getEnd());
         $this->assertSame((string) $options['gap'], $this->facet->getGap());
-        $this->assertSame($options['hardend'], $this->facet->getHardend());
+        $this->assertTrue($this->facet->getHardend());
         $this->assertSame([$options['other']], $this->facet->getOther());
         $this->assertSame([$options['include']], $this->facet->getInclude());
     }

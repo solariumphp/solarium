@@ -43,10 +43,10 @@ class FieldTest extends TestCase
         $this->assertSame($options['limit'], $this->facet->getLimit());
         $this->assertSame($options['offset'], $this->facet->getOffset());
         $this->assertSame($options['mincount'], $this->facet->getMinCount());
-        $this->assertSame($options['missing'], $this->facet->getMissing());
+        $this->assertTrue($this->facet->getMissing());
         $this->assertSame($options['method'], $this->facet->getMethod());
         $this->assertSame($options['contains'], $this->facet->getContains());
-        $this->assertSame($options['containsignorecase'], $this->facet->getContainsIgnoreCase());
+        $this->assertTrue($this->facet->getContainsIgnoreCase());
     }
 
     public function testGetType()

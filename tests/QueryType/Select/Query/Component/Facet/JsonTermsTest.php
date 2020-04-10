@@ -43,12 +43,12 @@ class JsonTermsTest extends TestCase
         $this->assertSame($options['limit'], $this->facet->getLimit());
         $this->assertSame($options['offset'], $this->facet->getOffset());
         $this->assertSame($options['mincount'], $this->facet->getMinCount());
-        $this->assertSame($options['missing'], $this->facet->getMissing());
+        $this->assertTrue($this->facet->getMissing());
         $this->assertSame($options['method'], $this->facet->getMethod());
-        $this->assertSame($options['refine'], $this->facet->getRefine());
+        $this->assertTrue($this->facet->getRefine());
         $this->assertSame($options['overrequest'], $this->facet->getOverRequest());
-        $this->assertSame($options['numBuckets'], $this->facet->getNumBuckets());
-        $this->assertSame($options['allBuckets'], $this->facet->getAllBuckets());
+        $this->assertTrue($this->facet->getNumBuckets());
+        $this->assertTrue($this->facet->getAllBuckets());
     }
 
     public function testGetType()

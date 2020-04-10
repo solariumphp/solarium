@@ -42,13 +42,13 @@ class GroupingTest extends TestCase
         $this->assertSame($options['limit'], $this->grouping->getLimit());
         $this->assertSame($options['offset'], $this->grouping->getOffset());
         $this->assertSame($options['sort'], $this->grouping->getSort());
-        $this->assertSame($options['mainresult'], $this->grouping->getMainResult());
-        $this->assertSame($options['numberofgroups'], $this->grouping->getNumberOfGroups());
+        $this->assertFalse($this->grouping->getMainResult());
+        $this->assertTrue($this->grouping->getNumberOfGroups());
         $this->assertSame($options['cachepercentage'], $this->grouping->getCachePercentage());
-        $this->assertSame($options['truncate'], $this->grouping->getTruncate());
+        $this->assertTrue($this->grouping->getTruncate());
         $this->assertSame($options['function'], $this->grouping->getFunction());
         $this->assertSame($options['format'], $this->grouping->getFormat());
-        $this->assertSame($options['facet'], $this->grouping->getFacet());
+        $this->assertTrue($this->grouping->getFacet());
     }
 
     public function testGetType()
@@ -187,24 +187,14 @@ class GroupingTest extends TestCase
 
     public function testSetAndGetMainResult()
     {
-        $value = true;
-        $this->grouping->setMainResult($value);
-
-        $this->assertSame(
-            $value,
-            $this->grouping->getMainResult()
-        );
+        $this->grouping->setMainResult(true);
+        $this->assertTrue($this->grouping->getMainResult());
     }
 
     public function testSetAndGetNumberOfGroups()
     {
-        $value = true;
-        $this->grouping->setNumberOfGroups($value);
-
-        $this->assertSame(
-            $value,
-            $this->grouping->getNumberOfGroups()
-        );
+        $this->grouping->setNumberOfGroups(true);
+        $this->assertTrue($this->grouping->getNumberOfGroups());
     }
 
     public function testSetAndGetCachePercentage()
@@ -220,13 +210,8 @@ class GroupingTest extends TestCase
 
     public function testSetAndGetTruncate()
     {
-        $value = true;
-        $this->grouping->setTruncate($value);
-
-        $this->assertSame(
-            $value,
-            $this->grouping->getTruncate()
-        );
+        $this->grouping->setTruncate(true);
+        $this->assertTrue($this->grouping->getTruncate());
     }
 
     public function testSetAndGetFunction()
@@ -253,12 +238,7 @@ class GroupingTest extends TestCase
 
     public function testSetAndGetFacet()
     {
-        $value = true;
-        $this->grouping->setFacet($value);
-
-        $this->assertSame(
-            $value,
-            $this->grouping->getFacet()
-        );
+        $this->grouping->setFacet(true);
+        $this->assertTrue($this->grouping->getFacet());
     }
 }

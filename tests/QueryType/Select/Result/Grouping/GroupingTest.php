@@ -51,6 +51,6 @@ class GroupingTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->items), count($this->grouping));
+        $this->assertCount(count($this->items), $this->grouping);
     }
 }

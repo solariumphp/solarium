@@ -67,7 +67,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
         $this->assertTrue($request->getIsServerRequest());
         $this->assertSame('dummy?wt=json&json.nl=flat', $request->getUri());
-        $this->arrayHasKey('Accept: foo/bar', array_flip($request->getHeaders()));
+        $this->assertArrayHasKey('Accept: foo/bar', array_flip($request->getHeaders()));
 
         $this->query->setContentType('foo;bar');
         $request = $this->builder->build($this->query);
@@ -82,8 +82,8 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
         $this->assertTrue($request->getIsServerRequest());
         $this->assertSame('dummy?wt=json&json.nl=flat', $request->getUri());
-        $this->arrayHasKey('Accept: foo/bar', array_flip($request->getHeaders()));
-        $this->arrayHasKey('Content-Type: foo;bar', array_flip($request->getHeaders()));
+        $this->assertArrayHasKey('Accept: foo/bar', array_flip($request->getHeaders()));
+        $this->assertArrayHasKey('Content-Type: foo;bar', array_flip($request->getHeaders()));
 
         $this->query->setMethod(Request::METHOD_HEAD);
         $request = $this->builder->build($this->query);
@@ -98,8 +98,8 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::METHOD_HEAD, $request->getMethod());
         $this->assertTrue($request->getIsServerRequest());
         $this->assertSame('dummy?wt=json&json.nl=flat', $request->getUri());
-        $this->arrayHasKey('Accept: foo/bar', array_flip($request->getHeaders()));
-        $this->arrayHasKey('Content-Type: foo;bar', array_flip($request->getHeaders()));
+        $this->assertArrayHasKey('Accept: foo/bar', array_flip($request->getHeaders()));
+        $this->assertArrayHasKey('Content-Type: foo;bar', array_flip($request->getHeaders()));
 
         $this->query->setMethod(Request::METHOD_POST);
         $this->query->setRawData('some data');
@@ -115,8 +115,8 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::METHOD_POST, $request->getMethod());
         $this->assertTrue($request->getIsServerRequest());
         $this->assertSame('dummy?wt=json&json.nl=flat', $request->getUri());
-        $this->arrayHasKey('Accept: foo/bar', array_flip($request->getHeaders()));
-        $this->arrayHasKey('Content-Type: foo;bar', array_flip($request->getHeaders()));
+        $this->assertArrayHasKey('Accept: foo/bar', array_flip($request->getHeaders()));
+        $this->assertArrayHasKey('Content-Type: foo;bar', array_flip($request->getHeaders()));
         $this->assertSame('some data', $request->getRawData());
     }
 }
