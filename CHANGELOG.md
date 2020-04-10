@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Changed
 - More strict types and type hinting
+- `AdapterInterface` does not extend `ConfigurableInterface` anymore
+- `Http` Adapter does not implement `ConfigurableInterface` anymore
+- `Psr18Adapter` does not implement `ConfigurableInterface` anymore
 
 ### Removed
 - Zend2HttpAdapter
