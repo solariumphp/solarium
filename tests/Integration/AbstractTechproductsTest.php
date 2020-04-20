@@ -34,7 +34,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setSorts(['id' => SelectQuery::SORT_ASC]);
         $result = $this->client->select($select);
         $this->assertSame(32, $result->getNumFound());
-        $this->assertSame(10, $result->count());
+        $this->assertCount(10, $result);
 
         $ids = [];
         /** @var \Solarium\QueryType\Select\Result\Document $document */
@@ -64,7 +64,7 @@ abstract class AbstractTechproductsTest extends TestCase
         );
         $result = $this->client->select($select);
         $this->assertSame(6, $result->getNumFound());
-        $this->assertSame(6, $result->count());
+        $this->assertCount(6, $result);
 
         // VS1GB400C3 costs 74.99 and is the only product in the range between 70.23 and 80.00.
         $select->setQuery(
@@ -72,35 +72,35 @@ abstract class AbstractTechproductsTest extends TestCase
         );
         $result = $this->client->select($select);
         $this->assertSame(1, $result->getNumFound());
-        $this->assertSame(1, $result->count());
+        $this->assertCount(1, $result);
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, null)
         );
         $result = $this->client->select($select);
         $this->assertSame(11, $result->getNumFound());
-        $this->assertSame(10, $result->count());
+        $this->assertCount(10, $result);
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, null, false)
         );
         $result = $this->client->select($select);
         $this->assertSame(10, $result->getNumFound());
-        $this->assertSame(10, $result->count());
+        $this->assertCount(10, $result);
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('store', '-90,-90', '90,90', true, false)
         );
         $result = $this->client->select($select);
         $this->assertSame(2, $result->getNumFound());
-        $this->assertSame(2, $result->count());
+        $this->assertCount(2, $result);
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('store', '-90,-180', '90,180', true, false)
         );
         $result = $this->client->select($select);
         $this->assertSame(14, $result->getNumFound());
-        $this->assertSame(10, $result->count());
+        $this->assertCount(10, $result);
     }
 
     /**
@@ -234,14 +234,14 @@ abstract class AbstractTechproductsTest extends TestCase
         );
         $result = $this->client->select($select);
         $this->assertSame(14, $result->getNumFound());
-        $this->assertSame(10, $result->count());
+        $this->assertCount(10, $result);
 
         $select->setQuery(
             $select->getHelper()->geofilt('store', 40, -100, 1000)
         );
         $result = $this->client->select($select);
         $this->assertSame(10, $result->getNumFound());
-        $this->assertSame(10, $result->count());
+        $this->assertCount(10, $result);
     }
 
     public function testSpellcheck()
@@ -415,14 +415,14 @@ abstract class AbstractTechproductsTest extends TestCase
         $update->addDocuments([$doc1, $doc2]);
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(0, $result->count());
+        $this->assertCount(0, $result);
 
         // commit
         $update = $this->client->createUpdate();
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(2, $result->count());
+        $this->assertCount(2, $result);
         $iterator = $result->getIterator();
         $this->assertSame([
             'id' => 'solarium-test-1',
@@ -442,7 +442,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(1, $result->count());
+        $this->assertCount(1, $result);
         $this->assertSame([
             'id' => 'solarium-test-2',
             'name' => 'Solarium Test 2',
@@ -455,7 +455,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(0, $result->count());
+        $this->assertCount(0, $result);
 
         // optimize
         $update = $this->client->createUpdate();
@@ -479,7 +479,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $update->addCommit(true, true);
             $this->client->update($update);
             $result = $this->client->select($select);
-            $this->assertSame(0, $result->count());
+            $this->assertCount(0, $result);
         }
 
         // raw add and raw commit
@@ -488,7 +488,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update->addRawXmlCommand('<commit softCommit="true" waitSearcher="true"/>');
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(1, $result->count());
+        $this->assertCount(1, $result);
         $this->assertSame([
             'id' => 'solarium-test-1',
             'name' => 'Solarium Test 1',
@@ -501,7 +501,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update->addRawXmlCommand('<update><delete><id>solarium-test-1</id></delete><commit softCommit="true" waitSearcher="true"/></update>');
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(1, $result->count());
+        $this->assertCount(1, $result);
         $this->assertSame([
             'id' => 'solarium-test-2',
             'name' => 'Solarium Test 2',
@@ -514,7 +514,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(0, $result->count());
+        $this->assertCount(0, $result);
 
         // add from files without and with Byte Order Mark and XML declaration
         $update = $this->client->createUpdate();
@@ -524,7 +524,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(4, $result->count());
+        $this->assertCount(4, $result);
         $iterator = $result->getIterator();
         $this->assertSame([
             'id' => 'solarium-test-1',
@@ -556,7 +556,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(0, $result->count());
+        $this->assertCount(0, $result);
 
         // reset automatic commits to the configuration in solrconfig.xml
         $request->setRawData(json_encode([
@@ -578,7 +578,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setRows(2);
         $result = $this->client->select($select);
         $this->assertSame(17, $result->getNumFound());
-        $this->assertSame(2, $result->count());
+        $this->assertCount(2, $result);
 
         $ids = [];
         /** @var \Solarium\QueryType\Select\Result\Document $document */
@@ -590,7 +590,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $reRankQuery->setQuery('popularity:10');
         $result = $this->client->select($select);
         $this->assertSame(17, $result->getNumFound());
-        $this->assertSame(2, $result->count());
+        $this->assertCount(2, $result);
 
         $rerankedids = [];
         /** @var \Solarium\QueryType\Select\Result\Document $document */
