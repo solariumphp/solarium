@@ -11,7 +11,12 @@ class ResultTest extends TestCase
     /**
      * @var Result
      */
-    protected $mltResult;
+    private $mltResult;
+
+    /**
+     * @var array
+     */
+    private $docs;
 
     public function setUp(): void
     {
@@ -50,6 +55,6 @@ class ResultTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->docs), count($this->mltResult));
+        $this->assertCount(count($this->docs), $this->mltResult);
     }
 }

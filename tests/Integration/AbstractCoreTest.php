@@ -192,7 +192,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $this->assertTrue($response->getWasSuccessful());
 
         $statusResults = $response->getStatusResults();
-        $this->assertSame(2, count($statusResults));
+        $this->assertCount(2, $statusResults);
         $this->assertGreaterThan(0, $statusResults[0]->getUptime(), 'Can not get uptime of first core');
 
         // now we unload the created core again

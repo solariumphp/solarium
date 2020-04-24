@@ -468,7 +468,7 @@ class ClientTest extends TestCase
     {
         $queryStub = $this->createMock(SelectQuery::class);
 
-        $observer = $this->createMock(AbstractRequestBuilder::class, ['build']);
+        $observer = $this->createMock(AbstractRequestBuilder::class);
         $observer->expects($this->once())
                  ->method('build')
                  ->with($this->equalTo($queryStub))

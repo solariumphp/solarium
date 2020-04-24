@@ -70,6 +70,6 @@ class TimingTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->phases), count($this->result));
+        $this->assertCount(count($this->phases), $this->result);
     }
 }

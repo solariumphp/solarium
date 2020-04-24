@@ -122,7 +122,7 @@ class CustomizeRequestTest extends TestCase
         $this->assertSame($input['type'], $customization->getType());
         $this->assertSame($input['name'], $customization->getName());
         $this->assertSame($input['value'], $customization->getValue());
-        $this->assertSame($input['persistent'], $customization->getPersistent());
+        $this->assertTrue($customization->getPersistent());
     }
 
     public function testAddAndGetCustomization()

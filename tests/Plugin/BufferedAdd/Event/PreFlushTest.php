@@ -10,13 +10,12 @@ class PreFlushTest extends TestCase
     public function testConstructorAndGetters()
     {
         $buffer = [1, 2, 3];
-        $overwrite = true;
         $commitWithin = 567;
 
-        $event = new PreFlush($buffer, $overwrite, $commitWithin);
+        $event = new PreFlush($buffer, true, $commitWithin);
 
         $this->assertSame($buffer, $event->getBuffer());
-        $this->assertSame($overwrite, $event->getOverwrite());
+        $this->assertTrue($event->getOverwrite());
         $this->assertSame($commitWithin, $event->getCommitWithin());
 
         return $event;
@@ -53,8 +52,7 @@ class PreFlushTest extends TestCase
      */
     public function testSetAndGetOverwrite($event)
     {
-        $overwrite = false;
-        $event->setOverwrite($overwrite);
-        $this->assertSame($overwrite, $event->getOverwrite());
+        $event->setOverwrite(false);
+        $this->assertFalse($event->getOverwrite());
     }
 }

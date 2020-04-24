@@ -82,13 +82,8 @@ class FieldTest extends TestCase
 
     public function testSetAndGetMergeContiguous()
     {
-        $value = true;
-        $this->fld->setMergeContiguous($value);
-
-        $this->assertSame(
-            $value,
-            $this->fld->getMergeContiguous()
-        );
+        $this->fld->setMergeContiguous(true);
+        $this->assertTrue($this->fld->getMergeContiguous());
     }
 
     public function testSetAndGetAlternateField()
@@ -104,13 +99,8 @@ class FieldTest extends TestCase
 
     public function testSetAndGetPreserveMulti()
     {
-        $value = true;
-        $this->fld->setPreserveMulti($value);
-
-        $this->assertSame(
-            $value,
-            $this->fld->getPreserveMulti()
-        );
+        $this->fld->setPreserveMulti(true);
+        $this->assertTrue($this->fld->getPreserveMulti());
     }
 
     public function testSetAndGetFormatter()
@@ -158,12 +148,7 @@ class FieldTest extends TestCase
 
     public function testSetAndGetUseFastVectorHighlighter()
     {
-        $value = true;
-        $this->fld->setUseFastVectorHighlighter($value);
-
-        $this->assertSame(
-            $value,
-            $this->fld->getUseFastVectorHighlighter()
-        );
+        $this->fld->setUseFastVectorHighlighter(true);
+        $this->assertTrue($this->fld->getUseFastVectorHighlighter());
     }
 }

@@ -11,12 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Changed
 - More strict types and type hinting
+- `AdapterInterface` does not extend `ConfigurableInterface` anymore
+- `Http` Adapter does not implement `ConfigurableInterface` anymore
+- `Psr18Adapter` does not implement `ConfigurableInterface` anymore
 
 ### Removed
 - Zend2HttpAdapter
 - GuzzleAdapter
 - Guzzle3Adapter
-
+- Endpoint::setTimeout and Endpoint::getTimeout
+- Passing local parameter options (e.g. ``key``, ``tag``, ``exclude``) without the ``local_`` prefix 
 
 ## [5.2.0]
 ### Added
@@ -29,7 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Zend2HttpAdapter, use PSR-18 http adapter instead
 - GuzzleAdapter, use PSR-18 http adapter instead
 - Guzzle3Adapter, use PSR-18 http adapter instead
-- AdapterHelper
+- Endpoint::setTimeout and Endpoint::getTimeout, configure the timeout on the http adapter instead
 
 
 ## [5.1.6]

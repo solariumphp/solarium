@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Stream\Query;
+namespace Solarium\Tests\QueryType\Stream;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Exception\InvalidArgumentException;

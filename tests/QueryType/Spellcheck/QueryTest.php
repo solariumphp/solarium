@@ -68,23 +68,13 @@ class QueryTest extends TestCase
 
     public function testSetAndGetOnlyMorePopular()
     {
-        $value = false;
-        $this->query->setOnlyMorePopular($value);
-
-        $this->assertSame(
-            $value,
-            $this->query->getOnlyMorePopular()
-        );
+        $this->query->setOnlyMorePopular(false);
+        $this->assertFalse($this->query->getOnlyMorePopular());
     }
 
     public function testSetAndGetCollate()
     {
-        $value = false;
-        $this->query->setCollate($value);
-
-        $this->assertSame(
-            $value,
-            $this->query->getCollate()
-        );
+        $this->query->setCollate(false);
+        $this->assertFalse($this->query->getCollate());
     }
 }

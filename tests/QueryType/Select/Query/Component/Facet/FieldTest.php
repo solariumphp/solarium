@@ -21,8 +21,8 @@ class FieldTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'key' => 'myKey',
-            'exclude' => ['e1', 'e2'],
+            'local_key' => 'myKey',
+            'local_exclude' => ['e1', 'e2'],
             'field' => 'text',
             'sort' => 'index',
             'limit' => 10,
@@ -36,17 +36,17 @@ class FieldTest extends TestCase
 
         $this->facet->setOptions($options);
 
-        $this->assertSame($options['key'], $this->facet->getKey());
-        $this->assertSame($options['exclude'], $this->facet->getExcludes());
+        $this->assertSame($options['local_key'], $this->facet->getKey());
+        $this->assertSame($options['local_exclude'], $this->facet->getLocalParameters()->getExcludes());
         $this->assertSame($options['field'], $this->facet->getField());
         $this->assertSame($options['sort'], $this->facet->getSort());
         $this->assertSame($options['limit'], $this->facet->getLimit());
         $this->assertSame($options['offset'], $this->facet->getOffset());
         $this->assertSame($options['mincount'], $this->facet->getMinCount());
-        $this->assertSame($options['missing'], $this->facet->getMissing());
+        $this->assertTrue($this->facet->getMissing());
         $this->assertSame($options['method'], $this->facet->getMethod());
         $this->assertSame($options['contains'], $this->facet->getContains());
-        $this->assertSame($options['containsignorecase'], $this->facet->getContainsIgnoreCase());
+        $this->assertTrue($this->facet->getContainsIgnoreCase());
     }
 
     public function testGetType()
