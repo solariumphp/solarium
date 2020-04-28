@@ -8,7 +8,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 /**
  * Class Create.
  *
- * @see https://lucene.apache.org/solr/guide/6_6/coreadmin-api.html#CoreAdminAPI-Input.1
+ * @see https://lucene.apache.org/solr/guide/8_5/coreadmin-api.html#CoreAdminAPI-Input.1
  */
 class Create extends AbstractAsyncAction implements CoreActionInterface
 {

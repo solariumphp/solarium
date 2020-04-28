@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Raw XML commands to update query
 - Raw XML from file in update query
+- Create and configure Managed Resources
 
 ## Changed
 - More strict types and type hinting
@@ -21,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Guzzle3Adapter
 - Endpoint::setTimeout and Endpoint::getTimeout
 - Passing local parameter options (e.g. ``key``, ``tag``, ``exclude``) without the ``local_`` prefix 
+- Support for Solr versions before 7.7
 
 ## [5.2.0]
 ### Added
