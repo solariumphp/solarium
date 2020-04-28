@@ -3,8 +3,8 @@
 namespace Solarium\Tests\Plugin\ParallelExecution;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Plugin\ParallelExecution\ParallelExecution;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class ParallelExecutionTest extends TestCase
 {
@@ -20,7 +20,7 @@ class ParallelExecutionTest extends TestCase
 
     public function testAddAndGetQueries()
     {
-        $client = new Client();
+        $client = TestClientFactory::createWithCurlAdapter();
         $client->clearEndpoints();
         $client->createEndpoint('local1');
         $endpoint2 = $client->createEndpoint('local2');
@@ -44,7 +44,7 @@ class ParallelExecutionTest extends TestCase
 
     public function testClearQueries()
     {
-        $client = new Client();
+        $client = TestClientFactory::createWithCurlAdapter();
         $this->plugin->initPlugin($client, []);
 
         $query1 = $client->createSelect()->setQuery('test1');

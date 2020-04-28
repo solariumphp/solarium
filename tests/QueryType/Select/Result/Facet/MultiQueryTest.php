@@ -28,7 +28,7 @@ class MultiQueryTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->values), count($this->facet));
+        $this->assertCount(count($this->values), $this->facet);
     }
 
     public function testIterator()

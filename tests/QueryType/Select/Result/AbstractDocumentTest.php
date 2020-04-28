@@ -112,6 +112,6 @@ abstract class AbstractDocumentTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->fields), count($this->doc));
+        $this->assertCount(count($this->fields), $this->doc);
     }
 }

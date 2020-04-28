@@ -4,7 +4,6 @@ namespace Solarium\Tests\Plugin\CustomizeRequest;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\AdapterInterface;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
@@ -13,6 +12,7 @@ use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\CustomizeRequest\Customization;
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class CustomizeRequestTest extends TestCase
 {
@@ -70,7 +70,7 @@ class CustomizeRequestTest extends TestCase
 
     public function testPluginIntegration()
     {
-        $client = new Client();
+        $client = TestClientFactory::createWithCurlAdapter();
         $client->registerPlugin('testplugin', $this->plugin);
 
         $input = [
@@ -122,7 +122,7 @@ class CustomizeRequestTest extends TestCase
         $this->assertSame($input['type'], $customization->getType());
         $this->assertSame($input['name'], $customization->getName());
         $this->assertSame($input['value'], $customization->getValue());
-        $this->assertSame($input['persistent'], $customization->getPersistent());
+        $this->assertTrue($customization->getPersistent());
     }
 
     public function testAddAndGetCustomization()

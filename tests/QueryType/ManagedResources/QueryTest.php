@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\ManagedResources\Resources;
+namespace Solarium\Tests\QueryType\ManagedResources;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;

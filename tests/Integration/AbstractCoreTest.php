@@ -42,11 +42,9 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
                     'core' => self::$core,
                 ],
             ],
-            // Curl is the default adapter.
-            //'adapter' => 'Solarium\Core\Client\Adapter\Curl',
         ];
 
-        $client = new \Solarium\Client(self::$config);
+        $client = TestClientFactory::createWithPsr18Adapter(self::$config);
 
         try {
             $coreAdminQuery = $client->createCoreAdmin();
@@ -76,7 +74,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
 
     public function setUp(): void
     {
-        $this->client = new \Solarium\Client(self::$config);
+        $this->client = TestClientFactory::createWithPsr18Adapter($config);
 
         try {
             $ping = $this->client->createPing();
@@ -233,7 +231,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $this->assertTrue($response->getWasSuccessful());
 
         $statusResults = $response->getStatusResults();
-        $this->assertSame(3, count($statusResults));
+        $this->assertCount(3, $statusResults);
         $this->assertGreaterThan(0, $statusResults[0]->getUptime(), 'Can not get uptime of first core');
 
         // now we unload the created core again

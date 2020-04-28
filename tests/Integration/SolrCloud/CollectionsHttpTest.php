@@ -2,6 +2,7 @@
 
 namespace Solarium\Tests\Integration\SolrCloud;
 
+use Solarium\Core\Client\Adapter\Http;
 use Solarium\Tests\Integration\AbstractCollectionsTest;
 
 /**
@@ -13,6 +14,6 @@ class CollectionsHttpTest extends AbstractCollectionsTest
     public function setUp(): void
     {
         parent::setUp();
-        $this->client->setAdapter('Solarium\Core\Client\Adapter\Http');
+        $this->client->setAdapter(new Http());
     }
 }

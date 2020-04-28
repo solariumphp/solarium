@@ -21,7 +21,7 @@ class JsonTermsTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'key' => 'myKey',
+            'local_key' => 'myKey',
             'field' => 'text',
             'sort' => 'index',
             'limit' => 10,
@@ -37,18 +37,18 @@ class JsonTermsTest extends TestCase
 
         $this->facet->setOptions($options);
 
-        $this->assertSame($options['key'], $this->facet->getKey());
+        $this->assertSame($options['local_key'], $this->facet->getKey());
         $this->assertSame($options['field'], $this->facet->getField());
         $this->assertSame($options['sort'], $this->facet->getSort());
         $this->assertSame($options['limit'], $this->facet->getLimit());
         $this->assertSame($options['offset'], $this->facet->getOffset());
         $this->assertSame($options['mincount'], $this->facet->getMinCount());
-        $this->assertSame($options['missing'], $this->facet->getMissing());
+        $this->assertTrue($this->facet->getMissing());
         $this->assertSame($options['method'], $this->facet->getMethod());
-        $this->assertSame($options['refine'], $this->facet->getRefine());
+        $this->assertTrue($this->facet->getRefine());
         $this->assertSame($options['overrequest'], $this->facet->getOverRequest());
-        $this->assertSame($options['numBuckets'], $this->facet->getNumBuckets());
-        $this->assertSame($options['allBuckets'], $this->facet->getAllBuckets());
+        $this->assertTrue($this->facet->getNumBuckets());
+        $this->assertTrue($this->facet->getAllBuckets());
     }
 
     public function testGetType()

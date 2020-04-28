@@ -38,8 +38,12 @@ $xml = '
 </add>
 ';
 
-// add the XML string and a commit command to the update query
+// or use an XML file containing a valid update command
+$xmlfile = 'example.xml';
+
+// add the XML string, the XML file and a commit command to the update query
 $update->addRawXmlCommand($xml);
+$update->addRawXmlFile($xmlfile);
 $update->addCommit();
 
 // this executes the query and returns the result

@@ -3,16 +3,16 @@
 namespace Solarium\Tests\Core\Event;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Event\PreExecuteRequest;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class PreExecuteRequestTest extends TestCase
 {
     public function testConstructorAndGetters()
     {
-        $client = new Client();
+        $client = TestClientFactory::createWithCurlAdapter();
         $request = new Request();
         $request->addParam('testparam', 'test value');
         $endpoint = $client->getEndpoint();

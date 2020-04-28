@@ -21,15 +21,15 @@ class QueryTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'key' => 'myKey',
-            'exclude' => ['e1', 'e2'],
+            'local_key' => 'myKey',
+            'local_exclude' => ['e1', 'e2'],
             'query' => 'category:1',
         ];
 
         $this->facet->setOptions($options);
 
-        $this->assertSame($options['key'], $this->facet->getKey());
-        $this->assertSame($options['exclude'], $this->facet->getExcludes());
+        $this->assertSame($options['local_key'], $this->facet->getKey());
+        $this->assertSame($options['local_exclude'], $this->facet->getLocalParameters()->getExcludes());
         $this->assertSame($options['query'], $this->facet->getQuery());
     }
 

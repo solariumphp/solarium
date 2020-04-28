@@ -24,6 +24,13 @@ interface LocalParameterInterface
     public function getType(): string;
 
     /**
+     * @param array $values
+     *
+     * @return $this
+     */
+    public function setValues(array $values): self;
+
+    /**
      * @return array
      */
     public function getValues(): array;
