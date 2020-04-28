@@ -24,6 +24,7 @@ class SynonymsTest extends TestCase
         $this->assertSame('2014-12-16T22:44:05.33Z', $parsed['initializedOn']);
         $this->assertSame('2020-02-03T00:54:53.049Z', $parsed['updatedSinceInit']);
         $this->assertTrue($parsed['ignoreCase']);
+        $this->assertSame('solr', $parsed['format']);
 
         $synonyms =
         [
