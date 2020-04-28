@@ -74,7 +74,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
 
     public function setUp(): void
     {
-        $this->client = TestClientFactory::createWithPsr18Adapter($config);
+        $this->client = TestClientFactory::createWithPsr18Adapter(self::$config);
 
         try {
             $ping = $this->client->createPing();
@@ -353,7 +353,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
 
     public static function tearDownAfterClass(): void
     {
-        $client = new \Solarium\Client(self::$config);
+        $client = TestClientFactory::createWithPsr18Adapter(self::$config);
 
         $coreAdminQuery = $client->createCoreAdmin();
 
