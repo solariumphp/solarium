@@ -39,7 +39,7 @@ class Analytics implements ComponentRequestBuilderInterface
         ) {
             return $request
                 ->setMethod(Request::METHOD_POST)
-                ->addHeader($header)
+                ->replaceOrAddHeader($header)
                 ->setRawData($raw)
             ;
         }
@@ -54,7 +54,7 @@ class Analytics implements ComponentRequestBuilderInterface
         $raw = sprintf('%s&%s', $data, $raw);
 
         return $request
-            ->addHeader($header)
+            ->replaceOrAddHeader($header)
             ->setRawData($raw)
         ;
     }
