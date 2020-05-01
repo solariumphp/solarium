@@ -389,11 +389,11 @@ class RequestTest extends TestCase
         $original = 'Content-Type: application/xml';
         $replacement = 'Content-Type: application/json';
 
-        $this->request->addHeader($original);
+        $this->request->replaceOrAddHeader($original);
 
         $this->assertSame($original, $this->request->getHeader('Content-Type'));
 
-        $this->request->addHeader($replacement);
+        $this->request->replaceOrAddHeader($replacement);
 
         $this->assertSame($replacement, $this->request->getHeader('Content-Type'));
     }

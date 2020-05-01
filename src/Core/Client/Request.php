@@ -236,14 +236,27 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
-     * Add request header;
-     * Overwrites previously set of the same type.
+     * Add a request header.
+     *
+     * @param string|array $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function addHeader($value): self
+    {
+        $this->headers[] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Replace header if previously set else add it.
      *
      * @param string $header
      *
      * @return $this
      */
-    public function addHeader(string $header): self
+    public function replaceOrAddHeader(string $header): self
     {
         list($name) = explode(':', $header);
 
