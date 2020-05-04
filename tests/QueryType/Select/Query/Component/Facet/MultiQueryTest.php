@@ -23,13 +23,13 @@ class MultiQueryTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'key' => 'myKey',
-            'exclude' => ['e1', 'e2'],
+            'local_key' => 'myKey',
+            'local_exclude' => ['e1', 'e2'],
             'query' => [
                 [
-                    'key' => 'k1',
+                    'local_key' => 'k1',
                     'query' => 'category:1',
-                    'exclude' => ['fq1', 'fq2'],
+                    'local_exclude' => ['fq1', 'fq2'],
                 ],
                 'k2' => [
                     'query' => 'category:2',
@@ -39,13 +39,13 @@ class MultiQueryTest extends TestCase
 
         $this->facet->setOptions($options);
 
-        $this->assertSame($options['key'], $this->facet->getKey());
-        $this->assertSame($options['exclude'], $this->facet->getExcludes());
+        $this->assertSame($options['local_key'], $this->facet->getKey());
+        $this->assertSame($options['local_exclude'], $this->facet->getLocalParameters()->getExcludes());
 
         $query1 = $this->facet->getQuery('k1');
         $this->assertSame('k1', $query1->getKey());
         $this->assertSame('category:1', $query1->getQuery());
-        $this->assertEquals(['fq1', 'fq2', 'e1', 'e2'], $query1->getExcludes());
+        $this->assertEquals(['fq1', 'fq2', 'e1', 'e2'], $query1->getLocalParameters()->getExcludes());
 
         $query2 = $this->facet->getQuery('k2');
         $this->assertSame('k2', $query2->getKey());
@@ -76,7 +76,7 @@ class MultiQueryTest extends TestCase
         $facetQuery = new Query();
         $facetQuery->setKey($key);
         $facetQuery->setQuery($query);
-        $facetQuery->setExcludes($excludes);
+        $facetQuery->getLocalParameters()->addExcludes($excludes);
 
         $this->facet->createQuery($key, $query, $excludes);
 
@@ -92,7 +92,7 @@ class MultiQueryTest extends TestCase
         $facetQuery = new Query();
         $facetQuery->setKey($key);
         $facetQuery->setQuery($query);
-        $facetQuery->setExcludes($excludes);
+        $facetQuery->getLocalParameters()->addExcludes($excludes);
 
         $this->facet->addQuery($facetQuery);
 
@@ -102,16 +102,16 @@ class MultiQueryTest extends TestCase
     public function testAddQueryWithConfig()
     {
         $config = [
-            'key' => 'k1',
+            'local_key' => 'k1',
             'query' => 'category:1',
-            'excludes' => ['fq1', 'fq2'],
+            'local_excludes' => ['fq1', 'fq2'],
         ];
 
         $facetQuery = new Query($config);
 
         $this->facet->addQuery($config);
 
-        $this->assertEquals($facetQuery, $this->facet->getQuery($config['key']));
+        $this->assertEquals($facetQuery, $this->facet->getQuery($config['local_key']));
     }
 
     public function testAddQueryNoKey()
@@ -121,7 +121,7 @@ class MultiQueryTest extends TestCase
 
         $facetQuery = new Query();
         $facetQuery->setQuery($query);
-        $facetQuery->setExcludes($excludes);
+        $facetQuery->getLocalParameters()->addExcludes($excludes);
 
         $this->expectException(InvalidArgumentException::class);
         $this->facet->addQuery($facetQuery);
@@ -153,7 +153,7 @@ class MultiQueryTest extends TestCase
 
         $this->facet->addQuery($facetQuery);
 
-        $this->assertEquals(['fq1'], $facetQuery->getExcludes());
+        $this->assertEquals(['fq1'], $facetQuery->getLocalParameters()->getExcludes());
     }
 
     public function testAddAndGetQueries()
@@ -176,7 +176,7 @@ class MultiQueryTest extends TestCase
         $facetQuery1 = new Query();
         $facetQuery1->setKey('k1');
         $facetQuery1->setQuery('category:1');
-        $facetQuery1->addExcludes(['fq1', 'fq2']);
+        $facetQuery1->getLocalParameters()->addExcludes(['fq1', 'fq2']);
 
         $facetQuery2 = new Query();
         $facetQuery2->setKey('k2');
@@ -186,9 +186,9 @@ class MultiQueryTest extends TestCase
 
         $config = [
             [
-                'key' => 'k1',
+                'local_key' => 'k1',
                 'query' => 'category:1',
-                'exclude' => ['fq1', 'fq2'],
+                'local_exclude' => ['fq1', 'fq2'],
             ],
             'k2' => [
                 'query' => 'category:2',
@@ -298,13 +298,13 @@ class MultiQueryTest extends TestCase
 
         $this->assertSame(
             ['fq1'],
-            $facetQuery->getExcludes()
+            $facetQuery->getLocalParameters()->getExcludes()
         );
     }
 
     public function testRemoveExcludeForwarding()
     {
-        $this->facet->addExclude('fq1');
+        $this->facet->getLocalParameters()->setExclude('fq1');
 
         $facetQuery = new Query();
         $facetQuery->setKey('k1');
@@ -313,21 +313,21 @@ class MultiQueryTest extends TestCase
 
         $this->assertSame(
             ['fq1'],
-            $facetQuery->getExcludes()
+            $facetQuery->getLocalParameters()->getExcludes()
         );
 
         $this->facet->removeExclude('fq1');
 
         $this->assertSame(
             [],
-            $facetQuery->getExcludes()
+            $facetQuery->getLocalParameters()->getExcludes()
         );
     }
 
     public function testClearExcludesForwarding()
     {
-        $this->facet->addExclude('fq1');
-        $this->facet->addExclude('fq2');
+        $this->facet->getLocalParameters()->setExclude('fq1');
+        $this->facet->getLocalParameters()->setExclude('fq2');
 
         $facetQuery = new Query();
         $facetQuery->setKey('k1');
@@ -336,14 +336,14 @@ class MultiQueryTest extends TestCase
 
         $this->assertSame(
             ['fq1', 'fq2'],
-            $facetQuery->getExcludes()
+            $facetQuery->getLocalParameters()->getExcludes()
         );
 
         $this->facet->clearExcludes();
 
         $this->assertSame(
             [],
-            $facetQuery->getExcludes()
+            $facetQuery->getLocalParameters()->getExcludes()
         );
     }
 }

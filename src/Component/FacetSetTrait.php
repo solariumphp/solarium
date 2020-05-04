@@ -60,8 +60,8 @@ trait FacetSetTrait
     {
         foreach ($facets as $key => $facet) {
             // in case of a config array: add key to config
-            if (\is_array($facet) && !isset($facet['key'])) {
-                $facet['key'] = $key;
+            if (\is_array($facet) && !isset($facet['local_key'])) {
+                $facet['local_key'] = $key;
             }
 
             $this->addFacet($facet);
@@ -198,8 +198,8 @@ trait FacetSetTrait
 
         if (isset($this->options['facet'])) {
             foreach ($this->options['facet'] as $key => $config) {
-                if (!isset($config['key'])) {
-                    $config['key'] = (string) $key;
+                if (!isset($config['local_key'])) {
+                    $config['local_key'] = (string) $key;
                 }
 
                 $this->addFacet($config);

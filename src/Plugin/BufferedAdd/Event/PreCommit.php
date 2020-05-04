@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Solarium\Core\Query\DocumentInterface;
@@ -16,7 +18,7 @@ class PreCommit extends Event
     protected $buffer;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $overwrite;
 
@@ -38,13 +40,13 @@ class PreCommit extends Event
     /**
      * Event constructor.
      *
-     * @param array     $buffer
-     * @param bool      $overwrite
-     * @param bool|null $softCommit
-     * @param bool|null $waitSearcher
-     * @param bool|null $expungeDeletes
+     * @param DocumentInterface[] $buffer
+     * @param bool|null           $overwrite
+     * @param bool|null           $softCommit
+     * @param bool|null           $waitSearcher
+     * @param bool|null           $expungeDeletes
      */
-    public function __construct(array $buffer, bool $overwrite, ?bool $softCommit, ?bool $waitSearcher, ?bool $expungeDeletes)
+    public function __construct(array $buffer, ?bool $overwrite, ?bool $softCommit, ?bool $waitSearcher, ?bool $expungeDeletes)
     {
         $this->buffer = $buffer;
         $this->overwrite = $overwrite;
@@ -73,19 +75,21 @@ class PreCommit extends Event
     public function setBuffer(array $buffer): self
     {
         $this->buffer = $buffer;
+
         return $this;
     }
 
     /**
      * Optionally override the value.
      *
-     * @param bool $expungeDeletes
+     * @param bool|null $expungeDeletes
      *
      * @return self Provides fluent interface
      */
-    public function setExpungeDeletes(bool $expungeDeletes): self
+    public function setExpungeDeletes(?bool $expungeDeletes): self
     {
         $this->expungeDeletes = $expungeDeletes;
+
         return $this;
     }
 
@@ -100,20 +104,21 @@ class PreCommit extends Event
     /**
      * Optionally override the value.
      *
-     * @param bool $overwrite
+     * @param bool|null $overwrite
      *
      * @return self Provides fluent interface
      */
-    public function setOverwrite(bool $overwrite): self
+    public function setOverwrite(?bool $overwrite): self
     {
         $this->overwrite = $overwrite;
+
         return $this;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getOverwrite(): bool
+    public function getOverwrite(): ?bool
     {
         return $this->overwrite;
     }
@@ -121,13 +126,14 @@ class PreCommit extends Event
     /**
      * Optionally override the value.
      *
-     * @param bool $softCommit
+     * @param bool|null $softCommit
      *
      * @return self Provides fluent interface
      */
-    public function setSoftCommit(bool $softCommit): self
+    public function setSoftCommit(?bool $softCommit): self
     {
         $this->softCommit = $softCommit;
+
         return $this;
     }
 
@@ -142,13 +148,14 @@ class PreCommit extends Event
     /**
      * Optionally override the value.
      *
-     * @param bool $waitSearcher
+     * @param bool|null $waitSearcher
      *
      * @return self Provides fluent interface
      */
-    public function setWaitSearcher(bool $waitSearcher): self
+    public function setWaitSearcher(?bool $waitSearcher): self
     {
         $this->waitSearcher = $waitSearcher;
+
         return $this;
     }
 

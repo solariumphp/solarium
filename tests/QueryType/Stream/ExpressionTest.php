@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Stream\Query;
+namespace Solarium\Tests\QueryType\Stream;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Exception\InvalidArgumentException;
@@ -35,9 +35,9 @@ class ExpressionTest extends TestCase
             ->search('collection', 'q=field1:"value1"', '', 'fl="field1, field2"', 'sort="field1 ASC, field2 ASC"', 'qt="/export"');
 
         $this->assertSame(
-          'search(collection, q=field1:"value1", fl="field1, field2", sort="field1 ASC, field2 ASC", qt="/export")',
-          $expression_string
-      );
+            'search(collection, q=field1:"value1", fl="field1, field2", sort="field1 ASC, field2 ASC", qt="/export")',
+            $expression_string
+        );
     }
 
     public function testObject()

@@ -99,6 +99,6 @@ class DebugTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->explain), count($this->result));
+        $this->assertCount(count($this->explain), $this->result);
     }
 }

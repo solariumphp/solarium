@@ -24,26 +24,30 @@ class SynonymsTest extends TestCase
         $this->assertSame('2014-12-16T22:44:05.33Z', $parsed['initializedOn']);
         $this->assertSame('2020-02-03T00:54:53.049Z', $parsed['updatedSinceInit']);
         $this->assertTrue($parsed['ignoreCase']);
+        $this->assertSame('solr', $parsed['format']);
 
         $synonyms =
         [
-            0 => new Synonyms('GB',
-                    [
-                        0 => 'GiB',
-                        1 => 'Gigabyte',
-                    ]
-                ),
-            1 => new Synonyms('TV',
-                    [
-                        0 => 'Television',
-                    ]
-                ),
-            2 => new Synonyms('happy',
-                    [
-                            0 => 'glad',
-                            1 => 'joyful',
-                    ]
-                ),
+            0 => new Synonyms(
+                'GB',
+                [
+                    0 => 'GiB',
+                    1 => 'Gigabyte',
+                ]
+            ),
+            1 => new Synonyms(
+                'TV',
+                [
+                    0 => 'Television',
+                ]
+            ),
+            2 => new Synonyms(
+                'happy',
+                [
+                        0 => 'glad',
+                        1 => 'joyful',
+                ]
+            ),
         ];
 
         $this->assertEquals($synonyms, $parsed['items']);

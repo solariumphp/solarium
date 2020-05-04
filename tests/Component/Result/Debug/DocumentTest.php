@@ -61,6 +61,6 @@ class DocumentTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->details), count($this->result));
+        $this->assertCount(count($this->details), $this->result);
     }
 }

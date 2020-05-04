@@ -35,8 +35,15 @@ class Synonyms extends ResponseParserAbstract implements ResponseParserInterface
             }
 
             $parsed['items'] = $items;
-            $parsed['ignoreCase'] = $synonymMappings['initArgs']['ignoreCase'];
             $parsed['initializedOn'] = $synonymMappings['initializedOn'];
+
+            if (isset($synonymMappings['initArgs']['ignoreCase'])) {
+                $parsed['ignoreCase'] = $synonymMappings['initArgs']['ignoreCase'];
+            }
+
+            if (isset($synonymMappings['initArgs']['format'])) {
+                $parsed['format'] = $synonymMappings['initArgs']['format'];
+            }
 
             if (isset($synonymMappings['updatedSinceInit'])) {
                 $parsed['updatedSinceInit'] = $synonymMappings['updatedSinceInit'];

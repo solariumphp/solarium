@@ -58,7 +58,7 @@ class FacetSetTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->facets), count($this->result));
+        $this->assertCount(count($this->facets), $this->result);
     }
 }
 

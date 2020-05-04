@@ -368,7 +368,6 @@ class QueryTest extends TestCase
 
         $this->assertSame(
             Query::COMMAND_OPTIMIZE,
-            Query::COMMAND_OPTIMIZE,
             $commands[0]->getType()
         );
 
@@ -384,6 +383,59 @@ class QueryTest extends TestCase
             10,
             $commands[0]->getMaxSegments()
         );
+    }
+
+    public function testAddRawXmlCommand()
+    {
+        $this->query->addRawXmlCommand('<add><doc><field name="id">1</field></doc></add>');
+        $commands = $this->query->getCommands();
+
+        $this->assertSame(
+            Query::COMMAND_RAWXML,
+            $commands[0]->getType()
+        );
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>'],
+            $commands[0]->getCommands()
+        );
+    }
+
+    public function testAddRawXmlCommands()
+    {
+        $this->query->addRawXmlCommands(['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>']);
+        $commands = $this->query->getCommands();
+
+        $this->assertSame(
+            Query::COMMAND_RAWXML,
+            $commands[0]->getType()
+        );
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>'],
+            $commands[0]->getCommands()
+        );
+    }
+
+    public function testAddRawXmlFile()
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
+        file_put_contents($tmpfname, '<add><doc><field name="id">1</field></doc></add>');
+
+        $this->query->addRawXmlFile($tmpfname);
+        $commands = $this->query->getCommands();
+
+        $this->assertSame(
+            Query::COMMAND_RAWXML,
+            $commands[0]->getType()
+        );
+
+        $this->assertSame(
+            ['<add><doc><field name="id">1</field></doc></add>'],
+            $commands[0]->getCommands()
+        );
+
+        unlink($tmpfname);
     }
 
     public function testCreateCommand()

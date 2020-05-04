@@ -13,9 +13,11 @@ use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class LoadbalancerTest extends TestCase
 {
@@ -44,7 +46,7 @@ class LoadbalancerTest extends TestCase
             ],
         ];
 
-        $this->client = new Client($options);
+        $this->client = TestClientFactory::createWithCurlAdapter($options);
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->any())
             ->method('execute')
@@ -434,10 +436,7 @@ class LoadbalancerTest extends TestCase
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
 
-        $this->expectException(
-            'Solarium\Exception\RuntimeException',
-            'Maximum number of loadbalancer retries reached'
-        );
+        $this->expectException(RuntimeException::class);
 
         $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);

@@ -30,7 +30,7 @@ class ResultListTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->items), count($this->result));
+        $this->assertCount(count($this->items), $this->result);
     }
 
     public function testIterator()

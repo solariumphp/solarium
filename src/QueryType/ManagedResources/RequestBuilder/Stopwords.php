@@ -52,6 +52,12 @@ class Stopwords extends BaseRequestBuilder
             case StopwordsQuery::COMMAND_ADD:
                 $request->setRawData($command->getRawData());
                 break;
+            case StopwordsQuery::COMMAND_CONFIG:
+                $request->setRawData($command->getRawData());
+                break;
+            case StopwordsQuery::COMMAND_CREATE:
+                $request->setRawData($command->getRawData());
+                break;
             case StopwordsQuery::COMMAND_DELETE:
                 // reserved characters in a REST resource name need to be encoded twice to make it through the servlet
                 $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($command->getTerm())));
@@ -59,12 +65,11 @@ class Stopwords extends BaseRequestBuilder
             case StopwordsQuery::COMMAND_EXISTS:
                 $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($command->getTerm())));
                 break;
+            case StopwordsQuery::COMMAND_REMOVE:
+                break;
             default:
                 throw new RuntimeException('Unsupported command type');
-                break;
         }
-
-        $request->setMethod($command->getRequestMethod());
 
         return $this;
     }

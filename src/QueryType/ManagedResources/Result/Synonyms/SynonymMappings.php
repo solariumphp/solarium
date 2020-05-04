@@ -26,9 +26,16 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     /**
      * Whether or not to ignore the case.
      *
-     * @var bool
+     * @var bool|null
      */
     protected $ignoreCase;
+
+    /**
+     * Format.
+     *
+     * @var string|null
+     */
+    protected $format;
 
     /**
      * Datetime when the resource was initialized.
@@ -115,12 +122,21 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isIgnoreCase(): bool
+    public function isIgnoreCase(): ?bool
     {
         $this->parseResponse();
         return $this->ignoreCase;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFormat(): ?string
+    {
+        $this->parseResponse();
+        return $this->format;
     }
 
     /**

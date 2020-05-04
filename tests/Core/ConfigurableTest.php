@@ -3,7 +3,6 @@
 namespace Solarium\Tests\Core;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Configurable;
 use Solarium\Exception\RuntimeException;
 
@@ -50,12 +49,6 @@ class ConfigurableTest extends TestCase
         ];
 
         $this->assertSame($expectedOptions, $configTest->getOptions());
-    }
-
-    public function testConstructorWithInvalidConfig()
-    {
-        $this->expectException(\TypeError::class);
-        new Client('invalid');
     }
 
     public function testGetOption()

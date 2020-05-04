@@ -21,14 +21,14 @@ class JsonAggregationTest extends TestCase
     public function testConfigMode()
     {
         $options = [
-            'key' => 'myKey',
+            'local_key' => 'myKey',
             'function' => 'unique(field)',
             'min' => 5,
         ];
 
         $this->facet->setOptions($options);
 
-        $this->assertSame($options['key'], $this->facet->getKey());
+        $this->assertSame($options['local_key'], $this->facet->getKey());
         $this->assertSame($options['function'], $this->facet->getFunction());
         $this->assertSame($options['min'], $this->facet->getMin());
     }
