@@ -413,6 +413,14 @@ class HelperTest extends TestCase
         );
     }
 
+    public function testEscapePCDATAContent()
+    {
+        $this->assertSame(
+            '&lt;&amp;&gt;',
+            $this->helper->escapePCDATAContent("<&>")
+        );
+    }
+
     protected function mockFormatDateOutput($timestamp)
     {
         $date = new \DateTime('@'.$timestamp);

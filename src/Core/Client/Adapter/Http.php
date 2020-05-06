@@ -110,7 +110,8 @@ class Http implements AdapterInterface, TimeoutAwareInterface
                         $data
                     );
 
-                    $request->addHeader('Content-Type: text/xml; charset=utf-8');
+                    $charset = $request->getParam('ie') ?? 'utf-8';
+                    $request->addHeader('Content-Type: text/xml; charset='.$charset);
                 }
             }
         } elseif (Request::METHOD_PUT == $method) {
