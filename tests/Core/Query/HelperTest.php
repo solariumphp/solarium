@@ -417,7 +417,7 @@ class HelperTest extends TestCase
     {
         $this->assertSame(
             '&lt;&amp;&gt;',
-            $this->helper->escapePCDATAContent("<&>")
+            $this->helper->escapePCDATAContent('<&>')
         );
     }
 
