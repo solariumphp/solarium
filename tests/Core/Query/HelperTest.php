@@ -413,11 +413,11 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testEscapePCDATAContent()
+    public function testEscapeXMLCharacterData()
     {
         $this->assertSame(
             '&lt;&amp;&gt;',
-            $this->helper->escapePCDATAContent('<&>')
+            $this->helper->escapeXMLCharacterData('<&>')
         );
     }
 

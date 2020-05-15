@@ -472,7 +472,7 @@ class Helper
      *
      * @return string
      */
-    public function escapePCDATAContent(string $data): string
+    public function escapeXMLCharacterData(string $data): string
     {
         return str_replace(['&', '<', '>'], ['&amp;', '&lt;', '&gt;'], $data);
     }

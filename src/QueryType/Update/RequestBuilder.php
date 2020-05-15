@@ -128,10 +128,10 @@ class RequestBuilder extends BaseRequestBuilder
     {
         $xml = '<delete>';
         foreach ($command->getIds() as $id) {
-            $xml .= '<id>'.$this->getHelper()->escapePCDATAContent($id).'</id>';
+            $xml .= '<id>'.$this->getHelper()->escapeXMLCharacterData($id).'</id>';
         }
         foreach ($command->getQueries() as $query) {
-            $xml .= '<query>'.$this->getHelper()->escapePCDATAContent($query).'</query>';
+            $xml .= '<query>'.$this->getHelper()->escapeXMLCharacterData($query).'</query>';
         }
         $xml .= '</delete>';
 
@@ -234,7 +234,7 @@ class RequestBuilder extends BaseRequestBuilder
         } elseif ($value instanceof \DateTimeInterface) {
             $value = $this->getHelper()->formatDate($value);
         } else {
-            $value = $this->getHelper()->escapePCDATAContent($value);
+            $value = $this->getHelper()->escapeXMLCharacterData($value);
         }
 
         $xml .= '>'.$value.'</field>';
