@@ -779,7 +779,7 @@ abstract class AbstractTechproductsTest extends TestCase
         // output encoding: UTF-8 (always)
         $select->setQuery('cat:áéíóú');
         $result = $this->client->select($select);
-        $this->assertSame(1, $result->count());
+        $this->assertCount(1, $result);
         $this->assertSame([
             'id' => 'solarium-test-1',
             'name' => 'Sølåríùm Tëst 1',
@@ -791,7 +791,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setQuery('cat:'.utf8_decode('áéíóú'));
         $select->setInputEncoding('ISO-8859-1');
         $result = $this->client->select($select);
-        $this->assertSame(1, $result->count());
+        $this->assertCount(1, $result);
         $this->assertSame([
             'id' => 'solarium-test-1',
             'name' => 'Sølåríùm Tëst 1',
@@ -815,7 +815,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setQuery('cat:áéíóú');
         $select->setInputEncoding('UTF-8');
         $result = $this->client->select($select);
-        $this->assertSame(2, $result->count());
+        $this->assertCount(2, $result);
         $iterator = $result->getIterator();
         $this->assertSame([
             'id' => 'solarium-test-1',
@@ -834,7 +834,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);
-        $this->assertSame(0, $result->count());
+        $this->assertCount(0, $result);
     }
 }
 
