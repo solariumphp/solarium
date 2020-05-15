@@ -474,6 +474,7 @@ class Helper
      */
     public function escapeXMLCharacterData(string $data): string
     {
+        // we don't use htmlspecialchars because it only supports a limited number of character sets
         return str_replace(['&', '<', '>'], ['&amp;', '&lt;', '&gt;'], $data);
     }
 
