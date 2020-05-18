@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Raw XML commands to update query
 - Raw XML from file in update query
+- Set input encoding for select and update queries
 - Create and configure Managed Resources
 
 ## Changed

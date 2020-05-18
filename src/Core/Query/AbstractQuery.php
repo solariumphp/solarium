@@ -311,4 +311,28 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     {
         return $this->getOption('distrib');
     }
+
+    /**
+     * Set ie (input encoding) option.
+     *
+     * @param string $encoding
+     *
+     * @return self Provides fluent interface
+     */
+    public function setInputEncoding(string $encoding): self
+    {
+        $this->setOption('ie', $encoding);
+
+        return $this;
+    }
+
+    /**
+     * Get ie (input encoding) option.
+     *
+     * @return string|null
+     */
+    public function getInputEncoding(): ?string
+    {
+        return $this->getOption('ie');
+    }
 }

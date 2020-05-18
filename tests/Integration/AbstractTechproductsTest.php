@@ -516,15 +516,23 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = $this->client->select($select);
         $this->assertCount(0, $result);
 
-        // add from files without and with Byte Order Mark and XML declaration
+        // add from UTF-8 encoded files without and with Byte Order Mark and XML declaration
         $update = $this->client->createUpdate();
         foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml[1234]-add*.xml') as $file) {
             $update->addRawXmlFile($file);
         }
         $update->addCommit(true, true);
         $this->client->update($update);
+
+        // add from non-UTF-8 encoded file
+        $update = $this->client->createUpdate();
+        $update->setInputEncoding('ISO-8859-1');
+        $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml5-add-iso-8859-1.xml');
+        $update->addCommit(true, true);
+        $this->client->update($update);
+
         $result = $this->client->select($select);
-        $this->assertCount(4, $result);
+        $this->assertCount(5, $result);
         $iterator = $result->getIterator();
         $this->assertSame([
             'id' => 'solarium-test-1',
@@ -549,10 +557,16 @@ abstract class AbstractTechproductsTest extends TestCase
             'name' => 'Solarium Test 4',
             'price' => 3.59,
         ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-5',
+            'name' => 'Sølåríùm Tëst 5',
+            'price' => 9.81,
+        ], $iterator->current()->getFields());
 
         // delete from file with grouped delete commands
         $update = $this->client->createUpdate();
-        $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml5-delete.xml');
+        $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml6-delete.xml');
         $update->addCommit(true, true);
         $this->client->update($update);
         $result = $this->client->select($select);
@@ -742,6 +756,85 @@ abstract class AbstractTechproductsTest extends TestCase
         } else {
             $this->markTestSkipped('V2 API requires Solr 7.');
         }
+    }
+
+    public function testInputEncoding()
+    {
+        $select = $this->client->createSelect();
+        $select->addSort('id', $select::SORT_ASC);
+        $select->setFields('id,name,price');
+
+        // input encoding: UTF-8 (default)
+        $update = $this->client->createUpdate();
+        $doc = $update->createDocument();
+        $doc->setField('id', 'solarium-test-1');
+        $doc->setField('name', 'Sølåríùm Tëst 1');
+        $doc->setField('cat', ['solarium-test', 'áéíóú']);
+        $doc->setField('price', 3.14);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        $this->client->update($update);
+
+        // input encoding: UTF-8 (default)
+        // output encoding: UTF-8 (always)
+        $select->setQuery('cat:áéíóú');
+        $result = $this->client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Sølåríùm Tëst 1',
+            'price' => 3.14,
+        ], $result->getIterator()->current()->getFields());
+
+        // input encoding: ISO-8859-1
+        // output encoding: UTF-8 (always)
+        $select->setQuery('cat:'.utf8_decode('áéíóú'));
+        $select->setInputEncoding('ISO-8859-1');
+        $result = $this->client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Sølåríùm Tëst 1',
+            'price' => 3.14,
+        ], $result->getIterator()->current()->getFields());
+
+        // input encoding: ISO-8859-1
+        $update = $this->client->createUpdate();
+        $update->setInputEncoding('ISO-8859-1');
+        $doc = $update->createDocument();
+        $doc->setField('id', utf8_decode('solarium-test-2'));
+        $doc->setField('name', utf8_decode('Sølåríùm Tëst 2'));
+        $doc->setField('cat', [utf8_decode('solarium-test'), utf8_decode('áéíóú')]);
+        $doc->setField('price', 42.0);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        $this->client->update($update);
+
+        // input encoding: UTF-8 (explicit)
+        // output encoding: UTF-8 (always)
+        $select->setQuery('cat:áéíóú');
+        $select->setInputEncoding('UTF-8');
+        $result = $this->client->select($select);
+        $this->assertCount(2, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Sølåríùm Tëst 1',
+            'price' => 3.14,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-2',
+            'name' => 'Sølåríùm Tëst 2',
+            'price' => 42.0,
+        ], $iterator->current()->getFields());
+
+        $update = $this->client->createUpdate();
+        $update->addDeleteQuery('cat:solarium-test');
+        $update->addCommit(true, true);
+        $this->client->update($update);
+        $result = $this->client->select($select);
+        $this->assertCount(0, $result);
     }
 }
 

@@ -12,5 +12,6 @@
 	<delete>
 		<id>solarium-test-3</id>
 		<query>id:solarium-test-4</query>
+		<query>cat:sóláríúm-tést</query>
 	</delete>
 </update>

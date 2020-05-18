@@ -21,11 +21,13 @@ class RequestBuilder implements RequestBuilderInterface
      */
     public function build(AbstractQuery $query): Request
     {
+        $charset = $query->getInputEncoding('ie') ?? 'utf-8';
+
         $request = new Request();
         $request->setHandler($query->getHandler());
         $request->addParam('expr', $query->getExpression());
         $request->addParams($query->getParams());
-        $request->addHeader('Content-Type: text/plain; charset=utf-8');
+        $request->addHeader('Content-Type: text/plain; charset='.$charset);
 
         return $request;
     }
