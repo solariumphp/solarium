@@ -94,9 +94,9 @@ class Range extends Field
      * Count of all records with field values lower then lower bound of the first range
      * Only available if the 'other' setting was used in the query facet.
      *
-     * @return int
+     * @return int|null
      */
-    public function getBefore(): int
+    public function getBefore(): ?int
     {
         return $this->before;
     }
@@ -107,9 +107,9 @@ class Range extends Field
      * Count of all records with field values greater then the upper bound of the last range
      * Only available if the 'other' setting was used in the query facet.
      *
-     * @return int
+     * @return int|null
      */
-    public function getAfter(): int
+    public function getAfter(): ?int
     {
         return $this->after;
     }
@@ -120,9 +120,9 @@ class Range extends Field
      * Count all records with field values between the start and end bounds of all ranges
      * Only available if the 'other' setting was used in the query facet.
      *
-     * @return int
+     * @return int|null
      */
-    public function getBetween(): int
+    public function getBetween(): ?int
     {
         return $this->between;
     }
