@@ -282,7 +282,6 @@ class Helper
     /**
      * Render a qparser plugin call.
      *
-     *
      * @param string $name
      * @param array  $params
      * @param bool   $dereferenced
@@ -462,8 +461,25 @@ class Helper
     }
 
     /**
-     * Render placeholders in a querystring.
+     * Escape text for use as parsed character data content in an XML element.
      *
+     * This escapes characters that can't appear as character data using their
+     * corresponding entity references. Per the definition of XML, "&" and "<"
+     * MUST be escaped when used in character data, ">" MUST be escaped in the
+     * string "]]>" and MAY be otherwise, so we escape it to be safe.
+     *
+     * @param string $data
+     *
+     * @return string
+     */
+    public function escapeXMLCharacterData(string $data): string
+    {
+        // we don't use htmlspecialchars because it only supports a limited number of character sets
+        return str_replace(['&', '<', '>'], ['&amp;', '&lt;', '&gt;'], $data);
+    }
+
+    /**
+     * Render placeholders in a querystring.
      *
      * @param array $matches
      *

@@ -132,6 +132,20 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildWithInputEncoding()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
+        $query->setInputEncoding('ISO-8859-1');
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?omitHeader=true&ie=ISO-8859-1&p1=v1&p2=v2&wt=json&json.nl=flat',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testRenderLocalParams()
     {
         $myParams = ['tag' => 'mytag', 'ex' => ['exclude1', 'exclude2']];

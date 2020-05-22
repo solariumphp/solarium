@@ -413,6 +413,14 @@ class HelperTest extends TestCase
         );
     }
 
+    public function testEscapeXMLCharacterData()
+    {
+        $this->assertSame(
+            '&lt;&amp;&gt;',
+            $this->helper->escapeXMLCharacterData('<&>')
+        );
+    }
+
     protected function mockFormatDateOutput($timestamp)
     {
         $date = new \DateTime('@'.$timestamp);
