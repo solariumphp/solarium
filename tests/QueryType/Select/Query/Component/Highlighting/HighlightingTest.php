@@ -5,6 +5,7 @@ namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Highlighting\Field;
 use Solarium\Component\Highlighting\Highlighting;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query;
 
 class HighlightingTest extends TestCase
@@ -167,7 +168,7 @@ class HighlightingTest extends TestCase
     public function testAddFieldWithObjectWithoutName()
     {
         $field = new Field();
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->hlt->addField($field);
     }
 

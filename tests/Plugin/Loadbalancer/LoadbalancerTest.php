@@ -13,6 +13,7 @@ use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -221,7 +222,7 @@ class LoadbalancerTest extends TestCase
         ];
         $this->plugin->addEndpoints($endpoints1);
 
-        $this->expectException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException(OutOfBoundsException::class);
         $this->plugin->setForcedEndpointForNextQuery('s3');
     }
 

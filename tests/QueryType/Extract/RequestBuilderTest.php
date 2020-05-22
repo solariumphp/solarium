@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Extract;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Extract\Query;
 use Solarium\QueryType\Extract\RequestBuilder;
 
@@ -100,7 +101,7 @@ class RequestBuilderTest extends TestCase
         $document->setBoost(4);
         $this->query->setDocument($document);
 
-        $this->expectException('Solarium\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->builder->build($this->query);
     }
 

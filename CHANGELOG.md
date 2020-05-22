@@ -10,11 +10,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Raw XML from file in update query
 - Create and configure Managed Resources
 
-## Changed
+### Changed
 - More strict types and type hinting
 - `AdapterInterface` does not extend `ConfigurableInterface` anymore
 - `Http` Adapter does not implement `ConfigurableInterface` anymore
 - `Psr18Adapter` does not implement `ConfigurableInterface` anymore
+- All exceptions thrown implement `Solarium\Exception\ExceptionInterface`
 
 ### Removed
 - Zend2HttpAdapter

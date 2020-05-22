@@ -356,7 +356,7 @@ class HelperTest extends TestCase
 
     public function testAssembleInvalidPartNumber()
     {
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->helper->assemble('cat:%1% AND content:%2%', ['value1']);
     }
 

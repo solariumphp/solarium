@@ -5,6 +5,8 @@ namespace Solarium\Tests\QueryType\Select\Query;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\MoreLikeThis;
 use Solarium\Core\Client\Client;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
 use Solarium\QueryType\Select\Query\FilterQuery;
 use Solarium\QueryType\Select\Query\Query;
 
@@ -253,7 +255,7 @@ abstract class AbstractQueryTest extends TestCase
         $fq = new FilterQuery();
         $fq->setQuery('category:1');
 
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->query->addFilterQuery($fq);
     }
 
@@ -266,7 +268,7 @@ abstract class AbstractQueryTest extends TestCase
         $fq2->setKey('fq1')->setQuery('category:2');
 
         $this->query->addFilterQuery($fq1);
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->query->addFilterQuery($fq2);
     }
 
@@ -501,7 +503,7 @@ abstract class AbstractQueryTest extends TestCase
 
     public function testGetInvalidComponentAutoload()
     {
-        $this->expectException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException(OutOfBoundsException::class);
         $this->query->getComponent('invalid', true);
     }
 

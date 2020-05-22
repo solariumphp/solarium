@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Solarium\Core\Query\LocalParameters;
 
+use Solarium\Exception\OutOfBoundsException;
+
 /**
  * Local Parameters Trait.
  *
@@ -29,7 +31,7 @@ trait LocalParametersTrait
     }
 
     /**
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      */
     protected function initLocalParameters(): void
     {
