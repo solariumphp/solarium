@@ -17,12 +17,18 @@ The adapters are the actual implementations for communication with Solr. They ha
 
 ### Authentication
 
-The Http, Curl and Pecl adapter support authentication. To use this set the authentication on the request object using the setAuthentication() method. For the ZendHttp adapter you set the authentication using the ZendHttp api or config.
+Adapters support authentication. To use this set the authentication on the request object using the setAuthentication() method.
+
+### HTTP request timeout handling
+
+Setting a timeout for the HTTP request handling is the responsibility of the adapters. The two built-in adapters `CurlAdapter` and `HttpAdapter` are implementing `TimeoutAwareInterface` and expose a `setTimeout` method to give you control over the timeout value that is used.
+
+If you are using any other adapter like the built-in `Psr18Adapter` you need to take care of handling the timeouts yourself and configure the HTTP client properly that is used to perform the requests.
 
 Endpoints
 ---------
 
-An endpoint is basically a collection of settings that define a solr server or core. Each endpoint is defined with a key. For each query you execute you can (optionally) supply an endpoint or endpoint key, and the query is executed using this endpoint, using the client and adapter instance. The first endpoint you define is automatically used as the default endpoint. This makes using a single endpoint easier, as you don’t need to pass it to execute queries. Of course you can always set your own default endpoint if needed.
+An endpoint is basically a collection of settings that define a Solr server or core. Each endpoint is defined with a key. For each query you execute you can (optionally) supply an endpoint or endpoint key, and the query is executed using this endpoint, using the client and adapter instance. The first endpoint you define is automatically used as the default endpoint. This makes using a single endpoint easier, as you don’t need to pass it to execute queries. Of course you can always set your own default endpoint if needed.
 
 The endpoint class has a \_\_toString method that output all settings, this can be very useful for debugging or logging.
 
@@ -31,88 +37,57 @@ The endpoint class has a \_\_toString method that output all settings, this can 
 Endpoints support authentication. To use this set the authentication on the endpoint object using the setAuthentication() method.
 
 
-Curl adapter
+cURL adapter
 ============
 
-This is the standard Solarium adapter. It supports the most features (for instance concurrent requests) and doesn't suffer from memory issues (like the HttpAdapter in some cases). The only downside is that it depends on the PHP Curl extension, however most PHP environment have this extension. If Curl is not available and installing is not an option you should use one of the other adapters.
+This is the standard Solarium adapter. It supports the most features (for instance concurrent requests) and doesn't suffer from memory issues (like the HttpAdapter in some cases). The only downside is that it depends on the PHP cURL extension, however most PHP environment have this extension. If cURL is not available and installing is not an option you should use one of the other adapters.
 
-As this is the default adapter you don't need any settings or API calls to use it.
+```php
+<?php
+
+require(__DIR__.'/init.php');
+htmlHeader();
+
+// create an HTTP adapter instance
+$adapter = new Solarium\Core\Client\Adapter\Http();
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+
+htmlFooter();
+
+```
 
 ### Proxy support
 
-The curl adapter support the use of a proxy. Use the adapter option `proxy` to enable this.
+The cURL adapter support the use of a proxy. Use the adapter option `proxy` to enable this.
 
 
-Guzzle adapter
-==============
-
-todo
-
-
-HttpAdapter
-===========
+HTTP adapter
+============
 
 This adapter has no dependencies on other classes or any special PHP extensions as it uses basic PHP streams. This makes it a safe choice, but it has no extra options. If you need detailed control over your request or response you should probably use another adapter, but for most standard cases it will do just fine.
 
 ```php
 <?php
 
-require_once 'Zend/Loader/Autoloader.php';
-$loader = Zend_Loader_Autoloader::getInstance();
-
 require(__DIR__.'/init.php');
 htmlHeader();
 
+// create an HTTP adapter instance
+$adapter = new Solarium\Core\Client\Adapter\Http();
+
 // create a client instance
-$client = new Solarium\Client($config);
-
-// set the adapter to curl
-$client->setAdapter('Solarium\Core\Client\Adapter\Http');
-
-// get a select query instance
-$query = $client->createSelect();
-
-// this executes the query and returns the result
-$resultset = $client->select($query);
-
-// display the total number of documents found by solr
-echo 'NumFound: '.$resultset->getNumFound();
-
-// show documents using the resultset iterator
-foreach ($resultset as $document) {
-
-    echo '<hr/><table>';
-
-    // the documents are also iterable, to get all fields
-    foreach ($document as $field => $value) {
-        // this converts multivalue fields to a comma-separated string
-        if (is_array($value)) {
-            $value = implode(', ', $value);
-        }
-
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
-    }
-
-    echo '</table>';
-}
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 htmlFooter();
 
 ```
 
-Zend2Http adapter
-================
+PSR-18 adapter
+==============
 
-The ZendHttp adapter makes use of the Zend\_Http component in Zend Framework (version 3). So to use this adapter you need to have ZF available. By using Zend\_Http all the features of this component are available:
-
--   multiple adapter implementations
--   keepalive
--   cookies / sessions
--   redirection support
--   http authentication
--   and much more, see the [http://framework.zend.com/manual/en/zend.http.html Zend Http manual](http://framework.zend.com/manual/en/zend.http.html_Zend_Http_manual "wikilink")
-
-The base functionality is the same as the default adapter. The only difference is that this adapter allows you to set Zend\_Http options and also offers access to the Zend\_Http instance.
+Since Solarium 5.2 there is also a `Psr18Adapter` which can be used with any PSR-18 compliant HTTP client.
 
 ```php
 <?php
@@ -120,11 +95,13 @@ The base functionality is the same as the default adapter. The only difference i
 require(__DIR__.'/init.php');
 htmlHeader();
 
-// create a client instance
-$client = new Solarium\Client($config);
+// create a PSR-18 adapter instance
+$httpClient = new Http\Adapter\Guzzle6\Client();
+$factory = new Nyholm\Psr7\Factory\Psr17Factory();
+$adapter = new Solarium\Core\Client\Adapter\Psr18Adapter($httpClient, $factory, $factory);
 
-// set the adapter to zendhttp and get a zendhttp client instance reference
-$client->setAdapter('Solarium\Core\Client\Adapter\Zend2Http');
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 htmlFooter();
 
@@ -137,7 +114,6 @@ You can also use a custom adapter, with these steps:
 
 -   Create your custom adapter class. It should implement Solarium\\Core\\Client\\Adapter\\AdapterInterface.
 -   You can take a look at the existing implementations as an example.
--   Make sure your class is available to Solarium, by including it manually or through autoloading.
--   Call the 'setAdapter' method on your Solarium client instance with your own adapters' classname as argument (or use the 'adapter' config setting)
--   Now use Solarium as you normally would, all communication to Solr will be done using your adapter. The adapter class will only be instantiated on the first communication to Solr, not directly after calling 'setAdapter' (lazy loading)
+-   Pass an instance of your adapter as the first argument to the Solarium\\Client constructor.
+-   Now use Solarium as you normally would, all communication to Solr will be done using your adapter.
 
