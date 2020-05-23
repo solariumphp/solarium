@@ -4,7 +4,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $dispatcher, $config);
 
 // enable the filter plugin and get a query instance
 $filter = $client->getPlugin('minimumscorefilter');

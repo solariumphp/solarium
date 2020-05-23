@@ -4,7 +4,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and autoload the postbigrequest plugin
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $dispatcher, $config);
 $client->getPlugin('postbigrequest');
 
 // create a basic query to execute

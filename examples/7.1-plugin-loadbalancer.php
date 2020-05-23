@@ -4,7 +4,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and create endpoints
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $dispatcher, $config);
 // copy the default endpoint core for the demo
 $core = $client->getEndpoint()->getCore();
 

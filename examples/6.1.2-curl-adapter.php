@@ -3,13 +3,11 @@
 require(__DIR__.'/init.php');
 htmlHeader();
 
-// create a client instance
-$client = new Solarium\Client($config);
+// create a cURL adapter instance
+$adapter = new Solarium\Core\Client\Adapter\Curl();
 
-// set the adapter to curl
-// note that this is only shown for documentation purposes, normally you don't need
-// to do this as curl is the default adapter
-$client->setAdapter(\Solarium\Core\Client\Adapter\Curl::class);
+// create a client instance
+$client = new Solarium\Client($adapter, $dispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();

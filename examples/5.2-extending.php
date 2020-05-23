@@ -27,7 +27,7 @@ class MyClient extends Client
 
 
 // create a client instance
-$client = new MyClient($config);
+$client = new MyClient($adapter, $dispatcher, $config);
 
 // create a select query instance
 $query = $client->createSelect();

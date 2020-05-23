@@ -4,7 +4,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and autoload the customize request plugin
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $dispatcher, $config);
 $parallel = $client->getPlugin('parallelexecution');
 
 // Add a delay param to better show the effect, as an example Solr install with

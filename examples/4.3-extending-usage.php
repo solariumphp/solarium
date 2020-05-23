@@ -40,7 +40,7 @@ class ProductPriceLimitedQuery extends ProductQuery
 }
 
 // create a client instance
-$client = new Client($config);
+$client = new Client($adapter, $dispatcher, $config);
 
 // create a query instance
 $query = new ProductPriceLimitedQuery;

@@ -99,7 +99,7 @@ htmlHeader();
 
 // create a client instance and register the plugin
 $plugin = new BasicDebug();
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $dispatcher, $config);
 $client->registerPlugin('debugger', $plugin);
 
 // execute a select query and display the results
