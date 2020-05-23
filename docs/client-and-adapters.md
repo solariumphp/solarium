@@ -4,7 +4,7 @@ Client and adapters
 Client
 ------
 
-The client (class Solarium\\Client) is the main interface of Solarium, a sort of gateway. It holds config settings and has method to access all Solarium functionality. It controls the calling of many underlying Solarium classes but has very little built-in functionality itself.
+The client (class `Solarium\Client`) is the main interface of Solarium, a sort of gateway. It holds config settings and has method to access all Solarium functionality. It controls the calling of many underlying Solarium classes but has very little built-in functionality itself.
 
 This allows for a lightweight class, so that you can have it available at all times at very little cost. The Solarium\\Client class uses lazy loading where possible. By having all functionality implemented in subclasses you can also easily customize behaviour by altering the mapping to these subclasses, while still maintaining the same client API.
 
@@ -17,7 +17,7 @@ The adapters are the actual implementations for communication with Solr. They ha
 
 ### Authentication
 
-Adapters support authentication. To use this set the authentication on the request object using the setAuthentication() method.
+Adapters support authentication. To use this set the authentication on the request object using the `setAuthentication()` method.
 
 ### HTTP request timeout handling
 
@@ -34,13 +34,13 @@ The endpoint class has a \_\_toString method that output all settings, this can 
 
 ### Authentication
 
-Endpoints support authentication. To use this set the authentication on the endpoint object using the setAuthentication() method.
+Endpoints support authentication. To use this set the authentication on the endpoint object using the `setAuthentication()` method.
 
 
 cURL adapter
 ============
 
-This is the standard Solarium adapter. It supports the most features (for instance concurrent requests) and doesn't suffer from memory issues (like the HttpAdapter in some cases). The only downside is that it depends on the PHP cURL extension, however most PHP environment have this extension. If cURL is not available and installing is not an option you should use one of the other adapters.
+This is the standard Solarium adapter. It supports the most features (for instance concurrent requests) and doesn't suffer from memory issues (like `HttpAdapter` in some cases). The only downside is that it depends on the PHP cURL extension, however most PHP environment have this extension. If cURL is not available and installing is not an option you should use one of the other adapters.
 
 ```php
 <?php
@@ -48,8 +48,8 @@ This is the standard Solarium adapter. It supports the most features (for instan
 require(__DIR__.'/init.php');
 htmlHeader();
 
-// create an HTTP adapter instance
-$adapter = new Solarium\Core\Client\Adapter\Http();
+// create a cURL adapter instance
+$adapter = new Solarium\Core\Client\Adapter\Curl();
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
@@ -84,6 +84,7 @@ htmlFooter();
 
 ```
 
+
 PSR-18 adapter
 ==============
 
@@ -107,13 +108,13 @@ htmlFooter();
 
 ```
 
+
 Custom adapter
 ==============
 
 You can also use a custom adapter, with these steps:
 
--   Create your custom adapter class. It should implement Solarium\\Core\\Client\\Adapter\\AdapterInterface.
+-   Create your custom adapter class. It should implement `Solarium\Core\Client\Adapter\AdapterInterface`.
 -   You can take a look at the existing implementations as an example.
--   Pass an instance of your adapter as the first argument to the Solarium\\Client constructor.
+-   Pass an instance of your adapter as the first argument to the `Solarium\Client()` constructor.
 -   Now use Solarium as you normally would, all communication to Solr will be done using your adapter.
-

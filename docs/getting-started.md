@@ -124,7 +124,7 @@ A client adapter and event dispatcher can be set up like this:
 ```php
 <?php
 
-$adapter = new Solarium\Core\Client\Adapter\Curl(); // or any other adapter implementing AdapterInterfac
+$adapter = new Solarium\Core\Client\Adapter\Curl(); // or any other adapter implementing AdapterInterface
 $eventDispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
 ```
 
