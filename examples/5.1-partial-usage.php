@@ -10,7 +10,7 @@ htmlHeader();
 
 
 // create a client instance
-$client = new Solarium\Client($adapter, $dispatcher, $config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // create a select query instance
 $query = $client->createSelect();

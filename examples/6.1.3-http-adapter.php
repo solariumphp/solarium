@@ -7,7 +7,7 @@ htmlHeader();
 $adapter = new Solarium\Core\Client\Adapter\Http();
 
 // create a client instance
-$client = new Solarium\Client($adapter, $dispatcher, $config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();

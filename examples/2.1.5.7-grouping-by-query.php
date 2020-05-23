@@ -6,7 +6,7 @@ htmlHeader();
 echo "<h2>Note: Query grouping seems to be broken in Solr 8.0.0!</h2>";
 
 // create a client instance
-$client = new Solarium\Client($adapter, $dispatcher, $config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();

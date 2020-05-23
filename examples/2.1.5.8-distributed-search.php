@@ -6,7 +6,7 @@ htmlHeader();
 echo "<h2>Note: The techproducts isn't distributed by default!</h2>";
 
 // create a client instance
-$client = new Solarium\Client($adapter, $dispatcher, $config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();

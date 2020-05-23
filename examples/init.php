@@ -13,7 +13,7 @@ if (file_exists('config.php')) {
 require $config['autoload'] ?? __DIR__.'/../vendor/autoload.php';
 
 $adapter = new Curl();
-$dispatcher = new EventDispatcher();
+$eventDispatcher = new EventDispatcher();
 
 function htmlHeader()
 {
