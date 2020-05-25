@@ -3,11 +3,13 @@
 require(__DIR__.'/init.php');
 htmlHeader();
 
-// create a client instance
-$client = new Solarium\Client($config);
+// create a PSR-18 adapter instance
+$httpClient = new Http\Adapter\Guzzle6\Client();
+$factory = new Nyholm\Psr7\Factory\Psr17Factory();
+$adapter = new Solarium\Core\Client\Adapter\Psr18Adapter($httpClient, $factory, $factory);
 
-// set the adapter to zendhttp and get a zendhttp client instance reference
-$client->setAdapter(\Solarium\Core\Client\Adapter\Zend2Http::class);
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
