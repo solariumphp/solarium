@@ -19,7 +19,7 @@ This is a basic example that executes a simple select query with one facet and d
 
 ```php
 
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $query = $client->createSelect();
 
 $facetSet = $query->getFacetSet();

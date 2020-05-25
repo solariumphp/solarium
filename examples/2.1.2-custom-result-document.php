@@ -15,7 +15,7 @@ class MyDoc extends Solarium\QueryType\Select\Result\Document
 
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
