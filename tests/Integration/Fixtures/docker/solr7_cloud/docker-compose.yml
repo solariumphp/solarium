@@ -1,0 +1,7 @@
+version: '3'
+services:
+  solr7:
+    image: solr:7
+    ports:
+      - "8983:8983"
+    command: solr start -c -f

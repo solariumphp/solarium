@@ -7,7 +7,7 @@ use Solarium\Tests\Integration\AbstractCoreTest;
 
 /**
  * @group integration
- * @group solr_no_cloud
+ * @group solr_server
  * @coversNothing
  */
 class TechproductsHttpTest extends AbstractCoreTest
