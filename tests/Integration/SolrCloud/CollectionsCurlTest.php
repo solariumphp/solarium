@@ -8,6 +8,7 @@ use Solarium\Tests\Integration\AbstractCollectionsTest;
 /**
  * @group integration
  * @group solr_cloud
+ * @coversNothing
  */
 class CollectionsCurlTest extends AbstractCollectionsTest
 {

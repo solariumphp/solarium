@@ -7,6 +7,7 @@ use Solarium\Tests\Integration\AbstractCoreTest;
 /**
  * @group integration
  * @group solr_no_cloud
+ * @coversNothing
  */
 class TechproductsPsr18Test extends AbstractCoreTest
 {
