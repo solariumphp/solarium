@@ -15,6 +15,7 @@ jobs:
                 php: [7.1, 7.3, 7.4]
                 solr: [7, 8]
                 mode: [cloud, server]
+                symfony: [4.3.*, 4.4.*, 5.0.*]
 
         name: Test solarium with PHP ${{ matrix.php }} on Solr ${{ matrix.solr }} ${{ matrix.mode }}
 
@@ -32,16 +33,16 @@ jobs:
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
-                ls -l
                 cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 
             - name: Install dependencies
               run: |
                 composer global require hirak/prestissimo
-                composer update
+                composer require --dev symfony/event-dispatcher:${{ matrix.symfony }}
 
             - name: Run tests
               run: |
+                vendor/bin/phpstan analyze src/ tests/ --level=1
                 vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_${{ matrix.mode }} -v
                 php vendor/bin/php-coveralls -v
