@@ -54,22 +54,18 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
 
         $client = TestClientFactory::createWithPsr18Adapter(self::$config);
 
-        try {
-            $coreAdminQuery = $client->createCoreAdmin();
+        $coreAdminQuery = $client->createCoreAdmin();
 
-            // create core with unique name using the techproducts configset
-            $createAction = $coreAdminQuery->createCreate();
-            $createAction->setCore(self::$core);
-            $createAction->setConfigSet('sample_techproducts_configs');
-            $coreAdminQuery->setAction($createAction);
-            $response = $client->coreAdmin($coreAdminQuery);
-            static::assertTrue($response->getWasSuccessful());
+        // create core with unique name using the techproducts configset
+        $createAction = $coreAdminQuery->createCreate();
+        $createAction->setCore(self::$core);
+        $createAction->setConfigSet('sample_techproducts_configs');
+        $coreAdminQuery->setAction($createAction);
+        $response = $client->coreAdmin($coreAdminQuery);
+        static::assertTrue($response->getWasSuccessful());
 
-            $ping = $client->createPing();
-            $client->ping($ping);
-        } catch (\Exception $e) {
-            static::markTestSkipped('Solr techproducts example not reachable.');
-        }
+        $ping = $client->createPing();
+        $client->ping($ping);
 
         try {
             // index techproducts sample data
