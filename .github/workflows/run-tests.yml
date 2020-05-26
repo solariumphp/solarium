@@ -1,4 +1,4 @@
-name: Jump Start Config-Sets
+name: Run Tests
 
 on:
     push:
@@ -27,14 +27,12 @@ jobs:
                 ini-values: memory_limit=256M,post_max_size=256M
                 coverage: none
 
-            - name: Debug
-              run: |
-                pwd
-                cd ..
-                ls -l
+            - name: Checkout solarium
+              uses: actions/checkout@v2
 
-            - name: Start Solr ${{ matrix.solr }} ${{ matrix.mode }}
+            - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
+                ls -l
                 cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 
