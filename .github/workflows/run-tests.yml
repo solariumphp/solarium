@@ -29,6 +29,7 @@ jobs:
 
             - name: Start Solr ${{ matrix.solr }} ${{ matrix.mode }}
               run: |
+                ls -l
                 cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 
