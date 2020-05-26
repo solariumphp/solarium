@@ -26,8 +26,8 @@ echo 'NumFound: '.$resultset->getNumFound();
 // display facet counts
 echo '<hr/>Facet intervals:<br/>';
 $facet = $resultset->getFacetSet()->getFacet('price');
-foreach ($facet as $range => $count) {
-    echo $range . ' to ' . ($range + 100) . ' [' . $count . ']<br/>';
+foreach ($facet as $interval => $count) {
+    echo $interval . ' [' . $count . ']<br/>';
 }
 
 // show documents using the resultset iterator
