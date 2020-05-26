@@ -12,12 +12,12 @@ jobs:
 
         strategy:
             matrix:
-                php: [7.1, 7.3, 7.4]
+                php: [7.2, 7.3, 7.4]
                 solr: [7, 8]
                 mode: [cloud, server]
                 symfony: [4.3.*, 4.4.*, 5.0.*]
 
-        name: Test solarium with PHP ${{ matrix.php }} on Solr ${{ matrix.solr }} ${{ matrix.mode }}
+        name: PHP ${{ matrix.php }}, symfony ${{ matrix.symfony }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
 
         steps:
             - name: Setup PHP
@@ -46,3 +46,4 @@ jobs:
                 vendor/bin/phpstan analyze src/ tests/ --level=1
                 vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_${{ matrix.mode }} -v
                 php vendor/bin/php-coveralls -v
+                
