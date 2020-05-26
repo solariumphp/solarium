@@ -6,7 +6,7 @@ use Solarium\Tests\Integration\AbstractCollectionsTest;
 
 /**
  * @group integration
- * @group solr_cloud
+ * @group skip_for_solr_cloud
  * @coversNothing
  */
 class CollectionsPsr18Test extends AbstractCollectionsTest
