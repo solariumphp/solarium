@@ -27,9 +27,12 @@ jobs:
                 ini-values: memory_limit=256M,post_max_size=256M
                 coverage: none
 
-            - name: Start Solr ${{ matrix.solr }} ${{ matrix.mode }}
+            - name: Debug
               run: |
                 ls -l
+
+            - name: Start Solr ${{ matrix.solr }} ${{ matrix.mode }}
+              run: |
                 cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 
