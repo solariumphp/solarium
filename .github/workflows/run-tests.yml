@@ -43,7 +43,7 @@ jobs:
 
             - name: Run tests
               env:
-                COVERALLS_RUN_LOCALLY=1
+                COVERALLS_RUN_LOCALLY: 1
               run: |
                 vendor/bin/phpstan analyze src/ tests/ --level=1
                 vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_${{ matrix.mode }} -v
