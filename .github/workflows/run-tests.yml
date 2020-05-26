@@ -1,0 +1,43 @@
+name: Jump Start Config-Sets
+
+on:
+    push:
+
+    schedule:
+        - cron: '0 8 * * *' # run at 08:00 UTC
+
+jobs:
+    run-tests:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                php: [7.1, 7.3, 7.4]
+                solr: [7, 8]
+                mode: [cloud, server]
+
+        name: Test solarium with PHP ${{ matrix.php }} on Solr ${{ matrix.solr }} ${{ matrix.mode }}
+
+        steps:
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                php-version: ${{ matrix.php }}
+                extensions: dom, curl, libxml, mbstring, zip, intl, iconv, json, simplexml
+                ini-values: memory_limit=256M,post_max_size=256M
+                coverage: none
+
+            - name: Start Solr ${{ matrix.solr }} ${{ matrix.mode }}
+              run: |
+                cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_ ${{ matrix.mode }}
+                docker-compose up -d
+
+            - name: Install dependencies
+              run: |
+                composer global require hirak/prestissimo
+                composer update
+
+            - name: Run tests
+              run: |
+                vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_${{ matrix.mode }} -v
+                php vendor/bin/php-coveralls -v
