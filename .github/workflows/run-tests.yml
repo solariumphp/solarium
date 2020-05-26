@@ -29,6 +29,7 @@ jobs:
 
             - name: Debug
               run: |
+                pwd
                 ls -l
 
             - name: Start Solr ${{ matrix.solr }} ${{ matrix.mode }}
