@@ -26,7 +26,7 @@ jobs:
                 php-version: ${{ matrix.php }}
                 extensions: dom, curl, libxml, mbstring, zip, intl, iconv, json, simplexml
                 ini-values: memory_limit=256M,post_max_size=256M
-                coverage: none
+                coverage: pcov
 
             - name: Checkout solarium
               uses: actions/checkout@v2
@@ -46,4 +46,3 @@ jobs:
                 vendor/bin/phpstan analyze src/ tests/ --level=1
                 vendor/bin/phpunit -c phpunit.xml.travis --exclude-group solr_${{ matrix.mode }} -v
                 php vendor/bin/php-coveralls -v
-                
