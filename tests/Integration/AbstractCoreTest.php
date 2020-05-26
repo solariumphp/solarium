@@ -65,19 +65,67 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
             $response = $client->coreAdmin($coreAdminQuery);
             static::assertTrue($response->getWasSuccessful());
 
-            // merge techproducts index into our new core
-            $mergeAction = $coreAdminQuery->createMergeIndexes();
-            $mergeAction->setCore(self::$core);
-            $mergeAction->setSrcCore(['techproducts']);
-            $coreAdminQuery->setAction($mergeAction);
-            $response = $client->coreAdmin($coreAdminQuery);
-            self::assertTrue($response->getWasSuccessful());
-
             $ping = $client->createPing();
             $client->ping($ping);
         } catch (\Exception $e) {
             static::markTestSkipped('Solr techproducts example not reachable.');
         }
+
+        try {
+            // index techproducts sample data
+            foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
+                $update = $client->createUpdate();
+
+                if (null !== $encoding = self::getXmlEncoding($file)) {
+                    $update->setInputEncoding($encoding);
+                }
+
+                $update->addRawXmlFile($file);
+                $client->update($update);
+            }
+
+            $update = $client->createUpdate();
+            $update->addCommit(true, true);
+            $client->update($update);
+
+            // check that everything was indexed properly
+            $select = $client->createSelect();
+            $select->setFields('id');
+            $result = $client->select($select);
+            static::assertSame(32, $result->getNumFound());
+
+            $select->setQuery('êâîôû');
+            $result = $client->select($select);
+            static::assertCount(1, $result);
+            static::assertSame([
+                'id' => 'UTF8TEST',
+            ], $result->getIterator()->current()->getFields());
+
+            $select->setQuery('这是一个功能');
+            $result = $client->select($select);
+            static::assertCount(1, $result);
+            static::assertSame([
+                'id' => 'GB18030TEST',
+            ], $result->getIterator()->current()->getFields());
+        } catch (\Exception $e) {
+            self::tearDownAfterClass();
+            static::markTestSkipped('Solr techproducts sample data not indexed properly.');
+        }
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        $client = TestClientFactory::createWithPsr18Adapter(self::$config);
+
+        $coreAdminQuery = $client->createCoreAdmin();
+
+        // now we unload the core we created in setUpBeforeClass()
+        $unloadAction = $coreAdminQuery->createUnload();
+        $unloadAction->setCore(self::$core);
+        $unloadAction->setDeleteDataDir(true)->setDeleteIndex(true)->setDeleteInstanceDir(true);
+        $coreAdminQuery->setAction($unloadAction);
+        $response = $client->coreAdmin($coreAdminQuery);
+        static::assertTrue($response->getWasSuccessful());
     }
 
     public function setUp(): void
@@ -495,18 +543,36 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $this->assertGreaterThanOrEqual(2, count($items));
     }
 
-    public static function tearDownAfterClass(): void
+    /**
+     * Extracts the encoding from the XML declaration of a file if present.
+     *
+     * @param string $file
+     *
+     * @return string|null
+     */
+    private static function getXmlEncoding(string $file): ?string
     {
-        $client = TestClientFactory::createWithPsr18Adapter(self::$config);
+        $encoding = null;
 
-        $coreAdminQuery = $client->createCoreAdmin();
+        $xml = file_get_contents($file);
 
-        // now we unload the core we created in setUpBeforeClass()
-        $unloadAction = $coreAdminQuery->createUnload();
-        $unloadAction->setCore(self::$core);
-        $unloadAction->setDeleteDataDir(true)->setDeleteIndex(true)->setDeleteInstanceDir(true);
-        $coreAdminQuery->setAction($unloadAction);
-        $response = $client->coreAdmin($coreAdminQuery);
-        static::assertTrue($response->getWasSuccessful());
+        if (false !== $xml) {
+            // discard UTF-8 Byte Order Mark
+            if (pack('CCC', 0xEF, 0xBB, 0xBF) === substr($xml, 0, 3)) {
+                $xml = substr($xml, 3);
+            }
+
+            // detect XML declaration
+            if ('<?xml' === substr($xml, 0, 5)) {
+                $declaration = substr($xml, 0, strpos($xml, '?>') + 2);
+
+                // detect encoding attribute
+                if (false !== $pos = strpos($declaration, 'encoding="')) {
+                    $encoding = substr($declaration, $pos + 10, strpos($declaration, '"', $pos + 10) - $pos - 10);
+                }
+            }
+        }
+
+        return $encoding;
     }
 }
