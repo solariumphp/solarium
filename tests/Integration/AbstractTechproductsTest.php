@@ -106,7 +106,7 @@ abstract class AbstractTechproductsTest extends TestCase
     /**
      * @todo this test should pass on Solr Cloud!
      *
-     * @group skip_for_solr_server
+     * @group skip_for_solr_cloud
      */
     public function testFacetHighlightSpellcheckComponent()
     {
