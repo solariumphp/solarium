@@ -4,4 +4,4 @@ services:
     image: solr:8
     ports:
       - "8983:8983"
-    command: solr start -c -f
+    command: docker-entrypoint.sh solr start -c -f
