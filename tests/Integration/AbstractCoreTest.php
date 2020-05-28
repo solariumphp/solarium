@@ -263,7 +263,7 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $this->assertTrue($response->getWasSuccessful());
     }
 
-    public function testGetStatusFromAllCoreWhenNoCoreNameWasSet()
+    public function testGetStatusFromAllCoresWhenNoCoreNameWasSet()
     {
         $coreAdminQuery = $this->client->createCoreAdmin();
 
@@ -275,15 +275,15 @@ abstract class AbstractCoreTest extends AbstractTechproductsTest
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
-        // we now have three cores and when we retrieve the status for all we should have three status objects
-        // (the original techproducts, the core we created in setUpBeforeClass() and the one we created just now)
+        // we now have two cores and when we retrieve the status for all we should have three status objects
+        // (the core we created in setUpBeforeClass() and the one we created just now)
         $statusAction = $coreAdminQuery->createStatus();
         $coreAdminQuery->setAction($statusAction);
         $response = $this->client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
         $statusResults = $response->getStatusResults();
-        $this->assertCount(3, $statusResults);
+        $this->assertCount(2, $statusResults);
         $this->assertGreaterThan(0, $statusResults[0]->getUptime(), 'Can not get uptime of first core');
 
         // now we unload the created core again
