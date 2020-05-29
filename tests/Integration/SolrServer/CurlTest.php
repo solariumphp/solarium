@@ -1,16 +1,16 @@
 <?php
 
-namespace Solarium\Tests\Integration\TechproductsAdapters;
+namespace Solarium\Tests\Integration\SolrServer;
 
 use Solarium\Core\Client\Adapter\Curl;
-use Solarium\Tests\Integration\AbstractCoreTest;
+use Solarium\Tests\Integration\AbstractServerTest;
 
 /**
  * @group integration
- * @group solr_no_cloud
+ * @group skip_for_solr_cloud
  * @coversNothing
  */
-class TechproductsCurlTest extends AbstractCoreTest
+class CurlTest extends AbstractServerTest
 {
     public function setUp(): void
     {
@@ -19,6 +19,6 @@ class TechproductsCurlTest extends AbstractCoreTest
         // Set it to the PHP default of 13s.
         $adapter = new Curl();
         $adapter->setTimeout(CURLOPT_TIMEOUT);
-        $this->client->setAdapter($adapter);
+        self::$client->setAdapter($adapter);
     }
 }
