@@ -90,31 +90,15 @@ class QueryTest extends TestCase
 
     public function testSetAndBuild()
     {
-        $this->assertFalse(
-            $this->query->getBuild()
-        );
-
-        $value = true;
-        $this->query->setBuild($value);
-
-        $this->assertSame(
-            $value,
-            $this->query->getBuild()
-        );
+        $this->assertFalse($this->query->getBuild());
+        $this->query->setBuild(true);
+        $this->assertTrue($this->query->getBuild());
     }
 
     public function testSetAndReload()
     {
-        $this->assertFalse(
-            $this->query->getReload()
-        );
-
-        $value = true;
-        $this->query->setReload($value);
-
-        $this->assertSame(
-            $value,
-            $this->query->getReload()
-        );
+        $this->assertFalse($this->query->getReload());
+        $this->query->setReload(true);
+        $this->assertTrue($this->query->getReload());
     }
 }

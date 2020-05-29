@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Graph\Query;
+namespace Solarium\Tests\QueryType\Graph;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Graph\Query;

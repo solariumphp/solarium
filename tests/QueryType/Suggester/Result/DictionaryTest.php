@@ -45,7 +45,7 @@ class DictionaryTest extends TestCase
 
     public function testCount()
     {
-        $this->assertSame(count($this->terms), count($this->dictionary));
+        $this->assertCount(count($this->terms), $this->dictionary);
     }
 
     public function testIterator()

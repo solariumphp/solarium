@@ -32,10 +32,8 @@ class QueryTest extends TestCase
 
     public function testSetAndGetShowMatch()
     {
-        $show = true;
-
-        $this->query->setShowMatch($show);
-        $this->assertSame($show, $this->query->getShowMatch());
+        $this->query->setShowMatch(true);
+        $this->assertTrue($this->query->getShowMatch());
     }
 }
 

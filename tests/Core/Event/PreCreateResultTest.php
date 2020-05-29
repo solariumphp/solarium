@@ -3,16 +3,16 @@
 namespace Solarium\Tests\Core\Event;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Event\PreCreateResult;
 use Solarium\Core\Query\Result\Result;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class PreCreateResultTest extends TestCase
 {
     public function testConstructorAndGetters()
     {
-        $client = new Client();
+        $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();
         $query->setQuery('test123');
         $response = new Response('', ['HTTP 1.0 200 OK']);
@@ -32,7 +32,7 @@ class PreCreateResultTest extends TestCase
      */
     public function testSetAndGetQuery($event)
     {
-        $client = new Client();
+        $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();
         $query->setQuery('test123');
         $response = new Response('', ['HTTP 1.0 200 OK']);

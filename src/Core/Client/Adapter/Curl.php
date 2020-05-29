@@ -15,8 +15,10 @@ use Solarium\Exception\RuntimeException;
  *
  * @author Intervals <info@myintervals.com>
  */
-class Curl extends Configurable implements AdapterInterface
+class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterface
 {
+    use TimeoutAwareTrait;
+
     /**
      * Execute a Solr request using the cURL Http.
      *
@@ -88,10 +90,12 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         if (!isset($options['headers']['Content-Type'])) {
+            $charset = $request->getParam('ie') ?? 'utf-8';
+
             if (Request::METHOD_GET == $method) {
-                $options['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
+                $options['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset='.$charset;
             } else {
-                $options['headers']['Content-Type'] = 'application/xml; charset=utf-8';
+                $options['headers']['Content-Type'] = 'application/xml; charset='.$charset;
             }
         }
 
@@ -207,10 +211,10 @@ class Curl extends Configurable implements AdapterInterface
     protected function createOptions($request, $endpoint)
     {
         $options = [
-            'timeout' => $endpoint->getTimeout(),
+            'timeout' => $this->timeout,
         ];
         foreach ($request->getHeaders() as $headerLine) {
-            list($header, $value) = explode(':', $headerLine);
+            [$header, $value] = explode(':', $headerLine);
             if ($header = trim($header)) {
                 $options['headers'][$header] = trim($value);
             }

@@ -89,6 +89,6 @@ class SpellcheckTest extends TestCase
 
     public function testCount()
     {
-        $this->assertEquals(count($this->suggestions), count($this->result));
+        $this->assertCount(count($this->suggestions), $this->result);
     }
 }

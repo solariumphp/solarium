@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\ManagedResources\Resources\RequestBuilder;
+namespace Solarium\Tests\QueryType\ManagedResources\RequestBuilder;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\ManagedResources\Query\Resources as ResourcesQuery;

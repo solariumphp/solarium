@@ -65,10 +65,12 @@ class PostBigRequest extends AbstractPlugin
 
         if (Request::METHOD_GET == $request->getMethod() &&
             strlen($queryString) > $this->getMaxQueryStringLength()) {
+            $charset = $request->getParam('ie') ?? 'utf-8';
+
             $request->setMethod(Request::METHOD_POST);
             $request->setRawData($queryString);
             $request->clearParams();
-            $request->addHeader('Content-Type: application/x-www-form-urlencoded');
+            $request->addHeader('Content-Type: application/x-www-form-urlencoded; charset='.$charset);
         }
         return $this;
     }

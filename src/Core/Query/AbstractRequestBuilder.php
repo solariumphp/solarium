@@ -33,6 +33,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         $request->addParam('timeAllowed', $query->getTimeAllowed());
         $request->addParam('NOW', $query->getNow());
         $request->addParam('TZ', $query->getTimeZone());
+        $request->addParam('ie', $query->getInputEncoding());
         $request->addParams($query->getParams());
 
         $request->addParam('wt', $query->getResponseWriter());

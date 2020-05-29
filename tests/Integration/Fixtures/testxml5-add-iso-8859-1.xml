@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ test addRawXmlFile with
+ - no Byte Order Mark
+ - an XML declaration
+ - a non-UTF-8 encoding
+-->
+
+<add>
+	<doc>
+		<field name="id">solarium-test-5</field>
+		<field name="name">Sølåríùm Tëst 5</field>
+		<field name="cat">solarium-test</field>
+		<field name="cat">sóláríúm-tést</field>
+		<field name="price">9.81</field>
+	</doc>
+</add>

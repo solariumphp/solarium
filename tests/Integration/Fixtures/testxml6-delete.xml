@@ -1,0 +1,17 @@
+<!--
+ test addRawXmlFile with
+ - grouped commands
+ - meanwhile deleting docs added in testxml?-add*.xml
+-->
+
+<update>
+	<delete>
+		<id>solarium-test-1</id>
+		<query>id:solarium-test-2</query>
+	</delete>
+	<delete>
+		<id>solarium-test-3</id>
+		<query>id:solarium-test-4</query>
+		<query>cat:sóláríúm-tést</query>
+	</delete>
+</update>

@@ -71,6 +71,6 @@ class Document extends BaseRequestBuilder
      */
     protected function buildFieldXml(string $name, string $value): string
     {
-        return '<field name="'.$name.'">'.htmlspecialchars($value, ENT_NOQUOTES).'</field>';
+        return '<field name="'.$name.'">'.$this->getHelper()->escapeXMLCharacterData($value).'</field>';
     }
 }

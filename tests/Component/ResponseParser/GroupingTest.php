@@ -91,7 +91,7 @@ class GroupingTest extends TestCase
 
     public function testGroupParsing()
     {
-        $this->assertEquals(3, count($this->result->getGroups()));
+        $this->assertCount(3, $this->result->getGroups());
 
         $fieldGroup = $this->result->getGroup('fieldA');
         $queryGroup = $this->result->getGroup('cat:1');
@@ -109,7 +109,7 @@ class GroupingTest extends TestCase
 
         $this->assertEquals(25, $fieldGroup->getMatches());
         $this->assertEquals(12, $fieldGroup->getNumberOfGroups());
-        $this->assertEquals(1, count($valueGroups));
+        $this->assertCount(1, $valueGroups);
 
         $valueGroup = $valueGroups[0];
         $this->assertEquals(13, $valueGroup->getNumFound());
@@ -179,7 +179,7 @@ class GroupingTest extends TestCase
 
         $this->assertEquals(8, $fieldGroup->getMatches());
         $this->assertEquals(3, $fieldGroup->getNumberOfGroups());
-        $this->assertEquals(1, count($valueGroups));
+        $this->assertCount(1, $valueGroups);
 
         $valueGroup = $valueGroups[0];
         $this->assertEquals(5, $valueGroup->getNumFound());
@@ -215,7 +215,7 @@ class GroupingTest extends TestCase
 
         $this->assertEquals(25, $fieldGroup->getMatches());
         $this->assertEquals(12, $fieldGroup->getNumberOfGroups());
-        $this->assertEquals(1, count($valueGroups));
+        $this->assertCount(1, $valueGroups);
 
         $valueGroup = $valueGroups[0];
         $this->assertEquals(13, $valueGroup->getNumFound());

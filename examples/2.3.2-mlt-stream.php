@@ -6,7 +6,7 @@ htmlHeader();
 echo "<h2>Note: The techproducts example doesn't include a /mlt handler anymore!</h2>";
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a morelikethis query instance
 $query = $client->createMoreLikeThis();

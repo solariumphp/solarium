@@ -105,6 +105,18 @@ class LocalParameter implements LocalParameterInterface
     }
 
     /**
+     * @param array $values
+     *
+     * @return \Solarium\Core\Query\LocalParameters\LocalParameterInterface
+     */
+    public function setValues(array $values): LocalParameterInterface
+    {
+        $this->clearValues();
+
+        return $this->addValues($values);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getValues(): array

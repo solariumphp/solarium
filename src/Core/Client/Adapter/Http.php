@@ -5,14 +5,15 @@ namespace Solarium\Core\Client\Adapter;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Configurable;
 use Solarium\Exception\HttpException;
 
 /**
  * Basic HTTP adapter using a stream.
  */
-class Http extends Configurable implements AdapterInterface
+class Http implements AdapterInterface, TimeoutAwareInterface
 {
+    use TimeoutAwareTrait;
+
     /**
      * Handle Solr communication.
      *
@@ -29,7 +30,7 @@ class Http extends Configurable implements AdapterInterface
         $context = $this->createContext($request, $endpoint);
         $uri = AdapterHelper::buildUri($request, $endpoint);
 
-        list($data, $headers) = $this->getData($uri, $context);
+        [$data, $headers] = $this->getData($uri, $context);
 
         $this->check($data, $headers);
 
@@ -68,7 +69,9 @@ class Http extends Configurable implements AdapterInterface
         $context = stream_context_create(
             ['http' => [
                     'method' => $method,
-                    'timeout' => $endpoint->getTimeout(),
+                    'timeout' => $this->timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
                 ],
             ]
         );
@@ -107,7 +110,8 @@ class Http extends Configurable implements AdapterInterface
                         $data
                     );
 
-                    $request->addHeader('Content-Type: text/xml; charset=UTF-8');
+                    $charset = $request->getParam('ie') ?? 'utf-8';
+                    $request->addHeader('Content-Type: text/xml; charset='.$charset);
                 }
             }
         } elseif (Request::METHOD_PUT == $method) {
@@ -119,7 +123,9 @@ class Http extends Configurable implements AdapterInterface
                     'content',
                     $data
                 );
-                $request->addHeader('Content-Type: application/json; charset=UTF-8');
+                $request->addHeader('Content-Type: application/json; charset=utf-8');
+                // The stream context automatically adds a "Connection: close" header which fails on Solr 8.5.0
+                $request->addHeader('Connection: Keep-Alive');
             }
         }
 

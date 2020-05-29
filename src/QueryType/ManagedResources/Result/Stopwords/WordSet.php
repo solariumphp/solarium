@@ -19,7 +19,7 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Whether or not to ignore the case.
      *
-     * @var bool
+     * @var bool|null
      */
     protected $ignoreCase;
 
@@ -100,9 +100,9 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isIgnoreCase(): bool
+    public function isIgnoreCase(): ?bool
     {
         $this->parseResponse();
         return $this->ignoreCase;

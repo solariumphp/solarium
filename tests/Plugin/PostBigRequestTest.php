@@ -9,6 +9,7 @@ use Solarium\Core\Client\Request;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Plugin\PostBigRequest;
 use Solarium\QueryType\Select\Query\Query;
+use Solarium\Tests\Integration\TestClientFactory;
 
 class PostBigRequestTest extends TestCase
 {
@@ -31,7 +32,7 @@ class PostBigRequestTest extends TestCase
     {
         $this->plugin = new PostBigRequest();
 
-        $this->client = new Client();
+        $this->client = TestClientFactory::createWithCurlAdapter();
         $this->query = $this->client->createSelect();
     }
 
@@ -90,7 +91,7 @@ class PostBigRequestTest extends TestCase
 
     public function testPluginIntegration()
     {
-        $client = new Client();
+        $client = TestClientFactory::createWithCurlAdapter();
         $client->registerPlugin('testplugin', $this->plugin);
         $this->plugin->setMaxQueryStringLength(1); // this forces POST for even the smallest queries
 

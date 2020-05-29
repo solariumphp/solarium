@@ -69,11 +69,11 @@ class HighlightingTest extends TestCase
         $this->assertNull($this->hlt->getField('FieldB')->getSnippets());
         $this->assertSame($options['snippets'], $this->hlt->getSnippets());
         $this->assertSame($options['fragsize'], $this->hlt->getFragSize());
-        $this->assertSame($options['mergecontiguous'], $this->hlt->getMergeContiguous());
+        $this->assertTrue($this->hlt->getMergeContiguous());
         $this->assertSame($options['maxanalyzedchars'], $this->hlt->getMaxAnalyzedChars());
         $this->assertSame($options['alternatefield'], $this->hlt->getAlternateField());
         $this->assertSame($options['maxalternatefieldlength'], $this->hlt->getMaxAlternateFieldLength());
-        $this->assertSame($options['preservemulti'], $this->hlt->getPreserveMulti());
+        $this->assertTrue($this->hlt->getPreserveMulti());
         $this->assertSame($options['formatter'], $this->hlt->getFormatter());
         $this->assertSame($options['simpleprefix'], $this->hlt->getSimplePrefix());
         $this->assertSame($options['simplepostfix'], $this->hlt->getSimplePostfix());
@@ -82,9 +82,9 @@ class HighlightingTest extends TestCase
         $this->assertSame($options['fragmenter'], $this->hlt->getFragmenter());
         $this->assertSame($options['fraglistbuilder'], $this->hlt->getFragListBuilder());
         $this->assertSame($options['fragmentsbuilder'], $this->hlt->getFragmentsBuilder());
-        $this->assertSame($options['usefastvectorhighlighter'], $this->hlt->getUseFastVectorHighlighter());
-        $this->assertSame($options['usephrasehighlighter'], $this->hlt->getUsePhraseHighlighter());
-        $this->assertSame($options['highlightmultiterm'], $this->hlt->getHighlightMultiTerm());
+        $this->assertTrue($this->hlt->getUseFastVectorHighlighter());
+        $this->assertFalse($this->hlt->getUsePhraseHighlighter());
+        $this->assertTrue($this->hlt->getHighlightMultiTerm());
         $this->assertSame($options['regexslop'], $this->hlt->getRegexSlop());
         $this->assertSame($options['regexpattern'], $this->hlt->getRegexPattern());
         $this->assertSame($options['regexmaxanalyzedchars'], $this->hlt->getRegexMaxAnalyzedChars());
@@ -276,24 +276,14 @@ class HighlightingTest extends TestCase
 
     public function testSetAndGetMergeContiguous()
     {
-        $value = true;
-        $this->hlt->setMergeContiguous($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getMergeContiguous()
-        );
+        $this->hlt->setMergeContiguous(true);
+        $this->assertTrue($this->hlt->getMergeContiguous());
     }
 
     public function testSetAndGetRequireFieldMatch()
     {
-        $value = true;
-        $this->hlt->setRequireFieldMatch($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getRequireFieldMatch()
-        );
+        $this->hlt->setRequireFieldMatch(true);
+        $this->assertTrue($this->hlt->getRequireFieldMatch());
     }
 
     public function testSetAndGetMaxAnalyzedChars()
@@ -331,13 +321,8 @@ class HighlightingTest extends TestCase
 
     public function testSetAndGetPreserveMulti()
     {
-        $value = true;
-        $this->hlt->setPreserveMulti($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getPreserveMulti()
-        );
+        $this->hlt->setPreserveMulti(true);
+        $this->assertTrue($this->hlt->getPreserveMulti());
     }
 
     public function testSetAndGetFormatter()
@@ -407,35 +392,20 @@ class HighlightingTest extends TestCase
 
     public function testSetAndGetUseFastVectorHighlighter()
     {
-        $value = true;
-        $this->hlt->setUseFastVectorHighlighter($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getUseFastVectorHighlighter()
-        );
+        $this->hlt->setUseFastVectorHighlighter(true);
+        $this->assertTrue($this->hlt->getUseFastVectorHighlighter());
     }
 
     public function testSetAndGetUsePhraseHighlighter()
     {
-        $value = true;
-        $this->hlt->setUsePhraseHighlighter($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getUsePhraseHighlighter()
-        );
+        $this->hlt->setUsePhraseHighlighter(true);
+        $this->assertTrue($this->hlt->getUsePhraseHighlighter());
     }
 
     public function testSetAndGetHighlightMultiTerm()
     {
-        $value = true;
-        $this->hlt->setHighlightMultiTerm($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getHighlightMultiTerm()
-        );
+        $this->hlt->setHighlightMultiTerm(true);
+        $this->assertTrue($this->hlt->getHighlightMultiTerm());
     }
 
     public function testSetAndGetRegexSlop()

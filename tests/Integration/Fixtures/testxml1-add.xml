@@ -1,0 +1,14 @@
+<!--
+ test addRawXmlFile with
+ - no Byte Order Mark
+ - no XML declaration
+-->
+
+<add>
+	<doc>
+		<field name="id">solarium-test-1</field>
+		<field name="name">Solarium Test 1</field>
+		<field name="cat">solarium-test</field>
+		<field name="price">3.14</field>
+	</doc>
+</add>

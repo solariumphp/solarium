@@ -460,12 +460,32 @@ class RequestBuilderTest extends TestCase
     public function testBuildRawXmlXmlGroupedCommands()
     {
         $command = new RawXmlCommand();
-        $command->addCommand('<update><add><doc><field name="id">1</field></doc></add></update>');
-        $command->addCommand(' <update ><add><doc><field name="id">2</field></doc></add></update> ');
-        $command->addCommand('<!-- comment --><update><add><doc><field name="id">3</field></doc></add></update>');
+        $command->addCommand('<update><add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add></update>');
 
         $this->assertSame(
-            '<add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add><add><doc><field name="id">3</field></doc></add>',
+            '<add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add>',
+            $this->builder->buildRawXmlXml($command)
+        );
+    }
+
+    public function testBuildRawXmlXmlGroupedCommandsWithCommentsInsignificantWhitespace()
+    {
+        $command = new RawXmlCommand();
+        $command->addCommand(' <update ><add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add></update> ');
+
+        $this->assertSame(
+            '<add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add>',
+            $this->builder->buildRawXmlXml($command)
+        );
+    }
+
+    public function testBuildRawXmlXmlGroupedCommandsWithComments()
+    {
+        $command = new RawXmlCommand();
+        $command->addCommand('<!-- comment --><update><add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add></update><!-- -->');
+
+        $this->assertSame(
+            '<add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add>',
             $this->builder->buildRawXmlXml($command)
         );
     }

@@ -35,7 +35,7 @@ class DocumentTest extends TestCase
 
         $result = $parserStub->parse($resultStub);
 
-        $this->assertSame(count($data['analysis']), count($result['items']));
+        $this->assertCount(count($data['analysis']), $result['items']);
         $this->assertSame('key2', $result['items'][1]->getName());
     }
 }

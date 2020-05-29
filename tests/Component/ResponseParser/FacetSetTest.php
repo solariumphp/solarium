@@ -33,22 +33,22 @@ class FacetSetTest extends TestCase
         $this->parser = new Parser();
 
         $this->facetSet = new FacetSet();
-        $this->facetSet->createFacet('field', ['key' => 'keyA', 'field' => 'fieldA']);
-        $this->facetSet->createFacet('query', ['key' => 'keyB']);
+        $this->facetSet->createFacet('field', ['local_key' => 'keyA', 'field' => 'fieldA']);
+        $this->facetSet->createFacet('query', ['local_key' => 'keyB']);
         $this->facetSet->createFacet(
             'multiquery',
             [
-                'key' => 'keyC',
+                'local_key' => 'keyC',
                 'query' => [
                     'keyC_A' => ['query' => 'id:1'],
                     'keyC_B' => ['query' => 'id:2'],
                 ],
             ]
         );
-        $this->facetSet->createFacet('range', ['key' => 'keyD']);
-        $this->facetSet->createFacet('range', ['key' => 'keyD_A', 'pivot' => ['key' => 'keyF']]);
-        $this->facetSet->createFacet('pivot', ['key' => 'keyE', 'fields' => 'cat,price']);
-        $this->facetSet->createFacet('pivot', ['key' => 'keyF', 'fields' => 'cat']);
+        $this->facetSet->createFacet('range', ['local_key' => 'keyD']);
+        $this->facetSet->createFacet('range', ['local_key' => 'keyD_A', 'pivot' => ['local_key' => 'keyF']]);
+        $this->facetSet->createFacet('pivot', ['local_key' => 'keyE', 'fields' => 'cat,price']);
+        $this->facetSet->createFacet('pivot', ['local_key' => 'keyF', 'fields' => 'cat']);
 
         $this->query = new Query();
     }

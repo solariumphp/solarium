@@ -25,7 +25,6 @@ class Endpoint extends Configurable
         'path' => '/',
         'collection' => null,
         'core' => null,
-        'timeout' => 5,
         'leader' => false,
     ];
 
@@ -39,7 +38,7 @@ class Endpoint extends Configurable
      */
     public function __toString()
     {
-        $output = __CLASS__.'::__toString'."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'timeout: '.$this->getTimeout()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
+        $output = __CLASS__.'::__toString'."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'authentication: '.print_r($this->getAuthentication(), 1);
 
         return $output;
     }
@@ -186,29 +185,6 @@ class Endpoint extends Configurable
     public function getCore(): ?string
     {
         return $this->getOption('core');
-    }
-
-    /**
-     * Set timeout option.
-     *
-     * @param int $timeout
-     *
-     * @return self Provides fluent interface
-     */
-    public function setTimeout(int $timeout): self
-    {
-        $this->setOption('timeout', $timeout);
-        return $this;
-    }
-
-    /**
-     * Get timeout option.
-     *
-     * @return int|null
-     */
-    public function getTimeout(): ?int
-    {
-        return $this->getOption('timeout');
     }
 
     /**

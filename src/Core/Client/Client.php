@@ -3,7 +3,6 @@
 namespace Solarium\Core\Client;
 
 use Solarium\Core\Client\Adapter\AdapterInterface;
-use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Configurable;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateQuery as PostCreateQueryEvent;
@@ -60,7 +59,7 @@ use Solarium\QueryType\Terms\Result as TermsResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 
 /**
@@ -181,7 +180,6 @@ class Client extends Configurable implements ClientInterface
      * @var array
      */
     protected $options = [
-        'adapter' => Curl::class,
         'endpoint' => [
             'localhost' => [],
         ],
@@ -260,13 +258,6 @@ class Client extends Configurable implements ClientInterface
     /**
      * Adapter instance.
      *
-     * If an adapter instance is set using {@link setAdapter()} this var will
-     * contain a reference to that instance.
-     *
-     * In all other cases the adapter is lazy-loading, it will be instantiated
-     * on first use by {@link getAdapter()} based on the 'adapter' entry in
-     * {@link $options}. This option can be set using {@link setAdapter()}
-     *
      * @var AdapterInterface
      */
     protected $adapter;
@@ -277,13 +268,13 @@ class Client extends Configurable implements ClientInterface
      * If options are passed they will be merged with {@link $options} using
      * the {@link setOptions()} method.
      *
-     * If an EventDispatcher instance is provided this will be used instead of creating a new instance
-     *
-     * @param array                    $options
+     * @param AdapterInterface         $adapter
      * @param EventDispatcherInterface $eventDispatcher
+     * @param array|null               $options
      */
-    public function __construct(array $options = null, EventDispatcherInterface $eventDispatcher = null)
+    public function __construct(AdapterInterface $adapter, EventDispatcherInterface $eventDispatcher, array $options = null)
     {
+        $this->adapter = $adapter;
         $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
 
         parent::__construct($options);
@@ -496,37 +487,13 @@ class Client extends Configurable implements ClientInterface
     /**
      * Set the adapter.
      *
-     * The adapter has to be a class that implements the AdapterInterface
-     *
-     * If a string is passed it is assumed to be the classname and it will be
-     * instantiated on first use. This requires the availability of the class
-     * through autoloading or a manual require before calling this method.
-     * Any existing adapter instance will be removed by this method, this way an
-     * instance of the new adapter type will be created upon the next usage of
-     * the adapter (lazy-loading)
-     *
-     * If an adapter instance is passed it will replace the current adapter
-     * immediately, bypassing the lazy loading.
-     *
-     * @param string|Adapter\AdapterInterface $adapter
-     *
-     * @throws InvalidArgumentException
+     * @param AdapterInterface $adapter
      *
      * @return self Provides fluent interface
      */
-    public function setAdapter($adapter): ClientInterface
+    public function setAdapter(AdapterInterface $adapter): ClientInterface
     {
-        if (\is_string($adapter)) {
-            $this->adapter = null;
-            $this->setOption('adapter', $adapter);
-        } elseif ($adapter instanceof AdapterInterface) {
-            // forward options
-            $adapter->setOptions($this->getOption('adapteroptions'));
-            // overwrite existing adapter
-            $this->adapter = $adapter;
-        } else {
-            throw new InvalidArgumentException('Invalid adapter input for setAdapter');
-        }
+        $this->adapter = $adapter;
 
         return $this;
     }
@@ -534,19 +501,10 @@ class Client extends Configurable implements ClientInterface
     /**
      * Get the adapter instance.
      *
-     * If {@see $adapter} doesn't hold an instance a new one will be created by
-     * calling {@see createAdapter()}
-     *
-     * @param bool $autoload
-     *
      * @return AdapterInterface
      */
-    public function getAdapter(bool $autoload = true): AdapterInterface
+    public function getAdapter(): AdapterInterface
     {
-        if (null === $this->adapter && $autoload) {
-            $this->createAdapter();
-        }
-
         return $this->adapter;
     }
 
@@ -1382,32 +1340,5 @@ class Client extends Configurable implements ClientInterface
                     break;
             }
         }
-    }
-
-    /**
-     * Create an adapter instance.
-     *
-     * The 'adapter' entry in {@link $options} will be used to create an
-     * adapter instance. This entry can be the default value of
-     * {@link $options}, a value passed to the constructor or a value set by
-     * using {@link setAdapter()}
-     *
-     * This method is used for lazy-loading the adapter upon first use in
-     * {@link getAdapter()}
-     *
-     * @throws InvalidArgumentException
-     */
-    protected function createAdapter()
-    {
-        $adapterClass = $this->getOption('adapter');
-        $adapter = new $adapterClass();
-
-        // check interface
-        if (!($adapter instanceof AdapterInterface)) {
-            throw new InvalidArgumentException('An adapter must implement the AdapterInterface');
-        }
-
-        $adapter->setOptions($this->getOption('adapteroptions'));
-        $this->adapter = $adapter;
     }
 }

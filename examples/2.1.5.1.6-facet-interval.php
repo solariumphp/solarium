@@ -4,7 +4,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
@@ -26,8 +26,8 @@ echo 'NumFound: '.$resultset->getNumFound();
 // display facet counts
 echo '<hr/>Facet intervals:<br/>';
 $facet = $resultset->getFacetSet()->getFacet('price');
-foreach ($facet as $range => $count) {
-    echo $range . ' to ' . ($range + 100) . ' [' . $count . ']<br/>';
+foreach ($facet as $interval => $count) {
+    echo $interval . ' [' . $count . ']<br/>';
 }
 
 // show documents using the resultset iterator
