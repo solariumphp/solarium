@@ -47,5 +47,5 @@ jobs:
                 COVERALLS_REPO_TOKEN:
               run: |
                 vendor/bin/phpstan analyze src/ tests/ --level=1
-                vendor/bin/phpunit -c phpunit.xml.travis --exclude-group skip_for_solr_${{ matrix.mode }} -v
+                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v
                 vendor/bin/php-coveralls -v --dry-run
