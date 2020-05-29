@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<add>
+    <doc>
+        <field name="id">127</field>
+        <field name="name">testdoc-5</field>
+        <field name="price">425</field>
+    </doc>
+</add>

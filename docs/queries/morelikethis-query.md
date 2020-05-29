@@ -63,7 +63,7 @@ use Solarium\Client;
 htmlHeader();
 
 // create a client instance
-$client = new Client($config);
+$client = new Client($adapter, $eventDispatcher, $config);
 
 // get a morelikethis query instance
 $query = $client->createMoreLikeThis();

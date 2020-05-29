@@ -8,6 +8,22 @@ use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
+use Solarium\Exception\HttpException;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add as AddStopwords;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Config as ConfigStopwords;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create as CreateStopwords;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete as DeleteStopwords;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists as ExistsStopwords;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Remove as RemoveStopwords;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs as InitArgsStopwords;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add as AddSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config as ConfigSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create as CreateSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete as DeleteSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists as ExistsSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Remove as RemoveSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs as InitArgsSynonyms;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 
@@ -16,23 +32,86 @@ abstract class AbstractTechproductsTest extends TestCase
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected static $client;
+
+    /**
+     * @var string
+     */
+    protected static $name;
+
+    /**
+     * @var array
+     */
+    protected static $config;
+
+    abstract protected static function createTechproducts(): void;
+
+    public static function setUpBeforeClass(): void
+    {
+        self::$name = uniqid();
+
+        static::createTechproducts();
+
+        $ping = self::$client->createPing();
+        self::$client->ping($ping);
+
+        try {
+            // index techproducts sample data
+            foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
+                $update = self::$client->createUpdate();
+
+                if (null !== $encoding = self::getXmlEncoding($file)) {
+                    $update->setInputEncoding($encoding);
+                }
+
+                $update->addRawXmlFile($file);
+                self::$client->update($update);
+            }
+
+            $update = self::$client->createUpdate();
+            $update->addCommit(true, true);
+            self::$client->update($update);
+
+            // check that everything was indexed properly
+            $select = self::$client->createSelect();
+            $select->setFields('id');
+            $result = self::$client->select($select);
+            static::assertSame(32, $result->getNumFound());
+
+            $select->setQuery('êâîôû');
+            $result = self::$client->select($select);
+            static::assertCount(1, $result);
+            static::assertSame([
+                'id' => 'UTF8TEST',
+            ], $result->getIterator()->current()->getFields());
+
+            $select->setQuery('这是一个功能');
+            $result = self::$client->select($select);
+            static::assertCount(1, $result);
+            static::assertSame([
+                'id' => 'GB18030TEST',
+            ], $result->getIterator()->current()->getFields());
+        } catch (\Exception $e) {
+            self::tearDownAfterClass();
+            static::markTestSkipped('Solr techproducts sample data not indexed properly.');
+        }
+    }
 
     /**
      * The ping test succeeds if no exception is thrown.
      */
     public function testPing()
     {
-        $ping = $this->client->createPing();
-        $result = $this->client->ping($ping);
+        $ping = self::$client->createPing();
+        $result = self::$client->ping($ping);
         $this->assertSame(0, $result->getStatus());
     }
 
     public function testSelect()
     {
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
         $select->setSorts(['id' => SelectQuery::SORT_ASC]);
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(32, $result->getNumFound());
         $this->assertCount(10, $result);
 
@@ -57,12 +136,12 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testRangeQueries()
     {
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', null, 80)
         );
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(6, $result->getNumFound());
         $this->assertCount(6, $result);
 
@@ -70,35 +149,35 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 70.23, 80)
         );
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(1, $result->getNumFound());
         $this->assertCount(1, $result);
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, null)
         );
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(11, $result->getNumFound());
         $this->assertCount(10, $result);
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, null, false)
         );
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(10, $result->getNumFound());
         $this->assertCount(10, $result);
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('store', '-90,-90', '90,90', true, false)
         );
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(2, $result->getNumFound());
         $this->assertCount(2, $result);
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('store', '-90,-180', '90,180', true, false)
         );
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(14, $result->getNumFound());
         $this->assertCount(10, $result);
     }
@@ -106,11 +185,11 @@ abstract class AbstractTechproductsTest extends TestCase
     /**
      * @todo this test should pass on Solr Cloud!
      *
-     * @group solr_no_cloud
+     * @group skip_for_solr_cloud
      */
     public function testFacetHighlightSpellcheckComponent()
     {
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
         // In the techproducts example, the request handler "select" doesn't neither contain a spellcheck component nor
         // a highlighter or facets. But the "browse" request handler does.
         $select->setHandler('browse');
@@ -121,7 +200,7 @@ abstract class AbstractTechproductsTest extends TestCase
         // Some spellcheck dictionaries needs to build first, but not on every request!
         $spellcheck->setBuild(true);
 
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
 
         $this->assertSame(
@@ -144,7 +223,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $spellcheck->setDictionary(['default', 'wordbreak']);
 
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
 
         $this->assertSame(
@@ -161,7 +240,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $facetSet = $select->getFacetSet();
         $facetSet->createFacetField('stock')->setField('inStock');
 
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(1, $result->getNumFound());
 
         foreach ($result as $document) {
@@ -195,7 +274,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testQueryElevation()
     {
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
         // In the techproducts example, the request handler "select" doesn't contain a query elevation component.
         // But the "elevate" request handler does.
         $select->setHandler('elevate');
@@ -207,7 +286,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $elevate->setElevateIds(['VS1GB400C3', 'VDBDB1A16']);
         $elevate->setExcludeIds(['SP2514N', '6H500F0']);
 
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         // The techproducts example contains 14 'electronics', 2 of them are excluded.
         $this->assertSame(12, $result->getNumFound());
         // The first two results are elevated and ignore the sort order.
@@ -227,30 +306,30 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testSpatial()
     {
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
 
         $select->setQuery(
             $select->getHelper()->geofilt('store', 40, -100, 100000)
         );
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(14, $result->getNumFound());
         $this->assertCount(10, $result);
 
         $select->setQuery(
             $select->getHelper()->geofilt('store', 40, -100, 1000)
         );
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(10, $result->getNumFound());
         $this->assertCount(10, $result);
     }
 
     public function testSpellcheck()
     {
-        $spellcheck = $this->client->createSpellcheck();
+        $spellcheck = self::$client->createSpellcheck();
         $spellcheck->setQuery('power cort');
         // Some spellcheck dictionaries needs to build first, but not on every request!
         $spellcheck->setBuild(true);
-        $result = $this->client->spellcheck($spellcheck);
+        $result = self::$client->spellcheck($spellcheck);
         $words = [];
         foreach ($result as $term => $suggestions) {
             $this->assertSame('cort', $term);
@@ -267,13 +346,13 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testSuggester()
     {
-        $suggester = $this->client->createSuggester();
+        $suggester = self::$client->createSuggester();
         // The techproducts example doesn't provide a default suggester, but 'mySuggester'.
         $suggester->setDictionary('mySuggester');
         $suggester->setQuery('electronics');
         // A suggester dictionary needs to build first, but not on every request!
         $suggester->setBuild(true);
-        $result = $this->client->suggester($suggester);
+        $result = self::$client->suggester($suggester);
         $phrases = [];
         foreach ($result as $dictionary => $terms) {
             $this->assertSame('mySuggester', $dictionary);
@@ -291,15 +370,15 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testTerms()
     {
-        $terms = $this->client->createTerms();
+        $terms = self::$client->createTerms();
         $terms->setFields('name');
 
         // Setting distrib to true in a non cloud setup causes exceptions.
-        if (isset($this->collection)) {
+        if ($this instanceof AbstractCloudTest) {
             $terms->setDistrib(true);
         }
 
-        $result = $this->client->terms($terms);
+        $result = self::$client->terms($terms);
 
         $this->assertEquals([
             'one' => 5,
@@ -317,17 +396,17 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testTermsComponent()
     {
-        $this->client->registerQueryType('test', '\Solarium\Tests\Integration\TestQuery');
-        $select = $this->client->createQuery('test');
+        self::$client->registerQueryType('test', '\Solarium\Tests\Integration\TestQuery');
+        $select = self::$client->createQuery('test');
 
         // Setting distrib to true in a non cloud setup causes exceptions.
-        if (isset($this->collection)) {
+        if ($this instanceof AbstractCloudTest) {
             $select->setDistrib(true);
         }
 
         $terms = $select->getTerms();
         $terms->setFields('name');
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         /** @var Result $termsComponentResult */
         $termsComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_TERMS);
 
@@ -379,7 +458,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testUpdate()
     {
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
         $select->setQuery('cat:solarium-test');
         $select->addSort('id', $select::SORT_ASC);
         $select->setFields('id,name,price');
@@ -397,11 +476,11 @@ abstract class AbstractTechproductsTest extends TestCase
                 'updateHandler.autoSoftCommit.maxTime' => -1,
             ],
         ]));
-        $response = $this->client->executeRequest($request);
+        $response = self::$client->executeRequest($request);
         $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
 
         // add, but don't commit
-        $update = $this->client->createUpdate();
+        $update = self::$client->createUpdate();
         $doc1 = $update->createDocument();
         $doc1->setField('id', 'solarium-test-1');
         $doc1->setField('name', 'Solarium Test 1');
@@ -413,15 +492,15 @@ abstract class AbstractTechproductsTest extends TestCase
         $doc2->setField('cat', 'solarium-test');
         $doc2->setField('price', 42.0);
         $update->addDocuments([$doc1, $doc2]);
-        $this->client->update($update);
-        $result = $this->client->select($select);
+        self::$client->update($update);
+        $result = self::$client->select($select);
         $this->assertCount(0, $result);
 
         // commit
-        $update = $this->client->createUpdate();
+        $update = self::$client->createUpdate();
         $update->addCommit(true, true);
-        $this->client->update($update);
-        $result = $this->client->select($select);
+        self::$client->update($update);
+        $result = self::$client->select($select);
         $this->assertCount(2, $result);
         $iterator = $result->getIterator();
         $this->assertSame([
@@ -437,11 +516,11 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $iterator->current()->getFields());
 
         // delete by id and commit
-        $update = $this->client->createUpdate();
+        $update = self::$client->createUpdate();
         $update->addDeleteById('solarium-test-1');
         $update->addCommit(true, true);
-        $this->client->update($update);
-        $result = $this->client->select($select);
+        self::$client->update($update);
+        $result = self::$client->select($select);
         $this->assertCount(1, $result);
         $this->assertSame([
             'id' => 'solarium-test-2',
@@ -450,44 +529,44 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $result->getIterator()->current()->getFields());
 
         // delete by query and commit
-        $update = $this->client->createUpdate();
+        $update = self::$client->createUpdate();
         $update->addDeleteQuery('cat:solarium-test');
         $update->addCommit(true, true);
-        $this->client->update($update);
-        $result = $this->client->select($select);
+        self::$client->update($update);
+        $result = self::$client->select($select);
         $this->assertCount(0, $result);
 
         // optimize
-        $update = $this->client->createUpdate();
+        $update = self::$client->createUpdate();
         $update->addOptimize(true, false);
-        $response = $this->client->update($update);
+        $response = self::$client->update($update);
         $this->assertSame(0, $response->getStatus());
 
         // rollback is currently not supported in SolrCloud mode (SOLR-4895)
-        if ($this instanceof AbstractCoreTest) {
+        if ($this instanceof AbstractServerTest) {
             // add, rollback, commit
-            $update = $this->client->createUpdate();
+            $update = self::$client->createUpdate();
             $doc1 = $update->createDocument();
             $doc1->setField('id', 'solarium-test-1');
             $doc1->setField('name', 'Solarium Test 1');
             $doc1->setField('cat', 'solarium-test');
             $doc1->setField('price', 3.14);
             $update->addDocument($doc1);
-            $this->client->update($update);
-            $update = $this->client->createUpdate();
+            self::$client->update($update);
+            $update = self::$client->createUpdate();
             $update->addRollback();
             $update->addCommit(true, true);
-            $this->client->update($update);
-            $result = $this->client->select($select);
+            self::$client->update($update);
+            $result = self::$client->select($select);
             $this->assertCount(0, $result);
         }
 
         // raw add and raw commit
-        $update = $this->client->createUpdate();
+        $update = self::$client->createUpdate();
         $update->addRawXmlCommand('<add><doc><field name="id">solarium-test-1</field><field name="name">Solarium Test 1</field><field name="cat">solarium-test</field><field name="price">3.14</field></doc></add>');
         $update->addRawXmlCommand('<commit softCommit="true" waitSearcher="true"/>');
-        $this->client->update($update);
-        $result = $this->client->select($select);
+        self::$client->update($update);
+        $result = self::$client->select($select);
         $this->assertCount(1, $result);
         $this->assertSame([
             'id' => 'solarium-test-1',
@@ -496,11 +575,11 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $result->getIterator()->current()->getFields());
 
         // grouped mixed raw commands
-        $update = $this->client->createUpdate();
+        $update = self::$client->createUpdate();
         $update->addRawXmlCommand('<update><add><doc><field name="id">solarium-test-2</field><field name="name">Solarium Test 2</field><field name="cat">solarium-test</field><field name="price">42</field></doc></add></update>');
         $update->addRawXmlCommand('<update><delete><id>solarium-test-1</id></delete><commit softCommit="true" waitSearcher="true"/></update>');
-        $this->client->update($update);
-        $result = $this->client->select($select);
+        self::$client->update($update);
+        $result = self::$client->select($select);
         $this->assertCount(1, $result);
         $this->assertSame([
             'id' => 'solarium-test-2',
@@ -509,22 +588,30 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $result->getIterator()->current()->getFields());
 
         // raw delete and regular commit
-        $update = $this->client->createUpdate();
+        $update = self::$client->createUpdate();
         $update->addRawXmlCommand('<delete><query>cat:solarium-test</query></delete>');
         $update->addCommit(true, true);
-        $this->client->update($update);
-        $result = $this->client->select($select);
+        self::$client->update($update);
+        $result = self::$client->select($select);
         $this->assertCount(0, $result);
 
-        // add from files without and with Byte Order Mark and XML declaration
-        $update = $this->client->createUpdate();
+        // add from UTF-8 encoded files without and with Byte Order Mark and XML declaration
+        $update = self::$client->createUpdate();
         foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml[1234]-add*.xml') as $file) {
             $update->addRawXmlFile($file);
         }
         $update->addCommit(true, true);
-        $this->client->update($update);
-        $result = $this->client->select($select);
-        $this->assertCount(4, $result);
+        self::$client->update($update);
+
+        // add from non-UTF-8 encoded file
+        $update = self::$client->createUpdate();
+        $update->setInputEncoding('ISO-8859-1');
+        $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml5-add-iso-8859-1.xml');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        $result = self::$client->select($select);
+        $this->assertCount(5, $result);
         $iterator = $result->getIterator();
         $this->assertSame([
             'id' => 'solarium-test-1',
@@ -549,13 +636,19 @@ abstract class AbstractTechproductsTest extends TestCase
             'name' => 'Solarium Test 4',
             'price' => 3.59,
         ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-5',
+            'name' => 'Sølåríùm Tëst 5',
+            'price' => 9.81,
+        ], $iterator->current()->getFields());
 
         // delete from file with grouped delete commands
-        $update = $this->client->createUpdate();
-        $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml5-delete.xml');
+        $update = self::$client->createUpdate();
+        $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml6-delete.xml');
         $update->addCommit(true, true);
-        $this->client->update($update);
-        $result = $this->client->select($select);
+        self::$client->update($update);
+        $result = self::$client->select($select);
         $this->assertCount(0, $result);
 
         // reset automatic commits to the configuration in solrconfig.xml
@@ -567,16 +660,16 @@ abstract class AbstractTechproductsTest extends TestCase
                 'updateHandler.autoSoftCommit.maxTime',
             ],
         ]));
-        $response = $this->client->executeRequest($request);
+        $response = self::$client->executeRequest($request);
         $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
     }
 
     public function testReRankQuery()
     {
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
         $select->setQuery('inStock:true');
         $select->setRows(2);
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(17, $result->getNumFound());
         $this->assertCount(2, $result);
 
@@ -588,7 +681,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $reRankQuery = $select->getReRankQuery();
         $reRankQuery->setQuery('popularity:10');
-        $result = $this->client->select($select);
+        $result = self::$client->select($select);
         $this->assertSame(17, $result->getNumFound());
         $this->assertCount(2, $result);
 
@@ -607,8 +700,8 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testPrefetchIterator()
     {
-        $select = $this->client->createSelect();
-        $prefetch = $this->client->getPlugin('prefetchiterator');
+        $select = self::$client->createSelect();
+        $prefetch = self::$client->getPlugin('prefetchiterator');
         $prefetch->setPrefetch(2);
         $prefetch->setQuery($select);
 
@@ -622,10 +715,10 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testPrefetchIteratorWithCursormark()
     {
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
         $select->setCursormark('*');
         $select->addSort('id', SelectQuery::SORT_ASC);
-        $prefetch = $this->client->getPlugin('prefetchiterator');
+        $prefetch = self::$client->getPlugin('prefetchiterator');
         $prefetch->setPrefetch(2);
         $prefetch->setQuery($select);
 
@@ -639,9 +732,9 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testPrefetchIteratorWithoutAndWithCursormark()
     {
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
         $select->addSort('id', SelectQuery::SORT_ASC);
-        $prefetch = $this->client->getPlugin('prefetchiterator');
+        $prefetch = self::$client->getPlugin('prefetchiterator');
         $prefetch->setPrefetch(2);
         $prefetch->setQuery($select);
 
@@ -650,7 +743,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $without = $document->id;
         }
 
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
         $select->setCursormark('*');
         $select->addSort('id', SelectQuery::SORT_ASC);
         $prefetch->setQuery($select);
@@ -665,7 +758,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testExtractIntoDocument()
     {
-        $extract = $this->client->createExtract();
+        $extract = self::$client->createExtract();
         $extract->setUprefix('attr_');
         $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
         $extract->setCommit(true);
@@ -677,12 +770,12 @@ abstract class AbstractTechproductsTest extends TestCase
         $doc->id = 'extract-test';
         $extract->setDocument($doc);
 
-        $this->client->extract($extract);
+        self::$client->extract($extract);
 
         // now get the document and check the content
-        $select = $this->client->createSelect();
+        $select = self::$client->createSelect();
         $select->setQuery('id:extract-test');
-        $selectResult = $this->client->select($select);
+        $selectResult = self::$client->select($select);
         $iterator = $selectResult->getIterator();
 
         /** @var Document $document */
@@ -690,59 +783,416 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame('PDF Test', trim($document['content'][0]), 'Written document does not contain extracted result');
 
         // now cleanup the document the have the initial index state
-        $update = $this->client->createUpdate();
+        $update = self::$client->createUpdate();
         $update->addDeleteById('extract-test');
         $update->addCommit(true, true);
-        $this->client->update($update);
+        self::$client->update($update);
     }
 
     public function testExtractTextOnly()
     {
-        $query = $this->client->createExtract();
+        $query = self::$client->createExtract();
         $fileName = 'testpdf.pdf';
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
         $query->setExtractOnly(true);
         $query->addParam('extractFormat', 'text');
 
-        $response = $this->client->extract($query);
+        $response = self::$client->extract($query);
         $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the file');
     }
 
     public function testV2Api()
     {
-        $query = $this->client->createApi([
+        $query = self::$client->createApi([
             'version' => Request::API_V1,
             'handler' => 'admin/info/system',
         ]);
-        $response = $this->client->execute($query);
+        $response = self::$client->execute($query);
         if (version_compare($response->getData()['lucene']['solr-spec-version'], '7', '>=')) {
-            $query = $this->client->createApi([
+            $query = self::$client->createApi([
                 'version' => Request::API_V2,
                 'handler' => 'node/system',
             ]);
-            $response = $this->client->execute($query);
+            $response = self::$client->execute($query);
             $this->assertArrayHasKey('lucene', $response->getData());
             $this->assertArrayHasKey('jvm', $response->getData());
             $this->assertArrayHasKey('system', $response->getData());
 
-            $query = $this->client->createApi([
+            $query = self::$client->createApi([
                 'version' => Request::API_V2,
                 'handler' => 'node/properties',
             ]);
-            $response = $this->client->execute($query);
+            $response = self::$client->execute($query);
             $this->assertArrayHasKey('system.properties', $response->getData());
 
-            $query = $this->client->createApi([
+            $query = self::$client->createApi([
                 'version' => Request::API_V2,
                 'handler' => 'node/logging',
             ]);
-            $response = $this->client->execute($query);
+            $response = self::$client->execute($query);
             $this->assertArrayHasKey('levels', $response->getData());
             $this->assertArrayHasKey('loggers', $response->getData());
         } else {
             $this->markTestSkipped('V2 API requires Solr 7.');
         }
     }
+
+    public function testInputEncoding()
+    {
+        $select = self::$client->createSelect();
+        $select->addSort('id', $select::SORT_ASC);
+        $select->setFields('id,name,price');
+
+        // input encoding: UTF-8 (default)
+        $update = self::$client->createUpdate();
+        $doc = $update->createDocument();
+        $doc->setField('id', 'solarium-test-1');
+        $doc->setField('name', 'Sølåríùm Tëst 1');
+        $doc->setField('cat', ['solarium-test', 'áéíóú']);
+        $doc->setField('price', 3.14);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        // input encoding: UTF-8 (default)
+        // output encoding: UTF-8 (always)
+        $select->setQuery('cat:áéíóú');
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Sølåríùm Tëst 1',
+            'price' => 3.14,
+        ], $result->getIterator()->current()->getFields());
+
+        // input encoding: ISO-8859-1
+        // output encoding: UTF-8 (always)
+        $select->setQuery('cat:'.utf8_decode('áéíóú'));
+        $select->setInputEncoding('ISO-8859-1');
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Sølåríùm Tëst 1',
+            'price' => 3.14,
+        ], $result->getIterator()->current()->getFields());
+
+        // input encoding: ISO-8859-1
+        $update = self::$client->createUpdate();
+        $update->setInputEncoding('ISO-8859-1');
+        $doc = $update->createDocument();
+        $doc->setField('id', utf8_decode('solarium-test-2'));
+        $doc->setField('name', utf8_decode('Sølåríùm Tëst 2'));
+        $doc->setField('cat', [utf8_decode('solarium-test'), utf8_decode('áéíóú')]);
+        $doc->setField('price', 42.0);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        // input encoding: UTF-8 (explicit)
+        // output encoding: UTF-8 (always)
+        $select->setQuery('cat:áéíóú');
+        $select->setInputEncoding('UTF-8');
+        $result = self::$client->select($select);
+        $this->assertCount(2, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-test-1',
+            'name' => 'Sølåríùm Tëst 1',
+            'price' => 3.14,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-test-2',
+            'name' => 'Sølåríùm Tëst 2',
+            'price' => 42.0,
+        ], $iterator->current()->getFields());
+
+        $update = self::$client->createUpdate();
+        $update->addDeleteQuery('cat:solarium-test');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+    }
+
+    public function testManagedStopwords()
+    {
+        $query = self::$client->createManagedStopwords();
+        $query->setName('english');
+        $term = 'managed_stopword_test';
+
+        // Add stopwords
+        $add = new AddStopwords();
+        $add->setStopwords([$term]);
+        $query->setCommand($add);
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if single stopword exists
+        $exists = new ExistsStopwords();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // We need to remove the current command in order to have no command. Having no command lists the items.
+        $query->removeCommand();
+
+        // List stopwords
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $items = $result->getItems();
+        $this->assertContains($term, $items);
+
+        // Delete stopword
+        $delete = new DeleteStopwords();
+        $delete->setTerm($term);
+        $query->setCommand($delete);
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if stopword is gone
+        $this->expectException(HttpException::class);
+        $exists = new ExistsStopwords();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        self::$client->execute($query);
+    }
+
+    public function testManagedStopwordsCreation()
+    {
+        $query = self::$client->createManagedStopwords();
+        $query->setName(uniqid());
+        $term = 'managed_stopword_test';
+
+        // Create a new stopword list
+        $create = new CreateStopwords();
+        $query->setCommand($create);
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Whatever happens next ...
+        try {
+            // Configure the new list to be case sensitive
+            $initArgs = new InitArgsStopwords();
+            $initArgs->setIgnoreCase(false);
+            $config = new ConfigStopwords();
+            $config->setInitArgs($initArgs);
+            $query->setCommand($config);
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+            // Check the configuration
+            $query->removeCommand();
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertFalse($result->isIgnoreCase());
+
+            // Check if we can add to it
+            $add = new AddStopwords();
+            $add->setStopwords([$term]);
+            $query->setCommand($add);
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+            // Check if stopword exists in its original lowercase form
+            $exists = new ExistsStopwords();
+            $exists->setTerm($term);
+            $query->setCommand($exists);
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+            // Check if stopword DOESN'T exist in uppercase form
+            $this->expectException(HttpException::class);
+            $exists->setTerm(strtoupper($term));
+            $query->setCommand($exists);
+            self::$client->execute($query);
+        }
+            // ... we have to remove the created resource!
+        finally {
+            // Remove the stopword list
+            $remove = new RemoveStopwords();
+            $query->setCommand($remove);
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+            // Check if stopword list is gone
+            $this->expectException(HttpException::class);
+            $query->removeCommand();
+            self::$client->execute($query);
+        }
+    }
+
+    public function testManagedSynonyms()
+    {
+        $query = self::$client->createManagedSynonyms();
+        $query->setName('english');
+        $term = 'managed_synonyms_test';
+
+        // Add synonyms
+        $add = new AddSynonyms();
+        $synonyms = new Synonyms();
+        $synonyms->setTerm($term);
+        $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
+        $add->setSynonyms($synonyms);
+        $query->setCommand($add);
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if single synonym exists
+        $exists = new ExistsSynonyms();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
+
+        // We need to remove the current command in order to have no command. Having no command lists the items.
+        $query->removeCommand();
+
+        // List synonyms
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $items = $result->getItems();
+        $success = false;
+        foreach ($items as $item) {
+            if ('managed_synonyms_test' === $item->getTerm()) {
+                $success = true;
+            }
+        }
+        if (!$success) {
+            $this->fail('Couldn\'t find synonym.');
+        }
+
+        // Delete synonyms
+        $delete = new DeleteSynonyms();
+        $delete->setTerm($term);
+        $query->setCommand($delete);
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Check if synonyms are gone
+        $this->expectException(HttpException::class);
+        $exists = new ExistsSynonyms();
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        self::$client->execute($query);
+    }
+
+    public function testManagedSynonymsCreation()
+    {
+        $query = self::$client->createManagedSynonyms();
+        $query->setName(uniqid());
+        $term = 'managed_synonyms_test';
+
+        // Create a new synonym map
+        $create = new CreateSynonyms();
+        $query->setCommand($create);
+        $result = self::$client->execute($query);
+        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+        // Whatever happens next ...
+        try {
+            // Configure the new map to be case sensitive and use the 'solr' format
+            $initArgs = new InitArgsSynonyms();
+            $initArgs->setIgnoreCase(false);
+            $initArgs->setFormat(InitArgsSynonyms::FORMAT_SOLR);
+            $config = new ConfigSynonyms();
+            $config->setInitArgs($initArgs);
+            $query->setCommand($config);
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+            // Check the configuration
+            $query->removeCommand();
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertFalse($result->isIgnoreCase());
+            $this->assertEquals(InitArgsSynonyms::FORMAT_SOLR, $result->getFormat());
+
+            // Check if we can add to it
+            $add = new AddSynonyms();
+            $synonyms = new Synonyms();
+            $synonyms->setTerm($term);
+            $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
+            $add->setSynonyms($synonyms);
+            $query->setCommand($add);
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+            // Check if synonym exists in its original lowercase form
+            $exists = new ExistsSynonyms();
+            $exists->setTerm($term);
+            $query->setCommand($exists);
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
+
+            // Check if synonym DOESN'T exist in uppercase form
+            $this->expectException(HttpException::class);
+            $exists->setTerm(strtoupper($term));
+            $query->setCommand($exists);
+            self::$client->execute($query);
+        }
+            // ... we have to remove the created resource!
+        finally {
+            // Remove the synonym map
+            $remove = new RemoveSynonyms();
+            $query->setCommand($remove);
+            $result = self::$client->execute($query);
+            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+
+            // Check if synonym map is gone
+            $this->expectException(HttpException::class);
+            $query->removeCommand();
+            self::$client->execute($query);
+        }
+    }
+
+    public function testManagedResources()
+    {
+        // Check if we can find the 2 default managed resources
+        // (and account for additional resources we might have created while testing)
+        $query = self::$client->createManagedResources();
+        $result = self::$client->execute($query);
+        $items = $result->getItems();
+        $this->assertGreaterThanOrEqual(2, count($items));
+    }
+
+    /**
+     * Extracts the encoding from the XML declaration of a file if present.
+     *
+     * @param string $file
+     *
+     * @return string|null
+     */
+    private static function getXmlEncoding(string $file): ?string
+    {
+        $encoding = null;
+
+        $xml = file_get_contents($file);
+
+        if (false !== $xml) {
+            // discard UTF-8 Byte Order Mark
+            if (pack('CCC', 0xEF, 0xBB, 0xBF) === substr($xml, 0, 3)) {
+                $xml = substr($xml, 3);
+            }
+
+            // detect XML declaration
+            if ('<?xml' === substr($xml, 0, 5)) {
+                $declaration = substr($xml, 0, strpos($xml, '?>') + 2);
+
+                // detect encoding attribute
+                if (false !== $pos = strpos($declaration, 'encoding="')) {
+                    $encoding = substr($declaration, $pos + 10, strpos($declaration, '"', $pos + 10) - $pos - 10);
+                }
+            }
+        }
+
+        return $encoding;
+    }
+
 }
 
 class TestQuery extends SelectQuery

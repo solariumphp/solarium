@@ -40,7 +40,7 @@ htmlHeader();
 
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // create a select query instance
 $query = $client->createSelect();
@@ -200,7 +200,7 @@ htmlHeader();
 
 // create a client instance and register the plugin
 $plugin = new BasicDebug();
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $client->registerPlugin('debugger', $plugin);
 
 // execute a select query and display the results
@@ -261,7 +261,7 @@ class QueryCustomizer extends Plugin
 htmlHeader();
 
 // create a client instance and register the plugin
-$client = new Client($config);
+$client = new Client($adapter, $eventDispatcher, $config);
 $client->registerPlugin('querycustomizer', 'QueryCustomizer');
 
 // create a select query instance

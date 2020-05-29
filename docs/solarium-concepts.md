@@ -28,7 +28,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
@@ -100,15 +100,15 @@ $select = array(
     'component' => array(
         'facetset' => array(
             'facet' => array(
-                // notice this config uses an inline key value, instead of array key like the filterquery
-                array('type' => 'field', 'key' => 'stock', 'field' => 'inStock'),
+                // notice this config uses an inline key value under 'local_key', instead of array key like the filterquery
+                array('type' => 'field', 'local_key' => 'stock', 'field' => 'inStock'),
             )
         ),
     ),
 );
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance based on the config
 $query = $client->createSelect($select);
@@ -186,7 +186,7 @@ class ProductPriceLimitedQuery extends ProductQuery
 }
 
 // create a client instance
-$client = new Client($config);
+$client = new Client($adapter, $eventDispatcher, $config);
 
 // create a query instance
 $query = new ProductPriceLimitedQuery;

@@ -109,6 +109,20 @@ class QueryTest extends TestCase
         $query->setTimeZone('Europe/Brussels');
         $this->assertSame('Europe/Brussels', $query->getTimeZone());
     }
+
+    public function testSetAndGetDistrib()
+    {
+        $query = new TestQuery();
+        $query->setDistrib(true);
+        $this->assertTrue($query->getDistrib());
+    }
+
+    public function testSetAndGetInputEncoding()
+    {
+        $query = new TestQuery();
+        $query->setInputEncoding('ISO-8859-1');
+        $this->assertSame('ISO-8859-1', $query->getInputEncoding());
+    }
 }
 
 class TestQuery extends AbstractQuery
