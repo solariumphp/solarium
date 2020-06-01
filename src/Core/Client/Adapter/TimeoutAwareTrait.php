@@ -10,7 +10,7 @@ trait TimeoutAwareTrait
     /**
      * @var int
      */
-    private $timeout = TimeoutAwareInterface::DEFAULT_TIMEOUT;
+    protected $timeout = TimeoutAwareInterface::DEFAULT_TIMEOUT;
 
     public function setTimeout(int $timeoutInSeconds): void
     {

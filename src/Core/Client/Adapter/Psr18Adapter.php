@@ -13,22 +13,22 @@ use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
 
-final class Psr18Adapter implements AdapterInterface
+class Psr18Adapter implements AdapterInterface
 {
     /**
      * @var ClientInterface
      */
-    private $httpClient;
+    protected $httpClient;
 
     /**
      * @var RequestFactoryInterface
      */
-    private $requestFactory;
+    protected $requestFactory;
 
     /**
      * @var StreamFactoryInterface
      */
-    private $streamFactory;
+    protected $streamFactory;
 
     public function __construct(
         ClientInterface $httpClient,
@@ -49,7 +49,7 @@ final class Psr18Adapter implements AdapterInterface
         }
     }
 
-    private function createPsr7Request(Request $request, Endpoint $endpoint): RequestInterface
+    protected function createPsr7Request(Request $request, Endpoint $endpoint): RequestInterface
     {
         $uri = AdapterHelper::buildUri($request, $endpoint);
 
@@ -71,7 +71,7 @@ final class Psr18Adapter implements AdapterInterface
         return $psr7Request;
     }
 
-    private function createResponse(ResponseInterface $psr7Response): Response
+    protected function createResponse(ResponseInterface $psr7Response): Response
     {
         $headerLines = [
             sprintf(
@@ -89,7 +89,7 @@ final class Psr18Adapter implements AdapterInterface
         return new Response((string) $psr7Response->getBody(), $headerLines);
     }
 
-    private function getRequestBody(Request $request): ?string
+    protected function getRequestBody(Request $request): ?string
     {
         if (Request::METHOD_PUT == $request->getMethod()) {
             return $request->getRawData();
@@ -106,7 +106,7 @@ final class Psr18Adapter implements AdapterInterface
         return $request->getRawData();
     }
 
-    private function getRequestHeaders(Request $request, Endpoint $endpoint): array
+    protected function getRequestHeaders(Request $request, Endpoint $endpoint): array
     {
         $headers = [];
 
