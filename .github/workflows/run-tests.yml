@@ -44,10 +44,24 @@ jobs:
                 composer require --dev symfony/event-dispatcher:${{ matrix.symfony }}
 
             - name: Run tests
-              env:
-                COVERALLS_RUN_LOCALLY: 1
-                COVERALLS_REPO_TOKEN:
               run: |
                 vendor/bin/phpstan analyze src/ tests/ --level=1
-                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v
-                vendor/bin/php-coveralls -v --dry-run
+                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover coverage.xml
+
+            - name: Coveralls Parallel
+              uses: coverallsapp/github-action@v1
+              with:
+                github-token: ${{ secrets.github_token }}
+                flag-name: PHP_${{ matrix.php }}-symfony_${{ matrix.symfony }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
+                parallel: true
+
+    finish:
+        needs: run-tests
+        runs-on: ubuntu-latest
+        steps:
+          - name: Coveralls Finished
+            uses: coverallsapp/github-action@v1
+            with:
+              github-token: ${{ secrets.github_token }}
+              parallel-finished: true
+
