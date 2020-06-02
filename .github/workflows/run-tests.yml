@@ -49,7 +49,7 @@ jobs:
                 vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover coverage.xml
 
             - name: Coveralls Parallel
-              uses: coverallsapp/github-action@v1
+              uses: coverallsapp/github-action@master
               with:
                 github-token: ${{ secrets.github_token }}
                 flag-name: PHP_${{ matrix.php }}-symfony_${{ matrix.symfony }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
@@ -60,7 +60,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: Coveralls Finished
-            uses: coverallsapp/github-action@v1
+            uses: coverallsapp/github-action@master
             with:
               github-token: ${{ secrets.github_token }}
               parallel-finished: true
