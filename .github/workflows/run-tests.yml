@@ -54,7 +54,7 @@ jobs:
                 vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
 
             - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@v1
+              uses: codecov/codecov-action@master
               with:
                 file: build/logs/clover.xml
                 flags: unittests
