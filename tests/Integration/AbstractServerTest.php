@@ -187,7 +187,7 @@ abstract class AbstractServerTest extends AbstractTechproductsTest
         $response = self::$client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
 
-        // we now have two cores and when we retrieve the status for all we should have three status objects
+        // we now have two cores and when we retrieve the status for all we should have two status objects
         // (the core we created in setUpBeforeClass() and the one we created just now)
         $statusAction = $coreAdminQuery->createStatus();
         $coreAdminQuery->setAction($statusAction);
