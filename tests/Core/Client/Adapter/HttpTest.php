@@ -32,7 +32,7 @@ class HttpTest extends TestCase
 
         /** @var Http|MockObject $mock */
         $mock = $this->getMockBuilder(Http::class)
-            ->setMethods(['getData', 'check'])
+            ->onlyMethods(['getData', 'check'])
             ->getMock();
 
         $mock->expects($this->once())
@@ -53,7 +53,7 @@ class HttpTest extends TestCase
 
         /** @var Http|MockObject $mock */
         $mock = $this->getMockBuilder(Http::class)
-            ->setMethods(['getData', 'check'])
+            ->onlyMethods(['getData', 'check'])
             ->getMock();
 
         $mock->expects($this->once())
