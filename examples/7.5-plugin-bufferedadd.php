@@ -7,7 +7,7 @@ use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
 htmlHeader();
 
 // create a client instance and autoload the buffered add plugin
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $buffer = $client->getPlugin('bufferedadd');
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
