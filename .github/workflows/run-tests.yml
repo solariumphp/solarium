@@ -46,13 +46,14 @@ jobs:
             - name: Run tests
               run: |
                 vendor/bin/phpstan analyze src/ tests/ --level=1
-                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover coverage.xml
+                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
 
             - name: Coveralls Parallel
               uses: mkalkbrenner/github-action@master
               with:
                 github-token: ${{ secrets.github_token }}
                 flag-name: PHP_${{ matrix.php }}-symfony_${{ matrix.symfony }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
+                path-to-lcov: build/logs/clover.xml
                 parallel: true
 
     finish:
