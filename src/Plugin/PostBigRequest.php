@@ -54,12 +54,14 @@ class PostBigRequest extends AbstractPlugin
     /**
      * Event hook to adjust client settings just before query execution.
      *
-     * @param PostCreateRequest $event
+     * @param object $event
      *
      * @return self Provides fluent interface
      */
-    public function postCreateRequest(PostCreateRequest $event): self
+    public function postCreateRequest($event): self
     {
+        // We need to accept event proxies or decoraters.
+        /* @var PostCreateRequest $event */
         $request = $event->getRequest();
         $queryString = $request->getQueryString();
 
