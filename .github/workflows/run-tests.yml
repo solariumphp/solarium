@@ -25,6 +25,7 @@ jobs:
             PHP: ${{ matrix.os }}
             SOLR: ${{ matrix.solr }}${{ matrix.mode }}
             SYMFONY: ${{ matrix.symfony }}
+            COMPOSER_MEMORY_LIMIT: -1
 
         steps:
             - name: Setup PHP
