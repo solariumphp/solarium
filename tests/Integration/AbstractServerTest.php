@@ -6,7 +6,6 @@ use Solarium\Exception\HttpException;
 
 abstract class AbstractServerTest extends AbstractTechproductsTest
 {
-
     protected static function createTechproducts(): void
     {
         self::$config = [
@@ -206,5 +205,4 @@ abstract class AbstractServerTest extends AbstractTechproductsTest
         $response = self::$client->coreAdmin($coreAdminQuery);
         $this->assertTrue($response->getWasSuccessful());
     }
-
 }

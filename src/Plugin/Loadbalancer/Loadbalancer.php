@@ -6,16 +6,15 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Event\Events as CoreEvents;
-use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
-use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
+use Solarium\Core\Event\Events;
+use Solarium\Core\Event\PreCreateRequest;
+use Solarium\Core\Event\PreExecuteRequest;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as EndpointFailureEvent;
-use Solarium\Plugin\Loadbalancer\Event\Events;
 
 /**
  * Loadbalancer plugin.
@@ -397,11 +396,11 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Event hook to capture querytype.
      *
-     * @param PreCreateRequestEvent $event
+     * @param PreCreateRequest $event
      *
      * @return self Provides fluent interface
      */
-    public function preCreateRequest(PreCreateRequestEvent $event): self
+    public function preCreateRequest(PreCreateRequest $event): self
     {
         $this->queryType = $event->getQuery()->getType();
         return $this;
@@ -410,11 +409,11 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Event hook to adjust client settings just before query execution.
      *
-     * @param PreExecuteRequestEvent $event
+     * @param PreExecuteRequest $event
      *
      * @return self Provides fluent interface
      */
-    public function preExecuteRequest(PreExecuteRequestEvent $event): self
+    public function preExecuteRequest(PreExecuteRequest $event): self
     {
         $adapter = $this->client->getAdapter();
 
@@ -464,7 +463,7 @@ class Loadbalancer extends AbstractPlugin
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
                     $event = new EndpointFailureEvent($endpoint, $e);
-                    $this->client->getEventDispatcher()->dispatch($event, Events::ENDPOINT_FAILURE);
+                    $this->client->getEventDispatcher()->dispatch($event);
                 }
             }
 
@@ -542,7 +541,9 @@ class Loadbalancer extends AbstractPlugin
     protected function initPluginType()
     {
         $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->addListener(CoreEvents::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
-        $dispatcher->addListener(CoreEvents::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
+        if (is_a($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
+            $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
+            $dispatcher->addListener(Events::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
+        }
     }
 }
