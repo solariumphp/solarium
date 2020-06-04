@@ -20,7 +20,7 @@
         "symfony/contracts": "^1.0 || ^2.0"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/guzzle": "^6.5",
         "nyholm/psr7": "^1.2",
         "php-http/guzzle6-adapter": "^2.0",
         "phpstan/extension-installer": "^1.0",
@@ -29,7 +29,6 @@
         "phpunit/phpunit": "^8.0",
         "symfony/event-dispatcher": "^4.3 || ^5.0"
     },
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "sort-packages": true

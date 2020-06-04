@@ -83,7 +83,7 @@ class PostBigRequest extends AbstractPlugin
     protected function initPluginType()
     {
         $dispatcher = $this->client->getEventDispatcher();
-        if (is_a($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
+        if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
             $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
         }
     }

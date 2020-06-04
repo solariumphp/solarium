@@ -541,7 +541,7 @@ class Loadbalancer extends AbstractPlugin
     protected function initPluginType()
     {
         $dispatcher = $this->client->getEventDispatcher();
-        if (is_a($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
+        if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
             $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
             $dispatcher->addListener(Events::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
         }
