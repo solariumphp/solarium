@@ -20,7 +20,7 @@ This is the default document type for a select query result. This is an immutabl
 
 The example belows shows all these options.
 
-To enforce the immutable state of this document type an exception will be thrown if you try to alter a field value. For an updateable document you should use this class: Solarium\\QueryType\\Update\\Query\\Document
+To enforce the immutable state of this document type an exception will be thrown if you try to alter a field value. For an updateable document you should use this class: `Solarium\QueryType\Update\Query\Document`.
 
 Solarium uses this document type as default for select queries for two reasons:
 
@@ -103,14 +103,14 @@ Atomic updates
 
 You can create atomic updates by using the `setFieldModifier` method. Set a modifier on the field you want to update. The supported modifiers are:
 
--   MODIFIER\_SET
--   MODIFIER\_INC
--   MODIFIER\_ADD
--   MODIFIER\_ADD\_DISTINCT
--   MODIFIER\_REMOVE
--   MODIFIER\_REMOVEREGEX
+-   `MODIFIER_SET`
+-   `MODIFIER_INC`
+-   `MODIFIER_ADD`
+-   `MODIFIER_ADD_DISTINCT`
+-   `MODIFIER_REMOVE`
+-   `MODIFIER_REMOVEREGEX`
 
-The addField and setField methods also support modifiers as an optional argument. Any document that uses modifiers MUST have a key, you can set the key using the `setKey` method.
+The `addField` and `setField` methods also support modifiers as an optional argument. Any document that uses modifiers MUST have a key, you can set the key using the `setKey` method.
 
 A document with atomic updates can be added to an update query just like any other document.
 
@@ -188,11 +188,11 @@ Your schema has to meet certain criteria for this to work. For more info on Solr
 Versioning
 ----------
 
-The document has getVersion() and setVersion methods. By default no version is used, but you can set a version manually. There is a set of predefined values:
+The document has `getVersion` and `setVersion` methods. By default no version is used, but you can set a version manually. There is a set of predefined values:
 
--   VERSION\_DONT\_CARE
--   VERSION\_MUST\_EXIST
--   VERSION\_MUST\_NOT\_EXIST
+-   `VERSION_DONT_CARE`
+-   `VERSION_MUST_EXIST`
+-   `VERSION_MUST_NOT_EXIST`
 
 But you can also set a custom version (specific ID).
 
