@@ -17,14 +17,13 @@ jobs:
                 php: [7.2, 7.3, 7.4]
                 solr: [7, 8]
                 mode: [cloud, server]
-                symfony: [4.3.*, 4.4.*, 5.0.*]
 
-        name: PHP ${{ matrix.php }}, symfony ${{ matrix.symfony }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
+        name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
 
         env:
             PHP: ${{ matrix.os }}
             SOLR: ${{ matrix.solr }}${{ matrix.mode }}
-            SYMFONY: ${{ matrix.symfony }}
+            COMPOSER_MEMORY_LIMIT: -1
 
         steps:
             - name: Setup PHP
@@ -46,7 +45,7 @@ jobs:
             - name: Install dependencies
               run: |
                 composer global require hirak/prestissimo
-                composer require --dev symfony/event-dispatcher:${{ matrix.symfony }}
+                composer update
 
             - name: Run tests
               run: |
@@ -58,6 +57,6 @@ jobs:
               with:
                 file: build/logs/clover.xml
                 flags: unittests
-                env_vars: PHP,SOLR,SYMFONY
-                name: PHP_${{ matrix.php }}-symfony_${{ matrix.symfony }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
+                env_vars: PHP,SOLR
+                name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
                 fail_ci_if_error: false

@@ -1246,7 +1246,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $query->setCommand($exists);
             self::$client->execute($query);
         }
-            // ... we have to remove the created resource!
+        // ... we have to remove the created resource!
         finally {
             // Remove the stopword list
             $remove = new RemoveStopwords();
@@ -1372,7 +1372,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $query->setCommand($exists);
             self::$client->execute($query);
         }
-            // ... we have to remove the created resource!
+        // ... we have to remove the created resource!
         finally {
             // Remove the synonym map
             $remove = new RemoveSynonyms();
@@ -1429,7 +1429,6 @@ abstract class AbstractTechproductsTest extends TestCase
 
         return $encoding;
     }
-
 }
 
 class TestQuery extends SelectQuery

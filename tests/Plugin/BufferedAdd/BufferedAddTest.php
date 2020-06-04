@@ -9,7 +9,6 @@ use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Plugin\BufferedAdd\BufferedAdd;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument;
-use Solarium\Plugin\BufferedAdd\Event\Events;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
 use Solarium\QueryType\Update\Result;
@@ -222,7 +221,7 @@ class BufferedAddTest extends TestCase
         $mockEventDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with($this->equalTo($expectedEvent), $this->equalTo(Events::ADD_DOCUMENT));
+            ->with($this->equalTo($expectedEvent));
 
         $mockClient = $this->getClient($mockEventDispatcher);
         $plugin = new BufferedAdd();
