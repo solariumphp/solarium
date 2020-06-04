@@ -1192,7 +1192,6 @@ abstract class AbstractTechproductsTest extends TestCase
 
         return $encoding;
     }
-
 }
 
 class TestQuery extends SelectQuery
