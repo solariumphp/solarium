@@ -71,5 +71,4 @@ class MyPlugin extends AbstractPlugin
             $dispatcher->addListener(Events::PRE_CREATE_QUERY, [$this, 'preCreateQuery']);
         }
     }
-
 }
