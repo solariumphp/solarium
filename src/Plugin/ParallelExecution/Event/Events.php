@@ -15,7 +15,7 @@ interface Events
      *
      * @var string
      */
-    const EXECUTE_START = 'solarium.parallelExecution.executeStart';
+    public const EXECUTE_START = ExecuteStart::class;
 
     /**
      * This event is called just after parallel HTTP request execution, before further result handling.
@@ -23,5 +23,5 @@ interface Events
      *
      * @var string
      */
-    const EXECUTE_END = 'solarium.parallelExecution.executeEnd';
+    public const EXECUTE_END = ExecuteEnd::class;
 }
