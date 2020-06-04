@@ -188,15 +188,16 @@ class CustomizeRequest extends AbstractPlugin
     /**
      * Event hook to customize the request object.
      *
-     *
-     * @param PreExecuteRequest $event
+     * @param object $event
      *
      * @throws RuntimeException
      *
      * @return self Provides fluent interface
      */
-    public function preExecuteRequest(PreExecuteRequest $event): self
+    public function preExecuteRequest($event): self
     {
+        // We need to accept event proxies or decoraters.
+        /* @var PreExecuteRequest $event */
         $request = $event->getRequest();
         foreach ($this->getCustomizations() as $key => $customization) {
             // first validate
