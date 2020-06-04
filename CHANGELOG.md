@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `AdapterInterface` does not extend `ConfigurableInterface` anymore
 - `Http` Adapter does not implement `ConfigurableInterface` anymore
 - `Psr18Adapter` does not implement `ConfigurableInterface` anymore
+- Solarium Client now accepts any PSR-15 compatible event dispatcher (previously it had to be symfony's event dispatcher)
 
 ### Removed
 - Zend2HttpAdapter

@@ -3,7 +3,7 @@
 namespace Solarium\Plugin\CustomizeRequest;
 
 use Solarium\Core\Event\Events;
-use Solarium\Core\Event\PreExecuteRequest as preExecuteRequestEvent;
+use Solarium\Core\Event\PreExecuteRequest;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
@@ -189,13 +189,13 @@ class CustomizeRequest extends AbstractPlugin
      * Event hook to customize the request object.
      *
      *
-     * @param preExecuteRequestEvent $event
+     * @param PreExecuteRequest $event
      *
      * @throws RuntimeException
      *
      * @return self Provides fluent interface
      */
-    public function preExecuteRequest(preExecuteRequestEvent $event): self
+    public function preExecuteRequest(PreExecuteRequest $event): self
     {
         $request = $event->getRequest();
         foreach ($this->getCustomizations() as $key => $customization) {
@@ -251,6 +251,8 @@ class CustomizeRequest extends AbstractPlugin
     protected function initPluginType()
     {
         $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
+        if (is_a($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
+            $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
+        }
     }
 }

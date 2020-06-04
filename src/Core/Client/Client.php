@@ -2,9 +2,9 @@
 
 namespace Solarium\Core\Client;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Configurable;
-use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateQuery as PostCreateQueryEvent;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 use Solarium\Core\Event\PostCreateResult as PostCreateResultEvent;
@@ -58,9 +58,6 @@ use Solarium\QueryType\Terms\Query as TermsQuery;
 use Solarium\QueryType\Terms\Result as TermsResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 
 /**
  * Main interface for interaction with Solr.
@@ -228,8 +225,6 @@ class Client extends Configurable implements ClientInterface
     ];
 
     /**
-     * EventDispatcher.
-     *
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
@@ -275,7 +270,7 @@ class Client extends Configurable implements ClientInterface
     public function __construct(AdapterInterface $adapter, EventDispatcherInterface $eventDispatcher, array $options = null)
     {
         $this->adapter = $adapter;
-        $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
+        $this->eventDispatcher = $eventDispatcher;
 
         parent::__construct($options);
     }
@@ -580,7 +575,7 @@ class Client extends Configurable implements ClientInterface
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): ClientInterface
     {
-        $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
+        $this->eventDispatcher = $eventDispatcher;
 
         return $this;
     }
@@ -720,7 +715,7 @@ class Client extends Configurable implements ClientInterface
     public function createRequest(QueryInterface $query): Request
     {
         $event = new PreCreateRequestEvent($query);
-        $this->eventDispatcher->dispatch($event, Events::PRE_CREATE_REQUEST);
+        $this->eventDispatcher->dispatch($event);
         if (null !== $event->getRequest()) {
             return $event->getRequest();
         }
@@ -733,7 +728,7 @@ class Client extends Configurable implements ClientInterface
         $request = $requestBuilder->build($query);
 
         $event = new PostCreateRequestEvent($query, $request);
-        $this->eventDispatcher->dispatch($event, Events::POST_CREATE_REQUEST);
+        $this->eventDispatcher->dispatch($event);
 
         return $request;
     }
@@ -751,7 +746,7 @@ class Client extends Configurable implements ClientInterface
     public function createResult(QueryInterface $query, $response): ResultInterface
     {
         $event = new PreCreateResultEvent($query, $response);
-        $this->eventDispatcher->dispatch($event, Events::PRE_CREATE_RESULT);
+        $this->eventDispatcher->dispatch($event);
         if (null !== $event->getResult()) {
             return $event->getResult();
         }
@@ -764,7 +759,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PostCreateResultEvent($query, $response, $result);
-        $this->eventDispatcher->dispatch($event, Events::POST_CREATE_RESULT);
+        $this->eventDispatcher->dispatch($event);
 
         return $result;
     }
@@ -780,7 +775,7 @@ class Client extends Configurable implements ClientInterface
     public function execute(QueryInterface $query, $endpoint = null): ResultInterface
     {
         $event = new PreExecuteEvent($query);
-        $this->eventDispatcher->dispatch($event, Events::PRE_EXECUTE);
+        $this->eventDispatcher->dispatch($event);
         if (null !== $event->getResult()) {
             return $event->getResult();
         }
@@ -790,7 +785,7 @@ class Client extends Configurable implements ClientInterface
         $result = $this->createResult($query, $response);
 
         $event = new PostExecuteEvent($query, $result);
-        $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE);
+        $this->eventDispatcher->dispatch($event);
 
         return $result;
     }
@@ -811,7 +806,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PreExecuteRequestEvent($request, $endpoint);
-        $this->eventDispatcher->dispatch($event, Events::PRE_EXECUTE_REQUEST);
+        $this->eventDispatcher->dispatch($event);
         if (null !== $event->getResponse()) {
             $response = $event->getResponse(); //a plugin result overrules the standard execution result
         } else {
@@ -819,7 +814,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PostExecuteRequestEvent($request, $endpoint, $response);
-        $this->eventDispatcher->dispatch($event, Events::POST_EXECUTE_REQUEST);
+        $this->eventDispatcher->dispatch($event);
 
         return $response;
     }
@@ -1060,7 +1055,7 @@ class Client extends Configurable implements ClientInterface
         $type = strtolower($type);
 
         $event = new PreCreateQueryEvent($type, $options);
-        $this->eventDispatcher->dispatch($event, Events::PRE_CREATE_QUERY);
+        $this->eventDispatcher->dispatch($event);
         if (null !== $event->getQuery()) {
             return $event->getQuery();
         }
@@ -1077,7 +1072,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         $event = new PostCreateQueryEvent($type, $options, $query);
-        $this->eventDispatcher->dispatch($event, Events::POST_CREATE_QUERY);
+        $this->eventDispatcher->dispatch($event);
 
         return $query;
     }
@@ -1324,7 +1319,9 @@ class Client extends Configurable implements ClientInterface
     protected function init()
     {
         if (null === $this->eventDispatcher) {
-            $this->eventDispatcher = new EventDispatcher();
+            if (class_exists('\Symfony\Component\EventDispatcher\EventDispatcher')) {
+                $this->eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+            }
         }
 
         foreach ($this->options as $name => $value) {

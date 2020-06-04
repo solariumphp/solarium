@@ -14,5 +14,5 @@ interface Events
      *
      * @var string
      */
-    const ENDPOINT_FAILURE = 'solarium.loadbalancer.endpointFailure';
+    public const ENDPOINT_FAILURE = EndpointFailure::class;
 }
