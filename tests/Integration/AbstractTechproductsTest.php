@@ -55,6 +55,22 @@ abstract class AbstractTechproductsTest extends TestCase
         $ping = self::$client->createPing();
         self::$client->ping($ping);
 
+        // disable automatic commits for update tests
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        $request->setHandler('config');
+        $request->addHeader('Content-Type: application/json');
+        $request->setRawData(json_encode([
+            'set-property' => [
+                'updateHandler.autoCommit.maxDocs' => -1,
+                'updateHandler.autoCommit.maxTime' => -1,
+                'updateHandler.autoSoftCommit.maxDocs' => -1,
+                'updateHandler.autoSoftCommit.maxTime' => -1,
+            ],
+        ]));
+        $response = self::$client->executeRequest($request);
+        static::assertSame(0, json_decode($response->getBody())->responseHeader->status);
+
         try {
             // index techproducts sample data
             foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
@@ -463,22 +479,6 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->addSort('id', $select::SORT_ASC);
         $select->setFields('id,name,price');
 
-        // disable automatic commits for commit and rollback tests
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        $request->setHandler('config');
-        $request->addHeader('Content-Type: application/json');
-        $request->setRawData(json_encode([
-            'set-property' => [
-                'updateHandler.autoCommit.maxDocs' => -1,
-                'updateHandler.autoCommit.maxTime' => -1,
-                'updateHandler.autoSoftCommit.maxDocs' => -1,
-                'updateHandler.autoSoftCommit.maxTime' => -1,
-            ],
-        ]));
-        $response = self::$client->executeRequest($request);
-        $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
-
         // add, but don't commit
         $update = self::$client->createUpdate();
         $doc1 = $update->createDocument();
@@ -650,18 +650,6 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(0, $result);
-
-        // reset automatic commits to the configuration in solrconfig.xml
-        $request->setRawData(json_encode([
-            'unset-property' => [
-                'updateHandler.autoCommit.maxDocs',
-                'updateHandler.autoCommit.maxTime',
-                'updateHandler.autoSoftCommit.maxDocs',
-                'updateHandler.autoSoftCommit.maxTime',
-            ],
-        ]));
-        $response = self::$client->executeRequest($request);
-        $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
     }
 
     public function testModifiers()
