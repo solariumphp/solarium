@@ -396,12 +396,14 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Event hook to capture querytype.
      *
-     * @param PreCreateRequest $event
+     * @param object $event
      *
      * @return self Provides fluent interface
      */
-    public function preCreateRequest(PreCreateRequest $event): self
+    public function preCreateRequest($event): self
     {
+        // We need to accept event proxies or decoraters.
+        /* @var PreCreateRequest $event */
         $this->queryType = $event->getQuery()->getType();
         return $this;
     }
@@ -409,12 +411,14 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Event hook to adjust client settings just before query execution.
      *
-     * @param PreExecuteRequest $event
+     * @param object $event
      *
      * @return self Provides fluent interface
      */
-    public function preExecuteRequest(PreExecuteRequest $event): self
+    public function preExecuteRequest($event): self
     {
+        // We need to accept event proxies or decoraters.
+        /* @var PreExecuteRequest $event */
         $adapter = $this->client->getAdapter();
 
         // save adapter presets (once) to allow the settings to be restored later
