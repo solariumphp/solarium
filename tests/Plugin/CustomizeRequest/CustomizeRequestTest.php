@@ -4,14 +4,15 @@ namespace Solarium\Tests\Plugin\CustomizeRequest;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\AdapterInterface;
-use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
-use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
+use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\CustomizeRequest\Customization;
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
+use Solarium\QueryType\Ping\Query;
+use Solarium\QueryType\Ping\RequestBuilder;
 use Solarium\Tests\Integration\TestClientFactory;
 
 class CustomizeRequestTest extends TestCase
@@ -74,26 +75,16 @@ class CustomizeRequestTest extends TestCase
         $client->registerPlugin('testplugin', $this->plugin);
 
         $input = [
-                    'key' => 'xid',
-                    'type' => 'param',
-                    'name' => 'xid',
-                    'value' => 123,
-                ];
+            'key' => 'xid',
+            'type' => 'param',
+            'name' => 'xid',
+            'value' => 123,
+        ];
         $this->plugin->addCustomization($input);
 
-        $originalRequest = new Request();
-        $expectedRequest = new Request();
-        $expectedRequest->addParam('xid', 123); // this should be the effect of the customization
+        $request = $client->createRequest(new Query());
 
-        $adapter = $this->createMock(AdapterInterface::class);
-        $response = new Response('', ['HTTP 1.0 200 OK']);
-        $adapter->expects($this->once())
-                 ->method('execute')
-                 ->with($this->equalTo($expectedRequest))
-                 ->willReturn($response);
-        $client->setAdapter($adapter);
-
-        $client->executeRequest($originalRequest);
+        $this->assertSame(123, $request->getParam('xid'));
     }
 
     public function testCreateCustomization()
@@ -315,15 +306,15 @@ class CustomizeRequestTest extends TestCase
         $this->plugin->addCustomization($input);
 
         $request = new Request();
-        $event = new PreExecuteRequestEvent($request, new Endpoint());
-        $this->plugin->preExecuteRequest($event);
+        $event = new PostCreateRequestEvent(new Query(), $request);
+        $this->plugin->postCreateRequest($event);
 
         $this->assertSame(123, $request->getParam('xid'));
 
         $this->assertEquals(['X-my-auth: mypassword'], $request->getHeaders());
     }
 
-    public function testPreExecuteRequestWithInvalidCustomization()
+    public function testPostCreateRequestWithInvalidCustomization()
     {
         $input = [
             'key' => 'xid',
@@ -334,24 +325,24 @@ class CustomizeRequestTest extends TestCase
         $this->plugin->addCustomization($input);
 
         $request = new Request();
-        $event = new PreExecuteRequestEvent($request, new Endpoint());
+        $event = new PostCreateRequestEvent(new Query(), $request);
 
         $this->expectException(RuntimeException::class);
-        $this->plugin->preExecuteRequest($event);
+        $this->plugin->postCreateRequest($event);
     }
 
-    public function testPreExecuteRequestWithoutCustomizations()
+    public function testPostCreateRequestWithoutCustomizations()
     {
         $request = new Request();
         $originalRequest = clone $request;
 
-        $event = new PreExecuteRequestEvent($request, new Endpoint());
-        $this->plugin->preExecuteRequest($event);
+        $event = new PostCreateRequestEvent(new Query(), $request);
+        $this->plugin->postCreateRequest($event);
 
         $this->assertEquals($originalRequest, $request);
     }
 
-    public function testPreExecuteRequestWithPersistentAndNonPersistentCustomizations()
+    public function testPostCreateRequestWithPersistentAndNonPersistentCustomizations()
     {
         $input = [
                     'key' => 'xid',
@@ -371,8 +362,8 @@ class CustomizeRequestTest extends TestCase
         $this->plugin->addCustomization($input);
 
         $request = new Request();
-        $event = new PreExecuteRequestEvent($request, new Endpoint());
-        $this->plugin->preExecuteRequest($event);
+        $event = new PostCreateRequestEvent(new Query(), $request);
+        $this->plugin->postCreateRequest($event);
 
         $this->assertSame(123, $request->getParam('xid'));
 
@@ -380,8 +371,8 @@ class CustomizeRequestTest extends TestCase
 
         // second use, only the header should be persistent
         $request = new Request();
-        $event = new PreExecuteRequestEvent($request, new Endpoint());
-        $this->plugin->preExecuteRequest($event);
+        $event = new PostCreateRequestEvent(new Query(), $request);
+        $this->plugin->postCreateRequest($event);
 
         $this->assertNull($request->getParam('xid'));
 

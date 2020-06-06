@@ -546,7 +546,8 @@ class Loadbalancer extends AbstractPlugin
     {
         $dispatcher = $this->client->getEventDispatcher();
         if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
-            $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
+            // The Loadbalancer plugin needs to be the last plugin executed on PRE_EXECUTE_REQUEST. Set Priority to 0.
+            $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest'],0);
             $dispatcher->addListener(Events::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
         }
     }
