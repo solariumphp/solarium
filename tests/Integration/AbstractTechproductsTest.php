@@ -56,20 +56,38 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->ping($ping);
 
         // disable automatic commits for update tests
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        $request->setHandler('config');
-        $request->addHeader('Content-Type: application/json');
-        $request->setRawData(json_encode([
-            'set-property' => [
-                'updateHandler.autoCommit.maxDocs' => -1,
-                'updateHandler.autoCommit.maxTime' => -1,
-                'updateHandler.autoSoftCommit.maxDocs' => -1,
-                'updateHandler.autoSoftCommit.maxTime' => -1,
-            ],
-        ]));
-        $response = self::$client->executeRequest($request);
-        static::assertSame(0, json_decode($response->getBody())->responseHeader->status);
+        $query = self::$client->createApi([
+            'version' => Request::API_V1,
+            'handler' => self::$name.'/config',
+            'method' => Request::METHOD_POST,
+            'rawdata' => json_encode([
+                'set-property' => [
+                    'updateHandler.autoCommit.maxDocs' => -1,
+                    'updateHandler.autoCommit.maxTime' => -1,
+                    'updateHandler.autoCommit.openSearcher' => true,
+                    'updateHandler.autoSoftCommit.maxDocs' => -1,
+                    'updateHandler.autoSoftCommit.maxTime' => -1,
+                ],
+            ]),
+        ]);
+        self::$client->execute($query);
+
+        // ensure correct config for update tests
+        $query = self::$client->createApi([
+            'version' => Request::API_V1,
+            'handler' => self::$name.'/config/updateHandler',
+        ]);
+        $response = self::$client->execute($query);
+        $config = $response->getData()['config'];
+        static::assertEquals([
+            'maxDocs' => -1,
+            'maxTime' => -1,
+            'openSearcher' => true,
+        ], $config['updateHandler']['autoCommit']);
+        static::assertEquals([
+            'maxDocs' => -1,
+            'maxTime' => -1,
+        ], $config['updateHandler']['autoSoftCommit']);
 
         try {
             // index techproducts sample data
