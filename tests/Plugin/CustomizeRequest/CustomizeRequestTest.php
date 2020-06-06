@@ -3,16 +3,13 @@
 namespace Solarium\Tests\Plugin\CustomizeRequest;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Client\Request;
-use Solarium\Core\Client\Response;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\CustomizeRequest\Customization;
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 use Solarium\QueryType\Ping\Query;
-use Solarium\QueryType\Ping\RequestBuilder;
 use Solarium\Tests\Integration\TestClientFactory;
 
 class CustomizeRequestTest extends TestCase
