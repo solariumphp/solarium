@@ -4,7 +4,7 @@ namespace Solarium\Plugin;
 
 use Solarium\Core\Client\Request;
 use Solarium\Core\Event\Events;
-use Solarium\Core\Event\PostCreateRequest;
+use Solarium\Core\Event\PreExecuteRequest;
 use Solarium\Core\Plugin\AbstractPlugin;
 
 /**
@@ -58,10 +58,10 @@ class PostBigRequest extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function postCreateRequest($event): self
+    public function preExecuteRequest($event): self
     {
         // We need to accept event proxies or decoraters.
-        /* @var PostCreateRequest $event */
+        /* @var PreExecuteRequest $event */
         $request = $event->getRequest();
         $queryString = $request->getQueryString();
 
@@ -86,7 +86,7 @@ class PostBigRequest extends AbstractPlugin
     {
         $dispatcher = $this->client->getEventDispatcher();
         if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
-            $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
+            $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
         }
     }
 }
