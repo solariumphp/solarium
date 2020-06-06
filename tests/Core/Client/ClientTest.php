@@ -4,7 +4,6 @@ namespace Solarium\Tests\Core\Client;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\Http;
-use Solarium\Core\Client\Adapter\Http as ClientAdapterHttp;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
@@ -503,8 +502,9 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['preCreateRequest'])
+            ->addMethods(['preCreateRequest'])
             ->getMock();
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preCreateRequest')
                  ->with($this->equalTo($expectedEvent));
@@ -529,8 +529,9 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['postCreateRequest'])
+            ->addMethods(['postCreateRequest'])
             ->getMock();
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postCreateRequest')
                  ->with($this->equalTo($expectedEvent));
@@ -596,9 +597,9 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['preCreateResult'])
+            ->addMethods(['preCreateResult'])
             ->getMock();
-
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preCreateResult')
                  ->with($this->equalTo($expectedEvent));
@@ -623,8 +624,9 @@ class ClientTest extends TestCase
             $expectedEvent->setName(Events::POST_CREATE_RESULT);
         }
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['postCreateResult'])
+            ->addMethods(['postCreateResult'])
             ->getMock();
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postCreateResult')
                  ->with($this->equalTo($expectedEvent));
@@ -674,7 +676,7 @@ class ClientTest extends TestCase
         $result = new Result($query, $response);
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createRequest', 'executeRequest', 'createResult'])
+            ->onlyMethods(['createRequest', 'executeRequest', 'createResult'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
 
@@ -704,7 +706,7 @@ class ClientTest extends TestCase
         $expectedEvent = new PreExecuteEvent($query);
 
         $mock = $this->getMockBuilder(Client::class)
-            ->setMethods(['createRequest', 'executeRequest', 'createResult'])
+            ->onlyMethods(['createRequest', 'executeRequest', 'createResult'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
 
@@ -721,8 +723,9 @@ class ClientTest extends TestCase
              ->willReturn($result);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['preExecute'])
+            ->addMethods(['preExecute'])
             ->getMock();
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preExecute')
                  ->with($this->equalTo($expectedEvent));
@@ -745,7 +748,7 @@ class ClientTest extends TestCase
         $expectedEvent = new PostExecuteEvent($query, $result);
 
         $mock = $this->getMockBuilder(Client::class)
-            ->setMethods(['createRequest', 'executeRequest', 'createResult'])
+            ->onlyMethods(['createRequest', 'executeRequest', 'createResult'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
 
@@ -762,8 +765,9 @@ class ClientTest extends TestCase
              ->willReturn($result);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['postExecute'])
+            ->addMethods(['postExecute'])
             ->getMock();
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postExecute')
                  ->with($this->equalTo($expectedEvent));
@@ -812,7 +816,7 @@ class ClientTest extends TestCase
         $response = new Response('', ['HTTP 1.0 200 OK']);
 
         $observer = $this->getMockBuilder(Http::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->getMock();
         $observer->expects($this->once())
                  ->method('execute')
@@ -840,7 +844,7 @@ class ClientTest extends TestCase
         }
 
         $mockAdapter = $this->getMockBuilder(Http::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->getMock();
         $mockAdapter->expects($this->once())
                  ->method('execute')
@@ -849,8 +853,9 @@ class ClientTest extends TestCase
         $this->client->setAdapter($mockAdapter);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['preExecuteRequest'])
+            ->addMethods(['preExecuteRequest'])
             ->getMock();
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preExecuteRequest')
                  ->with($this->equalTo($expectedEvent));
@@ -874,7 +879,7 @@ class ClientTest extends TestCase
         }
 
         $mockAdapter = $this->getMockBuilder(Http::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->getMock();
         $mockAdapter->expects($this->any())
                  ->method('execute')
@@ -883,8 +888,9 @@ class ClientTest extends TestCase
         $this->client->setAdapter($mockAdapter);
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['postExecuteRequest'])
+            ->addMethods(['postExecuteRequest'])
             ->getMock();
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postExecuteRequest')
                  ->with($this->equalTo($expectedEvent));
@@ -929,7 +935,7 @@ class ClientTest extends TestCase
         $query = new PingQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -945,7 +951,7 @@ class ClientTest extends TestCase
         $query = new SelectQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -961,7 +967,7 @@ class ClientTest extends TestCase
         $query = new UpdateQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -977,7 +983,7 @@ class ClientTest extends TestCase
         $query = new MoreLikeThisQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -993,7 +999,7 @@ class ClientTest extends TestCase
         $query = new AnalysisQueryField();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1009,7 +1015,7 @@ class ClientTest extends TestCase
         $query = new TermsQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1025,7 +1031,7 @@ class ClientTest extends TestCase
         $query = new SuggesterQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1041,7 +1047,7 @@ class ClientTest extends TestCase
         $query = new ExtractQuery();
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1092,8 +1098,9 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['preCreateQuery'])
+            ->addMethods(['preCreateQuery'])
             ->getMock();
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preCreateQuery')
                  ->with($this->equalTo($expectedEvent));
@@ -1143,8 +1150,9 @@ class ClientTest extends TestCase
         }
 
         $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->setMethods(['postCreateQuery'])
+            ->addMethods(['postCreateQuery'])
             ->getMock();
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postCreateQuery')
                  ->with($this->equalTo($expectedEvent));
@@ -1162,7 +1170,7 @@ class ClientTest extends TestCase
         $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createQuery'])
+            ->onlyMethods(['createQuery'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1178,7 +1186,7 @@ class ClientTest extends TestCase
         $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createQuery'])
+            ->onlyMethods(['createQuery'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1194,7 +1202,7 @@ class ClientTest extends TestCase
         $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createQuery'])
+            ->onlyMethods(['createQuery'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1210,7 +1218,7 @@ class ClientTest extends TestCase
         $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createQuery'])
+            ->onlyMethods(['createQuery'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1226,7 +1234,7 @@ class ClientTest extends TestCase
         $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createQuery'])
+            ->onlyMethods(['createQuery'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1242,7 +1250,7 @@ class ClientTest extends TestCase
         $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createQuery'])
+            ->onlyMethods(['createQuery'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1258,7 +1266,7 @@ class ClientTest extends TestCase
         $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createQuery'])
+            ->onlyMethods(['createQuery'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1274,7 +1282,7 @@ class ClientTest extends TestCase
         $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createQuery'])
+            ->onlyMethods(['createQuery'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1290,7 +1298,7 @@ class ClientTest extends TestCase
         $options = ['optionA' => 1, 'optionB' => 2];
 
         $observer = $this->getMockBuilder(Client::class)
-            ->setMethods(['createQuery'])
+            ->onlyMethods(['createQuery'])
             ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
             ->getMock();
         $observer->expects($this->once())
@@ -1302,7 +1310,7 @@ class ClientTest extends TestCase
     }
 }
 
-class MyAdapter extends ClientAdapterHttp
+class MyAdapter extends Http
 {
     public function execute(Request $request, Endpoint $endpoint): Response
     {

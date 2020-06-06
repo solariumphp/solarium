@@ -2,6 +2,7 @@
 
 namespace Solarium\Core\Client;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Plugin\PluginInterface;
 use Solarium\Core\Query\QueryInterface;
@@ -33,7 +34,6 @@ use Solarium\QueryType\Terms\Query as TermsQuery;
 use Solarium\QueryType\Terms\Result as TermsResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Main interface for interaction with Solr.

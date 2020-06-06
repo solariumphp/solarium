@@ -27,7 +27,7 @@ class DocumentTest extends TestCase
              ->willReturn($data);
 
         $parserStub = $this->getMockBuilder(Document::class)
-            ->setMethods(['parseTypes'])
+            ->onlyMethods(['parseTypes'])
             ->getMock();
         $parserStub->expects($this->exactly(2))
              ->method('parseTypes')
