@@ -740,7 +740,7 @@ abstract class AbstractTechproductsTest extends TestCase
             'price' => 47.0,
         ], $result->getIterator()->current()->getFields());
 
-        // add vs. add-distinct
+        // add multiple values (non-distinct)
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', ['modifier-add', 'modifier-add-another']);
@@ -761,6 +761,30 @@ abstract class AbstractTechproductsTest extends TestCase
             ],
             'price' => 47.0,
         ], $result->getIterator()->current()->getFields());
+
+        // add-distinct
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', 'modifier-add');
+        $doc->setFieldModifier('cat', $doc::MODIFIER_ADD_DISTINCT);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'modifier-set',
+                'modifier-add',
+                'modifier-add',
+                'modifier-add-another',
+            ],
+            'price' => 47.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // add-distinct multiple values
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', ['modifier-add', 'modifier-add-another', 'modifier-add-distinct']);
@@ -807,7 +831,7 @@ abstract class AbstractTechproductsTest extends TestCase
             'price' => 42.0,
         ], $result->getIterator()->current()->getFields());
 
-        // remove multiple
+        // remove multiple values
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', ['modifier-add', 'modifier-add-another']);
