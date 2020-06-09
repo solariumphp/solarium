@@ -43,5 +43,8 @@
         "psr-4": {
             "Solarium\\Tests\\": "tests/"
         }
+    },
+    "conflict": {
+        "phpstan/phpstan": "0.12.26 || 0.12.27"
     }
 }
