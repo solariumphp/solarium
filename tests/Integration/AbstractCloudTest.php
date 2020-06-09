@@ -9,7 +9,6 @@ use Solarium\Core\Client\State\ClusterState;
  */
 abstract class AbstractCloudTest extends AbstractTechproductsTest
 {
-
     protected static function createTechproducts(): void
     {
         self::$config = [
