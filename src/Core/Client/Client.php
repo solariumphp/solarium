@@ -1318,12 +1318,6 @@ class Client extends Configurable implements ClientInterface
      */
     protected function init()
     {
-        if (null === $this->eventDispatcher) {
-            if (class_exists('\Symfony\Component\EventDispatcher\EventDispatcher')) {
-                $this->eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
-            }
-        }
-
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'endpoint':
