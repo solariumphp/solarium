@@ -5,7 +5,6 @@ Solarium was designed to be highly customizable, in the following ways:
 
 1.  by allowing for partial usage, for instance only convert a query into a request object but handle the communication in your own code
 2.  by adding an event dispatcher for plugins
-3.  and also still supporting the extending of classes (Solarium doesn't use 'private' or 'final' anywhere)
 
 What method of customization to use depends on your case:
 
@@ -17,7 +16,6 @@ What method of customization to use depends on your case:
     -   Plugins can easily be disabled, for instance in case of issues or for debugging
     -   No issues with upgrading Solarium
     -   A very basic plugin could even be implemented using a closure, so plugins are not hard to use!
--   if for some reason method 2 fails, or you really favor extending, that's of course still possible. But the preferred method is using the plugin structure.
 
 
 Partial usage
@@ -292,11 +290,16 @@ htmlFooter();
 
 ```
 
+The order of plugin executions
+------------------------------
 
-Extending Solarium classes
-==========================
+Since plugins leverage events, the event dispatcher is responsible for the order they get called if two plugins register
+for the same event. In some cases that doesn't matter in other cases it is essential that Plugin A acts before Plugin B.
+If the order matters you need to read the documentation of the event dispatcher of choice that you inject into the
+Solarium Client's constructor.
 
-You can extend any class in Solarium, there is no use of 'private' or 'final'. However, Solarium does have several built-in class mappings for factory methods. Most important are the querytype mapping in Solarium\\Client and the component mapping in Solarium\\QueryType\\Select\\Query\\Query. In some cases you might need to alter this mappings for your classes to be used.
-Other than that, there are no special issues to be expected. You can extend Solarium classes like any other PHP class.
+For various events `CustomizeRequest` needs to be executed before `PostBigRequest`. And `Loadbalancer` should always be
+the last plugin.
 
-If your use case can be solved using plugins that is probably the safest choice, as by extending classes you gain access to non-public methods in the API. These are subject to change in future releases, where the public API is not (except for major releases). 
+If you use Symfony's event dispatcher, Solarium takes care of the order of these critical plugins and the events they
+listen to. This is done by setting the "priority".
