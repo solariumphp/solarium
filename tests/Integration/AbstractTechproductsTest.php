@@ -59,7 +59,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $ping = self::$client->createPing();
         self::$client->ping($ping);
-        
+
         $query = self::$client->createApi([
             'version' => Request::API_V1,
             'handler' => 'admin/info/system',
