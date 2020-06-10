@@ -44,6 +44,11 @@ abstract class AbstractTechproductsTest extends TestCase
      */
     protected static $config;
 
+    /**
+     * @var int
+     */
+    protected static $solrVersion;
+
     abstract protected static function createTechproducts(): void;
 
     public static function setUpBeforeClass(): void
@@ -54,6 +59,13 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $ping = self::$client->createPing();
         self::$client->ping($ping);
+        
+        $query = self::$client->createApi([
+            'version' => Request::API_V1,
+            'handler' => 'admin/info/system',
+        ]);
+        $response = self::$client->execute($query);
+        self::$solrVersion = $response->getData()['lucene']['solr-spec-version'];
 
         // disable automatic commits for update tests
         $query = self::$client->createApi([
@@ -784,14 +796,27 @@ abstract class AbstractTechproductsTest extends TestCase
             'price' => 47.0,
         ], $result->getIterator()->current()->getFields());
 
-        // add-distinct multiple values
-        $doc = $update->createDocument();
-        $doc->setKey('id', 'solarium-test');
-        $doc->setField('cat', ['modifier-add', 'modifier-add-another', 'modifier-add-distinct']);
-        $doc->setFieldModifier('cat', $doc::MODIFIER_ADD_DISTINCT);
-        $update->addDocument($doc);
-        $update->addCommit(true, true);
-        self::$client->update($update);
+        // add-distinct with multiple values can add duplicates in Solr 7 cloud mode (SOLR-14550)
+        if ('7' === strstr(self::$solrVersion, '.', true) && $this instanceof AbstractCloudTest) {
+            // we still have to emulate a successful atomic update for the remainder of this test to pass
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-test');
+            $doc->setField('cat', 'modifier-add-distinct');
+            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+            $update->addDocument($doc);
+            $update->addCommit(true, true);
+            self::$client->update($update);
+        }
+        else {
+            // add-distinct multiple values
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-test');
+            $doc->setField('cat', ['modifier-add', 'modifier-add-another', 'modifier-add-distinct']);
+            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD_DISTINCT);
+            $update->addDocument($doc);
+            $update->addCommit(true, true);
+            self::$client->update($update);
+        }
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
         $this->assertSame([
@@ -1070,12 +1095,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testV2Api()
     {
-        $query = self::$client->createApi([
-            'version' => Request::API_V1,
-            'handler' => 'admin/info/system',
-        ]);
-        $response = self::$client->execute($query);
-        if (version_compare($response->getData()['lucene']['solr-spec-version'], '7', '>=')) {
+        if (version_compare(self::$solrVersion, '7', '>=')) {
             $query = self::$client->createApi([
                 'version' => Request::API_V2,
                 'handler' => 'node/system',
