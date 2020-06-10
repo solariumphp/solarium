@@ -806,8 +806,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $update->addDocument($doc);
             $update->addCommit(true, true);
             self::$client->update($update);
-        }
-        else {
+        } else {
             // add-distinct multiple values
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-test');
