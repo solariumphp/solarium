@@ -3,7 +3,7 @@
 namespace Solarium\Plugin\CustomizeRequest;
 
 use Solarium\Core\Event\Events;
-use Solarium\Core\Event\PreExecuteRequest;
+use Solarium\Core\Event\postCreateRequest;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
@@ -194,10 +194,10 @@ class CustomizeRequest extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function preExecuteRequest($event): self
+    public function postCreateRequest($event): self
     {
         // We need to accept event proxies or decoraters.
-        /* @var PreExecuteRequest $event */
+        /* @var PostCreateRequest $event */
         $request = $event->getRequest();
         foreach ($this->getCustomizations() as $key => $customization) {
             // first validate
@@ -225,8 +225,6 @@ class CustomizeRequest extends AbstractPlugin
             }
         }
 
-        $event->setRequest($request);
-
         return $this;
     }
 
@@ -253,7 +251,7 @@ class CustomizeRequest extends AbstractPlugin
     {
         $dispatcher = $this->client->getEventDispatcher();
         if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
-            $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
+            $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
         }
     }
 }

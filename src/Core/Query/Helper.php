@@ -142,10 +142,8 @@ class Helper
             // when we get here the input is always a datetime object
             $input = $input->setTimezone(new \DateTimeZone('UTC'));
             // Solr seems to require the format PHP erroneously declares as ISO8601.
-            // @todo use DateTimeInterface as soon as we require PHP 7.2 at least:
-            // $iso8601 = $input->format(\DateTimeInterface::ISO8601);
             /** @noinspection DateTimeConstantsUsageInspection */
-            $iso8601 = $input->format(\DateTime::ISO8601);
+            $iso8601 = $input->format(\DateTimeInterface::ISO8601);
             $iso8601 = strstr($iso8601, '+', true); //strip timezone
             $iso8601 .= 'Z';
 

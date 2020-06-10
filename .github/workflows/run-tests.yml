@@ -45,6 +45,7 @@ jobs:
             - name: Install dependencies
               run: |
                 composer global require hirak/prestissimo
+                composer require phpstan/phpstan:0.12.25
                 composer update
 
             - name: Run tests
