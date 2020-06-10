@@ -26,7 +26,7 @@ class QueryCustomizer extends AbstractPlugin
 htmlHeader();
 
 // create a client instance and register the plugin
-$client = new Client($config);
+$client = new Client($adapter, $eventDispatcher, $config);
 $client->registerPlugin('querycustomizer', 'QueryCustomizer');
 
 // create a select query instance

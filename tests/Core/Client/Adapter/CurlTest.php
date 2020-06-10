@@ -55,7 +55,7 @@ class CurlTest extends TestCase
 
         /** @var Curl|MockObject $mock */
         $mock = $this->getMockBuilder(Curl::class)
-            ->setMethods(['getData'])
+            ->onlyMethods(['getData'])
             ->getMock();
 
         $mock->expects($this->once())

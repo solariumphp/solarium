@@ -1,0 +1,7 @@
+version: '3'
+services:
+  solr7:
+    image: solr:7
+    ports:
+      - "8983:8983"
+    command: bash -c "cp -R /opt/solr/server/solr/configsets /var/solr/data/configsets; docker-entrypoint.sh solr start -f"

@@ -28,7 +28,7 @@ See [<https://packagist.org>](https://packagist.org) for other packages.
 ```json
 {
     "require": {
-        "solarium/solarium": "~5.0.0"
+        "solarium/solarium": "~6.0"
     }
 }
 ```
@@ -55,7 +55,7 @@ htmlHeader();
 echo 'Solarium library version: ' . Solarium\Client::VERSION . ' - ';
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // create a ping query
 $ping = $client->createPing();
@@ -117,7 +117,18 @@ Basic usage
 
 All the code display below can be found in the /examples dir of the project, where you can also easily execute the code. For more info see [Example code](V3:Example_code "wikilink").
 
-All the examples use the init.php file. This file registers the Solarium autoloader and also loads the $config array for use in the client constructor. The $config array has the following contents: 
+All the examples use the init.php file. This file registers the Solarium autoloader, sets up a client adapter and event dispatcher, and also loads the `$config` array for use in the client constructor.
+
+A client adapter and event dispatcher can be set up like this:
+
+```php
+<?php
+
+$adapter = new Solarium\Core\Client\Adapter\Curl(); // or any other adapter implementing AdapterInterface
+$eventDispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
+```
+
+The `$config` array has the following contents: 
 
 ```php
 <?php
@@ -147,7 +158,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createQuery($client::QUERY_SELECT);
@@ -193,7 +204,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
@@ -242,7 +253,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get an update query instance
 $update = $client->createUpdate();
@@ -271,7 +282,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get an update query instance
 $update = $client->createUpdate();
@@ -304,7 +315,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get an update query instance
 $update = $client->createUpdate();

@@ -7,7 +7,7 @@ use Solarium\QueryType\Select\Query\Query as Select;
 htmlHeader();
 
 // create a client instance
-$client = new Client($config);
+$client = new Client($adapter, $eventDispatcher, $config);
 
 
 // first create a base query as a query class

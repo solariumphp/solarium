@@ -1,0 +1,7 @@
+version: '3'
+services:
+  solr8:
+    image: solr:8
+    ports:
+      - "8983:8983"
+    command: bash -c "docker-entrypoint.sh solr start -c; solr zk upconfig -z localhost:9983 -n techproducts -d server/solr/configsets/sample_techproducts_configs/conf; mkdir /var/solr/data2; cp /var/solr/data/solr.xml /var/solr/data2/; solr start -c -s /var/solr/data2 -p 8987 -z localhost:9983 -f"

@@ -1,0 +1,63 @@
+name: Run Tests
+
+on:
+    push:
+
+    pull_request:
+
+    schedule:
+        - cron: '0 8 * * *' # run at 08:00 UTC
+
+jobs:
+    run-tests:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                php: [7.2, 7.3, 7.4]
+                solr: [7, 8]
+                mode: [cloud, server]
+
+        name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
+
+        env:
+            PHP: ${{ matrix.os }}
+            SOLR: ${{ matrix.solr }}${{ matrix.mode }}
+            COMPOSER_MEMORY_LIMIT: -1
+
+        steps:
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                php-version: ${{ matrix.php }}
+                extensions: dom, curl, libxml, mbstring, zip, intl, iconv, json, simplexml
+                ini-values: memory_limit=256M,post_max_size=256M
+                coverage: pcov
+
+            - name: Checkout solarium
+              uses: actions/checkout@v2
+
+            - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
+              run: |
+                cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
+                docker-compose up -d
+
+            - name: Install dependencies
+              run: |
+                composer global require hirak/prestissimo
+                composer require phpstan/phpstan:0.12.25
+                composer update
+
+            - name: Run tests
+              run: |
+                vendor/bin/phpstan analyze src/ tests/ --level=1
+                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
+
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@master
+              with:
+                file: build/logs/clover.xml
+                flags: unittests
+                env_vars: PHP,SOLR
+                name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
+                fail_ci_if_error: false

@@ -57,7 +57,7 @@ use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
 htmlHeader();
 
 // create a client instance and autoload the buffered add plugin
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $buffer = $client->getPlugin('bufferedadd');
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
@@ -115,7 +115,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and autoload the customize request plugin
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $customizer = $client->getPlugin('customizerequest');
 
 // add a persistent HTTP header (using array input values)
@@ -190,7 +190,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and create endpoints
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $endpoint1 = $client->createEndpoint('local1'); //normally you would add endpoint specific settings...
 $endpoint2 = $client->createEndpoint('local2');
 $endpoint3 = $client->createEndpoint('local3');
@@ -262,7 +262,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // enable the plugin and get a query instance
 $filter = $client->getPlugin('minimumscorefilter');
@@ -314,7 +314,7 @@ This plugin makes it possible to execute multiple Solr queries at the same time,
 
 Some important notes:
 
--   This plugin makes use of the curl client adapter and calls curl\_multi\_exec, so you do need to have curl available in your PHP environment to be able to use it.
+-   This plugin makes use of the cURL client adapter and calls curl\_multi\_exec, so you do need to have cURL available in your PHP environment to be able to use it.
 -   Only request execution is parallel, requests preparation and result parsing cannot be done parallel. Luckily these parts cost very little time, far more time is in the requests.
 -   The execution time is limited by the slowest request. If you execute 3 queries with timings of 0.2, 0.4 and 1.2 seconds the execution time for all will be (near) 1.2 seconds.
 -   If one of the requests fails the other requests will still be executed and the results parsed. In the result array the entry for the failed query will contain an exception instead of a result object. It’s your own responsibility to check the result type.
@@ -332,7 +332,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and autoload the customize request plugin
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $parallel = $client->getPlugin('parallelexecution');
 
 // Add a delay param to better show the effect, as an example Solr install with
@@ -404,7 +404,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and autoload the postbigrequest plugin
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $client->getPlugin('postbigrequest');
 
 // create a basic query to execute
@@ -465,7 +465,7 @@ require(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
-$client = new Solarium\Client($config);
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
