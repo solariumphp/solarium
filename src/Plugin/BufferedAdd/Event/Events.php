@@ -16,7 +16,7 @@ interface Events
      *
      * @var string
      */
-    public const PRE_FLUSH = 'solarium.bufferedAdd.preFlush';
+    public const PRE_FLUSH = PreFlush::class;
 
     /**
      * This event is called after a buffer flush.
@@ -25,7 +25,7 @@ interface Events
      *
      * @var string
      */
-    public const POST_FLUSH = 'solarium.bufferedAdd.postFlush';
+    public const POST_FLUSH = PostFlush::class;
 
     /**
      * This event is called before a buffer commit.
@@ -34,7 +34,7 @@ interface Events
      *
      * @var string
      */
-    public const PRE_COMMIT = 'solarium.bufferedAdd.preCommit';
+    public const PRE_COMMIT = PreCommit::class;
 
     /**
      * This event is called after a buffer commit.
@@ -43,7 +43,7 @@ interface Events
      *
      * @var string
      */
-    public const POST_COMMIT = 'solarium.bufferedAdd.postCommit';
+    public const POST_COMMIT = PostCommit::class;
 
     /**
      * This event is called when a new document is added.
@@ -52,5 +52,5 @@ interface Events
      *
      * @var string
      */
-    public const ADD_DOCUMENT = 'solarium.bufferedAdd.addDocument';
+    public const ADD_DOCUMENT = AddDocument::class;
 }

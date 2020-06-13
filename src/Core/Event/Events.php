@@ -15,7 +15,7 @@ interface Events
      *
      * @var string
      */
-    const PRE_CREATE_REQUEST = 'solarium.core.preCreateRequest';
+    public const PRE_CREATE_REQUEST = PreCreateRequest::class;
 
     /**
      * The postCreateRequest event is thrown just after a request has been created based on a query object, using the
@@ -25,7 +25,7 @@ interface Events
      *
      * @var string
      */
-    const POST_CREATE_REQUEST = 'solarium.core.postCreateRequest';
+    public const POST_CREATE_REQUEST = PostCreateRequest::class;
 
     /**
      * The preExecuteRequest event is thrown just before a request is sent to Solr.
@@ -34,7 +34,7 @@ interface Events
      *
      * @var string
      */
-    const PRE_EXECUTE_REQUEST = 'solarium.core.preExecuteRequest';
+    public const PRE_EXECUTE_REQUEST = PreExecuteRequest::class;
 
     /**
      * The postExecuteRequest event is thrown just after a request has been sent to Solr.
@@ -43,7 +43,7 @@ interface Events
      *
      * @var string
      */
-    const POST_EXECUTE_REQUEST = 'solarium.core.postExecuteRequest';
+    public const POST_EXECUTE_REQUEST = PostExecuteRequest::class;
 
     /**
      * The preCreateResult event is before the Solr response data is parsed into a result object.
@@ -52,7 +52,7 @@ interface Events
      *
      * @var string
      */
-    const PRE_CREATE_RESULT = 'solarium.core.preCreateResult';
+    public const PRE_CREATE_RESULT = PreCreateResult::class;
 
     /**
      * The postCreateResult event is thrown just after the Solr response data was parsed into a result object.
@@ -61,7 +61,7 @@ interface Events
      *
      * @var string
      */
-    const POST_CREATE_RESULT = 'solarium.core.postCreateResult';
+    public const POST_CREATE_RESULT = PostCreateResult::class;
 
     /**
      * The preExecute event is thrown as soon as the Solarium client execute method is called. This method
@@ -72,7 +72,7 @@ interface Events
      *
      * @var string
      */
-    const PRE_EXECUTE = 'solarium.core.preExecute';
+    public const PRE_EXECUTE = PreExecute::class;
 
     /**
      * The postExecute event is thrown just after a all execution is done.
@@ -81,7 +81,7 @@ interface Events
      *
      * @var string
      */
-    const POST_EXECUTE = 'solarium.core.postExecute';
+    public const POST_EXECUTE = PostExecute::class;
 
     /**
      * The preCreateQuery event is thrown before the creation of a new query object. Using this event you can
@@ -91,7 +91,7 @@ interface Events
      *
      * @var string
      */
-    const PRE_CREATE_QUERY = 'solarium.core.preCreateQuery';
+    public const PRE_CREATE_QUERY = PreCreateQuery::class;
 
     /**
      * The postCreateQuery event is thrown after the creation of a new query object. Using this event you can
@@ -101,5 +101,5 @@ interface Events
      *
      * @var string
      */
-    const POST_CREATE_QUERY = 'solarium.core.postCreateQuery';
+    public const POST_CREATE_QUERY = PostCreateQuery::class;
 }

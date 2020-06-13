@@ -17,9 +17,13 @@ jobs:
                 php: [7.2, 7.3, 7.4]
                 solr: [7, 8]
                 mode: [cloud, server]
-                symfony: [4.3.*, 4.4.*, 5.0.*]
 
-        name: PHP ${{ matrix.php }}, symfony ${{ matrix.symfony }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
+        name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
+
+        env:
+            PHP: ${{ matrix.os }}
+            SOLR: ${{ matrix.solr }}${{ matrix.mode }}
+            COMPOSER_MEMORY_LIMIT: -1
 
         steps:
             - name: Setup PHP
@@ -41,13 +45,19 @@ jobs:
             - name: Install dependencies
               run: |
                 composer global require hirak/prestissimo
-                composer require --dev symfony/event-dispatcher:${{ matrix.symfony }}
+                composer require phpstan/phpstan:0.12.25
+                composer update
 
             - name: Run tests
-              env:
-                COVERALLS_RUN_LOCALLY: 1
-                COVERALLS_REPO_TOKEN:
               run: |
                 vendor/bin/phpstan analyze src/ tests/ --level=1
-                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v
-                vendor/bin/php-coveralls -v --dry-run
+                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
+
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@master
+              with:
+                file: build/logs/clover.xml
+                flags: unittests
+                env_vars: PHP,SOLR
+                name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
+                fail_ci_if_error: false

@@ -504,7 +504,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['preCreateRequest'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preCreateRequest')
                  ->with($this->equalTo($expectedEvent));
@@ -531,7 +531,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['postCreateRequest'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postCreateRequest')
                  ->with($this->equalTo($expectedEvent));
@@ -599,7 +599,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['preCreateResult'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preCreateResult')
                  ->with($this->equalTo($expectedEvent));
@@ -626,7 +626,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['postCreateResult'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postCreateResult')
                  ->with($this->equalTo($expectedEvent));
@@ -725,7 +725,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['preExecute'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preExecute')
                  ->with($this->equalTo($expectedEvent));
@@ -767,7 +767,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['postExecute'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postExecute')
                  ->with($this->equalTo($expectedEvent));
@@ -855,7 +855,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['preExecuteRequest'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preExecuteRequest')
                  ->with($this->equalTo($expectedEvent));
@@ -890,7 +890,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['postExecuteRequest'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postExecuteRequest')
                  ->with($this->equalTo($expectedEvent));
@@ -1100,7 +1100,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['preCreateQuery'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('preCreateQuery')
                  ->with($this->equalTo($expectedEvent));
@@ -1152,7 +1152,7 @@ class ClientTest extends TestCase
         $observer = $this->getMockBuilder(AbstractPlugin::class)
             ->addMethods(['postCreateQuery'])
             ->getMock();
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $observer->expects($this->once())
                  ->method('postCreateQuery')
                  ->with($this->equalTo($expectedEvent));
