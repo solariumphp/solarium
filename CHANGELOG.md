@@ -5,9 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
-## [unreleased]
-### Added
-
+## [6.0.0-beta.1]
 ### Changed
 - PostBigRequest plugin now acts on PRE_EXECUTE_REQUEST event instead of POST_CREATE_REQUEST
 - CustomizeRequest plugin now acts on POST_CREATE_REQUEST event instead of PRE_EXECUTE_REQUEST
@@ -37,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Endpoint::setTimeout and Endpoint::getTimeout
 - Passing local parameter options (e.g. ``key``, ``tag``, ``exclude``) without the ``local_`` prefix 
 - Support for Solr versions before 7.7
+
 
 ## [5.2.0]
 ### Added
