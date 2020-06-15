@@ -44,6 +44,11 @@ abstract class AbstractTechproductsTest extends TestCase
      */
     protected static $config;
 
+    /**
+     * @var int
+     */
+    protected static $solrVersion;
+
     abstract protected static function createTechproducts(): void;
 
     public static function setUpBeforeClass(): void
@@ -54,6 +59,47 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $ping = self::$client->createPing();
         self::$client->ping($ping);
+
+        $query = self::$client->createApi([
+            'version' => Request::API_V1,
+            'handler' => 'admin/info/system',
+        ]);
+        $response = self::$client->execute($query);
+        self::$solrVersion = $response->getData()['lucene']['solr-spec-version'];
+
+        // disable automatic commits for update tests
+        $query = self::$client->createApi([
+            'version' => Request::API_V1,
+            'handler' => self::$name.'/config',
+            'method' => Request::METHOD_POST,
+            'rawdata' => json_encode([
+                'set-property' => [
+                    'updateHandler.autoCommit.maxDocs' => -1,
+                    'updateHandler.autoCommit.maxTime' => -1,
+                    'updateHandler.autoCommit.openSearcher' => true,
+                    'updateHandler.autoSoftCommit.maxDocs' => -1,
+                    'updateHandler.autoSoftCommit.maxTime' => -1,
+                ],
+            ]),
+        ]);
+        self::$client->execute($query);
+
+        // ensure correct config for update tests
+        $query = self::$client->createApi([
+            'version' => Request::API_V1,
+            'handler' => self::$name.'/config/updateHandler',
+        ]);
+        $response = self::$client->execute($query);
+        $config = $response->getData()['config'];
+        static::assertEquals([
+            'maxDocs' => -1,
+            'maxTime' => -1,
+            'openSearcher' => true,
+        ], $config['updateHandler']['autoCommit']);
+        static::assertEquals([
+            'maxDocs' => -1,
+            'maxTime' => -1,
+        ], $config['updateHandler']['autoSoftCommit']);
 
         try {
             // index techproducts sample data
@@ -463,22 +509,6 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->addSort('id', $select::SORT_ASC);
         $select->setFields('id,name,price');
 
-        // disable automatic commits for commit and rollback tests
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        $request->setHandler('config');
-        $request->addHeader('Content-Type: application/json');
-        $request->setRawData(json_encode([
-            'set-property' => [
-                'updateHandler.autoCommit.maxDocs' => -1,
-                'updateHandler.autoCommit.maxTime' => -1,
-                'updateHandler.autoSoftCommit.maxDocs' => -1,
-                'updateHandler.autoSoftCommit.maxTime' => -1,
-            ],
-        ]));
-        $response = self::$client->executeRequest($request);
-        $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
-
         // add, but don't commit
         $update = self::$client->createUpdate();
         $doc1 = $update->createDocument();
@@ -650,18 +680,279 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(0, $result);
+    }
 
-        // reset automatic commits to the configuration in solrconfig.xml
-        $request->setRawData(json_encode([
-            'unset-property' => [
-                'updateHandler.autoCommit.maxDocs',
-                'updateHandler.autoCommit.maxTime',
-                'updateHandler.autoSoftCommit.maxDocs',
-                'updateHandler.autoSoftCommit.maxTime',
+    public function testModifiers()
+    {
+        $select = self::$client->createSelect();
+        $select->setQuery('id:solarium-test');
+        $select->addSort('id', $select::SORT_ASC);
+        $select->setFields('id,name,cat,price');
+        $update = self::$client->createUpdate();
+
+        $doc = $update->createDocument();
+        $doc->setField('id', 'solarium-test');
+        $doc->setField('name', 'Solarium Test');
+        $doc->setField('cat', 'solarium-test');
+        $doc->setField('price', 17.01);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'solarium-test',
             ],
-        ]));
-        $response = self::$client->executeRequest($request);
-        $this->assertSame(0, json_decode($response->getBody())->responseHeader->status);
+            'price' => 17.01,
+        ], $result->getIterator()->current()->getFields());
+
+        // set
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', 'modifier-set');
+        $doc->setFieldModifier('cat', $doc::MODIFIER_SET);
+        $doc->setField('price', 42.0);
+        $doc->setFieldModifier('price', $doc::MODIFIER_SET);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'modifier-set',
+            ],
+            'price' => 42.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // add & inc
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', 'modifier-add');
+        $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+        $doc->setField('price', 5);
+        $doc->setFieldModifier('price', $doc::MODIFIER_INC);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'modifier-set',
+                'modifier-add',
+            ],
+            'price' => 47.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // add multiple values (non-distinct)
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', ['modifier-add', 'modifier-add-another']);
+        $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'modifier-set',
+                'modifier-add',
+                'modifier-add',
+                'modifier-add-another',
+            ],
+            'price' => 47.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // add-distinct
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', 'modifier-add');
+        $doc->setFieldModifier('cat', $doc::MODIFIER_ADD_DISTINCT);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'modifier-set',
+                'modifier-add',
+                'modifier-add',
+                'modifier-add-another',
+            ],
+            'price' => 47.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // add-distinct with multiple values can add duplicates in Solr 7 cloud mode (SOLR-14550)
+        if ('7' === strstr(self::$solrVersion, '.', true) && $this instanceof AbstractCloudTest) {
+            // we still have to emulate a successful atomic update for the remainder of this test to pass
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-test');
+            $doc->setField('cat', 'modifier-add-distinct');
+            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+            $update->addDocument($doc);
+            $update->addCommit(true, true);
+            self::$client->update($update);
+        } else {
+            // add-distinct multiple values
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-test');
+            $doc->setField('cat', ['modifier-add', 'modifier-add-another', 'modifier-add-distinct']);
+            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD_DISTINCT);
+            $update->addDocument($doc);
+            $update->addCommit(true, true);
+            self::$client->update($update);
+        }
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'modifier-set',
+                'modifier-add',
+                'modifier-add',
+                'modifier-add-another',
+                'modifier-add-distinct',
+            ],
+            'price' => 47.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // remove & negative inc
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', 'modifier-set');
+        $doc->setFieldModifier('cat', $doc::MODIFIER_REMOVE);
+        $doc->setField('price', -5);
+        $doc->setFieldModifier('price', $doc::MODIFIER_INC);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'modifier-add',
+                'modifier-add',
+                'modifier-add-another',
+                'modifier-add-distinct',
+            ],
+            'price' => 42.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // remove multiple values
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', ['modifier-add', 'modifier-add-another']);
+        $doc->setFieldModifier('cat', $doc::MODIFIER_REMOVE);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'modifier-add',
+                'modifier-add-distinct',
+            ],
+            'price' => 42.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // removeregex
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', '^.+-add$');
+        $doc->setFieldModifier('cat', $doc::MODIFIER_REMOVEREGEX);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'cat' => [
+                'modifier-add-distinct',
+            ],
+            'price' => 42.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // set to empty list
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', []);
+        $doc->setFieldModifier('cat', $doc::MODIFIER_SET);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'price' => 42.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // add to missing field
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', ['solarium-test']);
+        $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        // cat comes after price now because it was added later!
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'price' => 42.0,
+            'cat' => [
+                'solarium-test',
+            ],
+        ], $result->getIterator()->current()->getFields());
+
+        // set to null
+        $doc = $update->createDocument();
+        $doc->setKey('id', 'solarium-test');
+        $doc->setField('cat', [null]);
+        $doc->setFieldModifier('cat', $doc::MODIFIER_SET);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame([
+            'id' => 'solarium-test',
+            'name' => 'Solarium Test',
+            'price' => 42.0,
+        ], $result->getIterator()->current()->getFields());
+
+        // cleanup
+        $update = self::$client->createUpdate();
+        $update->addDeleteById('solarium-test');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
     }
 
     public function testReRankQuery()
@@ -803,12 +1094,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testV2Api()
     {
-        $query = self::$client->createApi([
-            'version' => Request::API_V1,
-            'handler' => 'admin/info/system',
-        ]);
-        $response = self::$client->execute($query);
-        if (version_compare($response->getData()['lucene']['solr-spec-version'], '7', '>=')) {
+        if (version_compare(self::$solrVersion, '7', '>=')) {
             $query = self::$client->createApi([
                 'version' => Request::API_V2,
                 'handler' => 'node/system',
