@@ -30,7 +30,7 @@ class Buckets implements FacetResultInterface, \IteratorAggregate, \Countable
      *
      * @param Bucket[] $buckets
      */
-    public function __construct(array $buckets, $numBuckets=null)
+    public function __construct(array $buckets, $numBuckets = null)
     {
         $this->buckets = $buckets;
         $this->numBuckets = $numBuckets;
