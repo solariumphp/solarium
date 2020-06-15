@@ -168,7 +168,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     }
                     if ($buckets) {
                         $buckets_and_aggregations[$key] = new Buckets($buckets, $numBuckets);
-                    } elseif($numBuckets) {
+                    } elseif ($numBuckets) {
                         $buckets_and_aggregations[$key] = new Buckets([], $numBuckets);
                     }
                 } else {
