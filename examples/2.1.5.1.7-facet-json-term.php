@@ -32,7 +32,7 @@ echo 'count(): '.$facet->count().' (number of buckets returned)<br/>';
 
 //  Note: use instanceof Solarium\Component\Result\Facet\Buckets to differentiate from standard field facets.  
 foreach ($facet as $bucket) {
-    echo  $bucket.$bucket->getValue() . ' [' . $bucket->getCount() . ']<br/>';
+    echo  $bucket->getValue() . ' [' . $bucket->getCount() . ']<br/>';
 }
 
 // show documents using the resultset iterator
