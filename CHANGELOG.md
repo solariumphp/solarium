@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - MoreLikeThis fails on Solr Cloud
+- MinimumScoreFIlter Plugin might fail on Solr 7 in cloud mode
 
 ### Changed
 
