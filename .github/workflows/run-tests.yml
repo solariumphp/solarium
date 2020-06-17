@@ -53,6 +53,11 @@ jobs:
                 vendor/bin/phpstan analyze src/ tests/ --level=1
                 vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
 
+            - name: Execute examples
+              run: |
+                cd examples
+                php execute_all.php
+
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@master
               with:
