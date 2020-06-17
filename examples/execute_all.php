@@ -83,7 +83,7 @@ try {
         if (preg_match('/^\d.*\.php/', $example)) {
             print "\n".$example.' ';
             if (!in_array($example, ['2.1.5.8-distributed-search.php', '2.3.2-mlt-stream.php'])) {
-                if ('solrcloud' !== $solr_mode || !in_array($example, ['2.2.5-rollback.php', '7.1-plugin-loadbalancer.php'])) {
+                if ('solrcloud' !== $solr_mode || !in_array($example, ['2.1.5.7-grouping-by-query.php', '2.2.5-rollback.php', '7.1-plugin-loadbalancer.php'])) {
                     ob_start();
                     require($example);
                     ob_end_clean();
