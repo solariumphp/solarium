@@ -18,7 +18,7 @@ try {
     ]);
 
     $data = $client->execute($query)->getData();
-    $solr_mode = $data['mode'] ?? 'core';
+    $solr_mode = $data['mode'] ?? 'server';
 
     if ('solrcloud' === $data['mode']) {
         $config['endpoint']['localhost']['collection'] = $config['endpoint']['localhost']['core'];
