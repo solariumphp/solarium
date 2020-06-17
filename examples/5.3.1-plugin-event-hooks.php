@@ -1,5 +1,5 @@
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 use Solarium\Core\Event\Events;
 
 // this very simple plugin shows a timing for each event and display some request debug info
