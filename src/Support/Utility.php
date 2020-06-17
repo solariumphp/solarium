@@ -2,7 +2,6 @@
 
 namespace Solarium\Support;
 
-
 class Utility
 {
     /**
