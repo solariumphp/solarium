@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // This example shows how to manually execute the query flow.
