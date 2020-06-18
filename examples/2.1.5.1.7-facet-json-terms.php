@@ -13,7 +13,7 @@ $query = $client->createSelect();
 $facetSet = $query->getFacetSet();
 
 // create a json terms instance and set options
-$categoriesTerms = new Solarium\Component\Facet\JsonTerms(['key' => 'categories', 'field' => 'cat', 'limit'=>4,'numBuckets'=>true]);
+$categoriesTerms = new Solarium\Component\Facet\JsonTerms(['local_key' => 'categories', 'field' => 'cat', 'limit'=>4,'numBuckets'=>true]);
 
 // add json terms instance to the facetSet
 $facetSet->addFacet($categoriesTerms);
