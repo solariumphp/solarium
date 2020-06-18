@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query as Select;
 

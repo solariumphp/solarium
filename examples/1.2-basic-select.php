@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -12,7 +12,7 @@ $query = $client->createQuery($client::QUERY_SELECT);
 // Pagination example
 $resultsPerPage = 15;
 $currentPage = 1;
-        
+
 // Set the number of results to return
 $query->setRows($resultsPerPage);
 // Set the 0-based result to start from, taking into account pagination

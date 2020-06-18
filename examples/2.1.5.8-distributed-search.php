@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 echo "<h2>Note: The techproducts isn't distributed by default!</h2>";

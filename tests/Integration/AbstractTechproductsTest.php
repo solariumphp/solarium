@@ -26,6 +26,7 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs as InitArgsSynon
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
+use Solarium\Support\Utility;
 
 abstract class AbstractTechproductsTest extends TestCase
 {
@@ -106,7 +107,7 @@ abstract class AbstractTechproductsTest extends TestCase
             foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
                 $update = self::$client->createUpdate();
 
-                if (null !== $encoding = self::getXmlEncoding($file)) {
+                if (null !== $encoding = Utility::getXmlEncoding($file)) {
                     $update->setInputEncoding($encoding);
                 }
 
@@ -1444,39 +1445,6 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = self::$client->execute($query);
         $items = $result->getItems();
         $this->assertGreaterThanOrEqual(2, count($items));
-    }
-
-    /**
-     * Extracts the encoding from the XML declaration of a file if present.
-     *
-     * @param string $file
-     *
-     * @return string|null
-     */
-    private static function getXmlEncoding(string $file): ?string
-    {
-        $encoding = null;
-
-        $xml = file_get_contents($file);
-
-        if (false !== $xml) {
-            // discard UTF-8 Byte Order Mark
-            if (pack('CCC', 0xEF, 0xBB, 0xBF) === substr($xml, 0, 3)) {
-                $xml = substr($xml, 3);
-            }
-
-            // detect XML declaration
-            if ('<?xml' === substr($xml, 0, 5)) {
-                $declaration = substr($xml, 0, strpos($xml, '?>') + 2);
-
-                // detect encoding attribute
-                if (false !== $pos = strpos($declaration, 'encoding="')) {
-                    $encoding = substr($declaration, $pos + 10, strpos($declaration, '"', $pos + 10) - $pos - 10);
-                }
-            }
-        }
-
-        return $encoding;
     }
 }
 
