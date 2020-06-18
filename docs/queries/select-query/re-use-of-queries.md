@@ -5,7 +5,7 @@ There are multiple ways to do this, depending on your use case and personal pref
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query as Select;
 
