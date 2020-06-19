@@ -425,7 +425,7 @@ class FacetSetTest extends TestCase
         $this->assertTrue(isset($facets['empty_buckets_with_numBuckets']));
 
         $this->assertEquals(12, $result->getFacet('empty_buckets_with_numBuckets')->getNumBuckets());
-        
+
         $this->assertEquals(2, $result->getFacet('stock')->getNumBuckets());
 
         $this->assertNull($facets['top_genres']->getNumBuckets());
