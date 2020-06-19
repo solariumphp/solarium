@@ -382,13 +382,13 @@ class FacetSetTest extends TestCase
                     'buckets' => [
                         [
                             'val' => true,
-                            'count' => 17
+                            'count' => 17,
                         ],
                         [
                             'val' => false,
-                            'count' => 4
-                        ]
-                    ]
+                            'count' => 4,
+                        ],
+                    ],
                 ],
                 'empty_buckets' => [
                     'buckets' => [],
@@ -396,14 +396,14 @@ class FacetSetTest extends TestCase
                 'empty_buckets_with_numBuckets' => [
                     'numBuckets' => 12,
                     'buckets' => [],
-                ]
+                ],
             ],
         ];
 
         $result = $this->parser->parse($this->query, $this->facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(['top_genres','stock','empty_buckets_with_numBuckets',], array_keys($facets));
+        $this->assertEquals(['top_genres', 'stock', 'empty_buckets_with_numBuckets'], array_keys($facets));
 
         $buckets = $facets['top_genres']->getBuckets();
 
@@ -424,9 +424,9 @@ class FacetSetTest extends TestCase
 
         $this->assertTrue(isset($facets['empty_buckets_with_numBuckets']));
 
-        $this->assertEquals(12,$result->getFacet('empty_buckets_with_numBuckets')->getNumBuckets());
+        $this->assertEquals(12, $result->getFacet('empty_buckets_with_numBuckets')->getNumBuckets());
         
-        $this->assertEquals(2,$result->getFacet('stock')->getNumBuckets());
+        $this->assertEquals(2, $result->getFacet('stock')->getNumBuckets());
 
         $this->assertNull($facets['top_genres']->getNumBuckets());
 
