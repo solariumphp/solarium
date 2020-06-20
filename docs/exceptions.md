@@ -3,6 +3,9 @@ Exceptions
 
 When you start using Solarium, you'll encounter exceptions. Some can be weeded out during development. Others can't be prevented from cropping up in production. It is good practice to catch these exceptions and act upon them accordingly.
 
+Catching Solarium exceptions
+----------------------------
+
 An unreachable endpoint can be emulated to run the following examples "successfully"—that is, causing them to throw an exception!
 
 ```php
@@ -25,8 +28,7 @@ $client->execute($ping);
 ```
 
 
-All exceptions are created equal
---------------------------------
+### All exceptions are created equal
 
 Every exception thrown by Solarium is a descendant of the PHP base class `Exception`. This is the simplest way to catch them.
 
@@ -40,8 +42,7 @@ try {
 ```
 
 
-Distinguish Solarium exceptions
--------------------------------
+### Distinguish Solarium exceptions
 
 Exceptions thrown by Solarium implement a marker interface. This empty interface makes it possible to handle them separately.
 
@@ -58,8 +59,7 @@ try {
 ```
 
 
-Single out an exception
------------------------
+### Single out an exception
 
 An exception can be singled out by catching it separately.
 
@@ -89,3 +89,31 @@ try {
 }
 ```
 
+
+Overview of Solarium exceptions
+-------------------------------
+
+### Logic exceptions
+
+Logic exceptions represent errors in the program logic. You should fix them in your code.
+
+Solarium can throw one type of logic exception. It extends its SPL counterpart to implement `Solarium\Exception\ExceptionInterface` and `Solarium\Exception\LogicExceptionInterface`.
+
+| Exception                                     | Extends                    |
+| --------------------------------------------- | -------------------------- |
+| `Solarium\Exception\InvalidArgumentException` | `InvalidArgumentException` |
+
+
+### Runtime exceptions
+
+Runtime exceptions represent errors that can only be found on runtime.
+
+Solarium can throw a number of runtime exceptions. All of them implement `Solarium\Exception\ExceptionInterface` and `Solarium\Exception\RuntimeExceptionInterface`.
+
+| Exception                                     | Extends                    |
+| --------------------------------------------- | -------------------------- |
+| `Solarium\Exception\HttpException`            | `RuntimeException`         |
+| `Solarium\Exception\OutOfBoundsException`     | `OutOfBoundsException`     |
+| `Solarium\Exception\RuntimeException`         | `RuntimeException`         |
+| `Solarium\Exception\StreamException`          | `UnexpectedValueException` |
+| `Solarium\Exception\UnexpectedValueException` | `UnexpectedValueException` |
