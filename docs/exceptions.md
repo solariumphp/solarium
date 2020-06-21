@@ -118,7 +118,7 @@ Solarium can throw a number of runtime exceptions. All of them implement `Solari
 | `Solarium\Exception\StreamException`          | `UnexpectedValueException` |
 | `Solarium\Exception\UnexpectedValueException` | `UnexpectedValueException` |
 
-Those that extend their SPL counterparts do so to implement the marker interfaces. Solarium also introduces two more specific exceptions.
+Those that extend their SPL counterparts do so to implement the marker interfaces. Solarium also introduces two exceptions that are more specific.
 
 
 #### `HttpException`
