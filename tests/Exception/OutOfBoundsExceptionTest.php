@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\Core;
+namespace Solarium\Tests\Exception;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Exception\OutOfBoundsException;
