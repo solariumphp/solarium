@@ -75,7 +75,7 @@ try {
 }
 ```
 
-The distinction can also be made inside the catch block.
+The distinction can also be made inside the catch block for a generic `Exception`.
 
 ```php
 try {
@@ -117,3 +117,15 @@ Solarium can throw a number of runtime exceptions. All of them implement `Solari
 | `Solarium\Exception\RuntimeException`         | `RuntimeException`         |
 | `Solarium\Exception\StreamException`          | `UnexpectedValueException` |
 | `Solarium\Exception\UnexpectedValueException` | `UnexpectedValueException` |
+
+Those that extend their SPL counterparts do so to implement the marker interfaces. Solarium also introduces two more specific exceptions.
+
+
+#### `HttpException`
+
+This exception indicates that a problem occurred in the communication with the Solr server. You should catch this (or a more generic exception) for every request that is executed.
+
+
+#### `StreamException`
+
+This exception indicates that a problem occurred with a streaming expression. You should catch this (or a more generic exception) for every streaming exception request that is executed.
