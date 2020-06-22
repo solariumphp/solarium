@@ -31,7 +31,7 @@ A simple select with some params, using the API mode:
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 
 htmlHeader();
 
@@ -89,7 +89,7 @@ An example using the select query in config mode: (filterqueries and components 
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 

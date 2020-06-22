@@ -14,7 +14,7 @@ You can also use the `Countable` interface to get the number of counts.
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -66,7 +66,7 @@ A facet query result is really simple. It has just one value: the count. You can
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -115,7 +115,7 @@ A multiquery facet is basically a combination of multiple facet query instances.
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -171,7 +171,7 @@ A range facet is also similar to a facet field, but instead of field value count
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance

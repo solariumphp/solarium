@@ -45,7 +45,7 @@ This is the standard Solarium adapter. It supports the most features (for instan
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a cURL adapter instance
@@ -71,7 +71,7 @@ This adapter has no dependencies on other classes or any special PHP extensions 
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create an HTTP adapter instance
@@ -93,7 +93,7 @@ Since Solarium 5.2 there is also a `Psr18Adapter` which can be used with any PSR
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a PSR-18 adapter instance
