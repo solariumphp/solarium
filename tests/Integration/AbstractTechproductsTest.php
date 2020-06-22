@@ -239,7 +239,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setQuery('power cort');
 
         $spellcheck = $select->getSpellcheck();
-        // Some spellcheck dictionaries need to built first, but not on every request!
+        // Some spellcheck dictionaries need to be built first, but not on every request!
         $spellcheck->setBuild(true);
         // Order of suggestions is wrong on SolrCloud with spellcheck.extendedResults=false (SOLR-9060)
         $spellcheck->setExtendedResults(true);
