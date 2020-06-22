@@ -19,13 +19,22 @@ class Buckets implements FacetResultInterface, \IteratorAggregate, \Countable
     protected $buckets;
 
     /**
+     * numBuckets.
+     *
+     * @var int|null
+     */
+    protected $numBuckets;
+
+    /**
      * Constructor.
      *
      * @param Bucket[] $buckets
+     * @param int|null $numBuckets
      */
-    public function __construct(array $buckets)
+    public function __construct(array $buckets, ?int $numBuckets = null)
     {
         $this->buckets = $buckets;
+        $this->numBuckets = $numBuckets;
     }
 
     /**
@@ -56,5 +65,16 @@ class Buckets implements FacetResultInterface, \IteratorAggregate, \Countable
     public function count(): int
     {
         return count($this->buckets);
+    }
+
+    /**
+     * Get total bucket count for JSON facet
+     * requires 'numBuckets':true in request.
+     *
+     * @return int|null
+     */
+    public function getNumBuckets(): ?int
+    {
+        return $this->numBuckets;
     }
 }
