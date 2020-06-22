@@ -10,7 +10,7 @@ The following example shows how your can build a core admin query that executes 
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
