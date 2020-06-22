@@ -17,7 +17,7 @@ namespace Solarium\Exception;
  *
  * The getStatusMessage method will return the HTTP status message.
  */
-class HttpException extends \RuntimeException implements ExceptionInterface
+class HttpException extends \RuntimeException implements RuntimeExceptionInterface
 {
     /**
      * HTTP status message.

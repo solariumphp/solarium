@@ -2,6 +2,9 @@
 
 namespace Solarium\Support\DataFixtures;
 
+use ReflectionException;
+use Solarium\Exception\InvalidArgumentException;
+
 /**
  * @author Baldur Rensch <brensch@gmail.com>
  */
@@ -52,13 +55,13 @@ class Loader
      *
      * @return self
      *
-     * @throws \InvalidArgumentException
-     * @throws \ReflectionException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
      */
     public function loadFromDirectory(string $dir): self
     {
         if (!is_dir($dir)) {
-            throw new \InvalidArgumentException(sprintf('"%s" does not exist', $dir));
+            throw new InvalidArgumentException(sprintf('"%s" does not exist', $dir));
         }
 
         $includedFiles = [];

@@ -5,6 +5,7 @@ namespace Solarium\Component\Facet;
 use Solarium\Component\Facet\Query as FacetQuery;
 use Solarium\Component\FacetSetInterface;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
 
 /**
  * Facet MultiQuery.
@@ -41,7 +42,7 @@ class MultiQuery extends AbstractFacet
      * @param string $query
      * @param array  $excludes
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -66,7 +67,7 @@ class MultiQuery extends AbstractFacet
      *
      * @param Query|array $facetQuery
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
@@ -203,7 +204,7 @@ class MultiQuery extends AbstractFacet
      *
      * @param string $exclude
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -229,7 +230,7 @@ class MultiQuery extends AbstractFacet
      *
      * @param string $exclude
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -253,7 +254,7 @@ class MultiQuery extends AbstractFacet
      * If you don't want this use the clearExcludes method of a
      * specific FacetQuery instance instead.
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
