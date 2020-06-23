@@ -7,7 +7,7 @@ use Solarium\Component\FacetSetInterface;
 /**
  * JSON facet aggregation.
  *
- * @see https://lucene.apache.org/solr/guide/7_3/json-facet-api.html
+ * @see https://lucene.apache.org/solr/guide/json-facet-api.html
  */
 class JsonAggregation extends AbstractFacet implements JsonFacetInterface
 {

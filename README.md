@@ -49,7 +49,7 @@ Solarium 6:
 $categoriesTerms = new Solarium\Component\Facet\JsonTerms(['local_key' => 'categories', 'field' => 'cat', 'limit'=>4,'numBuckets'=>true]);
 ```
 
-See https://lucene.apache.org/solr/guide/8_5/local-parameters-in-queries.html for an introduction about local parameters.
+See https://lucene.apache.org/solr/guide/local-parameters-in-queries.html for an introduction about local parameters.
 
 
 ### Pitfall when upgrading from 3.x or 4.x

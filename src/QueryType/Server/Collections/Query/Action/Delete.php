@@ -8,7 +8,7 @@ use Solarium\QueryType\Server\Collections\Result\DeleteResult;
 /**
  * Class Delete.
  *
- * @see https://lucene.apache.org/solr/guide/collections-api.html#delete
+ * @see https://lucene.apache.org/solr/guide/collection-management.html#delete
  */
 class Delete extends AbstractCDRAction
 {

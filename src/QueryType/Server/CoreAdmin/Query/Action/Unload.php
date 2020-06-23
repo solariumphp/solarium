@@ -6,7 +6,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
- * @see https://lucene.apache.org/solr/guide/8_5/coreadmin-api.html#CoreAdminAPI-UNLOAD
+ * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-unload
  */
 class Unload extends AbstractAsyncAction implements CoreActionInterface
 {

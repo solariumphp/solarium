@@ -9,7 +9,7 @@ use Solarium\QueryType\Server\Query\Action\AsyncActionInterface;
 /**
  * Class Create.
  *
- * @see https://lucene.apache.org/solr/guide/collections-api.html#create
+ * @see https://lucene.apache.org/solr/guide/collection-management.html#create
  */
 class Create extends AbstractCDRAction
 {
