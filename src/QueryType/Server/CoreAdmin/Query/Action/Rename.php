@@ -5,6 +5,11 @@ namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
+/**
+ * Class Rename.
+ *
+ * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-rename
+ */
 class Rename extends AbstractAsyncAction implements CoreActionInterface
 {
     use CoreActionTrait;
