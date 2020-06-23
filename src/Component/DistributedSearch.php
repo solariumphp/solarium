@@ -287,7 +287,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @see https://cwiki.apache.org/confluence/display/solr/Distributed+Requests
+     * @see https://lucene.apache.org/solr/guide/distributed-requests.html
      */
     public function addReplica(string $key, string $replica): self
     {
