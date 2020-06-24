@@ -25,8 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [6.0.0-rc.1]
 ### Added
 - \Solarium\Support\Utility::getXmlEncoding()
-- \Solarium\Component\Result\Facet\Buckets::getNumBuckets()
-- Added example 2.1.5.1.7-facet-json-terms.php
 
 ### Fixed
 - MoreLikeThis result parsing fails on Solr Cloud
