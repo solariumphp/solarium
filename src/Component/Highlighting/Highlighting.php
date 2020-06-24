@@ -15,7 +15,7 @@ use Solarium\Exception\InvalidArgumentException;
 /**
  * Highlighting component.
  *
- * @see http://wiki.apache.org/solr/HighlightingParameters
+ * @see https://lucene.apache.org/solr/guide/highlighting.html
  */
 class Highlighting extends AbstractComponent implements QueryInterface
 {

@@ -1,4 +1,4 @@
-The highlighting component can be used to highlight matches in content. For more info see <http://wiki.apache.org/solr/HighlightingParameters>
+The highlighting component can be used to highlight matches in content. For more info see <https://lucene.apache.org/solr/guide/highlighting.html>.
 
 Options
 -------

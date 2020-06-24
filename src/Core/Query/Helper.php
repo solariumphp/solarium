@@ -379,7 +379,7 @@ class Helper
     /**
      * Render join localparams syntax.
      *
-     * @see http://wiki.apache.org/solr/Join
+     * @see https://lucene.apache.org/solr/guide/other-parsers.html#join-query-parser
      * @since 2.4.0
      *
      * @param string $from
@@ -401,7 +401,7 @@ class Helper
      *
      * This is a Solr 3.2+ feature.
      *
-     * @see http://wiki.apache.org/solr/SolrQuerySyntax#Other_built-in_useful_query_parsers
+     * @see https://lucene.apache.org/solr/guide/other-parsers.html#term-query-parser
      *
      * @param string $field
      * @param float  $weight
@@ -418,7 +418,7 @@ class Helper
      *
      * This is a Solr 3.4+ feature.
      *
-     * @see http://wiki.apache.org/solr/CommonQueryParameters#Caching_of_filters
+     * @see https://lucene.apache.org/solr/guide/common-query-parameters.html#cache-parameter
      *
      * @param bool       $useCache
      * @param float|null $cost

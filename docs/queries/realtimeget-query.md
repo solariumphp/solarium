@@ -1,4 +1,4 @@
-A RealtimeGet query is useful when using Solr as a NoSql store. For more info see <http://wiki.apache.org/solr/RealTimeGet>
+A RealtimeGet query is useful when using Solr as a NoSQL store. For more info see <https://lucene.apache.org/solr/guide/realtime-get.html>
 
 Building a realtime query
 -------------------------

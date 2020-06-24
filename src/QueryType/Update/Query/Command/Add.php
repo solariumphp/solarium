@@ -9,7 +9,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query add command.
  *
- * @see http://wiki.apache.org/solr/UpdateXmlMessages#add.2BAC8-update
+ * @see https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#adding-documents
  */
 class Add extends AbstractCommand
 {

@@ -1,4 +1,4 @@
-For a description of Solr distributed search (also referred to as 'shards' or 'sharding') see the [http://wiki.apache.org/solr/DistributedSearch\#Distributed\_Search\_Example Solr wiki page](http://wiki.apache.org/solr/DistributedSearch#Distributed_Search_Example_Solr_wiki_page "wikilink").
+For a description of Solr distributed search (also referred to as 'shards' or 'sharding') see <https://lucene.apache.org/solr/guide/distributed-search-with-index-sharding.html>.
 
 Options
 -------
@@ -27,7 +27,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $query = $client->createSelect();
 
 // add distributed search settings
-// see http://wiki.apache.org/solr/DistributedSearch#Distributed_Search_Example for setting up two solr instances
+// see https://lucene.apache.org/solr/guide/distributed-search-with-index-sharding.html#testing-index-sharding-on-two-local-servers for setting up two Solr instances
 $distributedSearch = $query->getDistributedSearch();
 $distributedSearch->addShard('shard1', 'localhost:8983/solr');
 $distributedSearch->addShard('shard2', 'localhost:7574/solr');
