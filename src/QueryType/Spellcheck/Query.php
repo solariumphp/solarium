@@ -17,7 +17,7 @@ use Solarium\QueryType\Spellcheck\Result\Term;
  * Spellcheck Query.
  *
  * Can be used for an autocomplete feature.
- * 
+ *
  * @see https://lucene.apache.org/solr/guide/spell-checking.html
  */
 class Query extends BaseQuery implements SpellcheckInterface, QueryInterface

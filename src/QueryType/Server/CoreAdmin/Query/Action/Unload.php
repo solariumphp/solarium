@@ -7,7 +7,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
 /**
  * Class Unload.
- * 
+ *
  * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-unload
  */
 class Unload extends AbstractAsyncAction implements CoreActionInterface

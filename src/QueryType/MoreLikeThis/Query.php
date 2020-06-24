@@ -14,7 +14,7 @@ use Solarium\QueryType\Select\Result\Document;
  * Can be used to select documents and/or facets from Solr. This querytype has
  * lots of options and there are many Solarium subclasses for it.
  * See the Solr documentation and the relevant Solarium classes for more info.
- * 
+ *
  * @see https://lucene.apache.org/solr/guide/other-parsers.html#more-like-this-query-parser
  */
 class Query extends SelectQuery
