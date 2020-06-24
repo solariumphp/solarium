@@ -4,6 +4,7 @@ namespace Solarium\Tests\Core\Client;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
+use Solarium\Exception\RuntimeException;
 
 class RequestTest extends TestCase
 {
@@ -497,7 +498,7 @@ EOF;
 
     public function testSetAndGetFileUploadWithInvalidFile()
     {
-        $this->expectException('Solarium\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->request->setFileUpload('invalid-filename.dummy');
     }
 }

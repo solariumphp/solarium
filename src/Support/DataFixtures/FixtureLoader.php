@@ -2,6 +2,8 @@
 
 namespace Solarium\Support\DataFixtures;
 
+use ReflectionException;
+
 /**
  * This class is just a convenience wrapper around the fixture loading process.
  *
@@ -42,7 +44,7 @@ class FixtureLoader
      *
      * @return self
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function loadFixturesFromDir(string $dir, bool $append = true)
     {

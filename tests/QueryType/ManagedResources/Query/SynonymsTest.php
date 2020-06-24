@@ -2,6 +2,9 @@
 
 namespace Solarium\Tests\QueryType\ManagedResources\Query;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config;
@@ -10,7 +13,6 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
-use PHPUnit\Framework\TestCase;
 
 class SynonymsTest extends TestCase
 {
@@ -80,7 +82,7 @@ class SynonymsTest extends TestCase
 
     public function testUnknownCommand()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $command = $this->query->createCommand('unknowncommand');
     }
 
@@ -101,7 +103,7 @@ class SynonymsTest extends TestCase
     public function testInitArgsUnknownFormat()
     {
         $initArgs = new InitArgs();
-        $this->expectException(\Solarium\Exception\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $initArgs->setFormat('unknownformat');
     }
 

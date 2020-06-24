@@ -2,6 +2,7 @@
 
 namespace Solarium\Tests\Plugin\MinimumScoreFilter;
 
+use Solarium\Exception\OutOfBoundsException;
 use Solarium\Plugin\MinimumScoreFilter\Query;
 use Solarium\Plugin\MinimumScoreFilter\Result;
 use Solarium\QueryType\Select\Result\Document;
@@ -65,7 +66,7 @@ class ResultTest extends AbstractResultTest
 
     public function testFilterWithInvalidMode()
     {
-        $this->expectException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException(OutOfBoundsException::class);
         $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, 'invalid_filter_name');
     }
 }

@@ -229,11 +229,6 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(10, $result);
     }
 
-    /**
-     * @todo this test should pass on Solr Cloud!
-     *
-     * @group skip_for_solr_cloud
-     */
     public function testFacetHighlightSpellcheckComponent()
     {
         $select = self::$client->createSelect();
@@ -244,8 +239,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setQuery('power cort');
 
         $spellcheck = $select->getSpellcheck();
-        // Some spellcheck dictionaries needs to build first, but not on every request!
+        // Some spellcheck dictionaries need to be built first, but not on every request!
         $spellcheck->setBuild(true);
+        // Order of suggestions is wrong on SolrCloud with spellcheck.extendedResults=false (SOLR-9060)
+        $spellcheck->setExtendedResults(true);
 
         $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());

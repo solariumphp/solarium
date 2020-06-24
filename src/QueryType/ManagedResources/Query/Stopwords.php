@@ -2,11 +2,11 @@
 
 namespace Solarium\QueryType\ManagedResources\Query;
 
-use InvalidArgumentException;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Config;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create;
