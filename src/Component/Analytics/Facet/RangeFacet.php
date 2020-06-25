@@ -274,15 +274,20 @@ class RangeFacet extends AbstractFacet
      */
     public function jsonSerialize()
     {
-        return array_filter([
-            'type' => $this->getType(),
-            'field' => $this->field,
-            'start' => $this->start,
-            'end' => $this->end,
-            'gap' => $this->gap,
-            'hardend' => $this->hardend,
-            'include' => $this->include,
-            'others' => $this->others,
-        ]);
+        return array_filter(
+            [
+                'type' => $this->getType(),
+                'field' => $this->field,
+                'start' => $this->start,
+                'end' => $this->end,
+                'gap' => $this->gap,
+                'hardend' => $this->hardend,
+                'include' => $this->include,
+                'others' => $this->others,
+            ],
+            static function ($var) {
+                return null !== $var;
+            }
+        );
     }
 }

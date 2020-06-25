@@ -39,7 +39,7 @@ class AnalyticsFacetTest extends TestCase
 
         $this->assertSame($options['key'], $facet->getKey());
         $this->assertSame($options['expression'], $facet->getExpression());
-        $this->assertSame($options['sort'], $facet->getSort());
+        $this->assertNull($facet->getSort());
         $this->assertArrayNotHasKey('sort', $facet->jsonSerialize());
     }
 
@@ -69,7 +69,7 @@ class AnalyticsFacetTest extends TestCase
         $this->assertSame($options['start'], $facet->getStart());
         $this->assertSame($options['end'], $facet->getEnd());
         $this->assertSame($options['gap'], $facet->getGap());
-        $this->assertSame($options['hardend'], $facet->isHardend());
+        $this->assertTrue($facet->isHardend());
         $this->assertSame($options['include'], $facet->getInclude());
         $this->assertSame($options['others'], $facet->getOthers());
         $this->assertArrayNotHasKey('others', $facet->jsonSerialize());
@@ -127,7 +127,7 @@ class AnalyticsFacetTest extends TestCase
 
         $this->assertSame($pivotOptions['name'], $pivot->getName());
         $this->assertSame($pivotOptions['expression'], $pivot->getExpression());
-        $this->assertSame($pivotOptions['sort'], $pivot->getSort());
+        $this->assertNull($pivot->getSort());
         $this->assertArrayNotHasKey('sort', $pivot->jsonSerialize());
     }
 
@@ -153,7 +153,7 @@ class AnalyticsFacetTest extends TestCase
 
         $sort = new Sort($options);
 
-        $this->assertSame($options['limit'], $sort->getLimit());
+        $this->assertNull($sort->getLimit());
         $this->assertSame($options['offset'], $sort->getOffset());
         $this->assertArrayNotHasKey('limit', $sort->jsonSerialize());
 

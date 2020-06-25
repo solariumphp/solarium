@@ -3,7 +3,7 @@
 namespace Solarium\Plugin\CustomizeRequest;
 
 use Solarium\Core\Event\Events;
-use Solarium\Core\Event\postCreateRequest;
+use Solarium\Core\Event\PostCreateRequest;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
