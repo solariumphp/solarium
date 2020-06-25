@@ -286,7 +286,7 @@ class RangeFacet extends AbstractFacet
                 'others' => $this->others,
             ],
             static function ($var) {
-                return null !== $var;
+                return null !== $var && (false === is_array($var) || 0 !== count($var));
             }
         );
     }
