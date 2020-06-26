@@ -24,10 +24,10 @@ $resultset = $client->select($query);
 // display the total number of documents found by solr
 echo 'NumFound: '.$resultset->getNumFound();
 
-// JsonQuery returns a FacetSet, not Buckets like a jsonTerms facet
+// JsonQuery returns a FacetSet, not Buckets like a JsonTerms facet
 $stock_query = $resultset->getFacetSet()->getFacet('stock_query');
 
-// the facet count is returned as a 'count' sub-facet
+// A JsonQuery triggers an implicit "count" aggregation for the result of the query which is accessible just like a Facet within the FacetSet.
 $count = $stock_query->getFacet('count')->getValue();
 
 echo '<hr/>Facet "inStock" count : ' . $count;
