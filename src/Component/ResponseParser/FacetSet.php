@@ -17,6 +17,7 @@ use Solarium\Component\FacetSetInterface;
 use Solarium\Component\Result\Facet\Aggregation;
 use Solarium\Component\Result\Facet\Bucket;
 use Solarium\Component\Result\Facet\Buckets;
+use Solarium\Component\Result\Facet\JsonRange as ResultFacetJsonRange;
 use Solarium\Component\Result\Facet\Field as ResultFacetField;
 use Solarium\Component\Result\Facet\Interval as ResultFacetInterval;
 use Solarium\Component\Result\Facet\MultiQuery as ResultFacetMultiQuery;
@@ -166,10 +167,25 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     } else {
                         $numBuckets = null;
                     }
-                    if ($buckets) {
+                    if (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) {
+                        if (isset($values['before']['count'])) {
+                            $before = $values['before']['count'];
+                        } else {
+                            $before = null;
+                        }
+                        if (isset($values['after']['count'])) {
+                            $after = $values['after']['count'];
+                        } else {
+                            $after = null;
+                        }
+                        if (isset($values['between']['count'])) {
+                            $between = $values['between']['count'];
+                        } else {
+                            $between = null;
+                        }
+                        $buckets_and_aggregations[$key] = new ResultFacetJsonRange($buckets, $before, $after, $between);
+                    } elseif ($buckets || $numBuckets) {
                         $buckets_and_aggregations[$key] = new Buckets($buckets, $numBuckets);
-                    } elseif ($numBuckets) {
-                        $buckets_and_aggregations[$key] = new Buckets([], $numBuckets);
                     }
                 } else {
                     $buckets_and_aggregations[$key] = new ResultFacetSet($this->parseJsonFacetSet(
