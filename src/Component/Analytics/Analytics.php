@@ -18,7 +18,7 @@ use Solarium\Component\ResponseParser\ComponentParserInterface;
  *
  * @author wicliff <wicliff.wolda@gmail.com>
  *
- * @see https://lucene.apache.org/solr/guide/8_3/analytics.html
+ * @see https://lucene.apache.org/solr/guide/analytics.html
  */
 class Analytics extends AbstractComponent implements \JsonSerializable
 {
