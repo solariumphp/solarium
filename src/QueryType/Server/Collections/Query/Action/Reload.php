@@ -8,7 +8,7 @@ use Solarium\QueryType\Server\Collections\Result\ReloadResult;
 /**
  * Class Reload for reloading a collection.
  *
- * @see https://lucene.apache.org/solr/guide/collections-api.html#reload
+ * @see https://lucene.apache.org/solr/guide/collection-management.html#reload
  */
 class Reload extends AbstractCDRAction
 {

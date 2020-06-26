@@ -1,4 +1,4 @@
-The facet class supports the Solr pivot facet: <http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting>
+The facet class supports the Solr pivot facet: <https://lucene.apache.org/solr/guide/faceting.html#pivot-decision-tree-faceting>.
 
 Options
 -------

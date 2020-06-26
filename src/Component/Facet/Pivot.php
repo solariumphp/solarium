@@ -8,7 +8,7 @@ use Solarium\Exception\OutOfBoundsException;
 /**
  * Facet pivot.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting
+ * @see https://lucene.apache.org/solr/guide/faceting.html#pivot-decision-tree-faceting
  */
 class Pivot extends AbstractFacet
 {

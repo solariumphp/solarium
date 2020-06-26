@@ -1,4 +1,4 @@
-An extract query can be used to index files in Solr. For more info see <http://wiki.apache.org/solr/ExtractingRequestHandler>
+An extract query can be used to index files in Solr. For more info see <https://lucene.apache.org/solr/guide/uploading-data-with-solr-cell-using-apache-tika.html>
 
 Building an extract query
 -------------------------

@@ -17,7 +17,9 @@ use Solarium\QueryType\Suggester\Result\Term;
 /**
  * Suggester Query.
  *
- * Can be used for an autocomplete feature. See http://wiki.apache.org/solr/Suggester for more info.
+ * Can be used for an autocomplete feature.
+ *
+ * @see https://lucene.apache.org/solr/guide/suggester.html
  */
 class Query extends BaseQuery implements SuggesterInterface, QueryInterface
 {

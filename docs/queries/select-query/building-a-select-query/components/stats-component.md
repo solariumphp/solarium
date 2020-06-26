@@ -1,4 +1,4 @@
-For a description of the Solr StatsComponent see the [http://wiki.apache.org/solr/StatsComponent Solr wiki page](http://wiki.apache.org/solr/StatsComponent_Solr_wiki_page "wikilink").
+For a description of the Solr StatsComponent see <https://lucene.apache.org/solr/guide/the-stats-component.html>.
 
 Options
 -------

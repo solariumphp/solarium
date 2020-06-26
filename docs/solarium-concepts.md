@@ -254,7 +254,7 @@ If you want to customize Solarium please read the docs on this first. While you 
 
 ### Response parser format
 
-Solarium supports two Solr responsewriters: json and phps. The ‘phps’ responsewriter returns data as serialized PHP. This can be more efficient to decode than json, especially for large responses. For a benchmark see [http://www.raspberry.nl/2012/02/28/benchmarking-php-solr-response-data-handling/ this blogpost](http://www.raspberry.nl/2012/02/28/benchmarking-php-solr-response-data-handling/_this_blogpost "wikilink") (but be sure to test for your own use-case)
+Solarium supports two Solr responsewriters: json and phps. The ‘phps’ responsewriter returns data as serialized PHP. This can be more efficient to decode than json, especially for large responses. For a benchmark see [this blogpost](https://dzone.com/articles/benchmarks-php-solr-response) (but be sure to test for your own use-case).
 
 However this comes at the cost of a possible security risk in PHP deserialization. As long as you use a trusted Solr server this should be no issue, but to be safe the default is still JSON.
 

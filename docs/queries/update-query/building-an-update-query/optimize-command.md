@@ -1,6 +1,6 @@
 You can use this command to optimize your Solr index. Optimizing 'defragments' your index. The space taken by deleted document data is reclaimed and can merge the index into fewer segments. This can improve search performance a lot.
 
-See this page: <http://wiki.apache.org/solr/SolrPerformanceFactors#Optimization_Considerations> for more info about optimizing.
+See <https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#commit-and-optimize-during-updates> for more info about optimizing.
 
 While 'optimizing' sounds like it's always a good thing to do, you should use it with care, as it can have a negative performance impact *during the optimize process*. If possible use try to use it outside peak hours.
 

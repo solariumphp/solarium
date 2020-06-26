@@ -10,7 +10,7 @@ use Solarium\Component\ResponseParser\MoreLikeThis as ResponseParser;
 /**
  * MoreLikeThis component.
  *
- * @see http://wiki.apache.org/solr/MoreLikeThis
+ * @see https://lucene.apache.org/solr/guide/morelikethis.html
  */
 class MoreLikeThis extends AbstractComponent
 {
@@ -52,6 +52,8 @@ class MoreLikeThis extends AbstractComponent
      *
      * When using string input you can separate multiple fields with commas.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param string|array $fields
      *
      * @return self Provides fluent interface
@@ -83,9 +85,9 @@ class MoreLikeThis extends AbstractComponent
     }
 
     /**
-     * Set the interestingTerms parameter.  Must be one of: none, list, details.
+     * Set the interestingTerms parameter. Must be one of: none, list, details.
      *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
      *
      * @param string $term
      *
@@ -110,7 +112,7 @@ class MoreLikeThis extends AbstractComponent
     /**
      * Set the match.include parameter, which is either 'true' or 'false'.
      *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
      *
      * @param bool $include
      *
@@ -136,7 +138,7 @@ class MoreLikeThis extends AbstractComponent
      * Set the mlt.match.offset parameter, which determines the which result from the query should be used for MLT
      * For paging of MLT use setStart / setRows.
      *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
      *
      * @param int $offset
      *
@@ -164,6 +166,8 @@ class MoreLikeThis extends AbstractComponent
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $minimum
      *
      * @return self Provides fluent interface
@@ -190,6 +194,8 @@ class MoreLikeThis extends AbstractComponent
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $minimum
      *
      * @return self Provides fluent interface
@@ -215,6 +221,8 @@ class MoreLikeThis extends AbstractComponent
      *
      * Minimum word length below which words will be ignored.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $minimum
      *
      * @return self Provides fluent interface
@@ -239,6 +247,8 @@ class MoreLikeThis extends AbstractComponent
      * Set maximumwordlength option.
      *
      * Maximum word length above which words will be ignored.
+     *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
      *
      * @param int $maximum
      *
@@ -266,6 +276,8 @@ class MoreLikeThis extends AbstractComponent
      * Maximum number of query terms that will be included in any generated
      * query.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $maximum
      *
      * @return self Provides fluent interface
@@ -292,6 +304,8 @@ class MoreLikeThis extends AbstractComponent
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $maximum
      *
      * @return self Provides fluent interface
@@ -316,6 +330,8 @@ class MoreLikeThis extends AbstractComponent
      * Set boost option.
      *
      * If true the query will be boosted by the interesting term relevance.
+     *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
      *
      * @param bool $boost
      *
@@ -344,6 +360,8 @@ class MoreLikeThis extends AbstractComponent
      * DisMaxQParserPlugin. These fields must also be specified in fields.
      *
      * When using string input you can separate multiple fields with commas.
+     *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
      *
      * @param string|array $queryFields
      *
@@ -379,6 +397,8 @@ class MoreLikeThis extends AbstractComponent
      * Set count option.
      *
      * The number of similar documents to return for each result
+     *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethiscomponent
      *
      * @param int $count
      *

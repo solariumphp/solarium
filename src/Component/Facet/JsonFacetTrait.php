@@ -8,9 +8,9 @@ use Solarium\Core\Query\Helper;
 use Solarium\Exception\InvalidArgumentException;
 
 /**
- * Json facets.
+ * JSON facets.
  *
- * @see https://lucene.apache.org/solr/guide/7_3/json-facet-api.html
+ * @see https://lucene.apache.org/solr/guide/json-facet-api.html
  */
 trait JsonFacetTrait
 {

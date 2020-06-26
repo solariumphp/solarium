@@ -8,7 +8,7 @@ use Solarium\Component\RequestBuilder\Spatial as RequestBuilder;
 /**
  * Spatial component.
  *
- * @see https://cwiki.apache.org/confluence/display/solr/Spatial+Search
+ * @see https://lucene.apache.org/solr/guide/spatial-search.html
  */
 class Spatial extends AbstractComponent
 {

@@ -1,4 +1,4 @@
-For a description of Solr grouping (also referred to as 'result grouping' or 'field collapse') see the [http://wiki.apache.org/solr/FieldCollapsing Solr wiki page](http://wiki.apache.org/solr/FieldCollapsing_Solr_wiki_page "wikilink").
+For a description of Solr grouping (also referred to as 'result grouping' or 'field collapse') see <https://lucene.apache.org/solr/guide/result-grouping.html>.
 
 It's important to have a good understanding of the available options, as they can have have big effects on the result format.
 

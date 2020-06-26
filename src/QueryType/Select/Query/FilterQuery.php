@@ -11,7 +11,7 @@ use Solarium\Core\Query\LocalParameters\LocalParametersTrait;
 /**
  * Filterquery.
  *
- * @see http://wiki.apache.org/solr/CommonQueryParameters#fq
+ * @see https://lucene.apache.org/solr/guide/common-query-parameters.html#fq-filter-query-parameter
  */
 class FilterQuery extends Configurable implements QueryInterface
 {
