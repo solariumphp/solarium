@@ -9,9 +9,9 @@ Installation
 
 ### Requirements
 
-For installing Solarium a minimal PHP version 7.1 is required.
+For installing Solarium a minimal PHP version 7.2 is required.
 
-There is no Solr version requirement. But it's highly recommended that you use at least 6.6.6.
+There is no Solr version requirement. But it's highly recommended that you use at least 7.7. All older version are EOL.
 
 ### Getting Solarium
 
