@@ -7,7 +7,7 @@ use Solarium\Component\Result\Facet\FacetResultInterface;
 /**
  * Select component facetset result.
  */
-class FacetSet implements \IteratorAggregate, \Countable
+class FacetSet implements \IteratorAggregate, \Countable, FacetResultInterface
 {
     /**
      * Facet array.
