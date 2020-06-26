@@ -10,7 +10,7 @@ use Solarium\Component\ResponseParser\Debug as ResponseParser;
 /**
  * Debug component.
  *
- * @see http://wiki.apache.org/solr/CommonQueryParameters#Debugging
+ * @see https://lucene.apache.org/solr/guide/common-query-parameters.html#debug-parameter
  */
 class Debug extends AbstractComponent
 {
@@ -56,6 +56,8 @@ class Debug extends AbstractComponent
 
     /**
      * Set the explainOther query.
+     *
+     * @see https://lucene.apache.org/solr/guide/common-query-parameters.html#explainother-parameter
      *
      * @param string $query
      *

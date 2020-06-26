@@ -7,7 +7,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query delete command.
  *
- * @see http://wiki.apache.org/solr/UpdateXmlMessages#A.22delete.22_by_ID_and_by_Query
+ * @see https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#delete-operations
  */
 class Delete extends AbstractCommand
 {

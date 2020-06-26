@@ -1,4 +1,4 @@
-The morelikethis component can be used if you want to retrieve similar documents for your query results. This component uses morelikethis in the standardrequesthandler, not the standalone morelikethis handler. For more info see <http://wiki.apache.org/solr/MoreLikeThis>
+The morelikethis component can be used if you want to retrieve similar documents for your query results. This component uses morelikethis in the standardrequesthandler, not the standalone morelikethis handler. For more info see <https://lucene.apache.org/solr/guide/morelikethis.html>.
 
 Options
 -------

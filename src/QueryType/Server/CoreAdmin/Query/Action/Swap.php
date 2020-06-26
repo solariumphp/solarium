@@ -5,6 +5,11 @@ namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
+/**
+ * Class Swap.
+ *
+ * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-swap
+ */
 class Swap extends AbstractAsyncAction implements CoreActionInterface
 {
     use CoreActionTrait;

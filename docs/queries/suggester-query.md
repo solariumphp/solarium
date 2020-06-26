@@ -1,4 +1,4 @@
-A suggester query is a fast way to create an autocomplete feature. For more info on the Solr suggester component see: <http://wiki.apache.org/solr/Suggester>
+A suggester query is a fast way to create an autocomplete feature. For more info on the Solr suggester component see: <https://lucene.apache.org/solr/guide/suggester.html>.
 
 Building a suggester query
 --------------------------

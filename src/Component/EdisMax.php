@@ -8,7 +8,7 @@ use Solarium\Component\RequestBuilder\EdisMax as RequestBuilder;
 /**
  * EdisMax component.
  *
- * @see http://wiki.apache.org/solr/ExtendedDisMax
+ * @see https://lucene.apache.org/solr/guide/the-extended-dismax-query-parser.html
  */
 class EdisMax extends DisMax
 {

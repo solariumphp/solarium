@@ -13,7 +13,7 @@ use Solarium\Exception\InvalidArgumentException;
 /**
  * Stats component.
  *
- * @see http://wiki.apache.org/solr/StatsComponent
+ * @see https://lucene.apache.org/solr/guide/the-stats-component.html
  */
 class Stats extends AbstractComponent
 {

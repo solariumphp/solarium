@@ -1,4 +1,4 @@
-For a description of Solr debugging see the [http://wiki.apache.org/solr/CommonQueryParameters\#Debugging Solr wiki page](http://wiki.apache.org/solr/CommonQueryParameters#Debugging_Solr_wiki_page "wikilink").
+For a description of Solr debugging see <https://lucene.apache.org/solr/guide/common-query-parameters.html#debug-parameter>.
 
 Options
 -------

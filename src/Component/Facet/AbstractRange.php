@@ -5,7 +5,7 @@ namespace Solarium\Component\Facet;
 /**
  * Facet range.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range
+ * @see https://lucene.apache.org/solr/guide/faceting.html#range-faceting
  */
 abstract class AbstractRange extends AbstractFacet
 {

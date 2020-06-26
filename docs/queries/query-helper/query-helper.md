@@ -20,7 +20,9 @@ See the API docs (linked at the bottom of this page) for more details.
 Dereferenced params
 -------------------
 
-The query helper also supports dereferenced params. See the implementation of the join() and qparser() methods. For more info also see <http://wiki.apache.org/solr/LocalParams>: Parameter dereferencing or indirection allows one to use the value of another argument rather than specifying it directly. This can be used to simplify queries, decouple user input from query parameters, or decouple front-end GUI parameters from defaults set in solrconfig.xml.
+The query helper also supports dereferenced params. See the implementation of the join() and qparser() methods. For more info also see <https://lucene.apache.org/solr/guide/local-parameters-in-queries.html#parameter-dereferencing>:
+
+> Parameter dereferencing, or indirection, lets you use the value of another argument rather than specifying it directly. This can be used to simplify queries, decouple user input from query parameters, or decouple front-end GUI parameters from defaults set in `solrconfig.xml`.
 
 Special helper methods
 ----------------------

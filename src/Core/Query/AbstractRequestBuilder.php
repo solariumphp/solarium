@@ -53,7 +53,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      *
      * LocalParams can be use in various Solr GET params.
      *
-     * @see http://wiki.apache.org/solr/LocalParams
+     * @see https://lucene.apache.org/solr/guide/local-parameters-in-queries.html
      *
      * @param string $value
      * @param array  $localParams in key => value format

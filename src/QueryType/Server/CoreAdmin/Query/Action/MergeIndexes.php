@@ -5,6 +5,11 @@ namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 
+/**
+ * Class MergeIndexes.
+ *
+ * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-mergeindexes
+ */
 class MergeIndexes extends AbstractAsyncAction implements CoreActionInterface
 {
     use CoreActionTrait;

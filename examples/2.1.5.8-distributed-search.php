@@ -12,7 +12,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $query = $client->createSelect();
 
 // add distributed search settings
-// see http://wiki.apache.org/solr/DistributedSearch#Distributed_Search_Example for setting up two solr instances
+// see https://lucene.apache.org/solr/guide/distributed-search-with-index-sharding.html#testing-index-sharding-on-two-local-servers for setting up two Solr instances
 $distributedSearch = $query->getDistributedSearch();
 $distributedSearch->addShard('shard1', 'localhost:8983/solr');
 $distributedSearch->addShard('shard2', 'localhost:7574/solr');

@@ -8,7 +8,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAction;
 /**
  * Class RequestStatus.
  *
- * @see https://lucene.apache.org/solr/guide/8_5/coreadmin-api.html#CoreAdminAPI-REQUESTSTATUS
+ * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-requeststatus
  */
 class RequestStatus extends AbstractAction
 {
