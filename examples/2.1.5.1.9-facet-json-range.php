@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -9,7 +9,6 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 // get a select query instance
 $query = $client->createSelect();
 
-$query->setRows(0);
 // get the facetset component
 $facetSet = $query->getFacetSet();
 
