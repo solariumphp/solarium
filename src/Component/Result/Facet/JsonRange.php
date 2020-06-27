@@ -5,11 +5,11 @@ namespace Solarium\Component\Result\Facet;
 /**
  * JsonRange field facet result.
  *
- * A JsonRange is an extension of a field facet which can additionally containt values for before, after, and between.
  * The range values are a dataset of multiple rows, in each row a
  * value and its count. You can access the values as an array using
  * {@link getValues()} or iterate this object.
- * If the initial request has the 'other' param set then additional propertied of 
+ * The additional properties of before, after, and between are only avilable if the initial request has the 'other' param set.
+ * See https://lucene.apache.org/solr/guide/json-facet-api.html#range-facet-parameters
  */
 class JsonRange extends Buckets
 {
