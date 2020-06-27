@@ -35,20 +35,6 @@ class JsonRange extends Buckets
     protected $between;
 
     /**
-     * Value array.
-     *
-     * @var Bucket[]
-     */
-    protected $buckets;
-
-    /**
-     * numBuckets.
-     *
-     * @var int|null
-     */
-    protected $numBuckets;
-
-    /**
      * Constructor.
      *
      * @param Bucket[] $buckets
@@ -63,47 +49,6 @@ class JsonRange extends Buckets
         $this->before = $before;
         $this->after = $after;
         $this->between = $between;
-    }
-
-    /**
-     * Get all values.
-     *
-     * @return Bucket[]
-     */
-    public function getBuckets(): array
-    {
-        return $this->buckets;
-    }
-
-    /**
-     * IteratorAggregate implementation.
-     *
-     * @return \ArrayIterator
-     */
-    public function getIterator(): \ArrayIterator
-    {
-        return new \ArrayIterator($this->buckets);
-    }
-
-    /**
-     * Countable implementation.
-     *
-     * @return int
-     */
-    public function count(): int
-    {
-        return count($this->buckets);
-    }
-
-    /**
-     * Get total bucket count for JSON facet
-     * requires 'numBuckets':true in request.
-     *
-     * @return int|null
-     */
-    public function getNumBuckets(): ?int
-    {
-        return $this->numBuckets;
     }
 
     /**
