@@ -52,7 +52,9 @@ class JsonRange extends Buckets
      * Constructor.
      *
      * @param Bucket[] $buckets
-     * @param int|null $numBuckets
+     * @param int|null $before
+     * @param int|null $after
+     * @param int|null $between
      */
     public function __construct(array $buckets, ?int $before, ?int $after, ?int $between)
     {
