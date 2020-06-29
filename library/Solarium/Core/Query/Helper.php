@@ -370,7 +370,7 @@ class Helper
 
             return $name.'()';
         } else {
-            return $name.'('.implode($params, ',').')';
+            return $name.'('.implode(',', $params).')';
         }
     }
 
