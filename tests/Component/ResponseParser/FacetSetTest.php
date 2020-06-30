@@ -5,6 +5,7 @@ namespace Solarium\Tests\Component\ResponseParser;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\FacetInterface;
 use Solarium\Component\Facet\Field;
+use Solarium\Component\Facet\JsonRange as JsonRange;
 use Solarium\Component\FacetSet;
 use Solarium\Component\ResponseParser\FacetSet as Parser;
 use Solarium\Component\Result\Stats\Result;
@@ -433,7 +434,7 @@ class FacetSetTest extends TestCase
             ],
         ];
 
-        $price_range = new \Solarium\Component\Facet\JsonRange(['local_key' => 'price_range', 'field' => 'price', 'start' => 1, 'end' => 300, 'gap' => 100, 'other' => 'all']);
+        $price_range = new JsonRange(['local_key' => 'price_range', 'field' => 'price', 'start' => 1, 'end' => 300, 'gap' => 100, 'other' => JsonRange::OTHER_ALL]);
         $this->facetSet->addFacet($price_range);
 
         $result = $this->parser->parse($this->query, $this->facetSet, $data);

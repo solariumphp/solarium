@@ -1,5 +1,8 @@
 <?php
 
+use Solarium\Component\Facet\JsonRange as JsonRange;
+use Solarium\Component\Result\Facet\JsonRange as ResultFacetJsonRange;
+
 require_once(__DIR__.'/init.php');
 htmlHeader();
 
@@ -13,9 +16,10 @@ $query = $client->createSelect();
 $facetSet = $query->getFacetSet();
 
 // create a json range instance and set options
-// Set the 'other' parameter to retrieve before, after, between counts.
+// Set the 'other' parameter to retrieve counts for before, after, between, or all three.
+// Possible values are : JsonRange::OTHER_BEFORE, JsonRange::OTHER_AFTER, JsonRange::OTHER_BETWEEN, JsonRange::OTHER_ALL
 // See https://lucene.apache.org/solr/guide/json-facet-api.html#range-facet-parameters
-$priceranges = new \Solarium\Component\Facet\JsonRange(['local_key' => 'priceranges', 'field' => 'price','start'=>1 ,'end'=>300,'gap'=>100,'other'=>'all']);
+$priceranges = new JsonRange(['local_key' => 'priceranges', 'field' => 'price', 'start'=>1 ,'end'=>300,'gap'=>100, 'other'=>JsonRange::OTHER_ALL]);
 
 // add json range instance to the facetSet
 $facetSet->addFacet($priceranges);
@@ -31,7 +35,7 @@ echo '<hr/>Facet ranges:<br/>';
 $facet = $resultset->getFacetSet()->getFacet('priceranges');
 
 //  Note: use instanceof Solarium\Component\Result\Facet\JsonRange to differentiate from standard field facets.  
-if($facet instanceof Solarium\Component\Result\Facet\JsonRange) {
+if($facet instanceof ResultFacetJsonRange) {
     echo 'Before ['.$facet->getBefore().']<br />';
     echo 'After ['.$facet->getAfter().']<br />';
     echo 'Between ['.$facet->getBetween().']<br />';
