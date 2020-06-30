@@ -6,11 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [unreleased]
 ### Added
+- Solarium\Component\Result\Facet\JsonRange::getBefore()
+- Solarium\Component\Result\Facet\JsonRange::getAfter()
+- Solarium\Component\Result\Facet\JsonRange::getBetween()
 
 ### Fixed
 
 ### Changed
-
+ - Json range facet result now returns Solarium\Component\Result\Facet\JsonRange
+ 
 ### Removed
 
 
