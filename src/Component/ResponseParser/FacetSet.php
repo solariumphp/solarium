@@ -12,6 +12,7 @@ use Solarium\Component\Facet\JsonFacetInterface;
 use Solarium\Component\Facet\MultiQuery as QueryFacetMultiQuery;
 use Solarium\Component\Facet\Query as QueryFacetQuery;
 use Solarium\Component\Facet\Range as QueryFacetRange;
+use Solarium\Component\Facet\JsonRange as QueryFacetJsonRange;
 use Solarium\Component\FacetSet as QueryFacetSet;
 use Solarium\Component\FacetSetInterface;
 use Solarium\Component\Result\Facet\Aggregation;
@@ -167,7 +168,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     } else {
                         $numBuckets = null;
                     }
-                    if (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) {
+                    if (isset($facets[$key]) && $facets[$key] instanceof QueryFacetJsonRange) {
                         if (isset($values['before']['count'])) {
                             $before = $values['before']['count'];
                         } else {
