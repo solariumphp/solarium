@@ -9,9 +9,9 @@ Installation
 
 ### Requirements
 
-For installing Solarium a minimal PHP version 7.1 is required.
+For installing Solarium a minimal PHP version 7.2 is required.
 
-There is no Solr version requirement. But it's highly recommended that you use at least 6.6.6.
+There is no Solr version requirement. But it's highly recommended that you use at least 7.7. All older version are EOL.
 
 ### Getting Solarium
 
@@ -48,7 +48,7 @@ To check your installation you can do a Solarium version check with the followin
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // check solarium version available
@@ -67,7 +67,7 @@ try {
     echo '<br/><pre>';
     var_dump($result->getData());
     echo '</pre>';
-} catch (Solarium\Exception $e) {
+} catch (Exception $e) {
     echo 'Ping query failed';
 }
 
@@ -154,7 +154,7 @@ This is the basic example of executing a select query and displaying the results
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -200,7 +200,7 @@ This example demonstrates a facet field.
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -249,7 +249,7 @@ Documents can be deleted with a query:
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -278,7 +278,7 @@ Or by id
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -311,7 +311,7 @@ This example adds some documents to the index:
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance

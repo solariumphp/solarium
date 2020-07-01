@@ -3,6 +3,8 @@
 namespace Solarium\Tests\Plugin\Loadbalancer;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\Loadbalancer\WeightedRandomChoice;
 
 class WeightedRandomChoiceTest extends TestCase
@@ -47,14 +49,14 @@ class WeightedRandomChoiceTest extends TestCase
 
         $randomizer = new WeightedRandomChoice($choices);
 
-        $this->expectException('Solarium\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $randomizer->getRandom($excludes);
     }
 
     public function testInvalidWeigth()
     {
         $choices = ['key1' => -1, 'key2' => 2];
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         new WeightedRandomChoice($choices);
     }
 }

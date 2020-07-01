@@ -5,6 +5,7 @@ namespace Solarium\Tests\QueryType\Select\Query\Component\Stats;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Stats\Field;
 use Solarium\Component\Stats\Stats;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query;
 
 class StatsTest extends TestCase
@@ -128,7 +129,7 @@ class StatsTest extends TestCase
     {
         $fld = new Field();
 
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->stats->addField($fld);
     }
 
@@ -141,7 +142,7 @@ class StatsTest extends TestCase
         $f2->setKey('f1');
 
         $this->stats->addField($f1);
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->stats->addField($f2);
     }
 

@@ -8,7 +8,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query raw XML command.
  *
- * @see http://wiki.apache.org/solr/UpdateXmlMessages
+ * @see https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#xml-formatted-index-updates
  */
 class RawXml extends AbstractCommand
 {

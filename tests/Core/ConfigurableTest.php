@@ -65,7 +65,7 @@ class ConfigurableTest extends TestCase
 
     public function testInitialisation()
     {
-        $this->expectException('Solarium\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         new ConfigTestInit();
     }
 

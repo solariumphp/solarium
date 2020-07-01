@@ -1,4 +1,4 @@
-For a description of Solr debugging see the [http://wiki.apache.org/solr/CommonQueryParameters\#Debugging Solr wiki page](http://wiki.apache.org/solr/CommonQueryParameters#Debugging_Solr_wiki_page "wikilink").
+For a description of Solr debugging see <https://lucene.apache.org/solr/guide/common-query-parameters.html#debug-parameter>.
 
 Options
 -------
@@ -14,7 +14,7 @@ Example
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance

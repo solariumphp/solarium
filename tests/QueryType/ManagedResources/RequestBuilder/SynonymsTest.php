@@ -5,6 +5,7 @@ namespace Solarium\Tests\QueryType\ManagedResources\RequestBuilder;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add as AddCommand;
@@ -61,7 +62,7 @@ class SynonymsTest extends TestCase
 
     public function testNoName()
     {
-        $this->expectException(\Solarium\Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->builder->build($this->query);
     }
 
@@ -71,7 +72,7 @@ class SynonymsTest extends TestCase
         $this->query->setName('dutch');
         $this->query->setCommand($command);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $request = $this->builder->build($this->query);
     }
 

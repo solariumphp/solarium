@@ -10,7 +10,7 @@ use Solarium\Exception\InvalidArgumentException;
 /**
  * DisMax component.
  *
- * @see http://wiki.apache.org/solr/DisMaxQParserPlugin
+ * @see https://lucene.apache.org/solr/guide/the-dismax-query-parser.html
  */
 class DisMax extends AbstractComponent
 {

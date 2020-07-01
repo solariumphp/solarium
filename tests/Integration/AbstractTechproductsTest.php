@@ -26,6 +26,7 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs as InitArgsSynon
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
+use Solarium\Support\Utility;
 
 abstract class AbstractTechproductsTest extends TestCase
 {
@@ -106,7 +107,7 @@ abstract class AbstractTechproductsTest extends TestCase
             foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
                 $update = self::$client->createUpdate();
 
-                if (null !== $encoding = self::getXmlEncoding($file)) {
+                if (null !== $encoding = Utility::getXmlEncoding($file)) {
                     $update->setInputEncoding($encoding);
                 }
 
@@ -228,11 +229,6 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(10, $result);
     }
 
-    /**
-     * @todo this test should pass on Solr Cloud!
-     *
-     * @group skip_for_solr_cloud
-     */
     public function testFacetHighlightSpellcheckComponent()
     {
         $select = self::$client->createSelect();
@@ -243,8 +239,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setQuery('power cort');
 
         $spellcheck = $select->getSpellcheck();
-        // Some spellcheck dictionaries needs to build first, but not on every request!
+        // Some spellcheck dictionaries need to be built first, but not on every request!
         $spellcheck->setBuild(true);
+        // Order of suggestions is wrong on SolrCloud with spellcheck.extendedResults=false (SOLR-9060)
+        $spellcheck->setExtendedResults(true);
 
         $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
@@ -1444,39 +1442,6 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = self::$client->execute($query);
         $items = $result->getItems();
         $this->assertGreaterThanOrEqual(2, count($items));
-    }
-
-    /**
-     * Extracts the encoding from the XML declaration of a file if present.
-     *
-     * @param string $file
-     *
-     * @return string|null
-     */
-    private static function getXmlEncoding(string $file): ?string
-    {
-        $encoding = null;
-
-        $xml = file_get_contents($file);
-
-        if (false !== $xml) {
-            // discard UTF-8 Byte Order Mark
-            if (pack('CCC', 0xEF, 0xBB, 0xBF) === substr($xml, 0, 3)) {
-                $xml = substr($xml, 3);
-            }
-
-            // detect XML declaration
-            if ('<?xml' === substr($xml, 0, 5)) {
-                $declaration = substr($xml, 0, strpos($xml, '?>') + 2);
-
-                // detect encoding attribute
-                if (false !== $pos = strpos($declaration, 'encoding="')) {
-                    $encoding = substr($declaration, $pos + 10, strpos($declaration, '"', $pos + 10) - $pos - 10);
-                }
-            }
-        }
-
-        return $encoding;
     }
 }
 

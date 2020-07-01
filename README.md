@@ -34,6 +34,24 @@ Setting "timeout" as "option" in the HTTP Client Adapter is deprecated since Sol
 could handle it. The adapters which can handle it now implement the `TimeoutAwareInterface` and you need to set the
 timeout using the `setTimeout()` function after creating the adapter instance.
 
+In order to fix some issues with complex queries using local parameters solarium 6 destinguishs between query parameters
+and local parameters to be embedded in a query. Solarium 5.2 already informed you about the deprecation of some
+parameter names which are in fact local parameters. Solarium doen't convert them magically anymore.
+Local parameter names now have to be prefixed with `local_` if set as option of a constructor.
+
+Solarium 5:
+```php
+$categoriesTerms = new Solarium\Component\Facet\JsonTerms(['key' => 'categories', 'field' => 'cat', 'limit'=>4,'numBuckets'=>true]);
+```
+
+Solarium 6:
+```php
+$categoriesTerms = new Solarium\Component\Facet\JsonTerms(['local_key' => 'categories', 'field' => 'cat', 'limit'=>4,'numBuckets'=>true]);
+```
+
+See https://lucene.apache.org/solr/guide/local-parameters-in-queries.html for an introduction about local parameters.
+
+
 ### Pitfall when upgrading from 3.x or 4.x
 
 In the past, the V1 API endpoint **_solr_** was not added automatically, so most users set it as path on the endpoint.

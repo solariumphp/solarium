@@ -39,6 +39,7 @@ use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
 use Solarium\QueryType\Select\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser;
 use Solarium\QueryType\Select\Result\Document;
@@ -654,7 +655,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param string $tag
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -673,7 +674,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param array $tags
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -690,7 +691,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * Get all tagss.
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return array
      */
@@ -707,7 +708,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param string $tag
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return $this
      */
@@ -724,7 +725,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * Remove all tags.
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -745,7 +746,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param array $tags
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return $this
      */

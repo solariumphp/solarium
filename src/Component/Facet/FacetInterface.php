@@ -5,7 +5,7 @@ namespace Solarium\Component\Facet;
 /**
  * Facet interface.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters
+ * @see https://lucene.apache.org/solr/guide/faceting.html
  */
 interface FacetInterface
 {

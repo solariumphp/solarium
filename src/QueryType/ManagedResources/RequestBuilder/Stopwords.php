@@ -2,11 +2,11 @@
 
 namespace Solarium\QueryType\ManagedResources\RequestBuilder;
 
-use RuntimeException;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
 
@@ -22,7 +22,7 @@ class Stopwords extends BaseRequestBuilder
     public function build(AbstractQuery $query): Request
     {
         if (empty($query->getName())) {
-            throw new \Solarium\Exception\RuntimeException('Name of the stopwords resource is not set in the query.');
+            throw new RuntimeException('Name of the stopwords resource is not set in the query.');
         }
 
         $request = parent::build($query);

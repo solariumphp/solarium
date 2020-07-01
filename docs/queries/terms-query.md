@@ -1,4 +1,4 @@
-A terms query provides access to the indexed terms in a field. For details see: <http://wiki.apache.org/solr/TermsComponent>
+A terms query provides access to the indexed terms in a field. For details see: <https://lucene.apache.org/solr/guide/the-terms-component.html>.
 
 Building a terms query
 ----------------------
@@ -40,7 +40,7 @@ Example
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance

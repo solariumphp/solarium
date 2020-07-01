@@ -1,4 +1,4 @@
-The facet class supports the Solr range facet: <http://wiki.apache.org/solr/SimpleFacetParameters#Facet_by_Range>
+The facet class supports the Solr range facet: <https://lucene.apache.org/solr/guide/faceting.html#range-faceting>.
 
 Options
 -------
@@ -26,7 +26,7 @@ Examples
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -76,7 +76,7 @@ or when specifying pivot fields:
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance

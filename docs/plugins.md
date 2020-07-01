@@ -49,7 +49,7 @@ Example usage
 
 ```php
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 
 use Solarium\Plugin\BufferedAdd\Event\Events;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
@@ -110,7 +110,7 @@ Example usage
 
 ```php
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 
 htmlHeader();
 
@@ -185,7 +185,7 @@ Example usage
 
 ```php
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 
 htmlHeader();
 
@@ -250,14 +250,14 @@ Some important notes:
 2.  Rows and start (paging and offset) still work, but again this is not adjusted for filtering. So if you sets rows to 10, you might get less because of the filtering.
 3.  While it's not strictly necessary, you should sort by score as this is much more efficient. This also fits with the expected use case of getting only the best scoring documents.
 4.  Result document marking is done using a decorator, so you should still be able to use a custom document class.
-5.  Be aware of the issues related to 'normalizing' scores [more info](http://wiki.apache.org/lucene-java/ScoresAsPercentages). This filter only uses score to calculate a the relevancy relative to the best result and doesn't return this calculated score, but be sure to test your results! In cases like an autocomplete or 'best-bet' type of search this filter can be very useful.
+5.  Be aware of the issues related to 'normalizing' scores [more info](http://wiki.apache.org/lucene-java/ScoresAsPercentages). This filter only uses score to calculate the relevancy relative to the best result and doesn't return this calculated score, but be sure to test your results! In cases like an autocomplete or 'best-bet' type of search this filter can be very useful.
 
 Example usage
 -------------
 
 ```php
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 
 htmlHeader();
 
@@ -327,7 +327,7 @@ Example usage
 
 ```php
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 
 htmlHeader();
 
@@ -399,7 +399,7 @@ Example usage
 
 ```php
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 
 htmlHeader();
 
@@ -460,7 +460,7 @@ Example usage
 
 ```php
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 
 htmlHeader();
 

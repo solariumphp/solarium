@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\ManagedResources\RequestBuilder;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add as AddCommand;
@@ -54,7 +55,7 @@ class StopwordsTest extends TestCase
 
     public function testNoName()
     {
-        $this->expectException(\Solarium\Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $request = $this->builder->build($this->query);
     }
 
@@ -64,7 +65,7 @@ class StopwordsTest extends TestCase
         $this->query->setName('dutch');
         $this->query->setCommand($command);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $request = $this->builder->build($this->query);
     }
 

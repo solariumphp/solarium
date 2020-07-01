@@ -8,7 +8,7 @@ use Solarium\Component\RequestBuilder\ReRankQuery as RequestBuilder;
 /**
  * Rerank query.
  *
- * @see https://lucene.apache.org/solr/guide/7_3/query-re-ranking.html#rerank-query-parser
+ * @see https://lucene.apache.org/solr/guide/query-re-ranking.html#rerank-query-parser
  */
 class ReRankQuery extends AbstractComponent implements QueryInterface
 {

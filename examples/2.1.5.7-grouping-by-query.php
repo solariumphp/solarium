@@ -1,9 +1,7 @@
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
-
-echo "<h2>Note: Query grouping seems to be broken in Solr 8.0.0!</h2>";
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);

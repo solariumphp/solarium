@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Support\DataFixtures;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\Support\DataFixtures\FixtureInterface;
 use Solarium\Support\DataFixtures\Loader;
 
@@ -33,7 +34,7 @@ class LoaderTest extends TestCase
     public function testLoadFromInvalidDir()
     {
         $loader = new Loader();
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $loader->loadFromDirectory('bla');
     }
 

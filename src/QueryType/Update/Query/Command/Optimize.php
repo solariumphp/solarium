@@ -7,7 +7,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query optimize command.
  *
- * @see http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22
+ * @see https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#commit-and-optimize-during-updates
  */
 class Optimize extends AbstractCommand
 {

@@ -14,6 +14,8 @@ use Solarium\QueryType\Select\Result\Document;
  * Can be used to select documents and/or facets from Solr. This querytype has
  * lots of options and there are many Solarium subclasses for it.
  * See the Solr documentation and the relevant Solarium classes for more info.
+ *
+ * @see https://lucene.apache.org/solr/guide/other-parsers.html#more-like-this-query-parser
  */
 class Query extends SelectQuery
 {
@@ -72,7 +74,7 @@ class Query extends SelectQuery
      *
      * Set to true to post query content instead of using the URL param
      *
-     * @see http://wiki.apache.org/solr/ContentStream ContentStream
+     * @see https://lucene.apache.org/solr/guide/content-streams.html
      *
      * @param bool $stream
      *
@@ -95,9 +97,9 @@ class Query extends SelectQuery
     }
 
     /**
-     * Set the interestingTerms parameter.  Must be one of: none, list, details.
+     * Set the interestingTerms parameter. Must be one of: none, list, details.
      *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
      *
      * @param string $term
      *
@@ -122,7 +124,7 @@ class Query extends SelectQuery
     /**
      * Set the match.include parameter, which is either 'true' or 'false'.
      *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
      *
      * @param bool $include
      *
@@ -148,7 +150,7 @@ class Query extends SelectQuery
      * Set the mlt.match.offset parameter, which determines the which result from the query should be used for MLT
      * For paging of MLT use setStart / setRows.
      *
-     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
      *
      * @param int $offset
      *
@@ -177,6 +179,8 @@ class Query extends SelectQuery
      * stored TermVector
      *
      * Separate multiple fields with commas if you use string input.
+     *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
      *
      * @param string|array $fields
      *
@@ -214,6 +218,8 @@ class Query extends SelectQuery
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $minimum
      *
      * @return self Provides fluent interface
@@ -240,6 +246,8 @@ class Query extends SelectQuery
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $minimum
      *
      * @return self Provides fluent interface
@@ -265,6 +273,8 @@ class Query extends SelectQuery
      *
      * Minimum word length below which words will be ignored.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $minimum
      *
      * @return self Provides fluent interface
@@ -289,6 +299,8 @@ class Query extends SelectQuery
      * Set maximumwordlength option.
      *
      * Maximum word length above which words will be ignored.
+     *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
      *
      * @param int $maximum
      *
@@ -316,6 +328,8 @@ class Query extends SelectQuery
      * Maximum number of query terms that will be included in any generated
      * query.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $maximum
      *
      * @return self Provides fluent interface
@@ -342,6 +356,8 @@ class Query extends SelectQuery
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     *
      * @param int $maximum
      *
      * @return self Provides fluent interface
@@ -366,6 +382,8 @@ class Query extends SelectQuery
      * Set boost option.
      *
      * If true the query will be boosted by the interesting term relevance.
+     *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
      *
      * @param bool $boost
      *
@@ -394,6 +412,8 @@ class Query extends SelectQuery
      * DisMaxQParserPlugin. These fields must also be specified in fields.
      *
      * Separate multiple fields with commas if you use string input.
+     *
+     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
      *
      * @param string|array $queryFields
      *

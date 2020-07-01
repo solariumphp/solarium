@@ -5,9 +5,11 @@ namespace Solarium\Tests\Component\ResponseParser;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\FacetInterface;
 use Solarium\Component\Facet\Field;
+use Solarium\Component\Facet\JsonRange as JsonRange;
 use Solarium\Component\FacetSet;
 use Solarium\Component\ResponseParser\FacetSet as Parser;
 use Solarium\Component\Result\Stats\Result;
+use Solarium\Component\Result\Facet\JsonRange as ResultFacetJsonRange;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Query\Query;
 
@@ -49,7 +51,6 @@ class FacetSetTest extends TestCase
         $this->facetSet->createFacet('range', ['local_key' => 'keyD_A', 'pivot' => ['local_key' => 'keyF']]);
         $this->facetSet->createFacet('pivot', ['local_key' => 'keyE', 'fields' => 'cat,price']);
         $this->facetSet->createFacet('pivot', ['local_key' => 'keyF', 'fields' => 'cat']);
-
         $this->query = new Query();
     }
 
@@ -377,16 +378,69 @@ class FacetSetTest extends TestCase
                         ],
                     ],
                 ],
+                'stock' => [
+                    'numBuckets' => 2,
+                    'buckets' => [
+                        [
+                            'val' => true,
+                            'count' => 17,
+                        ],
+                        [
+                            'val' => false,
+                            'count' => 4,
+                        ],
+                    ],
+                ],
                 'empty_buckets' => [
                     'buckets' => [],
+                ],
+                'empty_buckets_with_numBuckets' => [
+                    'numBuckets' => 12,
+                    'buckets' => [],
+                ],
+                'price_range' => [
+                    'buckets' => [
+                        [
+                            'val' => 0,
+                            'count' => 7,
+                        ],
+                        [
+                            'val' => 100,
+                            'count' => 2,
+                        ],
+                        [
+                            'val' => 200,
+                            'count' => 1,
+                        ],
+                        [
+                            'val' => 300,
+                            'count' => 3,
+                        ],
+                        [
+                            'val' => 400,
+                            'count' => 1,
+                        ],
+                    ],
+                    'before' => [
+                        'count' => 0,
+                    ],
+                    'after' => [
+                        'count' => 2,
+                    ],
+                    'between' => [
+                        'count' => 14,
+                    ],
                 ],
             ],
         ];
 
+        $price_range = new JsonRange(['local_key' => 'price_range', 'field' => 'price', 'start' => 1, 'end' => 300, 'gap' => 100, 'other' => JsonRange::OTHER_ALL]);
+        $this->facetSet->addFacet($price_range);
+
         $result = $this->parser->parse($this->query, $this->facetSet, $data);
         $facets = $result->getFacets();
 
-        $this->assertEquals(['top_genres'], array_keys($facets));
+        $this->assertEquals(['top_genres', 'stock', 'empty_buckets_with_numBuckets', 'price_range'], array_keys($facets));
 
         $buckets = $facets['top_genres']->getBuckets();
 
@@ -405,7 +459,32 @@ class FacetSetTest extends TestCase
 
         $this->assertFalse(isset($facets['empty_buckets']));
 
+        $this->assertTrue(isset($facets['empty_buckets_with_numBuckets']));
+
+        $this->assertEquals(12, $result->getFacet('empty_buckets_with_numBuckets')->getNumBuckets());
+
+        $this->assertEquals(2, $result->getFacet('stock')->getNumBuckets());
+
+        $this->assertNull($facets['top_genres']->getNumBuckets());
+
         $this->assertEquals('Fantasy', $result->getFacet('top_genres')->getBuckets()[0]->getValue());
+
+        $this->assertInstanceOf(ResultFacetJsonRange::class, $result->getFacet('price_range'));
+
+        $range_buckets = $facets['price_range']->getBuckets();
+
+        $this->assertEquals(
+            '0',
+            $range_buckets[0]->getValue()
+        );
+        $this->assertEquals(
+            7,
+            $range_buckets[0]->getCount()
+        );
+
+        $this->assertEquals(0, $result->getFacet('price_range')->getBefore());
+        $this->assertEquals(2, $result->getFacet('price_range')->getAfter());
+        $this->assertEquals(14, $result->getFacet('price_range')->getBetween());
     }
 
     public function testParseFacetPivotStats(): void

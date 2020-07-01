@@ -2,6 +2,8 @@
 
 namespace Solarium\Component;
 
+use Solarium\Exception\OutOfBoundsException;
+
 /**
  * Trait query types supporting components.
  */
@@ -117,7 +119,7 @@ interface ComponentAwareQueryInterface
      * @param string|bool $autoload Class to autoload if component needs to be created
      * @param array|null  $config   Configuration to use for autoload
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return object|null
      */

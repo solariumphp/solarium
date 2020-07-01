@@ -12,11 +12,13 @@ use Solarium\Component\Facet\JsonFacetInterface;
 use Solarium\Component\Facet\MultiQuery as QueryFacetMultiQuery;
 use Solarium\Component\Facet\Query as QueryFacetQuery;
 use Solarium\Component\Facet\Range as QueryFacetRange;
+use Solarium\Component\Facet\JsonRange as QueryFacetJsonRange;
 use Solarium\Component\FacetSet as QueryFacetSet;
 use Solarium\Component\FacetSetInterface;
 use Solarium\Component\Result\Facet\Aggregation;
 use Solarium\Component\Result\Facet\Bucket;
 use Solarium\Component\Result\Facet\Buckets;
+use Solarium\Component\Result\Facet\JsonRange as ResultFacetJsonRange;
 use Solarium\Component\Result\Facet\Field as ResultFacetField;
 use Solarium\Component\Result\Facet\Interval as ResultFacetInterval;
 use Solarium\Component\Result\Facet\MultiQuery as ResultFacetMultiQuery;
@@ -161,8 +163,30 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                             (isset($facets[$key]) && $facets[$key] instanceof JsonFacetInterface) ? $facets[$key]->getFacets() : []
                         )));
                     }
-                    if ($buckets) {
-                        $buckets_and_aggregations[$key] = new Buckets($buckets);
+                    if (isset($values['numBuckets'])) {
+                        $numBuckets = $values['numBuckets'];
+                    } else {
+                        $numBuckets = null;
+                    }
+                    if (isset($facets[$key]) && $facets[$key] instanceof QueryFacetJsonRange) {
+                        if (isset($values['before']['count'])) {
+                            $before = $values['before']['count'];
+                        } else {
+                            $before = null;
+                        }
+                        if (isset($values['after']['count'])) {
+                            $after = $values['after']['count'];
+                        } else {
+                            $after = null;
+                        }
+                        if (isset($values['between']['count'])) {
+                            $between = $values['between']['count'];
+                        } else {
+                            $between = null;
+                        }
+                        $buckets_and_aggregations[$key] = new ResultFacetJsonRange($buckets, $before, $after, $between);
+                    } elseif ($buckets || $numBuckets) {
+                        $buckets_and_aggregations[$key] = new Buckets($buckets, $numBuckets);
                     }
                 } else {
                     $buckets_and_aggregations[$key] = new ResultFacetSet($this->parseJsonFacetSet(

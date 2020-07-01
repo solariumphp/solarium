@@ -7,7 +7,7 @@ use Solarium\Component\FacetSetInterface;
 /**
  * Facet interval.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters#Interval_Faceting
+ * @see https://lucene.apache.org/solr/guide/faceting.html#interval-faceting
  */
 class Interval extends AbstractFacet
 {

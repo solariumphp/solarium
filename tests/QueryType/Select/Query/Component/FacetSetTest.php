@@ -13,6 +13,8 @@ use Solarium\Component\Facet\Pivot;
 use Solarium\Component\Facet\Query as FacetQuery;
 use Solarium\Component\Facet\Range;
 use Solarium\Component\FacetSet;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\Exception\OutOfBoundsException;
 use Solarium\QueryType\Select\Query\Query;
 
 class FacetSetTest extends TestCase
@@ -124,7 +126,7 @@ class FacetSetTest extends TestCase
         $fq = new FacetQuery();
         $fq->setQuery('category:1');
 
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->facetSet->addFacet($fq);
     }
 
@@ -137,7 +139,7 @@ class FacetSetTest extends TestCase
         $fq2->setKey('f1')->setQuery('category:2');
 
         $this->facetSet->addFacet($fq1);
-        $this->expectException('Solarium\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->facetSet->addFacet($fq2);
     }
 
@@ -317,7 +319,7 @@ class FacetSetTest extends TestCase
 
     public function testCreateFacetWithInvalidType()
     {
-        $this->expectException('Solarium\Exception\OutOfBoundsException');
+        $this->expectException(OutOfBoundsException::class);
         $this->facetSet->createFacet('invalidtype');
     }
 

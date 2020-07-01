@@ -28,7 +28,7 @@ The example code shows how to do this. It also shows how to generate the URI for
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // This example shows how to manually execute the query flow.
@@ -98,7 +98,7 @@ Solarium uses a separate library (included using Composer) for events. For more 
 This example shows all available events and how to use the events to create a very basic debugger: 
 ```php
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 use Solarium\Core\Event\Events;
 
 // this very simple plugin shows a timing for each event and display some request debug info
@@ -232,7 +232,7 @@ htmlFooter();
 The second example shows how to replace the built-in select querytype with a custom implementation: 
 ```php
 <?php
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\Core\Plugin\Plugin;
 use Solarium\QueryType\Select\Query\Query as Select;

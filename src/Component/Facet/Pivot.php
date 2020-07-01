@@ -3,11 +3,12 @@
 namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
+use Solarium\Exception\OutOfBoundsException;
 
 /**
  * Facet pivot.
  *
- * @see http://wiki.apache.org/solr/SimpleFacetParameters#Pivot_.28ie_Decision_Tree.29_Faceting
+ * @see https://lucene.apache.org/solr/guide/faceting.html#pivot-decision-tree-faceting
  */
 class Pivot extends AbstractFacet
 {
@@ -171,7 +172,7 @@ class Pivot extends AbstractFacet
      *
      * @param string $stat
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -191,7 +192,7 @@ class Pivot extends AbstractFacet
      * @param string|array $stats can be an array or string with comma
      *                            separated statnames
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -214,7 +215,7 @@ class Pivot extends AbstractFacet
      *
      * @param string $stat
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -231,7 +232,7 @@ class Pivot extends AbstractFacet
     /**
      * Remove all stats from the stats list.
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */
@@ -248,7 +249,7 @@ class Pivot extends AbstractFacet
     /**
      * Get the list of stats.
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return array
      */
@@ -267,7 +268,7 @@ class Pivot extends AbstractFacet
      *
      * @param array $stats
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
      * @return self Provides fluent interface
      */

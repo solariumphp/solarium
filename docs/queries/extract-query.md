@@ -1,4 +1,4 @@
-An extract query can be used to index files in Solr. For more info see <http://wiki.apache.org/solr/ExtractingRequestHandler>
+An extract query can be used to index files in Solr. For more info see <https://lucene.apache.org/solr/guide/uploading-data-with-solr-cell-using-apache-tika.html>
 
 Building an extract query
 -------------------------
@@ -33,7 +33,7 @@ Example
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance

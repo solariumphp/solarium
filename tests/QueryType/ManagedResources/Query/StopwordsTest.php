@@ -2,6 +2,8 @@
 
 namespace Solarium\Tests\QueryType\ManagedResources\Query;
 
+use PHPUnit\Framework\TestCase;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Config;
@@ -10,7 +12,6 @@ use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
-use PHPUnit\Framework\TestCase;
 
 class StopwordsTest extends TestCase
 {
@@ -73,7 +74,7 @@ class StopwordsTest extends TestCase
 
     public function testUnknownCommand()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $command = $this->query->createCommand('unknowncommand');
     }
 

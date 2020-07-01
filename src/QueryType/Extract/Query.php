@@ -16,7 +16,7 @@ use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
  * Sends a document extract request to Solr, i.e. upload rich document content
  * such as PDF, Word or HTML, parse the file contents and add it to the index.
  *
- * The Solr server must have the {@link http://wiki.apache.org/solr/ExtractingRequestHandler
+ * The Solr server must have the {@link https://lucene.apache.org/solr/guide/uploading-data-with-solr-cell-using-apache-tika.html#configuring-the-extractingrequesthandler-in-solrconfig-xml
  * ExtractingRequestHandler} enabled.
  */
 class Query extends BaseQuery

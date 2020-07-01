@@ -2,7 +2,7 @@ A ping query can be used to check the connection to the Solr server and the heal
 
 *It's not advisable to check Solr with a ping before every request, this can have a big performance impact. You are better of using the ping query with intervals, or as a check after a query error to see if the query was faulty or if Solr has problems.*
 
-To use ping queries first of all you need to have a ping query defined in your solrconfig.xml file and working. See the Solr wiki for more info about this: <http://wiki.apache.org/solr/SolrConfigXml#The_Admin.2BAC8-GUI_Section>
+The search executed by a ping is configured with the Request Parameters API. For more info see <https://lucene.apache.org/solr/guide/ping.html>
 
 Creating a ping query
 ---------------------
@@ -32,7 +32,7 @@ Example
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // check solarium version available
@@ -51,7 +51,7 @@ try {
     echo '<br/><pre>';
     var_dump($result->getData());
     echo '</pre>';
-} catch (Solarium\Exception $e) {
+} catch (Exception $e) {
     echo 'Ping query failed';
 }
 

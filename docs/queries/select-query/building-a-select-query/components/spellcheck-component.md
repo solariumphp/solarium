@@ -1,4 +1,4 @@
-For a description of Solr spellcheck (also referred to as 'query suggest') see the [http://wiki.apache.org/solr/SpellCheckComponent Solr wiki page](http://wiki.apache.org/solr/SpellCheckComponent_Solr_wiki_page "wikilink").
+For a description of Solr spellcheck (also referred to as 'query suggest') see <https://lucene.apache.org/solr/guide/spell-checking.html>.
 
 The `setQuery()` method of this component supports [placeholders](V3:Placeholders "wikilink").
 
@@ -25,7 +25,7 @@ Options
 Collate params
 --------------
 
-Using the API method setCollateParam($param, $value) you can set any collate params you need. For more info please see this page: <http://wiki.apache.org/solr/SpellCheckComponent#spellcheck.collateParam.XX>
+Using the API method setCollateParam($param, $value) you can set any collate params you need. For more info see <https://lucene.apache.org/solr/guide/spell-checking.html#spell-check-parameters>.
 
 Example
 -------
@@ -33,7 +33,7 @@ Example
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
