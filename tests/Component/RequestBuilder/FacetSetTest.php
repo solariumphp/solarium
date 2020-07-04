@@ -422,6 +422,50 @@ class FacetSetTest extends TestCase
         );
     }
 
+    public function testBuildWithMatches()
+    {
+        $facet = new FacetField(
+            [
+                'local_key' => 'f1',
+                'field' => 'cat',
+                'matches' => 'co.*s',
+            ]
+        );
+        $this->component->addFacet($facet);
+        $this->component->setMatches('comp.*');
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+
+        $this->assertEquals(
+            '?facet.field={!key=f1}cat&f.cat.facet.matches=co.*s&facet=true&facet.matches=comp.*',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithExcludeTerms()
+    {
+        $facet = new FacetField(
+            [
+                'local_key' => 'f1',
+                'field' => 'cat',
+                'excludeTerms' => 'music,electronics',
+            ]
+        );
+        $this->component->addFacet($facet);
+        $this->component->setExcludeTerms('hard drive');
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+
+        $this->assertEquals(
+            '?facet.field={!key=f1}cat&f.cat.facet.excludeTerms=music,electronics&facet=true&facet.excludeTerms=hard drive',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithIntervalFacet()
     {
         $facet = new FacetInterval(

@@ -179,6 +179,66 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     }
 
     /**
+     * Limit the terms for faceting by a regular expression.
+     * https://issues.apache.org/jira/browse/SOLR-10132
+     *
+     * This is a global value for all facets in this facetset
+     * It is overriden by an individual field's matches value
+     *
+     * @param string $matches
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMatches(string $matches): self
+    {
+        $this->setOption('matches', $matches);
+
+        return $this;
+    }
+
+    /**
+     * Get the regular expression string that facets must match.
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @return string|null
+     */
+    public function getMatches(): ?string
+    {
+        return $this->getOption('matches');
+    }
+
+    /**
+     * Exclude these terms, comma separated list.
+     * https://issues.apache.org/jira/browse/SOLR-9912
+     *
+     * This is a global value for all facets in this facetset
+     * It is overriden by an individual field's excludeTerms list
+     *
+     * @param string $exclude
+     *
+     * @return self Provides fluent interface
+     */
+    public function setExcludeTerms(string $exclude): self
+    {
+        $this->setOption('excludeTerms', $exclude);
+
+        return $this;
+    }
+
+    /**
+     * Get terms that should be excluded from the facet.
+     *
+     * This is a global value for all facets in this facetset
+     *
+     * @return string|null
+     */
+    public function getExcludeTerms(): ?string
+    {
+        return $this->getOption('excludeTerms');
+    }
+
+    /**
      * Set the facet sort order.
      *
      * Use one of the SORT_* constants as the value
@@ -210,7 +270,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     /**
      * Set the facet limit.
      *
-     *  This is a global value for all facets in this facetset
+     * This is a global value for all facets in this facetset
      *
      * @param int $limit
      *
