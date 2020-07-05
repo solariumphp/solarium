@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [unreleased]
 ### Added
 - Support for the analytics component
+- Function builder
 - Solarium\Component\FacetSet::setMatches()
 - Solarium\Component\FacetSet::setExcludeTerms()
 - Solarium\Component\Facet\Field::setMatches()
@@ -17,6 +18,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 ### Removed
+
+## [unreleased]
+### Added
 
 
 ## [6.0.1]
@@ -94,7 +98,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [5.1.6]
 ### Added
-- Analytics expression builder
 - Range facet pivot support
 - Support for useConfiguredElevatedOrder
 - FilterQuery::setCache and FilterQuery::setCost()

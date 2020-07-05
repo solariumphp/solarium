@@ -19,7 +19,7 @@ class FunctionBuilder
     private $function;
 
     /**
-     * @var \Solarium\Builder\Select\ExpressionBuilder
+     * @var \Solarium\Builder\Analytics\ExpressionBuilder
      */
     private static $expressionBuilder;
 
