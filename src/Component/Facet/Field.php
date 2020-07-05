@@ -80,9 +80,7 @@ class Field extends AbstractField
     }
 
     /**
-     * Limit facet terms to those matching this regular expression.
-     *
-     * Implemented by https://issues.apache.org/jira/browse/SOLR-10132
+     * Limit facet terms to those matching this regular expression. Since Solr 7.2.
      *
      * @param string $matches
      *
@@ -106,9 +104,7 @@ class Field extends AbstractField
     }
 
     /**
-     * Exclude these terms, comma separated list.
-     *
-     * Implemented by https://issues.apache.org/jira/browse/SOLR-9912
+     * Exclude these terms, comma separated list. Use \, for literal comma. Since Solr 6.5.
      *
      * @param string $exclude
      *
