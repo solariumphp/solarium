@@ -180,7 +180,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
 
     /**
      * Limit the terms for faceting by a regular expression.
-     * https://issues.apache.org/jira/browse/SOLR-10132
+     * https://issues.apache.org/jira/browse/SOLR-10132.
      *
      * This is a global value for all facets in this facetset
      * It is overriden by an individual field's matches value
@@ -210,7 +210,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
 
     /**
      * Exclude these terms, comma separated list.
-     * https://issues.apache.org/jira/browse/SOLR-9912
+     * https://issues.apache.org/jira/browse/SOLR-9912.
      *
      * This is a global value for all facets in this facetset
      * It is overriden by an individual field's excludeTerms list
