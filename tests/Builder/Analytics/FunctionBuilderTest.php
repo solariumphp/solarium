@@ -22,7 +22,7 @@ class FunctionBuilderTest extends TestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \Solarium\Exception\RuntimeException
      *
-     * @see https://lucene.apache.org/solr/guide/8_3/analytics.html#example-construction
+     * @see https://lucene.apache.org/solr/guide/analytics.html#example-construction
      */
     public function testBuilder(): void
     {
