@@ -4,6 +4,11 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [unreleased]
+### Added
+- Support for the analytics component
+
+
 ## [6.0.1]
 ### Added
 - Solarium\Component\Result\Facet\JsonRange::getBefore()
@@ -46,7 +51,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Raw XML from file in update query
 - Set input encoding for select and update queries
 - Create and configure Managed Resources
-- Addition of the analytic component
 
 ### Changed
 - More strict types and type hinting
