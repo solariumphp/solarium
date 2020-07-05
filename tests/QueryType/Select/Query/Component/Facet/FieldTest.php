@@ -124,12 +124,12 @@ class FieldTest extends TestCase
     public function testSetAndGetExcludeTerms()
     {
         $this->facet->setExcludeTerms('foo,bar');
-        $this->assertSame('foo,bar',$this->facet->getExcludeTerms());
+        $this->assertSame('foo,bar', $this->facet->getExcludeTerms());
     }
 
     public function testSetAndGetMatches()
     {
         $this->facet->setMatches('^foo.*');
-        $this->assertSame('^foo.*',$this->facet->getMatches());
+        $this->assertSame('^foo.*', $this->facet->getMatches());
     }
 }
