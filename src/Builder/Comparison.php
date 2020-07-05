@@ -7,6 +7,8 @@ namespace Solarium\Builder;
 /**
  * Comparison.
  *
+ * @codeCoverageIgnore
+ *
  * @author wicliff <wicliff.wolda@gmail.com>
  */
 class Comparison implements ExpressionInterface
