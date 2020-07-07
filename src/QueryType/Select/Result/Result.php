@@ -3,6 +3,7 @@
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\Result\Analytics\Result as AnalyticsResult;
 use Solarium\Component\Result\Debug\Result as DebugResult;
 use Solarium\Component\Result\FacetSet as FacetSetResult;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
@@ -322,5 +323,17 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     public function getDebug(): ?DebugResult
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_DEBUG);
+    }
+
+    /**
+     * Get analytics component result.
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return \Solarium\Component\Result\Analytics\Result|null
+     */
+    public function getAnalytics(): ?AnalyticsResult
+    {
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_ANALYTICS);
     }
 }

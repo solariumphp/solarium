@@ -34,6 +34,8 @@ abstract class AbstractResultTest extends TestCase
 
     protected $debug;
 
+    protected $analytics;
+
     protected $spellcheck;
 
     public function setUp(): void
@@ -54,6 +56,7 @@ abstract class AbstractResultTest extends TestCase
         $this->spellcheck = null;
         $this->stats = null;
         $this->debug = null;
+        $this->analytics = null;
 
         $this->components = [
             ComponentAwareQueryInterface::COMPONENT_FACETSET => $this->facetSet,
@@ -63,6 +66,7 @@ abstract class AbstractResultTest extends TestCase
             ComponentAwareQueryInterface::COMPONENT_SPELLCHECK => $this->spellcheck,
             ComponentAwareQueryInterface::COMPONENT_STATS => $this->stats,
             ComponentAwareQueryInterface::COMPONENT_DEBUG => $this->debug,
+            ComponentAwareQueryInterface::COMPONENT_ANALYTICS => $this->analytics,
         ];
 
         $this->result = new SelectDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components);
@@ -90,7 +94,7 @@ abstract class AbstractResultTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->docs), $this->result);
+        $this->assertCount(\count($this->docs), $this->result);
     }
 
     public function testGetComponents()
@@ -158,6 +162,14 @@ abstract class AbstractResultTest extends TestCase
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_DEBUG],
             $this->result->getDebug()
+        );
+    }
+
+    public function testGetAnalytics()
+    {
+        $this->assertSame(
+            $this->components[ComponentAwareQueryInterface::COMPONENT_ANALYTICS],
+            $this->result->getAnalytics()
         );
     }
 

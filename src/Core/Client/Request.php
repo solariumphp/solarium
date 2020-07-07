@@ -175,7 +175,6 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Set the file to upload via "multipart/form-data" POST request.
      *
-     *
      * @param string $filename Name of file to upload
      *
      * @throws RuntimeException
@@ -204,6 +203,24 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
+     * @param string $headerName
+     *
+     * @return string|null
+     */
+    public function getHeader(string $headerName): ?string
+    {
+        foreach ($this->headers as $header) {
+            list($name) = explode(':', $header);
+
+            if ($name === $headerName) {
+                return $header;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Set request headers.
      *
      * @param array $headers
@@ -228,6 +245,28 @@ class Request extends Configurable implements RequestParamsInterface
     public function addHeader($value): self
     {
         $this->headers[] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Replace header if previously set else add it.
+     *
+     * @param string $header
+     *
+     * @return $this
+     */
+    public function replaceOrAddHeader(string $header): self
+    {
+        list($name) = explode(':', $header);
+
+        if ((null !== $current = $this->getHeader($name)) &&
+            false !== $key = array_search($current, $this->headers, true)
+        ) {
+            $this->headers[$key] = $header;
+        } else {
+            $this->headers[] = $header;
+        }
 
         return $this;
     }
@@ -351,6 +390,14 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return spl_object_hash($this);
+    }
+
+    /**
      * Initialization hook.
      */
     protected function init()
@@ -375,13 +422,5 @@ class Request extends Configurable implements RequestParamsInterface
                     }
             }
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getHash(): string
-    {
-        return spl_object_hash($this);
     }
 }

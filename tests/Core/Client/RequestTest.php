@@ -381,6 +381,23 @@ class RequestTest extends TestCase
         );
     }
 
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
+    public function testReplaceHeaders(): void
+    {
+        $original = 'Content-Type: application/xml';
+        $replacement = 'Content-Type: application/json';
+
+        $this->request->replaceOrAddHeader($original);
+
+        $this->assertSame($original, $this->request->getHeader('Content-Type'));
+
+        $this->request->replaceOrAddHeader($replacement);
+
+        $this->assertSame($replacement, $this->request->getHeader('Content-Type'));
+    }
+
     public function testClearHeaders()
     {
         $headers = [
