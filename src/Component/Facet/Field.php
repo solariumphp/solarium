@@ -78,4 +78,52 @@ class Field extends AbstractField
     {
         return $this->getOption('containsignorecase');
     }
+
+    /**
+     * Limit facet terms to those matching this regular expression. Since Solr 7.2.
+     *
+     * @param string $matches
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMatches(string $matches): self
+    {
+        $this->setOption('matches', $matches);
+
+        return $this;
+    }
+
+    /**
+     * Get the regular expression string that facets must match.
+     *
+     * @return string|null
+     */
+    public function getMatches(): ?string
+    {
+        return $this->getOption('matches');
+    }
+
+    /**
+     * Exclude these terms, comma separated list. Use \, for literal comma. Since Solr 6.5.
+     *
+     * @param string $exclude
+     *
+     * @return self Provides fluent interface
+     */
+    public function setExcludeTerms(string $exclude): self
+    {
+        $this->setOption('excludeTerms', $exclude);
+
+        return $this;
+    }
+
+    /**
+     * Get terms that should be excluded from the facet.
+     *
+     * @return string|null
+     */
+    public function getExcludeTerms(): ?string
+    {
+        return $this->getOption('excludeTerms');
+    }
 }

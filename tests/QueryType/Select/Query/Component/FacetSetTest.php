@@ -43,6 +43,8 @@ class FacetSetTest extends TestCase
             'extractfromresponse' => true,
             'contains' => 'foobar',
             'containsignorecase' => true,
+            'excludeTerms' => 'foo,bar',
+            'matches' => '^foo.*',
         ];
 
         $this->facetSet->setOptions($options);
@@ -56,6 +58,8 @@ class FacetSetTest extends TestCase
         $this->assertTrue($this->facetSet->getExtractFromResponse());
         $this->assertSame($options['contains'], $this->facetSet->getContains());
         $this->assertTrue($this->facetSet->getContainsIgnoreCase());
+        $this->assertSame($options['excludeTerms'], $this->facetSet->getExcludeTerms());
+        $this->assertSame($options['matches'], $this->facetSet->getMatches());
     }
 
     public function testGetType()
@@ -107,6 +111,30 @@ class FacetSetTest extends TestCase
     {
         $this->facetSet->setMissing(true);
         $this->assertTrue($this->facetSet->getMissing());
+    }
+
+    public function testSetAndGetContains()
+    {
+        $this->facetSet->setContains('foobar');
+        $this->assertSame('foobar', $this->facetSet->getContains());
+    }
+
+    public function testSetAndGetContainsIgnoreCase()
+    {
+        $this->facetSet->setContainsIgnoreCase(true);
+        $this->assertTrue($this->facetSet->getContainsIgnoreCase());
+    }
+
+    public function testSetAndGetExcludeTerms()
+    {
+        $this->facetSet->setExcludeTerms('foo,bar');
+        $this->assertSame('foo,bar', $this->facetSet->getExcludeTerms());
+    }
+
+    public function testSetAndGetMatches()
+    {
+        $this->facetSet->setMatches('^foo.*');
+        $this->assertSame('^foo.*', $this->facetSet->getMatches());
     }
 
     public function testAddAndGetFacet()

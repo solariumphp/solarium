@@ -4,6 +4,20 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [unreleased]
+### Added
+- Solarium\Component\FacetSet::setMatches()
+- Solarium\Component\FacetSet::setExcludeTerms()
+- Solarium\Component\Facet\Field::setMatches()
+- Solarium\Component\Facet\Field::setExcludeTerms()
+
+### Fixed
+
+### Changed
+
+### Removed
+
+
 ## [6.0.1]
 ### Added
 - Solarium\Component\Result\Facet\JsonRange::getBefore()
