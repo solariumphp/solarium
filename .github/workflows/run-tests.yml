@@ -37,6 +37,13 @@ jobs:
             - name: Checkout solarium
               uses: actions/checkout@v2
 
+            - name: Checkout solr
+              uses: actions/checkout@v2
+              with:
+                repository: apache/lucene-solr
+                ref: branch_${{ matrix.solr }}x
+                path: lucene-solr
+
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
                 cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
