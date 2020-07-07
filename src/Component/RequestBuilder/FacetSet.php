@@ -100,6 +100,8 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 $request->addParam('facet.prefix', $component->getPrefix());
                 $request->addParam('facet.contains', $component->getContains());
                 $request->addParam('facet.contains.ignoreCase', $component->getContainsIgnoreCase());
+                $request->addParam('facet.matches', $component->getMatches());
+                $request->addParam('facet.excludeTerms', $component->getExcludeTerms());
                 $request->addParam('facet.missing', $component->getMissing());
                 $request->addParam('facet.mincount', $component->getMinCount());
                 $request->addParam('facet.limit', $component->getLimit());
@@ -132,6 +134,8 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 'facet.prefix' => $facet->getPrefix(),
                 'facet.contains' => $facet->getContains(),
                 'facet.contains.ignoreCase' => $facet->getContainsIgnoreCase(),
+                'facet.matches' => $facet->getMatches(),
+                'facet.excludeTerms' => $facet->getExcludeTerms(),
                 'facet.offset' => $facet->getOffset(),
                 'facet.mincount' => $facet->getMinCount(),
                 'facet.missing' => $facet->getMissing(),
@@ -156,6 +160,8 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             $request->addParam("f.$field.facet.prefix", $facet->getPrefix());
             $request->addParam("f.$field.facet.contains", $facet->getContains());
             $request->addParam("f.$field.facet.contains.ignoreCase", $facet->getContainsIgnoreCase());
+            $request->addParam("f.$field.facet.matches", $facet->getMatches());
+            $request->addParam("f.$field.facet.excludeTerms", $facet->getExcludeTerms());
             $request->addParam("f.$field.facet.offset", $facet->getOffset());
             $request->addParam("f.$field.facet.mincount", $facet->getMinCount());
             $request->addParam("f.$field.facet.missing", $facet->getMissing());

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [unreleased]
 ### Added
 - Support for the analytics component
+- Solarium\Component\FacetSet::setMatches()
+- Solarium\Component\FacetSet::setExcludeTerms()
+- Solarium\Component\Facet\Field::setMatches()
+- Solarium\Component\Facet\Field::setExcludeTerms()
+
+### Fixed
+
+### Changed
+
+### Removed
 
 
 ## [6.0.1]
