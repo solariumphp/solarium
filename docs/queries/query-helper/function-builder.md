@@ -12,7 +12,8 @@ Example
 use Solarium\Builder\Analytics\FunctionBuilder;
 
 // ...
-$client = new Solarium\Client($config);
+
+$query = $client->createSelect();
 $analytics = $query->getAnalytics();
 
 $builder = FunctionBuilder::create()
