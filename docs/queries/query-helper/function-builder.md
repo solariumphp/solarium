@@ -16,16 +16,17 @@ use Solarium\Builder\Analytics\FunctionBuilder;
 $query = $client->createSelect();
 $analytics = $query->getAnalytics();
 
+$expr = FunctionBuilder::expr();
 $builder = FunctionBuilder::create()
-    ->where(FunctionBuilder::expr()->div(
-        FunctionBuilder::expr()->sum(
+    ->where($expr->div(
+        $expr->sum(
             'a',
-            FunctionBuilder::expr()->fillMissing('b', 0)
+            $expr->fillMissing('b', 0)
         ),
-        FunctionBuilder::expr()->add(
+        $expr->add(
             10.5,
-            FunctionBuilder::expr()->count(
-                FunctionBuilder::expr()->mult('a', 'c')
+            $expr->count(
+                $expr->mult('a', 'c')
             )
         )
     ))

@@ -26,16 +26,17 @@ class FunctionBuilderTest extends TestCase
      */
     public function testBuilder(): void
     {
+        $expr = FunctionBuilder::expr();
         $builder = FunctionBuilder::create()
-            ->where(FunctionBuilder::expr()->div(
-                FunctionBuilder::expr()->sum(
+            ->where($expr->div(
+                $expr->sum(
                     'a',
-                    FunctionBuilder::expr()->fillMissing('b', 0)
+                    $expr->fillMissing('b', 0)
                 ),
-                FunctionBuilder::expr()->add(
+                $expr->add(
                     10.5,
-                    FunctionBuilder::expr()->count(
-                        FunctionBuilder::expr()->mult('a', 'c')
+                    $expr->count(
+                        $expr->mult('a', 'c')
                     )
                 )
             ));
@@ -49,10 +50,11 @@ class FunctionBuilderTest extends TestCase
     public function testCompositeReductionFunction(): void
     {
         $this->expectException(RuntimeException::class);
+        $expr = FunctionBuilder::expr();
 
         FunctionBuilder::create()
-            ->where(FunctionBuilder::expr()->count(
-                FunctionBuilder::expr()->missing('foo')
+            ->where($expr->count(
+                $expr->missing('foo')
             ));
     }
 
