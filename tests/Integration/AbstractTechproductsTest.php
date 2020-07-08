@@ -112,7 +112,6 @@ abstract class AbstractTechproductsTest extends TestCase
                 DIRECTORY_SEPARATOR.'solr'.
                 DIRECTORY_SEPARATOR.'example'.
                 DIRECTORY_SEPARATOR.'exampledocs';
-            var_dump($dataDir);
             foreach (glob($dataDir.DIRECTORY_SEPARATOR.'*.xml') as $file) {
                 $update = self::$client->createUpdate();
 
