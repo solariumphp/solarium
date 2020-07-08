@@ -15,7 +15,7 @@ jobs:
         strategy:
             matrix:
                 php: [7.2, 7.3, 7.4]
-                solr: [7, 8]
+                solr: [7.7, 8.5]
                 mode: [cloud, server]
 
         name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
@@ -37,11 +37,20 @@ jobs:
             - name: Checkout solarium
               uses: actions/checkout@v2
 
-            - name: Checkout solr
+            - name: Checkout solr 7.7
+              if: matrix.solr == 7.7
               uses: actions/checkout@v2
               with:
                 repository: apache/lucene-solr
-                ref: branch_${{ matrix.solr }}x
+                ref: branch_7_7
+                path: lucene-solr
+
+            - name: Checkout solr 8.5
+              if: matrix.solr == 8.5
+              uses: actions/checkout@v2
+              with:
+                repository: apache/lucene-solr
+                ref: branch_8_5
                 path: lucene-solr
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode

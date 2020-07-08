@@ -104,7 +104,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         try {
             // index techproducts sample data
-            foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'lucene-solr'.DIRECTORY_SEPARATOR.'solr'.DIRECTORY_SEPARATOR.'example'.DIRECTORY_SEPARATOR.'exampledocs'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
+            foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'lucene-solr'.DIRECTORY_SEPARATOR.'solr'.DIRECTORY_SEPARATOR.'example'.DIRECTORY_SEPARATOR.'exampledocs'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
                 $update = self::$client->createUpdate();
 
                 if (null !== $encoding = Utility::getXmlEncoding($file)) {
