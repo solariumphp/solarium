@@ -11,158 +11,153 @@ use Solarium\Manager\Contract\ApiV2ConfigurationInterface;
  *
  * @author wicliff <wicliff.wolda@gmail.com>
  */
-class SchemaApiConfig implements ApiV2ConfigurationInterface
+final class SchemaApiConfig implements ApiV2ConfigurationInterface
 {
     /**
-     * commands for common properties.
-     *
-     * @see https://lucene.apache.org/solr/guide/config-api.html#commands-for-common-properties
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#add-a-new-field
      */
-    public const SET_PROPERTY = 'set-property';
-
-    public const UNSET_PROPERTY = 'unset-property';
+    public const ADD_FIELD = 'add-field';
 
     /**
-     * commands for user defined properties.
-     *
-     * @see https://lucene.apache.org/solr/guide/config-api.html#commands-for-user-defined-properties
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#delete-a-field
      */
-    public const SET_USER_PROPERTY = 'set-user-property';
-
-    public const UNSET_USER_PROPERTY = 'unset-user-property';
+    public const DELETE_FIELD = 'delete-field';
 
     /**
-     * basic commands for components.
-     *
-     * @see https://lucene.apache.org/solr/guide/config-api.html#basic-commands-for-components
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#replace-a-field
      */
-    public const ADD_REQUEST_HANDLER = 'add-requesthandler';
-
-    public const UPDATE_REQUEST_HANDLER = 'update-requesthandler';
-
-    public const DELETE_REQUEST_HANDLER = 'delete-requesthandler';
-
-    public const ADD_SEARCH_COMPONENT = 'add-searchcomponent';
-
-    public const UPDATE_SEARCH_COMPONENT = 'update-searchcomponent';
-
-    public const DELETE_SEARCH_COMPONENT = 'delete-searchcomponent';
-
-    public const ADD_INIT_PARAMS = 'add-initparams';
-
-    public const UPDATE_INIT_PARAMS = 'update-initparams';
-
-    public const DELETE_INIT_PARAMS = 'delete-initparams';
-
-    public const ADD_QUERY_RESPONSE_WRITER = 'add-queryresponsewriter';
-
-    public const UPDATE_QUERY_RESPONSE_WRITER = 'update-queryresponsewriter';
-
-    public const DELETE_QUERY_RESPONSE_WRITER = 'delete-queryresponsewriter';
+    public const REPLACE_FIELD = 'replace-field';
 
     /**
-     * advanced commands for components.
-     *
-     * @see https://lucene.apache.org/solr/guide/config-api.html#advanced-commands-for-components
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#add-a-dynamic-field-rule
      */
-    public const ADD_QUERY_PARSER = 'add-queryparser';
+    public const ADD_DYNAMIC_FIELD = 'add-dynamic-field';
 
-    public const UPDATE_QUERY_PARSER = 'update-queryparser';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#delete-a-dynamic-field-rule
+     */
+    public const DELETE_DYNAMIC_FIELD = 'delete-dynamic-field';
 
-    public const DELETE_QUERY_PARSER = 'delete-queryparser';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#replace-a-dynamic-field-rule
+     */
+    public const REPLACE_DYNAMIC_FIELD = 'replace-dynamic-field';
 
-    public const ADD_VALUE_SOURCE_PARSER = 'add-valuesourceparser';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#add-a-new-field-type
+     */
+    public const ADD_FIELD_TYPE = 'add-field-type';
 
-    public const UPDATE_VALUE_SOURCE_PARSER = 'update-valuesourceparser';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#delete-a-field-type
+     */
+    public const DELETE_FIELD_TYPE = 'delete-field-type';
 
-    public const DELETE_VALUE_SOURCE_PARSER = 'delete-valuesourceparser';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#replace-a-field-type
+     */
+    public const REPLACE_FIELD_TYPE = 'replace-field-type';
 
-    public const ADD_TRANSFORMER = 'add-transformer';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#add-a-new-copy-field-rule
+     */
+    public const ADD_COPY_FIELD = 'add-copy-field';
 
-    public const UPDATE_TRANSFORMER = 'update-transformer';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#delete-a-copy-field-rule
+     */
+    public const DELETE_COPY_FIELD = 'delete-copy-field';
 
-    public const DELETE_TRANSFORMER = 'delete-transformer';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#retrieve-the-entire-schema
+     */
+    public const GET_SCHEMA = '';
 
-    public const ADD_UPDATE_PROCESSOR = 'add-updateprocessor';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#list-fields
+     */
+    public const LIST_FIELDS = 'fields';
 
-    public const UPDATE_UPDATE_PROCESSOR = 'update-updateprocessor';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#list-fields
+     */
+    public const LIST_FIELD = 'fields/%s';
 
-    public const DELETE_UPDATE_PROCESSOR = 'delete-updateprocessor';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#list-dynamic-fields
+     */
+    public const LIST_DYNAMIC_FIELDS = 'dynamicfields';
 
-    public const ADD_QUERY_CONVERTER = 'add-queryconverter';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#list-dynamic-fields
+     */
+    public const LIST_DYNAMIC_FIELD = 'dynamicfields/%s';
 
-    public const UPDATE_QUERY_CONVERTER = 'update-queryconverter';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#list-field-types
+     */
+    public const LIST_FIELD_TYPES = 'fieldtypes';
 
-    public const DELETE_QUERY_CONVERTER = 'delete-queryconverter';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#list-field-types
+     */
+    public const LIST_FIELD_TYPE = 'fieldtypes/%s';
 
-    public const ADD_LISTENER = 'add-listener';
+    /**
+     * @ssee https://lucene.apache.org/solr/guide/schema-api.html#list-copy-fields
+     */
+    public const LIST_COPY_FIELDS = 'copyfields';
 
-    public const UPDATE_LISTENER = 'update-listener';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#show-schema-name
+     */
+    public const SHOW_SCHEMA_NAME = 'name';
 
-    public const DELETE_LISTENER = 'delete-listener';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#show-the-schema-version
+     */
+    public const SHOW_SCHEMA_VERSION = 'version';
 
-    public const ADD_RUNTIME_LIB = 'add-runtimelib';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#list-uniquekey
+     */
+    public const LIST_UNIQUE_KEY = 'uniquekey';
 
-    public const UPDATE_RUNTIME_LIB = 'update-runtimelib';
-
-    public const DELETE_RUNTIME_LIB = 'delete-runtimelib';
-
-    public const GET_CONFIG = '';
-
-    public const GET_OVERLAY = 'overlay';
-
-    public const GET_SEARCH_COMPONENTS = 'searchComponent';
-
-    public const GET_REQUEST_HANDLERS = 'requestHandler';
-
-    public const GET_QUERY = 'query';
+    /**
+     * @see https://lucene.apache.org/solr/guide/schema-api.html#show-global-similarity
+     */
+    public const SHOW_GLOBAL_SIMILARITY = 'similarity';
 
     public const SUB_PATHS = [
-        self::GET_CONFIG,
-        self::GET_OVERLAY,
-        self::GET_SEARCH_COMPONENTS,
-        self::GET_REQUEST_HANDLERS,
-        self::GET_QUERY,
+        self::GET_SCHEMA,
+        self::LIST_FIELDS,
+        self::LIST_FIELD,
+        self::LIST_DYNAMIC_FIELDS,
+        self::LIST_DYNAMIC_FIELD,
+        self::LIST_FIELD_TYPES,
+        self::LIST_FIELD_TYPE,
+        self::LIST_COPY_FIELDS,
+        self::SHOW_SCHEMA_NAME,
+        self::SHOW_SCHEMA_VERSION,
+        self::LIST_UNIQUE_KEY,
+        self::SHOW_GLOBAL_SIMILARITY,
     ];
 
+    /**
+     * Available commands for the schema api.
+     */
     public const COMMANDS = [
-        self::SET_PROPERTY => [],
-        self::UNSET_PROPERTY => [],
-        self::SET_USER_PROPERTY => [],
-        self::UNSET_USER_PROPERTY => [],
-        self::ADD_REQUEST_HANDLER => [],
-        self::UPDATE_REQUEST_HANDLER => [],
-        self::DELETE_REQUEST_HANDLER => [],
-        self::ADD_SEARCH_COMPONENT => [],
-        self::UPDATE_SEARCH_COMPONENT => [],
-        self::DELETE_SEARCH_COMPONENT => [],
-        self::ADD_INIT_PARAMS => [],
-        self::UPDATE_INIT_PARAMS => [],
-        self::DELETE_INIT_PARAMS => [],
-        self::ADD_QUERY_RESPONSE_WRITER => [],
-        self::UPDATE_QUERY_RESPONSE_WRITER => [],
-        self::DELETE_QUERY_RESPONSE_WRITER => [],
-        self::ADD_QUERY_PARSER => [],
-        self::UPDATE_QUERY_PARSER => [],
-        self::DELETE_QUERY_PARSER => [],
-        self::ADD_VALUE_SOURCE_PARSER => [],
-        self::UPDATE_VALUE_SOURCE_PARSER => [],
-        self::DELETE_VALUE_SOURCE_PARSER => [],
-        self::ADD_TRANSFORMER => [],
-        self::UPDATE_TRANSFORMER => [],
-        self::DELETE_TRANSFORMER => [],
-        self::ADD_UPDATE_PROCESSOR => [],
-        self::UPDATE_UPDATE_PROCESSOR => [],
-        self::DELETE_UPDATE_PROCESSOR => [],
-        self::ADD_QUERY_CONVERTER => [],
-        self::UPDATE_QUERY_CONVERTER => [],
-        self::DELETE_QUERY_CONVERTER => [],
-        self::ADD_LISTENER => [],
-        self::UPDATE_LISTENER => [],
-        self::DELETE_LISTENER => [],
-        self::ADD_RUNTIME_LIB => [],
-        self::UPDATE_RUNTIME_LIB => [],
-        self::DELETE_RUNTIME_LIB => [],
+        self::ADD_FIELD => [],
+        self::DELETE_FIELD => [],
+        self::REPLACE_FIELD => [],
+        self::ADD_DYNAMIC_FIELD => [],
+        self::DELETE_DYNAMIC_FIELD => [],
+        self::REPLACE_DYNAMIC_FIELD => [],
+        self::ADD_FIELD_TYPE => [],
+        self::DELETE_FIELD_TYPE => [],
+        self::REPLACE_FIELD_TYPE => [],
+        self::ADD_COPY_FIELD => [],
+        self::DELETE_COPY_FIELD => [],
     ];
 
     /**
@@ -186,6 +181,6 @@ class SchemaApiConfig implements ApiV2ConfigurationInterface
      */
     public function getHandler(): string
     {
-        return 'config';
+        return 'schema';
     }
 }
