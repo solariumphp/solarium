@@ -40,7 +40,7 @@ class Stopwords extends BaseQuery
     const COMMAND_DELETE = 'delete';
 
     /**
-     * Stopwords command delete.
+     * Stopwords command exists.
      */
     const COMMAND_EXISTS = 'exists';
 

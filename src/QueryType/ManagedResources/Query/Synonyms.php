@@ -40,12 +40,12 @@ class Synonyms extends BaseQuery
     const COMMAND_DELETE = 'delete';
 
     /**
-     * Synonyms command delete.
+     * Synonyms command exists.
      */
     const COMMAND_EXISTS = 'exists';
 
     /**
-     * Synonyms command delete.
+     * Synonyms command remove.
      */
     const COMMAND_REMOVE = 'remove';
 
