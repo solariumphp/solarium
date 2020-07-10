@@ -13,6 +13,7 @@ use Solarium\Exception\InvalidArgumentException;
 use Solarium\Manager\Command\CommandCollection;
 use Solarium\Manager\Contract\ApiV2ConfigurationInterface;
 use Solarium\Manager\Contract\ApiV2ResponseNormalizerInterface;
+use Solarium\Manager\Normalizer\NoopResponseNormalizer;
 
 /**
  * Api V2 Manager.
@@ -52,16 +53,16 @@ final class ApiV2Manager
     private $commands;
 
     /**
-     * @param \Solarium\Client                                            $client
-     * @param \Solarium\Manager\Contract\ApiV2ConfigurationInterface      $config
-     * @param \Solarium\Manager\Contract\ApiV2ResponseNormalizerInterface $normalizer
-     * @param \Solarium\Core\Client\Endpoint|null                         $endpoint
+     * @param \Solarium\Client                                                 $client
+     * @param \Solarium\Manager\Contract\ApiV2ConfigurationInterface           $config
+     * @param \Solarium\Manager\Contract\ApiV2ResponseNormalizerInterface|null $normalizer
+     * @param \Solarium\Core\Client\Endpoint|null                              $endpoint
      */
-    public function __construct(Client $client, ApiV2ConfigurationInterface $config, ApiV2ResponseNormalizerInterface $normalizer, Endpoint $endpoint = null)
+    public function __construct(Client $client, ApiV2ConfigurationInterface $config, ApiV2ResponseNormalizerInterface $normalizer = null, Endpoint $endpoint = null)
     {
         $this->client = $client;
         $this->config = $config;
-        $this->normalizer = $normalizer;
+        $this->normalizer = $normalizer ?? new NoopResponseNormalizer();
         $this->endpoint = $endpoint;
 
         $this->commands = new CommandCollection($config->getCommands());
