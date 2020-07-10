@@ -8,7 +8,7 @@
     "authors": [
         {
             "name": "See GitHub contributors",
-            "homepage": "https://github.com/basdenooijer/solarium/contributors"
+            "homepage": "https://github.com/solariumphp/solarium/contributors"
         }
     ],
     "require": {
