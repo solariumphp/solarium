@@ -51,10 +51,11 @@ jobs:
               with:
                 repository: apache/lucene-solr
                 ref: branch_8_5
-                path: ../lucene-solr
+                path: lucene-solr
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
+                ls -l
                 cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 
