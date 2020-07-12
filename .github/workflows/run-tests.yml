@@ -15,7 +15,7 @@ jobs:
         strategy:
             matrix:
                 php: [7.2, 7.3, 7.4]
-                solr: [8]
+                solr: [7, 8]
                 mode: [cloud, server]
 
         name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
@@ -55,7 +55,6 @@ jobs:
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
-                ls -l
                 cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 

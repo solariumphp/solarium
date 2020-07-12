@@ -107,7 +107,6 @@ abstract class AbstractTechproductsTest extends TestCase
             $dataDir = __DIR__.
                 DIRECTORY_SEPARATOR.'..'.
                 DIRECTORY_SEPARATOR.'..'.
-                DIRECTORY_SEPARATOR.'..'.
                 DIRECTORY_SEPARATOR.'lucene-solr'.
                 DIRECTORY_SEPARATOR.'solr'.
                 DIRECTORY_SEPARATOR.'example'.
