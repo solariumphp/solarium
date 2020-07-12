@@ -15,7 +15,7 @@ jobs:
         strategy:
             matrix:
                 php: [7.2, 7.3, 7.4]
-                solr: [7, 8]
+                solr: [8]
                 mode: [cloud, server]
 
         name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
@@ -51,7 +51,7 @@ jobs:
               with:
                 repository: apache/lucene-solr
                 ref: branch_8_5
-                path: lucene-solr
+                path: ../lucene-solr
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
