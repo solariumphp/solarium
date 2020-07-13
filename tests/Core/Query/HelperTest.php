@@ -586,6 +586,13 @@ class HelperTest extends TestCase
         );
     }
 
+    public function testNoValueModification(): void
+    {
+        $date = date_create('2020-01-01', new \DateTimeZone('Europe/London'));
+
+        self::assertSame('2020-01-01T00:00:00Z', $this->helper->formatDate($date));
+    }
+
     protected function mockFormatDateOutput($timestamp)
     {
         $date = new \DateTime('@'.$timestamp);

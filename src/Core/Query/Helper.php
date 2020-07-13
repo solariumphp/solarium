@@ -120,6 +120,7 @@ class Helper
             // input of datetime object
             case $input instanceof \DateTimeInterface:
                 $input = clone $input;
+
                 break;
             // input of timestamp or date/time string
             case \is_string($input):
@@ -146,20 +147,7 @@ class Helper
         }
 
         // handle the filtered input
-        if ($input) {
-            // when we get here the input is always a datetime object
-            $input = $input->setTimezone(new \DateTimeZone('UTC'));
-            // Solr seems to require the format PHP erroneously declares as ISO8601.
-            /** @noinspection DateTimeConstantsUsageInspection */
-            $iso8601 = $input->format(\DateTimeInterface::ISO8601);
-            $iso8601 = strstr($iso8601, '+', true); //strip timezone
-            $iso8601 .= 'Z';
-
-            return $iso8601;
-        }
-
-        // unsupported input
-        return false;
+        return $input ? $input->format('Y-m-d\TH:i:s\Z') : false;
     }
 
     /**
