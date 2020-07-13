@@ -6,4 +6,4 @@ services:
       - "8983:8983"
     volumes:
       - ../../../../../lucene-solr/solr/server/solr/configsets/sample_techproducts_configs/conf:/opt/solr/server/solr/configsets/solarium/conf
-    command: bash -c "cp -R /opt/solr/server/solr/configsets /var/solr/data/configsets; docker-entrypoint.sh solr start -f"
+    command: bash -c "chown -R solr.solr /opt/solr/server/solr/configsets/solarium; cp -R /opt/solr/server/solr/configsets /var/solr/data/configsets; docker-entrypoint.sh solr start -f"
