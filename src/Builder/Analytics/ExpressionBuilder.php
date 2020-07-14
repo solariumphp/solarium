@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Solarium\Builder\Analytics;
 
 use Solarium\Builder\ExpressionInterface;
-use Solarium\Builder\MappingFunction;
-use Solarium\Builder\ReductionFunction;
 
 /**
  * Expression Builder.
