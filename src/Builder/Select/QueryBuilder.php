@@ -11,7 +11,7 @@ use Solarium\Builder\ExpressionInterface;
  *
  * @author wicliff <wicliff.wolda@gmail.com>
  */
-class FilterBuilder
+class QueryBuilder
 {
     /**
      * @var \Solarium\Builder\ExpressionInterface[]

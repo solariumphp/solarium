@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Solarium\Tests\Builder\Select;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Exception\RuntimeException;
 use Solarium\Builder\AbstractExpressionVisitor;
 use Solarium\Builder\Comparison;
 use Solarium\Builder\CompositeComparison;
 use Solarium\Builder\ExpressionInterface;
-use Solarium\Builder\Select\FilterBuilder;
+use Solarium\Builder\Select\QueryBuilder;
 use Solarium\Builder\Select\QueryExpressionVisitor;
 use Solarium\Builder\Value;
+use Solarium\Exception\RuntimeException;
 
 /**
  * Select Query Builder Test.
@@ -40,13 +40,13 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testEquals(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->eq('foo', 'bar'));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->eq('foo', 'bar'));
 
         $this->assertSame('foo:"bar"', $this->visitor->dispatch($filter->getExpressions()[0]));
 
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->eq('foo', date_create('2020-01-01', new \DateTimeZone('UTC'))));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->eq('foo', date_create('2020-01-01', new \DateTimeZone('UTC'))));
 
         $this->assertSame('foo:[2020-01-01T00:00:00Z TO 2020-01-01T00:00:00Z]', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -57,8 +57,8 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testNullValue(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->eq('foo', null));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->eq('foo', null));
 
         $this->assertSame('foo:[* TO *]', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -69,13 +69,13 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testDoesNotEqual(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->neq('foo', 'bar'));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->neq('foo', 'bar'));
 
         $this->assertSame('-foo:"bar"', $this->visitor->dispatch($filter->getExpressions()[0]));
 
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->neq('foo', date_create('2020-01-01', new \DateTimeZone('UTC'))));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->neq('foo', date_create('2020-01-01', new \DateTimeZone('UTC'))));
 
         $this->assertSame('-foo:[2020-01-01T00:00:00Z TO 2020-01-01T00:00:00Z]', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -86,8 +86,8 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testGreaterThan(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->gt('foo', 2));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->gt('foo', 2));
 
         $this->assertSame('foo:{2 TO *]', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -98,8 +98,8 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testGreaterThanEqual(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->gte('foo', 2));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->gte('foo', 2));
 
         $this->assertSame('foo:[2 TO *]', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -110,8 +110,8 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testLowerThan(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->lt('foo', 2));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->lt('foo', 2));
 
         $this->assertSame('foo:[* TO 2}', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -122,8 +122,8 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testLowerThanEqual(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->lte('foo', 2));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->lte('foo', 2));
 
         $this->assertSame('foo:[* TO 2]', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -134,13 +134,13 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testRange(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->range('foo', [2]));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->range('foo', [2]));
 
         $this->assertSame('foo:[2 TO *]', $this->visitor->dispatch($filter->getExpressions()[0]));
 
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->range('foo', [2, 5]));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->range('foo', [2, 5]));
 
         $this->assertSame('foo:[2 TO 5]', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -150,8 +150,8 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testRangeInvalidValue(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->range('foo', 'bar'));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->range('foo', 'bar'));
 
         $this->expectException(RuntimeException::class);
 
@@ -164,13 +164,13 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testIn(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->in('foo', [2, 5]));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->in('foo', [2, 5]));
 
         $this->assertSame('foo:(2 OR 5)', $this->visitor->dispatch($filter->getExpressions()[0]));
 
-        $filter = FilterBuilder::create()
-            ->andWhere(FilterBuilder::expr()->in('foo', 'bar'));
+        $filter = QueryBuilder::create()
+            ->andWhere(QueryBuilder::expr()->in('foo', 'bar'));
 
         $this->assertSame('foo:"bar"', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -181,13 +181,13 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testNotIn(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->notIn('foo', [2, 5]));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->notIn('foo', [2, 5]));
 
         $this->assertSame('-foo:(2 OR 5)', $this->visitor->dispatch($filter->getExpressions()[0]));
 
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->notIn('foo', 'bar'));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->notIn('foo', 'bar'));
 
         $this->assertSame('-foo:"bar"', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -198,13 +198,13 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testLike(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->like('title', ['*foo', 'bar*']));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->like('title', ['*foo', 'bar*']));
 
         $this->assertSame('title:(*foo OR bar*)', $this->visitor->dispatch($filter->getExpressions()[0]));
 
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->like('title', 'foo*'));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->like('title', 'foo*'));
 
         $this->assertSame('title:foo*', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -215,8 +215,8 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testRegularExpression(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->regexp('title', '[0-9]{5}'));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->regexp('title', '[0-9]{5}'));
 
         $this->assertSame('title:/[0-9]{5}/', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -227,8 +227,8 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testMatch(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->match('title', 'foo*'));
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->match('title', 'foo*'));
 
         $this->assertSame('title:foo*', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -237,12 +237,24 @@ class SelectQueryBuilderTest extends TestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \Solarium\Exception\RuntimeException
      */
+    public function testEmpty(): void
+    {
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->empty('title'));
+
+        $this->assertSame('(*:* NOT title:*)', $this->visitor->dispatch($filter->getExpressions()[0]));
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\RuntimeException
+     */
     public function testCompositeAnd(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->andX(
-                FilterBuilder::expr()->eq('title', 'foo'),
-                FilterBuilder::expr()->in('description', ['bar', 'baz'])
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->andX(
+                QueryBuilder::expr()->eq('title', 'foo'),
+                QueryBuilder::expr()->in('description', ['bar', 'baz'])
             ));
 
         $this->assertSame('title:"foo" AND description:("bar" OR "baz")', $this->visitor->dispatch($filter->getExpressions()[0]));
@@ -254,10 +266,10 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testCompositeOr(): void
     {
-        $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->orX(
-                FilterBuilder::expr()->eq('title', 'foo'),
-                FilterBuilder::expr()->in('description', ['bar', 'baz'])
+        $filter = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->orX(
+                QueryBuilder::expr()->eq('title', 'foo'),
+                QueryBuilder::expr()->in('description', ['bar', 'baz'])
             ));
 
         $this->assertSame('title:"foo" OR description:("bar" OR "baz")', $this->visitor->dispatch($filter->getExpressions()[0]));
@@ -269,13 +281,13 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testVisitExpressions(): void
     {
-        $expression = FilterBuilder::expr()->eq('title', 'foo');
+        $expression = QueryBuilder::expr()->eq('title', 'foo');
 
         $this->assertSame('title:"foo"', $expression->visit($this->visitor));
 
-        $compositeExpression = FilterBuilder::expr()->andX(
-            FilterBuilder::expr()->eq('title', 'foo'),
-            FilterBuilder::expr()->in('description', ['bar', 'baz'])
+        $compositeExpression = QueryBuilder::expr()->andX(
+            QueryBuilder::expr()->eq('title', 'foo'),
+            QueryBuilder::expr()->in('description', ['bar', 'baz'])
         );
 
         $this->assertSame('title:"foo" AND description:("bar" OR "baz")', $compositeExpression->visit($this->visitor));
@@ -320,7 +332,7 @@ class SelectQueryBuilderTest extends TestCase
      */
     public function testUnknownCompositeComparison(): void
     {
-        $comparison = new CompositeComparison('TO', [FilterBuilder::expr()->eq('title', 'foo')]);
+        $comparison = new CompositeComparison('TO', [QueryBuilder::expr()->eq('title', 'foo')]);
 
         $this->expectException(RuntimeException::class);
 

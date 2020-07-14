@@ -169,4 +169,14 @@ class ExpressionBuilder
     {
         return new Comparison($field, Comparison::MATCH, $value);
     }
+
+    /**
+     * @param string $field
+     *
+     * @return \Solarium\Builder\Comparison
+     */
+    public function empty(string $field): Comparison
+    {
+        return new Comparison($field, Comparison::EMPTY, null);
+    }
 }

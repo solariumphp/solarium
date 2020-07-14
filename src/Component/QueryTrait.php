@@ -9,6 +9,10 @@
 
 namespace Solarium\Component;
 
+use Solarium\Builder\Select\QueryBuilder;
+use Solarium\Builder\Select\QueryExpressionVisitor;
+use Solarium\Exception\RuntimeException;
+
 /**
  * Query Trait.
  */
@@ -32,6 +36,22 @@ trait QueryTrait
         }
 
         return $this->setOption('query', trim($query));
+    }
+
+    /**
+     * @param \Solarium\Builder\Select\QueryBuilder $builder
+     *
+     * @return \Solarium\Component\QueryInterface
+     *
+     * @throws \Solarium\Exception\RuntimeException
+     */
+    public function setQueryFromQueryBuilder(QueryBuilder $builder): QueryInterface
+    {
+        if (1 !== count($builder->getExpressions())) {
+            throw new RuntimeException('The QueryBuilder can only contain one expression when setting the query. Use ExpressionBuilder::andX or ExpressionBuilder::orX to combine expressions.');
+        }
+
+        return $this->setOption('query', (new QueryExpressionVisitor())->dispatch($builder->getExpressions()[0]));
     }
 
     /**

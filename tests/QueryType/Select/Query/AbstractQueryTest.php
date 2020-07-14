@@ -3,11 +3,14 @@
 namespace Solarium\Tests\QueryType\Select\Query;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Builder\Select\QueryBuilder;
+use Solarium\Builder\Select\QueryExpressionVisitor;
 use Solarium\Component\Analytics\Analytics;
 use Solarium\Component\MoreLikeThis;
 use Solarium\Core\Client\Client;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Query\FilterQuery;
 use Solarium\QueryType\Select\Query\Query;
 
@@ -748,5 +751,58 @@ abstract class AbstractQueryTest extends TestCase
     {
         $this->query->setSplitOnWhitespace(false);
         $this->assertFalse($this->query->getSplitOnWhitespace());
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\RuntimeException
+     */
+    public function testSetQueryFromQueryBuilder(): void
+    {
+        $visitor = new QueryExpressionVisitor();
+        $builder = QueryBuilder::create()
+            ->where(QueryBuilder::expr()->eq('foo', 'bar'));
+
+        $this->query->setQueryFromQueryBuilder($builder);
+
+        self::assertSame($visitor->dispatch($builder->getExpressions()[0]), $this->query->getQuery());
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\RuntimeException
+     */
+    public function testSetCompositeQueryFromQueryBuilder(): void
+    {
+        $expr = QueryBuilder::expr();
+        $visitor = new QueryExpressionVisitor();
+
+        $builder = QueryBuilder::create()
+            ->where($expr->andX(
+                $expr->eq('foo', 'bar'),
+                $expr->eq('baz', 'qux')
+            ))
+        ;
+
+        $this->query->setQueryFromQueryBuilder($builder);
+
+        self::assertSame($visitor->dispatch($builder->getExpressions()[0]), $this->query->getQuery());
+    }
+
+    /**
+     * @throws \Solarium\Exception\RuntimeException
+     */
+    public function testSetQueryFromQueryBuilderException(): void
+    {
+        $this->expectException(RuntimeException::class);
+
+        $expr = QueryBuilder::expr();
+
+        $builder = QueryBuilder::create()
+            ->where($expr->eq('foo', 'bar'))
+            ->andWhere($expr->eq('baz', 'qux'))
+        ;
+
+        $this->query->setQueryFromQueryBuilder($builder);
     }
 }

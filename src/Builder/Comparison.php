@@ -79,6 +79,11 @@ class Comparison implements ExpressionInterface
     public const MATCH = 'MATCH';
 
     /**
+     * Empty.
+     */
+    public const EMPTY = 'EMPTY';
+
+    /**
      * @var string
      */
     private $field;

@@ -101,6 +101,8 @@ class QueryExpressionVisitor extends AbstractExpressionVisitor
                 }
 
                 return sprintf('%s:%s', $field, $this->valueToString($value, ',', '', false));
+            case Comparison::EMPTY:
+                return sprintf('(*:* NOT %s:*)', $field);
             default:
                 throw new RuntimeException('Unknown comparison operator: '.$expression->getOperator());
         }

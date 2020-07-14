@@ -9,6 +9,8 @@
 
 namespace Solarium\QueryType\Select\Query;
 
+use Solarium\Builder\Select\QueryBuilder;
+use Solarium\Builder\Select\QueryExpressionVisitor;
 use Solarium\Component\Analytics\Analytics;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\ComponentAwareQueryTrait;
@@ -586,6 +588,28 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
             }
 
             $this->addFilterQuery($filterQuery);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add multiple filter queries from the QueryBuilder.
+     *
+     * @param \Solarium\Builder\Select\QueryBuilder $builder
+     *
+     * @return $this
+     *
+     * @throws \Solarium\Exception\RuntimeException
+     */
+    public function addFilterQueriesFromQueryBuilder(QueryBuilder $builder): self
+    {
+        $visitor = new QueryExpressionVisitor();
+
+        foreach ($builder->getExpressions() as $expression) {
+            $value = $visitor->dispatch($expression);
+
+            $this->addFilterQuery(new FilterQuery(['key' => sha1($value), 'query' => $value]));
         }
 
         return $this;
