@@ -19,7 +19,7 @@ use Solarium\Exception\RuntimeException;
  *
  * @author wicliff <wicliff.wolda@gmail.com>
  */
-class SelectQueryBuilderTest extends TestCase
+class QueryBuilderTest extends TestCase
 {
     /**
      * @var \Solarium\Builder\Select\QueryExpressionVisitor
