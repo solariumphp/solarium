@@ -46,7 +46,7 @@ class SelectQueryBuilderTest extends TestCase
         $this->assertSame('foo:"bar"', $this->visitor->dispatch($filter->getExpressions()[0]));
 
         $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->eq('foo', date_create('2020-01-01')));
+            ->where(FilterBuilder::expr()->eq('foo', date_create('2020-01-01', new \DateTimeZone('UTC'))));
 
         $this->assertSame('foo:[2020-01-01T00:00:00Z TO 2020-01-01T00:00:00Z]', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
@@ -75,7 +75,7 @@ class SelectQueryBuilderTest extends TestCase
         $this->assertSame('-foo:"bar"', $this->visitor->dispatch($filter->getExpressions()[0]));
 
         $filter = FilterBuilder::create()
-            ->where(FilterBuilder::expr()->neq('foo', date_create('2020-01-01')));
+            ->where(FilterBuilder::expr()->neq('foo', date_create('2020-01-01', new \DateTimeZone('UTC'))));
 
         $this->assertSame('-foo:[2020-01-01T00:00:00Z TO 2020-01-01T00:00:00Z]', $this->visitor->dispatch($filter->getExpressions()[0]));
     }
