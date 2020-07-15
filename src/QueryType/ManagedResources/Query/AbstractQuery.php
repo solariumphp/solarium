@@ -41,6 +41,13 @@ abstract class AbstractQuery extends BaseQuery
     const COMMAND_REMOVE = 'remove';
 
     /**
+     * Command types.
+     *
+     * @var array
+     */
+    protected $commandTypes;
+
+    /**
      * Name of the managed resource.
      *
      * @var string
