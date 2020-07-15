@@ -3,11 +3,11 @@
 namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
 
 use Solarium\Core\Client\Request;
-use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms as SynonymsData;
 
-class Add extends AbstractCommand
+class Add extends AbstractAdd
 {
     /**
      * Synonyms to add.
@@ -24,16 +24,6 @@ class Add extends AbstractCommand
     public function getType(): string
     {
         return Synonyms::COMMAND_ADD;
-    }
-
-    /**
-     * Returns request method.
-     *
-     * @return string
-     */
-    public function getRequestMethod(): string
-    {
-        return Request::METHOD_PUT;
     }
 
     /**
@@ -70,16 +60,6 @@ class Add extends AbstractCommand
             return json_encode($this->getSynonyms()->getSynonyms());
         }
 
-        return '';
-    }
-
-    /**
-     * Empty.
-     *
-     * @return string
-     */
-    public function getTerm(): string
-    {
         return '';
     }
 }

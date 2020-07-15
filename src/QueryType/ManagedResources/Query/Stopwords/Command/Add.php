@@ -3,10 +3,10 @@
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
 
 use Solarium\Core\Client\Request;
-use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
 
-class Add extends AbstractCommand
+class Add extends AbstractAdd
 {
     /**
      * Stopwords to add.
@@ -23,16 +23,6 @@ class Add extends AbstractCommand
     public function getType(): string
     {
         return Stopwords::COMMAND_ADD;
-    }
-
-    /**
-     * Returns request method.
-     *
-     * @return string
-     */
-    public function getRequestMethod(): string
-    {
-        return Request::METHOD_PUT;
     }
 
     /**
@@ -66,15 +56,5 @@ class Add extends AbstractCommand
     public function getRawData(): string
     {
         return json_encode($this->stopwords);
-    }
-
-    /**
-     * Returns the term to be sent to Solr.
-     *
-     * @return string
-     */
-    public function getTerm(): string
-    {
-        return '';
     }
 }
