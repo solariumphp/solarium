@@ -159,4 +159,11 @@ abstract class AbstractQuery extends BaseQuery
 
         return $this;
     }
+
+    /**
+     * Create an init args instance.
+     *
+     * @return InitArgsInterface
+     */
+    abstract public function createInitArgs(): InitArgsInterface;
 }

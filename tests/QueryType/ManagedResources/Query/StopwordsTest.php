@@ -78,6 +78,12 @@ class StopwordsTest extends TestCase
         $command = $this->query->createCommand('unknowncommand');
     }
 
+    public function testCreateInitArgs()
+    {
+        $initArgs = $this->query->createInitArgs();
+        $this->assertInstanceOf(InitArgs::class, $initArgs);
+    }
+
     public function testInitArgsIgnoreCase()
     {
         $initArgs = new InitArgs();

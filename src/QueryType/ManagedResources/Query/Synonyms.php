@@ -10,6 +10,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Exists;
 use Solarium\QueryType\ManagedResources\Query\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create;
+use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
 
@@ -58,5 +59,15 @@ class Synonyms extends AbstractQuery
     public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
+    }
+
+    /**
+     * Create an init args instance.
+     *
+     * @return InitArgsInterface
+     */
+    public function createInitArgs(): InitArgsInterface
+    {
+        return new InitArgs();
     }
 }

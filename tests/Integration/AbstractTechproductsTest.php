@@ -9,8 +9,6 @@ use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\HttpException;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs as InitArgsStopwords;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs as InitArgsSynonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
@@ -1247,7 +1245,7 @@ abstract class AbstractTechproductsTest extends TestCase
         // Whatever happens next ...
         try {
             // Configure the new list to be case sensitive
-            $initArgs = new InitArgsStopwords();
+            $initArgs = $query->createInitArgs();
             $initArgs->setIgnoreCase(false);
             $config = $query->createCommand($query::COMMAND_CONFIG);
             $config->setInitArgs($initArgs);
@@ -1367,9 +1365,9 @@ abstract class AbstractTechproductsTest extends TestCase
         // Whatever happens next ...
         try {
             // Configure the new map to be case sensitive and use the 'solr' format
-            $initArgs = new InitArgsSynonyms();
+            $initArgs = $query->createInitArgs();
             $initArgs->setIgnoreCase(false);
-            $initArgs->setFormat(InitArgsSynonyms::FORMAT_SOLR);
+            $initArgs->setFormat($initArgs::FORMAT_SOLR);
             $config = $query->createCommand($query::COMMAND_CONFIG);
             $config->setInitArgs($initArgs);
             $query->setCommand($config);
@@ -1381,7 +1379,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $result = self::$client->execute($query);
             $this->assertEquals(200, $result->getResponse()->getStatusCode());
             $this->assertFalse($result->isIgnoreCase());
-            $this->assertEquals(InitArgsSynonyms::FORMAT_SOLR, $result->getFormat());
+            $this->assertEquals($initArgs::FORMAT_SOLR, $result->getFormat());
 
             // Check if we can add to it
             $add = $query->createCommand($query::COMMAND_ADD);

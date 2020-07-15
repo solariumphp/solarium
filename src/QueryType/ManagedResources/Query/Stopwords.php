@@ -10,6 +10,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Exists;
 use Solarium\QueryType\ManagedResources\Query\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create;
+use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
 use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
 
@@ -58,5 +59,15 @@ class Stopwords extends AbstractQuery
     public function getResponseParser(): ResponseParserInterface
     {
         return new ResponseParser();
+    }
+
+    /**
+     * Create an init args instance.
+     *
+     * @return InitArgsInterface
+     */
+    public function createInitArgs(): InitArgsInterface
+    {
+        return new InitArgs();
     }
 }
