@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Solarium\Builder;
+namespace Solarium\Builder\Analytics;
+
+use Solarium\Builder\AbstractExpressionVisitor;
+use Solarium\Builder\ExpressionInterface;
+use Solarium\Builder\FunctionInterface;
 
 /**
  * Mapping Function.
