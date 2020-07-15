@@ -3,6 +3,7 @@
 namespace Solarium\Tests\QueryType\ManagedResources\Query;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\ManagedResources\Query\Command\Config;
 use Solarium\QueryType\ManagedResources\Query\Command\Delete;
@@ -12,6 +13,8 @@ use Solarium\QueryType\ManagedResources\Query\Stopwords;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
+use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
+use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponeParser;
 
 class StopwordsTest extends TestCase
 {
@@ -24,7 +27,17 @@ class StopwordsTest extends TestCase
 
     public function testQuery()
     {
-        $this->assertEquals('stopwords', $this->query->getType());
+        $this->assertEquals(Client::QUERY_MANAGED_STOPWORDS, $this->query->getType());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
     }
 
     public function testCommand()

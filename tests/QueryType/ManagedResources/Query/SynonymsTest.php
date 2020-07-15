@@ -3,6 +3,7 @@
 namespace Solarium\Tests\QueryType\ManagedResources\Query;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\ManagedResources\Query\Command\Config;
@@ -13,6 +14,8 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
+use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
+use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponeParser;
 
 class SynonymsTest extends TestCase
 {
@@ -25,7 +28,17 @@ class SynonymsTest extends TestCase
 
     public function testQuery()
     {
-        $this->assertEquals('synonyms', $this->query->getType());
+        $this->assertEquals(Client::QUERY_MANAGED_SYNONYMS, $this->query->getType());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
     }
 
     public function testCommand()
