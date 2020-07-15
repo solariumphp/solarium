@@ -9,19 +9,7 @@ use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\HttpException;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add as AddStopwords;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Config as ConfigStopwords;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create as CreateStopwords;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete as DeleteStopwords;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists as ExistsStopwords;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Remove as RemoveStopwords;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs as InitArgsStopwords;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add as AddSynonyms;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config as ConfigSynonyms;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create as CreateSynonyms;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete as DeleteSynonyms;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists as ExistsSynonyms;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Remove as RemoveSynonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs as InitArgsSynonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -1207,14 +1195,14 @@ abstract class AbstractTechproductsTest extends TestCase
         $term = 'managed_stopword_test';
 
         // Add stopwords
-        $add = new AddStopwords();
+        $add = $query->createCommand($query::COMMAND_ADD);
         $add->setStopwords([$term]);
         $query->setCommand($add);
         $result = self::$client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
         // Check if single stopword exists
-        $exists = new ExistsStopwords();
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
@@ -1230,7 +1218,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertContains($term, $items);
 
         // Delete stopword
-        $delete = new DeleteStopwords();
+        $delete = $query->createCommand($query::COMMAND_DELETE);
         $delete->setTerm($term);
         $query->setCommand($delete);
         $result = self::$client->execute($query);
@@ -1238,7 +1226,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // Check if stopword is gone
         $this->expectException(HttpException::class);
-        $exists = new ExistsStopwords();
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         self::$client->execute($query);
@@ -1251,7 +1239,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $term = 'managed_stopword_test';
 
         // Create a new stopword list
-        $create = new CreateStopwords();
+        $create = $query->createCommand($query::COMMAND_CREATE);
         $query->setCommand($create);
         $result = self::$client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
@@ -1261,7 +1249,7 @@ abstract class AbstractTechproductsTest extends TestCase
             // Configure the new list to be case sensitive
             $initArgs = new InitArgsStopwords();
             $initArgs->setIgnoreCase(false);
-            $config = new ConfigStopwords();
+            $config = $query->createCommand($query::COMMAND_CONFIG);
             $config->setInitArgs($initArgs);
             $query->setCommand($config);
             $result = self::$client->execute($query);
@@ -1274,14 +1262,14 @@ abstract class AbstractTechproductsTest extends TestCase
             $this->assertFalse($result->isIgnoreCase());
 
             // Check if we can add to it
-            $add = new AddStopwords();
+            $add = $query->createCommand($query::COMMAND_ADD);
             $add->setStopwords([$term]);
             $query->setCommand($add);
             $result = self::$client->execute($query);
             $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
             // Check if stopword exists in its original lowercase form
-            $exists = new ExistsStopwords();
+            $exists = $query->createCommand($query::COMMAND_EXISTS);
             $exists->setTerm($term);
             $query->setCommand($exists);
             $result = self::$client->execute($query);
@@ -1296,7 +1284,7 @@ abstract class AbstractTechproductsTest extends TestCase
         // ... we have to remove the created resource!
         finally {
             // Remove the stopword list
-            $remove = new RemoveStopwords();
+            $remove = $query->createCommand($query::COMMAND_REMOVE);
             $query->setCommand($remove);
             $result = self::$client->execute($query);
             $this->assertEquals(200, $result->getResponse()->getStatusCode());
@@ -1315,7 +1303,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $term = 'managed_synonyms_test';
 
         // Add synonyms
-        $add = new AddSynonyms();
+        $add = $query->createCommand($query::COMMAND_ADD);
         $synonyms = new Synonyms();
         $synonyms->setTerm($term);
         $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
@@ -1325,7 +1313,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
         // Check if single synonym exists
-        $exists = new ExistsSynonyms();
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
@@ -1350,7 +1338,7 @@ abstract class AbstractTechproductsTest extends TestCase
         }
 
         // Delete synonyms
-        $delete = new DeleteSynonyms();
+        $delete = $query->createCommand($query::COMMAND_DELETE);
         $delete->setTerm($term);
         $query->setCommand($delete);
         $result = self::$client->execute($query);
@@ -1358,7 +1346,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // Check if synonyms are gone
         $this->expectException(HttpException::class);
-        $exists = new ExistsSynonyms();
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         self::$client->execute($query);
@@ -1371,7 +1359,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $term = 'managed_synonyms_test';
 
         // Create a new synonym map
-        $create = new CreateSynonyms();
+        $create = $query->createCommand($query::COMMAND_CREATE);
         $query->setCommand($create);
         $result = self::$client->execute($query);
         $this->assertEquals(200, $result->getResponse()->getStatusCode());
@@ -1382,7 +1370,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $initArgs = new InitArgsSynonyms();
             $initArgs->setIgnoreCase(false);
             $initArgs->setFormat(InitArgsSynonyms::FORMAT_SOLR);
-            $config = new ConfigSynonyms();
+            $config = $query->createCommand($query::COMMAND_CONFIG);
             $config->setInitArgs($initArgs);
             $query->setCommand($config);
             $result = self::$client->execute($query);
@@ -1396,7 +1384,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $this->assertEquals(InitArgsSynonyms::FORMAT_SOLR, $result->getFormat());
 
             // Check if we can add to it
-            $add = new AddSynonyms();
+            $add = $query->createCommand($query::COMMAND_ADD);
             $synonyms = new Synonyms();
             $synonyms->setTerm($term);
             $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
@@ -1406,7 +1394,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $this->assertEquals(200, $result->getResponse()->getStatusCode());
 
             // Check if synonym exists in its original lowercase form
-            $exists = new ExistsSynonyms();
+            $exists = $query->createCommand($query::COMMAND_EXISTS);
             $exists->setTerm($term);
             $query->setCommand($exists);
             $result = self::$client->execute($query);
@@ -1422,7 +1410,7 @@ abstract class AbstractTechproductsTest extends TestCase
         // ... we have to remove the created resource!
         finally {
             // Remove the synonym map
-            $remove = new RemoveSynonyms();
+            $remove = $query->createCommand($query::COMMAND_REMOVE);
             $query->setCommand($remove);
             $result = self::$client->execute($query);
             $this->assertEquals(200, $result->getResponse()->getStatusCode());

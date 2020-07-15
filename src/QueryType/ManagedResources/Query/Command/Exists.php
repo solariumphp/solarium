@@ -4,15 +4,26 @@ namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 
-abstract class AbstractDelete extends AbstractCommand
+class Exists extends AbstractCommand
 {
     /**
-     * Term to be deleted.
+     * Term to be checked if exists.
      *
      * @var string
      */
     protected $term = '';
+
+    /**
+     * Returns command type, for use in adapters.
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return Query::COMMAND_EXISTS;
+    }
 
     /**
      * Returns request method.
@@ -21,7 +32,7 @@ abstract class AbstractDelete extends AbstractCommand
      */
     public function getRequestMethod(): string
     {
-        return Request::METHOD_DELETE;
+        return Request::METHOD_GET;
     }
 
     /**
@@ -35,7 +46,7 @@ abstract class AbstractDelete extends AbstractCommand
     }
 
     /**
-     * Returns the term to be deleted.
+     * Returns the term to be checked if exists.
      *
      * @return string
      */
@@ -45,7 +56,7 @@ abstract class AbstractDelete extends AbstractCommand
     }
 
     /**
-     * Set the term to be deleted.
+     * Set the term to be checked if exists.
      *
      * @param string $term
      *

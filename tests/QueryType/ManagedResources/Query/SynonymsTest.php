@@ -5,13 +5,13 @@ namespace Solarium\Tests\QueryType\ManagedResources\Query;
 use PHPUnit\Framework\TestCase;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\UnexpectedValueException;
+use Solarium\QueryType\ManagedResources\Query\Command\Config;
+use Solarium\QueryType\ManagedResources\Query\Command\Delete;
+use Solarium\QueryType\ManagedResources\Query\Command\Exists;
+use Solarium\QueryType\ManagedResources\Query\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 
 class SynonymsTest extends TestCase

@@ -4,9 +4,20 @@ namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 
-abstract class AbstractRemove extends AbstractCommand
+class Remove extends AbstractCommand
 {
+    /**
+     * Returns command type, for use in adapters.
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return Query::COMMAND_REMOVE;
+    }
+
     /**
      * Returns request method.
      *

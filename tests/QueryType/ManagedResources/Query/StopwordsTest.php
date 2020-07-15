@@ -4,13 +4,13 @@ namespace Solarium\Tests\QueryType\ManagedResources\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\QueryType\ManagedResources\Query\Command\Config;
+use Solarium\QueryType\ManagedResources\Query\Command\Delete;
+use Solarium\QueryType\ManagedResources\Query\Command\Exists;
+use Solarium\QueryType\ManagedResources\Query\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Config;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
 
 class StopwordsTest extends TestCase

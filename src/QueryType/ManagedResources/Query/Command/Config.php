@@ -4,9 +4,10 @@ namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 use Solarium\QueryType\ManagedResources\Query\InitArgsInterface;
 
-abstract class AbstractConfig extends AbstractCommand
+class Config extends AbstractCommand
 {
     /**
      * Configuration parameters to set.
@@ -14,6 +15,16 @@ abstract class AbstractConfig extends AbstractCommand
      * @var InitArgsInterface
      */
     protected $initArgs;
+
+    /**
+     * Returns command type, for use in adapters.
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return Query::COMMAND_CONFIG;
+    }
 
     /**
      * Returns request method.

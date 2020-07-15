@@ -2,9 +2,7 @@
 
 namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
 
-use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd;
-use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms as SynonymsData;
 
 class Add extends AbstractAdd
@@ -15,16 +13,6 @@ class Add extends AbstractAdd
      * @var SynonymsData
      */
     protected $synonyms;
-
-    /**
-     * Returns command type, for use in adapters.
-     *
-     * @return string
-     */
-    public function getType(): string
-    {
-        return Synonyms::COMMAND_ADD;
-    }
 
     /**
      * @return SynonymsData

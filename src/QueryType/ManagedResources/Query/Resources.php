@@ -3,14 +3,14 @@
 namespace Solarium\QueryType\ManagedResources\Query;
 
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resources as RequestBuilder;
 use Solarium\QueryType\ManagedResources\ResponseParser\Resources as ResponseParser;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\QueryType\ManagedResources\Result\Resources\ResourceList;
 
-class Resources extends AbstractQuery
+class Resources extends BaseQuery
 {
     /**
      * Fixed name for resources.

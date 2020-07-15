@@ -2,9 +2,7 @@
 
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
 
-use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd;
-use Solarium\QueryType\ManagedResources\Query\Stopwords;
 
 class Add extends AbstractAdd
 {
@@ -14,16 +12,6 @@ class Add extends AbstractAdd
      * @var array
      */
     protected $stopwords;
-
-    /**
-     * Returns command type, for use in adapters.
-     *
-     * @return string
-     */
-    public function getType(): string
-    {
-        return Stopwords::COMMAND_ADD;
-    }
 
     /**
      * Get stopwords.
