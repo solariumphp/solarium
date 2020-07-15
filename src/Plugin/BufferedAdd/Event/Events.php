@@ -13,6 +13,8 @@ namespace Solarium\Plugin\BufferedAdd\Event;
 
 /**
  * Event definitions.
+ *
+ * @codeCoverageIgnore
  */
 class Events
 {

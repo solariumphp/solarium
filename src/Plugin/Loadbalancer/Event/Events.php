@@ -11,6 +11,8 @@ namespace Solarium\Plugin\Loadbalancer\Event;
 
 /**
  * Event definitions.
+ *
+ * @codeCoverageIgnore
  */
 class Events
 {

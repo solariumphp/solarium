@@ -11,6 +11,8 @@ namespace Solarium\Core\Event;
 
 /**
  * Event definitions.
+ *
+ * @codeCoverageIgnore
  */
 class Events
 {
