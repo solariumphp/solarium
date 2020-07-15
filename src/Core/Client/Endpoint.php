@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Core\Configurable;
@@ -63,6 +70,7 @@ class Endpoint extends Configurable
     public function setKey(string $value): self
     {
         $this->setOption('key', $value);
+
         return $this;
     }
 
@@ -76,6 +84,7 @@ class Endpoint extends Configurable
     public function setHost(string $host): self
     {
         $this->setOption('host', $host);
+
         return $this;
     }
 
@@ -99,6 +108,7 @@ class Endpoint extends Configurable
     public function setPort(int $port): self
     {
         $this->setOption('port', $port);
+
         return $this;
     }
 
@@ -128,6 +138,7 @@ class Endpoint extends Configurable
         }
 
         $this->setOption('path', $path);
+
         return $this;
     }
 
@@ -151,6 +162,7 @@ class Endpoint extends Configurable
     public function setCollection(string $collection): self
     {
         $this->setOption('collection', $collection);
+
         return $this;
     }
 
@@ -174,6 +186,7 @@ class Endpoint extends Configurable
     public function setCore(string $core): self
     {
         $this->setOption('core', $core);
+
         return $this;
     }
 
@@ -197,6 +210,7 @@ class Endpoint extends Configurable
     public function setScheme(string $scheme): self
     {
         $this->setOption('scheme', $scheme);
+
         return $this;
     }
 
@@ -215,9 +229,9 @@ class Endpoint extends Configurable
      *
      * Based on host, path, port and collection options.
      *
-     * @return string
-     *
      * @throws UnexpectedValueException
+     *
+     * @return string
      */
     public function getCollectionBaseUri(): string
     {
@@ -238,9 +252,9 @@ class Endpoint extends Configurable
      *
      * Based on host, path, port and core options.
      *
-     * @return string
-     *
      * @throws UnexpectedValueException
+     *
+     * @return string
      */
     public function getCoreBaseUri(): string
     {
@@ -260,9 +274,9 @@ class Endpoint extends Configurable
     /**
      * Get the base url for all V1 API requests.
      *
-     * @return string
-     *
      * @throws UnexpectedValueException
+     *
+     * @return string
      */
     public function getBaseUri(): string
     {
@@ -280,9 +294,9 @@ class Endpoint extends Configurable
     /**
      * Get the base url for all V1 API requests.
      *
-     * @return string
-     *
      * @throws UnexpectedValueException
+     *
+     * @return string
      */
     public function getV1BaseUri(): string
     {
@@ -292,9 +306,9 @@ class Endpoint extends Configurable
     /**
      * Get the base url for all V2 API requests.
      *
-     * @return string
-     *
      * @throws UnexpectedValueException
+     *
+     * @return string
      */
     public function getV2BaseUri(): string
     {
@@ -352,6 +366,7 @@ class Endpoint extends Configurable
     public function setLeader(bool $leader): self
     {
         $this->setOption('leader', $leader);
+
         return $this;
     }
 

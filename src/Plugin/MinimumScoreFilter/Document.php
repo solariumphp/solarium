@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\Core\Query\DocumentInterface;
@@ -85,9 +92,9 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      * @param string $name
      * @param string $value
      *
-     * @return self
-     *
      * @throws RuntimeException
+     *
+     * @return self
      */
     public function __set($name, $value): self
     {

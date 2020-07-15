@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Query;
 
 /**
@@ -14,6 +21,12 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
      */
     protected $fields;
 
+    /**
+     * @param $name
+     * @param $value
+     *
+     * @return \Solarium\Core\Query\DocumentInterface
+     */
     abstract public function __set($name, $value): DocumentInterface;
 
     /**
@@ -73,7 +86,7 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->fields);
+        return \count($this->fields);
     }
 
     /**

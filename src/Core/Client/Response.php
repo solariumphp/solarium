@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Exception\HttpException;
@@ -94,12 +101,11 @@ class Response
     /**
      * Set headers.
      *
-     *
      * @param array $headers
      *
-     * @return self Provides fluent interface
-     *
      * @throws HttpException
+     *
+     * @return self Provides fluent interface
      */
     public function setHeaders(array $headers): self
     {
@@ -108,7 +114,7 @@ class Response
         // get the status header
         $statusHeader = null;
         foreach ($headers as $header) {
-            if ('HTTP' == substr($header, 0, 4)) {
+            if (0 === strpos($header, 'HTTP')) {
                 $statusHeader = $header;
                 break;
             }

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Query\Result;
 
 use Solarium\Core\Client\Response;
@@ -41,7 +48,6 @@ class Result implements ResultInterface
 
     /**
      * Constructor.
-     *
      *
      * @param AbstractQuery $query
      * @param Response      $response
@@ -102,7 +108,7 @@ class Result implements ResultInterface
                     $this->data = json_decode($this->response->getBody(), true);
                     break;
                 default:
-                    throw new RuntimeException('Responseparser cannot handle '.$this->query->getResponseWriter());
+                    throw new RuntimeException(sprintf('Responseparser cannot handle %s', $this->query->getResponseWriter()));
             }
 
             if (null === $this->data) {

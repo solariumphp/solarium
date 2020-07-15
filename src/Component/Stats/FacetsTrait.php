@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Stats;
 
 /**
@@ -38,7 +45,7 @@ trait FacetsTrait
      */
     public function addFacets($facets): self
     {
-        if (is_string($facets)) {
+        if (\is_string($facets)) {
             $facets = explode(',', $facets);
             $facets = array_map('trim', $facets);
         }

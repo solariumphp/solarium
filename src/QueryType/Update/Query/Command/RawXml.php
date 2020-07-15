@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\Exception\RuntimeException;
@@ -106,7 +113,7 @@ class RawXml extends AbstractCommand
     {
         $command = $this->getOption('command');
         if (null !== $command) {
-            if (is_array($command)) {
+            if (\is_array($command)) {
                 $this->addCommands($command);
             } else {
                 $this->addCommand($command);

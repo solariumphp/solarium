@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query;
 
 use Solarium\Core\Client\Client;
@@ -17,6 +24,9 @@ use Solarium\QueryType\ManagedResources\RequestBuilder\Synonyms as RequestBuilde
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
 
+/**
+ * Synonyms.
+ */
 class Synonyms extends BaseQuery
 {
     /**
@@ -181,7 +191,7 @@ class Synonyms extends BaseQuery
         $type = strtolower($type);
 
         if (!isset($this->commandTypes[$type])) {
-            throw new InvalidArgumentException('Synonyms commandtype unknown: '.$type);
+            throw new InvalidArgumentException(sprintf('Synonyms commandtype unknown: %s', $type));
         }
 
         $class = $this->commandTypes[$type];

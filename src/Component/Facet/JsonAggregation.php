@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
@@ -34,6 +41,7 @@ class JsonAggregation extends AbstractFacet implements JsonFacetInterface
     public function setFunction(string $function): self
     {
         $this->setOption('function', $function);
+
         return $this;
     }
 
@@ -61,6 +69,7 @@ class JsonAggregation extends AbstractFacet implements JsonFacetInterface
     public function setMin(int $min): self
     {
         $this->setOption('min', $min);
+
         return $this;
     }
 

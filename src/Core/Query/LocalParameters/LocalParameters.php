@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Query\LocalParameters;
 
 use Solarium\Exception\OutOfBoundsException;
@@ -440,6 +447,13 @@ class LocalParameters implements \ArrayAccess
         return $this->addValue(LocalParameter::TYPE_STAT, $stat);
     }
 
+    /**
+     * @param array $stats
+     *
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @return $this
+     */
     public function setStats(array $stats): self
     {
         return $this->setValues(LocalParameter::TYPE_STAT, $stats);

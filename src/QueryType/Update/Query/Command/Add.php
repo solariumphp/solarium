@@ -1,9 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
-use Solarium\Exception\RuntimeException;
 use Solarium\Core\Query\DocumentInterface;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
@@ -32,7 +39,6 @@ class Add extends AbstractCommand
 
     /**
      * Add a single document.
-     *
      *
      * @param DocumentInterface $document
      *
@@ -97,6 +103,7 @@ class Add extends AbstractCommand
     public function setOverwrite(bool $overwrite): self
     {
         $this->setOption('overwrite', $overwrite);
+
         return $this;
     }
 
@@ -120,6 +127,7 @@ class Add extends AbstractCommand
     public function setCommitWithin(int $commitWithin): self
     {
         $this->setOption('commitwithin', $commitWithin);
+
         return $this;
     }
 

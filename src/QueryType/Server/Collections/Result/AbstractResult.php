@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Server\Collections\Result;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
@@ -25,6 +32,7 @@ abstract class AbstractResult extends BaseResult
     public function getWasSuccessful(): bool
     {
         $this->parseResponse();
+
         return $this->wasSuccessful;
     }
 
@@ -34,6 +42,7 @@ abstract class AbstractResult extends BaseResult
     public function getStatusMessage(): string
     {
         $this->parseResponse();
+
         return $this->statusMessage;
     }
 }

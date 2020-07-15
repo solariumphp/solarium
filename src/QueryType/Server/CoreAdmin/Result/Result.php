@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Server\CoreAdmin\Result;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
@@ -39,6 +46,7 @@ class Result extends BaseResult
     public function getWasSuccessful(): bool
     {
         $this->parseResponse();
+
         return $this->wasSuccessful;
     }
 
@@ -48,6 +56,7 @@ class Result extends BaseResult
     public function getStatusMessage(): string
     {
         $this->parseResponse();
+
         return $this->statusMessage;
     }
 
@@ -59,6 +68,7 @@ class Result extends BaseResult
     public function getStatusResults(): ?array
     {
         $this->parseResponse();
+
         return $this->statusResults;
     }
 
@@ -70,13 +80,14 @@ class Result extends BaseResult
     public function getStatusResult(): ?StatusResult
     {
         $this->parseResponse();
+
         return $this->statusResult;
     }
 
     /**
      * @param string $coreName
      *
-     * @return null|StatusResult
+     * @return StatusResult|null
      */
     public function getStatusResultByCoreName(string $coreName): ?StatusResult
     {

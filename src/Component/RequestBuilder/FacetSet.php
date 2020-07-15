@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Component\Facet\Field as FacetField;
@@ -9,7 +16,6 @@ use Solarium\Component\Facet\MultiQuery as FacetMultiQuery;
 use Solarium\Component\Facet\Pivot as FacetPivot;
 use Solarium\Component\Facet\Query as FacetQuery;
 use Solarium\Component\Facet\Range as FacetRange;
-use Solarium\Component\FacetSet as FacetsetComponent;
 use Solarium\Component\FacetSetInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\ConfigurableInterface;
@@ -24,74 +30,78 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     /**
      * Add request settings for FacetSet.
      *
-     * @param FacetsetComponent $component
-     * @param Request           $request
+     * @param \Solarium\Core\ConfigurableInterface $component
+     * @param Request                              $request
      *
-     * @throws UnexpectedValueException
+     * @throws \Solarium\Exception\UnexpectedValueException
      *
      * @return Request
      */
     public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         $facets = $component->getFacets();
+
         if (0 !== \count($facets)) {
-            $non_json = false;
-            $json_facets = [];
+            $nonJson = false;
+            $jsonFacets = [];
 
             // create a list of facet fields
             // 1) filter for FACET_FIELD
             // 2) get field name
             // 3) count occurence
-            $facet_fields = array_count_values(array_map(function ($value) {
-                return $value->getField();
-            }, array_filter($facets, function ($value) {
-                return FacetSetInterface::FACET_FIELD == $value->getType();
-            })));
+            $facetFields = array_count_values(array_map(
+                static function ($value) {
+                    return $value->getField();
+                },
+                array_filter($facets, static function ($value) {
+                    return FacetSetInterface::FACET_FIELD === $value->getType();
+                })
+            ));
             foreach ($facets as $key => $facet) {
                 switch ($facet->getType()) {
                     case FacetSetInterface::FACET_FIELD:
                         /* @var FacetField $facet */
-                        $this->addFacetField($request, $facet, (1 < $facet_fields[$facet->getField()]));
-                        $non_json = true;
+                        $this->addFacetField($request, $facet, (1 < $facetFields[$facet->getField()]));
+                        $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_QUERY:
                         /* @var FacetQuery $facet */
                         $this->addFacetQuery($request, $facet);
-                        $non_json = true;
+                        $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_MULTIQUERY:
                         /* @var FacetMultiQuery $facet */
                         $this->addFacetMultiQuery($request, $facet);
-                        $non_json = true;
+                        $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_RANGE:
                         /* @var FacetRange $facet */
                         $this->addFacetRange($request, $facet);
-                        $non_json = true;
+                        $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_PIVOT:
                         /* @var FacetPivot $facet */
                         $this->addFacetPivot($request, $facet);
-                        $non_json = true;
+                        $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_INTERVAL:
                         /* @var FacetInterval $facet */
                         $this->addFacetInterval($request, $facet);
-                        $non_json = true;
+                        $nonJson = true;
                         break;
                     case FacetSetInterface::JSON_FACET_TERMS:
                     case FacetSetInterface::JSON_FACET_QUERY:
                     case FacetSetInterface::JSON_FACET_RANGE:
                     case FacetSetInterface::JSON_FACET_AGGREGATION:
                         /* @var JsonFacetInterface $facet */
-                        $json_facets[$key] = $facet->serialize();
+                        $jsonFacets[$key] = $facet->serialize();
                         break;
                     default:
                         throw new UnexpectedValueException('Unknown facet type');
                 }
             }
 
-            if ($non_json) {
+            if ($nonJson) {
                 // enable non-json faceting
                 $request->addParam('facet', 'true');
 
@@ -107,8 +117,8 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 $request->addParam('facet.limit', $component->getLimit());
             }
 
-            if ($json_facets) {
-                $request->addParam('json.facet', json_encode($json_facets));
+            if ($jsonFacets) {
+                $request->addParam('json.facet', json_encode($jsonFacets));
             }
         }
 
@@ -120,14 +130,14 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      *
      * @param Request    $request
      * @param FacetField $facet
-     * @param bool       $use_local_params TRUE, if local params instead of global field params should be used. Must be set if the same field is used in different facets. Default is keeping the global field params (https://issues.apache.org/jira/browse/SOLR-6193)
+     * @param bool       $useLocalParams TRUE, if local params instead of global field params should be used. Must be set if the same field is used in different facets. Default is keeping the global field params (https://issues.apache.org/jira/browse/SOLR-6193)
      */
-    public function addFacetField(Request $request, FacetField $facet, bool $use_local_params = false)
+    public function addFacetField(Request $request, FacetField $facet, bool $useLocalParams = false)
     {
         $field = $facet->getField();
 
-        if ($use_local_params) {
-            $local_params = ['key' => $facet->getKey(),
+        if ($useLocalParams) {
+            $localParams = ['key' => $facet->getKey(),
                 'ex' => $facet->getLocalParameters()->getExcludes(),
                 'facet.limit' => $facet->getLimit(),
                 'facet.sort' => $facet->getSort(),
@@ -146,7 +156,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 'facet.field',
                 $this->renderLocalParams(
                     $field,
-                    $local_params
+                    $localParams
                 )
             );
         } else {
