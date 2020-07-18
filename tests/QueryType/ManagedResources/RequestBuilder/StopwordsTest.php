@@ -10,9 +10,9 @@ use Solarium\QueryType\ManagedResources\Query\Command\Config as ConfigCommand;
 use Solarium\QueryType\ManagedResources\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\ManagedResources\Query\Command\Exists as ExistsCommand;
 use Solarium\QueryType\ManagedResources\Query\Command\Remove as RemoveCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Add as AddCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Create as CreateCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add as AddCommand;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create as CreateCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as StopwordsRequestBuilder;
 

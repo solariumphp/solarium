@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command\Stopwords;
 
 use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd;
 

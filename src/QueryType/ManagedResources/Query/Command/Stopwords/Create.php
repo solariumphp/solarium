@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command\Stopwords;
 
 use Solarium\QueryType\ManagedResources\Query\Command\AbstractCreate;
 
@@ -11,6 +11,6 @@ class Create extends AbstractCreate
      */
     public function getRawData(): string
     {
-        return json_encode(['class' => 'org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager']);
+        return json_encode(['class' => 'org.apache.solr.rest.schema.analysis.ManagedWordSetResource']);
     }
 }

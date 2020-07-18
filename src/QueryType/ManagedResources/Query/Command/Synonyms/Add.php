@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command\Synonyms;
 
 use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms as SynonymsData;
