@@ -22,8 +22,8 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
     protected $fields;
 
     /**
-     * @param $name
-     * @param $value
+     * @param mixed $name
+     * @param mixed $value
      *
      * @return \Solarium\Core\Query\DocumentInterface
      */

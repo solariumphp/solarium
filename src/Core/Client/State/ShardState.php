@@ -40,22 +40,34 @@ class ShardState extends AbstractState
      */
     const RECOVERY_FAILED = 'recovery_failed';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $name;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $range;
 
-    /** @var ReplicaState[] */
+    /**
+     * @var ReplicaState[]
+     */
     protected $replicas;
 
-    /** @var string Id of the shard leader */
+    /**
+     * @var string Id of the shard leader
+     */
     protected $shardLeader;
 
-    /** @var string[] An array of all ids of the active replicas */
+    /**
+     * @var string[] An array of all ids of the active replicas
+     */
     protected $activeReplicas;
 
-    /** @var string Shard is active or inactive */
+    /**
+     * @var string Shard is active or inactive
+     */
     protected $state;
 
     /**
