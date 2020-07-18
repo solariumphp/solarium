@@ -11,7 +11,6 @@ namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
 use Solarium\Component\FacetSetTrait;
-use Solarium\Core\Configurable;
 use Solarium\Core\Query\Helper;
 use Solarium\Exception\InvalidArgumentException;
 
@@ -60,9 +59,9 @@ trait JsonFacetTrait
      * @param string $query
      * @param array  $bind  Bind values for placeholders in the query string
      *
-     * @return \Solarium\Core\Configurable
+     * @return \Solarium\Component\FacetSetInterface
      */
-    public function setDomainFilterQuery(string $query, array $bind = null): Configurable
+    public function setDomainFilterQuery(string $query, array $bind = null): FacetSetInterface
     {
         if (null !== $bind) {
             $helper = new Helper();
