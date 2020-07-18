@@ -102,7 +102,26 @@ class Helper
     }
 
     /**
-     * Format a date to the expected formatting used in SOLR.
+     * @deprecated use Helper::convertAndFormatDate
+     *
+     * @param int|string|\DateTimeInterface $input accepted formats: timestamp, date string, DateTime or
+     *                                             DateTimeImmutable
+     *
+     * @return string|bool false is returned in case of invalid input
+     */
+    public function formatDate($input): string
+    {
+        @trigger_error('The Helper::formatDate function is deprecated in Solarium 6.1 and will be removed in Solarium 6.2. Use Helper::convertAndFormatDate instead', E_USER_DEPRECATED);
+
+        return $this->convertAndFormatDate($input);
+    }
+
+    /**
+     * Convert and format a date to the expected formatting used in SOLR.
+     *
+     * Be aware this method adds a UTC TimeZone to the resulting date which may modify the date time value depending on
+     * the php configuration used running this code. Use Helper::dateToSolrUtcString to format your date without this
+     * conversion.
      *
      * This format was derived to be standards compliant (ISO 8601)
      * A date field shall be of the form 1995-12-31T23:59:59Z The trailing "Z" designates UTC time and is mandatory
@@ -114,7 +133,7 @@ class Helper
      *
      * @return string|bool false is returned in case of invalid input
      */
-    public function formatDate($input)
+    public function convertAndFormatDate($input)
     {
         switch (true) {
             // input of datetime object
@@ -126,28 +145,38 @@ class Helper
             case \is_string($input):
             case is_numeric($input):
                 // if date/time string: convert to timestamp first
-                if (\is_string($input)) {
-                    $input = strtotime($input);
+                if (is_string($input) && false === $input = strtotime($input)) {
+                    return false;
                 }
 
                 // now try converting the timestamp to a datetime instance, on failure return false
                 try {
                     $input = new \DateTime('@'.$input);
                 } catch (\Exception $e) {
-                    $input = false;
+                    return false;
                 }
                 break;
-            // any other input formats can be added in additional cases here...
-            // case $input instanceof Zend_Date:
-
             // unsupported input format
             default:
-                $input = false;
-                break;
+                return false;
         }
 
-        // handle the filtered input
-        return $input ? $input->format('Y-m-d\TH:i:s\Z') : false;
+        // when we get here the input is always a datetime object
+        $input = $input->setTimezone(new \DateTimeZone('UTC'));
+
+        return $this->dateToSolrUtcString($input);
+    }
+
+    /**
+     * Format date time interface to date string required by Solr.
+     *
+     * @param \DateTimeInterface $dateTime
+     *
+     * @return string
+     */
+    public function dateToSolrUtcString(\DateTimeInterface $dateTime): string
+    {
+        return $dateTime->format('Y-m-d\TH:i:s\Z');
     }
 
     /**

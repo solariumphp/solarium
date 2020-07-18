@@ -239,7 +239,7 @@ class RequestBuilder extends BaseRequestBuilder
         } elseif (true === $value) {
             $value = 'true';
         } elseif ($value instanceof \DateTimeInterface) {
-            $value = $this->getHelper()->formatDate($value);
+            $value = $this->getHelper()->convertAndFormatDate($value);
         } else {
             $value = $this->getHelper()->escapeXMLCharacterData($value);
         }

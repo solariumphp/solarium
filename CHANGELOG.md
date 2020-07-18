@@ -51,6 +51,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Refactored Managed Resources code: use `createCommand()` and `createInitArgs()` to issue commands
+- Solarium\Core\Query\Helper::convertAndFormatDate()
+- Solarium\Core\Query\Helper::dateToSolrUtcString()
+
+### Fixed  
+
+### Changed
+- Deprecated Solarium\Core\Query\Helper::formatDate in favour of Helper::convertAndFormatDate
+
+### Removed
 
 
 ## [6.0.1]

@@ -11,7 +11,8 @@ Helper methods for general use
 -   qparser($name, $params = array())
 -   functionCall($name, $params = array())
 -   join($from, $to, $dereferenced = false)
--   formatDate($input)
+-   convertAndFormatDate($input): converts a string, int or \DateTimeInterface to a UTC \DateTime object and formats it as a date time string familiar to Solr. Returns false on failure.
+-   dateToSolrUtcString(\DateTimeInterface $dateTime): Formats a \DateTimeInterface as a date time string familiar to Solr. 
 -   cacheControl($useCache, $cost)
 -   qparserTerm($field, $weight)
 
