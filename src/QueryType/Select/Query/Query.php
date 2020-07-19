@@ -598,9 +598,9 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @param \Solarium\Builder\Select\QueryBuilder $builder
      *
-     * @return $this
-     *
      * @throws \Solarium\Exception\RuntimeException
+     *
+     * @return $this
      */
     public function addFilterQueriesFromQueryBuilder(QueryBuilder $builder): self
     {

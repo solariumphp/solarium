@@ -41,13 +41,13 @@ trait QueryTrait
     /**
      * @param \Solarium\Builder\Select\QueryBuilder $builder
      *
-     * @return \Solarium\Component\QueryInterface
-     *
      * @throws \Solarium\Exception\RuntimeException
+     *
+     * @return \Solarium\Component\QueryInterface
      */
     public function setQueryFromQueryBuilder(QueryBuilder $builder): QueryInterface
     {
-        if (1 !== count($builder->getExpressions())) {
+        if (1 !== \count($builder->getExpressions())) {
             throw new RuntimeException('The QueryBuilder can only contain one expression when setting the query. Use ExpressionBuilder::andX or ExpressionBuilder::orX to combine expressions.');
         }
 

@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Builder\Select;
 
 use Solarium\Builder\AbstractExpressionVisitor;
@@ -104,7 +111,7 @@ class QueryExpressionVisitor extends AbstractExpressionVisitor
             case Comparison::EMPTY:
                 return sprintf('(*:* NOT %s:*)', $field);
             default:
-                throw new RuntimeException('Unknown comparison operator: '.$expression->getOperator());
+                throw new RuntimeException(sprintf('Unknown comparison operator: %s', $expression->getOperator()));
         }
     }
 
@@ -135,7 +142,7 @@ class QueryExpressionVisitor extends AbstractExpressionVisitor
             case CompositeComparison::TYPE_OR:
                 return implode(' OR ', $comparisons);
             default:
-                throw new RuntimeException('Unknown composite '.$expr->getType());
+                throw new RuntimeException(sprintf('Unknown composite %s', $expr->getType()));
         }
     }
 
