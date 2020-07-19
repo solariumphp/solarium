@@ -104,6 +104,8 @@ class Helper
     /**
      * @deprecated use Helper::convertAndFormatDate
      *
+     * @codeCoverageIgnore
+     *
      * @param int|string|\DateTimeInterface $input accepted formats: timestamp, date string, DateTime or
      *                                             DateTimeImmutable
      *
@@ -145,7 +147,7 @@ class Helper
             case \is_string($input):
             case is_numeric($input):
                 // if date/time string: convert to timestamp first
-                if (is_string($input) && false === $input = strtotime($input)) {
+                if (\is_string($input) && false === $input = strtotime($input)) {
                     return false;
                 }
 

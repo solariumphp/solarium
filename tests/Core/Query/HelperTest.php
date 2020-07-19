@@ -593,6 +593,11 @@ class HelperTest extends TestCase
         self::assertSame('2020-01-01T00:00:00Z', $this->helper->dateToSolrUtcString($date));
     }
 
+    public function testInvalidNumericValue(): void
+    {
+        self::assertFalse($this->helper->convertAndFormatDate(1.2));
+    }
+
     protected function mockFormatDateOutput($timestamp)
     {
         $date = new \DateTime('@'.$timestamp);
