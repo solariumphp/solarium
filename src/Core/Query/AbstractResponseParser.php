@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Query;
 
 /**
@@ -21,12 +28,12 @@ abstract class AbstractResponseParser
         // key counter to convert values to arrays when keys are re-used
         $keys = [];
 
-        $dataCount = count($data);
+        $dataCount = \count($data);
         $result = [];
         for ($i = 0; $i < $dataCount; $i += 2) {
             $key = $data[$i];
             $value = $data[$i + 1];
-            if (array_key_exists($key, $keys)) {
+            if (\array_key_exists($key, $keys)) {
                 if (1 === $keys[$key]) {
                     $result[$key] = [$result[$key]];
                 }

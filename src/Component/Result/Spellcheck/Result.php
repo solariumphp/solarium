@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Result\Spellcheck;
 
 /**
@@ -51,8 +58,8 @@ class Result implements \IteratorAggregate, \Countable
      */
     public function getCollation(?int $key = null): ?Collation
     {
-        $nrOfCollations = count($this->collations);
-        if (0 == $nrOfCollations) {
+        $nrOfCollations = \count($this->collations);
+        if (0 === $nrOfCollations) {
             return null;
         }
 
@@ -124,6 +131,6 @@ class Result implements \IteratorAggregate, \Countable
      */
     public function count(): int
     {
-        return count($this->suggestions);
+        return \count($this->suggestions);
     }
 }

@@ -1,11 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
 
+/**
+ * Add.
+ */
 class Add extends AbstractCommand
 {
     /**
@@ -55,6 +65,7 @@ class Add extends AbstractCommand
     public function setStopwords(array $stopwords): self
     {
         $this->stopwords = $stopwords;
+
         return $this;
     }
 

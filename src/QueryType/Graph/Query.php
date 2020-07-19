@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Graph;
 
 use Solarium\Core\Client\Client;
@@ -45,6 +52,8 @@ class Query extends AbstractQuery
 
     /**
      * No response parser required since we pass through GraphML.
+     *
+     * @return \Solarium\Core\Query\ResponseParserInterface|null
      */
     public function getResponseParser(): ?ResponseParserInterface
     {
@@ -61,6 +70,7 @@ class Query extends AbstractQuery
     public function setExpression(string $expr): self
     {
         $this->setOption('expr', $expr);
+
         return $this;
     }
 

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Result\Synonyms;
 
 /**
@@ -49,6 +56,7 @@ class Synonyms
     public function setTerm(string $term): self
     {
         $this->term = $term;
+
         return $this;
     }
 
@@ -72,6 +80,7 @@ class Synonyms
     public function setSynonyms(array $synonyms): self
     {
         $this->synonyms = $synonyms;
+
         return $this;
     }
 }

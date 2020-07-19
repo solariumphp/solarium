@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -114,11 +121,11 @@ class Delete extends AbstractCommand
     /**
      * Build ids/queries based on options.
      */
-    protected function init()
+    protected function init(): void
     {
         $id = $this->getOption('id');
         if (null !== $id) {
-            if (is_array($id)) {
+            if (\is_array($id)) {
                 $this->addIds($id);
             } else {
                 $this->addId($id);
@@ -127,7 +134,7 @@ class Delete extends AbstractCommand
 
         $queries = $this->getOption('query');
         if (null !== $queries) {
-            if (is_array($queries)) {
+            if (\is_array($queries)) {
                 $this->addQueries($queries);
             } else {
                 $this->addQuery($queries);

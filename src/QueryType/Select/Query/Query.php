@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Select\Query;
 
 use Solarium\Component\Analytics\Analytics;
@@ -138,7 +145,10 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      */
     protected $filterQueries = [];
 
-    public function __construct($options = null)
+    /**
+     * @param array|null $options
+     */
+    public function __construct(array $options = null)
     {
         $this->componentTypes = [
             ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS => MoreLikeThis::class,

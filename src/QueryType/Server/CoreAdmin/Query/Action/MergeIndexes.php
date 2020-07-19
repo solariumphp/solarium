@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
@@ -34,6 +41,7 @@ class MergeIndexes extends AbstractAsyncAction implements CoreActionInterface
     public function setIndexDir(array $indexDir): self
     {
         $this->setOption('indexDir', $indexDir);
+
         return $this;
     }
 
@@ -57,6 +65,7 @@ class MergeIndexes extends AbstractAsyncAction implements CoreActionInterface
     public function setSrcCore(array $srcCore): self
     {
         $this->setOption('srcCore', $srcCore);
+
         return $this;
     }
 

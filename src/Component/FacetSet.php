@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\Facet\FacetInterface;
@@ -84,6 +91,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function setExtractFromResponse(bool $extract): self
     {
         $this->setOption('extractfromresponse', $extract);
+
         return $this;
     }
 
@@ -109,6 +117,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function setPrefix(string $prefix): self
     {
         $this->setOption('prefix', $prefix);
+
         return $this;
     }
 
@@ -136,6 +145,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function setContains(string $contains): self
     {
         $this->setOption('contains', $contains);
+
         return $this;
     }
 
@@ -163,6 +173,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function setContainsIgnoreCase(bool $containsIgnoreCase): self
     {
         $this->setOption('containsignorecase', $containsIgnoreCase);
+
         return $this;
     }
 
@@ -250,6 +261,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function setSort(string $sort): self
     {
         $this->setOption('sort', $sort);
+
         return $this;
     }
 
@@ -277,6 +289,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function setLimit(int $limit): self
     {
         $this->setOption('limit', $limit);
+
         return $this;
     }
 
@@ -304,6 +317,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function setMinCount(int $minCount): self
     {
         $this->setOption('mincount', $minCount);
+
         return $this;
     }
 
@@ -331,6 +345,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function setMissing(bool $missing): self
     {
         $this->setOption('missing', $missing);
+
         return $this;
     }
 

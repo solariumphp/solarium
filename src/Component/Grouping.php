@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
@@ -16,7 +23,6 @@ use Solarium\Component\Result\Grouping\ValueGroup;
  * See the Solr wiki for more info about this functionality
  *
  * @see https://lucene.apache.org/solr/guide/result-grouping.html
- * @since 2.1.0
  */
 class Grouping extends AbstractComponent
 {
@@ -118,7 +124,7 @@ class Grouping extends AbstractComponent
      */
     public function addFields($fields): self
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
@@ -192,7 +198,7 @@ class Grouping extends AbstractComponent
      */
     public function addQueries($queries): self
     {
-        if (!is_array($queries)) {
+        if (!\is_array($queries)) {
             $queries = [$queries];
         }
 
@@ -252,6 +258,7 @@ class Grouping extends AbstractComponent
     public function setLimit(int $limit): self
     {
         $this->setOption('limit', $limit);
+
         return $this;
     }
 
@@ -277,6 +284,7 @@ class Grouping extends AbstractComponent
     public function setOffset(int $offset): self
     {
         $this->setOption('offset', $offset);
+
         return $this;
     }
 
@@ -302,6 +310,7 @@ class Grouping extends AbstractComponent
     public function setSort(string $sort): self
     {
         $this->setOption('sort', $sort);
+
         return $this;
     }
 
@@ -328,6 +337,7 @@ class Grouping extends AbstractComponent
     public function setMainResult(bool $value): self
     {
         $this->setOption('mainresult', $value);
+
         return $this;
     }
 
@@ -353,6 +363,7 @@ class Grouping extends AbstractComponent
     public function setNumberOfGroups(bool $value): self
     {
         $this->setOption('numberofgroups', $value);
+
         return $this;
     }
 
@@ -383,6 +394,7 @@ class Grouping extends AbstractComponent
     public function setCachePercentage(int $value): self
     {
         $this->setOption('cachepercentage', $value);
+
         return $this;
     }
 
@@ -409,6 +421,7 @@ class Grouping extends AbstractComponent
     public function setTruncate(bool $value): self
     {
         $this->setOption('truncate', $value);
+
         return $this;
     }
 
@@ -434,6 +447,7 @@ class Grouping extends AbstractComponent
     public function setFunction(string $value): self
     {
         $this->setOption('function', $value);
+
         return $this;
     }
 
@@ -461,6 +475,7 @@ class Grouping extends AbstractComponent
     public function setFacet(bool $value): self
     {
         $this->setOption('facet', $value);
+
         return $this;
     }
 
@@ -487,6 +502,7 @@ class Grouping extends AbstractComponent
     public function setFormat(string $value): self
     {
         $this->setOption('format', $value);
+
         return $this;
     }
 
@@ -510,6 +526,7 @@ class Grouping extends AbstractComponent
     public function setResultQueryGroupClass(string $value): self
     {
         $this->setOption('resultquerygroupclass', $value);
+
         return $this;
     }
 
@@ -535,6 +552,7 @@ class Grouping extends AbstractComponent
     public function setResultValueGroupClass(string $value): self
     {
         $this->setOption('resultvaluegroupclass', $value);
+
         return  $this;
     }
 

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query;
 
 use Solarium\Core\Client\Client;
@@ -17,6 +24,9 @@ use Solarium\QueryType\ManagedResources\RequestBuilder\Stopwords as RequestBuild
 use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
 
+/**
+ * Stopwords.
+ */
 class Stopwords extends BaseQuery
 {
     /**
@@ -138,6 +148,7 @@ class Stopwords extends BaseQuery
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -156,7 +167,7 @@ class Stopwords extends BaseQuery
         $type = strtolower($type);
 
         if (!isset($this->commandTypes[$type])) {
-            throw new InvalidArgumentException('Stopwords commandtype unknown: '.$type);
+            throw new InvalidArgumentException(sprintf('Stopwords commandtype unknown: %s', $type));
         }
 
         $class = $this->commandTypes[$type];

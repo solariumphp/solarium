@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\ComponentTraits;
 
 use Solarium\Component\SuggesterInterface;
@@ -20,9 +27,10 @@ trait SuggesterTrait
      */
     public function setDictionary($dictionary): SuggesterInterface
     {
-        if (is_string($dictionary)) {
+        if (\is_string($dictionary)) {
             $dictionary = [$dictionary];
         }
+
         return $this->setOption('dictionary', $dictionary);
     }
 

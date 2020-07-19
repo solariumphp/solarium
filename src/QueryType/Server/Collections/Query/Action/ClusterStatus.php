@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Server\Collections\Query\Action;
 
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
@@ -34,6 +41,7 @@ class ClusterStatus extends AbstractAsyncAction
     public function setCollection(string $collection): self
     {
         $this->setOption('collection', $collection);
+
         return $this;
     }
 
@@ -57,6 +65,7 @@ class ClusterStatus extends AbstractAsyncAction
     public function setShard(string $shard): self
     {
         $this->setOption('shard', $shard);
+
         return $this;
     }
 
@@ -81,6 +90,7 @@ class ClusterStatus extends AbstractAsyncAction
     public function setRoute(string $route): self
     {
         $this->setOption('_route_', $route);
+
         return $this;
     }
 

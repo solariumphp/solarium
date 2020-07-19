@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\ResponseParser;
 
 use Solarium\Component\AbstractComponent;
@@ -23,9 +30,9 @@ class MoreLikeThis extends AbstractResponseParser implements ComponentParserInte
      * @param MoreLikeThisComponent $moreLikeThis
      * @param array                 $data
      *
-     * @return MoreLikeThisResult
-     *
      * @throws InvalidArgumentException
+     *
+     * @return MoreLikeThisResult
      */
     public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $moreLikeThis, array $data): MoreLikeThisResult
     {

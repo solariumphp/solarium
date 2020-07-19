@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Server\CoreAdmin\Result;
 
 /**
@@ -53,6 +60,7 @@ class StatusResult
     public function setCoreName(string $coreName): self
     {
         $this->coreName = $coreName;
+
         return $this;
     }
 
@@ -72,6 +80,7 @@ class StatusResult
     public function setNumberOfDocuments(int $numberOfDocuments): self
     {
         $this->numberOfDocuments = $numberOfDocuments;
+
         return $this;
     }
 
@@ -91,6 +100,7 @@ class StatusResult
     public function setUptime(int $uptime): self
     {
         $this->uptime = $uptime;
+
         return $this;
     }
 
@@ -110,6 +120,7 @@ class StatusResult
     public function setVersion(int $version): self
     {
         $this->version = $version;
+
         return $this;
     }
 
@@ -129,6 +140,7 @@ class StatusResult
     public function setStartTime(?\DateTime $startTime): self
     {
         $this->startTime = $startTime;
+
         return $this;
     }
 
@@ -148,6 +160,7 @@ class StatusResult
     public function setLastModified(?\DateTime $lastModified): self
     {
         $this->lastModified = $lastModified;
+
         return $this;
     }
 }

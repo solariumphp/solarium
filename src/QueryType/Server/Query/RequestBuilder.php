@@ -1,12 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Server\Query;
 
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
-use Solarium\Core\Query\QueryInterface;
-use Solarium\QueryType\Server\AbstractServerQuery;
 use Solarium\QueryType\Server\Query\Action\ActionInterface;
 
 /**
@@ -17,7 +22,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for an API query.
      *
-     * @param QueryInterface|AbstractServerQuery $query
+     * @param \Solarium\Core\Query\AbstractQuery $query
      *
      * @return Request
      */
@@ -26,6 +31,7 @@ class RequestBuilder extends BaseRequestBuilder
         $request = parent::build($query);
         $request->setMethod(Request::METHOD_GET);
         $request = $this->addOptionsFromAction($query->getAction(), $request);
+
         return $request;
     }
 
@@ -40,6 +46,7 @@ class RequestBuilder extends BaseRequestBuilder
         $options = ['action' => $action->getType()];
         $options = array_merge($options, $action->getOptions());
         $request->addParams($options);
+
         return $request;
     }
 }

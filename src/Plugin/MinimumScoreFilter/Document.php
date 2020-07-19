@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\Core\Query\DocumentInterface;
@@ -85,9 +92,9 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      * @param string $name
      * @param string $value
      *
-     * @return self
-     *
      * @throws RuntimeException
+     *
+     * @return self
      */
     public function __set($name, $value): self
     {
@@ -141,7 +148,7 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      *
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->document->offsetUnset($offset);
     }
@@ -164,7 +171,7 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->__set($offset, $value);
     }

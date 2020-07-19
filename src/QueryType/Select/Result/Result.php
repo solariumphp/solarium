@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Component\ComponentAwareQueryInterface;
@@ -10,8 +17,8 @@ use Solarium\Component\Result\Grouping\Result as GroupingResult;
 use Solarium\Component\Result\Highlighting\Highlighting;
 use Solarium\Component\Result\MoreLikeThis\MoreLikeThis;
 use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
-use Solarium\Component\Result\Suggester\Result as SuggesterResult;
 use Solarium\Component\Result\Stats\Stats;
+use Solarium\Component\Result\Suggester\Result as SuggesterResult;
 use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
@@ -200,7 +207,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     {
         $this->parseResponse();
 
-        return count($this->documents);
+        return \count($this->documents);
     }
 
     /**
@@ -219,6 +226,8 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * Get a component result by key.
      *
      * @param string $key
+     *
+     * @throws \Solarium\Exception\UnexpectedValueException
      *
      * @return mixed
      */

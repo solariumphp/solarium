@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
 
 use Solarium\Core\Client\Request;
@@ -7,6 +14,9 @@ use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms as SynonymsData;
 
+/**
+ * Add.
+ */
 class Add extends AbstractCommand
 {
     /**
@@ -54,11 +64,14 @@ class Add extends AbstractCommand
     public function setSynonyms(SynonymsData $synonyms): self
     {
         $this->synonyms = $synonyms;
+
         return $this;
     }
 
     /**
      * Returns the raw data to be sent to Solr.
+     *
+     * @return string
      */
     public function getRawData(): string
     {
