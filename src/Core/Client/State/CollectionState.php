@@ -16,10 +16,14 @@ use Solarium\Exception\RuntimeException;
  */
 class CollectionState extends AbstractState
 {
-    /** @var string Name of the collection */
+    /**
+     * @var string Name of the collection
+     */
     protected $name;
 
-    /** @var ShardState[] */
+    /**
+     * @var ShardState[]
+     */
     protected $shards;
 
     /**
