@@ -54,7 +54,7 @@ class Result extends SelectResult
      *
      * @return array
      */
-    public function getInterestingTerms(): array
+    public function getInterestingTerms()
     {
         $query = $this->getQuery();
         if ('none' === $query->getInterestingTerms()) {
@@ -74,7 +74,7 @@ class Result extends SelectResult
      *
      * @return ReadOnlyDocument
      */
-    public function getMatch(): ReadOnlyDocument
+    public function getMatch()
     {
         $query = $this->getQuery();
         if (true !== $query->getMatchInclude()) {

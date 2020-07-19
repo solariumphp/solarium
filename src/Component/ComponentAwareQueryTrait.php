@@ -48,7 +48,7 @@ trait ComponentAwareQueryTrait
      *
      * @return self Provides fluent interface
      */
-    public function registerComponentType(string $key, string $component): self
+    public function registerComponentType(string $key, string $component)
     {
         $this->componentTypes[$key] = $component;
 

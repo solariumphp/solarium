@@ -101,7 +101,7 @@ interface ComponentAwareQueryInterface
      *
      * @return array
      */
-    public function getComponentTypes();
+    public function getComponentTypes(): array;
 
     /**
      * Register a component type.
@@ -111,7 +111,7 @@ interface ComponentAwareQueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerComponentType(string $key, string $component): self;
+    public function registerComponentType(string $key, string $component);
 
     /**
      * Get all registered components.
