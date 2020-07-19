@@ -112,6 +112,7 @@ abstract class AbstractQuery extends BaseQuery
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
