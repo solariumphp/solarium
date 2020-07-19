@@ -268,7 +268,7 @@ class BufferedAdd extends AbstractPlugin
      *
      * @return UpdateResult
      */
-    public function commit(?bool $overwrite = null, ?bool $softCommit = null, ?bool $waitSearcher = null, ?bool $expungeDeletes = null)
+    public function commit(?bool $overwrite = null, ?bool $softCommit = null, ?bool $waitSearcher = null, ?bool $expungeDeletes = null): UpdateResult
     {
         $overwrite = $overwrite ?? $this->getOverwrite();
 
@@ -292,7 +292,7 @@ class BufferedAdd extends AbstractPlugin
      * This is an extension point for plugin implementations.
      * Will be called as soon as $this->client and options have been set.
      */
-    protected function initPluginType()
+    protected function initPluginType(): void
     {
         $this->updateQuery = $this->client->createUpdate();
     }

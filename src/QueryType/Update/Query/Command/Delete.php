@@ -121,7 +121,7 @@ class Delete extends AbstractCommand
     /**
      * Build ids/queries based on options.
      */
-    protected function init()
+    protected function init(): void
     {
         $id = $this->getOption('id');
         if (null !== $id) {

@@ -11,7 +11,6 @@ namespace Solarium\QueryType\Stream;
 
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
-use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
 
 /**
@@ -22,7 +21,7 @@ class RequestBuilder implements RequestBuilderInterface
     /**
      * Build request for a stream query.
      *
-     * @param QueryInterface|Query $query
+     * @param \Solarium\Core\Query\AbstractQuery $query
      *
      * @return Request
      */

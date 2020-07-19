@@ -33,7 +33,7 @@ class Field extends Configurable
      *
      * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->getOption('name');
     }

@@ -132,7 +132,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      * @param FacetField $facet
      * @param bool       $useLocalParams TRUE, if local params instead of global field params should be used. Must be set if the same field is used in different facets. Default is keeping the global field params (https://issues.apache.org/jira/browse/SOLR-6193)
      */
-    public function addFacetField(Request $request, FacetField $facet, bool $useLocalParams = false)
+    public function addFacetField(Request $request, FacetField $facet, bool $useLocalParams = false): void
     {
         $field = $facet->getField();
 
@@ -185,7 +185,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      * @param Request    $request
      * @param FacetQuery $facet
      */
-    public function addFacetQuery($request, $facet)
+    public function addFacetQuery($request, $facet): void
     {
         $request->addParam(
             'facet.query',
@@ -199,7 +199,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      * @param Request         $request
      * @param FacetMultiQuery $facet
      */
-    public function addFacetMultiQuery($request, $facet)
+    public function addFacetMultiQuery($request, $facet): void
     {
         foreach ($facet->getQueries() as $facetQuery) {
             $this->addFacetQuery($request, $facetQuery);
@@ -212,7 +212,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      * @param Request    $request
      * @param FacetRange $facet
      */
-    public function addFacetRange($request, $facet)
+    public function addFacetRange($request, $facet): void
     {
         $field = $facet->getField();
 
@@ -249,7 +249,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      * @param Request    $request
      * @param FacetPivot $facet
      */
-    public function addFacetPivot($request, $facet)
+    public function addFacetPivot($request, $facet): void
     {
         $stats = $facet->getStats();
 
@@ -276,7 +276,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      * @param Request       $request
      * @param FacetInterval $facet
      */
-    public function addFacetInterval($request, $facet)
+    public function addFacetInterval($request, $facet): void
     {
         $field = $facet->getField();
 

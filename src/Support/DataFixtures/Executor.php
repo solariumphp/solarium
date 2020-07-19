@@ -34,7 +34,7 @@ class Executor
     /**
      * @param FixtureInterface[] $fixtures
      */
-    public function execute(array $fixtures)
+    public function execute(array $fixtures): void
     {
         foreach ($fixtures as $fixture) {
             $fixture->load($this->client);

@@ -186,7 +186,7 @@ class Query extends AbstractServerQuery
      *
      * @return RequestRecovery|ActionInterface
      */
-    public function createRequestRecovery($options = [])
+    public function createRequestRecovery($options = []): RequestRecovery
     {
         return $this->createAction(self::ACTION_REQUEST_RECOVERY, $options);
     }

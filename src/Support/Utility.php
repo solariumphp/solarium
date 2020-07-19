@@ -29,12 +29,12 @@ class Utility
 
         if (false !== $xml) {
             // discard UTF-8 Byte Order Mark
-            if (pack('CCC', 0xEF, 0xBB, 0xBF) === substr($xml, 0, 3)) {
+            if (0 === strpos($xml, pack('CCC', 0xEF, 0xBB, 0xBF))) {
                 $xml = substr($xml, 3);
             }
 
             // detect XML declaration
-            if ('<?xml' === substr($xml, 0, 5)) {
+            if (0 === strpos($xml, '<?xml')) {
                 $declaration = substr($xml, 0, strpos($xml, '?>') + 2);
 
                 // detect encoding attribute

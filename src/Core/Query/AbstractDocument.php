@@ -95,7 +95,7 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->__set($offset, $value);
     }
@@ -107,7 +107,7 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return null !== $this->__get($offset);
     }
@@ -117,7 +117,7 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
      *
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->__set($offset, null);
     }

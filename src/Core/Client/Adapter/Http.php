@@ -51,7 +51,7 @@ class Http implements AdapterInterface, TimeoutAwareInterface
      *
      * @throws HttpException
      */
-    public function check($data, $headers)
+    public function check($data, $headers): void
     {
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.

@@ -24,7 +24,7 @@ class StreamException extends \UnexpectedValueException implements RuntimeExcept
      *
      * @param string $expression
      */
-    public function setExpression(string $expression)
+    public function setExpression(string $expression): void
     {
         $this->expression = $expression;
     }

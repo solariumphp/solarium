@@ -272,7 +272,7 @@ abstract class AbstractRange extends AbstractFacet
      *
      * @return \Solarium\Core\Configurable
      */
-    public function setPivot($pivot)
+    public function setPivot($pivot): \Solarium\Core\Configurable
     {
         return $this->setOption('pivot', $pivot);
     }

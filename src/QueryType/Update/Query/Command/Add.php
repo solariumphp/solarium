@@ -42,8 +42,6 @@ class Add extends AbstractCommand
      *
      * @param DocumentInterface $document
      *
-     * @throws RuntimeException
-     *
      * @return self Provides fluent interface
      */
     public function addDocument(DocumentInterface $document): self

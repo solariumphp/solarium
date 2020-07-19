@@ -169,7 +169,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     /**
      * Iterator implementation.
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
 
@@ -208,7 +208,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     /**
      * Iterator implementation.
      */
-    public function next()
+    public function next(): void
     {
         ++$this->position;
     }

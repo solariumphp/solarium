@@ -69,7 +69,7 @@ class Spatial extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setPoint(string $point)
+    public function setPoint(string $point): self
     {
         $this->setOption('pt', $point);
 

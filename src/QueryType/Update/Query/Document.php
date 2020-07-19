@@ -424,7 +424,7 @@ class Document extends AbstractDocument
      */
     public function getFieldModifier(string $key): ?string
     {
-        return isset($this->modifiers[$key]) ? $this->modifiers[$key] : null;
+        return $this->modifiers[$key] ?? null;
     }
 
     /**

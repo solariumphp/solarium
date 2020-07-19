@@ -41,6 +41,8 @@ class Result extends BaseResult
     protected $statusMessage = 'ERROR';
 
     /**
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return bool
      */
     public function getWasSuccessful(): bool
@@ -51,6 +53,8 @@ class Result extends BaseResult
     }
 
     /**
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return string
      */
     public function getStatusMessage(): string
@@ -63,6 +67,8 @@ class Result extends BaseResult
     /**
      * Returns the status result objects for all requested core statuses.
      *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return StatusResult[]|null
      */
     public function getStatusResults(): ?array
@@ -74,6 +80,8 @@ class Result extends BaseResult
 
     /**
      * Retrives the status of the core, only available when the core was filtered to a core in the status action.
+     *
+     * @throws \Solarium\Exception\UnexpectedValueException
      *
      * @return StatusResult|null
      */

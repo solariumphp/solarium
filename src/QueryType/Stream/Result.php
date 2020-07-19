@@ -55,6 +55,8 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is not the HTTP status code! The normal value for success is 0.
      *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return int
      */
     public function getStatus(): int
@@ -70,6 +72,8 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * This doesn't include things like the HTTP responsetime. Purely the Solr
      * query execution time.
      *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return int
      */
     public function getQueryTime(): int
@@ -84,6 +88,8 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * Returns the total number of documents found by Solr (this is NOT the
      * number of document fetched from Solr!)
+     *
+     * @throws \Solarium\Exception\UnexpectedValueException
      *
      * @return int
      */
@@ -107,6 +113,8 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get all documents.
      *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return DocumentInterface[]
      */
     public function getDocuments(): array
@@ -119,6 +127,8 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * IteratorAggregate implementation.
      *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
@@ -130,6 +140,8 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
 
     /**
      * Countable implementation.
+     *
+     * @throws \Solarium\Exception\UnexpectedValueException
      *
      * @return int
      */

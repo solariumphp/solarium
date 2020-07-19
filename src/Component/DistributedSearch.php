@@ -222,7 +222,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function addCollections(array $collections)
+    public function addCollections(array $collections): self
     {
         foreach ($collections as $key => $collection) {
             $this->addCollection($key, $collection);

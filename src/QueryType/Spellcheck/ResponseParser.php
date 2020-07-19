@@ -73,8 +73,8 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     }
 
     /**
-     * @param $termClass
-     * @param array $termData
+     * @param string $termClass
+     * @param array  $termData
      *
      * @return mixed
      */

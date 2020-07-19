@@ -56,7 +56,7 @@ abstract class AbstractServerQuery extends AbstractQuery implements ActionInterf
     /**
      * @param ActionInterface $action
      */
-    public function setAction(ActionInterface $action)
+    public function setAction(ActionInterface $action): void
     {
         $this->action = $action;
     }

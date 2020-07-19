@@ -227,6 +227,8 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @param string $key
      *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return mixed
      */
     public function getComponent(string $key)

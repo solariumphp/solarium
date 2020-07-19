@@ -148,7 +148,7 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      *
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->document->offsetUnset($offset);
     }
@@ -171,7 +171,7 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->__set($offset, $value);
     }

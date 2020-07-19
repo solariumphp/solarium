@@ -34,7 +34,7 @@ abstract class AbstractState implements StateInterface
     /**
      * {@inheritdoc}
      */
-    public function update(array $state, array $liveNodes)
+    public function update(array $state, array $liveNodes): void
     {
         $this->stateRaw = $state;
         $this->liveNodes = $liveNodes;
@@ -49,11 +49,7 @@ abstract class AbstractState implements StateInterface
      */
     public function getStateProp(string $name, $defaultValue = null)
     {
-        if (isset($this->stateRaw[$name])) {
-            return $this->stateRaw[$name];
-        }
-
-        return $defaultValue;
+        return $this->stateRaw[$name] ?? $defaultValue;
     }
 
     /**

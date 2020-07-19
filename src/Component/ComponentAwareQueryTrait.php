@@ -35,7 +35,7 @@ trait ComponentAwareQueryTrait
      *
      * @return array
      */
-    public function getComponentTypes()
+    public function getComponentTypes(): array
     {
         return $this->componentTypes;
     }

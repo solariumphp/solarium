@@ -27,7 +27,9 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
      *
      * @param Result|ResultInterface $result
      *
-     * @throws RuntimeException
+     * @throws \Solarium\Exception\RuntimeException
+     * @throws \Solarium\Exception\StreamException
+     * @throws \Solarium\Exception\UnexpectedValueException
      *
      * @return array
      */
