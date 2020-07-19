@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\ResponseParser;
 
 use Solarium\Component\AbstractComponent;
@@ -7,7 +14,6 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Result\Spellcheck\Collation;
 use Solarium\Component\Result\Spellcheck\Result;
 use Solarium\Component\Result\Spellcheck\Suggestion;
-use Solarium\Component\Spellcheck as SpellcheckComponent;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 
@@ -19,9 +25,9 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     /**
      * Parse result data into result objects.
      *
-     * @param AbstractQuery       $query
-     * @param SpellcheckComponent $spellcheck
-     * @param array               $data
+     * @param \Solarium\Component\ComponentAwareQueryInterface|null $query
+     * @param \Solarium\Component\AbstractComponent|null            $spellcheck
+     * @param array                                                 $data
      *
      * @return Result|null
      */
@@ -33,11 +39,11 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
             $correctlySpelled = false;
 
             if (isset($data['spellcheck']['suggestions']) &&
-                is_array($data['spellcheck']['suggestions']) &&
-                count($data['spellcheck']['suggestions']) > 0
+                \is_array($data['spellcheck']['suggestions']) &&
+                \count($data['spellcheck']['suggestions']) > 0
             ) {
                 $spellcheckResults = $data['spellcheck']['suggestions'];
-                if ($query && $query->getResponseWriter() == $query::WT_JSON) {
+                if ($query && $query->getResponseWriter() === $query::WT_JSON) {
                     $spellcheckResults = $this->convertToKeyValueArray($spellcheckResults);
                 }
 
@@ -50,7 +56,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
                             $collations = $this->parseCollation($query, $value);
                             break;
                         default:
-                            if (array_key_exists(0, $value)) {
+                            if (\array_key_exists(0, $value)) {
                                 foreach ($value as $currentValue) {
                                     $suggestions[] = $this->parseSuggestion($currentValue, $key);
                                 }
@@ -67,7 +73,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
              * directly under spellcheck.
              */
             if (isset($data['spellcheck']['collations']) &&
-                is_array($data['spellcheck']['collations'])
+                \is_array($data['spellcheck']['collations'])
             ) {
                 $collations = [$collations];
                 foreach ($this->convertToKeyValueArray($data['spellcheck']['collations']) as $collationResult) {
@@ -83,6 +89,7 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
 
             return new Result($suggestions, $collations, $correctlySpelled);
         }
+
         return null;
     }
 
@@ -97,24 +104,24 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     protected function parseCollation(?AbstractQuery $queryObject, $values): array
     {
         $collations = [];
-        if (is_string($values)) {
+        if (\is_string($values)) {
             $collations[] = new Collation($values, null, []);
-        } elseif (is_array($values) && isset($values[0]) && is_string($values[0]) && 'collationQuery' !== $values[0]) {
+        } elseif (\is_array($values) && isset($values[0]) && \is_string($values[0]) && 'collationQuery' !== $values[0]) {
             foreach ($values as $value) {
                 $collations[] = new Collation($value, null, []);
             }
         } else {
             if ($queryObject && $queryObject->getResponseWriter() === $queryObject::WT_JSON) {
-                if (is_array(current($values))) {
+                if (\is_array(current($values))) {
                     foreach ($values as $key => $value) {
-                        if (array_key_exists('collationQuery', $value)) {
+                        if (\array_key_exists('collationQuery', $value)) {
                             $values[$key] = $value;
                         } else {
                             $values[$key] = $this->convertToKeyValueArray($value);
                         }
                     }
                 } else {
-                    if (array_key_exists('collationQuery', $values)) {
+                    if (\array_key_exists('collationQuery', $values)) {
                         $values = [$values];
                     } else {
                         $values = [$this->convertToKeyValueArray($values)];
@@ -175,9 +182,9 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
         $originalFrequency = (isset($value['origFreq'])) ? $value['origFreq'] : null;
 
         $words = [];
-        if (isset($value['suggestion']) && is_array($value['suggestion'])) {
+        if (isset($value['suggestion']) && \is_array($value['suggestion'])) {
             foreach ($value['suggestion'] as $suggestion) {
-                if (is_string($suggestion)) {
+                if (\is_string($suggestion)) {
                     $suggestion = [
                         'word' => $suggestion,
                         'freq' => null,

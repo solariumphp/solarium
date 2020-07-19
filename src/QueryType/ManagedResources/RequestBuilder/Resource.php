@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\RequestBuilder;
 
 use Solarium\Core\Client\Request;
@@ -9,14 +16,19 @@ use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\AbstractQuery as BaseQuery;
 
+/**
+ * Resource.
+ */
 class Resource extends AbstractRequestBuilder
 {
     /**
      * Build request for a resource query.
      *
-     * @param AbstractQuery|QueryInterface $query
+     * @param \Solarium\Core\Query\AbstractQuery $query
      *
-     * @return Request
+     * @throws \Solarium\Exception\RuntimeException
+     *
+     * @return \Solarium\Core\Client\Request
      */
     public function build(AbstractQuery $query): Request
     {
@@ -38,8 +50,8 @@ class Resource extends AbstractRequestBuilder
     }
 
     /**
-     * @param Request         $request
-     * @param AbstractCommand $command
+     * @param \Solarium\Core\Client\Request                              $request
+     * @param \Solarium\QueryType\ManagedResources\Query\AbstractCommand $command
      *
      * @return self
      */

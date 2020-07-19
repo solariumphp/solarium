@@ -1,9 +1,19 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query\Command\Stopwords;
 
 use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd;
 
+/**
+ * Add.
+ */
 class Add extends AbstractAdd
 {
     /**
@@ -33,11 +43,12 @@ class Add extends AbstractAdd
     public function setStopwords(array $stopwords): self
     {
         $this->stopwords = $stopwords;
+
         return $this;
     }
 
     /**
-     * Returns the data to be sent to Solr.
+     * Returns the raw data to be sent to Solr.
      *
      * @return string
      */

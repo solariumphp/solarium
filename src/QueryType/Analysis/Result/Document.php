@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Analysis\Result;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
@@ -95,7 +102,7 @@ class Document extends BaseResult implements \IteratorAggregate, \Countable
     {
         $this->parseResponse();
 
-        return count($this->items);
+        return \count($this->items);
     }
 
     /**

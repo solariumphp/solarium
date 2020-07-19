@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\ComponentTraits;
 
 use Solarium\Component\TermsInterface;
@@ -25,7 +32,7 @@ trait TermsTrait
      */
     public function setFields($value): TermsInterface
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             $value = explode(',', $value);
             $value = array_map('trim', $value);
         }
@@ -191,7 +198,7 @@ trait TermsTrait
      */
     public function setRegexFlags($value): TermsInterface
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             $value = explode(',', $value);
             $value = array_map('trim', $value);
         }

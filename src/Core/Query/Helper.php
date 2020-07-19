@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Exception\InvalidArgumentException;
@@ -114,10 +121,10 @@ class Helper
                 $input = clone $input;
                 break;
             // input of timestamp or date/time string
-            case is_string($input) || is_numeric($input):
-
+            case \is_string($input):
+            case is_numeric($input):
                 // if date/time string: convert to timestamp first
-                if (is_string($input)) {
+                if (\is_string($input)) {
                     $input = strtotime($input);
                 }
 
@@ -297,7 +304,7 @@ class Helper
             }
 
             foreach ($params as $paramKey => $paramValue) {
-                if (is_int($paramKey) || $forceKeys) {
+                if (\is_int($paramKey) || $forceKeys) {
                     ++$this->derefencedParamsLastKey;
                     $derefKey = 'deref_'.$this->derefencedParamsLastKey;
                 } else {
@@ -310,7 +317,7 @@ class Helper
 
         $output = '{!'.$name;
         foreach ($params as $key => $value) {
-            if (!$dereferenced || $forceKeys || is_int($key)) {
+            if (!$dereferenced || $forceKeys || \is_int($key)) {
                 $output .= ' '.$key.'='.$value;
             }
         }
@@ -380,7 +387,6 @@ class Helper
      * Render join localparams syntax.
      *
      * @see https://lucene.apache.org/solr/guide/other-parsers.html#join-query-parser
-     * @since 2.4.0
      *
      * @param string $from
      * @param string $to
@@ -493,7 +499,7 @@ class Helper
         if (isset($this->assembleParts[$partNumber - 1])) {
             $value = $this->assembleParts[$partNumber - 1];
         } else {
-            throw new InvalidArgumentException('No value supplied for part #'.$partNumber.' in query assembler');
+            throw new InvalidArgumentException(sprintf('No value supplied for part #%d in query assembler', $partNumber));
         }
 
         switch ($partMode) {

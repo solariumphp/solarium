@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query;
 
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
@@ -57,7 +64,7 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * Command.
      *
-     * @var AbstractCommand
+     * @var \Solarium\QueryType\ManagedResources\Query\AbstractCommand
      */
     protected $command;
 
@@ -71,7 +78,7 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * Get the request builder class for this query.
      *
-     * @return RequestBuilder
+     * @return \Solarium\QueryType\ManagedResources\RequestBuilder\Resource
      */
     public function getRequestBuilder(): RequestBuilderInterface
     {
@@ -81,7 +88,7 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * Get the response parser class for this query.
      *
-     * @return ResponseParser
+     * @return \Solarium\Core\Query\ResponseParserInterface
      */
     abstract public function getResponseParser(): ResponseParserInterface;
 
@@ -114,9 +121,9 @@ abstract class AbstractQuery extends BaseQuery
      * @param string $type
      * @param mixed  $options
      *
-     * @throws InvalidArgumentException
+     * @throws \Solarium\Exception\InvalidArgumentException
      *
-     * @return AbstractCommand
+     * @return \Solarium\QueryType\ManagedResources\Query\AbstractCommand
      */
     public function createCommand($type, $options = null): AbstractCommand
     {
@@ -134,7 +141,7 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * Get command for this query.
      *
-     * @return AbstractCommand|null
+     * @return \Solarium\QueryType\ManagedResources\Query\AbstractCommand|null
      */
     public function getCommand(): ?AbstractCommand
     {
@@ -144,7 +151,7 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * Set a command to the query.
      *
-     * @param AbstractCommand $command
+     * @param \Solarium\QueryType\ManagedResources\Query\AbstractCommand $command
      *
      * @return self Provides fluent interface
      */
@@ -170,7 +177,7 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * Create an init args instance.
      *
-     * @return InitArgsInterface
+     * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
      */
     abstract public function createInitArgs(): InitArgsInterface;
 }

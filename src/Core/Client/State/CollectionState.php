@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client\State;
 
 use Solarium\Exception\RuntimeException;
@@ -9,21 +16,15 @@ use Solarium\Exception\RuntimeException;
  */
 class CollectionState extends AbstractState
 {
-    /** @var string Name of the collection */
+    /**
+     * @var string Name of the collection
+     */
     protected $name;
 
-    /** @var ShardState[] */
-    protected $shards;
-
     /**
-     * Name of the collection.
-     *
-     * @return string
+     * @var ShardState[]
      */
-    public function getName(): string
-    {
-        return $this->name;
-    }
+    protected $shards;
 
     /**
      * Magic method enables a object to be transformed to a string.
@@ -38,6 +39,16 @@ class CollectionState extends AbstractState
     }
 
     /**
+     * Name of the collection.
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
      * @return bool
      */
     public function isAutoAddReplicas(): bool
@@ -45,6 +56,9 @@ class CollectionState extends AbstractState
         return $this->getState()[ClusterState::AUTO_ADD_REPLICAS] ?? false;
     }
 
+    /**
+     * @return bool
+     */
     public function isAutoCreated(): bool
     {
         return $this->getState()[ClusterState::AUTO_CREATED] ?? false;
@@ -141,9 +155,9 @@ class CollectionState extends AbstractState
     /**
      * Array with node names as keys and base URIs as values.
      *
-     * @return string[]
-     *
      * @throws RuntimeException
+     *
+     * @return string[]
      */
     public function getNodesBaseUris(): array
     {
@@ -162,11 +176,17 @@ class CollectionState extends AbstractState
         return $uris;
     }
 
+    /**
+     * @return string
+     */
     public function getTlogReplicas(): string
     {
         return $this->getState()[ClusterState::TLOG_REPLICAS];
     }
 
+    /**
+     * @return string
+     */
     public function getZnodeVersion(): string
     {
         return $this->getState()[ClusterState::ZNODE_VERSION];
@@ -182,15 +202,22 @@ class CollectionState extends AbstractState
         return $this->stateRaw[$this->name];
     }
 
+    /**
+     * Clear and set shards.
+     */
     protected function setShards()
     {
         // Clear shards first
         $this->shards = [];
+
         foreach ($this->getState()[ClusterState::SHARDS_PROP] as $shardName => $shardState) {
             $this->shards[$shardName] = new ShardState([$shardName => $shardState], $this->liveNodes);
         }
     }
 
+    /**
+     * init.
+     */
     protected function init()
     {
         $this->name = key($this->stateRaw);

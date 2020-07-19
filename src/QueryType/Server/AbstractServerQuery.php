@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Server;
 
 use Solarium\Core\Query\AbstractQuery;
@@ -38,7 +45,7 @@ abstract class AbstractServerQuery extends AbstractQuery implements ActionInterf
     public function createAction($type, $options = null): ActionInterface
     {
         if (!isset($this->actionTypes[$type])) {
-            throw new InvalidArgumentException('Action unknown: '.$type);
+            throw new InvalidArgumentException(sprintf('Action unknown: %s', $type));
         }
 
         $class = $this->actionTypes[$type];
@@ -49,7 +56,7 @@ abstract class AbstractServerQuery extends AbstractQuery implements ActionInterf
     /**
      * @param ActionInterface $action
      */
-    public function setAction(ActionInterface $action)
+    public function setAction(ActionInterface $action): void
     {
         $this->action = $action;
     }

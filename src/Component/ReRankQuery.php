@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
@@ -54,6 +61,7 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
     public function setDocs(int $value): self
     {
         $this->setOption('docs', $value);
+
         return $this;
     }
 
@@ -77,6 +85,7 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
     public function setWeight(float $value): self
     {
         $this->setOption('weight', $value);
+
         return $this;
     }
 }

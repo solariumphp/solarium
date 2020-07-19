@@ -1,12 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Result\Stopwords;
 
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\AbstractQuery;
-use Solarium\Core\Query\Result\Result;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\Core\Query\Result\Result;
 
+/**
+ * WordSet.
+ */
 class WordSet extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
@@ -47,8 +57,8 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param AbstractQuery $query
-     * @param Response      $response
+     * @param \Solarium\Core\Query\AbstractQuery $query
+     * @param \Solarium\Core\Client\Response     $response
      */
     public function __construct(AbstractQuery $query, Response $response)
     {
@@ -74,6 +84,7 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     public function getItems(): array
     {
         $this->parseResponse();
+
         return $this->items;
     }
 
@@ -85,6 +96,7 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     public function getIterator(): \ArrayIterator
     {
         $this->parseResponse();
+
         return new \ArrayIterator($this->items);
     }
 
@@ -96,7 +108,8 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     public function count(): int
     {
         $this->parseResponse();
-        return count($this->items);
+
+        return \count($this->items);
     }
 
     /**
@@ -105,6 +118,7 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     public function isIgnoreCase(): ?bool
     {
         $this->parseResponse();
+
         return $this->ignoreCase;
     }
 
@@ -114,6 +128,7 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     public function getInitializedOn(): string
     {
         $this->parseResponse();
+
         return $this->initializedOn;
     }
 
@@ -123,6 +138,7 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     public function getUpdatedSinceInit(): ?string
     {
         $this->parseResponse();
+
         return $this->updatedSinceInit;
     }
 }

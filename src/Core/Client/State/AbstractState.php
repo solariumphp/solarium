@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client\State;
 
 /**
@@ -7,10 +14,14 @@ namespace Solarium\Core\Client\State;
  */
 abstract class AbstractState implements StateInterface
 {
-    /** @var array List of live nodes */
+    /**
+     * @var array List of live nodes
+     */
     protected $liveNodes;
 
-    /** @var array State array retrieved by ZkStateReader */
+    /**
+     * @var array State array retrieved by ZkStateReader
+     */
     protected $stateRaw;
 
     /**
@@ -27,7 +38,7 @@ abstract class AbstractState implements StateInterface
     /**
      * {@inheritdoc}
      */
-    public function update(array $state, array $liveNodes)
+    public function update(array $state, array $liveNodes): void
     {
         $this->stateRaw = $state;
         $this->liveNodes = $liveNodes;
@@ -42,11 +53,7 @@ abstract class AbstractState implements StateInterface
      */
     public function getStateProp(string $name, $defaultValue = null)
     {
-        if (isset($this->stateRaw[$name])) {
-            return $this->stateRaw[$name];
-        }
-
-        return $defaultValue;
+        return $this->stateRaw[$name] ?? $defaultValue;
     }
 
     /**

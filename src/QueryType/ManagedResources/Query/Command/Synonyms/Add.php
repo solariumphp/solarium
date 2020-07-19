@@ -1,21 +1,33 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query\Command\Synonyms;
 
 use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms as SynonymsData;
 
+/**
+ * Add.
+ */
 class Add extends AbstractAdd
 {
     /**
      * Synonyms to add.
      *
-     * @var SynonymsData
+     * @var \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms
      */
     protected $synonyms;
 
     /**
-     * @return SynonymsData
+     * Get synonyms.
+     *
+     * @return \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms
      */
     public function getSynonyms(): SynonymsData
     {
@@ -25,18 +37,21 @@ class Add extends AbstractAdd
     /**
      * Set synonyms.
      *
-     * @param SynonymsData $synonyms
+     * @param \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms $synonyms
      *
      * @return self
      */
     public function setSynonyms(SynonymsData $synonyms): self
     {
         $this->synonyms = $synonyms;
+
         return $this;
     }
 
     /**
      * Returns the raw data to be sent to Solr.
+     *
+     * @return string
      */
     public function getRawData(): string
     {

@@ -1,10 +1,20 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query\Synonyms;
 
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\ManagedResources\Query\InitArgsInterface;
 
+/**
+ * InitArgs.
+ */
 class InitArgs implements InitArgsInterface
 {
     /**
@@ -42,9 +52,10 @@ class InitArgs implements InitArgsInterface
      *
      * @return self Provides fluent interface
      */
-    public function setIgnoreCase(bool $ignoreCase): InitArgsInterface
+    public function setIgnoreCase(bool $ignoreCase): self
     {
         $this->ignoreCase = $ignoreCase;
+
         return $this;
     }
 
@@ -65,15 +76,18 @@ class InitArgs implements InitArgsInterface
      *
      * @param string $format
      *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return self Provides fluent interface
      */
-    public function setFormat(string $format): InitArgsInterface
+    public function setFormat(string $format): self
     {
         if (!isset($this->formats[$format])) {
             throw new UnexpectedValueException(sprintf('Format unknown: %s', $format));
         }
 
         $this->format = $this->formats[$format];
+
         return $this;
     }
 
@@ -94,7 +108,7 @@ class InitArgs implements InitArgsInterface
      *
      * @return self Provides fluent interface
      */
-    public function setInitArgs(array $initArgs): InitArgsInterface
+    public function setInitArgs(array $initArgs): self
     {
         foreach ($initArgs as $arg => $value) {
             switch ($arg) {

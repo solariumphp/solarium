@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Suggester;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
@@ -27,7 +34,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $dictionaries = [];
         $allSuggestions = [];
 
-        if (isset($data['suggest']) && is_array($data['suggest'])) {
+        if (isset($data['suggest']) && \is_array($data['suggest'])) {
             $dictionaryClass = $query->getOption('dictionaryclass');
             $termClass = $query->getOption('termclass');
 
@@ -50,6 +57,12 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         );
     }
 
+    /**
+     * @param string $dictionaryClass
+     * @param array  $terms
+     *
+     * @return mixed
+     */
     private function createDictionary($dictionaryClass, array $terms)
     {
         return new $dictionaryClass(
@@ -57,6 +70,12 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         );
     }
 
+    /**
+     * @param string $termClass
+     * @param array  $termData
+     *
+     * @return mixed
+     */
     private function createTerm($termClass, array $termData)
     {
         return new $termClass(

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
@@ -60,12 +67,13 @@ class MoreLikeThis extends AbstractComponent
      */
     public function setFields($fields): self
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
 
         $this->setOption('fields', $fields);
+
         return $this;
     }
 
@@ -96,6 +104,7 @@ class MoreLikeThis extends AbstractComponent
     public function setInterestingTerms(string $term): self
     {
         $this->setOption('interestingTerms', $term);
+
         return $this;
     }
 
@@ -121,6 +130,7 @@ class MoreLikeThis extends AbstractComponent
     public function setMatchInclude(bool $include): self
     {
         $this->setOption('matchinclude', $include);
+
         return $this;
     }
 
@@ -147,6 +157,7 @@ class MoreLikeThis extends AbstractComponent
     public function setMatchOffset(int $offset): self
     {
         $this->setOption('matchoffset', $offset);
+
         return $this;
     }
 
@@ -175,6 +186,7 @@ class MoreLikeThis extends AbstractComponent
     public function setMinimumTermFrequency(int $minimum): self
     {
         $this->setOption('minimumtermfrequency', $minimum);
+
         return $this;
     }
 
@@ -203,6 +215,7 @@ class MoreLikeThis extends AbstractComponent
     public function setMinimumDocumentFrequency(int $minimum): self
     {
         $this->setOption('minimumdocumentfrequency', $minimum);
+
         return $this;
     }
 
@@ -230,6 +243,7 @@ class MoreLikeThis extends AbstractComponent
     public function setMinimumWordLength(int $minimum): self
     {
         $this->setOption('minimumwordlength', $minimum);
+
         return $this;
     }
 
@@ -257,6 +271,7 @@ class MoreLikeThis extends AbstractComponent
     public function setMaximumWordLength(int $maximum): self
     {
         $this->setOption('maximumwordlength', $maximum);
+
         return $this;
     }
 
@@ -285,6 +300,7 @@ class MoreLikeThis extends AbstractComponent
     public function setMaximumQueryTerms(int $maximum): self
     {
         $this->setOption('maximumqueryterms', $maximum);
+
         return $this;
     }
 
@@ -313,6 +329,7 @@ class MoreLikeThis extends AbstractComponent
     public function setMaximumNumberOfTokens(int $maximum): self
     {
         $this->setOption('maximumnumberoftokens', $maximum);
+
         return $this;
     }
 
@@ -340,6 +357,7 @@ class MoreLikeThis extends AbstractComponent
     public function setBoost(bool $boost): self
     {
         $this->setOption('boost', $boost);
+
         return $this;
     }
 
@@ -369,12 +387,13 @@ class MoreLikeThis extends AbstractComponent
      */
     public function setQueryFields($queryFields): self
     {
-        if (is_string($queryFields)) {
+        if (\is_string($queryFields)) {
             $queryFields = explode(',', $queryFields);
             $queryFields = array_map('trim', $queryFields);
         }
 
         $this->setOption('queryfields', $queryFields);
+
         return $this;
     }
 
@@ -407,6 +426,7 @@ class MoreLikeThis extends AbstractComponent
     public function setCount(int $count): self
     {
         $this->setOption('count', $count);
+
         return $this;
     }
 

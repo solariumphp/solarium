@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query;
 
 use Solarium\Core\Client\Client;
@@ -14,6 +21,9 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
 
+/**
+ * Synonyms.
+ */
 class Synonyms extends AbstractQuery
 {
     /**
@@ -54,7 +64,7 @@ class Synonyms extends AbstractQuery
     /**
      * Get the response parser class for this query.
      *
-     * @return ResponseParser
+     * @return \Solarium\QueryType\ManagedResources\ResponseParser\Synonyms
      */
     public function getResponseParser(): ResponseParserInterface
     {
@@ -64,7 +74,7 @@ class Synonyms extends AbstractQuery
     /**
      * Create an init args instance.
      *
-     * @return InitArgsInterface
+     * @return \Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs
      */
     public function createInitArgs(): InitArgsInterface
     {

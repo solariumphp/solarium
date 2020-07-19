@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\Core\Query\Result\ResultInterface;
@@ -27,7 +34,7 @@ class ResponseParser extends SelectResponseParser
         if (isset($data['interestingTerms']) && 'none' !== $query->getInterestingTerms()) {
             $terms = $data['interestingTerms'];
             if ('details' === $query->getInterestingTerms()) {
-                if ($query->getResponseWriter() == $query::WT_JSON) {
+                if ($query->getResponseWriter() === $query::WT_JSON) {
                     $terms = $this->convertToKeyValueArray($terms);
                 }
             }

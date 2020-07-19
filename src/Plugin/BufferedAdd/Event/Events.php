@@ -2,12 +2,21 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 /**
  * Event definitions.
+ *
+ * @codeCoverageIgnore
  */
-interface Events
+class Events
 {
     /**
      * This event is called before a buffer flush.
@@ -53,4 +62,11 @@ interface Events
      * @var string
      */
     public const ADD_DOCUMENT = AddDocument::class;
+
+    /**
+     * Not instantiable.
+     */
+    private function __construct()
+    {
+    }
 }

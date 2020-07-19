@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Builder;
 
 use Solarium\Exception\RuntimeException;
@@ -57,7 +64,7 @@ abstract class AbstractExpressionVisitor
             case $expr instanceof CompositeComparison:
                 return $this->walkCompositeExpression($expr);
             default:
-                throw new RuntimeException('Unknown Expression '.\get_class($expr));
+                throw new RuntimeException(sprintf('Unknown Expression %s', \get_class($expr)));
         }
     }
 }

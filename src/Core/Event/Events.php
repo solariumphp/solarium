@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Event;
 
 /**
  * Event definitions.
+ *
+ * @codeCoverageIgnore
  */
-interface Events
+class Events
 {
     /**
      * The preCreateRequest event is thrown just before a request is created based on a query object, using the
@@ -102,4 +111,11 @@ interface Events
      * @var string
      */
     public const POST_CREATE_QUERY = PostCreateQuery::class;
+
+    /**
+     * Not instantiable.
+     */
+    private function __construct()
+    {
+    }
 }

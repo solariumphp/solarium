@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Component\QueryInterface;
@@ -23,6 +30,7 @@ abstract class AbstractQuery extends BaseQuery implements QueryInterface
     public function setShowMatch(bool $show): self
     {
         $this->setOption('showmatch', $show);
+
         return $this;
     }
 

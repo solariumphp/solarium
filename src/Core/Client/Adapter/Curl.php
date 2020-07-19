@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\Client\Endpoint;
@@ -61,7 +68,6 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     /**
      * Create curl handle for a request.
      *
-     *
      * @param Request  $request
      * @param Endpoint $endpoint
      *
@@ -79,7 +85,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
         $handler = curl_init();
         curl_setopt($handler, CURLOPT_URL, $uri);
         curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
-        if (!(function_exists('ini_get') && ini_get('open_basedir'))) {
+        if (!(\function_exists('ini_get') && ini_get('open_basedir'))) {
             curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
         }
         curl_setopt($handler, CURLOPT_TIMEOUT, $options['timeout']);
@@ -92,7 +98,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
         if (!isset($options['headers']['Content-Type'])) {
             $charset = $request->getParam('ie') ?? 'utf-8';
 
-            if (Request::METHOD_GET == $method) {
+            if (Request::METHOD_GET === $method) {
                 $options['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset='.$charset;
             } else {
                 $options['headers']['Content-Type'] = 'application/xml; charset='.$charset;
@@ -110,7 +116,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
 
-        if (count($options['headers'])) {
+        if (\count($options['headers'])) {
             $headers = [];
             foreach ($options['headers'] as $key => $value) {
                 $headers[] = $key.': '.$value;
@@ -118,7 +124,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             curl_setopt($handler, CURLOPT_HTTPHEADER, $headers);
         }
 
-        if (Request::METHOD_POST == $method) {
+        if (Request::METHOD_POST === $method) {
             curl_setopt($handler, CURLOPT_POST, true);
 
             if ($request->getFileUpload()) {
@@ -127,13 +133,13 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             } else {
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
             }
-        } elseif (Request::METHOD_GET == $method) {
+        } elseif (Request::METHOD_GET === $method) {
             curl_setopt($handler, CURLOPT_HTTPGET, true);
-        } elseif (Request::METHOD_HEAD == $method) {
+        } elseif (Request::METHOD_HEAD === $method) {
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'HEAD');
-        } elseif (Request::METHOD_DELETE == $method) {
+        } elseif (Request::METHOD_DELETE === $method) {
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        } elseif (Request::METHOD_PUT == $method) {
+        } elseif (Request::METHOD_PUT === $method) {
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'PUT');
 
             if ($request->getFileUpload()) {
@@ -152,19 +158,18 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     /**
      * Check result of a request.
      *
-     *
      * @param string   $data
      * @param array    $headers
      * @param resource $handle
      *
      * @throws HttpException
      */
-    public function check($data, $headers, $handle)
+    public function check($data, $headers, $handle): void
     {
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
-        if (empty($data) && 0 == count($headers)) {
-            throw new HttpException('HTTP request failed, '.curl_error($handle));
+        if (empty($data) && 0 === \count($headers)) {
+            throw new HttpException(sprintf('HTTP request failed, %s', curl_error($handle)));
         }
     }
 
@@ -193,7 +198,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      */
     protected function init()
     {
-        if (!function_exists('curl_init')) {
+        if (!\function_exists('curl_init')) {
             throw new RuntimeException('cURL is not available, install it to use the CurlHttp adapter');
         }
 
@@ -214,7 +219,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             'timeout' => $this->timeout,
         ];
         foreach ($request->getHeaders() as $headerLine) {
-            [$header, $value] = explode(':', $headerLine);
+            list($header, $value) = explode(':', $headerLine);
             if ($header = trim($header)) {
                 $options['headers'][$header] = trim($value);
             }

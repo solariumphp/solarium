@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core;
 
 use Solarium\Exception\InvalidArgumentException;
@@ -24,9 +31,9 @@ interface ConfigurableInterface
      * @param bool               $overwrite True for overwriting existing options, false
      *                                      for merging (new values overwrite old ones if needed)
      *
-     * @return self
-     *
      * @throws InvalidArgumentException
+     *
+     * @return self
      */
     public function setOptions($options, bool $overwrite = false): self;
 

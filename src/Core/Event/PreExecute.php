@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Event;
 
 use Solarium\Core\Query\QueryInterface;
@@ -61,6 +68,7 @@ class PreExecute extends Event
     public function setResult(ResultInterface $result): self
     {
         $this->result = $result;
+
         return $this;
     }
 }

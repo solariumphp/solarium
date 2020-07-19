@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
@@ -40,6 +47,7 @@ class Spatial extends AbstractComponent
     public function setField(string $sfield): self
     {
         $this->setOption('sfield', $sfield);
+
         return $this;
     }
 
@@ -51,6 +59,7 @@ class Spatial extends AbstractComponent
     public function setDistance(int $distance): self
     {
         $this->setOption('d', $distance);
+
         return $this;
     }
 
@@ -60,9 +69,10 @@ class Spatial extends AbstractComponent
      *
      * @return self Provides fluent interface
      */
-    public function setPoint(string $point)
+    public function setPoint(string $point): self
     {
         $this->setOption('pt', $point);
+
         return $this;
     }
 

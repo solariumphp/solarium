@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\ResponseParser;
 
 use Solarium\Component\AbstractComponent;
@@ -23,9 +30,9 @@ class Grouping implements ComponentParserInterface
      * @param GroupingComponent|AbstractComponent $grouping
      * @param array                               $data
      *
-     * @return Result
-     *
      * @throws InvalidArgumentException
+     *
+     * @return Result
      */
     public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $grouping, array $data): Result
     {
@@ -85,7 +92,7 @@ class Grouping implements ComponentParserInterface
                 // create document instances
                 $documentClass = $query->getOption('documentclass');
                 $documents = [];
-                if (isset($result['doclist']['docs']) && is_array($result['doclist']['docs'])) {
+                if (isset($result['doclist']['docs']) && \is_array($result['doclist']['docs'])) {
                     foreach ($result['doclist']['docs'] as $doc) {
                         $documents[] = new $documentClass($doc);
                     }
@@ -120,7 +127,7 @@ class Grouping implements ComponentParserInterface
         // create document instances
         $documents = [];
         if (isset($valueGroupResult['doclist']['docs']) &&
-            is_array($valueGroupResult['doclist']['docs'])) {
+            \is_array($valueGroupResult['doclist']['docs'])) {
             foreach ($valueGroupResult['doclist']['docs'] as $doc) {
                 $documents[] = new $documentClass($doc);
             }

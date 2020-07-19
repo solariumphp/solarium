@@ -1,15 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Analysis\RequestBuilder\Document as RequestBuilder;
 use Solarium\QueryType\Analysis\ResponseParser\Document as ResponseParser;
 use Solarium\QueryType\Analysis\Result\Document as ResultDocument;
-use Solarium\Core\Query\DocumentInterface;
 
 /**
  * Analysis document query.

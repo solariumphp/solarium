@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Component\EdisMax as EdismaxComponent;
@@ -38,7 +45,7 @@ class EdisMax implements ComponentRequestBuilderInterface
 
         // add boostqueries to request
         $boostQueries = $component->getBoostQueries();
-        if (0 !== count($boostQueries)) {
+        if (0 !== \count($boostQueries)) {
             foreach ($boostQueries as $boostQuery) {
                 $request->addParam('bq', $boostQuery->getQuery());
             }

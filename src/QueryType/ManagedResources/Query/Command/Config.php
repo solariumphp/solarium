@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
@@ -7,12 +14,15 @@ use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 use Solarium\QueryType\ManagedResources\Query\InitArgsInterface;
 
+/**
+ * Config.
+ */
 class Config extends AbstractCommand
 {
     /**
      * Configuration parameters to set.
      *
-     * @var InitArgsInterface
+     * @var \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
      */
     protected $initArgs;
 
@@ -39,7 +49,7 @@ class Config extends AbstractCommand
     /**
      * Returns configuration parameters.
      *
-     * @return InitArgsInterface
+     * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
      */
     public function getInitArgs(): InitArgsInterface
     {
@@ -49,13 +59,14 @@ class Config extends AbstractCommand
     /**
      * Set configuration parameters.
      *
-     * @param InitArgsInterface $initArgs
+     * @param \Solarium\QueryType\ManagedResources\Query\InitArgsInterface $initArgs
      *
      * @return self
      */
     public function setInitArgs(InitArgsInterface $initArgs): self
     {
         $this->initArgs = $initArgs;
+
         return $this;
     }
 
