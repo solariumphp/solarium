@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 
 /**
  * Delete.
@@ -32,7 +32,7 @@ class Delete extends AbstractCommand
      */
     public function getType(): string
     {
-        return Synonyms::COMMAND_DELETE;
+        return Query::COMMAND_DELETE;
     }
 
     /**

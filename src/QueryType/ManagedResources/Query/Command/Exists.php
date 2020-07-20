@@ -7,17 +7,24 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 
 /**
- * Remove.
+ * Exists.
  */
-class Remove extends AbstractCommand
+class Exists extends AbstractCommand
 {
+    /**
+     * Term to be checked if exists.
+     *
+     * @var string
+     */
+    protected $term = '';
+
     /**
      * Returns command type, for use in adapters.
      *
@@ -25,7 +32,7 @@ class Remove extends AbstractCommand
      */
     public function getType(): string
     {
-        return Synonyms::COMMAND_REMOVE;
+        return Query::COMMAND_EXISTS;
     }
 
     /**
@@ -35,11 +42,11 @@ class Remove extends AbstractCommand
      */
     public function getRequestMethod(): string
     {
-        return Request::METHOD_DELETE;
+        return Request::METHOD_GET;
     }
 
     /**
-     * Returns the raw data to be sent to Solr.
+     * Empty.
      *
      * @return string
      */
@@ -49,12 +56,26 @@ class Remove extends AbstractCommand
     }
 
     /**
-     * Empty.
+     * Returns the term to be checked if exists.
      *
      * @return string
      */
     public function getTerm(): string
     {
-        return '';
+        return $this->term;
+    }
+
+    /**
+     * Set the term to be checked if exists.
+     *
+     * @param string $term
+     *
+     * @return self
+     */
+    public function setTerm(string $term): self
+    {
+        $this->term = $term;
+
+        return $this;
     }
 }

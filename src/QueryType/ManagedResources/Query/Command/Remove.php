@@ -7,24 +7,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
-use Solarium\QueryType\ManagedResources\Query\Stopwords;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 
 /**
- * Delete.
+ * Remove.
  */
-class Delete extends AbstractCommand
+class Remove extends AbstractCommand
 {
-    /**
-     * Term to be deleted.
-     *
-     * @var string
-     */
-    protected $term = '';
-
     /**
      * Returns command type, for use in adapters.
      *
@@ -32,7 +25,7 @@ class Delete extends AbstractCommand
      */
     public function getType(): string
     {
-        return Stopwords::COMMAND_DELETE;
+        return Query::COMMAND_REMOVE;
     }
 
     /**
@@ -56,26 +49,12 @@ class Delete extends AbstractCommand
     }
 
     /**
-     * Returns the term to be deleted.
+     * Empty.
      *
      * @return string
      */
     public function getTerm(): string
     {
-        return $this->term;
-    }
-
-    /**
-     * Set the term to be deleted.
-     *
-     * @param string $term
-     *
-     * @return self
-     */
-    public function setTerm(string $term): self
-    {
-        $this->term = $term;
-
-        return $this;
+        return '';
     }
 }

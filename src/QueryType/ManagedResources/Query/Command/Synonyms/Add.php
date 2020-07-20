@@ -7,47 +7,27 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command\Synonyms;
 
-use Solarium\Core\Client\Request;
-use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms;
+use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms as SynonymsData;
 
 /**
  * Add.
  */
-class Add extends AbstractCommand
+class Add extends AbstractAdd
 {
     /**
      * Synonyms to add.
      *
-     * @var SynonymsData
+     * @var \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms
      */
     protected $synonyms;
 
     /**
-     * Returns command type, for use in adapters.
+     * Get synonyms.
      *
-     * @return string
-     */
-    public function getType(): string
-    {
-        return Synonyms::COMMAND_ADD;
-    }
-
-    /**
-     * Returns request method.
-     *
-     * @return string
-     */
-    public function getRequestMethod(): string
-    {
-        return Request::METHOD_PUT;
-    }
-
-    /**
-     * @return SynonymsData
+     * @return \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms
      */
     public function getSynonyms(): SynonymsData
     {
@@ -57,7 +37,7 @@ class Add extends AbstractCommand
     /**
      * Set synonyms.
      *
-     * @param SynonymsData $synonyms
+     * @param \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms $synonyms
      *
      * @return self
      */
@@ -83,16 +63,6 @@ class Add extends AbstractCommand
             return json_encode($this->getSynonyms()->getSynonyms());
         }
 
-        return '';
-    }
-
-    /**
-     * Empty.
-     *
-     * @return string
-     */
-    public function getTerm(): string
-    {
         return '';
     }
 }

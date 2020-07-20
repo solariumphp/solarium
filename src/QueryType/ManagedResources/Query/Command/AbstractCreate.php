@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
-use Solarium\QueryType\ManagedResources\Query\Stopwords;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 
 /**
- * Remove.
+ * Command Create base class.
  */
-class Remove extends AbstractCommand
+abstract class AbstractCreate extends AbstractCommand
 {
     /**
      * Returns command type, for use in adapters.
@@ -25,7 +25,7 @@ class Remove extends AbstractCommand
      */
     public function getType(): string
     {
-        return Stopwords::COMMAND_REMOVE;
+        return Query::COMMAND_CREATE;
     }
 
     /**
@@ -35,17 +35,7 @@ class Remove extends AbstractCommand
      */
     public function getRequestMethod(): string
     {
-        return Request::METHOD_DELETE;
-    }
-
-    /**
-     * Returns the raw data to be sent to Solr.
-     *
-     * @return string
-     */
-    public function getRawData(): string
-    {
-        return '';
+        return Request::METHOD_PUT;
     }
 
     /**

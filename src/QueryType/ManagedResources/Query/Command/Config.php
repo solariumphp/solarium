@@ -7,12 +7,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\ManagedResources\Query\Stopwords\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 use Solarium\QueryType\ManagedResources\Query\InitArgsInterface;
-use Solarium\QueryType\ManagedResources\Query\Stopwords;
 
 /**
  * Config.
@@ -22,7 +22,7 @@ class Config extends AbstractCommand
     /**
      * Configuration parameters to set.
      *
-     * @var InitArgsInterface
+     * @var \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
      */
     protected $initArgs;
 
@@ -33,7 +33,7 @@ class Config extends AbstractCommand
      */
     public function getType(): string
     {
-        return Stopwords::COMMAND_CONFIG;
+        return Query::COMMAND_CONFIG;
     }
 
     /**
@@ -49,7 +49,7 @@ class Config extends AbstractCommand
     /**
      * Returns configuration parameters.
      *
-     * @return InitArgsInterface
+     * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
      */
     public function getInitArgs(): InitArgsInterface
     {
@@ -59,7 +59,7 @@ class Config extends AbstractCommand
     /**
      * Set configuration parameters.
      *
-     * @param InitArgsInterface $initArgs
+     * @param \Solarium\QueryType\ManagedResources\Query\InitArgsInterface $initArgs
      *
      * @return self
      */

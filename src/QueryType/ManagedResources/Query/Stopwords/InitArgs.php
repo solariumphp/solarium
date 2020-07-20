@@ -24,6 +24,18 @@ class InitArgs implements InitArgsInterface
     protected $ignoreCase;
 
     /**
+     * Constructor.
+     *
+     * @param array $initArgs
+     */
+    public function __construct(array $initArgs = null)
+    {
+        if (null !== $initArgs) {
+            $this->setInitArgs($initArgs);
+        }
+    }
+
+    /**
      * Set ignore case.
      *
      * @param bool $ignoreCase

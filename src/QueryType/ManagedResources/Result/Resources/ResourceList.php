@@ -36,10 +36,10 @@ class ResourceList extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param AbstractQuery $query
-     * @param Response      $response
+     * @param \Solarium\Core\Query\AbstractQuery $query
+     * @param \Solarium\Core\Client\Response     $response
      */
-    public function __construct($query, $response)
+    public function __construct(AbstractQuery $query, Response $response)
     {
         Result::__construct($query, $response);
     }

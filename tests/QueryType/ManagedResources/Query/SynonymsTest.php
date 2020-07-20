@@ -3,16 +3,19 @@
 namespace Solarium\Tests\QueryType\ManagedResources\Query;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\UnexpectedValueException;
+use Solarium\QueryType\ManagedResources\Query\Command\Config;
+use Solarium\QueryType\ManagedResources\Query\Command\Delete;
+use Solarium\QueryType\ManagedResources\Query\Command\Exists;
+use Solarium\QueryType\ManagedResources\Query\Command\Remove;
+use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Add;
+use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
+use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
+use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponeParser;
 
 class SynonymsTest extends TestCase
 {
@@ -25,7 +28,17 @@ class SynonymsTest extends TestCase
 
     public function testQuery()
     {
-        $this->assertEquals('synonyms', $this->query->getType());
+        $this->assertEquals(Client::QUERY_MANAGED_SYNONYMS, $this->query->getType());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
     }
 
     public function testCommand()
@@ -86,6 +99,27 @@ class SynonymsTest extends TestCase
         $command = $this->query->createCommand('unknowncommand');
     }
 
+    public function testCreateInitArgs()
+    {
+        $initArgs = $this->query->createInitArgs();
+        $this->assertInstanceOf(InitArgs::class, $initArgs);
+        $this->assertEquals([], $initArgs->getInitArgs());
+    }
+
+    public function testCreateInitArgsWithArgs()
+    {
+        $args = ['ignoreCase' => true, 'format' => InitArgs::FORMAT_SOLR];
+        $initArgs = $this->query->createInitArgs($args);
+        $this->assertInstanceOf(InitArgs::class, $initArgs);
+        $this->assertEquals($args, $initArgs->getInitArgs());
+    }
+
+    public function testInitArgs()
+    {
+        $initArgs = new InitArgs();
+        $this->assertEquals([], $initArgs->getInitArgs());
+    }
+
     public function testInitArgsIgnoreCase()
     {
         $initArgs = new InitArgs();
@@ -107,11 +141,11 @@ class SynonymsTest extends TestCase
         $initArgs->setFormat('unknownformat');
     }
 
-    public function testInitArgs()
+    public function testInitArgsSet()
     {
-        $config = ['ignoreCase' => true, 'format' => InitArgs::FORMAT_SOLR];
+        $args = ['ignoreCase' => true, 'format' => InitArgs::FORMAT_SOLR];
         $initArgs = new InitArgs();
-        $initArgs->setInitArgs($config);
-        $this->assertEquals($config, $initArgs->getInitArgs());
+        $initArgs->setInitArgs($args);
+        $this->assertEquals($args, $initArgs->getInitArgs());
     }
 }
