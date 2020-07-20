@@ -79,7 +79,7 @@ class Result extends BaseResult
     }
 
     /**
-     * Retrives the status of the core, only available when the core was filtered to a core in the status action.
+     * Retrieves the status of the core, only available when the core was filtered to a core in the status action.
      *
      * @throws \Solarium\Exception\UnexpectedValueException
      *
