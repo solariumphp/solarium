@@ -50,7 +50,8 @@ class InitArgs implements InitArgsInterface
      *
      * @param array $initArgs
      */
-    public function __construct(array $initArgs = null) {
+    public function __construct(array $initArgs = null)
+    {
         if (null !== $initArgs) {
             $this->setInitArgs($initArgs);
         }
