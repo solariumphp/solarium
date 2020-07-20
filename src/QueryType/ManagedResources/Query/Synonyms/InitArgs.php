@@ -46,13 +46,24 @@ class InitArgs implements InitArgsInterface
     ];
 
     /**
+     * Constructor.
+     *
+     * @param array $initArgs
+     */
+    public function __construct(array $initArgs = null) {
+        if (null !== $initArgs) {
+            $this->setInitArgs($initArgs);
+        }
+    }
+
+    /**
      * Set ignore case.
      *
      * @param bool $ignoreCase
      *
      * @return self Provides fluent interface
      */
-    public function setIgnoreCase(bool $ignoreCase): self
+    public function setIgnoreCase(bool $ignoreCase): InitArgsInterface
     {
         $this->ignoreCase = $ignoreCase;
 
@@ -80,7 +91,7 @@ class InitArgs implements InitArgsInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFormat(string $format): self
+    public function setFormat(string $format): InitArgsInterface
     {
         if (!isset($this->formats[$format])) {
             throw new UnexpectedValueException(sprintf('Format unknown: %s', $format));
@@ -108,7 +119,7 @@ class InitArgs implements InitArgsInterface
      *
      * @return self Provides fluent interface
      */
-    public function setInitArgs(array $initArgs): self
+    public function setInitArgs(array $initArgs): InitArgsInterface
     {
         foreach ($initArgs as $arg => $value) {
             switch ($arg) {

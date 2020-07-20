@@ -103,6 +103,21 @@ class SynonymsTest extends TestCase
     {
         $initArgs = $this->query->createInitArgs();
         $this->assertInstanceOf(InitArgs::class, $initArgs);
+        $this->assertEquals([], $initArgs->getInitArgs());
+    }
+
+    public function testCreateInitArgsWithArgs()
+    {
+        $args = ['ignoreCase' => true, 'format' => InitArgs::FORMAT_SOLR];
+        $initArgs = $this->query->createInitArgs($args);
+        $this->assertInstanceOf(InitArgs::class, $initArgs);
+        $this->assertEquals($args, $initArgs->getInitArgs());
+    }
+
+    public function testInitArgs()
+    {
+        $initArgs = new InitArgs();
+        $this->assertEquals([], $initArgs->getInitArgs());
     }
 
     public function testInitArgsIgnoreCase()
@@ -126,11 +141,11 @@ class SynonymsTest extends TestCase
         $initArgs->setFormat('unknownformat');
     }
 
-    public function testInitArgs()
+    public function testInitArgsSet()
     {
-        $config = ['ignoreCase' => true, 'format' => InitArgs::FORMAT_SOLR];
+        $args = ['ignoreCase' => true, 'format' => InitArgs::FORMAT_SOLR];
         $initArgs = new InitArgs();
-        $initArgs->setInitArgs($config);
-        $this->assertEquals($config, $initArgs->getInitArgs());
+        $initArgs->setInitArgs($args);
+        $this->assertEquals($args, $initArgs->getInitArgs());
     }
 }

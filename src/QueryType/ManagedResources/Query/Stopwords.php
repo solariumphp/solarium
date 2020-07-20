@@ -74,10 +74,12 @@ class Stopwords extends AbstractQuery
     /**
      * Create an init args instance.
      *
+     * @param array $initArgs
+     *
      * @return \Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs
      */
-    public function createInitArgs(): InitArgsInterface
+    public function createInitArgs(array $initArgs = null): InitArgsInterface
     {
-        return new InitArgs();
+        return new InitArgs($initArgs);
     }
 }

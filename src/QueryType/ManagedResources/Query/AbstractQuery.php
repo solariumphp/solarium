@@ -178,7 +178,9 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * Create an init args instance.
      *
+     * @param array $initArgs
+     *
      * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
      */
-    abstract public function createInitArgs(): InitArgsInterface;
+    abstract public function createInitArgs(array $initArgs = null): InitArgsInterface;
 }
