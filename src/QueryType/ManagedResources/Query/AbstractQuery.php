@@ -14,6 +14,7 @@ use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
+use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
 
 abstract class AbstractQuery extends BaseQuery
 {
@@ -60,6 +61,13 @@ abstract class AbstractQuery extends BaseQuery
      * @var string
      */
     protected $name = '';
+
+    /**
+     * Default result class if no command is set.
+     *
+     * @var string
+     */
+    protected $defaultResultClass;
 
     /**
      * Command.
@@ -159,6 +167,7 @@ abstract class AbstractQuery extends BaseQuery
     public function setCommand(AbstractCommand $command): self
     {
         $this->command = $command;
+        $this->options['resultclass'] = CommandResult::class;
 
         return $this;
     }
@@ -171,6 +180,7 @@ abstract class AbstractQuery extends BaseQuery
     public function removeCommand(): self
     {
         $this->command = null;
+        $this->options['resultclass'] = $this->defaultResultClass;
 
         return $this;
     }

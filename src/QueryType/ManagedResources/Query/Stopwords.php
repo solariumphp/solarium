@@ -18,6 +18,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Add;
 use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Create;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
+use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
 
@@ -26,6 +27,13 @@ use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
  */
 class Stopwords extends AbstractQuery
 {
+    /**
+     * Default result class if no command is set.
+     *
+     * @var string
+     */
+    protected $defaultResultClass = WordSet::class;
+
     /**
      * Default options.
      *
@@ -64,11 +72,18 @@ class Stopwords extends AbstractQuery
     /**
      * Get the response parser class for this query.
      *
-     * @return \Solarium\QueryType\ManagedResources\ResponseParser\Stopwords
+     * @return \Solarium\QueryType\ManagedResources\ResponseParser\Stopwords|\Solarium\QueryType\ManagedResources\ResponseParser\Command
      */
     public function getResponseParser(): ResponseParserInterface
     {
-        return new ResponseParser();
+        if (null === $this->command) {
+            $parser = new ResponseParser();
+        }
+        else {
+            $parser = new CommandResponseParser();
+        }
+
+        return $parser;
     }
 
     /**

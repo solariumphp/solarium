@@ -15,6 +15,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
+use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponeParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponeParser;
 
 class SynonymsTest extends TestCase
@@ -39,6 +40,13 @@ class SynonymsTest extends TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
+    }
+
+    public function testGetResponseParserWithCommand()
+    {
+        $command = $this->query->createCommand(Synonyms::COMMAND_ADD);
+        $this->query->setCommand($command);
+        $this->assertInstanceOf(CommandResponeParser::class, $this->query->getResponseParser());
     }
 
     public function testCommand()

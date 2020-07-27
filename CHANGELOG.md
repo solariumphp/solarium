@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Solarium\Component\FacetSet::setExcludeTerms()
 - Solarium\Component\Facet\Field::setMatches()
 - Solarium\Component\Facet\Field::setExcludeTerms()
+- Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
+- Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
 
 ### Fixed
 

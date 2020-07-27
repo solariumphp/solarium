@@ -48,7 +48,7 @@ class Stopwords extends ResponseParserAbstract implements ResponseParserInterfac
             }
         }
 
-        $this->addHeaderInfo($data, $parsed);
+        $parsed = $this->addHeaderInfo($data, $parsed);
 
         return $parsed;
     }

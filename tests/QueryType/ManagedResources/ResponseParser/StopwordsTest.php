@@ -2,10 +2,10 @@
 
 namespace Solarium\Tests\QueryType\ManagedResources\ResponseParser;
 
-use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponseParser;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Response;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
+use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
 
 class StopwordsTest extends TestCase

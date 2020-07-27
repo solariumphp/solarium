@@ -1197,21 +1197,20 @@ abstract class AbstractTechproductsTest extends TestCase
         $add->setStopwords([$term]);
         $query->setCommand($add);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
         // Check if single stopword exists
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
         // We need to remove the current command in order to have no command. Having no command lists the items.
         $query->removeCommand();
 
         // List stopwords
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
         $items = $result->getItems();
         $this->assertContains($term, $items);
 
@@ -1220,7 +1219,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $delete->setTerm($term);
         $query->setCommand($delete);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
         // Check if stopword is gone
         $this->expectException(HttpException::class);
@@ -1240,7 +1239,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $create = $query->createCommand($query::COMMAND_CREATE);
         $query->setCommand($create);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
         // Whatever happens next ...
         try {
@@ -1251,12 +1250,11 @@ abstract class AbstractTechproductsTest extends TestCase
             $config->setInitArgs($initArgs);
             $query->setCommand($config);
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertTrue($result->getWasSuccessful());
 
             // Check the configuration
             $query->removeCommand();
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
             $this->assertFalse($result->isIgnoreCase());
 
             // Check if we can add to it
@@ -1264,14 +1262,14 @@ abstract class AbstractTechproductsTest extends TestCase
             $add->setStopwords([$term]);
             $query->setCommand($add);
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertTrue($result->getWasSuccessful());
 
             // Check if stopword exists in its original lowercase form
             $exists = $query->createCommand($query::COMMAND_EXISTS);
             $exists->setTerm($term);
             $query->setCommand($exists);
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertTrue($result->getWasSuccessful());
 
             // Check if stopword DOESN'T exist in uppercase form
             $this->expectException(HttpException::class);
@@ -1285,7 +1283,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $remove = $query->createCommand($query::COMMAND_REMOVE);
             $query->setCommand($remove);
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertTrue($result->getWasSuccessful());
 
             // Check if stopword list is gone
             $this->expectException(HttpException::class);
@@ -1308,14 +1306,14 @@ abstract class AbstractTechproductsTest extends TestCase
         $add->setSynonyms($synonyms);
         $query->setCommand($add);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
         // Check if single synonym exists
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
         $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
 
         // We need to remove the current command in order to have no command. Having no command lists the items.
@@ -1323,7 +1321,6 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // List synonyms
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
         $items = $result->getItems();
         $success = false;
         foreach ($items as $item) {
@@ -1340,7 +1337,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $delete->setTerm($term);
         $query->setCommand($delete);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
         // Check if synonyms are gone
         $this->expectException(HttpException::class);
@@ -1360,7 +1357,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $create = $query->createCommand($query::COMMAND_CREATE);
         $query->setCommand($create);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
         // Whatever happens next ...
         try {
@@ -1372,12 +1369,11 @@ abstract class AbstractTechproductsTest extends TestCase
             $config->setInitArgs($initArgs);
             $query->setCommand($config);
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertTrue($result->getWasSuccessful());
 
             // Check the configuration
             $query->removeCommand();
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
             $this->assertFalse($result->isIgnoreCase());
             $this->assertEquals($initArgs::FORMAT_SOLR, $result->getFormat());
 
@@ -1389,14 +1385,14 @@ abstract class AbstractTechproductsTest extends TestCase
             $add->setSynonyms($synonyms);
             $query->setCommand($add);
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertTrue($result->getWasSuccessful());
 
             // Check if synonym exists in its original lowercase form
             $exists = $query->createCommand($query::COMMAND_EXISTS);
             $exists->setTerm($term);
             $query->setCommand($exists);
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertTrue($result->getWasSuccessful());
             $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
 
             // Check if synonym DOESN'T exist in uppercase form
@@ -1411,7 +1407,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $remove = $query->createCommand($query::COMMAND_REMOVE);
             $query->setCommand($remove);
             $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+            $this->assertTrue($result->getWasSuccessful());
 
             // Check if synonym map is gone
             $this->expectException(HttpException::class);

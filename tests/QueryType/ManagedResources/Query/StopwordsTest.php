@@ -14,6 +14,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Create;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
+use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponeParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponeParser;
 
 class StopwordsTest extends TestCase
@@ -38,6 +39,13 @@ class StopwordsTest extends TestCase
     public function testGetResponseParser()
     {
         $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
+    }
+
+    public function testGetResponseParserWithCommand()
+    {
+        $command = $this->query->createCommand(Stopwords::COMMAND_ADD);
+        $this->query->setCommand($command);
+        $this->assertInstanceOf(CommandResponeParser::class, $this->query->getResponseParser());
     }
 
     public function testCommand()

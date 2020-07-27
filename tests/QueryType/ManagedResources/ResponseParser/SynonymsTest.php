@@ -2,10 +2,10 @@
 
 namespace Solarium\Tests\QueryType\ManagedResources\ResponseParser;
 
-use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Response;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
+use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
 

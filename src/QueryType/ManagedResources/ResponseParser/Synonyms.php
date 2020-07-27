@@ -60,7 +60,7 @@ class Synonyms extends ResponseParserAbstract implements ResponseParserInterface
             }
         }
 
-        $this->addHeaderInfo($data, $parsed);
+        $parsed = $this->addHeaderInfo($data, $parsed);
 
         return $parsed;
     }
