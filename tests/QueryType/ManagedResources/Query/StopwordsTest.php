@@ -46,6 +46,8 @@ class StopwordsTest extends TestCase
         $command = $this->query->createCommand(Stopwords::COMMAND_ADD);
         $this->query->setCommand($command);
         $this->assertInstanceOf(CommandResponeParser::class, $this->query->getResponseParser());
+        $this->query->removeCommand();
+        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
     }
 
     public function testCommand()
