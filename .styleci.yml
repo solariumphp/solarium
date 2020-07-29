@@ -6,8 +6,6 @@ finder:
         - "tests"
 
 disabled:
-    - blank_line_before_break
-    - blank_line_before_continue
     - blank_line_before_declare
     - blank_line_before_throw
     - blank_line_before_try
