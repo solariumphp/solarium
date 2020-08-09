@@ -412,7 +412,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function preCreateRequest($event): self
     {
-        // We need to accept event proxies or decoraters.
+        // We need to accept event proxies or decorators.
         /* @var PreCreateRequest $event */
         $this->queryType = $event->getQuery()->getType();
 
@@ -428,7 +428,7 @@ class Loadbalancer extends AbstractPlugin
      */
     public function preExecuteRequest($event): self
     {
-        // We need to accept event proxies or decoraters.
+        // We need to accept event proxies or decorators.
         /* @var PreExecuteRequest $event */
         $adapter = $this->client->getAdapter();
 
