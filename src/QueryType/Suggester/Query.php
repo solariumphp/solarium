@@ -30,8 +30,8 @@ use Solarium\QueryType\Suggester\Result\Term;
  */
 class Query extends BaseQuery implements SuggesterInterface, QueryInterface
 {
-    use SuggesterTrait;
     use QueryTrait;
+    use SuggesterTrait;
 
     /**
      * Default options.
