@@ -5,5 +5,8 @@ finder:
         - "src"
         - "tests"
 
+disabled:
+    - no_superfluous_phpdoc_tags
+
 enabled:
     - phpdoc_add_missing_param_annotation
