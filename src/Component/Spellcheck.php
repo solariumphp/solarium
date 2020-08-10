@@ -22,8 +22,8 @@ use Solarium\Component\ResponseParser\Spellcheck as ResponseParser;
  */
 class Spellcheck extends AbstractComponent implements SpellcheckInterface, QueryInterface
 {
-    use SpellcheckTrait;
     use QueryTrait;
+    use SpellcheckTrait;
 
     /**
      * Get component type.
