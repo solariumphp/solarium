@@ -952,6 +952,25 @@ class Highlighting extends AbstractComponent implements QueryInterface
     }
 
     /**
+     * Set boundaryscannercountry option.
+     *
+     * @param string $method
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMethod(string $method): self
+    {
+        $this->setOption('method', $method);
+
+        return $this;
+    }
+
+    public function getMethod(): ?string
+    {
+        return $this->getOption('method');
+    }
+
+    /**
      * Initialize options.
      *
      * The field option needs setup work
