@@ -5,9 +5,6 @@ finder:
         - "src"
         - "tests"
 
-disabled:
-    - blank_line_before_try
-
 enabled:
     - short_array_syntax
 
