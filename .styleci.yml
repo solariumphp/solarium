@@ -5,6 +5,3 @@ finder:
         - "src"
         - "tests"
 
-enabled:
-    - short_array_syntax
-
