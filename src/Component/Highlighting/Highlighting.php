@@ -952,7 +952,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     }
 
     /**
-     * Set boundaryscannercountry option.
+     * Set method option.
      *
      * @param string $method
      *
@@ -965,6 +965,11 @@ class Highlighting extends AbstractComponent implements QueryInterface
         return $this;
     }
 
+    /**
+     * Get method option.
+     *
+     * @return string|null
+     */
     public function getMethod(): ?string
     {
         return $this->getOption('method');
