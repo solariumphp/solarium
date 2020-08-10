@@ -68,7 +68,7 @@ class PostBigRequest extends AbstractPlugin
      */
     public function preExecuteRequest($event): self
     {
-        // We need to accept event proxies or decoraters.
+        // We need to accept event proxies or decorators.
         /* @var PreExecuteRequest $event */
         $request = $event->getRequest();
         $queryString = $request->getQueryString();
