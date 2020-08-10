@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\Client\Endpoint;
@@ -17,7 +24,6 @@ class Http implements AdapterInterface, TimeoutAwareInterface
     /**
      * Handle Solr communication.
      *
-     *
      * @param Request  $request
      * @param Endpoint $endpoint
      *
@@ -30,7 +36,7 @@ class Http implements AdapterInterface, TimeoutAwareInterface
         $context = $this->createContext($request, $endpoint);
         $uri = AdapterHelper::buildUri($request, $endpoint);
 
-        [$data, $headers] = $this->getData($uri, $context);
+        list($data, $headers) = $this->getData($uri, $context);
 
         $this->check($data, $headers);
 
@@ -40,17 +46,16 @@ class Http implements AdapterInterface, TimeoutAwareInterface
     /**
      * Check result of a request.
      *
-     *
      * @param string $data
      * @param array  $headers
      *
      * @throws HttpException
      */
-    public function check($data, $headers)
+    public function check($data, $headers): void
     {
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
-        if (false === $data && 0 == count($headers)) {
+        if (false === $data && 0 === \count($headers)) {
             throw new HttpException('HTTP request failed');
         }
     }
@@ -88,12 +93,12 @@ class Http implements AdapterInterface, TimeoutAwareInterface
             );
         }
 
-        if (Request::METHOD_POST == $method) {
+        if (Request::METHOD_POST === $method) {
             if ($request->getFileUpload()) {
                 $data = AdapterHelper::buildUploadBodyFromRequest($request);
 
-                $content_length = strlen($data);
-                $request->addHeader("Content-Length: $content_length\r\n");
+                $contentLength = \strlen($data);
+                $request->addHeader("Content-Length: $contentLength\r\n");
                 stream_context_set_option(
                     $context,
                     'http',
@@ -114,7 +119,7 @@ class Http implements AdapterInterface, TimeoutAwareInterface
                     $request->addHeader('Content-Type: text/xml; charset='.$charset);
                 }
             }
-        } elseif (Request::METHOD_PUT == $method) {
+        } elseif (Request::METHOD_PUT === $method) {
             $data = $request->getRawData();
             if (null !== $data) {
                 stream_context_set_option(
@@ -130,7 +135,7 @@ class Http implements AdapterInterface, TimeoutAwareInterface
         }
 
         $headers = $request->getHeaders();
-        if (count($headers) > 0) {
+        if (\count($headers) > 0) {
             stream_context_set_option(
                 $context,
                 'http',

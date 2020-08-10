@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\ResponseParser;
 
 use Solarium\Component\AbstractComponent;
@@ -28,7 +35,7 @@ class Terms extends AbstractResponseParser implements ComponentParserInterface
     {
         $allTerms = [];
 
-        if (isset($data['terms']) && is_array($data['terms'])) {
+        if (isset($data['terms']) && \is_array($data['terms'])) {
             $terms = [];
             foreach ($data['terms'] as $field => $termData) {
                 // There seems to be a bug in Solr that json.nl=flat is ignored in a distributed search on Solr

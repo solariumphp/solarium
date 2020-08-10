@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Server\CoreAdmin\Query\Action;
 
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
@@ -34,6 +41,7 @@ class Split extends AbstractAsyncAction implements CoreActionInterface
     public function setPath(array $path): self
     {
         $this->setOption('path', $path);
+
         return $this;
     }
 
@@ -57,6 +65,7 @@ class Split extends AbstractAsyncAction implements CoreActionInterface
     public function setTargetCore(array $targetCore): self
     {
         $this->setOption('targetCore', $targetCore);
+
         return $this;
     }
 
@@ -80,6 +89,7 @@ class Split extends AbstractAsyncAction implements CoreActionInterface
     public function setRanges(string $ranges): self
     {
         $this->setOption('ranges', $ranges);
+
         return $this;
     }
 
@@ -103,6 +113,7 @@ class Split extends AbstractAsyncAction implements CoreActionInterface
     public function setSplitKey(string $splitKey): self
     {
         $this->setOption('split.key', $splitKey);
+
         return $this;
     }
 

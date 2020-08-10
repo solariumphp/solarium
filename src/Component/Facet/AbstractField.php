@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Facet;
 
 /**
@@ -38,6 +45,7 @@ abstract class AbstractField extends AbstractFacet
     public function setField(string $field): self
     {
         $this->setOption('field', $field);
+
         return $this;
     }
 
@@ -63,6 +71,7 @@ abstract class AbstractField extends AbstractFacet
     public function setSort(string $sort): self
     {
         $this->setOption('sort', $sort);
+
         return $this;
     }
 
@@ -86,6 +95,7 @@ abstract class AbstractField extends AbstractFacet
     public function setPrefix(string $prefix): self
     {
         $this->setOption('prefix', $prefix);
+
         return $this;
     }
 
@@ -109,6 +119,7 @@ abstract class AbstractField extends AbstractFacet
     public function setLimit(int $limit): self
     {
         $this->setOption('limit', $limit);
+
         return $this;
     }
 
@@ -132,6 +143,7 @@ abstract class AbstractField extends AbstractFacet
     public function setOffset(int $offset): self
     {
         $this->setOption('offset', $offset);
+
         return $this;
     }
 
@@ -155,6 +167,7 @@ abstract class AbstractField extends AbstractFacet
     public function setMinCount(int $minCount): self
     {
         $this->setOption('mincount', $minCount);
+
         return $this;
     }
 
@@ -178,6 +191,7 @@ abstract class AbstractField extends AbstractFacet
     public function setMissing(bool $missing): self
     {
         $this->setOption('missing', $missing);
+
         return $this;
     }
 
@@ -203,6 +217,7 @@ abstract class AbstractField extends AbstractFacet
     public function setMethod(string $method): self
     {
         $this->setOption('method', $method);
+
         return $this;
     }
 

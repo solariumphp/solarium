@@ -1,15 +1,25 @@
 <?php
 
-namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
+namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 
-class Exists extends AbstractCommand
+/**
+ * Delete.
+ */
+class Delete extends AbstractCommand
 {
     /**
-     * Term to be checked if exists.
+     * Term to be deleted.
      *
      * @var string
      */
@@ -22,7 +32,7 @@ class Exists extends AbstractCommand
      */
     public function getType(): string
     {
-        return Synonyms::COMMAND_EXISTS;
+        return Query::COMMAND_DELETE;
     }
 
     /**
@@ -32,7 +42,7 @@ class Exists extends AbstractCommand
      */
     public function getRequestMethod(): string
     {
-        return Request::METHOD_GET;
+        return Request::METHOD_DELETE;
     }
 
     /**
@@ -46,7 +56,7 @@ class Exists extends AbstractCommand
     }
 
     /**
-     * Returns the term to be checked if exists.
+     * Returns the term to be deleted.
      *
      * @return string
      */
@@ -56,7 +66,7 @@ class Exists extends AbstractCommand
     }
 
     /**
-     * Set the term to be checked if exists.
+     * Set the term to be deleted.
      *
      * @param string $term
      *
@@ -65,6 +75,7 @@ class Exists extends AbstractCommand
     public function setTerm(string $term): self
     {
         $this->term = $term;
+
         return $this;
     }
 }

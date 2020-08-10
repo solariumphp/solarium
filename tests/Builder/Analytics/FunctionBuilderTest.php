@@ -55,7 +55,8 @@ class FunctionBuilderTest extends TestCase
         FunctionBuilder::create()
             ->where($expr->count(
                 $expr->missing('foo')
-            ));
+            ))
+        ;
     }
 
     /**

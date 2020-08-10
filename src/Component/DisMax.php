@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\DisMax\BoostQuery;
@@ -64,6 +71,7 @@ class DisMax extends AbstractComponent
     public function setQueryAlternative($queryAlternative): self
     {
         $this->setOption('queryalternative', $queryAlternative);
+
         return $this;
     }
 
@@ -92,6 +100,7 @@ class DisMax extends AbstractComponent
     public function setQueryFields(string $queryFields): self
     {
         $this->setOption('queryfields', $queryFields);
+
         return $this;
     }
 
@@ -118,6 +127,7 @@ class DisMax extends AbstractComponent
     public function setMinimumMatch(string $minimumMatch): self
     {
         $this->setOption('minimummatch', $minimumMatch);
+
         return $this;
     }
 
@@ -146,6 +156,7 @@ class DisMax extends AbstractComponent
     public function setPhraseFields(string $phraseFields): self
     {
         $this->setOption('phrasefields', $phraseFields);
+
         return $this;
     }
 
@@ -172,6 +183,7 @@ class DisMax extends AbstractComponent
     public function setPhraseSlop(int $phraseSlop): self
     {
         $this->setOption('phraseslop', $phraseSlop);
+
         return $this;
     }
 
@@ -198,6 +210,7 @@ class DisMax extends AbstractComponent
     public function setQueryPhraseSlop(int $queryPhraseSlop): self
     {
         $this->setOption('queryphraseslop', $queryPhraseSlop);
+
         return $this;
     }
 
@@ -223,6 +236,7 @@ class DisMax extends AbstractComponent
     public function setTie(float $tie): self
     {
         $this->setOption('tie', $tie);
+
         return  $this;
     }
 
@@ -264,7 +278,7 @@ class DisMax extends AbstractComponent
     public function getBoostQuery(string $key = null): ?string
     {
         if (null !== $key) {
-            if (array_key_exists($key, $this->boostQueries)) {
+            if (\array_key_exists($key, $this->boostQueries)) {
                 return $this->boostQueries[$key]->getQuery();
             }
         } elseif (!empty($this->boostQueries)) {
@@ -272,7 +286,7 @@ class DisMax extends AbstractComponent
             $boostQueries = array_values($this->boostQueries);
 
             return $boostQueries[0]->getQuery();
-        } elseif (array_key_exists('boostquery', $this->options)) {
+        } elseif (\array_key_exists('boostquery', $this->options)) {
             return $this->options['boostquery'];
         }
 
@@ -285,7 +299,6 @@ class DisMax extends AbstractComponent
      * Supports a boostquery instance or a config array, in that case a new
      * boostquery instance wil be created based on the options.
      *
-     *
      * @param BoostQuery|array $boostQuery
      *
      * @throws InvalidArgumentException
@@ -294,18 +307,18 @@ class DisMax extends AbstractComponent
      */
     public function addBoostQuery($boostQuery): self
     {
-        if (is_array($boostQuery)) {
+        if (\is_array($boostQuery)) {
             $boostQuery = new BoostQuery($boostQuery);
         }
 
         $key = $boostQuery->getKey();
 
-        if (0 === strlen($key)) {
+        if (0 === \strlen($key)) {
             throw new InvalidArgumentException('A boostquery must have a key value');
         }
 
         //double add calls for the same BQ are ignored, but non-unique keys cause an exception
-        if (array_key_exists($key, $this->boostQueries) && $this->boostQueries[$key] !== $boostQuery) {
+        if (\array_key_exists($key, $this->boostQueries) && $this->boostQueries[$key] !== $boostQuery) {
             throw new InvalidArgumentException('A boostquery must have a unique key value within a query');
         }
 
@@ -325,7 +338,7 @@ class DisMax extends AbstractComponent
     {
         foreach ($boostQueries as $key => $boostQuery) {
             // in case of a config array: add key to config
-            if (is_array($boostQuery) && !isset($boostQuery['key'])) {
+            if (\is_array($boostQuery) && !isset($boostQuery['key'])) {
                 $boostQuery['key'] = $key;
             }
 
@@ -356,7 +369,7 @@ class DisMax extends AbstractComponent
      */
     public function removeBoostQuery($boostQuery): self
     {
-        if (is_object($boostQuery)) {
+        if (\is_object($boostQuery)) {
             $boostQuery = $boostQuery->getKey();
         }
 
@@ -411,6 +424,7 @@ class DisMax extends AbstractComponent
     public function setBoostFunctions(string $boostFunctions): self
     {
         $this->setOption('boostfunctions', $boostFunctions);
+
         return $this;
     }
 
@@ -438,6 +452,7 @@ class DisMax extends AbstractComponent
     public function setQueryParser(string $parser): self
     {
         $this->setOption('queryparser', $parser);
+
         return $this;
     }
 

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Result\Facet;
 
 /**
@@ -64,7 +71,7 @@ class Buckets implements FacetResultInterface, \IteratorAggregate, \Countable
      */
     public function count(): int
     {
-        return count($this->buckets);
+        return \count($this->buckets);
     }
 
     /**

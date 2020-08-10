@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Update;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
@@ -37,6 +44,8 @@ class Result extends BaseResult
      *
      * This is not the HTTP status code! The normal value for success is 0.
      *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
      * @return int
      */
     public function getStatus(): int
@@ -51,6 +60,8 @@ class Result extends BaseResult
      *
      * This doesn't include things like the HTTP responsetime. Purely the Solr
      * query execution time.
+     *
+     * @throws \Solarium\Exception\UnexpectedValueException
      *
      * @return int
      */

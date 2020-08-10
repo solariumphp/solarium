@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\ComponentTraits\SpellcheckTrait;
@@ -15,8 +22,8 @@ use Solarium\Component\ResponseParser\Spellcheck as ResponseParser;
  */
 class Spellcheck extends AbstractComponent implements SpellcheckInterface, QueryInterface
 {
-    use SpellcheckTrait;
     use QueryTrait;
+    use SpellcheckTrait;
 
     /**
      * Get component type.

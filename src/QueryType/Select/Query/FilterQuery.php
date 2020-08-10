@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Select\Query;
 
 use Solarium\Component\QueryInterface;
@@ -15,8 +22,8 @@ use Solarium\Core\Query\LocalParameters\LocalParametersTrait;
  */
 class FilterQuery extends Configurable implements QueryInterface
 {
-    use QueryTrait;
     use LocalParametersTrait;
+    use QueryTrait;
 
     /**
      * Tags for this filterquery.

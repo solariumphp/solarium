@@ -59,6 +59,7 @@ class HighlightingTest extends TestCase
         $component->setBoundaryScannerType($component::BOUNDARYSCANNER_TYPE_WORD);
         $component->setBoundaryScannerCountry('be');
         $component->setBoundaryScannerLanguage('en');
+        $component->setMethod('unified');
 
         $request = $builder->buildComponent($component, $request);
 
@@ -105,6 +106,7 @@ class HighlightingTest extends TestCase
                 'hl.bs.type' => 'WORD',
                 'hl.bs.country' => 'be',
                 'hl.bs.language' => 'en',
+                'h1.method' => 'unified',
             ],
             $request->getParams()
         );

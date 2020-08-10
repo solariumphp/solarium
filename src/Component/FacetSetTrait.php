@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\Facet\FacetInterface;
@@ -166,7 +173,7 @@ trait FacetSetTrait
         $type = strtolower($type);
 
         if (!isset($this->facetTypes[$type])) {
-            throw new OutOfBoundsException('Facettype unknown: '.$type);
+            throw new OutOfBoundsException(sprintf('Facettype unknown: %s', $type));
         }
 
         $class = $this->facetTypes[$type];

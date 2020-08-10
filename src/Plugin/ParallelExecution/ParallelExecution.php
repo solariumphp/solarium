@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Plugin\ParallelExecution;
 
 use Solarium\Component\QueryInterface;
@@ -45,13 +52,13 @@ class ParallelExecution extends AbstractPlugin
      *
      * @param string               $key
      * @param QueryInterface       $query
-     * @param null|string|Endpoint $endpoint
+     * @param string|Endpoint|null $endpoint
      *
      * @return self Provides fluent interface
      */
     public function addQuery(string $key, QueryInterface $query, $endpoint = null)
     {
-        if (is_object($endpoint)) {
+        if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
         }
 
@@ -94,9 +101,9 @@ class ParallelExecution extends AbstractPlugin
     /**
      * Execute queries parallel.
      *
-     * @return \Solarium\Core\Query\Result\Result[]
-     *
      * @throws RuntimeException
+     *
+     * @return \Solarium\Core\Query\Result\Result[]
      */
     public function execute(): array
     {
@@ -121,17 +128,17 @@ class ParallelExecution extends AbstractPlugin
 
         do {
             $mrc = curl_multi_exec($multiHandle, $active);
-        } while (CURLM_CALL_MULTI_PERFORM == $mrc);
+        } while (CURLM_CALL_MULTI_PERFORM === $mrc);
 
         $timeout = $this->getOption('curlmultiselecttimeout');
-        while ($active && CURLM_OK == $mrc) {
+        while ($active && CURLM_OK === $mrc) {
             if (-1 === curl_multi_select($multiHandle, $timeout)) {
                 usleep(100);
             }
 
             do {
                 $mrc = curl_multi_exec($multiHandle, $active);
-            } while (CURLM_CALL_MULTI_PERFORM == $mrc);
+            } while (CURLM_CALL_MULTI_PERFORM === $mrc);
         }
 
         $event = new ExecuteEndEvent();

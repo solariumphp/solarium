@@ -1,28 +1,39 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\RequestBuilder;
 
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
-use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
-use Solarium\Core\Query\QueryInterface;
+use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as BaseQuery;
 
-class Synonyms extends BaseRequestBuilder
+/**
+ * Resource.
+ */
+class Resource extends AbstractRequestBuilder
 {
     /**
-     * Build request for a synonyms query.
+     * Build request for a resource query.
      *
-     * @param QueryInterface|SynonymsQuery $query
+     * @param \Solarium\Core\Query\AbstractQuery $query
      *
-     * @return Request
+     * @throws \Solarium\Exception\RuntimeException
+     *
+     * @return \Solarium\Core\Client\Request
      */
     public function build(AbstractQuery $query): Request
     {
         if (empty($query->getName())) {
-            throw new RuntimeException('Name of the synonym resource is not set in the query.');
+            throw new RuntimeException('Name of the resource is not set in the query.');
         }
 
         $request = parent::build($query);
@@ -31,7 +42,7 @@ class Synonyms extends BaseRequestBuilder
             $request->addHeader('Content-Type: application/json; charset=utf-8');
             $this->buildCommand($request, $query->getCommand());
         } else {
-            // Lists all synonyms.
+            // Lists all items.
             $request->setMethod(Request::METHOD_GET);
         }
 
@@ -39,8 +50,8 @@ class Synonyms extends BaseRequestBuilder
     }
 
     /**
-     * @param Request         $request
-     * @param AbstractCommand $command
+     * @param \Solarium\Core\Client\Request                              $request
+     * @param \Solarium\QueryType\ManagedResources\Query\AbstractCommand $command
      *
      * @return self
      */
@@ -49,25 +60,25 @@ class Synonyms extends BaseRequestBuilder
         $request->setMethod($command->getRequestMethod());
 
         switch ($command->getType()) {
-            case SynonymsQuery::COMMAND_ADD:
+            case BaseQuery::COMMAND_ADD:
                 $request->setRawData($command->getRawData());
                 break;
-            case SynonymsQuery::COMMAND_CONFIG:
+            case BaseQuery::COMMAND_CONFIG:
                 $request->setRawData($command->getRawData());
                 break;
-            case SynonymsQuery::COMMAND_CREATE:
+            case BaseQuery::COMMAND_CREATE:
                 $request->setRawData($command->getRawData());
                 break;
-            case SynonymsQuery::COMMAND_DELETE:
+            case BaseQuery::COMMAND_DELETE:
                 $request->setHandler($request->getHandler().'/'.$command->getTerm());
                 break;
-            case SynonymsQuery::COMMAND_EXISTS:
+            case BaseQuery::COMMAND_EXISTS:
                 $request->setHandler($request->getHandler().'/'.$command->getTerm());
                 break;
-            case SynonymsQuery::COMMAND_REMOVE:
+            case BaseQuery::COMMAND_REMOVE:
                 break;
             default:
-                throw new RuntimeException('Unsupported command type');
+                throw new RuntimeException(sprintf('Unsupported command type: %s', $command->getType()));
         }
 
         return $this;

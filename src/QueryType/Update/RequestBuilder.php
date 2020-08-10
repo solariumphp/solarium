@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Update;
 
 use Solarium\Core\Client\Request;
@@ -256,13 +263,13 @@ class RequestBuilder extends BaseRequestBuilder
 
         // Remove the values if 'null' or empty list is specified as the new value
         // @see https://lucene.apache.org/solr/guide/updating-parts-of-documents.html#atomic-updates
-        if (Document::MODIFIER_SET === $modifier && is_array($value) && empty($value)) {
+        if (Document::MODIFIER_SET === $modifier && \is_array($value) && empty($value)) {
             $value = null;
         }
 
-        if (is_array($value)) {
+        if (\is_array($value)) {
             foreach ($value as $multival) {
-                if (is_array($multival)) {
+                if (\is_array($multival)) {
                     $xml .= '<doc>';
                     foreach ($multival as $k => $v) {
                         $xml .= $this->buildFieldsXml($k, $boost, $v, $modifier);

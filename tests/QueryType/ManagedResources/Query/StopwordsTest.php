@@ -3,15 +3,18 @@
 namespace Solarium\Tests\QueryType\ManagedResources\Query;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\QueryType\ManagedResources\Query\Command\Config;
+use Solarium\QueryType\ManagedResources\Query\Command\Delete;
+use Solarium\QueryType\ManagedResources\Query\Command\Exists;
+use Solarium\QueryType\ManagedResources\Query\Command\Remove;
+use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Add;
+use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Create;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Add;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Config;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Create;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Delete;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Exists;
-use Solarium\QueryType\ManagedResources\Query\Stopwords\Command\Remove;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
+use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
+use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponeParser;
 
 class StopwordsTest extends TestCase
 {
@@ -24,7 +27,17 @@ class StopwordsTest extends TestCase
 
     public function testQuery()
     {
-        $this->assertEquals('stopwords', $this->query->getType());
+        $this->assertEquals(Client::QUERY_MANAGED_STOPWORDS, $this->query->getType());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
     }
 
     public function testCommand()
@@ -78,6 +91,27 @@ class StopwordsTest extends TestCase
         $command = $this->query->createCommand('unknowncommand');
     }
 
+    public function testCreateInitArgs()
+    {
+        $initArgs = $this->query->createInitArgs();
+        $this->assertInstanceOf(InitArgs::class, $initArgs);
+        $this->assertEquals([], $initArgs->getInitArgs());
+    }
+
+    public function testCreateInitArgsWithArgs()
+    {
+        $args = ['ignoreCase' => true];
+        $initArgs = $this->query->createInitArgs($args);
+        $this->assertInstanceOf(InitArgs::class, $initArgs);
+        $this->assertEquals($args, $initArgs->getInitArgs());
+    }
+
+    public function testInitArgs()
+    {
+        $initArgs = new InitArgs();
+        $this->assertEquals([], $initArgs->getInitArgs());
+    }
+
     public function testInitArgsIgnoreCase()
     {
         $initArgs = new InitArgs();
@@ -85,11 +119,11 @@ class StopwordsTest extends TestCase
         $this->assertTrue($initArgs->getIgnoreCase());
     }
 
-    public function testInitArgs()
+    public function testInitArgsSet()
     {
-        $config = ['ignoreCase' => true];
+        $args = ['ignoreCase' => true];
         $initArgs = new InitArgs();
-        $initArgs->setInitArgs($config);
-        $this->assertEquals($config, $initArgs->getInitArgs());
+        $initArgs->setInitArgs($args);
+        $this->assertEquals($args, $initArgs->getInitArgs());
     }
 }

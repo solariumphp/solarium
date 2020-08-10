@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\Core\Client\Client;
@@ -83,6 +90,7 @@ class Query extends SelectQuery
     public function setQueryStream(bool $stream): self
     {
         $this->setOption('stream', $stream);
+
         return $this;
     }
 
@@ -108,6 +116,7 @@ class Query extends SelectQuery
     public function setInterestingTerms(string $term): self
     {
         $this->setOption('interestingTerms', $term);
+
         return $this;
     }
 
@@ -133,6 +142,7 @@ class Query extends SelectQuery
     public function setMatchInclude(bool $include): self
     {
         $this->setOption('matchinclude', $include);
+
         return $this;
     }
 
@@ -159,6 +169,7 @@ class Query extends SelectQuery
     public function setMatchOffset(int $offset): self
     {
         $this->setOption('matchoffset', $offset);
+
         return $this;
     }
 
@@ -188,12 +199,13 @@ class Query extends SelectQuery
      */
     public function setMltFields($fields): self
     {
-        if (is_string($fields)) {
+        if (\is_string($fields)) {
             $fields = explode(',', $fields);
             $fields = array_map('trim', $fields);
         }
 
         $this->setOption('mltfields', $fields);
+
         return $this;
     }
 
@@ -227,6 +239,7 @@ class Query extends SelectQuery
     public function setMinimumTermFrequency(int $minimum): self
     {
         $this->setOption('minimumtermfrequency', $minimum);
+
         return $this;
     }
 
@@ -255,6 +268,7 @@ class Query extends SelectQuery
     public function setMinimumDocumentFrequency(int $minimum): self
     {
         $this->setOption('minimumdocumentfrequency', $minimum);
+
         return $this;
     }
 
@@ -282,6 +296,7 @@ class Query extends SelectQuery
     public function setMinimumWordLength(int $minimum): self
     {
         $this->setOption('minimumwordlength', $minimum);
+
         return $this;
     }
 
@@ -309,6 +324,7 @@ class Query extends SelectQuery
     public function setMaximumWordLength(int $maximum): self
     {
         $this->setOption('maximumwordlength', $maximum);
+
         return $this;
     }
 
@@ -337,6 +353,7 @@ class Query extends SelectQuery
     public function setMaximumQueryTerms(int $maximum): self
     {
         $this->setOption('maximumqueryterms', $maximum);
+
         return $this;
     }
 
@@ -365,6 +382,7 @@ class Query extends SelectQuery
     public function setMaximumNumberOfTokens(int $maximum): self
     {
         $this->setOption('maximumnumberoftokens', $maximum);
+
         return $this;
     }
 
@@ -392,6 +410,7 @@ class Query extends SelectQuery
     public function setBoost(bool $boost): self
     {
         $this->setOption('boost', $boost);
+
         return $this;
     }
 
@@ -421,12 +440,13 @@ class Query extends SelectQuery
      */
     public function setQueryFields($queryFields): self
     {
-        if (is_string($queryFields)) {
+        if (\is_string($queryFields)) {
             $queryFields = explode(',', $queryFields);
             $queryFields = array_map('trim', $queryFields);
         }
 
         $this->setOption('queryfields', $queryFields);
+
         return $this;
     }
 

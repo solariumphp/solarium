@@ -2,8 +2,11 @@
 
 namespace Solarium\Tests\QueryType\ManagedResources\Query;
 
-use Solarium\QueryType\ManagedResources\Query\Resources as Query;
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
+use Solarium\QueryType\ManagedResources\Query\Resources as Query;
+use Solarium\QueryType\ManagedResources\RequestBuilder\Resources as RequestBuilder;
+use Solarium\QueryType\ManagedResources\ResponseParser\Resources as ResponeParser;
 
 class ResourcesTest extends TestCase
 {
@@ -21,6 +24,16 @@ class ResourcesTest extends TestCase
 
     public function testQuery()
     {
-        $this->assertEquals('resources', $this->query->getType());
+        $this->assertEquals(Client::QUERY_MANAGED_RESOURCES, $this->query->getType());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
     }
 }
