@@ -32,6 +32,7 @@ class Command extends BaseResult
     public function getWasSuccessful(): bool
     {
         $this->parseResponse();
+
         return $this->wasSuccessful;
     }
 
@@ -41,6 +42,7 @@ class Command extends BaseResult
     public function getStatusMessage(): string
     {
         $this->parseResponse();
+
         return $this->statusMessage;
     }
 }

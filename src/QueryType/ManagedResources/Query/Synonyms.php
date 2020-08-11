@@ -78,8 +78,7 @@ class Synonyms extends AbstractQuery
     {
         if (null === $this->command) {
             $parser = new ResponseParser();
-        }
-        else {
+        } else {
             $parser = new CommandResponseParser();
         }
 
