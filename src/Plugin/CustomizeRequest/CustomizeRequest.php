@@ -203,7 +203,7 @@ class CustomizeRequest extends AbstractPlugin
      */
     public function postCreateRequest($event): self
     {
-        // We need to accept event proxies or decoraters.
+        // We need to accept event proxies or decorators.
         /* @var PostCreateRequest $event */
         $request = $event->getRequest();
         foreach ($this->getCustomizations() as $key => $customization) {
