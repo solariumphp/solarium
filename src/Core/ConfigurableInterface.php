@@ -24,7 +24,7 @@ interface ConfigurableInterface
      * Set options.
      *
      * If $options is an object it will be converted into an array by called
-     * it's toArray method. This is compatible with the Zend_Config classes in
+     * its toArray method. This is compatible with the Zend_Config classes in
      * Zend Framework, but can also easily be implemented in any other object.
      *
      * @param array|\Zend_Config $options

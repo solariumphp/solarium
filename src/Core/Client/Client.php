@@ -411,7 +411,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Remove a single endpoint.
      *
-     * You can remove a endpoint by passing it's key, or by passing the endpoint instance
+     * You can remove a endpoint by passing its key, or by passing the endpoint instance
      *
      * @param string|Endpoint $endpoint
      *
