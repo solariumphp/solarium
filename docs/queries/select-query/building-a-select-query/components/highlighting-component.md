@@ -5,6 +5,7 @@ Options
 
 | Name                     | Type    | Default value | Description                                                                        |
 |--------------------------|---------|---------------|------------------------------------------------------------------------------------|
+| method                   | string  | null          | The highlighting implementation to use: 'unified', 'original' or 'fastVector'.     |
 | fields                   | string  | null          | Fields to generate highlighted snippets for. Separate multiple fields with commas. |
 | snippets                 | int     | null          | Maximum number of snippets per field                                               |
 | fragsize                 | int     | null          | The size, in characters, of fragments to consider for highlighting                 |
