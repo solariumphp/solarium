@@ -22,8 +22,8 @@ use Solarium\Core\Query\LocalParameters\LocalParametersTrait;
  */
 class FilterQuery extends Configurable implements QueryInterface
 {
-    use QueryTrait;
     use LocalParametersTrait;
+    use QueryTrait;
 
     /**
      * Tags for this filterquery.

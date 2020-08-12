@@ -7,15 +7,15 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\Config as ConfigCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\Delete as DeleteCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\Exists as ExistsCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\Remove as RemoveCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Add as AddCommand;
+use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create as CreateCommand;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Add as AddCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Config as ConfigCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Create as CreateCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Delete as DeleteCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Exists as ExistsCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms\Command\Remove as RemoveCommand;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
-use Solarium\QueryType\ManagedResources\RequestBuilder\Synonyms as SynonymsRequestBuilder;
+use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as SynonymsRequestBuilder;
 use Solarium\Tests\Integration\TestClientFactory;
 
 class SynonymsTest extends TestCase

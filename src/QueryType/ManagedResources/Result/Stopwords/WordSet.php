@@ -57,8 +57,8 @@ class WordSet extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param AbstractQuery $query
-     * @param Response      $response
+     * @param \Solarium\Core\Query\AbstractQuery $query
+     * @param \Solarium\Core\Client\Response     $response
      */
     public function __construct(AbstractQuery $query, Response $response)
     {

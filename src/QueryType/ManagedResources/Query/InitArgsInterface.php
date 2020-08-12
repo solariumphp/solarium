@@ -15,6 +15,13 @@ namespace Solarium\QueryType\ManagedResources\Query;
 interface InitArgsInterface
 {
     /**
+     * Constructor.
+     *
+     * @param array $initArgs
+     */
+    public function __construct(array $initArgs = null);
+
+    /**
      * Sets the configuration parameters to be sent to Solr.
      *
      * @param array $initArgs

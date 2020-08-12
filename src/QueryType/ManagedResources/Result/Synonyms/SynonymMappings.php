@@ -71,8 +71,8 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     /**
      * Constructor.
      *
-     * @param AbstractQuery $query
-     * @param Response      $response
+     * @param \Solarium\Core\Query\AbstractQuery $query
+     * @param \Solarium\Core\Client\Response     $response
      */
     public function __construct(AbstractQuery $query, Response $response)
     {
@@ -92,7 +92,7 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     /**
      * Get all items.
      *
-     * @return Synonyms[]
+     * @return \Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms[]
      */
     public function getItems(): array
     {

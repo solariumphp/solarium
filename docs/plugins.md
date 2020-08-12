@@ -320,7 +320,7 @@ Some important notes:
 -   If one of the requests fails the other requests will still be executed and the results parsed. In the result array the entry for the failed query will contain an exception instead of a result object. It’s your own responsibility to check the result type.
 -   All query types are supported, and you can even mix query types in the same execute call.
 -   For testing this plugin you can use a special Solr delay component I’ve created (and used to develop the plugin). For more info see [this blog post](http://www.raspberry.nl/2012/01/04/solr-delay-component/).
--   Add queries using the addQuery method. Supply at least a key and a query instance. Optionally you can supply a client instance as third argument. This can be used to execute queries on different cores or even servers. If omitted the plugin will use it's own client instance.
+-   Add queries using the addQuery method. Supply at least a key and a query instance. Optionally you can supply a client instance as third argument. This can be used to execute queries on different cores or even servers. If omitted the plugin will use its own client instance.
 
 Example usage
 -------------

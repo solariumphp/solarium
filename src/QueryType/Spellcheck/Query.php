@@ -29,8 +29,8 @@ use Solarium\QueryType\Spellcheck\Result\Term;
  */
 class Query extends BaseQuery implements SpellcheckInterface, QueryInterface
 {
-    use SpellcheckTrait;
     use QueryTrait;
+    use SpellcheckTrait;
 
     /**
      * Default options.

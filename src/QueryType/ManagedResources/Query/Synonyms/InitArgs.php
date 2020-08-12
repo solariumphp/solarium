@@ -46,6 +46,18 @@ class InitArgs implements InitArgsInterface
     ];
 
     /**
+     * Constructor.
+     *
+     * @param array $initArgs
+     */
+    public function __construct(array $initArgs = null)
+    {
+        if (null !== $initArgs) {
+            $this->setInitArgs($initArgs);
+        }
+    }
+
+    /**
      * Set ignore case.
      *
      * @param bool $ignoreCase
@@ -75,6 +87,8 @@ class InitArgs implements InitArgsInterface
      * Use one of the FORMAT_* constants as the value
      *
      * @param string $format
+     *
+     * @throws \Solarium\Exception\UnexpectedValueException
      *
      * @return self Provides fluent interface
      */

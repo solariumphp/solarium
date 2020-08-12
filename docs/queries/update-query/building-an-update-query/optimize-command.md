@@ -16,7 +16,7 @@ Options
 
 For all options:
 
--   If no value is set (null) the param will not be sent to Solr and Solr will use it's default setting.
+-   If no value is set (null) the param will not be sent to Solr and Solr will use its default setting.
 -   See Solr documentation for details of the params
 
 Example

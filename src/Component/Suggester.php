@@ -22,8 +22,8 @@ use Solarium\Component\ResponseParser\Suggester as ResponseParser;
  */
 class Suggester extends AbstractComponent implements SuggesterInterface, QueryInterface
 {
-    use SuggesterTrait;
     use QueryTrait;
+    use SuggesterTrait;
 
     /**
      * Get component type.

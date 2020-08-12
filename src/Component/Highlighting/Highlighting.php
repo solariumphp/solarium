@@ -952,6 +952,30 @@ class Highlighting extends AbstractComponent implements QueryInterface
     }
 
     /**
+     * Set method option.
+     *
+     * @param string $method
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMethod(string $method): self
+    {
+        $this->setOption('method', $method);
+
+        return $this;
+    }
+
+    /**
+     * Get method option.
+     *
+     * @return string|null
+     */
+    public function getMethod(): ?string
+    {
+        return $this->getOption('method');
+    }
+
+    /**
      * Initialize options.
      *
      * The field option needs setup work

@@ -65,23 +65,23 @@ use Solarium\QueryType\Select\Result\Result;
  */
 class Query extends AbstractQuery implements ComponentAwareQueryInterface, QueryInterface
 {
-    use ComponentAwareQueryTrait;
-    use MoreLikeThisTrait;
-    use SpellcheckTrait;
-    use SuggesterTrait;
-    use DebugTrait;
-    use SpatialTrait;
-    use FacetSetTrait;
-    use DisMaxTrait;
-    use EDisMaxTrait;
-    use HighlightingTrait;
-    use GroupingTrait;
-    use DistributedSearchTrait;
-    use StatsTrait;
-    use QueryElevationTrait;
-    use ReRankQueryTrait;
-    use QueryTrait;
     use AnalyticsTrait;
+    use ComponentAwareQueryTrait;
+    use DebugTrait;
+    use DisMaxTrait;
+    use DistributedSearchTrait;
+    use EDisMaxTrait;
+    use FacetSetTrait;
+    use GroupingTrait;
+    use HighlightingTrait;
+    use MoreLikeThisTrait;
+    use QueryElevationTrait;
+    use QueryTrait;
+    use ReRankQueryTrait;
+    use SpatialTrait;
+    use SpellcheckTrait;
+    use StatsTrait;
+    use SuggesterTrait;
 
     /**
      * Solr sort mode descending.

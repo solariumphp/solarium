@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\ManagedResources\Query\Synonyms\Command;
+namespace Solarium\QueryType\ManagedResources\Query\Command;
 
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
-use Solarium\QueryType\ManagedResources\Query\Synonyms;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 
 /**
- * Create.
+ * Command Add base class.
  */
-class Create extends AbstractCommand
+abstract class AbstractAdd extends AbstractCommand
 {
     /**
      * Returns command type, for use in adapters.
@@ -25,7 +25,7 @@ class Create extends AbstractCommand
      */
     public function getType(): string
     {
-        return Synonyms::COMMAND_CREATE;
+        return Query::COMMAND_ADD;
     }
 
     /**
@@ -36,16 +36,6 @@ class Create extends AbstractCommand
     public function getRequestMethod(): string
     {
         return Request::METHOD_PUT;
-    }
-
-    /**
-     * Returns the raw data to be sent to Solr.
-     *
-     * @return string
-     */
-    public function getRawData(): string
-    {
-        return json_encode(['class' => 'org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager']);
     }
 
     /**
