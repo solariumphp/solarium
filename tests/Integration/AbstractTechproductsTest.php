@@ -984,7 +984,7 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $bufferSize = 10;
         $totalDocs = 25;
-        
+
         $buffer = self::$client->getPlugin('bufferedadd');
         $buffer->setBufferSize($bufferSize);
 
@@ -996,8 +996,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::ADD_DOCUMENT,
-            function (BufferedAddAddDocumentEvent $event) use (&$document, &$weight)
-            {
+            function (BufferedAddAddDocumentEvent $event) use (&$document, &$weight) {
                 $this->assertSame($document, $event->getDocument());
                 $document->setField('weight', ++$weight);
             }
@@ -1005,8 +1004,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::PRE_FLUSH,
-            function (BufferedAddPreFlushEvent $event) use ($bufferSize, &$document, &$weight)
-            {
+            function (BufferedAddPreFlushEvent $event) use ($bufferSize, &$document, &$weight) {
                 static $i = 0;
 
                 $buffer = $event->getBuffer();
@@ -1025,8 +1023,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::POST_FLUSH,
-            function (BufferedAddPostFlushEvent $event) use ($bufferSize)
-            {
+            function (BufferedAddPostFlushEvent $event) use ($bufferSize) {
                 $result = $event->getResult();
                 $this->assertSame(0, $result->getStatus());
 
@@ -1041,8 +1038,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::PRE_COMMIT,
-            function (BufferedAddPreCommitEvent $event) use ($bufferSize, $totalDocs, &$document, &$weight)
-            {
+            function (BufferedAddPreCommitEvent $event) use ($bufferSize, $totalDocs, &$document, &$weight) {
                 static $i = 0;
 
                 $buffer = $event->getBuffer();
@@ -1061,8 +1057,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::POST_COMMIT,
-            function (BufferedAddPostCommitEvent $event) use ($bufferSize, $totalDocs)
-            {
+            function (BufferedAddPostCommitEvent $event) use ($bufferSize, $totalDocs) {
                 $result = $event->getResult();
                 $this->assertSame(0, $result->getStatus());
 
@@ -1076,7 +1071,7 @@ abstract class AbstractTechproductsTest extends TestCase
             }
         );
 
-        for ($i = 1; $i <= $totalDocs; $i++) {
+        for ($i = 1; $i <= $totalDocs; ++$i) {
             $data = [
                 'id' => 'solarium-bufferedadd-'.$i,
                 'cat' => 'solarium-bufferedadd',
