@@ -1071,6 +1071,15 @@ abstract class AbstractTechproductsTest extends TestCase
             }
         );
 
+        $data = [
+            'id' => 'solarium-bufferedadd-0',
+            'cat' => 'solarium-bufferedadd',
+        ];
+        $document = $update->createDocument($data);
+        $buffer->addDocument($document);
+        $buffer->clear();
+        $this->assertCount(0, $buffer->getDocuments());
+
         for ($i = 1; $i <= $totalDocs; ++$i) {
             $data = [
                 'id' => 'solarium-bufferedadd-'.$i,
