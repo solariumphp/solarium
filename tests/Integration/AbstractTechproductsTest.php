@@ -1077,6 +1077,7 @@ abstract class AbstractTechproductsTest extends TestCase
         ];
         $document = $update->createDocument($data);
         $buffer->addDocument($document);
+        $this->assertCount(1, $buffer->getDocuments());
         $buffer->clear();
         $this->assertCount(0, $buffer->getDocuments());
 
