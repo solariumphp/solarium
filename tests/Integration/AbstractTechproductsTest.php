@@ -988,7 +988,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $buffer = self::$client->getPlugin('bufferedadd');
         $buffer->setBufferSize($bufferSize);
 
-        $document = null;
+        $update = self::$client->createUpdate();
+
+        // can't be null at this point because phpstan analyses the ADD_DOCUMENT listener with this value even though it's never executed with it
+        $document = $update->createDocument();
         $weight = 0;
 
         self::$client->getEventDispatcher()->addListener(
@@ -1072,8 +1075,6 @@ abstract class AbstractTechproductsTest extends TestCase
                 $this->assertCount(($totalDocs % $bufferSize) + 1, $commands[0]->getDocuments());
             }
         );
-
-        $update = self::$client->createUpdate();
 
         for ($i = 1; $i <= $totalDocs; $i++) {
             $data = [
