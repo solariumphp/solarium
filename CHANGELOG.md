@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Refactored Managed Resources code: use `createCommand()` and `createInitArgs()` to issue commands
+- `Http` Adapter does implement `ConfigurableInterface` again
 
 ### Removed
 

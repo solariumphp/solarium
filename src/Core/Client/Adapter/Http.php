@@ -12,12 +12,13 @@ namespace Solarium\Core\Client\Adapter;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
+use Solarium\Core\Configurable;
 use Solarium\Exception\HttpException;
 
 /**
  * Basic HTTP adapter using a stream.
  */
-class Http implements AdapterInterface, TimeoutAwareInterface
+class Http extends Configurable implements AdapterInterface, TimeoutAwareInterface
 {
     use TimeoutAwareTrait;
 
@@ -71,6 +72,7 @@ class Http implements AdapterInterface, TimeoutAwareInterface
     public function createContext($request, $endpoint)
     {
         $method = $request->getMethod();
+        trigger_error('Proxy-Option: '.$this->getOption('proxy'));
         $context = stream_context_create(
             ['http' => [
                     'method' => $method,
