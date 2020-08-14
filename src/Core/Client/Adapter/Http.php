@@ -72,16 +72,17 @@ class Http extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     public function createContext($request, $endpoint)
     {
         $method = $request->getMethod();
-        trigger_error('Proxy-Option: '.$this->getOption('proxy'));
-        $context = stream_context_create(
-            ['http' => [
-                    'method' => $method,
-                    'timeout' => $this->timeout,
-                    'protocol_version' => 1.0,
-                    'user_agent' => 'Solarium Http Adapter',
-                ],
-            ]
-        );
+        $httpOptions = [
+            'method' => $method,
+            'timeout' => $this->timeout,
+            'protocol_version' => 1.0,
+            'user_agent' => 'Solarium Http Adapter',
+        ];
+        if (null !== ($proxy = $this->getOption('proxy'))) {
+            $httpOptions['proxy']           = 'tcp://'.$proxy;
+            $httpOptions['request_fulluri'] = true;
+        }
+        $context = stream_context_create(['http' => $httpOptions]);
 
         // Try endpoint authentication first, fallback to request for backwards compatibility
         $authData = $endpoint->getAuthentication();
