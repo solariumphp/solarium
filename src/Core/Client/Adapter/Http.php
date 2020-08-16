@@ -79,7 +79,16 @@ class Http extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             'user_agent' => 'Solarium Http Adapter',
         ];
         if (null !== ($proxy = $this->getOption('proxy'))) {
-            $httpOptions['proxy']           = 'tcp://'.$proxy;
+            $url = parse_url($proxy);
+            $url['scheme'] = 'tcp';
+            // fix behavior when only an IPv4 is passed as proxy, it would be parsed to path not to host
+            if (!isset($url['host']) && isset($url['path'])) {
+                $url['host'] = $url['path'];
+            }
+            if (!isset($url['port'])) {
+                $url['port'] = 8080;
+            }
+            $httpOptions['proxy']           =  sprintf('%s://%s:%d', $url['scheme'], $url['host'], $url['port']);
             $httpOptions['request_fulluri'] = true;
         }
         $context = stream_context_create(['http' => $httpOptions]);
