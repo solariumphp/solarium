@@ -1,6 +1,7 @@
 <?php
 
 use Solarium\Core\Client\Adapter\Curl;
+use Solarium\Core\Client\Adapter\Http;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 error_reporting(E_ALL);
@@ -12,7 +13,7 @@ if (file_exists('config.php')) {
 
 require $config['autoload'] ?? __DIR__.'/../vendor/autoload.php';
 
-$adapter = new Curl();
+$adapter = extension_loaded('curl')?new Curl($adapterConfig):new Http($adapterConfig);
 $eventDispatcher = new EventDispatcher();
 
 function htmlHeader()
