@@ -60,7 +60,13 @@ htmlFooter();
 
 ### Proxy support
 
-The cURL adapter support the use of a proxy. Use the adapter option `proxy` to enable this.
+The cURL and Http adapter support the use of a proxy. Use the adapter option `proxy` to enable this.
+You can pass the options to the adapter constructor.
+```php
+<?php
+// create an HTTP adapter instance
+$adapter = new Solarium\Core\Client\Adapter\Http(['proxy'=>'127.0.0.1:8080']);
+```
 
 
 HTTP adapter
