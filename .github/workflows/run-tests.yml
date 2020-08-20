@@ -37,9 +37,28 @@ jobs:
             - name: Checkout solarium
               uses: actions/checkout@v2
 
+            - name: Checkout solr 7.7
+              if: matrix.solr == 7
+              uses: actions/checkout@v2
+              with:
+                repository: apache/lucene-solr
+                ref: branch_7_7
+                path: lucene-solr
+
+            - name: Checkout solr 8.5
+              if: matrix.solr == 8
+              uses: actions/checkout@v2
+              with:
+                repository: apache/lucene-solr
+                ref: branch_8_5
+                path: lucene-solr
+
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
-                cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
+                chmod -R a+w lucene-solr
+                cd lucene-solr
+                patch -p1 < ../tests/Integration/Fixtures/solrconf.patch
+                cd ../tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 
             - name: Install dependencies

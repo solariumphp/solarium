@@ -64,7 +64,13 @@ try {
     $client->execute($query);
 
     // index techproducts sample data
-    foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Integration'.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
+    $dataDir = __DIR__.
+        DIRECTORY_SEPARATOR.'..'.
+        DIRECTORY_SEPARATOR.'lucene-solr'.
+        DIRECTORY_SEPARATOR.'solr'.
+        DIRECTORY_SEPARATOR.'example'.
+        DIRECTORY_SEPARATOR.'exampledocs';
+    foreach (glob($dataDir.DIRECTORY_SEPARATOR.'*.xml') as $file) {
         $update = $client->createUpdate();
 
         if (null !== $encoding = Utility::getXmlEncoding($file)) {
