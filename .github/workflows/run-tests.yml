@@ -56,7 +56,9 @@ jobs:
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
                 chmod -R a+w lucene-solr
-                cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
+                cd lucene-solr
+                patch -p1 < ../tests/Integration/Fixtures/solrconf.patch
+                cd ../tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 
             - name: Install dependencies
