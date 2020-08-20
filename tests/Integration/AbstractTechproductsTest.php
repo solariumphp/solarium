@@ -9,9 +9,16 @@ use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\HttpException;
+use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
+use Solarium\Plugin\BufferedAdd\Event\Events as BufferedAddEvents;
+use Solarium\Plugin\BufferedAdd\Event\PostCommit as BufferedAddPostCommitEvent;
+use Solarium\Plugin\BufferedAdd\Event\PostFlush as BufferedAddPostFlushEvent;
+use Solarium\Plugin\BufferedAdd\Event\PreCommit as BufferedAddPreCommitEvent;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush as BufferedAddPreFlushEvent;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\Support\Utility;
 
 abstract class AbstractTechproductsTest extends TestCase
@@ -978,6 +985,171 @@ abstract class AbstractTechproductsTest extends TestCase
             'MA147LL/A',
             'SOLR1000',
         ], $rerankedids);
+    }
+
+    public function testBufferedAdd()
+    {
+        $bufferSize = 10;
+        $totalDocs = 25;
+
+        $buffer = self::$client->getPlugin('bufferedadd');
+        $buffer->setBufferSize($bufferSize);
+
+        $update = self::$client->createUpdate();
+
+        // can't be null at this point because phpstan analyses the ADD_DOCUMENT listener with this value even though it's never executed with it
+        $document = $update->createDocument();
+        $weight = 0;
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::ADD_DOCUMENT,
+            function (BufferedAddAddDocumentEvent $event) use (&$document, &$weight) {
+                $this->assertSame($document, $event->getDocument());
+                $document->setField('weight', ++$weight);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::PRE_FLUSH,
+            function (BufferedAddPreFlushEvent $event) use ($bufferSize, &$document, &$weight) {
+                static $i = 0;
+
+                $buffer = $event->getBuffer();
+                $this->assertCount($bufferSize, $buffer);
+                $this->assertSame($document, end($buffer));
+
+                $data = [
+                    'id' => 'solarium-bufferedadd-preflush-'.++$i,
+                    'cat' => 'solarium-bufferedadd',
+                    'weight' => ++$weight,
+                ];
+                $buffer[] = self::$client->createUpdate()->createDocument($data);
+                $event->setBuffer($buffer);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::POST_FLUSH,
+            function (BufferedAddPostFlushEvent $event) use ($bufferSize) {
+                $result = $event->getResult();
+                $this->assertSame(0, $result->getStatus());
+
+                $query = $result->getQuery();
+                $commands = $query->getCommands();
+                $this->assertCount(1, $commands);
+                $this->assertSame(UpdateQuery::COMMAND_ADD, $commands[0]->getType());
+                // we added 1 document to the full buffer in PRE_FLUSH
+                $this->assertCount($bufferSize + 1, $commands[0]->getDocuments());
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::PRE_COMMIT,
+            function (BufferedAddPreCommitEvent $event) use ($bufferSize, $totalDocs, &$document, &$weight) {
+                static $i = 0;
+
+                $buffer = $event->getBuffer();
+                $this->assertCount($totalDocs % $bufferSize, $event->getBuffer());
+                $this->assertSame($document, end($buffer));
+
+                $data = [
+                    'id' => 'solarium-bufferedadd-precommit-'.++$i,
+                    'cat' => 'solarium-bufferedadd',
+                    'weight' => ++$weight,
+                ];
+                $buffer[] = self::$client->createUpdate()->createDocument($data);
+                $event->setBuffer($buffer);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::POST_COMMIT,
+            function (BufferedAddPostCommitEvent $event) use ($bufferSize, $totalDocs) {
+                $result = $event->getResult();
+                $this->assertSame(0, $result->getStatus());
+
+                $query = $result->getQuery();
+                $commands = $query->getCommands();
+                $this->assertCount(2, $commands);
+                $this->assertSame(UpdateQuery::COMMAND_ADD, $commands[0]->getType());
+                $this->assertSame(UpdateQuery::COMMAND_COMMIT, $commands[1]->getType());
+                // we added 1 document to the remaining buffer in PRE_COMMIT
+                $this->assertCount(($totalDocs % $bufferSize) + 1, $commands[0]->getDocuments());
+            }
+        );
+
+        $data = [
+            'id' => 'solarium-bufferedadd-0',
+            'cat' => 'solarium-bufferedadd',
+        ];
+        $document = $update->createDocument($data);
+        $buffer->addDocument($document);
+        $this->assertCount(1, $buffer->getDocuments());
+        $buffer->clear();
+        $this->assertCount(0, $buffer->getDocuments());
+
+        for ($i = 1; $i <= $totalDocs; ++$i) {
+            $data = [
+                'id' => 'solarium-bufferedadd-'.$i,
+                'cat' => 'solarium-bufferedadd',
+            ];
+            $document = $update->createDocument($data);
+            $buffer->addDocument($document);
+        }
+
+        $buffer->commit(null, true, true);
+
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-bufferedadd');
+        $select->addSort('weight', $select::SORT_ASC);
+        $select->setFields('id');
+        $select->setRows(28);
+        $result = self::$client->select($select);
+        $this->assertSame(28, $result->getNumFound());
+
+        $ids = [];
+        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        foreach ($result as $document) {
+            $ids[] = $document->id;
+        }
+
+        $this->assertEquals([
+            'solarium-bufferedadd-1',
+            'solarium-bufferedadd-2',
+            'solarium-bufferedadd-3',
+            'solarium-bufferedadd-4',
+            'solarium-bufferedadd-5',
+            'solarium-bufferedadd-6',
+            'solarium-bufferedadd-7',
+            'solarium-bufferedadd-8',
+            'solarium-bufferedadd-9',
+            'solarium-bufferedadd-10',
+            'solarium-bufferedadd-preflush-1',
+            'solarium-bufferedadd-11',
+            'solarium-bufferedadd-12',
+            'solarium-bufferedadd-13',
+            'solarium-bufferedadd-14',
+            'solarium-bufferedadd-15',
+            'solarium-bufferedadd-16',
+            'solarium-bufferedadd-17',
+            'solarium-bufferedadd-18',
+            'solarium-bufferedadd-19',
+            'solarium-bufferedadd-20',
+            'solarium-bufferedadd-preflush-2',
+            'solarium-bufferedadd-21',
+            'solarium-bufferedadd-22',
+            'solarium-bufferedadd-23',
+            'solarium-bufferedadd-24',
+            'solarium-bufferedadd-25',
+            'solarium-bufferedadd-precommit-1',
+            ], $ids);
+
+        // cleanup
+        $update->addDeleteQuery('cat:solarium-bufferedadd');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertSame(0, $result->getNumFound());
     }
 
     public function testPrefetchIterator()
