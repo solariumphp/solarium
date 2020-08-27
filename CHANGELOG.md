@@ -4,7 +4,7 @@ All notable changes to the solarium library will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [6.0.2]
 ### Added
 - Support for the analytics component
 - Function builder
@@ -14,12 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Solarium\Component\Facet\Field::setExcludeTerms()
 - Solarium\Component\Highlighting\Highlighting::setMethod()
 
-### Fixed
-
 ### Changed
 - Refactored Managed Resources code: use `createCommand()` and `createInitArgs()` to issue commands
-
-### Removed
 
 
 ## [6.0.1]
