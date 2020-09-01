@@ -17,7 +17,7 @@
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
-        "symfony/contracts": "^1.0 || ^2.0"
+        "symfony/event-dispatcher-contracts": "^1.0 || ^2.0"
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^3.11",

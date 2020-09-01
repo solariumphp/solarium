@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Changed
+- require specific symfony/event-dispatcher-contracts package instead of the generic symfony/contracts
 
 ### Removed
 
