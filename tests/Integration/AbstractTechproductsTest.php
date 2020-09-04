@@ -9,9 +9,16 @@ use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\HttpException;
+use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
+use Solarium\Plugin\BufferedAdd\Event\Events as BufferedAddEvents;
+use Solarium\Plugin\BufferedAdd\Event\PostCommit as BufferedAddPostCommitEvent;
+use Solarium\Plugin\BufferedAdd\Event\PostFlush as BufferedAddPostFlushEvent;
+use Solarium\Plugin\BufferedAdd\Event\PreCommit as BufferedAddPreCommitEvent;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush as BufferedAddPreFlushEvent;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\Support\Utility;
 
 abstract class AbstractTechproductsTest extends TestCase
@@ -90,7 +97,14 @@ abstract class AbstractTechproductsTest extends TestCase
 
         try {
             // index techproducts sample data
-            foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
+            $dataDir = __DIR__.
+                DIRECTORY_SEPARATOR.'..'.
+                DIRECTORY_SEPARATOR.'..'.
+                DIRECTORY_SEPARATOR.'lucene-solr'.
+                DIRECTORY_SEPARATOR.'solr'.
+                DIRECTORY_SEPARATOR.'example'.
+                DIRECTORY_SEPARATOR.'exampledocs';
+            foreach (glob($dataDir.DIRECTORY_SEPARATOR.'*.xml') as $file) {
                 $update = self::$client->createUpdate();
 
                 if (null !== $encoding = Utility::getXmlEncoding($file)) {
@@ -939,6 +953,173 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
+    public function testNestedDocuments()
+    {
+        $data = [
+            'id' => 'solarium-parent',
+            'name' => 'Solarium Nested Document Parent',
+            'cat' => ['solarium-nested-document', 'parent'],
+            'children' => [
+                [
+                    'id' => 'solarium-child-1',
+                    'name' => 'Solarium Nested Document Child 1',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'grandchildren' => [
+                        [
+                            'id' => 'solarium-grandchild-1',
+                            'name' => 'Solarium Nested Document Grandchild 1',
+                            'cat' => ['solarium-nested-document', 'grandchild'],
+                            'price' => 1.1,
+                        ],
+                    ],
+                    'price' => 1.0,
+                ],
+                [
+                    'id' => 'solarium-child-2',
+                    'name' => 'Solarium Nested Document Child 2',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'grandchildren' => [
+                        [
+                            'id' => 'solarium-grandchild-2',
+                            'name' => 'Solarium Nested Document Grandchild 2',
+                            'cat' => ['solarium-nested-document', 'grandchild'],
+                            'price' => 2.2,
+                        ],
+                    ],
+                    'price' => 2.0,
+                ],
+            ],
+        ];
+
+        $update = self::$client->createUpdate();
+        $doc = $update->createDocument($data);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        // get all documents (parents and descendants) as a flat list
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-nested-document');
+        $select->setFields('id,name,price');
+        $result = self::$client->select($select);
+        $this->assertCount(5, $result);
+
+        // without a sort, children are returned before their parents because they're added in that order to the underlying Lucene index
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-1',
+            'name' => 'Solarium Nested Document Grandchild 1',
+            'price' => 1.1,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-1',
+            'name' => 'Solarium Nested Document Child 1',
+            'price' => 1.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-2',
+            'name' => 'Solarium Nested Document Grandchild 2',
+            'price' => 2.2,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-2',
+            'name' => 'Solarium Nested Document Child 2',
+            'price' => 2.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+            'name' => 'Solarium Nested Document Parent',
+        ], $iterator->current()->getFields());
+
+        // get all descendant documents of a parent document in a flat list nested inside the parent document
+        $select->setQuery('id:solarium-parent');
+        // we can't use [child] without parentFilter because the techproducts schema doesn't have a _nest_path_ field
+        $select->setFields('id,[child parentFilter=cat:parent]');
+        if ('7' === strstr(self::$solrVersion, '.', true)) {
+            // Solr 7 defaults to all fields instead of the top level fl parameter when the [child] transformer has no fl
+            $select->setFields('id,[child parentFilter=cat:parent fl=id]');
+        }
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+            '_childDocuments_' => [
+                ['id' => 'solarium-grandchild-1'],
+                ['id' => 'solarium-child-1'],
+                ['id' => 'solarium-grandchild-2'],
+                ['id' => 'solarium-child-2'],
+            ],
+        ], $iterator->current()->getFields());
+
+        // only get descendant documents that match a filter
+        $select->setFields('id,[child parentFilter=cat:parent childFilter=cat:child]');
+        if ('7' === strstr(self::$solrVersion, '.', true)) {
+            // Solr 7 defaults to all fields instead of the top level fl parameter when the [child] transformer has no fl
+            $select->setFields('id,[child parentFilter=cat:parent childFilter=cat:child fl=id]');
+        }
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+            '_childDocuments_' => [
+                ['id' => 'solarium-child-1'],
+                ['id' => 'solarium-child-2'],
+            ],
+        ], $iterator->current()->getFields());
+
+        // limit number of child documents to be returned
+        $select->setFields('id,[child parentFilter=cat:parent childFilter=cat:child limit=1]');
+        if ('7' === strstr(self::$solrVersion, '.', true)) {
+            // Solr 7 defaults to all fields instead of the top level fl parameter when the [child] transformer has no fl
+            $select->setFields('id,[child parentFilter=cat:parent childFilter=cat:child limit=1 fl=id]');
+        }
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+            '_childDocuments_' => [
+                ['id' => 'solarium-child-1'],
+            ],
+        ], $iterator->current()->getFields());
+
+        // only return a subset of the top level fl parameter for the child documents
+        $select->setFields('id,name,price,[child parentFilter=cat:parent childFilter=cat:child fl=id,price]');
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+            'name' => 'Solarium Nested Document Parent',
+            '_childDocuments_' => [
+                [
+                    'id' => 'solarium-child-1',
+                    'price' => 1.0,
+                ],
+                [
+                    'id' => 'solarium-child-2',
+                    'price' => 2.0,
+                ],
+            ],
+        ], $iterator->current()->getFields());
+
+        // cleanup
+        $update = self::$client->createUpdate();
+        $update->addDeleteQuery('cat:solarium-nested-document');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $select->setQuery('cat:solarium-nested-document');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+    }
+
     public function testReRankQuery()
     {
         $select = self::$client->createSelect();
@@ -971,6 +1152,171 @@ abstract class AbstractTechproductsTest extends TestCase
             'MA147LL/A',
             'SOLR1000',
         ], $rerankedids);
+    }
+
+    public function testBufferedAdd()
+    {
+        $bufferSize = 10;
+        $totalDocs = 25;
+
+        $buffer = self::$client->getPlugin('bufferedadd');
+        $buffer->setBufferSize($bufferSize);
+
+        $update = self::$client->createUpdate();
+
+        // can't be null at this point because phpstan analyses the ADD_DOCUMENT listener with this value even though it's never executed with it
+        $document = $update->createDocument();
+        $weight = 0;
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::ADD_DOCUMENT,
+            function (BufferedAddAddDocumentEvent $event) use (&$document, &$weight) {
+                $this->assertSame($document, $event->getDocument());
+                $document->setField('weight', ++$weight);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::PRE_FLUSH,
+            function (BufferedAddPreFlushEvent $event) use ($bufferSize, &$document, &$weight) {
+                static $i = 0;
+
+                $buffer = $event->getBuffer();
+                $this->assertCount($bufferSize, $buffer);
+                $this->assertSame($document, end($buffer));
+
+                $data = [
+                    'id' => 'solarium-bufferedadd-preflush-'.++$i,
+                    'cat' => 'solarium-bufferedadd',
+                    'weight' => ++$weight,
+                ];
+                $buffer[] = self::$client->createUpdate()->createDocument($data);
+                $event->setBuffer($buffer);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::POST_FLUSH,
+            function (BufferedAddPostFlushEvent $event) use ($bufferSize) {
+                $result = $event->getResult();
+                $this->assertSame(0, $result->getStatus());
+
+                $query = $result->getQuery();
+                $commands = $query->getCommands();
+                $this->assertCount(1, $commands);
+                $this->assertSame(UpdateQuery::COMMAND_ADD, $commands[0]->getType());
+                // we added 1 document to the full buffer in PRE_FLUSH
+                $this->assertCount($bufferSize + 1, $commands[0]->getDocuments());
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::PRE_COMMIT,
+            function (BufferedAddPreCommitEvent $event) use ($bufferSize, $totalDocs, &$document, &$weight) {
+                static $i = 0;
+
+                $buffer = $event->getBuffer();
+                $this->assertCount($totalDocs % $bufferSize, $event->getBuffer());
+                $this->assertSame($document, end($buffer));
+
+                $data = [
+                    'id' => 'solarium-bufferedadd-precommit-'.++$i,
+                    'cat' => 'solarium-bufferedadd',
+                    'weight' => ++$weight,
+                ];
+                $buffer[] = self::$client->createUpdate()->createDocument($data);
+                $event->setBuffer($buffer);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::POST_COMMIT,
+            function (BufferedAddPostCommitEvent $event) use ($bufferSize, $totalDocs) {
+                $result = $event->getResult();
+                $this->assertSame(0, $result->getStatus());
+
+                $query = $result->getQuery();
+                $commands = $query->getCommands();
+                $this->assertCount(2, $commands);
+                $this->assertSame(UpdateQuery::COMMAND_ADD, $commands[0]->getType());
+                $this->assertSame(UpdateQuery::COMMAND_COMMIT, $commands[1]->getType());
+                // we added 1 document to the remaining buffer in PRE_COMMIT
+                $this->assertCount(($totalDocs % $bufferSize) + 1, $commands[0]->getDocuments());
+            }
+        );
+
+        $data = [
+            'id' => 'solarium-bufferedadd-0',
+            'cat' => 'solarium-bufferedadd',
+        ];
+        $document = $update->createDocument($data);
+        $buffer->addDocument($document);
+        $this->assertCount(1, $buffer->getDocuments());
+        $buffer->clear();
+        $this->assertCount(0, $buffer->getDocuments());
+
+        for ($i = 1; $i <= $totalDocs; ++$i) {
+            $data = [
+                'id' => 'solarium-bufferedadd-'.$i,
+                'cat' => 'solarium-bufferedadd',
+            ];
+            $document = $update->createDocument($data);
+            $buffer->addDocument($document);
+        }
+
+        $buffer->commit(null, true, true);
+
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-bufferedadd');
+        $select->addSort('weight', $select::SORT_ASC);
+        $select->setFields('id');
+        $select->setRows(28);
+        $result = self::$client->select($select);
+        $this->assertSame(28, $result->getNumFound());
+
+        $ids = [];
+        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        foreach ($result as $document) {
+            $ids[] = $document->id;
+        }
+
+        $this->assertEquals([
+            'solarium-bufferedadd-1',
+            'solarium-bufferedadd-2',
+            'solarium-bufferedadd-3',
+            'solarium-bufferedadd-4',
+            'solarium-bufferedadd-5',
+            'solarium-bufferedadd-6',
+            'solarium-bufferedadd-7',
+            'solarium-bufferedadd-8',
+            'solarium-bufferedadd-9',
+            'solarium-bufferedadd-10',
+            'solarium-bufferedadd-preflush-1',
+            'solarium-bufferedadd-11',
+            'solarium-bufferedadd-12',
+            'solarium-bufferedadd-13',
+            'solarium-bufferedadd-14',
+            'solarium-bufferedadd-15',
+            'solarium-bufferedadd-16',
+            'solarium-bufferedadd-17',
+            'solarium-bufferedadd-18',
+            'solarium-bufferedadd-19',
+            'solarium-bufferedadd-20',
+            'solarium-bufferedadd-preflush-2',
+            'solarium-bufferedadd-21',
+            'solarium-bufferedadd-22',
+            'solarium-bufferedadd-23',
+            'solarium-bufferedadd-24',
+            'solarium-bufferedadd-25',
+            'solarium-bufferedadd-precommit-1',
+            ], $ids);
+
+        // cleanup
+        $update->addDeleteQuery('cat:solarium-bufferedadd');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertSame(0, $result->getNumFound());
     }
 
     public function testPrefetchIterator()

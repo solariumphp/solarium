@@ -93,7 +93,7 @@ $facet = $facetSet->createFacetRange(['key' => 'manufacturedate_dt', 'tag' => 'r
 
 $facet->setField('manufacturedate_dt');
 $facet->setStart('2006-01-01T00:00:00Z');
-$facet->setEnd('NOW/YEAR'));
+$facet->setEnd('NOW/YEAR');
 $facet->setGap('+1YEAR');
 $facet->setPivot(['inStock']);
 

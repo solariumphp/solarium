@@ -59,7 +59,7 @@ htmlFooter();
 Facet query
 -----------
 
-A facet query result is really simple. It has just one value: the count. You can access it by using it's `getValue` method.
+A facet query result is really simple. It has just one value: the count. You can access it by using its `getValue` method.
 
 **Example:**
 

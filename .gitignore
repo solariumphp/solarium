@@ -1,5 +1,6 @@
 /build
 /composer.lock
+/lucene-solr
 /vendor
 .idea
 /.phpunit.result.cache

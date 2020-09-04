@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [unreleased]
 ### Added
+
+### Fixed
+
+### Changed
+- require specific symfony/event-dispatcher-contracts package instead of the generic symfony/contracts
+
+### Removed
+
+
+## [6.0.2]
+### Added
 - Support for the analytics component
 - Function builder
 - Solarium\Component\FacetSet::setMatches()
@@ -16,12 +27,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
 - Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
 
-### Fixed
-
 ### Changed
 - Refactored Managed Resources code: use `createCommand()` and `createInitArgs()` to issue commands
-
-### Removed
 
 
 ## [6.0.1]
