@@ -121,9 +121,9 @@ class ClusterState
     }
 
     /**
-     * @return CollectionState[]
+     * @return null|CollectionState[]
      */
-    public function getCollections(): array
+    public function getCollections(): ?array
     {
         return $this->collections;
     }
