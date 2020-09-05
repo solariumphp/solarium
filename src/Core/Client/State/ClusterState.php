@@ -121,7 +121,7 @@ class ClusterState
     }
 
     /**
-     * @return null|CollectionState[]
+     * @return CollectionState[]|null
      */
     public function getCollections(): ?array
     {
