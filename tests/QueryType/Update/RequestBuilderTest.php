@@ -120,8 +120,7 @@ class RequestBuilderTest extends TestCase
                     'ID' => '1',
                     'title' => 'Lorem ipsum',
                     'content_type' => 'parentDocument',
-                    'comments' =>
-                        [
+                    'comments' => [
                             [
                                 'ID' => '2',
                                 'content' => 'dolor sit amet',
