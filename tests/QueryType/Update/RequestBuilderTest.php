@@ -117,18 +117,20 @@ class RequestBuilderTest extends TestCase
         $command->addDocument(
             new Document(
                 [
-                    'id' => [
+                    'ID' => '1',
+                    'title' => 'Lorem ipsum',
+                    'content_type' => 'parentDocument',
+                    'comments' =>
                         [
-                            'nested_id' => 42,
-                            'customer_ids' => [
-                                15,
-                                16,
+                            [
+                                'ID' => '2',
+                                'content' => 'dolor sit amet',
+                            ],
+                            [
+                                'ID' => '3',
+                                'content' => 'dolor sit amet',
                             ],
                         ],
-                        2,
-                        'foo',
-                    ],
-                    'text' => 'test < 123 > test',
                 ]
             )
         );
@@ -136,14 +138,21 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(
             '<add>'.
             '<doc>'.
+            '<field name="ID">1</field>'.
+            '<field name="title">Lorem ipsum</field>'.
+            '<field name="content_type">parentDocument</field>'.
+            '<field name="comments">'.
             '<doc>'.
-            '<field name="nested_id">42</field>'.
-            '<field name="customer_ids">15</field>'.
-            '<field name="customer_ids">16</field>'.
+            '<field name="ID">2</field>'.
+            '<field name="content">dolor sit amet</field>'.
             '</doc>'.
-            '<field name="id">2</field>'.
-            '<field name="id">foo</field>'.
-            '<field name="text">test &lt; 123 &gt; test</field>'.
+            '</field>'.
+            '<field name="comments">'.
+            '<doc>'.
+            '<field name="ID">3</field>'.
+            '<field name="content">dolor sit amet</field>'.
+            '</doc>'.
+            '</field>'.
             '</doc>'.
             '</add>',
             $this->builder->buildAddXml($command)
