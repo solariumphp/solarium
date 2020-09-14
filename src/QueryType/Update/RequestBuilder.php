@@ -280,14 +280,14 @@ class RequestBuilder extends BaseRequestBuilder
                     $nestedXml .= '</doc>';
                 } else {
                     if (!empty($nestedXml)) {
-                        $xml .= '<field name="' . $key . '">' . $nestedXml . '</field>';
+                        $xml .= '<field name="'.$key.'">'.$nestedXml.'</field>';
                         $nestedXml = '';
                     }
                     $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier);
                 }
             }
             if (!empty($nestedXml)) {
-                $xml .= '<field name="' . $key . '">' . $nestedXml . '</field>';
+                $xml .= '<field name="'.$key.'">'.$nestedXml.'</field>';
             }
         } else {
             $xml .= $this->buildFieldXml($key, $boost, $value, $modifier);
