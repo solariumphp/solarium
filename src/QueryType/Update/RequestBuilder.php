@@ -268,18 +268,26 @@ class RequestBuilder extends BaseRequestBuilder
         }
 
         if (\is_array($value)) {
+            $nestedXml = '';
             foreach ($value as $multival) {
                 if (\is_array($multival)) {
-                    $xml .= '<field name="'.$key.'">';
-                    $xml .= '<doc>';
+                    $nestedXml .= '<doc';
+                    $nestedXml .= $this->attrib('update', $modifier);
+                    $nestedXml .= '>';
                     foreach ($multival as $k => $v) {
-                        $xml .= $this->buildFieldsXml($k, $boost, $v, $modifier);
+                        $nestedXml .= $this->buildFieldsXml($k, $boost, $v, null);
                     }
-                    $xml .= '</doc>';
-                    $xml .= '</field>';
+                    $nestedXml .= '</doc>';
                 } else {
+                    if (!empty($nestedXml)) {
+                        $xml .= '<field name="' . $key . '">' . $nestedXml . '</field>';
+                        $nestedXml = '';
+                    }
                     $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier);
                 }
+            }
+            if (!empty($nestedXml)) {
+                $xml .= '<field name="' . $key . '">' . $nestedXml . '</field>';
             }
         } else {
             $xml .= $this->buildFieldXml($key, $boost, $value, $modifier);
