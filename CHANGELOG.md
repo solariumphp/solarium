@@ -8,9 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ### Fixed
+- Tika based file extraction with Solr 8.6
 
 ### Changed
-- require specific symfony/event-dispatcher-contracts package instead of the generic symfony/contracts
+- Require specific symfony/event-dispatcher-contracts package instead of the generic symfony/contracts
 
 ### Removed
 
