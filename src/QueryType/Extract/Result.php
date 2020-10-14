@@ -25,8 +25,8 @@ class Result extends UpdateResult
      * Includes a lazy loading mechanism: JSON body data is decoded on first use and then saved for reuse.
      *
      * @return array
-     * @throws RuntimeException
      *
+     * @throws RuntimeException
      * @throws UnexpectedValueException
      */
     public function getData(): array
