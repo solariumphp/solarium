@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Tika based file extraction with Solr 8.6
+- Avoid TypeError if ClusterState contains no collections
 
 ### Changed
 - Require specific symfony/event-dispatcher-contracts package instead of the generic symfony/contracts
