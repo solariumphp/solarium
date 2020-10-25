@@ -99,6 +99,7 @@ class ClusterState
         $this->clusterStatus = $clusterStatus;
 
         $this->aliases = $clusterStatus[self::ALIASES_PROP] ?? [];
+        $this->collections = [];
         if (isset($clusterStatus[self::COLLECTIONS_NODE])) {
             foreach ($clusterStatus[self::COLLECTIONS_NODE] as $collectionName => $collectionState) {
                 $this->collections[$collectionName] = new CollectionState(
