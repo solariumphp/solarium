@@ -75,6 +75,14 @@ has to be changed to something like
 To run the examples read through the _Example code_ section of
 https://solarium.readthedocs.io/en/stable/getting-started/
 
+## Run the tests
+
+The phpunit tests contain some integration tests that require a running Solr instance. And this Solr instance requires
+some special configuration.
+Have a look at `.github/workflows/run-tests.yml` to see how to start a well configured Solr docker container locally.
+If you just want to run the unit tests, just ensure that there's no other Solr server listening on the standard port
+8983 and the integration tests will be skipped.
+
 ## More information
 
 * Docs

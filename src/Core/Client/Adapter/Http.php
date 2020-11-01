@@ -172,6 +172,6 @@ class Http extends Configurable implements AdapterInterface, TimeoutAwareInterfa
         $data = @file_get_contents($uri, false, $context);
 
         // @ see https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
-        return [$data, $http_response_header];
+        return [$data, $http_response_header ?? []];
     }
 }
