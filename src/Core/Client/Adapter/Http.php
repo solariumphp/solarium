@@ -88,7 +88,7 @@ class Http extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             if (!isset($url['port'])) {
                 $url['port'] = 8080;
             }
-            $httpOptions['proxy']           =  sprintf('%s://%s:%d', $url['scheme'], $url['host'], $url['port']);
+            $httpOptions['proxy'] = sprintf('%s://%s:%d', $url['scheme'], $url['host'], $url['port']);
             $httpOptions['request_fulluri'] = true;
         }
         $context = stream_context_create(['http' => $httpOptions]);
