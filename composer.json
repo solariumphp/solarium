@@ -40,6 +40,9 @@
             "Solarium\\": "src/"
         }
     },
+    "suggest": {
+        "ext-curl": "Allows using of CurlAdapter"
+    },
     "autoload-dev": {
         "psr-4": {
             "Solarium\\Tests\\": "tests/"
