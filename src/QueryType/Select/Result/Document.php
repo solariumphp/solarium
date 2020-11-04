@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Core\Query\AbstractDocument;
-use Solarium\Core\Query\DocumentInterface;
 use Solarium\Exception\RuntimeException;
 
 /**
