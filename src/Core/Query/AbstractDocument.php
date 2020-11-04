@@ -24,10 +24,8 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
     /**
      * @param mixed $name
      * @param mixed $value
-     *
-     * @return \Solarium\Core\Query\DocumentInterface
      */
-    abstract public function __set($name, $value): DocumentInterface;
+    abstract public function __set($name, $value): void;
 
     /**
      * Get field value by name.

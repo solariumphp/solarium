@@ -175,14 +175,10 @@ class Document extends AbstractDocument
      *
      * @param string $name
      * @param mixed  $value
-     *
-     * @return self
      */
-    public function __set($name, $value): DocumentInterface
+    public function __set($name, $value): void
     {
         $this->setField($name, $value);
-
-        return $this;
     }
 
     /**
