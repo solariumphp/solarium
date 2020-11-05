@@ -7,10 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [unreleased]
 ### Added
-- PHP 8 support
 
 ### Fixed
-- Avoid Notice: Undefined variable: http_response_header
 
 ### Changed
 
