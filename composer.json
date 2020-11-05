@@ -21,9 +21,9 @@
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^3.11",
-        "guzzlehttp/guzzle": "^6.5",
+        "guzzlehttp/guzzle": "^7.2",
         "nyholm/psr7": "^1.2",
-        "php-http/guzzle6-adapter": "^2.0",
+        "php-http/guzzle7-adapter": "^0.1",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
