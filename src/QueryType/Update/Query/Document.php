@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Query\AbstractDocument;
-use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Helper;
 use Solarium\Exception\RuntimeException;
 
@@ -175,14 +174,10 @@ class Document extends AbstractDocument
      *
      * @param string $name
      * @param mixed  $value
-     *
-     * @return self
      */
-    public function __set($name, $value): DocumentInterface
+    public function __set($name, $value): void
     {
         $this->setField($name, $value);
-
-        return $this;
     }
 
     /**
@@ -191,14 +186,10 @@ class Document extends AbstractDocument
      * Magic method for removing fields by un-setting object properties
      *
      * @param string $name
-     *
-     * @return self
      */
-    public function __unset($name): self
+    public function __unset($name): void
     {
         $this->removeField($name);
-
-        return $this;
     }
 
     /**

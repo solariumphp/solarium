@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Core\Query\AbstractDocument;
-use Solarium\Core\Query\DocumentInterface;
 use Solarium\Exception\RuntimeException;
 
 /**
@@ -48,10 +47,8 @@ class Document extends AbstractDocument
      * @param string $value
      *
      * @throws RuntimeException
-     *
-     * @return DocumentInterface
      */
-    public function __set($name, $value): DocumentInterface
+    public function __set($name, $value): void
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }

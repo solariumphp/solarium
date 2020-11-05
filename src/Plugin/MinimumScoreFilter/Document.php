@@ -93,10 +93,8 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      * @param string $value
      *
      * @throws RuntimeException
-     *
-     * @return self
      */
-    public function __set($name, $value): self
+    public function __set($name, $value): void
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }
