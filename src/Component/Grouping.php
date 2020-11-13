@@ -370,9 +370,9 @@ class Grouping extends AbstractComponent
     /**
      * Get numberofgroups option.
      *
-     * @return bool|null
+     * @return int|null
      */
-    public function getNumberOfGroups(): ?bool
+    public function getNumberOfGroups(): ?int
     {
         return $this->getOption('numberofgroups');
     }
