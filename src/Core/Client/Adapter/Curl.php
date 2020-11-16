@@ -73,7 +73,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      *
      * @throws InvalidArgumentException
      *
-     * @return resource
+     * @return resource|\CurlHandle
      */
     public function createHandle($request, $endpoint)
     {
