@@ -953,39 +953,23 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testNestedDocuments()
+    public function testAnonymousNestedDocuments()
     {
         $data = [
             'id' => 'solarium-parent',
             'name' => 'Solarium Nested Document Parent',
             'cat' => ['solarium-nested-document', 'parent'],
-            'children' => [
+            '_childDocuments_' => [
                 [
                     'id' => 'solarium-child-1',
                     'name' => 'Solarium Nested Document Child 1',
                     'cat' => ['solarium-nested-document', 'child'],
-                    'grandchildren' => [
-                        [
-                            'id' => 'solarium-grandchild-1',
-                            'name' => 'Solarium Nested Document Grandchild 1',
-                            'cat' => ['solarium-nested-document', 'grandchild'],
-                            'price' => 1.1,
-                        ],
-                    ],
                     'price' => 1.0,
                 ],
                 [
                     'id' => 'solarium-child-2',
                     'name' => 'Solarium Nested Document Child 2',
                     'cat' => ['solarium-nested-document', 'child'],
-                    'grandchildren' => [
-                        [
-                            'id' => 'solarium-grandchild-2',
-                            'name' => 'Solarium Nested Document Grandchild 2',
-                            'cat' => ['solarium-nested-document', 'grandchild'],
-                            'price' => 2.2,
-                        ],
-                    ],
                     'price' => 2.0,
                 ],
             ],
@@ -1002,26 +986,14 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setQuery('cat:solarium-nested-document');
         $select->setFields('id,name,price');
         $result = self::$client->select($select);
-        $this->assertCount(5, $result);
+        $this->assertCount(3, $result);
 
         // without a sort, children are returned before their parents because they're added in that order to the underlying Lucene index
         $iterator = $result->getIterator();
         $this->assertSame([
-            'id' => 'solarium-grandchild-1',
-            'name' => 'Solarium Nested Document Grandchild 1',
-            'price' => 1.1,
-        ], $iterator->current()->getFields());
-        $iterator->next();
-        $this->assertSame([
             'id' => 'solarium-child-1',
             'name' => 'Solarium Nested Document Child 1',
             'price' => 1.0,
-        ], $iterator->current()->getFields());
-        $iterator->next();
-        $this->assertSame([
-            'id' => 'solarium-grandchild-2',
-            'name' => 'Solarium Nested Document Grandchild 2',
-            'price' => 2.2,
         ], $iterator->current()->getFields());
         $iterator->next();
         $this->assertSame([
@@ -1035,83 +1007,33 @@ abstract class AbstractTechproductsTest extends TestCase
             'name' => 'Solarium Nested Document Parent',
         ], $iterator->current()->getFields());
 
-        // get all descendant documents of a parent document in a flat list nested inside the parent document
-        $select->setQuery('id:solarium-parent');
-        // we can't use [child] without parentFilter because the techproducts schema doesn't have a _nest_path_ field
-        $select->setFields('id,[child parentFilter=cat:parent]');
-        if ('7' === strstr(self::$solrVersion, '.', true)) {
-            // Solr 7 defaults to all fields instead of the top level fl parameter when the [child] transformer has no fl
-            $select->setFields('id,[child parentFilter=cat:parent fl=id]');
-        }
+        // parent query parser
+        $select->setQuery('{!parent which="cat:parent"}id:solarium-child-1');
+        $select->setFields('id');
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
         $iterator = $result->getIterator();
         $this->assertSame([
             'id' => 'solarium-parent',
-            '_childDocuments_' => [
-                ['id' => 'solarium-grandchild-1'],
-                ['id' => 'solarium-child-1'],
-                ['id' => 'solarium-grandchild-2'],
-                ['id' => 'solarium-child-2'],
-            ],
         ], $iterator->current()->getFields());
 
-        // only get descendant documents that match a filter
-        $select->setFields('id,[child parentFilter=cat:parent childFilter=cat:child]');
-        if ('7' === strstr(self::$solrVersion, '.', true)) {
-            // Solr 7 defaults to all fields instead of the top level fl parameter when the [child] transformer has no fl
-            $select->setFields('id,[child parentFilter=cat:parent childFilter=cat:child fl=id]');
-        }
+        // child query parser
+        $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
+        $select->setFields('id');
         $result = self::$client->select($select);
-        $this->assertCount(1, $result);
+        $this->assertCount(2, $result);
         $iterator = $result->getIterator();
         $this->assertSame([
-            'id' => 'solarium-parent',
-            '_childDocuments_' => [
-                ['id' => 'solarium-child-1'],
-                ['id' => 'solarium-child-2'],
-            ],
+            'id' => 'solarium-child-1',
         ], $iterator->current()->getFields());
-
-        // limit number of child documents to be returned
-        $select->setFields('id,[child parentFilter=cat:parent childFilter=cat:child limit=1]');
-        if ('7' === strstr(self::$solrVersion, '.', true)) {
-            // Solr 7 defaults to all fields instead of the top level fl parameter when the [child] transformer has no fl
-            $select->setFields('id,[child parentFilter=cat:parent childFilter=cat:child limit=1 fl=id]');
-        }
-        $result = self::$client->select($select);
-        $this->assertCount(1, $result);
-        $iterator = $result->getIterator();
+        $iterator->next();
         $this->assertSame([
-            'id' => 'solarium-parent',
-            '_childDocuments_' => [
-                ['id' => 'solarium-child-1'],
-            ],
-        ], $iterator->current()->getFields());
-
-        // only return a subset of the top level fl parameter for the child documents
-        $select->setFields('id,name,price,[child parentFilter=cat:parent childFilter=cat:child fl=id,price]');
-        $result = self::$client->select($select);
-        $this->assertCount(1, $result);
-        $iterator = $result->getIterator();
-        $this->assertSame([
-            'id' => 'solarium-parent',
-            'name' => 'Solarium Nested Document Parent',
-            '_childDocuments_' => [
-                [
-                    'id' => 'solarium-child-1',
-                    'price' => 1.0,
-                ],
-                [
-                    'id' => 'solarium-child-2',
-                    'price' => 2.0,
-                ],
-            ],
+            'id' => 'solarium-child-2',
         ], $iterator->current()->getFields());
 
         // cleanup
         $update = self::$client->createUpdate();
-        $update->addDeleteQuery('cat:solarium-nested-document');
+        $update->addDeleteById('solarium-parent');
         $update->addCommit(true, true);
         self::$client->update($update);
         $select->setQuery('cat:solarium-nested-document');

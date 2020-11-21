@@ -1,0 +1,15 @@
+diff --git a/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema b/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema
+index 9ddbf3879f9..6dd5b925966 100644
+--- a/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema
++++ b/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema
+@@ -118,7 +118,9 @@
+    <!-- points to the root document of a block of nested documents. Required for nested
+       document support, may be removed otherwise
+    -->
+-   <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
++   <field name="_root_" type="string" indexed="true" stored="true" docValues="false" />
++   <fieldType name="_nest_path_" class="solr.NestPathField" />
++   <field name="_nest_path_" type="_nest_path_" />
+ 
+    <!-- Only remove the "id" field if you have a very good reason to. While not strictly
+      required, it is highly recommended. A <uniqueKey> is present in almost all Solr 
