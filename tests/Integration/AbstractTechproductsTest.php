@@ -953,7 +953,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testAnonymousNestedDocuments()
+    public function testAnonymouslyNestedDocuments()
     {
         $data = [
             'id' => 'solarium-parent',
@@ -1031,9 +1031,77 @@ abstract class AbstractTechproductsTest extends TestCase
             'id' => 'solarium-child-2',
         ], $iterator->current()->getFields());
 
+        // [child] transformer doesn't work when the schema includes a _nest_path_ in Solr 8
+        if ('7' === strstr(self::$solrVersion, '.', true)) {
+            // get all child documents nested inside the parent document
+            $select->setQuery('id:solarium-parent');
+            $select->setFields('id,[child parentFilter=cat:parent fl=id]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                '_childDocuments_' => [
+                    ['id' => 'solarium-child-1'],
+                    ['id' => 'solarium-child-2'],
+                ],
+            ], $iterator->current()->getFields());
+
+            // only get child documents that match a filter
+            $select->setFields('id,[child parentFilter=cat:parent childFilter="price:[1.5 TO 2.5]" fl=id]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                '_childDocuments_' => [
+                    ['id' => 'solarium-child-2'],
+                ],
+            ], $iterator->current()->getFields());
+
+            // limit number of child documents to be returned
+            $select->setFields('id,[child parentFilter=cat:parent limit=1 fl=id]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                '_childDocuments_' => [
+                    ['id' => 'solarium-child-1'],
+                ],
+            ], $iterator->current()->getFields());
+
+            // only return a subset of the top level fl parameter for the child documents
+            $select->setFields('id,name,price,[child parentFilter=cat:parent fl=id,price]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'name' => 'Solarium Nested Document Parent',
+                '_childDocuments_' => [
+                    [
+                        'id' => 'solarium-child-1',
+                        'price' => 1.0,
+                    ],
+                    [
+                        'id' => 'solarium-child-2',
+                        'price' => 2.0,
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+        }
+
         // cleanup
         $update = self::$client->createUpdate();
-        $update->addDeleteById('solarium-parent');
+        // in Solr 7, the whole block of parent-children documents must be deleted together
+        if ('7' === strstr(self::$solrVersion, '.', true)) {
+            $update->addDeleteQuery('cat:solarium-nested-document');
+        }
+        // in Solr 8, you can simply delete-by-ID using the id of the root document
+        else {
+            $update->addDeleteById('solarium-parent');
+        }
         $update->addCommit(true, true);
         self::$client->update($update);
         $select->setQuery('cat:solarium-nested-document');
