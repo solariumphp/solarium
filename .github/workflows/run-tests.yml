@@ -14,7 +14,7 @@ jobs:
 
         strategy:
             matrix:
-                php: [7.2, 7.3, 7.4]
+                php: [7.2, 7.3, 7.4, 8.0]
                 solr: [7, 8]
                 mode: [cloud, server]
 
@@ -63,13 +63,11 @@ jobs:
 
             - name: Install dependencies
               run: |
-                composer global require hirak/prestissimo
-                composer require phpstan/phpstan:0.12.25
                 composer update
 
             - name: Run tests
               run: |
-                vendor/bin/phpstan analyze src/ tests/ --level=1
+                vendor/bin/phpstan analyze src/ tests/ --level=1 --memory-limit=1G
                 vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
 
             - name: Execute examples

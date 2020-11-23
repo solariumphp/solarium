@@ -4,7 +4,7 @@ require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a PSR-18 adapter instance
-$httpClient = new Http\Adapter\Guzzle6\Client();
+$httpClient = new Http\Adapter\Guzzle7\Client();
 $factory = new Nyholm\Psr7\Factory\Psr17Factory();
 $adapter = new Solarium\Core\Client\Adapter\Psr18Adapter($httpClient, $factory, $factory);
 

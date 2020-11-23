@@ -78,7 +78,11 @@ class CurlTest extends TestCase
         $curlAdapter = new Curl();
         $handler = $curlAdapter->createHandle($request, $endpoint);
 
-        $this->assertIsResource($handler);
+        if (class_exists(\CurlHandle::class)) {
+            $this->assertInstanceOf(\CurlHandle::class, $handler);
+        } else {
+            $this->assertIsResource($handler);
+        }
         curl_close($handler);
     }
 }

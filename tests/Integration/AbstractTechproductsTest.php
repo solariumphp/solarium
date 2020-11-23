@@ -1420,6 +1420,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $response = self::$client->extract($query);
         $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the file');
+        $this->assertSame('PDF Test', trim($response->getData()['file']), 'Can not extract the plain content from the file');
     }
 
     public function testV2Api()
