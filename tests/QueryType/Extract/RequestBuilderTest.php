@@ -139,4 +139,15 @@ class RequestBuilderTest extends TestCase
             $request->getParams()
         );
     }
+
+    public function testInvalidFileThrowsException()
+    {
+        $query = new Query();
+        $query->setFile('nosuchfile');
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Extract query file path/url invalid or not available: nosuchfile');
+
+        $this->builder->build($query);
+    }
 }

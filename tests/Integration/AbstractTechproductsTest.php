@@ -9,6 +9,7 @@ use Solarium\Component\Result\Terms\Result;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\HttpException;
+use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
 use Solarium\Plugin\BufferedAdd\Event\Events as BufferedAddEvents;
 use Solarium\Plugin\BufferedAdd\Event\PostCommit as BufferedAddPostCommitEvent;
@@ -1381,33 +1382,51 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $extract = self::$client->createExtract();
         $extract->setUprefix('attr_');
-        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
         $extract->setCommit(true);
         $extract->setCommitWithin(0);
         $extract->setOmitHeader(false);
 
-        // add document
+        // add PDF document
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
         $doc = $extract->createDocument();
-        $doc->id = 'extract-test';
+        $doc->id = 'extract-test-1-pdf';
+        $doc->cat = ['extract-test'];
         $extract->setDocument($doc);
-
         self::$client->extract($extract);
 
-        // now get the document and check the content
+        // add HTML document
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
+        $doc = $extract->createDocument();
+        $doc->id = 'extract-test-2-html';
+        $doc->cat = ['extract-test'];
+        $extract->setDocument($doc);
+        self::$client->extract($extract);
+
+        // now get the documents and check the contents
         $select = self::$client->createSelect();
-        $select->setQuery('id:extract-test');
+        $select->setQuery('cat:extract-test');
+        $select->addSort('id', $select::SORT_ASC);
         $selectResult = self::$client->select($select);
+        $this->assertCount(2, $selectResult);
         $iterator = $selectResult->getIterator();
 
         /** @var Document $document */
         $document = $iterator->current();
+        $this->assertSame('application/pdf', $document['content_type'][0], 'Written document does not contain extracted content type');
         $this->assertSame('PDF Test', trim($document['content'][0]), 'Written document does not contain extracted result');
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('text/html; charset=UTF-8', $document['content_type'][0], 'Written document does not contain extracted content type');
+        $this->assertSame('HTML Test Title', $document['title'][0], 'Written document does not contain extracted title');
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
 
         // now cleanup the document the have the initial index state
         $update = self::$client->createUpdate();
-        $update->addDeleteById('extract-test');
+        $update->addDeleteQuery('cat:extract-test');
         $update->addCommit(true, true);
         self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
     }
 
     public function testExtractTextOnly()
@@ -1419,8 +1438,28 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->addParam('extractFormat', 'text');
 
         $response = self::$client->extract($query);
-        $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the file');
-        $this->assertSame('PDF Test', trim($response->getData()['file']), 'Can not extract the plain content from the file');
+        $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the PDF file');
+        $this->assertSame('PDF Test', trim($response->getData()['file']), 'Can not extract the plain content from the PDF file');
+
+        $fileName = 'testhtml.html';
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
+        $query->setExtractOnly(true);
+        $query->addParam('extractFormat', 'text');
+
+        $response = self::$client->extract($query);
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['testhtml.html']), 'Can not extract the plain content from the HTML file');
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
+    }
+
+    public function testExtractInvalidFile()
+    {
+        $extract = self::$client->createExtract();
+        $fileName = 'nosuchfile';
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Extract query file path/url invalid or not available: '.__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
+        self::$client->extract($extract);
     }
 
     public function testV2Api()
