@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Changed
+- Exception message for invalid/unavailable file in Extract query now contains filename
 
 ### Removed
 
