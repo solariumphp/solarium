@@ -1418,7 +1418,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $document = $iterator->current();
         $this->assertSame('text/html; charset=UTF-8', $document['content_type'][0], 'Written document does not contain extracted content type');
         $this->assertSame('HTML Test Title', $document['title'][0], 'Written document does not contain extracted title');
-        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
+        $this->assertRegExp('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
 
         // now cleanup the document the have the initial index state
         $update = self::$client->createUpdate();
@@ -1447,8 +1447,8 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->addParam('extractFormat', 'text');
 
         $response = self::$client->extract($query);
-        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['testhtml.html']), 'Can not extract the plain content from the HTML file');
-        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
+        $this->assertRegExp('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['testhtml.html']), 'Can not extract the plain content from the HTML file');
+        $this->assertRegExp('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
     }
 
     public function testExtractInvalidFile()
