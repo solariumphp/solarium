@@ -1432,33 +1432,92 @@ abstract class AbstractTechproductsTest extends TestCase
     public function testExtractTextOnly()
     {
         $query = self::$client->createExtract();
-        $fileName = 'testpdf.pdf';
-        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
         $query->setExtractOnly(true);
         $query->addParam('extractFormat', 'text');
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
 
         $response = self::$client->extract($query);
         $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the PDF file');
         $this->assertSame('PDF Test', trim($response->getData()['file']), 'Can not extract the plain content from the PDF file');
 
-        $fileName = 'testhtml.html';
-        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
-        $query->setExtractOnly(true);
-        $query->addParam('extractFormat', 'text');
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
 
         $response = self::$client->extract($query);
         $this->assertRegExp('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['testhtml.html']), 'Can not extract the plain content from the HTML file');
         $this->assertRegExp('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
     }
 
+    /**
+     * Test extraction from files that contain special characters in both filename and content.
+     */
+    public function testExtractSpecialCharacters()
+    {
+        $query = self::$client->createExtract();
+        $query->setExtractOnly(true);
+        $query->addParam('extractFormat', 'text');
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt');
+
+        // the file contains all 128 codepoints of the full 7-bit US-ASCII table, but we only test for printable characters
+        $printableASCII = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+
+        $response = self::$client->extract($query);
+        $this->assertNotSame(false, strpos($response->getData()['test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt'], $printableASCII), 'Can not extract from file with US-ASCII characters');
+        $this->assertNotSame(false, strpos($response->getData()['file'], $printableASCII), 'Can not extract from file with US-ASCII characters');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 αβγ абв אԱა.txt');
+
+        // the file contains some example text from https://www.w3.org/2001/06/utf-8-test/UTF-8-demo.html
+        $sampleUTF8 = '£©µÀÆÖÞßéöÿ ΑΒΓΔΩαβγδω АБВГДабвгд ﬁ�⑀₂ἠḂӥẄɐː⍎אԱა';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($sampleUTF8, trim($response->getData()['test utf-8 αβγ абв אԱა.txt']), 'Can not extract from file with UTF-8 characters');
+        $this->assertSame($sampleUTF8, trim($response->getData()['file']), 'Can not extract from file with UTF-8 characters');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 fəˈnɛtık.txt');
+
+        // the file contains a phonetic example from https://www.w3.org/2001/06/utf-8-test/UTF-8-demo.html
+        $samplePhonetic = 'ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($samplePhonetic, trim($response->getData()['test utf-8 fəˈnɛtık.txt']), 'Can not extract from file with phonetic characters');
+        $this->assertSame($samplePhonetic, trim($response->getData()['file']), 'Can not extract from file with phonetic characters');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 コンニチハ.txt');
+
+        // the file contains a Katakana example from https://www.w3.org/2001/06/utf-8-test/UTF-8-demo.html
+        $sampleKatakana = 'コンニチハ';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($sampleKatakana, trim($response->getData()['test utf-8 コンニチハ.txt']), 'Can not extract from file with Katakana characters');
+        $this->assertSame($sampleKatakana, trim($response->getData()['file']), 'Can not extract from file with Katakana characters');
+
+        // test with a file that specifies the encoding, Tika has a hard time telling ISO-8859-* and Windows-* sets apart on plain text with this little data
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬.xml');
+
+        // the file contains the printable characters from ISO-8859-1
+        $printableISO88591 = ' ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($printableISO88591, trim($response->getData()['test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬.xml']), 'Can not extract from file with ISO-8859-1 encoding');
+        $this->assertSame($printableISO88591, trim($response->getData()['file']), 'Can not extract from file with ISO-8859-1 encoding');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test gb18030 这份文件是很有光泽.txt');
+
+        // the file contains a GB18030 example from the techproducts sample set
+        $sampleGB18030 = '这份文件是很有光泽';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($sampleGB18030, trim($response->getData()['test gb18030 这份文件是很有光泽.txt']), 'Can not extract from file with GB18030 encoding');
+        $this->assertSame($sampleGB18030, trim($response->getData()['file']), 'Can not extract from file with GB18030 encoding');
+    }
+
     public function testExtractInvalidFile()
     {
         $extract = self::$client->createExtract();
-        $fileName = 'nosuchfile';
-        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Extract query file path/url invalid or not available: '.__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
+        $this->expectExceptionMessage('Extract query file path/url invalid or not available: '.__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
         self::$client->extract($extract);
     }
 
