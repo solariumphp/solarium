@@ -42,6 +42,7 @@ class RequestBuilder extends BaseRequestBuilder
         $request->addParam('lowernames', $query->getLowernames());
         $request->addParam('defaultField', $query->getDefaultField());
         $request->addParam('extractOnly', $query->getExtractOnly());
+        $request->addParam('extractFormat', $query->getExtractFormat());
 
         foreach ($query->getFieldMappings() as $fromField => $toField) {
             $request->addParam('fmap.'.$fromField, $toField);

@@ -1419,11 +1419,11 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testExtractTextOnly()
+    public function testExtractOnlyText()
     {
         $query = self::$client->createExtract();
         $query->setExtractOnly(true);
-        $query->addParam('extractFormat', 'text');
+        $query->setExtractFormat($query::EXTRACT_FORMAT_TEXT);
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
 
         $response = self::$client->extract($query);
@@ -1437,6 +1437,30 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertRegExp('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
     }
 
+    public function testExtractOnlyXml()
+    {
+        $query = self::$client->createExtract();
+        $query->setExtractOnly(true);
+        $query->setExtractFormat($query::EXTRACT_FORMAT_XML);
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
+
+        $response = self::$client->extract($query);
+        $this->assertSame(0, strpos($response->getData()['testpdf.pdf'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the PDF file is not XML');
+        $this->assertSame(0, strpos($response->getData()['file'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the PDF file is not XML');
+        $this->assertNotFalse(strpos($response->getData()['testpdf.pdf'], '<p>PDF Test</p>'), 'Extracted content from the PDF file not found in XML');
+        $this->assertNotFalse(strpos($response->getData()['file'], '<p>PDF Test</p>'), 'Extracted content from the PDF file not found in XML');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
+
+        $response = self::$client->extract($query);
+        $this->assertSame(0, strpos($response->getData()['testhtml.html'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the HTML file is not XML');
+        $this->assertSame(0, strpos($response->getData()['file'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the HTML file is not XML');
+        $this->assertNotFalse(strpos($response->getData()['testhtml.html'], '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
+        $this->assertNotFalse(strpos($response->getData()['file'], '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
+        $this->assertNotFalse(strpos($response->getData()['testhtml.html'], '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
+        $this->assertNotFalse(strpos($response->getData()['file'], '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
+    }
+
     /**
      * Test extraction from files that contain special characters in both filename and content.
      */
@@ -1444,15 +1468,15 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $query = self::$client->createExtract();
         $query->setExtractOnly(true);
-        $query->addParam('extractFormat', 'text');
+        $query->setExtractFormat($query::EXTRACT_FORMAT_TEXT);
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt');
 
         // the file contains all 128 codepoints of the full 7-bit US-ASCII table, but we only test for printable characters
         $printableASCII = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
 
         $response = self::$client->extract($query);
-        $this->assertNotSame(false, strpos($response->getData()['test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt'], $printableASCII), 'Can not extract from file with US-ASCII characters');
-        $this->assertNotSame(false, strpos($response->getData()['file'], $printableASCII), 'Can not extract from file with US-ASCII characters');
+        $this->assertNotFalse(strpos($response->getData()['test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt'], $printableASCII), 'Can not extract from file with US-ASCII characters');
+        $this->assertNotFalse(strpos($response->getData()['file'], $printableASCII), 'Can not extract from file with US-ASCII characters');
 
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 αβγ абв אԱა.txt');
 
