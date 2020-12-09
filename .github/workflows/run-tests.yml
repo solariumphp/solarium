@@ -58,6 +58,7 @@ jobs:
                 chmod -R a+w lucene-solr
                 cd lucene-solr
                 patch -p1 < ../tests/Integration/Fixtures/solrconf.patch
+                patch -p1 < ../tests/Integration/Fixtures/schema${{ matrix.solr }}.patch
                 cd ../tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 
