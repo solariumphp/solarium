@@ -175,7 +175,7 @@ class Query extends BaseQuery
     {
         $this->setOption('defaultField', $defaultField);
 
-        return  $this;
+        return $this;
     }
 
     /**
@@ -409,7 +409,7 @@ class Query extends BaseQuery
      * @param string $format Use one of the EXTRACT_FORMAT_* constants
      *
      * @return self Provides fluent interface
-     * 
+     *
      * @see setExtractOnly()
      */
     public function setExtractFormat(string $format): self
