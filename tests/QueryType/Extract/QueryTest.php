@@ -84,6 +84,15 @@ class QueryTest extends TestCase
         $this->assertTrue($this->query->getExtractOnly());
     }
 
+    public function testSetAndGetExtractFormat()
+    {
+        $this->query->setExtractFormat(Query::EXTRACT_FORMAT_TEXT);
+        $this->assertSame('text', $this->query->getExtractFormat());
+
+        $this->query->setExtractFormat(Query::EXTRACT_FORMAT_XML);
+        $this->assertSame('xml', $this->query->getExtractFormat());
+    }
+
     public function testSetAndGetLowernames()
     {
         $this->query->setLowernames(true);
