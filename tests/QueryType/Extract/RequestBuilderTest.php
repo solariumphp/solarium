@@ -57,6 +57,19 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testGetUriWithExtractFormat()
+    {
+        $query = $this->query;
+        $query->setExtractOnly(true);
+        $query->setExtractFormat($query::EXTRACT_FORMAT_TEXT);
+        $request = $this->builder->build($query);
+        $this->assertSame(
+            'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&extractOnly=true&extractFormat=text&fmap.from-field=to-field'.
+            '&resource.name=RequestBuilderTest.php',
+            $request->getUri()
+        );
+    }
+
     public function testGetUriWithStreamUrl()
     {
         $query = $this->query;
