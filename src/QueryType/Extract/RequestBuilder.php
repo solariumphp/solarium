@@ -42,6 +42,7 @@ class RequestBuilder extends BaseRequestBuilder
         $request->addParam('lowernames', $query->getLowernames());
         $request->addParam('defaultField', $query->getDefaultField());
         $request->addParam('extractOnly', $query->getExtractOnly());
+        $request->addParam('extractFormat', $query->getExtractFormat());
 
         foreach ($query->getFieldMappings() as $fromField => $toField) {
             $request->addParam('fmap.'.$fromField, $toField);
@@ -81,7 +82,7 @@ class RequestBuilder extends BaseRequestBuilder
             $request->addParam('resource.name', basename($query->getFile()));
             $request->addHeader('Content-Type: multipart/form-data; boundary='.$request->getHash());
         } else {
-            throw new RuntimeException('Extract query file path/url invalid or not available');
+            throw new RuntimeException(sprintf('Extract query file path/url invalid or not available: %s', $file));
         }
 
         return $request;
