@@ -10,6 +10,7 @@
 namespace Solarium\Core\Query;
 
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\Support\Utility;
 
 /**
  * Query helper.
@@ -167,33 +168,30 @@ class Helper
      * From and to can be any type of data. For instance int, string or point.
      * If they are null, then '*' will be used.
      *
-     * Example: rangeQuery('store', '45,-94', '46,-93', true, false)
+     * Example: rangeQuery('store', '45,-94', '46,-93')
      * Returns: store:[45,-94 TO 46,-93]
      *
-     * Example: rangeQuery('store', '5', '*', false)
-     * Returns: store:{"5" TO *}
+     * Example: rangeQuery('store', 5, null, false)
+     * Returns: store:{5 TO *}
      *
-     * @param string      $field
-     * @param string|null $from
-     * @param string|null $to
-     * @param bool        $inclusive TRUE if the the range should include the boundaries, FALSE otherwise
-     * @param bool        $escape    Whether the values should be escaped as phrase or not. Default is TRUE because
-     *                               escaping is correct for security reasons. But for location searches (point values),
-     *                               escaping would break the functionality
+     * @param string                $field
+     * @param int|float|string|null $from
+     * @param int|float|string|null $to
+     * @param bool                  $inclusive TRUE if the the range should include the boundaries, FALSE otherwise
      *
      * @return string
      */
-    public function rangeQuery(string $field, ?string $from, ?string $to, bool $inclusive = true, bool $escape = true): string
+    public function rangeQuery(string $field, $from, $to, bool $inclusive = true): string
     {
         if (null === $from) {
             $from = '*';
-        } elseif ($escape) {
+        } elseif (!is_int($from) && !is_float($from) && !Utility::isPointValue($from)) {
             $from = $this->escapePhrase($from);
         }
 
         if (null === $to) {
             $to = '*';
-        } elseif ($escape) {
+        } elseif (!is_int($to) && !is_float($to) && !Utility::isPointValue($to)) {
             $to = $this->escapePhrase($to);
         }
 
