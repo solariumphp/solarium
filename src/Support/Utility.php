@@ -51,7 +51,7 @@ class Utility
      * Checker whether a value is valid point value for spatial search.
      *
      * Example: '45.15,-93.85' (geodetic & non-geodetic PointType)
-     * 
+     *
      * Example: '45.15 -93.85' (non-geodetic RPT)
      *
      * @param string $value
@@ -60,6 +60,6 @@ class Utility
      */
     public static function isPointValue(string $value): bool
     {
-        return (bool)preg_match('/^-?\d+(?:\.\d+)?[, ]-?\d+(?:\.\d+)?$/', $value);
+        return (bool) preg_match('/^-?\d+(?:\.\d+)?[, ]-?\d+(?:\.\d+)?$/', $value);
     }
 }

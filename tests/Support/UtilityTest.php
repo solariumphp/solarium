@@ -67,15 +67,13 @@ class UtilityTest extends TestCase
     {
         // geodetic, non-geodetic PointType
         $values = ['45,93', '45,-93', '-45,93', '-45,-93', '45.15,93.85', '45.15,-93.85', '-45.15,93.85', '-45.15,-93.85', '-45,93.85', '-45.15,93'];
-        foreach ($values as $value)
-        {
+        foreach ($values as $value) {
             $this->assertTrue(Utility::isPointValue($value));
         }
 
         // non-geodetic RPT
         $values = ['45 93', '45 -93', '-45 93', '-45 -93', '45.15 93.85', '45.15 -93.85', '-45.15 93.85', '-45.15 -93.85', '-45 93.85', '-45.15 93'];
-        foreach ($values as $value)
-        {
+        foreach ($values as $value) {
             $this->assertTrue(Utility::isPointValue($value));
         }
 
