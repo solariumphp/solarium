@@ -4,8 +4,13 @@ namespace Solarium\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\TermsTrait;
-use Solarium\Component\Result\Terms\Result;
+use Solarium\Component\Result\Grouping\FieldGroup;
+use Solarium\Component\Result\Grouping\QueryGroup;
+use Solarium\Component\Result\Grouping\Result as GroupingResult;
+use Solarium\Component\Result\Grouping\ValueGroup;
+use Solarium\Component\Result\Terms\Result as TermsResult;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\HttpException;
@@ -317,6 +322,115 @@ abstract class AbstractTechproductsTest extends TestCase
         }
     }
 
+    public function testGroupingComponent()
+    {
+        self::$client->registerQueryType('grouping', '\Solarium\Tests\Integration\GroupingTestQuery');
+        /** @var GroupingTestQuery $select */
+        $select = self::$client->createQuery('grouping');
+        $select->setQuery('solr memory');
+        $select->setFields('id');
+        $select->addSort('manu_exact', SelectQuery::SORT_ASC);
+        $grouping = $select->getGrouping();
+        $grouping->setFields('manu_exact');
+        $grouping->setSort('price ASC');
+        $result = self::$client->select($select);
+        /** @var GroupingResult $groupingComponentResult */
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        /** @var FieldGroup $fieldGroup */
+        $fieldGroup = $groupingComponentResult->getGroup('manu_exact');
+        $this->assertSame(6, $fieldGroup->getMatches());
+        $this->assertCount(5, $fieldGroup);
+        $groupIterator = $fieldGroup->getIterator();
+
+        /** @var ValueGroup $valueGroup */
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame('A-DATA Technology Inc.', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        /** @var Document $doc */
+        $doc = $docIterator->current();
+        $this->assertSame('VDBDB1A16', $doc->getFields()['id']);
+
+        $groupIterator->next();
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame('ASUS Computer Inc.', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame('EN7800GTX/2DHTV/256M', $doc->getFields()['id']);
+
+        $groupIterator->next();
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame('Apache Software Foundation', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame('SOLR1000', $doc->getFields()['id']);
+
+        $groupIterator->next();
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame('Canon Inc.', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame('0579B002', $doc->getFields()['id']);
+
+        $groupIterator->next();
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(2, $valueGroup->getNumFound());
+        $this->assertSame('Corsair Microsystems Inc.', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame('VS1GB400C3', $doc->getFields()['id']);
+
+        $select = self::$client->createQuery('grouping');
+        $select->setQuery('memory');
+        $select->setFields('id,price');
+        $grouping = $select->getGrouping();
+        $grouping->addQueries([
+            $select->getHelper()->rangeQuery('price', 0, 99.99),
+            $select->getHelper()->rangeQuery('price', 100, null),
+        ]);
+        $grouping->setLimit(3);
+        $grouping->setSort('price DESC');
+        $result = self::$client->select($select);
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        /** @var QueryGroup $queryGroup */
+        $queryGroup = $groupingComponentResult->getGroup('price:[0 TO 99.99]');
+        $this->assertSame(5, $queryGroup->getMatches());
+        $this->assertCount(1, $queryGroup);
+        $docIterator = $queryGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame([
+            'id' => 'VS1GB400C3',
+            'price' => 74.99,
+        ], $doc->getFields());
+
+        $queryGroup = $groupingComponentResult->getGroup('price:[100 TO *]');
+        $this->assertSame(5, $queryGroup->getMatches());
+        $this->assertCount(3, $queryGroup);
+        $docIterator = $queryGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame([
+            'id' => 'EN7800GTX/2DHTV/256M',
+            'price' => 479.95,
+        ], $doc->getFields());
+        $docIterator->next();
+        $doc = $docIterator->current();
+        $this->assertSame([
+            'id' => 'TWINX2048-3200PRO',
+            'price' => 185.0,
+        ], $doc->getFields());
+        $docIterator->next();
+        $doc = $docIterator->current();
+        $this->assertSame([
+            'id' => '0579B002',
+            'price' => 179.99,
+        ], $doc->getFields());
+    }
+
     public function testQueryElevation()
     {
         $select = self::$client->createSelect();
@@ -441,7 +555,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testTermsComponent()
     {
-        self::$client->registerQueryType('test', '\Solarium\Tests\Integration\TestQuery');
+        self::$client->registerQueryType('test', '\Solarium\Tests\Integration\TermsTestQuery');
         $select = self::$client->createQuery('test');
 
         // Setting distrib to true in a non cloud setup causes exceptions.
@@ -452,7 +566,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $terms = $select->getTerms();
         $terms->setFields('name');
         $result = self::$client->select($select);
-        /** @var Result $termsComponentResult */
+        /** @var TermsResult $termsComponentResult */
         $termsComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_TERMS);
 
         $this->assertEquals([
@@ -1890,7 +2004,12 @@ abstract class AbstractTechproductsTest extends TestCase
     }
 }
 
-class TestQuery extends SelectQuery
+class GroupingTestQuery extends SelectQuery
+{
+    use GroupingTrait;
+}
+
+class TermsTestQuery extends SelectQuery
 {
     use TermsTrait;
 
