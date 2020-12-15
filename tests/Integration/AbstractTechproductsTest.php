@@ -322,6 +322,13 @@ abstract class AbstractTechproductsTest extends TestCase
         }
     }
 
+    /**
+     * The Grouping feature only works if groups are in the same shard. You must use the custom sharding feature to use the Grouping feature.
+     *
+     * @see https://cwiki.apache.org/confluence/display/solr/SolrCloud%20/#SolrCloud-KnownLimitations
+     *
+     * @group skip_for_solr_cloud
+     */
     public function testGroupingComponent()
     {
         self::$client->registerQueryType('grouping', '\Solarium\Tests\Integration\GroupingTestQuery');
