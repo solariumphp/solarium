@@ -62,4 +62,21 @@ class UtilityTest extends TestCase
             Utility::getXmlEncoding($this->fixtures.DIRECTORY_SEPARATOR.'testxml5-add-iso-8859-1.xml')
         );
     }
+
+    public function testIsPointValue()
+    {
+        // geodetic, non-geodetic PointType
+        $values = ['45,93', '45,-93', '-45,93', '-45,-93', '45.15,93.85', '45.15,-93.85', '-45.15,93.85', '-45.15,-93.85', '-45,93.85', '-45.15,93'];
+        foreach ($values as $value) {
+            $this->assertTrue(Utility::isPointValue($value));
+        }
+
+        // non-geodetic RPT
+        $values = ['45 93', '45 -93', '-45 93', '-45 -93', '45.15 93.85', '45.15 -93.85', '-45.15 93.85', '-45.15 -93.85', '-45 93.85', '-45.15 93'];
+        foreach ($values as $value) {
+            $this->assertTrue(Utility::isPointValue($value));
+        }
+
+        $this->assertFalse(Utility::isPointValue('not a point value'));
+    }
 }
