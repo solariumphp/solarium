@@ -270,7 +270,7 @@ class RequestBuilder extends BaseRequestBuilder
         if (\is_array($value)) {
             $nestedXml = '';
             foreach ($value as $multival) {
-                if (\is_array($multival) && $key === '_childDocuments_') {
+                if (\is_array($multival) && '_childDocuments_' === $key) {
                     $xml .= '<doc>';
                     foreach ($multival as $k => $v) {
                         $xml .= $this->buildFieldsXml($k, $boost, $v, $modifier);
