@@ -292,7 +292,7 @@ class RequestBuilder extends BaseRequestBuilder
                     $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier);
                 }
             }
-            if (!empty($nestedXml) && $key !== '_childDocuments_') {
+            if (!empty($nestedXml) && '_childDocuments_' !== $key) {
                 $xml .= '<field name="'.$key.'">'.$nestedXml.'</field>';
             }
         } else {
