@@ -339,7 +339,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->addSort('manu_exact', SelectQuery::SORT_ASC);
         $grouping = $select->getGrouping();
         $grouping->setFields('manu_exact');
-        $grouping->setSort('price ASC');
+        $grouping->setSort('price asc');
         $result = self::$client->select($select);
         /** @var GroupingResult $groupingComponentResult */
         $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
@@ -400,7 +400,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $select->getHelper()->rangeQuery('price', 100, null),
         ]);
         $grouping->setLimit(3);
-        $grouping->setSort('price DESC');
+        $grouping->setSort('price desc');
         $result = self::$client->select($select);
         $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
 
