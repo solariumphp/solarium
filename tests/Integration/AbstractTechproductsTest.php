@@ -1499,7 +1499,8 @@ abstract class AbstractTechproductsTest extends TestCase
         }
 
         // in Solr 7, atomic updates of child documents aren't possible
-        if (8 <= self::$solrVersion) {
+        // in SolrCloud mode, this fails more often with "Async exception during distributed update" than it succeeds
+        if (8 <= self::$solrVersion && $this instanceof AbstractServerTest) {
             // atomic update: removing all child documents
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-parent');
