@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [unreleased]
 ### Added
+- Indexing labelled nested child documents through pseudo-fields
 - Extract query now supports extractFormat
 
 ### Fixed
