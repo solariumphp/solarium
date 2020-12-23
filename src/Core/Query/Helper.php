@@ -201,8 +201,7 @@ class Helper
 
         if (\is_array($inclusive)) {
             list($leftInclusive, $rightInclusive) = $inclusive;
-        }
-        else {
+        } else {
             $leftInclusive = $rightInclusive = $inclusive;
         }
 
