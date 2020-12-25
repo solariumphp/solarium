@@ -77,6 +77,9 @@ class UtilityTest extends TestCase
             $this->assertTrue(Utility::isPointValue($value));
         }
 
-        $this->assertFalse(Utility::isPointValue('not a point value'));
+        $values = ['45', '-93', '45.15', '-93.85', '', 'not a point value'];
+        foreach ($values as $value) {
+            $this->assertFalse(Utility::isPointValue($value));
+        }
     }
 }

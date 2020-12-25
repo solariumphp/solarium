@@ -174,32 +174,38 @@ class Helper
      * Example: rangeQuery('store', 5, null, false)
      * Returns: store:{5 TO *}
      *
+     * Example: rangeQuery('price', 0, 10, [true, false])
+     * Returns: price:[0 TO 10}
+     *
      * @param string                $field
      * @param int|float|string|null $from
      * @param int|float|string|null $to
-     * @param bool                  $inclusive TRUE if the the range should include the boundaries, FALSE otherwise
+     * @param bool|bool[]           $inclusive TRUE or [TRUE, TRUE] for inclusive, FALSE or [FALSE, FALSE] for exclusive,
+     *                                         [TRUE, FALSE] for left-inclusive only, [FALSE, TRUE] for right-inclusive only
      *
      * @return string
      */
-    public function rangeQuery(string $field, $from, $to, bool $inclusive = true): string
+    public function rangeQuery(string $field, $from, $to, $inclusive = true): string
     {
         if (null === $from) {
             $from = '*';
-        } elseif (!is_int($from) && !is_float($from) && !Utility::isPointValue($from)) {
+        } elseif (!\is_int($from) && !\is_float($from) && !Utility::isPointValue($from)) {
             $from = $this->escapePhrase($from);
         }
 
         if (null === $to) {
             $to = '*';
-        } elseif (!is_int($to) && !is_float($to) && !Utility::isPointValue($to)) {
+        } elseif (!\is_int($to) && !\is_float($to) && !Utility::isPointValue($to)) {
             $to = $this->escapePhrase($to);
         }
 
-        if ($inclusive) {
-            return $field.':['.$from.' TO '.$to.']';
+        if (\is_array($inclusive)) {
+            list($leftInclusive, $rightInclusive) = $inclusive;
+        } else {
+            $leftInclusive = $rightInclusive = $inclusive;
         }
 
-        return $field.':{'.$from.' TO '.$to.'}';
+        return sprintf('%s:%s%s TO %s%s', $field, $leftInclusive ? '[' : '{', $from, $to, $rightInclusive ? ']' : '}');
     }
 
     /**

@@ -234,6 +234,73 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = self::$client->select($select);
         $this->assertSame(14, $result->getNumFound());
         $this->assertCount(10, $result);
+
+        // VS1GB400C3 costs 74.99, SP2514N costs 92.0, 0579B002 costs 179.99
+        $select->setFields('id,price');
+        $select->addSort('price', $select::SORT_ASC);
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, 179.99, [true, true])
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(3, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'VS1GB400C3',
+            'price' => 74.99,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'SP2514N',
+            'price' => 92.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => '0579B002',
+            'price' => 179.99,
+        ], $iterator->current()->getFields());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, 179.99, [true, false])
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'VS1GB400C3',
+            'price' => 74.99,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'SP2514N',
+            'price' => 92.0,
+        ], $iterator->current()->getFields());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, 179.99, [false, true])
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'SP2514N',
+            'price' => 92.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => '0579B002',
+            'price' => 179.99,
+        ], $iterator->current()->getFields());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, 179.99, [false, false])
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(1, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'SP2514N',
+            'price' => 92.0,
+        ], $iterator->current()->getFields());
     }
 
     public function testFacetHighlightSpellcheckComponent()

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Indexing labelled nested child documents through pseudo-fields
 - Extract query now supports extractFormat
+- Helper::rangeQuery() now supports left-inclusive only and right-inclusive only queries
 
 ### Fixed
 
