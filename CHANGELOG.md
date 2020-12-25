@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [unreleased]
 ### Added
 - Extract query now supports extractFormat
+- Helper::rangeQuery() now supports left-inclusive only and right-inclusive only queries
 
 ### Fixed
 
