@@ -58,7 +58,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      *
      * @var int
      */
-    protected $position;
+    protected $position = 0;
 
     /**
      * Cursor mark.
@@ -262,7 +262,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     protected function resetData(): self
     {
-        $this->position = null;
+        $this->position = 0;
         $this->result = null;
         $this->documents = null;
         $this->start = 0;
