@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Helper::rangeQuery() detects point values without parameter to turn off escaping
 
 ### Removed
-
+- PHP 7.2 support
 
 ## [6.0.4]
 ### Added
