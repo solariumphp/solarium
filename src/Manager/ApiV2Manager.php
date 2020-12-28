@@ -141,9 +141,19 @@ final class ApiV2Manager
     }
 
     /**
+     * wrapper function for reload.
+     *
      * @return \Solarium\Core\Client\Response
      */
     public function flush(): Response
+    {
+        return $this->reload();
+    }
+
+    /**
+     * @return \Solarium\Core\Client\Response
+     */
+    public function reload(): Response
     {
         $request = (new Request())
             ->setHandler('cores')
