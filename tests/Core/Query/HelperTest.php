@@ -396,26 +396,26 @@ class HelperTest extends TestCase
     public function testFormatDateInputTimestamp()
     {
         $this->assertFalse(
-            $this->helper->convertAndFormatDate(strtotime('2011---')),
+            $this->helper->convertToUtcAndFormatDate(strtotime('2011---')),
             'Expects invalid strtotime/timestamp input (false) not to be accepted'
         );
 
         //allow negative dates.
         $this->assertNotFalse(
-            $this->helper->convertAndFormatDate(strtotime('2011-10-01')),
+            $this->helper->convertToUtcAndFormatDate(strtotime('2011-10-01')),
             'Expects negative timestamp input to be accepted'
         );
 
         //@todo find out if we need to any test for php versions / platforms which do not support negative timestamp
 
         $this->assertFalse(
-            $this->helper->convertAndFormatDate(strtotime('2010-31-02')),
+            $this->helper->convertToUtcAndFormatDate(strtotime('2010-31-02')),
             'Expects invalid timestamp input (not in calendar) not to be accepted'
         );
 
         $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
-            $this->helper->convertAndFormatDate(strtotime('2011-10-01')),
+            $this->helper->convertToUtcAndFormatDate(strtotime('2011-10-01')),
             'Expects formatDate with Timstamp input to output ISO8601 with stripped timezone'
         );
     }
@@ -423,13 +423,13 @@ class HelperTest extends TestCase
     public function testFormatDateInputString()
     {
         $this->assertFalse(
-            $this->helper->convertAndFormatDate('2011-13-31'),
+            $this->helper->convertToUtcAndFormatDate('2011-13-31'),
             'Expects an invalid date string input not to be accepted'
         );
 
         $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
-            $this->helper->convertAndFormatDate('2011-10-01'),
+            $this->helper->convertToUtcAndFormatDate('2011-10-01'),
             'Expects formatDate with String input to output ISO8601 with stripped timezone'
         );
     }
@@ -439,13 +439,13 @@ class HelperTest extends TestCase
         date_default_timezone_set('UTC'); // prevent timezone differences
 
         $this->assertFalse(
-            $this->helper->convertAndFormatDate(new \stdClass()),
+            $this->helper->convertToUtcAndFormatDate(new \stdClass()),
             'Expect any other object not to be accepted'
         );
 
         $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
-            $this->helper->convertAndFormatDate(new \DateTime('2011-10-01')),
+            $this->helper->convertToUtcAndFormatDate(new \DateTime('2011-10-01')),
             'Expects formatDate with DateTime input to output ISO8601 with stripped timezone'
         );
     }
@@ -455,13 +455,13 @@ class HelperTest extends TestCase
         date_default_timezone_set('UTC'); // prevent timezone differences
 
         $this->assertFalse(
-            $this->helper->convertAndFormatDate(new \stdClass()),
+            $this->helper->convertToUtcAndFormatDate(new \stdClass()),
             'Expect any other object not to be accepted'
         );
 
         $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
-            $this->helper->convertAndFormatDate(new \DateTimeImmutable('2011-10-01')),
+            $this->helper->convertToUtcAndFormatDate(new \DateTimeImmutable('2011-10-01')),
             'Expects formatDate with DateTimeImmutable input to output ISO8601 with stripped timezone'
         );
     }
@@ -471,12 +471,12 @@ class HelperTest extends TestCase
         $timestamp = time();
         //check if timezone is stripped
         $expected = strtoupper('Z');
-        $actual = substr($this->helper->convertAndFormatDate($timestamp), 19, 20);
+        $actual = substr($this->helper->convertToUtcAndFormatDate($timestamp), 19, 20);
         $this->assertSame($expected, $actual, 'Expects last charachter to be uppercased Z');
 
         $this->assertSame(
             $this->mockFormatDateOutput($timestamp),
-            $this->helper->convertAndFormatDate($timestamp)
+            $this->helper->convertToUtcAndFormatDate($timestamp)
         );
     }
 
@@ -590,12 +590,12 @@ class HelperTest extends TestCase
     {
         $date = date_create('2020-01-01', new \DateTimeZone('Europe/London'));
 
-        self::assertSame('2020-01-01T00:00:00Z', $this->helper->dateToSolrUtcString($date));
+        self::assertSame('2020-01-01T00:00:00Z', $this->helper->formatDateAndPretendUtc($date));
     }
 
     public function testInvalidNumericValue(): void
     {
-        self::assertFalse($this->helper->convertAndFormatDate(1.2));
+        self::assertFalse($this->helper->convertToUtcAndFormatDate(1.2));
     }
 
     protected function mockFormatDateOutput($timestamp)

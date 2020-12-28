@@ -115,14 +115,14 @@ class Helper
     {
         @trigger_error('The Helper::formatDate function is deprecated in Solarium 6.1 and will be removed in Solarium 6.2. Use Helper::convertAndFormatDate instead', E_USER_DEPRECATED);
 
-        return $this->convertAndFormatDate($input);
+        return $this->convertToUtcAndFormatDate($input);
     }
 
     /**
      * Convert and format a date to the expected formatting used in SOLR.
      *
      * Be aware this method adds a UTC TimeZone to the resulting date which may modify the date time value depending on
-     * the php configuration used running this code. Use Helper::dateToSolrUtcString to format your date without this
+     * the php configuration used running this code. Use Helper::formatDateAndPretendUtc to format your date without this
      * conversion.
      *
      * This format was derived to be standards compliant (ISO 8601)
@@ -135,7 +135,7 @@ class Helper
      *
      * @return string|bool false is returned in case of invalid input
      */
-    public function convertAndFormatDate($input)
+    public function convertToUtcAndFormatDate($input)
     {
         switch (true) {
             // input of datetime object
@@ -166,17 +166,21 @@ class Helper
         // when we get here the input is always a datetime object
         $input = $input->setTimezone(new \DateTimeZone('UTC'));
 
-        return $this->dateToSolrUtcString($input);
+        return $this->formatDateAndPretendUtc($input);
     }
 
     /**
      * Format date time interface to date string required by Solr.
      *
+     * Be aware this method just formats the date time as required by Solr without converting it into the UTC TimeZone.
+     * If your PHP application works with different time zones and doesn't convert to UTC before calling this function
+     * this might lead to unexpected errors when doing "date math". Consider Helper::convertToUtcAndFormatDate() instead.
+     *
      * @param \DateTimeInterface $dateTime
      *
      * @return string
      */
-    public function dateToSolrUtcString(\DateTimeInterface $dateTime): string
+    public function formatDateAndPretendUtc(\DateTimeInterface $dateTime): string
     {
         return $dateTime->format('Y-m-d\TH:i:s\Z');
     }
