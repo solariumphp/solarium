@@ -21,6 +21,7 @@
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^3.11",
+        "friendsofphp/php-cs-fixer": "^2.17",
         "guzzlehttp/guzzle": "^7.2",
         "nyholm/psr7": "^1.2",
         "php-http/guzzle7-adapter": "^0.1",
