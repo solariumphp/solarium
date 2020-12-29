@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - PrefetchIterator::key() should return 0 instead of NULL on a fresh PrefetchIterator
 - PrefetchIterator::next() shouldn't skip fetched results after PrefetchIterator::count() on a fresh PrefetchIterator
+- PrefetchIterator::rewind() no longer results in duplicate documents when invoked mid-set
 - fixed incorrect median function
 
 ### Changed

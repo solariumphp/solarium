@@ -173,9 +173,12 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
     {
         $this->position = 0;
 
-        // this condition prevents erroneously fetching the next set of results if a count is done before the iterator is used
-        if ($this->start !== $this->options['prefetch']) {
+        // this condition prevents needlessly re-fetching if the iterator hasn't moved past its first set of results yet
+        // (this includes when a count is done before the iterator is used)
+        if ($this->start > $this->options['prefetch']) {
             $this->start = 0;
+            $this->result = null;
+            $this->documents = null;
 
             if (null !== $this->cursormark) {
                 $this->cursormark = '*';
