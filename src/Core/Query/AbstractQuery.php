@@ -79,7 +79,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     {
         $this->setOption('resultclass', $classname);
 
-        return  $this;
+        return $this;
     }
 
     /**
