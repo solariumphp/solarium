@@ -332,7 +332,6 @@ class PrefetchIteratorTest extends TestCase
         // this should trigger a reset and the foreach will cause a second query execution
         $this->plugin->setQuery($this->query);
 
-
         $results = [];
         foreach ($this->plugin as $doc) {
             $results[] = $doc;
