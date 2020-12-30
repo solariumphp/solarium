@@ -21,6 +21,7 @@ use Solarium\Plugin\BufferedAdd\Event\PostCommit as BufferedAddPostCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as BufferedAddPostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as BufferedAddPreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as BufferedAddPreFlushEvent;
+use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
@@ -1821,15 +1822,20 @@ abstract class AbstractTechproductsTest extends TestCase
     public function testPrefetchIterator()
     {
         $select = self::$client->createSelect();
+        $select->addSort('id', SelectQuery::SORT_ASC);
+        /** @var PrefetchIterator $prefetch */
         $prefetch = self::$client->getPlugin('prefetchiterator');
         $prefetch->setPrefetch(2);
         $prefetch->setQuery($select);
 
-        // count() uses getNumFound() on the result set and wouldn't actually test if all results are iterated
-        for ($i = 0; $prefetch->valid(); ++$i) {
-            $prefetch->next();
-        }
+        // check upfront that all results are found
+        $this->assertCount(32, $prefetch);
 
+        // verify that each result is iterated in order
+        $id = '';
+        for ($i = 0; $prefetch->valid(); $prefetch->next(), ++$i) {
+            $this->assertLessThan(0, strcmp($id, $id = $prefetch->current()->id));
+        }
         $this->assertSame(32, $i);
     }
 
@@ -1838,15 +1844,19 @@ abstract class AbstractTechproductsTest extends TestCase
         $select = self::$client->createSelect();
         $select->setCursormark('*');
         $select->addSort('id', SelectQuery::SORT_ASC);
+        /** @var PrefetchIterator $prefetch */
         $prefetch = self::$client->getPlugin('prefetchiterator');
         $prefetch->setPrefetch(2);
         $prefetch->setQuery($select);
 
-        // count() uses getNumFound() on the result set and wouldn't actually test if all results are iterated
-        for ($i = 0; $prefetch->valid(); ++$i) {
-            $prefetch->next();
-        }
+        // check upfront that all results are found
+        $this->assertCount(32, $prefetch);
 
+        // verify that each result is iterated in order
+        $id = '';
+        for ($i = 0; $prefetch->valid(); $prefetch->next(), ++$i) {
+            $this->assertLessThan(0, strcmp($id, $id = $prefetch->current()->id));
+        }
         $this->assertSame(32, $i);
     }
 
@@ -1854,6 +1864,7 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $select = self::$client->createSelect();
         $select->addSort('id', SelectQuery::SORT_ASC);
+        /** @var PrefetchIterator $prefetch */
         $prefetch = self::$client->getPlugin('prefetchiterator');
         $prefetch->setPrefetch(2);
         $prefetch->setQuery($select);

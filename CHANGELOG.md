@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Helper::rangeQuery() now supports left-inclusive only and right-inclusive only queries
 
 ### Fixed
+- PrefetchIterator::key() should return 0 instead of NULL on a fresh PrefetchIterator
+- PrefetchIterator::next() shouldn't skip fetched results after PrefetchIterator::count() on a fresh PrefetchIterator
+- fixed incorrect median function
 
 ### Changed
 - Exception message for invalid/unavailable file in Extract query now contains filename

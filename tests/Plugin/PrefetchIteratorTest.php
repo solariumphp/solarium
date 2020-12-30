@@ -61,6 +61,72 @@ class PrefetchIteratorTest extends TestCase
         $this->assertCount(5, $this->plugin);
     }
 
+    public function testIteratorFlow()
+    {
+        $result = $this->getResult();
+        $mockClient = $this->createMock(Client::class);
+
+        // Important: if prefetch or query settings are not changed, the query should be executed only once!
+        $mockClient->expects($this->exactly(1))->method('execute')->willReturn($result);
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setQuery($this->query);
+
+        // run through the entire iterator manually
+        $this->assertTrue($this->plugin->valid());
+        $this->assertSame(['id' => 1, 'title' => 'doc1'], $this->plugin->current()->getFields());
+        $this->assertSame(0, $this->plugin->key());
+        $this->plugin->next();
+        $this->assertTrue($this->plugin->valid());
+        $this->assertSame(['id' => 2, 'title' => 'doc2'], $this->plugin->current()->getFields());
+        $this->assertSame(1, $this->plugin->key());
+        $this->plugin->next();
+        $this->assertTrue($this->plugin->valid());
+        $this->assertSame(['id' => 3, 'title' => 'doc3'], $this->plugin->current()->getFields());
+        $this->assertSame(2, $this->plugin->key());
+        $this->plugin->next();
+        $this->assertTrue($this->plugin->valid());
+        $this->assertSame(['id' => 4, 'title' => 'doc4'], $this->plugin->current()->getFields());
+        $this->assertSame(3, $this->plugin->key());
+        $this->plugin->next();
+        $this->assertTrue($this->plugin->valid());
+        $this->assertSame(['id' => 5, 'title' => 'doc5'], $this->plugin->current()->getFields());
+        $this->assertSame(4, $this->plugin->key());
+        $this->plugin->next();
+        $this->assertFalse($this->plugin->valid());
+
+        // rewind at the end and partway through
+        $this->plugin->rewind();
+        $this->assertTrue($this->plugin->valid());
+        $this->assertSame(['id' => 1, 'title' => 'doc1'], $this->plugin->current()->getFields());
+        $this->assertSame(0, $this->plugin->key());
+        $this->plugin->next();
+        $this->assertTrue($this->plugin->valid());
+        $this->assertSame(['id' => 2, 'title' => 'doc2'], $this->plugin->current()->getFields());
+        $this->assertSame(1, $this->plugin->key());
+        $this->plugin->rewind();
+        $this->assertTrue($this->plugin->valid());
+        $this->assertSame(['id' => 1, 'title' => 'doc1'], $this->plugin->current()->getFields());
+        $this->assertSame(0, $this->plugin->key());
+    }
+
+    public function testIteratorEmptyResultFlow()
+    {
+        $result = $this->getEmptyResult();
+        $mockClient = $this->createMock(Client::class);
+
+        // Important: if prefetch or query settings are not changed, the query should be executed only once!
+        $mockClient->expects($this->exactly(1))->method('execute')->willReturn($result);
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setQuery($this->query);
+
+        // there is nothing to run through
+        $this->assertFalse($this->plugin->valid());
+        $this->plugin->rewind();
+        $this->assertFalse($this->plugin->valid());
+    }
+
     public function testIteratorAndRewind()
     {
         $result = $this->getResult();
@@ -139,6 +205,26 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($result->getDocuments(), $results2);
     }
 
+    public function testIteratorEmptyResult()
+    {
+        $result = $this->getEmptyResult();
+        $mockClient = $this->createMock(Client::class);
+
+        // Important: if prefetch or query settings are not changed, the query should be executed only once!
+        $mockClient->expects($this->exactly(1))->method('execute')->willReturn($result);
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setQuery($this->query);
+
+        $results = [];
+        foreach ($this->plugin as $doc) {
+            $results[] = $doc;
+        }
+
+        $this->assertCount(0, $this->plugin);
+        $this->assertSame([], $results);
+    }
+
     public function getResult()
     {
         $numFound = 5;
@@ -152,6 +238,15 @@ class PrefetchIteratorTest extends TestCase
         ];
 
         return new SelectDummy(1, 12, $numFound, $docs, []);
+    }
+
+    public function getEmptyResult()
+    {
+        $numFound = 0;
+
+        $docs = [];
+
+        return new SelectDummy(1, 2, $numFound, $docs, []);
     }
 
     public function testSetAndGetEndpointAsString()

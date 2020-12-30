@@ -81,7 +81,7 @@ class ReductionFunction implements FunctionInterface, ExpressionInterface
     /**
      * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#median
      */
-    public const MEDIAN = 'med';
+    public const MEDIAN = 'median';
 
     /**
      * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#percentile
