@@ -1887,6 +1887,44 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame($without, $with);
     }
 
+    public function testPrefetchIteratorManualRewind()
+    {
+        $select = self::$client->createSelect();
+        $select->addSort('id', SelectQuery::SORT_ASC);
+        /** @var PrefetchIterator $prefetch */
+        $prefetch = self::$client->getPlugin('prefetchiterator');
+        $prefetch->setPrefetch(5);
+        $prefetch->setQuery($select);
+
+        // check if valid (this will fetch the first set of documents)
+        $this->assertTrue($prefetch->valid());
+        // check that we're at position 0
+        $this->assertSame(0, $prefetch->key());
+        // current document is the one with lowest alphabetical id in techproducts
+        $this->assertSame('0579B002', $prefetch->current()->id);
+
+        // move to an arbitrary point past the first set of fetched documents
+        while (12 > $prefetch->key()) {
+            $prefetch->next();
+            // this ensures the next set will be fetched when we've passed the end of a set
+            $this->assertTrue($prefetch->valid());
+        }
+
+        // check that we've reached the expected document at position 12
+        $this->assertSame(12, $prefetch->key());
+        $this->assertSame('NOK', $prefetch->current()->id);
+
+        // this resets the position and clears the last fetched result
+        $prefetch->rewind();
+
+        // check if valid (this will re-fetch the first set of documents)
+        $this->assertTrue($prefetch->valid());
+        // check that we're back at position 0
+        $this->assertSame(0, $prefetch->key());
+        // current document is once again the one with lowest alphabetical id in techproducts
+        $this->assertSame('0579B002', $prefetch->current()->id);
+    }
+
     public function testExtractIntoDocument()
     {
         $extract = self::$client->createExtract();
