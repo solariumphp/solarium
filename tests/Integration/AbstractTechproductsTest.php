@@ -66,7 +66,8 @@ abstract class AbstractTechproductsTest extends TestCase
             'handler' => 'admin/info/system',
         ]);
         $response = self::$client->execute($query);
-        self::$solrVersion = $response->getData()['lucene']['solr-spec-version'];
+        $solrSpecVersion = $response->getData()['lucene']['solr-spec-version'];
+        self::$solrVersion = (int) strstr($solrSpecVersion, '.', true);
 
         // disable automatic commits for update tests
         $query = self::$client->createApi([
@@ -985,7 +986,7 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $result->getIterator()->current()->getFields());
 
         // add-distinct with multiple values can add duplicates in Solr 7 cloud mode (SOLR-14550)
-        if ('7' === strstr(self::$solrVersion, '.', true) && $this instanceof AbstractCloudTest) {
+        if (7 === self::$solrVersion && $this instanceof AbstractCloudTest) {
             // we still have to emulate a successful atomic update for the remainder of this test to pass
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-test');
@@ -1143,6 +1144,289 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
+    public function testNestedDocuments()
+    {
+        $data = [
+            'id' => 'solarium-parent',
+            'name' => 'Solarium Nested Document Parent',
+            'cat' => ['solarium-nested-document', 'parent'],
+            'children' => [
+                [
+                    'id' => 'solarium-child-1',
+                    'name' => 'Solarium Nested Document Child 1',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'price' => 1.0,
+                    'grandchildren' => [
+                        [
+                            'id' => 'solarium-grandchild-1-1',
+                            'name' => 'Solarium Nested Document Grandchild 1.1',
+                            'cat' => ['solarium-nested-document', 'grandchild'],
+                            'price' => 1.1,
+                        ],
+                    ],
+                ],
+                [
+                    'id' => 'solarium-child-2',
+                    'name' => 'Solarium Nested Document Child 2',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'price' => 2.0,
+                    'grandchildren' => [
+                        [
+                            'id' => 'solarium-grandchild-2-1',
+                            'name' => 'Solarium Nested Document Grandchild 2.1',
+                            'cat' => ['solarium-nested-document', 'grandchild'],
+                            'price' => 2.1,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $update = self::$client->createUpdate();
+        $doc = $update->createDocument($data);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        // get all documents (parents and descendants) as a flat list
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-nested-document');
+        $select->setFields('id,name,price');
+        $result = self::$client->select($select);
+        $this->assertCount(5, $result);
+
+        // without a sort, children are returned before their parents because they're added in that order to the underlying Lucene index
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-1-1',
+            'name' => 'Solarium Nested Document Grandchild 1.1',
+            'price' => 1.1,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-1',
+            'name' => 'Solarium Nested Document Child 1',
+            'price' => 1.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-2-1',
+            'name' => 'Solarium Nested Document Grandchild 2.1',
+            'price' => 2.1,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-2',
+            'name' => 'Solarium Nested Document Child 2',
+            'price' => 2.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+            'name' => 'Solarium Nested Document Parent',
+        ], $iterator->current()->getFields());
+
+        // in Solr 7, the [child] transformer returns all descendant documents in a flat list, this is covered in testAnonymouslyNestedDocuments()
+        if (8 <= self::$solrVersion) {
+            // get parent document with nested children as pseudo-fields
+            $select->setQuery('id:solarium-parent');
+            // 'id,[child]' is not enough, either * or the explicit names of the pseudo-fields are needed to actually include them
+            $select->setFields('id,children,grandchildren,[child]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-1',
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-1-1',
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => 'solarium-child-2',
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-2-1',
+                            ],
+                        ],
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+
+            // only get descendant documents that match a filter
+            $select->setFields('id,price,children,grandchildren,[child childFilter=price:2.1]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-2',
+                        'price' => 2.0,
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-2-1',
+                                'price' => 2.1,
+                            ],
+                        ],
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+
+            // limit nested path of child documents to be returned
+            $select->setFields('id,children,grandchildren,[child childFilter=/children/*:*]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-1',
+                    ],
+                    [
+                        'id' => 'solarium-child-2',
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+
+            // limit number of child documents to be returned
+            $select->setFields('id,children,grandchildren,[child limit=1]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-1',
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-1-1',
+                            ],
+                        ],
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+
+            // only return a subset of the top level fl parameter for the child documents
+            $select->setFields('id,name,price,children,grandchildren,[child fl=id,price]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'name' => 'Solarium Nested Document Parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-1',
+                        'price' => 1.0,
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-1-1',
+                                'price' => 1.1,
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => 'solarium-child-2',
+                        'price' => 2.0,
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-2-1',
+                                'price' => 2.1,
+                            ],
+                        ],
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+        }
+
+        // parent query parser
+        $select->setQuery('{!parent which="cat:parent"}id:solarium-child-1');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+        ], $iterator->current()->getFields());
+
+        // child query parser
+        $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(4, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-1-1',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-1',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-2-1',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-2',
+        ], $iterator->current()->getFields());
+
+        // in Solr 7, atomic updates of child documents aren't possible
+        if (8 <= self::$solrVersion) {
+            // atomic update: removing all child documents
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-parent');
+            $doc->setField('cat', 'updated');
+            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+            $doc->setField('children', []);
+            $doc->setFieldModifier('children', $doc::MODIFIER_SET);
+            $update->addDocument($doc);
+            $update->addCommit(true, true);
+            self::$client->update($update);
+            $select->setQuery('id:solarium-parent');
+            $select->setFields('id,name,cat,price,children,grandchildren,[child]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'name' => 'Solarium Nested Document Parent',
+                'cat' => [
+                    'solarium-nested-document',
+                    'parent',
+                    'updated',
+                ],
+            ], $iterator->current()->getFields());
+
+            // other atomic updates (replacing, adding, removing child documents) can't be executed through XML (SOLR-12677)
+        }
+
+        // cleanup
+        $update = self::$client->createUpdate();
+        // in Solr 7, the whole block of parent-children documents must be deleted together
+        if (7 === self::$solrVersion) {
+            $update->addDeleteQuery('cat:solarium-nested-document');
+        }
+        // in Solr 8, you can simply delete-by-ID using the id of the root document
+        else {
+            $update->addDeleteById('solarium-parent');
+        }
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $select->setQuery('cat:solarium-nested-document');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+    }
+
     public function testAnonymouslyNestedDocuments()
     {
         $data = [
@@ -1221,8 +1505,8 @@ abstract class AbstractTechproductsTest extends TestCase
             'id' => 'solarium-child-2',
         ], $iterator->current()->getFields());
 
-        // [child] transformer doesn't work when the schema includes a _nest_path_ in Solr 8
-        if ('7' === strstr(self::$solrVersion, '.', true)) {
+        // [child] transformer doesn't work for anonymous children when the schema includes a _nest_path_ in Solr 8
+        if (7 === self::$solrVersion) {
             // get all child documents nested inside the parent document
             $select->setQuery('id:solarium-parent');
             $select->setFields('id,[child parentFilter=cat:parent fl=id]');
@@ -1282,10 +1566,46 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $iterator->current()->getFields());
         }
 
+        // in Solr 7, atomic updates of child documents aren't possible
+        // in SolrCloud mode, this fails more often with "Async exception during distributed update" than it succeeds
+        // @todo get this sorted for distributed search when #908 is resolved
+        if (8 <= self::$solrVersion && $this instanceof AbstractServerTest) {
+            // atomic update: removing all child documents
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-parent');
+            $doc->setField('cat', 'updated');
+            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+            $doc->setField('_childDocuments_', []);
+            $doc->setFieldModifier('_childDocuments_', $doc::MODIFIER_SET);
+            $update->addDocument($doc);
+            $update->addCommit(true, true);
+            self::$client->update($update);
+            // ensure the update was atomic ('name' must be unchanged, 'cat' must be updated)
+            $select->setQuery('id:solarium-parent');
+            $select->setFields('id,name,cat');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'name' => 'Solarium Nested Document Parent',
+                'cat' => [
+                    'solarium-nested-document',
+                    'parent',
+                    'updated',
+                ],
+            ], $iterator->current()->getFields());
+            // ensure child documents have been replaced (with nothing)
+            $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
+            $select->setFields('id');
+            $result = self::$client->select($select);
+            $this->assertCount(0, $result);
+        }
+
         // cleanup
         $update = self::$client->createUpdate();
         // in Solr 7, the whole block of parent-children documents must be deleted together
-        if ('7' === strstr(self::$solrVersion, '.', true)) {
+        if (7 === self::$solrVersion) {
             $update->addDeleteQuery('cat:solarium-nested-document');
         }
         // in Solr 8, you can simply delete-by-ID using the id of the root document
@@ -1736,7 +2056,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testV2Api()
     {
-        if (version_compare(self::$solrVersion, '7', '>=')) {
+        if (7 <= self::$solrVersion) {
             $query = self::$client->createApi([
                 'version' => Request::API_V2,
                 'handler' => 'node/system',
