@@ -20,7 +20,7 @@ class CurlTest extends TestCase
     public function setUp(): void
     {
         if (!function_exists('curl_init')) {
-            $this->markTestSkipped('Curl not available, skipping Curl adapter tests');
+            $this->markTestSkipped('cURL not available, skipping cURL adapter tests.');
         }
 
         $this->adapter = new Curl();
