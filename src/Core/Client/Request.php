@@ -348,7 +348,7 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
-     * Execute a request outside of the core context in the global solr context.
+     * Execute a request outside of the core context in the global Solr context.
      *
      * @param bool $isServerRequest
      *

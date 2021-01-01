@@ -15,7 +15,7 @@ class CurlTest extends AbstractCloudTest
     public function setUp(): void
     {
         parent::setUp();
-        // The default timeout of solarium of 5s seems to be too aggressive on travis and causes random test failures.
+        // The default timeout of Solarium of 5s seems to be too aggressive on Travis and causes random test failures.
         // Set it to the PHP default of 13s.
         $adapter = new Curl();
         $adapter->setTimeout(CURLOPT_TIMEOUT);

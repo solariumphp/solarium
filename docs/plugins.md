@@ -145,16 +145,16 @@ $customizer->createCustomization('id')
 // create a basic query to execute
 $query = $client->createSelect();
 
-// execute query (you should be able to see the extra params in the solr log file)
+// execute query (you should be able to see the extra params in the Solr log file)
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound() . '<br/>';
 
 // execute the same query again (this time the 'id' param should no longer show up in the logs)
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 htmlFooter();
@@ -212,7 +212,7 @@ for ($i = 1; $i <= 8; $i++) {
     echo 'Server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
 }
 
-// force a server for a query (normally solr 3 is extremely unlikely based on its weight)
+// force a server for a query (normally 'local3' is extremely unlikely based on its weight)
 $loadbalancer->setForcedEndpointForNextQuery('local3');
 
 $resultset = $client->select($query);
@@ -275,7 +275,7 @@ $query->setFilterMode($query::FILTER_MODE_MARK);
 // this executes the query and returns the result
 $resultset = $client->execute($query);
 
-// display the total number of documents found by solr and the maximum score
+// display the total number of documents found by Solr and the maximum score
 echo 'NumFound: '.$resultset->getNumFound();
 echo '<br/>MaxScore: '.$resultset->getMaxScore();
 
@@ -377,7 +377,7 @@ htmlFooter();
 
 // Note: for this example on a default Solr index (with a tiny index) running on localhost the performance gain is
 // minimal to none, sometimes even slightly slower!
-// In a realworld scenario with network latency, a bigger dataset, more complex queries or multiple solr instances the
+// In a realworld scenario with network latency, a bigger dataset, more complex queries or multiple Solr instances the
 // performance gain is much more.
 
 ```
@@ -422,7 +422,7 @@ $query->createFilterQuery('fq')->setQuery($fq);
 // without the plugin this query would fail as it is bigger than the default servlet container header buffer
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
@@ -481,7 +481,7 @@ $prefetch = $client->getPlugin('prefetchiterator');
 $prefetch->setPrefetch(2); //fetch 2 rows per query (for real world use this can be way higher)
 $prefetch->setQuery($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: ' . count($prefetch);
 
 // show document IDs using the resultset iterator

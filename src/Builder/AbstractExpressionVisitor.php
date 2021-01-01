@@ -23,7 +23,7 @@ use Solarium\Exception\RuntimeException;
 abstract class AbstractExpressionVisitor
 {
     /**
-     * Converts a comparison expression into solr query language.
+     * Converts a comparison expression into Solr query language.
      *
      * @param \Solarium\Builder\ExpressionInterface $expression
      *
@@ -32,7 +32,7 @@ abstract class AbstractExpressionVisitor
     abstract public function walkExpression(ExpressionInterface $expression);
 
     /**
-     * Converts a value expression into solr query part.
+     * Converts a value expression into Solr query part.
      *
      * @param \Solarium\Builder\Value $value
      *

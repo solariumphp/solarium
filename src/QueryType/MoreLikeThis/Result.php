@@ -16,15 +16,15 @@ use Solarium\QueryType\Select\Result\Result as SelectResult;
 /**
  * MoreLikeThis query result.
  *
- * This is the standard resulttype for a moreLikeThis query. Example usage:
+ * This is the standard resulttype for a MoreLikeThis query. Example usage:
  * <code>
- * // total solr mlt results
+ * // total Solr MLT results
  * $result->getNumFound();
  *
  * // results fetched
  * count($result);
  *
- * // iterate over fetched mlt docs
+ * // iterate over fetched MLT docs
  * foreach ($result as $doc) {
  *    ....
  * }

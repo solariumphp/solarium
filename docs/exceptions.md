@@ -128,4 +128,4 @@ This exception indicates that a problem occurred in the communication with the S
 
 #### `StreamException`
 
-This exception indicates that a problem occurred with a streaming expression. You should catch this (or a more generic exception) for every streaming exception request that is executed.
+This exception indicates that a problem occurred with a streaming expression. You should catch this (or a more generic exception) for every streaming expression request that is executed.

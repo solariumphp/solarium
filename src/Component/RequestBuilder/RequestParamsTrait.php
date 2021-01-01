@@ -87,7 +87,7 @@ trait RequestParamsTrait
                 }
                 $this->params[$key][] = $value;
             } else {
-                // not all solr handlers support 0/1 as boolean values...
+                // not all Solr handlers support 0/1 as boolean values...
                 if (true === $value) {
                     $value = 'true';
                 } elseif (false === $value) {
