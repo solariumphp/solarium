@@ -25,11 +25,22 @@ class HelperTest extends TestCase
         $this->helper = new Helper($this->query);
     }
 
+    public function tearDown(): void
+    {
+        // this test case contains tests that set a locale with a decimal comma
+        setlocale(LC_NUMERIC, 'C');
+    }
+
     public function testRangeQuery()
     {
         $this->assertEquals(
             'field:[1 TO 2]',
             $this->helper->rangeQuery('field', 1, 2)
+        );
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5)
         );
 
         $this->assertSame(
@@ -48,6 +59,11 @@ class HelperTest extends TestCase
         $this->assertEquals(
             'field:[1 TO 2]',
             $this->helper->rangeQuery('field', 1, 2, true)
+        );
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5, true)
         );
 
         $this->assertSame(
@@ -69,6 +85,11 @@ class HelperTest extends TestCase
         );
 
         $this->assertSame(
+            'field:{1.5 TO 2.5}',
+            $this->helper->rangeQuery('field', 1.5, 2.5, false)
+        );
+
+        $this->assertSame(
             'store:{45,-94 TO 46,-93}',
             $this->helper->rangeQuery('store', '45,-94', '46,-93', false)
         );
@@ -84,6 +105,11 @@ class HelperTest extends TestCase
         $this->assertEquals(
             'field:[1 TO 2]',
             $this->helper->rangeQuery('field', 1, 2, [true, true])
+        );
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [true, true])
         );
 
         $this->assertSame(
@@ -104,6 +130,11 @@ class HelperTest extends TestCase
             $this->helper->rangeQuery('field', 1, 2, [true, false])
         );
 
+        $this->assertEquals(
+            'field:[1.5 TO 2.5}',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [true, false])
+        );
+
         $this->assertSame(
             'store:[45,-94 TO 46,-93}',
             $this->helper->rangeQuery('store', '45,-94', '46,-93', [true, false])
@@ -122,6 +153,11 @@ class HelperTest extends TestCase
             $this->helper->rangeQuery('field', 1, 2, [false, true])
         );
 
+        $this->assertEquals(
+            'field:{1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [false, true])
+        );
+
         $this->assertSame(
             'store:{45,-94 TO 46,-93]',
             $this->helper->rangeQuery('store', '45,-94', '46,-93', [false, true])
@@ -138,6 +174,11 @@ class HelperTest extends TestCase
         $this->assertEquals(
             'field:{1 TO 2}',
             $this->helper->rangeQuery('field', 1, 2, [false, false])
+        );
+
+        $this->assertEquals(
+            'field:{1.5 TO 2.5}',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [false, false])
         );
 
         $this->assertSame(
@@ -239,6 +280,25 @@ class HelperTest extends TestCase
         $this->assertSame(
             'store:{* TO 46,-93}',
             $this->helper->rangeQuery('store', null, '46,-93', [false, false])
+        );
+    }
+
+    public function testRangeQueryDecimalComma()
+    {
+        if (!\extension_loaded('intl')) {
+            $this->markTestSkipped('This test requires the intl extension.');
+        } elseif (!setlocale(LC_NUMERIC, 'nl_NL.UTF-8', 'de_DE.UTF-8', 'fr_FR.UTF-8')) {
+            $this->markTestSkipped('This test requires at least one of these locales: nl_NL.UTF-8, de_DE.UTF-8, fr_FR.UTF-8.');
+        }
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5)
+        );
+
+        $this->assertEquals(
+            'field:[45,-94 TO 45.15,-93.85]',
+            $this->helper->rangeQuery('field', '45,-94', '45.15,-93.85')
         );
     }
 

@@ -189,13 +189,19 @@ class Helper
     {
         if (null === $from) {
             $from = '*';
-        } elseif (!\is_int($from) && !\is_float($from) && !Utility::isPointValue($from)) {
+        } elseif (\is_float($from)) {
+            // ensure locale-independent string representation
+            $from = json_encode($from);
+        } elseif (!\is_int($from) && !Utility::isPointValue($from)) {
             $from = $this->escapePhrase($from);
         }
 
         if (null === $to) {
             $to = '*';
-        } elseif (!\is_int($to) && !\is_float($to) && !Utility::isPointValue($to)) {
+        } elseif (\is_float($to)) {
+            // ensure locale-independent string representation
+            $to = json_encode($to);
+        } elseif (!\is_int($to) && !Utility::isPointValue($to)) {
             $to = $this->escapePhrase($to);
         }
 
