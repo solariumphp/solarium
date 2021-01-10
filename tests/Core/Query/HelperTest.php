@@ -285,9 +285,7 @@ class HelperTest extends TestCase
 
     public function testRangeQueryDecimalComma()
     {
-        if (!\extension_loaded('intl')) {
-            $this->markTestSkipped('This test requires the intl extension.');
-        } elseif (!setlocale(LC_NUMERIC, 'nl_NL.UTF-8', 'de_DE.UTF-8', 'fr_FR.UTF-8')) {
+        if (!setlocale(LC_NUMERIC, 'nl_NL.UTF-8', 'de_DE.UTF-8', 'fr_FR.UTF-8')) {
             $this->markTestSkipped('This test requires at least one of these locales: nl_NL.UTF-8, de_DE.UTF-8, fr_FR.UTF-8.');
         }
 
