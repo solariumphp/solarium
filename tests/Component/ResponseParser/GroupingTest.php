@@ -51,6 +51,7 @@ class GroupingTest extends TestCase
                             'groupValue' => 'test value',
                             'doclist' => [
                                 'numFound' => 13,
+                                'start' => 0,
                                 'docs' => [
                                     ['id' => 1, 'name' => 'test'],
                                 ],
@@ -66,6 +67,8 @@ class GroupingTest extends TestCase
                             'groupValue' => true,
                             'doclist' => [
                                 'numFound' => 5,
+                                'start' => 0,
+                                'maxScore' => 0.97027725,
                                 'docs' => [
                                     ['id' => 3, 'name' => 'fun'],
                                 ],
@@ -77,6 +80,8 @@ class GroupingTest extends TestCase
                     'matches' => 40,
                     'doclist' => [
                         'numFound' => 22,
+                        'start' => 0,
+                        'maxScore' => 0.97027725,
                         'docs' => [
                             ['id' => 2, 'name' => 'dummy2'],
                             ['id' => 5, 'name' => 'dummy5'],
@@ -113,6 +118,8 @@ class GroupingTest extends TestCase
 
         $valueGroup = $valueGroups[0];
         $this->assertEquals(13, $valueGroup->getNumFound());
+        $this->assertEquals(0, $valueGroup->getStart());
+        $this->assertNull($valueGroup->getMaximumScore());
 
         $docs = $valueGroup->getDocuments();
         $this->assertEquals('test', $docs[0]->name);
@@ -124,9 +131,42 @@ class GroupingTest extends TestCase
 
         $this->assertEquals(40, $queryGroup->getMatches());
         $this->assertEquals(22, $queryGroup->getNumFound());
+        $this->assertEquals(0, $queryGroup->getStart());
+        $this->assertEquals(0.97027725, $queryGroup->getMaximumScore());
 
         $docs = $queryGroup->getDocuments();
         $this->assertEquals('dummy5', $docs[1]->name);
+    }
+
+    /**
+     * Test fix for maxScore being returned as "NaN" when group.query doesn't match any docs.
+     * 
+     * @see https://issues.apache.org/jira/browse/SOLR-13839
+     */
+    public function testQueryGroupParsingFixForSolr13839()
+    {
+        $data = [
+            'grouped' => [
+                'cat:1' => [
+                    'matches' => 40,
+                    'doclist' => [
+                        'numFound' => 0,
+                        'start' => 0,
+                        'maxScore' => 'NaN',
+                        'docs' => [],
+                    ],
+                ],
+            ],
+        ];
+
+        $result = $this->parser->parse($this->query, $this->grouping, $data);
+        $queryGroup = $result->getGroup('cat:1');
+
+        $this->assertEquals(40, $queryGroup->getMatches());
+        $this->assertEquals(0, $queryGroup->getNumFound());
+        $this->assertEquals(0, $queryGroup->getStart());
+        $this->assertNull($queryGroup->getMaximumScore());
+        $this->assertEquals([], $queryGroup->getDocuments());
     }
 
     public function testParseNoData()
@@ -183,6 +223,8 @@ class GroupingTest extends TestCase
 
         $valueGroup = $valueGroups[0];
         $this->assertEquals(5, $valueGroup->getNumFound());
+        $this->assertEquals(0, $valueGroup->getStart());
+        $this->assertEquals(0.97027725, $valueGroup->getMaximumScore());
 
         $docs = $valueGroup->getDocuments();
         $this->assertEquals('fun', $docs[0]->name);
