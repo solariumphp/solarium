@@ -518,7 +518,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     /**
      * Test fix for maxScore being returned as "NaN" when group.query doesn't match any docs.
-     * 
+     *
      * @see https://issues.apache.org/jira/browse/SOLR-13839
      */
     public function testGroupingComponentFixForSolr13839()
