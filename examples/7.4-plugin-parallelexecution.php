@@ -49,5 +49,5 @@ htmlFooter();
 
 // Note: for this example on a default Solr index (with a tiny index) running on localhost the performance gain is
 // minimal to none, sometimes even slightly slower!
-// In a realworld scenario with network latency, a bigger dataset, more complex queries or multiple solr instances the
+// In a realworld scenario with network latency, a bigger dataset, more complex queries or multiple Solr instances the
 // performance gain is much more.

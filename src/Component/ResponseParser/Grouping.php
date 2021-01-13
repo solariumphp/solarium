@@ -111,9 +111,9 @@ class Grouping implements ComponentParserInterface
      * Helper method to extract a ValueGroup object from the given value group result array.
      *
      * @param string        $valueResultClass the grouping resultvaluegroupclass option
-     * @param string        $documentClass    the name of the solr document class to use
-     * @param array         $valueGroupResult the group result from the solr response
-     * @param AbstractQuery $query            the current solr query
+     * @param string        $documentClass    the name of the Solr document class to use
+     * @param array         $valueGroupResult the group result from the Solr response
+     * @param AbstractQuery $query            the current Solr query
      *
      * @return object
      */

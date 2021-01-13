@@ -256,7 +256,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         if (\count($stats) > 0) {
             $key = ['stats' => implode('', $stats)];
 
-            // when specifying stats, solr sets the field as key
+            // when specifying stats, Solr sets the field as key
             $facet->setKey(implode(',', $facet->getFields()));
         } else {
             $key = ['key' => $facet->getKey()];

@@ -9,7 +9,7 @@ Solarium was designed to be highly customizable, in the following ways:
 What method of customization to use depends on your case:
 
 -   if you want to use only some parts of Solarium, but not modify it, go with method 1
--   if you want to customize solarium by altering/adding behaviour use the plugin structure. This has many advantages over extending:
+-   if you want to customize Solarium by altering/adding behaviour use the plugin structure. This has many advantages over extending:
     -   Plugins are easily reusable
     -   You can combine multiple plugins
     -   By leaving your Solarium library stock you can add plugins developed by others without issues
@@ -56,7 +56,7 @@ $response = $client->executeRequest($request);
 // and finally you can convert the response into a result
 $result = $client->createResult($query, $response);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$result->getNumFound();
 
 // show documents using the resultset iterator

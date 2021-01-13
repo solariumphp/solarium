@@ -34,7 +34,7 @@ foreach ($resultset->getMatch() as $field => $value) {
 }
 echo '</table><hr/>';
 
-// display the total number of MLT documents found by solr
+// display the total number of MLT documents found by Solr
 echo 'Number of MLT matches found: '.$resultset->getNumFound().'<br/><br/>';
 echo '<b>Listing of matched docs:</b>';
 

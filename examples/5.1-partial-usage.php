@@ -28,7 +28,7 @@ $response = $client->executeRequest($request);
 // and finally you can convert the response into a result
 $result = $client->createResult($query, $response);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$result->getNumFound();
 
 // show documents using the resultset iterator
