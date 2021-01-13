@@ -20,7 +20,7 @@ $distributedSearch->addShard('shard2', 'localhost:7574/solr');
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator

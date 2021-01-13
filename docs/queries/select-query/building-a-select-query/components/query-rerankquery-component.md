@@ -41,7 +41,7 @@ $rerank->setWeight(3);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator

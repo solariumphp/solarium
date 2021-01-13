@@ -22,7 +22,7 @@ $query->createFilterQuery('fq')->setQuery($fq);
 // without the plugin this query would fail as it is bigger than the default servlet container header buffer
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator

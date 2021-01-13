@@ -38,7 +38,7 @@ echo 'Query class: ' . get_class($query) . '<br/>';
 // execute query
 $result = $client->execute($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$result->getNumFound();
 
 // show documents using the resultset iterator

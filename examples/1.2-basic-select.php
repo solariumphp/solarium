@@ -21,7 +21,7 @@ $query->setStart(($currentPage - 1) * $resultsPerPage);
 // this executes the query and returns the result
 $resultset = $client->execute($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
