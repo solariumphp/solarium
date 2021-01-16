@@ -443,7 +443,7 @@ PrefetchIterator plugin
 
 This plugin can be used for iterating a big resultset. It has an `\Iterator` interface and will fetch the results from Solr when needed, in batches of a configurable size (sequential prefetching). You can even iterate all the documents in a Solr index.
 
-It’s very easy to use. You configure a query like you normally would and pass it to the plugin. See the [example code](#example-usage_6) below.
+It's very easy to use. You configure a query like you normally would and pass it to the plugin. See the [example code](#example-usage_6) below.
 
 ### When to use PrefetchIterator
 
@@ -588,36 +588,23 @@ The iterator functions MUST be called in the correct order.
 - The call to `next()` advances the iterator to the next position. It's good form to make this the last statement of an iteration.
   You can't get the document at this position without calling `valid()` first in the next iteration.
 
-Another possibility is intentionally _not_ calling `rewind()` before a subsequent loop. This allows for handling documents one
-way up until some threshold condition is met and then switching to a different way, repeated for as many thresholds as required.
+Another possibility is intentionally _not_ calling `rewind()` in between subsequent loops. This allows for handling documents in
+chunks of an arbitrary size, unrelated to the prefetch size.
 
 ```php
-$thresholdMet = false;
+$chunk = 1;
 
-while (!$thresholdMet && $prefetch->valid()) {
-    $thresholdMet = doCheck($prefetch->current());
-
-    // do something ...
-
-    $prefetch->next();
-}
-
-$thresholdMet = false;
-
-while (!$thresholdMet && $prefetch->valid()) {
-    $thresholdMet = doCheck($prefetch->current()); // or doAnotherCheck()
-
-    // do something else ...
-
-    $prefetch->next();
-}
-
-// you can stop here if you don't care about the remaining documents
 while ($prefetch->valid()) {
-    // do something with the remaining documents ...
+    $n = 0;
+    $handle = fopen('file-'.$chunk.'.csv', 'w');
 
-    $prefetch->next();
+    while ($n++ < 65535 && $prefetch->valid()) {
+        fputcsv($handle, $prefetch->current()->getFields());
+        $prefetch->next();
+    }
+
+    fclose($handle);
+    ++$chunk;
 }
-
 ```
 
