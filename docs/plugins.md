@@ -592,8 +592,9 @@ The iterator functions MUST be called in the correct order.
 Another possibility is intentionally _not_ calling `rewind()` between subsequent loops. This allows for handling documents in
 chunks of an arbitrary size, unrelated to the prefetch size.
 
-This example writes the retrieved documents to a set of CSV files with 65536 rows each, including a header row with the field names.
-(Note: As implemented here, it doesn't handle mutli-valued fields properly.)
+This example writes the retrieved documents to a set of CSV files with 65536 rows each, including a header row with field names.
+(Note: Don't use this code in an actual application as implemented here! The order of the fields isn't guaranteed across
+documents and it doesn't handle mutli-valued fields properly.)
 
 ```php
 $chunk = 1;
