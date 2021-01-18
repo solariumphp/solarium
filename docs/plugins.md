@@ -566,7 +566,7 @@ while ($n < 100 && $prefetch->valid()) {
 
 $prefetch->rewind();
 
-for (; 0 !== $n && $prefetch->valid(); --$n, $prefetch->next()) {
+for ($i = 0; $i < $n && $prefetch->valid(); ++$i, $prefetch->next()) {
     doComparison($prefetch->key(), $prefetch->current());
 }
 
@@ -574,8 +574,9 @@ for (; 0 !== $n && $prefetch->valid(); --$n, $prefetch->next()) {
 
 The iterator functions MUST be called in the correct order.
 
-- A ‘fresh’ PrefetchIterator is rewound by default. When you want to loop from the start more than once, you have to call
-  `rewind()` before every subsequent loop. Only `foreach` does this automatically (but it's no problem to do it manually anyway).
+- A ‘fresh’ PrefetchIterator is rewound by default (but it's no problem to `rewind()` it anyway). When you want to loop from the
+  start more than once, you have to call `rewind()` before every subsequent loop. Only `foreach` does this automatically
+  (but it's no problem to do it manually anyway).
 - The first call of every iteration MUST be `valid()`. It will tell you if there is a document at the current position.
     * This is also the point where the next request to Solr is executed if all previously fetched documents have been consumed.
     * Even though that `for` can never have more iterations than there are documents, the call is still required as all documents
@@ -586,10 +587,13 @@ The iterator functions MUST be called in the correct order.
   document even if the full resultset does extend beyond the current position.
 - The call to `key()` returns the current position of the iterator. It can be called before or after `current()`, or omitted.
 - The call to `next()` advances the iterator to the next position. It's good form to make this the last statement of an iteration.
-  You can't get the document at this position without calling `valid()` first in the next iteration.
+  You can't get the document at the new position without calling `valid()` first in the next iteration.
 
-Another possibility is intentionally _not_ calling `rewind()` in between subsequent loops. This allows for handling documents in
+Another possibility is intentionally _not_ calling `rewind()` between subsequent loops. This allows for handling documents in
 chunks of an arbitrary size, unrelated to the prefetch size.
+
+This example writes the retrieved documents to a set of CSV files with 65536 rows each, including a header row with the field names.
+(Note: As implemented here, it doesn't handle mutli-valued fields properly.)
 
 ```php
 $chunk = 1;
@@ -597,14 +601,22 @@ $chunk = 1;
 while ($prefetch->valid()) {
     $n = 0;
     $handle = fopen('file-'.$chunk.'.csv', 'w');
+    fputcsv($handle, array_keys($prefetch->current()->getFields()));
 
-    while ($n++ < 65535 && $prefetch->valid()) {
+    do {
         fputcsv($handle, $prefetch->current()->getFields());
         $prefetch->next();
-    }
+    } while (++$n < 65535 && $prefetch->valid());
 
     fclose($handle);
     ++$chunk;
 }
 ```
 
+We avoid calling `valid()` on the first iteration of the inner loop by using `do-while` because it was already called for that
+position on the outer `while`. Using an inner `while` instead is functionally equivalent, but calling `valid()` twice in
+succession would cause the same documents to be fetched twice from Solr (although still processed once by the script) on common
+multiples of the chunk size and prefetch size.
+
+Calling `current()` twice without advancing the iterator returns the same document twice from the already fetched results
+without side effects.
