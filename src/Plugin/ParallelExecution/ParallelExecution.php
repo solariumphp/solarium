@@ -21,8 +21,8 @@ use Solarium\Plugin\ParallelExecution\Event\ExecuteStart as ExecuteStartEvent;
 /**
  * ParallelExecution plugin.
  *
- * You can use this plugin to run multiple queries parallel. This functionality depends on the curl adapter so you
- * do need to have curl available in your PHP environment.
+ * You can use this plugin to run multiple queries parallel. This functionality depends on the cURL adapter so you
+ * do need to have cURL available in your PHP environment.
  *
  * While query execution is parallel, the results only become available as soon as all requests have finished. So the
  * time of the slowest query will be the effective execution time for all queries.
@@ -166,7 +166,7 @@ class ParallelExecution extends AbstractPlugin
      */
 
     /**
-     * Set curl adapter (the only type that supports parallelexecution).
+     * Set cURL adapter (the only type that supports ParallelExecution).
      */
     protected function initPluginType()
     {

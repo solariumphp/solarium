@@ -40,7 +40,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     }
 
     /**
-     * Get the response for a curl handle.
+     * Get the response for a cURL handle.
      *
      * @param resource $handle
      * @param string   $httpResponse
@@ -66,7 +66,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     }
 
     /**
-     * Create curl handle for a request.
+     * Create cURL handle for a request.
      *
      * @param Request  $request
      * @param Endpoint $endpoint

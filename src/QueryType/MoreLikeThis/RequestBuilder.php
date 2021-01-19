@@ -30,7 +30,7 @@ class RequestBuilder extends SelectRequestBuilder
     {
         $request = parent::build($query);
 
-        // add mlt params to request
+        // add MLT params to request
         $request->addParam('mlt.interestingTerms', $query->getInterestingTerms());
         $request->addParam('mlt.match.include', $query->getMatchInclude());
         $request->addParam('mlt.match.offset', $query->getMatchOffset());

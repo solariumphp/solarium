@@ -18,7 +18,7 @@ use Solarium\QueryType\Server\CoreAdmin\Result\Result;
 use Solarium\QueryType\Server\CoreAdmin\Result\StatusResult;
 
 /**
- * Parse Core Admin response data.
+ * Parse CoreAdmin response data.
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {

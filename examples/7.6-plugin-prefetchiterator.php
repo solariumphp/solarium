@@ -20,7 +20,7 @@ $prefetch = $client->getPlugin('prefetchiterator');
 $prefetch->setPrefetch(2); //fetch 2 rows per query (for real world use this can be way higher)
 $prefetch->setQuery($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: ' . count($prefetch);
 
 // show document IDs using the resultset iterator

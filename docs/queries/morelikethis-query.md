@@ -41,7 +41,7 @@ Use the `moreLikeThis` method of the client to execute the query object. See the
 Result of a MLT query
 ---------------------
 
-The result of a mlt query shares the features of the select query result. On top of that the following is added:
+The result of a MLT query shares the features of the select query result. On top of that the following is added:
 
 ### Interestingterms
 
@@ -76,7 +76,7 @@ $query->createFilterQuery('stock')->setQuery('inStock:true');
 $query->setInterestingTerms('details');
 $query->setMatchInclude(true);
 
-// enable mlt component
+// enable MLT component
 $mlt = $query->getMoreLikeThis();
 $mlt->setCount(10);
 
@@ -94,7 +94,7 @@ foreach ($resultset->getMatch() as $field => $value) {
 }
 echo '</table><hr/>';
 
-// display the total number of MLT documents found by solr
+// display the total number of MLT documents found by Solr
 echo 'Number of MLT matches found: '.$resultset->getNumFound().'<br/><br/>';
 echo '<b>Listing of matched docs:</b>';
 

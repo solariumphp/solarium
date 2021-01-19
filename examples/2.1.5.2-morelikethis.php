@@ -20,7 +20,7 @@ $query->setQuery('apache')
 $resultset = $client->select($query);
 $mlt = $resultset->getMoreLikeThis();
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
@@ -40,7 +40,7 @@ foreach ($resultset as $document) {
 
     echo '</table><br/><b>MLT results:</b><br/>';
 
-    // mlt results can be fetched by document id (the field defined as uniquekey in this schema)
+    // MLT results can be fetched by document id (the field defined as uniquekey in this schema)
     $mltResult = $mlt->getResult($document->id);
     if ($mltResult) {
         echo 'Max score: '.$mltResult->getMaximumScore().'<br/>';

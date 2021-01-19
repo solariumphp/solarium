@@ -1,11 +1,11 @@
-Core admin queries can be used to administrate cores on your solr server (https://lucene.apache.org/solr/guide/coreadmin-api.html)
+CoreAdmin queries can be used to [administrate cores on your Solr server](https://lucene.apache.org/solr/guide/coreadmin-api.html).
 
-The core admin api on the Apache Solr server has several "actions" available and every action can have a set of arguments.
+The CoreAdmin API on the Apache Solr server has several "actions" available and every action can have a set of arguments.
 
-Building an core admin query
-----------------------------
+Building a CoreAdmin query
+--------------------------
 
-The following example shows how your can build a core admin query that executes the status action:
+The following example shows how your can build a CoreAdmin query that executes the status action:
 
 ```php
 <?php
@@ -16,10 +16,10 @@ htmlHeader();
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
-// create a core admin query
+// create a CoreAdmin query
 $coreAdminQuery = $client->createCoreAdmin();
 
-// use the core admin query to build a Status action
+// use the CoreAdmin query to build a Status action
 $statusAction = $coreAdminQuery->createStatus();
 $statusAction->setCore('techproducts');
 $coreAdminQuery->setAction($statusAction);
@@ -27,7 +27,7 @@ $coreAdminQuery->setAction($statusAction);
 $response = $client->coreAdmin($coreAdminQuery);
 $statusResult = $response->getStatusResult();
 
-echo '<b>Core admin status action execution:</b><br/>';
+echo '<b>CoreAdmin status action execution:</b><br/>';
 echo 'Uptime of the core ( ' .$statusResult->getCoreName(). ' ): ' . $statusResult->getUptime();
 
 htmlFooter();
@@ -105,9 +105,9 @@ Use to rename a core.
 RequestRecovery
 ===============
 
-Use to recover a core. 
+Use to recover a core.
 
-**Note**: Only relevant for solrcloud where cores are shards and a cover can be recovered from the leader (a copy of that core on another node)
+**Note**: Only relevant for SolrCloud where cores are shards and a cover can be recovered from the leader (a copy of that core on another node).
 
 **Available action methods**:
 
@@ -131,7 +131,7 @@ RequestStatus can be used later to retrieve the state for that asynchronous acti
 Split
 =====
 
-Use to split a core. 
+Use to split a core.
 
 See also: https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-split
 
@@ -150,7 +150,7 @@ See also: https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-spli
 Status
 ======
 
-Use to get the status of one or all cores:
+Use to get the status of one or all cores.
 
 **Note**: When no name is passed the status for all cores will be retrieved.
 

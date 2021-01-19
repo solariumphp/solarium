@@ -380,7 +380,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      * @param mixed $options
      * @param bool  $add
      *
-     * @return \Solarium\Component\Facet\Query|FacetInterface
+     * @return \Solarium\Component\Facet\Query
      */
     public function createFacetQuery($options = null, bool $add = true): FacetInterface
     {
@@ -393,7 +393,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      * @param mixed $options
      * @param bool  $add
      *
-     * @return \Solarium\Component\Facet\MultiQuery|FacetInterface
+     * @return \Solarium\Component\Facet\MultiQuery
      */
     public function createFacetMultiQuery($options = null, bool $add = true): FacetInterface
     {
@@ -406,7 +406,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      * @param mixed $options
      * @param bool  $add
      *
-     * @return \Solarium\Component\Facet\Range|FacetInterface
+     * @return \Solarium\Component\Facet\Range
      */
     public function createFacetRange($options = null, bool $add = true): FacetInterface
     {
@@ -419,7 +419,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      * @param mixed $options
      * @param bool  $add
      *
-     * @return \Solarium\Component\Facet\Pivot|FacetInterface
+     * @return \Solarium\Component\Facet\Pivot
      */
     public function createFacetPivot($options = null, bool $add = true): FacetInterface
     {
@@ -432,7 +432,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      * @param mixed $options
      * @param bool  $add
      *
-     * @return \Solarium\Component\Facet\Interval|FacetInterface
+     * @return \Solarium\Component\Facet\Interval
      */
     public function createFacetInterval($options = null, bool $add = true): FacetInterface
     {
@@ -445,7 +445,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      * @param mixed $options
      * @param bool  $add
      *
-     * @return \Solarium\Component\Facet\JsonAggregation|FacetInterface
+     * @return \Solarium\Component\Facet\JsonAggregation
      */
     public function createJsonFacetAggregation($options = null, bool $add = true): FacetInterface
     {
@@ -458,7 +458,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      * @param mixed $options
      * @param bool  $add
      *
-     * @return \Solarium\Component\Facet\JsonTerms|FacetInterface
+     * @return \Solarium\Component\Facet\JsonTerms
      */
     public function createJsonFacetTerms($options = null, bool $add = true): FacetInterface
     {
@@ -471,7 +471,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      * @param mixed $options
      * @param bool  $add
      *
-     * @return \Solarium\Component\Facet\JsonQuery|FacetInterface
+     * @return \Solarium\Component\Facet\JsonQuery
      */
     public function createJsonFacetQuery($options = null, bool $add = true): FacetInterface
     {
@@ -484,7 +484,7 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
      * @param mixed $options
      * @param bool  $add
      *
-     * @return \Solarium\Component\Facet\JsonRange|FacetInterface
+     * @return \Solarium\Component\Facet\JsonRange
      */
     public function createJsonFacetRange($options = null, bool $add = true): FacetInterface
     {

@@ -17,7 +17,7 @@ $query->setFilterMode($query::FILTER_MODE_MARK);
 // this executes the query and returns the result
 $resultset = $client->execute($query);
 
-// display the total number of documents found by solr and the maximum score
+// display the total number of documents found by Solr and the maximum score
 echo 'NumFound: '.$resultset->getNumFound();
 echo '<br/>MaxScore: '.$resultset->getMaxScore();
 
