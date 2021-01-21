@@ -14,6 +14,10 @@ class CurlTest extends AbstractServerTest
 {
     public function setUp(): void
     {
+        if (!\function_exists('curl_init')) {
+            $this->markTestSkipped('cURL not available, skipping cURL adapter tests.');
+        }
+
         parent::setUp();
         // The default timeout of Solarium of 5s seems to be too aggressive on Travis and causes random test failures.
         // Set it to the PHP default of 13s.
