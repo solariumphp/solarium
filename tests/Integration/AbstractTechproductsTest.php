@@ -519,7 +519,13 @@ abstract class AbstractTechproductsTest extends TestCase
     /**
      * Test fix for maxScore being returned as "NaN" when group.query doesn't match any docs.
      *
+     * Skipped for SolrCloud because maxScore is included in distributed search results even if score is not requested (SOLR-6612).
+     * This makes the test fail on SolrCloud for queries that don't fetch a score and thus aren't affected by SOLR-13839.
+     *
+     * @group skip_for_solr_cloud
+     *
      * @see https://issues.apache.org/jira/browse/SOLR-13839
+     * @see https://issues.apache.org/jira/browse/SOLR-6612
      */
     public function testGroupingComponentFixForSolr13839()
     {
