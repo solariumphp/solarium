@@ -547,47 +547,64 @@ htmlFooter();
 
 ### Advanced usage
 
-A more advanced possibility is looping over the iterator with `for` or `while`. This allows for more complex stop conditions,
-e.g. ‘get up to 100 interesting documents and compare them to the same number of top results’ (where ‘interesting’ probably
-can't be determined in a Solr query and you might get less than 100 interesting _or_ total documents).
+A more advanced possibility is looping over the iterator with `for` or `while`. This allows for stop conditions that can end the
+loop before reaching the end of the iterator.
+
+This example gets the first 100 ‘interesting’ documents and which position they appear at (where ‘interesting’ is a property that
+can't be determined in a Solr query).
 
 ```php
 $n = 0;
+$docs = [];
 
 while ($n < 100 && $prefetch->valid()) {
-    if (doCheck($prefetch->key(), $prefetch->current()) {
-        // ...
-
+    if (isInteresting($prefetch->current()) {
+        $docs[$prefetch->key()] = $prefetch->current();
         ++$n;
     }
+
+    $prefetch->next();
+}
+```
+
+This example loops over the same iterator twice. It rewinds in between to reset the iterator to the start position before starting
+the second loop. You can do this as many times as you want.
+
+```php
+while ($prefetch->valid()) {
+    // do something
 
     $prefetch->next();
 }
 
 $prefetch->rewind();
 
-for ($i = 0; $i < $n && $prefetch->valid(); ++$i, $prefetch->next()) {
-    doComparison($prefetch->key(), $prefetch->current());
-}
+while ($prefetch->valid()) {
+    // do something else
 
+    $prefetch->next();
+}
 ```
 
 The iterator functions MUST be called in the correct order.
 
-- A ‘fresh’ PrefetchIterator is rewound by default (but it's no problem to `rewind()` it anyway). When you want to loop from the
-  start more than once, you have to call `rewind()` before every subsequent loop. Only `foreach` does this automatically
-  (but it's no problem to do it manually anyway).
-- The first call of every iteration MUST be `valid()`. It will tell you if there is a document at the current position.
+- A ‘fresh’ PrefetchIterator is rewound by default (but it's no problem to `rewind()` it anyway).
+    * When you want to loop from the start more than once, you have to call `rewind()` before every subsequent `for` or `while` loop.
+    * `foreach` does this automatically (but it's no problem to do it manually anyway).
+    * After rewinding, documents will be refetched from the server in the subsequent loop.
+- The first call of every iteration MUST be `valid()`.
+    * It will tell you if there is a document at the current position.
     * This is also the point where the next request to Solr is executed if all previously fetched documents have been consumed.
-    * Even though that `for` can never have more iterations than there are documents, the call is still required as all documents
-      have to be refetched after rewinding the iterator.
     * When part of an expression that also checks other conditions, placing it rightmost takes advantage of lazy evaluation to
       avoid an unnecessary request to Solr if the other conditions aren't met.
-- The call to `current()` gets the current document from the iterator. Without calling `valid()` first, it CAN fail to return a
-  document even if the full resultset does extend beyond the current position.
-- The call to `key()` returns the current position of the iterator. It can be called before or after `current()`, or omitted.
-- The call to `next()` advances the iterator to the next position. It's good form to make this the last statement of an iteration.
-  You can't get the document at the new position without calling `valid()` first in the next iteration.
+- The call to `current()` gets the current document from the iterator.
+    * Without calling `valid()` first, it CAN fail to return a document even if the full resultset does extend beyond the current position.
+    * Calling `current()` more than once without advancing the iterator returns the same document from the already fetched results.
+- The call to `key()` returns the current position of the iterator.
+    * It can be called before or after `current()`, more than once, or omitted.
+- The call to `next()` advances the iterator to the next position.
+    * It's good form to make this the last statement of an iteration.
+    * You can't get the document at the new position without calling `valid()` first in the next iteration.
 
 Another possibility is intentionally _not_ calling `rewind()` between subsequent loops. This allows for handling documents in
 chunks of an arbitrary size, unrelated to the prefetch size.
@@ -618,6 +635,3 @@ We avoid calling `valid()` on the first iteration of the inner loop by using `do
 position on the outer `while`. Using an inner `while` instead is functionally equivalent, but calling `valid()` twice in
 succession would cause the same documents to be fetched twice from Solr (although still processed once by the script) on common
 multiples of the chunk size and prefetch size.
-
-Calling `current()` twice without advancing the iterator returns the same document twice from the already fetched results
-without side effects.
