@@ -37,14 +37,4 @@ abstract class AbstractAdd extends AbstractCommand
     {
         return Request::METHOD_PUT;
     }
-
-    /**
-     * Empty.
-     *
-     * @return string
-     */
-    public function getTerm(): string
-    {
-        return '';
-    }
 }

@@ -15,8 +15,9 @@ use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
-use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponeParser;
-use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponeParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Exists as ExistsResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
 
 class SynonymsTest extends TestCase
 {
@@ -39,16 +40,25 @@ class SynonymsTest extends TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
+        $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
     public function testGetResponseParserWithCommand()
     {
         $command = $this->query->createCommand(Synonyms::COMMAND_ADD);
         $this->query->setCommand($command);
-        $this->assertInstanceOf(CommandResponeParser::class, $this->query->getResponseParser());
+        $this->assertInstanceOf(CommandResponseParser::class, $this->query->getResponseParser());
         $this->query->removeCommand();
-        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
+        $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
+    }
+
+    public function testGetResponseParserWithExistsCommand()
+    {
+        $command = $this->query->createCommand(Synonyms::COMMAND_EXISTS);
+        $this->query->setCommand($command);
+        $this->assertInstanceOf(ExistsResponseParser::class, $this->query->getResponseParser());
+        $this->query->removeCommand();
+        $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
     public function testCommand()

@@ -47,14 +47,4 @@ class Remove extends AbstractCommand
     {
         return '';
     }
-
-    /**
-     * Empty.
-     *
-     * @return string
-     */
-    public function getTerm(): string
-    {
-        return '';
-    }
 }

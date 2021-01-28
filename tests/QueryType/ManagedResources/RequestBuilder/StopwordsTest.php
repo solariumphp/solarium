@@ -74,6 +74,8 @@ class StopwordsTest extends TestCase
         $this->query->setName('dutch');
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
+        $this->assertSame('schema/analysis/stopwords/dutch', $request->getHandler());
+        $this->assertNull($request->getRawData());
     }
 
     public function testAdd()
@@ -81,13 +83,15 @@ class StopwordsTest extends TestCase
         $stopwords = ['de'];
         $command = new AddCommand();
         $command->setStopwords($stopwords);
+        $this->assertSame($stopwords, $command->getStopwords());
+        $this->assertSame('["de"]', $command->getRawData());
+
         $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
-        $this->assertEquals($stopwords, $command->getStopwords());
-        $this->assertEquals('', $command->getTerm());
-        $this->assertEquals('["de"]', $command->getRawData());
+        $this->assertSame('schema/analysis/stopwords/dutch', $request->getHandler());
+        $this->assertSame('["de"]', $request->getRawData());
     }
 
     public function testConfig()
@@ -96,64 +100,90 @@ class StopwordsTest extends TestCase
         $command = new ConfigCommand();
 
         $command->setInitArgs($initArgs);
-        $this->assertEquals('', $command->getRawData());
+        $this->assertSame($initArgs, $command->getInitArgs());
+        $this->assertSame('', $command->getRawData());
 
         $initArgs->setInitArgs(['ignoreCase' => true]);
         $command->setInitArgs($initArgs);
+        $this->assertSame($initArgs, $command->getInitArgs());
+        $this->assertSame('{"initArgs":{"ignoreCase":true}}', $command->getRawData());
+
         $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
-        $this->assertEquals('', $command->getTerm());
-        $this->assertEquals('{"initArgs":{"ignoreCase":true}}', $command->getRawData());
+        $this->assertSame('schema/analysis/stopwords/dutch', $request->getHandler());
+        $this->assertSame('{"initArgs":{"ignoreCase":true}}', $request->getRawData());
     }
 
     public function testCreate()
     {
         $command = new CreateCommand();
+        $this->assertSame('{"class":"org.apache.solr.rest.schema.analysis.ManagedWordSetResource"}', $command->getRawData());
+
         $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
-        $this->assertEquals('', $command->getTerm());
-        $this->assertEquals('{"class":"org.apache.solr.rest.schema.analysis.ManagedWordSetResource"}', $command->getRawData());
+        $this->assertSame('schema/analysis/stopwords/dutch', $request->getHandler());
+        $this->assertSame('{"class":"org.apache.solr.rest.schema.analysis.ManagedWordSetResource"}', $request->getRawData());
     }
 
     public function testDelete()
     {
-        $term = 'de';
         $command = new DeleteCommand();
-        $command->setTerm($term);
+        $command->setTerm('de');
+        $this->assertSame('de', $command->getTerm());
+        $this->assertSame('', $command->getRawData());
+
         $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
-        $this->assertEquals($term, $command->getTerm());
-        $this->assertEquals('', $command->getRawData());
+        $this->assertSame('schema/analysis/stopwords/dutch/de', $request->getHandler());
+        $this->assertNull($request->getRawData());
     }
 
     public function testExists()
     {
-        $term = 'de';
         $command = new ExistsCommand();
         $command->setTerm('de');
+        $this->assertSame('de', $command->getTerm());
+        $this->assertSame('', $command->getRawData());
+
         $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
-        $this->assertEquals($term, $command->getTerm());
-        $this->assertEquals('', $command->getRawData());
+        $this->assertSame('schema/analysis/stopwords/dutch/de', $request->getHandler());
+        $this->assertNull($request->getRawData());
+    }
+
+    public function testExistsWithoutTerm()
+    {
+        $command = new ExistsCommand();
+        $this->assertNull($command->getTerm());
+        $this->assertSame('', $command->getRawData());
+
+        $this->query->setName('dutch');
+        $this->query->setCommand($command);
+        $request = $this->builder->build($this->query);
+        $this->assertSame(Request::METHOD_GET, $request->getMethod());
+        $this->assertSame('schema/analysis/stopwords/dutch', $request->getHandler());
+        $this->assertNull($request->getRawData());
     }
 
     public function testRemove()
     {
         $command = new RemoveCommand();
+        $this->assertSame('', $command->getRawData());
+
         $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
-        $this->assertEquals('', $command->getTerm());
-        $this->assertEquals('', $command->getRawData());
+        $this->assertSame('schema/analysis/stopwords/dutch', $request->getHandler());
+        $this->assertNull($request->getRawData());
     }
 }
 

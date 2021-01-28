@@ -73,7 +73,9 @@ class Resource extends AbstractRequestBuilder
                 $request->setHandler($request->getHandler().'/'.$command->getTerm());
                 break;
             case BaseQuery::COMMAND_EXISTS:
-                $request->setHandler($request->getHandler().'/'.$command->getTerm());
+                if (null !== $term = $command->getTerm()) {
+                    $request->setHandler($request->getHandler().'/'.$term);
+                }
                 break;
             case BaseQuery::COMMAND_REMOVE:
                 break;

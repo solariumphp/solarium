@@ -19,6 +19,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Add;
 use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Exists as ExistsResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as ResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
 
@@ -78,6 +79,8 @@ class Synonyms extends AbstractQuery
     {
         if (null === $this->command) {
             $parser = new ResponseParser();
+        } elseif (self::COMMAND_EXISTS === $this->command->getType()) {
+            $parser = new ExistsResponseParser();
         } else {
             $parser = new CommandResponseParser();
         }

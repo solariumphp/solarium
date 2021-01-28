@@ -36,11 +36,4 @@ abstract class AbstractCommand extends Configurable
      * @return string
      */
     abstract public function getRawData(): string;
-
-    /**
-     * Returns the term to be sent to Solr.
-     *
-     * @return string
-     */
-    abstract public function getTerm(): string;
 }

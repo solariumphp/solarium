@@ -21,9 +21,9 @@ class Exists extends AbstractCommand
     /**
      * Term to be checked if exists.
      *
-     * @var string
+     * @var string|null
      */
-    protected $term = '';
+    protected $term = null;
 
     /**
      * Returns command type, for use in adapters.
@@ -42,7 +42,11 @@ class Exists extends AbstractCommand
      */
     public function getRequestMethod(): string
     {
-        return Request::METHOD_GET;
+        // HEAD would be sufficient, but doesn't work with Solr 7
+        // there's also a bug since Solr 8.7 with HEAD requests if a term is set
+        $method = Request::METHOD_GET;
+
+        return $method;
     }
 
     /**
@@ -58,9 +62,9 @@ class Exists extends AbstractCommand
     /**
      * Returns the term to be checked if exists.
      *
-     * @return string
+     * @return string|null
      */
-    public function getTerm(): string
+    public function getTerm(): ?string
     {
         return $this->term;
     }
@@ -68,11 +72,11 @@ class Exists extends AbstractCommand
     /**
      * Set the term to be checked if exists.
      *
-     * @param string $term
+     * @param string|null $term
      *
      * @return self
      */
-    public function setTerm(string $term): self
+    public function setTerm(?string $term): self
     {
         $this->term = $term;
 

@@ -13,7 +13,6 @@ use Solarium\Component\Result\Grouping\ValueGroup;
 use Solarium\Component\Result\Terms\Result as TermsResult;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
-use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
 use Solarium\Plugin\BufferedAdd\Event\Events as BufferedAddEvents;
@@ -22,7 +21,10 @@ use Solarium\Plugin\BufferedAdd\Event\PostFlush as BufferedAddPostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as BufferedAddPreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as BufferedAddPreFlushEvent;
 use Solarium\Plugin\PrefetchIterator;
+use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
+use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
+use Solarium\QueryType\ManagedResources\Result\Resources\Resource;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -2204,9 +2206,16 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testManagedStopwords()
     {
+        /** @var StopwordsQuery $query */
         $query = self::$client->createManagedStopwords();
         $query->setName('english');
         $term = 'managed_stopword_test';
+
+        // Check that stopword list exists
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
         // Add stopwords
         $add = $query->createCommand($query::COMMAND_ADD);
@@ -2215,7 +2224,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
-        // Check if single stopword exists
+        // Check that added stopword exists
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
@@ -2230,26 +2239,40 @@ abstract class AbstractTechproductsTest extends TestCase
         $items = $result->getItems();
         $this->assertContains($term, $items);
 
-        // Delete stopword
+        // Delete added stopword
         $delete = $query->createCommand($query::COMMAND_DELETE);
         $delete->setTerm($term);
         $query->setCommand($delete);
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
-        // Check if stopword is gone
-        $this->expectException(HttpException::class);
+        // Check that added stopword is gone
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists->setTerm('foobarbazbux');
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Check that added stopword is gone
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
-        self::$client->execute($query);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
     }
 
     public function testManagedStopwordsCreation()
     {
+        /** @var StopwordsQuery $query */
         $query = self::$client->createManagedStopwords();
         $query->setName(uniqid());
         $term = 'managed_stopword_test';
+
+        // Check that stopword list doesn't exist
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
 
         // Create a new stopword list
         $create = $query->createCommand($query::COMMAND_CREATE);
@@ -2257,64 +2280,73 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
-        // Whatever happens next ...
-        try {
-            // Configure the new list to be case sensitive
-            $initArgs = $query->createInitArgs();
-            $initArgs->setIgnoreCase(false);
-            $config = $query->createCommand($query::COMMAND_CONFIG);
-            $config->setInitArgs($initArgs);
-            $query->setCommand($config);
-            $result = self::$client->execute($query);
-            $this->assertTrue($result->getWasSuccessful());
+        // Configure the new list to be case sensitive
+        $initArgs = $query->createInitArgs();
+        $initArgs->setIgnoreCase(false);
+        $config = $query->createCommand($query::COMMAND_CONFIG);
+        $config->setInitArgs($initArgs);
+        $query->setCommand($config);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check the configuration
-            $query->removeCommand();
-            $result = self::$client->execute($query);
-            $this->assertFalse($result->isIgnoreCase());
+        // Check that stopword list was created
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if we can add to it
-            $add = $query->createCommand($query::COMMAND_ADD);
-            $add->setStopwords([$term]);
-            $query->setCommand($add);
-            $result = self::$client->execute($query);
-            $this->assertTrue($result->getWasSuccessful());
+        // Check the configuration
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->isIgnoreCase());
 
-            // Check if stopword exists in its original lowercase form
-            $exists = $query->createCommand($query::COMMAND_EXISTS);
-            $exists->setTerm($term);
-            $query->setCommand($exists);
-            $result = self::$client->execute($query);
-            $this->assertTrue($result->getWasSuccessful());
+        // Check that we can add to it
+        $add = $query->createCommand($query::COMMAND_ADD);
+        $add->setStopwords([$term]);
+        $query->setCommand($add);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if stopword DOESN'T exist in uppercase form
-            $this->expectException(HttpException::class);
-            $exists->setTerm(strtoupper($term));
-            $query->setCommand($exists);
-            self::$client->execute($query);
-        }
-        // ... we have to remove the created resource!
-        finally {
-            // Remove the stopword list
-            $remove = $query->createCommand($query::COMMAND_REMOVE);
-            $query->setCommand($remove);
-            $result = self::$client->execute($query);
-            $this->assertTrue($result->getWasSuccessful());
+        // Check that added stopword exists in its original lowercase form
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if stopword list is gone
-            $this->expectException(HttpException::class);
-            $query->removeCommand();
-            self::$client->execute($query);
-        }
+        // Check that added stopword DOESN'T exist in uppercase form
+        $exists->setTerm(strtoupper($term));
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Remove the stopword list
+        $remove = $query->createCommand($query::COMMAND_REMOVE);
+        $query->setCommand($remove);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Check that stopword list is gone
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
     }
 
     public function testManagedSynonyms()
     {
+        /** @var SynonymsQuery $query */
         $query = self::$client->createManagedSynonyms();
         $query->setName('english');
         $term = 'managed_synonyms_test';
 
-        // Add synonyms
+        // Check that synonym map exists
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Add synonym mapping
         $add = $query->createCommand($query::COMMAND_ADD);
         $synonyms = new Synonyms();
         $synonyms->setTerm($term);
@@ -2324,13 +2356,12 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
-        // Check if single synonym exists
+        // Check that added synonym mapping exsists
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
-        $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
 
         // We need to remove the current command in order to have no command. Having no command lists the items.
         $query->removeCommand();
@@ -2348,26 +2379,33 @@ abstract class AbstractTechproductsTest extends TestCase
             $this->fail('Couldn\'t find synonym.');
         }
 
-        // Delete synonyms
+        // Delete added synonym mapping
         $delete = $query->createCommand($query::COMMAND_DELETE);
         $delete->setTerm($term);
         $query->setCommand($delete);
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
-        // Check if synonyms are gone
-        $this->expectException(HttpException::class);
+        // Check that added synonym mapping is gone
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
-        self::$client->execute($query);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
     }
 
     public function testManagedSynonymsCreation()
     {
+        /** @var SynonymsQuery $query */
         $query = self::$client->createManagedSynonyms();
         $query->setName(uniqid());
         $term = 'managed_synonyms_test';
+
+        // Check that synonym map doesn't exist
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
 
         // Create a new synonym map
         $create = $query->createCommand($query::COMMAND_CREATE);
@@ -2375,71 +2413,96 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
-        // Whatever happens next ...
-        try {
-            // Configure the new map to be case sensitive and use the 'solr' format
-            $initArgs = $query->createInitArgs();
-            $initArgs->setIgnoreCase(false);
-            $initArgs->setFormat($initArgs::FORMAT_SOLR);
-            $config = $query->createCommand($query::COMMAND_CONFIG);
-            $config->setInitArgs($initArgs);
-            $query->setCommand($config);
-            $result = self::$client->execute($query);
-            $this->assertTrue($result->getWasSuccessful());
+        // Configure the new map to be case sensitive and use the 'solr' format
+        $initArgs = $query->createInitArgs();
+        $initArgs->setIgnoreCase(false);
+        $initArgs->setFormat($initArgs::FORMAT_SOLR);
+        $config = $query->createCommand($query::COMMAND_CONFIG);
+        $config->setInitArgs($initArgs);
+        $query->setCommand($config);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check the configuration
-            $query->removeCommand();
-            $result = self::$client->execute($query);
-            $this->assertFalse($result->isIgnoreCase());
-            $this->assertEquals($initArgs::FORMAT_SOLR, $result->getFormat());
+        // Check that synonym map was created
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if we can add to it
-            $add = $query->createCommand($query::COMMAND_ADD);
-            $synonyms = new Synonyms();
-            $synonyms->setTerm($term);
-            $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
-            $add->setSynonyms($synonyms);
-            $query->setCommand($add);
-            $result = self::$client->execute($query);
-            $this->assertTrue($result->getWasSuccessful());
+        // Check the configuration
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->isIgnoreCase());
+        $this->assertEquals($initArgs::FORMAT_SOLR, $result->getFormat());
 
-            // Check if synonym exists in its original lowercase form
-            $exists = $query->createCommand($query::COMMAND_EXISTS);
-            $exists->setTerm($term);
-            $query->setCommand($exists);
-            $result = self::$client->execute($query);
-            $this->assertTrue($result->getWasSuccessful());
-            $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
+        // Check that we can add to it
+        $add = $query->createCommand($query::COMMAND_ADD);
+        $synonyms = new Synonyms();
+        $synonyms->setTerm($term);
+        $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
+        $add->setSynonyms($synonyms);
+        $query->setCommand($add);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if synonym DOESN'T exist in uppercase form
-            $this->expectException(HttpException::class);
-            $exists->setTerm(strtoupper($term));
-            $query->setCommand($exists);
-            self::$client->execute($query);
-        }
-        // ... we have to remove the created resource!
-        finally {
-            // Remove the synonym map
-            $remove = $query->createCommand($query::COMMAND_REMOVE);
-            $query->setCommand($remove);
-            $result = self::$client->execute($query);
-            $this->assertTrue($result->getWasSuccessful());
+        // Check that synonym exists in its original lowercase form
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if synonym map is gone
-            $this->expectException(HttpException::class);
-            $query->removeCommand();
-            self::$client->execute($query);
-        }
+        // Check that synonym DOESN'T exist in uppercase form
+        $exists->setTerm(strtoupper($term));
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Remove the synonym map
+        $remove = $query->createCommand($query::COMMAND_REMOVE);
+        $query->setCommand($remove);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Check that synonym map is gone
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
     }
 
     public function testManagedResources()
     {
-        // Check if we can find the 2 default managed resources
-        // (and account for additional resources we might have created while testing)
         $query = self::$client->createManagedResources();
         $result = self::$client->execute($query);
         $items = $result->getItems();
-        $this->assertGreaterThanOrEqual(2, count($items));
+
+        /*
+         * Solr can also return resources that were created in previous tests, even if they were actually successfully removed.
+         * Those resources never had any registered observers. We can use this fact to filter out the two default resources that
+         * come with techproducts and check only those. We tally them because we can't count on numFound with the surplus resources.
+         */
+
+        $n = 0;
+        /** @var Resource $item */
+        foreach ($items as $item) {
+            if (0 !== $item->getNumObservers()) {
+                ++$n;
+                switch ($item->getType()) {
+                    case Resource::TYPE_STOPWORDS:
+                        $this->assertSame('/schema/analysis/stopwords/english', $item->getResourceId());
+                        $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedWordSetResource', $item->getClass());
+                        break;
+                    case Resource::TYPE_SYNONYMS:
+                        $this->assertSame('/schema/analysis/synonyms/english', $item->getResourceId());
+                        $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager', $item->getClass());
+                        break;
+                }
+            }
+        }
+
+        // both resources must be present in the results
+        $this->assertSame(2, $n);
     }
 }
 

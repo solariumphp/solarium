@@ -12,11 +12,12 @@ namespace Solarium\QueryType\ManagedResources\Query;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\Core\Query\Status4xxNoExceptionInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
 use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
 
-abstract class AbstractQuery extends BaseQuery
+abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionInterface
 {
     /**
      * Command add.
