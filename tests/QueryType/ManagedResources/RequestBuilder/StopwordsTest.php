@@ -56,6 +56,7 @@ class StopwordsTest extends TestCase
     public function testNoName()
     {
         $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Name of the resource is not set in the query.');
         $request = $this->builder->build($this->query);
     }
 
@@ -66,6 +67,7 @@ class StopwordsTest extends TestCase
         $this->query->setCommand($command);
 
         $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unsupported command type: unsupportedtype');
         $request = $this->builder->build($this->query);
     }
 
@@ -142,6 +144,17 @@ class StopwordsTest extends TestCase
         $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
         $this->assertSame('schema/analysis/stopwords/dutch/de', $request->getHandler());
         $this->assertNull($request->getRawData());
+    }
+
+    public function testDeleteWithoutTerm()
+    {
+        $command = new DeleteCommand();
+        $this->query->setName('dutch');
+        $this->query->setCommand($command);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Missing term for DELETE command.');
+        $request = $this->builder->build($this->query);
     }
 
     public function testExists()

@@ -53,6 +53,8 @@ class Resource extends AbstractRequestBuilder
      * @param \Solarium\Core\Client\Request                              $request
      * @param \Solarium\QueryType\ManagedResources\Query\AbstractCommand $command
      *
+     * @throws \Solarium\Exception\RuntimeException
+     *
      * @return self
      */
     protected function buildCommand(Request $request, AbstractCommand $command): self
@@ -70,7 +72,10 @@ class Resource extends AbstractRequestBuilder
                 $request->setRawData($command->getRawData());
                 break;
             case BaseQuery::COMMAND_DELETE:
-                $request->setHandler($request->getHandler().'/'.$command->getTerm());
+                if (null === $term = $command->getTerm()) {
+                    throw new RuntimeException('Missing term for DELETE command.');
+                }
+                $request->setHandler($request->getHandler().'/'.$term);
                 break;
             case BaseQuery::COMMAND_EXISTS:
                 if (null !== $term = $command->getTerm()) {
