@@ -10,12 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Indexing labelled nested child documents through pseudo-fields
 - Extract query now supports extractFormat
 - Helper::rangeQuery() now supports left-inclusive only and right-inclusive only queries
+- Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
+- Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
 
 ### Fixed
 - PrefetchIterator::key() should return 0 instead of NULL on a fresh PrefetchIterator
 - PrefetchIterator::next() shouldn't skip fetched results after PrefetchIterator::count() on a fresh PrefetchIterator
 - PrefetchIterator::rewind() no longer results in duplicate documents when invoked mid-set
 - fixed incorrect median function
+- HEAD requests could lead to timeouts with cURL adapter
 
 ### Changed
 - Exception message for invalid/unavailable file in Extract query now contains filename
@@ -50,8 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Solarium\Component\Facet\Field::setMatches()
 - Solarium\Component\Facet\Field::setExcludeTerms()
 - Solarium\Component\Highlighting\Highlighting::setMethod()
-- Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
-- Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
 
 ### Changed
 - Refactored Managed Resources code: use `createCommand()` and `createInitArgs()` to issue commands

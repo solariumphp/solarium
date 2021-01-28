@@ -42,9 +42,12 @@ class Exists extends AbstractCommand
      */
     public function getRequestMethod(): string
     {
-        // HEAD would be sufficient, but doesn't work with Solr 7
-        // there's also a bug since Solr 8.7 with HEAD requests if a term is set
-        $method = Request::METHOD_GET;
+        $method = Request::METHOD_HEAD;
+
+        // there's a bug since Solr 8.7 with HEAD requests if a term is set (SOLR-15116)
+        if (null !== $this->getTerm()) {
+            $method = Request::METHOD_GET;
+        }
 
         return $method;
     }
