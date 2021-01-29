@@ -34,18 +34,4 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
         return $data;
     }
-
-    /**
-     * @param array          $data
-     * @param AbstractResult $result
-     *
-     * @return array
-     */
-    protected function parseStatus(array $data, AbstractResult $result): array
-    {
-        $data['wasSuccessful'] = 200 === $result->getResponse()->getStatusCode();
-        $data['statusMessage'] = $result->getResponse()->getStatusMessage();
-
-        return $data;
-    }
 }

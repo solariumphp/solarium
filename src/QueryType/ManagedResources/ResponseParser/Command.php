@@ -28,23 +28,9 @@ class Command extends ResponseParserAbstract implements ResponseParserInterface
     public function parse(ResultInterface $result): array
     {
         $data = $result->getData();
-        $parsed = $this->parseStatus([], $result);
+        $parsed = $this->parseStatus($data, $result);
         $parsed = $this->addHeaderInfo($data, $parsed);
 
         return $parsed;
-    }
-
-    /**
-     * @param array                                               $data
-     * @param \Solarium\QueryType\ManagedResources\Result\Command $result
-     *
-     * @return array
-     */
-    protected function parseStatus(array $data, ResultInterface $result): array
-    {
-        $data['wasSuccessful'] = 200 === $result->getResponse()->getStatusCode();
-        $data['statusMessage'] = $result->getResponse()->getStatusMessage();
-
-        return $data;
     }
 }
