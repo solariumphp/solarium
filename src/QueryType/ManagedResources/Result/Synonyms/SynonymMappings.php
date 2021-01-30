@@ -27,13 +27,6 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     protected $name = 'synonymMappings';
 
     /**
-     * ResourceId looked up using the managed resources component.
-     *
-     * @var string
-     */
-    protected $resourceId;
-
-    /**
      * Whether or not to ignore the case.
      *
      * @var bool|null
@@ -133,16 +126,6 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
         $this->parseResponse();
 
         return \count($this->items);
-    }
-
-    /**
-     * @return string
-     */
-    public function getResourceId(): string
-    {
-        $this->parseResponse();
-
-        return $this->resourceId;
     }
 
     /**
