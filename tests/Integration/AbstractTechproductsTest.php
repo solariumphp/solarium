@@ -24,8 +24,8 @@ use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
-use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ResourceResult;
-use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResult;
+use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ResourceResultItem;
+use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResultItem;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -2385,7 +2385,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $items = $result->getItems();
         $this->assertTrue($result->getWasSuccessful());
         $success = false;
-        /** @var SynonymsResult $item */
+        /** @var SynonymsResultItem $item */
         foreach ($items as $item) {
             if ('managed_synonyms_test' === $item->getTerm()) {
                 $success = true;
@@ -2401,7 +2401,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
         $this->assertEquals(
-            [new SynonymsResult('managed_synonyms_test', ['managed_synonym', 'synonym_test'])],
+            [new SynonymsResultItem('managed_synonyms_test', ['managed_synonym', 'synonym_test'])],
             $result->getItems()
         );
 
@@ -2524,16 +2524,16 @@ abstract class AbstractTechproductsTest extends TestCase
          */
 
         $n = 0;
-        /** @var ResourceResult $item */
+        /** @var ResourceResultItem $item */
         foreach ($items as $item) {
             if (0 !== $item->getNumObservers()) {
                 ++$n;
                 switch ($item->getType()) {
-                    case ResourceResult::TYPE_STOPWORDS:
+                    case ResourceResultItem::TYPE_STOPWORDS:
                         $this->assertSame('/schema/analysis/stopwords/english', $item->getResourceId());
                         $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedWordSetResource', $item->getClass());
                         break;
-                    case ResourceResult::TYPE_SYNONYMS:
+                    case ResourceResultItem::TYPE_SYNONYMS:
                         $this->assertSame('/schema/analysis/synonyms/english', $item->getResourceId());
                         $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager', $item->getClass());
                         break;

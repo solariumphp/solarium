@@ -68,10 +68,13 @@ class CurlTest extends TestCase
         $this->assertSame($data, $response);
     }
 
-    public function testCanCreateHandleForDeleteRequest()
+    /**
+     * @dataProvider methodProvider
+     */
+    public function testCreateHandleForRequestMethod(string $method)
     {
         $request = new Request();
-        $request->setMethod(Request::METHOD_DELETE);
+        $request->setMethod($method);
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
@@ -84,5 +87,16 @@ class CurlTest extends TestCase
             $this->assertIsResource($handler);
         }
         curl_close($handler);
+    }
+
+    public function methodProvider(): array
+    {
+        return [
+            [Request::METHOD_GET],
+            [Request::METHOD_POST],
+            [Request::METHOD_HEAD],
+            [Request::METHOD_DELETE],
+            [Request::METHOD_PUT],
+        ];
     }
 }
