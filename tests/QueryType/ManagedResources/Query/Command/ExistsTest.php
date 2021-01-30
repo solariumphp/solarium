@@ -28,7 +28,7 @@ class ExistsTest extends TestCase
     }
 
     /**
-     * There's a bug since Solr 8.7 with HEAD requests if a term is set (SOLR-15116)
+     * There's a bug since Solr 8.7 with HEAD requests if a term is set (SOLR-15116).
      */
     public function testGetRequestMethodWithTerm()
     {
