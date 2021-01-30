@@ -81,8 +81,7 @@ class Stopwords extends AbstractQuery
         if (null === $this->command) {
             if (null === $this->term) {
                 $parser = new StopwordsResponseParser();
-            }
-            else {
+            } else {
                 $parser = new StopwordResponseParser();
             }
         } elseif (self::COMMAND_EXISTS === $this->command->getType()) {

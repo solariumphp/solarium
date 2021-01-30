@@ -5,7 +5,6 @@ namespace Solarium\Tests\QueryType\ManagedResources\Query;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Exception\InvalidArgumentException;
-use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\ManagedResources\Query\Command\Config;
 use Solarium\QueryType\ManagedResources\Query\Command\Delete;
 use Solarium\QueryType\ManagedResources\Query\Command\Exists;

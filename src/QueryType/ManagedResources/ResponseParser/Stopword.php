@@ -37,7 +37,7 @@ class Stopword extends ResponseParserAbstract implements ResponseParserInterface
 
             foreach ($data as $term => $stopword) {
                 if ('responseHeader' !== $term) {
-                  $items[] = $stopword;
+                    $items[] = $stopword;
                 }
             }
 

@@ -40,7 +40,7 @@ class Synonym extends ResponseParserAbstract implements ResponseParserInterface
 
             foreach ($data as $term => $synonyms) {
                 if ('responseHeader' !== $term) {
-                  $items[] = new SynonymResult($term, $synonyms);
+                    $items[] = new SynonymResult($term, $synonyms);
                 }
             }
 

@@ -81,8 +81,7 @@ class Synonyms extends AbstractQuery
         if (null === $this->command) {
             if (null === $this->term) {
                 $parser = new SynonymsResponseParser();
-            }
-            else {
+            } else {
                 $parser = new SynonymResponseParser();
             }
         } elseif (self::COMMAND_EXISTS === $this->command->getType()) {

@@ -24,7 +24,7 @@ use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
-use Solarium\QueryType\ManagedResources\Result\Resources\Resource;
+use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ResourceResult;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResult;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
@@ -2524,16 +2524,16 @@ abstract class AbstractTechproductsTest extends TestCase
          */
 
         $n = 0;
-        /** @var Resource $item */
+        /** @var ResourceResult $item */
         foreach ($items as $item) {
             if (0 !== $item->getNumObservers()) {
                 ++$n;
                 switch ($item->getType()) {
-                    case Resource::TYPE_STOPWORDS:
+                    case ResourceResult::TYPE_STOPWORDS:
                         $this->assertSame('/schema/analysis/stopwords/english', $item->getResourceId());
                         $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedWordSetResource', $item->getClass());
                         break;
-                    case Resource::TYPE_SYNONYMS:
+                    case ResourceResult::TYPE_SYNONYMS:
                         $this->assertSame('/schema/analysis/synonyms/english', $item->getResourceId());
                         $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager', $item->getClass());
                         break;
