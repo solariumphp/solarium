@@ -19,7 +19,7 @@ use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 class Exists extends AbstractCommand
 {
     /**
-     * Term to be checked if exists.
+     * Name of the child resource to be checked if exists.
      *
      * @var string|null
      */
@@ -53,17 +53,7 @@ class Exists extends AbstractCommand
     }
 
     /**
-     * Empty.
-     *
-     * @return string
-     */
-    public function getRawData(): string
-    {
-        return '';
-    }
-
-    /**
-     * Returns the term to be checked if exists.
+     * Returns the name of the child resource to be checked if exists.
      *
      * @return string|null
      */
@@ -73,15 +63,27 @@ class Exists extends AbstractCommand
     }
 
     /**
-     * Set the term to be checked if exists.
+     * Set the name of the child resource to be checked if exists.
      *
-     * @param string|null $term
+     * @param string $term
      *
      * @return self
      */
-    public function setTerm(?string $term): self
+    public function setTerm(string $term): self
     {
         $this->term = $term;
+
+        return $this;
+    }
+
+    /**
+     * Remove the name of the child resource. This reverts to checking if the managed resource exists.
+     *
+     * @return self
+     */
+    public function removeTerm(): self
+    {
+        $this->term = null;
 
         return $this;
     }

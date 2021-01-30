@@ -20,7 +20,8 @@ use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Create;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
 use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Exists as ExistsResponseParser;
-use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Stopword as StopwordResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as StopwordsResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
 
 /**
@@ -73,12 +74,17 @@ class Stopwords extends AbstractQuery
     /**
      * Get the response parser class for this query.
      *
-     * @return \Solarium\QueryType\ManagedResources\ResponseParser\Stopwords|\Solarium\QueryType\ManagedResources\ResponseParser\Command
+     * @return \Solarium\Core\Query\ResponseParserInterface
      */
     public function getResponseParser(): ResponseParserInterface
     {
         if (null === $this->command) {
-            $parser = new ResponseParser();
+            if (null === $this->term) {
+                $parser = new StopwordsResponseParser();
+            }
+            else {
+                $parser = new StopwordResponseParser();
+            }
         } elseif (self::COMMAND_EXISTS === $this->command->getType()) {
             $parser = new ExistsResponseParser();
         } else {

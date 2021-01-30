@@ -3,7 +3,6 @@
 namespace Solarium\Tests\QueryType\ManagedResources\RequestBuilder;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
@@ -16,7 +15,6 @@ use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create as CreateC
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as SynonymsRequestBuilder;
-use Solarium\Tests\Integration\TestClientFactory;
 
 class SynonymsTest extends TestCase
 {
@@ -30,22 +28,16 @@ class SynonymsTest extends TestCase
      */
     protected $builder;
 
-    /**
-     * @var Client
-     */
-    protected $client;
-
     public function setUp(): void
     {
         $this->query = new SynonymsQuery();
+        $this->query->setName('dutch');
         $this->builder = new SynonymsRequestBuilder();
-        $this->client = TestClientFactory::createWithCurlAdapter();
     }
 
     public function testBuild()
     {
         $handler = 'schema/analysis/synonyms/dutch';
-        $this->query->setName('dutch');
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
@@ -62,6 +54,7 @@ class SynonymsTest extends TestCase
 
     public function testNoName()
     {
+        $this->query->setName('');
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Name of the resource is not set in the query.');
         $this->builder->build($this->query);
@@ -70,9 +63,8 @@ class SynonymsTest extends TestCase
     public function testUnsupportedCommand()
     {
         $command = new UnsupportedSynonymsCommand();
-        $this->query->setName('dutch');
-        $this->query->setCommand($command);
 
+        $this->query->setCommand($command);
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported command type: unsupportedtype');
         $request = $this->builder->build($this->query);
@@ -80,28 +72,30 @@ class SynonymsTest extends TestCase
 
     public function testQuery()
     {
-        $this->query->setName('dutch');
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
         $this->assertSame('schema/analysis/synonyms/dutch', $request->getHandler());
         $this->assertNull($request->getRawData());
     }
 
+    public function testQueryWithTerm()
+    {
+        $this->query->setTerm('mad');
+        $request = $this->builder->build($this->query);
+        $this->assertSame(Request::METHOD_GET, $request->getMethod());
+        $this->assertSame('schema/analysis/synonyms/dutch/mad', $request->getHandler());
+        $this->assertNull($request->getRawData());
+    }
+
     public function testAdd()
     {
         $synonyms = new SynonymsQuery\Synonyms();
-        $command = new AddCommand();
-        $command->setSynonyms($synonyms);
-        $this->assertSame($synonyms, $command->getSynonyms());
-        $this->assertSame('', $command->getRawData());
-
         $synonyms->setTerm('mad');
         $synonyms->setSynonyms(['angry', 'upset']);
-        $command->setSynonyms($synonyms);
-        $this->assertSame($synonyms, $command->getSynonyms());
-        $this->assertSame('{"mad":["angry","upset"]}', $command->getRawData());
 
-        $this->query->setName('dutch');
+        $command = new AddCommand();
+        $command->setSynonyms($synonyms);
+
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
@@ -113,12 +107,10 @@ class SynonymsTest extends TestCase
     {
         $synonyms = new SynonymsQuery\Synonyms();
         $synonyms->setSynonyms(['funny', 'entertaining', 'whimsical', 'jocular']);
+
         $command = new AddCommand();
         $command->setSynonyms($synonyms);
-        $this->assertSame($synonyms, $command->getSynonyms());
-        $this->assertSame('["funny","entertaining","whimsical","jocular"]', $command->getRawData());
 
-        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
@@ -126,21 +118,24 @@ class SynonymsTest extends TestCase
         $this->assertSame('["funny","entertaining","whimsical","jocular"]', $request->getRawData());
     }
 
+    public function testAddWithoutSynonyms()
+    {
+        $command = new AddCommand();
+
+        $this->query->setCommand($command);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Missing data for ADD command.');
+        $request = $this->builder->build($this->query);
+    }
+
     public function testConfig()
     {
         $initArgs = new InitArgs();
-        $command = new ConfigCommand();
-
-        $command->setInitArgs($initArgs);
-        $this->assertSame($initArgs, $command->getInitArgs());
-        $this->assertSame('', $command->getRawData());
-
         $initArgs->setInitArgs(['ignoreCase' => true, 'format' => $initArgs::FORMAT_SOLR]);
-        $command->setInitArgs($initArgs);
-        $this->assertSame($initArgs, $command->getInitArgs());
-        $this->assertSame('{"initArgs":{"ignoreCase":true,"format":"solr"}}', $command->getRawData());
 
-        $this->query->setName('dutch');
+        $command = new ConfigCommand();
+        $command->setInitArgs($initArgs);
+
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
@@ -148,12 +143,20 @@ class SynonymsTest extends TestCase
         $this->assertSame('{"initArgs":{"ignoreCase":true,"format":"solr"}}', $request->getRawData());
     }
 
+    public function testConfigWithoutInitArgs()
+    {
+        $command = new ConfigCommand();
+
+        $this->query->setCommand($command);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Missing initArgs for CONFIG command.');
+        $request = $this->builder->build($this->query);
+    }
+
     public function testCreate()
     {
         $command = new CreateCommand();
-        $this->assertSame('{"class":"org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager"}', $command->getRawData());
 
-        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
@@ -161,14 +164,21 @@ class SynonymsTest extends TestCase
         $this->assertSame('{"class":"org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager"}', $request->getRawData());
     }
 
+    public function testCreateWithoutClass()
+    {
+        $command = new UnsupportedSynonymsCreateCommand();
+
+        $this->query->setCommand($command);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Missing class for CREATE command.');
+        $request = $this->builder->build($this->query);
+    }
+
     public function testDelete()
     {
         $command = new DeleteCommand();
         $command->setTerm('mad');
-        $this->assertSame('mad', $command->getTerm());
-        $this->assertSame('', $command->getRawData());
 
-        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
@@ -179,9 +189,8 @@ class SynonymsTest extends TestCase
     public function testDeleteWithoutTerm()
     {
         $command = new DeleteCommand();
-        $this->query->setName('dutch');
-        $this->query->setCommand($command);
 
+        $this->query->setCommand($command);
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Missing term for DELETE command.');
         $request = $this->builder->build($this->query);
@@ -191,10 +200,7 @@ class SynonymsTest extends TestCase
     {
         $command = new ExistsCommand();
         $command->setTerm('mad');
-        $this->assertSame('mad', $command->getTerm());
-        $this->assertSame('', $command->getRawData());
 
-        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         // there's a bug since Solr 8.7 with HEAD requests if a term is set (SOLR-15116)
@@ -206,10 +212,7 @@ class SynonymsTest extends TestCase
     public function testExistsWithoutTerm()
     {
         $command = new ExistsCommand();
-        $this->assertNull($command->getTerm());
-        $this->assertSame('', $command->getRawData());
 
-        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_HEAD, $request->getMethod());
@@ -220,9 +223,7 @@ class SynonymsTest extends TestCase
     public function testRemove()
     {
         $command = new RemoveCommand();
-        $this->assertEquals('', $command->getRawData());
 
-        $this->query->setName('dutch');
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
@@ -251,5 +252,23 @@ class UnsupportedSynonymsCommand extends AbstractCommand
     public function getTerm(): string
     {
         return '';
+    }
+}
+
+class UnsupportedSynonymsCreateCommand extends AbstractCommand
+{
+    public function getType(): string
+    {
+        return SynonymsQuery::COMMAND_CREATE;
+    }
+
+    public function getRequestMethod(): string
+    {
+        return Request::METHOD_PUT;
+    }
+
+    public function getRawData(): ?string
+    {
+        return null;
     }
 }

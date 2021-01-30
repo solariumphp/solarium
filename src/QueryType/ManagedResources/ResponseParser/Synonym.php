@@ -12,44 +12,39 @@ namespace Solarium\QueryType\ManagedResources\ResponseParser;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
+use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymResult;
 
 /**
- * Stopwords.
+ * Synonym.
  */
-class Stopwords extends ResponseParserAbstract implements ResponseParserInterface
+class Synonym extends ResponseParserAbstract implements ResponseParserInterface
 {
     /**
-     * Parse response data.
+     * Get result data for the response.
      *
      * @param \Solarium\Core\Query\Result\ResultInterface $result
+     *
+     * @throws \Solarium\Exception\RuntimeException
      *
      * @return array
      */
     public function parse(ResultInterface $result): array
     {
-        $wordSet = null;
         $data = [];
         $parsed = ['items' => []];
         $parsed = $this->parseStatus($parsed, $result);
 
         if ($parsed['wasSuccessful']) {
             $data = $result->getData();
-            if (isset($data['wordSet'])) {
-                $wordSet = $data['wordSet'];
-            }
-        }
+            $items = [];
 
-        if (null !== $wordSet && !empty($wordSet)) {
-            $parsed['items'] = $wordSet['managedList'];
-            $parsed['initializedOn'] = $wordSet['initializedOn'];
-
-            if (isset($wordSet['initArgs']['ignoreCase'])) {
-                $parsed['ignoreCase'] = $wordSet['initArgs']['ignoreCase'];
+            foreach ($data as $term => $synonyms) {
+                if ('responseHeader' !== $term) {
+                  $items[] = new SynonymResult($term, $synonyms);
+                }
             }
 
-            if (isset($wordSet['updatedSinceInit'])) {
-                $parsed['updatedSinceInit'] = $wordSet['updatedSinceInit'];
-            }
+            $parsed['items'] = $items;
         }
 
         $parsed = $this->addHeaderInfo($data, $parsed);

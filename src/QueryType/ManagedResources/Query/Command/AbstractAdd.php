@@ -37,4 +37,11 @@ abstract class AbstractAdd extends AbstractCommand
     {
         return Request::METHOD_PUT;
     }
+
+    /**
+     * Returns the data to be sent to Solr.
+     *
+     * @return string|null
+     */
+    abstract public function getRawData(): ?string;
 }

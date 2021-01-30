@@ -46,16 +46,6 @@ class Delete extends AbstractCommand
     }
 
     /**
-     * Empty.
-     *
-     * @return string
-     */
-    public function getRawData(): string
-    {
-        return '';
-    }
-
-    /**
      * Returns the term to be deleted.
      *
      * @return string|null

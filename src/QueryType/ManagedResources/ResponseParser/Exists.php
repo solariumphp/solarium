@@ -25,10 +25,6 @@ class Exists extends Command
      */
     public function parse(ResultInterface $result): array
     {
-        $data = [];
-        $parsed = $this->parseStatus($data, $result);
-        $parsed = $this->addHeaderInfo($data, $parsed);
-
-        return $parsed;
+        return $this->parseStatus([], $result);
     }
 }

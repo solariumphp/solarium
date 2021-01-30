@@ -15,7 +15,7 @@ class StopwordsTest extends TestCase
         $data = '{ "responseHeader":{ "status":0, "QTime":1 }, "wordSet":{ "initArgs":{"ignoreCase":true}, "initializedOn":"2014-03-28T20:53:53.058Z", "updatedSinceInit":"2020-02-03T15:00:25.558Z", "managedList":[ "a", "an", "and", "are" ]}}';
 
         $query = new StopwordsQuery();
-        $result = new WordSet($query, new Response($data, ['HTTP 1.1 200 OK']));
+        $result = new WordSet($query, new Response($data, ['HTTP/1.1 200 OK']));
 
         $parser = new ResponseParser();
 
@@ -25,5 +25,7 @@ class StopwordsTest extends TestCase
         $this->assertSame('2020-02-03T15:00:25.558Z', $parsed['updatedSinceInit']);
         $this->assertTrue($parsed['ignoreCase']);
         $this->assertEquals([0 => 'a', 1 => 'an', 2 => 'and', 3 => 'are'], $parsed['items']);
+        $this->assertTrue($parsed['wasSuccessful']);
+        $this->assertSame('OK', $parsed['statusMessage']);
     }
 }

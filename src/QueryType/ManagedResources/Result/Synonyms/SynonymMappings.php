@@ -69,6 +69,16 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     protected $items = [];
 
     /**
+     * @var bool
+     */
+    protected $wasSuccessful = false;
+
+    /**
+     * @var string
+     */
+    protected $statusMessage = 'ERROR';
+
+    /**
      * Constructor.
      *
      * @param \Solarium\Core\Query\AbstractQuery $query
@@ -173,5 +183,25 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
         $this->parseResponse();
 
         return $this->updatedSinceInit;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getWasSuccessful(): bool
+    {
+        $this->parseResponse();
+
+        return $this->wasSuccessful;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusMessage(): string
+    {
+        $this->parseResponse();
+
+        return $this->statusMessage;
     }
 }

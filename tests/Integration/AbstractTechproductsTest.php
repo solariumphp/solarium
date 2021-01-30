@@ -25,6 +25,7 @@ use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 use Solarium\QueryType\ManagedResources\Result\Resources\Resource;
+use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResult;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -2236,8 +2237,14 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // List stopwords
         $result = self::$client->execute($query);
-        $items = $result->getItems();
-        $this->assertContains($term, $items);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertContains('managed_stopword_test', $result->getItems());
+
+        // List added stopword only
+        $query->setTerm($term);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertSame(['managed_stopword_test'], $result->getItems());
 
         // Delete added stopword
         $delete = $query->createCommand($query::COMMAND_DELETE);
@@ -2248,17 +2255,17 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // Check that added stopword is gone
         $exists = $query->createCommand($query::COMMAND_EXISTS);
-        $exists->setTerm('foobarbazbux');
-        $query->setCommand($exists);
-        $result = self::$client->execute($query);
-        $this->assertFalse($result->getWasSuccessful());
-
-        // Check that added stopword is gone
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
+
+        // List no longer added stopword
+        $query->setTerm($term);
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertSame([], $result->getItems());
     }
 
     public function testManagedStopwordsCreation()
@@ -2298,6 +2305,7 @@ abstract class AbstractTechproductsTest extends TestCase
         // Check the configuration
         $query->removeCommand();
         $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
         $this->assertFalse($result->isIgnoreCase());
 
         // Check that we can add to it
@@ -2331,6 +2339,12 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
+
+        // Check that list can no longer be listed
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertSame([], $result->getItems());
     }
 
     public function testManagedSynonyms()
@@ -2369,15 +2383,27 @@ abstract class AbstractTechproductsTest extends TestCase
         // List synonyms
         $result = self::$client->execute($query);
         $items = $result->getItems();
+        $this->assertTrue($result->getWasSuccessful());
         $success = false;
+        /** @var SynonymsResult $item */
         foreach ($items as $item) {
             if ('managed_synonyms_test' === $item->getTerm()) {
                 $success = true;
+                $this->assertSame(['managed_synonym', 'synonym_test'], $item->getSynonyms());
             }
         }
         if (!$success) {
             $this->fail('Couldn\'t find synonym.');
         }
+
+        // List added synonym mapping only
+        $query->setTerm($term);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertEquals(
+            [new SynonymsResult('managed_synonyms_test', ['managed_synonym', 'synonym_test'])],
+            $result->getItems()
+        );
 
         // Delete added synonym mapping
         $delete = $query->createCommand($query::COMMAND_DELETE);
@@ -2392,6 +2418,13 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
+
+        // List no longer added synonym mapping
+        $query->setTerm($term);
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertSame([], $result->getItems());
     }
 
     public function testManagedSynonymsCreation()
@@ -2432,6 +2465,7 @@ abstract class AbstractTechproductsTest extends TestCase
         // Check the configuration
         $query->removeCommand();
         $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
         $this->assertFalse($result->isIgnoreCase());
         $this->assertEquals($initArgs::FORMAT_SOLR, $result->getFormat());
 
@@ -2469,6 +2503,12 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
+
+        // Check that map can no longer be listed
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertSame([], $result->getItems());
     }
 
     public function testManagedResources()
