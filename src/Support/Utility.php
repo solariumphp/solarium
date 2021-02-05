@@ -48,7 +48,7 @@ class Utility
     }
 
     /**
-     * Checker whether a value is valid point value for spatial search.
+     * Check whether a value is a valid point value for spatial search.
      *
      * Example: '45.15,-93.85' (geodetic & non-geodetic PointType)
      *
