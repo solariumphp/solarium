@@ -49,7 +49,7 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Maximum score in group.
      *
-     * @var float
+     * @var float|null
      */
     protected $maximumScore;
 
