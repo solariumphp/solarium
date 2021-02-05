@@ -5,11 +5,13 @@ namespace Solarium\Tests\Core\Client\Adapter;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Solarium\Core\Client\Adapter\Psr18Adapter;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
+use Solarium\Exception\HttpException;
 
 class Psr18AdapterTest extends TestCase
 {
@@ -121,4 +123,28 @@ class Psr18AdapterTest extends TestCase
 
         $adapter->execute($request, $endpoint);
     }
+
+    public function testExecuteWithClientException(): void
+    {
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())
+            ->method('sendRequest')
+            ->willThrowException(new DummyClientException('Something went wrong.'))
+        ;
+
+        $psr17Factory = new Psr17Factory();
+        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+
+        $request = new Request();
+        $request->setMethod(Request::METHOD_GET);
+        $request->setIsServerRequest(true);
+
+        $this->expectException(HttpException::class);
+        $this->expectExceptionMessage('Something went wrong.');
+        $adapter->execute($request, new Endpoint());
+    }
+}
+
+class DummyClientException extends \Exception implements ClientExceptionInterface
+{
 }

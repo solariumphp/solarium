@@ -236,9 +236,28 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(14, $result->getNumFound());
         $this->assertCount(10, $result);
 
+        // MA147LL/A was manufactured on 2005-10-12T08:00:00Z, F8V7067-APL-KIT on 2005-08-01T16:30:25Z
+        $select->setFields('id,manufacturedate_dt');
+        $select->addSort('manufacturedate_dt', $select::SORT_DESC);
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('manufacturedate_dt', '2005-01-01T00:00:00Z', '2005-12-31T23:59:59Z')
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'MA147LL/A',
+            'manufacturedate_dt' => '2005-10-12T08:00:00Z',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'F8V7067-APL-KIT',
+            'manufacturedate_dt' => '2005-08-01T16:30:25Z',
+        ], $iterator->current()->getFields());
+
         // VS1GB400C3 costs 74.99, SP2514N costs 92.0, 0579B002 costs 179.99
         $select->setFields('id,price');
-        $select->addSort('price', $select::SORT_ASC);
+        $select->clearSorts()->addSort('price', $select::SORT_ASC);
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, 179.99, [true, true])
         );
@@ -422,6 +441,7 @@ abstract class AbstractTechproductsTest extends TestCase
         /** @var ValueGroup $valueGroup */
         $valueGroup = $groupIterator->current();
         $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('A-DATA Technology Inc.', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         /** @var Document $doc */
@@ -431,6 +451,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $groupIterator->next();
         $valueGroup = $groupIterator->current();
         $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('ASUS Computer Inc.', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         $doc = $docIterator->current();
@@ -439,6 +460,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $groupIterator->next();
         $valueGroup = $groupIterator->current();
         $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('Apache Software Foundation', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         $doc = $docIterator->current();
@@ -447,6 +469,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $groupIterator->next();
         $valueGroup = $groupIterator->current();
         $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('Canon Inc.', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         $doc = $docIterator->current();
@@ -455,6 +478,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $groupIterator->next();
         $valueGroup = $groupIterator->current();
         $this->assertSame(2, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('Corsair Microsystems Inc.', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         $doc = $docIterator->current();
@@ -476,6 +500,8 @@ abstract class AbstractTechproductsTest extends TestCase
         /** @var QueryGroup $queryGroup */
         $queryGroup = $groupingComponentResult->getGroup('price:[0 TO 99.99]');
         $this->assertSame(5, $queryGroup->getMatches());
+        $this->assertSame(1, $queryGroup->getNumFound());
+        $this->assertSame(0, $queryGroup->getStart());
         $this->assertCount(1, $queryGroup);
         $docIterator = $queryGroup->getIterator();
         $doc = $docIterator->current();
@@ -486,6 +512,8 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $queryGroup = $groupingComponentResult->getGroup('price:[100 TO *]');
         $this->assertSame(5, $queryGroup->getMatches());
+        $this->assertSame(3, $queryGroup->getNumFound());
+        $this->assertSame(0, $queryGroup->getStart());
         $this->assertCount(3, $queryGroup);
         $docIterator = $queryGroup->getIterator();
         $doc = $docIterator->current();
@@ -505,6 +533,64 @@ abstract class AbstractTechproductsTest extends TestCase
             'id' => '0579B002',
             'price' => 179.99,
         ], $doc->getFields());
+    }
+
+    /**
+     * Test fix for maxScore being returned as "NaN" when group.query doesn't match any docs.
+     *
+     * Skipped for SolrCloud because maxScore is included in distributed search results even if score is not requested (SOLR-6612).
+     * This makes the test fail on SolrCloud for queries that don't fetch a score and thus aren't affected by SOLR-13839.
+     *
+     * @group skip_for_solr_cloud
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-13839
+     * @see https://issues.apache.org/jira/browse/SOLR-6612
+     */
+    public function testGroupingComponentFixForSolr13839()
+    {
+        self::$client->registerQueryType('grouping', '\Solarium\Tests\Integration\GroupingTestQuery');
+        /** @var GroupingTestQuery $select */
+        $select = self::$client->createQuery('grouping');
+        // without score in the fl parameter, result groups don't have a maxScore
+        $select->setFields('id');
+        $grouping = $select->getGrouping();
+        $grouping->addQueries([
+            'cat:memory',
+            'cat:no-such-cat',
+        ]);
+        $result = self::$client->select($select);
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        /** @var QueryGroup $queryGroup */
+        $queryGroup = $groupingComponentResult->getGroup('cat:memory');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(3, $queryGroup->getNumFound());
+        $this->assertNull($queryGroup->getMaximumScore());
+
+        $queryGroup = $groupingComponentResult->getGroup('cat:no-such-cat');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(0, $queryGroup->getNumFound());
+        $this->assertNull($queryGroup->getMaximumScore());
+
+        // with score in the fl parameter, result groups have a maxScore
+        $select->setFields('id,score');
+        $grouping = $select->getGrouping();
+        $grouping->addQueries([
+            'cat:memory',
+            'cat:no-such-cat',
+        ]);
+        $result = self::$client->select($select);
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        $queryGroup = $groupingComponentResult->getGroup('cat:memory');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(3, $queryGroup->getNumFound());
+        $this->assertNotNull($queryGroup->getMaximumScore());
+
+        $queryGroup = $groupingComponentResult->getGroup('cat:no-such-cat');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(0, $queryGroup->getNumFound());
+        $this->assertNull($queryGroup->getMaximumScore());
     }
 
     public function testQueryElevation()
