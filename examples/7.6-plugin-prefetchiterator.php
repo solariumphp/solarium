@@ -17,7 +17,7 @@ $query->addSort('id', $query::SORT_ASC);
 
 // get a plugin instance and apply settings
 $prefetch = $client->getPlugin('prefetchiterator');
-$prefetch->setPrefetch(2); //fetch 2 rows per query (for real world use this can be way higher)
+$prefetch->setPrefetch(2); // fetch 2 rows per request (for real world use this can be way higher)
 $prefetch->setQuery($query);
 
 // display the total number of documents found by Solr

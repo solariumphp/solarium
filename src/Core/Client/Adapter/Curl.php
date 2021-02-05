@@ -149,7 +149,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
             }
         } else {
-            throw new InvalidArgumentException("unsupported method: $method");
+            throw new InvalidArgumentException(sprintf('unsupported method: %s', $method));
         }
 
         return $handler;
