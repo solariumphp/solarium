@@ -15,7 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PrefetchIterator::key() should return 0 instead of NULL on a fresh PrefetchIterator
 - PrefetchIterator::next() shouldn't skip fetched results after PrefetchIterator::count() on a fresh PrefetchIterator
 - PrefetchIterator::rewind() no longer results in duplicate documents when invoked mid-set
-- fixed incorrect median function
+- Fixed incorrect median function
+- Fix for maxScore being returned as "NaN" when group.query doesn't match any docs (SOLR-13839)
 
 ### Changed
 - Exception message for invalid/unavailable file in Extract query now contains filename

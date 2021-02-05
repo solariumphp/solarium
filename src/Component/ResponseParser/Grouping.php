@@ -89,6 +89,14 @@ class Grouping implements ComponentParserInterface
                 $start = $result['doclist']['start'] ?? null;
                 $maxScore = $result['doclist']['maxScore'] ?? null;
 
+                /*
+                 * https://issues.apache.org/jira/browse/SOLR-13839
+                 * maxScore is returned as "NaN" when group.query doesn't match any docs
+                 */
+                if ('NaN' === $maxScore) {
+                    $maxScore = null;
+                }
+
                 // create document instances
                 $documentClass = $query->getOption('documentclass');
                 $documents = [];
