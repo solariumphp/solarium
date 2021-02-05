@@ -38,7 +38,7 @@ $query = $client->createSelect();
 // get the facetset component
 $facetSet = $query->getFacetSet();
 
-// create a facet field instance and set options
+// create a facet range instance and set options
 $facet = $facetSet->createFacetRange('priceranges');
 $facet->setField('price');
 $facet->setStart(1);
@@ -88,7 +88,7 @@ $query = $client->createSelect();
 // get the facetset component
 $facetSet = $query->getFacetSet();
 
-// create a facet field instance and set options
+// create a facet range instance and set options
 $facet = $facetSet->createFacetRange(['key' => 'manufacturedate_dt', 'tag' => 'r1']);
 
 $facet->setField('manufacturedate_dt');
