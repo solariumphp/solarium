@@ -27,7 +27,7 @@
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
-        "phpunit/phpunit": "^8.5 || ^9.4",
+        "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",
         "symfony/event-dispatcher": "^4.3 || ^5.0"
     },
