@@ -65,7 +65,7 @@ final class Psr18Adapter implements AdapterInterface
         try {
             return $this->createResponse($this->httpClient->sendRequest($this->createPsr7Request($request, $endpoint)));
         } catch (ClientExceptionInterface $clientException) {
-            throw new HttpException("HTTP request failed, {$clientException}");
+            throw new HttpException(sprintf('HTTP request failed, %s', $clientException));
         }
     }
 
