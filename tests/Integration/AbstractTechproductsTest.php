@@ -236,9 +236,28 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(14, $result->getNumFound());
         $this->assertCount(10, $result);
 
+        // MA147LL/A was manufactured on 2005-10-12T08:00:00Z, F8V7067-APL-KIT on 2005-08-01T16:30:25Z
+        $select->setFields('id,manufacturedate_dt');
+        $select->addSort('manufacturedate_dt', $select::SORT_DESC);
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('manufacturedate_dt', '2005-01-01T00:00:00Z', '2005-12-31T23:59:59Z')
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'MA147LL/A',
+            'manufacturedate_dt' => '2005-10-12T08:00:00Z',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'F8V7067-APL-KIT',
+            'manufacturedate_dt' => '2005-08-01T16:30:25Z',
+        ], $iterator->current()->getFields());
+
         // VS1GB400C3 costs 74.99, SP2514N costs 92.0, 0579B002 costs 179.99
         $select->setFields('id,price');
-        $select->addSort('price', $select::SORT_ASC);
+        $select->clearSorts()->addSort('price', $select::SORT_ASC);
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, 179.99, [true, true])
         );
