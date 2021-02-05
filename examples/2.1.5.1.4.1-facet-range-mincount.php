@@ -3,31 +3,40 @@
 require_once(__DIR__.'/init.php');
 htmlHeader();
 
-
-// this is the custom result document class
-class MyDoc extends Solarium\QueryType\Select\Result\Document
-{
-    public function getSpecialPrice()
-    {
-        return round(($this->price * .95), 2);
-    }
-}
-
-
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
 
-// set the custom resultclass
-$query->setDocumentClass('MyDoc');
+// filter on documents that have a price field
+$query->createFilterQuery('price')->setQuery('price:*');
+
+// get the facetset component
+$facetSet = $query->getFacetSet();
+
+// create a facet range instance and set options
+$facet = $facetSet->createFacetRange('priceranges');
+$facet->setField('price');
+$facet->setStart(1);
+$facet->setGap(100);
+$facet->setEnd(1000);
+
+// only include ranges that have at least 1 document
+$facet->setMinCount(1);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
 // display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
+
+// display facet counts
+echo '<hr/>Facet ranges:<br/>';
+$facet = $resultset->getFacetSet()->getFacet('priceranges');
+foreach ($facet as $range => $count) {
+    echo $range . ' to ' . ($range + 100) . ' [' . $count . ']<br/>';
+}
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
@@ -36,10 +45,6 @@ foreach ($resultset as $document) {
     echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
     echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
     echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
-
-    // this method is added by the custom class
-    echo '<tr><th>offer price</th><td>' . $document->getSpecialPrice() . '</td></tr>';
-
     echo '</table>';
 }
 

@@ -1,18 +1,21 @@
 # CHANGELOG
-All notable changes to the solarium library will be documented in this file.
+All notable changes to the Solarium library will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 ## [unreleased]
 ### Added
+- Indexing labelled nested child documents through pseudo-fields
 - Extract query now supports extractFormat
 - Helper::rangeQuery() now supports left-inclusive only and right-inclusive only queries
 
 ### Fixed
 - PrefetchIterator::key() should return 0 instead of NULL on a fresh PrefetchIterator
 - PrefetchIterator::next() shouldn't skip fetched results after PrefetchIterator::count() on a fresh PrefetchIterator
+- PrefetchIterator::rewind() no longer results in duplicate documents when invoked mid-set
+- fixed incorrect median function
 
 ### Changed
 - Exception message for invalid/unavailable file in Extract query now contains filename
@@ -75,7 +78,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - \Solarium\Support\Utility::getXmlEncoding()
 
 ### Fixed
-- MoreLikeThis result parsing fails on Solr Cloud
+- MoreLikeThis result parsing fails on SolrCloud
 - MinimumScoreFilter plugin might fail on Solr 7 in cloud mode
 
 
@@ -165,7 +168,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [5.1.3]
 ### Fixed
-- Solarium\Component\ResponseParser\Debug fails on Solr Cloud 6.x during extracting timing phases
+- Solarium\Component\ResponseParser\Debug fails on SolrCloud 6.x during extracting timing phases
 
 
 ## [5.1.2]
@@ -412,7 +415,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [4.0.0-rc.1]
 ### Added
-- Basic support for Solr Cloud streaming expressions
+- Basic support for SolrCloud streaming expressions
 
 
 ## [4.0.0-beta.1]
@@ -427,7 +430,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - More integration tests
 
 ### Removed
-- Outdated symfony versions on test environment
+- Outdated Symfony versions on test environment
 
 ### Fixed
 - Don't escape the '*' in range queries

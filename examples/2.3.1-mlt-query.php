@@ -10,7 +10,7 @@ $client = new Client($adapter, $eventDispatcher, $config);
 
 // get a morelikethis query instance
 $query = $client->createSelect()
-    // Unfortunately the /mlt handler of the techproducts examlpe doesn't exist anymore.
+    // Unfortunately the /mlt handler of the techproducts example doesn't exist anymore.
     // Therefore we have to use the /browse handler and turn of velocity by forcing json as response writer.
     ->setHandler('browse')
     ->setResponseWriter(\Solarium\Core\Query\AbstractQuery::WT_JSON);
@@ -51,7 +51,7 @@ echo '<hr/>';
 
 $mlt = $resultset->getMoreLikeThis();
 
-// display the total number of MLT documents found by solr
+// display the total number of MLT documents found by Solr
 echo 'Number of MLT matches found: '.$resultset->getNumFound().'<br/><br/>';
 echo '<b>Listing of matched docs:</b>';
 

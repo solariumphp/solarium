@@ -2,7 +2,7 @@
 
 ## What is Solarium?
 
-Solarium is a PHP Solr client library that accurately model Solr concepts. Where many other Solr libraries only handle
+Solarium is a PHP Solr client library that accurately models Solr concepts. Where many other Solr libraries only handle
 the communication with Solr, Solarium also relieves you of handling all the complex Solr query parameters using a
 well documented API.
 
@@ -12,8 +12,8 @@ Please see the [docs](http://solarium.readthedocs.io/en/stable/) for a more deta
 
 Solarium 6.x only supports PHP 7.3 and up.
 
-It's highly recommended to have Curl enabled in your PHP environment. However if you don't have Curl available you can
-switch from using Curl (the default) to a pure PHP based HTTP client adapter which works for the essential stuff but
+It's highly recommended to have cURL enabled in your PHP environment. However if you don't have cURL available you can
+switch from using cURL (the default) to a pure PHP based HTTP client adapter which works for the essential stuff but
 doesn't support things like parallel query execution.
 
 Alternatively you can inject any PSR-18 compatible HTTP Client using the `Psr18Adapter`.
@@ -34,7 +34,7 @@ Setting "timeout" as "option" in the HTTP Client Adapter is deprecated since Sol
 could handle it. The adapters which can handle it now implement the `TimeoutAwareInterface` and you need to set the
 timeout using the `setTimeout()` function after creating the adapter instance.
 
-In order to fix some issues with complex queries using local parameters solarium 6 destinguishs between query parameters
+In order to fix some issues with complex queries using local parameters Solarium 6 distinguishes between query parameters
 and local parameters to be embedded in a query. Solarium 5.2 already informed you about the deprecation of some
 parameter names which are in fact local parameters. Solarium doen't convert them magically anymore.
 Local parameter names now have to be prefixed with `local_` if set as option of a constructor.

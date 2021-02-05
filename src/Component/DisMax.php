@@ -237,7 +237,7 @@ class DisMax extends AbstractComponent
     {
         $this->setOption('tie', $tie);
 
-        return  $this;
+        return $this;
     }
 
     /**

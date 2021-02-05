@@ -11,7 +11,7 @@ Installation
 
 For installing Solarium a minimal PHP version 7.3 is required.
 
-There is no Solr version requirement. But it's highly recommended that you use at least 7.7. All older version are EOL.
+There is no Solr version requirement. But it's highly recommended that you use at least 7.7. All older versions are EOL.
 
 ### Getting Solarium
 
@@ -51,7 +51,7 @@ To check your installation you can do a Solarium version check with the followin
 require_once(__DIR__.'/init.php');
 htmlHeader();
 
-// check solarium version available
+// check Solarium version available
 echo 'Solarium library version: ' . Solarium\Client::VERSION . ' - ';
 
 // create a client instance
@@ -115,7 +115,7 @@ If you know of any other integrations please let it know!
 Basic usage
 ===========
 
-All the code display below can be found in the /examples dir of the project, where you can also easily execute the code. For more info see [Example code](V3:Example_code "wikilink").
+All the code displayed below can be found in the /examples dir of the project, where you can also easily execute the code. For more info see [Example code](V3:Example_code "wikilink").
 
 All the examples use the init.php file. This file registers the Solarium autoloader, sets up a client adapter and event dispatcher, and also loads the `$config` array for use in the client constructor.
 
@@ -140,7 +140,7 @@ $config = array(
             'port' => 8983,
             'path' => '/',
             'core' => 'techproducts',
-            // For Solr Cloud you need to provide a collection instead of core:
+            // For SolrCloud you need to provide a collection instead of core:
             // 'collection' => 'techproducts',
         )
     )
@@ -166,7 +166,7 @@ $query = $client->createQuery($client::QUERY_SELECT);
 // this executes the query and returns the result
 $resultset = $client->execute($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
@@ -218,7 +218,7 @@ $facetSet->createFacetField('stock')->setField('inStock');
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
@@ -273,7 +273,7 @@ htmlFooter();
 
 ```
 
-Or by id 
+Or by id: 
 
 ```php
 <?php
@@ -354,7 +354,7 @@ Example code
 ============
 
 With Solarium a set of examples is available to demonstrate the usage and to test your Solr environment. But since the
-examples are not included in the distribution you need a git checkout of solarium and install the dependencies:
+examples are not included in the distribution you need a git checkout of Solarium and install the dependencies:
 ```
 git clone https://github.com/solariumphp/solarium.git
 cd solarium

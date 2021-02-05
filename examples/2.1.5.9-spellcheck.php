@@ -8,7 +8,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect()
-    // Unfortunately the /select handler of the techproducts examlpe doesn't contain a spellchecker anymore.
+    // Unfortunately the /select handler of the techproducts example doesn't contain a spellchecker anymore.
     // Therefore we have to use the /browse handler and turn of velocity by forcing json as response writer.
     ->setHandler('browse')
     ->setResponseWriter(\Solarium\Core\Query\AbstractQuery::WT_JSON)

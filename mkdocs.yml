@@ -10,3 +10,4 @@ nav:
   - 'Documents': 'documents.md'
   - 'Customizing': 'customizing-solarium.md'
   - 'Plugins': 'plugins.md'
+  - 'Exceptions': 'exceptions.md'

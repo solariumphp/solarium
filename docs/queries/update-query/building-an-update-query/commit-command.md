@@ -11,7 +11,7 @@ Options
 |----------------|---------|---------------|-------------------------------------------------------------------------------------------------------------|
 | softcommit     | boolean | null          | Enable or disable softCommit                                                                                |
 | waitsearcher   | boolean | null          | Block until a new searcher is opened and registered as the main query searcher, making the changes visible. |
-| expungedeletes | boolean | null          | Merge segments with deletes away (available since solr 1.4)                                                 |
+| expungedeletes | boolean | null          | Merge segments with deletes away (available since Solr 1.4)                                                 |
 ||
 
 For all options:

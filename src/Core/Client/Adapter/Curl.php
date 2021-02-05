@@ -40,7 +40,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     }
 
     /**
-     * Get the response for a curl handle.
+     * Get the response for a cURL handle.
      *
      * @param resource $handle
      * @param string   $httpResponse
@@ -66,7 +66,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     }
 
     /**
-     * Create curl handle for a request.
+     * Create cURL handle for a request.
      *
      * @param Request  $request
      * @param Endpoint $endpoint
@@ -149,7 +149,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
             }
         } else {
-            throw new InvalidArgumentException("unsupported method: $method");
+            throw new InvalidArgumentException(sprintf('unsupported method: %s', $method));
         }
 
         return $handler;

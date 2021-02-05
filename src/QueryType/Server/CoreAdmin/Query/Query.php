@@ -30,7 +30,7 @@ use Solarium\QueryType\Server\Query\RequestBuilder;
 /**
  * CoreAdmin query.
  *
- * Can be used to perform an action on the core admin endpoint
+ * Can be used to perform an action on the admin/cores endpoint
  */
 class Query extends AbstractServerQuery
 {

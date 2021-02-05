@@ -30,7 +30,7 @@ use Solarium\QueryType\Update\Result;
 /**
  * Update query.
  *
- * Can be used to send multiple update commands to solr, e.g. add, delete,
+ * Can be used to send multiple update commands to Solr, e.g. add, delete,
  * rollback, commit, optimize.
  * Multiple commands of any type can be combined into a single update query.
  */
