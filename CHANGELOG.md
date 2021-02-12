@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
+
+### Fixed
+
+### Changed
+
+### Removed
+
+
+## [6.1.1]
+
+### Fixed
+- Set Client::VERSION to '6.1.1'. Release 6.1.0 accidently declared itself as 6.0.4.
+
+
+## [6.1.0]
+### Added
 - Indexing labelled nested child documents through pseudo-fields
 - Extract query now supports extractFormat
 - Helper::rangeQuery() now supports left-inclusive only and right-inclusive only queries
@@ -24,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - PHP 7.2 support
+
 
 ## [6.0.4]
 ### Added
