@@ -83,6 +83,9 @@ Have a look at `.github/workflows/run-tests.yml` to see how to start a well conf
 If you just want to run the unit tests, just ensure that there's no other Solr server listening on the standard port
 8983 and the integration tests will be skipped.
 
+You can run the tests in a Windows environment. For all of them to pass, you must make sure to
+[checkout with `LF` line endings](https://docs.github.com/en/github/using-git/configuring-git-to-handle-line-endings).
+
 ## More information
 
 * Docs
