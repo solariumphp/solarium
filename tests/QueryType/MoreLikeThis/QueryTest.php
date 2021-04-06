@@ -5,6 +5,7 @@ namespace Solarium\Tests\QueryType\MoreLikeThis;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\MoreLikeThis;
 use Solarium\Core\Client\Client;
+use Solarium\Exception\DomainException;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\QueryType\MoreLikeThis\Query;
@@ -627,23 +628,13 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMatchInclude()
+    public function testGetMltFieldsAlwaysReturnsArray()
     {
-        $this->query->setMatchInclude(true);
-        $this->assertTrue($this->query->getMatchInclude());
-    }
-
-    public function testSetAndGetMatchOffset()
-    {
-        $value = 20;
-        $this->query->setMatchOffset($value);
-
         $this->assertSame(
-            $value,
-            $this->query->getMatchOffset()
+            [],
+            $this->query->getMltFields()
         );
     }
-
     public function testSetAndGetMltFields()
     {
         $value = 'name,description';
@@ -666,17 +657,6 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetInterestingTerms()
-    {
-        $value = 'test';
-        $this->query->setInterestingTerms($value);
-
-        $this->assertSame(
-            $value,
-            $this->query->getInterestingTerms()
-        );
-    }
-
     public function testSetAndGetQueryStream()
     {
         $this->query->setQueryStream(true);
@@ -694,7 +674,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testMinimumDocumentFrequency()
+    public function testSetAndGetMinimumDocumentFrequency()
     {
         $value = 4;
         $this->query->setMinimumDocumentFrequency($value);
@@ -703,6 +683,39 @@ class QueryTest extends TestCase
             $value,
             $this->query->getMinimumDocumentFrequency()
         );
+    }
+
+    public function testSetAndGetMaximumDocumentFrequency()
+    {
+        $value = 4;
+        $this->query->setMaximumDocumentFrequency($value);
+
+        $this->assertSame(
+            $value,
+            $this->query->getMaximumDocumentFrequency()
+        );
+    }
+
+    public function testSetAndGetMaximumDocumentFrequencyPercentage()
+    {
+        $value = 75;
+        $this->query->setMaximumDocumentFrequencyPercentage($value);
+
+        $this->assertSame(
+            $value,
+            $this->query->getMaximumDocumentFrequencyPercentage()
+        );
+    }
+
+    /**
+     * @testWith [-5]
+     *           [120]
+     */
+    public function testSetAndGetMaximumDocumentFrequencyPercentageDomainException(int $value)
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage(sprintf('Maximum percentage %d is not between 0 and 100.', $value));
+        $this->query->setMaximumDocumentFrequencyPercentage($value);
     }
 
     public function testSetAndGetMinimumWordLength()
@@ -755,6 +768,16 @@ class QueryTest extends TestCase
         $this->assertTrue($this->query->getBoost());
     }
 
+    public function testGetQueryFieldsAlwaysReturnsArray()
+    {
+        $this->query->setQueryFields(null);
+
+        $this->assertSame(
+            [],
+            $this->query->getQueryFields()
+        );
+    }
+
     public function testSetAndGetQueryFields()
     {
         $value = 'content,name';
@@ -774,6 +797,34 @@ class QueryTest extends TestCase
         $this->assertSame(
             $value,
             $this->query->getQueryFields()
+        );
+    }
+
+    public function testSetAndGetMatchInclude()
+    {
+        $this->query->setMatchInclude(true);
+        $this->assertTrue($this->query->getMatchInclude());
+    }
+
+    public function testSetAndGetMatchOffset()
+    {
+        $value = 20;
+        $this->query->setMatchOffset($value);
+
+        $this->assertSame(
+            $value,
+            $this->query->getMatchOffset()
+        );
+    }
+
+    public function testSetAndGetInterestingTerms()
+    {
+        $value = 'test';
+        $this->query->setInterestingTerms($value);
+
+        $this->assertSame(
+            $value,
+            $this->query->getInterestingTerms()
         );
     }
 }

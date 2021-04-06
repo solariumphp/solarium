@@ -14,7 +14,8 @@ $query->setQuery('apache')
       ->getMoreLikeThis()
       ->setFields('manu,cat')
       ->setMinimumDocumentFrequency(1)
-      ->setMinimumTermFrequency(1);
+      ->setMinimumTermFrequency(1)
+      ->setInterestingTerms('list');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
@@ -49,6 +50,7 @@ foreach ($resultset as $document) {
         foreach ($mltResult as $mltDoc) {
             echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
         }
+        echo 'MLT interesting terms: '.implode(', ', $mltResult->getInterestingTerms()).'<br/>';
     } else {
         echo 'No MLT results';
     }

@@ -59,10 +59,16 @@ class MoreLikeThis extends AbstractResponseParser implements ComponentParserInte
                     $docs[] = new $documentClass($fields);
                 }
 
+                $interestingTerms = null;
+                if (isset($data['interestingTerms'][$key])) {
+                    $interestingTerms = $data['interestingTerms'][$key];
+                }
+
                 $results[$key] = new Result(
                     $result['numFound'],
                     isset($result['maxScore']) ? $result['maxScore'] : null,
-                    $docs
+                    $docs,
+                    $interestingTerms
                 );
             }
         }

@@ -24,8 +24,8 @@ class MoreLikeThisTest extends TestCase
         ];
 
         $this->results = [
-            'key1' => new Result(2, 5.13, $docs),
-            'key2' => new Result(2, 2.3, $docs),
+            'key1' => new Result(2, 5.13, $docs, null),
+            'key2' => new Result(2, 2.3, $docs, null),
         ];
 
         $this->mlt = new MoreLikeThis($this->results);

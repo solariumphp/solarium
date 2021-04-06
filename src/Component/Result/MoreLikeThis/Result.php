@@ -40,21 +40,32 @@ class Result implements \IteratorAggregate, \Countable
     protected $maximumScore;
 
     /**
+     * MLT interesting terms.
+     *
+     * Only available if mlt.interestingTerms wasn't 'none'.
+     *
+     * @var array|null
+     */
+    protected $interestingTerms;
+
+    /**
      * Constructor.
      *
-     * @param int   $numFound
-     * @param float $maxScore
-     * @param array $documents
+     * @param int    $numFound
+     * @param float  $maxScore
+     * @param array  $documents
+     * @param ?array $interestingTerms
      */
-    public function __construct(int $numFound, float $maxScore = null, array $documents = [])
+    public function __construct(int $numFound, float $maxScore = null, array $documents = [], ?array $interestingTerms = null)
     {
         $this->numFound = $numFound;
         $this->maximumScore = $maxScore;
         $this->documents = $documents;
+        $this->interestingTerms = $interestingTerms;
     }
 
     /**
-     * get Solr numFound.
+     * Get Solr numFound.
      *
      * Returns the number of MLT documents found by Solr (this is NOT the
      * number of documents fetched from Solr!)
@@ -84,6 +95,28 @@ class Result implements \IteratorAggregate, \Countable
     public function getDocuments(): array
     {
         return $this->documents;
+    }
+
+    /**
+     * Get MLT interesting terms.
+     *
+     * This will show what "interesting" terms are used for the MoreLikeThis
+     * query. These are the top tf/idf terms.
+     *
+     * If mlt.interestingTerms was 'list', a flat list is returned.
+     *
+     * If mlt.interestingTerms was 'details',
+     * this shows you the term and boost used for each term. Unless
+     * mlt.boost was true all terms will have boost=1.0.
+     *
+     * If mlt.interestingTerms was 'none', the terms aren't available
+     * and null is returned.
+     *
+     * @return array
+     */
+    public function getInterestingTerms(): ?array
+    {
+        return $this->interestingTerms;
     }
 
     /**

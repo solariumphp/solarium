@@ -5,6 +5,7 @@ namespace Solarium\Tests\Component;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\MoreLikeThis;
+use Solarium\Exception\DomainException;
 
 class MoreLikeThisTest extends TestCase
 {
@@ -22,39 +23,39 @@ class MoreLikeThisTest extends TestCase
     {
         $options = [
             'fields' => 'fieldA,fieldB',
-            'interestingTerms' => 'none',
-            'matchinclude' => true,
-            'matchoffset' => 5,
             'minimumtermfrequency' => 10,
             'minimumdocumentfrequency' => 2,
+            'maximumdocumentfrequency' => 20,
+            'maximumdocumentfrequencypercentage' => 75,
             'minimumwordlength' => 3,
             'maximumwordlength' => 10,
             'maximumqueryterms' => 4,
             'maximumnumberoftokens' => 20,
-            'boost' => 1.5,
+            'boost' => true,
             'queryfields' => 'fieldC,fieldD',
             'count' => 5,
+            'interestingTerms' => 'none',
         ];
 
         $this->mlt->setOptions($options);
 
-        $this->assertEquals(explode(',', $options['fields']), $this->mlt->getFields());
-        $this->assertEquals($options['interestingTerms'], $this->mlt->getInterestingTerms());
-        $this->assertEquals($options['matchinclude'], $this->mlt->getMatchInclude());
-        $this->assertEquals($options['matchoffset'], $this->mlt->getMatchOffset());
-        $this->assertEquals($options['minimumtermfrequency'], $this->mlt->getMinimumTermFrequency());
-        $this->assertEquals($options['minimumdocumentfrequency'], $this->mlt->getMinimumDocumentFrequency());
-        $this->assertEquals($options['minimumwordlength'], $this->mlt->getMinimumWordLength());
-        $this->assertEquals($options['maximumwordlength'], $this->mlt->getMaximumWordLength());
-        $this->assertEquals($options['maximumqueryterms'], $this->mlt->getMaximumQueryTerms());
-        $this->assertEquals($options['boost'], $this->mlt->getBoost());
-        $this->assertEquals(explode(',', $options['queryfields']), $this->mlt->getQueryFields());
-        $this->assertEquals($options['count'], $this->mlt->getCount());
+        $this->assertSame(explode(',', $options['fields']), $this->mlt->getFields());
+        $this->assertSame($options['minimumtermfrequency'], $this->mlt->getMinimumTermFrequency());
+        $this->assertSame($options['minimumdocumentfrequency'], $this->mlt->getMinimumDocumentFrequency());
+        $this->assertSame($options['maximumdocumentfrequency'], $this->mlt->getMaximumDocumentFrequency());
+        $this->assertSame($options['maximumdocumentfrequencypercentage'], $this->mlt->getMaximumDocumentFrequencyPercentage());
+        $this->assertSame($options['minimumwordlength'], $this->mlt->getMinimumWordLength());
+        $this->assertSame($options['maximumwordlength'], $this->mlt->getMaximumWordLength());
+        $this->assertSame($options['maximumqueryterms'], $this->mlt->getMaximumQueryTerms());
+        $this->assertTrue($this->mlt->getBoost());
+        $this->assertSame(explode(',', $options['queryfields']), $this->mlt->getQueryFields());
+        $this->assertSame($options['count'], $this->mlt->getCount());
+        $this->assertSame($options['interestingTerms'], $this->mlt->getInterestingTerms());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS, $this->mlt->getType());
+        $this->assertSame(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS, $this->mlt->getType());
     }
 
     public function testGetResponseParser()
@@ -73,12 +74,22 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
+    public function testGetFieldsAlwaysReturnsArray()
+    {
+        $this->mlt->setFields(null);
+
+        $this->assertSame(
+            [],
+            $this->mlt->getFields()
+        );
+    }
+    
     public function testSetAndGetFields()
     {
         $value = 'name,description';
         $this->mlt->setFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             ['name', 'description'],
             $this->mlt->getFields()
         );
@@ -89,42 +100,9 @@ class MoreLikeThisTest extends TestCase
         $value = ['name', 'description'];
         $this->mlt->setFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->mlt->getFields()
-        );
-    }
-
-    public function testSetAndGetInterestingTerms()
-    {
-        $value = 'details';
-        $this->mlt->setInterestingTerms($value);
-
-        $this->assertEquals(
-            $value,
-            $this->mlt->getInterestingTerms()
-        );
-    }
-
-    public function testSetAndMatchInclude()
-    {
-        $value = false;
-        $this->mlt->setMatchInclude($value);
-
-        $this->assertEquals(
-            $value,
-            $this->mlt->getMatchInclude()
-        );
-    }
-
-    public function testSetAndGetMatchOffset()
-    {
-        $value = 17;
-        $this->mlt->setMatchOffset($value);
-
-        $this->assertEquals(
-            $value,
-            $this->mlt->getMatchOffset()
         );
     }
 
@@ -133,7 +111,7 @@ class MoreLikeThisTest extends TestCase
         $value = 2;
         $this->mlt->setMinimumTermFrequency($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->mlt->getMinimumTermFrequency()
         );
@@ -144,10 +122,43 @@ class MoreLikeThisTest extends TestCase
         $value = 4;
         $this->mlt->setMinimumDocumentFrequency($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->mlt->getMinimumDocumentFrequency()
         );
+    }
+
+    public function testMaximumDocumentFrequency()
+    {
+        $value = 4;
+        $this->mlt->setMaximumDocumentFrequency($value);
+
+        $this->assertSame(
+            $value,
+            $this->mlt->getMaximumDocumentFrequency()
+        );
+    }
+
+    public function testMaximumDocumentFrequencyPercentage()
+    {
+        $value = 75;
+        $this->mlt->setMaximumDocumentFrequencyPercentage($value);
+
+        $this->assertSame(
+            $value,
+            $this->mlt->getMaximumDocumentFrequencyPercentage()
+        );
+    }
+
+    /**
+     * @testWith [-5]
+     *           [120]
+     */
+    public function testMaximumDocumentFrequencyPercentageDomainException(int $value)
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage(sprintf('Maximum percentage %d is not between 0 and 100.', $value));
+        $this->mlt->setMaximumDocumentFrequencyPercentage($value);
     }
 
     public function testSetAndGetMinimumWordLength()
@@ -155,7 +166,7 @@ class MoreLikeThisTest extends TestCase
         $value = 3;
         $this->mlt->setMinimumWordLength($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->mlt->getMinimumWordLength()
         );
@@ -166,7 +177,7 @@ class MoreLikeThisTest extends TestCase
         $value = 15;
         $this->mlt->setMaximumWordLength($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->mlt->getMaximumWordLength()
         );
@@ -177,7 +188,7 @@ class MoreLikeThisTest extends TestCase
         $value = 5;
         $this->mlt->setMaximumQueryTerms($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->mlt->getMaximumQueryTerms()
         );
@@ -188,7 +199,7 @@ class MoreLikeThisTest extends TestCase
         $value = 5;
         $this->mlt->setMaximumNumberOfTokens($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->mlt->getMaximumNumberOfTokens()
         );
@@ -196,12 +207,20 @@ class MoreLikeThisTest extends TestCase
 
     public function testSetAndGetBoost()
     {
-        $value = true;
-        $this->mlt->setBoost($value);
+        $this->mlt->setBoost(true);
 
-        $this->assertEquals(
-            $value,
+        $this->assertTrue(
             $this->mlt->getBoost()
+        );
+    }
+
+    public function testGetQueryFieldsAlwaysReturnsArray()
+    {
+        $this->mlt->setQueryFields(null);
+
+        $this->assertSame(
+            [],
+            $this->mlt->getQueryFields()
         );
     }
 
@@ -210,7 +229,7 @@ class MoreLikeThisTest extends TestCase
         $value = 'content,name';
         $this->mlt->setQueryFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             ['content', 'name'],
             $this->mlt->getQueryFields()
         );
@@ -221,7 +240,7 @@ class MoreLikeThisTest extends TestCase
         $value = ['content', 'name'];
         $this->mlt->setQueryFields($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->mlt->getQueryFields()
         );
@@ -232,9 +251,42 @@ class MoreLikeThisTest extends TestCase
         $value = 8;
         $this->mlt->setCount($value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $this->mlt->getCount()
+        );
+    }
+
+    /**
+     * @deprecated Will be removed in Solarium 8. This parameter is only accessible through the MoreLikeThisHandler.
+     */
+    public function testSetAndGetMatchInclude()
+    {
+        $this->mlt->setMatchInclude(true);
+
+        // always returns null for MLT Component as this parameter is only for MLT Handler
+        $this->assertNull($this->mlt->getMatchInclude());
+    }
+
+    /**
+     * @deprecated Will be removed in Solarium 8. This parameter is only accessible through the MoreLikeThisHandler.
+     */
+    public function testSetAndGetMatchOffset()
+    {
+        $this->mlt->setMatchOffset(20);
+
+        // always returns null for MLT Component as this parameter is only for MLT Handler
+        $this->assertNull($this->mlt->getMatchOffset());
+    }
+
+    public function testSetAndGetInterestingTerms()
+    {
+        $value = 'details';
+        $this->mlt->setInterestingTerms($value);
+
+        $this->assertSame(
+            $value,
+            $this->mlt->getInterestingTerms()
         );
     }
 }
