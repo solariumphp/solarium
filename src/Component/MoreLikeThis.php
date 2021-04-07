@@ -20,7 +20,7 @@ use Solarium\Component\ResponseParser\MoreLikeThis as ResponseParser;
  *
  * @see https://lucene.apache.org/solr/guide/morelikethis.html
  */
-class MoreLikeThis extends AbstractComponent
+class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
 {
     use MoreLikeThisTrait;
 

@@ -9,6 +9,7 @@
 
 namespace Solarium\Component\ComponentTraits;
 
+use Solarium\Component\MoreLikeThisInterface;
 use Solarium\Exception\DomainException;
 
 /**
@@ -26,9 +27,9 @@ trait MoreLikeThisTrait
      *
      * @param int $minimum
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setMinimumTermFrequency(int $minimum): self
+    public function setMinimumTermFrequency(int $minimum): MoreLikeThisInterface
     {
         $this->setOption('minimumtermfrequency', $minimum);
 
@@ -55,9 +56,9 @@ trait MoreLikeThisTrait
      *
      * @param int $minimum
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setMinimumDocumentFrequency(int $minimum): self
+    public function setMinimumDocumentFrequency(int $minimum): MoreLikeThisInterface
     {
         $this->setOption('minimumdocumentfrequency', $minimum);
 
@@ -84,9 +85,9 @@ trait MoreLikeThisTrait
      *
      * @param int $maximum
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setMaximumDocumentFrequency(int $maximum): self
+    public function setMaximumDocumentFrequency(int $maximum): MoreLikeThisInterface
     {
         $this->setOption('maximumdocumentfrequency', $maximum);
 
@@ -115,9 +116,9 @@ trait MoreLikeThisTrait
      *
      * @throws \Solarium\Exception\DomainException
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setMaximumDocumentFrequencyPercentage(int $maximumpercentage): self
+    public function setMaximumDocumentFrequencyPercentage(int $maximumpercentage): MoreLikeThisInterface
     {
         if (0 > $maximumpercentage || 100 < $maximumpercentage) {
             throw new DomainException(sprintf('Maximum percentage %d is not between 0 and 100.', $maximumpercentage));
@@ -147,9 +148,9 @@ trait MoreLikeThisTrait
      *
      * @param int $minimum
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setMinimumWordLength(int $minimum): self
+    public function setMinimumWordLength(int $minimum): MoreLikeThisInterface
     {
         $this->setOption('minimumwordlength', $minimum);
 
@@ -175,9 +176,9 @@ trait MoreLikeThisTrait
      *
      * @param int $maximum
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setMaximumWordLength(int $maximum): self
+    public function setMaximumWordLength(int $maximum): MoreLikeThisInterface
     {
         $this->setOption('maximumwordlength', $maximum);
 
@@ -204,9 +205,9 @@ trait MoreLikeThisTrait
      *
      * @param int $maximum
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setMaximumQueryTerms(int $maximum): self
+    public function setMaximumQueryTerms(int $maximum): MoreLikeThisInterface
     {
         $this->setOption('maximumqueryterms', $maximum);
 
@@ -233,9 +234,9 @@ trait MoreLikeThisTrait
      *
      * @param int $maximum
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setMaximumNumberOfTokens(int $maximum): self
+    public function setMaximumNumberOfTokens(int $maximum): MoreLikeThisInterface
     {
         $this->setOption('maximumnumberoftokens', $maximum);
 
@@ -261,9 +262,9 @@ trait MoreLikeThisTrait
      *
      * @param bool $boost
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setBoost(bool $boost): self
+    public function setBoost(bool $boost): MoreLikeThisInterface
     {
         $this->setOption('boost', $boost);
 
@@ -292,9 +293,9 @@ trait MoreLikeThisTrait
      *
      * @param string|array $queryFields
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setQueryFields($queryFields): self
+    public function setQueryFields($queryFields): MoreLikeThisInterface
     {
         if (\is_string($queryFields)) {
             $queryFields = explode(',', $queryFields);
@@ -330,9 +331,9 @@ trait MoreLikeThisTrait
      *
      * @param string $setting
      *
-     * @return self Provides fluent interface
+     * @return MoreLikeThisInterface Provides fluent interface
      */
-    public function setInterestingTerms(string $setting): self
+    public function setInterestingTerms(string $setting): MoreLikeThisInterface
     {
         $this->setOption('interestingTerms', $setting);
 
