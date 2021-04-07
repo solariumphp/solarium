@@ -70,8 +70,7 @@ class MoreLikeThis extends AbstractResponseParser implements ComponentParserInte
 
             if ('none' === $moreLikeThis->getInterestingTerms()) {
                 $interestingTerms = null;
-            }
-            elseif (isset($data['interestingTerms'])) {
+            } elseif (isset($data['interestingTerms'])) {
                 // We don't need to convertToKeyValueArray. Solr's MoreLikeThisComponent uses a SimpleOrderedMap
                 // for representing interesting terms. A SimpleOrdereMap is always returned using the "map" format.
                 $interestingTerms = $data['interestingTerms'];

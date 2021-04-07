@@ -635,6 +635,7 @@ class QueryTest extends TestCase
             $this->query->getMltFields()
         );
     }
+
     public function testSetAndGetMltFields()
     {
         $value = 'name,description';

@@ -35,7 +35,7 @@ class MoreLikeThis implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param array $results
+     * @param array      $results
      * @param array|null $interestingTerms
      */
     public function __construct(array $results, ?array $interestingTerms)

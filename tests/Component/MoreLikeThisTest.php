@@ -83,7 +83,7 @@ class MoreLikeThisTest extends TestCase
             $this->mlt->getFields()
         );
     }
-    
+
     public function testSetAndGetFields()
     {
         $value = 'name,description';
