@@ -76,7 +76,10 @@ foreach ($resultset as $document) {
         foreach ($mltResult as $mltDoc) {
             echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
         }
-        echo 'MLT interesting terms: '.implode(', ', $mlt->getInterestingTerm($document->id)).'<br/>';
+        // available since Solr 8
+        if (null !== $interestingTerms = $mlt->getInterestingTerm($document->id)) {
+            echo 'MLT interesting terms: '.implode(', ', $interestingTerms).'<br/>';
+        }
     } else {
         echo 'No MLT results';
     }

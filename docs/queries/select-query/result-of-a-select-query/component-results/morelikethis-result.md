@@ -2,8 +2,8 @@ Results of the MoreLikeThis component are included with the query resultset, but
 Just like in the Solr response data it is a separate dataset. However the MoreLikeThis resultset has a method to easily access
 MLT results for a specific document by its id (the `uniqueKey` defined in your schema).
 
-If interestingterms is set to `list` or `detail`, the "interesting" terms (the top TF/IDF terms) for the query are included with
-the resultset as another separate dataset. These too can be easily accessed by a document id.
+Starting with Solr 8, you can also include the "interesting" terms (the top TF/IDF terms) for the query as another separate
+dataset if you set interestingterms to `list` or `details`. These too can be easily accessed by document id.
 
 In the example code below you can see it in use. For each document the MLT result and interesting terms are fetched.
 
@@ -73,7 +73,10 @@ foreach ($resultset as $document) {
         foreach ($mltResult as $mltDoc) {
             echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
         }
-        echo 'MLT interesting terms: '.implode(', ', $mlt->getInterestingTerm($document->id)).'<br/>';
+        // available since Solr 8
+        if (null !== $interestingTerms = $mlt->getInterestingTerm($document->id)) {
+            echo 'MLT interesting terms: '.implode(', ', $interestingTerms).'<br/>';
+        }
     } else {
         echo 'No MLT results';
     }

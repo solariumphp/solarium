@@ -596,6 +596,13 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testMoreLikeThisComponent()
     {
+        // default scoring has changed in Solr 8
+        if (7 === self::$solrVersion) {
+            $expectedScore = 10.641159;
+        } else {
+            $expectedScore = 6.2118435;
+        }
+
         $select = self::$client->createSelect();
         $select->setQuery('apache');
         $select->setSorts(['id' => SelectQuery::SORT_ASC]);
@@ -615,7 +622,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $document = $iterator->current();
         $this->assertSame('SOLR1000', $document->id);
         $mltResult = $mlt->getResult($document->id);
-        $this->assertSame(6.2118435, $mltResult->getMaximumScore());
+        $this->assertSame($expectedScore, $mltResult->getMaximumScore());
         $this->assertSame(1, $mltResult->getNumFound());
         $mltDoc = $mltResult->getIterator()->current();
         $this->assertSame('UTF8TEST', $mltDoc->id);
@@ -624,35 +631,38 @@ abstract class AbstractTechproductsTest extends TestCase
         $document = $iterator->current();
         $this->assertSame('UTF8TEST', $document->id);
         $mltResult = $mlt->getResult($document->id);
-        $this->assertSame(6.2118435, $mltResult->getMaximumScore());
+        $this->assertSame($expectedScore, $mltResult->getMaximumScore());
         $this->assertSame(1, $mltResult->getNumFound());
         $mltDoc = $mltResult->getIterator()->current();
         $this->assertSame('SOLR1000', $mltDoc->id);
 
-        // with 'details', interesting terms are an associative array of terms and their boost values
-        $interestingTerms = $mlt->getInterestingTerm($document->id);
-        $this->assertSame('cat:search', key($interestingTerms));
-        $this->assertSame(1.0, current($interestingTerms));
+        // Solr 7 doesn't support mlt.interestingTerms for MoreLikeThisComponent
+        if (8 <= self::$solrVersion) {
+            // with 'details', interesting terms are an associative array of terms and their boost values
+            $interestingTerms = $mlt->getInterestingTerm($document->id);
+            $this->assertSame('cat:search', key($interestingTerms));
+            $this->assertSame(1.0, current($interestingTerms));
 
-        $moreLikeThis->setInterestingTerms('list');
-        $result = self::$client->select($select);
-        $document = $result->getIterator()->current();
-        $mlt = $result->getMoreLikeThis();
+            $moreLikeThis->setInterestingTerms('list');
+            $result = self::$client->select($select);
+            $document = $result->getIterator()->current();
+            $mlt = $result->getMoreLikeThis();
 
-        // with 'list', interesting terms are a numeric array of strings
-        $interestingTerms = $mlt->getInterestingTerm($document->id);
-        $this->assertSame(0, key($interestingTerms));
-        $this->assertSame('cat:search', current($interestingTerms));
+            // with 'list', interesting terms are a numeric array of strings
+            $interestingTerms = $mlt->getInterestingTerm($document->id);
+            $this->assertSame(0, key($interestingTerms));
+            $this->assertSame('cat:search', current($interestingTerms));
 
-        $moreLikeThis->setInterestingTerms('none');
-        $result = self::$client->select($select);
-        $document = $result->getIterator()->current();
-        $mlt = $result->getMoreLikeThis();
+            $moreLikeThis->setInterestingTerms('none');
+            $result = self::$client->select($select);
+            $document = $result->getIterator()->current();
+            $mlt = $result->getMoreLikeThis();
 
-        // with 'none', interesting terms aren't available for the MLT result
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('interestingterms is none');
-        $mlt->getInterestingTerm($document->id);
+            // with 'none', interesting terms aren't available for the MLT result
+            $this->expectException(UnexpectedValueException::class);
+            $this->expectExceptionMessage('interestingterms is none');
+            $mlt->getInterestingTerm($document->id);
+        }
     }
 
     public function testMoreLikeThisQuery()
@@ -665,7 +675,8 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setMinimumDocumentFrequency(1);
         $query->setMinimumTermFrequency(1);
         $query->setInterestingTerms('details');
-        $query->setBoost(true);
+        // ensures we can consistently test for boost=1.0
+        $query->setBoost(false);
         $query->setMatchInclude(true);
         $query->createFilterQuery('stock')->setQuery('inStock:true');
 
@@ -717,7 +728,8 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setMinimumDocumentFrequency(1);
         $query->setMinimumTermFrequency(1);
         $query->setInterestingTerms('details');
-        $query->setBoost(true);
+        // ensures we can consistently test for boost=1.0
+        $query->setBoost(false);
         $query->setMatchInclude(true);
         $query->createFilterQuery('stock')->setQuery('inStock:true');
 
@@ -731,18 +743,30 @@ abstract class AbstractTechproductsTest extends TestCase
         // there is no match document to return, even with matchinclude true
         $this->assertNull($resultset->getMatch());
 
+        if (7 === self::$solrVersion) {
+            $expectedTerm = 'name:drive';
+        } else {
+            $expectedTerm = 'features:cache';
+        }
+
         // with 'details', interesting terms are an associative array of terms and their boost values
         $interestingTerms = $resultset->getInterestingTerms();
-        $this->assertSame('features:cache', key($interestingTerms));
+        $this->assertSame($expectedTerm, key($interestingTerms));
         $this->assertSame(1.0, current($interestingTerms));
 
         $query->setInterestingTerms('list');
         $resultset = self::$client->moreLikeThis($query);
 
+        if (7 === self::$solrVersion) {
+            $expectedTerm = 'drive';
+        } else {
+            $expectedTerm = 'cache';
+        }
+
         // with 'list', interesting terms are a numeric array of strings
         $interestingTerms = $resultset->getInterestingTerms();
         $this->assertSame(0, key($interestingTerms));
-        $this->assertSame('cache', current($interestingTerms));
+        $this->assertSame($expectedTerm, current($interestingTerms));
 
         $query->setInterestingTerms('none');
         $resultset = self::$client->moreLikeThis($query);
