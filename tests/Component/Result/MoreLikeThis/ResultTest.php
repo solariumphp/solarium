@@ -18,11 +18,6 @@ class ResultTest extends TestCase
      */
     private $docs;
 
-    /**
-     * @var array
-     */
-    private $interestingTerms;
-
     public function setUp(): void
     {
         $this->docs = [
@@ -30,12 +25,7 @@ class ResultTest extends TestCase
             new Document(['id' => 2, 'name' => 'test2']),
         ];
 
-        $this->interestingTerms = [
-            'cat:term1' => 1.0,
-            'cat:term2' => 1.84,
-        ];
-
-        $this->mltResult = new Result(2, 5.13, $this->docs, $this->interestingTerms);
+        $this->mltResult = new Result(2, 5.13, $this->docs);
     }
 
     public function testGetNumFound()
@@ -51,11 +41,6 @@ class ResultTest extends TestCase
     public function testGetDocuments()
     {
         $this->assertEquals($this->docs, $this->mltResult->getDocuments());
-    }
-
-    public function testInterestingTerms()
-    {
-        $this->assertEquals($this->interestingTerms, $this->mltResult->getInterestingTerms());
     }
 
     public function testIterator()

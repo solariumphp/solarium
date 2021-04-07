@@ -46,7 +46,7 @@ class Result extends SelectResult
      * Get MLT interesting terms.
      *
      * This will show what "interesting" terms are used for the MoreLikeThis
-     * query. These are the top tf/idf terms.
+     * query. These are the top TF/IDF terms.
      *
      * If mlt.interestingTerms was 'list', a flat list is returned.
      *

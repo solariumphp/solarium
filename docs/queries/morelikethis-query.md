@@ -1,6 +1,6 @@
 A MoreLikeThis (MLT) query is designed to generate information about "similar" documents using the MoreLikeThis functionality provided by Lucene. It supports faceting, paging, and filtering using CommonQueryParameters.
 
-This query uses the [Solr MoreLikeThis Handler](https://lucene.apache.org/solr/guide/morelikethis.html) that specifically returns MLT results. Alternatively you can use the [MLT component](V2:MoreLikeThis_component "wikilink") for the select query.
+This query uses the [Solr MoreLikeThis Handler](https://lucene.apache.org/solr/guide/morelikethis.html) that specifically returns MLT results. Alternatively you can use the [MLT component](select-query/building-a-select-query/components/morelikethis-component.md) for the select query.
 
 Building a MLT query
 --------------------
@@ -48,8 +48,14 @@ The result of a MLT query shares the features of the select query result. On top
 
 ### Interestingterms
 
-This will show what "interesting" terms are used for the MoreLikeThis query.
-Only available if interestingterms wasn't set to `none` in the query.
+This will show what "interesting" terms (the top TF/IDF terms) are used for the MoreLikeThis query.
+
+The format of the interesting terms depends on the value set for interestingterms in the query.
+
+* `list`: The terms are returned as an array of strings.
+* `details`: Each term is an array key associated with the boost value used by Solr.
+    Unless you set boost to `true`, this will be `1.0` for every term.
+* `none`: The terms aren't available with the resultset and an exception is thrown if you try and fetch them anyway.
 
 ### Match
 
@@ -135,7 +141,7 @@ Matching against supplied text
 Instead of querying the index for a document to match against, you can also find
 similar documents based on supplied text.
 
-In this case, there is no document to include with matchinclude set to `true`.
+In this case, there is no document to include when matchinclude is set to `true`.
 
 ### Example
 

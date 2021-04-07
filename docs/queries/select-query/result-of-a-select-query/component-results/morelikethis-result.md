@@ -1,6 +1,21 @@
-Results of the MoreLikeThis component are included with the query resultset, but not directly coupled to the resulting documents. Just like in the Solr response data it is a separate dataset. However the MoreLikeThis resultset has a method to easily access MLT results for a specific document by id (the id depends on your schema).
+Results of the MoreLikeThis component are included with the query resultset, but not directly coupled to the resulting documents.
+Just like in the Solr response data it is a separate dataset. However the MoreLikeThis resultset has a method to easily access
+MLT results for a specific document by its id (the `uniqueKey` defined in your schema).
 
-In the example code below you can see it in use. For each document the MLT result is fetched. This result is an instance of Solarium\\QueryType\\Select\\Result\\MoreLikeThis\\MoreLikeThis and contains all similar documents for a result. So, as also described in the Solr MLT wiki page, in this case the name MoreLikeThese might be better.
+If interestingterms is set to `list` or `detail`, the "interesting" terms (the top TF/IDF terms) for the query are included with
+the resultset as another separate dataset. These too can be easily accessed by a document id.
+
+In the example code below you can see it in use. For each document the MLT result and interesting terms are fetched.
+
+This result is an instance of `Solarium\Component\Result\MoreLikeThis\Result` and contains all similar documents for a result.
+So, as also described in the Solr MLT wiki page, in this case the name MoreLikeThese might be better.
+
+The format of the interesting terms depends on the value set for interestingterms in the MLT component.
+
+* `list`: The terms are returned as an array of strings.
+* `details`: Each term is an array key associated with the boost value used by Solr.
+    Unless you set boost to `true`, this will be `1.0` for every term.
+* `none`: The terms aren't available with the resultset and an exception is thrown if you try and fetch them anyway.
 
 Example
 -------
@@ -22,7 +37,8 @@ $query->setQuery('apache')
       ->getMoreLikeThis()
       ->setFields('manu,cat')
       ->setMinimumDocumentFrequency(1)
-      ->setMinimumTermFrequency(1);
+      ->setMinimumTermFrequency(1)
+      ->setInterestingTerms('list');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
@@ -57,6 +73,7 @@ foreach ($resultset as $document) {
         foreach ($mltResult as $mltDoc) {
             echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
         }
+        echo 'MLT interesting terms: '.implode(', ', $mlt->getInterestingTerm($document->id)).'<br/>';
     } else {
         echo 'No MLT results';
     }

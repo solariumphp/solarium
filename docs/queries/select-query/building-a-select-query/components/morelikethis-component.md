@@ -76,7 +76,7 @@ foreach ($resultset as $document) {
         foreach ($mltResult as $mltDoc) {
             echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
         }
-        echo 'MLT interesting terms: '.implode(', ', $mltResult->getInterestingTerms()).'<br/>';
+        echo 'MLT interesting terms: '.implode(', ', $mlt->getInterestingTerm($document->id)).'<br/>';
     } else {
         echo 'No MLT results';
     }

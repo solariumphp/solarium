@@ -604,7 +604,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $moreLikeThis->setFields('manu,cat');
         $moreLikeThis->setMinimumDocumentFrequency(1);
         $moreLikeThis->setMinimumTermFrequency(1);
-        $moreLikeThis->setInterestingTerms('none');
+        $moreLikeThis->setInterestingTerms('details');
 
         $result = self::$client->select($select);
         $this->assertSame(2, $result->getNumFound());
@@ -629,28 +629,30 @@ abstract class AbstractTechproductsTest extends TestCase
         $mltDoc = $mltResult->getIterator()->current();
         $this->assertSame('SOLR1000', $mltDoc->id);
 
-        // with 'none', interesting terms aren't available in the MLT result
-        $this->assertNull($mltResult->getInterestingTerms());
+        // with 'details', interesting terms are an associative array of terms and their boost values
+        $interestingTerms = $mlt->getInterestingTerm($document->id);
+        $this->assertSame('cat:search', key($interestingTerms));
+        $this->assertSame(1.0, current($interestingTerms));
 
         $moreLikeThis->setInterestingTerms('list');
         $result = self::$client->select($select);
         $document = $result->getIterator()->current();
-        $mltResult = $result->getMoreLikeThis()->getResult($document->id);
+        $mlt = $result->getMoreLikeThis();
 
         // with 'list', interesting terms are a numeric array of strings
-        $interestingTerms = $mltResult->getInterestingTerms();
+        $interestingTerms = $mlt->getInterestingTerm($document->id);
         $this->assertSame(0, key($interestingTerms));
         $this->assertSame('cat:search', current($interestingTerms));
 
-        $moreLikeThis->setInterestingTerms('details');
+        $moreLikeThis->setInterestingTerms('none');
         $result = self::$client->select($select);
         $document = $result->getIterator()->current();
-        $mltResult = $result->getMoreLikeThis()->getResult($document->id);
+        $mlt = $result->getMoreLikeThis();
 
-        // with 'details', interesting terms are an associative array of terms and their boost values
-        $interestingTerms = $mltResult->getInterestingTerms();
-        $this->assertSame('cat:search', key($interestingTerms));
-        $this->assertSame(1.0, current($interestingTerms));
+        // with 'none', interesting terms aren't available for the MLT result
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('interestingterms is none');
+        $mlt->getInterestingTerm($document->id);
     }
 
     public function testMoreLikeThisQuery()
