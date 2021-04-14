@@ -76,7 +76,7 @@ foreach ($resultset as $document) {
         foreach ($mltResult as $mltDoc) {
             echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
         }
-        // available since Solr 8
+        // available since Solr 8.2 if the query wasn't distributed
         if (null !== $interestingTerms = $mlt->getInterestingTerm($document->id)) {
             echo 'MLT interesting terms: '.implode(', ', $interestingTerms).'<br/>';
         }

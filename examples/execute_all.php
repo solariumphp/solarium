@@ -46,7 +46,32 @@ try {
         $response = $client->coreAdmin($coreAdminQuery);
     }
 
-    // disable automatic commits for update tests
+    // check if /mlt handler exists (it will in the github worklow, but not when running this script on its own)
+    $query = $client->createApi([
+        'version' => Request::API_V1,
+        'handler' => $collection_or_core_name.'/config/requestHandler',
+    ]);
+    $query->addParam('componentName', '/mlt');
+    $response = $client->execute($query);
+    $mltHandler = $response->getData()['config']['requestHandler']['/mlt'];
+
+    if (null === $mltHandler) {
+        // set up /mlt handler for MoreLikeThis query examples
+        $query = $client->createApi([
+            'version' => Request::API_V1,
+            'handler' => $collection_or_core_name.'/config',
+            'method' => Request::METHOD_POST,
+            'rawdata' => json_encode([
+                'add-requesthandler' => [
+                    'name' => '/mlt',
+                    'class' => 'solr.MoreLikeThisHandler',
+                ],
+            ]),
+        ]);
+        $client->execute($query);
+    }
+
+    // disable automatic commits for update examples
     $query = $client->createApi([
         'version' => Request::API_V1,
         'handler' => $collection_or_core_name.'/config',
@@ -85,11 +110,23 @@ try {
     $update->addCommit(true, true);
     $client->update($update);
 
+    // examples that can't be run against techproducts
+    $skipAltogether = [
+        '2.1.5.8-distributed-search.php',
+    ];
+
+    // examples that can't be run in cloud mode
+    $skipForCloud = [
+        '2.1.5.7-grouping-by-query.php',
+        '2.2.5-rollback.php',
+        '7.1-plugin-loadbalancer.php',
+    ];
+
     foreach (scandir(__DIR__) as $example) {
         if (preg_match('/^\d.*\.php/', $example)) {
             print "\n".$example.' ';
-            if (!in_array($example, ['2.1.5.8-distributed-search.php', '2.3.1-mlt-query.php', '2.3.2-mlt-stream.php'])) {
-                if ('solrcloud' !== $solr_mode || !in_array($example, ['2.1.5.7-grouping-by-query.php', '2.2.5-rollback.php', '7.1-plugin-loadbalancer.php'])) {
+            if (!in_array($example, $skipAltogether)) {
+                if ('solrcloud' !== $solr_mode || !in_array($example, $skipForCloud)) {
                     ob_start();
                     require($example);
                     ob_end_clean();

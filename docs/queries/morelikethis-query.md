@@ -61,6 +61,42 @@ The format of the interesting terms depends on the value set for interestingterm
 
 The document used for matching MLT results. Only available if matchinclude was set to `true` in the query.
 
+Setting up the MLT handler
+--------------------------
+
+The examples below assume an MLT handler is set up at `/mlt`. Solr's example configsets don't include one by default.
+
+### In `solrconfig.xml`
+
+```xml
+<requestHandler name="/mlt" class="solr.MoreLikeThisHandler" />
+```
+
+### Through the Config API
+
+```php
+<?php
+
+require_once(__DIR__.'/init.php');
+
+
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+
+$query = $client->createApi([
+    'version' => Solarium\Core\Client\Request::API_V1,
+    'handler' => 'techproducts/config',
+    'method' => Solarium\Core\Client\Request::METHOD_POST,
+    'rawdata' => json_encode([
+        'add-requesthandler' => [
+            'name' => '/mlt',
+            'class' => 'solr.MoreLikeThisHandler',
+        ],
+    ]),
+]);
+
+$client->execute($query);
+```
+
 Example
 -------
 
@@ -145,13 +181,13 @@ In this case, there is no document to include when matchinclude is set to `true`
 
 ### Example
 
+This example assumes the `/mlt` handler is already set up ([see above](#setting-up-the-mlt-handler)).
+
 ```php
 <?php
 
 require_once(__DIR__.'/init.php');
 htmlHeader();
-
-echo "<h2>Note: The techproducts example doesn't include a /mlt handler anymore!</h2>";
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);

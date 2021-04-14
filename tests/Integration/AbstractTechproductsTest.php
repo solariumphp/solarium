@@ -596,13 +596,6 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testMoreLikeThisComponent()
     {
-        // default scoring has changed in Solr 8
-        if (7 === self::$solrVersion) {
-            $expectedScore = 10.641159;
-        } else {
-            $expectedScore = 6.2118435;
-        }
-
         $select = self::$client->createSelect();
         $select->setQuery('apache');
         $select->setSorts(['id' => SelectQuery::SORT_ASC]);
@@ -622,7 +615,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $document = $iterator->current();
         $this->assertSame('SOLR1000', $document->id);
         $mltResult = $mlt->getResult($document->id);
-        $this->assertSame($expectedScore, $mltResult->getMaximumScore());
+        // actual max. score isn't consistent across Solr 7 and 8, server and cloud
+        // but it must always be a float
+        $this->assertIsFloat($mltResult->getMaximumScore());
         $this->assertSame(1, $mltResult->getNumFound());
         $mltDoc = $mltResult->getIterator()->current();
         $this->assertSame('UTF8TEST', $mltDoc->id);
@@ -631,13 +626,15 @@ abstract class AbstractTechproductsTest extends TestCase
         $document = $iterator->current();
         $this->assertSame('UTF8TEST', $document->id);
         $mltResult = $mlt->getResult($document->id);
-        $this->assertSame($expectedScore, $mltResult->getMaximumScore());
+        $this->assertIsFloat($mltResult->getMaximumScore());
         $this->assertSame(1, $mltResult->getNumFound());
         $mltDoc = $mltResult->getIterator()->current();
         $this->assertSame('SOLR1000', $mltDoc->id);
 
         // Solr 7 doesn't support mlt.interestingTerms for MoreLikeThisComponent
-        if (8 <= self::$solrVersion) {
+        // Solr 8: "To use this parameter with the search component, the query cannot be distributed."
+        // https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
+        if (8 <= self::$solrVersion && $this instanceof AbstractServerTest) {
             // with 'details', interesting terms are an associative array of terms and their boost values
             $interestingTerms = $mlt->getInterestingTerm($document->id);
             $this->assertSame('cat:search', key($interestingTerms));
@@ -665,6 +662,14 @@ abstract class AbstractTechproductsTest extends TestCase
         }
     }
 
+    /**
+     * There are a number of open issues that show MoreLikeThisHandler doesn't work as expected in SolrCloud mode.
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-4414
+     * @see https://issues.apache.org/jira/browse/SOLR-5480
+     *
+     * @group skip_for_solr_cloud
+     */
     public function testMoreLikeThisQuery()
     {
         $query = self::$client->createMoreLikethis();
@@ -712,6 +717,14 @@ abstract class AbstractTechproductsTest extends TestCase
         $resultset->getInterestingTerms();
     }
 
+    /**
+     * There are a number of open issues that show MoreLikeThisHandler doesn't work as expected in SolrCloud mode.
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-4414
+     * @see https://issues.apache.org/jira/browse/SOLR-5480
+     *
+     * @group skip_for_solr_cloud
+     */
     public function testMoreLikeThisStream()
     {
         $query = self::$client->createMoreLikethis();
@@ -743,30 +756,19 @@ abstract class AbstractTechproductsTest extends TestCase
         // there is no match document to return, even with matchinclude true
         $this->assertNull($resultset->getMatch());
 
-        if (7 === self::$solrVersion) {
-            $expectedTerm = 'name:drive';
-        } else {
-            $expectedTerm = 'features:cache';
-        }
-
         // with 'details', interesting terms are an associative array of terms and their boost values
         $interestingTerms = $resultset->getInterestingTerms();
-        $this->assertSame($expectedTerm, key($interestingTerms));
+        // which term comes first differs between Solr 7 and 8, but it must always be a string
+        $this->assertIsString(key($interestingTerms));
         $this->assertSame(1.0, current($interestingTerms));
 
         $query->setInterestingTerms('list');
         $resultset = self::$client->moreLikeThis($query);
 
-        if (7 === self::$solrVersion) {
-            $expectedTerm = 'drive';
-        } else {
-            $expectedTerm = 'cache';
-        }
-
         // with 'list', interesting terms are a numeric array of strings
         $interestingTerms = $resultset->getInterestingTerms();
         $this->assertSame(0, key($interestingTerms));
-        $this->assertSame($expectedTerm, current($interestingTerms));
+        $this->assertIsString(current($interestingTerms));
 
         $query->setInterestingTerms('none');
         $resultset = self::$client->moreLikeThis($query);
