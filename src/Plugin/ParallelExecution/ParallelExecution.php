@@ -41,9 +41,9 @@ class ParallelExecution extends AbstractPlugin
     ];
 
     /**
-     * Queries (and optionally clients) to execute.
+     * Queries to execute coupled with the keys of the endpoints to execute them against.
      *
-     * @var QueryInterface[]
+     * @var array
      */
     protected $queries = [];
 
@@ -75,9 +75,9 @@ class ParallelExecution extends AbstractPlugin
     }
 
     /**
-     * Get queries (and coupled client instances).
+     * Get queries and coupled endpoint keys.
      *
-     * @return QueryInterface[]
+     * @return array
      */
     public function getQueries(): array
     {
@@ -99,7 +99,7 @@ class ParallelExecution extends AbstractPlugin
     // @codeCoverageIgnoreStart
 
     /**
-     * Execute queries parallel.
+     * Execute queries parallelly.
      *
      * @throws RuntimeException
      *
