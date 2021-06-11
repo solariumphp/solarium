@@ -28,6 +28,31 @@ Example:
 composer require solarium/solarium
 ```
 
+### Pitfall when using PHP versions prior to PHP 8.0
+
+If you are using a PHP version prior to PHP 8.0 *and* a locale that uses a decimal separator that's different
+from a decimal point, float values are sent in a way that Solr doesn't understand. This is due to the string
+representation of floats in those PHP versions.
+
+You can work around this by setting the `'C'` locale before creating and sending requests to Solr. Don't forget
+to set it back to the original value if your application is locale-dependent.
+
+```php
+// make sure floats use "." as decimal separator
+$currentLocale = setlocale(LC_NUMERIC, 0);
+setlocale(LC_NUMERIC, 'C');
+
+/*
+ * Create and send the requests you want Solarium to send.
+ */
+
+// restore the locale
+setlocale(LC_NUMERIC, $currentLocale);
+```
+
+PHP 8.0 has made the float to string conversion locale-independent and will always use the `.` decimal separator.
+The workaround is no longer necessary with PHP versions ≥ 8.0.
+
 ### Pitfall when upgrading from 3.x or 4.x or 5.x
 
 Setting "timeout" as "option" in the HTTP Client Adapter is deprecated since Solarium 5.2.0 because not all adapters
