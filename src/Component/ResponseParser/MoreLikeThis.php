@@ -37,6 +37,8 @@ class MoreLikeThis extends AbstractResponseParser implements ComponentParserInte
     public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $moreLikeThis, array $data): MoreLikeThisResult
     {
         $results = [];
+        $interestingTerms = [];
+
         if (isset($data['moreLikeThis'])) {
             if (!$query) {
                 throw new InvalidArgumentException('A valid query object needs to be provided.');
@@ -65,8 +67,16 @@ class MoreLikeThis extends AbstractResponseParser implements ComponentParserInte
                     $docs
                 );
             }
+
+            if ('none' === $moreLikeThis->getInterestingTerms()) {
+                $interestingTerms = null;
+            } elseif (isset($data['interestingTerms'])) {
+                // We don't need to convertToKeyValueArray. Solr's MoreLikeThisComponent uses a SimpleOrderedMap
+                // for representing interesting terms. A SimpleOrdereMap is always returned using the "map" format.
+                $interestingTerms = $data['interestingTerms'];
+            }
         }
 
-        return new MoreLikeThisResult($results);
+        return new MoreLikeThisResult($results, $interestingTerms);
     }
 }
