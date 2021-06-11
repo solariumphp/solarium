@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
+- MoreLikeThis::setMaximumDocumentFrequency()
+- MoreLikeThis::setMaximumDocumentFrequencyPercentage()
+- getInterestingTerms() of MoreLikeThis Component results
 
 ### Fixed
 
 ### Changed
 
 ### Removed
+
+### Deprecated
+- Support for `mlt.match.include` and `mlt.match.offset` in MoreLikeThis Component (they only work in MLT queries)
 
 
 ## [6.1.1]
