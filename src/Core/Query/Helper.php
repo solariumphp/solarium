@@ -64,8 +64,8 @@ class Helper
      * A term is a single word.
      * All characters that have a special meaning in a Solr query are escaped.
      *
-     * If you want to use the input as a phrase please use the {@link phrase()}
-     * method, because a phrase requires much less escaping.\
+     * If you want to use the input as a phrase please use the {@link escapePhrase()}
+     * method, because a phrase requires much less escaping.
      *
      * @see https://lucene.apache.org/solr/guide/the-standard-query-parser.html#escaping-special-characters
      *
@@ -102,14 +102,15 @@ class Helper
     }
 
     /**
-     * Format a date to the expected formatting used in SOLR.
+     * Format a date to the expected formatting used in Solr.
      *
-     * This format was derived to be standards compliant (ISO 8601)
-     * A date field shall be of the form 1995-12-31T23:59:59Z The trailing "Z" designates UTC time and is mandatory
+     * This format was derived to be standards compliant (ISO 8601).
+     * A date field shall be of the form 1995-12-31T23:59:59Z.
+     * The trailing "Z" designates UTC time and is mandatory.
      *
      * @see https://lucene.apache.org/solr/guide/working-with-dates.html#date-formatting
      *
-     * @param int|string|\DateTimeInterface $input accepted formats: timestamp, date string, DateTime or
+     * @param int|string|\DateTimeInterface $input Accepted formats: timestamp, date string, DateTime or
      *                                             DateTimeImmutable
      *
      * @return string|bool false is returned in case of invalid input
@@ -362,7 +363,7 @@ class Helper
      * %T4% = term-escaped
      *
      * Numbering starts at 1, so number 1 refers to the first entry
-     * of $parts (which has array key 0)
+     * of $parts (which has array key 0).
      * You can use the same part multiple times, even in multiple modes.
      * The mode letters are not case sensitive.
      *
