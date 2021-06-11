@@ -14,7 +14,8 @@ $query->setQuery('apache')
       ->getMoreLikeThis()
       ->setFields('manu,cat')
       ->setMinimumDocumentFrequency(1)
-      ->setMinimumTermFrequency(1);
+      ->setMinimumTermFrequency(1)
+      ->setInterestingTerms('list');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
@@ -48,6 +49,10 @@ foreach ($resultset as $document) {
         echo 'Num. fetched: '.count($mltResult).'<br/>';
         foreach ($mltResult as $mltDoc) {
             echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
+        }
+        // available since Solr 8.2 if the query wasn't distributed
+        if (null !== $interestingTerms = $mlt->getInterestingTerm($document->id)) {
+            echo 'MLT interesting terms: '.implode(', ', $interestingTerms).'<br/>';
         }
     } else {
         echo 'No MLT results';

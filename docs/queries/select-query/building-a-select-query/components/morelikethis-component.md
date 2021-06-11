@@ -1,20 +1,23 @@
-The morelikethis component can be used if you want to retrieve similar documents for your query results. This component uses morelikethis in the standardrequesthandler, not the standalone morelikethis handler. For more info see <https://lucene.apache.org/solr/guide/morelikethis.html>.
+The MoreLikeThis component can be used if you want to retrieve similar documents for your query results. This component uses MoreLikeThis in the StandardRequestHandler, not the standalone MoreLikeThisHandler. For more info see <https://lucene.apache.org/solr/guide/morelikethis.html>.
 
 Options
 -------
 
-| Name                     | Type    | Default value | Description                                                                                                                                                                  |
-|--------------------------|---------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| fields                   | string  | null          | The fields to use for similarity. NOTE: if possible, these should have a stored TermVector. Separate multiple fields with commas.                                            |
-| minimumtermfrequency     | int     | null          | Minimum Term Frequency - the frequency below which terms will be ignored in the source doc.                                                                                  |
-| mimimumdocumentfrequency | int     | null          | Minimum Document Frequency - the frequency at which words will be ignored which do not occur in at least this many docs.                                                     |
-| minimumwordlength        | int     | null          | Minimum word length below which words will be ignored.                                                                                                                       |
-| maximumwordlength        | int     | null          | Maximum word length above which words will be ignored.                                                                                                                       |
-| maximumqueryterms        | int     | null          | Maximum number of query terms that will be included in any generated query.                                                                                                  |
-| maximumnumberoftokens    | int     | null          | Maximum number of tokens to parse in each example doc field that is not stored with TermVector support.                                                                      |
-| boost                    | boolean | null          | If true the query will be boosted by the interesting term relevance.                                                                                                         |
-| queryfields              | string  | null          | Query fields and their boosts using the same format as that used in DisMaxQParserPlugin. These fields must also be specified in fields.Separate multiple fields with commas. |
-| count                    | int     | null          | The number of similar documents to return for each result                                                                                                                    |
+| Name                               | Type    | Default value | Description                                                                                                                                                                   |
+|------------------------------------|---------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| fields                             | string  | null          | The fields to use for similarity. NOTE: if possible, these should have a stored TermVector. Separate multiple fields with commas.                                             |
+| minimumtermfrequency               | int     | null          | Minimum Term Frequency - the frequency below which terms will be ignored in the source doc.                                                                                   |
+| mimimumdocumentfrequency           | int     | null          | Minimum Document Frequency - the frequency at which words will be ignored which do not occur in at least this many docs.                                                      |
+| maximumdocumentfrequency           | int     | null          | Maximum Document Frequency - the frequency at which words will be ignored which occur in more than this many docs.                                                            |
+| maximumdocumentfrequencypercentage | int     | null          | Maximum Document Frequency Percentage - a relative ratio at which words will be ignored which occur in more than this percentage of the docs in the index.                    |
+| minimumwordlength                  | int     | null          | Minimum word length below which words will be ignored.                                                                                                                        |
+| maximumwordlength                  | int     | null          | Maximum word length above which words will be ignored.                                                                                                                        |
+| maximumqueryterms                  | int     | null          | Maximum number of query terms that will be included in any generated query.                                                                                                   |
+| maximumnumberoftokens              | int     | null          | Maximum number of tokens to parse in each example doc field that is not stored with TermVector support.                                                                       |
+| boost                              | boolean | null          | If true the query will be boosted by the interesting term relevance.                                                                                                          |
+| queryfields                        | string  | null          | Query fields and their boosts using the same format as that used in DisMaxQParserPlugin. These fields must also be specified in fields. Separate multiple fields with commas. |
+| count                              | int     | null          | The number of similar documents to return for each result.                                                                                                                    |
+| interestingTerms                   | string  | null          | Controls how the component presents the "interesting" terms. Must be one of: none, list, details.                                                                             |
 ||
 
 Example
@@ -37,7 +40,8 @@ $query->setQuery('apache')
       ->getMoreLikeThis()
       ->setFields('manu,cat')
       ->setMinimumDocumentFrequency(1)
-      ->setMinimumTermFrequency(1);
+      ->setMinimumTermFrequency(1)
+      ->setInterestingTerms('list');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
@@ -71,6 +75,10 @@ foreach ($resultset as $document) {
         echo 'Num. fetched: '.count($mltResult).'<br/>';
         foreach ($mltResult as $mltDoc) {
             echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
+        }
+        // available since Solr 8.2 if the query wasn't distributed
+        if (null !== $interestingTerms = $mlt->getInterestingTerm($document->id)) {
+            echo 'MLT interesting terms: '.implode(', ', $interestingTerms).'<br/>';
         }
     } else {
         echo 'No MLT results';
