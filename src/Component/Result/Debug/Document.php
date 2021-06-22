@@ -88,7 +88,7 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     {
         $string = '';
         foreach ($this->getDetails() as $detail) {
-            $string .= '  ' . $detail . PHP_EOL;
+            $string .= '  '.$detail.PHP_EOL;
         }
 
         return $string;

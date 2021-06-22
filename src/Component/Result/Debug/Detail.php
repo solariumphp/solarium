@@ -131,10 +131,10 @@ class Detail implements \ArrayAccess
     {
         $string = '';
         if ($this->match) {
-            $string .= sprintf('%f', $this->value) . ' <= ' . $this->description . PHP_EOL;
+            $string .= sprintf('%f', $this->value).' <= '.$this->description.PHP_EOL;
             foreach ($this->getSubDetails() as $subDetail) {
                 if ($subDetail->getMatch()) {
-                    $string .= '... ' . $subDetail;
+                    $string .= '... '.$subDetail;
                 }
             }
         }
