@@ -139,6 +139,6 @@ class Detail implements \ArrayAccess
             }
         }
 
-       return $string;
+        return $string;
     }
 }
