@@ -60,12 +60,12 @@ class DetailTest extends TestCase
 
         $this->result->setSubDetails($subDetailsDummyArrays);
         $subDetail = $this->result->getSubDetails()[0];
-        $this->assertEquals($subDetailsDummyArrays, [
+        $this->assertEquals($subDetailsDummyArrays[0], [
             $subDetail['match'],
             $subDetail['value'],
             $subDetail['description'],
         ]);
-        $this->assertEquals($subDetailsDummyArrays, [
+        $this->assertEquals($subDetailsDummyArrays[0], [
             $subDetail->getMatch(),
             $subDetail->getValue(),
             $subDetail->getDescription(),
@@ -73,12 +73,12 @@ class DetailTest extends TestCase
 
         $this->result->setSubDetails($subDetailsDummyObjects);
         $subDetail = $this->result->getSubDetails()[0];
-        $this->assertEquals($subDetailsDummyArrays, [
+        $this->assertEquals($subDetailsDummyArrays[0], [
           $subDetail['match'],
           $subDetail['value'],
           $subDetail['description'],
         ]);
-        $this->assertEquals($subDetailsDummyArrays, [
+        $this->assertEquals($subDetailsDummyArrays[0], [
             $subDetail->getMatch(),
             $subDetail->getValue(),
             $subDetail->getDescription(),
