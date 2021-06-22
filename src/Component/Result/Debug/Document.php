@@ -84,12 +84,13 @@ class Document extends Detail implements \IteratorAggregate, \Countable
         return \count($this->details);
     }
 
-    public function __toString() {
-       $string = '';
-       foreach ($this->getDetails() as $detail) {
-          $string .= '  ' . $detail . PHP_EOL;
+    public function __toString()
+    {
+        $string = '';
+        foreach ($this->getDetails() as $detail) {
+            $string .= '  ' . $detail . PHP_EOL;
         }
 
         return $string;
-  }
+    }
 }

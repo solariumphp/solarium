@@ -107,32 +107,37 @@ class Detail implements \ArrayAccess
         return $this->subDetails;
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return in_array($offset, ['match', 'value', 'description']);
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->{$offset};
     }
 
-    public function offsetSet($offset, $value) {
-        // Details are immutable;
+    public function offsetSet($offset, $value)
+    {
+        // Details are immutable.
     }
 
-    public function offsetUnset($offset) {
-        // Details are immutable;
+    public function offsetUnset($offset)
+    {
+        // Details are immutable.
     }
 
-    public function __toString() {
-       $string = '';
-       if ($this->match) {
-         $string .= sprintf('%f', $this->value) . ' <= ' . $this->description . PHP_EOL;
-         foreach ($this->getSubDetails() as $subDetail) {
-           if ($subDetail->getMatch()) {
-             $string .= '... ' . $subDetail;
-           }
-         }
-       }
+    public function __toString()
+    {
+        $string = '';
+        if ($this->match) {
+            $string .= sprintf('%f', $this->value) . ' <= ' . $this->description . PHP_EOL;
+            foreach ($this->getSubDetails() as $subDetail) {
+                if ($subDetail->getMatch()) {
+                    $string .= '... ' . $subDetail;
+                }
+            }
+        }
 
        return $string;
     }

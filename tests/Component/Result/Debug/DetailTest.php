@@ -48,8 +48,40 @@ class DetailTest extends TestCase
 
     public function testSetSubDetails()
     {
-        $subDetailsDummy = ['dummy', 'testing'];
-        $this->result->setSubDetails($subDetailsDummy);
-        $this->assertEquals($subDetailsDummy, $this->result->getSubDetails());
+        $subDetailsDummyArrays = [[
+            'match' => false,
+            'value' => 3.14,
+            'description' => 'test',
+        ]];
+
+        $subDetailsDummyObjects = [
+            new Detail(false, 3.14, 'test'),
+        ];
+
+        $this->result->setSubDetails($subDetailsDummyArrays);
+        $subDetail = $this->result->getSubDetails()[0];
+        $this->assertEquals($subDetailsDummyArrays, [
+            $subDetail['match'],
+            $subDetail['value'],
+            $subDetail['description'],
+        ]);
+        $this->assertEquals($subDetailsDummyArrays, [
+            $subDetail->getMatch(),
+            $subDetail->getValue(),
+            $subDetail->getDescription(),
+        ]);
+
+        $this->result->setSubDetails($subDetailsDummyObjects);
+        $subDetail = $this->result->getSubDetails()[0];
+        $this->assertEquals($subDetailsDummyArrays, [
+          $subDetail['match'],
+          $subDetail['value'],
+          $subDetail['description'],
+        ]);
+        $this->assertEquals($subDetailsDummyArrays, [
+            $subDetail->getMatch(),
+            $subDetail->getValue(),
+            $subDetail->getDescription(),
+        ]);
     }
 }
