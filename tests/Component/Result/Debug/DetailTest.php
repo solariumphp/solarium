@@ -84,4 +84,66 @@ class DetailTest extends TestCase
             $subDetail->getDescription(),
         ]);
     }
+
+    /**
+     * @testWith ["match"]
+     *           ["value"]
+     *           ["description"]
+     */
+    public function testOffsetExists(string $offset)
+    {
+        $this->assertTrue($this->result->offsetExists($offset));
+    }
+
+    public function testOffsetExistsUnknown()
+    {
+        $this->assertFalse($this->result->offsetExists('unknown'));
+    }
+
+    /**
+     * @testWith ["match"]
+     *           ["value"]
+     *           ["description"]
+     */
+    public function testOffsetGet(string $offset)
+    {
+        $this->assertSame($this->{$offset}, $this->result->offsetGet($offset));
+    }
+
+    public function testOffsetGetUnknown()
+    {
+        $this->expectError();
+        $this->result->offsetGet('unknown');
+    }
+
+    public function testOffsetSetImmutable()
+    {
+        $this->result->offsetSet('value', 3.0);
+        $this->assertSame($this->value, $this->result->getValue());
+    }
+
+    public function testOffsetUnsetImmutable()
+    {
+        $this->result->offsetUnset('value');
+        $this->assertSame($this->value, $this->result->getValue());
+    }
+
+    public function testToString()
+    {
+        $expected = '1.500000 <= dummy-desc'.PHP_EOL;
+        $this->assertSame($expected, (string) $this->result);
+    }
+
+    public function testToStringWithSubDetails()
+    {
+        $subDetails = [
+            new Detail(true, 3.14, 'dummy-1'),
+            new Detail(false, 2.72, 'dummy-2'),
+            new Detail(true, 1.41, 'dummy-3'),
+        ];
+        $expected = '1.500000 <= dummy-desc'.PHP_EOL.'... 3.140000 <= dummy-1'.PHP_EOL.'... 1.410000 <= dummy-3'.PHP_EOL;
+
+        $this->result->setSubDetails($subDetails);
+        $this->assertSame($expected, (string) $this->result);
+    }
 }

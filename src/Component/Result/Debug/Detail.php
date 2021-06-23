@@ -36,7 +36,7 @@ class Detail implements \ArrayAccess
     protected $description;
 
     /**
-     * @var array
+     * @var \Solarium\Component\Result\Debug\Detail[]
      */
     protected $subDetails;
 
@@ -109,7 +109,7 @@ class Detail implements \ArrayAccess
 
     public function offsetExists($offset)
     {
-        return in_array($offset, ['match', 'value', 'description']);
+        return \in_array($offset, ['match', 'value', 'description']);
     }
 
     public function offsetGet($offset)
@@ -132,7 +132,7 @@ class Detail implements \ArrayAccess
         $string = '';
         if ($this->match) {
             $string .= sprintf('%f', $this->value).' <= '.$this->description.PHP_EOL;
-            foreach ($this->getSubDetails() as $subDetail) {
+            foreach ($this->getSubDetails() ?? [] as $subDetail) {
                 if ($subDetail->getMatch()) {
                     $string .= '... '.$subDetail;
                 }
