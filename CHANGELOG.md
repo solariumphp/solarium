@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - getInterestingTerms() of MoreLikeThis Component results
 
 ### Fixed
+- Debug\Detail return value types
+- Debug\Document return value types
 
 ### Changed
 

@@ -45,12 +45,12 @@ jobs:
                 ref: branch_7_7
                 path: lucene-solr
 
-            - name: Checkout solr 8.5
+            - name: Checkout solr 8.9
               if: matrix.solr == 8
               uses: actions/checkout@v2
               with:
                 repository: apache/lucene-solr
-                ref: branch_8_5
+                ref: branch_8_9
                 path: lucene-solr
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
