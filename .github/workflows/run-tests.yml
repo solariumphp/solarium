@@ -21,8 +21,6 @@ jobs:
         name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
 
         env:
-            PHP: ${{ matrix.php }}
-            SOLR: ${{ matrix.solr }}${{ matrix.mode }}
             COMPOSER_MEMORY_LIMIT: -1
 
         steps:
@@ -69,19 +67,34 @@ jobs:
             - name: Run tests
               run: |
                 vendor/bin/phpstan analyze src/ tests/ --level=1 --memory-limit=1G
-                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
+                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover_${{ matrix.php }}_${{ matrix.solr }}${{ matrix.mode }}.xml
 
             - name: Execute examples
               run: |
                 cd examples
                 php execute_all.php
 
+            - uses: actions/upload-artifact@v2
+              with:
+                name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
+                path: build/logs
+
+    coverage:
+        runs-on: ubuntu-latest
+
+        name: Upload coverage to Codecov
+
+        needs: [run-tests]
+
+        steps:
+            - name: Download coverage reports from tests
+              uses: actions/download-artifact@v2
+
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@master
               with:
-                files: build/logs/clover.xml
-                flags: unittests
-                env_vars: PHP,SOLR
-                name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
-                fail_ci_if_error: false
-                verbose: true
+                  files: build/logs/clover*.xml
+                  flags: unittests
+                  name: solarium
+                  fail_ci_if_error: false
+                  verbose: true
