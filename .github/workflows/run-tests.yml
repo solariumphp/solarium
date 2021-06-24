@@ -67,7 +67,7 @@ jobs:
             - name: Run tests
               run: |
                 vendor/bin/phpstan analyze src/ tests/ --level=1 --memory-limit=1G
-                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover_${{ matrix.php }}_${{ matrix.solr }}${{ matrix.mode }}.xml
+                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
 
             - name: Execute examples
               run: |
@@ -82,7 +82,7 @@ jobs:
     coverage:
         runs-on: ubuntu-latest
 
-        name: Upload coverage to Codecov
+        name: Upload coverage to codecov.io
 
         needs: [run-tests]
 
@@ -90,10 +90,14 @@ jobs:
             - name: Download coverage reports from tests
               uses: actions/download-artifact@v2
 
+            - name: List report files
+              run: |
+                ls -l PHP*/clover*.xml
+
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@master
               with:
-                  files: build/logs/clover*.xml
+                  files: PHP*/clover*.xml
                   flags: unittests
                   name: solarium
                   fail_ci_if_error: false
